@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using JAStudio.Core.Specifications.Fixtures;
 using Xunit;
 
+#pragma warning disable xUnit1051
 namespace JAStudio.Web.Specifications;
 
 public class CardServerTests : IAsyncLifetime
@@ -56,7 +57,7 @@ public class CardServerTests : IAsyncLifetime
       var collection = _appScope.CoreApp.Collection;
       var kanjiNote = collection.Kanji.WithKanji("病")!;
       var noteId = kanjiNote.GetId();
-
+      
       var response = await _http.GetAsync($"{_server.BaseUrl}/card/kanji/front?NoteId={noteId}");
       response.EnsureSuccessStatusCode();
 
