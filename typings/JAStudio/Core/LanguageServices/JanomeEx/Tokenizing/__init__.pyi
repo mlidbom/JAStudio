@@ -465,18 +465,9 @@ class JNTokenizedText:
 
 
 class JNTokenizer:
-    Version : str
     @staticmethod
     def GetInstance() -> JNTokenizer: ...
-    def Tokenize(self, text: str, cachedSerializedTokens: str = ...) -> JNTokenizeResult: ...
-
-
-class JNTokenizeResult:
-    def __init__(self, tokenizedText: JNTokenizedText, serializedTokens: str) -> None: ...
-    @property
-    def SerializedTokens(self) -> str: ...
-    @property
-    def TokenizedText(self) -> JNTokenizedText: ...
+    def Tokenize(self, text: str) -> JNTokenizedText: ...
 
 
 class PartOfSpeechDescription:

@@ -3,9 +3,8 @@ from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
 from JAStudio.Core.TaskRunners import TaskRunner
 from System.Collections.Generic import List_1, Dictionary_2, IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note import NoteData, NoteId, ICardOperations, ExternalNoteIdMap, JPNote, KanjiNote
-from System import IDisposable, Func_2, Guid
-from Microsoft.Data.Sqlite import SqliteConnection
 from JAStudio.Core.Note.Collection import CardStudyingStatus, VocabCollection, KanjiCollection
+from System import Func_2, Guid
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.Vocabulary import VocabNote
 
@@ -26,14 +25,6 @@ class AnkiCardOperationsImpl(ICardOperations):
     def __init__(self, idMap: ExternalNoteIdMap) -> None: ...
     def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
     def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
-
-
-class AnkiDatabase(IDisposable):
-    @property
-    def Connection(self) -> SqliteConnection: ...
-    def Dispose(self) -> None: ...
-    @staticmethod
-    def OpenReadOnly(dbFilePath: str) -> AnkiDatabase: ...
 
 
 class AnkiEnvironmentPaths(IEnvironmentPaths):

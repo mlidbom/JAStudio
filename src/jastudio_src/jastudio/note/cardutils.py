@@ -5,9 +5,8 @@ from typing import TYPE_CHECKING
 
 from anki.consts import QUEUE_TYPE_NEW
 from autoslot import Slots
-from JAStudio.Core.Note import NoteTypes
-
 from jastudio.anki_extentions.card_ex import CardEx
+from JAStudio.Core.Note import NoteTypes
 
 if TYPE_CHECKING:
     from anki.cards import Card

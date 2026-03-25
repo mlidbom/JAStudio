@@ -10,14 +10,13 @@ from typed_linq_collections.collections.q_list import QList
 
 from jastudio.anki_extentions.deck_ex import DeckEx
 
-from jastudio.anki_extentions.notetype_ex.note_type_ex import NoteTypeEx
-
 if TYPE_CHECKING:
     from anki.dbproxy import Row
     from anki.decks import DeckManager
     from anki.scheduler.v3 import Scheduler  # pyright: ignore[reportMissingTypeStubs]
     from JAStudio.Core.Note import JPNote
 
+    from jastudio.anki_extentions.notetype_ex.note_type_ex import NoteTypeEx
     from jastudio.anki_extentions.notetype_ex.note_type_template import NoteTemplateEx
 
 import anki.cards

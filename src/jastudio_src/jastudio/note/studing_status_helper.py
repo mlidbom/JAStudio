@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from JAStudio.Core.Note.Collection import CardStudyingStatus
-
 from jastudio.anki_extentions.note_ex import NoteEx
+from JAStudio.Core.Note.Collection import CardStudyingStatus
 from jastudio.ui import dotnet_ui_root
 
 if TYPE_CHECKING:
