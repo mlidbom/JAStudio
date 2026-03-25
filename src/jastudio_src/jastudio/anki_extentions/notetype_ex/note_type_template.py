@@ -16,17 +16,6 @@ class NoteTemplateEx(Slots):
         self.bfont: str = "Arial"
         self.bsize: int = 30
 
-    def to_dict(self) -> dict[str, object]:
-        return {"name": self.name,
-                "ord": self.ord,
-                "qfmt": self.qfmt,
-                "afmt": self.afmt,
-                "bqfmt": self.bqfmt,
-                "bafmt": self.bafmt,
-                "did": self.did,
-                "bfont": self.bfont,
-                "bsize": self.bsize}
-
     @classmethod
     def from_dict(cls, d: dict[str, str | int | None]) -> NoteTemplateEx:
         instance = NoteTemplateEx(typed.str_(d["name"]))

@@ -18,20 +18,6 @@ class NoteFieldEx(Slots):
         self.excludeFromSearch: bool = False
         self.media: list[object] = []
 
-    def to_dict(self) -> dict[str, object]:
-        return {
-            "name": self.name,
-            "ord": self.ord,
-            "sticky": self.sticky,
-            "rtl": self.rtl,
-            "font": self.font,
-            "size": self.size,
-            "description": self.description,
-            "plainText": self.plainText,
-            "collapsed": self.collapsed,
-            "excludeFromSearch": self.excludeFromSearch,
-            "media": self.media}
-
     @classmethod
     def from_dict(cls, d: dict[str, object]) -> NoteFieldEx:
         instance = NoteFieldEx(typed.str_(d["name"]))
