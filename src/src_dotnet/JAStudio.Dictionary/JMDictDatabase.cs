@@ -60,18 +60,24 @@ public sealed class JMDictDatabase : IDisposable
       return entryIds.Count == 0 ? [] : LoadNameEntries(db, entryIds);
    }
 
-   public bool WordFormExists(string text)
+   public HashSet<string> LoadAllWordForms()
    {
       using var db = OpenDb();
-      return db.WordKanjis.Any(k => k.Text == text)
-          || db.WordReadings.Any(r => r.Text == text);
+      var forms = new HashSet<string>(
+         db.WordKanjis.Select(k => k.Text)
+           .Union(db.WordReadings.Select(r => r.Text))
+           .ToList());
+      return forms;
    }
 
-   public bool NameFormExists(string text)
+   public HashSet<string> LoadAllNameForms()
    {
       using var db = OpenDb();
-      return db.NameKanjis.Any(k => k.Text == text)
-          || db.NameReadings.Any(r => r.Text == text);
+      var forms = new HashSet<string>(
+         db.NameKanjis.Select(k => k.Text)
+           .Union(db.NameReadings.Select(r => r.Text))
+           .ToList());
+      return forms;
    }
 
    static List<long> LookupWordEntryIds(JMDictDb db, string text) =>

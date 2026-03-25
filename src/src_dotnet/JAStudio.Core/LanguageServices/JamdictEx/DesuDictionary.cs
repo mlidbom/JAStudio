@@ -47,6 +47,7 @@ class DictionaryProvider
       this.Log().Info("Opening JMDict database...");
       _db = JMDictDatabase.OpenOrGenerate(dbPath, msg => this.Log().Info(msg));
       this.Log().Info($"JMDict database ready in {stopwatch.ElapsedMilliseconds}ms");
+      LoadAllForms();
    }
 
    public List<DictEntry> LookupWord(string word) =>
@@ -55,6 +56,14 @@ class DictionaryProvider
    public List<DictEntry> LookupName(string word) =>
       _db.LookupName(word).Select(DictEntry.FromName).ToList();
 
-   public bool WordFormExists(string text) => _db.WordFormExists(text);
-   public bool NameFormExists(string text) => _db.NameFormExists(text);
+   public HashSet<string> AllWordForms { get; private set; } = null!;
+   public HashSet<string> AllNameForms { get; private set; } = null!;
+
+   void LoadAllForms()
+   {
+      var stopwatch = Stopwatch.StartNew();
+      AllWordForms = _db.LoadAllWordForms();
+      AllNameForms = _db.LoadAllNameForms();
+      this.Log().Info($"Loaded {AllWordForms.Count} word forms and {AllNameForms.Count} name forms in {stopwatch.ElapsedMilliseconds}ms");
+   }
 }

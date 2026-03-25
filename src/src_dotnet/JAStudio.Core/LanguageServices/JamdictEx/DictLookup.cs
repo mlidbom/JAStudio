@@ -28,8 +28,8 @@ public class DictLookup
    static readonly ConcurrentDictionary<string, List<DictEntry>> LookupNameRawCache = new();
    static readonly ConcurrentDictionary<string, bool> IsWordCache = new();
 
-   bool WordFormExists(string text) => !CoreApp.IsTesting && _dictionaryProvider.Value.WordFormExists(text);
-   bool NameFormExists(string text) => !CoreApp.IsTesting && _dictionaryProvider.Value.NameFormExists(text);
+   HashSet<string> AllWordForms() => CoreApp.IsTesting ? [] : _dictionaryProvider.Value.AllWordForms;
+   HashSet<string> AllNameForms() => CoreApp.IsTesting ? [] : _dictionaryProvider.Value.AllNameForms;
 
    public DictLookupResult LookupVocabWordOrName(VocabNote vocab)
    {
@@ -177,9 +177,9 @@ public class DictLookup
       return _dictionaryProvider.Value.LookupName(word);
    }
 
-   public bool MightBeWord(string word) => CoreApp.IsTesting || WordFormExists(word);
+   public bool MightBeWord(string word) => CoreApp.IsTesting || AllWordForms().Contains(word);
 
-   public bool MightBeName(string word) => CoreApp.IsTesting || NameFormExists(word);
+   public bool MightBeName(string word) => CoreApp.IsTesting || AllNameForms().Contains(word);
 
    public bool MightBeEntry(string word) => MightBeWord(word) || MightBeName(word);
 
