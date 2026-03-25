@@ -21,7 +21,8 @@
         <!-- Button bar at bottom -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0" Spacing="10">
             <Button Content="OK" Command="{Binding SaveCommand}" Width="80" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="80" />
+            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="80"
+                    IsCancel="True"/>
         </StackPanel>
 
         <!-- Scrollable content -->
