@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
@@ -24,7 +23,6 @@ public class SentenceNote : JPNote
    public WritableStringValue SourceAnswer { get; }
    public WritableStringValue ActiveAnswer { get; }
    public WritableStringValue SourceComments { get; }
-   public WritableStringValue JanomeTokens { get; }
    public WritableImageValue Screenshot { get; }
    public WritableAudioValue Audio { get; }
 
@@ -42,7 +40,6 @@ public class SentenceNote : JPNote
       SourceAnswer = new WritableStringValue(data?.SourceAnswer ?? string.Empty, Guard);
       ActiveAnswer = new WritableStringValue(data?.ActiveAnswer ?? string.Empty, Guard);
       SourceComments = new WritableStringValue(data?.SourceComments ?? string.Empty, Guard);
-      JanomeTokens = new WritableStringValue(data?.JanomeTokens ?? string.Empty, Guard);
       Screenshot = new WritableImageValue(data?.Screenshot ?? string.Empty, Guard);
       Audio = new WritableAudioValue(data?.Audio ?? string.Empty, Guard);
 
@@ -76,8 +73,7 @@ public class SentenceNote : JPNote
 
    public TextAnalysis CreateAnalysis(bool forUI = false)
    {
-      var cachedTokens = JanomeTokens.HasValue() ? JanomeTokens.Value : null;
-      return new TextAnalysis(AnalysisServices, Question.WithInvisibleSpace(), Configuration.Configuration, forUI, cachedTokens);
+      return new TextAnalysis(AnalysisServices, Question.WithInvisibleSpace(), Configuration.Configuration, forUI);
    }
 
    public ParsingResult GetParsingResult() => _parsingResult;
@@ -112,22 +108,10 @@ public class SentenceNote : JPNote
       var parsingResult = GetParsingResult();
       var questionText = Question.WithoutInvisibleSpace();
 
-      if(!force
-         && parsingResult.Sentence == questionText
-         && parsingResult.ParserVersion == TextAnalysis.Version
-         && parsingResult.TokenizerVersion == JNTokenizer.Version)
-      {
+      if(!force && parsingResult.Sentence == questionText && parsingResult.ParserVersion == TextAnalysis.Version)
          return;
-      }
-
-      // Invalidate cached tokens if the sentence text or the tokenizer version changed
-      if(parsingResult.Sentence != questionText || parsingResult.TokenizerVersion != JNTokenizer.Version)
-      {
-         JanomeTokens.Empty();
-      }
 
       var analysis = CreateAnalysis();
-      JanomeTokens.Set(analysis.SerializedJanomeTokens);
       SetParsingResult(ParsingResult.FromAnalysis(analysis));
    }
 

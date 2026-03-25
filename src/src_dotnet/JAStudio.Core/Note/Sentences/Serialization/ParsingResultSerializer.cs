@@ -25,9 +25,7 @@ class ParsingResultSerializer : IObjectSerializer<ParsingResult>
             return new ParsingResult([], "", "");
          }
 
-         var versionParts = rows[0].Split('|');
-         var parserVersion = versionParts[0];
-         var tokenizerVersion = versionParts.Length > 1 ? versionParts[1] : "";
+         var parserVersion = rows[0].Split('|')[0];
 
          var parsedWords = rows.Skip(2)
                                .Select(row => ParsedWordSerializer.FromRow(row))
@@ -36,8 +34,7 @@ class ParsingResultSerializer : IObjectSerializer<ParsingResult>
          return new ParsingResult(
             parsedWords,
             RestoreNewline(rows[1]),
-            parserVersion,
-            tokenizerVersion
+            parserVersion
          );
       }
       catch(Exception ex)
@@ -53,13 +50,9 @@ class ParsingResultSerializer : IObjectSerializer<ParsingResult>
 
    public string Serialize(ParsingResult instance)
    {
-      var versionLine = string.IsNullOrEmpty(instance.TokenizerVersion)
-         ? instance.ParserVersion
-         : $"{instance.ParserVersion}|{instance.TokenizerVersion}";
-
       var lines = new List<string>
                   {
-                     versionLine,
+                     instance.ParserVersion,
                      ReplaceNewline(instance.Sentence)
                   };
 

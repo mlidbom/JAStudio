@@ -9,17 +9,12 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 public sealed class JNTokenizer
 {
-   public const string Version = "mecab_1";
-
    static readonly LazyCE<JNTokenizer> Instance = new(() => new JNTokenizer());
 
    public static JNTokenizer GetInstance() => Instance.Value;
 
    static readonly HashSet<string> CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces =
       ["!", "！", "|", "（", "）", " "];
-
-   /// <summary>The invisible space character (U+200B) used as field separator in the serialized token string.</summary>
-   const string FieldSeparator = StringExtensions.InvisibleSpace;
 
    readonly MeCabTagger _tagger;
    readonly object _lock = new();
@@ -36,7 +31,7 @@ public sealed class JNTokenizer
       _tagger = MeCabTagger.Create(param);
    }
 
-   public JNTokenizeResult Tokenize(string text, string? cachedSerializedTokens = null)
+   public JNTokenizedText Tokenize(string text)
    {
       // The tokenizer does not fully understand that invisible spaces are word separators,
       // so we replace them with a sentinel token since they are not anything that should need to be parsed
@@ -47,10 +42,7 @@ public sealed class JNTokenizer
          sanitizedText = sanitizedText.Replace(character, "　");
       }
 
-      // Use cached serialized tokens if available, otherwise tokenize with MeCab
-      var serialized = cachedSerializedTokens ?? TokenizeToSerializedString(sanitizedText);
-
-      var jnTokens = ParseSerializedTokens(serialized);
+      var jnTokens = TokenizeToTokenList(sanitizedText);
 
       // Link tokens with previous/next pointers
       for(var i = 0; i < jnTokens.Count; i++)
@@ -66,14 +58,14 @@ public sealed class JNTokenizer
          }
       }
 
-      return new JNTokenizeResult(new JNTokenizedText(text, jnTokens), serialized);
+      return new JNTokenizedText(text, jnTokens);
    }
 
-   string TokenizeToSerializedString(string text)
+   List<JNToken> TokenizeToTokenList(string text)
    {
       lock(_lock)
       {
-         var lines = new List<string>();
+         var result = new List<JNToken>();
 
          foreach(var node in _tagger.ParseToNodes(text))
          {
@@ -89,21 +81,20 @@ public sealed class JNTokenizer
             var reading = GetFeatureOrEmpty(features, 7);
             var phonetic = GetFeatureOrEmpty(features, 8);
 
-            var fields = string.Join(FieldSeparator, [
-               partOfSpeech,
-               Sanitize(baseForm),
-               Sanitize(node.Surface),
-               Sanitize(inflType),
-               Sanitize(inflForm),
-               Sanitize(reading),
-               Sanitize(phonetic),
-               "" // node_type — not actively used in the codebase
-            ]);
+            var partsOfSpeech = JNPartsOfSpeech.Fetch(partOfSpeech);
 
-            lines.Add(fields);
+            result.Add(new JNToken(
+                          partsOfSpeech,
+                          baseForm: Sanitize(baseForm),
+                          surface: Sanitize(node.Surface),
+                          inflectionType: Sanitize(inflType),
+                          inflectedForm: Sanitize(inflForm),
+                          reading: Sanitize(reading),
+                          phonetic: Sanitize(phonetic)
+                       ));
          }
 
-         return string.Join("\n", lines);
+         return result;
       }
    }
 
@@ -112,35 +103,4 @@ public sealed class JNTokenizer
 
    static string Sanitize(string? value) =>
       string.IsNullOrEmpty(value) ? "" : value.Replace("\n", " ").Replace("\r", " ");
-
-   static List<JNToken> ParseSerializedTokens(string serialized)
-   {
-      if(string.IsNullOrEmpty(serialized))
-         return [];
-
-      var lines = serialized.Split('\n');
-      var result = new List<JNToken>(lines.Length);
-
-      foreach(var line in lines)
-      {
-         if(line.Length == 0) continue;
-
-         var fields = line.Split(FieldSeparator);
-         // Fields: 0=part_of_speech, 1=base_form, 2=surface, 3=infl_type, 4=infl_form, 5=reading, 6=phonetic, 7=node_type
-         var partsOfSpeech = JNPartsOfSpeech.Fetch(fields[0]);
-
-         result.Add(new JNToken(
-                       partsOfSpeech,
-                       baseForm: fields[1],
-                       surface: fields[2],
-                       inflectionType: fields[3],
-                       inflectedForm: fields[4],
-                       reading: fields[5],
-                       phonetic: fields[6],
-                       nodeType: fields[7]
-                    ));
-      }
-
-      return result;
-   }
 }

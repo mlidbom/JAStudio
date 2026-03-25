@@ -29,7 +29,6 @@ public partial class SentenceData : CorpusObjectData
    public string Screenshot { get; init; } = string.Empty;
    public SentenceConfigSubData Configuration { get; init; } = new();
    public SentenceParsingResultSubData? ParsingResult { get; init; }
-   public string JanomeTokens { get; init; } = string.Empty;
 
    protected override NoteId CreateTypedId() => new SentenceId(Id);
 
@@ -49,7 +48,6 @@ public partial class SentenceData : CorpusObjectData
       fields[SentenceNoteFields.Screenshot] = Screenshot;
       fields[SentenceNoteFields.Configuration] = SerializeConfiguration();
       fields[SentenceNoteFields.ParsingResult] = SerializeParsingResult();
-      fields[SentenceNoteFields.JanomeTokens] = JanomeTokens;
    }
 
    string SerializeConfiguration()
@@ -68,8 +66,7 @@ public partial class SentenceData : CorpusObjectData
       var result = new ParsingResult(
          ParsingResult.ParsedWords.Select(FromParsedMatchSubData).ToList(),
          ParsingResult.Sentence,
-         ParsingResult.ParserVersion,
-         ParsingResult.TokenizerVersion);
+         ParsingResult.ParserVersion);
       return ParsingSerializer.Serialize(result);
    }
 
@@ -105,8 +102,7 @@ public partial class SentenceData : CorpusObjectData
       return new ParsingResult(
          data.ParsedWords.Select(FromParsedMatchSubData).ToList(),
          data.Sentence,
-         data.ParserVersion,
-         data.TokenizerVersion);
+         data.ParserVersion);
    }
 
    public static SentenceConfiguration CreateConfiguration(SentenceConfigSubData? data, Action saveCallback)
@@ -143,7 +139,6 @@ public partial class SentenceParsingResultSubData
 {
    public string Sentence { get; init; } = string.Empty;
    public string ParserVersion { get; init; } = string.Empty;
-   public string TokenizerVersion { get; init; } = string.Empty;
    public List<ParsedMatchSubData> ParsedWords { get; init; } = [];
 }
 

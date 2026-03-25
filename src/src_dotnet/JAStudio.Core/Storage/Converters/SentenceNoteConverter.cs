@@ -29,7 +29,6 @@ static class SentenceNoteConverter
                 Screenshot = note.Screenshot.RawValue(),
                 Configuration = ToConfigSubData(config),
                 ParsingResult = ToParsingResultSubData(parsingResult),
-                JanomeTokens = note.JanomeTokens.Value,
                 Tags = note.Tags.ToStringList(),
              };
    }
@@ -58,7 +57,6 @@ static class SentenceNoteConverter
              {
                 Sentence = result.Sentence,
                 ParserVersion = result.ParserVersion,
-                TokenizerVersion = result.TokenizerVersion,
                 ParsedWords = result.ParsedWords.Select(ToMatchSubData).ToList(),
              };
    }
