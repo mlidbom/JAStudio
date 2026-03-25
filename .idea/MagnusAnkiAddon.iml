@@ -10,7 +10,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/jastudio" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/jastudio_src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/jaslib_src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/jaspythonutils_src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.mypy_cache" />
       <excludeFolder url="file://$MODULE_DIR$/src/.mypy_cache" />

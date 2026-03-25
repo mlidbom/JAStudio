@@ -16,6 +16,3 @@ class Lazy[T](Slots):
         if self._instance is None:
             self._instance = self.factory()
         return self._instance
-
-    def reset(self) -> None:
-        self._instance = None

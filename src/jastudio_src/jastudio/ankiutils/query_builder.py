@@ -12,9 +12,6 @@ note_vocab = f"{Builtin.Note}:{NoteTypes.Vocab}"
 
 note_vocab = note_vocab
 
-def immersion_kit_sentences() -> str:
-    return f'''"{Builtin.Note}:{NoteTypes.ImmersionKit}"'''
-
 def open_card_by_id(card_id: CardId) -> str:
     return f"cid:{card_id}"
 

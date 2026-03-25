@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 from jaspythonutils.sysutils.typed import non_optional
 
 from jastudio import mylog
-from jastudio.task_runners.task_progress_runner import TaskRunner
 
 if TYPE_CHECKING:
     from JAStudio.Anki.PythonInterop import JAStudioAnkiAppRoot
@@ -27,8 +26,6 @@ def init() -> None:
     web.init()
     menus.init()
     garbage_collection_fixes.init()
-    from jastudio.qt_utils.qt_task_progress_runner import QtTaskProgressRunner
-    TaskRunner.set_ui_task_runner_factory(QtTaskProgressRunner)
 
 def _init_dot_net_app() -> None:
     global _dotnet_ui_root_instance

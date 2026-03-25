@@ -10,7 +10,6 @@ if not is_testing:
     top_dir = Path(os.path.dirname(os.path.abspath(__file__)))
     sys.path.append(str(top_dir / "jastudio_src"))
     sys.path.append(str(top_dir / "jastudio_src" / "_lib"))
-    sys.path.append(str(top_dir / "jaslib_src"))
     sys.path.append(str(top_dir / "jaspythonutils_src"))
 
     from jastudio.ankiutils import app  # noqa

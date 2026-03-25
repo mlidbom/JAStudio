@@ -8,7 +8,6 @@ from jaspythonutils.sysutils.typed import non_optional
 from jastudio.ankiutils import app
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
 
     from aqt.browser import Browser  # type: ignore[attr-defined]  # pyright: ignore[reportPrivateImportUsage]
 
@@ -22,7 +21,3 @@ def do_lookup(text: str) -> None:
     non_optional(browser.form.searchEdit.lineEdit()).setText(text)
     browser.onSearchActivated()  # pyright: ignore[reportUnknownMemberType]
     app.get_ui_utils().activate_preview()
-
-def lookup_promise(search: Callable[[], str]) -> Callable[[], None]: return lambda: do_lookup(search())
-
-def lookup_and_show_previewer_promise(search: Callable[[], str]) -> Callable[[], None]: return lambda: do_lookup_and_show_previewer(search())

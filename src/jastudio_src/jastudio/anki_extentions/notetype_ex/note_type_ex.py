@@ -5,7 +5,7 @@ from typing import cast
 from anki.decks import DeckId
 from anki.models import NotetypeDict, NotetypeId
 from autoslot import Slots
-from jaspythonutils.sysutils import ex_assert, typed
+from jaspythonutils.sysutils import typed
 
 from jastudio.anki_extentions.notetype_ex.note_type_field import NoteFieldEx
 from jastudio.anki_extentions.notetype_ex.note_type_template import NoteTemplateEx
@@ -35,32 +35,6 @@ class NoteTypeEx(Slots):
 
         for index, template in enumerate(self.tmpls):
             template.ord = index
-
-    def to_dict(self) -> NotetypeDict:
-        return {
-            "id": self.id,
-            "name": self.name,
-            "type": self.type,
-            "mod": self.mod,
-            "usn": self.usn,
-            "sortf": self.sortf,
-            "did": self.deck_id,
-            "tmpls": [t.to_dict() for t in self.tmpls],
-            "flds": [f.to_dict() for f in self.flds],
-            "css": self.css,
-            "latexPre": self.latexPre,
-            "latexPost": self.latexPost,
-            "latexsvg": self.latexsvg,
-            "req": self.req,
-            "vers": self.vers,
-            "tags": self.tags
-        }
-
-    def assert_schema_matches(self, other: NoteTypeEx) -> None:
-        ex_assert.equal(len(self.flds), len(other.flds), "same number of fields")
-        for index in range(len(self.flds)):
-            ex_assert.equal(self.flds[index].ord, other.flds[index].ord, "same order")
-            ex_assert.equal(self.flds[index].name, other.flds[index].name, "same name")
 
     @classmethod
     def from_dict(cls, note_type_dict: NotetypeDict) -> NoteTypeEx:

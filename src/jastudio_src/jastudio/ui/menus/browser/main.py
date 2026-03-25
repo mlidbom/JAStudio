@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aqt import gui_hooks
-
 from jastudio.ankiutils import app
 from jastudio.qt_adapters import qt_menu_adapter
 from jastudio.ui import dotnet_ui_root
@@ -28,9 +27,8 @@ def spread_due_dates(cards: Sequence[CardId], start_day: int, days: int) -> None
 
 def setup_browser_context_menu(browser: Browser, menu: QMenu) -> None:
     menu_spec: SpecMenuItem = dotnet_ui_root().Menus.BuildBrowserMenuSpec(browser.selected_cards(),
-                                                                     browser.selectedNotes())
+                                                                          browser.selectedNotes())
     qt_menu_adapter.add_to_qt_menu(menu, [menu_spec])
-
 
 def init() -> None:
     gui_hooks.browser_will_show_context_menu.append(setup_browser_context_menu)
