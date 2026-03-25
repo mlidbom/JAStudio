@@ -57,6 +57,7 @@ public class JAStudioAnkiAppRoot
 
       var app = AppBootstrapper.BootstrapProduction(new AnkiAddonEnvironmentDependenciesRegistrar(configJson, configUpdateCallback));
       CompzeLogger.LogLevel = LogLevel.Info;
+      Console.OutputEncoding = System.Text.Encoding.UTF8;
 
       var uiThread = new Thread(() =>
                      {

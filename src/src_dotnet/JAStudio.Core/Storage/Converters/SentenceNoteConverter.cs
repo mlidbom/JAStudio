@@ -58,6 +58,7 @@ static class SentenceNoteConverter
              {
                 Sentence = result.Sentence,
                 ParserVersion = result.ParserVersion,
+                TokenizerVersion = result.TokenizerVersion,
                 ParsedWords = result.ParsedWords.Select(ToMatchSubData).ToList(),
              };
    }

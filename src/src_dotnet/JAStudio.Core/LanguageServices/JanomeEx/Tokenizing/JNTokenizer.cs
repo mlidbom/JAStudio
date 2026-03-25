@@ -9,12 +9,14 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 public sealed class JNTokenizer
 {
+   public const string Version = "mecab_1";
+
    static readonly LazyCE<JNTokenizer> Instance = new(() => new JNTokenizer());
 
    public static JNTokenizer GetInstance() => Instance.Value;
 
    static readonly HashSet<string> CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces =
-      ["!", "！", "|", "（", "）"];
+      ["!", "！", "|", "（", "）", " "];
 
    /// <summary>The invisible space character (U+200B) used as field separator in the serialized token string.</summary>
    const string FieldSeparator = StringExtensions.InvisibleSpace;
@@ -42,7 +44,7 @@ public sealed class JNTokenizer
 
       foreach(var character in CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces)
       {
-         sanitizedText = sanitizedText.Replace(character, " ");
+         sanitizedText = sanitizedText.Replace(character, "　");
       }
 
       // Use cached serialized tokens if available, otherwise tokenize with MeCab

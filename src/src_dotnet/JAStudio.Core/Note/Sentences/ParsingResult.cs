@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
 namespace JAStudio.Core.Note.Sentences;
@@ -9,12 +10,14 @@ public class ParsingResult
    public List<ParsedMatch> ParsedWords { get; }
    public string Sentence { get; }
    public string ParserVersion { get; }
+   public string TokenizerVersion { get; }
 
-   internal ParsingResult(List<ParsedMatch> words, string sentence, string parserVersion)
+   internal ParsingResult(List<ParsedMatch> words, string sentence, string parserVersion, string tokenizerVersion = "")
    {
       ParsedWords = words;
       Sentence = sentence.Replace(StringExtensions.InvisibleSpace, string.Empty);
       ParserVersion = parserVersion;
+      TokenizerVersion = tokenizerVersion;
    }
 
    internal HashSet<NoteId> MatchedVocabIds
@@ -37,6 +40,7 @@ public class ParsingResult
       new(
          analysis.ValidMatches.Select(ParsedMatch.FromMatch).ToList(),
          analysis.Text,
-         TextAnalysis.Version
+         TextAnalysis.Version,
+         JNTokenizer.Version
       );
 }

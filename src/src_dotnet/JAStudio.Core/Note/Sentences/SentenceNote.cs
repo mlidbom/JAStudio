@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
+using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
@@ -111,13 +112,16 @@ public class SentenceNote : JPNote
       var parsingResult = GetParsingResult();
       var questionText = Question.WithoutInvisibleSpace();
 
-      if(!force && parsingResult.Sentence == questionText && parsingResult.ParserVersion == TextAnalysis.Version)
+      if(!force
+         && parsingResult.Sentence == questionText
+         && parsingResult.ParserVersion == TextAnalysis.Version
+         && parsingResult.TokenizerVersion == JNTokenizer.Version)
       {
          return;
       }
 
-      // Invalidate cached janome tokens if the sentence text has changed
-      if(parsingResult.Sentence != questionText)
+      // Invalidate cached tokens if the sentence text or the tokenizer version changed
+      if(parsingResult.Sentence != questionText || parsingResult.TokenizerVersion != JNTokenizer.Version)
       {
          JanomeTokens.Empty();
       }

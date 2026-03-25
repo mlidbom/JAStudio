@@ -68,7 +68,8 @@ public partial class SentenceData : CorpusObjectData
       var result = new ParsingResult(
          ParsingResult.ParsedWords.Select(FromParsedMatchSubData).ToList(),
          ParsingResult.Sentence,
-         ParsingResult.ParserVersion);
+         ParsingResult.ParserVersion,
+         ParsingResult.TokenizerVersion);
       return ParsingSerializer.Serialize(result);
    }
 
@@ -104,7 +105,8 @@ public partial class SentenceData : CorpusObjectData
       return new ParsingResult(
          data.ParsedWords.Select(FromParsedMatchSubData).ToList(),
          data.Sentence,
-         data.ParserVersion);
+         data.ParserVersion,
+         data.TokenizerVersion);
    }
 
    public static SentenceConfiguration CreateConfiguration(SentenceConfigSubData? data, Action saveCallback)
@@ -141,6 +143,7 @@ public partial class SentenceParsingResultSubData
 {
    public string Sentence { get; init; } = string.Empty;
    public string ParserVersion { get; init; } = string.Empty;
+   public string TokenizerVersion { get; init; } = string.Empty;
    public List<ParsedMatchSubData> ParsedWords { get; init; } = [];
 }
 

@@ -1,6 +1,7 @@
 #pragma warning disable IDE0051 //unused members
 
 using System.Collections.Generic;
+using Compze.Utilities.Logging;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBeInternal
@@ -113,8 +114,8 @@ public static class InflectionTypes
    {
       public const string Base = "サ変";
       public static readonly InflectionType Suru = AddForm("サ変・スル", "Suru verb");
-      public static readonly InflectionType SuruCompound = AddForm("サ変・−スル", "Suru compound verb");
-      public static readonly InflectionType Zuru = AddForm("サ変・−ズル", "Zuru verb - Classical variation of suru");
+      public static readonly InflectionType SuruCompound = AddForm("サ変・－スル", "Suru compound verb");
+      public static readonly InflectionType Zuru = AddForm("サ変・－ズル", "Zuru verb - Classical variation of suru");
    }
 
    public static class Kahen

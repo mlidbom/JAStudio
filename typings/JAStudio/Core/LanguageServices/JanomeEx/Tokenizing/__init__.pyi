@@ -465,6 +465,7 @@ class JNTokenizedText:
 
 
 class JNTokenizer:
+    Version : str
     @staticmethod
     def GetInstance() -> JNTokenizer: ...
     def Tokenize(self, text: str, cachedSerializedTokens: str = ...) -> JNTokenizeResult: ...
