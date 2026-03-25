@@ -15,9 +15,8 @@ partial class VocabFlagsDialog : Window
    public VocabFlagsDialog(VocabNote vocab, Core.TemporaryServiceCollection services) : this()
    {
       var viewModel = new VocabFlagsViewModel(vocab, services, this);
-      DataContext = viewModel;
 
-      // Wire up commands to close the dialog
+      // Wire up commands BEFORE setting DataContext so bindings resolve to non-null commands
       viewModel.SaveCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(async () =>
       {
          await viewModel.SaveAsync();
@@ -26,5 +25,7 @@ partial class VocabFlagsDialog : Window
       });
 
       viewModel.CancelCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(Close);
+
+      DataContext = viewModel;
    }
 }
