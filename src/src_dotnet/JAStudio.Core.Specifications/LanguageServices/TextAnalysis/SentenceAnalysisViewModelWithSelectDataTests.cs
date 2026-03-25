@@ -187,7 +187,7 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
    [InlineData("立ってるのかと思った", "立つ", "てる", "のか", "と思う", "た")]
    [InlineData("ないと思う", "ない", "と思う", "う")]
    [InlineData("しても", "する", "ても")]
-   [InlineData("見えなくなったって そんな", "見える", "なくなる", "た", "って", "そんな")]
+   [InlineData("見えなくなったって そんな", "見える", "なくなる", "たって:emergency", "そんな")]
    [InlineData("焼けたかな", "焼ける", "た", "かな")]
    [InlineData("また来ような", "また", "来る", "う", "な:s.end")]
    [InlineData("何なんだろうな", "何だ", "ん", "だろう", "な:s.end")]
