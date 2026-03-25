@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 import pyperclip
-from anki.models import NotetypeDict
 from aqt import gui_hooks
 from jaspythonutils.sysutils import ex_str, typed
 from jaspythonutils.sysutils.timeutil import StopWatch
 
+from jastudio.anki_extentions.note_ex import NoteEx
 from jastudio.ankiutils import app
 from jastudio.ankiutils.app import get_ui_utils
 from jastudio.sysutils import app_thread_pool
@@ -20,9 +20,8 @@ if TYPE_CHECKING:
 def copy_card_sort_field_to_clipboard(note: Note) -> None:
     with StopWatch.log_warning_if_slower_than(0.01):
         if app.config().YomitanIntegrationCopyAnswerToClipboard.Value:
-            model = cast(NotetypeDict, note.note_type())
-            sort_field:int = typed.int_(model["sortf"])  # pyright: ignore[reportAny]
-            sort_value = typed.str_(note.fields[sort_field])
+            note_type = NoteEx(note).note_type()
+            sort_value = typed.str_(note.fields[note_type.sortf])
             clean_string = ex_str.strip_html_and_bracket_markup_and_noise_characters(sort_value)
             app_thread_pool.pool.submit(lambda: pyperclip.copy(clean_string))
 

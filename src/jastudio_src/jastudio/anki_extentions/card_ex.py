@@ -10,6 +10,8 @@ from typed_linq_collections.collections.q_list import QList
 
 from jastudio.anki_extentions.deck_ex import DeckEx
 
+from jastudio.anki_extentions.notetype_ex.note_type_ex import NoteTypeEx
+
 if TYPE_CHECKING:
     from anki.dbproxy import Row
     from anki.decks import DeckManager
@@ -54,6 +56,10 @@ class CardEx(Slots):
     def un_suspend(self) -> None:
         if self.is_suspended():
             self._scheduler().unsuspend_cards([self.card.id])
+
+    def note_type(self) -> NoteTypeEx:
+        from jastudio.anki_extentions.note_ex import NoteEx
+        return NoteEx(self.card.note()).note_type()
 
     def type(self) -> NoteTemplateEx:
         from jastudio.anki_extentions.notetype_ex.note_type_template import NoteTemplateEx

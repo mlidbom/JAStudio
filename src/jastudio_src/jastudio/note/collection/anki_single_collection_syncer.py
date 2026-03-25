@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 from anki.notes import NoteId
 from autoslot import Slots
-from jaspythonutils.sysutils.typed import non_optional
 from JAStudio.Anki.PythonInterop import NoteUpdatePythonAdapter
+from jastudio.anki_extentions.note_ex import NoteEx
 from jastudio.ankiutils import app
 from JAStudio.Core.Note import JPNote
 from jastudio.note.jpnotedata_shim import JPNoteDataShim
@@ -31,7 +31,7 @@ class AnkiSingleCollectionSyncer[TNote: JPNote](Slots):
         cache_runner.connect_will_flush(self._on_will_flush)
 
     def _is_my_note_type(self, backend_note: Note) -> bool:
-        return str(non_optional(backend_note.note_type())["name"]) == self._note_type_name  # pyright: ignore[reportAny]
+        return NoteEx(backend_note).note_type().name == self._note_type_name
 
     def _update_anki_note(self, note: TNote) -> None:
         self._is_updating_anki_note = True

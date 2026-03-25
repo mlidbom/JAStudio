@@ -52,7 +52,11 @@ public class JPCollection
    public VocabNoteGeneratedData VocabNoteGeneratedData { get; }
 
    // ReSharper disable once UnusedMember.Global called from python
-   public void UpdateCardStudyingStatus(long cardId) => throw new NotImplementedException();
+   public void UpdateCardStudyingStatus(CardStudyingStatus status)
+   {
+      var note = NoteFromExternalId(status.ExternalNoteId);
+      note?.SetStudyingStatus(status);
+   }
 
    public JPCollection(
       IBackendNoteCreator backendNoteCreator,

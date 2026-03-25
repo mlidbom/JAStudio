@@ -3,7 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from anki.notes import NoteId
+from jaspythonutils.sysutils.typed import non_optional
 
+from jastudio.anki_extentions.notetype_ex.note_type_ex import NoteTypeEx
 from jastudio.ankiutils import app
 
 if TYPE_CHECKING:
@@ -17,6 +19,9 @@ class NoteEx:
 
     @property
     def id(self) -> NoteId: return self.note.id
+
+    def note_type(self) -> NoteTypeEx:
+        return NoteTypeEx.from_dict(non_optional(self.note.note_type()))
 
     def cards(self) -> list[CardEx]:
         from jastudio.anki_extentions.card_ex import CardEx
