@@ -222,6 +222,7 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
    [InlineData("他人を気遣い", "他人", "を", "気遣う")]
    [InlineData("まだ割れんのか", "まだ", "割れる", "のか")]
    [InlineData("思えないしな", "思える", "ない", "しな")]
+   [InlineData("あ な なに", "あ", "な:s.end", "なに")]
    public void MiscStuff(string sentence, params string[] expectedOutput)
    {
       AssertDisplayWordsEqualAndThatAnalysisInternalStateIsValid(sentence, expectedOutput);
