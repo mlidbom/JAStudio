@@ -14,4 +14,4 @@ def update_note_in_studying_cache(note: Note) -> None:
         update_card_in_studying_cache(card_ex)
 
 def update_card_in_studying_cache(card_ex: CardEx) -> None:
-    dotnet_ui_root.Services.CoreApp.Collection.UpdateCardStudyingStatus(card_ex.card.id)
+    dotnet_ui_root().Services.CoreApp.Collection.UpdateCardStudyingStatus(card_ex.card.id)

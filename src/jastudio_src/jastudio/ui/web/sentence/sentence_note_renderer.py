@@ -8,6 +8,6 @@ from jastudio.ui.web.web_utils.dotnet_rendering_content_renderer_anki_shim impor
 
 
 def init() -> None:
-    net_renderer = dotnet_ui_root.Services.AnkiHTMLRenderers.SentenceNoteRenderer
+    net_renderer = dotnet_ui_root().Services.AnkiHTMLRenderers.SentenceNoteRenderer
     renderer = DotNetPrerenderingContentRendererAnkiShim(SentenceNote, net_renderer.CreateRenderer())
     gui_hooks.card_will_show.append(renderer.render)

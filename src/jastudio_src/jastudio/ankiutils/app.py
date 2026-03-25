@@ -34,11 +34,11 @@ _profile_open = False
 
 def _notify_dotnet(event: AnkiLifecycleEvent) -> None:
     from jastudio.ui import dotnet_ui_root
-    dotnet_ui_root.HandleAnkiLifecycleEvent(event)
+    dotnet_ui_root().HandleAnkiLifecycleEvent(event)
 
 def config() -> JapaneseConfig:
     from jastudio.ui import dotnet_ui_root
-    return dotnet_ui_root.Services.ConfigurationStore.Config()
+    return dotnet_ui_root().Services.ConfigurationStore.Config()
 
 def is_initialized() -> bool:
     return _synchronizer is not None

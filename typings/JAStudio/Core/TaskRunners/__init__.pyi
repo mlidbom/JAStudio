@@ -1,5 +1,5 @@
 import typing, abc
-from System import IDisposable, Action, Func_1, Exception, Action_1, Func_2, TimeSpan, IEquatable_1
+from System import IDisposable, Action, Func_1, Exception, Action_1, Func_2, TimeSpan
 from System.Threading.Tasks import Task, Task_1, ParallelOptions
 from System.Diagnostics import Stopwatch
 from System.Collections.Generic import List_1, IEnumerable_1
@@ -210,7 +210,7 @@ class TaskRunner:
     def Current(self, scopeTitle: str, forceHide: bool = ..., allowCancel: bool = ...) -> ITaskProgressRunner: ...
 
 
-class ThreadCount(IEquatable_1[ThreadCount]):
+class ThreadCount:
     AllLogicalCores : ThreadCount
     HalfLogicalCores : ThreadCount
     One : ThreadCount
@@ -222,19 +222,6 @@ class ThreadCount(IEquatable_1[ThreadCount]):
     def Threads(self) -> int: ...
     @staticmethod
     def FractionOfLogicalCores(fraction: float) -> ThreadCount: ...
-    def GetHashCode(self) -> int: ...
-    def __eq__(self, left: ThreadCount, right: ThreadCount) -> bool: ...
-    def __ne__(self, left: ThreadCount, right: ThreadCount) -> bool: ...
-    def ToString(self) -> str: ...
     @staticmethod
     def WithThreads(count: int) -> ThreadCount: ...
-    # Skipped Equals due to it being static, abstract and generic.
-
-    Equals : Equals_MethodGroup
-    class Equals_MethodGroup:
-        @typing.overload
-        def __call__(self, other: ThreadCount) -> bool:...
-        @typing.overload
-        def __call__(self, obj: typing.Any) -> bool:...
-
 

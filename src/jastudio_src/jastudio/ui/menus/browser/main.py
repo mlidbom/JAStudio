@@ -27,8 +27,8 @@ def spread_due_dates(cards: Sequence[CardId], start_day: int, days: int) -> None
     app.get_ui_utils().refresh()
 
 def setup_browser_context_menu(browser: Browser, menu: QMenu) -> None:
-    menu_spec: SpecMenuItem = dotnet_ui_root.Menus.BuildBrowserMenuSpec(browser.selected_cards(),
-                                                                  browser.selectedNotes())
+    menu_spec: SpecMenuItem = dotnet_ui_root().Menus.BuildBrowserMenuSpec(browser.selected_cards(),
+                                                                     browser.selectedNotes())
     qt_menu_adapter.add_to_qt_menu(menu, [menu_spec])
 
 

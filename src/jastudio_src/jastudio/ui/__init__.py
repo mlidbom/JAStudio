@@ -1,15 +1,22 @@
 from __future__ import annotations
 
 import atexit
+from typing import TYPE_CHECKING
 
 from jaspythonutils.sysutils.typed import non_optional
 
 from jastudio import mylog
 from jastudio.task_runners.task_progress_runner import TaskRunner
 
+if TYPE_CHECKING:
+    from JAStudio.Anki.PythonInterop import JAStudioAnkiAppRoot
+
 # The JAStudioAppRoot composition root instance, set during init().
-# Other modules import this to access C# UI services.
-dotnet_ui_root = None
+# Use dotnet_ui_root() to access — never import the backing field directly.
+_dotnet_ui_root_instance: JAStudioAnkiAppRoot | None = None
+
+def dotnet_ui_root() -> JAStudioAnkiAppRoot:
+    return non_optional(_dotnet_ui_root_instance)
 
 def init() -> None:
     _init_dot_net_app()
@@ -24,7 +31,7 @@ def init() -> None:
     TaskRunner.set_ui_task_runner_factory(QtTaskProgressRunner)
 
 def _init_dot_net_app() -> None:
-    global dotnet_ui_root
+    global _dotnet_ui_root_instance
     from JAStudio.Anki.PythonInterop import JAStudioAnkiAppRoot
     from System import Action
 
@@ -32,10 +39,10 @@ def _init_dot_net_app() -> None:
 
     config_json = get_config_json()
     config_update_callback = Action[str](write_config_dict_json)  # pyright: ignore [reportCallIssue]
-    dotnet_ui_root = JAStudioAnkiAppRoot.Initialize(config_json, config_update_callback)
+    _dotnet_ui_root_instance = JAStudioAnkiAppRoot.Initialize(config_json, config_update_callback)
 
     def shutdown_dot_net() -> None:
         mylog.info("Shutting down DotNet UI")
-        non_optional(dotnet_ui_root).ShutDown()
+        dotnet_ui_root().ShutDown()
 
     atexit.register(shutdown_dot_net)

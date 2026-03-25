@@ -32,6 +32,18 @@ class Conjugator(abc.ABC):
     def GetWordStems(word: str, isIchidanVerb: bool = ..., isGodan: bool = ...) -> List_1[str]: ...
 
 
+class HepburnKanaToRomaji(abc.ABC):
+    @staticmethod
+    def Convert(text: str) -> str: ...
+
+
+class HepburnRomajiToKana(abc.ABC):
+    @staticmethod
+    def ToHiragana(romaji: str) -> str: ...
+    @staticmethod
+    def ToKatakana(romaji: str) -> str: ...
+
+
 class HiraganaChart(abc.ABC):
     ARow1 : Array_1[str]
     ARow2 : Array_1[str]

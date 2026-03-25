@@ -26,13 +26,12 @@ def build_right_click_menu_webview_hook(view: AnkiWebView, root_menu: QMenu) -> 
 # noinspection PyTypeHints
 def build_right_click_menu(right_click_menu: QMenu, note: JPNote | None, selection: str, clipboard: str) -> None:
     from jastudio.ui import dotnet_ui_root
-    if not dotnet_ui_root.IsInitialized:
+    if not dotnet_ui_root().IsInitialized:
         right_click_menu.addAction(Mine.AppStillLoadingMessage)  # pyright: ignore[reportUnknownMemberType]
         return
 
     from jastudio.qt_adapters import qt_menu_adapter
-    from jastudio.ui import dotnet_ui_root
-    menu_builder = dotnet_ui_root.Menus.CreateNoteContextMenu()
+    menu_builder = dotnet_ui_root().Menus.CreateNoteContextMenu()
 
     try:
         if note:

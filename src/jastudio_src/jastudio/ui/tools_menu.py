@@ -19,7 +19,7 @@ def build_main_menu() -> None:
         return text if ok and text else ""
 
     try:
-        menu_builder = dotnet_ui_root.Menus.CreateJapaneseMainMenu()
+        menu_builder = dotnet_ui_root().Menus.CreateJapaneseMainMenu()
         clipboard_getter = Func[str](get_user_text_input)  # pyright: ignore [reportCallIssue]
         specs = menu_builder.BuildMenuSpec(clipboard_getter)
         qt_menu_adapter.add_to_qt_menu(menu, specs)

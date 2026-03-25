@@ -1,11 +1,11 @@
-import typing, clr, abc
+import typing, abc
 from System.Collections.Generic import List_1
 from JAStudio.Core.Note import KanjiNote, NoteServices
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
 from JAStudio.Core import IEnvironmentPaths
-from System import Guid, IEquatable_1, DateTime
+from System import Guid, DateTime
 from System.Text.Json import JsonSerializerOptions
 
 class AllNotesData:
@@ -84,37 +84,15 @@ class JsonFilesystemObjectRepository_1(typing.Generic[JsonFilesystemObjectReposi
     ScannedFile : ScannedFile_GenericClasses[JsonFilesystemObjectRepository_1_TData]
 
     ScannedFile_1_TData = typing.TypeVar('ScannedFile_1_TData')
-    class ScannedFile_1(typing.Generic[ScannedFile_1_TData], IEquatable_1[JsonFilesystemObjectRepository_1.ScannedFile_1[ScannedFile_1_TData]]):
+    class ScannedFile_1(typing.Generic[ScannedFile_1_TData]):
         ScannedFile_1_TData = JsonFilesystemObjectRepository_1.ScannedFile_1_TData
-        def __init__(self, Path: str, Id: Guid, LastWriteUtc: DateTime) -> None: ...
+        def __init__(self, path: str, id: Guid, lastWriteUtc: DateTime) -> None: ...
         @property
         def Id(self) -> Guid: ...
-        @Id.setter
-        def Id(self, value: Guid) -> Guid: ...
         @property
         def LastWriteUtc(self) -> DateTime: ...
-        @LastWriteUtc.setter
-        def LastWriteUtc(self, value: DateTime) -> DateTime: ...
         @property
         def Path(self) -> str: ...
-        @Path.setter
-        def Path(self, value: str) -> str: ...
-        def Deconstruct(self, Path: clr.Reference[str], Id: clr.Reference[Guid], LastWriteUtc: clr.Reference[DateTime]) -> None: ...
-        def GetHashCode(self) -> int: ...
-        def __eq__(self, left: JsonFilesystemObjectRepository_1.ScannedFile_1[ScannedFile_1_TData], right: JsonFilesystemObjectRepository_1.ScannedFile_1[ScannedFile_1_TData]) -> bool: ...
-        def __ne__(self, left: JsonFilesystemObjectRepository_1.ScannedFile_1[ScannedFile_1_TData], right: JsonFilesystemObjectRepository_1.ScannedFile_1[ScannedFile_1_TData]) -> bool: ...
-        def ToString(self) -> str: ...
-        # Skipped Equals due to it being static, abstract and generic.
-
-        Equals : Equals_MethodGroup[ScannedFile_1_TData]
-        Equals_MethodGroup_ScannedFile_1_TData = typing.TypeVar('Equals_MethodGroup_ScannedFile_1_TData')
-        class Equals_MethodGroup(typing.Generic[Equals_MethodGroup_ScannedFile_1_TData]):
-            Equals_MethodGroup_ScannedFile_1_TData = JsonFilesystemObjectRepository_1.ScannedFile_1.Equals_MethodGroup_ScannedFile_1_TData
-            @typing.overload
-            def __call__(self, other: JsonFilesystemObjectRepository_1.ScannedFile_1[Equals_MethodGroup_ScannedFile_1_TData]) -> bool:...
-            @typing.overload
-            def __call__(self, obj: typing.Any) -> bool:...
-
 
 
 

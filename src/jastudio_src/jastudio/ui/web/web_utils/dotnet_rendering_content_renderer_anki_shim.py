@@ -18,10 +18,10 @@ class DotNetPrerenderingContentRendererAnkiShim[TNote: JPNote](Slots):
 
     def render(self, html: str, card: Card, type_of_display: str) -> str:
         from jastudio.ui import dotnet_ui_root
-        if not dotnet_ui_root.IsInitialized:
+        if not dotnet_ui_root().IsInitialized:
             return Mine.AppStillLoadingMessage
 
-        note = dotnet_ui_root.Services.CoreApp.Collection.NoteFromExternalId(card.nid if card.nid else card.note().id)
+        note = dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(card.nid if card.nid else card.note().id)
 
         if not isinstance(note, self._cls):
             return html
