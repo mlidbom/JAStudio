@@ -1,4 +1,4 @@
-#Universal rules
+# Universal rules
 - **Don't code until instructed to**. Standard workflow is questions and discussion back and forth coming up with what to do. Then I give the go ahead to code. Questions are not instructions to start coding, they are questions to be answered.
 
 # JAStudio Workspace Instructions for AI Assistants
