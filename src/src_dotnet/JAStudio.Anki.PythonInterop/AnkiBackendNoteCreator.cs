@@ -19,9 +19,9 @@ public class AnkiBackendNoteCreator : IBackendNoteCreator
       }
    }
 
-   public void CreateKanji(KanjiNote note, Action callback) => _noteCreator.Use(it => it.create_kanji(note));
+   public void CreateKanji(KanjiNote note, Action callback) => _noteCreator.Use(it => it.create_kanji(note, callback));
 
-   public void CreateVocab(VocabNote note, Action callback) => _noteCreator.Use(it => it.create_vocab(note));
+   public void CreateVocab(VocabNote note, Action callback) => _noteCreator.Use(it => it.create_vocab(note, callback));
 
-   public void CreateSentence(SentenceNote note, Action callback) => _noteCreator.Use(it => it.create_sentence(note));
+   public void CreateSentence(SentenceNote note, Action callback) => _noteCreator.Use(it => it.create_sentence(note, callback));
 }

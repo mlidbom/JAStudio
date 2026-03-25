@@ -25,8 +25,8 @@ class AnkiBackendNoteCreator:
         app.anki_collection().addNote(backend_note)
         # Register the Anki ID → domain NoteId mapping.
         # The note already has its domain NoteId from construction.
-        note.UpdateInCache()
         callback()
+        note.UpdateInCache()
         studing_status_helper.update_note_in_studying_cache(backend_note)
 
     def create_kanji(self, note: KanjiNote, callback: Callable[[], None]) -> None:
