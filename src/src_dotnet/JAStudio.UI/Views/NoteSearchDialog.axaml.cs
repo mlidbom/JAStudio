@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -31,6 +32,13 @@ partial class NoteSearchDialog : Window
          var searchInput = this.FindControl<TextBox>("SearchInput");
          searchInput?.Focus();
       };
+   }
+
+   protected override void OnClosing(WindowClosingEventArgs e)
+   {
+      base.OnClosing(e);
+      e.Cancel = true;
+      Hide();
    }
 
    void InitializeComponent()
