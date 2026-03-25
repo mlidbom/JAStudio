@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using MyNihongo.KanaConverter;
 
 namespace JAStudio.Core.LanguageServices;
 
@@ -59,33 +58,11 @@ public static class KanaUtils
       return text.Where(CharacterIsKanji).Select(ch => ch.ToString()).ToArray();
    }
 
-   public static string Romanize(string text)
-   {
-      if(string.IsNullOrEmpty(text))
-         return string.Empty;
+   public static string Romanize(string text) => HepburnKanaToRomaji.Convert(text);
 
-      // Strip trailing small tsu (っ/ッ) before romanization
-      if(text.EndsWith("っ") || text.EndsWith("ッ"))
-         text = text[..^1];
+   public static string RomajiToHiragana(string romaji) => HepburnRomajiToKana.ToHiragana(romaji);
 
-      return text.ToRomaji(UnrecognisedCharacterPolicy.Append);
-   }
-
-   public static string RomajiToHiragana(string romaji)
-   {
-      if(string.IsNullOrEmpty(romaji))
-         return string.Empty;
-
-      return romaji.ToHiragana(UnrecognisedCharacterPolicy.Append);
-   }
-
-   public static string RomajiToKatakana(string romaji)
-   {
-      if(string.IsNullOrEmpty(romaji))
-         return string.Empty;
-
-      return romaji.ToKatakana(UnrecognisedCharacterPolicy.Append);
-   }
+   public static string RomajiToKatakana(string romaji) => HepburnRomajiToKana.ToKatakana(romaji);
 
    public static string AnythingToHiragana(string text) => IsOnlyKana(text) ? KatakanaToHiragana(text) : RomajiToHiragana(text);
 }

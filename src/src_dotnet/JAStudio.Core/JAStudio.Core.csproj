@@ -23,7 +23,6 @@
       <PackageReference Include="Compze.Core" Version="0.1.0-alpha.3" />
       <PackageReference Include="MeCab.DotNet" Version="1.2.0" />
       <PackageReference Include="MemoryPack" Version="1.21.4" />
-      <PackageReference Include="MyNihongo.KanaConverter" Version="1.0.5" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
       <PackageReference Include="SimpleInjector" Version="5.5.0" />
    </ItemGroup>
