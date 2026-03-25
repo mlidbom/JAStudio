@@ -1,3 +1,6 @@
+#Universal rules
+- **Don't code until instructed to**. Standard workflow is questions and discussion back and forth coming up with what to do. Then I give the go ahead to code. Questions are not instructions to start coding, they are questions to be answered.
+
 # JAStudio Workspace Instructions for AI Assistants
 
 JAStudio is a Japanese language learning tool that runs as an Anki addon. The core logic and UI are in C#/Avalonia, loaded into Anki's Python process via pythonnet. Python serves only as a thin integration layer with Anki's APIs.
