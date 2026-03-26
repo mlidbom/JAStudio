@@ -18,8 +18,3 @@ if not is_testing:
     from jastudio import ui  # noqa
 
     ui.init()
-
-    if app.config().EnableAutomaticGarbageCollection.Value:
-        import gc
-
-        gc.enable()

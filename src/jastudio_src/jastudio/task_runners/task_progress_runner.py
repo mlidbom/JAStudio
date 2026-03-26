@@ -37,25 +37,17 @@ class TaskRunner(Slots):
 
     @classmethod
     @contextmanager
-    def current(cls, window_title: str, label_text: str | None = None, force_hide: bool = False, inhibit_gc: bool = False, force_gc: bool = False, allow_cancel: bool = True, modal: bool = False) -> Iterator[ITaskRunner]:
+    def current(cls, window_title: str, label_text: str | None = None, force_hide: bool = False, allow_cancel: bool = True, modal: bool = False) -> Iterator[ITaskRunner]:
         cls._depth += 1
         if cls._depth == 1:
             visible = (not app.is_testing) and not force_hide
             cls._current = cls.create(window_title, label_text or window_title, visible, allow_cancel, modal)
-            if not inhibit_gc and (app.config().EnableGarbageCollectionDuringBatches.Value or force_gc):
-                cls._current.run_gc()
         else:
             non_optional(cls._current).set_label_text(label_text or window_title)
-
-        runner = non_optional(cls._current)
 
         try: yield non_optional(cls._current)
         finally:
             cls._depth -= 1
             if cls._depth == 0:
-                if not inhibit_gc and (app.config().EnableGarbageCollectionDuringBatches.Value or force_gc):
-                    runner.run_gc()
-                runner.close()
+                non_optional(cls._current).close()
                 cls._current = None
-            elif force_gc:
-                runner.run_gc()

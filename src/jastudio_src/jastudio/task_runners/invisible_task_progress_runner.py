@@ -18,7 +18,7 @@ class InvisibleTaskRunner(ITaskRunner, Slots):
 
     # noinspection PyUnusedFunction
     @override
-    def process_with_progress[TInput, TOutput](self, items: list[TInput], process_item: Callable[[TInput], TOutput], message: str, run_gc: bool = False, minimum_items_to_gc: int = 0) -> list[TOutput]:
+    def process_with_progress[TInput, TOutput](self, items: list[TInput], process_item: Callable[[TInput], TOutput], message: str) -> list[TOutput]:
         result = [process_item(item) for item in items]
         total_items = len(items)
         watch = StopWatch()

@@ -19,13 +19,12 @@ def dotnet_ui_root() -> JAStudioAnkiAppRoot:
 
 def init() -> None:
     _init_dot_net_app()
-    from jastudio.ui import garbage_collection_fixes, hooks, menus, timing_hacks, tools_menu, web
+    from jastudio.ui import hooks, menus, timing_hacks, tools_menu, web
     hooks.init()
     timing_hacks.init()
     tools_menu.init()
     web.init()
     menus.init()
-    garbage_collection_fixes.init()
 
 def _init_dot_net_app() -> None:
     global _dotnet_ui_root_instance

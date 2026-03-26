@@ -54,14 +54,8 @@ public class JapaneseConfig
 
    // Performance toggles
    public ConfigurationValue<bool> PreCacheCardStudyingStatus { get; }
-   public ConfigurationValue<bool> PreventAnkiFromGarbageCollectingEveryTimeAWindowCloses { get; }
-   public ConfigurationValue<bool> DisableAllAutomaticGarbageCollection { get; }
    public ConfigurationValue<bool> LoadStudioInForeground { get; }
    public ConfigurationValue<long> ReanalysisThreads { get; }
-
-   // Memory toggles
-   public ConfigurationValue<bool> EnableGarbageCollectionDuringBatches { get; }
-   public ConfigurationValue<bool> EnableAutomaticGarbageCollection { get; }
 
    // Developer only toggles
    public ConfigurationValue<bool> TrackInstancesInMemory { get; }
@@ -152,14 +146,8 @@ public class JapaneseConfig
 
       // performance toggles
       PreCacheCardStudyingStatus = Add(New("pre_cache_card_studying_status", "Cache card studying status on startup. Only disable for dev/testing purposes. [Requires restart]", false, To.Bool));
-      PreventAnkiFromGarbageCollectingEveryTimeAWindowCloses = Add(New("prevent_anki_from_garbage_collecting_every_time_a_window_closes", "Prevent Anki from garbage collecting every time a window closes, causing a short hang every time. [Requires restart]", true, To.Bool));
-      DisableAllAutomaticGarbageCollection = Add(New("disable_periodic_garbage_collection", "Prevent all automatic garbage collection. Will stop the mini-hangs but memory usage will grow gradually. [Requires restart]", false, To.Bool));
       LoadStudioInForeground = Add(New("load_studio_in_foreground", "Load Studio in foreground. Makes it clear when done. Anki will be responsive when done. But you can't use anki while loading.", true, To.Bool));
       ReanalysisThreads = Add(New("reanalysis_threads", "Reanalysis threads (number of threads to use when reanalysing sentences). 1 = sequential.", 4, To.Long));
-
-      // memory toggles
-      EnableGarbageCollectionDuringBatches = Add(New("enable_garbage_collection_during_batches", "Enable Batch GC. [Requires restart]", true, To.Bool));
-      EnableAutomaticGarbageCollection = Add(New("enable_automatic_garbage_collection", "Enable automatic GC. [Requires restart. Reduces memory usage the most but slows Anki down and may cause crashes due to Qt incompatibility.]", false, To.Bool));
 
       // developer only toggles
       TrackInstancesInMemory = Add(New("track_instances_in_memory", "Track instances in memory. [Requires restart.. Only useful to developers and will use extra memory.]", false, To.Bool));

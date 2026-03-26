@@ -212,26 +212,6 @@ partial class OptionsDialogViewModel : ObservableObject
    partial void OnPreCacheCardStudyingStatusChanged(bool value) =>
       _config.PreCacheCardStudyingStatus.Value = value;
 
-   [ObservableProperty] bool _preventAnkiFromGarbageCollectingEveryTimeAWindowCloses;
-
-   partial void OnPreventAnkiFromGarbageCollectingEveryTimeAWindowClosesChanged(bool value) =>
-      _config.PreventAnkiFromGarbageCollectingEveryTimeAWindowCloses.Value = value;
-
-   [ObservableProperty] bool _disableAllAutomaticGarbageCollection;
-
-   partial void OnDisableAllAutomaticGarbageCollectionChanged(bool value) =>
-      _config.DisableAllAutomaticGarbageCollection.Value = value;
-
-   [ObservableProperty] bool _enableGarbageCollectionDuringBatches;
-
-   partial void OnEnableGarbageCollectionDuringBatchesChanged(bool value) =>
-      _config.EnableGarbageCollectionDuringBatches.Value = value;
-
-   [ObservableProperty] bool _enableAutomaticGarbageCollection;
-
-   partial void OnEnableAutomaticGarbageCollectionChanged(bool value) =>
-      _config.EnableAutomaticGarbageCollection.Value = value;
-
    [ObservableProperty] long _reanalysisThreads;
 
    partial void OnReanalysisThreadsChanged(long value) =>
@@ -307,13 +287,9 @@ partial class OptionsDialogViewModel : ObservableObject
       BoostFailedCardAllowedTime = _config.BoostFailedCardAllowedTime.Value;
       PreferDefaultMnemonicsToSourceMnemonics = _config.PreferDefaultMnemonicsToSourceMnemonics.Value;
 
-      // Performance and Memory
+      // Performance
       LoadStudioInForeground = _config.LoadStudioInForeground.Value;
       PreCacheCardStudyingStatus = _config.PreCacheCardStudyingStatus.Value;
-      PreventAnkiFromGarbageCollectingEveryTimeAWindowCloses = _config.PreventAnkiFromGarbageCollectingEveryTimeAWindowCloses.Value;
-      DisableAllAutomaticGarbageCollection = _config.DisableAllAutomaticGarbageCollection.Value;
-      EnableGarbageCollectionDuringBatches = _config.EnableGarbageCollectionDuringBatches.Value;
-      EnableAutomaticGarbageCollection = _config.EnableAutomaticGarbageCollection.Value;
       ReanalysisThreads = _config.ReanalysisThreads.Value;
 
       // Developer Only

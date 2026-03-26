@@ -11,6 +11,6 @@ def convert_immersion_kit_sentences() -> None:
     #     jastudio.note.sentences.ankisentencenote.AnkiSentenceNote.import_immersion_kit_sentence(immersion_kit_note)
     #     app.anki_collection().remove_notes([note_id])
     #
-    # with TaskRunner.current("Converting immersion kit sentences", inhibit_gc=True) as runner:
+    # with TaskRunner.current("Converting immersion kit sentences") as runner:
     #     immersion_kit_sences = list(app.anki_collection().find_notes(query_builder.immersion_kit_sentences()))
-    #     runner.process_with_progress(immersion_kit_sences, convert_note, "Converting immersion kit sentences", run_gc=True, minimum_items_to_gc=100)
+    #     runner.process_with_progress(immersion_kit_sences, convert_note, "Converting immersion kit sentences")

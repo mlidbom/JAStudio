@@ -188,21 +188,14 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- Performance and Memory Usage -->
+                    <!-- Performance -->
                     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="{StaticResource SectionBorderPadding}">
                         <StackPanel Spacing="{StaticResource CheckboxStackPanelSpacing}">
-                            <TextBlock Text="Performance and memory usage" FontWeight="SemiBold" Margin="{StaticResource SectionHeaderMargin}" />
+                            <TextBlock Text="Performance" FontWeight="SemiBold" Margin="{StaticResource SectionHeaderMargin}" />
                             <CheckBox Content="Load Studio in foreground. Makes it clear when done. Anki will be responsive when done. But you can't use anki while loading." 
                                     IsChecked="{Binding LoadStudioInForeground}" />
                             <CheckBox Content="Cache card studying status on startup. Only disable for dev/testing purposes. [Requires restart]" 
                                     IsChecked="{Binding PreCacheCardStudyingStatus}" />
-                            <CheckBox Content="Prevent Anki from garbage collecting every time a window closes, causing a short hang every time. [Requires restart]" 
-                                    IsChecked="{Binding PreventAnkiFromGarbageCollectingEveryTimeAWindowCloses}" />
-                            <CheckBox Content="Prevent all automatic garbage collection. Will stop the mini-hangs but memory usage will grow gradually. [Requires restart]" 
-                                    IsChecked="{Binding DisableAllAutomaticGarbageCollection}" />
-                            <CheckBox Content="Enable Batch GC. [Requires restart]" IsChecked="{Binding EnableGarbageCollectionDuringBatches}" />
-                            <CheckBox Content="Enable automatic GC. [Requires restart. Reduces memory usage the most but slows Anki down and may cause crashes due to Qt incompatibility.]" 
-                                    IsChecked="{Binding EnableAutomaticGarbageCollection}" />
                             <Grid ColumnDefinitions="*,Auto" Margin="0,5,0,0">
                                 <TextBlock Grid.Column="0" Text="Reanalysis threads (threads to use when reparsing sentences). 1 = sequential." VerticalAlignment="Center" TextWrapping="Wrap" />
                                 <NumericUpDown Grid.Column="1" Value="{Binding ReanalysisThreads}" 
