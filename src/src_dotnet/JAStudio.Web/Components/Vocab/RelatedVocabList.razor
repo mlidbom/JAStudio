@@ -10,13 +10,13 @@
             <div>
                 @foreach(var vocab in Vocabs)
                 {
-                    <NoteLink Note="vocab">
-                        <div class="relatedVocab @(string.Join(" ", vocab.GetMetaTags()))">
-                            @{ var bestAudio = AudioSelector.SelectBest(vocab.Media.Audio); }
-                            @if(bestAudio != null)
-                            {
-                                <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
-                            }
+                    <div class="relatedVocab @(string.Join(" ", vocab.GetMetaTags()))">
+                        @{ var bestAudio = AudioSelector.SelectBest(vocab.Media.Audio); }
+                        @if(bestAudio != null)
+                        {
+                            <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
+                        }
+                        <NoteLink Note="vocab">
                             <span class="question clipboard">@vocab.Question.DisambiguationName</span>
                             @{ var readings = string.Join(", ", vocab.GetReadings()); }
                             @if(ShowReadings && readings != vocab.GetQuestion())
@@ -25,8 +25,8 @@
                             }
                             @((MarkupString)vocab.MetaData.MetaTagsHtml(noSentenceStatistics: NoSentenceStatistics))
                             <span class="meaning"> @((MarkupString)vocab.GetAnswer())</span>
-                        </div>
-                    </NoteLink>
+                        </NoteLink>
+                    </div>
                 }
             </div>
         </div>

@@ -10,19 +10,19 @@
         <div>
             @foreach(var vocab in _vocabs)
             {
-                <NoteLink Note="vocab">
-                    <div class="kanjiVocabEntry @CreateClasses(vocab)">
-                        @{ var bestAudio = AudioSelector.SelectBest(vocab.Media.Audio); }
-                        @if(bestAudio != null)
-                        {
-                            <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
-                        }
+                <div class="kanjiVocabEntry @CreateClasses(vocab)">
+                    @{ var bestAudio = AudioSelector.SelectBest(vocab.Media.Audio); }
+                    @if(bestAudio != null)
+                    {
+                        <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
+                    }
+                    <NoteLink Note="vocab">
                         <span class="kanji clipboard">@vocab.GetQuestion()</span>
                         (<span class="clipboard vocabReading">@((MarkupString)string.Join(", ", Note.TagVocabReadings(vocab)))</span>)
                         @((MarkupString)vocab.MetaData.MetaTagsHtml())
                         <span class="meaning"> @((MarkupString)vocab.GetAnswer())</span>
-                    </div>
-                </NoteLink>
+                    </NoteLink>
+                </div>
             }
         </div>
     </div>
