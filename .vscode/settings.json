@@ -20,19 +20,27 @@
         "src/jas_database/**": true,
         "submodules/Compze/Compze.InternalizedSourceReferences/**": true,
         "submodules/pythonnet-stub-generator/**": true,
-        ".idea/**": true,
+        "**/.idea/**": true,
         "typings/**": true,
         "**/obj/**": true,
-        "**/bin/**": true
+        "**/bin/**": true,
+        "**/.run/**": true,
+        "**/.ruff_cache/**": true,
+        "**/.pytest_cache/**": true,
+        "src/runtime_binaries/**": true
     },
     "files.watcherExclude": {
         "src/jas_database/**": true,
         "submodules/Compze/Compze.InternalizedSourceReferences/**": true,
         "submodules/pythonnet-stub-generator/**": true,
-        ".idea/**": true,
+        "**/.idea/**": true,
         "typings/**": true,
         "**/obj/**": true,
-        "**/bin/**": true
+        "**/bin/**": true,
+        "**/.run/**": true,
+        "**/.ruff_cache/**": true,
+        "**/.pytest_cache/**": true,
+        "src/runtime_binaries/**": true
     },
     "python.analysis.inlayHints.callArgumentNames": "all",
     "python.analysis.inlayHints.variableTypes": true,
