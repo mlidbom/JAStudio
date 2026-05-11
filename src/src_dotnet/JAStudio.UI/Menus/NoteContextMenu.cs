@@ -10,8 +10,6 @@ using JAStudio.UI.Menus.Notes.Sentence;
 using JAStudio.UI.Menus.Notes.Vocab;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 
 namespace JAStudio.UI.Menus;
 
@@ -309,13 +307,9 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
    {
       _ = Dispatcher.UIThread.InvokeAsync(async () =>
       {
-         var box = MessageBoxManager.GetMessageBoxStandard(
-            "Delete Note",
-            $"Permanently delete \"{note.GetQuestion()}\"?\n\nThis will remove it from corpus data and from Anki, including all review history.",
-            ButtonEnum.YesNo,
-            Icon.Warning);
-
-         if(await box.ShowAsync() == ButtonResult.Yes)
+         if(await ConfirmDialog.ShowAsync(
+               "Delete Note",
+               $"Permanently delete \"{note.GetQuestion()}\"?\n\nThis will remove it from corpus data and from Anki, including all review history."))
             _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note));
       });
    }
