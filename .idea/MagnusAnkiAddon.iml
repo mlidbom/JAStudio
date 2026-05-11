@@ -50,7 +50,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/src/jas_database" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.13 (JAStudio)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.13 (worktree_1)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
