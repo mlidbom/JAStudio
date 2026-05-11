@@ -13,6 +13,9 @@ public interface ICardOperations
 
    /// <summary>Unsuspend all cards for the given note.</summary>
    void UnsuspendAllCardsForNote(NoteId noteId);
+
+   /// <summary>Delete the Anki note for the given domain note ID, if it exists in Anki.</summary>
+   void DeleteNote(NoteId noteId);
 }
 
 /// <summary>
@@ -55,5 +58,17 @@ public class CardOperations
       }
 
       _implementation.UnsuspendAllCardsForNote(noteId);
+   }
+
+   /// <summary>Delete the Anki note for the given domain note ID, if it exists in Anki.</summary>
+   public void DeleteNote(NoteId noteId)
+   {
+      if(_implementation == null)
+      {
+         throw new InvalidOperationException(
+            "CardOperations.SetImplementation() must be called before using card operations");
+      }
+
+      _implementation.DeleteNote(noteId);
    }
 }

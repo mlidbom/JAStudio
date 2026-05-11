@@ -34,6 +34,16 @@ public class FileSystemNoteRepository : INoteRepository
 
    public void Save(SentenceNote note) => _sentenceRepository.Save(SentenceNoteConverter.ToCorpusData(note));
 
+   public void Delete(NoteId noteId)
+   {
+      switch(noteId)
+      {
+         case VocabId: _vocabRepository.Delete(noteId.Value); break;
+         case KanjiId: _kanjiRepository.Delete(noteId.Value); break;
+         case SentenceId: _sentenceRepository.Delete(noteId.Value); break;
+      }
+   }
+
    public void SaveAll(AllNotesData data)
    {
       foreach(var note in data.Kanji) Save(note);

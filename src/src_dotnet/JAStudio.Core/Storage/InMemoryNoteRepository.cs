@@ -15,6 +15,16 @@ class InMemoryNoteRepository : INoteRepository
    public void Save(VocabNote note) => _vocab[note.GetId()] = note;
    public void Save(SentenceNote note) => _sentences[note.GetId()] = note;
 
+   public void Delete(NoteId noteId)
+   {
+      switch(noteId)
+      {
+         case VocabId: _vocab.Remove(noteId); break;
+         case KanjiId: _kanji.Remove(noteId); break;
+         case SentenceId: _sentences.Remove(noteId); break;
+      }
+   }
+
    public AllNotesData LoadAll() =>
       new([.. _kanji.Values], [.. _vocab.Values], [.. _sentences.Values]);
 }

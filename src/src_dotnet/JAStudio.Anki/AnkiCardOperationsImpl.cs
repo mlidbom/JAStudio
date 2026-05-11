@@ -21,4 +21,11 @@ public class AnkiCardOperationsImpl : ICardOperations
    {
       AnkiFacade.NoteEx.UnsuspendAllCardsForNote(_idMap.RequireExternalId(noteId));
    }
+
+   public void DeleteNote(NoteId noteId)
+   {
+      var externalId = _idMap.ToExternalId(noteId);
+      if(externalId.HasValue)
+         AnkiFacade.NoteEx.RemoveNote(externalId.Value);
+   }
 }

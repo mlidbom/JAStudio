@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Compze.Utilities.Logging;
 using Compze.Utilities.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.LanguageServices.JamdictEx;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
@@ -87,6 +88,29 @@ public class JPCollection
    readonly INoteRepository _repository;
    readonly MediaFileIndex _mediaFileIndex;
    readonly IBackendDataLoader _backendDataLoader;
+
+   /// <summary>Permanently delete a note from corpus data, Anki, and the in-memory cache.</summary>
+   public void Delete(JPNote note)
+   {
+      _repository.Delete(note.GetId());
+
+      if(NoteServices.ExternalNoteIdMap.ToExternalId(note.GetId()).HasValue)
+      {
+         // In Anki: delete from there; the notes_will_be_deleted hook fires reactively,
+         // calling ExternalNoteRemoved which handles cache eviction automatically.
+         NoteServices.CardOperations.DeleteNote(note.GetId());
+      }
+      else
+      {
+         // Not yet in Anki: evict from the in-memory cache manually.
+         switch(note)
+         {
+            case VocabNote vocab: Vocab.Cache.RemoveFromCache(vocab); break;
+            case KanjiNote kanji: Kanji.Cache.RemoveFromCache(kanji); break;
+            case SentenceNote sentence: Sentences.Cache.RemoveFromCache(sentence); break;
+         }
+      }
+   }
 
    /// <summary>Clear all in-memory caches. Called when the backend DB is about to become unreliable (e.g. sync starting, profile closing).</summary>
    public void ClearCaches()

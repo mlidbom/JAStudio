@@ -39,6 +39,13 @@ public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentif
       File.WriteAllText(path, JsonSerializer.Serialize(data, _jsonOptions));
    }
 
+   public void Delete(Guid id)
+   {
+      var path = FilePath(id);
+      if(File.Exists(path))
+         File.Delete(path);
+   }
+
    public List<TData> LoadAll()
    {
       if(File.Exists(SnapshotPath))

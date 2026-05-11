@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia.Threading;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
@@ -9,6 +10,8 @@ using JAStudio.UI.Menus.Notes.Sentence;
 using JAStudio.UI.Menus.Notes.Vocab;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace JAStudio.UI.Menus;
 
@@ -212,7 +215,9 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
                                  note.SuspendAllCards,
                                  null,
                                  null,
-                                 hasActiveCards)
+                                 hasActiveCards),
+            SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"),
+                                 () => OnDeleteNote(note))
          }
       );
    }
@@ -258,7 +263,8 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
             SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, null, null, hasSuspendedCards),
-            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, null, null, hasActiveCards)
+            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, null, null, hasActiveCards),
+            SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
          }
       );
    }
@@ -297,6 +303,21 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
    {
       var query = _services.QueryBuilder().NotesLookup([note]);
       AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(query);
+   }
+
+   void OnDeleteNote(JPNote note)
+   {
+      _ = Dispatcher.UIThread.InvokeAsync(async () =>
+      {
+         var box = MessageBoxManager.GetMessageBoxStandard(
+            "Delete Note",
+            $"Permanently delete \"{note.GetQuestion()}\"?\n\nThis will remove it from corpus data and from Anki, including all review history.",
+            ButtonEnum.YesNo,
+            Icon.Warning);
+
+         if(await box.ShowAsync() == ButtonResult.Yes)
+            _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note));
+      });
    }
 
    void OnReparseMatchingSentences(string text)

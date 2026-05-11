@@ -61,6 +61,9 @@ public static class AnkiFacade
 
       /// <summary>Unsuspend all cards for the given note ID.</summary>
       public static void UnsuspendAllCardsForNote(long noteId) => Backend.Use(it => it.note_unsuspend_all_cards(noteId));
+
+      /// <summary>Permanently delete the note from Anki.</summary>
+      public static void RemoveNote(long noteId) => Backend.Use(it => it.note_remove(noteId));
    }
 
    internal static class Col

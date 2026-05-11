@@ -80,6 +80,11 @@ def note_unsuspend_all_cards(note_id: int) -> None:
     from jastudio.anki_extentions.note_ex import NoteEx
     NoteEx.from_id(note_id).un_suspend_all_cards()
 
+# noinspection PyUnusedFunction
+def note_remove(note_id: int) -> None:
+    from jastudio.ankiutils import app
+    app.anki_collection().remove_notes([NoteId(note_id)])
+
 # ── Col ──
 # noinspection PyUnusedFunction
 def col_db_file_path() -> str | None:

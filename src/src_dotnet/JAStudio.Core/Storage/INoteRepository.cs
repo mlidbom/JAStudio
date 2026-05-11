@@ -10,5 +10,7 @@ public interface INoteRepository
    void Save(VocabNote note);
    void Save(SentenceNote note);
 
+   void Delete(NoteId noteId);
+
    AllNotesData LoadAll();
 }
