@@ -51,6 +51,11 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteCons
 
    public void ExternalNoteAdded(long externalNoteId, NoteData data)
    {
+      // If we already registered this external ID (we created the note ourselves),
+      // don't create a duplicate — the note is already in the cache.
+      if(_noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId) != null)
+         return;
+
       data.Id = CreateTypedId(Guid.NewGuid());
       _noteServices.ExternalNoteIdMap.Register(externalNoteId, data.Id);
       var note = _noteConstructor(_noteServices, data);

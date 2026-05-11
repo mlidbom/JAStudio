@@ -23,8 +23,9 @@ class AnkiBackendNoteCreator:
         backend_note = Note(app.anki_collection(), app.anki_collection().models.by_name(note_type))
         JPNoteDataShim.sync_note_to_anki_note(note, backend_note)
         app.anki_collection().addNote(backend_note)
-        # Register the Anki ID → domain NoteId mapping.
-        # The note already has its domain NoteId from construction.
+        # Register the Anki ID → domain NoteId mapping before the background flush can
+        # fire ExternalNoteAdded, which would otherwise create a duplicate note.
+        note.Services.ExternalNoteIdMap.Register(int(backend_note.id), note.GetId())
         callback()
         note.UpdateInCache()
         studing_status_helper.update_note_in_studying_cache(backend_note)
