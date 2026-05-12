@@ -10,6 +10,8 @@ from __future__ import annotations
 from anki.cards import CardId
 from anki.notes import NoteId
 from aqt import mw
+
+from jaspythonutils.sysutils.typed import non_optional
 from jastudio.sysutils.app_thread_pool import run_on_ui_thread_fire_and_forget
 from typed_linq_collections.q_iterable import query
 
@@ -89,6 +91,12 @@ def note_remove(note_id: int) -> None:
 # noinspection PyUnusedFunction
 def col_db_file_path() -> str | None:
     return mw.col.path if mw.col is not None else None
+
+# noinspection PyUnusedFunction
+def col_checkpoint_wal() -> None:
+    """Checkpoint Anki's WAL into the main database file so external readers see the latest committed data."""
+    if mw.col is not None:
+        non_optional(mw.col.db).execute("PRAGMA wal_checkpoint(TRUNCATE)")
 
 # ── Misc ──
 # noinspection PyUnusedFunction

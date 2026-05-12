@@ -68,7 +68,20 @@ public static class AnkiFacade
 
    public static class Col
    {
-      public static string? DbFilePath() => Backend.Use(it => (string)it.col_db_file_path());
+      /// <summary>
+      /// Returns the path to Anki's live collection database, after checkpointing the WAL.
+      /// Anki uses WAL journaling, so without a checkpoint, recent writes (e.g. fields populated by TTS addons)
+      /// remain in the .anki2-wal sidecar and are invisible to external read-only connections opened with immutable=1.
+      /// Every code path that reads Anki's DB starts by getting the path here, so a checkpoint here guarantees freshness.
+      /// </summary>
+      public static string? DbFilePath()
+      {
+         CheckpointWal();
+         return Backend.Use(it => (string?)it.col_db_file_path());
+      }
+
+      /// <summary>Force Anki to checkpoint its SQLite WAL into the main DB file.</summary>
+      public static void CheckpointWal() => Backend.Use(it => it.col_checkpoint_wal());
    }
 
    /// <summary>Get note ID from card ID (requires Anki API).</summary>

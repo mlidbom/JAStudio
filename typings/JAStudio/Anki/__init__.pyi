@@ -75,6 +75,8 @@ class AnkiFacade(abc.ABC):
 
     class Col(abc.ABC):
         @staticmethod
+        def CheckpointWal() -> None: ...
+        @staticmethod
         def DbFilePath() -> str: ...
 
 
