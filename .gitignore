@@ -40,3 +40,4 @@ snapshot_vocab.json
 /dev_docs/scratch.txt
 *.orig
 *.cache
+*.ncrunchproject.user

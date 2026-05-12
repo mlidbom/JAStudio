@@ -4,5 +4,16 @@
       <Value>..\..\tests\collection.anki2</Value>
     </AdditionalFilesToIncludeForProject>
     <HiddenComponentWarnings />
+    <IgnoredTests>
+      <NamedTestSelector>
+        <TestName>JAStudio.Core.Specifications.Interop.PythonDotNetShimTests.RoundTrippingLongListResultInIdenticalList</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>JAStudio.Core.Specifications.Interop.PythonDotNetShimTests.RoundTrippingStringListResultInIdenticalList</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>JAStudio.Core.Specifications.Interop.PythonDotNetShimTests.RoundTrippingStringStringDictsResultInIdenticalDict</TestName>
+      </NamedTestSelector>
+    </IgnoredTests>
   </Settings>
 </ProjectConfiguration>
