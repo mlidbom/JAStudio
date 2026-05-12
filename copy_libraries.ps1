@@ -9,10 +9,8 @@ $targetDir = Join-Path $scriptDir "src\jastudio_src\_lib"
 $pipLibrariesToCopy = @(
     "pythonnet", "clr_loader", "cffi", "_cffi_backend.cp313-win_amd64.pyd", "pycparser",
     "typed_linq_collections",
-    "janome",
     "pyperclip",
     "beartype",
-    "jamdict", "jamdict_data", "puchikarui", "chirptext",
     "autoslot.py"
 )
 
