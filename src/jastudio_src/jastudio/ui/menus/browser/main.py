@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aqt import gui_hooks
+
 from jastudio.ankiutils import app
 from jastudio.qt_adapters import qt_menu_adapter
 from jastudio.ui import dotnet_ui_root

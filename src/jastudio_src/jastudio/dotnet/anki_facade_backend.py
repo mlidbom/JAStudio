@@ -6,11 +6,9 @@ making them safe to call from any .NET thread (including the Avalonia UI thread)
 """
 from __future__ import annotations
 
-
 from anki.cards import CardId
 from anki.notes import NoteId
 from aqt import mw
-
 from jaspythonutils.sysutils.typed import non_optional
 from jastudio.sysutils.app_thread_pool import run_on_ui_thread_fire_and_forget
 from typed_linq_collections.q_iterable import query
