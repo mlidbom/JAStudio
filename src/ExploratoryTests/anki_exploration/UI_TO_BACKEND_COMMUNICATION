@@ -1,5 +1,0 @@
-#NOTE https://addon-docs.ankiweb.net/hooks-and-filters.html
-# gui_hooks.webview_did_receive_js_message() allows you to intercept messages
-# sent from Javascript. Anki provides a pycmd(string) function in Javascript which sends
-# a message back to Python, and various screens such as reviewer.py respond to the messages.
-# By using this hook, you can respond to your own messages as well.
