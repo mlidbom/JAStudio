@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -144,7 +145,7 @@ public class InputDialog : Window
 
       if(topLevel?.Clipboard != null)
       {
-         var task = topLevel.Clipboard.GetTextAsync();
+         var task = topLevel.Clipboard.TryGetTextAsync();
          task.Wait();
          return task.Result ?? string.Empty;
       }
