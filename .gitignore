@@ -39,3 +39,4 @@ snapshot_vocab.json
 /src/src_dotnet/JAStudio.Web/wwwroot/css/
 /dev_docs/scratch.txt
 *.orig
+*.cache
