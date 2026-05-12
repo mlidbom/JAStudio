@@ -78,7 +78,7 @@ def copy_binaries(workspace_root: Path) -> None:
 
         # Copy subdirectories (e.g. dic/ for MeCab dictionary)
         for subdir in build_output.iterdir():
-            if subdir.is_dir() and subdir.name in ("dic",):
+            if subdir.is_dir() and subdir.name == "dic":
                 dest_subdir = dest / subdir.name
                 dest_subdir.mkdir(parents=True, exist_ok=True)
                 for src_file in subdir.iterdir():

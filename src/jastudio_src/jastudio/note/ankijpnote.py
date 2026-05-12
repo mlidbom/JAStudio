@@ -12,4 +12,4 @@ if TYPE_CHECKING:
 class AnkiJPNote(Slots):
     @classmethod
     def note_from_card(cls, card: Card) -> JPNote:
-        return dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(card.nid if card.nid else card.note().id)
+        return dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(card.nid or card.note().id)

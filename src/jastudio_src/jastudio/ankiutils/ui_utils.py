@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, override
 
 from autoslot import Slots
-from PyQt6.QtWidgets import QApplication
 from typed_linq_collections.q_iterable import query
 
 from jastudio.ui import dotnet_ui_root
@@ -21,13 +20,11 @@ from aqt.clayout import CardLayout
 from aqt.editcurrent import EditCurrent
 from aqt.editor import Editor
 from aqt.reviewer import RefreshNeeded
-from aqt.utils import tooltip
 from aqt.webview import AnkiWebView, AnkiWebViewKind
 from jaspythonutils.sysutils.typed import checked_cast, non_optional
 
 from jastudio.ankiutils.audio_suppressor import audio_suppressor
 from jastudio.ankiutils.ui_utils_interface import IUIUtils
-from jastudio.sysutils import app_thread_pool
 
 
 def main_window() -> AnkiQt: return non_optional(aqt.mw)
@@ -119,16 +116,8 @@ class UIUtils(IUIUtils, Slots):
     def _try_find_browser_window(self) -> Browser | None:
         return query(self._mw.app.topLevelWidgets()).of_type(Browser).single_or_none()
 
-    @override
-    def tool_tip(self, message: str, milliseconds: int = 3000) -> None:
-        def show_tooltip() -> None:
-            tooltip(message, milliseconds)
-            QApplication.processEvents()
-
-        app_thread_pool.run_on_ui_thread_fire_and_forget(show_tooltip)
-
 # noinspection PyTypeHints
 def try_get_review_note() -> JPNote | None:
     card = main_window().reviewer.card
     if not card: return None
-    return dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(card.nid if card.nid else card.note().id)
+    return dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(card.nid or card.note().id)

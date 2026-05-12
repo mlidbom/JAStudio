@@ -51,7 +51,7 @@ class StopWatch(Slots):
 
     @classmethod
     @contextmanager
-    def log_warning_if_slower_than(cls, warn_if_slower_than: float, message: str = "") -> Generator[None, None, None]:
+    def log_warning_if_slower_than(cls, warn_if_slower_than: float, message: str = "") -> Generator[None]:
         # noinspection DuplicatedCode
         watch = StopWatch()
 
@@ -74,7 +74,7 @@ class StopWatch(Slots):
 
     @classmethod
     @contextmanager
-    def log_execution_time(cls, message: str = "") -> Generator[None, None, None]:
+    def log_execution_time(cls, message: str = "") -> Generator[None]:
         # noinspection DuplicatedCode
         watch = StopWatch()
 
@@ -93,7 +93,7 @@ class StopWatch(Slots):
 
     @classmethod
     @contextmanager
-    def print_execution_time(cls, message: str = "") -> Generator[None, None, None]:
+    def print_execution_time(cls, message: str = "") -> Generator[None]:
         # noinspection DuplicatedCode
         watch = StopWatch()
 

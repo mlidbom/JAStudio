@@ -49,6 +49,9 @@
       <excludeFolder url="file://$MODULE_DIR$/src/jastudio_src/_lib" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/src/jas_database" />
+      <excludeFolder url="file://$MODULE_DIR$/src/runtime_binaries" />
+      <excludeFolder url="file://$MODULE_DIR$/src/src_dotnet" />
+      <excludeFolder url="file://$MODULE_DIR$/submodules" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.13 (worktree_1)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

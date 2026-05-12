@@ -37,7 +37,7 @@ class TaskRunner(Slots):
 
     @classmethod
     @contextmanager
-    def current(cls, window_title: str, label_text: str | None = None, force_hide: bool = False, allow_cancel: bool = True, modal: bool = False) -> Generator[ITaskRunner, None, None]:
+    def current(cls, window_title: str, label_text: str | None = None, force_hide: bool = False, allow_cancel: bool = True, modal: bool = False) -> Generator[ITaskRunner]:
         cls._depth += 1
         if cls._depth == 1:
             visible = (not app.is_testing) and not force_hide

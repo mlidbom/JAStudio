@@ -13,12 +13,14 @@ def float_(value: object) -> float: return checked_cast(float, value)  # noqa: A
 
 def bool_(value: object) -> bool: return checked_cast(bool, value)  # noqa: ANN401
 
+# noinspection PyStringConversionWithoutDunderMethod
 def checked_cast[CastT](cls: type[CastT], instance: object) -> CastT:
     """ Runtime-check an object for simple built in types and return it cast as such """
     if not isinstance(instance, cls):
         raise TypeError(f"{repr(instance)}: expected {cls.__name__}, not {instance.__class__.__name__}")
     return instance
 
+# noinspection PyStringConversionWithoutDunderMethod
 def checked_cast_generics[CastT](cls: type[CastT], instance: object) -> CastT:
     """ Runtime-check an object for a specific generic type and return it cast as such """
     if not is_bearable(instance, cls):  # pyright: ignore[reportArgumentType]
