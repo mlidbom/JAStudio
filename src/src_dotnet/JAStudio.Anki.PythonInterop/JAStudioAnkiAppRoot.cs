@@ -9,6 +9,8 @@ using Compze.Utilities.Logging;
 using Compze.Utilities.SystemCE;
 using JAStudio.Anki;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
+using JAStudio.Core.Note;
 using JAStudio.UI;
 using JAStudio.Web;
 
@@ -82,6 +84,14 @@ public class JAStudioAnkiAppRoot
       var root = new JAStudioAnkiAppRoot(app) { _uiThread = uiThread };
 
       root._coreApp.Collection.OnInitialized(() => AnkiFacade.UIUtils.Refresh());
+
+      root._cardServer.OpenNoteInPreviewerAction = noteId =>
+      {
+         var domainId = NoteId.Parse(noteId);
+         var externalId = root._coreApp.Services.ExternalNoteIdMap.ToExternalId(domainId);
+         if(externalId.HasValue)
+            AnkiFacade.Browser.ExecuteLookupAndShowPreviewer($"{AnkiFieldNames.NoteId}:{externalId.Value}");
+      };
 
       root._cardServer.Start();
 

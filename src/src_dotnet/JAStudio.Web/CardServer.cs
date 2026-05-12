@@ -116,6 +116,7 @@ public class CardServer
 
       ConfigureMediaEndpoint(_app);
       ConfigureOpenInBrowserEndpoint(_app);
+      ConfigureOpenInPreviewerEndpoint(_app);
 
       try
       {
@@ -164,14 +165,31 @@ public class CardServer
       });
    }
 
+   /// <summary>
+   /// Set this callback to handle 'open in Anki previewer' requests from note link clicks.
+   /// Called with the domain NoteId string. Registered by the Anki integration layer on startup.
+   /// </summary>
+   public Action<string>? OpenNoteInPreviewerAction { get; set; }
+
    void ConfigureOpenInBrowserEndpoint(WebApplication app)
    {
       // API endpoint for opening a note card in the system browser.
-      // Called by NoteLink when clicked during review mode (avoids navigating away from the reviewed card).
+      // Called by NoteLink on Shift+Click during review mode.
       app.MapGet("/api/open-in-browser/{noteType}/{noteId}", (string noteType, string noteId) =>
       {
          var url = $"{BaseUrl}/card/{noteType}/back?NoteId={noteId}";
          Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+         return Results.Ok();
+      });
+   }
+
+   void ConfigureOpenInPreviewerEndpoint(WebApplication app)
+   {
+      // API endpoint for opening a note in the Anki previewer.
+      // Called by NoteLink on regular Click during review mode.
+      app.MapGet("/api/open-in-previewer/{noteId}", (string noteId) =>
+      {
+         OpenNoteInPreviewerAction?.Invoke(noteId);
          return Results.Ok();
       });
    }

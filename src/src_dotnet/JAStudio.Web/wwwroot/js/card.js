@@ -48,7 +48,7 @@ document.addEventListener('ended', function (e) {
 }, true); // useCapture: 'ended' doesn't bubble
 
 // Note link click handling.
-// In Anki's iframe: call the server API to open in the system browser (avoids navigating the review iframe).
+// In Anki's iframe: regular click opens in the Anki previewer; Shift+Click opens in the system browser.
 // In a regular browser: let the default <a> behavior proceed (same tab, or new tab on ctrl/shift+click).
 function setupNoteLinks() {
    const isInIframe = window.parent !== window;
@@ -62,7 +62,11 @@ function setupNoteLinks() {
       const noteType = link.dataset.noteType;
       const noteId = link.dataset.noteId;
       if (noteType && noteId) {
-         fetch('/api/open-in-browser/' + encodeURIComponent(noteType) + '/' + encodeURIComponent(noteId));
+         if (event.shiftKey) {
+            fetch('/api/open-in-browser/' + encodeURIComponent(noteType) + '/' + encodeURIComponent(noteId));
+         } else {
+            fetch('/api/open-in-previewer/' + encodeURIComponent(noteId));
+         }
       }
    });
 }
