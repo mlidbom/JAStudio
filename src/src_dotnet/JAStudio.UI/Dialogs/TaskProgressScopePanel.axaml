@@ -5,7 +5,8 @@
              xmlns:dialogs="clr-namespace:JAStudio.UI.Dialogs"
              xmlns:taskRunners="clr-namespace:JAStudio.Core.TaskRunners;assembly=JAStudio.Core"
              mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="120"
-             x:Class="JAStudio.UI.Dialogs.TaskProgressScopePanel">
+             x:Class="JAStudio.UI.Dialogs.TaskProgressScopePanel"
+             x:DataType="taskRunners:TaskProgressScopeViewModel">
 
     <Border x:Name="ScopeBorder"
             BorderBrush="#50607080"

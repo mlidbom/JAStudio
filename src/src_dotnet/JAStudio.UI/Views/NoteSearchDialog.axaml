@@ -16,7 +16,7 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Search:" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <TextBox Text="{Binding SearchText, Mode=TwoWay}"
-                     Watermark="Separate multiple conditions with &amp;&amp;  r:readings-only-condition, a:answer-only-condition, q:question-only-condition"
+                     PlaceholderText="Separate multiple conditions with &amp;&amp;  r:readings-only-condition, a:answer-only-condition, q:question-only-condition"
                      MinWidth="1200"
                      Name="SearchInput">
                 <TextBox.KeyBindings>

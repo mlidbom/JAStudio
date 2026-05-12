@@ -57,7 +57,7 @@ public static class PopupMenuHost
                           WindowStartupLocation = WindowStartupLocation.Manual,
                           CanResize = false,
                           ShowInTaskbar = false,
-                          SystemDecorations = SystemDecorations.None,
+                          WindowDecorations = WindowDecorations.None,
                           Background = Avalonia.Media.Brushes.Transparent,
                           SizeToContent = SizeToContent.Manual,
                           Width = 1,

@@ -47,7 +47,7 @@ public class InputDialog : Window
       _textBox = new TextBox
                  {
                     Text = initialValue,
-                    Watermark = "Enter text..."
+                    PlaceholderText = "Enter text..."
                  };
       _textBox.KeyDown += OnTextBoxKeyDown;
       stack.Children.Add(_textBox);

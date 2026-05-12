@@ -1,7 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:JAStudio.UI.Controls"
-             x:Class="JAStudio.UI.Controls.StringSetControl">
+             x:Class="JAStudio.UI.Controls.StringSetControl"
+             x:DataType="local:StringSetControlViewModel">
     <StackPanel Spacing="5">
         <DockPanel>
             <TextBlock Text="{Binding Title}" FontWeight="Bold" DockPanel.Dock="Left" VerticalAlignment="Center" MinWidth="120" />

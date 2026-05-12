@@ -39,10 +39,10 @@
                             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Question}" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Readings (Reading)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Readings}" Watermark="comma separated" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Readings}" PlaceholderText="comma separated" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Forms (F)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Forms}" Watermark="comma separated" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Forms}" PlaceholderText="comma separated" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Parts of Speech (TOS)" VerticalAlignment="Center" />
                             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding PartsOfSpeech}" />
@@ -69,7 +69,7 @@
                             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding UserMnemonic}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="50" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Compounds (__compounds)" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding UserCompounds}" Watermark="comma separated" />
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding UserCompounds}" PlaceholderText="comma separated" />
                         </Grid>
                     </StackPanel>
                 </Border>

@@ -51,13 +51,13 @@
 
                         <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto">
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="On (Reading_On)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ReadingOn}" Watermark="comma separated, use &lt;primary&gt; tags" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ReadingOn}" PlaceholderText="comma separated, use &lt;primary&gt; tags" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Kun (Reading_Kun)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ReadingKun}" Watermark="comma separated, use &lt;primary&gt; tags" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ReadingKun}" PlaceholderText="comma separated, use &lt;primary&gt; tags" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Nanori (__reading_Nan)" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReadingNan}" Watermark="comma separated" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReadingNan}" PlaceholderText="comma separated" />
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -69,16 +69,16 @@
 
                         <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,Auto,Auto,Auto">
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Radicals (Radicals)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Radicals}" Watermark="comma separated" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Radicals}" PlaceholderText="comma separated" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Primary Vocab (__primary_Vocab)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PrimaryVocab}" Watermark="comma separated" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PrimaryVocab}" PlaceholderText="comma separated" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Similar Meaning (__similar_meaning)" VerticalAlignment="Center" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SimilarMeaning}" Watermark="comma separated" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SimilarMeaning}" PlaceholderText="comma separated" Margin="0,0,0,6" />
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Confused With (__confused_with)" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ConfusedWith}" Watermark="comma separated" />
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ConfusedWith}" PlaceholderText="comma separated" />
                         </Grid>
                     </StackPanel>
                 </Border>

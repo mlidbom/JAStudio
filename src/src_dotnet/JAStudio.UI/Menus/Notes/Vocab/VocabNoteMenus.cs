@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using JAStudio.Anki;
 using JAStudio.Core.Note.Vocabulary;

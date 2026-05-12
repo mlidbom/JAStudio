@@ -6,6 +6,7 @@
         xmlns:taskRunners="clr-namespace:JAStudio.Core.TaskRunners;assembly=JAStudio.Core"
         mc:Ignorable="d" d:DesignWidth="780" d:DesignHeight="300"
         x:Class="JAStudio.UI.Dialogs.MultiTaskProgressDialog"
+        x:DataType="taskRunners:TaskProgressDialogViewModel"
         Title="Running background tasks"
         Width="780"
         SizeToContent="Height"

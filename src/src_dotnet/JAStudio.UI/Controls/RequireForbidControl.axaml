@@ -1,6 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="JAStudio.UI.Controls.RequireForbidControl">
+             xmlns:local="using:JAStudio.UI.Controls"
+             x:Class="JAStudio.UI.Controls.RequireForbidControl"
+             x:DataType="local:RequireForbidControlViewModel">
     <StackPanel Orientation="Horizontal" Spacing="10">
         <RadioButton Content="Unset" 
                      IsChecked="{Binding IsUnset, Mode=TwoWay}" 

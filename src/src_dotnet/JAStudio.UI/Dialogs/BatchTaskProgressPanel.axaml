@@ -2,8 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:taskRunners="clr-namespace:JAStudio.Core.TaskRunners;assembly=JAStudio.Core"
              mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="80"
-             x:Class="JAStudio.UI.Dialogs.BatchTaskProgressPanel">
+             x:Class="JAStudio.UI.Dialogs.BatchTaskProgressPanel"
+             x:DataType="taskRunners:BatchTaskProgressViewModel">
 
     <StackPanel Margin="0,2" Spacing="1">
         <!-- Message + stats on same line -->

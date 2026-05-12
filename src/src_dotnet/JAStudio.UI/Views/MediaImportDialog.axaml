@@ -56,9 +56,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:EditableImportRule">
                                         <Grid ColumnDefinitions="*,120,*,120,Auto,Auto" Margin="0,2">
-                                            <TextBox Grid.Column="0" Watermark="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
+                                            <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
                                             <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.VocabFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
-                                            <TextBox Grid.Column="2" Watermark="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
+                                            <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
                                             <ComboBox Grid.Column="3" ItemsSource="{x:Static vm:EditableImportRule.CopyrightOptions}" SelectedItem="{Binding SelectedCopyright}" Margin="0,0,5,0" />
                                             <TextBlock Grid.Column="4" Text="{Binding MatchCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
                                             <Button Grid.Column="5" Content="X"
@@ -100,9 +100,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:EditableImportRule">
                                         <Grid ColumnDefinitions="*,120,*,120,Auto,Auto" Margin="0,2">
-                                            <TextBox Grid.Column="0" Watermark="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
+                                            <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
                                             <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.SentenceFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
-                                            <TextBox Grid.Column="2" Watermark="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
+                                            <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
                                             <ComboBox Grid.Column="3" ItemsSource="{x:Static vm:EditableImportRule.CopyrightOptions}" SelectedItem="{Binding SelectedCopyright}" Margin="0,0,5,0" />
                                             <TextBlock Grid.Column="4" Text="{Binding MatchCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
                                             <Button Grid.Column="5" Content="X"
@@ -144,9 +144,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:EditableImportRule">
                                         <Grid ColumnDefinitions="*,120,*,120,Auto,Auto" Margin="0,2">
-                                            <TextBox Grid.Column="0" Watermark="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
+                                            <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
                                             <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.KanjiFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
-                                            <TextBox Grid.Column="2" Watermark="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
+                                            <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
                                             <ComboBox Grid.Column="3" ItemsSource="{x:Static vm:EditableImportRule.CopyrightOptions}" SelectedItem="{Binding SelectedCopyright}" Margin="0,0,5,0" />
                                             <TextBlock Grid.Column="4" Text="{Binding MatchCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
                                             <Button Grid.Column="5" Content="X"

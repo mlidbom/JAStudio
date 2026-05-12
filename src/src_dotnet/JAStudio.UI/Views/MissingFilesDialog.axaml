@@ -1,5 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:JAStudio.UI.ViewModels"
         x:Class="JAStudio.UI.Views.MissingFilesDialog"
         Title="Missing Files in Anki"
         Width="950" Height="600"
@@ -16,7 +17,7 @@
 
             <TabControl x:Name="TabHost">
                 <TabItem x:Name="VocabTab" Header="Vocab">
-                    <DataGrid x:Name="VocabGrid" IsReadOnly="True" AutoGenerateColumns="False"
+                    <DataGrid x:Name="VocabGrid" x:DataType="vm:MissingFileRow" IsReadOnly="True" AutoGenerateColumns="False"
                               CanUserSortColumns="True" CanUserResizeColumns="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="*" />
@@ -27,7 +28,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem x:Name="SentenceTab" Header="Sentences">
-                    <DataGrid x:Name="SentenceGrid" IsReadOnly="True" AutoGenerateColumns="False"
+                    <DataGrid x:Name="SentenceGrid" x:DataType="vm:MissingFileRow" IsReadOnly="True" AutoGenerateColumns="False"
                               CanUserSortColumns="True" CanUserResizeColumns="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="*" />
@@ -38,7 +39,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem x:Name="KanjiTab" Header="Kanji">
-                    <DataGrid x:Name="KanjiGrid" IsReadOnly="True" AutoGenerateColumns="False"
+                    <DataGrid x:Name="KanjiGrid" x:DataType="vm:MissingFileRow" IsReadOnly="True" AutoGenerateColumns="False"
                               CanUserSortColumns="True" CanUserResizeColumns="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="*" />

@@ -3,13 +3,17 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="JAStudio.UI/Controls/RequireForbidControl.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Controls/StringSetControl.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/AboutDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/ContextMenuPopup.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/EnglishWordSearchDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="JAStudio.UI/Views/KanjiEditorDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/MediaImportDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/NoteSearchDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/OptionsDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="JAStudio.UI/Views/ReadingsMappingsDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="JAStudio.UI/Views/VocabEditorDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/VocabFlagsDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
       </map>
     </option>
