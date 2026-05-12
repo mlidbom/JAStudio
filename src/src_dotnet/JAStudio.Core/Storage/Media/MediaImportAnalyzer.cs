@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
@@ -108,11 +110,76 @@ public class MediaImportAnalyzer
       }
    }
 
+   public MediaImportPlan AnalyzeAnkiVocab(IReadOnlyList<AnkiVocabNote> notes, IReadOnlyList<VocabImportRule> rules)
+   {
+      var ruleSet = new MediaImportRuleSet([..rules], [], []);
+      var plan = new MediaImportPlan();
+
+      foreach(var note in notes)
+      {
+         var noteId = note.Id;
+         if(noteId == null) continue;
+         var sourceTag = ResolveSourceTagFromTags(note.Tags);
+
+         AnalyzeField(MediaFieldParsing.ParseAudioReferences(note.AudioB), ruleSet.TryResolveVocab(sourceTag, VocabMediaField.AudioFirst), nameof(VocabMediaField.AudioFirst), sourceTag, noteId, plan);
+         AnalyzeField(MediaFieldParsing.ParseAudioReferences(note.AudioG), ruleSet.TryResolveVocab(sourceTag, VocabMediaField.AudioSecond), nameof(VocabMediaField.AudioSecond), sourceTag, noteId, plan);
+         AnalyzeField(MediaFieldParsing.ParseAudioReferences(note.AudioTTS), ruleSet.TryResolveVocab(sourceTag, VocabMediaField.AudioTts), nameof(VocabMediaField.AudioTts), sourceTag, noteId, plan);
+         AnalyzeField(MediaFieldParsing.ParseImageReferences(note.Image), ruleSet.TryResolveVocab(sourceTag, VocabMediaField.Image), nameof(VocabMediaField.Image), sourceTag, noteId, plan);
+         AnalyzeField(MediaFieldParsing.ParseImageReferences(note.UserImage), ruleSet.TryResolveVocab(sourceTag, VocabMediaField.UserImage), nameof(VocabMediaField.UserImage), sourceTag, noteId, plan);
+      }
+
+      return plan;
+   }
+
+   public MediaImportPlan AnalyzeAnkiSentences(IReadOnlyList<AnkiSentenceNote> notes, IReadOnlyList<SentenceImportRule> rules)
+   {
+      var ruleSet = new MediaImportRuleSet([], [..rules], []);
+      var plan = new MediaImportPlan();
+
+      foreach(var note in notes)
+      {
+         var noteId = note.Id;
+         if(noteId == null) continue;
+         var sourceTag = ResolveSourceTagFromTags(note.Tags);
+
+         AnalyzeField(MediaFieldParsing.ParseAudioReferences(note.Audio), ruleSet.TryResolveSentence(sourceTag, SentenceMediaField.Audio), nameof(SentenceMediaField.Audio), sourceTag, noteId, plan);
+         AnalyzeField(MediaFieldParsing.ParseImageReferences(note.Screenshot), ruleSet.TryResolveSentence(sourceTag, SentenceMediaField.Screenshot), nameof(SentenceMediaField.Screenshot), sourceTag, noteId, plan);
+      }
+
+      return plan;
+   }
+
+   public MediaImportPlan AnalyzeAnkiKanji(IReadOnlyList<AnkiKanjiNote> notes, IReadOnlyList<KanjiImportRule> rules)
+   {
+      var ruleSet = new MediaImportRuleSet([], [], [..rules]);
+      var plan = new MediaImportPlan();
+
+      foreach(var note in notes)
+      {
+         var noteId = note.Id;
+         if(noteId == null) continue;
+         var sourceTag = ResolveSourceTagFromTags(note.Tags);
+
+         AnalyzeField(MediaFieldParsing.ParseAudioReferences(note.Audio), ruleSet.TryResolveKanji(sourceTag, KanjiMediaField.Audio), nameof(KanjiMediaField.Audio), sourceTag, noteId, plan);
+         AnalyzeField(MediaFieldParsing.ParseImageReferences(note.Image), ruleSet.TryResolveKanji(sourceTag, KanjiMediaField.Image), nameof(KanjiMediaField.Image), sourceTag, noteId, plan);
+      }
+
+      return plan;
+   }
+
    static readonly SourceTag FallbackSourceTag = SourceTag.Parse("anki::unknown");
 
    static SourceTag ResolveSourceTag(JPNote note)
    {
       var rawSourceTag = note.GetSourceTag();
       return string.IsNullOrEmpty(rawSourceTag) ? FallbackSourceTag : SourceTag.Parse($"{Tags.Source.Folder}{rawSourceTag}");
+   }
+
+   static SourceTag ResolveSourceTagFromTags(IReadOnlyList<string> tags)
+   {
+      var sourceTag = tags.Where(t => t.StartsWith(Tags.Source.Folder))
+                          .OrderBy(t => t.Length)
+                          .FirstOrDefault();
+      return sourceTag == null ? FallbackSourceTag : SourceTag.Parse(sourceTag);
    }
 }

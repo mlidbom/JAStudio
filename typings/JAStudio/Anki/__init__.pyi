@@ -73,6 +73,11 @@ class AnkiFacade(abc.ABC):
 
 
 
+    class Col(abc.ABC):
+        @staticmethod
+        def DbFilePath() -> str: ...
+
+
     class UIUtils(abc.ABC):
         @staticmethod
         def Refresh() -> None: ...

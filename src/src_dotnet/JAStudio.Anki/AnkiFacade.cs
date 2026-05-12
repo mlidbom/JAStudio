@@ -66,7 +66,7 @@ public static class AnkiFacade
       public static void RemoveNote(long noteId) => Backend.Use(it => it.note_remove(noteId));
    }
 
-   internal static class Col
+   public static class Col
    {
       public static string? DbFilePath() => Backend.Use(it => (string)it.col_db_file_path());
    }
