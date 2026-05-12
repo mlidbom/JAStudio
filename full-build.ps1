@@ -18,7 +18,7 @@ try {
 
     # 1. Build .NET
     Write-Host "`n=== Building .NET ($Configuration) ===" -ForegroundColor Cyan
-    dotnet clean "src${Sep}src_dotnet${Sep}JAStudio.slnx" -c $Configuration
+    #dotnet clean "src${Sep}src_dotnet${Sep}JAStudio.slnx" -c $Configuration
     dotnet build "src${Sep}src_dotnet${Sep}JAStudio.slnx" -c $Configuration
     if ($LASTEXITCODE -ne 0) { throw "dotnet build failed" }
 
