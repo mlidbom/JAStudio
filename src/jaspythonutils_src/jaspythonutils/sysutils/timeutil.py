@@ -11,7 +11,7 @@ from jaspythonutils.sysutils.time_span import TimeSpan
 from jastudio import mylog
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from jaspythonutils.sysutils.standard_type_aliases import Action
 
@@ -51,7 +51,7 @@ class StopWatch(Slots):
 
     @classmethod
     @contextmanager
-    def log_warning_if_slower_than(cls, warn_if_slower_than: float, message: str = "") -> Iterator[None]:
+    def log_warning_if_slower_than(cls, warn_if_slower_than: float, message: str = "") -> Generator[None, None, None]:
         # noinspection DuplicatedCode
         watch = StopWatch()
 
@@ -74,7 +74,7 @@ class StopWatch(Slots):
 
     @classmethod
     @contextmanager
-    def log_execution_time(cls, message: str = "") -> Iterator[None]:
+    def log_execution_time(cls, message: str = "") -> Generator[None, None, None]:
         # noinspection DuplicatedCode
         watch = StopWatch()
 
@@ -93,7 +93,7 @@ class StopWatch(Slots):
 
     @classmethod
     @contextmanager
-    def print_execution_time(cls, message: str = "") -> Iterator[None]:
+    def print_execution_time(cls, message: str = "") -> Generator[None, None, None]:
         # noinspection DuplicatedCode
         watch = StopWatch()
 

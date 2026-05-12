@@ -9,7 +9,7 @@ from jastudio.ankiutils import app
 from jastudio.task_runners.invisible_task_progress_runner import InvisibleTaskRunner
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
+    from collections.abc import Callable, Generator
 
     from jastudio.task_runners.i_task_progress_runner import ITaskRunner
 
@@ -37,7 +37,7 @@ class TaskRunner(Slots):
 
     @classmethod
     @contextmanager
-    def current(cls, window_title: str, label_text: str | None = None, force_hide: bool = False, allow_cancel: bool = True, modal: bool = False) -> Iterator[ITaskRunner]:
+    def current(cls, window_title: str, label_text: str | None = None, force_hide: bool = False, allow_cancel: bool = True, modal: bool = False) -> Generator[ITaskRunner, None, None]:
         cls._depth += 1
         if cls._depth == 1:
             visible = (not app.is_testing) and not force_hide
