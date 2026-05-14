@@ -11,15 +11,15 @@ namespace JAStudio.Anki.PythonInterop;
 public static class NoteDataPythonAdapter
 {
    /// <summary>
-   /// Creates NoteData from a Python object with .fields (dict) and .tags (list) attributes.
+   /// Creates AnkiNoteData from a Python object with .fields (dict) and .tags (list) attributes.
    /// The domain NoteId is NOT set here — it must be assigned by the caller
    /// (e.g. the sync handler or bulk loader) since Python only knows external IDs.
    /// </summary>
    // ReSharper disable once UnusedMember.Global used from python
-   public static NoteData FromPython(dynamic item)
+   public static AnkiNoteData FromPython(dynamic item)
    {
       var fields = PythonDotNetShim.StringStringDict.ToDotNet(item.fields);
       var tags = PythonDotNetShim.StringList.ToDotNet(item.tags);
-      return new NoteData(null, fields, tags);
+      return new AnkiNoteData(null, fields, tags);
    }
 }

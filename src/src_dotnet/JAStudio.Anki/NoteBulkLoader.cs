@@ -8,15 +8,14 @@ using LinqToDB;
 namespace JAStudio.Anki;
 
 /// <summary>
-/// Result from bulk loading notes from Anki's SQLite database.
-/// Contains both the domain NoteData (with Guid-based IDs) and the Anki ID mapping.
+/// Result from bulk loading AnkiNoteData from Anki's SQLite database.
 /// </summary>
 public class AnkiBulkLoadResult
 {
-   public List<NoteData> Notes { get; }
+   public List<AnkiNoteData> Notes { get; }
    public Dictionary<long, NoteId> AnkiIdMap { get; }
 
-   public AnkiBulkLoadResult(List<NoteData> notes, Dictionary<long, NoteId> ankiIdMap)
+   public AnkiBulkLoadResult(List<AnkiNoteData> notes, Dictionary<long, NoteId> ankiIdMap)
    {
       Notes = notes;
       AnkiIdMap = ankiIdMap;
@@ -107,7 +106,7 @@ public static class NoteBulkLoader
                     .Select(n => new { n.Id, n.Tags, n.Fields })
                     .ToList();
 
-      var results = new List<NoteData>();
+      var results = new List<AnkiNoteData>();
       var ankiIdMap = new Dictionary<long, NoteId>();
 
       foreach(var note in notes)
@@ -132,7 +131,7 @@ public static class NoteBulkLoader
                          : idFactory(Guid.NewGuid());
 
          ankiIdMap[note.Id] = noteId;
-         results.Add(new NoteData(noteId, fields, tags));
+         results.Add(new AnkiNoteData(noteId, fields, tags));
       }
 
       return new AnkiBulkLoadResult(results, ankiIdMap);

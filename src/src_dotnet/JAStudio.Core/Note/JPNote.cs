@@ -52,7 +52,7 @@ public abstract class JPNote
    }
 
    // ReSharper disable once UnusedMember.Global Used from python
-   public NoteData GetData() => ToCorpusData().ToNoteData();
+   public AnkiNoteData GetData() => ToCorpusData().ToNoteData();
 
    public override bool Equals(object? obj) => obj is JPNote other && other.GetId() == _id;
 

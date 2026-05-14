@@ -6,11 +6,11 @@ from JAStudio.Anki.PythonInterop import NoteDataPythonAdapter
 
 if TYPE_CHECKING:
     from anki.notes import Note
-    from JAStudio.Core.Note import JPNote, NoteData
+    from JAStudio.Core.Note import AnkiNoteData, JPNote
 
 class JPNoteDataShim:
     @classmethod
-    def from_note(cls, note: Note) -> NoteData:
+    def from_note(cls, note: Note) -> AnkiNoteData:
         fields: dict[str, str] = {}
         for name in note._fmap:  # pyright: ignore [reportPrivateUsage]
             fields[name] = note[name]

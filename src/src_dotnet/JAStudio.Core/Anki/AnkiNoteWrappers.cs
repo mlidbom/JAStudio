@@ -7,9 +7,9 @@ namespace JAStudio.Core.Anki;
 /// Encapsulates all knowledge of Anki's field naming conventions for vocab notes.
 public class AnkiVocabNote
 {
-   public AnkiVocabNote(NoteData data) => Raw = data;
+   public AnkiVocabNote(AnkiNoteData data) => Raw = data;
 
-   public NoteData Raw { get; }
+   public AnkiNoteData Raw { get; }
 
    public NoteId? Id => Raw.Id;
    public List<string> Tags => Raw.Tags;
@@ -29,9 +29,9 @@ public class AnkiVocabNote
 /// Encapsulates all knowledge of Anki's field naming conventions for kanji notes.
 public class AnkiKanjiNote
 {
-   public AnkiKanjiNote(NoteData data) => Raw = data;
+   public AnkiKanjiNote(AnkiNoteData data) => Raw = data;
 
-   public NoteData Raw { get; }
+   public AnkiNoteData Raw { get; }
 
    public NoteId? Id => Raw.Id;
    public List<string> Tags => Raw.Tags;
@@ -50,9 +50,9 @@ public class AnkiKanjiNote
 /// Encapsulates all knowledge of Anki's field naming conventions for sentence notes.
 public class AnkiSentenceNote
 {
-   public AnkiSentenceNote(NoteData data) => Raw = data;
+   public AnkiSentenceNote(AnkiNoteData data) => Raw = data;
 
-   public NoteData Raw { get; }
+   public AnkiNoteData Raw { get; }
 
    public NoteId? Id => Raw.Id;
    public List<string> Tags => Raw.Tags;

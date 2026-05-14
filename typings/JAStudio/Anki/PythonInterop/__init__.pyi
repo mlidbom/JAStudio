@@ -1,5 +1,5 @@
 import typing, abc
-from JAStudio.Core.Note import IBackendNoteCreator, KanjiNote, NoteData
+from JAStudio.Core.Note import IBackendNoteCreator, KanjiNote, AnkiNoteData
 from System import Action, Action_1
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
@@ -34,7 +34,7 @@ class JAStudioAnkiAppRoot:
 
 class NoteDataPythonAdapter(abc.ABC):
     @staticmethod
-    def FromPython(item: typing.Any) -> NoteData: ...
+    def FromPython(item: typing.Any) -> AnkiNoteData: ...
 
 
 class NoteUpdatePythonAdapter(abc.ABC):

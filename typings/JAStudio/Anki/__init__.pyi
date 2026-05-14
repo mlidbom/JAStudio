@@ -2,7 +2,7 @@ import typing, abc
 from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
 from JAStudio.Core.TaskRunners import TaskRunner
 from System.Collections.Generic import List_1, Dictionary_2, IReadOnlyList_1, IEnumerable_1
-from JAStudio.Core.Note import NoteData, NoteId, ICardOperations, ExternalNoteIdMap, JPNote, KanjiNote
+from JAStudio.Core.Note import AnkiNoteData, NoteId, ICardOperations, ExternalNoteIdMap, JPNote, KanjiNote
 from JAStudio.Core.Note.Collection import CardStudyingStatus, VocabCollection, KanjiCollection
 from System import Func_2, Guid
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
@@ -14,11 +14,11 @@ class AnkiBackendDataLoader(IBackendDataLoader):
 
 
 class AnkiBulkLoadResult:
-    def __init__(self, notes: List_1[NoteData], ankiIdMap: Dictionary_2[int, NoteId]) -> None: ...
+    def __init__(self, notes: List_1[AnkiNoteData], ankiIdMap: Dictionary_2[int, NoteId]) -> None: ...
     @property
     def AnkiIdMap(self) -> Dictionary_2[int, NoteId]: ...
     @property
-    def Notes(self) -> List_1[NoteData]: ...
+    def Notes(self) -> List_1[AnkiNoteData]: ...
 
 
 class AnkiCardOperationsImpl(ICardOperations):

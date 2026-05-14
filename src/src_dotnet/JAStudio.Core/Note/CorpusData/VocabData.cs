@@ -86,8 +86,8 @@ public partial class VocabData : CorpusObjectData
                                           RelatedVocab.ConfusedWith.ToHashSet(),
                                           RelatedVocab.SeeAlso.ToHashSet()));
 
-   /// Creates VocabData from raw Anki NoteData (for NoteCache and Python interop paths).
-   public static VocabData FromAnkiNoteData(NoteData data) => FromAnki(new AnkiVocabNote(data));
+   /// Creates VocabData from raw AnkiNoteData
+   public static VocabData FromAnkiNoteData(AnkiNoteData data) => FromAnki(new AnkiVocabNote(data));
 
    public static VocabData FromAnki(AnkiVocabNote anki) =>
       new()
@@ -104,7 +104,7 @@ public partial class VocabData : CorpusObjectData
       };
 
    /// Merges Anki-owned fields (every field exposed by <see cref="AnkiVocabNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
-   public VocabData MergeAnkiData(NoteData ankiData)
+   public VocabData MergeAnkiData(AnkiNoteData ankiData)
    {
       var anki = new AnkiVocabNote(ankiData);
       return new VocabData

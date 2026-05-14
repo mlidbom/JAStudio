@@ -14,7 +14,7 @@ class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
 
    public KanjiCache(NoteServices noteServices) : base((services, data) => new KanjiNote(services, KanjiData.FromAnkiNoteData(data)), noteServices) {}
 
-   protected override KanjiNote CreateNoteByMergingAnkiData(NoteServices services, KanjiNote existing, NoteData ankiData)
+   protected override KanjiNote CreateNoteByMergingAnkiData(NoteServices services, KanjiNote existing, AnkiNoteData ankiData)
    {
       var mergedData = KanjiNoteConverter.ToCorpusData(existing).MergeAnkiData(ankiData);
       return new KanjiNote(services, mergedData);

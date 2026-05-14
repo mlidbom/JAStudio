@@ -5,9 +5,6 @@ using MemoryPack;
 
 namespace JAStudio.Core.Note.CorpusData;
 
-/// Base for corpus data types. Provides the bridge to the flat NoteData
-/// that JPNote still requires internally.
-/// MemoryPack needs [MemoryPackUnion] for polymorphic base types.
 [MemoryPackable(GenerateType.NoGenerate)]
 [MemoryPackUnion(0, typeof(VocabData))]
 [MemoryPackUnion(1, typeof(KanjiData))]
@@ -21,12 +18,12 @@ public abstract partial class CorpusObjectData : IIdentifiableByGuid
 
    protected abstract void PopulateFields(Dictionary<string, string> fields);
 
-   /// Converts this typed data into the flat NoteData that JPNote constructors consume.
-   public NoteData ToNoteData()
+   /// Converts this typed data into AnkiNoteData
+   public AnkiNoteData ToNoteData()
    {
       var fields = new Dictionary<string, string>();
       PopulateFields(fields);
       fields[MyNoteFields.JasNoteId] = Id.ToString();
-      return new NoteData(CreateTypedId(), fields, Tags);
+      return new AnkiNoteData(CreateTypedId(), fields, Tags);
    }
 }

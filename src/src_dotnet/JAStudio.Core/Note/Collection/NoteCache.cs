@@ -19,10 +19,10 @@ class CachedNote
    }
 }
 
-abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteConstructor, NoteServices noteServices) : IExternalNoteUpdateHandler
+abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> noteConstructor, NoteServices noteServices) : IExternalNoteUpdateHandler
    where TNote : JPNote
 {
-   readonly Func<NoteServices, NoteData, TNote> _noteConstructor = noteConstructor;
+   readonly Func<NoteServices, AnkiNoteData, TNote> _noteConstructor = noteConstructor;
    protected readonly Dictionary<NoteId, TNote> _byId = new();
    readonly List<Action<TNote>> _updateListeners = [];
    readonly NoteServices _noteServices = noteServices;
@@ -50,7 +50,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteCons
    public long GetExternalNoteId(NoteId noteId) =>
       _noteServices.ExternalNoteIdMap.ToExternalId(noteId) ?? 0;
 
-   public void ExternalNoteAdded(long externalNoteId, NoteData data)
+   public void ExternalNoteAdded(long externalNoteId, AnkiNoteData data)
    {
       // If we already registered this external ID (we created the note ourselves),
       // don't create a duplicate — the note is already in the cache.
@@ -64,7 +64,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteCons
       AddToCache(note);
    }
 
-   public void ExternalNoteWillFlush(long externalNoteId, NoteData data)
+   public void ExternalNoteWillFlush(long externalNoteId, AnkiNoteData data)
    {
       var noteId = _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
       if(noteId == null) return;
@@ -100,7 +100,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteCons
    protected abstract NoteId CreateTypedId(Guid value);
 
    /// <summary>Creates a new note by merging Anki-owned fields into the existing note's data, preserving all fields Anki does not store.</summary>
-   protected abstract TNote CreateNoteByMergingAnkiData(NoteServices services, TNote existing, NoteData ankiData);
+   protected abstract TNote CreateNoteByMergingAnkiData(NoteServices services, TNote existing, AnkiNoteData ankiData);
 
    public void JpNoteUpdated(TNote note)
    {
@@ -163,7 +163,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteCons
    }
 }
 
-abstract class NoteCache<TNote, TSnapshot>(Func<NoteServices, NoteData, TNote> noteConstructor, NoteServices noteServices) : NoteCacheBase<TNote>(noteConstructor, noteServices)
+abstract class NoteCache<TNote, TSnapshot>(Func<NoteServices, AnkiNoteData, TNote> noteConstructor, NoteServices noteServices) : NoteCacheBase<TNote>(noteConstructor, noteServices)
    where TNote : JPNote
    where TSnapshot : CachedNote
 {

@@ -76,8 +76,8 @@ public partial class SentenceData : CorpusObjectData
    static ParsedMatch FromParsedMatchSubData(ParsedMatchSubData d) =>
       new(d.Variant, d.StartIndex, d.IsDisplayed, d.ParsedForm, d.VocabId.HasValue ? new VocabId(d.VocabId.Value) : null);
 
-   /// Creates SentenceData from raw Anki NoteData (for NoteCache and Python interop paths).
-   public static SentenceData FromAnkiNoteData(NoteData data) => FromAnki(new AnkiSentenceNote(data));
+   /// Creates SentenceData from raw AnkiNoteData
+   public static SentenceData FromAnkiNoteData(AnkiNoteData data) => FromAnki(new AnkiSentenceNote(data));
 
    public static SentenceData FromAnki(AnkiSentenceNote anki) =>
       new()
@@ -94,7 +94,7 @@ public partial class SentenceData : CorpusObjectData
       };
 
    /// Merges Anki-owned fields (every field exposed by <see cref="AnkiSentenceNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
-   public SentenceData MergeAnkiData(NoteData ankiData)
+   public SentenceData MergeAnkiData(AnkiNoteData ankiData)
    {
       var anki = new AnkiSentenceNote(ankiData);
       return new SentenceData

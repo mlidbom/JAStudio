@@ -5,8 +5,8 @@ namespace JAStudio.Core.Note.Collection;
 
 public interface IExternalNoteUpdateHandler
 {
-   void ExternalNoteAdded(long externalNoteId, NoteData data);
-   void ExternalNoteWillFlush(long externalNoteId, NoteData data);
+   void ExternalNoteAdded(long externalNoteId, AnkiNoteData data);
+   void ExternalNoteWillFlush(long externalNoteId, AnkiNoteData data);
    void ExternalNoteRemoved(long externalNoteId);
    void OnNoteUpdated(Action<JPNote> listener);
    long GetExternalNoteId(NoteId noteId);

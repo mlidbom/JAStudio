@@ -21,7 +21,7 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
 
    public VocabCache(NoteServices noteServices) : base((services, data) => new VocabNote(services, VocabData.FromAnkiNoteData(data)), noteServices) {}
 
-   protected override VocabNote CreateNoteByMergingAnkiData(NoteServices services, VocabNote existing, NoteData ankiData)
+   protected override VocabNote CreateNoteByMergingAnkiData(NoteServices services, VocabNote existing, AnkiNoteData ankiData)
    {
       var mergedData = VocabNoteConverter.ToCorpusData(existing).MergeAnkiData(ankiData);
       return new VocabNote(services, mergedData);

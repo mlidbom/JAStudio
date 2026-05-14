@@ -54,8 +54,8 @@ public partial class KanjiData : CorpusObjectData
       fields[NoteFieldsConstants.Kanji.Image] = Image;
    }
 
-   /// Creates KanjiData from raw Anki NoteData (for NoteCache and Python interop paths).
-   public static KanjiData FromAnkiNoteData(NoteData data) => FromAnki(new AnkiKanjiNote(data));
+   /// Creates KanjiData from raw AnkiNoteData
+   public static KanjiData FromAnkiNoteData(AnkiNoteData data) => FromAnki(new AnkiKanjiNote(data));
 
    public static KanjiData FromAnki(AnkiKanjiNote anki) =>
       new()
@@ -71,7 +71,7 @@ public partial class KanjiData : CorpusObjectData
       };
 
    /// Merges Anki-owned fields (every field exposed by <see cref="AnkiKanjiNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
-   public KanjiData MergeAnkiData(NoteData ankiData)
+   public KanjiData MergeAnkiData(AnkiNoteData ankiData)
    {
       var anki = new AnkiKanjiNote(ankiData);
       return new KanjiData
