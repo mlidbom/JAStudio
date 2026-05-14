@@ -15,10 +15,6 @@ public class WritableImageValue
 
    public string RawValue() => _value;
 
-   public bool HasImage() => !string.IsNullOrWhiteSpace(_value) && _value.Contains("<img");
-
-   public List<string> ImageFilePaths() => MediaFieldParsing.ParseImageReferences(_value).ConvertAll(r => r.FileName);
-
    public List<MediaReference> GetMediaReferences() => MediaFieldParsing.ParseImageReferences(_value);
 
    public void SetRawValue(string value) => _guard.Update(() => _value = value);

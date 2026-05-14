@@ -1,15 +1,15 @@
-import typing, abc
+import typing
 from JAStudio.Core import CoreApp, TemporaryServiceCollection
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
-from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
+from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.UI.Menus import JapaneseMainMenu, NoteContextMenu
-from Avalonia.Controls import MenuItem, IResourceDictionary
 from Avalonia import Application, AvaloniaProperty
 from Avalonia.Styling import ThemeVariant, Styles
 from Avalonia.Controls.ApplicationLifetimes import IApplicationLifetime
 from Avalonia.Controls.Templates import DataTemplates
 from Avalonia.Threading import Dispatcher
 from Avalonia.Platform import IPlatformSettings
+from Avalonia.Controls import IResourceDictionary
 from System import TimeSpan
 from Avalonia.Data import IndexerDescriptor, BindingBase
 
@@ -25,11 +25,6 @@ class AnkiMenus:
     def CreateJapaneseMainMenu(self) -> JapaneseMainMenu: ...
     def CreateNoteContextMenu(self) -> NoteContextMenu: ...
     def ShowContextMenuPopup(self, clipboardContent: str, selectionContent: str, x: int, y: int) -> None: ...
-
-
-class PopupMenuHost(abc.ABC):
-    @staticmethod
-    def ShowAt(menuItems: IEnumerable_1[MenuItem], x: int, y: int) -> None: ...
 
 
 class UIApp(Application):

@@ -12,9 +12,6 @@ class DictionaryProvider
 {
    static readonly object Lock = new();
    static DictionaryProvider? _instance;
-   static string? _dbDir;
-
-   public static void SetDatabaseDir(string dir) => _dbDir = dir;
 
    public static DictionaryProvider GetInstance()
    {
@@ -39,7 +36,7 @@ class DictionaryProvider
 
    DictionaryProvider()
    {
-      var dir = _dbDir ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JAStudio");
+      var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JAStudio");
       Directory.CreateDirectory(dir);
       var dbPath = Path.Combine(dir, "jmdict.db");
 

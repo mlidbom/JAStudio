@@ -61,8 +61,6 @@ public sealed class DictEntry
       return kanjiSet;
    }
 
-   public FrozenSet<string> HarmonizedPos(int senseIndex) => _harmonizedPos[senseIndex];
-
    public bool IsTransitiveVerb() => _harmonizedPos.All(pos => POSSetManager.IsTransitiveVerb(pos));
    public bool IsIntransitiveVerb() => _harmonizedPos.All(pos => POSSetManager.IsIntransitiveVerb(pos));
    public bool IsToBeVerb() => Senses.All(s => s.Glosses.All(g => g.StartsWith("to be ")));

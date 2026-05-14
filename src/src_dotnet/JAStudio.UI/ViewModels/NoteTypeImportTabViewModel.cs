@@ -18,6 +18,7 @@ partial class NoteTypeImportTabViewModel<TRule> : ObservableObject where TRule :
 
 #pragma warning disable CS8618
    [Obsolete("Parameterless constructor is only for XAML designer support and should not be used directly.")]
+   // ReSharper disable once UnusedMember.Global
    public NoteTypeImportTabViewModel() {}
 #pragma warning restore CS8618
 

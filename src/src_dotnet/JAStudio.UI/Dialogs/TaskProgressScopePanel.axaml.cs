@@ -30,15 +30,6 @@ partial class TaskProgressScopePanel : UserControl
       };
    }
 
-   /// <summary>
-   /// Constructor used when creating top-level scope panels programmatically.
-   /// </summary>
-   public TaskProgressScopePanel(int depth)
-   {
-      InitializeComponent();
-      ApplyDepthStyling(depth);
-   }
-
    void InitializeComponent()
    {
       AvaloniaXamlLoader.Load(this);

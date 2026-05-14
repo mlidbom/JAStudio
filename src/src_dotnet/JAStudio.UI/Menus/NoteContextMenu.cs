@@ -23,6 +23,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
    readonly VocabStringMenus _vocabStringMenus = new(services);
 
    // ReSharper disable once MemberCanBePrivate.Global used from python
+   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildVocabContextMenuSpec(NoteId vocabId, string selection, string clipboard)
    {
       var vocab = _services.CoreApp.Collection.Vocab.WithIdOrNone(vocabId);
@@ -45,6 +46,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
    }
 
    // ReSharper disable once MemberCanBePrivate.Global used from python
+   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildKanjiContextMenuSpec(NoteId kanjiId, string selection, string clipboard)
    {
       var kanji = _services.CoreApp.Collection.Kanji.WithIdOrNone(kanjiId);
@@ -67,6 +69,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
    }
 
    // ReSharper disable once MemberCanBePrivate.Global used from python
+   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildSentenceContextMenuSpec(NoteId sentenceId, string selection, string clipboard)
    {
       var sentence = _services.CoreApp.Collection.Sentences.WithIdOrNone(sentenceId);
@@ -89,6 +92,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
    }
 
    // ReSharper disable once MemberCanBePrivate.Global used from python
+   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildGenericContextMenuSpec(string selection, string clipboard)
    {
       var menuItems = new List<SpecMenuItem>();

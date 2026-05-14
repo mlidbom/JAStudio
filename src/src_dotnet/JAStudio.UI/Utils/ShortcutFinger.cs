@@ -70,14 +70,4 @@ public static class ShortcutFinger
          return FingersByPriorityOrder[index](text);
       return None(text);
    }
-
-   /// <summary>
-   /// Remove the shortcut prefix from a formatted string.
-   /// Example: "_u Config" -> "Config"
-   /// </summary>
-   public static string RemoveShortcutText(string text)
-   {
-      var parts = text.Split(' ', 2);
-      return parts.Length > 1 ? parts[1] : text;
-   }
 }

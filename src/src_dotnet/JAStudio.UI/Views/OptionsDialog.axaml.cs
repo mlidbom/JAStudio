@@ -8,6 +8,7 @@ namespace JAStudio.UI.Views;
 partial class OptionsDialog : Window
 {
    [Obsolete("For XAML designer/previever only")]
+   // ReSharper disable once UnusedMember.Global
    public OptionsDialog() {}
 
    public OptionsDialog(Core.TemporaryServiceCollection services)

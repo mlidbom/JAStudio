@@ -1,13 +1,12 @@
 import typing
 from JAStudio.Core.Note.CorpusData import SentenceConfigSubData, SentenceData, CorpusObjectData
 from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, NoteServices, NoteFlushGuard, NoteTags
-from System.Collections.Generic import List_1, HashSet_1, IEnumerable_1
-from JAStudio.Core.Note.Vocabulary import VocabNote, WritableAudioValue
-from JAStudio.Core.Note.Sentences.Serialization import ParsedWordSerializer
+from System.Collections.Generic import List_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis
 from JAStudio.Core.Note.NoteFields import WritableStringValue, StripHtmlOnReadFallbackStringField, MediaReference, SentenceQuestionField, WritableImageValue
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
+from JAStudio.Core.Note.Vocabulary import WritableAudioValue
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Storage.Media import NoteMedia
 from System import Action
@@ -25,7 +24,6 @@ class CachingSentenceConfigurationField:
     @property
     def IncorrectMatches(self) -> WordExclusionSet: ...
     def AddHighlightedWord(self, vocab: str) -> None: ...
-    def HighlightedVocab(self) -> HashSet_1[VocabNote]: ...
     def RemoveHighlightedWord(self, word: str) -> None: ...
     def ResetHighlightedWords(self) -> None: ...
     def SetValueDirectlyTestsOnly(self, configuration: SentenceConfiguration) -> None: ...
@@ -33,7 +31,6 @@ class CachingSentenceConfigurationField:
 
 class ParsedMatch:
     def __init__(self, variant: str, startIndex: int, isDisplayed: bool, word: str, vocabId: NoteId) -> None: ...
-    Serializer : ParsedWordSerializer
     @property
     def EndIndex(self) -> int: ...
     @property
@@ -80,8 +77,6 @@ class SentenceConfiguration:
     def IncorrectMatches(self) -> WordExclusionSet: ...
     @staticmethod
     def Empty() -> SentenceConfiguration: ...
-    @staticmethod
-    def FromHiddenMatches(hiddenMatches: List_1[WordExclusion]) -> SentenceConfiguration: ...
     @staticmethod
     def FromIncorrectMatches(incorrectMatches: List_1[WordExclusion]) -> SentenceConfiguration: ...
     @staticmethod

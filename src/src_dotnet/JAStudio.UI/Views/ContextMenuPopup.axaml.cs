@@ -15,6 +15,7 @@ partial class ContextMenuPopup : UserControl
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
    [Obsolete("Parameterless constructor is only for XAML designer support and should not be used directly.")]
+   // ReSharper disable once UnusedMember.Global
    public ContextMenuPopup() {}
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 

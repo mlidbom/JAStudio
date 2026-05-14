@@ -10,8 +10,6 @@ public static class SidecarSerializer
    public const string AudioSidecarExtension = ".audio.json";
    public const string ImageSidecarExtension = ".image.json";
    const string SidecarJsonExtension = ".json";
-   public const string AudioSidecarGlob = "*" + AudioSidecarExtension;
-   public const string ImageSidecarGlob = "*" + ImageSidecarExtension;
 
    static readonly JsonSerializerOptions Options = new()
                                                    {
@@ -38,8 +36,6 @@ public static class SidecarSerializer
    public static ImageAttachment DeserializeImage(string json) =>
       JsonSerializer.Deserialize<ImageAttachment>(json, Options)
    ?? throw new JsonException("Failed to deserialize ImageAttachment");
-
-   public static bool IsSidecarFile(string filePath) => filePath.EndsWith(SidecarJsonExtension, StringComparison.OrdinalIgnoreCase);
 
    public static string BuildAudioSidecarPath(string mediaFilePath)
    {

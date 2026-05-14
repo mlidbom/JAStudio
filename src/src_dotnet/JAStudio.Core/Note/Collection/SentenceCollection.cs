@@ -9,6 +9,7 @@ public class SentenceCollection
 {
    readonly IBackendNoteCreator _backendNoteCreator;
    internal readonly SentenceCache Cache;
+   // ReSharper disable once UnusedMember.Global used from python
    public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
    public SentenceCollection(IBackendNoteCreator backendNoteCreator, NoteServices noteServices)
@@ -51,7 +52,6 @@ public class SentenceCollection
 
    public SentenceNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
    public SentenceNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
-   public NoteId? ExternalIdToNoteId(long externalNoteId) => Cache.ExternalIdToNoteId(externalNoteId);
 
    public List<SentenceNote> WithQuestion(string question) => Cache.WithQuestion(question);
 
@@ -74,24 +74,10 @@ public class SentenceCollection
    }
 
    public List<SentenceNote> WithVocabMarkedInvalid(VocabNote vocabNote) => Cache.WithUserMarkedInvalidVocab(vocabNote.Question.DisambiguationName);
-
-   public List<SentenceNote> WithHighlightedVocab(VocabNote vocabNote)
-   {
-      if(vocabNote.Question.IsDisambiguated)
-      {
-         return Cache.WithUserHighlightedVocab(vocabNote.Question.DisambiguationName);
-      }
-
-      return vocabNote.Forms.AllSet()
-                      .SelectMany(form => Cache.WithUserHighlightedVocab(form))
-                      .ToList();
-   }
-
+   
    public List<SentenceNote> WithForm(string form) => Cache.WithVocabForm(form);
 
    public List<SentenceNote> WithUserHighlightedVocab(string form) => Cache.WithUserHighlightedVocab(form);
-
-   public List<SentenceNote> WithUserMarkedInvalidVocab(string form) => Cache.WithUserMarkedInvalidVocab(form);
 
    public void Add(SentenceNote note)
    {

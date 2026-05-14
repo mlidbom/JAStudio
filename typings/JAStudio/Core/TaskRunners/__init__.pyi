@@ -211,8 +211,6 @@ class TaskRunner:
 
 
 class ThreadCount:
-    AllLogicalCores : ThreadCount
-    HalfLogicalCores : ThreadCount
     One : ThreadCount
     @property
     def IsSequential(self) -> bool: ...

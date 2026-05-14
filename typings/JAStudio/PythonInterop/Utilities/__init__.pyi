@@ -1,11 +1,5 @@
 import typing, abc
-from System.Collections.Generic import IEnumerable_1
 from System import IDisposable, Func_1, Action, Func_2, Action_1
-
-class Dyn(abc.ABC):
-    @staticmethod
-    def Enumerate(obj: typing.Any) -> IEnumerable_1[typing.Any]: ...
-
 
 class PythonEnvironment(abc.ABC):
     @staticmethod

@@ -5,8 +5,6 @@ namespace JAStudio.Core.Note.Sentences;
 
 public class ParsedMatch
 {
-   public static readonly ParsedWordSerializer Serializer = new();
-
    public int StartIndex { get; set; }
    public bool IsDisplayed { get; set; }
    public string Variant { get; set; }

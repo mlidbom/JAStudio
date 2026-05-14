@@ -40,6 +40,7 @@ public class JAStudioAnkiAppRoot
    public PythonAnkiMenus Menus { get; }
    
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
+   // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
 
    JAStudioAnkiAppRoot(CoreApp coreApp)

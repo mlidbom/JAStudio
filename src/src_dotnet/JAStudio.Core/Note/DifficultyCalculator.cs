@@ -3,6 +3,7 @@ using JAStudio.Core.LanguageServices;
 
 namespace JAStudio.Core.Note;
 
+// ReSharper disable once UnusedType.Global used from python
 public class DifficultyCalculator
 {
    readonly double _startingSeconds;
@@ -20,6 +21,7 @@ public class DifficultyCalculator
 
    public static bool IsOtherCharacter(char ch) => !KanaUtils.CharacterIsKana(ch) && !KanaUtils.CharacterIsKanji(ch);
 
+   // ReSharper disable once UnusedMember.Global used from python
    public double AllowedSeconds(string text)
    {
       if(string.IsNullOrEmpty(text))

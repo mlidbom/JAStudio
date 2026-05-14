@@ -262,12 +262,6 @@ public class QueryBuilder
    }
 
    /// <summary>
-   /// Search for a card by its ID.
-   /// Ported from open_card_by_id()
-   /// </summary>
-   public string OpenCardById(long cardId) => $"cid:{cardId}";
-
-   /// <summary>
    /// Search for kanji notes whose meaning contains the search string.
    /// Ported from kanji_with_meaning()
    /// </summary>

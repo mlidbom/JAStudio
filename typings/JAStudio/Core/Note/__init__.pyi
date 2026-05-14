@@ -35,13 +35,6 @@ class Builtin(abc.ABC):
     Tag : str
 
 
-class CardOperations:
-    def DeleteNote(self, noteId: NoteId) -> None: ...
-    def SetImplementation(self, implementation: ICardOperations) -> None: ...
-    def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
-    def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
-
-
 class CardTypes(abc.ABC):
     Listening : str
     Reading : str

@@ -62,8 +62,6 @@ public class VocabMatchingRulesConfigurationRequiresForbidsFlags
       return flag;
    }
 
-   public IEnumerable<RequireForbidFlagField> AllFlags => _allFlags;
-
    public int MatchWeight => _allFlags.Sum(f => f.MatchWeight);
 }
 

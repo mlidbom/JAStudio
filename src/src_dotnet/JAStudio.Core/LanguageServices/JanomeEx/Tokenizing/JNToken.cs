@@ -191,8 +191,6 @@ public class JNToken : IAnalysisToken
        Equals(Previous.InflectedForm, InflectionForms.Continuative.TaConnection)) ||
       (Surface == "いる" && Previous != null && Previous.IsTeForm);
 
-   public bool IsTFormMarker() => Equals(InflectionType, InflectionTypes.Special.Ta);
-
    public override bool IsEndOfStatement =>
       Next == null ||
       Equals(Next.PartsOfSpeech, JNPOS.Particle.SentenceEnding) ||

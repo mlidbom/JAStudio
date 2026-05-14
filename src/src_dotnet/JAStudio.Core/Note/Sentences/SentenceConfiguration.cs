@@ -19,8 +19,6 @@ public class SentenceConfiguration
 
    public static SentenceConfiguration FromIncorrectMatches(List<WordExclusion> incorrectMatches) => FromValues([], incorrectMatches, []);
 
-   public static SentenceConfiguration FromHiddenMatches(List<WordExclusion> hiddenMatches) => FromValues([], [], hiddenMatches);
-
    public static SentenceConfiguration FromValues(
       List<string> highlighted,
       List<WordExclusion> incorrectMatches,

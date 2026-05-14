@@ -8,6 +8,7 @@ public class KanjiCollection
 {
    readonly IBackendNoteCreator _backendNoteCreator;
    internal readonly KanjiCache Cache;
+   // ReSharper disable once UnusedMember.Global used from python
    public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
    public KanjiCollection(IBackendNoteCreator backendNoteCreator, NoteServices noteServices)
@@ -20,7 +21,6 @@ public class KanjiCollection
 
    public KanjiNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
    public KanjiNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
-   public NoteId? ExternalIdToNoteId(long externalNoteId) => Cache.ExternalIdToNoteId(externalNoteId);
 
    public List<KanjiNote> WithAnyKanjiIn(List<string> kanjiList)
    {

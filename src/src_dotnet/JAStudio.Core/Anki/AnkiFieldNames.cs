@@ -71,7 +71,7 @@ public static class AnkiFieldNames
    }
 
    //Do not remove, we will be restoring the ImmersionKit import functionality
-   [SuppressMessage("ReSharper", "UnusedMember.Global")]
+   // ReSharper disable once UnusedType.Global
    public static class ImmersionKit
    {
       public const string Audio = "Audio Sentence";

@@ -196,10 +196,4 @@ public class DictLookup
    bool IsWordInner(string word) => LookupWord(word).FoundWords();
 
    public bool IsDictionaryOrCollectionWord(string word) => _collection.Vocab.IsWord(word) || IsWord(word);
-
-   public void EnsureLoadedIntoMemory()
-   {
-      LookupNameRaw("桜");
-      LookupWordRaw("俺");
-   }
 }

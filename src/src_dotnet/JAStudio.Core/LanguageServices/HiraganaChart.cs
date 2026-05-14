@@ -3,6 +3,7 @@
 
 namespace JAStudio.Core.LanguageServices;
 
+// ReSharper disable once UnusedType.Global
 public static class HiraganaChart
 {
    public const int KIndex = 1;

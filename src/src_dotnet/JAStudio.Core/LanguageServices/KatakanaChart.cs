@@ -2,6 +2,7 @@ namespace JAStudio.Core.LanguageServices;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
+// ReSharper disable once UnusedType.Global
 public static class KatakanaChart
 {
    public const int KIndex = 1;

@@ -6,8 +6,6 @@ namespace JAStudio.Core.TaskRunners;
 public class ThreadCount
 {
    public static readonly ThreadCount One = new(1);
-   public static readonly ThreadCount AllLogicalCores = new(Environment.ProcessorCount);
-   public static readonly ThreadCount HalfLogicalCores = new(Math.Max(1, Environment.ProcessorCount / 2));
 
    public static ThreadCount FractionOfLogicalCores(double fraction) => new(Math.Max(1, (int)(Environment.ProcessorCount * fraction)));
 

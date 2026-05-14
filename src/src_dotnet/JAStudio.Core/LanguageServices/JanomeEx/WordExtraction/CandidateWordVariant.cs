@@ -111,7 +111,5 @@ public sealed class CandidateWordVariant
       }
    }
 
-   public WordExclusion ToExclusion() => WordExclusion.AtIndex(Form, StartIndex);
-
    public override string ToString() => $"{Form}, is_valid_candidate:{HasValidMatch}";
 }

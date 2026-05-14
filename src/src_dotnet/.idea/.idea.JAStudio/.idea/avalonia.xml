@@ -5,6 +5,7 @@
       <map>
         <entry key="JAStudio.UI/Controls/RequireForbidControl.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Controls/StringSetControl.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="JAStudio.UI/Dialogs/TaskProgressDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/AboutDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/ContextMenuPopup.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="JAStudio.UI/Views/EnglishWordSearchDialog.axaml" value="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />

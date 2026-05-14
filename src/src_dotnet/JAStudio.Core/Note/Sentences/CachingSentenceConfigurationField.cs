@@ -26,17 +26,6 @@ public class CachingSentenceConfigurationField
 
    public List<string> HighlightedWords => Configuration.HighlightedWords;
 
-   public HashSet<VocabNote> HighlightedVocab()
-   {
-      var highlightedWordsList = HighlightedWords.ToList();
-      var vocabWithForms = _sentence.Services.Collection.Vocab.WithAnyFormIn(highlightedWordsList);
-      var matchedVocabIds = _sentence.GetParsingResult().MatchedVocabIds;
-
-      return vocabWithForms
-            .Where(vocab => matchedVocabIds.Contains(vocab.GetId()))
-            .ToHashSet();
-   }
-
    public void RemoveHighlightedWord(string word) => _guard.Update(() =>
    {
       HighlightedWords.Remove(word);

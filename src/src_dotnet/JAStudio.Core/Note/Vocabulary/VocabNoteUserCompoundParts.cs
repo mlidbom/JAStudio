@@ -41,13 +41,6 @@ public class VocabNoteUserCompoundParts
 
    public void Set(List<string> value) => _guard.Update(() => _parts = [..value]);
 
-   public HashSet<VocabNote> AllNotes()
-   {
-      return All()
-            .SelectMany(part => Vocab.Services.Collection.Vocab.WithQuestion(part))
-            .ToHashSet();
-   }
-
    public List<VocabNote> PrimaryPartsNotes()
    {
       return Primary()
