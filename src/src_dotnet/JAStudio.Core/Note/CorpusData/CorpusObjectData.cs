@@ -16,13 +16,13 @@ public abstract partial class CorpusObjectData : IIdentifiableByGuid
 
    protected abstract NoteId CreateTypedId();
 
-   protected abstract void PopulateFields(Dictionary<string, string> fields);
+   protected abstract void PopulateAnkiNoteFields(Dictionary<string, string> fields);
 
    /// Converts this typed data into AnkiNoteData
    public AnkiNoteData ToNoteData()
    {
       var fields = new Dictionary<string, string>();
-      PopulateFields(fields);
+      PopulateAnkiNoteFields(fields);
       fields[MyNoteFields.JasNoteId] = Id.ToString();
       return new AnkiNoteData(CreateTypedId(), fields, Tags);
    }

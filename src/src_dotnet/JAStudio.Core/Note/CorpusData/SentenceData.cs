@@ -32,7 +32,7 @@ public partial class SentenceData : CorpusObjectData
 
    protected override NoteId CreateTypedId() => new SentenceId(Id);
 
-   protected override void PopulateFields(Dictionary<string, string> fields)
+   protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
    {
       fields[SentenceNoteFields.SourceQuestion] = SourceQuestion;
       fields[SentenceNoteFields.UserQuestion] = UserQuestion;

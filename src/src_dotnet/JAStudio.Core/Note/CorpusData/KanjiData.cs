@@ -30,7 +30,7 @@ public partial class KanjiData : CorpusObjectData
 
    protected override NoteId CreateTypedId() => new KanjiId(Id);
 
-   protected override void PopulateFields(Dictionary<string, string> fields)
+   protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
    {
       fields[NoteFieldsConstants.Kanji.Question] = Kanji;
       fields[NoteFieldsConstants.Kanji.SourceAnswer] = SourceAnswer;

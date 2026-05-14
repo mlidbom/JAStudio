@@ -41,7 +41,7 @@ public partial class VocabData : CorpusObjectData
 
    protected override NoteId CreateTypedId() => new VocabId(Id);
 
-   protected override void PopulateFields(Dictionary<string, string> fields)
+   protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
    {
       fields[NoteFieldsConstants.Vocab.Question] = Question;
       fields[NoteFieldsConstants.Vocab.SourceAnswer] = SourceAnswer;
