@@ -51,6 +51,7 @@ public abstract class JPNote
       _cardStatus[status.CardType] = !status.IsSuspended;
    }
 
+   // ReSharper disable once UnusedMember.Global Used from python
    public NoteData GetData() => ToCorpusData().ToNoteData();
 
    public override bool Equals(object? obj) => obj is JPNote other && other.GetId() == _id;

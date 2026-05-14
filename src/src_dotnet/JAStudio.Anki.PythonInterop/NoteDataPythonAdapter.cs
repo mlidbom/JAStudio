@@ -7,6 +7,7 @@ namespace JAStudio.Anki.PythonInterop;
 /// <summary>
 /// Adapts Python data types to C# domain types at the Python interop boundary.
 /// </summary>
+// ReSharper disable once UnusedType.Global Used from python
 public static class NoteDataPythonAdapter
 {
    /// <summary>
