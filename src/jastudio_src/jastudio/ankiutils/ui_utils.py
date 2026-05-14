@@ -92,12 +92,12 @@ class UIUtils(IUIUtils, Slots):
             if browser:
                 browser.onSearchActivated()  # pyright: ignore[reportUnknownMemberType]
 
+        if refresh_browser:
+            force_browser_rerender()
+
         audio_suppressor.suppress_for_seconds(.3)
         force_reviewer_rerender()
         force_previewer_rerender()
-
-        if refresh_browser:
-            force_browser_rerender()
 
     @override
     def activate_preview(self) -> None:
