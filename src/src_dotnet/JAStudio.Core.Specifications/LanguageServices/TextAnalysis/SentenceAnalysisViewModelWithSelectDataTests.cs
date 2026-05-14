@@ -158,13 +158,6 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
       AssertDisplayWordsEqualAndThatAnalysisInternalStateIsValid(sentence, expectedOutput);
    }
 
-   [Theory(Skip = "TODO: Broken by port to MeCab")]
-   [InlineData("幼すぎて よく覚えていないけど", "幼い", "すぎる", "て", "よく", "覚える", "ている", "ない", "けど")]
-   public void BrokenByPortToMecab(string sentence, params string[] expectedOutput)
-   {
-      AssertDisplayWordsEqualAndThatAnalysisInternalStateIsValid(sentence, expectedOutput);
-   }
-
    [Theory]
    [InlineData("厳密に言えば　俺一人が友達だけど", "厳密に言えば", "俺", "一人", "が", "友達", "だけど")]
    [InlineData("厳密に言えば　俺一人が友達だけどだけど", "厳密に言えば", "俺", "一人", "が", "友達", "だけど", "だけど")]
@@ -223,6 +216,7 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
    [InlineData("まだ割れんのか", "まだ", "割れる", "のか")]
    [InlineData("思えないしな", "思える", "ない", "しな")]
    [InlineData("あ な なに", "あ", "な:s.end", "なに")]
+   [InlineData("幼すぎて よく覚えていないけど", "幼い", "すぎる", "て", "よく", "覚える", "ている", "ない", "けど")]
    public void MiscStuff(string sentence, params string[] expectedOutput)
    {
       AssertDisplayWordsEqualAndThatAnalysisInternalStateIsValid(sentence, expectedOutput);
