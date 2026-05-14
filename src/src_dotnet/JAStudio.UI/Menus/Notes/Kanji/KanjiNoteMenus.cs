@@ -24,23 +24,18 @@ class KanjiNoteMenus
                   {
                      BuildOpenMenuSpec(kanji),
                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new KanjiEditorDialog(kanji).ShowNearCursor())),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Reset Primary Vocabs"),
-                                          () => kanji.PrimaryVocab = [])
+                     SpecMenuItem.Command(ShortcutFinger.Home5("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
                   };
 
       // Add conditional "Accept meaning" if no user answer exists
       if(string.IsNullOrEmpty(kanji.UserAnswer.Value))
       {
-         items.Add(SpecMenuItem.Command(ShortcutFinger.Up1("Accept meaning"),
-                                        () => OnAcceptKanjiMeaning(kanji)));
+         items.Add(SpecMenuItem.Command(ShortcutFinger.Up1("Accept meaning"), () => OnAcceptKanjiMeaning(kanji)));
       }
 
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up2("Populate radicals from mnemonic tags"),
-                                     kanji.PopulateRadicalsFromMnemonicTags));
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"),
-                                     kanji.BootstrapMnemonicFromRadicals));
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"),
-                                     () => kanji.UserMnemonic.Set("")));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Up2("Populate radicals from mnemonic tags"), kanji.PopulateRadicalsFromMnemonicTags));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"), kanji.BootstrapMnemonicFromRadicals));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.UserMnemonic.Set("")));
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home3("Note actions"), items);
    }
@@ -49,17 +44,11 @@ class KanjiNoteMenus
    {
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Primary Vocabs"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(kanji.PrimaryVocab))),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Vocabs"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabWithKanji(kanji))),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Radicals"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(kanji.GetRadicalsNotes()))),
-                     SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(
-                                                                                    _services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
+                     SpecMenuItem.Command(ShortcutFinger.Home1("Primary Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(kanji.PrimaryVocab))),
+                     SpecMenuItem.Command(ShortcutFinger.Home2("Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabWithKanji(kanji))),
+                     SpecMenuItem.Command(ShortcutFinger.Home3("Radicals"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(kanji.GetRadicalsNotes()))),
+                     SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
+                     SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"), items);

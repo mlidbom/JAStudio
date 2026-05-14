@@ -88,10 +88,8 @@ static class KanjiStringMenus
       {
          var items = new List<SpecMenuItem>
                      {
-                        SpecMenuItem.Command(ShortcutFinger.Home1("Similar meaning"),
-                                             () => kanji.AddUserSimilarMeaning(text)),
-                        SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"),
-                                             () => kanji.AddRelatedConfusedWith(text))
+                        SpecMenuItem.Command(ShortcutFinger.Home1("Similar meaning"), () => kanji.AddUserSimilarMeaning(text)),
+                        SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"), () => kanji.AddRelatedConfusedWith(text))
                      };
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home2("Add"), items);

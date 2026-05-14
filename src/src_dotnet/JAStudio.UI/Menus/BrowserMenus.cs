@@ -86,8 +86,7 @@ class AnkiBrowserMenuBuilder
             var currentStartDay = startDay;
             var currentDaysApart = daysApart;
 
-            daysApartItems.Add(SpecMenuItem.Command($"{currentDaysApart} days apart",
-                                                    () => OnSpreadCards(cardIds, currentStartDay, currentDaysApart)));
+            daysApartItems.Add(SpecMenuItem.Command($"{currentDaysApart} days apart", () => OnSpreadCards(cardIds, currentStartDay, currentDaysApart)));
          }
 
          startDayMenus.Add(SpecMenuItem.Submenu($"First card in {startDay} days", daysApartItems));

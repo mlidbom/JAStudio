@@ -202,20 +202,10 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
          ShortcutFinger.Home4("Universal note actions"),
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"),
-                                 () => OnOpenInPreviewer(note)),
-            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"),
-                                 note.UnsuspendAllCards,
-                                 null,
-                                 null,
-                                 hasSuspendedCards),
-            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"),
-                                 note.SuspendAllCards,
-                                 null,
-                                 null,
-                                 hasActiveCards),
-            SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"),
-                                 () => OnDeleteNote(note))
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
+            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: hasSuspendedCards),
+            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: hasActiveCards),
+            SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
          }
       );
    }
@@ -260,8 +250,8 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
          new List<SpecMenuItem>
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
-            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, null, null, hasSuspendedCards),
-            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, null, null, hasActiveCards),
+            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: hasSuspendedCards),
+            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: hasActiveCards),
             SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
          }
       );

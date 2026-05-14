@@ -38,14 +38,10 @@ class SentenceNoteMenus
    {
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted Vocab"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(sentence.Configuration.HighlightedWords))),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Highlighted Vocab Read Card"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStringsReadCard(sentence.Configuration.HighlightedWords))),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().KanjiInString(string.Join("", sentence.ExtractKanji())))),
-                     SpecMenuItem.Command(ShortcutFinger.Home4("Parsed words"),
-                                          () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesByIds(GetParsedWordsNoteIds(sentence))))
+                     SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted Vocab"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(sentence.Configuration.HighlightedWords))),
+                     SpecMenuItem.Command(ShortcutFinger.Home2("Highlighted Vocab Read Card"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStringsReadCard(sentence.Configuration.HighlightedWords))),
+                     SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().KanjiInString(string.Join("", sentence.ExtractKanji())))),
+                     SpecMenuItem.Command(ShortcutFinger.Home4("Parsed words"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesByIds(GetParsedWordsNoteIds(sentence))))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"), items);
@@ -60,26 +56,10 @@ class SentenceNoteMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("All highlighted"),
-                                          () => sentence.Configuration.ResetHighlightedWords(),
-                                          null,
-                                          null,
-                                          hasHighlightedWords),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("All incorrect matches"),
-                                          () => sentence.Configuration.IncorrectMatches.Reset(),
-                                          null,
-                                          null,
-                                          hasIncorrectMatches),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("All hidden matches"),
-                                          () => sentence.Configuration.HiddenMatches.Reset(),
-                                          null,
-                                          null,
-                                          hasHiddenMatches),
-                     SpecMenuItem.Command(ShortcutFinger.Home4("Source comments"),
-                                          () => sentence.SourceComments.Empty(),
-                                          null,
-                                          null,
-                                          hasSourceComments)
+                     SpecMenuItem.Command(ShortcutFinger.Home1("All highlighted"), () => sentence.Configuration.ResetHighlightedWords(), enabled: hasHighlightedWords),
+                     SpecMenuItem.Command(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Configuration.IncorrectMatches.Reset(), enabled: hasIncorrectMatches),
+                     SpecMenuItem.Command(ShortcutFinger.Home3("All hidden matches"), () => sentence.Configuration.HiddenMatches.Reset(), enabled: hasHiddenMatches),
+                     SpecMenuItem.Command(ShortcutFinger.Home4("Source comments"), () => sentence.SourceComments.Empty(), enabled: hasSourceComments)
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home2("Remove"), items);
@@ -93,21 +73,9 @@ class SentenceNoteMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("comments"),
-                                          () => sentence.User.Comments.Empty(),
-                                          null,
-                                          null,
-                                          hasUserComments),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("answer"),
-                                          () => sentence.User.Answer.Empty(),
-                                          null,
-                                          null,
-                                          hasUserAnswer),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("question"),
-                                          () => sentence.User.Question.Empty(),
-                                          null,
-                                          null,
-                                          hasUserQuestion)
+                     SpecMenuItem.Command(ShortcutFinger.Home1("comments"), () => sentence.User.Comments.Empty(), enabled: hasUserComments),
+                     SpecMenuItem.Command(ShortcutFinger.Home2("answer"), () => sentence.User.Answer.Empty(), enabled: hasUserAnswer),
+                     SpecMenuItem.Command(ShortcutFinger.Home3("question"), () => sentence.User.Question.Empty(), enabled: hasUserQuestion)
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove User"), items);

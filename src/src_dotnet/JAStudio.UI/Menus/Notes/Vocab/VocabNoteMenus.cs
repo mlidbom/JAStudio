@@ -122,8 +122,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
    SpecMenuItem BuildOpenKanjiMenuSpec(VocabNote vocab)
    {
       var query = _services.QueryBuilder().KanjiInString(vocab.GetQuestion());
-      return SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"),
-                                  () => AnkiFacade.Browser.ExecuteLookup(query));
+      return SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(query));
    }
 
    SpecMenuItem? BuildOpenErgativeTwinMenuSpec(VocabNote vocab)
@@ -136,8 +135,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       if(!ergativeTwinNotes.Any())
          return null;
 
-      return SpecMenuItem.Command(ShortcutFinger.Home4("Ergative twin"),
-                                  () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(ergativeTwinNotes)));
+      return SpecMenuItem.Command(ShortcutFinger.Home4("Ergative twin"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(ergativeTwinNotes)));
    }
 
    SpecMenuItem BuildCreateMenuSpec(VocabNote vocab)
@@ -162,8 +160,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                              SpecMenuItem.Command(ShortcutFinger.Home2("て-form"), () => vocab.Cloner.CreateTeForm()),
                                              SpecMenuItem.Command(ShortcutFinger.Home3("た-form"), () => vocab.Cloner.CreateTaForm()),
                                              SpecMenuItem.Command(ShortcutFinger.Home4("ない-form"), () => vocab.Cloner.CreateNaiForm()),
-                                             SpecMenuItem.Command(ShortcutFinger.Home5($"え-stem/godan-imperative {vocab.Cloner.SuffixToEStemPreview("")}"),
-                                                                  () => vocab.Cloner.SuffixToEStem("")),
+                                             SpecMenuItem.Command(ShortcutFinger.Home5($"え-stem/godan-imperative {vocab.Cloner.SuffixToEStemPreview("")}"), () => vocab.Cloner.SuffixToEStem("")),
                                              SpecMenuItem.Command(ShortcutFinger.Up1("ば-form"), () => vocab.Cloner.CreateBaForm()),
                                              SpecMenuItem.Command(ShortcutFinger.Up2("{receptive/passive}-form"), () => vocab.Cloner.CreateReceptiveForm()),
                                              SpecMenuItem.Command(ShortcutFinger.Up3("causative"), () => vocab.Cloner.CreateCausativeForm()),
