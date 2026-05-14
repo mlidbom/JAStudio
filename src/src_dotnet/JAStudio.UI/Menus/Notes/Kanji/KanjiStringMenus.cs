@@ -13,10 +13,8 @@ namespace JAStudio.UI.Menus.Notes.Kanji;
 /// </summary>
 static class KanjiStringMenus
 {
-   public static SpecMenuItem BuildStringMenuSpec(string text, KanjiNote kanji)
+   public static SpecMenuItem BuildStringMenuSpec(string title, string text, KanjiNote kanji)
    {
-      // Nested local functions - mirrors Python structure
-
       SpecMenuItem BuildHighlightedVocabMenuSpec(string vocabToAdd)
       {
          var items = new List<SpecMenuItem>();
@@ -108,7 +106,7 @@ static class KanjiStringMenus
                             text));
 
       return SpecMenuItem.Submenu(
-         ShortcutFinger.Home1("Current note actions"),
+         title,
          menuItems
       );
    }

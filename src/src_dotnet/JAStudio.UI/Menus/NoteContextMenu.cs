@@ -32,13 +32,13 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildSelectionMenuSpec(selection, "vocab", vocab));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, "vocab", vocab));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildClipboardMenuSpec(clipboard, "vocab", vocab));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, "vocab", vocab));
 
-      menuItems.Add(_vocabNoteMenus.BuildNoteActionsMenuSpec(vocab));
-      menuItems.Add(BuildUniversalNoteActionsMenuSpec(vocab));
+      menuItems.Add(_vocabNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), vocab));
+      menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), vocab));
       menuItems.Add(SpecMenuItem.Submenu(ShortcutFinger.Home5("View"), new List<SpecMenuItem>()));
 
       return menuItems;
@@ -54,14 +54,14 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildSelectionMenuSpec(selection, "kanji", kanji));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, "kanji", kanji));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildClipboardMenuSpec(clipboard, "kanji", kanji));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, "kanji", kanji));
 
-      menuItems.Add(_kanjiNoteMenus.BuildNoteActionsMenuSpec(kanji));
-      menuItems.Add(BuildUniversalNoteActionsMenuSpec(kanji));
-      menuItems.Add(_kanjiNoteMenus.BuildViewMenuSpec());
+      menuItems.Add(_kanjiNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), kanji));
+      menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), kanji));
+      menuItems.Add(_kanjiNoteMenus.BuildViewMenuSpec(ShortcutFinger.Home5("View")));
 
       return menuItems;
    }
@@ -76,14 +76,14 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildSelectionMenuSpec(selection, "sentence", sentence));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, "sentence", sentence));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildClipboardMenuSpec(clipboard, "sentence", sentence));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, "sentence", sentence));
 
-      menuItems.Add(_sentenceNoteMenus.BuildNoteActionsMenuSpec(sentence));
-      menuItems.Add(BuildUniversalNoteActionsMenuSpec(sentence));
-      menuItems.Add(_sentenceNoteMenus.BuildViewMenuSpec());
+      menuItems.Add(_sentenceNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), sentence));
+      menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), sentence));
+      menuItems.Add(_sentenceNoteMenus.BuildViewMenuSpec(ShortcutFinger.Home5("View")));
 
       return menuItems;
    }
@@ -94,123 +94,49 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildSelectionMenuSpec(selection, null, null));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, null, null));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildClipboardMenuSpec(clipboard, null, null));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, null, null));
 
       return menuItems;
    }
 
-   // ReSharper disable once UnusedMember.Global used from python
-   public List<Avalonia.Controls.MenuItem> BuildVocabContextMenu(long vocabId, string selection, string clipboard)
-   {
-      var noteId = _services.CoreApp.Collection.Vocab.ExternalIdToNoteId(vocabId);
-      if(noteId == null) return [];
-      var specs = BuildVocabContextMenuSpec(noteId, selection, clipboard);
-      return ConvertToAvaloniaMenuItems(specs);
-   }
-
-   // ReSharper disable once UnusedMember.Global used from python
-   public List<Avalonia.Controls.MenuItem> BuildKanjiContextMenu(long kanjiId, string selection, string clipboard)
-   {
-      var noteId = _services.CoreApp.Collection.Kanji.ExternalIdToNoteId(kanjiId);
-      if(noteId == null) return [];
-      var specs = BuildKanjiContextMenuSpec(noteId, selection, clipboard);
-      return ConvertToAvaloniaMenuItems(specs);
-   }
-
-   // ReSharper disable once UnusedMember.Global used from python
-   public List<Avalonia.Controls.MenuItem> BuildSentenceContextMenu(long sentenceId, string selection, string clipboard)
-   {
-      var noteId = _services.CoreApp.Collection.Sentences.ExternalIdToNoteId(sentenceId);
-      if(noteId == null) return [];
-      var specs = BuildSentenceContextMenuSpec(noteId, selection, clipboard);
-      return ConvertToAvaloniaMenuItems(specs);
-   }
-
-   // ReSharper disable once UnusedMember.Global used from python
-   public List<Avalonia.Controls.MenuItem> BuildGenericContextMenu(string selection, string clipboard)
-   {
-      var specs = BuildGenericContextMenuSpec(selection, clipboard);
-      return ConvertToAvaloniaMenuItems(specs);
-   }
-
    // String menu builders (for selection/clipboard)
-   SpecMenuItem BuildSelectionMenuSpec(string selection, string? noteType, JPNote? note)
-   {
-      var truncated = TruncateText(selection, 40);
-      var menuItems = BuildStringMenuSpec(selection, noteType, note);
+   SpecMenuItem BuildStringMenuSpec(string title, string text, string? noteType, JPNote? note) =>
+      SpecMenuItem.Submenu(title + $" \"{TruncateText(text, 40)}\"",
+                           (List<SpecMenuItem>)
+                           [
+                              BuildCurrentNoteActionsSubmenuSpec(ShortcutFinger.Home1("Current note actions"), text, noteType, note),
+                              _openInAnkiMenus.BuildOpenInAnkiMenuSpec(ShortcutFinger.Home2("Anki"), () => text),
+                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), () => text),
+                              BuildMatchingNotesSubmenuSpec(ShortcutFinger.Home4("Exactly matching notes"), text),
+                              BuildCreateNoteSubmenuSpec(ShortcutFinger.Up1($"Create: {TruncateText(text, 40)}"), text),
+                              SpecMenuItem.Command(ShortcutFinger.Down1("Reparse matching sentences"), () => OnReparseMatchingSentences(text))
+                           ]);
 
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home1($"Selection: \"{truncated}\""),
-         menuItems
-      );
-   }
-
-   SpecMenuItem BuildClipboardMenuSpec(string clipboard, string? noteType, JPNote? note)
-   {
-      var truncated = TruncateText(clipboard, 40);
-      var menuItems = BuildStringMenuSpec(clipboard, noteType, note);
-
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home2($"Clipboard: \"{truncated}\""),
-         menuItems
-      );
-   }
-
-   List<SpecMenuItem> BuildStringMenuSpec(string text, string? noteType, JPNote? note)
-   {
-      return
-      [
-         BuildCurrentNoteActionsSubmenuSpec(text, noteType, note),
-         _openInAnkiMenus.BuildOpenInAnkiMenuSpec(() => text),
-         WebSearchMenuBuilder.BuildWebSearchMenu(() => text),
-         BuildMatchingNotesSubmenuSpec(text),
-         BuildCreateNoteSubmenuSpec(text),
-         SpecMenuItem.Command(ShortcutFinger.Down1("Reparse matching sentences"), () => OnReparseMatchingSentences(text))
-      ];
-   }
-
-   SpecMenuItem BuildCurrentNoteActionsSubmenuSpec(string text, string? noteType, JPNote? note)
+   SpecMenuItem BuildCurrentNoteActionsSubmenuSpec(string title, string text, string? noteType, JPNote? note)
    {
       // Delegate to note-type-specific string menu builders
       if(noteType == "vocab" && note is VocabNote vocab)
       {
-         return _vocabStringMenus.BuildStringMenuSpec(text, vocab);
+         return _vocabStringMenus.BuildStringMenuSpec(title, text, vocab);
       }
 
       if(noteType == "kanji" && note is KanjiNote kanji)
       {
-         return KanjiStringMenus.BuildStringMenuSpec(text, kanji);
+         return KanjiStringMenus.BuildStringMenuSpec(title, text, kanji);
       }
 
       if(noteType == "sentence" && note is SentenceNote sentence)
       {
-         return SentenceStringMenus.BuildStringMenuSpec(sentence, text);
+         return SentenceStringMenus.BuildStringMenuSpec(title, sentence, text);
       }
 
-      return SpecMenuItem.Submenu(ShortcutFinger.Home1("Current note actions"), new List<SpecMenuItem>());
+      return SpecMenuItem.Submenu(title, new List<SpecMenuItem>());
    }
 
-   SpecMenuItem BuildUniversalNoteActionsMenuSpec(JPNote note)
-   {
-      var hasSuspendedCards = note.HasSuspendedCards();
-      var hasActiveCards = note.HasActiveCards();
-
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home4("Universal note actions"),
-         new List<SpecMenuItem>
-         {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
-            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: hasSuspendedCards),
-            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: hasActiveCards),
-            SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
-         }
-      );
-   }
-
-   SpecMenuItem BuildMatchingNotesSubmenuSpec(string text)
+   SpecMenuItem BuildMatchingNotesSubmenuSpec(string title, string text)
    {
       // Find notes that exactly match the search text
       var vocabs = _services.CoreApp.Collection.Vocab.WithQuestionPreferDisambiguationName(text).ToList();
@@ -222,7 +148,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       // Only show submenu if any notes match
       if(!vocabs.Any() && !sentences.Any() && !kanjis.Any())
       {
-         return SpecMenuItem.Submenu(ShortcutFinger.Home4("Exactly matching notes"), new List<SpecMenuItem>());
+         return SpecMenuItem.Submenu(title, new List<SpecMenuItem>());
       }
 
       var items = new List<SpecMenuItem>
@@ -232,7 +158,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
                      BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home3("Kanji Actions"), kanjis.FirstOrDefault())
                   };
 
-      return SpecMenuItem.Submenu(ShortcutFinger.Home4("Exactly matching notes"), items);
+      return SpecMenuItem.Submenu(title, items);
    }
 
    SpecMenuItem BuildUniversalNoteActionsMenuSpec(string label, JPNote? note)
@@ -242,25 +168,22 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
          return SpecMenuItem.Submenu(label, new List<SpecMenuItem>());
       }
 
-      var hasSuspendedCards = note.HasSuspendedCards();
-      var hasActiveCards = note.HasActiveCards();
-
       return SpecMenuItem.Submenu(
          label,
          new List<SpecMenuItem>
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
-            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: hasSuspendedCards),
-            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: hasActiveCards),
+            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
+            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
             SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
          }
       );
    }
 
-   SpecMenuItem BuildCreateNoteSubmenuSpec(string text)
+   SpecMenuItem BuildCreateNoteSubmenuSpec(string title, string text)
    {
       return SpecMenuItem.Submenu(
-         ShortcutFinger.Up1($"Create: {TruncateText(text, 40)}"),
+         title,
          new List<SpecMenuItem>
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OnCreateVocabNote(text)),
@@ -276,14 +199,6 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       if(text.Length <= maxLength)
          return text;
       return text.Substring(0, maxLength) + "...";
-   }
-
-   static List<Avalonia.Controls.MenuItem> ConvertToAvaloniaMenuItems(List<SpecMenuItem> specs)
-   {
-      var result = new List<Avalonia.Controls.MenuItem>();
-      foreach(var spec in specs)
-         result.Add(AvaloniaMenuAdapter.ToAvalonia(spec));
-      return result;
    }
 
    // Action handlers

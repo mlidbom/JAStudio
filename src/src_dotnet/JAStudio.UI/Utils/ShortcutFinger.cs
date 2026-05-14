@@ -10,7 +10,7 @@ namespace JAStudio.UI.Utils;
 /// This class mirrors the Python implementation which uses specific keyboard positions
 /// for consistent muscle-memory navigation.
 /// </summary>
-static class ShortcutFinger
+public static class ShortcutFinger
 {
    static string FormatFinger(char finger, string text) => $"_{finger} {text}";
 

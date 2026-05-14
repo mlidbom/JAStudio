@@ -21,96 +21,49 @@ class OpenInAnkiMenus
    /// Build the complete "Open in Anki" menu structure as a UI-agnostic specification.
    /// Can be passed to AvaloniaMenuAdapter, PyQt adapter, or any other UI framework.
    /// </summary>
+   /// <param name="title"></param>
    /// <param name="getSearchText">Function that returns the text to search for</param>
-   public SpecMenuItem BuildOpenInAnkiMenuSpec(Func<string> getSearchText) =>
+   public SpecMenuItem BuildOpenInAnkiMenuSpec(string title, Func<string> getSearchText) =>
       SpecMenuItem.Submenu(
-         ShortcutFinger.Home2("Anki"),
+         title,
          new List<SpecMenuItem>
          {
-            BuildExactMatchesMenuSpec(getSearchText),
-            BuildKanjiMenuSpec(getSearchText),
-            BuildVocabMenuSpec(getSearchText),
-            BuildSentenceMenuSpec(getSearchText)
+            SpecMenuItem.Submenu(ShortcutFinger.Home1("Exact matches"),
+                                 new List<SpecMenuItem>
+                                 {
+                                    CreateLookupSpec(ShortcutFinger.Home1("Open Exact matches | no sentences | reading cards"), () => _services.QueryBuilder().ExactMatchesNoSentencesReadingCards(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Home2("Open Exact matches with sentences"), () => _services.QueryBuilder().ExactMatches(getSearchText()))
+                                 }
+            ),
+            SpecMenuItem.Submenu(ShortcutFinger.Home2("Kanji"),
+                                 new List<SpecMenuItem>
+                                 {
+                                    CreateLookupSpec(ShortcutFinger.Home1("All kanji in string"), () => _services.QueryBuilder().KanjiInString(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Home2("By reading part"), () => _services.QueryBuilder().KanjiWithReadingPart(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Home3("By reading exact"), () => _services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithReading(getSearchText()))),
+                                    CreateLookupSpec(ShortcutFinger.Home4("With radicals"), () => _services.QueryBuilder().KanjiWithRadicalsInString(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Up1("With meaning"), () => _services.QueryBuilder().KanjiWithMeaning(getSearchText()))
+                                 }
+            ),
+            SpecMenuItem.Submenu(ShortcutFinger.Home3("Vocab"),
+                                 new List<SpecMenuItem>
+                                 {
+                                    CreateLookupSpec(ShortcutFinger.Home1("form -"), () => _services.QueryBuilder().SingleVocabByFormExact(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Home2("form - read card only"), () => _services.QueryBuilder().SingleVocabByFormExactReadCardOnly(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Home3("form, reading or answer"), () => _services.QueryBuilder().SingleVocabByQuestionReadingOrAnswerExact(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Home4("Wildcard"), () => _services.QueryBuilder().SingleVocabWildcard(getSearchText())),
+                                    CreateLookupSpec(ShortcutFinger.Up1("Text words"), () => _services.QueryBuilder().TextVocabLookup(getSearchText()))
+                                 }
+            ),
+            SpecMenuItem.Submenu(ShortcutFinger.Home4("Sentence"),
+                                 new List<SpecMenuItem>
+                                 {
+                                    CreateLookupSpec(ShortcutFinger.Home1("Parse Vocabulary"), () => _services.QueryBuilder().SentenceSearch(getSearchText(), exact: false)),
+                                    CreateLookupSpec(ShortcutFinger.Home2("Exact String"), () => _services.QueryBuilder().SentenceSearch(getSearchText(), exact: true))
+                                 }
+            )
          }
       );
-
-   /// <summary>
-   /// Build the "Open in Anki" menu and convert to Avalonia MenuItem.
-   /// This is a convenience method for backward compatibility.
-   /// </summary>
-   public Avalonia.Controls.MenuItem BuildOpenInAnkiMenu(Func<string> getSearchText)
-   {
-      var spec = BuildOpenInAnkiMenuSpec(getSearchText);
-      return AvaloniaMenuAdapter.ToAvalonia(spec);
-   }
-
-   SpecMenuItem BuildExactMatchesMenuSpec(Func<string> getSearchText)
-   {
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home1("Exact matches"),
-         new List<SpecMenuItem>
-         {
-            CreateLookupSpec(ShortcutFinger.Home1("Open Exact matches | no sentences | reading cards"),
-                             () => _services.QueryBuilder().ExactMatchesNoSentencesReadingCards(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Home2("Open Exact matches with sentences"),
-                             () => _services.QueryBuilder().ExactMatches(getSearchText()))
-         }
-      );
-   }
-
-   SpecMenuItem BuildKanjiMenuSpec(Func<string> getSearchText)
-   {
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home2("Kanji"),
-         new List<SpecMenuItem>
-         {
-            CreateLookupSpec(ShortcutFinger.Home1("All kanji in string"),
-                             () => _services.QueryBuilder().KanjiInString(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Home2("By reading part"),
-                             () => _services.QueryBuilder().KanjiWithReadingPart(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Home3("By reading exact"),
-                             () => _services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithReading(getSearchText()))),
-            CreateLookupSpec(ShortcutFinger.Home4("With radicals"),
-                             () => _services.QueryBuilder().KanjiWithRadicalsInString(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Up1("With meaning"),
-                             () => _services.QueryBuilder().KanjiWithMeaning(getSearchText()))
-         }
-      );
-   }
-
-   SpecMenuItem BuildVocabMenuSpec(Func<string> getSearchText)
-   {
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home3("Vocab"),
-         new List<SpecMenuItem>
-         {
-            CreateLookupSpec(ShortcutFinger.Home1("form -"),
-                             () => _services.QueryBuilder().SingleVocabByFormExact(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Home2("form - read card only"),
-                             () => _services.QueryBuilder().SingleVocabByFormExactReadCardOnly(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Home3("form, reading or answer"),
-                             () => _services.QueryBuilder().SingleVocabByQuestionReadingOrAnswerExact(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Home4("Wildcard"),
-                             () => _services.QueryBuilder().SingleVocabWildcard(getSearchText())),
-            CreateLookupSpec(ShortcutFinger.Up1("Text words"),
-                             () => _services.QueryBuilder().TextVocabLookup(getSearchText()))
-         }
-      );
-   }
-
-   SpecMenuItem BuildSentenceMenuSpec(Func<string> getSearchText)
-   {
-      return SpecMenuItem.Submenu(
-         ShortcutFinger.Home4("Sentence"),
-         new List<SpecMenuItem>
-         {
-            CreateLookupSpec(ShortcutFinger.Home1("Parse Vocabulary"),
-                             () => _services.QueryBuilder().SentenceSearch(getSearchText(), exact: false)),
-            CreateLookupSpec(ShortcutFinger.Home2("Exact String"),
-                             () => _services.QueryBuilder().SentenceSearch(getSearchText(), exact: true))
-         }
-      );
-   }
 
    static SpecMenuItem CreateLookupSpec(string header, Func<string> getQuery)
    {

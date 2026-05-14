@@ -15,9 +15,9 @@ class VocabStringMenus
 
    public VocabStringMenus(Core.TemporaryServiceCollection services) => _services = services;
 
-   public SpecMenuItem BuildStringMenuSpec(string text, VocabNote vocab) =>
+   public SpecMenuItem BuildStringMenuSpec(string title, string text, VocabNote vocab) =>
       SpecMenuItem.Submenu(
-         ShortcutFinger.Home1("Current note actions"),
+         title,
          new List<SpecMenuItem>
          {
             BuildAddMenuSpec(text, vocab),

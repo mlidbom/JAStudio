@@ -8,9 +8,9 @@ namespace JAStudio.UI.Menus;
 
 public static class WebSearchMenuBuilder
 {
-   public static SpecMenuItem BuildWebSearchMenu(Func<string> getSearchText) =>
+   public static SpecMenuItem BuildWebSearchMenu(string title, Func<string> getSearchText) =>
       SpecMenuItem.Submenu(
-         ShortcutFinger.Home3("Web"),
+         title,
          new List<SpecMenuItem>
          {
             BuildKanjiMenu(getSearchText),

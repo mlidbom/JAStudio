@@ -61,13 +61,13 @@ class AnkiBrowserMenuBuilder
    {
       if(note is VocabNote vocab)
       {
-         return _vocabNoteMenus.BuildNoteActionsMenuSpec(vocab);
+         return _vocabNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), vocab);
       } else if(note is KanjiNote kanji)
       {
-         return _kanjiNoteMenus.BuildNoteActionsMenuSpec(kanji);
+         return _kanjiNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), kanji);
       } else if(note is SentenceNote sentence)
       {
-         return _sentenceNoteMenus.BuildNoteActionsMenuSpec(sentence);
+         return _sentenceNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), sentence);
       }
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home3("Note"), new List<SpecMenuItem>());

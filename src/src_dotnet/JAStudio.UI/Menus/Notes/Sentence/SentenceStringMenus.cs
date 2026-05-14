@@ -13,18 +13,17 @@ namespace JAStudio.UI.Menus.Notes.Sentence;
 /// </summary>
 static class SentenceStringMenus
 {
-   public static SpecMenuItem BuildStringMenuSpec(SentenceNote sentence, string menuString) =>
-      SpecMenuItem.Submenu(
-         $"Selection: \"{menuString}\"",
-         new List<SpecMenuItem>
-         {
-            BuildAddMenuSpec(sentence, menuString),
-            BuildRemoveMenuSpec(sentence, menuString),
-            BuildSplitWithWordBreakTagSpec(sentence, menuString)
-         }
+   public static SpecMenuItem BuildStringMenuSpec(string title, SentenceNote sentence, string menuString) =>
+      SpecMenuItem.Submenu(title,
+                           new List<SpecMenuItem>
+                           {
+                              BuildAddMenuSpec(ShortcutFinger.Home1("Add"), sentence, menuString),
+                              BuildRemoveMenuSpec(ShortcutFinger.Home2("Remove"), sentence, menuString),
+                              BuildSplitWithWordBreakTagSpec(ShortcutFinger.Home3("Split with word-break tag in question"), sentence, menuString)
+                           }
       );
 
-   static SpecMenuItem BuildAddMenuSpec(SentenceNote sentence, string menuString)
+   static SpecMenuItem BuildAddMenuSpec(string title, SentenceNote sentence, string menuString)
    {
       void AddAddWordExclusionAction(List<SpecMenuItem> items, string exclusionTypeTitle, WordExclusionSet exclusionSet)
       {
@@ -73,12 +72,12 @@ static class SentenceStringMenus
       AddAddWordExclusionAction(items, ShortcutFinger.Home2("Hidden matches"), sentence.Configuration.HiddenMatches);
       AddAddWordExclusionAction(items, ShortcutFinger.Home3("Incorrect matches"), sentence.Configuration.IncorrectMatches);
 
-      return SpecMenuItem.Submenu(ShortcutFinger.Home1("Add"), items);
+      return SpecMenuItem.Submenu(title, items);
    }
 
-   static SpecMenuItem BuildRemoveMenuSpec(SentenceNote sentence, string menuString)
+   static SpecMenuItem BuildRemoveMenuSpec(string title, SentenceNote sentence, string menuString)
    {
-      void AddRemoveWordExclusionAction(List<SpecMenuItem> items, string exclusionTypeTitle, WordExclusionSet exclusionSet)
+      void AddRemoveWordExclusionAction(string exclusionTypeTitle, List<SpecMenuItem> items, WordExclusionSet exclusionSet)
       {
          var menuStringAsWordExclusion = WordExclusion.Global(menuString);
          var currentExclusions = exclusionSet.Get().ToList();
@@ -120,17 +119,12 @@ static class SentenceStringMenus
       var isHighlighted = sentence.Configuration.HighlightedWords.Contains(menuString);
       items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted vocab"), () => sentence.Configuration.RemoveHighlightedWord(menuString), enabled: isHighlighted));
 
-      AddRemoveWordExclusionAction(items, ShortcutFinger.Home2("Hidden matches"), sentence.Configuration.HiddenMatches);
-      AddRemoveWordExclusionAction(items, ShortcutFinger.Home3("Incorrect matches"), sentence.Configuration.IncorrectMatches);
+      AddRemoveWordExclusionAction(ShortcutFinger.Home2("Hidden matches"), items, sentence.Configuration.HiddenMatches);
+      AddRemoveWordExclusionAction(ShortcutFinger.Home3("Incorrect matches"), items, sentence.Configuration.IncorrectMatches);
 
-      return SpecMenuItem.Submenu(ShortcutFinger.Home2("Remove"), items);
+      return SpecMenuItem.Submenu(title, items);
    }
 
-   static SpecMenuItem BuildSplitWithWordBreakTagSpec(SentenceNote sentence, string menuString)
-   {
-      var questionText = sentence.Question.WithInvisibleSpace();
-      var canSplit = questionText.Contains(menuString);
-
-      return SpecMenuItem.Command(ShortcutFinger.Home3("Split with word-break tag in question"), () => sentence.Question.SplitTokenWithWordBreakTag(menuString), enabled: canSplit);
-   }
+   static SpecMenuItem BuildSplitWithWordBreakTagSpec(string title, SentenceNote sentence, string menuString) =>
+      SpecMenuItem.Command(title, () => sentence.Question.SplitTokenWithWordBreakTag(menuString), enabled: sentence.Question.WithInvisibleSpace().Contains(menuString));
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using System.Linq;
+using JAStudio.UI.Utils;
 
 namespace JAStudio.UI.Specifications;
 
@@ -20,7 +21,7 @@ public class MenuSpecificationTests
       var searchText = "漢字";
 
       // Act - Build the menu spec (no Avalonia needed!)
-      var menuSpec = WebSearchMenuBuilder.BuildWebSearchMenu(() => searchText);
+      var menuSpec = WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), () => searchText);
 
       // Assert - Verify structure
       Assert.Equal("_o Web", menuSpec.Name); // ShortcutFinger.Home3("Web") = "_o Web"
@@ -40,7 +41,7 @@ public class MenuSpecificationTests
       var searchText = "漢字";
 
       // Act - Build menu and find the "Kanji explosion" action
-      var menuSpec = WebSearchMenuBuilder.BuildWebSearchMenu(() => searchText);
+      var menuSpec = WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), () => searchText);
 
       var kanjiSubmenu = menuSpec.Children.First(c => c.Name.Contains("Kanji"));
       var kanjiExplosionItem = kanjiSubmenu.Children.First();
@@ -54,7 +55,7 @@ public class MenuSpecificationTests
    public void WebSearchMenu_AllLeafNodes_HaveActions()
    {
       // Arrange & Act
-      var menuSpec = WebSearchMenuBuilder.BuildWebSearchMenu(() => "test");
+      var menuSpec = WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), () => "test");
 
       // Assert - Recursively verify all leaf nodes have actions
       var leafItems = GetAllLeafItems(menuSpec);

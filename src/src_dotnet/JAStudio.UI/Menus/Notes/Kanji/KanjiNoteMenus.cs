@@ -8,23 +8,27 @@ using JAStudio.UI.Views;
 
 namespace JAStudio.UI.Menus.Notes.Kanji;
 
-/// <summary>
-/// Kanji note-specific menu builders.
-/// Corresponds to notes/kanji/main.py in Python.
-/// </summary>
 class KanjiNoteMenus
 {
    readonly Core.TemporaryServiceCollection _services;
 
    public KanjiNoteMenus(Core.TemporaryServiceCollection services) => _services = services;
 
-   public SpecMenuItem BuildNoteActionsMenuSpec(KanjiNote kanji)
+   public SpecMenuItem BuildNoteActionsMenuSpec(string title, KanjiNote kanji)
    {
       var items = new List<SpecMenuItem>
                   {
-                     BuildOpenMenuSpec(kanji),
+                     SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"),
+                                          new List<SpecMenuItem>
+                                          {
+                                             SpecMenuItem.Command(ShortcutFinger.Home1("Primary Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(kanji.PrimaryVocab))),
+                                             SpecMenuItem.Command(ShortcutFinger.Home2("Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabWithKanji(kanji))),
+                                             SpecMenuItem.Command(ShortcutFinger.Home3("Radicals"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(kanji.GetRadicalsNotes()))),
+                                             SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
+                                             SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
+                                          }),
                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new KanjiEditorDialog(kanji).ShowNearCursor())),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
+                     SpecMenuItem.Command(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
                   };
 
       // Add conditional "Accept meaning" if no user answer exists
@@ -37,27 +41,11 @@ class KanjiNoteMenus
       items.Add(SpecMenuItem.Command(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"), kanji.BootstrapMnemonicFromRadicals));
       items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.UserMnemonic.Set("")));
 
-      return SpecMenuItem.Submenu(ShortcutFinger.Home3("Note actions"), items);
+      return SpecMenuItem.Submenu(title, items);
    }
 
-   SpecMenuItem BuildOpenMenuSpec(KanjiNote kanji)
-   {
-      var items = new List<SpecMenuItem>
-                  {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Primary Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(kanji.PrimaryVocab))),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabWithKanji(kanji))),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Radicals"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(kanji.GetRadicalsNotes()))),
-                     SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
-                  };
-
-      return SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"), items);
-   }
-
-   public SpecMenuItem BuildViewMenuSpec() =>
-      SpecMenuItem.Submenu(
-         ShortcutFinger.Home5("View"),
-         new List<SpecMenuItem>());
+   public SpecMenuItem BuildViewMenuSpec(string title) =>
+      SpecMenuItem.Submenu(title, new List<SpecMenuItem>());
 
    // Action handlers
 
