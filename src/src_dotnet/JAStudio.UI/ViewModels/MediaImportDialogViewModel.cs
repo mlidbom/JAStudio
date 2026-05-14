@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Anki;
 using JAStudio.Core;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.NoteFields;
@@ -89,13 +88,9 @@ partial class MediaImportDialogViewModel : ObservableObject
 
       _services.BackgroundTaskManager.Run(() =>
       {
-         var vocabNotes = LoadAnkiVocabNotes();
-         var sentenceNotes = LoadAnkiSentenceNotes();
-         var kanjiNotes = LoadAnkiKanjiNotes();
-
-         var vocabFiles = ScanAnkiVocab(vocabNotes);
-         var sentenceFiles = ScanAnkiSentences(sentenceNotes);
-         var kanjiFiles = ScanAnkiKanji(kanjiNotes);
+         var vocabFiles = ScanNotes(_vocabCollection.All());
+         var sentenceFiles = ScanNotes(_sentenceCollection.All());
+         var kanjiFiles = ScanNotes(_kanjiCollection.All());
 
          Dispatcher.UIThread.Invoke(() =>
          {
@@ -125,13 +120,9 @@ partial class MediaImportDialogViewModel : ObservableObject
          var sentenceRules = BuildSentenceRules();
          var kanjiRules = BuildKanjiRules();
 
-         var vocabNotes = LoadAnkiVocabNotes();
-         var sentenceNotes = LoadAnkiSentenceNotes();
-         var kanjiNotes = LoadAnkiKanjiNotes();
-
-         var vocabPlan = vocabRules.Count > 0 ? analyzer.AnalyzeAnkiVocab(vocabNotes, vocabRules) : new MediaImportPlan();
-         var sentencePlan = sentenceRules.Count > 0 ? analyzer.AnalyzeAnkiSentences(sentenceNotes, sentenceRules) : new MediaImportPlan();
-         var kanjiPlan = kanjiRules.Count > 0 ? analyzer.AnalyzeAnkiKanji(kanjiNotes, kanjiRules) : new MediaImportPlan();
+         var vocabPlan = vocabRules.Count > 0 ? analyzer.AnalyzeVocab(_vocabCollection.All(), vocabRules) : new MediaImportPlan();
+         var sentencePlan = sentenceRules.Count > 0 ? analyzer.AnalyzeSentences(_sentenceCollection.All(), sentenceRules) : new MediaImportPlan();
+         var kanjiPlan = kanjiRules.Count > 0 ? analyzer.AnalyzeKanji(_kanjiCollection.All(), kanjiRules) : new MediaImportPlan();
 
          var merged = MergePlans(vocabPlan, sentencePlan, kanjiPlan);
 
@@ -305,77 +296,81 @@ partial class MediaImportDialogViewModel : ObservableObject
    List<SentenceImportRule> BuildSentenceRules() => BuildRulesFromEditableList<SentenceImportRule, SentenceMediaField>(SentenceTab.Rules.ToList());
    List<KanjiImportRule> BuildKanjiRules() => BuildRulesFromEditableList<KanjiImportRule, KanjiMediaField>(KanjiTab.Rules.ToList());
 
-   List<AnkiVocabNote> LoadAnkiVocabNotes() => LoadAnkiNotesOfType(NoteTypes.Vocab, g => new VocabId(g), id => _vocabCollection.WithIdOrNone(id) != null, n => new AnkiVocabNote(n));
-   List<AnkiSentenceNote> LoadAnkiSentenceNotes() => LoadAnkiNotesOfType(NoteTypes.Sentence, g => new SentenceId(g), id => _sentenceCollection.WithIdOrNone(id) != null, n => new AnkiSentenceNote(n));
-   List<AnkiKanjiNote> LoadAnkiKanjiNotes() => LoadAnkiNotesOfType(NoteTypes.Kanji, g => new KanjiId(g), id => _kanjiCollection.WithIdOrNone(id) != null, n => new AnkiKanjiNote(n));
-
-   static List<TWrapper> LoadAnkiNotesOfType<TWrapper>(string noteTypeName, Func<Guid, NoteId> idFactory, Func<NoteId, bool> isKnownInCorpus, Func<NoteData, TWrapper> wrap)
-   {
-      var dbPath = AnkiFacade.Col.DbFilePath();
-      if(dbPath == null) return [];
-
-      var loaded = NoteBulkLoader.LoadAllNotesOfType(dbPath, noteTypeName, idFactory);
-      return loaded.Notes
-                   .Where(n => n.Id != null && isKnownInCorpus(n.Id))
-                   .Select(wrap)
-                   .ToList();
-   }
-
-   List<ScannedMediaFile> ScanAnkiVocab(List<AnkiVocabNote> notes)
+   List<ScannedMediaFile> ScanNotes<TNote>(List<TNote> notes) where TNote : JPNote
    {
       var results = new List<ScannedMediaFile>();
+
       foreach(var note in notes)
       {
-         var sourceTag = ResolveSourceTagString(note.Tags);
-         AddScannedReferences(results, sourceTag, nameof(VocabMediaField.AudioFirst), MediaFieldParsing.ParseAudioReferences(note.AudioB));
-         AddScannedReferences(results, sourceTag, nameof(VocabMediaField.AudioSecond), MediaFieldParsing.ParseAudioReferences(note.AudioG));
-         AddScannedReferences(results, sourceTag, nameof(VocabMediaField.AudioTts), MediaFieldParsing.ParseAudioReferences(note.AudioTTS));
-         AddScannedReferences(results, sourceTag, nameof(VocabMediaField.Image), MediaFieldParsing.ParseImageReferences(note.Image));
-         AddScannedReferences(results, sourceTag, nameof(VocabMediaField.UserImage), MediaFieldParsing.ParseImageReferences(note.UserImage));
+         var rawSourceTag = note.GetSourceTag();
+         var sourceTag = string.IsNullOrEmpty(rawSourceTag) ? "anki::unknown" : $"source::{rawSourceTag}";
+
+         foreach(var mediaRef in GetMediaReferences(note))
+         {
+            if(_index.ContainsByOriginalFileName(mediaRef.FileName)) continue;
+            results.Add(new ScannedMediaFile(sourceTag, GetFieldName(note, mediaRef), mediaRef.FileName));
+         }
       }
+
       return results;
    }
 
-   List<ScannedMediaFile> ScanAnkiSentences(List<AnkiSentenceNote> notes)
-   {
-      var results = new List<ScannedMediaFile>();
-      foreach(var note in notes)
+   static string GetFieldName(JPNote note, MediaReference mediaRef) =>
+      note switch
       {
-         var sourceTag = ResolveSourceTagString(note.Tags);
-         AddScannedReferences(results, sourceTag, nameof(SentenceMediaField.Audio), MediaFieldParsing.ParseAudioReferences(note.Audio));
-         AddScannedReferences(results, sourceTag, nameof(SentenceMediaField.Screenshot), MediaFieldParsing.ParseImageReferences(note.Screenshot));
-      }
-      return results;
+         VocabNote v    => IdentifyVocabField(v, mediaRef),
+         SentenceNote s => IdentifySentenceField(s, mediaRef),
+         KanjiNote k    => IdentifyKanjiField(k, mediaRef),
+         _              => "Unknown"
+      };
+
+   static string IdentifyVocabField(VocabNote v, MediaReference mediaRef)
+   {
+      if(v.Audio.First.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(VocabMediaField.AudioFirst);
+      if(v.Audio.Second.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(VocabMediaField.AudioSecond);
+      if(v.Audio.Tts.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(VocabMediaField.AudioTts);
+      if(v.Image.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(VocabMediaField.Image);
+      if(v.UserImage.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(VocabMediaField.UserImage);
+      return "Unknown";
    }
 
-   List<ScannedMediaFile> ScanAnkiKanji(List<AnkiKanjiNote> notes)
+   static string IdentifySentenceField(SentenceNote s, MediaReference mediaRef)
    {
-      var results = new List<ScannedMediaFile>();
-      foreach(var note in notes)
-      {
-         var sourceTag = ResolveSourceTagString(note.Tags);
-         AddScannedReferences(results, sourceTag, nameof(KanjiMediaField.Audio), MediaFieldParsing.ParseAudioReferences(note.Audio));
-         AddScannedReferences(results, sourceTag, nameof(KanjiMediaField.Image), MediaFieldParsing.ParseImageReferences(note.Image));
-      }
-      return results;
+      if(s.Audio.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(SentenceMediaField.Audio);
+      if(s.Screenshot.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(SentenceMediaField.Screenshot);
+      return "Unknown";
    }
 
-   void AddScannedReferences(List<ScannedMediaFile> results, string sourceTag, string fieldName, List<MediaReference> references)
+   static string IdentifyKanjiField(KanjiNote k, MediaReference mediaRef)
    {
-      foreach(var mediaRef in references)
-      {
-         if(_index.ContainsByOriginalFileName(mediaRef.FileName)) continue;
-         results.Add(new ScannedMediaFile(sourceTag, fieldName, mediaRef.FileName));
-      }
+      if(k.Audio.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(KanjiMediaField.Audio);
+      if(k.Image.GetMediaReferences().Any(r => r.FileName == mediaRef.FileName)) return nameof(KanjiMediaField.Image);
+      return "Unknown";
    }
 
-   static string ResolveSourceTagString(IReadOnlyList<string> tags)
-   {
-      var sourceTag = tags.Where(t => t.StartsWith(Tags.Source.Folder))
-                          .OrderBy(t => t.Length)
-                          .FirstOrDefault();
-      return sourceTag ?? "anki::unknown";
-   }
+   static List<MediaReference> GetMediaReferences(JPNote note) =>
+      note switch
+      {
+         VocabNote v =>
+         [
+            ..v.Audio.First.GetMediaReferences(),
+            ..v.Audio.Second.GetMediaReferences(),
+            ..v.Audio.Tts.GetMediaReferences(),
+            ..v.Image.GetMediaReferences(),
+            ..v.UserImage.GetMediaReferences()
+         ],
+         SentenceNote s =>
+         [
+            ..s.Audio.GetMediaReferences(),
+            ..s.Screenshot.GetMediaReferences()
+         ],
+         KanjiNote k =>
+         [
+            ..k.Audio.GetMediaReferences(),
+            ..k.Image.GetMediaReferences()
+         ],
+         _ => []
+      };
 
    static MediaImportPlan MergePlans(params MediaImportPlan[] plans)
    {

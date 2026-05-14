@@ -66,7 +66,7 @@ public static class AnkiFacade
       public static void RemoveNote(long noteId) => Backend.Use(it => it.note_remove(noteId));
    }
 
-   public static class Col
+   internal static class Col
    {
       /// <summary>
       /// Returns the path to Anki's live collection database, after checkpointing the WAL.
