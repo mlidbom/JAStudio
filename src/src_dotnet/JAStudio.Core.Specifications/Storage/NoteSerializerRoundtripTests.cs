@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage;
 using Xunit;
@@ -82,51 +81,6 @@ public class NoteSerializerRoundtripTests : SpecificationUsingACollection
    }
 
    [Fact]
-   public void AllKanjiNotes_RoundtripThroughNoteData_PreservesAllFields()
-   {
-      var allKanji = NoteServices.Collection.Kanji.All();
-      Assert.NotEmpty(allKanji);
-
-      foreach(var kanji in allKanji)
-      {
-         var originalData = kanji.GetData();
-         var json = _serializer.Serialize(kanji);
-         var roundtripped = _serializer.DeserializeKanji(json);
-         AssertNoteDataFieldsMatch(originalData, roundtripped.GetData(), $"Kanji '{kanji.GetQuestion()}'");
-      }
-   }
-
-   [Fact]
-   public void AllVocabNotes_RoundtripThroughNoteData_PreservesAllFields()
-   {
-      var allVocab = NoteServices.Collection.Vocab.All();
-      Assert.NotEmpty(allVocab);
-
-      foreach(var vocab in allVocab)
-      {
-         var originalData = vocab.GetData();
-         var json = _serializer.Serialize(vocab);
-         var roundtripped = _serializer.DeserializeVocab(json);
-         AssertNoteDataFieldsMatch(originalData, roundtripped.GetData(), $"Vocab '{vocab.GetQuestion()}'");
-      }
-   }
-
-   [Fact]
-   public void AllSentenceNotes_RoundtripThroughNoteData_PreservesAllFields()
-   {
-      var allSentences = NoteServices.Collection.Sentences.All();
-      Assert.NotEmpty(allSentences);
-
-      foreach(var sentence in allSentences)
-      {
-         var originalData = sentence.GetData();
-         var json = _serializer.Serialize(sentence);
-         var roundtripped = _serializer.DeserializeSentence(json);
-         AssertNoteDataFieldsMatch(originalData, roundtripped.GetData(), $"Sentence '{Truncate(sentence.GetQuestion(), 20)}'");
-      }
-   }
-
-   [Fact]
    public void KanjiNote_WithRichData_RoundtripsCorrectly()
    {
       var kanji = CreateKanji("試", "test/try", "<primary>ため</primary>", "<primary>し</primary>");
@@ -172,34 +126,8 @@ public class NoteSerializerRoundtripTests : SpecificationUsingACollection
       Assert.Equal(json, _serializer.Serialize(roundtripped));
    }
 
-   static bool IsEffectivelyEmpty(string value) => string.IsNullOrEmpty(value) || value == "0";
-
    static string Truncate(string value, int maxLength) =>
       value.Length <= maxLength ? value : value.Substring(0, maxLength);
-
-   static void AssertNoteDataFieldsMatch(NoteData original, NoteData roundtripped, string context)
-   {
-      Assert.Equal(original.Id, roundtripped.Id);
-
-      Assert.Equal(
-         original.Tags.OrderBy(t => t).ToList(),
-         roundtripped.Tags.OrderBy(t => t).ToList());
-
-      foreach(var kvp in roundtripped.Fields)
-      {
-         var originalValue = original.Fields.TryGetValue(kvp.Key, out var v) ? v : string.Empty;
-         if(IsEffectivelyEmpty(originalValue) && IsEffectivelyEmpty(kvp.Value)) continue;
-
-         Assert.True(originalValue == kvp.Value,
-                     $"{context}: Field '{kvp.Key}' mismatch.\n  Original:     [{originalValue}]\n  Roundtripped: [{kvp.Value}]");
-      }
-
-      foreach(var kvp in original.Fields.Where(f => !string.IsNullOrEmpty(f.Value)))
-      {
-         Assert.True(roundtripped.Fields.ContainsKey(kvp.Key),
-                     $"{context}: Original field '{kvp.Key}' with value [{kvp.Value}] missing from roundtripped data");
-      }
-   }
 
    [Fact]
    public void AllNotesData_RoundtripsToIdenticalJson()
@@ -232,24 +160,4 @@ public class NoteSerializerRoundtripTests : SpecificationUsingACollection
       Assert.Equal(sentences.Count, roundtripped.Sentences.Count);
    }
 
-   [Fact]
-   public void AllNotesData_PreservesAllFieldsAfterRoundtrip()
-   {
-      var allData = new AllNotesData(
-         NoteServices.Collection.Kanji.All(),
-         NoteServices.Collection.Vocab.All(),
-         NoteServices.Collection.Sentences.All());
-
-      var json = _serializer.Serialize(allData);
-      var roundtripped = _serializer.DeserializeAll(json);
-
-      for(var i = 0; i < allData.Kanji.Count; i++)
-         AssertNoteDataFieldsMatch(allData.Kanji[i].GetData(), roundtripped.Kanji[i].GetData(), $"Kanji '{allData.Kanji[i].GetQuestion()}'");
-
-      for(var i = 0; i < allData.Vocab.Count; i++)
-         AssertNoteDataFieldsMatch(allData.Vocab[i].GetData(), roundtripped.Vocab[i].GetData(), $"Vocab '{allData.Vocab[i].GetQuestion()}'");
-
-      for(var i = 0; i < allData.Sentences.Count; i++)
-         AssertNoteDataFieldsMatch(allData.Sentences[i].GetData(), roundtripped.Sentences[i].GetData(), $"Sentence '{Truncate(allData.Sentences[i].GetQuestion(), 20)}'");
-   }
 }

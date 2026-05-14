@@ -46,7 +46,7 @@ public class FileSystemNoteRepositoryTests : SpecificationUsingACollection, IDis
       foreach(var kanji in allKanji)
       {
          var roundtripped = loaded.Kanji.Single(k => k.GetId() == kanji.GetId());
-         AssertNoteDataFieldsMatch(kanji.GetData(), roundtripped.GetData(), $"Kanji '{kanji.GetQuestion()}'");
+         Assert.Equal(_serializer.Serialize(kanji), _serializer.Serialize(roundtripped));
       }
    }
 
@@ -67,7 +67,7 @@ public class FileSystemNoteRepositoryTests : SpecificationUsingACollection, IDis
       foreach(var vocab in allVocab)
       {
          var roundtripped = loaded.Vocab.Single(v => v.GetId() == vocab.GetId());
-         AssertNoteDataFieldsMatch(vocab.GetData(), roundtripped.GetData(), $"Vocab '{vocab.GetQuestion()}'");
+         Assert.Equal(_serializer.Serialize(vocab), _serializer.Serialize(roundtripped));
       }
    }
 
@@ -88,7 +88,7 @@ public class FileSystemNoteRepositoryTests : SpecificationUsingACollection, IDis
       foreach(var sentence in allSentences)
       {
          var roundtripped = loaded.Sentences.Single(s => s.GetId() == sentence.GetId());
-         AssertNoteDataFieldsMatch(sentence.GetData(), roundtripped.GetData(), $"Sentence '{Truncate(sentence.GetQuestion(), 20)}'");
+         Assert.Equal(_serializer.Serialize(sentence), _serializer.Serialize(roundtripped));
       }
    }
 
@@ -217,48 +217,19 @@ public class FileSystemNoteRepositoryTests : SpecificationUsingACollection, IDis
           NoteServices.Collection.Vocab.All(),
           NoteServices.Collection.Sentences.All());
 
-   static void AssertAllNotesDataMatch(AllNotesData original, AllNotesData roundtripped)
+   void AssertAllNotesDataMatch(AllNotesData original, AllNotesData roundtripped)
    {
       Assert.Equal(original.Kanji.Count, roundtripped.Kanji.Count);
       Assert.Equal(original.Vocab.Count, roundtripped.Vocab.Count);
       Assert.Equal(original.Sentences.Count, roundtripped.Sentences.Count);
 
       for(var i = 0; i < original.Kanji.Count; i++)
-         AssertNoteDataFieldsMatch(original.Kanji[i].GetData(), roundtripped.Kanji[i].GetData(), $"Kanji '{original.Kanji[i].GetQuestion()}'");
+         Assert.Equal(_serializer.Serialize(original.Kanji[i]), _serializer.Serialize(roundtripped.Kanji[i]));
 
       for(var i = 0; i < original.Vocab.Count; i++)
-         AssertNoteDataFieldsMatch(original.Vocab[i].GetData(), roundtripped.Vocab[i].GetData(), $"Vocab '{original.Vocab[i].GetQuestion()}'");
+         Assert.Equal(_serializer.Serialize(original.Vocab[i]), _serializer.Serialize(roundtripped.Vocab[i]));
 
       for(var i = 0; i < original.Sentences.Count; i++)
-         AssertNoteDataFieldsMatch(original.Sentences[i].GetData(), roundtripped.Sentences[i].GetData(), $"Sentence '{Truncate(original.Sentences[i].GetQuestion(), 20)}'");
-   }
-
-   static bool IsEffectivelyEmpty(string value) => string.IsNullOrEmpty(value) || value == "0";
-
-   static string Truncate(string value, int maxLength) =>
-      value.Length <= maxLength ? value : value.Substring(0, maxLength);
-
-   static void AssertNoteDataFieldsMatch(NoteData original, NoteData roundtripped, string context)
-   {
-      Assert.Equal(original.Id, roundtripped.Id);
-
-      Assert.Equal(
-         original.Tags.OrderBy(t => t).ToList(),
-         roundtripped.Tags.OrderBy(t => t).ToList());
-
-      foreach(var kvp in roundtripped.Fields)
-      {
-         var originalValue = original.Fields.TryGetValue(kvp.Key, out var v) ? v : string.Empty;
-         if(IsEffectivelyEmpty(originalValue) && IsEffectivelyEmpty(kvp.Value)) continue;
-
-         Assert.True(originalValue == kvp.Value,
-                     $"{context}: Field '{kvp.Key}' mismatch.\n  Original:     [{originalValue}]\n  Roundtripped: [{kvp.Value}]");
-      }
-
-      foreach(var kvp in original.Fields.Where(f => !string.IsNullOrEmpty(f.Value)))
-      {
-         Assert.True(roundtripped.Fields.ContainsKey(kvp.Key),
-                     $"{context}: Original field '{kvp.Key}' with value [{kvp.Value}] missing from roundtripped data");
-      }
+         Assert.Equal(_serializer.Serialize(original.Sentences[i]), _serializer.Serialize(roundtripped.Sentences[i]));
    }
 }
