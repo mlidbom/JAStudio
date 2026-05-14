@@ -219,7 +219,10 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
          if(await ConfirmDialog.ShowAsync(
                "Delete Note",
                $"Permanently delete \"{note.GetQuestion()}\"?\n\nThis will remove it from corpus data and from Anki, including all review history."))
+         {
             _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note));
+            AnkiFacade.Browser.ExecuteLookup("");//Keeps Anki from choking on a refresh of a note that no longer exists. Just resets the browser to not having a search.
+         }
       });
    }
 
