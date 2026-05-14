@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -31,53 +32,19 @@ class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
 
    protected override void InheritorRemoveFromCache(KanjiNote note, KanjiSnapshot snapshot)
    {
-      foreach(var form in snapshot.Radicals)
-      {
-         if(_byRadical.TryGetValue(form, out var set))
-         {
-            set.Remove(note);
-         }
-      }
-
-      foreach(var reading in snapshot.Readings)
-      {
-         if(_byReading.TryGetValue(reading, out var set))
-         {
-            set.Remove(note);
-         }
-      }
+      _byRadical.RemoveFromSets(snapshot.Radicals, note);
+      _byReading.RemoveFromSets(snapshot.Readings, note);
    }
 
    protected override void InheritorAddToCache(KanjiNote note, KanjiSnapshot snapshot)
    {
-      foreach(var form in snapshot.Radicals)
-      {
-         if(!_byRadical.ContainsKey(form))
-         {
-            _byRadical[form] = [];
-         }
-
-         _byRadical[form].Add(note);
-      }
-
-      foreach(var reading in snapshot.Readings)
-      {
-         if(!_byReading.ContainsKey(reading))
-         {
-            _byReading[reading] = [];
-         }
-
-         _byReading[reading].Add(note);
-      }
+      _byRadical.AddToSets(snapshot.Radicals, note);
+      _byReading.AddToSets(snapshot.Readings, note);
    }
 
-   public List<KanjiNote> WithRadical(string radical)
-   {
-      return _monitor.Read(() => _byRadical.TryGetValue(radical, out var notes) ? notes.ToList() : []);
-   }
+   public List<KanjiNote> WithRadical(string radical) =>
+      _monitor.Read(() => _byRadical.TryGetValue(radical, out var notes) ? notes.ToList() : []);
 
-   public HashSet<KanjiNote> WithReading(string reading)
-   {
-      return _monitor.Read(() => _byReading.TryGetValue(reading, out var notes) ? notes.ToHashSet() : []);
-   }
+   public HashSet<KanjiNote> WithReading(string reading) =>
+      _monitor.Read(() => _byReading.TryGetValue(reading, out var notes) ? notes.ToHashSet() : []);
 }

@@ -5,6 +5,7 @@ using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -35,101 +36,31 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
 
    protected override SentenceSnapshot CreateSnapshot(SentenceNote note) => new(note);
 
-   public List<SentenceNote> WithVocab(VocabNote vocab)
-   {
-      return _monitor.Read(() => _byVocabId.TryGetValue(vocab.GetId(), out var notes) ? notes.ToList() : []);
-   }
+   public List<SentenceNote> WithVocab(VocabNote vocab) =>
+      _monitor.Read(() => _byVocabId.TryGetValue(vocab.GetId(), out var notes) ? notes.ToList() : []);
 
-   public List<SentenceNote> WithVocabForm(string form)
-   {
-      return _monitor.Read(() => _byVocabForm.TryGetValue(form, out var notes) ? notes.ToList() : []);
-   }
+   public List<SentenceNote> WithVocabForm(string form) =>
+      _monitor.Read(() => _byVocabForm.TryGetValue(form, out var notes) ? notes.ToList() : []);
 
-   public List<SentenceNote> WithUserHighlightedVocab(string form)
-   {
-      return _monitor.Read(() => _byUserHighlightedVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
-   }
+   public List<SentenceNote> WithUserHighlightedVocab(string form) =>
+      _monitor.Read(() => _byUserHighlightedVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
 
-   public List<SentenceNote> WithUserMarkedInvalidVocab(string form)
-   {
-      return _monitor.Read(() => _byUserMarkedInvalidVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
-   }
+   public List<SentenceNote> WithUserMarkedInvalidVocab(string form) =>
+      _monitor.Read(() => _byUserMarkedInvalidVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
 
    protected override void InheritorRemoveFromCache(SentenceNote note, SentenceSnapshot snapshot)
    {
-      foreach(var vocabForm in snapshot.Words)
-      {
-         if(_byVocabForm.TryGetValue(vocabForm, out var set))
-         {
-            set.Remove(note);
-         }
-      }
-
-      foreach(var vocabForm in snapshot.UserHighlightedVocab)
-      {
-         if(_byUserHighlightedVocab.TryGetValue(vocabForm, out var set))
-         {
-            set.Remove(note);
-         }
-      }
-
-      foreach(var vocabForm in snapshot.MarkedIncorrectVocab)
-      {
-         if(_byUserMarkedInvalidVocab.TryGetValue(vocabForm, out var set))
-         {
-            set.Remove(note);
-         }
-      }
-
-      foreach(var vocabId in snapshot.DetectedVocab)
-      {
-         if(_byVocabId.TryGetValue(vocabId, out var set))
-         {
-            set.Remove(note);
-         }
-      }
+      _byVocabForm.RemoveFromSets(snapshot.Words, note);
+      _byUserHighlightedVocab.RemoveFromSets(snapshot.UserHighlightedVocab, note);
+      _byUserMarkedInvalidVocab.RemoveFromSets(snapshot.MarkedIncorrectVocab, note);
+      _byVocabId.RemoveFromSets(snapshot.DetectedVocab, note);
    }
 
    protected override void InheritorAddToCache(SentenceNote note, SentenceSnapshot snapshot)
    {
-      foreach(var vocabForm in snapshot.Words)
-      {
-         if(!_byVocabForm.ContainsKey(vocabForm))
-         {
-            _byVocabForm[vocabForm] = [];
-         }
-
-         _byVocabForm[vocabForm].Add(note);
-      }
-
-      foreach(var vocabForm in snapshot.UserHighlightedVocab)
-      {
-         if(!_byUserHighlightedVocab.ContainsKey(vocabForm))
-         {
-            _byUserHighlightedVocab[vocabForm] = [];
-         }
-
-         _byUserHighlightedVocab[vocabForm].Add(note);
-      }
-
-      foreach(var vocabForm in snapshot.MarkedIncorrectVocab)
-      {
-         if(!_byUserMarkedInvalidVocab.ContainsKey(vocabForm))
-         {
-            _byUserMarkedInvalidVocab[vocabForm] = [];
-         }
-
-         _byUserMarkedInvalidVocab[vocabForm].Add(note);
-      }
-
-      foreach(var vocabId in snapshot.DetectedVocab)
-      {
-         if(!_byVocabId.ContainsKey(vocabId))
-         {
-            _byVocabId[vocabId] = [];
-         }
-
-         _byVocabId[vocabId].Add(note);
-      }
+      _byVocabForm.AddToSets(snapshot.Words, note);
+      _byUserHighlightedVocab.AddToSets(snapshot.UserHighlightedVocab, note);
+      _byUserMarkedInvalidVocab.AddToSets(snapshot.MarkedIncorrectVocab, note);
+      _byVocabId.AddToSets(snapshot.DetectedVocab, note);
    }
 }

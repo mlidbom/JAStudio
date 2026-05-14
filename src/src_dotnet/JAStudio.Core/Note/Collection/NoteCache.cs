@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Utilities.SystemCE.LinqCE;
 using Compze.Utilities.SystemCE.ThreadingCE.ResourceAccess;
+using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -198,18 +199,14 @@ abstract class NoteCache<TNote, TSnapshot>(Func<NoteServices, NoteData, TNote> n
    {
       var id = note.GetId();
 
-      if(!_snapshotById.TryGetValue(id, out var cached))
+      if(!_snapshotById.Remove(id, out var snapshot))
          throw new InvalidOperationException($"Cannot remove {typeof(TNote).Name} with id {id} from cache: not found in snapshot index");
 
-      _snapshotById.Remove(id);
       _byId.Remove(id);
 
-      if(_byQuestion.TryGetValue(cached.Question, out var questionList))
-      {
-         questionList.Remove(note);
-      }
+      _byQuestion.RemoveFromSet(snapshot.Question, note);
 
-      InheritorRemoveFromCache(note, cached);
+      InheritorRemoveFromCache(note, snapshot);
    }
 
    protected override void AddToCacheCore(TNote note)
@@ -223,12 +220,7 @@ abstract class NoteCache<TNote, TSnapshot>(Func<NoteServices, NoteData, TNote> n
       _snapshotById[id] = snapshot;
       _byId[id] = note;
 
-      if(!_byQuestion.ContainsKey(snapshot.Question))
-      {
-         _byQuestion[snapshot.Question] = [];
-      }
-
-      _byQuestion[snapshot.Question].Add(note);
+      _byQuestion.AddToSet(snapshot.Question, note);
 
       InheritorAddToCache(note, snapshot);
 
