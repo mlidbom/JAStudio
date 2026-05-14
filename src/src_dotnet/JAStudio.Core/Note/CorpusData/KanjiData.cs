@@ -70,6 +70,34 @@ public partial class KanjiData : CorpusObjectData
          Image = anki.Image,
       };
 
-   /// Merges Anki-owned fields into existing data, preserving all fields Anki does not store.
-   public KanjiData MergeAnkiData(NoteData ankiData) => this; //There are no fields where Anki owns the data
+   /// Merges Anki-owned fields (every field exposed by <see cref="AnkiKanjiNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
+   public KanjiData MergeAnkiData(NoteData ankiData)
+   {
+      var anki = new AnkiKanjiNote(ankiData);
+      return new KanjiData
+             {
+                Id = Id,
+                Tags = [..anki.Tags],
+                Kanji = anki.Question,
+                SourceAnswer = anki.SourceAnswer,
+                UserAnswer = UserAnswer,
+                ActiveAnswer = anki.ActiveAnswer,
+                ReadingOnHtml = ReadingOnHtml,
+                ReadingKunHtml = ReadingKunHtml,
+                ReadingNanHtml = ReadingNanHtml,
+                Radicals = Radicals,
+                SourceMeaningMnemonic = SourceMeaningMnemonic,
+                MeaningInfo = MeaningInfo,
+                ReadingMnemonic = ReadingMnemonic,
+                ReadingInfo = ReadingInfo,
+                PrimaryVocab = PrimaryVocab,
+                Audio = anki.Audio,
+                PrimaryReadingsTtsAudio = anki.PrimaryReadingsTtsAudio,
+                References = References,
+                UserMnemonic = UserMnemonic,
+                SimilarMeaning = SimilarMeaning,
+                ConfusedWith = ConfusedWith,
+                Image = anki.Image,
+             };
+   }
 }

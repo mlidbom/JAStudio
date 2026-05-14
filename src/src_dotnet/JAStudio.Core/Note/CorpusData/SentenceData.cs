@@ -93,8 +93,30 @@ public partial class SentenceData : CorpusObjectData
          Screenshot = anki.Screenshot,
       };
 
-   /// Merges Anki-owned fields into existing data, preserving all fields Anki does not store.
-   public SentenceData MergeAnkiData(NoteData ankiData) => this; //There are no fields where Anki owns the data
+   /// Merges Anki-owned fields (every field exposed by <see cref="AnkiSentenceNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
+   public SentenceData MergeAnkiData(NoteData ankiData)
+   {
+      var anki = new AnkiSentenceNote(ankiData);
+      return new SentenceData
+             {
+                Id = Id,
+                Tags = [..anki.Tags],
+                SourceQuestion = anki.SourceQuestion,
+                UserQuestion = UserQuestion,
+                ActiveQuestion = ActiveQuestion,
+                SourceAnswer = anki.SourceAnswer,
+                UserAnswer = UserAnswer,
+                ActiveAnswer = ActiveAnswer,
+                SourceComments = anki.SourceComments,
+                UserComments = UserComments,
+                Reading = anki.Reading,
+                ExternalId = anki.ExternalId,
+                Audio = anki.Audio,
+                Screenshot = anki.Screenshot,
+                Configuration = Configuration,
+                ParsingResult = ParsingResult,
+             };
+   }
 
    public static ParsingResult CreateParsingResult(SentenceParsingResultSubData? data)
    {

@@ -64,15 +64,8 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, NoteData, TNote> noteCons
       AddToCache(note);
    }
 
-   // ReSharper disable once FieldCanBeMadeReadOnly.Local
-   bool _ankiStillOwnsNoFields = true;
-
    public void ExternalNoteWillFlush(long externalNoteId, NoteData data)
    {
-      // TODO: Currently disabled: Anki owns no note fields (all authoritative data is in the file system repository). Consider whether to remove this and related code entirely
-      if(_ankiStillOwnsNoFields) //Keeping the code below around and not detected as unreachable through this little hack
-         return;
-
       var noteId = _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
       if(noteId == null) return;
       var existing = WithIdOrNone(noteId);
