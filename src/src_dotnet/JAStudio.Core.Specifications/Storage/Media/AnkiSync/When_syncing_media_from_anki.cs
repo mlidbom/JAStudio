@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Compze.Utilities.Testing.Must;
 using Compze.Utilities.Testing.XUnit.BDD;
+using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 
@@ -15,7 +18,7 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
    readonly string _tempDir = Path.Combine(Path.GetTempPath(), $"JAStudio_test_{Guid.NewGuid():N}");
    readonly string _ankiMediaDir;
    readonly MediaFileIndex _index;
-   readonly MediaImportAnalyzer _analyzer;
+   readonly NoteMediaFieldScanner _scanner;
    readonly MediaImportExecutor _executor;
 
    public When_importing_media_from_anki()
@@ -27,8 +30,22 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
 
       _index = new MediaFileIndex(mediaRoot, GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
       var storageService = new MediaStorageService(mediaRoot, _index);
-      _analyzer = new MediaImportAnalyzer(_ankiMediaDir, _index);
+      _scanner = new NoteMediaFieldScanner(_ankiMediaDir, _index);
       _executor = new MediaImportExecutor(storageService, GetService<TaskRunner>());
+   }
+
+   MediaImportPlan ScanVocabAndBuildPlan(IReadOnlyList<VocabNote> notes, IReadOnlyList<ImportRule> rules)
+   {
+      var scans = _scanner.ScanVocab(notes);
+      foreach(var scan in scans) scan.MatchingRule = rules.TryResolve(scan.SourceTag, scan.FieldName);
+      return MediaImportPlan.From(scans);
+   }
+
+   MediaImportPlan ScanSentencesAndBuildPlan(IReadOnlyList<SentenceNote> notes, IReadOnlyList<ImportRule> rules)
+   {
+      var scans = _scanner.ScanSentences(notes);
+      foreach(var scan in scans) scan.MatchingRule = rules.TryResolve(scan.SourceTag, scan.FieldName);
+      return MediaImportPlan.From(scans);
    }
 
    public new void Dispose()
@@ -55,11 +72,11 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
          note.Audio.First.SetRawValue("[sound:vocab_audio.mp3]");
          note.Image.SetRawValue("<img src=\"vocab_image.jpg\">");
 
-         _plan = _analyzer.AnalyzeVocab([note],
-                                        [
-                                           new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general"),
-                                           new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.Image),      "general")
-                                        ]);
+         _plan = ScanVocabAndBuildPlan([note],
+                                       [
+                                          new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general"),
+                                          new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.Image),      "general")
+                                       ]);
          _executor.Execute(_plan);
       }
 
@@ -84,11 +101,11 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
          note.Audio.SetRawValue("[sound:sentence_audio.mp3]");
          note.Screenshot.SetRawValue("<img src=\"screenshot.png\">");
 
-         var plan = _analyzer.AnalyzeSentences([note],
-                                               [
-                                                  new ImportRule(SourceTag.Parse("anki"), nameof(SentenceMediaField.Audio),      "general"),
-                                                  new ImportRule(SourceTag.Parse("anki"), nameof(SentenceMediaField.Screenshot), "general")
-                                               ]);
+         var plan = ScanSentencesAndBuildPlan([note],
+                                              [
+                                                 new ImportRule(SourceTag.Parse("anki"), nameof(SentenceMediaField.Audio),      "general"),
+                                                 new ImportRule(SourceTag.Parse("anki"), nameof(SentenceMediaField.Screenshot), "general")
+                                              ]);
          _executor.Execute(plan);
       }
 
@@ -114,11 +131,11 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
 
          var rules = new[] { new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general") };
 
-         var firstPlan = _analyzer.AnalyzeVocab([note], rules);
+         var firstPlan = ScanVocabAndBuildPlan([note], rules);
          _executor.Execute(firstPlan);
          _index.Count.Must().Be(1);
 
-         _secondPlan = _analyzer.AnalyzeVocab([note], rules);
+         _secondPlan = ScanVocabAndBuildPlan([note], rules);
          _executor.Execute(_secondPlan);
       }
 
@@ -136,8 +153,8 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
          var note = CreateVocab("飲む", "to drink", "のむ");
          note.Audio.First.SetRawValue("[sound:missing_audio.mp3]");
 
-         _plan = _analyzer.AnalyzeVocab([note],
-                                        [new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general")]);
+         _plan = ScanVocabAndBuildPlan([note],
+                                       [new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general")]);
          _executor.Execute(_plan);
       }
 
@@ -160,8 +177,8 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
          note.Image.SetRawValue("<img src=\"image.jpg\">");
 
          // Only configure AudioFirst — Image has no rule
-         _plan = _analyzer.AnalyzeVocab([note],
-                                        [new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general")]);
+         _plan = ScanVocabAndBuildPlan([note],
+                                       [new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general")]);
          _executor.Execute(_plan);
       }
 
@@ -189,11 +206,11 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
          note.Audio.First.SetRawValue("[sound:routed_audio.mp3]");
          note.Image.SetRawValue("<img src=\"routed_image.jpg\">");
 
-         var plan = _analyzer.AnalyzeVocab([note],
-                                           [
-                                              new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general"),
-                                              new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.Image),      "general")
-                                           ]);
+         var plan = ScanVocabAndBuildPlan([note],
+                                          [
+                                             new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.AudioFirst), "general"),
+                                             new ImportRule(SourceTag.Parse("anki"), nameof(VocabMediaField.Image),      "general")
+                                          ]);
          _executor.Execute(plan);
 
          foreach(var attachment in _index.All)

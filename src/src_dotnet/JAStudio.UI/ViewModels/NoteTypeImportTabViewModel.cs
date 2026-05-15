@@ -12,8 +12,7 @@ partial class NoteTypeImportTabViewModel : ObservableObject
 {
    readonly Func<List<EditableImportRule>, List<ImportRule>> _buildRules;
 
-   // All un-imported media references discovered by scanning, before rule classification
-   List<ScannedMediaFile> _allScannedFiles = [];
+   List<NoteMediaFieldScan> _scans = [];
 
 #pragma warning disable CS8618
    [Obsolete("Parameterless constructor is only for XAML designer support and should not be used directly.")]
@@ -57,9 +56,9 @@ partial class NoteTypeImportTabViewModel : ObservableObject
       Reclassify();
    }
 
-   internal void SetScannedFiles(List<ScannedMediaFile> files)
+   internal void SetScans(List<NoteMediaFieldScan> scans)
    {
-      _allScannedFiles = files;
+      _scans = scans;
       Reclassify();
    }
 
@@ -71,24 +70,21 @@ partial class NoteTypeImportTabViewModel : ObservableObject
       var unmapped = new Dictionary<(string Source, string Field), int>();
       var totalMapped = 0;
 
-      foreach(var file in _allScannedFiles)
+      foreach(var scan in _scans)
       {
-         ImportRule? matchingRule = null;
-         if(!string.IsNullOrEmpty(file.SourceTag))
-         {
-            try { matchingRule = rules.TryResolve(SourceTag.Parse(file.SourceTag), file.FieldName); }
-            catch { /* skip files with unparseable source tags */ }
-         }
+         scan.MatchingRule = rules.TryResolve(scan.SourceTag, scan.FieldName);
 
-         if(matchingRule != null)
+         if(scan.IndexedAttachment != null) continue; // already in JAStudio index, not relevant to rule mapping
+
+         if(scan.MatchingRule != null)
          {
-            var editableRule = FindMatchingEditableRule(matchingRule);
+            var editableRule = FindMatchingEditableRule(scan.MatchingRule);
             if(editableRule != null) editableRule.MatchCount++;
             totalMapped++;
          }
          else
          {
-            var key = (file.SourceTag, file.FieldName);
+            var key = (scan.SourceTag.ToString(), scan.FieldName);
             unmapped[key] = unmapped.GetValueOrDefault(key) + 1;
          }
       }
@@ -134,6 +130,6 @@ partial class NoteTypeImportTabViewModel : ObservableObject
    }
 }
 
-record ScannedMediaFile(string SourceTag, string FieldName, string FileName);
 record UnmappedMediaGroup(string SourcePrefix, string FieldName, int FileCount);
+
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 
@@ -38,4 +39,19 @@ public class MediaImportPlan
    public List<PlannedFileImport> FilesToImport { get; } = [];
    public List<AlreadyStoredFile> AlreadyStored { get; } = [];
    public List<MissingFile> Missing { get; } = [];
+
+   public static MediaImportPlan From(IEnumerable<NoteMediaFieldScan> scans)
+   {
+      var plan = new MediaImportPlan();
+      foreach(var scan in scans)
+      {
+         if(scan.IndexedAttachment != null && scan.MatchingRule != null)
+            plan.AlreadyStored.Add(new AlreadyStoredFile(scan.IndexedAttachment, scan.NoteId));
+         else if(scan.MatchingRule != null && scan.AnkiSourcePath != null)
+            plan.FilesToImport.Add(new PlannedFileImport(scan.AnkiSourcePath, scan.MatchingRule.TargetDirectory, scan.SourceTag, scan.FileName, scan.NoteId, scan.MediaType));
+         else if(scan.MatchingRule != null)
+            plan.Missing.Add(new MissingFile(scan.FileName, scan.NoteId, scan.FieldName));
+      }
+      return plan;
+   }
 }

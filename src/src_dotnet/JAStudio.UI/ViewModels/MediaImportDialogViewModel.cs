@@ -57,8 +57,8 @@ partial class MediaImportDialogViewModel : ObservableObject
    [ObservableProperty] bool _hasPlan;
 
    MediaImportPlan? _currentPlan;
-   MediaImportPlan _vocabPlan = new();
-   MediaImportPlan _sentencePlan = new();
+   List<NoteMediaFieldScan> _vocabScans = [];
+   List<NoteMediaFieldScan> _sentenceScans = [];
    [ObservableProperty] int _filesToImportCount;
    [ObservableProperty] int _alreadyStoredCount;
    [ObservableProperty] int _missingCount;
@@ -77,46 +77,25 @@ partial class MediaImportDialogViewModel : ObservableObject
       StatusText = "Analyzing...";
       HasPlan = false;
 
-      var vocabRules = BuildVocabRules();
-      var sentenceRules = BuildSentenceRules();
-
       _services.BackgroundTaskManager.Run(() =>
       {
-         var vocabFiles = ScanNoteFields(_vocabCollection.All(), note =>
-         [
-            (nameof(VocabMediaField.AudioFirst),  note.Audio.First.GetMediaReferences()),
-            (nameof(VocabMediaField.AudioSecond), note.Audio.Second.GetMediaReferences()),
-            (nameof(VocabMediaField.AudioTts),    note.Audio.Tts.GetMediaReferences()),
-            (nameof(VocabMediaField.Image),       note.Image.GetMediaReferences()),
-            (nameof(VocabMediaField.UserImage),   note.UserImage.GetMediaReferences()),
-         ]);
-         var sentenceFiles = ScanNoteFields(_sentenceCollection.All(), note =>
-         [
-            (nameof(SentenceMediaField.Audio),      note.Audio.GetMediaReferences()),
-            (nameof(SentenceMediaField.Screenshot), note.Screenshot.GetMediaReferences()),
-         ]);
-
-         var ankiMediaDir = _paths.AnkiMediaDir;
-         var analyzer = new MediaImportAnalyzer(ankiMediaDir, _index);
-
-         var vocabPlan = vocabRules.Count > 0 ? analyzer.AnalyzeVocab(_vocabCollection.All(), vocabRules) : new MediaImportPlan();
-         var sentencePlan = sentenceRules.Count > 0 ? analyzer.AnalyzeSentences(_sentenceCollection.All(), sentenceRules) : new MediaImportPlan();
-
-         var merged = MergePlans(vocabPlan, sentencePlan);
+         var scanner = new NoteMediaFieldScanner(_paths.AnkiMediaDir, _index);
+         var vocabScans = scanner.ScanVocab(_vocabCollection.All());
+         var sentenceScans = scanner.ScanSentences(_sentenceCollection.All());
 
          Dispatcher.UIThread.Invoke(() =>
          {
-            VocabTab.SetScannedFiles(vocabFiles);
-            SentenceTab.SetScannedFiles(sentenceFiles);
+            VocabTab.SetScans(vocabScans);       // applies current vocab rules via Reclassify
+            SentenceTab.SetScans(sentenceScans); // applies current sentence rules via Reclassify
 
-            _vocabPlan = vocabPlan;
-            _sentencePlan = sentencePlan;
-            _currentPlan = merged;
-            FilesToImportCount = merged.FilesToImport.Count;
-            AlreadyStoredCount = merged.AlreadyStored.Count;
-            MissingCount = merged.Missing.Count;
+            _vocabScans = vocabScans;
+            _sentenceScans = sentenceScans;
+            _currentPlan = MediaImportPlan.From(vocabScans.Concat(sentenceScans));
+            FilesToImportCount = _currentPlan.FilesToImport.Count;
+            AlreadyStoredCount = _currentPlan.AlreadyStored.Count;
+            MissingCount = _currentPlan.Missing.Count;
             HasPlan = true;
-            StatusText = $"Plan: {merged.FilesToImport.Count} to import, {merged.AlreadyStored.Count} already stored, {merged.Missing.Count} missing from Anki.";
+            StatusText = $"Plan: {_currentPlan.FilesToImport.Count} to import, {_currentPlan.AlreadyStored.Count} already stored, {_currentPlan.Missing.Count} missing from Anki.";
          });
       });
    }
@@ -157,8 +136,8 @@ partial class MediaImportDialogViewModel : ObservableObject
    [RelayCommand]
    void ShowMissingFiles()
    {
-      var vocabRows = BuildMissingFileRows(_vocabPlan.Missing, noteId => _vocabCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
-      var sentenceRows = BuildMissingFileRows(_sentencePlan.Missing, noteId => _sentenceCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
+      var vocabRows = BuildMissingFileRows(_vocabScans, noteId => _vocabCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
+      var sentenceRows = BuildMissingFileRows(_sentenceScans, noteId => _sentenceCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
 
       Dispatcher.UIThread.Invoke(() =>
       {
@@ -174,11 +153,12 @@ partial class MediaImportDialogViewModel : ObservableObject
          AnkiFacade.Browser.ExecuteLookup(query);
    }
 
-   static List<MissingFileRow> BuildMissingFileRows(List<MissingFile> missing, Func<NoteId, string> getQuestion) =>
-      missing.Select(m => new MissingFileRow(getQuestion(m.NoteId), m.NoteId.ToString(), m.FieldName, m.FileName, m.NoteId))
-             .OrderBy(r => r.Question)
-             .ThenBy(r => r.FieldName)
-             .ToList();
+   static List<MissingFileRow> BuildMissingFileRows(List<NoteMediaFieldScan> scans, Func<NoteId, string> getQuestion) =>
+      scans.Where(s => s.IndexedAttachment == null && s.AnkiSourcePath == null && s.MatchingRule != null)
+           .Select(s => new MissingFileRow(getQuestion(s.NoteId), s.NoteId.ToString(), s.FieldName, s.FileName, s.NoteId))
+           .OrderBy(r => r.Question)
+           .ThenBy(r => r.FieldName)
+           .ToList();
 
    static NoteTypeImportTabViewModel CreateVocabTab() =>
       new("Vocab", VocabFieldNames, BuildRulesFromEditableList);
@@ -208,33 +188,6 @@ partial class MediaImportDialogViewModel : ObservableObject
 
    List<ImportRule> BuildVocabRules() => BuildRulesFromEditableList(VocabTab.Rules.ToList());
    List<ImportRule> BuildSentenceRules() => BuildRulesFromEditableList(SentenceTab.Rules.ToList());
-
-   List<ScannedMediaFile> ScanNoteFields<TNote>(IReadOnlyList<TNote> notes, Func<TNote, (string FieldName, List<MediaReference> Refs)[]> getFields) where TNote : JPNote
-   {
-      var results = new List<ScannedMediaFile>();
-      foreach(var note in notes)
-      {
-         var sourceTag = note.SourceTag.ToString();
-         foreach(var (fieldName, refs) in getFields(note))
-            foreach(var r in refs)
-               if(!_index.ContainsByOriginalFileName(r.FileName))
-                  results.Add(new ScannedMediaFile(sourceTag, fieldName, r.FileName));
-      }
-      return results;
-   }
-
-   static MediaImportPlan MergePlans(params MediaImportPlan[] plans)
-   {
-      var merged = new MediaImportPlan();
-      foreach(var plan in plans)
-      {
-         merged.FilesToImport.AddRange(plan.FilesToImport);
-         merged.AlreadyStored.AddRange(plan.AlreadyStored);
-         merged.Missing.AddRange(plan.Missing);
-      }
-
-      return merged;
-   }
 }
 
 partial class EditableImportRule : ObservableObject
