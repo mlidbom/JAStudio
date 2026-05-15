@@ -25,22 +25,16 @@ static class KanjiStringMenus
          {
             var vocab = primaryVocab[i];
             var index = i; // Capture for lambda
-            items.Add(SpecMenuItem.Command(
-                         ShortcutFinger.Numpad(index, vocab),
-                         () => kanji.PositionPrimaryVocab(vocabToAdd, index)));
+            items.Add(SpecMenuItem.UICommand(ShortcutFinger.Numpad(index, vocab), () => kanji.PositionPrimaryVocab(vocabToAdd, index)));
          }
 
          // Add [Last] option
-         items.Add(SpecMenuItem.Command(
-                      ShortcutFinger.Home1("[Last]"),
-                      () => kanji.PositionPrimaryVocab(vocabToAdd)));
+         items.Add(SpecMenuItem.UICommand(ShortcutFinger.Home1("[Last]"), () => kanji.PositionPrimaryVocab(vocabToAdd)));
 
          // Add Remove option if vocab is already in primary vocab
          if(primaryVocab.Contains(vocabToAdd))
          {
-            items.Add(SpecMenuItem.Command(
-                         ShortcutFinger.Home2("Remove"),
-                         () => kanji.RemovePrimaryVocab(vocabToAdd)));
+            items.Add(SpecMenuItem.UICommand(ShortcutFinger.Home2("Remove"), () => kanji.RemovePrimaryVocab(vocabToAdd)));
          }
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home1("Highlighted Vocab"), items);
@@ -55,27 +49,19 @@ static class KanjiStringMenus
             var hiraganaString = KanaUtils.KatakanaToHiragana(str);
             if(kanji.PrimaryReadingsOn.Contains(hiraganaString))
             {
-               items.Add(SpecMenuItem.Command(
-                            titleFactory("Remove primary Onyomi Reading"),
-                            () => kanji.RemovePrimaryOnReading(hiraganaString)));
+               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Onyomi Reading"), () => kanji.RemovePrimaryOnReading(hiraganaString)));
             } else if(kanji.ReadingsOn.Contains(hiraganaString))
             {
-               items.Add(SpecMenuItem.Command(
-                            titleFactory("Make primary Onyomi Reading"),
-                            () => kanji.AddPrimaryOnReading(hiraganaString)));
+               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Onyomi Reading"), () => kanji.AddPrimaryOnReading(hiraganaString)));
             }
          } else if(KanaUtils.IsOnlyHiragana(str))
          {
             if(kanji.PrimaryReadingsKun.Contains(str))
             {
-               items.Add(SpecMenuItem.Command(
-                            titleFactory("Remove primary Kunyomi reading"),
-                            () => kanji.RemovePrimaryKunReading(str)));
+               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Kunyomi reading"), () => kanji.RemovePrimaryKunReading(str)));
             } else if(kanji.ReadingsKun.Contains(str))
             {
-               items.Add(SpecMenuItem.Command(
-                            titleFactory("Make primary Kunyomi reading"),
-                            () => kanji.AddPrimaryKunReading(str)));
+               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Kunyomi reading"), () => kanji.AddPrimaryKunReading(str)));
             }
          }
 
@@ -86,8 +72,8 @@ static class KanjiStringMenus
       {
          var items = new List<SpecMenuItem>
                      {
-                        SpecMenuItem.Command(ShortcutFinger.Home1("Similar meaning"), () => kanji.AddUserSimilarMeaning(text)),
-                        SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"), () => kanji.AddRelatedConfusedWith(text))
+                        SpecMenuItem.UICommand(ShortcutFinger.Home1("Similar meaning"), () => kanji.AddUserSimilarMeaning(text)),
+                        SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => kanji.AddRelatedConfusedWith(text))
                      };
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home2("Add"), items);

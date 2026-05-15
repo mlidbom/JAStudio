@@ -27,19 +27,19 @@ class KanjiNoteMenus
                                              SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
                                              SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
                                           }),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new KanjiEditorDialog(kanji).ShowNearCursor())),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
+                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new KanjiEditorDialog(kanji).ShowNearCursor())),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
                   };
 
       // Add conditional "Accept meaning" if no user answer exists
       if(string.IsNullOrEmpty(kanji.UserAnswer.Value))
       {
-         items.Add(SpecMenuItem.Command(ShortcutFinger.Up1("Accept meaning"), () => OnAcceptKanjiMeaning(kanji)));
+         items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up1("Accept meaning"), () => kanji.UserAnswer.Set(FormatKanjiMeaning(kanji.GetAnswer()))));
       }
 
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up2("Populate radicals from mnemonic tags"), kanji.PopulateRadicalsFromMnemonicTags));
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"), kanji.BootstrapMnemonicFromRadicals));
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.UserMnemonic.Set("")));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up2("Populate radicals from mnemonic tags"), kanji.PopulateRadicalsFromMnemonicTags));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"), kanji.BootstrapMnemonicFromRadicals));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.UserMnemonic.Set("")));
 
       return SpecMenuItem.Submenu(title, items);
    }
@@ -51,8 +51,7 @@ class KanjiNoteMenus
 
    static void OnAcceptKanjiMeaning(KanjiNote kanji)
    {
-      var meaning = FormatKanjiMeaning(kanji.GetAnswer());
-      kanji.UserAnswer.Set(meaning);
+      kanji.UserAnswer.Set(FormatKanjiMeaning(kanji.GetAnswer()));
    }
 
    static string FormatKanjiMeaning(string meaning)

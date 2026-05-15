@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using JAStudio.Anki;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -28,7 +31,7 @@ class VocabStringMenus
          }
       );
 
-   static SpecMenuItem BuildAddMenuSpec(string text, VocabNote vocab)
+   SpecMenuItem BuildAddMenuSpec(string text, VocabNote vocab)
    {
       var synonyms = vocab.RelatedNotes.Synonyms.Strings();
       var antonyms = vocab.RelatedNotes.Antonyms.Strings();
@@ -39,30 +42,30 @@ class VocabStringMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Add(text), enabled: !synonyms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Synonyms transitively one level"), () => vocab.RelatedNotes.Synonyms.AddTransitivelyOneLevel(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Add(text), enabled: !confusedWith.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home4("Antonym"), () => vocab.RelatedNotes.Antonyms.Add(text), enabled: !antonyms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !forms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Add(text), enabled: !seeAlso.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), () => vocab.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(text), enabled: !perfectSynonyms.Contains(text))
+                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Add(text), enabled: !synonyms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Synonyms transitively one level"), () => vocab.RelatedNotes.Synonyms.AddTransitivelyOneLevel(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Add(text), enabled: !confusedWith.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Antonym"), () => vocab.RelatedNotes.Antonyms.Add(text), enabled: !antonyms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !forms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Add(text), enabled: !seeAlso.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), () => vocab.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(text), enabled: !perfectSynonyms.Contains(text))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Add"), items);
    }
 
-   static SpecMenuItem BuildSetMenuSpec(string text, VocabNote vocab)
+   SpecMenuItem BuildSetMenuSpec(string text, VocabNote vocab)
    {
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Set(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(text))
+                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Set(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(text))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home2("Set"), items);
    }
 
-   static SpecMenuItem BuildRemoveMenuSpec(string text, VocabNote vocab)
+   SpecMenuItem BuildRemoveMenuSpec(string text, VocabNote vocab)
    {
       var synonyms = vocab.RelatedNotes.Synonyms.Strings();
       var antonyms = vocab.RelatedNotes.Antonyms.Strings();
@@ -75,14 +78,14 @@ class VocabStringMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Remove(text), enabled: synonyms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Remove(text), enabled: confusedWith.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Antonym"), () => vocab.RelatedNotes.Antonyms.Remove(text), enabled: antonyms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Home4("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Remove(), enabled: text == ergativeTwin),
-                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: forms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Remove(text), enabled: seeAlso.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Down1("Perfect synonym"), () => vocab.RelatedNotes.PerfectSynonyms.Remove(text), enabled: perfectSynonyms.Contains(text)),
-                     SpecMenuItem.Command(ShortcutFinger.Down2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(""), enabled: text == derivedFrom)
+                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Remove(text), enabled: synonyms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Remove(text), enabled: confusedWith.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Antonym"), () => vocab.RelatedNotes.Antonyms.Remove(text), enabled: antonyms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Remove(), enabled: text == ergativeTwin),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: forms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Remove(text), enabled: seeAlso.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym"), () => vocab.RelatedNotes.PerfectSynonyms.Remove(text), enabled: perfectSynonyms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Down2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(""), enabled: text == derivedFrom)
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"), items);
@@ -98,48 +101,48 @@ class VocabStringMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.Command(ShortcutFinger.Home1("Add Highlight"),
-                                          () =>
-                                          {
-                                             if(sentences.Count > 0)
-                                                sentences[0].Configuration.AddHighlightedWord(disambiguationName);
-                                          },
-                                          enabled: hasSentences && !isHighlighted),
-                     SpecMenuItem.Command(ShortcutFinger.Home2("Remove highlight"),
-                                          () =>
-                                          {
-                                             foreach(var sent in sentences)
-                                                sent.Configuration.RemoveHighlightedWord(disambiguationName);
-                                          },
-                                          enabled: hasSentences && isHighlighted),
-                     SpecMenuItem.Command(ShortcutFinger.Home3("Remove-sentence: Mark as incorrect match in sentence"),
-                                          () =>
-                                          {
-                                             foreach(var sent in sentences)
-                                                sent.Configuration.IncorrectMatches.AddGlobal(disambiguationName);
-                                          },
-                                          enabled: hasSentences)
+                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Add Highlight"),
+                                            () =>
+                                            {
+                                               if(sentences.Count > 0)
+                                                  sentences[0].Configuration.AddHighlightedWord(disambiguationName);
+                                            },
+                                            enabled: hasSentences && !isHighlighted),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Remove highlight"),
+                                            () =>
+                                            {
+                                               foreach(var sent in sentences)
+                                                  sent.Configuration.RemoveHighlightedWord(disambiguationName);
+                                            },
+                                            enabled: hasSentences && isHighlighted),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Remove-sentence: Mark as incorrect match in sentence"),
+                                            () =>
+                                            {
+                                               foreach(var sent in sentences)
+                                                  sent.Configuration.IncorrectMatches.AddGlobal(disambiguationName);
+                                            },
+                                            enabled: hasSentences)
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home4("Sentence"), items);
    }
 
-   static SpecMenuItem BuildCreateCombinedMenuSpec(string text, VocabNote vocab)
+   SpecMenuItem BuildCreateCombinedMenuSpec(string text, VocabNote vocab)
    {
       // Nested local function for suffix operations (mirroring Python structure)
       List<SpecMenuItem> BuildSuffixMenuItems()
       {
          return
          [
-            SpecMenuItem.Command(ShortcutFinger.Home1("dictionary-form"), () => vocab.Cloner.CreateSuffixVersion(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home2($"い-stem {vocab.Cloner.SuffixToIStemPreview(text)}"), () => vocab.Cloner.SuffixToIStem(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home3($"て-stem  {vocab.Cloner.SuffixToTeStemPreview(text)}"), () => vocab.Cloner.SuffixToTeStem(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home4($"え-stem  {vocab.Cloner.SuffixToEStemPreview(text)}"), () => vocab.Cloner.SuffixToEStem(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home5($"あ-stem  {vocab.Cloner.SuffixToAStemPreview(text)}"), () => vocab.Cloner.SuffixToAStem(text)),
-            SpecMenuItem.Command(ShortcutFinger.Up1($"chop-1  {vocab.Cloner.SuffixToChoppedPreview(text, 1)}"), () => vocab.Cloner.SuffixToChopped(text, 1)),
-            SpecMenuItem.Command(ShortcutFinger.Up2($"chop-2  {vocab.Cloner.SuffixToChoppedPreview(text, 2)}"), () => vocab.Cloner.SuffixToChopped(text, 2)),
-            SpecMenuItem.Command(ShortcutFinger.Up3($"chop-3  {vocab.Cloner.SuffixToChoppedPreview(text, 3)}"), () => vocab.Cloner.SuffixToChopped(text, 3)),
-            SpecMenuItem.Command(ShortcutFinger.Up4($"chop-4  {vocab.Cloner.SuffixToChoppedPreview(text, 4)}"), () => vocab.Cloner.SuffixToChopped(text, 4))
+            CreateNoteCommand(ShortcutFinger.Home1("dictionary-form"), () => vocab.Cloner.CreateSuffixVersion(text)),
+            CreateNoteCommand(ShortcutFinger.Home2($"い-stem {vocab.Cloner.SuffixToIStemPreview(text)}"), () => vocab.Cloner.SuffixToIStem(text)),
+            CreateNoteCommand(ShortcutFinger.Home3($"て-stem  {vocab.Cloner.SuffixToTeStemPreview(text)}"), () => vocab.Cloner.SuffixToTeStem(text)),
+            CreateNoteCommand(ShortcutFinger.Home4($"え-stem  {vocab.Cloner.SuffixToEStemPreview(text)}"), () => vocab.Cloner.SuffixToEStem(text)),
+            CreateNoteCommand(ShortcutFinger.Home5($"あ-stem  {vocab.Cloner.SuffixToAStemPreview(text)}"), () => vocab.Cloner.SuffixToAStem(text)),
+            CreateNoteCommand(ShortcutFinger.Up1($"chop-1  {vocab.Cloner.SuffixToChoppedPreview(text, 1)}"), () => vocab.Cloner.SuffixToChopped(text, 1)),
+            CreateNoteCommand(ShortcutFinger.Up2($"chop-2  {vocab.Cloner.SuffixToChoppedPreview(text, 2)}"), () => vocab.Cloner.SuffixToChopped(text, 2)),
+            CreateNoteCommand(ShortcutFinger.Up3($"chop-3  {vocab.Cloner.SuffixToChoppedPreview(text, 3)}"), () => vocab.Cloner.SuffixToChopped(text, 3)),
+            CreateNoteCommand(ShortcutFinger.Up4($"chop-4  {vocab.Cloner.SuffixToChoppedPreview(text, 4)}"), () => vocab.Cloner.SuffixToChopped(text, 4))
          ];
       }
 
@@ -148,10 +151,10 @@ class VocabStringMenus
       {
          return
          [
-            SpecMenuItem.Command(ShortcutFinger.Home1($"Dictionary form: {text}{vocab.GetQuestion()}"), () => vocab.Cloner.PrefixToDictionaryForm(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home2($"chop-1  {vocab.Cloner.PrefixToChoppedPreview(text, 1)}"), () => vocab.Cloner.PrefixToChopped(text, 1)),
-            SpecMenuItem.Command(ShortcutFinger.Home3($"chop-2  {vocab.Cloner.PrefixToChoppedPreview(text, 2)}"), () => vocab.Cloner.PrefixToChopped(text, 2)),
-            SpecMenuItem.Command(ShortcutFinger.Home4($"chop-3  {vocab.Cloner.PrefixToChoppedPreview(text, 3)}"), () => vocab.Cloner.PrefixToChopped(text, 3))
+            CreateNoteCommand(ShortcutFinger.Home1($"Dictionary form: {text}{vocab.GetQuestion()}"), () => vocab.Cloner.PrefixToDictionaryForm(text)),
+            CreateNoteCommand(ShortcutFinger.Home2($"chop-1  {vocab.Cloner.PrefixToChoppedPreview(text, 1)}"), () => vocab.Cloner.PrefixToChopped(text, 1)),
+            CreateNoteCommand(ShortcutFinger.Home3($"chop-2  {vocab.Cloner.PrefixToChoppedPreview(text, 2)}"), () => vocab.Cloner.PrefixToChopped(text, 2)),
+            CreateNoteCommand(ShortcutFinger.Home4($"chop-3  {vocab.Cloner.PrefixToChoppedPreview(text, 3)}"), () => vocab.Cloner.PrefixToChopped(text, 3))
          ];
       }
 
@@ -164,4 +167,11 @@ class VocabStringMenus
          }
       );
    }
+
+   public SpecMenuItem CreateNoteCommand(string name, Func<JPNote> createNote, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
+      => SpecMenuItem.Command(name,
+                              () => AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(_services.QueryBuilder().NotesLookup([createNote()])),
+                              acceleratorKey,
+                              shortcut,
+                              enabled: enabled);
 }

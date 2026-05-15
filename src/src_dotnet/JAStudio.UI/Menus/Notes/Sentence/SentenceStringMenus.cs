@@ -39,9 +39,8 @@ static class SentenceStringMenus
             if(matchesExcludedByMenuString.Count == 1)
             {
                var match = matchesExcludedByMenuString[0];
-               items.Add(SpecMenuItem.Command(
-                            exclusionTypeTitle,
-                            () => exclusionSet.Add(match.ToExclusion())
+               items.Add(SpecMenuItem.UICommand(exclusionTypeTitle,
+                                                () => exclusionSet.Add(match.ToExclusion())
                          ));
             } else
             {
@@ -50,24 +49,21 @@ static class SentenceStringMenus
                {
                   var match = matchesExcludedByMenuString[i];
                   var index = i; // Capture for lambda
-                  subItems.Add(SpecMenuItem.Command(
-                                  ShortcutFinger.FingerByPriorityOrder(index, $"{match.StartIndex}: {match.ParsedForm}"),
-                                  () => exclusionSet.Add(match.ToExclusion())
-                               ));
+                  subItems.Add(SpecMenuItem.UICommand(ShortcutFinger.FingerByPriorityOrder(index, $"{match.StartIndex}: {match.ParsedForm}"), () => exclusionSet.Add(match.ToExclusion())));
                }
 
                items.Add(SpecMenuItem.Submenu(exclusionTypeTitle, subItems));
             }
          } else
          {
-            items.Add(SpecMenuItem.Command(exclusionTypeTitle, () => {}, enabled: false));
+            items.Add(SpecMenuItem.UICommand(exclusionTypeTitle, () => {}, enabled: false));
          }
       }
 
       var items = new List<SpecMenuItem>();
 
       var isAlreadyHighlighted = sentence.Configuration.HighlightedWords.Contains(menuString);
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted Vocab"), () => sentence.Configuration.AddHighlightedWord(menuString), enabled: !isAlreadyHighlighted));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Home1("Highlighted Vocab"), () => sentence.Configuration.AddHighlightedWord(menuString), enabled: !isAlreadyHighlighted));
 
       AddAddWordExclusionAction(items, ShortcutFinger.Home2("Hidden matches"), sentence.Configuration.HiddenMatches);
       AddAddWordExclusionAction(items, ShortcutFinger.Home3("Incorrect matches"), sentence.Configuration.IncorrectMatches);
@@ -89,10 +85,7 @@ static class SentenceStringMenus
          {
             if(coveredExistingExclusions.Count == 1)
             {
-               items.Add(SpecMenuItem.Command(
-                            exclusionTypeTitle,
-                            () => exclusionSet.RemoveString(menuString)
-                         ));
+               items.Add(SpecMenuItem.UICommand(exclusionTypeTitle, () => exclusionSet.RemoveString(menuString)));
             } else
             {
                var subItems = new List<SpecMenuItem>();
@@ -100,24 +93,21 @@ static class SentenceStringMenus
                {
                   var exclusion = coveredExistingExclusions[i];
                   var index = i; // Capture for lambda
-                  subItems.Add(SpecMenuItem.Command(
-                                  ShortcutFinger.FingerByPriorityOrder(index, $"{exclusion.Index}:{exclusion.Word}"),
-                                  () => exclusionSet.Remove(exclusion)
-                               ));
+                  subItems.Add(SpecMenuItem.UICommand(ShortcutFinger.FingerByPriorityOrder(index, $"{exclusion.Index}:{exclusion.Word}"), () => exclusionSet.Remove(exclusion)));
                }
 
                items.Add(SpecMenuItem.Submenu(exclusionTypeTitle, subItems));
             }
          } else
          {
-            items.Add(SpecMenuItem.Command(exclusionTypeTitle, () => {}, enabled: false));
+            items.Add(SpecMenuItem.UICommand(exclusionTypeTitle, () => {}, enabled: false));
          }
       }
 
       var items = new List<SpecMenuItem>();
 
       var isHighlighted = sentence.Configuration.HighlightedWords.Contains(menuString);
-      items.Add(SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted vocab"), () => sentence.Configuration.RemoveHighlightedWord(menuString), enabled: isHighlighted));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Home1("Highlighted vocab"), () => sentence.Configuration.RemoveHighlightedWord(menuString), enabled: isHighlighted));
 
       AddRemoveWordExclusionAction(ShortcutFinger.Home2("Hidden matches"), items, sentence.Configuration.HiddenMatches);
       AddRemoveWordExclusionAction(ShortcutFinger.Home3("Incorrect matches"), items, sentence.Configuration.IncorrectMatches);
@@ -126,5 +116,5 @@ static class SentenceStringMenus
    }
 
    static SpecMenuItem BuildSplitWithWordBreakTagSpec(string title, SentenceNote sentence, string menuString) =>
-      SpecMenuItem.Command(title, () => sentence.Question.SplitTokenWithWordBreakTag(menuString), enabled: sentence.Question.WithInvisibleSpace().Contains(menuString));
+      SpecMenuItem.UICommand(title, () => sentence.Question.SplitTokenWithWordBreakTag(menuString), enabled: sentence.Question.WithInvisibleSpace().Contains(menuString));
 }

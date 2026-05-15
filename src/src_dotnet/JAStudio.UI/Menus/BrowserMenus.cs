@@ -34,7 +34,7 @@ class AnkiBrowserMenuBuilder
 
       if(selectedCardIds.Count == 1)
       {
-         items.Add(SpecMenuItem.Command("Prioritize selected cards", () => AnkiFacade.Browser.MenuActions.PrioritizeCards(selectedCardIds)));
+         items.Add(SpecMenuItem.UICommand("Prioritize selected cards", () => AnkiFacade.Browser.MenuActions.PrioritizeCards(selectedCardIds)));
 
          var note = GetNoteFromCardId(selectedCardIds[0]);
          if(note != null)
@@ -86,7 +86,7 @@ class AnkiBrowserMenuBuilder
             var currentStartDay = startDay;
             var currentDaysApart = daysApart;
 
-            daysApartItems.Add(SpecMenuItem.Command($"{currentDaysApart} days apart", () => OnSpreadCards(cardIds, currentStartDay, currentDaysApart)));
+            daysApartItems.Add(SpecMenuItem.UICommand($"{currentDaysApart} days apart", () => AnkiFacade.Browser.MenuActions.SpreadCardsOverDays(cardIds, currentStartDay, currentDaysApart)));
          }
 
          startDayMenus.Add(SpecMenuItem.Submenu($"First card in {startDay} days", daysApartItems));
@@ -94,8 +94,6 @@ class AnkiBrowserMenuBuilder
 
       return SpecMenuItem.Submenu("&Spread selected cards", startDayMenus);
    }
-
-   static void OnSpreadCards(IReadOnlyList<long> cardIds, int startDay, int daysApart) => AnkiFacade.Browser.MenuActions.SpreadCardsOverDays(cardIds, startDay, daysApart);
 
    void OnReparseSentences(List<SentenceNote> sentences)
    {

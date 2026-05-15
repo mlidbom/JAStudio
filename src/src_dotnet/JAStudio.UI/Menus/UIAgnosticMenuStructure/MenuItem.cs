@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Anki;
+using JAStudio.Core.Note;
+using Python.Runtime;
 
 namespace JAStudio.UI.Menus.UIAgnosticMenuStructure;
 
@@ -74,6 +77,19 @@ public abstract class SpecMenuItem
    /// <summary>Create a leaf command menu item.</summary>
    public static SpecMenuItem Command(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
       => new CommandSpec(name, action, acceleratorKey, shortcut, enabled);
+
+   public static SpecMenuItem UICommand(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
+   {
+      return Command(name,
+                     () =>
+                     {
+                        action();
+                        if(PythonEngine.IsInitialized)
+                        {
+                           AnkiFacade.UIUtils.Refresh();
+                        }
+                     }, acceleratorKey, shortcut, enabled);
+   }
 
    /// <summary>Create a submenu container.</summary>
    public static SpecMenuItem Submenu(string name, IReadOnlyList<SpecMenuItem> children, char? acceleratorKey = null)

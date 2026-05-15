@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using JAStudio.Anki;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
@@ -55,8 +57,8 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     BuildOpenErgativeTwinMenuSpec(ShortcutFinger.Home4("Ergative twin"), vocab)
                                  }.Where(it => it != null).ToList()!
             ),
-            SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new VocabEditorDialog(vocab).ShowNearCursor())),
-            SpecMenuItem.Command(ShortcutFinger.Home3("Edit Matching Config"), () => Dispatcher.UIThread.Invoke(() => new VocabFlagsDialog(vocab, _services).ShowNearCursor())),
+            SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new VocabEditorDialog(vocab).ShowNearCursor())),
+            SpecMenuItem.UICommand(ShortcutFinger.Home3("Edit Matching Config"), () => Dispatcher.UIThread.Invoke(() => new VocabFlagsDialog(vocab, _services).ShowNearCursor())),
             SpecMenuItem.Submenu(ShortcutFinger.Home4("Create"),
                                  new List<SpecMenuItem>
                                  {
@@ -64,66 +66,73 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     SpecMenuItem.Submenu(ShortcutFinger.Home2("Noun variations"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("する-verb"), () => vocab.Cloner.CreateSuruVerb()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home2("します-verb"), () => vocab.Cloner.CreateShimasuVerb()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home3("な-adjective"), () => vocab.Cloner.CreateNaAdjective()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home4("の-adjective"), () => vocab.Cloner.CreateNoAdjective()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up1("に-adverb"), () => vocab.Cloner.CreateNiAdverb()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up2("と-adverb"), () => vocab.Cloner.CreateToAdverb())
+                                                            CreateNoteCommand(ShortcutFinger.Home1("する-verb"), () => vocab.Cloner.CreateSuruVerb()),
+                                                            CreateNoteCommand(ShortcutFinger.Home2("します-verb"), () => vocab.Cloner.CreateShimasuVerb()),
+                                                            CreateNoteCommand(ShortcutFinger.Home3("な-adjective"), () => vocab.Cloner.CreateNaAdjective()),
+                                                            CreateNoteCommand(ShortcutFinger.Home4("の-adjective"), () => vocab.Cloner.CreateNoAdjective()),
+                                                            CreateNoteCommand(ShortcutFinger.Up1("に-adverb"), () => vocab.Cloner.CreateNiAdverb()),
+                                                            CreateNoteCommand(ShortcutFinger.Up2("と-adverb"), () => vocab.Cloner.CreateToAdverb())
                                                          }),
                                     SpecMenuItem.Submenu(ShortcutFinger.Home3("Verb variations"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("ます-form"), () => vocab.Cloner.CreateMasuForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home2("て-form"), () => vocab.Cloner.CreateTeForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home3("た-form"), () => vocab.Cloner.CreateTaForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home4("ない-form"), () => vocab.Cloner.CreateNaiForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home5($"え-stem/godan-imperative {vocab.Cloner.SuffixToEStemPreview("")}"), () => vocab.Cloner.SuffixToEStem("")),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up1("ば-form"), () => vocab.Cloner.CreateBaForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up2("{receptive/passive}-form"), () => vocab.Cloner.CreateReceptiveForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up3("causative"), () => vocab.Cloner.CreateCausativeForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up4("imperative"), () => vocab.Cloner.CreateImperative()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Down1("Potential-godan"), () => vocab.Cloner.CreatePotentialGodan())
+                                                            CreateNoteCommand(ShortcutFinger.Home1("ます-form"), () => vocab.Cloner.CreateMasuForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Home2("て-form"), () => vocab.Cloner.CreateTeForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Home3("た-form"), () => vocab.Cloner.CreateTaForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Home4("ない-form"), () => vocab.Cloner.CreateNaiForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Home5($"え-stem/godan-imperative {vocab.Cloner.SuffixToEStemPreview("")}"), () => vocab.Cloner.SuffixToEStem("")),
+                                                            CreateNoteCommand(ShortcutFinger.Up1("ば-form"), () => vocab.Cloner.CreateBaForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Up2("{receptive/passive}-form"), () => vocab.Cloner.CreateReceptiveForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Up3("causative"), () => vocab.Cloner.CreateCausativeForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Up4("imperative"), () => vocab.Cloner.CreateImperative()),
+                                                            CreateNoteCommand(ShortcutFinger.Down1("Potential-godan"), () => vocab.Cloner.CreatePotentialGodan())
                                                          }),
                                     SpecMenuItem.Submenu(ShortcutFinger.Home4("Misc"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("く-form-of-い-adjective"), () => vocab.Cloner.CreateKuForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home2("さ-form-of-い-adjective"), () => vocab.Cloner.CreateSaForm()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home3("て-prefixed"), () => vocab.Cloner.CreateTePrefixedWord()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home4("お-prefixed"), () => vocab.Cloner.CreateOPrefixedWord()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home5("ん-suffixed"), () => vocab.Cloner.CreateNSuffixedWord()),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up1("か-suffixed"), () => vocab.Cloner.CreateKaSuffixedWord())
+                                                            CreateNoteCommand(ShortcutFinger.Home1("く-form-of-い-adjective"), () => vocab.Cloner.CreateKuForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Home2("さ-form-of-い-adjective"), () => vocab.Cloner.CreateSaForm()),
+                                                            CreateNoteCommand(ShortcutFinger.Home3("て-prefixed"), () => vocab.Cloner.CreateTePrefixedWord()),
+                                                            CreateNoteCommand(ShortcutFinger.Home4("お-prefixed"), () => vocab.Cloner.CreateOPrefixedWord()),
+                                                            CreateNoteCommand(ShortcutFinger.Home5("ん-suffixed"), () => vocab.Cloner.CreateNSuffixedWord()),
+                                                            CreateNoteCommand(ShortcutFinger.Up1("か-suffixed"), () => vocab.Cloner.CreateKaSuffixedWord())
                                                          })
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Home5("Copy"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.Command(ShortcutFinger.Home1("Question"), () => CopyToClipboard(vocab.GetQuestion())),
-                                    SpecMenuItem.Command(ShortcutFinger.Home2("Answer"), () => CopyToClipboard(vocab.GetAnswer())),
-                                    SpecMenuItem.Command(ShortcutFinger.Home3("Definition (question:answer)"), () => CopyToClipboard($"{vocab.GetQuestion()}:{vocab.GetAnswer()}")),
-                                    SpecMenuItem.Command(ShortcutFinger.Home4("Sentences: max 30"), () => CopyToClipboard(string.Join("\n", vocab.Sentences.All().Take(30).Select(s => s.Question.WithoutInvisibleSpace()))))
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Question"), () => CopyToClipboard(vocab.GetQuestion())),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("Answer"), () => CopyToClipboard(vocab.GetAnswer())),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("Definition (question:answer)"), () => CopyToClipboard($"{vocab.GetQuestion()}:{vocab.GetAnswer()}")),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Sentences: max 30"), () => CopyToClipboard(string.Join("\n", vocab.Sentences.All().Take(30).Select(s => s.Question.WithoutInvisibleSpace()))))
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Up1("Misc"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.Command(ShortcutFinger.Home1("Accept meaning"), () => vocab.User.Answer.Set(FormatVocabMeaning(vocab.GetAnswer())), enabled: !vocab.User.Answer.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home2("Generate answer"), vocab.GenerateAndSetAnswer),
-                                    SpecMenuItem.Command(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
-                                    SpecMenuItem.Command(ShortcutFinger.Home4("Repopulate TOS"), () => vocab.PartsOfSpeech.SetAutomaticallyFromDictionary()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home5("Autogenerate compounds"), () => vocab.CompoundParts.AutoGenerate())
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Accept meaning"), () => vocab.User.Answer.Set(FormatVocabMeaning(vocab.GetAnswer())), enabled: !vocab.User.Answer.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("Generate answer"), vocab.GenerateAndSetAnswer),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Repopulate TOS"), () => vocab.PartsOfSpeech.SetAutomaticallyFromDictionary()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home5("Autogenerate compounds"), () => vocab.CompoundParts.AutoGenerate())
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.Command(ShortcutFinger.Home1("User explanation"), () => vocab.User.Explanation.Empty(), enabled: vocab.User.Explanation.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home2("User explanation long"), () => vocab.User.ExplanationLong.Empty(), enabled: vocab.User.ExplanationLong.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home3("User mnemonic"), () => vocab.User.Mnemonic.Empty(), enabled: vocab.User.Mnemonic.HasValue()),
-                                    SpecMenuItem.Command(ShortcutFinger.Home4("User answer"), () => vocab.User.Answer.Empty(), enabled: vocab.User.Answer.HasValue())
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("User explanation"), () => vocab.User.Explanation.Empty(), enabled: vocab.User.Explanation.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("User explanation long"), () => vocab.User.ExplanationLong.Empty(), enabled: vocab.User.ExplanationLong.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("User mnemonic"), () => vocab.User.Mnemonic.Empty(), enabled: vocab.User.Mnemonic.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("User answer"), () => vocab.User.Answer.Empty(), enabled: vocab.User.Answer.HasValue())
                                  })
          }
       );
    }
+
+   public SpecMenuItem CreateNoteCommand(string name, Func<JPNote> createNote, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
+      => SpecMenuItem.Command(name,
+                              () => AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(_services.QueryBuilder().NotesLookup([createNote()])),
+                              acceleratorKey,
+                              shortcut,
+                              enabled: enabled);
 
    SpecMenuItem BuildOpenHomonymsMenuSpec(VocabNote vocab, string title)
    {
@@ -133,7 +142,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       for(var i = 0; i < readings.Count; i++)
       {
          var reading = readings[i];
-         items.Add(SpecMenuItem.Command(
+         items.Add(SpecMenuItem.UICommand(
                       ShortcutFinger.FingerByPriorityOrder(i, $"Homonyms: {reading}"),
                       () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Vocab.WithReading(reading)))));
       }
@@ -151,7 +160,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       if(!ergativeTwinNotes.Any())
          return null;
 
-      return SpecMenuItem.Command(title, () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(ergativeTwinNotes)));
+      return SpecMenuItem.UICommand(title, () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(ergativeTwinNotes)));
    }
 
    SpecMenuItem BuildCreateCloneToFormMenuSpec(string title, VocabNote vocab)
@@ -165,7 +174,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       for(var i = 0; i < formsWithNoVocab.Count; i++)
       {
          var form = formsWithNoVocab[i];
-         items.Add(SpecMenuItem.Command(
+         items.Add(SpecMenuItem.UICommand(
                       ShortcutFinger.FingerByPriorityOrder(i, form),
                       () => vocab.Cloner.CloneToForm(form)));
       }

@@ -67,7 +67,7 @@ class OpenInAnkiMenus
 
    static SpecMenuItem CreateLookupSpec(string header, Func<string> getQuery)
    {
-      return SpecMenuItem.Command(
+      return SpecMenuItem.UICommand(
          header,
          () =>
          {

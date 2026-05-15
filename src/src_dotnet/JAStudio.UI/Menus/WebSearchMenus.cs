@@ -108,5 +108,5 @@ public static class WebSearchMenuBuilder
       );
 
    static SpecMenuItem WebLookupItem(string header, string urlTemplate, Func<string> getSearchText) =>
-      SpecMenuItem.Command(header, () => BrowserLauncher.OpenUrlInDefaultBrowser(urlTemplate.Replace("%s", HttpUtility.UrlEncode(getSearchText()))));
+      SpecMenuItem.UICommand(header, () => BrowserLauncher.OpenUrlInDefaultBrowser(urlTemplate.Replace("%s", HttpUtility.UrlEncode(getSearchText()))));
 }

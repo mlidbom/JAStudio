@@ -29,21 +29,21 @@ class SentenceNoteMenus
                                                              SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().KanjiInString(string.Join("", sentence.ExtractKanji())))),
                                                              SpecMenuItem.Command(ShortcutFinger.Home4("Parsed words"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesByIds(GetParsedWordsNoteIds(sentence))))
                                                           }),
-                                     SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new SentenceEditorDialog(sentence).ShowNearCursor())),
+                                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new SentenceEditorDialog(sentence).ShowNearCursor())),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.Command(ShortcutFinger.Home1("All highlighted"), () => sentence.Configuration.ResetHighlightedWords(), enabled: sentence.Configuration.HighlightedWords.Any()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Configuration.IncorrectMatches.Reset(), enabled: sentence.Configuration.IncorrectMatches.Get().Any()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home3("All hidden matches"), () => sentence.Configuration.HiddenMatches.Reset(), enabled: sentence.Configuration.HiddenMatches.Get().Any()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Source comments"), () => sentence.SourceComments.Empty(), enabled: sentence.SourceComments.HasValue())
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home1("All highlighted"), () => sentence.Configuration.ResetHighlightedWords(), enabled: sentence.Configuration.HighlightedWords.Any()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Configuration.IncorrectMatches.Reset(), enabled: sentence.Configuration.IncorrectMatches.Get().Any()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home3("All hidden matches"), () => sentence.Configuration.HiddenMatches.Reset(), enabled: sentence.Configuration.HiddenMatches.Get().Any()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home4("Source comments"), () => sentence.SourceComments.Empty(), enabled: sentence.SourceComments.HasValue())
                                                           }),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home4("Remove User"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.Command(ShortcutFinger.Home1("comments"), () => sentence.User.Comments.Empty(), enabled: sentence.User.Comments.HasValue()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home2("answer"), () => sentence.User.Answer.Empty(), enabled: sentence.User.Answer.HasValue()),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home3("question"), () => sentence.User.Question.Empty(), enabled: sentence.User.Question.HasValue())
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home1("comments"), () => sentence.User.Comments.Empty(), enabled: sentence.User.Comments.HasValue()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home2("answer"), () => sentence.User.Answer.Empty(), enabled: sentence.User.Answer.HasValue()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home3("question"), () => sentence.User.Question.Empty(), enabled: sentence.User.Question.HasValue())
                                                           })
                                   }
       );
@@ -59,15 +59,11 @@ class SentenceNoteMenus
       for(var i = 0; i < config.SentenceViewToggles.Count; i++)
       {
          var toggle = config.SentenceViewToggles[i];
-         items.Add(SpecMenuItem.Command(
-                      ShortcutFinger.FingerByPriorityOrder(i, toggle.Title),
-                      () => toggle.Value = !toggle.Value));
+         items.Add(SpecMenuItem.UICommand(ShortcutFinger.FingerByPriorityOrder(i, toggle.Title), () => toggle.Value = !toggle.Value));
       }
 
       // Add the "Toggle all auto yield flags" action
-      items.Add(SpecMenuItem.Command(
-                   ShortcutFinger.FingerByPriorityOrder(items.Count, "Toggle all sentence auto yield compound last token flags (Ctrl+Shift+Alt+d)"),
-                   () => config.ToggleAllSentenceDisplayAutoYieldFlags()));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.FingerByPriorityOrder(items.Count, "Toggle all sentence auto yield compound last token flags (Ctrl+Shift+Alt+d)"), () => config.ToggleAllSentenceDisplayAutoYieldFlags()));
 
       return SpecMenuItem.Submenu(title, items);
    }
