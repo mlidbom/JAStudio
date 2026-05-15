@@ -38,7 +38,7 @@ public class MediaImportRulePersistence
 
 public class PersistedImportRules
 {
-   public List<VocabImportRule> VocabRules { get; set; } = [];
-   public List<SentenceImportRule> SentenceRules { get; set; } = [];
-   public List<KanjiImportRule> KanjiRules { get; set; } = [];
+   public List<ImportRule> VocabRules { get; set; } = [];
+   public List<ImportRule> SentenceRules { get; set; } = [];
+   public List<ImportRule> KanjiRules { get; set; } = [];
 }
