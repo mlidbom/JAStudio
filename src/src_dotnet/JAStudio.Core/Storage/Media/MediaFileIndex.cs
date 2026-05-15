@@ -336,6 +336,19 @@ public class MediaFileIndex
    public MediaAttachment? TryGetByOriginalFileName(string originalFileName) => EnsureInitialized()
      .then(() => _byOriginalFileName.GetValueOrDefault(originalFileName));
 
+   public void ResaveAllSidecars()
+   {
+      foreach(var attachment in All)
+      {
+         if(string.IsNullOrEmpty(attachment.FilePath)) continue;
+
+         if(attachment is AudioAttachment audio)
+            SidecarSerializer.WriteAudioSidecar(SidecarSerializer.BuildAudioSidecarPath(attachment.FilePath), audio);
+         else if(attachment is ImageAttachment image)
+            SidecarSerializer.WriteImageSidecar(SidecarSerializer.BuildImageSidecarPath(attachment.FilePath), image);
+      }
+   }
+
    public void Register(MediaAttachment attachment)
    {
       _byId[attachment.Id] = attachment;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -12,6 +13,7 @@ public class MediaImportRulePersistence
                                                           WriteIndented = true,
                                                           PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                                           DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                                                          Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                                                           Converters = { new JsonStringEnumConverter(), new SourceTagJsonConverter() }
                                                        };
 

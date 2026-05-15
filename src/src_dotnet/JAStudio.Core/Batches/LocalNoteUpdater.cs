@@ -10,6 +10,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Storage.Media;
 using JAStudio.Core.SysUtils;
 using JAStudio.Core.TaskRunners;
 
@@ -25,8 +26,9 @@ public class LocalNoteUpdater
    readonly DictLookup _dictLookup;
    readonly VocabNoteFactory _vocabNoteFactory;
    readonly FileSystemNoteRepository _fileSystemNoteRepository;
+   readonly MediaFileIndex _mediaFileIndex;
 
-   internal LocalNoteUpdater(TaskRunner taskRunner, VocabCollection vocab, KanjiCollection kanji, SentenceCollection sentences, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, FileSystemNoteRepository fileSystemNoteRepository)
+   internal LocalNoteUpdater(TaskRunner taskRunner, VocabCollection vocab, KanjiCollection kanji, SentenceCollection sentences, JapaneseConfig config, DictLookup dictLookup, VocabNoteFactory vocabNoteFactory, FileSystemNoteRepository fileSystemNoteRepository, MediaFileIndex mediaFileIndex)
    {
       _taskRunner = taskRunner;
       _vocab = vocab;
@@ -36,6 +38,7 @@ public class LocalNoteUpdater
       _dictLookup = dictLookup;
       _vocabNoteFactory = vocabNoteFactory;
       _fileSystemNoteRepository = fileSystemNoteRepository;
+      _mediaFileIndex = mediaFileIndex;
    }
 
    public void UpdateAll()
@@ -362,5 +365,6 @@ public class LocalNoteUpdater
    {
       var allData = new AllNotesData(_kanji.All(), _vocab.All(), _sentences.All());
       _fileSystemNoteRepository.SaveAll(allData);
+      _mediaFileIndex.ResaveAllSidecars();
    }
 }

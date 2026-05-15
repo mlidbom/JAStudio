@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -16,6 +17,7 @@ public static class SidecarSerializer
                                                       WriteIndented = true,
                                                       PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                                       DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                                                      Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                                                       Converters =
                                                       {
                                                          new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
