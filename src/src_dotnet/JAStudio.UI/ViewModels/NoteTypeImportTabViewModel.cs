@@ -12,7 +12,7 @@ partial class NoteTypeImportTabViewModel : ObservableObject
 {
    readonly Func<List<EditableImportRule>, List<ImportRule>> _buildRules;
 
-   List<NoteMediaFieldScan> _scans = [];
+   List<NoteMediaFieldImportState> _noteMediaFieldImportStates = [];
 
 #pragma warning disable CS8618
    [Obsolete("Parameterless constructor is only for XAML designer support and should not be used directly.")]
@@ -46,23 +46,23 @@ partial class NoteTypeImportTabViewModel : ObservableObject
       rule.RemoveSelfCommand = new RelayCommand(() => RemoveRule(rule));
       Rules.Add(rule);
       SortRules();
-      Reclassify();
+      Rebuild();
    }
 
    [RelayCommand]
    void RemoveRule(EditableImportRule rule)
    {
       Rules.Remove(rule);
-      Reclassify();
+      Rebuild();
    }
 
-   internal void SetScans(List<NoteMediaFieldScan> scans)
+   internal void SetImportState(List<NoteMediaFieldImportState> scans)
    {
-      _scans = scans;
-      Reclassify();
+      _noteMediaFieldImportStates = scans;
+      Rebuild();
    }
 
-   public void Reclassify()
+   public void Rebuild()
    {
       var rules = _buildRules(Rules.ToList());
       foreach(var rule in Rules) rule.MatchCount = 0;
@@ -70,7 +70,7 @@ partial class NoteTypeImportTabViewModel : ObservableObject
       var unmapped = new Dictionary<(string Source, string Field), int>();
       var totalMapped = 0;
 
-      foreach(var scan in _scans)
+      foreach(var scan in _noteMediaFieldImportStates)
       {
          scan.MatchingRule = rules.TryResolve(scan.SourceTag, scan.FieldName);
 

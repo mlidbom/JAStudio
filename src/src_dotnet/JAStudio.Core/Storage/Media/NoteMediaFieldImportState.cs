@@ -7,9 +7,9 @@ namespace JAStudio.Core.Storage.Media;
 /// Everything known about a single media file referenced by a specific field on a specific note.
 /// Produced by <see cref="NoteMediaFieldScanner"/> in a single pass over all notes.
 /// </summary>
-public class NoteMediaFieldScan
+public class NoteMediaFieldImportState
 {
-   public NoteMediaFieldScan(SourceTag sourceTag, NoteId noteId, string fieldName, string fileName, MediaType mediaType, MediaAttachment? indexedAttachment, string? ankiSourcePath)
+   public NoteMediaFieldImportState(SourceTag sourceTag, NoteId noteId, string fieldName, string fileName, MediaType mediaType, MediaAttachment? indexedAttachment, string? ankiSourcePath)
    {
       SourceTag = sourceTag;
       NoteId = noteId;

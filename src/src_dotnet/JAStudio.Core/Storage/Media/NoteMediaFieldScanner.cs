@@ -8,7 +8,7 @@ using JAStudio.Core.Note.Vocabulary;
 namespace JAStudio.Core.Storage.Media;
 
 /// <summary>
-/// Scans all notes in a single pass, producing one <see cref="NoteMediaFieldScan"/> per media reference.
+/// Scans all notes in a single pass, producing one <see cref="NoteMediaFieldImportState"/> per media reference.
 /// Each scan entry carries everything known about the file: source note, field, index status, and Anki source path.
 /// Rule matching is applied separately via <see cref="ImportRulesCE.TryResolve"/>.
 /// </summary>
@@ -23,9 +23,9 @@ public class NoteMediaFieldScanner
       _index = index;
    }
 
-   public List<NoteMediaFieldScan> ScanVocab(IReadOnlyList<VocabNote> notes)
+   public List<NoteMediaFieldImportState> GetVocabMediaFieldsImportState(IReadOnlyList<VocabNote> notes)
    {
-      var result = new List<NoteMediaFieldScan>();
+      var result = new List<NoteMediaFieldImportState>();
       foreach(var note in notes)
       {
          var sourceTag = note.SourceTag;
@@ -39,9 +39,9 @@ public class NoteMediaFieldScanner
       return result;
    }
 
-   public List<NoteMediaFieldScan> ScanSentences(IReadOnlyList<SentenceNote> notes)
+   public List<NoteMediaFieldImportState> GetSentenceMediaFieldsImportState(IReadOnlyList<SentenceNote> notes)
    {
-      var result = new List<NoteMediaFieldScan>();
+      var result = new List<NoteMediaFieldImportState>();
       foreach(var note in notes)
       {
          var sourceTag = note.SourceTag;
@@ -52,13 +52,13 @@ public class NoteMediaFieldScanner
       return result;
    }
 
-   void ScanField(List<MediaReference> references, string fieldName, SourceTag sourceTag, NoteId noteId, List<NoteMediaFieldScan> result)
+   void ScanField(List<MediaReference> references, string fieldName, SourceTag sourceTag, NoteId noteId, List<NoteMediaFieldImportState> result)
    {
       foreach(var reference in references)
       {
          var indexed = _index.TryGetByOriginalFileName(reference.FileName);
          var ankiSourcePath = indexed == null ? ResolveAnkiSourcePath(reference.FileName) : null;
-         result.Add(new NoteMediaFieldScan(sourceTag, noteId, fieldName, reference.FileName, reference.Type, indexed, ankiSourcePath));
+         result.Add(new NoteMediaFieldImportState(sourceTag, noteId, fieldName, reference.FileName, reference.Type, indexed, ankiSourcePath));
       }
    }
 

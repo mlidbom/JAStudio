@@ -40,7 +40,7 @@ public class MediaImportPlan
    public List<AlreadyStoredFile> AlreadyStored { get; } = [];
    public List<MissingFile> Missing { get; } = [];
 
-   public static MediaImportPlan From(IEnumerable<NoteMediaFieldScan> scans)
+   public static MediaImportPlan From(IEnumerable<NoteMediaFieldImportState> scans)
    {
       var plan = new MediaImportPlan();
       foreach(var scan in scans)

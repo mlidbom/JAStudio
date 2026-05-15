@@ -57,8 +57,8 @@ partial class MediaImportDialogViewModel : ObservableObject
    [ObservableProperty] bool _hasPlan;
 
    MediaImportPlan? _currentPlan;
-   List<NoteMediaFieldScan> _vocabScans = [];
-   List<NoteMediaFieldScan> _sentenceScans = [];
+   List<NoteMediaFieldImportState> _vocabScans = [];
+   List<NoteMediaFieldImportState> _sentenceScans = [];
    [ObservableProperty] int _filesToImportCount;
    [ObservableProperty] int _alreadyStoredCount;
    [ObservableProperty] int _missingCount;
@@ -80,17 +80,17 @@ partial class MediaImportDialogViewModel : ObservableObject
       _services.BackgroundTaskManager.Run(() =>
       {
          var scanner = new NoteMediaFieldScanner(_paths.AnkiMediaDir, _index);
-         var vocabScans = scanner.ScanVocab(_vocabCollection.All());
-         var sentenceScans = scanner.ScanSentences(_sentenceCollection.All());
+         var vocabMediaFieldsState = scanner.GetVocabMediaFieldsImportState(_vocabCollection.All());
+         var sentenceMediaFieldsState = scanner.GetSentenceMediaFieldsImportState(_sentenceCollection.All());
 
          Dispatcher.UIThread.Invoke(() =>
          {
-            VocabTab.SetScans(vocabScans);       // applies current vocab rules via Reclassify
-            SentenceTab.SetScans(sentenceScans); // applies current sentence rules via Reclassify
+            VocabTab.SetImportState(vocabMediaFieldsState);
+            SentenceTab.SetImportState(sentenceMediaFieldsState);
 
-            _vocabScans = vocabScans;
-            _sentenceScans = sentenceScans;
-            _currentPlan = MediaImportPlan.From(vocabScans.Concat(sentenceScans));
+            _vocabScans = vocabMediaFieldsState;
+            _sentenceScans = sentenceMediaFieldsState;
+            _currentPlan = MediaImportPlan.From(vocabMediaFieldsState.Concat(sentenceMediaFieldsState));
             FilesToImportCount = _currentPlan.FilesToImport.Count;
             AlreadyStoredCount = _currentPlan.AlreadyStored.Count;
             MissingCount = _currentPlan.Missing.Count;
@@ -153,7 +153,7 @@ partial class MediaImportDialogViewModel : ObservableObject
          AnkiFacade.Browser.ExecuteLookup(query);
    }
 
-   static List<MissingFileRow> BuildMissingFileRows(List<NoteMediaFieldScan> scans, Func<NoteId, string> getQuestion) =>
+   static List<MissingFileRow> BuildMissingFileRows(List<NoteMediaFieldImportState> scans, Func<NoteId, string> getQuestion) =>
       scans.Where(s => s.IndexedAttachment == null && s.AnkiSourcePath == null && s.MatchingRule != null)
            .Select(s => new MissingFileRow(getQuestion(s.NoteId), s.NoteId.ToString(), s.FieldName, s.FileName, s.NoteId))
            .OrderBy(r => r.Question)

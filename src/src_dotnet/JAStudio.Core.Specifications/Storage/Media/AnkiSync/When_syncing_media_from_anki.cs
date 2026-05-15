@@ -36,14 +36,14 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
 
    MediaImportPlan ScanVocabAndBuildPlan(IReadOnlyList<VocabNote> notes, IReadOnlyList<ImportRule> rules)
    {
-      var scans = _scanner.ScanVocab(notes);
+      var scans = _scanner.GetVocabMediaFieldsImportState(notes);
       foreach(var scan in scans) scan.MatchingRule = rules.TryResolve(scan.SourceTag, scan.FieldName);
       return MediaImportPlan.From(scans);
    }
 
    MediaImportPlan ScanSentencesAndBuildPlan(IReadOnlyList<SentenceNote> notes, IReadOnlyList<ImportRule> rules)
    {
-      var scans = _scanner.ScanSentences(notes);
+      var scans = _scanner.GetSentenceMediaFieldsImportState(notes);
       foreach(var scan in scans) scan.MatchingRule = rules.TryResolve(scan.SourceTag, scan.FieldName);
       return MediaImportPlan.From(scans);
    }
