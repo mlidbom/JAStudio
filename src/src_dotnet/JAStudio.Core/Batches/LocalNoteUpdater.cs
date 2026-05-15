@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
@@ -363,8 +364,11 @@ public class LocalNoteUpdater
 
    public void WriteFileSystemRepository()
    {
-      var allData = new AllNotesData(_kanji.All(), _vocab.All(), _sentences.All());
-      _fileSystemNoteRepository.SaveAll(allData);
-      _mediaFileIndex.ResaveAllSidecars();
+      using var scope = _taskRunner.Current("Writing file system repository");
+
+      Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _fileSystemNoteRepository.Save, "Writing kanji"),
+                   scope.RunBatchAsync(_vocab.All(), _fileSystemNoteRepository.Save, "Writing vocab"),
+                   scope.RunBatchAsync(_sentences.All(), _fileSystemNoteRepository.Save, "Writing sentences"),
+                   scope.RunIndeterminateAsync("Writing sidecars", () => _mediaFileIndex.ResaveAllSidecars()));
    }
 }

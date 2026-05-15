@@ -274,6 +274,6 @@ static class JsonHelper
 
    static readonly JsonSerializerOptions DictJsonOptions = new()
                                                            {
-                                                              Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                                                              Encoder = FullUnicodeJsonEncoder.Instance,
                                                            };
 }

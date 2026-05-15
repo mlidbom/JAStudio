@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.CorpusData;
@@ -7,6 +6,7 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Dto;
+using JAStudio.Core.SysUtils.Json;
 
 namespace JAStudio.Core.Storage;
 
@@ -16,11 +16,11 @@ public class NoteSerializer
                                                        {
                                                           WriteIndented = true,
                                                           PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                                                          Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                                                          Encoder = FullUnicodeJsonEncoder.Instance,
                                                           TypeInfoResolver = new NoteSerializationContext(new JsonSerializerOptions
                                                                                                           {
                                                                                                              PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                                                                                                             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                                                                                                             Encoder = FullUnicodeJsonEncoder.Instance,
                                                                                                           }),
                                                        };
 

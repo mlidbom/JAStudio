@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using JAStudio.Core.SysUtils.Json;
 
 namespace JAStudio.Core.Storage.Media;
 
@@ -17,7 +17,7 @@ public static class SidecarSerializer
                                                       WriteIndented = true,
                                                       PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                                       DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-                                                      Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                                                      Encoder = FullUnicodeJsonEncoder.Instance,
                                                       Converters =
                                                       {
                                                          new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
