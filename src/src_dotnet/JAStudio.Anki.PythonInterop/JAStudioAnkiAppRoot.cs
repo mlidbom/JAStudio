@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Platform;
 using Avalonia.Threading;
 using Compze.Utilities.Logging;
 using Compze.Utilities.SystemCE;
@@ -81,6 +82,7 @@ public class JAStudioAnkiAppRoot
       uiThread.Start();
 
       UIApp.WaitForInitialization(TimeSpan.FromSeconds(30));
+      DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(app.Services));
 
       var root = new JAStudioAnkiAppRoot(app) { _uiThread = uiThread };

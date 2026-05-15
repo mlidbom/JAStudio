@@ -5,7 +5,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Markup.Xaml;
+using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
 using JAStudio.UI.Menus;
 
@@ -14,34 +16,24 @@ namespace JAStudio.UI.Views;
 partial class MainWindow : Window
 {
    static MainWindow? _instance;
+   readonly TemporaryServiceCollection _services;
 
    [Obsolete("For XAML designer/previewer only")]
-   public MainWindow() { InitializeComponent(); }
+   public MainWindow() { InitializeComponent(); _services = null!; }
 
    MainWindow(TemporaryServiceCollection services)
    {
+      _services = services;
       InitializeComponent();
+      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+Shift+O"), Command = new RelayCommand(Hide) });
+      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+O"), Command = new RelayCommand(() => NoteSearchDialog.ToggleVisibility(_services)) });
       var mainMenu = this.FindControl<Menu>("MainMenu")!;
       var menuSpec = new JapaneseMainMenu(services).BuildMenuSpec(GetClipboardText);
       foreach(var item in SpecMenuRenderer.BuildMenuItems(menuSpec))
          mainMenu.Items.Add(item);
    }
 
-   string GetClipboardText() =>
-      Task.Run(async () =>
-      {
-         var data = await (Clipboard?.TryGetDataAsync() ?? Task.FromResult<IAsyncDataTransfer?>(null)).ConfigureAwait(false);
-         if(data == null) return "";
-         using(data)
-         {
-            foreach(var item in data.Items)
-            {
-               var text = await item.TryGetTextAsync().ConfigureAwait(false);
-               if(text != null) return text;
-            }
-         }
-         return "";
-      }).GetAwaiter().GetResult();
+   string GetClipboardText() => Clipboard?.TryGetTextAsync().Result ?? string.Empty;
 
    void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
@@ -59,9 +51,8 @@ partial class MainWindow : Window
          desktop.MainWindow = _instance;
    }
 
-   public static void ToggleVisibility(TemporaryServiceCollection services)
+   public static void ToggleVisibility()
    {
-      if(_instance == null) CreateAndRegister(services);
       if(_instance!.IsVisible)
       {
          _instance.Hide();

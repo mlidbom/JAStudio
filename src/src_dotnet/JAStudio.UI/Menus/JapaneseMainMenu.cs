@@ -27,7 +27,7 @@ public class JapaneseMainMenu
    // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildMenuSpec(Func<string> getClipboardContent) =>
    [
-      SpecMenuItem.Command(ShortcutFinger.Home4("JAStudio Browser"), () => Dispatcher.UIThread.Invoke(() => Views.MainWindow.ToggleVisibility(_services))),
+      SpecMenuItem.Command(ShortcutFinger.Home4("JAStudio Browser"), () => Dispatcher.UIThread.Invoke(() => Views.MainWindow.ToggleVisibility())),
       SpecMenuItem.Submenu(ShortcutFinger.Home1("Config"),
                            new List<SpecMenuItem>
                            {

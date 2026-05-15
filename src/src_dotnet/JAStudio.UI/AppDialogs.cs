@@ -32,4 +32,6 @@ public class AnkiDialogs
       this.Log().Info("ToggleEnglishWordSearchDialog() called");
       Dispatcher.UIThread.Invoke(EnglishWordSearchDialog.ToggleVisibility);
    }
+
+   public void ToggleMainWindow() => Dispatcher.UIThread.Invoke(MainWindow.ToggleVisibility);
 }

@@ -22,7 +22,7 @@ def init() -> None:
         "Alt+Left": history_navigator.navigator.navigate_back,
         "Alt+Right": history_navigator.navigator.navigate_forward,
         "Ctrl+o": dotnet_ui_root().Dialogs.ToggleNoteSearchDialog,
-        "Ctrl+Shift+o": dotnet_ui_root().Dialogs.ToggleEnglishWordSearchDialog,
+        "Ctrl+Shift+o": dotnet_ui_root().Dialogs.ToggleMainWindow,
         "F5": lambda: app.get_ui_utils().refresh()
     }
 

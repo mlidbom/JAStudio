@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using CommunityToolkit.Mvvm.Input;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels;
 
@@ -26,6 +27,8 @@ partial class NoteSearchDialog : Window
    {
       InitializeComponent();
       DataContext = new NoteSearchDialogViewModel(services);
+      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+O"), Command = new RelayCommand(Hide) });
+      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Escape"), Command = new RelayCommand(Hide) });
 
       // Focus search input when dialog is shown
       Opened += (_, _) =>
