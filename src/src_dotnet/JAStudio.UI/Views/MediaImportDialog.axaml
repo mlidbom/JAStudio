@@ -4,7 +4,7 @@
         x:Class="JAStudio.UI.Views.MediaImportDialog"
         x:DataType="vm:MediaImportDialogViewModel"
         Title="Media Import"
-        Width="950" Height="700"
+        Width="950" Height="1600"
         MinWidth="700" MinHeight="500"
         Design.Width="950" Design.Height="700"
         WindowStartupLocation="Manual">
