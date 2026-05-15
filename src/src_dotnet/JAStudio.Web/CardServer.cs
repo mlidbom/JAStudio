@@ -139,13 +139,12 @@ public class CardServer
 
    static void ConfigureMediaEndpoint(WebApplication app)
    {
-      // Serve media files from the storage directory by MediaFileId (GUID).
-      // URL: /media/{guid}
-      app.MapGet("/media/{id}", (string id, MediaFileIndex index) =>
+      // Serve media files from the storage directory by original filename.
+      // URL: /media?name={filename}
+      app.MapGet("/media", (string name, MediaFileIndex index) =>
       {
-         var mediaId = MediaFileId.Parse(id);
-         var attachment = index.TryGetAttachment(mediaId)
-                       ?? throw new InvalidOperationException($"No media attachment found for ID {id}");
+         var attachment = index.TryGetByOriginalFileName(name)
+                       ?? throw new InvalidOperationException($"No media file found for: {name}");
 
          var contentType = Path.GetExtension(attachment.FilePath).ToLowerInvariant() switch
          {

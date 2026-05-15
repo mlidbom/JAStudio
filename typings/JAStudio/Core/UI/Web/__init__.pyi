@@ -20,4 +20,6 @@ class CardServerUrl(abc.ABC):
     @classmethod
     @BaseUrl.setter
     def BaseUrl(cls, value: str) -> str: ...
+    @staticmethod
+    def MediaUrl(fileName: str) -> str: ...
 

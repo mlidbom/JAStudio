@@ -17,7 +17,7 @@ public abstract class JPNote
    bool _persisted;
    byte[]? _lastPersistedSnapshot;
 
-   public NoteMedia Media => Services.MediaFileIndex.GetNoteMedia(GetId());
+   public NoteMedia Media => Services.MediaFileIndex.GetNoteMedia(MediaReferences);
 
    // Dictionary tracks card suspend status: true = active/unsuspended, false = suspended
    readonly Dictionary<string, bool> _cardStatus = new();

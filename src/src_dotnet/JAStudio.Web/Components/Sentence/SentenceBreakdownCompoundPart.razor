@@ -5,9 +5,9 @@
 <li class="sentenceVocabEntry compound_part @CompoundPart.MetaTagsString">
     <div class="sentenceVocabEntryDiv">
         @{ var bestAudio = AudioSelector.SelectBest(CompoundPart.VocabNote.Media.Audio); }
-        @if(bestAudio != null)
+        @if(bestAudio?.OriginalFileName != null)
         {
-            <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
+            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName)"></audio><span class="play-button">▶</span>
         }
         <NoteLink Note="CompoundPart.VocabNote">
             <span class="vocabQuestion clipboard">@CompoundPart.Question</span>

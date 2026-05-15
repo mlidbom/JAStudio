@@ -12,9 +12,9 @@
                 {
                     <div class="highlightedSentenceDiv">
                         @{ var bestAudio = AudioSelector.SelectBest(sentence.Media.Audio); }
-                        @if(bestAudio != null)
+                        @if(bestAudio?.OriginalFileName != null)
                         {
-                            <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
+                            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
                         }
                         <div class="highlightedSentence">
                             <div class="sentenceQuestion"><span class="clipboard">@sentence.Question.WithoutInvisibleSpace()</span></div>

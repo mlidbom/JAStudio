@@ -3,6 +3,7 @@ using System.IO;
 using Compze.Utilities.Testing.Must;
 using Compze.Utilities.Testing.XUnit.BDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 
@@ -49,51 +50,35 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
    public class over_a_directory_with_a_sidecar_file : When_building_a_MediaFileIndex
    {
       readonly MediaFileId _id = MediaFileId.New();
-      readonly NoteId _noteId = new(Guid.NewGuid());
 
       public over_a_directory_with_a_sidecar_file()
       {
          var fileDir = Path.Combine(_tempDir, "anime", "natsume", "a1");
-         CreateMediaFileWithSidecar(fileDir, _id, "natsume_ep01_03m22s.mp3", _noteId, CopyrightStatus.Commercial);
+         CreateMediaFileWithSidecar(fileDir, _id, "natsume_ep01_03m22s.mp3", new NoteId(Guid.NewGuid()), CopyrightStatus.Commercial);
          _index.Build();
       }
 
       [XF] public void it_indexes_the_file() => _index.Count.Must().Be(1);
-      [XF] public void it_contains_the_id() => _index.Contains(_id).Must().BeTrue();
 
-      public class and_resolving_by_id : over_a_directory_with_a_sidecar_file
-      {
-         readonly string? _resolved;
-         public and_resolving_by_id() => _resolved = _index.TryResolve(_id);
-
-         [XF] public void it_returns_the_full_path() => _resolved.Must().NotBeNull();
-         [XF] public void the_path_points_to_an_existing_file() => File.Exists(_resolved!).Must().BeTrue();
-      }
-
-      public class and_getting_file_info : over_a_directory_with_a_sidecar_file
-      {
-         readonly MediaFileInfo? _info;
-         public and_getting_file_info() => _info = _index.TryGetInfo(_id);
-
-         [XF] public void it_returns_info() => _info.Must().NotBeNull();
-         [XF] public void the_original_filename_comes_from_sidecar() => _info!.OriginalFileName.Must().Be("natsume_ep01_03m22s.mp3");
-         [XF] public void the_extension_is_extracted() => _info!.Extension.Must().Be(".mp3");
-      }
-
-      public class and_getting_attachment : over_a_directory_with_a_sidecar_file
+      public class and_looking_up_by_original_filename : over_a_directory_with_a_sidecar_file
       {
          readonly MediaAttachment? _attachment;
-         public and_getting_attachment() => _attachment = _index.TryGetAttachment(_id);
 
-         [XF] public void it_returns_an_audio_attachment() => (_attachment is AudioAttachment).Must().BeTrue();
-         [XF] public void it_has_the_correct_copyright() => _attachment!.Copyright.Must().Be(CopyrightStatus.Commercial);
-         [XF] public void it_has_the_correct_note_id() => _attachment!.NoteIds[0].Must().Be(_noteId);
+         public and_looking_up_by_original_filename() =>
+            _attachment = _index.TryGetByOriginalFileName("natsume_ep01_03m22s.mp3");
+
+         [XF] public void it_finds_the_file() => _attachment.Must().NotBeNull();
+         [XF] public void it_resolves_the_file_path() => File.Exists(_attachment!.FilePath).Must().BeTrue();
+         [XF] public void it_is_an_audio_attachment() => (_attachment is AudioAttachment).Must().BeTrue();
+         [XF] public void it_preserves_copyright() => _attachment!.Copyright.Must().Be(CopyrightStatus.Commercial);
       }
 
-      public class and_querying_by_note_id : over_a_directory_with_a_sidecar_file
+      public class and_querying_note_media_by_filename : over_a_directory_with_a_sidecar_file
       {
          readonly NoteMedia _noteMedia;
-         public and_querying_by_note_id() => _noteMedia = _index.GetNoteMedia(_noteId);
+
+         public and_querying_note_media_by_filename() =>
+            _noteMedia = _index.GetNoteMedia([new MediaReference("natsume_ep01_03m22s.mp3", MediaType.Audio)]);
 
          [XF] public void it_returns_one_audio() => _noteMedia.Audio.Count.Must().Be(1);
          [XF] public void it_returns_no_images() => _noteMedia.Images.Count.Must().Be(0);
@@ -129,28 +114,19 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
 
    public class without_explicit_Build_call : When_building_a_MediaFileIndex
    {
-      readonly MediaFileId _id = MediaFileId.New();
-
       public without_explicit_Build_call()
       {
          var fileDir = Path.Combine(_tempDir, "a1");
-         CreateMediaFileWithSidecar(fileDir, _id, "test.mp3", new NoteId(Guid.NewGuid()));
+         CreateMediaFileWithSidecar(fileDir, MediaFileId.New(), "test.mp3", new NoteId(Guid.NewGuid()));
       }
 
-      [XF] public void it_lazy_initializes_on_first_access() => _index.Contains(_id).Must().BeTrue();
+      [XF] public void it_lazy_initializes_on_first_access() => _index.ContainsByOriginalFileName("test.mp3").Must().BeTrue();
    }
 
-   public class resolving_an_unknown_id : When_building_a_MediaFileIndex
+   public class querying_note_media_with_no_matches : When_building_a_MediaFileIndex
    {
-      public resolving_an_unknown_id() => _index.Build();
+      public querying_note_media_with_no_matches() => _index.Build();
 
-      [XF] public void it_returns_null() => _index.TryResolve(MediaFileId.New()).Must().BeNull();
-   }
-
-   public class querying_note_media_for_unknown_note : When_building_a_MediaFileIndex
-   {
-      public querying_note_media_for_unknown_note() => _index.Build();
-
-      [XF] public void it_returns_empty_note_media() => _index.GetNoteMedia(new NoteId(Guid.NewGuid())).Audio.Count.Must().Be(0);
+      [XF] public void it_returns_empty_note_media() => _index.GetNoteMedia([new MediaReference("unknown.mp3", MediaType.Audio)]).Audio.Count.Must().Be(0);
    }
 }

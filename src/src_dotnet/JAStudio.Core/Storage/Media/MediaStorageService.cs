@@ -82,10 +82,6 @@ public class MediaStorageService
       }
    }
 
-   public string? TryResolve(MediaFileId id) => _index.TryResolve(id);
-
-   public bool Exists(MediaFileId id) => _index.Contains(id);
-
    string BuildStoragePath(MediaFileId id, string targetDirectory, string originalFileName)
    {
       var bucket = id.ToString()[..2];

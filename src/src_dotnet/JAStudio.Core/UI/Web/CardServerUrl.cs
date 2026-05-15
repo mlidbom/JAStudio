@@ -1,3 +1,5 @@
+using System;
+
 namespace JAStudio.Core.UI.Web;
 
 /// <summary>
@@ -12,4 +14,6 @@ public static class CardServerUrl
    /// Null if the server has not been started.
    /// </summary>
    public static string? BaseUrl { get; set; }
+
+   public static string MediaUrl(string fileName) => $"/media?name={Uri.EscapeDataString(fileName)}"; 
 }

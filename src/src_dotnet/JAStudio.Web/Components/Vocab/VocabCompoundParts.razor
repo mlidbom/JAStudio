@@ -13,9 +13,9 @@
                 {
                     <div class="relatedVocab @CreateClasses(part.Vocab, part.Depth)">
                         @{ var bestAudio = AudioSelector.SelectBest(part.Vocab.Media.Audio); }
-                        @if(bestAudio != null)
+                        @if(bestAudio?.OriginalFileName != null)
                         {
-                            <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
+                            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
                         }
                         <NoteLink Note="part.Vocab">
                             <span class="question clipboard">@part.Vocab.Question.DisambiguationName</span>

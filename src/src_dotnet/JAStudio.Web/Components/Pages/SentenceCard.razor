@@ -32,9 +32,9 @@
                         @if(_note.Media.Images.Count > 0)
                         {
                             <div class="image">
-                                @foreach(var image in _note.Media.Images)
+                                @foreach(var image in _note.Media.Images.Where(img => img.OriginalFileName != null))
                                 {
-                                    <img src="/media/@image.Id" />
+                                    <img src="@CardServerUrl.MediaUrl(image.OriginalFileName!)" />
                                 }
                             </div>
                         }

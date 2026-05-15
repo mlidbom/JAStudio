@@ -5,6 +5,7 @@ using System.Linq;
 using Compze.Utilities.Functional;
 using Compze.Utilities.Logging;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
 using MemoryPack;
 
@@ -20,9 +21,7 @@ public class MediaFileInfo(MediaFileId id, string fullPath, string originalFileN
 
 public class MediaFileIndex
 {
-   readonly Dictionary<MediaFileId, MediaAttachment> _byId = new();
    readonly Dictionary<string, MediaAttachment> _byOriginalFileName = new(StringComparer.OrdinalIgnoreCase);
-   readonly Dictionary<NoteId, List<MediaAttachment>> _byNoteId = new();
    readonly string _mediaRoot;
    readonly TaskRunner _taskRunner;
    readonly BackgroundTaskManager _backgroundTaskManager;
@@ -93,7 +92,7 @@ public class MediaFileIndex
       runner.RunBatch(imageAttachments.Result, IndexAttachment, "Indexing image attachments");
 
       _initialized = true;
-      this.Log().Info($"Media file index built: {_byId.Count} files indexed under {_mediaRoot}");
+      this.Log().Info($"Media file index built: {_byOriginalFileName.Count} files indexed under {_mediaRoot}");
 
       var audio = audioAttachments.Result;
       var images = imageAttachments.Result;
@@ -127,7 +126,7 @@ public class MediaFileIndex
       runner.RunBatch(imageAttachments.Result, IndexAttachment, "Indexing image attachments");
 
       _initialized = true;
-      this.Log().Info($"Media file index built from snapshot: {_byId.Count} files indexed under {_mediaRoot}");
+      this.Log().Info($"Media file index built from snapshot: {_byOriginalFileName.Count} files indexed under {_mediaRoot}");
    }
 
    record SidecarChanges(
@@ -203,9 +202,7 @@ public class MediaFileIndex
 
    void ClearIndexes()
    {
-      _byId.Clear();
       _byOriginalFileName.Clear();
-      _byNoteId.Clear();
    }
 
    /// <summary>
@@ -257,44 +254,38 @@ public class MediaFileIndex
                                       : SidecarSerializer.ReadImageSidecar(sidecarPath);
 
       var dir = Path.GetDirectoryName(sidecarPath) ?? string.Empty;
-      attachment.FilePath = FindMediaFile(dir, attachment.Id, mediaFilesByDirectory) ?? string.Empty;
+      attachment.FilePath = FindMediaFile(dir, attachment.Id, attachment.OriginalFileName, mediaFilesByDirectory) ?? string.Empty;
       return attachment;
    }
 
    void IndexAttachment(MediaAttachment attachment)
    {
-      if(!_byId.TryAdd(attachment.Id, attachment))
-      {
-         this.Log().Warning($"Duplicate media file ID {attachment.Id}");
-         return;
-      }
+      if(attachment.OriginalFileName == null) return;
 
-      if(attachment.OriginalFileName != null)
-      {
-         _byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment);
-      }
-
-      foreach(var noteId in attachment.NoteIds)
-      {
-         if(!_byNoteId.TryGetValue(noteId, out var list))
-         {
-            list = [];
-            _byNoteId[noteId] = list;
-         }
-
-         list.Add(attachment);
-      }
+      if(!_byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment))
+         this.Log().Warning($"Duplicate original filename '{attachment.OriginalFileName}' — keeping first encountered");
    }
 
-   static string? FindMediaFile(string directory, MediaFileId id, Dictionary<string, List<FileInfo>> mediaFilesByDirectory)
+   static string? FindMediaFile(string directory, MediaFileId id, string? originalFileName, Dictionary<string, List<FileInfo>> mediaFilesByDirectory)
    {
       if(!mediaFilesByDirectory.TryGetValue(directory, out var files)) return null;
 
+      // Try GUID-named file first (current storage format)
       var idStr = id.ToString();
       foreach(var fi in files)
       {
          if(Path.GetFileNameWithoutExtension(fi.Name) == idStr)
             return fi.FullName;
+      }
+
+      // Fall back to original-filename-named file (post-rename format)
+      if(originalFileName != null)
+      {
+         foreach(var fi in files)
+         {
+            if(fi.Name.Equals(originalFileName, StringComparison.OrdinalIgnoreCase))
+               return fi.FullName;
+         }
       }
 
       return null;
@@ -305,30 +296,31 @@ public class MediaFileIndex
       if(!_initialized) Build();
    });
 
-   public string? TryResolve(MediaFileId id) => EnsureInitialized()
-     .then(() => _byId.TryGetValue(id, out var attachment) ? attachment.FilePath : null);
+   public NoteMedia GetNoteMedia(List<MediaReference> mediaReferences) => EnsureInitialized()
+     .then(() =>
+     {
+        var audio = mediaReferences
+                    .Where(r => r.Type == MediaType.Audio)
+                    .Select(r => _byOriginalFileName.GetValueOrDefault(r.FileName) as AudioAttachment)
+                    .Where(a => a != null)
+                    .Select(a => a!)
+                    .ToList();
 
-   public MediaAttachment? TryGetAttachment(MediaFileId id) => EnsureInitialized()
-     .then(() => _byId.GetValueOrDefault(id));
+        var images = mediaReferences
+                     .Where(r => r.Type == MediaType.Image)
+                     .Select(r => _byOriginalFileName.GetValueOrDefault(r.FileName) as ImageAttachment)
+                     .Where(i => i != null)
+                     .Select(i => i!)
+                     .ToList();
 
-   public MediaFileInfo? TryGetInfo(MediaFileId id) => EnsureInitialized()
-     .then(() => _byId.TryGetValue(id, out var attachment)
-                    ? new MediaFileInfo(attachment.Id, attachment.FilePath, attachment.OriginalFileName ?? string.Empty, Path.GetExtension(attachment.FilePath))
-                    : null);
-
-   public NoteMedia GetNoteMedia(NoteId noteId) => EnsureInitialized()
-     .then(() => _byNoteId.TryGetValue(noteId, out var attachments)
-                    ? new NoteMedia(attachments.OfType<AudioAttachment>().ToList(), attachments.OfType<ImageAttachment>().ToList())
-                    : NoteMedia.Empty);
-
-   public bool Contains(MediaFileId id) => EnsureInitialized()
-     .then(() => _byId.ContainsKey(id));
+        return new NoteMedia(audio, images);
+     });
 
    public int Count => EnsureInitialized()
-     .then(() => _byId.Count);
+     .then(() => _byOriginalFileName.Count);
 
    public IReadOnlyCollection<MediaAttachment> All => EnsureInitialized()
-     .then(() => _byId.Values);
+     .then(() => _byOriginalFileName.Values);
 
    public bool ContainsByOriginalFileName(string originalFileName) => EnsureInitialized()
      .then(() => _byOriginalFileName.ContainsKey(originalFileName));
@@ -336,37 +328,9 @@ public class MediaFileIndex
    public MediaAttachment? TryGetByOriginalFileName(string originalFileName) => EnsureInitialized()
      .then(() => _byOriginalFileName.GetValueOrDefault(originalFileName));
 
-   public void ResaveAllSidecars()
-   {
-      foreach(var attachment in All)
-      {
-         if(string.IsNullOrEmpty(attachment.FilePath)) continue;
-
-         if(attachment is AudioAttachment audio)
-            SidecarSerializer.WriteAudioSidecar(SidecarSerializer.BuildAudioSidecarPath(attachment.FilePath), audio);
-         else if(attachment is ImageAttachment image)
-            SidecarSerializer.WriteImageSidecar(SidecarSerializer.BuildImageSidecarPath(attachment.FilePath), image);
-      }
-   }
-
    public void Register(MediaAttachment attachment)
    {
-      _byId[attachment.Id] = attachment;
-
       if(attachment.OriginalFileName != null)
-      {
          _byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment);
-      }
-
-      foreach(var noteId in attachment.NoteIds)
-      {
-         if(!_byNoteId.TryGetValue(noteId, out var list))
-         {
-            list = [];
-            _byNoteId[noteId] = list;
-         }
-
-         list.Add(attachment);
-      }
    }
 }

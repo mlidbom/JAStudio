@@ -368,7 +368,6 @@ public class LocalNoteUpdater
 
       Task.WaitAll(scope.RunBatchAsync(_kanji.All(), _fileSystemNoteRepository.Save, "Writing kanji"),
                    scope.RunBatchAsync(_vocab.All(), _fileSystemNoteRepository.Save, "Writing vocab"),
-                   scope.RunBatchAsync(_sentences.All(), _fileSystemNoteRepository.Save, "Writing sentences"),
-                   scope.RunIndeterminateAsync("Writing sidecars", () => _mediaFileIndex.ResaveAllSidecars()));
+                   scope.RunBatchAsync(_sentences.All(), _fileSystemNoteRepository.Save, "Writing sentences"));
    }
 }

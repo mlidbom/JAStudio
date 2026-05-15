@@ -12,9 +12,9 @@
             {
                 <div class="kanjiVocabEntry @CreateClasses(vocab)">
                     @{ var bestAudio = AudioSelector.SelectBest(vocab.Media.Audio); }
-                    @if(bestAudio != null)
+                    @if(bestAudio?.OriginalFileName != null)
                     {
-                        <audio src="/media/@bestAudio.Id"></audio><span class="play-button">▶</span>
+                        <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
                     }
                     <NoteLink Note="vocab">
                         <span class="kanji clipboard">@vocab.GetQuestion()</span>
