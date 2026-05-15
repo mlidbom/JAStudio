@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="JAStudio.UI.Views.MainWindow"
+        Title="JAStudio"
+        Width="1600" Height="900"
+        WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" x:Name="MainMenu" />
+
+        <TextBlock Text="JAStudio Browser"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   Foreground="Gray" />
+    </DockPanel>
+
+</Window>

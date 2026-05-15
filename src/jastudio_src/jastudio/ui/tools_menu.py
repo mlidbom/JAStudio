@@ -8,7 +8,7 @@ from jastudio.ankiutils.app import main_window
 
 
 def build_main_menu() -> None:
-    menu = non_optional(main_window().form.menubar.addMenu("#u Japanese"))
+    menu = non_optional(main_window().form.menubar.addMenu("&u Japanese"))
     from jastudio import mylog
     from jastudio.qt_adapters import qt_menu_adapter
     from jastudio.ui import dotnet_ui_root

@@ -2,6 +2,8 @@ using System;
 using System.Threading;
 using Avalonia;
 using Avalonia.Markup.Xaml;
+using JAStudio.Core;
+using JAStudio.UI.Views;
 
 namespace JAStudio.UI;
 
@@ -25,4 +27,7 @@ public class UIApp : Application
             $"Avalonia did not initialize within {timeout.TotalSeconds}s.");
       }
    }
+
+   public static void InitializeMainWindow(TemporaryServiceCollection services) =>
+      MainWindow.CreateAndRegister(services);
 }

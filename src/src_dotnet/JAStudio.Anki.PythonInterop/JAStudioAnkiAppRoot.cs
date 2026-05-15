@@ -81,6 +81,7 @@ public class JAStudioAnkiAppRoot
       uiThread.Start();
 
       UIApp.WaitForInitialization(TimeSpan.FromSeconds(30));
+      Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(app.Services));
 
       var root = new JAStudioAnkiAppRoot(app) { _uiThread = uiThread };
 
