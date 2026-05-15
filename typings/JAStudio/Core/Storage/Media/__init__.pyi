@@ -1,5 +1,5 @@
 import typing, abc
-from JAStudio.Core.Note import NoteId, KanjiNote
+from JAStudio.Core.Note import NoteId
 from System.Collections.Generic import IEnumerable_1, IReadOnlyCollection_1, IReadOnlyList_1, List_1
 from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
 from JAStudio.Core import IEnvironmentPaths
@@ -63,8 +63,6 @@ class KanjiMediaField(typing.SupportsInt):
     def __int__(self) -> int: ...
     
     # Values:
-    Audio : KanjiMediaField # 0
-    Image : KanjiMediaField # 1
 
 
 class MediaAttachment(abc.ABC):
@@ -97,7 +95,6 @@ class MediaFileIndex:
 
 class MediaImportAnalyzer:
     def __init__(self, ankiMediaDir: str, index: MediaFileIndex) -> None: ...
-    def AnalyzeKanji(self, notes: IReadOnlyList_1[KanjiNote], rules: IReadOnlyList_1[ImportRule]) -> MediaImportPlan: ...
     def AnalyzeSentences(self, notes: IReadOnlyList_1[SentenceNote], rules: IReadOnlyList_1[ImportRule]) -> MediaImportPlan: ...
     def AnalyzeVocab(self, notes: IReadOnlyList_1[VocabNote], rules: IReadOnlyList_1[ImportRule]) -> MediaImportPlan: ...
 
@@ -145,10 +142,6 @@ class MissingFile:
 
 class PersistedImportRules:
     def __init__(self) -> None: ...
-    @property
-    def KanjiRules(self) -> List_1[ImportRule]: ...
-    @KanjiRules.setter
-    def KanjiRules(self, value: List_1[ImportRule]) -> List_1[ImportRule]: ...
     @property
     def SentenceRules(self) -> List_1[ImportRule]: ...
     @SentenceRules.setter

@@ -20,13 +20,10 @@ public partial class KanjiData : CorpusObjectData
    public string ReadingMnemonic { get; init; } = string.Empty;
    public string ReadingInfo { get; init; } = string.Empty;
    public List<string> PrimaryVocab { get; init; } = [];
-   public string Audio { get; init; } = string.Empty;
-   public string PrimaryReadingsTtsAudio { get; init; } = string.Empty;
    public string References { get; init; } = string.Empty;
    public string UserMnemonic { get; init; } = string.Empty;
    public List<string> SimilarMeaning { get; init; } = [];
    public List<string> ConfusedWith { get; init; } = [];
-   public string Image { get; init; } = string.Empty;
 
    protected override NoteId CreateTypedId() => new KanjiId(Id);
 
@@ -45,13 +42,11 @@ public partial class KanjiData : CorpusObjectData
       fields[NoteFieldsConstants.Kanji.ReadingMnemonic] = ReadingMnemonic;
       fields[NoteFieldsConstants.Kanji.ReadingInfo] = ReadingInfo;
       fields[NoteFieldsConstants.Kanji.PrimaryVocab] = string.Join(", ", PrimaryVocab);
-      fields[NoteFieldsConstants.Kanji.Audio] = Audio;
-      fields[NoteFieldsConstants.Kanji.PrimaryReadingsTTSAudio] = PrimaryReadingsTtsAudio;
       fields[NoteFieldsConstants.Kanji.References] = References;
       fields[NoteFieldsConstants.Kanji.UserMnemonic] = UserMnemonic;
       fields[NoteFieldsConstants.Kanji.UserSimilarMeaning] = string.Join(", ", SimilarMeaning);
       fields[NoteFieldsConstants.Kanji.RelatedConfusedWith] = string.Join(", ", ConfusedWith);
-      fields[NoteFieldsConstants.Kanji.Image] = Image;
+
    }
 
    /// Creates KanjiData from raw AnkiNoteData
@@ -65,9 +60,6 @@ public partial class KanjiData : CorpusObjectData
          Kanji = anki.Question,
          SourceAnswer = anki.SourceAnswer,
          ActiveAnswer = anki.ActiveAnswer,
-         Audio = anki.Audio,
-         PrimaryReadingsTtsAudio = anki.PrimaryReadingsTtsAudio,
-         Image = anki.Image,
       };
 
    /// Merges Anki-owned fields (every field exposed by <see cref="AnkiKanjiNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
@@ -91,13 +83,10 @@ public partial class KanjiData : CorpusObjectData
                 ReadingMnemonic = ReadingMnemonic,
                 ReadingInfo = ReadingInfo,
                 PrimaryVocab = PrimaryVocab,
-                Audio = anki.Audio,
-                PrimaryReadingsTtsAudio = anki.PrimaryReadingsTtsAudio,
                 References = References,
                 UserMnemonic = UserMnemonic,
                 SimilarMeaning = SimilarMeaning,
                 ConfusedWith = ConfusedWith,
-                Image = anki.Image,
              };
    }
 }

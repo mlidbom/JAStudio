@@ -26,10 +26,7 @@ public class KanjiNote : JPNote
    public WritableStringValue ReadingNanHtml { get; }
    public WritableStringValue SourceMeaningMnemonic { get; }
    public WritableStringValue UserMnemonic { get; }
-   public WritableStringValue PrimaryReadingsTtsAudio { get; }
    public WritableStringValue KanjiReferences { get; }
-   public WritableAudioValue Audio { get; }
-   public WritableImageValue Image { get; }
 
    readonly WritableStringValue _question;
    readonly WritableStringValue _radicalsRaw;
@@ -51,14 +48,11 @@ public class KanjiNote : JPNote
       ReadingNanHtml = new WritableStringValue(data?.ReadingNanHtml ?? string.Empty, Guard);
       SourceMeaningMnemonic = new WritableStringValue(data?.SourceMeaningMnemonic ?? string.Empty, Guard);
       UserMnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
-      PrimaryReadingsTtsAudio = new WritableStringValue(data?.PrimaryReadingsTtsAudio ?? string.Empty, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
-      Audio = new WritableAudioValue(data?.Audio ?? string.Empty, Guard);
       _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
       _primaryVocabRaw = new WritableStringValue(data?.PrimaryVocab != null ? string.Join(", ", data.PrimaryVocab) : string.Empty, Guard);
       _similarMeaningRaw = new WritableStringValue(data?.SimilarMeaning != null ? string.Join(", ", data.SimilarMeaning) : string.Empty, Guard);
       _confusedWithRaw = new WritableStringValue(data?.ConfusedWith != null ? string.Join(", ", data.ConfusedWith) : string.Empty, Guard);
-      Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
    }
 
    public override void UpdateInCache()
@@ -87,21 +81,7 @@ public class KanjiNote : JPNote
       // Katakana sneaks in via yomitan etc
       ReadingOnHtml.Set(KanaUtils.KatakanaToHiragana(ReadingOnHtml.Value));
 
-      void UpdatePrimaryAudios()
-      {
-         var vocabWeShouldPlay = PrimaryVocab
-                                .SelectMany(question => Services.Collection.Vocab.WithQuestion(question))
-                                .ToList();
-
-         var audioString = vocabWeShouldPlay.Count > 0
-                              ? string.Join("", vocabWeShouldPlay.Select(vo => vo.Audio.PrimaryAudio))
-                              : string.Empty;
-
-         Audio.SetRawValue(audioString);
-      }
-
       ActiveAnswer.Set(GetAnswer());
-      UpdatePrimaryAudios();
    }
 
    public List<string> ReadingsOn => StringExtensions.ExtractCommaSeparatedValues(
@@ -453,19 +433,7 @@ public class KanjiNote : JPNote
 
    public List<VocabNote> GetVocabNotes() => Services.Collection.Vocab.WithKanjiInAnyForm(this);
 
-   public override List<MediaReference> MediaReferences
-   {
-      get
-      {
-         var refs = Audio.GetMediaReferences();
-         refs.AddRange(Image.GetMediaReferences());
-         return refs;
-      }
-   }
-
-   public IReadOnlyList<AudioAttachment> AudioAttachments => Services.MediaFileIndex.GetAudioAttachments(Audio.RawValue());
-   public AudioAttachment?               PreferredAudio   => AudioAttachments.FirstOrDefault();
-   public IReadOnlyList<ImageAttachment> Images           => Services.MediaFileIndex.GetImageAttachments(Image.RawValue());
+   public override List<MediaReference> MediaReferences => [];
 
    public List<VocabNote> GetVocabNotesSorted() =>
       VocabNoteSorting.SortVocabListByStudyingStatus(

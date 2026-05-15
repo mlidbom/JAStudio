@@ -47,9 +47,6 @@ public static class AnkiFieldNames
       public const string Question = AnkiFieldNames.Question;
       public const string ActiveAnswer = Answer;
       public const string SourceAnswer = "source_answer";
-      public const string Audio = "__audio";
-      public const string PrimaryReadingsTtsAudio = "_primary_readings_tts_audio"; //Sync from anki (TTS addon writes here)
-      public const string Image = "_image";
 
       // Kept for QueryBuilder Anki search queries until the Anki fields are actually removed
       public const string ReadingOn = "Reading_On";

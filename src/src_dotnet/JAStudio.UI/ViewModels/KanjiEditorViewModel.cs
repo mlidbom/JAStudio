@@ -35,7 +35,6 @@ partial class KanjiEditorViewModel : ObservableObject
    [ObservableProperty] string _userMnemonic = "";
    [ObservableProperty] string _similarMeaning = "";
    [ObservableProperty] string _confusedWith = "";
-   [ObservableProperty] string _audio = "";
 
    // --- Read-only reference fields ---
 
@@ -62,7 +61,6 @@ partial class KanjiEditorViewModel : ObservableObject
 
       SourceAnswer = _kanji.SourceAnswer.Value;
       SourceMeaningMnemonic = _kanji.SourceMeaningMnemonic.Value;
-      Audio = _kanji.Audio.RawValue();
    }
 
    public void Save()
@@ -79,7 +77,6 @@ partial class KanjiEditorViewModel : ObservableObject
       _kanji.RelatedConfusedWithRaw = ConfusedWith;
       _kanji.SourceAnswer.Set(SourceAnswer);
       _kanji.SourceMeaningMnemonic.Set(SourceMeaningMnemonic);
-      _kanji.Audio.SetRawValue(Audio);
       _kanji.UpdateGeneratedData();
    }
 

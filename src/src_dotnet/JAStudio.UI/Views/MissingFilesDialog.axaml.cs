@@ -14,21 +14,18 @@ partial class MissingFilesDialog : Window
 
    public MissingFilesDialog() => InitializeComponent();
 
-   public MissingFilesDialog(List<MissingFileRow> vocabRows, List<MissingFileRow> sentenceRows, List<MissingFileRow> kanjiRows, Action<NoteId> openNote) : this()
+   public MissingFilesDialog(List<MissingFileRow> vocabRows, List<MissingFileRow> sentenceRows, Action<NoteId> openNote) : this()
    {
       _openNote = openNote;
 
       VocabGrid.ItemsSource = vocabRows;
       SentenceGrid.ItemsSource = sentenceRows;
-      KanjiGrid.ItemsSource = kanjiRows;
 
       VocabTab.Header = $"Vocab ({vocabRows.Count})";
       SentenceTab.Header = $"Sentences ({sentenceRows.Count})";
-      KanjiTab.Header = $"Kanji ({kanjiRows.Count})";
 
       VocabGrid.DoubleTapped += OnGridDoubleTapped;
       SentenceGrid.DoubleTapped += OnGridDoubleTapped;
-      KanjiGrid.DoubleTapped += OnGridDoubleTapped;
    }
 
    void OnGridDoubleTapped(object? sender, TappedEventArgs e)

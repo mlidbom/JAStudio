@@ -22,13 +22,10 @@ static class KanjiNoteConverter
          ReadingMnemonic = note.ReadingMnemonic.Value,
          ReadingInfo = note.ReadingInfo.Value,
          PrimaryVocab = note.PrimaryVocab,
-         Audio = note.Audio.RawValue(),
-         PrimaryReadingsTtsAudio = note.PrimaryReadingsTtsAudio.Value,
          References = note.KanjiReferences.Value,
          UserMnemonic = note.UserMnemonic.Value,
          SimilarMeaning = note.UserSimilarMeaning,
          ConfusedWith = note.RelatedConfusedWith,
-         Image = note.Image.RawValue(),
          Tags = note.Tags.ToStringList(),
       };
 }

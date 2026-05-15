@@ -97,13 +97,10 @@ static class NoteFieldsConstants
       public const string ReadingMnemonic = "Reading_Mnemonic";
       public const string ReadingInfo = "Reading_Info";
       public const string PrimaryVocab = "__primary_Vocab";
-      public const string Audio = "__audio";
-      public const string PrimaryReadingsTTSAudio = "_primary_readings_tts_audio";
       public const string References = "__references";
       public const string UserMnemonic = "__mnemonic";
       public const string UserSimilarMeaning = "__similar_meaning";
       public const string RelatedConfusedWith = "__confused_with";
-      public const string Image = "_image";
    }
 
    internal static class Vocab

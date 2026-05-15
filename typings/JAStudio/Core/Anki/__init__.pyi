@@ -19,9 +19,6 @@ class AnkiFieldNames(abc.ABC):
 
     class Kanji(abc.ABC):
         ActiveAnswer : str
-        Audio : str
-        Image : str
-        PrimaryReadingsTtsAudio : str
         Question : str
         ReadingKun : str
         ReadingOn : str
@@ -67,13 +64,7 @@ class AnkiKanjiNote:
     @property
     def ActiveAnswer(self) -> str: ...
     @property
-    def Audio(self) -> str: ...
-    @property
     def Id(self) -> NoteId: ...
-    @property
-    def Image(self) -> str: ...
-    @property
-    def PrimaryReadingsTtsAudio(self) -> str: ...
     @property
     def Question(self) -> str: ...
     @property

@@ -20,12 +20,10 @@ partial class MediaImportDialogViewModel : ObservableObject
 {
    public static List<string> VocabFieldNames { get; } = Enum.GetNames<VocabMediaField>().ToList();
    public static List<string> SentenceFieldNames { get; } = Enum.GetNames<SentenceMediaField>().ToList();
-   public static List<string> KanjiFieldNames { get; } = Enum.GetNames<KanjiMediaField>().ToList();
 
    readonly TemporaryServiceCollection _services;
    readonly VocabCollection _vocabCollection;
    readonly SentenceCollection _sentenceCollection;
-   readonly KanjiCollection _kanjiCollection;
    readonly MediaFileIndex _index;
    readonly MediaStorageService _storageService;
    readonly TaskRunner _taskRunner;
@@ -41,7 +39,6 @@ partial class MediaImportDialogViewModel : ObservableObject
       _services = services;
       _vocabCollection = services.ServiceLocator.Resolve<VocabCollection>();
       _sentenceCollection = services.ServiceLocator.Resolve<SentenceCollection>();
-      _kanjiCollection = services.ServiceLocator.Resolve<KanjiCollection>();
       _index = services.ServiceLocator.Resolve<MediaFileIndex>();
       _storageService = services.ServiceLocator.Resolve<MediaStorageService>();
       _taskRunner = services.TaskRunner;
@@ -49,14 +46,12 @@ partial class MediaImportDialogViewModel : ObservableObject
 
       VocabTab = CreateVocabTab();
       SentenceTab = CreateSentenceTab();
-      KanjiTab = CreateKanjiTab();
 
       LoadPersistedRules();
    }
 
    public NoteTypeImportTabViewModel VocabTab { get; private set; } = null!;
    public NoteTypeImportTabViewModel SentenceTab { get; private set; } = null!;
-   public NoteTypeImportTabViewModel KanjiTab { get; private set; } = null!;
 
    [ObservableProperty] string _statusText = "Analyzing...";
    [ObservableProperty] bool _hasPlan;
@@ -64,7 +59,6 @@ partial class MediaImportDialogViewModel : ObservableObject
    MediaImportPlan? _currentPlan;
    MediaImportPlan _vocabPlan = new();
    MediaImportPlan _sentencePlan = new();
-   MediaImportPlan _kanjiPlan = new();
    [ObservableProperty] int _filesToImportCount;
    [ObservableProperty] int _alreadyStoredCount;
    [ObservableProperty] int _missingCount;
@@ -73,11 +67,9 @@ partial class MediaImportDialogViewModel : ObservableObject
 
    [RelayCommand] void AddVocabRule() => VocabTab.AddRuleCommand.Execute(null);
    [RelayCommand] void AddSentenceRule() => SentenceTab.AddRuleCommand.Execute(null);
-   [RelayCommand] void AddKanjiRule() => KanjiTab.AddRuleCommand.Execute(null);
 
    [RelayCommand] void RemoveVocabRule(EditableImportRule rule) => VocabTab.RemoveRuleCommand.Execute(rule);
    [RelayCommand] void RemoveSentenceRule(EditableImportRule rule) => SentenceTab.RemoveRuleCommand.Execute(rule);
-   [RelayCommand] void RemoveKanjiRule(EditableImportRule rule) => KanjiTab.RemoveRuleCommand.Execute(rule);
 
    [RelayCommand]
    void Analyze()
@@ -87,7 +79,6 @@ partial class MediaImportDialogViewModel : ObservableObject
 
       var vocabRules = BuildVocabRules();
       var sentenceRules = BuildSentenceRules();
-      var kanjiRules = BuildKanjiRules();
 
       _services.BackgroundTaskManager.Run(() =>
       {
@@ -104,30 +95,22 @@ partial class MediaImportDialogViewModel : ObservableObject
             (nameof(SentenceMediaField.Audio),      note.Audio.GetMediaReferences()),
             (nameof(SentenceMediaField.Screenshot), note.Screenshot.GetMediaReferences()),
          ]);
-         var kanjiFiles = ScanNoteFields(_kanjiCollection.All(), note =>
-         [
-            (nameof(KanjiMediaField.Audio), note.Audio.GetMediaReferences()),
-            (nameof(KanjiMediaField.Image), note.Image.GetMediaReferences()),
-         ]);
 
          var ankiMediaDir = _paths.AnkiMediaDir;
          var analyzer = new MediaImportAnalyzer(ankiMediaDir, _index);
 
          var vocabPlan = vocabRules.Count > 0 ? analyzer.AnalyzeVocab(_vocabCollection.All(), vocabRules) : new MediaImportPlan();
          var sentencePlan = sentenceRules.Count > 0 ? analyzer.AnalyzeSentences(_sentenceCollection.All(), sentenceRules) : new MediaImportPlan();
-         var kanjiPlan = kanjiRules.Count > 0 ? analyzer.AnalyzeKanji(_kanjiCollection.All(), kanjiRules) : new MediaImportPlan();
 
-         var merged = MergePlans(vocabPlan, sentencePlan, kanjiPlan);
+         var merged = MergePlans(vocabPlan, sentencePlan);
 
          Dispatcher.UIThread.Invoke(() =>
          {
             VocabTab.SetScannedFiles(vocabFiles);
             SentenceTab.SetScannedFiles(sentenceFiles);
-            KanjiTab.SetScannedFiles(kanjiFiles);
 
             _vocabPlan = vocabPlan;
             _sentencePlan = sentencePlan;
-            _kanjiPlan = kanjiPlan;
             _currentPlan = merged;
             FilesToImportCount = merged.FilesToImport.Count;
             AlreadyStoredCount = merged.AlreadyStored.Count;
@@ -165,8 +148,7 @@ partial class MediaImportDialogViewModel : ObservableObject
       var persisted = new PersistedImportRules
                       {
                          VocabRules = BuildVocabRules(),
-                         SentenceRules = BuildSentenceRules(),
-                         KanjiRules = BuildKanjiRules()
+                         SentenceRules = BuildSentenceRules()
                       };
       MediaImportRulePersistence.Save(persisted, _paths);
       StatusText = "Rules saved.";
@@ -177,11 +159,10 @@ partial class MediaImportDialogViewModel : ObservableObject
    {
       var vocabRows = BuildMissingFileRows(_vocabPlan.Missing, noteId => _vocabCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
       var sentenceRows = BuildMissingFileRows(_sentencePlan.Missing, noteId => _sentenceCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
-      var kanjiRows = BuildMissingFileRows(_kanjiPlan.Missing, noteId => _kanjiCollection.WithIdOrNone(noteId)?.GetQuestion() ?? "?");
 
       Dispatcher.UIThread.Invoke(() =>
       {
-         var dialog = new Views.MissingFilesDialog(vocabRows, sentenceRows, kanjiRows, OpenNoteInAnki);
+         var dialog = new Views.MissingFilesDialog(vocabRows, sentenceRows, OpenNoteInAnki);
          dialog.Show();
       });
    }
@@ -205,9 +186,6 @@ partial class MediaImportDialogViewModel : ObservableObject
    static NoteTypeImportTabViewModel CreateSentenceTab() =>
       new("Sentences", SentenceFieldNames, BuildRulesFromEditableList);
 
-   static NoteTypeImportTabViewModel CreateKanjiTab() =>
-      new("Kanji", KanjiFieldNames, BuildRulesFromEditableList);
-
    static List<ImportRule> BuildRulesFromEditableList(List<EditableImportRule> editableRules)
    {
       var result = new List<ImportRule>();
@@ -226,13 +204,10 @@ partial class MediaImportDialogViewModel : ObservableObject
                                                           { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory }));
       SentenceTab.LoadRules(persisted.SentenceRules.Select(r => new EditableImportRule
                                                                 { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory }));
-      KanjiTab.LoadRules(persisted.KanjiRules.Select(r => new EditableImportRule
-                                                          { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory }));
    }
 
    List<ImportRule> BuildVocabRules() => BuildRulesFromEditableList(VocabTab.Rules.ToList());
    List<ImportRule> BuildSentenceRules() => BuildRulesFromEditableList(SentenceTab.Rules.ToList());
-   List<ImportRule> BuildKanjiRules() => BuildRulesFromEditableList(KanjiTab.Rules.ToList());
 
    List<ScannedMediaFile> ScanNoteFields<TNote>(IReadOnlyList<TNote> notes, Func<TNote, (string FieldName, List<MediaReference> Refs)[]> getFields) where TNote : JPNote
    {

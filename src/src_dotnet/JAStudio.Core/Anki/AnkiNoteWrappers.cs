@@ -39,9 +39,6 @@ public class AnkiKanjiNote
    public string Question => Field(AnkiFieldNames.Kanji.Question);
    public string SourceAnswer => Field(AnkiFieldNames.Kanji.SourceAnswer);
    public string ActiveAnswer => Field(AnkiFieldNames.Kanji.ActiveAnswer);
-   public string Audio => Field(AnkiFieldNames.Kanji.Audio);
-   public string PrimaryReadingsTtsAudio => Field(AnkiFieldNames.Kanji.PrimaryReadingsTtsAudio);
-   public string Image => Field(AnkiFieldNames.Kanji.Image);
 
    string Field(string name) => Raw.Fields.TryGetValue(name, out var value) ? value : string.Empty;
 }

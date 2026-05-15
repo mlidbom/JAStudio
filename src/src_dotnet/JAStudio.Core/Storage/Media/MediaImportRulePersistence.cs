@@ -40,5 +40,4 @@ public class PersistedImportRules
 {
    public List<ImportRule> VocabRules { get; set; } = [];
    public List<ImportRule> SentenceRules { get; set; } = [];
-   public List<ImportRule> KanjiRules { get; set; } = [];
 }

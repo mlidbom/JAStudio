@@ -17,6 +17,4 @@ public enum SentenceMediaField
 
 public enum KanjiMediaField
 {
-   Audio,
-   Image
 }

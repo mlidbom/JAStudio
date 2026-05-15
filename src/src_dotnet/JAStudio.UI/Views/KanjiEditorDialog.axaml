@@ -92,18 +92,6 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Audio -->
-                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="10">
-                    <StackPanel Spacing="8">
-                        <TextBlock Text="Audio" FontWeight="SemiBold" FontSize="14" />
-
-                        <Grid ColumnDefinitions="200,*" RowDefinitions="Auto">
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Audio (__audio)" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Audio}" />
-                        </Grid>
-                    </StackPanel>
-                </Border>
-
                 <!-- Source Fields -->
                 <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="10">
                     <StackPanel Spacing="8">

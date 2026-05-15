@@ -4,6 +4,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
+using SentenceList = System.Collections.Generic.IReadOnlyList<JAStudio.Core.Note.Sentences.SentenceNote>;
 
 namespace JAStudio.Core.Storage.Media;
 
@@ -34,7 +35,7 @@ public class MediaImportAnalyzer
       return plan;
    }
 
-   public MediaImportPlan AnalyzeSentences(IReadOnlyList<SentenceNote> notes, IReadOnlyList<ImportRule> rules)
+   public MediaImportPlan AnalyzeSentences(SentenceList notes, IReadOnlyList<ImportRule> rules)
    {
       var plan = new MediaImportPlan();
       foreach(var note in notes)
@@ -47,18 +48,6 @@ public class MediaImportAnalyzer
       return plan;
    }
 
-   public MediaImportPlan AnalyzeKanji(IReadOnlyList<KanjiNote> notes, IReadOnlyList<ImportRule> rules)
-   {
-      var plan = new MediaImportPlan();
-      foreach(var note in notes)
-      {
-         var sourceTag = note.SourceTag;
-         var noteId = note.GetId();
-         AnalyzeField(note.Audio.GetMediaReferences(), rules.TryResolve(sourceTag, nameof(KanjiMediaField.Audio)), nameof(KanjiMediaField.Audio), sourceTag, noteId, plan);
-         AnalyzeField(note.Image.GetMediaReferences(), rules.TryResolve(sourceTag, nameof(KanjiMediaField.Image)), nameof(KanjiMediaField.Image), sourceTag, noteId, plan);
-      }
-      return plan;
-   }
 
    void AnalyzeField(List<MediaReference> references, ImportRule? rule, string fieldName, SourceTag sourceTag, NoteId noteId, MediaImportPlan plan)
    {

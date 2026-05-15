@@ -73,26 +73,6 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
          _index.ContainsByOriginalFileName("vocab_image.jpg").Must().BeTrue();
    }
 
-   public class for_a_kanji_batch_with_audio : When_importing_media_from_anki
-   {
-      public for_a_kanji_batch_with_audio()
-      {
-         CreateAnkiMediaFile("kanji_audio.mp3");
-
-         var note = CreateKanji("本", "book", "ホン", "もと");
-         note.Audio.SetRawValue("[sound:kanji_audio.mp3]");
-
-         var plan = _analyzer.AnalyzeKanji([note],
-                                           [new ImportRule(SourceTag.Parse("anki"), nameof(KanjiMediaField.Audio), "general")]);
-         _executor.Execute(plan);
-      }
-
-      [XF] public void it_copies_the_audio_file() => _index.Count.Must().Be(1);
-
-      [XF] public void the_file_is_indexed_by_original_name() =>
-         _index.ContainsByOriginalFileName("kanji_audio.mp3").Must().BeTrue();
-   }
-
    public class for_a_sentence_batch_with_audio_and_screenshot : When_importing_media_from_anki
    {
       public for_a_sentence_batch_with_audio_and_screenshot()
