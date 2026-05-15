@@ -49,25 +49,36 @@ public class JapaneseMainMenu
                               SpecMenuItem.Submenu(ShortcutFinger.Home1("Update"),
                                                    new List<SpecMenuItem>
                                                    {
-                                                      SpecMenuItem.Command(ShortcutFinger.Home1("Vocab"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.UpdateVocab())),
-                                                      SpecMenuItem.Command(ShortcutFinger.Home2("Kanji"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.UpdateKanji())),
-                                                      SpecMenuItem.Command(ShortcutFinger.Home3("Sentences"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.UpdateSentences())),
-                                                      SpecMenuItem.Command(ShortcutFinger.Home4("Tag note metadata"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.TagNoteMetadata())),
-                                                      SpecMenuItem.Command(ShortcutFinger.Home5("All the above"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.UpdateAll())),
-                                                      SpecMenuItem.Command(ShortcutFinger.Up1("Reparse sentences"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseAllSentences())),
-                                                      SpecMenuItem.Command(ShortcutFinger.Down1("All the above: Full rebuild"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.FullRebuild()))
+                                                      BatchCommand(ShortcutFinger.Home1("Vocab"), _services.LocalNoteUpdater.UpdateVocab),
+                                                      BatchCommand(ShortcutFinger.Home2("Kanji"), _services.LocalNoteUpdater.UpdateKanji),
+                                                      BatchCommand(ShortcutFinger.Home3("Sentences"), _services.LocalNoteUpdater.UpdateSentences),
+                                                      BatchCommand(ShortcutFinger.Home4("Tag note metadata"), _services.LocalNoteUpdater.TagNoteMetadata),
+                                                      BatchCommand(ShortcutFinger.Home5("All the above"), _services.LocalNoteUpdater.UpdateAll),
+                                                      BatchCommand(ShortcutFinger.Up1("Reparse sentences"), _services.LocalNoteUpdater.ReparseAllSentences),
+                                                      BatchCommand(ShortcutFinger.Down1("All the above: Full rebuild"), _services.LocalNoteUpdater.FullRebuild)
                                                    }
                               ),
-                              SpecMenuItem.Command(ShortcutFinger.Home2("Convert Immersion Kit sentences"), () => _services.BackgroundTaskManager.Run(AnkiFacade.Batches.ConvertImmersionKitSentences)),
-                              SpecMenuItem.Command(ShortcutFinger.Home3("Update everything except reanalysing sentences"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.UpdateAll())),
-                              SpecMenuItem.Command(ShortcutFinger.Home4("Create vocab notes for parsed words"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries())),
-                              SpecMenuItem.Command(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers())),
-                              SpecMenuItem.Command(ShortcutFinger.Up1("Force flush all cached notes"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ForceFlushAllNotes())),
-                              SpecMenuItem.Command(ShortcutFinger.Up2("Force flush all Anki notes by ID"), () => _services.BackgroundTaskManager.Run(FlushAllAnkiNotesById)),
-                              SpecMenuItem.Command(ShortcutFinger.Up3("Write file system repository"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.WriteFileSystemRepository()))
+                              BatchCommand(ShortcutFinger.Home2("Convert Immersion Kit sentences"), AnkiFacade.Batches.ConvertImmersionKitSentences),
+                              BatchCommand(ShortcutFinger.Home3("Update everything except reanalysing sentences"), _services.LocalNoteUpdater.UpdateAll),
+                              BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
+                              BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),
+                              BatchCommand(ShortcutFinger.Up1("Force flush all cached notes"), _services.LocalNoteUpdater.ForceFlushAllNotes),
+                              BatchCommand(ShortcutFinger.Up2("Force flush all Anki notes by ID"), FlushAllAnkiNotesById),
+                              BatchCommand(ShortcutFinger.Up3("Write file system repository"), _services.LocalNoteUpdater.WriteFileSystemRepository)
                            }
       )
    ];
+
+   SpecMenuItem BatchCommand(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
+      => SpecMenuItem.Command(name,
+                              () => _services.BackgroundTaskManager.Run(() =>
+                              {
+                                 action();
+                                 AnkiFacade.UIUtils.Refresh();
+                              }),
+                              acceleratorKey,
+                              shortcut,
+                              enabled);
 
    void FlushAllAnkiNotesById()
    {
