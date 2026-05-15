@@ -29,10 +29,10 @@
                 <div id="container2" class="@(string.Join(" ", _note.Tags.ToStringList())) card@CardType">
 
                     <div class="topSection">
-                        @if(_note.Media.Images.Count > 0)
+                        @if(_note.Screenshots.Count > 0)
                         {
                             <div class="image">
-                                @foreach(var image in _note.Media.Images.Where(img => img.OriginalFileName != null))
+                                @foreach(var image in _note.Screenshots.Where(img => img.OriginalFileName != null))
                                 {
                                     <img src="@CardServerUrl.MediaUrl(image.OriginalFileName!)" />
                                 }

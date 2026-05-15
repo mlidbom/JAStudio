@@ -3,6 +3,7 @@ using System.Linq;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -70,6 +71,13 @@ public class VocabNote : JPNote
    public override CorpusObjectData ToCorpusData() => VocabNoteConverter.ToCorpusData(this);
 
    public override string GetQuestion() => Question.Raw;
+
+   public IReadOnlyList<AudioAttachment> FirstAudio   => Services.MediaFileIndex.GetAudioAttachments(Audio.First.RawValue());
+   public IReadOnlyList<AudioAttachment> SecondAudio  => Services.MediaFileIndex.GetAudioAttachments(Audio.Second.RawValue());
+   public IReadOnlyList<AudioAttachment> TtsAudio     => Services.MediaFileIndex.GetAudioAttachments(Audio.Tts.RawValue());
+   public AudioAttachment?               PreferredAudio => FirstAudio.FirstOrDefault() ?? SecondAudio.FirstOrDefault() ?? TtsAudio.FirstOrDefault();
+   public IReadOnlyList<ImageAttachment> Images       => Services.MediaFileIndex.GetImageAttachments(Image.RawValue());
+   public IReadOnlyList<ImageAttachment> UserImages   => Services.MediaFileIndex.GetImageAttachments(UserImage.RawValue());
 
    public override List<MediaReference> MediaReferences
    {

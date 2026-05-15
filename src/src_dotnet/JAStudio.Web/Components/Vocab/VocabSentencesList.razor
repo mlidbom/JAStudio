@@ -1,6 +1,5 @@
 @using JAStudio.Core.Note
 @using JAStudio.Core.Note.Vocabulary
-@using JAStudio.Core.Storage.Media
 @using JAStudio.Core.UI.Web.Vocab
 @using JAStudio.Web
 
@@ -13,7 +12,7 @@
                 @foreach(var sentence in _sentences)
                 {
                     <div class="highlightedSentenceDiv @sentence.SentenceClasses()">
-                        @{ var bestAudio = AudioSelector.SelectBest(sentence.Sentence.Media.Audio); }
+                        @{ var bestAudio = sentence.Sentence.PreferredAudio; }
                         @if(bestAudio?.OriginalFileName != null)
                         {
                             <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>

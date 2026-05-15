@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Compze.Utilities.Testing.Must;
 using Compze.Utilities.Testing.XUnit.BDD;
-using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 
@@ -57,15 +57,14 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
          [XF] public void it_is_an_audio_attachment() => (_attachment is AudioAttachment).Must().BeTrue();
       }
 
-      public class and_querying_note_media_by_filename : over_a_directory_with_media_files
+      public class and_querying_audio_attachments_by_raw_value : over_a_directory_with_media_files
       {
-         readonly NoteMedia _noteMedia;
+         readonly IReadOnlyList<AudioAttachment> _audio;
 
-         public and_querying_note_media_by_filename() =>
-            _noteMedia = _index.GetNoteMedia([new MediaReference("natsume_ep01_03m22s.mp3", MediaType.Audio)]);
+         public and_querying_audio_attachments_by_raw_value() =>
+            _audio = _index.GetAudioAttachments("[sound:natsume_ep01_03m22s.mp3]");
 
-         [XF] public void it_returns_one_audio() => _noteMedia.Audio.Count.Must().Be(1);
-         [XF] public void it_returns_no_images() => _noteMedia.Images.Count.Must().Be(0);
+         [XF] public void it_returns_one_audio() => _audio.Count.Must().Be(1);
       }
    }
 
@@ -107,11 +106,11 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
       [XF] public void it_lazy_initializes_on_first_access() => _index.ContainsByOriginalFileName("test.mp3").Must().BeTrue();
    }
 
-   public class querying_note_media_with_no_matches : When_building_a_MediaFileIndex
+   public class querying_audio_attachments_with_no_matches : When_building_a_MediaFileIndex
    {
-      public querying_note_media_with_no_matches() => _index.Build();
+      public querying_audio_attachments_with_no_matches() => _index.Build();
 
-      [XF] public void it_returns_empty_note_media() =>
-         _index.GetNoteMedia([new MediaReference("unknown.mp3", MediaType.Audio)]).Audio.Count.Must().Be(0);
+      [XF] public void it_returns_empty_list() =>
+         _index.GetAudioAttachments("[sound:unknown.mp3]").Count.Must().Be(0);
    }
 }

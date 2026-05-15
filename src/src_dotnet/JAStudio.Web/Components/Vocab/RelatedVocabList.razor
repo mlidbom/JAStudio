@@ -1,5 +1,4 @@
 @using JAStudio.Core.Note.Vocabulary
-@using JAStudio.Core.Storage.Media
 @using JAStudio.Web
 
 @if(Vocabs.Count > 0)
@@ -11,7 +10,7 @@
                 @foreach(var vocab in Vocabs)
                 {
                     <div class="relatedVocab @(string.Join(" ", vocab.GetMetaTags()))">
-                        @{ var bestAudio = AudioSelector.SelectBest(vocab.Media.Audio); }
+                        @{ var bestAudio = vocab.PreferredAudio; }
                         @if(bestAudio?.OriginalFileName != null)
                         {
                             <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>

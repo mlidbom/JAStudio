@@ -1,14 +1,14 @@
 import typing
 from JAStudio.Core.Note.CorpusData import SentenceConfigSubData, SentenceData, CorpusObjectData
 from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, NoteServices, NoteFlushGuard, NoteTags
-from System.Collections.Generic import List_1, IEnumerable_1, HashSet_1
+from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis
 from JAStudio.Core.Note.NoteFields import WritableStringValue, StripHtmlOnReadFallbackStringField, MediaReference, SentenceQuestionField, WritableImageValue
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.Vocabulary import WritableAudioValue
+from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment
 from JAStudio.Core.Note.Collection import JPCollection
-from JAStudio.Core.Storage.Media import NoteMedia
 from System import Action
 
 class CachingSentenceConfigurationField:
@@ -97,6 +97,8 @@ class SentenceNote(JPNote):
     @property
     def Audio(self) -> WritableAudioValue: ...
     @property
+    def AudioAttachments(self) -> IReadOnlyList_1[AudioAttachment]: ...
+    @property
     def Collection(self) -> JPCollection: ...
     @property
     def Configuration(self) -> CachingSentenceConfigurationField: ...
@@ -109,9 +111,9 @@ class SentenceNote(JPNote):
     @property
     def IsFlushing(self) -> bool: ...
     @property
-    def Media(self) -> NoteMedia: ...
-    @property
     def MediaReferences(self) -> List_1[MediaReference]: ...
+    @property
+    def PreferredAudio(self) -> AudioAttachment: ...
     @property
     def Question(self) -> SentenceQuestionField: ...
     @property
@@ -120,6 +122,8 @@ class SentenceNote(JPNote):
     def RecursiveFlushGuard(self) -> NoteFlushGuard: ...
     @property
     def Screenshot(self) -> WritableImageValue: ...
+    @property
+    def Screenshots(self) -> IReadOnlyList_1[ImageAttachment]: ...
     @property
     def Services(self) -> NoteServices: ...
     @property

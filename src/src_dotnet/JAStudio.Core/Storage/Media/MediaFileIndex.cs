@@ -87,37 +87,33 @@ public class MediaFileIndex
       if(!_initialized) Build();
    });
 
-   public NoteMedia GetNoteMedia(List<MediaReference> mediaReferences) => EnsureInitialized()
-     .then(() =>
-     {
-        var audio = mediaReferences
-                    .Where(r => r.Type == MediaType.Audio)
-                    .Select(r =>
-                    {
-                       var stored = _byOriginalFileName.GetValueOrDefault(r.FileName);
-                       if(stored == null) return null;
-                       return stored as AudioAttachment
-                              ?? new AudioAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
-                    })
-                    .Where(a => a != null)
-                    .Select(a => a!)
-                    .ToList();
+   public IReadOnlyList<AudioAttachment> GetAudioAttachments(string rawValue) => EnsureInitialized()
+     .then(() => MediaFieldParsing.ParseAudioReferences(rawValue)
+                                  .Select(r => ResolveAudio(r.FileName))
+                                  .OfType<AudioAttachment>()
+                                  .ToList());
 
-        var images = mediaReferences
-                     .Where(r => r.Type == MediaType.Image)
-                     .Select(r =>
-                     {
-                        var stored = _byOriginalFileName.GetValueOrDefault(r.FileName);
-                        if(stored == null) return null;
-                        return stored as ImageAttachment
-                               ?? new ImageAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
-                     })
-                     .Where(i => i != null)
-                     .Select(i => i!)
-                     .ToList();
+   public IReadOnlyList<ImageAttachment> GetImageAttachments(string rawValue) => EnsureInitialized()
+     .then(() => MediaFieldParsing.ParseImageReferences(rawValue)
+                                  .Select(r => ResolveImage(r.FileName))
+                                  .OfType<ImageAttachment>()
+                                  .ToList());
 
-        return new NoteMedia(audio, images);
-     });
+   AudioAttachment? ResolveAudio(string fileName)
+   {
+      var stored = _byOriginalFileName.GetValueOrDefault(fileName);
+      if(stored == null) return null;
+      return stored as AudioAttachment
+             ?? new AudioAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
+   }
+
+   ImageAttachment? ResolveImage(string fileName)
+   {
+      var stored = _byOriginalFileName.GetValueOrDefault(fileName);
+      if(stored == null) return null;
+      return stored as ImageAttachment
+             ?? new ImageAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
+   }
 
    public int Count => EnsureInitialized()
      .then(() => _byOriginalFileName.Count);

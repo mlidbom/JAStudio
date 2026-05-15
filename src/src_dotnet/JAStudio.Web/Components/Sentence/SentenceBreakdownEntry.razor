@@ -1,5 +1,4 @@
 @using JAStudio.Core.Configuration
-@using JAStudio.Core.Storage.Media
 @using JAStudio.Core.UI.Web.Sentence
 @using JAStudio.Core.ViewModels.KanjiList
 @using JAStudio.Web
@@ -7,7 +6,7 @@
 <li class="sentenceVocabEntry depth1 word_priority_very_high @Match.MetaTagsString">
     <div class="sentenceVocabEntryDiv">
         <SentenceInvalidForDisplay Match="Match" Settings="Settings" />
-        @{ var bestAudio = Match.VocabMatch != null ? AudioSelector.SelectBest(Match.VocabMatch.Vocab.Media.Audio) : null; }
+        @{ var bestAudio = Match.VocabMatch?.Vocab.PreferredAudio; }
         @if(bestAudio?.OriginalFileName != null)
         {
             <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>

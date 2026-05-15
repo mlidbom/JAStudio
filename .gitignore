@@ -41,3 +41,4 @@ snapshot_vocab.json
 *.orig
 *.cache
 *.ncrunchproject.user
+*.lscache

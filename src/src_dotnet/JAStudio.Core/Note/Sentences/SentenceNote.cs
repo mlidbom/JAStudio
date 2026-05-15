@@ -7,6 +7,7 @@ using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
+using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
 
@@ -54,6 +55,10 @@ public class SentenceNote : JPNote
    }
 
    public override CorpusObjectData ToCorpusData() => SentenceNoteConverter.ToCorpusData(this);
+
+   public IReadOnlyList<AudioAttachment> AudioAttachments => Services.MediaFileIndex.GetAudioAttachments(Audio.RawValue());
+   public AudioAttachment?               PreferredAudio   => AudioAttachments.FirstOrDefault();
+   public IReadOnlyList<ImageAttachment> Screenshots      => Services.MediaFileIndex.GetImageAttachments(Screenshot.RawValue());
 
    public override List<MediaReference> MediaReferences
    {
