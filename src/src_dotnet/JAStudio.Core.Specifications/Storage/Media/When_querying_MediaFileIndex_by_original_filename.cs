@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using Compze.Utilities.Testing.Must;
 using Compze.Utilities.Testing.XUnit.BDD;
-using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 
@@ -28,31 +27,18 @@ public class When_querying_MediaFileIndex_by_original_filename : SpecificationSt
       Directory.Delete(_tempDir, recursive: true);
    }
 
-   static void CreateMediaFileWithSidecar(string dir, MediaFileId id, string originalFileName)
+   static void CreateMediaFile(string dir, string originalFileName)
    {
       Directory.CreateDirectory(dir);
-      var extension = Path.GetExtension(originalFileName);
-      var mediaPath = Path.Combine(dir, $"{id}{extension}");
-      File.WriteAllText(mediaPath, "fake");
-
-      var audio = new AudioAttachment
-                  {
-                     Id = id,
-                     NoteIds = [new NoteId(Guid.NewGuid())],
-                     NoteSourceTag = SourceTag.Parse("source::test"),
-                     OriginalFileName = originalFileName,
-                     Copyright = CopyrightStatus.Free
-                  };
-      SidecarSerializer.WriteAudioSidecar(SidecarSerializer.BuildAudioSidecarPath(mediaPath), audio);
+      File.WriteAllText(Path.Combine(dir, originalFileName), "fake");
    }
 
    public class with_an_indexed_file : When_querying_MediaFileIndex_by_original_filename
    {
       public with_an_indexed_file()
       {
-         var id = MediaFileId.New();
          var fileDir = Path.Combine(_tempDir, "a1");
-         CreateMediaFileWithSidecar(fileDir, id, "test_audio.mp3");
+         CreateMediaFile(fileDir, "test_audio.mp3");
          _index.Build();
       }
 
@@ -70,16 +56,8 @@ public class When_querying_MediaFileIndex_by_original_filename : SpecificationSt
    {
       public with_a_registered_attachment()
       {
-         var id = MediaFileId.New();
          _index.Build();
-         _index.Register(new AudioAttachment
-                         {
-                            Id = id,
-                            NoteIds = [new NoteId(Guid.NewGuid())],
-                            NoteSourceTag = SourceTag.Parse("source::test"),
-                            OriginalFileName = "registered.mp3",
-                            Copyright = CopyrightStatus.Free
-                         });
+         _index.Register(new AudioAttachment { OriginalFileName = "registered.mp3", FilePath = "/fake/path/registered.mp3" });
       }
 
       [XF] public void it_is_found_by_original_name() =>

@@ -4,20 +4,10 @@ using System.IO;
 using System.Linq;
 using Compze.Utilities.Functional;
 using Compze.Utilities.Logging;
-using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
-using MemoryPack;
 
 namespace JAStudio.Core.Storage.Media;
-
-public class MediaFileInfo(MediaFileId id, string fullPath, string originalFileName, string extension)
-{
-   public MediaFileId Id { get; } = id;
-   public string FullPath { get; } = fullPath;
-   public string OriginalFileName { get; } = originalFileName;
-   public string Extension { get; } = extension;
-}
 
 public class MediaFileIndex
 {
@@ -35,23 +25,17 @@ public class MediaFileIndex
       _mediaRoot = mediaRoot;
       _taskRunner = taskRunner;
       _backgroundTaskManager = backgroundTaskManager;
-      _metadataDir = Path.Combine(mediaRoot, "metadata");
    }
 
-   readonly string _metadataDir;
-   string SnapshotPath => Path.Combine(_metadataDir, "media-snapshot.bin");
+   static readonly HashSet<string> AudioExtensions =
+      new(StringComparer.OrdinalIgnoreCase) { ".mp3", ".ogg", ".wav", ".m4a" };
 
-   record ScannedSidecar(string Path, MediaFileId Id, DateTime LastWriteUtc);
-
-   record MediaScanResult(
-      List<ScannedSidecar> AudioSidecars,
-      List<ScannedSidecar> ImageSidecars,
-      Dictionary<string, List<FileInfo>> MediaFilesByDirectory);
+   static readonly HashSet<string> ImageExtensions =
+      new(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
 
    /// <summary>
-   /// Builds the index with progress reporting via RunBatch.
-   /// Single filesystem enumeration, then parallel sidecar deserialization.
-   /// Uses a binary snapshot for fast subsequent loads (only changed sidecars are re-read).
+   /// Builds the index by scanning all media files in the media root directory.
+   /// Files are indexed by their filename.
    /// </summary>
    public void Build()
    {
@@ -63,233 +47,40 @@ public class MediaFileIndex
          return;
       }
 
-      if(File.Exists(SnapshotPath))
-      {
-         try
-         {
-            BuildWithSnapshotMerge();
-            return;
-         }
-         catch(Exception ex)
-         {
-            this.Log().Error(ex, "Failed to load media snapshot, falling back to full rebuild");
-         }
-      }
-
-      BuildFromSidecarsAndSaveSnapshot();
+      BuildFromFiles();
    }
 
-   void BuildFromSidecarsAndSaveSnapshot()
+   void BuildFromFiles()
    {
       using var runner = _taskRunner.Current("Loading media index");
-
-      var scan = runner.RunIndeterminate("Scanning media files", ScanMediaFiles);
-
-      var audioAttachments = runner.RunBatchAsync(scan.AudioSidecars, s => DeserializeSidecar(s.Path, isAudio: true, scan.MediaFilesByDirectory), "Loading audio sidecars", ThreadCount.FractionOfLogicalCores(0.3));
-      var imageAttachments = runner.RunBatchAsync(scan.ImageSidecars, s => DeserializeSidecar(s.Path, isAudio: false, scan.MediaFilesByDirectory), "Loading image sidecars", ThreadCount.FractionOfLogicalCores(0.3));
-
-      runner.RunBatch(audioAttachments.Result, IndexAttachment, "Indexing audio attachments");
-      runner.RunBatch(imageAttachments.Result, IndexAttachment, "Indexing image attachments");
-
+      var files = runner.RunIndeterminate("Scanning media files", CollectMediaFiles);
+      runner.RunBatch(files, IndexFile, "Indexing media files");
       _initialized = true;
       this.Log().Info($"Media file index built: {_byOriginalFileName.Count} files indexed under {_mediaRoot}");
-
-      var audio = audioAttachments.Result;
-      var images = imageAttachments.Result;
-      _backgroundTaskManager.Run(() => SaveSnapshot(MediaSnapshotConverter.ToContainer(audio, images)));
    }
 
-   void BuildWithSnapshotMerge()
+   List<FileInfo> CollectMediaFiles()
    {
-      using var runner = _taskRunner.Current("Loading media index (snapshot merge)");
-
-      var snapshotTimestamp = File.GetLastWriteTimeUtc(SnapshotPath);
-      var container = runner.RunIndeterminate("Loading media snapshot", DeserializeSnapshot);
-      var scan = runner.RunIndeterminate("Scanning media files", ScanMediaFiles);
-
-      var changes = runner.RunIndeterminate("Finding sidecar changes",
-                                            () => FindChanges(container, scan, snapshotTimestamp));
-
-      if(changes.HasChanges)
-      {
-         container = runner.RunIndeterminate("Patching snapshot with changes",
-                                             () => PatchSnapshot(container, changes, scan.MediaFilesByDirectory));
-
-         var snapshotToSave = container;
-         _backgroundTaskManager.Run(() => SaveSnapshot(snapshotToSave));
-      }
-
-      var audioAttachments = runner.RunBatchAsync(container.Audio, MediaSnapshotConverter.ToAudioAttachment, "Constructing audio attachments");
-      var imageAttachments = runner.RunBatchAsync(container.Images, MediaSnapshotConverter.ToImageAttachment, "Constructing image attachments");
-
-      runner.RunBatch(audioAttachments.Result, IndexAttachment, "Indexing audio attachments");
-      runner.RunBatch(imageAttachments.Result, IndexAttachment, "Indexing image attachments");
-
-      _initialized = true;
-      this.Log().Info($"Media file index built from snapshot: {_byOriginalFileName.Count} files indexed under {_mediaRoot}");
-   }
-
-   record SidecarChanges(
-      List<ScannedSidecar> ChangedAudio,
-      List<ScannedSidecar> ChangedImages,
-      HashSet<Guid> CurrentAudioIds,
-      HashSet<Guid> CurrentImageIds,
-      int DeletedCount)
-   {
-      public bool HasChanges => ChangedAudio.Count + ChangedImages.Count + DeletedCount > 0;
-   }
-
-   static SidecarChanges FindChanges(MediaSnapshotContainer container, MediaScanResult scan, DateTime snapshotTimestamp)
-   {
-      var currentAudioIds = scan.AudioSidecars.Select(s => s.Id.Value).ToHashSet();
-      var currentImageIds = scan.ImageSidecars.Select(s => s.Id.Value).ToHashSet();
-
-      var changedAudio = scan.AudioSidecars.Where(s => s.LastWriteUtc > snapshotTimestamp).ToList();
-      var changedImages = scan.ImageSidecars.Where(s => s.LastWriteUtc > snapshotTimestamp).ToList();
-
-      var deletedAudioCount = container.Audio.Count(d => !currentAudioIds.Contains(d.Id));
-      var deletedImageCount = container.Images.Count(d => !currentImageIds.Contains(d.Id));
-
-      return new SidecarChanges(changedAudio,
-                                changedImages,
-                                currentAudioIds,
-                                currentImageIds,
-                                deletedAudioCount + deletedImageCount);
-   }
-
-   static MediaSnapshotContainer PatchSnapshot(MediaSnapshotContainer container, SidecarChanges changes, Dictionary<string, List<FileInfo>> mediaFilesByDirectory)
-   {
-      var audioMap = container.Audio.ToDictionary(d => d.Id);
-      var imageMap = container.Images.ToDictionary(d => d.Id);
-
-      foreach(var sidecar in changes.ChangedAudio)
-      {
-         var attachment = (AudioAttachment)DeserializeSidecar(sidecar.Path, isAudio: true, mediaFilesByDirectory);
-         audioMap[sidecar.Id.Value] = MediaSnapshotConverter.ToSnapshotData(attachment);
-      }
-
-      foreach(var sidecar in changes.ChangedImages)
-      {
-         var attachment = (ImageAttachment)DeserializeSidecar(sidecar.Path, isAudio: false, mediaFilesByDirectory);
-         imageMap[sidecar.Id.Value] = MediaSnapshotConverter.ToSnapshotData(attachment);
-      }
-
-      foreach(var id in audioMap.Keys.Where(id => !changes.CurrentAudioIds.Contains(id)).ToList())
-         audioMap.Remove(id);
-      foreach(var id in imageMap.Keys.Where(id => !changes.CurrentImageIds.Contains(id)).ToList())
-         imageMap.Remove(id);
-
-      return new MediaSnapshotContainer
-             {
-                Audio = audioMap.Values.ToList(),
-                Images = imageMap.Values.ToList(),
-             };
-   }
-
-   void SaveSnapshot(MediaSnapshotContainer container)
-   {
-      Directory.CreateDirectory(Path.GetDirectoryName(SnapshotPath)!);
-      using var stream = File.Create(SnapshotPath);
-      MemoryPackSerializer.SerializeAsync(stream, container).GetAwaiter().GetResult();
-   }
-
-   MediaSnapshotContainer DeserializeSnapshot()
-   {
-      using var stream = File.OpenRead(SnapshotPath);
-      return MemoryPackSerializer.DeserializeAsync<MediaSnapshotContainer>(stream).GetAwaiter().GetResult()
-          ?? throw new InvalidOperationException("Media snapshot deserialization returned null");
-   }
-
-   void ClearIndexes()
-   {
-      _byOriginalFileName.Clear();
-   }
-
-   /// <summary>
-   /// Single enumeration of the media directory tree. Separates files into
-   /// audio sidecars, image sidecars (with IDs and timestamps), and media files grouped by directory.
-   /// </summary>
-   MediaScanResult ScanMediaFiles()
-   {
-      var audioSidecars = new List<ScannedSidecar>();
-      var imageSidecars = new List<ScannedSidecar>();
-      var mediaFilesByDirectory = new Dictionary<string, List<FileInfo>>(StringComparer.OrdinalIgnoreCase);
-
-      var metadataPrefix = _metadataDir + Path.DirectorySeparatorChar;
-
+      var result = new List<FileInfo>();
       foreach(var fi in new DirectoryInfo(_mediaRoot).EnumerateFiles("*", SearchOption.AllDirectories))
       {
-         var fullName = fi.FullName;
-         if(fullName.StartsWith(metadataPrefix, StringComparison.OrdinalIgnoreCase))
-            continue;
-
-         if(fullName.EndsWith(SidecarSerializer.AudioSidecarExtension, StringComparison.OrdinalIgnoreCase))
-         {
-            var id = MediaFileId.Parse(fi.Name[..^SidecarSerializer.AudioSidecarExtension.Length]);
-            audioSidecars.Add(new ScannedSidecar(fullName, id, fi.LastWriteTimeUtc));
-         } else if(fullName.EndsWith(SidecarSerializer.ImageSidecarExtension, StringComparison.OrdinalIgnoreCase))
-         {
-            var id = MediaFileId.Parse(fi.Name[..^SidecarSerializer.ImageSidecarExtension.Length]);
-            imageSidecars.Add(new ScannedSidecar(fullName, id, fi.LastWriteTimeUtc));
-         } else
-         {
-            var dir = fi.DirectoryName ?? string.Empty;
-            if(!mediaFilesByDirectory.TryGetValue(dir, out var list))
-            {
-               list = [];
-               mediaFilesByDirectory[dir] = list;
-            }
-
-            list.Add(fi);
-         }
+         if(AudioExtensions.Contains(fi.Extension) || ImageExtensions.Contains(fi.Extension))
+            result.Add(fi);
       }
-
-      return new MediaScanResult(audioSidecars, imageSidecars, mediaFilesByDirectory);
+      return result;
    }
 
-   static MediaAttachment DeserializeSidecar(string sidecarPath, bool isAudio, Dictionary<string, List<FileInfo>> mediaFilesByDirectory)
+   void IndexFile(FileInfo fi)
    {
-      MediaAttachment attachment = isAudio
-                                      ? SidecarSerializer.ReadAudioSidecar(sidecarPath)
-                                      : SidecarSerializer.ReadImageSidecar(sidecarPath);
+      MediaAttachment attachment = ImageExtensions.Contains(fi.Extension)
+         ? new ImageAttachment { OriginalFileName = fi.Name, FilePath = fi.FullName }
+         : new AudioAttachment { OriginalFileName = fi.Name, FilePath = fi.FullName };
 
-      var dir = Path.GetDirectoryName(sidecarPath) ?? string.Empty;
-      attachment.FilePath = FindMediaFile(dir, attachment.Id, attachment.OriginalFileName, mediaFilesByDirectory) ?? string.Empty;
-      return attachment;
+      if(!_byOriginalFileName.TryAdd(fi.Name, attachment))
+         this.Log().Warning($"Duplicate filename '{fi.Name}' — keeping first encountered");
    }
 
-   void IndexAttachment(MediaAttachment attachment)
-   {
-      if(attachment.OriginalFileName == null) return;
-
-      if(!_byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment))
-         this.Log().Warning($"Duplicate original filename '{attachment.OriginalFileName}' — keeping first encountered");
-   }
-
-   static string? FindMediaFile(string directory, MediaFileId id, string? originalFileName, Dictionary<string, List<FileInfo>> mediaFilesByDirectory)
-   {
-      if(!mediaFilesByDirectory.TryGetValue(directory, out var files)) return null;
-
-      // Try GUID-named file first (current storage format)
-      var idStr = id.ToString();
-      foreach(var fi in files)
-      {
-         if(Path.GetFileNameWithoutExtension(fi.Name) == idStr)
-            return fi.FullName;
-      }
-
-      // Fall back to original-filename-named file (post-rename format)
-      if(originalFileName != null)
-      {
-         foreach(var fi in files)
-         {
-            if(fi.Name.Equals(originalFileName, StringComparison.OrdinalIgnoreCase))
-               return fi.FullName;
-         }
-      }
-
-      return null;
-   }
+   void ClearIndexes() => _byOriginalFileName.Clear();
 
    unit EnsureInitialized() => unit.From(() =>
    {
@@ -334,3 +125,4 @@ public class MediaFileIndex
          _byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment);
    }
 }
+

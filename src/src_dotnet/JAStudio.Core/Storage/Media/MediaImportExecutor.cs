@@ -17,13 +17,8 @@ public class MediaImportExecutor
    {
       using var scope = _taskRunner.Current("Importing media from Anki");
 
-      scope.RunBatch(plan.AlreadyStored,
-                     alreadyStored =>
-                        _storageService.AddNoteIdToExisting(alreadyStored.Existing, alreadyStored.NoteId),
-                     "Updating shared file references");
-
       scope.RunBatch(plan.FilesToImport,
-                     file => _storageService.StoreFile(file.SourcePath, file.TargetDirectory, file.SourceTag, file.OriginalFileName, file.NoteId, file.MediaType, file.Copyright),
+                     file => _storageService.StoreFile(file.SourcePath, file.TargetDirectory, file.OriginalFileName, file.MediaType),
                      "Copying media files");
    }
 }
