@@ -21,9 +21,9 @@ public class SentenceQuestionField
 
    public string WithInvisibleSpace() =>
       StringExtensions.StripHtmlMarkup(
-         SentenceQuestionFieldRawValue().Replace(WordBreakTag, StringExtensions.InvisibleSpace));
+         SentenceQuestionFieldRawValue().Replace(WordBreakTag, StringExtensions.InvisibleSpace.ToString()));
 
-   public string WithoutInvisibleSpace() => WithInvisibleSpace().Replace(StringExtensions.InvisibleSpace, string.Empty);
+   public string WithoutInvisibleSpace() => WithInvisibleSpace().Replace(StringExtensions.InvisibleSpace.ToString(), string.Empty);
 
    public void SplitTokenWithWordBreakTag(string section)
    {

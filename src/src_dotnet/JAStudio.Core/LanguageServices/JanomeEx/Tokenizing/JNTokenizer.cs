@@ -35,7 +35,7 @@ public sealed class JNTokenizer
    {
       // The tokenizer does not fully understand that invisible spaces are word separators,
       // so we replace them with a sentinel token since they are not anything that should need to be parsed
-      var sanitizedText = text.Replace(StringExtensions.InvisibleSpace, JNToken.SplitterTokenText);
+      var sanitizedText = text.Replace(StringExtensions.InvisibleSpace.ToString(), JNToken.SplitterTokenText);
 
       foreach(var character in CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces)
       {

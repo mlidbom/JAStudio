@@ -13,7 +13,7 @@ static class RequiresOrForbidsIsSentenceStart
       if(requirement.IsActive)
       {
          var isInState = inspector.Prefix.Length == 0 ||
-                         AnalysisConstants.SentenceStartCharacters.Contains(inspector.Prefix[^1].ToString());
+                         AnalysisConstants.SentenceStartCharacters.Contains(inspector.Prefix[^1]);
          if(requirement.IsRequired && !isInState)
          {
             return RequiredFailure;

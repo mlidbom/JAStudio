@@ -68,5 +68,5 @@ public static class StringExtensions
       return match.Success ? match.Value : string.Empty;
    }
 
-   public const string InvisibleSpace = "\u200B"; // Zero-width space
+   public const char InvisibleSpace = '\u200B'; // Zero-width space
 }

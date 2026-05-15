@@ -13,7 +13,7 @@ public class ParsingResult
    internal ParsingResult(List<ParsedMatch> words, string sentence, string parserVersion)
    {
       ParsedWords = words;
-      Sentence = sentence.Replace(StringExtensions.InvisibleSpace, string.Empty);
+      Sentence = sentence.Replace(StringExtensions.InvisibleSpace.ToString(), string.Empty);
       ParserVersion = parserVersion;
    }
 

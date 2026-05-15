@@ -6,5 +6,5 @@ public class StripHtmlOnReadFallbackStringField
 
    public StripHtmlOnReadFallbackStringField(IStringValue primaryField, IStringValue fallbackField) => _field = new FallbackStringField(primaryField, fallbackField);
 
-   public string Get() => StringExtensions.StripHtmlMarkup(_field.Get().Replace("<wbr>", StringExtensions.InvisibleSpace));
+   public string Get() => StringExtensions.StripHtmlMarkup(_field.Get().Replace("<wbr>", StringExtensions.InvisibleSpace.ToString()));
 }
