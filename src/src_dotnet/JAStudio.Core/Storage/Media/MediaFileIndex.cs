@@ -27,11 +27,11 @@ public class MediaFileIndex
       _backgroundTaskManager = backgroundTaskManager;
    }
 
-   static readonly HashSet<string> AudioExtensions =
-      new(StringComparer.OrdinalIgnoreCase) { ".mp3", ".ogg", ".wav", ".m4a" };
-
    static readonly HashSet<string> ImageExtensions =
       new(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
+
+   static readonly HashSet<string> MetadataExtensions =
+      new(StringComparer.OrdinalIgnoreCase) { ".json", ".txt" };
 
    /// <summary>
    /// Builds the index by scanning all media files in the media root directory.
@@ -64,7 +64,7 @@ public class MediaFileIndex
       var result = new List<FileInfo>();
       foreach(var fi in new DirectoryInfo(_mediaRoot).EnumerateFiles("*", SearchOption.AllDirectories))
       {
-         if(AudioExtensions.Contains(fi.Extension) || ImageExtensions.Contains(fi.Extension))
+         if(!MetadataExtensions.Contains(fi.Extension))
             result.Add(fi);
       }
       return result;
@@ -92,14 +92,26 @@ public class MediaFileIndex
      {
         var audio = mediaReferences
                     .Where(r => r.Type == MediaType.Audio)
-                    .Select(r => _byOriginalFileName.GetValueOrDefault(r.FileName) as AudioAttachment)
+                    .Select(r =>
+                    {
+                       var stored = _byOriginalFileName.GetValueOrDefault(r.FileName);
+                       if(stored == null) return null;
+                       return stored as AudioAttachment
+                              ?? new AudioAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
+                    })
                     .Where(a => a != null)
                     .Select(a => a!)
                     .ToList();
 
         var images = mediaReferences
                      .Where(r => r.Type == MediaType.Image)
-                     .Select(r => _byOriginalFileName.GetValueOrDefault(r.FileName) as ImageAttachment)
+                     .Select(r =>
+                     {
+                        var stored = _byOriginalFileName.GetValueOrDefault(r.FileName);
+                        if(stored == null) return null;
+                        return stored as ImageAttachment
+                               ?? new ImageAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
+                     })
                      .Where(i => i != null)
                      .Select(i => i!)
                      .ToList();
