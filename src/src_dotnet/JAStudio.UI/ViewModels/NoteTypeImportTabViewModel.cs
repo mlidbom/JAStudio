@@ -65,7 +65,7 @@ partial class NoteTypeImportTabViewModel : ObservableObject
    public void Rebuild()
    {
       var rules = _buildRules(Rules.ToList());
-      foreach(var rule in Rules) rule.MatchCount = 0;
+      foreach(var rule in Rules) rule.FilesToImportCount = 0;
 
       var unmapped = new Dictionary<(string Source, string Field), int>();
       var totalMapped = 0;
@@ -79,7 +79,7 @@ partial class NoteTypeImportTabViewModel : ObservableObject
          if(scan.MatchingRule != null)
          {
             var editableRule = FindMatchingEditableRule(scan.MatchingRule);
-            if(editableRule != null) editableRule.MatchCount++;
+            if(editableRule != null) editableRule.FilesToImportCount++;
             totalMapped++;
          }
          else

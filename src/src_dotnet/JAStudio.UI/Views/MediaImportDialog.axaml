@@ -9,6 +9,12 @@
         Design.Width="950" Design.Height="700"
         WindowStartupLocation="Manual">
 
+    <Window.Styles>
+        <Style Selector="Border.rule-active">
+            <Setter Property="Background" Value="#CC2ECC71" />
+        </Style>
+    </Window.Styles>
+
     <Design.DataContext>
         <vm:MediaImportDialogViewModel />
     </Design.DataContext>
@@ -54,15 +60,17 @@
                             <ItemsControl ItemsSource="{Binding VocabTab.Rules}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:EditableImportRule">
-                                        <Grid ColumnDefinitions="*,120,*,Auto,Auto" Margin="0,2">
-                                            <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
-                                            <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.VocabFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
-                                            <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
-                                            <TextBlock Grid.Column="3" Text="{Binding MatchCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
-                                            <Button Grid.Column="4" Content="X"
-                                                    Command="{Binding RemoveSelfCommand}"
-                                                    Width="30" />
-                                        </Grid>
+                                        <Border Classes.rule-active="{Binding HasFilesToImport}" CornerRadius="3" Margin="0,2" Padding="2,0">
+                                            <Grid ColumnDefinitions="*,120,*,Auto,Auto">
+                                                <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
+                                                <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.VocabFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
+                                                <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
+                                                <TextBlock Grid.Column="3" Text="{Binding FilesToImportCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
+                                                <Button Grid.Column="4" Content="X"
+                                                        Command="{Binding RemoveSelfCommand}"
+                                                        Width="30" />
+                                            </Grid>
+                                        </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -97,15 +105,17 @@
                             <ItemsControl ItemsSource="{Binding SentenceTab.Rules}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:EditableImportRule">
-                                        <Grid ColumnDefinitions="*,120,*,Auto,Auto" Margin="0,2">
-                                            <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
-                                            <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.SentenceFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
-                                            <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
-                                            <TextBlock Grid.Column="3" Text="{Binding MatchCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
-                                            <Button Grid.Column="4" Content="X"
-                                                    Command="{Binding RemoveSelfCommand}"
-                                                    Width="30" />
-                                        </Grid>
+                                        <Border Classes.rule-active="{Binding HasFilesToImport}" CornerRadius="3" Margin="0,2" Padding="2,0">
+                                            <Grid ColumnDefinitions="*,120,*,Auto,Auto">
+                                                <TextBox Grid.Column="0" PlaceholderText="Source tag prefix" Text="{Binding SourceTagPrefix}" Margin="0,0,5,0" />
+                                                <ComboBox Grid.Column="1" ItemsSource="{x:Static vm:MediaImportDialogViewModel.SentenceFieldNames}" SelectedItem="{Binding SelectedField}" Margin="0,0,5,0" />
+                                                <TextBox Grid.Column="2" PlaceholderText="Target directory" Text="{Binding TargetDirectory}" Margin="0,0,5,0" />
+                                                <TextBlock Grid.Column="3" Text="{Binding FilesToImportCount, StringFormat='({0} files)'}" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="80" />
+                                                <Button Grid.Column="4" Content="X"
+                                                        Command="{Binding RemoveSelfCommand}"
+                                                        Width="30" />
+                                            </Grid>
+                                        </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

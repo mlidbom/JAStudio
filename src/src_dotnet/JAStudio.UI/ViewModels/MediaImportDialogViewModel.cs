@@ -195,7 +195,11 @@ partial class EditableImportRule : ObservableObject
    [ObservableProperty] string _sourceTagPrefix = "";
    [ObservableProperty] string _selectedField = "";
    [ObservableProperty] string _targetDirectory = "";
-   [ObservableProperty] int _matchCount;
+   [ObservableProperty] int _filesToImportCount;
+
+   partial void OnFilesToImportCountChanged(int value) => OnPropertyChanged(nameof(HasFilesToImport));
+
+   public bool HasFilesToImport => FilesToImportCount > 0;
 
    public IRelayCommand? RemoveSelfCommand { get; set; }
 
