@@ -213,9 +213,8 @@ partial class MediaImportDialogViewModel : ObservableObject
       var result = new List<ImportRule>();
       foreach(var r in editableRules)
       {
-         if(!r.IsValid || !Enum.TryParse<CopyrightStatus>(r.SelectedCopyright, out var copyright))
-            continue;
-         result.Add(new ImportRule(SourceTag.Parse(r.SourceTagPrefix), r.SelectedField, r.TargetDirectory, copyright));
+      if(!r.IsValid) continue;
+         result.Add(new ImportRule(SourceTag.Parse(r.SourceTagPrefix), r.SelectedField, r.TargetDirectory));
       }
       return result;
    }
@@ -224,11 +223,11 @@ partial class MediaImportDialogViewModel : ObservableObject
    {
       var persisted = MediaImportRulePersistence.Load(_paths);
       VocabTab.LoadRules(persisted.VocabRules.Select(r => new EditableImportRule
-                                                          { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory, SelectedCopyright = r.Copyright.ToString() }));
+                                                          { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory }));
       SentenceTab.LoadRules(persisted.SentenceRules.Select(r => new EditableImportRule
-                                                                { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory, SelectedCopyright = r.Copyright.ToString() }));
+                                                                { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory }));
       KanjiTab.LoadRules(persisted.KanjiRules.Select(r => new EditableImportRule
-                                                          { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory, SelectedCopyright = r.Copyright.ToString() }));
+                                                          { SourceTagPrefix = r.Prefix.ToString(), SelectedField = r.FieldName, TargetDirectory = r.TargetDirectory }));
    }
 
    List<ImportRule> BuildVocabRules() => BuildRulesFromEditableList(VocabTab.Rules.ToList());
@@ -268,7 +267,6 @@ partial class EditableImportRule : ObservableObject
    [ObservableProperty] string _sourceTagPrefix = "";
    [ObservableProperty] string _selectedField = "";
    [ObservableProperty] string _targetDirectory = "";
-   [ObservableProperty] string _selectedCopyright = nameof(CopyrightStatus.Commercial);
    [ObservableProperty] int _matchCount;
 
    public IRelayCommand? RemoveSelfCommand { get; set; }
@@ -277,8 +275,6 @@ partial class EditableImportRule : ObservableObject
       !string.IsNullOrWhiteSpace(SourceTagPrefix) &&
       !string.IsNullOrWhiteSpace(SelectedField) &&
       !string.IsNullOrWhiteSpace(TargetDirectory);
-
-   public static List<string> CopyrightOptions { get; } = [nameof(CopyrightStatus.Unknown), nameof(CopyrightStatus.Free), nameof(CopyrightStatus.Commercial)];
 }
 
 record MissingFileRow(string Question, string NoteIdDisplay, string FieldName, string FileName, NoteId NoteId);

@@ -81,7 +81,7 @@ public class MediaImportAnalyzer
             continue;
          }
 
-         plan.FilesToImport.Add(new PlannedFileImport(sourcePath, rule.TargetDirectory, rule.Copyright, sourceTag, reference.FileName, noteId, reference.Type));
+         plan.FilesToImport.Add(new PlannedFileImport(sourcePath, rule.TargetDirectory, sourceTag, reference.FileName, noteId, reference.Type));
       }
    }
 }

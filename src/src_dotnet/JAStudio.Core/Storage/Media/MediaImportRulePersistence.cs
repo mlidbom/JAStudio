@@ -14,7 +14,7 @@ public class MediaImportRulePersistence
                                                           PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                                           DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
                                                           Encoder = FullUnicodeJsonEncoder.Instance,
-                                                          Converters = { new JsonStringEnumConverter(), new SourceTagJsonConverter() }
+                                                          Converters = { new SourceTagJsonConverter() }
                                                        };
 
    static string FilePath(IEnvironmentPaths paths) => Path.Combine(paths.MetadataDir, "media-import-rules.json");

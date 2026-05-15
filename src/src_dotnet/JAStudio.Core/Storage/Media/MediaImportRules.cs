@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
-
 namespace JAStudio.Core.Storage.Media;
 
-public class ImportRule(SourceTag prefix, string fieldName, string targetDirectory, CopyrightStatus copyright)
+public class ImportRule(SourceTag prefix, string fieldName, string targetDirectory)
 {
    public SourceTag Prefix { get; } = prefix;
    [JsonPropertyName("field")]
    public string FieldName { get; } = fieldName;
    public string TargetDirectory { get; } = targetDirectory;
-   public CopyrightStatus Copyright { get; } = copyright;
 }
 
 public static class ImportRulesCE

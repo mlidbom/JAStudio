@@ -7,7 +7,6 @@ namespace JAStudio.Core.Storage.Media;
 public class PlannedFileImport(
    string sourcePath,
    string targetDirectory,
-   CopyrightStatus copyright,
    SourceTag sourceTag,
    string originalFileName,
    NoteId noteId,
@@ -15,7 +14,6 @@ public class PlannedFileImport(
 {
    public string SourcePath { get; } = sourcePath;
    public string TargetDirectory { get; } = targetDirectory;
-   public CopyrightStatus Copyright { get; } = copyright;
    public SourceTag SourceTag { get; } = sourceTag;
    public string OriginalFileName { get; } = originalFileName;
    public NoteId NoteId { get; } = noteId;

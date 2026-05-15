@@ -15,10 +15,10 @@ public class When_configuring_media_import_routing
    {
       readonly List<ImportRule> _rules =
       [
-         new ImportRule(Tag("anime::natsume"), nameof(SentenceMediaField.Audio),      "commercial-001", CopyrightStatus.Commercial),
-         new ImportRule(Tag("anime::natsume"), nameof(SentenceMediaField.Screenshot), "commercial-001", CopyrightStatus.Commercial),
-         new ImportRule(Tag("anime"),          nameof(SentenceMediaField.Audio),      "commercial-002", CopyrightStatus.Commercial),
-         new ImportRule(Tag("anime"),          nameof(SentenceMediaField.Screenshot), "commercial-002", CopyrightStatus.Commercial)
+         new ImportRule(Tag("anime::natsume"), nameof(SentenceMediaField.Audio),      "commercial-001"),
+         new ImportRule(Tag("anime::natsume"), nameof(SentenceMediaField.Screenshot), "commercial-001"),
+         new ImportRule(Tag("anime"),          nameof(SentenceMediaField.Audio),      "commercial-002"),
+         new ImportRule(Tag("anime"),          nameof(SentenceMediaField.Screenshot), "commercial-002")
       ];
 
       [XF] public void it_resolves_the_longest_matching_prefix() => _rules.TryResolve(Tag("anime::natsume::s1::01"), nameof(SentenceMediaField.Audio))!.TargetDirectory.Must().Be("commercial-001");
@@ -29,29 +29,24 @@ public class When_configuring_media_import_routing
    {
       readonly List<ImportRule> _rules =
       [
-         new ImportRule(Tag("anime"), nameof(SentenceMediaField.Audio), "commercial-001", CopyrightStatus.Commercial)
+         new ImportRule(Tag("anime"), nameof(SentenceMediaField.Audio), "commercial-001")
       ];
 
       [XF] public void it_returns_null() => _rules.TryResolve(Tag("forvo"), nameof(SentenceMediaField.Audio)).Must().BeNull();
    }
 
-   public class with_vocab_rules_having_different_copyright_per_field : When_configuring_media_import_routing
+   public class with_vocab_rules_for_different_fields : When_configuring_media_import_routing
    {
-      readonly List<ImportRule> _rules;
+      readonly List<ImportRule> _rules =
+      [
+         new ImportRule(Tag("wani"), nameof(VocabMediaField.AudioFirst), "audio/wani"),
+         new ImportRule(Tag("wani"), nameof(VocabMediaField.AudioTts),   "tts/wani"),
+         new ImportRule(Tag("wani"), nameof(VocabMediaField.UserImage),  "images/wani")
+      ];
 
-      public with_vocab_rules_having_different_copyright_per_field() =>
-         _rules =
-         [
-            new ImportRule(Tag("wani"), nameof(VocabMediaField.AudioFirst), "commercial/wani", CopyrightStatus.Commercial),
-            new ImportRule(Tag("wani"), nameof(VocabMediaField.AudioTts),   "free/tts",        CopyrightStatus.Free),
-            new ImportRule(Tag("wani"), nameof(VocabMediaField.UserImage),  "free/user",       CopyrightStatus.Free)
-         ];
-
-      [XF] public void audio_first_is_commercial() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioFirst))!.Copyright.Must().Be(CopyrightStatus.Commercial);
-      [XF] public void audio_tts_is_free() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioTts))!.Copyright.Must().Be(CopyrightStatus.Free);
-      [XF] public void audio_first_goes_to_commercial_dir() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioFirst))!.TargetDirectory.Must().Be("commercial/wani");
-      [XF] public void audio_tts_goes_to_free_dir() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioTts))!.TargetDirectory.Must().Be("free/tts");
-      [XF] public void user_image_is_free() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.UserImage))!.Copyright.Must().Be(CopyrightStatus.Free);
+      [XF] public void audio_first_goes_to_correct_dir() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioFirst))!.TargetDirectory.Must().Be("audio/wani");
+      [XF] public void audio_tts_goes_to_correct_dir() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioTts))!.TargetDirectory.Must().Be("tts/wani");
+      [XF] public void user_image_goes_to_correct_dir() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.UserImage))!.TargetDirectory.Must().Be("images/wani");
       [XF] public void unconfigured_field_returns_null() => _rules.TryResolve(Tag("wani::level05"), nameof(VocabMediaField.AudioSecond)).Must().BeNull();
    }
 }
