@@ -19,7 +19,7 @@
                         }
                         <NoteLink Note="sentence.Sentence">
                             <div class="highlightedSentence">
-                                <div class="sentenceQuestion"><span class="clipboard">@((MarkupString)sentence.FormatSentence())</span> <span class="deck_indicator">@sentence.Sentence.GetSourceTag()</span></div>
+                                <div class="sentenceQuestion"><span class="clipboard">@((MarkupString)sentence.FormatSentence())</span> <span class="deck_indicator">@sentence.Sentence.SourceTag</span></div>
                                 <div class="sentenceAnswer"> @((MarkupString)sentence.Sentence.GetAnswer())</div>
                             </div>
                         </NoteLink>

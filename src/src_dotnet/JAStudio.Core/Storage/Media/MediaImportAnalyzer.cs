@@ -25,7 +25,7 @@ public class MediaImportAnalyzer
 
       foreach(var note in notes)
       {
-         var sourceTag = ResolveSourceTag(note);
+         var sourceTag = note.SourceTag;
          var noteId = note.GetId();
 
          AnalyzeField(note.Audio.First.GetMediaReferences(), ruleSet.TryResolveVocab(sourceTag, VocabMediaField.AudioFirst), nameof(VocabMediaField.AudioFirst), sourceTag, noteId, plan);
@@ -45,7 +45,7 @@ public class MediaImportAnalyzer
 
       foreach(var note in notes)
       {
-         var sourceTag = ResolveSourceTag(note);
+         var sourceTag = note.SourceTag;
          var noteId = note.GetId();
 
          AnalyzeField(note.Audio.GetMediaReferences(), ruleSet.TryResolveSentence(sourceTag, SentenceMediaField.Audio), nameof(SentenceMediaField.Audio), sourceTag, noteId, plan);
@@ -62,7 +62,7 @@ public class MediaImportAnalyzer
 
       foreach(var note in notes)
       {
-         var sourceTag = ResolveSourceTag(note);
+         var sourceTag = note.SourceTag;
          var noteId = note.GetId();
 
          AnalyzeField(note.Audio.GetMediaReferences(), ruleSet.TryResolveKanji(sourceTag, KanjiMediaField.Audio), nameof(KanjiMediaField.Audio), sourceTag, noteId, plan);
@@ -106,11 +106,4 @@ public class MediaImportAnalyzer
       }
    }
 
-   static readonly SourceTag FallbackSourceTag = SourceTag.Parse("anki::unknown");
-
-   static SourceTag ResolveSourceTag(JPNote note)
-   {
-      var rawSourceTag = note.GetSourceTag();
-      return string.IsNullOrEmpty(rawSourceTag) ? FallbackSourceTag : SourceTag.Parse($"{Tags.Source.Folder}{rawSourceTag}");
-   }
 }

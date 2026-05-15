@@ -302,8 +302,7 @@ partial class MediaImportDialogViewModel : ObservableObject
 
       foreach(var note in notes)
       {
-         var rawSourceTag = note.GetSourceTag();
-         var sourceTag = string.IsNullOrEmpty(rawSourceTag) ? "anki::unknown" : $"source::{rawSourceTag}";
+         var sourceTag = note.SourceTag.ToString();
 
          foreach(var mediaRef in GetMediaReferences(note))
          {

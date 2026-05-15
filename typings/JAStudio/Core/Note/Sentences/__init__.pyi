@@ -7,7 +7,7 @@ from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion
 from JAStudio.Core.Note.NoteFields import WritableStringValue, StripHtmlOnReadFallbackStringField, MediaReference, SentenceQuestionField, WritableImageValue
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.Vocabulary import WritableAudioValue
-from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment
+from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
 from JAStudio.Core.Note.Collection import JPCollection
 from System import Action
 
@@ -132,6 +132,8 @@ class SentenceNote(JPNote):
     def SourceComments(self) -> WritableStringValue: ...
     @property
     def SourceQuestion(self) -> WritableStringValue: ...
+    @property
+    def SourceTag(self) -> SourceTag: ...
     @property
     def Tags(self) -> NoteTags: ...
     @property

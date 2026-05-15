@@ -5,7 +5,7 @@ from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1, IEnum
 from System import Func_1, Func_3, Array_1, Action_1
 from JAStudio.Core.Note.CorpusData import VocabData, CorpusObjectData
 from JAStudio.Core.Note.Collection import JPCollection
-from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment
+from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
 from JAStudio.Core.Note.Vocabulary.RelatedVocab import RelatedVocab
 from JAStudio.Core.Note.Sentences import SentenceNote
 
@@ -237,6 +237,8 @@ class VocabNote(JPNote):
     def SourceMnemonic(self) -> WritableStringValue: ...
     @property
     def SourceReadingMnemonic(self) -> WritableStringValue: ...
+    @property
+    def SourceTag(self) -> SourceTag: ...
     @property
     def Tags(self) -> NoteTags: ...
     @property

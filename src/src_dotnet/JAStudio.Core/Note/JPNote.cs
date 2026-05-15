@@ -4,6 +4,7 @@ using System.Linq;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Storage.Media;
 using MemoryPack;
 
 namespace JAStudio.Core.Note;
@@ -194,15 +195,20 @@ public abstract class JPNote
       return tags;
    }
 
-   public string GetSourceTag()
-   {
-      var sourceTags = Tags.Where(t => t.Name.StartsWith(Note.Tags.Source.Folder)).ToList();
-      if(sourceTags.Any())
-      {
-         var sorted = sourceTags.OrderBy(t => t.Name.Length).ToList();
-         return sorted[0].Name.Substring(Note.Tags.Source.Folder.Length);
-      }
+   static readonly SourceTag UnknownSourceTag = SourceTag.Parse("anki::unknown");
 
-      return string.Empty;
+   public SourceTag SourceTag
+   {
+      get
+      {
+         var sourceTags = Tags.Where(t => t.Name.StartsWith(Note.Tags.Source.Folder)).ToList();
+         if(sourceTags.Any())
+         {
+            var sorted = sourceTags.OrderBy(t => t.Name.Length).ToList();
+            return SourceTag.Parse(sorted[0].Name);
+         }
+
+         return UnknownSourceTag;
+      }
    }
 }
