@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using JAStudio.Anki;
@@ -176,19 +177,5 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
 
    static string FormatVocabMeaning(string meaning) => meaning.Replace(" SOURCE", "").Replace(", ", "/").Replace(" ", "-").ToLower().StripHtmlAndBracketMarkupAndNoiseCharacters();
 
-   static void CopyToClipboard(string text)
-   {
-      Dispatcher.UIThread.Invoke(() =>
-      {
-         var topLevel = Avalonia.Application.Current?.ApplicationLifetime
-                           is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop
-                           ? desktop.MainWindow
-                           : null;
-
-         if(topLevel?.Clipboard != null)
-         {
-            topLevel.Clipboard.SetTextAsync(text).Wait();
-         }
-      });
-   }
+   static void CopyToClipboard(string text) => Dispatcher.UIThread.Invoke(() => new Window().Clipboard?.SetTextAsync(text).Wait());
 }
