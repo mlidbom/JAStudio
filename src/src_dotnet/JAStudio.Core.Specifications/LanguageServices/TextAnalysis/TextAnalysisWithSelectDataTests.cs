@@ -64,7 +64,7 @@ public class TextAnalysisWithSelectDataTests : SpecificationUsingACollection
    }
 
    [Theory]
-   [InlineData("うわ こわっ", "うわ", "こ", "こい", "わっ")]
+   [InlineData("うわ こわっ", "うわ", "こい", "わっ")]
    public void StrictlySuffix(string sentence, params string[] expectedOutput)
    {
       var sentenceNote = CreateTestSentence(sentence, "");

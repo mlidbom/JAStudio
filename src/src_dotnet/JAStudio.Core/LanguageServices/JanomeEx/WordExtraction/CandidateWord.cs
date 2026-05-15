@@ -111,7 +111,7 @@ public sealed class CandidateWord
    public bool IsInflectableWord => EndLocation.Token.IsInflectableWord;
    public bool NextTokenIsInflectingWord => EndLocation.IsNextLocationInflectingWord();
    public bool IsInflectedWord => IsInflectableWord && NextTokenIsInflectingWord;
-   public bool StartsWithNonWordCharacter => StartsWithNonWordToken || AnalysisConstants.NoiseCharacters.Contains(SurfaceForm);
+   public bool StartsWithNonWordCharacter => StartsWithNonWordToken || (SurfaceForm != "" && AnalysisConstants.NoiseCharacters.Contains(SurfaceForm[0].ToString()));
 
    public bool IsShadowed => ShadowedBy != "";
 

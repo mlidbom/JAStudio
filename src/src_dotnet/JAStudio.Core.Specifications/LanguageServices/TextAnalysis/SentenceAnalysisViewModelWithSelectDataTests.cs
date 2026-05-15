@@ -215,7 +215,7 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
    [InlineData("他人を気遣い", "他人", "を", "気遣う")]
    [InlineData("まだ割れんのか", "まだ", "割れる", "のか")]
    [InlineData("思えないしな", "思える", "ない", "しな")]
-   [InlineData("あ な なに", "あ", "な:s.end", "なに")]
+   [InlineData("あ な なに", "あ", "な:s.start", "なに")]
    [InlineData("幼すぎて よく覚えていないけど", "幼い", "すぎる", "て", "よく", "覚える", "ている", "ない", "けど")]
    public void MiscStuff(string sentence, params string[] expectedOutput)
    {
@@ -261,5 +261,12 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
    public void AllWordsEqual(string sentence, params string[] expectedOutput)
    {
       AssertAllWordsEqual(sentence, expectedOutput);
+   }
+   
+   [Theory]
+   [InlineData("私　. , : ; / | 。 、 ? ! ( ) ", "私")]
+   public void NoiseCharactersAreIgnored(string sentence, params string[] expectedOutput)
+   {
+      AssertDisplayWordsEqualAndThatAnalysisInternalStateIsValid(sentence, expectedOutput);
    }
 }

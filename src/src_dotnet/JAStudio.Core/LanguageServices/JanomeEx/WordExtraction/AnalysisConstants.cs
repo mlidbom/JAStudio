@@ -8,7 +8,7 @@ static class AnalysisConstants
    public static readonly HashSet<string> PseudoQuoteCharacters = ["と", "って"];
    public static readonly HashSet<string> AllQuoteCharacters;
 
-   public static readonly HashSet<string> SpaceCharacters = [" ", "\t", StringExtensions.InvisibleSpace];
+   public static readonly HashSet<string> SpaceCharacters = [" ", "　", "\t", StringExtensions.InvisibleSpace];
 
    public static readonly HashSet<string> QuestionMarks = ["？", "?"];
    public static readonly HashSet<string> Periods = [".", "。", "｡"];
@@ -29,7 +29,7 @@ static class AnalysisConstants
       AllQuoteCharacters = new HashSet<string>(RealQuoteCharacters);
       AllQuoteCharacters.UnionWith(PseudoQuoteCharacters);
 
-      AllPunctuationCharacters = new HashSet<string>(AllQuoteCharacters);
+      AllPunctuationCharacters = new HashSet<string>(RealQuoteCharacters);
       AllPunctuationCharacters.UnionWith(QuestionMarks);
       AllPunctuationCharacters.UnionWith(Periods);
       AllPunctuationCharacters.UnionWith(Commas);
@@ -49,7 +49,5 @@ static class AnalysisConstants
 
       NoiseCharacters = new HashSet<string>(AllPunctuationCharacters);
       NoiseCharacters.UnionWith(SpaceCharacters);
-      NoiseCharacters.UnionWith(PseudoQuoteCharacters);
-      NoiseCharacters.UnionWith(SentenceEndCharacters);
    }
 }
