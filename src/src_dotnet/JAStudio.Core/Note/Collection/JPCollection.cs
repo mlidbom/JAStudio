@@ -161,8 +161,6 @@ public class JPCollection
                                  Sentences.Cache.SetStudyingStatuses(sentenceStatuses);
                               });
 
-      WireMediaIntoNotes(runner);
-
       IsInitialized = true;
       foreach(var listener in _initializedListeners)
          listener();
@@ -180,19 +178,4 @@ public class JPCollection
          runner.RunIndeterminateAsync("Pushing sentence notes into cache", () => Sentences.Cache.AddAllToCache(allNotes.Sentences)));
    }
 
-   void WireMediaIntoNotes(ITaskProgressRunner runner)
-   {
-      runner.RunIndeterminate("Wiring media into notes",
-                              () =>
-                              {
-                                 foreach(var note in Vocab.All())
-                                    note.Media = _mediaFileIndex.GetNoteMedia(note.GetId());
-
-                                 foreach(var note in Kanji.All())
-                                    note.Media = _mediaFileIndex.GetNoteMedia(note.GetId());
-
-                                 foreach(var note in Sentences.All())
-                                    note.Media = _mediaFileIndex.GetNoteMedia(note.GetId());
-                              });
-   }
 }

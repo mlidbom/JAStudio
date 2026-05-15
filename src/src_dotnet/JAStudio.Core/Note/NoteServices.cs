@@ -3,6 +3,7 @@ using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Note;
@@ -29,4 +30,5 @@ public class NoteServices
    public JapaneseConfig Config => _serviceLocator.Resolve<JapaneseConfig>();
    public TaskRunner TaskRunner => _serviceLocator.Resolve<TaskRunner>();
    public ExternalNoteIdMap ExternalNoteIdMap => _serviceLocator.Resolve<ExternalNoteIdMap>();
+   public MediaFileIndex MediaFileIndex => _serviceLocator.Resolve<MediaFileIndex>();
 }

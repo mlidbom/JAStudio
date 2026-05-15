@@ -75,7 +75,6 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
       data.Id = noteId;
       var note = CreateNoteByMergingAnkiData(_noteServices, existing, data);
       note.CopyStudyingStatusFrom(existing);
-      note.Media = existing.Media;
       note.UpdateGeneratedData();
       _monitor.Read(() => RefreshInCacheCore(note));
       NotifyUpdateListeners(note);
