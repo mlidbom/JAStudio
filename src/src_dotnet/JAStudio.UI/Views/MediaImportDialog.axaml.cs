@@ -13,5 +13,6 @@ partial class MediaImportDialog : Window
       var viewModel = new MediaImportDialogViewModel(services);
       DataContext = viewModel;
       viewModel.CloseCommand = new RelayCommand(Close);
+      Loaded += (_, _) => viewModel.AnalyzeCommand.Execute(null);
    }
 }

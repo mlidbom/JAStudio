@@ -39,7 +39,6 @@ partial class NoteTypeImportTabViewModel : ObservableObject
 
    [ObservableProperty] int _totalUnmappedCount;
    [ObservableProperty] int _totalMappedCount;
-   [ObservableProperty] bool _hasScanned;
 
    [RelayCommand]
    void AddRule()
@@ -61,14 +60,11 @@ partial class NoteTypeImportTabViewModel : ObservableObject
    internal void SetScannedFiles(List<ScannedMediaFile> files)
    {
       _allScannedFiles = files;
-      HasScanned = true;
       Reclassify();
    }
 
    public void Reclassify()
    {
-      if(!HasScanned) return;
-
       var rules = _buildRules(Rules.ToList());
       foreach(var rule in Rules) rule.MatchCount = 0;
 

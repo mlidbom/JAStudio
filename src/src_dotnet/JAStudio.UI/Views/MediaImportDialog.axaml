@@ -20,7 +20,6 @@
         <DockPanel Margin="10">
             <!-- Button bar at bottom -->
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0" Spacing="10">
-                <Button Content="Scan" Command="{Binding ScanCommand}" Width="80" />
                 <Button Content="Analyze" Command="{Binding AnalyzeCommand}" Width="80" />
                 <Button Content="Import" Command="{Binding ImportCommand}" IsEnabled="{Binding HasPlan}" Width="80" />
                 <Button Content="Save Rules" Command="{Binding SaveRulesCommand}" Width="90" />

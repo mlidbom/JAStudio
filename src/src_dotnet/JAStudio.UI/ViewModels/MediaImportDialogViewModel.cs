@@ -58,8 +58,7 @@ partial class MediaImportDialogViewModel : ObservableObject
    public NoteTypeImportTabViewModel SentenceTab { get; private set; } = null!;
    public NoteTypeImportTabViewModel KanjiTab { get; private set; } = null!;
 
-   [ObservableProperty] string _statusText = "Click Scan to discover un-imported media.";
-   [ObservableProperty] bool _isScanning;
+   [ObservableProperty] string _statusText = "Analyzing...";
    [ObservableProperty] bool _hasPlan;
 
    MediaImportPlan? _currentPlan;
@@ -81,10 +80,14 @@ partial class MediaImportDialogViewModel : ObservableObject
    [RelayCommand] void RemoveKanjiRule(EditableImportRule rule) => KanjiTab.RemoveRuleCommand.Execute(rule);
 
    [RelayCommand]
-   void Scan()
+   void Analyze()
    {
-      IsScanning = true;
-      StatusText = "Scanning notes for un-imported media...";
+      StatusText = "Analyzing...";
+      HasPlan = false;
+
+      var vocabRules = BuildVocabRules();
+      var sentenceRules = BuildSentenceRules();
+      var kanjiRules = BuildKanjiRules();
 
       _services.BackgroundTaskManager.Run(() =>
       {
@@ -107,33 +110,8 @@ partial class MediaImportDialogViewModel : ObservableObject
             (nameof(KanjiMediaField.Image), note.Image.GetMediaReferences()),
          ]);
 
-         Dispatcher.UIThread.Invoke(() =>
-         {
-            VocabTab.SetScannedFiles(vocabFiles);
-            SentenceTab.SetScannedFiles(sentenceFiles);
-            KanjiTab.SetScannedFiles(kanjiFiles);
-
-            var total = vocabFiles.Count + sentenceFiles.Count + kanjiFiles.Count;
-            StatusText = $"Scanned: {total} un-imported media files ({vocabFiles.Count} vocab, {sentenceFiles.Count} sentence, {kanjiFiles.Count} kanji).";
-            IsScanning = false;
-         });
-      });
-   }
-
-   [RelayCommand]
-   void Analyze()
-   {
-      StatusText = "Analyzing import plan...";
-      HasPlan = false;
-
-      _services.BackgroundTaskManager.Run(() =>
-      {
          var ankiMediaDir = _paths.AnkiMediaDir;
          var analyzer = new MediaImportAnalyzer(ankiMediaDir, _index);
-
-         var vocabRules = BuildVocabRules();
-         var sentenceRules = BuildSentenceRules();
-         var kanjiRules = BuildKanjiRules();
 
          var vocabPlan = vocabRules.Count > 0 ? analyzer.AnalyzeVocab(_vocabCollection.All(), vocabRules) : new MediaImportPlan();
          var sentencePlan = sentenceRules.Count > 0 ? analyzer.AnalyzeSentences(_sentenceCollection.All(), sentenceRules) : new MediaImportPlan();
@@ -143,6 +121,10 @@ partial class MediaImportDialogViewModel : ObservableObject
 
          Dispatcher.UIThread.Invoke(() =>
          {
+            VocabTab.SetScannedFiles(vocabFiles);
+            SentenceTab.SetScannedFiles(sentenceFiles);
+            KanjiTab.SetScannedFiles(kanjiFiles);
+
             _vocabPlan = vocabPlan;
             _sentencePlan = sentencePlan;
             _kanjiPlan = kanjiPlan;
