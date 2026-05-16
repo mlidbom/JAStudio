@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Threading;
 using JAStudio.Anki;
+using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -13,9 +14,9 @@ using JAStudio.UI.Utils;
 
 namespace JAStudio.UI.Menus;
 
-public class NoteContextMenu(Core.TemporaryServiceCollection services)
+public class NoteContextMenu(TemporaryServiceCollection services)
 {
-   readonly Core.TemporaryServiceCollection _services = services;
+   readonly TemporaryServiceCollection _services = services;
    readonly VocabNoteMenus _vocabNoteMenus = new(services);
    readonly KanjiNoteMenus _kanjiNoteMenus = new(services);
    readonly SentenceNoteMenus _sentenceNoteMenus = new(services);
@@ -33,10 +34,10 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, "vocab", vocab));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1("Selection: "), selection, "vocab", vocab));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, "vocab", vocab));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2("Clipboard: "), clipboard, "vocab", vocab));
 
       menuItems.Add(_vocabNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), vocab));
       menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), vocab));
@@ -56,10 +57,10 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, "kanji", kanji));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1("Selection: "), selection, "kanji", kanji));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, "kanji", kanji));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2("Clipboard: "), clipboard, "kanji", kanji));
 
       menuItems.Add(_kanjiNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), kanji));
       menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), kanji));
@@ -79,10 +80,10 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, "sentence", sentence));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1("Selection: "), selection, "sentence", sentence));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, "sentence", sentence));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2("Clipboard: "), clipboard, "sentence", sentence));
 
       menuItems.Add(_sentenceNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), sentence));
       menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), sentence));
@@ -98,10 +99,10 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
       var menuItems = new List<SpecMenuItem>();
 
       if(!string.IsNullOrEmpty(selection))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1($"Selection: "), selection, null, null));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home1("Selection: "), selection, null, null));
 
       if(!string.IsNullOrEmpty(clipboard))
-         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2($"Clipboard: "), clipboard, null, null));
+         menuItems.Add(BuildStringMenuSpec(ShortcutFinger.Home2("Clipboard: "), clipboard, null, null));
 
       return menuItems;
    }

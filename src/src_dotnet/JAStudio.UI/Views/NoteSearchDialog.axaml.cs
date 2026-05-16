@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -67,7 +66,7 @@ partial class NoteSearchDialog : Window
          instance.Hide();
       } else
       {
-         WindowPositioner.RepositionNearCursor(instance);
+         instance.RepositionNearCursor();
          instance.Show();
          instance.Activate();
          var searchInput = instance.FindControl<TextBox>("SearchInput");

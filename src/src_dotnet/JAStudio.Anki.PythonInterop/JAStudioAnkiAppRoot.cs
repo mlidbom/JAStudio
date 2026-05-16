@@ -8,7 +8,6 @@ using Avalonia.Controls.Platform;
 using Avalonia.Threading;
 using Compze.Utilities.Logging;
 using Compze.Utilities.SystemCE;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
@@ -18,6 +17,7 @@ using JAStudio.Web;
 namespace JAStudio.Anki.PythonInterop;
 
 // ReSharper disable once UnusedType.Global used from python
+// ReSharper disable once UnusedMember.Global
 public class JAStudioAnkiAppRoot
 {
    readonly CoreApp _coreApp;
@@ -89,7 +89,7 @@ public class JAStudioAnkiAppRoot
 
       var root = new JAStudioAnkiAppRoot(app) { _uiThread = uiThread };
 
-      root._coreApp.Collection.OnInitialized(() => AnkiFacade.UIUtils.Refresh());
+      root._coreApp.Collection.OnInitialized(AnkiFacade.UIUtils.Refresh);
 
       root._cardServer.OpenNoteInPreviewerAction = noteId =>
       {
