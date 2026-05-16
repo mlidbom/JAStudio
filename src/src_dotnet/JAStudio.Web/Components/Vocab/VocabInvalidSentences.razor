@@ -15,10 +15,12 @@
                         {
                             <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
                         }
-                        <div class="highlightedSentence">
-                            <div class="sentenceQuestion"><span class="clipboard">@sentence.Question.WithoutInvisibleSpace()</span></div>
-                            <div class="sentenceAnswer"> @((MarkupString)sentence.GetAnswer())</div>
-                        </div>
+                        <NoteLink Note="sentence">
+                            <div class="highlightedSentence">
+                                <div class="sentenceQuestion"><span class="clipboard">@sentence.Question.WithoutInvisibleSpace()</span></div>
+                                <div class="sentenceAnswer"> @((MarkupString)sentence.GetAnswer())</div>
+                            </div>
+                        </NoteLink>
                     </div>
                 }
             </div>

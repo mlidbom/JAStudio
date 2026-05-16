@@ -2,7 +2,7 @@
 @using JAStudio.Core.Note.Vocabulary
 @using JAStudio.Core.Note.Sentences
 
-<a class="note-link" href="@CardUrl()" data-note-type="@NoteType" data-note-id="@Note.GetId()">@ChildContent</a>
+<a class="note-link" href="@CardUrl()" data-note-type="@NoteType" data-note-id="@Note.GetId()" draggable="false">@ChildContent</a>
 
 @code {
     [Parameter, EditorRequired] public JPNote Note { get; set; } = null!;
