@@ -11,6 +11,7 @@
 
     <Window.KeyBindings>
         <KeyBinding Gesture="Ctrl+Enter" Command="{Binding SaveCommand}" />
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ApplyCommand}" />
     </Window.KeyBindings>
 
     <Design.DataContext>

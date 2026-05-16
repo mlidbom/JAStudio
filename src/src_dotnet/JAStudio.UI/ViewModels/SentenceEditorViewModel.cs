@@ -42,6 +42,7 @@ partial class SentenceEditorViewModel : ObservableObject
    // --- Commands ---
 
    public IRelayCommand SaveCommand { get; set; } = null!;
+   public IRelayCommand ApplyCommand { get; set; } = null!;
    public IRelayCommand CancelCommand { get; set; } = null!;
 
    void LoadFromNote()

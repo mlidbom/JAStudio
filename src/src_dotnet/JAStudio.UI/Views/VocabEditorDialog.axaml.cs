@@ -24,6 +24,12 @@ partial class VocabEditorDialog : Window
          Close();
       });
 
+      viewModel.ApplyCommand = new RelayCommand(() =>
+      {
+         viewModel.Save();
+         AnkiFacade.UIUtils.Refresh();
+      });
+
       viewModel.CancelCommand = new RelayCommand(() =>
       {
          Close();
