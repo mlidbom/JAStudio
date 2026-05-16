@@ -44,15 +44,7 @@ class KanjiNoteMenus
       return SpecMenuItem.Submenu(title, items);
    }
 
-   public SpecMenuItem BuildViewMenuSpec(string title) =>
-      SpecMenuItem.Submenu(title, new List<SpecMenuItem>());
-
-   // Action handlers
-
-   static void OnAcceptKanjiMeaning(KanjiNote kanji)
-   {
-      kanji.UserAnswer.Set(FormatKanjiMeaning(kanji.GetAnswer()));
-   }
+   public static SpecMenuItem BuildViewMenuSpec(string title) => SpecMenuItem.Submenu(title, new List<SpecMenuItem>());
 
    static string FormatKanjiMeaning(string meaning)
    {

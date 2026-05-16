@@ -18,7 +18,7 @@ public class When_querying_MediaFileIndex_by_original_filename : SpecificationSt
    public When_querying_MediaFileIndex_by_original_filename()
    {
       Directory.CreateDirectory(_tempDir);
-      _index = new MediaFileIndex(_tempDir, GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
+      _index = new MediaFileIndex(_tempDir, GetService<TaskRunner>());
    }
 
    public new void Dispose()

@@ -103,7 +103,7 @@ public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentif
       return snapshot;
    }
 
-   SnapshotChanges FindChangesSinceSnapshot(List<TData> snapshot, List<ScannedFile> files, DateTime snapshotTimestamp)
+   static SnapshotChanges FindChangesSinceSnapshot(List<TData> snapshot, List<ScannedFile> files, DateTime snapshotTimestamp)
    {
       var currentIds = files.Select(f => f.Id).ToHashSet();
       var changedFiles = files.Where(f => f.LastWriteUtc > snapshotTimestamp).ToList();
@@ -158,7 +158,7 @@ public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentif
    {
       public List<ScannedFile> ChangedFiles { get; } = changedFiles;
       public HashSet<Guid> CurrentIds { get; } = currentIds;
-      public int DeletedCount { get; } = deletedCount;
+      int DeletedCount { get; } = deletedCount;
       public bool HasChanges => ChangedFiles.Count + DeletedCount > 0;
    }
 

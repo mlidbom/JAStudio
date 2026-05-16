@@ -6,7 +6,6 @@ using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
-using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Storage;
 
@@ -17,10 +16,10 @@ public class FileSystemNoteRepository : INoteRepository
    readonly JsonFilesystemObjectRepository<VocabData> _vocabRepository;
    readonly JsonFilesystemObjectRepository<SentenceData> _sentenceRepository;
 
-   public FileSystemNoteRepository(NoteSerializer serializer, TaskRunner taskRunner, BackgroundTaskManager backgroundTaskManager, IEnvironmentPaths paths)
-      : this(serializer, taskRunner, backgroundTaskManager, paths.DatabaseDir) {}
+   public FileSystemNoteRepository(NoteSerializer serializer, IEnvironmentPaths paths)
+      : this(serializer, paths.DatabaseDir) {}
 
-   public FileSystemNoteRepository(NoteSerializer serializer, TaskRunner taskRunner, BackgroundTaskManager backgroundTaskManager, string rootDir)
+   public FileSystemNoteRepository(NoteSerializer serializer, string rootDir)
    {
       _noteServices = serializer.NoteServices;
       _kanjiRepository = new JsonFilesystemObjectRepository<KanjiData>(Path.Combine(rootDir, "kanji"), NoteSerializer.JsonOptions);

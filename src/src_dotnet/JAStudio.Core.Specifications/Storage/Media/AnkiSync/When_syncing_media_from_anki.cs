@@ -28,7 +28,7 @@ public class When_importing_media_from_anki : SpecificationStartingWithAnEmptyCo
       Directory.CreateDirectory(_ankiMediaDir);
       Directory.CreateDirectory(mediaRoot);
 
-      _index = new MediaFileIndex(mediaRoot, GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
+      _index = new MediaFileIndex(mediaRoot, GetService<TaskRunner>());
       var storageService = new MediaStorageService(mediaRoot, _index);
       _scanner = new NoteMediaFieldScanner(_ankiMediaDir, _index);
       _executor = new MediaImportExecutor(storageService, GetService<TaskRunner>());

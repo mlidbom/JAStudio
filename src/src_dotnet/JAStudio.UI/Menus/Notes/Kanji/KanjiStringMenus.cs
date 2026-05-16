@@ -87,9 +87,7 @@ static class KanjiStringMenus
                       };
 
       // Add primary readings actions directly to menu
-      menuItems.AddRange(AddPrimaryReadingsActions(
-                            title => ShortcutFinger.Home3(title),
-                            text));
+      menuItems.AddRange(AddPrimaryReadingsActions(ShortcutFinger.Home3, text));
 
       return SpecMenuItem.Submenu(
          title,

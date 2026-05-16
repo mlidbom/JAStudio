@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -16,17 +14,19 @@ namespace JAStudio.UI.Views;
 partial class MainWindow : Window
 {
    static MainWindow? _instance;
-   readonly TemporaryServiceCollection _services;
 
    [Obsolete("For XAML designer/previewer only")]
-   public MainWindow() { InitializeComponent(); _services = null!; }
+   public MainWindow()
+   {
+      InitializeComponent();
+   }
 
    MainWindow(TemporaryServiceCollection services)
    {
-      _services = services;
+      var services1 = services;
       InitializeComponent();
       KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+Shift+O"), Command = new RelayCommand(Hide) });
-      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+O"), Command = new RelayCommand(() => NoteSearchDialog.ToggleVisibility(_services)) });
+      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+O"), Command = new RelayCommand(() => NoteSearchDialog.ToggleVisibility(services1)) });
       var mainMenu = this.FindControl<Menu>("MainMenu")!;
       var menuSpec = new JapaneseMainMenu(services).BuildMenuSpec(GetClipboardText);
       foreach(var item in SpecMenuRenderer.BuildMenuItems(menuSpec))

@@ -21,7 +21,7 @@ public class When_storing_a_media_file : SpecificationStartingWithAnEmptyCollect
    {
       Directory.CreateDirectory(_tempDir);
       _mediaRoot = Path.Combine(_tempDir, "media");
-      _index = new MediaFileIndex(_mediaRoot, GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
+      _index = new MediaFileIndex(_mediaRoot, GetService<TaskRunner>());
       _service = new MediaStorageService(_mediaRoot, _index);
    }
 
@@ -86,7 +86,7 @@ public class When_storing_a_media_file : SpecificationStartingWithAnEmptyCollect
                             "ep01.mp3",
                             MediaType.Audio);
 
-         _freshIndex = new MediaFileIndex(_mediaRoot, GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
+         _freshIndex = new MediaFileIndex(_mediaRoot, GetService<TaskRunner>());
          _freshIndex.Build();
       }
 

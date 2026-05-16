@@ -1,7 +1,7 @@
 import typing, abc
 from JAStudio.Core.Note import NoteId
 from System.Collections.Generic import IEnumerable_1, IReadOnlyCollection_1, IReadOnlyList_1, List_1
-from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
+from JAStudio.Core.TaskRunners import TaskRunner
 from JAStudio.Core import IEnvironmentPaths
 from JAStudio.Core.Note.NoteFields import MediaType
 from JAStudio.Core.Note.Sentences import SentenceNote
@@ -78,9 +78,9 @@ class MediaAttachment(abc.ABC):
 
 class MediaFileIndex:
     @typing.overload
-    def __init__(self, mediaRoot: str, taskRunner: TaskRunner, backgroundTaskManager: BackgroundTaskManager) -> None: ...
+    def __init__(self, mediaRoot: str, taskRunner: TaskRunner) -> None: ...
     @typing.overload
-    def __init__(self, paths: IEnvironmentPaths, taskRunner: TaskRunner, backgroundTaskManager: BackgroundTaskManager) -> None: ...
+    def __init__(self, paths: IEnvironmentPaths, taskRunner: TaskRunner) -> None: ...
     @property
     def All(self) -> IReadOnlyCollection_1[MediaAttachment]: ...
     @property

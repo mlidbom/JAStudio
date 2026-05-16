@@ -14,17 +14,15 @@ public class MediaFileIndex
    readonly Dictionary<string, MediaAttachment> _byOriginalFileName = new(StringComparer.OrdinalIgnoreCase);
    readonly string _mediaRoot;
    readonly TaskRunner _taskRunner;
-   readonly BackgroundTaskManager _backgroundTaskManager;
    bool _initialized;
 
-   public MediaFileIndex(IEnvironmentPaths paths, TaskRunner taskRunner, BackgroundTaskManager backgroundTaskManager)
-      : this(paths.MediaDir, taskRunner, backgroundTaskManager) {}
+   public MediaFileIndex(IEnvironmentPaths paths, TaskRunner taskRunner)
+      : this(paths.MediaDir, taskRunner) {}
 
-   public MediaFileIndex(string mediaRoot, TaskRunner taskRunner, BackgroundTaskManager backgroundTaskManager)
+   public MediaFileIndex(string mediaRoot, TaskRunner taskRunner)
    {
       _mediaRoot = mediaRoot;
       _taskRunner = taskRunner;
-      _backgroundTaskManager = backgroundTaskManager;
    }
 
    static readonly HashSet<string> ImageExtensions =

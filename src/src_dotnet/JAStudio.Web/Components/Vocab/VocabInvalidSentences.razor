@@ -4,7 +4,7 @@
 @if(_sentences.Count > 0)
 {
     <div id="invalidInSentencesSection" class="page_section invalid_in_sentences">
-        <div class="page_section_title" title="primary form hits: ">Marked as invalid in @_totalCount sentences@_showingMessage</div>
+        <div class="page_section_title" title="primary form hits: ">Marked as invalid in @_totalCount sentences @_showingMessage</div>
         <div id="highlightedSentencesList">
             <div>
                 @foreach(var sentence in _sentences)
@@ -38,6 +38,6 @@
         var allInvalid = Note.Sentences.InvalidIn();
         _totalCount = allInvalid.Count;
         _sentences = allInvalid.Take(30).ToList();
-        _showingMessage = _totalCount > 30 ? " showing first 30" : "";
+        _showingMessage = _totalCount > 30 ? "showing first 30" : "";
     }
 }

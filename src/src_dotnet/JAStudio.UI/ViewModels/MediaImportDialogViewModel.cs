@@ -197,6 +197,7 @@ partial class EditableImportRule : ObservableObject
    [ObservableProperty] string _targetDirectory = "";
    [ObservableProperty] int _filesToImportCount;
 
+   // ReSharper disable once UnusedParameterInPartialMethod
    partial void OnFilesToImportCountChanged(int value) => OnPropertyChanged(nameof(HasFilesToImport));
 
    public bool HasFilesToImport => FilesToImportCount > 0;

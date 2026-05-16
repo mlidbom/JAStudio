@@ -19,7 +19,7 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
    public When_building_a_MediaFileIndex()
    {
       Directory.CreateDirectory(_tempDir);
-      _index = new MediaFileIndex(_tempDir, GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
+      _index = new MediaFileIndex(_tempDir, GetService<TaskRunner>());
    }
 
    public new void Dispose()
@@ -88,7 +88,7 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
 
       public over_a_nonexistent_directory()
       {
-         _nonexistentIndex = new MediaFileIndex(Path.Combine(_tempDir, "does_not_exist"), GetService<TaskRunner>(), GetService<BackgroundTaskManager>());
+         _nonexistentIndex = new MediaFileIndex(Path.Combine(_tempDir, "does_not_exist"), GetService<TaskRunner>());
          _nonexistentIndex.Build();
       }
 

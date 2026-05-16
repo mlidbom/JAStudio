@@ -31,7 +31,7 @@ class VocabStringMenus
          }
       );
 
-   SpecMenuItem BuildAddMenuSpec(string text, VocabNote vocab)
+   static SpecMenuItem BuildAddMenuSpec(string text, VocabNote vocab)
    {
       var synonyms = vocab.RelatedNotes.Synonyms.Strings();
       var antonyms = vocab.RelatedNotes.Antonyms.Strings();
@@ -54,7 +54,7 @@ class VocabStringMenus
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Add"), items);
    }
 
-   SpecMenuItem BuildSetMenuSpec(string text, VocabNote vocab)
+   static SpecMenuItem BuildSetMenuSpec(string text, VocabNote vocab)
    {
       var items = new List<SpecMenuItem>
                   {
@@ -65,7 +65,7 @@ class VocabStringMenus
       return SpecMenuItem.Submenu(ShortcutFinger.Home2("Set"), items);
    }
 
-   SpecMenuItem BuildRemoveMenuSpec(string text, VocabNote vocab)
+   static SpecMenuItem BuildRemoveMenuSpec(string text, VocabNote vocab)
    {
       var synonyms = vocab.RelatedNotes.Synonyms.Strings();
       var antonyms = vocab.RelatedNotes.Antonyms.Strings();

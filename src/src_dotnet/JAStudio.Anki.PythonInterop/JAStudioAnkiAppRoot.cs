@@ -39,7 +39,7 @@ public class JAStudioAnkiAppRoot
 
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    public PythonAnkiMenus Menus { get; }
-   
+
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
@@ -82,7 +82,9 @@ public class JAStudioAnkiAppRoot
       uiThread.Start();
 
       UIApp.WaitForInitialization(TimeSpan.FromSeconds(30));
+#pragma warning disable CS0618 // Type or member is obsolete
       DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
+#pragma warning restore CS0618 // Type or member is obsolete
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(app.Services));
 
       var root = new JAStudioAnkiAppRoot(app) { _uiThread = uiThread };

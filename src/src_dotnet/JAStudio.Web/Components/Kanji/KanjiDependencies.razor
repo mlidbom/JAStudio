@@ -29,7 +29,7 @@
 
     protected override void OnParametersSet() => _radicals = Note.GetRadicalsNotes();
 
-    string FormatReadings(KanjiNote kanji)
+    static string FormatReadings(KanjiNote kanji)
     {
         var separator = """<span class="readingsSeparator">|</span>""";
         var readingsOn = string.Join(", ", kanji.ReadingOnListHtml.Select(KanaUtils.HiraganaToKatakana));

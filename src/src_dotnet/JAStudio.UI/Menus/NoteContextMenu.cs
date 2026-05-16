@@ -63,7 +63,7 @@ public class NoteContextMenu(Core.TemporaryServiceCollection services)
 
       menuItems.Add(_kanjiNoteMenus.BuildNoteActionsMenuSpec(ShortcutFinger.Home3("Note actions"), kanji));
       menuItems.Add(BuildUniversalNoteActionsMenuSpec(ShortcutFinger.Home4("Universal note actions"), kanji));
-      menuItems.Add(_kanjiNoteMenus.BuildViewMenuSpec(ShortcutFinger.Home5("View")));
+      menuItems.Add(KanjiNoteMenus.BuildViewMenuSpec(ShortcutFinger.Home5("View")));
 
       return menuItems;
    }

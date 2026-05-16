@@ -15,6 +15,7 @@ class DictionaryProvider
 
    public static DictionaryProvider GetInstance()
    {
+      // ReSharper disable once InconsistentlySynchronizedField
       if(_instance != null) return _instance;
       lock(Lock)
       {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage;
-using JAStudio.Core.TaskRunners;
 using Xunit;
 
 namespace JAStudio.Core.Specifications.Storage;
@@ -19,7 +18,7 @@ public class FileSystemNoteRepositoryTests : SpecificationUsingACollection, IDis
    {
       _serializer = GetService<NoteSerializer>();
       _tempDir = Path.Combine(Path.GetTempPath(), $"JAStudio_test_{Guid.NewGuid():N}");
-      _repo = new FileSystemNoteRepository(_serializer, GetService<TaskRunner>(), GetService<BackgroundTaskManager>(), _tempDir);
+      _repo = new FileSystemNoteRepository(_serializer, _tempDir);
    }
 
    public new void Dispose()

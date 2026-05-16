@@ -15,5 +15,5 @@ public static class CardServerUrl
    /// </summary>
    public static string? BaseUrl { get; set; }
 
-   public static string MediaUrl(string fileName) => $"/media?name={Uri.EscapeDataString(fileName)}"; 
+   public static string MediaUrl(string fileName) => $"/media?name={Uri.EscapeDataString(fileName)}";
 }
