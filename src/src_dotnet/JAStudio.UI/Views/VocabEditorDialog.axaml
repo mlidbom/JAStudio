@@ -9,6 +9,10 @@
         Design.Width="800" Design.Height="900"
         WindowStartupLocation="Manual">
 
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+Enter" Command="{Binding SaveCommand}" />
+    </Window.KeyBindings>
+
     <Design.DataContext>
         <vm:VocabEditorViewModel />
     </Design.DataContext>
