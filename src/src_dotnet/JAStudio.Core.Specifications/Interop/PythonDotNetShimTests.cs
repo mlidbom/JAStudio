@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Compze.Must;
 using JAStudio.PythonInterop;
 using JAStudio.PythonInterop.Utilities;

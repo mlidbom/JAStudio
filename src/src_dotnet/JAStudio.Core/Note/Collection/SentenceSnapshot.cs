@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using JAStudio.Core.Note.Sentences;
 
 namespace JAStudio.Core.Note.Collection;

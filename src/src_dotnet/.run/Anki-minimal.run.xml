@@ -1,4 +1,4 @@
-﻿<component name="ProjectRunConfigurationManager">
+<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Anki-minimal" type="RunExe" factoryName=".NET Executable">
     <option name="EXE_PATH" value="$USER_HOME$/AppData/Local/Programs/Anki/anki.exe" />
     <option name="PROGRAM_PARAMETERS" value="-p minimal" />

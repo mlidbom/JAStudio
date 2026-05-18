@@ -1,4 +1,4 @@
-﻿<component name="ProjectRunConfigurationManager">
+<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Debug -Development" type="RunNativeExe" factoryName="Native Executable">
     <option name="EXE_PATH" value="$USER_HOME$/AppData/Local/AnkiProgramFiles/.venv/Scripts/pythonw.exe" />
     <option name="PROGRAM_PARAMETERS" value=" -c &quot;import aqt, sys; sys.argv[0] = 'Anki'; aqt.run()&quot; -p Anki-Development" />

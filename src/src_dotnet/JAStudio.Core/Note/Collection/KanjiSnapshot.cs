@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace JAStudio.Core.Note.Collection;
 

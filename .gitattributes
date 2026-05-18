@@ -1,1 +1,4 @@
+# Normalize line endings on commit; git uses each user's core.autocrlf to pick working-tree EOL.
+* text=auto
+
 *.db filter=lfs diff=lfs merge=lfs -text

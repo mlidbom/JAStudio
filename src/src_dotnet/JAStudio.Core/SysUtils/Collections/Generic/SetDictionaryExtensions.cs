@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Compze.Internals.SystemCE.LinqCE;
 
 namespace JAStudio.Core.SysUtils.Collections.Generic;
