@@ -70,6 +70,10 @@ Strict mode is on (see `pyproject.toml [tool.pyright]`). Don't relax it for indi
 - **Background agents** (task/explore/agents running in a fresh worktree): run `.\setup-agent.ps1` once before any builds or tests. It's idempotent — enables long paths, initializes submodules, creates the venv, installs deps, builds .NET.
 - **Linux / CI**: run `./setup-dev.sh` instead. When running `.NET` tests on Linux, set `JASTUDIO_VENV_PATH="$(pwd)/venv"` so pythonnet can find the venv.
 
+## Workarounds for upstream bugs
+
+Active workarounds live in [CLAUDE.workarounds.md](CLAUDE.workarounds.md). Read it if C# LSP probes start returning "No symbols found", if `.claude/settings.json` fails to parse, or if you're setting this repo up on a fresh machine. Currently covers: csharp-ls + Claude Code [#16360](https://github.com/anthropics/claude-code/issues/16360).
+
 ## Serena MCP
 
 When using Serena's semantic tools (`mcp__plugin_serena_serena__*`), the project must be activated first or every call errors with "No active project."
