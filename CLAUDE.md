@@ -74,7 +74,7 @@ Strict mode is on (see `pyproject.toml [tool.pyright]`). Don't relax it for indi
 
 ## Workarounds for upstream bugs
 
-Active workarounds live in [CLAUDE.workarounds.md](CLAUDE.workarounds.md). Read it if C# LSP probes start returning "No symbols found", if `.claude/settings.json` fails to parse, or if you're setting this repo up on a fresh machine. Currently covers: csharp-ls + Claude Code [#16360](https://github.com/anthropics/claude-code/issues/16360).
+Active workarounds live in [CLAUDE.workarounds.md](CLAUDE.workarounds.md). Read it if C# LSP probes start returning "No symbols found", if `.claude/settings.json` fails to parse, if the **PowerShell tool returns `Exit code 1` with no output on every call** (use Bash with `pwsh -NoProfile -NonInteractive -Command "..."` instead), or if you're setting this repo up on a fresh machine. Currently covers: csharp-ls + Claude Code [#16360](https://github.com/anthropics/claude-code/issues/16360), and PowerShell tool failure in the VS Code extension UI mode ([#55671](https://github.com/anthropics/claude-code/issues/55671)).
 
 ## Serena MCP
 
