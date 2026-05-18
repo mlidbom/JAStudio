@@ -1,5 +1,5 @@
-using Compze.Utilities.Testing.Must;
-using Compze.Utilities.Testing.XUnit.BDD;
+using Compze.Must;
+using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 

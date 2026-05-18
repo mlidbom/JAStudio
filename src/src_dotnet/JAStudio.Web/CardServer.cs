@@ -5,12 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using JAStudio.Core;
-using JAStudio.Core.Configuration;
-using JAStudio.Core.Note.Collection;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
+using Compze.DependencyInjection.Extensions.Hosting;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.UI.Web;
-using JAStudio.Core.ViewModels.KanjiList;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +25,10 @@ namespace JAStudio.Web;
 /// </summary>
 public class CardServer
 {
+   readonly IRootResolver _parentResolver;
    WebApplication? _app;
+
+   public CardServer(IRootResolver parentResolver) => _parentResolver = parentResolver;
 
    public int Port { get; private set; }
    public string BaseUrl => $"http://localhost:{Port}";
@@ -77,21 +79,17 @@ public class CardServer
 
       builder.Services.AddMudServices();
 
-      // Bridge domain services from the Compze service locator into Blazor DI.
-      // These are singletons managed by the Core bootstrapper.
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.CoreApp.Collection);
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.CoreApp.Collection.Kanji);
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.CoreApp.Collection.Vocab);
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.ServiceLocator.Resolve<MediaFileIndex>());
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.ServiceLocator.Resolve<SentenceKanjiListViewModel>());
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.ServiceLocator.Resolve<Settings>());
-      builder.Services.AddSingleton(_ => TemporaryServiceCollection.Instance.ServiceLocator.Resolve<JapaneseConfig>());
-
       builder.Services.AddCors(options =>
          options.AddDefaultPolicy(policy =>
             policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod()));
+
+      // Hook the parent Compze container in as the service provider for this child host.
+      // Singletons delegate to the parent; ASP.NET Core / MudBlazor / Razor services
+      // registered above are added on top.
+      _parentResolver.Resolve<IChildContainerHostIntegration>()
+                     .UseChildContainerAsServiceProviderFor(builder.Host);
 
       _app = builder.Build();
 

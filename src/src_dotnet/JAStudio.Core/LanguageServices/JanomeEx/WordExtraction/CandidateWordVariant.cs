@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Utilities.SystemCE;
+using Compze.Internals.SystemCE;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 using JAStudio.Core.Note.Sentences;

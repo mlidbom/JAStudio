@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Compze.Utilities.Logging;
-using Compze.Utilities.SystemCE.ThreadingCE.ResourceAccess;
-using Compze.Utilities.SystemCE.ThreadingCE.TasksCE;
+using Compze.Internals.Logging;
+using Compze.Threading;
+using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 
 namespace JAStudio.Core.TaskRunners;
 
@@ -13,7 +13,7 @@ public class BackgroundTaskManager : IDisposable
 {
    static readonly ILogger Log = CompzeLogger.For(typeof(BackgroundTaskManager));
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly IMonitorCE _monitor = IMonitorCE.WithDefaultTimeout();
+   readonly IMonitor _monitor = IMonitor.New();
    readonly List<Task> _pendingTasks = [];
 
    internal BackgroundTaskManager(IFatalErrorHandler fatalErrorHandler) => _fatalErrorHandler = fatalErrorHandler;
@@ -60,8 +60,8 @@ public class BackgroundTaskManager : IDisposable
 
    void TrackTask(Task task)
    {
-      _monitor.Update(() => _pendingTasks.Add(task));
-      task.ContinueWith(_ => _monitor.Update(() => _pendingTasks.Remove(task)), TaskScheduler.Default);
+      _monitor.Locked(() => _pendingTasks.Add(task));
+      task.ContinueWith(_ => _monitor.Locked(() => _pendingTasks.Remove(task)), TaskScheduler.Default);
    }
 
    void HandleException(Exception ex)
@@ -70,7 +70,7 @@ public class BackgroundTaskManager : IDisposable
       _fatalErrorHandler.Handle(ex);
    }
 
-   public void Dispose() => _monitor.Update(() =>
+   public void Dispose() => _monitor.Locked(() =>
    {
       var tasks = _pendingTasks.Where(t => !t.IsCompleted).ToArray();
       _pendingTasks.Clear();

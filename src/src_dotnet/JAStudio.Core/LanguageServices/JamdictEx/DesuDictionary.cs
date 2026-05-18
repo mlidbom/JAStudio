@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 using JAStudio.Dictionary;
 
 namespace JAStudio.Core.LanguageServices.JamdictEx;

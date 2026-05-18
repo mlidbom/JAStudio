@@ -1,5 +1,5 @@
 using System;
-using Compze.Utilities.SystemCE.ReactiveCE;
+using Compze.Internals.SystemCE.ReactiveCE;
 
 namespace JAStudio.Core.Note.NoteFields;
 

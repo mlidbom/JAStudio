@@ -43,8 +43,8 @@ class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
    }
 
    public List<KanjiNote> WithRadical(string radical) =>
-      _monitor.Read(() => _byRadical.TryGetValue(radical, out var notes) ? notes.ToList() : []);
+      _monitor.Locked(() => _byRadical.TryGetValue(radical, out var notes) ? notes.ToList() : []);
 
    public HashSet<KanjiNote> WithReading(string reading) =>
-      _monitor.Read(() => _byReading.TryGetValue(reading, out var notes) ? notes.ToHashSet() : []);
+      _monitor.Locked(() => _byReading.TryGetValue(reading, out var notes) ? notes.ToHashSet() : []);
 }

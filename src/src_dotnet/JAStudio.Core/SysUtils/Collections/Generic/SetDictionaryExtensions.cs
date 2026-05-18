@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Compze.Utilities.SystemCE.LinqCE;
+using Compze.Internals.SystemCE.LinqCE;
 
 namespace JAStudio.Core.SysUtils.Collections.Generic;
 

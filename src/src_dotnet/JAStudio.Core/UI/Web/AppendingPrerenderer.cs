@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Compze.Utilities.SystemCE.ThreadingCE.TasksCE;
+using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.Note;
 using JAStudio.Core.SysUtils;
 

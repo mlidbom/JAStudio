@@ -4,7 +4,7 @@ using System.Linq;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 using JAStudio.Anki;
 
 namespace JAStudio.UI.ViewModels;

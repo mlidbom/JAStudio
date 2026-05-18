@@ -1,7 +1,7 @@
 #pragma warning disable IDE0051 //unused members
 
 using System.Collections.Generic;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBeInternal

@@ -11,8 +11,8 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.SystemCE\Compze.Utilities.SystemCE.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.SystemCE.ThreadingCE\Compze.Utilities.SystemCE.ThreadingCE.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.SystemCE\Compze.Internals.SystemCE.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Threading\Compze.Threading.csproj" />
    </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Utilities.SystemCE.ReactiveCE;
+using Compze.Internals.SystemCE.ReactiveCE;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 

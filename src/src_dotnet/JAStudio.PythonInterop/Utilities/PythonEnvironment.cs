@@ -2,8 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Compze.Utilities.SystemCE.ActionFuncHarmonization;
-using Compze.Utilities.SystemCE.ThreadingCE.ResourceAccess;
+using Compze.Threading;
 using Python.Runtime;
 
 namespace JAStudio.PythonInterop.Utilities;
@@ -20,7 +19,7 @@ public static class PythonEnvironment
          return func();
    }
 
-   public static void Use(Action action) => Use(action.AsFunc());
+   public static void Use(Action action) => Use(() => { action(); return 0; });
 
    public static IDisposable LockGil()
    {
@@ -28,13 +27,13 @@ public static class PythonEnvironment
       return Py.GIL();
    }
 
-   static readonly IMonitorCE Monitor = IMonitorCE.WithDefaultTimeout();
+   static readonly IMonitor Monitor = IMonitor.New();
 
    /// <param name="venvPath">Optional path to venv. If not provided, uses JASTUDIO_VENV_PATH environment variable or auto-detects.</param>
    public static void EnsureInitialized(string? venvPath = null)
    {
       if(PythonEngine.IsInitialized) return;
-      Monitor.Read(() =>
+      Monitor.Locked(() =>
       {
          if(PythonEngine.IsInitialized) return;
 

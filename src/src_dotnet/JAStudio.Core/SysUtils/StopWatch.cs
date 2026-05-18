@@ -1,5 +1,5 @@
 using System;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 
 namespace JAStudio.Core.SysUtils;
 

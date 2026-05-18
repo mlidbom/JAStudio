@@ -22,4 +22,8 @@
      <PackageReference Include="MudBlazor" Version="9.4.0" />
    </ItemGroup>
 
+   <ItemGroup>
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Extensions.Hosting\Compze.DependencyInjection.Extensions.Hosting.csproj" />
+   </ItemGroup>
+
 </Project>

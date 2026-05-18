@@ -1,4 +1,5 @@
-using Compze.Utilities.DependencyInjection.Abstractions;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
@@ -16,19 +17,19 @@ namespace JAStudio.Core.Note;
 /// </summary>
 public class NoteServices
 {
-   readonly IServiceLocator _serviceLocator;
+   readonly IRootResolver _resolver;
 
-   internal NoteServices(IServiceLocator serviceLocator) => _serviceLocator = serviceLocator;
+   internal NoteServices(IRootResolver resolver) => _resolver = resolver;
 
-   public JPCollection Collection => _serviceLocator.Resolve<JPCollection>();
-   public ICardOperations CardOperations => _serviceLocator.Resolve<ICardOperations>();
-   public Settings Settings => _serviceLocator.Resolve<Settings>();
-   public DictLookup DictLookup => _serviceLocator.Resolve<DictLookup>();
-   public VocabNoteFactory VocabNoteFactory => _serviceLocator.Resolve<VocabNoteFactory>();
-   public VocabNoteGeneratedData VocabNoteGeneratedData => _serviceLocator.Resolve<VocabNoteGeneratedData>();
-   public KanjiNoteMnemonicMaker KanjiNoteMnemonicMaker => _serviceLocator.Resolve<KanjiNoteMnemonicMaker>();
-   public JapaneseConfig Config => _serviceLocator.Resolve<JapaneseConfig>();
-   public TaskRunner TaskRunner => _serviceLocator.Resolve<TaskRunner>();
-   public ExternalNoteIdMap ExternalNoteIdMap => _serviceLocator.Resolve<ExternalNoteIdMap>();
-   public MediaFileIndex MediaFileIndex => _serviceLocator.Resolve<MediaFileIndex>();
+   public JPCollection Collection => _resolver.Resolve<JPCollection>();
+   public ICardOperations CardOperations => _resolver.Resolve<ICardOperations>();
+   public Settings Settings => _resolver.Resolve<Settings>();
+   public DictLookup DictLookup => _resolver.Resolve<DictLookup>();
+   public VocabNoteFactory VocabNoteFactory => _resolver.Resolve<VocabNoteFactory>();
+   public VocabNoteGeneratedData VocabNoteGeneratedData => _resolver.Resolve<VocabNoteGeneratedData>();
+   public KanjiNoteMnemonicMaker KanjiNoteMnemonicMaker => _resolver.Resolve<KanjiNoteMnemonicMaker>();
+   public JapaneseConfig Config => _resolver.Resolve<JapaneseConfig>();
+   public TaskRunner TaskRunner => _resolver.Resolve<TaskRunner>();
+   public ExternalNoteIdMap ExternalNoteIdMap => _resolver.Resolve<ExternalNoteIdMap>();
+   public MediaFileIndex MediaFileIndex => _resolver.Resolve<MediaFileIndex>();
 }

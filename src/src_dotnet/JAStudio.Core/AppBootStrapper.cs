@@ -1,7 +1,8 @@
-﻿using Compze.Utilities.Contracts;
-using Compze.Utilities.DependencyInjection;
-using Compze.Utilities.DependencyInjection.Abstractions;
-using Compze.Utilities.DependencyInjection.SimpleInjector;
+using Compze.Contracts;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
+using Compze.DependencyInjection.Microsoft;
+using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
@@ -21,27 +22,31 @@ namespace JAStudio.Core;
 
 public static class AppBootstrapper
 {
-   public static CoreApp BootstrapProduction(IEnvironmentSpecificDependenciesRegistrar deps) => Bootstrap(deps);
+   /// <summary>An unbuilt Compze container builder pre-populated with all JAStudio service registrations.
+   /// Feed it to <c>new MicrosoftServiceProviderFactory(plan.Builder)</c> and plug into <c>IHostBuilder.UseServiceProviderFactory(...)</c>;
+   /// the host's Build() call drives Compze's Build() exactly once.</summary>
+   public readonly record struct BootstrapPlan(MicrosoftContainerBuilder Builder);
 
-   public static CoreApp BootstrapForTests()
+   public static BootstrapPlan PrepareProduction(IEnvironmentSpecificDependenciesRegistrar deps) => Prepare(deps);
+
+   public static BootstrapPlan PrepareForTests()
    {
-      Assert.State.Is(CoreApp.IsTesting);
-      return Bootstrap(new TestEnvironmentSpecificDependenciesRegistrar());
+      Contract.State.Assert(CoreApp.IsTesting);
+      return Prepare(new TestEnvironmentSpecificDependenciesRegistrar());
    }
 
-   static CoreApp Bootstrap(IEnvironmentSpecificDependenciesRegistrar environmentSpecificDependenciesRegistrar)
+   static BootstrapPlan Prepare(IEnvironmentSpecificDependenciesRegistrar environmentSpecificDependenciesRegistrar)
    {
-      var container = new SimpleInjectorDependencyInjectionContainer();
-      var registrar = container.Register();
+      var builder = new MicrosoftContainerBuilder();
+      var registrar = builder.Registrar;
 
       environmentSpecificDependenciesRegistrar.WireEnvironmentSpecificServices(registrar);
 
       registrar.Register(
-         Singleton.For<IServiceLocator>().CreatedBy(() => container.ServiceLocator),
-         Singleton.For<AnkiHTMLRenderers>().CreatedBy((IServiceLocator serviceLocator) => new AnkiHTMLRenderers(serviceLocator)),
+         Singleton.For<AnkiHTMLRenderers>().CreatedBy((IRootResolver resolver) => new AnkiHTMLRenderers(resolver)),
          Singleton.For<CoreApp>().CreatedBy((TemporaryServiceCollection services, IEnvironmentPaths paths) => new CoreApp(services, paths)),
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
-         Singleton.For<TemporaryServiceCollection>().CreatedBy((IServiceLocator serviceLocator) => new TemporaryServiceCollection(serviceLocator)),
+         Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
          Singleton.For<JPCollection>().CreatedBy((IBackendNoteCreator backendNoteCreator, NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, IBackendDataLoader backendDataLoader) =>
                                                     new JPCollection(backendNoteCreator, noteServices, noteRepository, mediaFileIndex, backendDataLoader)),
@@ -64,7 +69,7 @@ public static class AppBootstrapper
          Singleton.For<BackgroundTaskManager>().CreatedBy((IFatalErrorHandler fatalErrorHandler) => new BackgroundTaskManager(fatalErrorHandler)),
 
          // Services owned by JPCollection — registered as property accessors
-         Singleton.For<NoteServices>().CreatedBy((IServiceLocator serviceLocator) => new NoteServices(serviceLocator)),
+         Singleton.For<NoteServices>().CreatedBy((IRootResolver resolver) => new NoteServices(resolver)),
          Singleton.For<DictLookup>().CreatedBy((JPCollection col) => col.DictLookup),
          Singleton.For<VocabNoteFactory>().CreatedBy((JPCollection col) => col.VocabNoteFactory),
          Singleton.For<VocabNoteGeneratedData>().CreatedBy((JPCollection col) => col.VocabNoteGeneratedData),
@@ -82,8 +87,10 @@ public static class AppBootstrapper
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())
       );
 
-      TemporaryServiceCollection.Instance = container.ServiceLocator.Resolve<TemporaryServiceCollection>();
+      // Allow ASP.NET Core / Blazor hosts inside this process (CardServer) to spin up a
+      // child container whose singletons delegate back to the parent.
+      MicrosoftChildContainerHostIntegration.RegisterWith(registrar);
 
-      return container.ServiceLocator.Resolve<CoreApp>();
+      return new BootstrapPlan(builder);
    }
 }

@@ -1,5 +1,5 @@
 using Avalonia.Threading;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views;

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Compze.Utilities.Logging;
-using Compze.Utilities.SystemCE.ThreadingCE.TasksCE;
+using Compze.Internals.Logging;
+using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 
 namespace JAStudio.Core.TaskRunners;
 

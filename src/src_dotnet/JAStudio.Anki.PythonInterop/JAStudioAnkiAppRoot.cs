@@ -6,13 +6,18 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
 using Avalonia.Threading;
-using Compze.Utilities.Logging;
-using Compze.Utilities.SystemCE;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
+using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
+using Compze.Internals.Logging;
+using Compze.Internals.SystemCE;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.UI;
 using JAStudio.Web;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace JAStudio.Anki.PythonInterop;
 
@@ -20,8 +25,9 @@ namespace JAStudio.Anki.PythonInterop;
 // ReSharper disable once UnusedMember.Global
 public class JAStudioAnkiAppRoot
 {
+   readonly IHost _host;
    readonly CoreApp _coreApp;
-   readonly CardServer _cardServer = new();
+   readonly CardServer _cardServer;
    CancellationTokenSource? _reloadCts;
    static readonly TimeSpan ReloadDebounceDelay = TimeSpan.FromMilliseconds(500);
 
@@ -44,9 +50,11 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
 
-   JAStudioAnkiAppRoot(CoreApp coreApp)
+   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, CardServer cardServer)
    {
+      _host = host;
       _coreApp = coreApp;
+      _cardServer = cardServer;
       Dialogs = new AnkiDialogs(coreApp);
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
    }
@@ -59,9 +67,23 @@ public class JAStudioAnkiAppRoot
          Debugger.Launch();
       }
 
-      var app = AppBootstrapper.BootstrapProduction(new AnkiAddonEnvironmentDependenciesRegistrar(configJson, configUpdateCallback));
+      var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar(configJson, configUpdateCallback));
+
+      var host = Host.CreateDefaultBuilder()
+                     .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
+                     .Build();
+
+      // The Anki addon doesn't run a console loop; Anki owns the process. Start the
+      // host so hosted services (none today) get a chance to fire OnStarted callbacks
+      // but we never RunAsync().
+      host.StartAsync().GetAwaiter().GetResult();
+
       CompzeLogger.LogLevel = LogLevel.Info;
       Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+      var resolver = host.Services.GetRequiredService<IRootResolver>();
+      TemporaryServiceCollection.Instance = resolver.Resolve<TemporaryServiceCollection>();
+      var coreApp = resolver.Resolve<CoreApp>();
 
       var uiThread = new Thread(() =>
                      {
@@ -85,13 +107,15 @@ public class JAStudioAnkiAppRoot
 #pragma warning disable CS0618 // Type or member is obsolete
       DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
 #pragma warning restore CS0618 // Type or member is obsolete
-      Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(app.Services));
+      Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(coreApp.Services));
 
-      var root = new JAStudioAnkiAppRoot(app) { _uiThread = uiThread };
+      var cardServer = new CardServer(resolver);
+
+      var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer) { _uiThread = uiThread };
 
       root._coreApp.Collection.OnInitialized(AnkiFacade.UIUtils.Refresh);
 
-      root._cardServer.OpenNoteInPreviewerAction = noteId =>
+      cardServer.OpenNoteInPreviewerAction = noteId =>
       {
          var domainId = NoteId.Parse(noteId);
          var externalId = root._coreApp.Services.ExternalNoteIdMap.ToExternalId(domainId);
@@ -99,7 +123,7 @@ public class JAStudioAnkiAppRoot
             AnkiFacade.Browser.ExecuteLookupAndShowPreviewer($"{AnkiFieldNames.NoteId}:{externalId.Value}");
       };
 
-      root._cardServer.Start();
+      cardServer.Start();
 
       return root;
    }
@@ -148,6 +172,8 @@ public class JAStudioAnkiAppRoot
       using var _ = this.Log().Info().LogMethodExecutionTime();
       _cardServer.StopAsync().GetAwaiter().GetResult();
       _coreApp.Dispose();
+      _host.StopAsync().GetAwaiter().GetResult();
+      _host.Dispose();
       Dispatcher.UIThread.InvokeShutdown();
    }
 

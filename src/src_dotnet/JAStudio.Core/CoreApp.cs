@@ -18,12 +18,8 @@ public class CoreApp : IDisposable
 
    public static bool IsTesting => TestEnvDetector.IsTesting;
 
-   public void Dispose()
-   {
-      Services.Dispose();
-      (Paths as IDisposable)?.Dispose();
-   }
+   public void Dispose() => (Paths as IDisposable)?.Dispose();
 
    public JapaneseConfig Config => Services.ConfigurationStore.Config();
-   public JPCollection Collection => Services.ServiceLocator.Resolve<JPCollection>();
+   public JPCollection Collection => Services.Resolve<JPCollection>();
 }

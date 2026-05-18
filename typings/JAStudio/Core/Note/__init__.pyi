@@ -7,7 +7,7 @@ from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
 from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Note.CorpusData import CorpusObjectData, KanjiData
-from Compze.Core.Public import EntityId
+from Compze.Abstractions.Public import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.TaskRunners import TaskRunner

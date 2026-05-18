@@ -2,7 +2,7 @@ using System;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
 

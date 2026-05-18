@@ -1,7 +1,12 @@
 using System;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
+using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace JAStudio.Core.Specifications.Fixtures;
 
@@ -18,9 +23,18 @@ public static class CollectionFactory
 {
    public static AppScope InjectCollectionWithSelectData(DataNeeded data)
    {
-      var app = AppBootstrapper.BootstrapForTests();
+      var plan = AppBootstrapper.PrepareForTests();
+      var host = Host.CreateDefaultBuilder()
+                     .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
+                     .Build();
+      host.StartAsync().GetAwaiter().GetResult();
+
+      var resolver = host.Services.GetRequiredService<IRootResolver>();
+      TemporaryServiceCollection.Instance = resolver.Resolve<TemporaryServiceCollection>();
+      var app = resolver.Resolve<CoreApp>();
+
       if(data == DataNeeded.None)
-         return new AppScope(app);
+         return new AppScope(host, app);
 
       var noteServices = app.Services.NoteServices;
 
@@ -48,16 +62,19 @@ public static class CollectionFactory
          }
       }
 
-      return new AppScope(app);
+      return new AppScope(host, app);
    }
 
-   public class AppScope(CoreApp coreApp) : IDisposable
+   public class AppScope(IHost host, CoreApp coreApp) : IDisposable
    {
+      readonly IHost _host = host;
       public CoreApp CoreApp { get; } = coreApp;
 
       public void Dispose()
       {
          CoreApp.Dispose();
+         _host.StopAsync().GetAwaiter().GetResult();
+         _host.Dispose();
       }
    }
 }

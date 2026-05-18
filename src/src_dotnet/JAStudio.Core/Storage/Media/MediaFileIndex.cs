@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Utilities.Functional;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
+using Compze.SystemCE;
+using Compze.Underscore;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
 
@@ -65,14 +66,15 @@ public class MediaFileIndex
          if(!MetadataExtensions.Contains(fi.Extension))
             result.Add(fi);
       }
+
       return result;
    }
 
    void IndexFile(FileInfo fi)
    {
       MediaAttachment attachment = ImageExtensions.Contains(fi.Extension)
-         ? new ImageAttachment { OriginalFileName = fi.Name, FilePath = fi.FullName }
-         : new AudioAttachment { OriginalFileName = fi.Name, FilePath = fi.FullName };
+                                      ? new ImageAttachment { OriginalFileName = fi.Name, FilePath = fi.FullName }
+                                      : new AudioAttachment { OriginalFileName = fi.Name, FilePath = fi.FullName };
 
       if(!_byOriginalFileName.TryAdd(fi.Name, attachment))
          this.Log().Warning($"Duplicate filename '{fi.Name}' — keeping first encountered");
@@ -80,29 +82,29 @@ public class MediaFileIndex
 
    void ClearIndexes() => _byOriginalFileName.Clear();
 
-   unit EnsureInitialized() => unit.From(() =>
+   Unit EnsureInitialized() => Unit.Invoke(() =>
    {
       if(!_initialized) Build();
    });
 
    public IReadOnlyList<AudioAttachment> GetAudioAttachments(string rawValue) => EnsureInitialized()
-     .then(() => MediaFieldParsing.ParseAudioReferences(rawValue)
-                                  .Select(r => ResolveAudio(r.FileName))
-                                  .OfType<AudioAttachment>()
-                                  .ToList());
+     ._(_ => MediaFieldParsing.ParseAudioReferences(rawValue)
+                              .Select(r => ResolveAudio(r.FileName))
+                              .OfType<AudioAttachment>()
+                              .ToList());
 
    public IReadOnlyList<ImageAttachment> GetImageAttachments(string rawValue) => EnsureInitialized()
-     .then(() => MediaFieldParsing.ParseImageReferences(rawValue)
-                                  .Select(r => ResolveImage(r.FileName))
-                                  .OfType<ImageAttachment>()
-                                  .ToList());
+     ._(_ => MediaFieldParsing.ParseImageReferences(rawValue)
+                              .Select(r => ResolveImage(r.FileName))
+                              .OfType<ImageAttachment>()
+                              .ToList());
 
    AudioAttachment? ResolveAudio(string fileName)
    {
       var stored = _byOriginalFileName.GetValueOrDefault(fileName);
       if(stored == null) return null;
       return stored as AudioAttachment
-             ?? new AudioAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
+          ?? new AudioAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
    }
 
    ImageAttachment? ResolveImage(string fileName)
@@ -110,20 +112,18 @@ public class MediaFileIndex
       var stored = _byOriginalFileName.GetValueOrDefault(fileName);
       if(stored == null) return null;
       return stored as ImageAttachment
-             ?? new ImageAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
+          ?? new ImageAttachment { OriginalFileName = stored.OriginalFileName, FilePath = stored.FilePath };
    }
 
-   public int Count => EnsureInitialized()
-     .then(() => _byOriginalFileName.Count);
+   public int Count => EnsureInitialized()._(_ => _byOriginalFileName.Count);
 
-   public IReadOnlyCollection<MediaAttachment> All => EnsureInitialized()
-     .then(() => _byOriginalFileName.Values);
+   public IReadOnlyCollection<MediaAttachment> All => EnsureInitialized()._(_ => _byOriginalFileName.Values);
 
    public bool ContainsByOriginalFileName(string originalFileName) => EnsureInitialized()
-     .then(() => _byOriginalFileName.ContainsKey(originalFileName));
+     ._(_ => _byOriginalFileName.ContainsKey(originalFileName));
 
    public MediaAttachment? TryGetByOriginalFileName(string originalFileName) => EnsureInitialized()
-     .then(() => _byOriginalFileName.GetValueOrDefault(originalFileName));
+     ._(_ => _byOriginalFileName.GetValueOrDefault(originalFileName));
 
    public void Register(MediaAttachment attachment)
    {
@@ -131,4 +131,3 @@ public class MediaFileIndex
          _byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment);
    }
 }
-

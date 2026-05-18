@@ -1,14 +1,15 @@
-import typing, abc
+import typing, clr, abc
 from JAStudio.Core.UI.Web.Kanji import KanjiNoteRenderer
 from JAStudio.Core.UI.Web.Sentence import SentenceNoteRenderer
 from JAStudio.Core.UI.Web.Vocab import VocabNoteRenderer
+from System import IEquatable_1, IDisposable
+from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
 from System.Collections.Generic import Dictionary_2, List_1
 from JAStudio.Core.Note import NoteId, ExternalNoteIdMap, NoteServices
 from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
-from System import IDisposable
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
 from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
-from Compze.Utilities.DependencyInjection.Abstractions import IComponentRegistrar, IServiceLocator
+from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
 from JAStudio.Core.Batches import LocalNoteUpdater
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory
 
@@ -23,9 +24,31 @@ class AnkiHTMLRenderers:
 
 class AppBootstrapper(abc.ABC):
     @staticmethod
-    def BootstrapForTests() -> CoreApp: ...
+    def PrepareForTests() -> AppBootstrapper.BootstrapPlan: ...
     @staticmethod
-    def BootstrapProduction(deps: IEnvironmentSpecificDependenciesRegistrar) -> CoreApp: ...
+    def PrepareProduction(deps: IEnvironmentSpecificDependenciesRegistrar) -> AppBootstrapper.BootstrapPlan: ...
+
+    class BootstrapPlan(IEquatable_1[AppBootstrapper.BootstrapPlan]):
+        def __init__(self, Builder: MicrosoftContainerBuilder) -> None: ...
+        @property
+        def Builder(self) -> MicrosoftContainerBuilder: ...
+        @Builder.setter
+        def Builder(self, value: MicrosoftContainerBuilder) -> MicrosoftContainerBuilder: ...
+        def Deconstruct(self, Builder: clr.Reference[MicrosoftContainerBuilder]) -> None: ...
+        def GetHashCode(self) -> int: ...
+        def __eq__(self, left: AppBootstrapper.BootstrapPlan, right: AppBootstrapper.BootstrapPlan) -> bool: ...
+        def __ne__(self, left: AppBootstrapper.BootstrapPlan, right: AppBootstrapper.BootstrapPlan) -> bool: ...
+        def ToString(self) -> str: ...
+        # Skipped Equals due to it being static, abstract and generic.
+
+        Equals : Equals_MethodGroup
+        class Equals_MethodGroup:
+            @typing.overload
+            def __call__(self, other: AppBootstrapper.BootstrapPlan) -> bool:...
+            @typing.overload
+            def __call__(self, obj: typing.Any) -> bool:...
+
+
 
 
 class BackendData:
@@ -90,7 +113,7 @@ class StringExtensions(abc.ABC):
     def StripHtmlMarkup(input: str) -> str: ...
 
 
-class TemporaryServiceCollection(IDisposable):
+class TemporaryServiceCollection:
     @property
     def AnkiHTMLRenderers(self) -> AnkiHTMLRenderers: ...
     @property
@@ -112,10 +135,21 @@ class TemporaryServiceCollection(IDisposable):
     @property
     def NoteServices(self) -> NoteServices: ...
     @property
-    def ServiceLocator(self) -> IServiceLocator: ...
+    def Services(self) -> IRootResolver: ...
     @property
     def TaskRunner(self) -> TaskRunner: ...
     @property
     def VocabNoteFactory(self) -> VocabNoteFactory: ...
-    def Dispose(self) -> None: ...
+    # Skipped Resolve due to it being static, abstract and generic.
+
+    Resolve : Resolve_MethodGroup
+    class Resolve_MethodGroup:
+        def __getitem__(self, t:typing.Type[Resolve_1_T1]) -> Resolve_1[Resolve_1_T1]: ...
+
+        Resolve_1_T1 = typing.TypeVar('Resolve_1_T1')
+        class Resolve_1(typing.Generic[Resolve_1_T1]):
+            Resolve_1_T = TemporaryServiceCollection.Resolve_MethodGroup.Resolve_1_T1
+            def __call__(self) -> Resolve_1_T:...
+
+
 

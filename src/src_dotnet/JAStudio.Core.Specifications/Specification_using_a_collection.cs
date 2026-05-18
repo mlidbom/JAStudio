@@ -13,7 +13,7 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
 
    readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(data);
 
-   protected TService GetService<TService>() where TService : class => _appScope.CoreApp.Services.ServiceLocator.Resolve<TService>();
+   protected TService GetService<TService>() where TService : class => _appScope.CoreApp.Services.Resolve<TService>();
 
    protected NoteServices NoteServices => GetService<NoteServices>();
 

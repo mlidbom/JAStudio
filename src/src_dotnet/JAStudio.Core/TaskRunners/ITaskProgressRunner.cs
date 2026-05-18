@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Compze.Utilities.SystemCE.ActionFuncHarmonization;
+using JAStudio.Core.SysUtils;
 using JetBrains.Annotations;
 // ReSharper disable UnusedMethodReturnValue.Global
 

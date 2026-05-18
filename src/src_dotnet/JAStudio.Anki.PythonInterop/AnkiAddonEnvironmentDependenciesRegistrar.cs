@@ -1,6 +1,6 @@
 using System;
-using Compze.Utilities.DependencyInjection;
-using Compze.Utilities.DependencyInjection.Abstractions;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;

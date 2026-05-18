@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
    <PropertyGroup>
       <TargetFramework>net10.0</TargetFramework>
@@ -21,17 +21,23 @@
    </ItemGroup>
 
    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
       <PackageReference Include="MeCab.DotNet" Version="1.2.0" />
       <PackageReference Include="MemoryPack" Version="1.21.4" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-      <PackageReference Include="SimpleInjector" Version="5.5.2" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Core\Compze.Core.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.DependencyInjection.SimpleInjector\Compze.Utilities.DependencyInjection.SimpleInjector.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Logging\Compze.Utilities.Logging.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.SystemCE.ThreadingCE\Compze.Utilities.SystemCE.ThreadingCE.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Abstractions\Compze.Abstractions.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Contracts\Compze.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection\Compze.DependencyInjection.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft\Compze.DependencyInjection.Microsoft.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft.Extensions.Hosting\Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.Logging\Compze.Internals.Logging.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.SystemCE\Compze.Internals.SystemCE.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Threading\Compze.Threading.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Underscore\Compze.Underscore.csproj" />
    </ItemGroup>
 
    <!-- Stub regeneration moved to JAStudio.UI project (builds last, has all DLLs) -->

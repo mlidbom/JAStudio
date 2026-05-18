@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 
 namespace JAStudio.Core.TaskRunners;
 

@@ -1,6 +1,11 @@
 using System;
 using Avalonia;
+using Compze.DependencyInjection;
+using Compze.DependencyInjection.Abstractions;
+using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using JAStudio.Core;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace JAStudio.UI.DesktopHost;
 
@@ -18,7 +23,13 @@ class Program
    [STAThread]
    public static int Main(string[] args)
    {
-      AppBootstrapper.BootstrapForTests();
+      var plan = AppBootstrapper.PrepareForTests();
+      using var host = Host.CreateDefaultBuilder(args)
+                           .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
+                           .Build();
+      host.StartAsync().GetAwaiter().GetResult();
+      var resolver = host.Services.GetRequiredService<IRootResolver>();
+      TemporaryServiceCollection.Instance = resolver.Resolve<TemporaryServiceCollection>();
       return BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
    }

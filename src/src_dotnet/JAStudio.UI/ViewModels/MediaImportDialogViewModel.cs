@@ -37,12 +37,12 @@ partial class MediaImportDialogViewModel : ObservableObject
    public MediaImportDialogViewModel(TemporaryServiceCollection services)
    {
       _services = services;
-      _vocabCollection = services.ServiceLocator.Resolve<VocabCollection>();
-      _sentenceCollection = services.ServiceLocator.Resolve<SentenceCollection>();
-      _index = services.ServiceLocator.Resolve<MediaFileIndex>();
-      _storageService = services.ServiceLocator.Resolve<MediaStorageService>();
+      _vocabCollection = services.Resolve<VocabCollection>();
+      _sentenceCollection = services.Resolve<SentenceCollection>();
+      _index = services.Resolve<MediaFileIndex>();
+      _storageService = services.Resolve<MediaStorageService>();
       _taskRunner = services.TaskRunner;
-      _paths = services.ServiceLocator.Resolve<IEnvironmentPaths>();
+      _paths = services.Resolve<IEnvironmentPaths>();
 
       VocabTab = CreateVocabTab();
       SentenceTab = CreateSentenceTab();

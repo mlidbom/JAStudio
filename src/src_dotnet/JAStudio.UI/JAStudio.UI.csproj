@@ -29,7 +29,9 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Functional\Compze.Utilities.Functional.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Underscore\Compze.Underscore.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.Logging\Compze.Internals.Logging.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.SystemCE\Compze.Internals.SystemCE.csproj" />
    </ItemGroup>
 
 </Project>

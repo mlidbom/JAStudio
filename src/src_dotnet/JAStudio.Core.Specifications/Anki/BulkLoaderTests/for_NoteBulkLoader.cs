@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Utilities.Testing.Must;
-using Compze.Utilities.Testing.XUnit.BDD;
+using Compze.Must;
+using Compze.xUnitBDD;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
 using Xunit;

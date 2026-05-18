@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Compze.Utilities.Functional;
+using Compze.Underscore;
 
 namespace JAStudio.UI.Utils;
 
@@ -54,7 +54,7 @@ class FatalErrorDialog : Window
                          Width = 80,
                          HorizontalAlignment = HorizontalAlignment.Right,
                          IsDefault = true
-                      }.mutate(it => it.Click += (_, _) => Close())
+                      }._mutate(it => it.Click += (_, _) => Close())
                    }
                 };
    }

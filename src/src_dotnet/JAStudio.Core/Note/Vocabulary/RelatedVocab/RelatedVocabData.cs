@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Compze.Utilities.SystemCE;
+using Compze.Internals.SystemCE;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.NoteFields.AutoSaveWrappers;
 

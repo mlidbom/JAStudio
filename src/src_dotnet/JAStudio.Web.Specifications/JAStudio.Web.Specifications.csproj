@@ -24,7 +24,7 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Testing.Must\Compze.Utilities.Testing.Must.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Must\Compze.Must.csproj" />
    </ItemGroup>
 
 </Project>

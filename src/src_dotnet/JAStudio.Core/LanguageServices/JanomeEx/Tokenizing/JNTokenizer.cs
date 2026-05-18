@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compze.Utilities.SystemCE;
+using Compze.Internals.SystemCE;
 using MeCab;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;

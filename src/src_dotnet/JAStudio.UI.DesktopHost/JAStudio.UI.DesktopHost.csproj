@@ -18,6 +18,9 @@
 
    <ItemGroup>
       <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection\Compze.DependencyInjection.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft\Compze.DependencyInjection.Microsoft.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft.Extensions.Hosting\Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
    </ItemGroup>
 
 </Project>

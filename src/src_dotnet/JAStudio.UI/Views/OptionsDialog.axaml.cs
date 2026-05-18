@@ -1,6 +1,6 @@
 using System;
 using Avalonia.Controls;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 using JAStudio.UI.ViewModels;
 
 namespace JAStudio.UI.Views;

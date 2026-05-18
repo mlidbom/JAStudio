@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
-using Compze.Utilities.Functional;
+using Compze.Underscore;
 
 namespace JAStudio.UI.Utils;
 
@@ -21,7 +21,7 @@ static class WindowPositioner
 
    extension<TWindow>(TWindow window) where TWindow : Window
    {
-      internal TWindow ShowNearCursor() => window.mutate(it => it.PositionNearCursor().Show());
+      internal TWindow ShowNearCursor() => window._mutate(it => it.PositionNearCursor().Show());
 
       TWindow PositionNearCursor()
       {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;

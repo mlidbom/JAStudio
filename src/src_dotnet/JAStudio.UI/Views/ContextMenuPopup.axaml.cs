@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Compze.Utilities.Logging;
+using Compze.Internals.Logging;
 
 namespace JAStudio.UI.Views;
 

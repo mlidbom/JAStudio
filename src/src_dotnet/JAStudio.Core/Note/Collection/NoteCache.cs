@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Utilities.SystemCE.LinqCE;
-using Compze.Utilities.SystemCE.ThreadingCE.ResourceAccess;
+using Compze.Internals.SystemCE.LinqCE;
+using Compze.Threading;
 using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
@@ -26,13 +26,13 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    protected readonly Dictionary<NoteId, TNote> _byId = new();
    readonly List<Action<TNote>> _updateListeners = [];
    readonly NoteServices _noteServices = noteServices;
-   protected readonly IMonitorCE _monitor = IMonitorCE.WithDefaultTimeout();
+   protected readonly IMonitor _monitor = IMonitor.New();
 
    public void OnNoteUpdated(Action<JPNote> listener) => _updateListeners.Add(note => listener(note));
 
    public void OnNoteUpdated(Action<TNote> listener) => _updateListeners.Add(listener);
 
-   public TNote? WithIdOrNone(NoteId noteId) => _monitor.Read(() => WithIdOrNoneCore(noteId));
+   public TNote? WithIdOrNone(NoteId noteId) => _monitor.Locked(() => WithIdOrNoneCore(noteId));
    protected TNote? WithIdOrNoneCore(NoteId noteId) => _byId.TryGetValue(noteId, out var note) ? note : null;
 
    /// <summary>Look up a note by its external long ID (uses the shared ExternalNoteIdMap).</summary>
@@ -76,7 +76,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
       var note = CreateNoteByMergingAnkiData(_noteServices, existing, data);
       note.CopyStudyingStatusFrom(existing);
       note.UpdateGeneratedData();
-      _monitor.Read(() => RefreshInCacheCore(note));
+      _monitor.Locked(() => RefreshInCacheCore(note));
       NotifyUpdateListeners(note);
    }
 
@@ -84,7 +84,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    {
       var noteId = _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
       if(noteId == null) return;
-      _monitor.Read(() =>
+      _monitor.Locked(() =>
       {
          var existing = WithIdOrNoneCore(noteId);
          if(existing != null)
@@ -104,7 +104,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
 
    public void JpNoteUpdated(TNote note)
    {
-      _monitor.Read(() =>
+      _monitor.Locked(() =>
       {
          var existing = WithIdOrNoneCore(note.GetId());
          if(existing == null)
@@ -131,7 +131,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    }
 
    /// <summary>Removes all notes and ID mappings from the cache. Subclasses must override ClearInheritorIndexes to clear their custom indexes.</summary>
-   public void Clear() => _monitor.Read(() =>
+   public void Clear() => _monitor.Locked(() =>
    {
       _byId.Clear();
       ClearInheritorIndexes();
@@ -139,16 +139,16 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
 
    protected abstract void ClearInheritorIndexes();
 
-   public void AddToCache(TNote note) => _monitor.Read(() => AddToCacheCore(note));
-   public void AddAllToCache(IEnumerable<TNote> notes) => _monitor.Read(() => notes.ForEach(AddToCacheCore));
-   public void RemoveFromCache(TNote note) => _monitor.Read(() => RemoveFromCacheCore(note));
+   public void AddToCache(TNote note) => _monitor.Locked(() => AddToCacheCore(note));
+   public void AddAllToCache(IEnumerable<TNote> notes) => _monitor.Locked(() => notes.ForEach(AddToCacheCore));
+   public void RemoveFromCache(TNote note) => _monitor.Locked(() => RemoveFromCacheCore(note));
 
    protected abstract void AddToCacheCore(TNote note);
    protected abstract void RemoveFromCacheCore(TNote note);
 
    public void SetStudyingStatuses(Dictionary<long, List<CardStudyingStatus>> statusesByExternalId)
    {
-      _monitor.Read(() =>
+      _monitor.Locked(() =>
       {
          foreach(var (externalId, statuses) in statusesByExternalId)
          {
@@ -170,9 +170,9 @@ abstract class NoteCache<TNote, TSnapshot>(Func<NoteServices, AnkiNoteData, TNot
    readonly Dictionary<string, HashSet<TNote>> _byQuestion = new();
    readonly Dictionary<NoteId, TSnapshot> _snapshotById = new();
 
-   public List<TNote> All() => _monitor.Read(() => _byId.Values.ToList());
+   public List<TNote> All() => _monitor.Locked(() => _byId.Values.ToList());
 
-   public List<TNote> WithQuestion(string question) => _monitor.Read(() => _byQuestion.TryGetValue(question, out var notes) ? notes.ToList() : []);
+   public List<TNote> WithQuestion(string question) => _monitor.Locked(() => _byQuestion.TryGetValue(question, out var notes) ? notes.ToList() : []);
 
    protected abstract TSnapshot CreateSnapshot(TNote note);
    protected abstract void InheritorRemoveFromCache(TNote note, TSnapshot snapshot);

@@ -1,7 +1,7 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
-using Compze.Utilities.SystemCE.ThreadingCE.ResourceAccess;
+using Compze.Threading;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -9,7 +9,7 @@ class POSSetManager
 {
    static readonly Dictionary<string, FrozenSet<string>> _posByStr = new();
    static readonly Dictionary<string, string> _stringInterner = new();
-   static readonly IMonitorCE _monitor = IMonitorCE.WithDefaultTimeout();
+   static readonly IMonitor _monitor = IMonitor.New();
 
    static readonly Dictionary<string, List<string>> _remappings = new()
                                                                   {
@@ -96,7 +96,7 @@ class POSSetManager
    {
       if(!_stringInterner.TryGetValue(str, out var interned))
       {
-         _monitor.Read(() => _stringInterner[str] = str);
+         _monitor.Locked(() => _stringInterner[str] = str);
          interned = str;
       }
 
@@ -109,7 +109,7 @@ class POSSetManager
       if(!_posByStr.TryGetValue(posKey, out var frozenSet))
       {
          var internedList = posValuesSet.Select(AutoIntern).ToFrozenSet();
-         _monitor.Read(() => _posByStr[AutoIntern(posKey)] = internedList);
+         _monitor.Locked(() => _posByStr[AutoIntern(posKey)] = internedList);
          frozenSet = internedList;
       }
 

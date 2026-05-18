@@ -26,8 +26,11 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Testing.Must\Compze.Utilities.Testing.Must.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Testing.XUnit\Compze.Utilities.Testing.XUnit.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Must\Compze.Must.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.xUnit\Compze.xUnit.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.xUnitBDD\Compze.xUnitBDD.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft\Compze.DependencyInjection.Microsoft.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft.Extensions.Hosting\Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
    </ItemGroup>
 
 </Project>

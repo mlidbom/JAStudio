@@ -1,5 +1,5 @@
 using System;
-using Compze.Core.Public;
+using Compze.Abstractions.Public;
 
 namespace JAStudio.Core.Note;
 
