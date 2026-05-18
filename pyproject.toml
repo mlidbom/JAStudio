@@ -57,6 +57,8 @@ ignore = [
 
 [tool.pyright]
 include=["src"]
+venvPath="."
+venv="venv"
 extraPaths=["src/jastudio_src", "src/jaslib_src", "src/jaspythonutils_src"]
 exclude=["**/node_modules", "**/__pycache__", "**/.*", "src/jastudio_src/_lib/", "**/_lib_patched/*", "**venv/*", "**/manually_copied_in_libraries/*", "**/included_libraries/*", "src/jas_database"]
 typeCheckingMode="strict" # "off", "basic", "standard", "strict" # basedpyright only:  "recommended", "all"
