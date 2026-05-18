@@ -29,7 +29,7 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Utilities.Functional" Version="0.1.0-alpha.3" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Functional\Compze.Utilities.Functional.csproj" />
    </ItemGroup>
 
 </Project>

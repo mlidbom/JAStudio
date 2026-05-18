@@ -13,7 +13,9 @@ Hybrid Python + .NET addon for Anki (Japanese-language study).
 - **C# / .NET 10** is the primary language. UI (Avalonia), business logic (Core), Python interop, and Anki integration all live in `src/src_dotnet/`. Solution file: `JAStudio.slnx`.
 - **Python 3.13** is a **thin integration layer** with Anki only. The project is actively porting UI/business logic from Python to C#. Don't expand Python functionality — prefer moving logic to C#. Python source: `src/jastudio_src/`, `src/jaslib_src/`, `src/jaspythonutils_src/`. Tests: `src/tests/`.
 - **Bridge**: `pythonnet` calls .NET from Python. Generated type stubs live in `typings/` so Python sees .NET types.
-- **Submodules**: `submodules/Compze`, `submodules/pythonnet-stub-generator`, `src/jas_database` — excluded from lint/typecheck/search; treat as read-only third-party code.
+- **Submodules**:
+  - `submodules/Compze` — actively-developed library JAStudio depends on heavily. Wired in as **project references** (not NuGet packages) so JAStudio always builds against the submodule HEAD. Its csprojs are listed under the `Compze/` folder in `JAStudio.slnx`. Compze knows nothing about JAStudio; treat changes to Compze as Compze's own concern (separate repo, separate workflow). Targets net9.0, JAStudio targets net10.0 — that's fine, MSBuild bridges cleanly.
+  - `submodules/pythonnet-stub-generator`, `src/jas_database` — excluded from lint/typecheck/search; treat as read-only third-party code.
 
 ## Scoped guidance — read these when editing matching files
 
@@ -86,7 +88,7 @@ mcp__plugin_serena_serena__activate_project(project=<current worktree absolute p
 
 Do this proactively — don't ask the user. Each worktree (`worktree_1`, `worktree_2`, ...) is its own Serena project; activating one doesn't activate the others. If Serena tools aren't going to be used in a session, no need to activate.
 
-**Use Serena (not LSP) to navigate Compze.** Compze is consumed as a NuGet package and isn't part of `JAStudio.slnx`, so LSP `goToDefinition` / `findReferences` from a JAStudio call-site won't follow into Compze code (they return "No definition found"). Serena indexes `submodules/Compze/**` natively — reach for `find_symbol`, `find_referencing_symbols`, and `get_symbols_overview` for any cross-Compze navigation, including reading Compze source to understand a type or trace a call into the library.
+Compze is project-referenced (not nuget-referenced), so both LSP and Serena can navigate into it — `goToDefinition` from a JAStudio call-site lands in `submodules/Compze/src/...` source, and `findReferences` spans both sides. Use whichever is more convenient for the task.
 
 ## What not to touch
 

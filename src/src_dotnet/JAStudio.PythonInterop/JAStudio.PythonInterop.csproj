@@ -11,8 +11,8 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Utilities.SystemCE" Version="0.1.0-alpha.3"/>
-      <PackageReference Include="Compze.Utilities.SystemCE.ThreadingCE" Version="0.1.0-alpha.3"/>
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.SystemCE\Compze.Utilities.SystemCE.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.SystemCE.ThreadingCE\Compze.Utilities.SystemCE.ThreadingCE.csproj" />
    </ItemGroup>
 
 </Project>

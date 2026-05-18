@@ -16,7 +16,10 @@
 
    <ItemGroup>
       <PackageReference Include="Avalonia" Version="12.0.3" />
-      <PackageReference Include="Compze.Utilities.Logging" Version="0.1.0-alpha.3" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Logging\Compze.Utilities.Logging.csproj" />
    </ItemGroup>
 
 </Project>

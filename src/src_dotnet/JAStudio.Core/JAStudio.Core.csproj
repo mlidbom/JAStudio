@@ -21,7 +21,6 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Core" Version="0.1.0-alpha.3" />
       <PackageReference Include="MeCab.DotNet" Version="1.2.0" />
       <PackageReference Include="MemoryPack" Version="1.21.4" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -29,9 +28,10 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Utilities.DependencyInjection.SimpleInjector" Version="0.1.0-alpha.3" />
-      <PackageReference Include="Compze.Utilities.Logging" Version="0.1.0-alpha.3" />
-      <PackageReference Include="Compze.Utilities.SystemCE.ThreadingCE" Version="0.1.0-alpha.3" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Core\Compze.Core.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.DependencyInjection.SimpleInjector\Compze.Utilities.DependencyInjection.SimpleInjector.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Logging\Compze.Utilities.Logging.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.SystemCE.ThreadingCE\Compze.Utilities.SystemCE.ThreadingCE.csproj" />
    </ItemGroup>
 
    <!-- Stub regeneration moved to JAStudio.UI project (builds last, has all DLLs) -->

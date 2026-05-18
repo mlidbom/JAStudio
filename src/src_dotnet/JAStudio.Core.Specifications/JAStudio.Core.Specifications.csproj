@@ -26,8 +26,8 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Utilities.Testing.Must" Version="0.1.0-alpha.3" />
-      <PackageReference Include="Compze.Utilities.Testing.XUnit" Version="0.1.0-alpha.3" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Testing.Must\Compze.Utilities.Testing.Must.csproj" />
+      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Utilities.Testing.XUnit\Compze.Utilities.Testing.XUnit.csproj" />
    </ItemGroup>
 
 </Project>

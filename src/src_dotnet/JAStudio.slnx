@@ -10,4 +10,16 @@
    <Project Path="JAStudio.UI.DesktopHost\JAStudio.UI.DesktopHost.csproj" />
    <Project Path="JAStudio.Web\JAStudio.Web.csproj" />
    <Project Path="JAStudio.Web.Specifications\JAStudio.Web.Specifications.csproj" />
+   <Folder Name="/Compze/">
+      <Project Path="..\..\submodules\Compze\src\Compze.Core\Compze.Core.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.Contracts\Compze.Utilities.Contracts.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.DependencyInjection\Compze.Utilities.DependencyInjection.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.DependencyInjection.SimpleInjector\Compze.Utilities.DependencyInjection.SimpleInjector.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.Functional\Compze.Utilities.Functional.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.Logging\Compze.Utilities.Logging.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.SystemCE\Compze.Utilities.SystemCE.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.SystemCE.ThreadingCE\Compze.Utilities.SystemCE.ThreadingCE.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.Testing.Must\Compze.Utilities.Testing.Must.csproj" />
+      <Project Path="..\..\submodules\Compze\src\Compze.Utilities.Testing.XUnit\Compze.Utilities.Testing.XUnit.csproj" />
+   </Folder>
 </Solution>
