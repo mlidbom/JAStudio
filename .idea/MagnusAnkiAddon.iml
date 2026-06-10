@@ -53,7 +53,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/src_dotnet" />
       <excludeFolder url="file://$MODULE_DIR$/submodules" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.13 (worktree_1)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.13 (JAStudio)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
