@@ -1,3 +1,3 @@
 <component name="DependencyValidationManager">
-  <scope name="Manual Project Files" pattern="file[MagnusAnkiAddon]:src/jastudio//*||file[MagnusAnkiAddon]:src/MagnusAddonTests//*||file[MagnusAnkiAddon]:src/web//*" />
+  <scope name="Manual Project Files" pattern="file[JA Studio]:src/jastudio//*||file[JA Studio]:src/MagnusAddonTests//*||file[JA Studio]:src/web//*" />
 </component>
