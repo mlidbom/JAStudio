@@ -48,5 +48,6 @@
     "python.analysis.inlayHints.functionReturnTypes": true,
     "editor.inlayHints.enabled": "offUnlessPressed",
     "editor.inlayHints.maximumLength": 0,
-    "chat.agent.maxRequests": 500
+    "chat.agent.maxRequests": 500,
+    "sarif-viewer.connectToGithubCodeScanning": "off"
 }
