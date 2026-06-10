@@ -5,5 +5,9 @@
   },
   "env": {
     "CSHARP_LSP_SOLUTION_REL": "src/src_dotnet/JAStudio.slnx"
+  },
+  "_comment_plugins": "prerequisite: pyright-langserver on PATH.",
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true
   }
 }
