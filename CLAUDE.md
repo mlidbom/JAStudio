@@ -76,19 +76,9 @@ Strict mode is on (see `pyproject.toml [tool.pyright]`). Don't relax it for indi
 
 Active workarounds live in [CLAUDE.workarounds.md](CLAUDE.workarounds.md). Read it if C# LSP probes start returning "No symbols found", if `.claude/settings.json` fails to parse, if the **PowerShell tool returns `Exit code 1` with no output on every call** (use Bash with `pwsh -NoProfile -NonInteractive -Command "..."` instead), or if you're setting this repo up on a fresh machine. Currently covers: csharp-ls + Claude Code [#16360](https://github.com/anthropics/claude-code/issues/16360), and PowerShell tool failure in the VS Code extension UI mode ([#55671](https://github.com/anthropics/claude-code/issues/55671)).
 
-## Serena MCP
+## Compze API navigation
 
-When using Serena's semantic tools (`mcp__plugin_serena_serena__*`), the project must be activated first or every call errors with "No active project."
-
-**Always call this once before the first Serena tool use in a session:**
-
-```
-mcp__plugin_serena_serena__activate_project(project=<current worktree absolute path>)
-```
-
-Do this proactively — don't ask the user. Each worktree (`worktree_1`, `worktree_2`, ...) is its own Serena project; activating one doesn't activate the others. If Serena tools aren't going to be used in a session, no need to activate.
-
-Compze is now consumed as NuGet packages (no longer project-referenced), so `goToDefinition` into Compze lands in decompiled metadata rather than source, and `findReferences` covers only the JAStudio side. For Compze's API surface use the `sherlock` MCP (it reflects over the `Compze.*` DLLs copied into each project's `bin`) and grep the package `.xml` for docs — per the `csharp-code-intelligence` rule.
+Compze is consumed as NuGet packages (no longer project-referenced), so `goToDefinition` into Compze lands in decompiled metadata rather than source, and `findReferences` covers only the JAStudio side. For Compze's API surface use the `sherlock` MCP (it reflects over the `Compze.*` DLLs copied into each project's `bin`) and grep the package `.xml` for docs — per the `csharp-code-intelligence` rule.
 
 ## C# LSP staleness
 
