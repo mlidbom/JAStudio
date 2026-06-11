@@ -16,7 +16,7 @@ class VisibleTaskRunner(ScopeProgressPresenter presenter, bool allowCancel) : IT
 
    public TResult RunIndeterminate<TResult>(string message, Func<TResult> action)
    {
-      using var _ = this.Log().Info().Time(message);
+      using var _ = this.Log().Info().ExecutionTime(message);
       _presenter.ShowSpinnerForTaskNamed(message);
 
       var task = TaskCE.Run(action);
@@ -26,7 +26,7 @@ class VisibleTaskRunner(ScopeProgressPresenter presenter, bool allowCancel) : IT
 
    public async Task<TResult> RunIndeterminateAsync<TResult>(string message, Func<TResult> action)
    {
-      using var _ = this.Log().Info().Time(message);
+      using var _ = this.Log().Info().ExecutionTime(message);
       _presenter.ShowSpinnerForTaskNamed(message);
       return await TaskCE.Run(action);
    }
@@ -35,7 +35,7 @@ class VisibleTaskRunner(ScopeProgressPresenter presenter, bool allowCancel) : IT
    {
       var totalItems = items.Count;
       var results = new TOutput[totalItems];
-      using var _ = this.Log().Info().Time($"{message} handled {items.Count} items ({threads.Threads} threads)");
+      using var _ = this.Log().Info().ExecutionTime($"{message} handled {items.Count} items ({threads.Threads} threads)");
 
       var viewModel = _presenter.ShowBatchProgress(message, totalItems);
 

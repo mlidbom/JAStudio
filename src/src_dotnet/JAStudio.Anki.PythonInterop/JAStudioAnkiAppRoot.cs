@@ -167,15 +167,14 @@ public class JAStudioAnkiAppRoot
    }
 
    // ReSharper disable once UnusedMember.Global used from python
-   public void ShutDown()
+   public void ShutDown() => this.Log().Info().MethodExecutionTime(() =>
    {
-      using var _ = this.Log().Info().Time(nameof(ShutDown));
       _cardServer.StopAsync().GetAwaiter().GetResult();
       _coreApp.Dispose();
       _host.StopAsync().GetAwaiter().GetResult();
       _host.Dispose();
       Dispatcher.UIThread.InvokeShutdown();
-   }
+   });
 
    void ScheduleDebouncedReload()
    {

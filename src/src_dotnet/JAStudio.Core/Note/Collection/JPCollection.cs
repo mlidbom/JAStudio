@@ -66,7 +66,7 @@ public class JPCollection
       MediaFileIndex mediaFileIndex,
       IBackendDataLoader backendDataLoader)
    {
-      using var _ = this.Log().Info().Time(nameof(JPCollection));
+      using var _ = this.Log().Info().MethodExecutionTime();
 
       NoteServices = noteServices;
       _repository = noteRepository;
@@ -113,15 +113,14 @@ public class JPCollection
    }
 
    /// <summary>Clear all in-memory caches. Called when the backend DB is about to become unreliable (e.g. sync starting, profile closing).</summary>
-   public void ClearCaches()
+   public void ClearCaches() => this.Log().Warning().MethodExecutionTime(() =>
    {
-      using var _ = this.Log().Warning().Time(nameof(ClearCaches));
       IsInitialized = false;
       NoteServices.ExternalNoteIdMap.Clear();
       Vocab.Cache.Clear();
       Kanji.Cache.Clear();
       Sentences.Cache.Clear();
-   }
+   });
 
    /// <summary>Clear and reload all caches. Called after sync or collection reload.</summary>
    public void ReloadFromBackend()
