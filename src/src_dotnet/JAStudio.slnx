@@ -10,20 +10,4 @@
    <Project Path="JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
    <Project Path="JAStudio.Web/JAStudio.Web.csproj" />
    <Project Path="JAStudio.Web.Specifications/JAStudio.Web.Specifications.csproj" />
-   <Folder Name="/Compze/">
-      <Project Path="../../submodules/Compze/src/Compze.Abstractions/Compze.Abstractions.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Contracts/Compze.Contracts.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Underscore/Compze.Underscore.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Unit/Compze.Unit.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Internals.SystemCE/Compze.Internals.SystemCE.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Internals.Logging/Compze.Internals.Logging.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Threading/Compze.Threading.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.DependencyInjection/Compze.DependencyInjection.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.DependencyInjection.Extensions.Hosting/Compze.DependencyInjection.Extensions.Hosting.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.DependencyInjection.Microsoft/Compze.DependencyInjection.Microsoft.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.DependencyInjection.Microsoft.Extensions.Hosting/Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.Must/Compze.Must.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.xUnit/Compze.xUnit.csproj" />
-      <Project Path="../../submodules/Compze/src/Compze.xUnitBDD/Compze.xUnitBDD.csproj" />
-   </Folder>
 </Solution>

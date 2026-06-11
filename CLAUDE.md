@@ -13,8 +13,8 @@ Hybrid Python + .NET addon for Anki (Japanese-language study).
 - **C# / .NET 10** is the primary language. UI (Avalonia), business logic (Core), Python interop, and Anki integration all live in `src/src_dotnet/`. Solution file: `JAStudio.slnx`.
 - **Python 3.13** is a **thin integration layer** with Anki only. The project is actively porting UI/business logic from Python to C#. Don't expand Python functionality — prefer moving logic to C#. Python source: `src/jastudio_src/`, `src/jaslib_src/`, `src/jaspythonutils_src/`. Tests: `src/tests/`.
 - **Bridge**: `pythonnet` calls .NET from Python. Generated type stubs live in `typings/` so Python sees .NET types.
+- **Compze** — actively-developed library JAStudio depends on heavily, consumed as **published NuGet packages** (from nuget.org; versions pinned per-package in the consuming `.csproj`s — see the `Compze.*` `PackageReference`s). Compze knows nothing about JAStudio; treat changes to Compze as Compze's own concern (separate repo, separate workflow). Its API is pre-1.0 (alpha/beta) and may change between versions, so bumping Compze is a deliberate version raise, not automatic. (Compze used to be wired in as a `submodules/Compze` git submodule with project references; that was replaced with packages — for its API surface use the `sherlock` MCP, not source navigation.)
 - **Submodules**:
-  - `submodules/Compze` — actively-developed library JAStudio depends on heavily. Wired in as **project references** (not NuGet packages) so JAStudio always builds against the submodule HEAD. Its csprojs are listed under the `Compze/` folder in `JAStudio.slnx`. Compze knows nothing about JAStudio; treat changes to Compze as Compze's own concern (separate repo, separate workflow). Targets net9.0, JAStudio targets net10.0 — that's fine, MSBuild bridges cleanly.
   - `submodules/pythonnet-stub-generator`, `src/jas_database` — excluded from lint/typecheck/search; treat as read-only third-party code.
 
 ## Scoped guidance — read these when editing matching files
@@ -88,7 +88,7 @@ mcp__plugin_serena_serena__activate_project(project=<current worktree absolute p
 
 Do this proactively — don't ask the user. Each worktree (`worktree_1`, `worktree_2`, ...) is its own Serena project; activating one doesn't activate the others. If Serena tools aren't going to be used in a session, no need to activate.
 
-Compze is project-referenced (not nuget-referenced), so both LSP and Serena can navigate into it — `goToDefinition` from a JAStudio call-site lands in `submodules/Compze/src/...` source, and `findReferences` spans both sides. Use whichever is more convenient for the task.
+Compze is now consumed as NuGet packages (no longer project-referenced), so `goToDefinition` into Compze lands in decompiled metadata rather than source, and `findReferences` covers only the JAStudio side. For Compze's API surface use the `sherlock` MCP (it reflects over the `Compze.*` DLLs copied into each project's `bin`) and grep the package `.xml` for docs — per the `csharp-code-intelligence` rule.
 
 ## C# LSP staleness
 

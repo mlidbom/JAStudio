@@ -18,7 +18,6 @@
     },
     "files.exclude": {
         "src/jas_database/**": true,
-        "submodules/Compze/Compze.InternalizedSourceReferences/**": true,
         "submodules/pythonnet-stub-generator/**": true,
         "**/.idea/**": true,
         "typings/**": true,
@@ -31,7 +30,6 @@
     },
     "files.watcherExclude": {
         "src/jas_database/**": true,
-        "submodules/Compze/Compze.InternalizedSourceReferences/**": true,
         "submodules/pythonnet-stub-generator/**": true,
         "**/.idea/**": true,
         "typings/**": true,

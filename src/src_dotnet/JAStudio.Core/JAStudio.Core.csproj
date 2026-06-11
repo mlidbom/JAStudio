@@ -29,15 +29,15 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Abstractions\Compze.Abstractions.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Contracts\Compze.Contracts.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection\Compze.DependencyInjection.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft\Compze.DependencyInjection.Microsoft.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft.Extensions.Hosting\Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.Logging\Compze.Internals.Logging.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Internals.SystemCE\Compze.Internals.SystemCE.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Threading\Compze.Threading.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Underscore\Compze.Underscore.csproj" />
+      <PackageReference Include="Compze.Abstractions" Version="0.1.0-alpha" />
+      <PackageReference Include="Compze.Contracts" Version="0.7.0" />
+      <PackageReference Include="Compze.DependencyInjection" Version="0.3.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.3.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.3.0-alpha" />
+      <PackageReference Include="Compze.Internals.Logging" Version="0.3.1-alpha" />
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.2.1-internal" />
+      <PackageReference Include="Compze.Threading" Version="0.5.0-alpha" />
+      <PackageReference Include="Compze.Underscore" Version="0.6.0-beta" />
    </ItemGroup>
 
    <!-- Stub regeneration moved to JAStudio.UI project (builds last, has all DLLs) -->

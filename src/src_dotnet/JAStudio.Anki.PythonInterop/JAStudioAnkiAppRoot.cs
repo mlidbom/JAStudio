@@ -169,7 +169,7 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedMember.Global used from python
    public void ShutDown()
    {
-      using var _ = this.Log().Info().LogMethodExecutionTime();
+      using var _ = this.Log().Info().Time(nameof(ShutDown));
       _cardServer.StopAsync().GetAwaiter().GetResult();
       _coreApp.Dispose();
       _host.StopAsync().GetAwaiter().GetResult();

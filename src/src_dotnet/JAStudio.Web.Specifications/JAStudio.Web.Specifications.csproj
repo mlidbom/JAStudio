@@ -24,7 +24,7 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Must\Compze.Must.csproj" />
+      <PackageReference Include="Compze.Must" Version="0.2.1-alpha" />
    </ItemGroup>
 
 </Project>

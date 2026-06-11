@@ -26,11 +26,11 @@
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.Must\Compze.Must.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.xUnit\Compze.xUnit.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.xUnitBDD\Compze.xUnitBDD.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft\Compze.DependencyInjection.Microsoft.csproj" />
-      <ProjectReference Include="..\..\..\submodules\Compze\src\Compze.DependencyInjection.Microsoft.Extensions.Hosting\Compze.DependencyInjection.Microsoft.Extensions.Hosting.csproj" />
+      <PackageReference Include="Compze.Must" Version="0.2.1-alpha" />
+      <PackageReference Include="Compze.xUnit" Version="0.1.0-alpha" />
+      <PackageReference Include="Compze.xUnitBDD" Version="0.5.0-beta" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.3.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.3.0-alpha" />
    </ItemGroup>
 
 </Project>
