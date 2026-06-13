@@ -1,0 +1,1 @@
+../../../../.claude-shared/rules/path-scoped/avalonia-axaml-views.md

@@ -2,3 +2,11 @@
 * text=auto
 
 *.db filter=lfs diff=lfs merge=lfs -text
+
+# Symlinks into the .claude-shared catalog. Directory links need the symlink=dir hint so Git for Windows
+# creates them correctly regardless of checkout order. (Per-file links under path-scoped/01-shared/ don't.)
+.claude/rules/01-universal-shared symlink=dir
+.claude/skills/shared-jetbrains-inspect symlink=dir
+.claude/skills/shared-run-and-fix-resharper-inspections symlink=dir
+.claude/skills/shared-team-review-and-fix-code-standard-issues symlink=dir
+.claude/skills/shared-windows-gui-visual-testing symlink=dir
