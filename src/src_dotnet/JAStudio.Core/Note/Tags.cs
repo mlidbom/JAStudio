@@ -97,7 +97,7 @@ public static class Tags
             public static readonly Tag IchidanImperative = Tag.FromName(FVocabMatchingRequires + "ichidan_imperative");
             public static readonly Tag GodanPotential = Tag.FromName(FVocabMatchingRequires + "godan_potential");
             public static readonly Tag GodanImperative = Tag.FromName(FVocabMatchingRequires + "godan_imperative");
-            public static readonly Tag GodanImperativeHead = Tag.FromName(FVocabMatchingForbids + "godan_imperative_prefix");
+            public static readonly Tag GodanImperativeHead = Tag.FromName(FVocabMatchingRequires + "godan_imperative_prefix");
             public static readonly Tag TeFormStemStart = Tag.FromName(FVocabMatchingRequires + "te-form-stem");
             public static readonly Tag TeFormStemHead = Tag.FromName(FVocabMatchingRequires + "te-form-prefix");
             public static readonly Tag SentenceEnd = Tag.FromName(FVocabMatchingRequires + "sentence-end");
