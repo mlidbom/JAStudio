@@ -2,7 +2,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsHasGodanImperativeHead
+static class RequiresOrForbidsGodanImperativeHead
 {
    static readonly FailedMatchRequirement RequiredFailure = FailedMatchRequirement.Required("godan_imperative_prefix");
    static readonly FailedMatchRequirement ForbiddenFailure = FailedMatchRequirement.Forbids("godan_imperative_prefix");

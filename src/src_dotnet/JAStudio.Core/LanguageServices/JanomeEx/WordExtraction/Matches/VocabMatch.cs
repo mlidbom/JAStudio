@@ -43,9 +43,9 @@ public sealed class VocabMatch : Match
                             it => it.HasTeFormStemHead).ApplyTo,
 
       RequiresOrForbidsTeFormStemStart.ApplyTo,
-      RequiresOrForbidsHasPastTenseStem.ApplyTo,
+      RequiresOrForbidsPastTenseStem.ApplyTo,
 
-      RequiresOrForbidsHasGodanImperativeHead.ApplyTo,
+      RequiresOrForbidsGodanImperativeHead.ApplyTo,
       RequiresOrForbidsStartsWithGodanPotentialStemOrInflection.ApplyTo,
       RequiresOrForbidsStartsWithGodanImperativeStemOrInflection.ApplyTo,
       RequiresOrForbidsStartsWithIchidanImperativeStemOrInflection.ApplyTo,

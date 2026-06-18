@@ -80,7 +80,7 @@
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Godan imperative" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="0" Grid.Column="1" DataContext="{Binding GodanImperative}" Margin="{StaticResource RequiresForbidsMargin}" />
                                 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Godan imperative prefix" VerticalAlignment="Center" Margin="0,0,10,-5" MinWidth="160" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Godan imperative (head)" VerticalAlignment="Center" Margin="0,0,10,-5" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="1" Grid.Column="1" DataContext="{Binding GodanImperativeHead}" Margin="0,0,0,-5" />
                                 
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Godan potential" VerticalAlignment="Center" Margin="0,0,10,-5" MinWidth="160" />
@@ -104,19 +104,19 @@
                                 <TextBlock Grid.Row="8" Grid.Column="0" Text="Past tense stem" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="8" Grid.Column="1" DataContext="{Binding PastTenseStem}" Margin="{StaticResource RequiresForbidsMargin}" />
                                 
-                                <TextBlock Grid.Row="9" Grid.Column="0" Text="Dictionary form stem" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
+                                <TextBlock Grid.Row="9" Grid.Column="0" Text="Dictionary form (start)" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="9" Grid.Column="1" DataContext="{Binding DictionaryFormStart}" Margin="{StaticResource RequiresForbidsMargin}" />
                                 
-                                <TextBlock Grid.Row="10" Grid.Column="0" Text="Dictionary form prefix" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
+                                <TextBlock Grid.Row="10" Grid.Column="0" Text="Dictionary form (head)" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="10" Grid.Column="1" DataContext="{Binding DictionaryFormHead}" Margin="{StaticResource RequiresForbidsMargin}" />
                                 
-                                <TextBlock Grid.Row="11" Grid.Column="0" Text="Preceding adverb" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
+                                <TextBlock Grid.Row="11" Grid.Column="0" Text="Adverb (head)" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="11" Grid.Column="1" DataContext="{Binding AdverbHead}" Margin="{StaticResource RequiresForbidsMargin}" />
                                 
-                                <TextBlock Grid.Row="12" Grid.Column="0" Text="て-form stem" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
+                                <TextBlock Grid.Row="12" Grid.Column="0" Text="て-form stem (start)" VerticalAlignment="Center" Margin="{StaticResource RequiresForbidsNameMargin}" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="12" Grid.Column="1" DataContext="{Binding TeFormStemStart}" Margin="{StaticResource RequiresForbidsMargin}" />
                                 
-                                <TextBlock Grid.Row="13" Grid.Column="0" Text="て-form prefix" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="160" />
+                                <TextBlock Grid.Row="13" Grid.Column="0" Text="て-form stem (head)" VerticalAlignment="Center" Margin="0,0,10,0" MinWidth="160" />
                                 <controls:RequireForbidControl Grid.Row="13" Grid.Column="1" DataContext="{Binding TeFormStemHead}" />
                             </Grid>
                         </StackPanel>

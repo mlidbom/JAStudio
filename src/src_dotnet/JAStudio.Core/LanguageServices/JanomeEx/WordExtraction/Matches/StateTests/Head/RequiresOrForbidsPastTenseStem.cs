@@ -2,7 +2,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsHasPastTenseStem
+static class RequiresOrForbidsPastTenseStem
 {
    static readonly FailedMatchRequirement RequiredFailure = FailedMatchRequirement.Required("past_tense_stem");
    static readonly FailedMatchRequirement ForbiddenFailure = FailedMatchRequirement.Forbids("past_tense_stem");
