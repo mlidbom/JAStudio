@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/jas_database" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/jas_database/media" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/jas_database/media/commercial-01" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/jas_database/media/commercial-02" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/jas_database/media/free" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/submodules/pythonnet-stub-generator" vcs="Git" />
   </component>
 </project>

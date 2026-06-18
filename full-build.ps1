@@ -3,7 +3,7 @@
 # Use this when the .NET API surface has changed, or as a pre-commit validation.
 #
 # For a fast build that only compiles .NET, run:
-#   dotnet build src\src_dotnet\JAStudio.slnx -c Debug
+#   dotnet build JAStudio.slnx -c Debug
 
 param(
     [string]$Configuration = "Debug"
@@ -18,8 +18,8 @@ try {
 
     # 1. Build .NET
     Write-Host "`n=== Building .NET ($Configuration) ===" -ForegroundColor Cyan
-    #dotnet clean "src${Sep}src_dotnet${Sep}JAStudio.slnx" -c $Configuration
-    dotnet build "src${Sep}src_dotnet${Sep}JAStudio.slnx" -c $Configuration
+    #dotnet clean "JAStudio.slnx" -c $Configuration
+    dotnet build "JAStudio.slnx" -c $Configuration
     if ($LASTEXITCODE -ne 0) { throw "dotnet build failed" }
 
     # 2. Regenerate Python type stubs

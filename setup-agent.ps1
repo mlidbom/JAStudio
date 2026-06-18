@@ -66,7 +66,7 @@ try {
     # 4. Build .NET if needed
     if ($needsBuild) {
         Write-Host "`nBuilding .NET solution..." -ForegroundColor Yellow
-        dotnet build src\src_dotnet\JAStudio.slnx -c Debug --verbosity quiet
+        dotnet build JAStudio.slnx -c Debug --verbosity quiet
         if ($LASTEXITCODE -ne 0) { throw ".NET build failed" }
         Write-Host "✓ .NET build successful" -ForegroundColor Green
     }

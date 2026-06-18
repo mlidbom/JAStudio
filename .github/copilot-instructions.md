@@ -28,8 +28,8 @@ The script is idempotent and will skip steps that are already complete.
 ## Quick Reference
 
 ```powershell
-dotnet build src\src_dotnet\JAStudio.slnx -c Debug   # Fast .NET build (iteration)
-dotnet test src\src_dotnet\JAStudio.slnx -v quiet     # .NET specifications (tests)
+dotnet build JAStudio.slnx -c Debug   # Fast .NET build (iteration)
+dotnet test JAStudio.slnx -v quiet    # .NET specifications (tests)
 pytest                                                 # Python tests
 .\full-build.ps1                                       # Full validation (Definition of Done)
 ruff check --fix                                       # Lint + autofix Python
@@ -75,7 +75,7 @@ ruff format                                            # Format Python
 ## How to Build
 
 ```powershell
-dotnet build src\src_dotnet\JAStudio.slnx -c Debug # Fast build: compiles .NET only
+dotnet build JAStudio.slnx -c Debug # Fast build: compiles .NET only
 
 .\full-build.ps1                                    # Full build: compiles .NET + regenerates Python type stubs + runs basedpyright
 ```
@@ -87,13 +87,13 @@ The fast build is for quick iteration — the Anki addon copies .NET binaries on
 
 **On Windows (PowerShell):**
 ```powershell
-dotnet test src\src_dotnet\JAStudio.slnx --verbosity quiet
+dotnet test JAStudio.slnx --verbosity quiet
 pytest
 ```
 
 **On Linux/CI** (set `JASTUDIO_VENV_PATH` so pythonnet can find the venv):
 ```bash
-JASTUDIO_VENV_PATH="$(pwd)/venv" dotnet test src/src_dotnet/JAStudio.slnx --verbosity quiet --filter "FullyQualifiedName!~BulkLoaderTests"
+JASTUDIO_VENV_PATH="$(pwd)/venv" dotnet test JAStudio.slnx --verbosity quiet --filter "FullyQualifiedName!~BulkLoaderTests"
 source venv/bin/activate && pytest
 ```
 

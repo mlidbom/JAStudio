@@ -1,6 +1,6 @@
 # Repository structure
 
-## .NET — `src/src_dotnet/`, solution `JAStudio.slnx`
+## .NET — projects under `src/src_dotnet/`, solution `JAStudio.slnx` at the repo root
 
 - `JAStudio.UI/` — Avalonia UI (Views in `.axaml`, ViewModels in `.cs`)
 - `JAStudio.UI.DesktopHost/` — desktop entry point for running the UI outside Anki

@@ -1,10 +1,10 @@
 {
   "_comment": "C# LSP workaround for anthropics/claude-code#16360. See CLAUDE.workarounds.md → 'C# language server' for the full story. Once the bug is fixed, delete the `env` block; `lspSettings` is currently a no-op but should take over.",
   "lspSettings": {
-    "csharp": { "solutionPathOverride": "src/src_dotnet/JAStudio.slnx" }
+    "csharp": { "solutionPathOverride": "JAStudio.slnx" }
   },
   "env": {
-    "CSHARP_LSP_SOLUTION_REL": "src/src_dotnet/JAStudio.slnx"
+    "CSHARP_LSP_SOLUTION_REL": "JAStudio.slnx"
   },
   "_comment_plugins": "prerequisite: pyright-langserver on PATH.",
   "enabledPlugins": {

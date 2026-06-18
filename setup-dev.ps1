@@ -49,13 +49,13 @@ try {
 
     # 5. Build .NET solution
     Write-Host "`nBuilding .NET solution..." -ForegroundColor Yellow
-    dotnet build src\src_dotnet\JAStudio.slnx -c Debug
+    dotnet build JAStudio.slnx -c Debug
     if($LASTEXITCODE -ne 0) { throw ".NET build failed" }
     Write-Host "✓ .NET build successful" -ForegroundColor Green
 
     Write-Host "`n=== Setup Complete ===" -ForegroundColor Green
     Write-Host "`nYou can now:" -ForegroundColor Cyan
-    Write-Host "  • Run tests: dotnet test src\src_dotnet\JAStudio.slnx" -ForegroundColor White
+    Write-Host "  • Run tests: dotnet test JAStudio.slnx" -ForegroundColor White
     Write-Host "  • Run Python tests: venv\Scripts\python.exe -m pytest" -ForegroundColor White
     Write-Host "  • Full validation: .\full-build.ps1" -ForegroundColor White
 

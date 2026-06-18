@@ -21,7 +21,7 @@ Two files, both required, both temporary:
 **1. Project-level `<repo>/.claude/settings.json`** (git-tracked, in this repo):
 ```json
 {
-  "env": { "CSHARP_LSP_SOLUTION_REL": "src/src_dotnet/JAStudio.slnx" }
+  "env": { "CSHARP_LSP_SOLUTION_REL": "JAStudio.slnx" }
 }
 ```
 For another C# project, change the value to that project's solution path.

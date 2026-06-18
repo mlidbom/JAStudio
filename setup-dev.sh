@@ -45,9 +45,9 @@ pip install --quiet \
 # ── .NET build ───────────────────────────────────────────────────────────────
 if [ "$SKIP_BUILD" = false ]; then
   echo "=== Building .NET solution ==="
-  dotnet build src/src_dotnet/JAStudio.slnx -c Debug
+  dotnet build JAStudio.slnx -c Debug
 fi
 
 echo "=== Setup complete ==="
-echo "To run .NET tests:    JASTUDIO_VENV_PATH=\"\$(pwd)/venv\" dotnet test src/src_dotnet/JAStudio.slnx --verbosity quiet"
+echo "To run .NET tests:    JASTUDIO_VENV_PATH=\"\$(pwd)/venv\" dotnet test JAStudio.slnx --verbosity quiet"
 echo "To run Python tests:  source venv/bin/activate && pytest src/tests"

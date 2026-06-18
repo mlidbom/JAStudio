@@ -4,8 +4,8 @@ Always use `venv\Scripts\python.exe` (not bare `python`) — the venv is require
 
 | Task | Command |
 |---|---|
-| Fast .NET build (iteration) | `dotnet build src\src_dotnet\JAStudio.slnx -c Debug` |
-| .NET tests | `dotnet test src\src_dotnet\JAStudio.slnx --verbosity quiet` |
+| Fast .NET build (iteration) | `dotnet build JAStudio.slnx -c Debug` |
+| .NET tests | `dotnet test JAStudio.slnx --verbosity quiet` |
 | Python tests | `venv\Scripts\python.exe -m pytest` |
 | Lint Python (autofix) | `ruff check --fix` |
 | Format Python | `ruff format` |
@@ -20,7 +20,7 @@ regenerating whenever the API surface changes.
 No task is complete until:
 
 - `.\full-build.ps1` succeeds end-to-end: .NET build clean, stubs regenerated, **0 basedpyright errors**.
-- All .NET tests pass (`dotnet test src\src_dotnet\JAStudio.slnx`).
+- All .NET tests pass (`dotnet test JAStudio.slnx`).
 - All Python tests pass (`pytest`).
 
 ## Python type checking

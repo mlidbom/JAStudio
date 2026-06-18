@@ -10,7 +10,7 @@ user-level rule on the dev machine; those MCPs require Rider running locally. JA
   docs.
 - **When using the Rider/ReSharper MCPs, pass `solutionName: 'JAStudio'`** — multiple solutions are usually
   open, so omitting it errors or answers from the wrong one. For the `jetbrains-rider` MCP also pass
-  `rootFolder` = the `.slnx`'s parent folder (`<worktree>/src/src_dotnet`).
+  `rootFolder` = the `.slnx`'s parent folder, which is the worktree root (`<worktree>`).
 - **`csharp-ls` doesn't watch the solution graph.** After editing a `.csproj` or `.slnx` (or a `git checkout`
   / submodule update that moves either), restart Claude Code so it re-indexes; `.cs` changes (new files,
   deletes, renames) are picked up live. csharp-ls solution pinning is itself a workaround — see

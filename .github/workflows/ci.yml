@@ -38,7 +38,7 @@ jobs:
         env:
           JASTUDIO_VENV_PATH: ${{ github.workspace }}/venv
         run: >
-          dotnet test src/src_dotnet/JAStudio.slnx
+          dotnet test JAStudio.slnx
           --verbosity quiet
           --filter "FullyQualifiedName!~BulkLoaderTests"
 

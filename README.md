@@ -32,17 +32,17 @@ This script will:
 
 **Quick commands:**
 ```powershell
-dotnet build src\src_dotnet\JAStudio.slnx -c Debug   # Fast .NET build
-dotnet test src\src_dotnet\JAStudio.slnx             # .NET tests
-venv\Scripts\python.exe -m pytest                     # Python tests
-.\full-build.ps1                                      # Full validation (build + stubs + type check)
+dotnet build JAStudio.slnx -c Debug   # Fast .NET build
+dotnet test JAStudio.slnx             # .NET tests
+venv\Scripts\python.exe -m pytest     # Python tests
+.\full-build.ps1                      # Full validation (build + stubs + type check)
 ```
 
 ### Linux / CI
 
 ```bash
 ./setup-dev.sh                                        # One-time setup
-JASTUDIO_VENV_PATH="$(pwd)/venv" dotnet test src/src_dotnet/JAStudio.slnx --filter "FullyQualifiedName!~BulkLoaderTests"
+JASTUDIO_VENV_PATH="$(pwd)/venv" dotnet test JAStudio.slnx --filter "FullyQualifiedName!~BulkLoaderTests"
 source venv/bin/activate && pytest
 ```
 

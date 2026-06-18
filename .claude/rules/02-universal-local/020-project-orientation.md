@@ -3,7 +3,7 @@
 Hybrid **Python + .NET** addon for **Anki** (Japanese-language study).
 
 - **C# / .NET 10 is the primary language.** UI (Avalonia), business logic (Core), Python interop, and Anki
-  integration all live in `src/src_dotnet/`. Solution: `src/src_dotnet/JAStudio.slnx`.
+  integration all live in `src/src_dotnet/`. Solution: `JAStudio.slnx` at the repo root.
 - **Python 3.13 is a thin integration layer with Anki only.** The project is actively porting UI/business
   logic from Python to C# — **don't expand Python functionality; prefer moving logic to C#.** Python source:
   `src/jastudio_src/`, `src/jaslib_src/`, `src/jaspythonutils_src/`. Tests: `src/tests/`.

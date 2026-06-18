@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="src/src_dotnet/JAStudio.UI/Controls/RequireForbidControl.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Controls/StringSetControl.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Dialogs/TaskProgressDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/AboutDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/ContextMenuPopup.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/EnglishWordSearchDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/KanjiEditorDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/MediaImportDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/NoteSearchDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/OptionsDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/ReadingsMappingsDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/VocabEditorDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/VocabFlagsDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
