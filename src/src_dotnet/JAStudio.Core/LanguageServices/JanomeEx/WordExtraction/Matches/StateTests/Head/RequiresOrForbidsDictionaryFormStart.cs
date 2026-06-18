@@ -2,7 +2,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsDictionaryFormStem
+static class RequiresOrForbidsDictionaryFormStart
 {
    static readonly FailedMatchRequirement RequiredFailure = FailedMatchRequirement.Required("dictionary_form_stem");
    static readonly FailedMatchRequirement ForbiddenFailure = FailedMatchRequirement.Forbids("dictionary_form_stem");
@@ -10,7 +10,7 @@ static class RequiresOrForbidsDictionaryFormStem
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      var requirement = inspector.Match.RequiresForbids.DictionaryFormStem;
+      var requirement = inspector.Match.RequiresForbids.DictionaryFormStart;
 
       var isInState = InternalIsInState(inspector);
       if(isInState)

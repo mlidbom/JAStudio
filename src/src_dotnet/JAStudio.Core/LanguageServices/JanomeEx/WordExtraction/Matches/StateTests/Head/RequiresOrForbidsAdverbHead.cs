@@ -2,19 +2,19 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsPrecedingAdverb
+static class RequiresOrForbidsAdverbHead
 {
    static readonly FailedMatchRequirement RequiredReason = FailedMatchRequirement.Required("preceding-adverb");
    static readonly FailedMatchRequirement ForbiddenReason = FailedMatchRequirement.Forbids("preceding-adverb");
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      if(inspector.RequiresForbids.PrecedingAdverb.IsRequired && !inspector.HasPrecedingAdverb)
+      if(inspector.RequiresForbids.AdverbHead.IsRequired && !inspector.HasAdverbHead)
       {
          return RequiredReason;
       }
 
-      if(inspector.RequiresForbids.PrecedingAdverb.IsForbidden && inspector.HasPrecedingAdverb)
+      if(inspector.RequiresForbids.AdverbHead.IsForbidden && inspector.HasAdverbHead)
       {
          return ForbiddenReason;
       }

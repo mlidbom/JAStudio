@@ -2,14 +2,14 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsHasTeFormStem
+static class RequiresOrForbidsTeFormStemStart
 {
    static readonly FailedMatchRequirement RequiredFailure = FailedMatchRequirement.Required("te_form_stem");
    static readonly FailedMatchRequirement ForbiddenFailure = FailedMatchRequirement.Forbids("te_form_stem");
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      var requirement = inspector.Match.RequiresForbids.TeFormStem;
+      var requirement = inspector.Match.RequiresForbids.TeFormStemStart;
 
       if(requirement.IsRequired && !inspector.HasTeFormStem)
       {

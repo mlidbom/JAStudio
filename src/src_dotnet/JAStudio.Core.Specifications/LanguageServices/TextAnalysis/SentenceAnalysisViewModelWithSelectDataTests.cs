@@ -51,7 +51,7 @@ public class SentenceAnalysisViewModelWithSelectDataTests : SentenceAnalysisView
    [InlineData("胸あるよ", "胸", "ある", "う", "よ")]
    [InlineData("和むし", "和む", "う", "し")]
    [InlineData("デカいな", "デカい", "な:masu")]
-   public void RequireForbidDictionaryFormPrefixAndStem(string sentence, params string[] expectedOutput)
+   public void RequireForbidDictionaryFormHeadAndStart(string sentence, params string[] expectedOutput)
    {
       AssertDisplayWordsEqualAndThatAnalysisInternalStateIsValid(sentence, expectedOutput);
    }

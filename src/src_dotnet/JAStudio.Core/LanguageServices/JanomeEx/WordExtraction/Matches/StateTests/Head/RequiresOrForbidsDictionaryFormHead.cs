@@ -2,14 +2,14 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsDictionaryFormPrefix
+static class RequiresOrForbidsDictionaryFormHead
 {
    static readonly FailedMatchRequirement RequiredFailure = FailedMatchRequirement.Required("dictionary_form_prefix");
    static readonly FailedMatchRequirement ForbiddenFailure = FailedMatchRequirement.Forbids("dictionary_form_prefix");
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      var requirement = inspector.Match.RequiresForbids.DictionaryFormPrefix;
+      var requirement = inspector.Match.RequiresForbids.DictionaryFormHead;
       if(requirement.IsActive)
       {
          var isInState = InternalIsInState(inspector);

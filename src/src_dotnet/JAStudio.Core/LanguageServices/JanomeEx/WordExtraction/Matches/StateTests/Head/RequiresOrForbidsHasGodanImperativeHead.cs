@@ -2,14 +2,14 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirement
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
-static class RequiresOrForbidsHasGodanImperativePrefix
+static class RequiresOrForbidsHasGodanImperativeHead
 {
    static readonly FailedMatchRequirement RequiredFailure = FailedMatchRequirement.Required("godan_imperative_prefix");
    static readonly FailedMatchRequirement ForbiddenFailure = FailedMatchRequirement.Forbids("godan_imperative_prefix");
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      var requirement = inspector.Match.RequiresForbids.GodanImperativePrefix;
+      var requirement = inspector.Match.RequiresForbids.GodanImperativeHead;
       if(requirement.IsActive)
       {
          var isInState = InternalIsInState(inspector);

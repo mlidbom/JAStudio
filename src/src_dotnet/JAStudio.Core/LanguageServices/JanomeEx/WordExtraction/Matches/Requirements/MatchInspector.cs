@@ -26,7 +26,7 @@ public class MatchInspector
    public SentenceConfiguration Configuration => Variant.Configuration;
    public TextAnalysisLocation? PreviousLocation => StartLocation.Previous;
    public bool HasTeFormStem => StartLocation.Token.HasTeFormStem;
-   public bool HasTeFormPrefix => PreviousLocation != null && PreviousLocation.Token.HasTeFormStem;
+   public bool HasTeFormStemHead => PreviousLocation != null && PreviousLocation.Token.HasTeFormStem;
    public string Prefix => PreviousLocation?.Token.Surface ?? "";
    public TextAnalysisLocation? NextLocation => Word.EndLocation.Next;
    public string Suffix => NextLocation?.Token.Surface ?? "";
@@ -52,7 +52,7 @@ public class MatchInspector
       StartLocation.Previous != null &&
       StartLocation.Previous.Token.IsMasuStem;
 
-   public bool HasPrecedingAdverb =>
+   public bool HasAdverbHead =>
       StartLocation.Previous != null &&
       StartLocation.Previous.Token.IsAdverb;
 

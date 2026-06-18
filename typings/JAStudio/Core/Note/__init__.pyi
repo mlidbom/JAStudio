@@ -401,47 +401,47 @@ class Tags(abc.ABC):
             YieldLastTokenToOverlappingCompound : Tag
 
             class Forbids(abc.ABC):
+                AdverbHead : Tag
                 AutoYielding : Tag
-                DictionaryFormPrefix : Tag
-                DictionaryFormStem : Tag
+                DictionaryFormHead : Tag
+                DictionaryFormStart : Tag
                 Godan : Tag
                 GodanImperative : Tag
-                GodanImperativePrefix : Tag
+                GodanImperativeHead : Tag
                 GodanPotential : Tag
                 Ichidan : Tag
                 IchidanImperative : Tag
                 Irrealis : Tag
                 MasuStem : Tag
                 PastTenseStem : Tag
-                PrecedingAdverb : Tag
                 SentenceEnd : Tag
                 SentenceStart : Tag
                 Surface : Tag
-                TeFormPrefix : Tag
-                TeFormStem : Tag
+                TeFormStemHead : Tag
+                TeFormStemStart : Tag
 
 
             class Requires(abc.ABC):
+                AdverbHead : Tag
                 Compound : Tag
-                DictionaryFormPrefix : Tag
-                DictionaryFormStem : Tag
+                DictionaryFormHead : Tag
+                DictionaryFormStart : Tag
                 FolderName : str
                 Godan : Tag
                 GodanImperative : Tag
-                GodanImperativePrefix : Tag
+                GodanImperativeHead : Tag
                 GodanPotential : Tag
                 Ichidan : Tag
                 IchidanImperative : Tag
                 Irrealis : Tag
                 MasuStem : Tag
                 PastTenseStem : Tag
-                PrecedingAdverb : Tag
                 SentenceEnd : Tag
                 SentenceStart : Tag
                 SingleToken : Tag
                 Surface : Tag
-                TeFormPrefix : Tag
-                TeFormStem : Tag
+                TeFormStemHead : Tag
+                TeFormStemStart : Tag
 
 
             class Todo(abc.ABC):

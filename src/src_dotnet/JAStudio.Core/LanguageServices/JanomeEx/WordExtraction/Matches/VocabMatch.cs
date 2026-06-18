@@ -39,13 +39,13 @@ public sealed class VocabMatch : Match
       RequiresPrefixIsIn.ApplyTo,
       RequiresOrForbidsIsSentenceStart.ApplyTo,
       new RequiresOrForbids("te_form_prefix",
-                            it => it.RequiresForbids.TeFormPrefix,
-                            it => it.HasTeFormPrefix).ApplyTo,
+                            it => it.RequiresForbids.TeFormStemHead,
+                            it => it.HasTeFormStemHead).ApplyTo,
 
-      RequiresOrForbidsHasTeFormStem.ApplyTo,
+      RequiresOrForbidsTeFormStemStart.ApplyTo,
       RequiresOrForbidsHasPastTenseStem.ApplyTo,
 
-      RequiresOrForbidsHasGodanImperativePrefix.ApplyTo,
+      RequiresOrForbidsHasGodanImperativeHead.ApplyTo,
       RequiresOrForbidsStartsWithGodanPotentialStemOrInflection.ApplyTo,
       RequiresOrForbidsStartsWithGodanImperativeStemOrInflection.ApplyTo,
       RequiresOrForbidsStartsWithIchidanImperativeStemOrInflection.ApplyTo,
@@ -57,9 +57,9 @@ public sealed class VocabMatch : Match
       // misc requirements
       ForbidsIsPoisonWord.ApplyTo,
       RequiresOrForbidsMasuStem.ApplyTo,
-      RequiresOrForbidsPrecedingAdverb.ApplyTo,
-      RequiresOrForbidsDictionaryFormStem.ApplyTo,
-      RequiresOrForbidsDictionaryFormPrefix.ApplyTo,
+      RequiresOrForbidsAdverbHead.ApplyTo,
+      RequiresOrForbidsDictionaryFormStart.ApplyTo,
+      RequiresOrForbidsDictionaryFormHead.ApplyTo,
 
       RequiresOrForbidsSurface.ApplyTo,
       RequiresOrForbidsIsSingleToken.ApplyTo,

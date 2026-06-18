@@ -88,7 +88,7 @@ partial class VocabFlagsViewModel : ObservableObject
    public RequireForbidControlViewModel SentenceStart { get; private set; } = null!;
    public RequireForbidControlViewModel SingleToken { get; private set; } = null!;
    public RequireForbidControlViewModel GodanImperative { get; private set; } = null!;
-   public RequireForbidControlViewModel GodanImperativePrefix { get; private set; } = null!;
+   public RequireForbidControlViewModel GodanImperativeHead { get; private set; } = null!;
    public RequireForbidControlViewModel GodanPotential { get; private set; } = null!;
    public RequireForbidControlViewModel IchidanImperative { get; private set; } = null!;
    public RequireForbidControlViewModel MasuStem { get; private set; } = null!;
@@ -96,11 +96,11 @@ partial class VocabFlagsViewModel : ObservableObject
    public RequireForbidControlViewModel Ichidan { get; private set; } = null!;
    public RequireForbidControlViewModel Irrealis { get; private set; } = null!;
    public RequireForbidControlViewModel PastTenseStem { get; private set; } = null!;
-   public RequireForbidControlViewModel DictionaryFormStem { get; private set; } = null!;
-   public RequireForbidControlViewModel DictionaryFormPrefix { get; private set; } = null!;
-   public RequireForbidControlViewModel PrecedingAdverb { get; private set; } = null!;
-   public RequireForbidControlViewModel TeFormStem { get; private set; } = null!;
-   public RequireForbidControlViewModel TeFormPrefix { get; private set; } = null!;
+   public RequireForbidControlViewModel DictionaryFormStart { get; private set; } = null!;
+   public RequireForbidControlViewModel DictionaryFormHead { get; private set; } = null!;
+   public RequireForbidControlViewModel AdverbHead { get; private set; } = null!;
+   public RequireForbidControlViewModel TeFormStemStart { get; private set; } = null!;
+   public RequireForbidControlViewModel TeFormStemHead { get; private set; } = null!;
 
    // --- String Set ViewModels ---
 
@@ -161,7 +161,7 @@ partial class VocabFlagsViewModel : ObservableObject
 
       // Require/Forbid controls (Stem matching rules)
       GodanImperative = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.GodanImperative, "Godan imperative");
-      GodanImperativePrefix = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.GodanImperativePrefix, "Godan imperative prefix");
+      GodanImperativeHead = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.GodanImperativeHead, "Godan imperative prefix");
       GodanPotential = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.GodanPotential, "Godan potential");
       IchidanImperative = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.IchidanImperative, "Ichidan imperative");
       MasuStem = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.MasuStem, "Masu stem");
@@ -169,12 +169,12 @@ partial class VocabFlagsViewModel : ObservableObject
       Ichidan = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.Ichidan, "Ichidan");
       Irrealis = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.Irrealis, "Irrealis");
       PastTenseStem = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.PastTenseStem, "Past tense stem");
-      DictionaryFormStem = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStem, "Dictionary form stem");
-      DictionaryFormPrefix = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.DictionaryFormPrefix, "Dictionary form prefix");
-      PrecedingAdverb = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.PrecedingAdverb, "Preceding adverb");
-      TeFormStem = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.TeFormStem, "て-form stem");
-      TeFormPrefix = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.TeFormPrefix, "て-form prefix");
-      AllRequireForbidControls.AddRange([GodanImperative, GodanImperativePrefix, GodanPotential, IchidanImperative, MasuStem, Godan, Ichidan, Irrealis, PastTenseStem, DictionaryFormStem, DictionaryFormPrefix, PrecedingAdverb, TeFormStem, TeFormPrefix]);
+      DictionaryFormStart = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart, "Dictionary form stem");
+      DictionaryFormHead = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.DictionaryFormHead, "Dictionary form prefix");
+      AdverbHead = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.AdverbHead, "Preceding adverb");
+      TeFormStemStart = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.TeFormStemStart, "て-form stem");
+      TeFormStemHead = new RequireForbidControlViewModel(_vocab.MatchingConfiguration.RequiresForbids.TeFormStemHead, "て-form prefix");
+      AllRequireForbidControls.AddRange([GodanImperative, GodanImperativeHead, GodanPotential, IchidanImperative, MasuStem, Godan, Ichidan, Irrealis, PastTenseStem, DictionaryFormStart, DictionaryFormHead, AdverbHead, TeFormStemStart, TeFormStemHead]);
 
       // String set controls
       var rules = _vocab.MatchingConfiguration.ConfigurableRules;

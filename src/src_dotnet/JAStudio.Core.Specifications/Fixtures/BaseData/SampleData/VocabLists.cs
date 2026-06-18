@@ -10,7 +10,7 @@ static class VocabLists
    public static readonly List<VocabSpec> TestSpecialVocab =
    [
       // <non-standard-token-splitting-to-enable-more-pedagogical-breakdowns-for-conjugations>
-      new("う", "dictionary form verb inflection", forms: ["る"], tags: [VM.Requires.DictionaryFormStem]),
+      new("う", "dictionary form verb inflection", forms: ["る"], tags: [VM.Requires.DictionaryFormStart]),
       // godan potential
       new("える",
           "to-be-able-to",
@@ -26,8 +26,8 @@ static class VocabLists
       new("い", "_!/do! (godan-special imperative)", ["い"], tags: [VM.IsInflectingWord, VM.Requires.GodanImperative]),
 
       // needs exclusion
-      new("う", "volational inflection", tags: [VM.Forbids.DictionaryFormStem]),
-      new("うん", tags: [VM.Forbids.DictionaryFormStem]),
+      new("う", "volational inflection", tags: [VM.Forbids.DictionaryFormStart]),
+      new("うん", tags: [VM.Forbids.DictionaryFormStart]),
       new("よ", "emphasis", ["よ"], tags: [VM.Forbids.IchidanImperative]),
       new("せよ", tags: [VM.Forbids.GodanImperative]),
       new("させる", "get-_/is-_", ["させる"], forms: ["せる"], tags: [VM.IsInflectingWord, VM.Forbids.GodanPotential]),
@@ -60,24 +60,24 @@ static class VocabLists
       // infinite recursion with recursive shadowed and yielding implementetion
 
       // <te-stem-required>
-      new("て", "{continuing-action}", ["て"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("てる", tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("とる:progressive", tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("てん", tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("とん", tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("ている", "is-_-ing", readings: ["ている"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("てた", "{was}-{_-ing|_ed}", ["てた"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
-      new("てたら", "{was}-{_-ing|_ed}", ["てたら"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStem]),
+      new("て", "{continuing-action}", ["て"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("てる", tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("とる:progressive", tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("てん", tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("とん", tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("ている", "is-_-ing", readings: ["ている"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("てた", "{was}-{_-ing|_ed}", ["てた"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
+      new("てたら", "{was}-{_-ing|_ed}", ["てたら"], tags: [VM.IsInflectingWord, VM.Requires.TeFormStemStart]),
 
-      new("んで", "and/て", forms: ["で"], prefixIn: ["ん"], tags: [VM.Requires.TeFormStem, V.QuestionOverridesForm]),
-      new("んどる", forms: ["どる"], prefixIn: ["ん"], tags: [V.QuestionOverridesForm, VM.Requires.TeFormStem]),
-      new("んでる", forms: ["でる"], prefixIn: ["ん"], tags: [V.QuestionOverridesForm, VM.Requires.TeFormStem]),
+      new("んで", "and/て", forms: ["で"], prefixIn: ["ん"], tags: [VM.Requires.TeFormStemStart, V.QuestionOverridesForm]),
+      new("んどる", forms: ["どる"], prefixIn: ["ん"], tags: [V.QuestionOverridesForm, VM.Requires.TeFormStemStart]),
+      new("んでる", forms: ["でる"], prefixIn: ["ん"], tags: [V.QuestionOverridesForm, VM.Requires.TeFormStemStart]),
       // </te-stem-required>
       // <te-stem-forbidden>
-      new("で", tags: [VM.Forbids.TeFormStem]),
-      new("でいる", tags: [VM.Forbids.TeFormStem]),
-      new("んで", "thing-is", tags: [VM.Forbids.TeFormStem]),
-      new("とんだ", tags: [VM.Forbids.TeFormStem]),
+      new("で", tags: [VM.Forbids.TeFormStemStart]),
+      new("でいる", tags: [VM.Forbids.TeFormStemStart]),
+      new("んで", "thing-is", tags: [VM.Forbids.TeFormStemStart]),
+      new("とんだ", tags: [VM.Forbids.TeFormStemStart]),
       // </te-stem-forbidden>
       new("１人で", compounds: ["で", "１人"], tags: [VM.YieldLastTokenToOverlappingCompound]),
       new("ないで", compounds: ["ない", "で"], tags: [VM.YieldLastTokenToOverlappingCompound]),
@@ -158,7 +158,7 @@ static class VocabLists
       new("に行く", compounds: ["に", "行く"], tags: [VM.YieldLastTokenToOverlappingCompound]),
       new("行った", compounds: ["行く", "た"], tags: [VM.YieldLastTokenToOverlappingCompound]),
 
-      new("うと", compounds: ["う", "と"], tags: [VM.YieldLastTokenToOverlappingCompound, VM.Forbids.DictionaryFormStem]),
+      new("うと", compounds: ["う", "と"], tags: [VM.YieldLastTokenToOverlappingCompound, VM.Forbids.DictionaryFormStart]),
       new("と思って", compounds: ["と思う", "て"], tags: [VM.YieldLastTokenToOverlappingCompound]),
       new("ませ", forms: ["まし"], suffixNot: ["ん"]),
       new("ところが", tags: [VM.Requires.SentenceStart]),
@@ -170,7 +170,7 @@ static class VocabLists
       new("出会える", "to: be-{able/fortunate-enough}-to-{meet/come-across}"),
       new("ていける", "can-go-on"),
 
-      new("ても知らない", forms: ["ても知らん"], compounds: ["ても", "知る", "ん"], tags: [VM.Requires.TeFormStem]),
+      new("ても知らない", forms: ["ても知らん"], compounds: ["ても", "知る", "ん"], tags: [VM.Requires.TeFormStemStart]),
 
       new("とおり"),
       new("られる", tags: [VM.IsInflectingWord]),
@@ -180,18 +180,18 @@ static class VocabLists
 
       new("きれない", forms: ["[切れない]"], tags: [VM.Requires.MasuStem]),
 
-      new("考えすぎ", tags: [VM.Forbids.PrecedingAdverb]),
-      new("考えすぎる", tags: [VM.Forbids.PrecedingAdverb]),
+      new("考えすぎ", tags: [VM.Forbids.AdverbHead]),
+      new("考えすぎる", tags: [VM.Forbids.AdverbHead]),
 
       new("な", forms: ["な"]),
-      new("な:dict", tags: [VM.Requires.DictionaryFormPrefix]),
+      new("な:dict", tags: [VM.Requires.DictionaryFormHead]),
       new("な:masu", tags: [VM.Requires.MasuStem]),
       new("な:s.end", tags: [VM.Requires.SentenceEnd, VM.Forbids.SentenceStart]),
       new("な:s.start", tags: [VM.Requires.SentenceStart]),
-      new("すんな", forms: ["[すな]"], tags: [VM.Forbids.DictionaryFormStem]),
+      new("すんな", forms: ["[すな]"], tags: [VM.Forbids.DictionaryFormStart]),
 
       new("がある", tags: [VM.YieldLastTokenToOverlappingCompound]),
-      new("うの", forms: ["うの", "くの", "ぐの", "すの", "つの", "ぬの", "ぶの", "むの", "るの"], tags: [VM.Requires.DictionaryFormStem, V.QuestionOverridesForm]),
+      new("うの", forms: ["うの", "くの", "ぐの", "すの", "つの", "ぬの", "ぶの", "むの", "るの"], tags: [VM.Requires.DictionaryFormStart, V.QuestionOverridesForm]),
 
       new("寝れる", tags: [VM.IsPoisonWord]),
       new("れる:ichidan", tags: [VM.Requires.Ichidan, VM.Requires.Irrealis]),
@@ -206,13 +206,13 @@ static class VocabLists
       new("よい", yieldToSurface: ["よく"]),
       new("よく", suffixNot: ["て"]),
 
-      new("ないし", tags: [VM.Forbids.Irrealis, VM.Forbids.SentenceEnd, VM.Forbids.PrecedingAdverb]),
+      new("ないし", tags: [VM.Forbids.Irrealis, VM.Forbids.SentenceEnd, VM.Forbids.AdverbHead]),
 
-      new("いただける:able-to", tags: [VM.Requires.TeFormPrefix]),
-      new("いただける:acceptable", tags: [VM.Forbids.TeFormPrefix]),
-      new("てない", tags: [VM.Requires.TeFormStem]),
-      new("てしまいます", tags: [VM.Requires.TeFormStem]),
+      new("いただける:able-to", tags: [VM.Requires.TeFormStemHead]),
+      new("いただける:acceptable", tags: [VM.Forbids.TeFormStemHead]),
+      new("てない", tags: [VM.Requires.TeFormStemStart]),
+      new("てしまいます", tags: [VM.Requires.TeFormStemStart]),
 
-      new("う以上", tags: [VM.Requires.DictionaryFormStem]),
+      new("う以上", tags: [VM.Requires.DictionaryFormStart]),
    ];
 }

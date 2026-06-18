@@ -13,16 +13,16 @@ public class VocabMatchingRulesConfigurationRequiresForbidsFlags
    public RequireForbidFlagField Godan { get; }
    public RequireForbidFlagField Ichidan { get; }
    public RequireForbidFlagField Irrealis { get; }
-   public RequireForbidFlagField PrecedingAdverb { get; }
+   public RequireForbidFlagField AdverbHead { get; }
    public RequireForbidFlagField PastTenseStem { get; }
-   public RequireForbidFlagField DictionaryFormStem { get; }
-   public RequireForbidFlagField DictionaryFormPrefix { get; }
-   public RequireForbidFlagField TeFormStem { get; }
-   public RequireForbidFlagField TeFormPrefix { get; }
+   public RequireForbidFlagField DictionaryFormStart { get; }
+   public RequireForbidFlagField DictionaryFormHead { get; }
+   public RequireForbidFlagField TeFormStemStart { get; }
+   public RequireForbidFlagField TeFormStemHead { get; }
    public RequireForbidFlagField IchidanImperative { get; }
    public RequireForbidFlagField GodanPotential { get; }
    public RequireForbidFlagField GodanImperative { get; }
-   public RequireForbidFlagField GodanImperativePrefix { get; }
+   public RequireForbidFlagField GodanImperativeHead { get; }
    public RequireForbidFlagField SingleToken { get; }
    public RequireForbidFlagField SentenceEnd { get; }
    public RequireForbidFlagField SentenceStart { get; }
@@ -37,16 +37,16 @@ public class VocabMatchingRulesConfigurationRequiresForbidsFlags
       Godan = AddFlag(50, 1, Tags.Vocab.Matching.Requires.Godan, Tags.Vocab.Matching.Forbids.Godan);
       Ichidan = AddFlag(50, 1, Tags.Vocab.Matching.Requires.Ichidan, Tags.Vocab.Matching.Forbids.Ichidan);
       Irrealis = AddFlag(50, 1, Tags.Vocab.Matching.Requires.Irrealis, Tags.Vocab.Matching.Forbids.Irrealis);
-      PrecedingAdverb = AddFlag(30, 1, Tags.Vocab.Matching.Requires.PrecedingAdverb, Tags.Vocab.Matching.Forbids.PrecedingAdverb);
+      AdverbHead = AddFlag(30, 1, Tags.Vocab.Matching.Requires.AdverbHead, Tags.Vocab.Matching.Forbids.AdverbHead);
       PastTenseStem = AddFlag(30, 1, Tags.Vocab.Matching.Requires.PastTenseStem, Tags.Vocab.Matching.Forbids.PastTenseStem);
-      DictionaryFormStem = AddFlag(30, 1, Tags.Vocab.Matching.Requires.DictionaryFormStem, Tags.Vocab.Matching.Forbids.DictionaryFormStem);
-      DictionaryFormPrefix = AddFlag(30, 1, Tags.Vocab.Matching.Requires.DictionaryFormPrefix, Tags.Vocab.Matching.Forbids.DictionaryFormPrefix);
-      TeFormStem = AddFlag(20, 1, Tags.Vocab.Matching.Requires.TeFormStem, Tags.Vocab.Matching.Forbids.TeFormStem);
-      TeFormPrefix = AddFlag(20, 1, Tags.Vocab.Matching.Requires.TeFormPrefix, Tags.Vocab.Matching.Forbids.TeFormPrefix);
+      DictionaryFormStart = AddFlag(30, 1, Tags.Vocab.Matching.Requires.DictionaryFormStart, Tags.Vocab.Matching.Forbids.DictionaryFormStart);
+      DictionaryFormHead = AddFlag(30, 1, Tags.Vocab.Matching.Requires.DictionaryFormHead, Tags.Vocab.Matching.Forbids.DictionaryFormHead);
+      TeFormStemStart = AddFlag(20, 1, Tags.Vocab.Matching.Requires.TeFormStemStart, Tags.Vocab.Matching.Forbids.TeFormStemStart);
+      TeFormStemHead = AddFlag(20, 1, Tags.Vocab.Matching.Requires.TeFormStemHead, Tags.Vocab.Matching.Forbids.TeFormStemHead);
       IchidanImperative = AddFlag(30, 1, Tags.Vocab.Matching.Requires.IchidanImperative, Tags.Vocab.Matching.Forbids.IchidanImperative);
       GodanPotential = AddFlag(30, 1, Tags.Vocab.Matching.Requires.GodanPotential, Tags.Vocab.Matching.Forbids.GodanPotential);
       GodanImperative = AddFlag(30, 1, Tags.Vocab.Matching.Requires.GodanImperative, Tags.Vocab.Matching.Forbids.GodanImperative);
-      GodanImperativePrefix = AddFlag(30, 1, Tags.Vocab.Matching.Requires.GodanImperativePrefix, Tags.Vocab.Matching.Forbids.GodanImperativePrefix);
+      GodanImperativeHead = AddFlag(30, 1, Tags.Vocab.Matching.Requires.GodanImperativeHead, Tags.Vocab.Matching.Forbids.GodanImperativeHead);
       SingleToken = AddFlag(30, 1, Tags.Vocab.Matching.Requires.SingleToken, Tags.Vocab.Matching.Requires.Compound);
       SentenceEnd = AddFlag(10, 1, Tags.Vocab.Matching.Requires.SentenceEnd, Tags.Vocab.Matching.Forbids.SentenceEnd);
       SentenceStart = AddFlag(10, 1, Tags.Vocab.Matching.Requires.SentenceStart, Tags.Vocab.Matching.Forbids.SentenceStart);
