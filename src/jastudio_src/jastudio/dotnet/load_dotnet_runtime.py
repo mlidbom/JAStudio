@@ -11,8 +11,10 @@ from pythonnet import load, unload
 
 config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "runtimeconfig.json")
 
+
 def _get_workspace_root() -> Path:
     return Path(os.path.abspath(__file__)).parent.parent.parent.parent
+
 
 try:
     # Copy fresh binaries from .NET build output before loading the CLR
@@ -21,7 +23,7 @@ try:
 
     with StopWatch.log_execution_time("Loading .NET runtime"):
         load("coreclr", runtime_config=config_file)
-        atexit.unregister(unload) # without this line shutdown takse forever, and we make sure to clean everything we need up elsewhere.
+        atexit.unregister(unload)  # without this line shutdown takes forever, and we make sure to clean everything we need up elsewhere.
 
         mylog.info("Loaded .NET runtime")
         import clr
@@ -33,17 +35,17 @@ try:
         dotnet_version = Environment.Version
         print(f"Running .NET version: {dotnet_version}")
 
-        # Load JAStudio assemblies from runtime_binaries folder
-        # (copied there by build to avoid locking issues with Anki)
+        # Load JAStudio assemblies from the runtime_binaries folder copy_binaries filled above,
+        # never from bin/, so that rebuilding while Anki runs does not hit DLLs Anki has locked
         workspace_root = _get_workspace_root()
         runtime_binaries = workspace_root / "runtime_binaries"
         jastudio_dlls = [
-                runtime_binaries / "JAStudio.Core.dll",
-                runtime_binaries / "JAStudio.PythonInterop.dll",
-                runtime_binaries / "JAStudio.Anki.dll",
-                runtime_binaries / "JAStudio.UI.dll",
-                runtime_binaries / "JAStudio.Web.dll",
-                runtime_binaries / "JAStudio.Anki.PythonInterop.dll",
+            runtime_binaries / "JAStudio.Core.dll",
+            runtime_binaries / "JAStudio.PythonInterop.dll",
+            runtime_binaries / "JAStudio.Anki.dll",
+            runtime_binaries / "JAStudio.UI.dll",
+            runtime_binaries / "JAStudio.Web.dll",
+            runtime_binaries / "JAStudio.Anki.PythonInterop.dll",
         ]
 
         for dll_path in jastudio_dlls:
@@ -53,7 +55,7 @@ try:
 except RuntimeError as e:
     if "Failed to create a .NET runtime" in str(e):
         mylog.error(
-                """This addon requires .NET 10.0 or newer.
+            """This addon requires .NET 10.0 or newer.
                 Please install from: https://dotnet.microsoft.com/download"""
         )
     raise
