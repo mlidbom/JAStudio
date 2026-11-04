@@ -5,7 +5,7 @@ from Avalonia.Media import IBrush, BackgroundSizing, CacheMode, Geometry, IEffec
 from Avalonia import Thickness, Rect, Size, CornerRadius, StyledElement, PixelPoint, RelativePoint, AvaloniaObject, AvaloniaProperty
 from Avalonia.Input.Platform import IClipboard
 from Avalonia.Controls.Templates import IDataTemplate, DataTemplates, IControlTemplate
-from Avalonia.Controls.Primitives import FlyoutBase
+from Avalonia.Controls.Primitives import FlyoutBase, Popup
 from Avalonia.Input import Cursor, IFocusManager, KeyBinding
 from Avalonia.Threading import Dispatcher
 from Avalonia.Input.GestureRecognizers import GestureRecognizerCollection
@@ -287,6 +287,8 @@ class AboutDialog(Window):
     def OpacityMask(self) -> IBrush: ...
     @OpacityMask.setter
     def OpacityMask(self, value: IBrush) -> IBrush: ...
+    @property
+    def OpenedPopups(self) -> IReadOnlyList_1[Popup]: ...
     @property
     def OwnedWindows(self) -> IReadOnlyList_1[Window]: ...
     @property
@@ -711,6 +713,8 @@ class EnglishWordSearchDialog(Window):
     def OpacityMask(self) -> IBrush: ...
     @OpacityMask.setter
     def OpacityMask(self, value: IBrush) -> IBrush: ...
+    @property
+    def OpenedPopups(self) -> IReadOnlyList_1[Popup]: ...
     @property
     def OwnedWindows(self) -> IReadOnlyList_1[Window]: ...
     @property
