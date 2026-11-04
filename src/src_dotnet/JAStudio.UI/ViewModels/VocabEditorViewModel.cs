@@ -63,7 +63,7 @@ partial class VocabEditorViewModel : ObservableObject
       UserExplanationLong = _vocab.User.ExplanationLong.Value;
       UserMnemonic = _vocab.User.Mnemonic.Value;
       PartsOfSpeech = _vocab.PartsOfSpeech.RawStringValue();
-      UserCompounds = string.Join(", ", _vocab.CompoundParts.All());
+      UserCompounds = string.Join(", ", _vocab.CompoundParts.AllRaw());
 
       SourceAnswer = _vocab.SourceAnswer.Value;
       SourceMnemonic = _vocab.SourceMnemonic.Value;
