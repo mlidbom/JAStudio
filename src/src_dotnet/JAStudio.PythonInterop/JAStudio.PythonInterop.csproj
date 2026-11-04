@@ -7,7 +7,7 @@
 
    <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" Version="2025.2.4"/>
-      <PackageReference Include="pythonnet" Version="3.0.5"/>
+      <PackageReference Include="pythonnet" Version="3.2.1" />
    </ItemGroup>
 
    <ItemGroup>
