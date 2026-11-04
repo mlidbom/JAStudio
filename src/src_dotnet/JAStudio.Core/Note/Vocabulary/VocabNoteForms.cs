@@ -110,6 +110,24 @@ public class VocabNoteForms
       InvalidateCaches();
    });
 
+   /// <summary>
+   /// Adds <paramref name="form"/> unless this vocab already has it, bracketed (owned) or not.<br/>
+   /// All existing forms are kept exactly as stored, so their ownership brackets survive.
+   /// </summary>
+   /// <remarks>
+   /// Unlike <see cref="Add"/>, this does not touch other vocab notes' forms.
+   /// </remarks>
+   public void EnsureContains(string form)
+   {
+      if(AllSet().Contains(form)) return;
+
+      _guard.Update(() =>
+      {
+         _rawParts.Add(form);
+         InvalidateCaches();
+      });
+   }
+
    public void Remove(string remove)
    {
       _guard.Update(() =>

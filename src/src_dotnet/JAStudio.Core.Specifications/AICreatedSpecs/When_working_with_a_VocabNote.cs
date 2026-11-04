@@ -118,6 +118,21 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       [XF] public void a_bracketed_form_is_owned() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
       [XF] public void the_question_is_owned() => _vocab.Forms.IsOwnedForm("走る").Must().BeTrue();
       [XF] public void a_plain_form_is_not_owned() => _vocab.Forms.IsOwnedForm("はしる").Must().BeFalse();
+
+      public class after_changing_the_question_to_a_new_form : given_a_vocab_with_forms_set_using_brackets
+      {
+         public after_changing_the_question_to_a_new_form() => _vocab.Question.Set("奔る");
+
+         [XF] public void the_bracketed_form_keeps_its_brackets() => _vocab.Forms.AllRawList().Must().Contain("[駆ける]");
+         [XF] public void the_new_question_is_added_as_a_form() => _vocab.Forms.AllSet().Must().Contain("奔る");
+      }
+
+      public class after_ensuring_it_contains_the_bracketed_form_without_brackets : given_a_vocab_with_forms_set_using_brackets
+      {
+         public after_ensuring_it_contains_the_bracketed_form_without_brackets() => _vocab.Forms.EnsureContains("駆ける");
+
+         [XF] public void the_forms_are_unchanged() => _vocab.Forms.AllRawString().Must().Be("[駆ける], はしる");
+      }
    }
 
    public class given_a_vocab_with_user_fields_set : When_working_with_a_VocabNote

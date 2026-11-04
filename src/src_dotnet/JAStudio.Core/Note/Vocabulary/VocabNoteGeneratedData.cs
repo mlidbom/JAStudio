@@ -63,10 +63,9 @@ public class VocabNoteGeneratedData
             }
          }
 
-         if(!vocab.Forms.AllSet().Contains(vocab.GetQuestion()) && vocab.Question.IsValid)
+         if(vocab.Question.IsValid)
          {
-            var updatedForms = vocab.Forms.AllSet().Union([vocab.GetQuestion()]).ToHashSet();
-            vocab.Forms.SetSet(updatedForms);
+            vocab.Forms.EnsureContains(vocab.GetQuestion());
          }
       }
    }

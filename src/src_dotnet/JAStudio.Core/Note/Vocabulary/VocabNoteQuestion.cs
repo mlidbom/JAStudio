@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.CorpusData;
 
@@ -66,12 +65,7 @@ public class VocabNoteQuestion
    public void Set(string value) => _guard.Update(() =>
    {
       InitValueRaw(value);
-
-      if(!_vocab.Forms.AllSet().Contains(Raw))
-      {
-         var updatedForms = new HashSet<string>(_vocab.Forms.AllSet()) { Raw };
-         _vocab.Forms.SetSet(updatedForms);
-      }
+      _vocab.Forms.EnsureContains(Raw);
    });
 
    public override string ToString() => Raw;

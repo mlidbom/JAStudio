@@ -57,7 +57,7 @@ partial class VocabEditorViewModel : ObservableObject
    {
       Question = _vocab.Question.DisambiguationName;
       Readings = string.Join(", ", _vocab.GetReadings());
-      Forms = string.Join(", ", _vocab.Forms.AllList());
+      Forms = _vocab.Forms.AllRawString();
       UserAnswer = _vocab.User.Answer.Value;
       UserExplanation = _vocab.User.Explanation.Value;
       UserExplanationLong = _vocab.User.ExplanationLong.Value;
