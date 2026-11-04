@@ -8,6 +8,11 @@ using JAStudio.Core.Note.Sentences;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
+/// <summary>
+/// The compound parts of a <see cref="VocabNote"/>: the words the user has entered as what the vocab is built from.<br/>
+/// A part written in brackets, like <c>[word]</c>, is an alternative compound part: another way of thinking about the vocab.<br/>
+/// The parts without brackets are the primary compound parts, the ones displayed when showing what the vocab is built from.
+/// </summary>
 public class VocabNoteUserCompoundParts
 {
    readonly NoteGuard _guard;
@@ -24,6 +29,7 @@ public class VocabNoteUserCompoundParts
 
    JPCollection Collection => Vocab.Collection;
 
+   /// <summary>The primary compound parts: those not written in brackets.</summary>
    public List<string> Primary()
    {
       return _parts
@@ -31,6 +37,7 @@ public class VocabNoteUserCompoundParts
             .ToList();
    }
 
+   /// <summary>Every compound part, alternative ones included, with the brackets stripped.</summary>
    public List<string> All() =>
       _parts
         .Select(StripBrackets)
@@ -41,12 +48,26 @@ public class VocabNoteUserCompoundParts
 
    public void Set(List<string> value) => _guard.Update(() => _parts = [..value]);
 
-   public List<VocabNote> PrimaryPartsNotes()
-   {
-      return Primary()
-            .SelectMany(part => Vocab.Services.Collection.Vocab.WithFormPreferDisambiguationNameOrExactMatch(part))
-            .ToList();
-   }
+   /// <summary>The vocab notes the primary compound parts refer to, in the order of the parts.</summary>
+   public List<VocabNote> PrimaryPartsNotes() =>
+      Primary()
+        .SelectMany(NotesThePartRefersTo)
+        .ToList();
+
+   /// <summary>
+   /// Whether any compound part, alternative ones included, refers to <paramref name="vocab"/>.<br/>
+   /// Uses the same lookup as <see cref="PrimaryPartsNotes"/> to decide which vocab notes a part refers to,<br/>
+   /// so going from a compound to its parts and back again always agrees.
+   /// </summary>
+   public bool AnyPartRefersTo(VocabNote vocab) => All().Any(part => NotesThePartRefersTo(part).Contains(vocab));
+
+   /// <summary>
+   /// Whether any compound part, alternative ones included, is exactly the <see cref="VocabNoteQuestion.DisambiguationName"/> of <paramref name="vocab"/>,<br/>
+   /// rather than referring to it through one of its other forms.
+   /// </summary>
+   public bool AnyPartIsTheDisambiguationNameOf(VocabNote vocab) => All().Contains(vocab.Question.DisambiguationName);
+
+   List<VocabNote> NotesThePartRefersTo(string part) => Collection.Vocab.WithFormPreferDisambiguationNameOrExactMatch(part);
 
    public void AutoGenerate()
    {

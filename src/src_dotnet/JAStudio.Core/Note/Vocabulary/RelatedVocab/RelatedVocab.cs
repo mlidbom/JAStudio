@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields.AutoSaveWrappers;
 
@@ -76,7 +78,26 @@ public class RelatedVocab
 
    public HashSet<NoteId> InCompoundIds => _inCompoundIds.Value;
 
-   public List<VocabNote> InCompounds() => _vocab.Services.Collection.Vocab.WithCompoundPart(_vocab.Question.DisambiguationName);
+   /// <summary>
+   /// The vocab notes this vocab is part of, directly or through compounds of compounds, most relevant first:<br/>
+   /// first those with a compound part that is exactly this vocab's <see cref="VocabNoteQuestion.DisambiguationName"/>,<br/>
+   /// then those whose question starts with this vocab or one of its stems, then the rest. Alphabetical within each group.
+   /// </summary>
+   /// <remarks>See <see cref="VocabCollection.CompoundsContaining"/> for which compounds count as containing this vocab.</remarks>
+   public List<VocabNote> InCompounds()
+   {
+      var thisVocabAndItsStems = Conjugator.GetVocabStems(_vocab).Append(_vocab.Question.Raw).ToList();
+
+      return _vocab.Services.Collection.Vocab.CompoundsContaining(_vocab)
+                   .OrderByDescending(HasAPartThatIsThisVocabsDisambiguationName)
+                   .ThenByDescending(StartsWithThisVocab)
+                   .ThenBy(it => it.GetQuestion())
+                   .ToList();
+
+      bool HasAPartThatIsThisVocabsDisambiguationName(VocabNote compound) => compound.CompoundParts.AnyPartIsTheDisambiguationNameOf(_vocab);
+
+      bool StartsWithThisVocab(VocabNote compound) => thisVocabAndItsStems.Any(it => compound.Question.Raw.StartsWith(it, StringComparison.Ordinal));
+   }
 
    public HashSet<VocabNote> HomophonesNotes()
    {
@@ -92,45 +113,4 @@ public class RelatedVocab
                    .SelectMany(stem => _vocab.Services.Collection.Vocab.WithQuestion(stem))
                    .ToHashSet();
    }
-}
-
-public class DerivedFromField
-{
-   readonly RelatedVocabData _data;
-   readonly NoteGuard _guard;
-
-   public DerivedFromField(RelatedVocabData data, NoteGuard guard)
-   {
-      _data = data;
-      _guard = guard;
-   }
-
-   public string Get() => _data.DerivedFrom.Get();
-
-   public void Set(string value)
-   {
-      _guard.Update(() => _data.DerivedFrom.Set(value));
-   }
-
-   public override string ToString() => Get();
-}
-
-public class ConfusedWithField
-{
-   readonly RelatedVocabData _data;
-   readonly NoteGuard _guard;
-
-   public ConfusedWithField(RelatedVocabData data, NoteGuard guard)
-   {
-      _data = data;
-      _guard = guard;
-   }
-
-   public HashSet<string> Get() => _data.ConfusedWith;
-
-   public void Add(string value) => _guard.Update(() => _data.ConfusedWith.Add(value));
-
-   public void Remove(string value) => _guard.Update(() => _data.ConfusedWith.Remove(value));
-
-   public override string ToString() => string.Join(", ", _data.ConfusedWith);
 }

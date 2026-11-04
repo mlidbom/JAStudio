@@ -47,32 +47,8 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
    public List<VocabNote> WithDisambiguationName(string form) =>
       _monitor.Locked(() => _byDisambiguationName.TryGetValue(form, out var notes) ? notes.ToList() : []);
 
-   public List<VocabNote> WithCompoundPart(string disambiguationName)
-   {
-      return _monitor.Locked(() =>
-      {
-         var compoundParts = new HashSet<VocabNote>();
-
-         void FetchParts(string partForm)
-         {
-            if(_byCompoundPart.TryGetValue(partForm, out var vocabList))
-            {
-               foreach(var vocab in vocabList)
-               {
-                  if(!compoundParts.Contains(vocab))
-                  {
-                     compoundParts.Add(vocab);
-                     FetchParts(vocab.Question.DisambiguationName);
-                  }
-               }
-            }
-         }
-
-         FetchParts(disambiguationName);
-
-         return compoundParts.OrderBy(v => v.GetQuestion()).ToList();
-      });
-   }
+   public List<VocabNote> WithCompoundPart(string compoundPart) =>
+      _monitor.Locked(() => _byCompoundPart.TryGetValue(compoundPart, out var notes) ? notes.ToList() : []);
 
    public List<VocabNote> DerivedFrom(string form) =>
       _monitor.Locked(() => _byDerivedFrom.TryGetValue(form, out var notes) ? notes.ToList() : []);

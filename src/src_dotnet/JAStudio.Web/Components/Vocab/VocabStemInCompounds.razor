@@ -14,7 +14,7 @@
     {
         var masuStem = Note.Question.Stems().MasuStem();
         _vocabs = masuStem != null
-                     ? VocabCollection.WithCompoundPart(masuStem).Take(30).ToList()
+                     ? VocabCollection.CompoundsContainingCompoundPart(masuStem).Take(30).ToList()
                      : [];
     }
 }

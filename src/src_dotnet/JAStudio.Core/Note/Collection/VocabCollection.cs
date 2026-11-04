@@ -23,7 +23,22 @@ public class VocabCollection
    public VocabNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
    public List<VocabNote> WithDisambiguationName(string name) => Cache.WithDisambiguationName(name);
    public List<VocabNote> WithForm(string form) => Cache.WithForm(form);
-   public List<VocabNote> WithCompoundPart(string disambiguationName) => Cache.WithCompoundPart(disambiguationName);
+
+   /// <summary>
+   /// The vocab notes <paramref name="vocab"/> is part of: every vocab with a compound part that refers to it,<br/>
+   /// and, recursively, every vocab those in turn are part of. Alphabetical by question.
+   /// </summary>
+   /// <remarks>
+   /// A compound part refers to <paramref name="vocab"/> as decided by <see cref="VocabNoteUserCompoundParts.AnyPartRefersTo"/>,<br/>
+   /// the same lookup a compound uses to show its own parts, so the two directions of navigation always agree.
+   /// </remarks>
+   public List<VocabNote> CompoundsContaining(VocabNote vocab) => IncludingTheCompoundsTheyArePartOf(CompoundsWithAPartReferringTo(vocab));
+
+   /// <summary>
+   /// The vocab notes with exactly <paramref name="compoundPart"/> as one of their compound parts,<br/>
+   /// and, recursively, every vocab those in turn are part of. Alphabetical by question.
+   /// </summary>
+   public List<VocabNote> CompoundsContainingCompoundPart(string compoundPart) => IncludingTheCompoundsTheyArePartOf(Cache.WithCompoundPart(compoundPart));
    public List<VocabNote> DerivedFrom(string derivedFrom) => Cache.DerivedFrom(derivedFrom);
    public List<VocabNote> WithKanjiInMainForm(KanjiNote kanji) => Cache.WithKanjiInMainForm(kanji.GetQuestion());
    public List<VocabNote> WithKanjiInAnyForm(KanjiNote kanji) => Cache.WithKanjiInAnyForm(kanji.GetQuestion());
@@ -69,5 +84,44 @@ public class VocabCollection
    public void Add(VocabNote note)
    {
       _backendNoteCreator.CreateVocab(note, () => Cache.AddToCache(note));
+   }
+
+   List<VocabNote> IncludingTheCompoundsTheyArePartOf(List<VocabNote> compounds)
+   {
+      var result = new HashSet<VocabNote>();
+      foreach(var compound in compounds)
+      {
+         Include(compound);
+      }
+
+      return result.OrderBy(it => it.GetQuestion()).ToList();
+
+      void Include(VocabNote compound)
+      {
+         if(!result.Add(compound)) return;
+
+         foreach(var compoundItIsPartOf in CompoundsWithAPartReferringTo(compound))
+         {
+            Include(compoundItIsPartOf);
+         }
+      }
+   }
+
+   /// <summary>The vocab notes with a compound part that refers to <paramref name="vocab"/>, not following compounds of compounds.</summary>
+   /// <remarks>
+   /// Only a compound part that is the <see cref="VocabNoteQuestion.DisambiguationName"/> of <paramref name="vocab"/>, or one of its forms,<br/>
+   /// can refer to it, so the compounds with such a part are the only candidates worth asking.
+   /// </remarks>
+   List<VocabNote> CompoundsWithAPartReferringTo(VocabNote vocab)
+   {
+      return CompoundsWithAPartThatCouldReferToIt()
+            .Where(compound => compound.CompoundParts.AnyPartRefersTo(vocab))
+            .ToList();
+
+      IEnumerable<VocabNote> CompoundsWithAPartThatCouldReferToIt() =>
+         vocab.Forms.AllSet()
+              .Append(vocab.Question.DisambiguationName)
+              .SelectMany(Cache.WithCompoundPart)
+              .Distinct();
    }
 }
