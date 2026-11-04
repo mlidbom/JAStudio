@@ -9,6 +9,8 @@ Turns anki into a full featured tool for studying japanese in anki. A short samp
 * Listing all kanji in a word and navigating to them
 * Tracking words relationships such as synonyms, antonyms,
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/mlidbom)
+
 ## Development Setup
 
 ### Windows
