@@ -36,6 +36,10 @@ nothing stored only for Anki's sake.
   [References between entities](#references-between-entities-open).
 - **vertical-slice** — one concept changed end to end in a single increment: the domain value type, the JSON
   shape, a one-time corpus migration, and the editor control.
+- **study-note** — the trimmed Anki note that exists only so Anki can schedule a card (and, for vocab and
+  sentences, so HyperTTS can generate audio). See [The minimal Anki note type](#the-minimal-anki-note-type-tentative).
+- **import-note** — an Anki note with the full set of fields, created by Yomitan or a deck import. JAStudio
+  ingests it into the corpus, creates the study-note, and deletes the import-note.
 
 ## Settled so far (Magnus, 2026-11-05)
 
@@ -50,6 +54,8 @@ nothing stored only for Anki's sake.
 | Anki fields | Direction: remove every Anki field except those Anki needs to work. A field that doesn't exist can't be edited in Anki, so the question of edits flowing back doesn't arise. See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
 | Tagging, organizing, batch import | Need their own design. Anki might be bypassed entirely, with .NET reading deck import files directly; the formats and feasibility are unknown. See [Import and organization](#import-and-organization-needs-its-own-design). |
 | Navigation and editing | A large part of this work is building proper navigation and editing into JAStudio itself, so Anki isn't needed for either. |
+| Overall approach | Build out JAStudio's own UI until Anki is only used for TTS, reviewing, and importing sentences and Yomitan-created vocab. The model changes come after that, when they no longer have to keep the Anki format working. |
+| Study approach | Magnus studies sentences, but studying vocab and kanji stays fully supported. That includes mnemonics, studying status and everything else around them. Only the Anki notes become minimal (study-notes). The one removal is the complex kanji audio generation (primary-readings TTS): it's in the way of minimal notes and doesn't help much. Anything else is removed only if it is actually in the way of the refactoring. |
 
 ## Anki's role and its consequences
 
@@ -92,10 +98,25 @@ What each note type would keep, and why Anki needs it:
 | Field | Why Anki needs it |
 |---|---|
 | `jas_note_id` | Links the Anki note to its corpus entry (`NoteBulkLoader.LoadAnkiIdMaps`). |
-| The question (today `Q`; the kanji itself for kanji) | Reasons:<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
-| Audio (`Audio_b`, `Audio_g`, … for vocab; `Audio Sentence` for sentences) | Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior").<br>• They are also where HyperTTS writes new audio. |
+| The question (`Q`; for kanji, the kanji character) | Reasons:<br>• Vocab and sentence HyperTTS presets read it.<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
+| Audio (vocab and sentences only) | `Audio_b`, `Audio_g`, `Audio_TTS` for vocab; `Audio Sentence` for sentences. Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior").<br>• HyperTTS writes new audio into them. |
+
+So the kanji study-note is just `jas_note_id` and `Q`.
 
 No tags are needed in Anki. Suspension and scheduling live on Anki's cards, not in fields.
+
+**What HyperTTS reads and writes** (from its preset configuration in the `Magnus` profile, 2026-11-05):
+
+- **Vocab:** every preset reads `Q` and writes `Audio_TTS` or `Audio_g`.
+- **Sentences:** every preset reads `Q` and writes `Audio Sentence`.
+- **Kanji:** the presets use HyperTTS's advanced Python template. It reads `Reading_On`, `Reading_Kun` and
+  `__reading_Nan`, parses the `<primary>` in-string-micro-syntax itself, and writes `_primary_readings_tts_audio`.
+  **Decided (Magnus, 2026-11-05): this goes.** The kanji presets, the `_primary_readings_tts_audio` field, and
+  any JAStudio code that exists for it are removed.
+
+HyperTTS's automatic rules are keyed by note type id and deck id. Trimming the existing note types in place
+keeps their ids, so the rules keep matching. I haven't verified whether automatic rules fire for notes created
+by code rather than through Anki's Add dialog.
 
 Possibly later: if card audio were played by the JAStudio page instead of by Anki, the audio fields could shrink
 to a single marker field that decides whether a listening card exists. This isn't proposed now.
@@ -105,11 +126,43 @@ to a single marker field that decides whether a listening card exists. This isn'
 | Done in Anki today | What it depends on | Replacement in JAStudio |
 |---|---|---|
 | Searches that `JAStudio.Anki.QueryBuilder` builds for Anki's browser | Fields `F`, `Reading`, `A`, `Reading_On`, `Reading_Kun`, `__parsing_result` | Search JAStudio's own model. Where results should still open in Anki's browser, pass Anki a `nid:` search listing the Anki note ids. |
-| Sentence card rendering (mustache templates with `##TAG##` placeholders) | Most sentence fields, including `Screenshot` | The sentence Blazor port, which is next in `web-rendering-architecture.md` |
+| The card templates installed in the Anki collection | Many fields, in the back templates | Install the stub templates, then remove the fields. See [What the card templates actually use](#what-the-card-templates-actually-use). |
 | Browsing and editing notes | All fields | JAStudio navigation and editors |
 | Tagging whole decks and seasons | Tags | JAStudio organizing (own design) |
 | Yomitan adding vocab | The fields Yomitan fills in | Import design (own design) |
 | Searching on generated tags | `-::…` tags | JAStudio search |
+
+### What the card templates actually use
+
+Checked against the collections in the `Magnus` and `Anki-Development` profiles, 2026-11-05.
+
+**The rendering is all Blazor.**
+
+- Vocab, kanji and sentence cards all render through `AppendingPrerenderer`, sentences included:
+  `SentenceNoteRenderer` builds the Blazor iframe, and `SentenceCard.razor` renders it.
+- The "Sentence Next" status in `web-rendering-architecture.md` is out of date.
+- **Question side:** Anki's rendered HTML is thrown away and replaced by the iframe.
+- **Answer side:** the iframe (fixed, full-window) is appended on top of Anki's rendered HTML.
+
+**What that leaves the installed templates doing:**
+
+- deciding which cards exist (`{{Q}}` on reading fronts, the audio fields on listening fronts);
+- queuing audio for Anki to play;
+- rendering an invisible body under the answer-side iframe.
+
+**The installed templates are not the stubs in the repo.**
+
+- `JAStudio.Web/Styles/notes/` has the stubs (`{{Q}}` and audio only). Both profiles still have the old full
+  templates, and their back templates reference about 10 to 15 fields each, plus `{{Tags}}`.
+- The old full templates look like the ones in `src/web/notes/`.
+- Nothing in the code reads either folder.
+
+**Consequences:**
+
+- **The invisible body still costs something.** It loads images such as `{{Screenshot}}` and runs its
+  `<script>`. I haven't checked what that script does there.
+- **Install the stubs before removing fields.** I don't know how Anki handles a template that references a
+  field which has been removed, so the safe order is stubs first, then removing fields.
 
 ### Removing fields from Anki note types
 
@@ -464,8 +517,8 @@ the real unit of organization, so organizing may largely mean modeling sources.
 - **One-time migrations, no permanent dual-format readers, no format version field.** This is justified by
   Magnus being the only consumer of `jas_database`.
 - Each vertical-slice ships as:
-  - a JAStudio commit that changes the domain type, the corpus data type, the editor, and the Anki-projection
-    (which keeps producing the old Anki strings);
+  - a JAStudio commit that changes the domain type, the corpus data type and the editor (by then, the
+    Anki-projection only writes the study-note fields, so a slice rarely touches it);
   - a migration run once over the corpus, whose code is deleted in the same or the next commit;
   - a `jas_database` commit with the migrated files.
 
@@ -474,22 +527,40 @@ the real unit of organization, so organizing may largely mean modeling sources.
 - **The on-disk MemoryPack snapshot** (`JsonFilesystemObjectRepository.SaveSnapshot`) can't be trusted across a
   format change, so each migration deletes it. I haven't checked whether anything already detects a stale
   snapshot.
-- **Anki searches keep working throughout** (`JAStudio.Anki.QueryBuilder` searches `F`, `Reading`, `A`,
-  `Reading_On`/`Reading_Kun`, `__parsing_result`), because the Anki-projection keeps writing those fields from
-  the new model.
+- **Anki browser searches** (`JAStudio.Anki.QueryBuilder` searches `F`, `Reading`, `A`,
+  `Reading_On`/`Reading_Kun`, `__parsing_result`) are replaced by JAStudio search in step 3 of the
+  [order of work](#order-of-work-tentative), before the field trim. They don't constrain the vertical-slices.
 
 ## Order of work (tentative)
 
-0. **This document:** settle the open questions that block step 1 and the first vertical-slice.
-1. **Move the Anki-projection and the Anki-ingestion into `JAStudio.Anki`, with no format change.**
-   - The corpus data types lose `ToNoteData`, `PopulateAnkiNoteFields`, `FromAnki` and `MergeAnkiData`.
-   - `AnkiNoteData` and `NoteFieldsConstants` leave `JAStudio.Core.Note`, and the two field-name tables become
-     one.
-   - Ingestion of questions and answers stops here. Tag ingestion stays until JAStudio has its own organizing.
+The order follows the overall approach in [Settled so far](#settled-so-far-magnus-2026-11-05): build
+JAStudio's own UI until Anki's role is minimal, and only then change the model.
 
-   This follows the re-home-concepts-before-restructuring code standard. After it, the JSON can change freely
-   without touching Anki's format.
-2. **Vertical-slices, one concept each:**
+An earlier draft started by moving the whole Anki-projection and Anki-ingestion into `JAStudio.Anki` unchanged.
+That step is dropped. Under this order most of that code gets deleted rather than moved:
+- `MergeAnkiData` shrinks to picking up audio changes.
+- `PopulateAnkiNoteFields` shrinks to the study-note fields.
+- `FromAnki` survives as the import-note mapping.
+
+What's left lives in `JAStudio.Anki` from the start.
+
+0. **This document:** settle the open questions that block the next steps.
+1. **Remove the kanji primary-readings TTS.** This happens almost entirely on the Anki side:
+   - delete the kanji HyperTTS presets;
+   - delete the `_primary_readings_tts_audio` field.
+
+   On the JAStudio side the only trace is one line in `JAStudio.Web/Styles/notes/kanji/kanji.mustache`.
+2. **Install the stub card templates** in Anki (see [What the card templates actually use](#what-the-card-templates-actually-use)).
+3. **JAStudio capabilities that replace Anki:** navigation and search, editing, organizing, and the import
+   flow (import-notes in, study-notes created, import-notes deleted). Each one frees the Anki fields and tags it
+   replaces (see [Anki dependencies to replace](#anki-dependencies-to-replace-before-their-fields-can-go)).
+   - Building editors properly is part of each vertical-slice in step 5, not this step, so they aren't built
+     twice. The existing editors are crude but work.
+   - Fields and tags are separate channels. Tag ingestion can stay until JAStudio's organizing exists, without
+     holding up the field trim in step 4.
+4. **Trim the existing notes into study-notes** in as few schema changes as possible. Trimming in place keeps
+   review history and note type ids.
+5. **Vertical-slices, one concept each,** now free of the Anki format:
    1. Brackets: owned forms and alternative compound parts. This one has caused real bugs.
    2. Question and disambiguation, dropping the sentinel strings.
    3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`.
@@ -500,11 +571,13 @@ the real unit of organization, so organizing may largely mean modeling sources.
    8. References between entities (option A, B or C), plus vocab pickers to replace the related-vocab JSON text
       box.
    9. Media, once the points under [Media](#media-open) are settled.
-3. **JAStudio capabilities that replace Anki,** worked on alongside step 2: navigation and search, editing,
-   organizing, import. Each one frees the Anki fields and tags it replaces (see
-   [Anki dependencies to replace](#anki-dependencies-to-replace-before-their-fields-can-go)).
-4. **Shrink the Anki note types** to [the minimal Anki note type](#the-minimal-anki-note-type-tentative), in as
-   few schema changes as possible, once the replacements from step 3 exist.
+
+**Watch-outs for the import flow (step 3):**
+- **Yomitan's "already added" check.** Once import-notes are deleted, that check has to find the vocab
+  study-note instead. That probably needs the study-note's first field to hold the text Yomitan checks against,
+  and Yomitan checking across note types. Not verified.
+- **HyperTTS automatic rules** are keyed by note type id and deck id. Not verified whether they fire for notes
+  that code creates.
 
 ## Open questions
 
