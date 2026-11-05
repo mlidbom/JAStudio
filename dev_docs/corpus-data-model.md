@@ -47,6 +47,9 @@ nothing stored only for Anki's sake.
 | Renaming "note" (`JPNote`, `VocabNote`, …) now that JAStudio owns the data | Probably yes, but as a separate effort. Out of scope here. |
 | The "unresolved design concerns" about removing media fields (in `media-storage-and-import.md`) | Not remembered. See [Media](#media-open). |
 | Ids or text for references between entities | Undecided. See [References between entities](#references-between-entities-open). |
+| Anki fields | Direction: remove every Anki field except those Anki needs to work. A field that doesn't exist can't be edited in Anki, so the question of edits flowing back doesn't arise. See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
+| Tagging, organizing, batch import | Need their own design. Anki might be bypassed entirely, with .NET reading deck import files directly; the formats and feasibility are unknown. See [Import and organization](#import-and-organization-needs-its-own-design). |
+| Navigation and editing | A large part of this work is building proper navigation and editing into JAStudio itself, so Anki isn't needed for either. |
 
 ## Anki's role and its consequences
 
@@ -62,9 +65,9 @@ Today Anki is a full two-way partner:
 
 With Anki reduced to scheduler, note import and audio updates, the tentative consequences are:
 
-1. **The Anki-projection becomes one-way and shrinks.** It writes only what Anki's card templates and the Anki
-   browser searches still need. `dev_docs/web-rendering-architecture.md` already plans for trivial templates,
-   so the projection should shrink over time.
+1. **The Anki-projection becomes one-way, and the Anki note types shrink to the fields Anki needs to work.**
+   This is Magnus's direction. Edits in Anki's own note editor stop being a concern because the fields aren't
+   there to edit. One-way sync becomes a structural fact rather than a rule to enforce.
 2. **The Anki-ingestion has exactly two jobs:**
    - **New note import:** build a domain note from a new Anki note (Yomitan, imported decks). This is the one
      place where Anki-format strings are parsed into the domain model.
@@ -73,15 +76,50 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
 
    Everything else Anki sends back is ignored: question, answer, images (**Open**: images too, or audio only?)
    and tags.
-3. **Edits made in Anki's own note editor would be silently overwritten** on the next flush. **Open:** is that
-   acceptable, or should the Anki editor be redirected to the JAStudio editors?
-4. **Tagging a whole deck in Anki would stop reaching the corpus.** That is how priority and difficulty tags
-   were applied. **Open:** before tag ingestion is cut, does JAStudio need its own bulk tagging, or is
-   priority handled as in [Tags](#tags)?
-5. **Both mappings move to `JAStudio.Anki`.** Today they live inside the corpus data types (`ToNoteData`,
+3. **Tagging a whole deck in Anki would stop reaching the corpus.** That is how priority and difficulty tags
+   were applied. Tagging, organizing and batch import get their own design (see
+   [Import and organization](#import-and-organization-needs-its-own-design)). Until it exists, tag ingestion
+   from Anki can stay.
+4. **Both mappings move to `JAStudio.Anki`.** Today they live inside the corpus data types (`ToNoteData`,
    `PopulateAnkiNoteFields`, `FromAnki`, `MergeAnkiData` in `VocabData`, `KanjiData`, `SentenceData`), and
    `AnkiNoteData` and `NoteFieldsConstants` sit in `JAStudio.Core.Note`. That breaks the anti-corruption-layers
    code standard (foreign formats only at the boundary) and Core's own rule of having no Anki dependency.
+
+### The minimal Anki note type (tentative)
+
+What each note type would keep, and why Anki needs it:
+
+| Field | Why Anki needs it |
+|---|---|
+| `jas_note_id` | Links the Anki note to its corpus entry (`NoteBulkLoader.LoadAnkiIdMaps`). |
+| The question (today `Q`; the kanji itself for kanji) | Reasons:<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
+| Audio (`Audio_b`, `Audio_g`, … for vocab; `Audio Sentence` for sentences) | Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior").<br>• They are also where HyperTTS writes new audio. |
+
+No tags are needed in Anki. Suspension and scheduling live on Anki's cards, not in fields.
+
+Possibly later: if card audio were played by the JAStudio page instead of by Anki, the audio fields could shrink
+to a single marker field that decides whether a listening card exists. This isn't proposed now.
+
+### Anki dependencies to replace before their fields can go
+
+| Done in Anki today | What it depends on | Replacement in JAStudio |
+|---|---|---|
+| Searches that `JAStudio.Anki.QueryBuilder` builds for Anki's browser | Fields `F`, `Reading`, `A`, `Reading_On`, `Reading_Kun`, `__parsing_result` | Search JAStudio's own model. Where results should still open in Anki's browser, pass Anki a `nid:` search listing the Anki note ids. |
+| Sentence card rendering (mustache templates with `##TAG##` placeholders) | Most sentence fields, including `Screenshot` | The sentence Blazor port, which is next in `web-rendering-architecture.md` |
+| Browsing and editing notes | All fields | JAStudio navigation and editors |
+| Tagging whole decks and seasons | Tags | JAStudio organizing (own design) |
+| Yomitan adding vocab | The fields Yomitan fills in | Import design (own design) |
+| Searching on generated tags | `-::…` tags | JAStudio search |
+
+### Removing fields from Anki note types
+
+Two cautions:
+
+- **A full sync.** Removing a field from an Anki note type changes the collection schema. As far as I know,
+  Anki then requires a one-way full sync to AnkiWeb (to be verified). The removals should be batched into as
+  few schema changes as possible.
+- **Check for data first.** Before a field is removed, check that no Anki note holds a value in it that the
+  corpus doesn't have.
 
 ## Current state
 
@@ -386,6 +424,41 @@ been. They are not reconstructions:
 
 Tentatively, media is the last vertical-slice, after these points are settled.
 
+## Import and organization (needs its own design)
+
+Magnus: tagging, organizing and batch import need more thinking and design. Anki might be bypassed entirely,
+with .NET code reading deck import files directly. These are notes towards that design, not a proposal.
+
+**Where new data comes from today, and how each source could reach JAStudio directly:**
+
+- **Yomitan** adds notes through AnkiConnect, a local HTTP JSON API.
+  - JAStudio already runs a Kestrel server (`JAStudio.Web/CardServer.cs`), so it could serve the part of that
+    API Yomitan uses, and Yomitan would talk to JAStudio instead of Anki.
+  - Unverified: exactly which actions Yomitan calls. They probably include `addNote`, `canAddNotes` and
+    `storeMediaFile`, and Yomitan's source would settle it. Also unverified: that Yomitan's AnkiConnect server
+    address can be configured.
+- **Shared decks (`.apkg`)** are ZIP files with an SQLite database inside. There are three format generations:
+  - In the two older ones, `collection.anki21` is plain SQLite and the media map is JSON. Reading that from
+    .NET is easy (`System.IO.Compression` plus `Microsoft.Data.Sqlite`).
+  - The current one, since Anki 2.1.50, uses `collection.anki21b`: zstd-compressed SQLite, with configuration
+    and the media map in Protobuf. That needs a zstd library and the Protobuf schemas. I believe the schemas
+    are in Anki's open-source repository, but I haven't checked.
+  - Anki's developers say `.apkg` isn't meant to be read by other software, so the format can change between
+    Anki versions. For a one-time import, where any breakage is immediately visible, that risk looks
+    acceptable.
+- **HyperTTS** is an Anki add-on that writes generated audio into an Anki field. Calling the TTS services from
+  .NET directly would remove that dependency.
+- **The raw source material** (subtitle files plus audio cuts) might be importable without any deck, but this
+  is speculative.
+
+**A consequence worth naming.** If import bypasses Anki, corpus entries no longer start life as Anki notes. An
+Anki note would be created when Magnus starts studying an entry: Anki holds study handles for a subset of the
+corpus. That matches `web-rendering-architecture.md`, which plans a corpus browser for 50K+ entries, most of
+them not in any Anki collection.
+
+**Organizing.** The priority finding under [Tags](#tags) suggests the source (deck, season, episode) is already
+the real unit of organization, so organizing may largely mean modeling sources.
+
 ## Migration approach (tentative)
 
 - **One-time migrations, no permanent dual-format readers, no format version field.** This is justified by
@@ -412,7 +485,7 @@ Tentatively, media is the last vertical-slice, after these points are settled.
    - The corpus data types lose `ToNoteData`, `PopulateAnkiNoteFields`, `FromAnki` and `MergeAnkiData`.
    - `AnkiNoteData` and `NoteFieldsConstants` leave `JAStudio.Core.Note`, and the two field-name tables become
      one.
-   - Tag and question ingestion stops here, or at a later step, depending on open questions 1 and 2.
+   - Ingestion of questions and answers stops here. Tag ingestion stays until JAStudio has its own organizing.
 
    This follows the re-home-concepts-before-restructuring code standard. After it, the JSON can change freely
    without touching Anki's format.
@@ -427,20 +500,25 @@ Tentatively, media is the last vertical-slice, after these points are settled.
    8. References between entities (option A, B or C), plus vocab pickers to replace the related-vocab JSON text
       box.
    9. Media, once the points under [Media](#media-open) are settled.
+3. **JAStudio capabilities that replace Anki,** worked on alongside step 2: navigation and search, editing,
+   organizing, import. Each one frees the Anki fields and tags it replaces (see
+   [Anki dependencies to replace](#anki-dependencies-to-replace-before-their-fields-can-go)).
+4. **Shrink the Anki note types** to [the minimal Anki note type](#the-minimal-anki-note-type-tentative), in as
+   few schema changes as possible, once the replacements from step 3 exist.
 
 ## Open questions
 
-1. **Anki's note editor:** edits made there would be overwritten by the one-way Anki-projection. Is that
-   acceptable, should the JAStudio editor open instead, or should something else happen?
-2. **Bulk tagging:** with tags no longer ingested from Anki, where do whole-deck or whole-season labels get
-   applied? Does that wait for a JAStudio-side feature?
+1. **Tagging, organizing and batch import:** their own design. See
+   [Import and organization](#import-and-organization-needs-its-own-design).
+2. **The minimal Anki note type:** are the fields listed there the right ones? Is anything missing that Anki or
+   Magnus's study routine needs?
 3. **Images:** does the Anki-ingestion take image updates as well as audio?
 4. **References:** option A, B or C?
 5. **Priority:** a per-source table or a per-note field?
 6. **Difficulty:** a plain label, or will something use it?
 7. **Source:** a typed field now, or wait for the decision to move source information out of the corpus?
-8. **Anki fields to keep:** which fields and tags must the Anki-projection keep writing? This depends on the
-   card templates and on which Anki browser searches Magnus still uses.
+8. **Until step 4:** in the meantime, which Anki browser searches and generated tags does Magnus still use, so
+   that the Anki-projection keeps writing them?
 9. **Media:** what do the media fields need to keep doing that the sidecars don't yet do? See the guesses under
    [Media](#media-open).
 10. **Smaller details:** vocab mnemonic fallback, kanji primary meanings, the origin of `<wbr>`, and the final
