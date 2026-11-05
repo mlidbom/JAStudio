@@ -142,6 +142,7 @@ static class VocabLists
       new("風の強い", tags: [VM.Requires.Surface]),
       new("たね", tags: [VM.Requires.SingleToken]),
       new("たらしい", tags: [VM.Requires.SingleToken]),
+      new("だって", tags: [VM.Requires.SingleToken, VM.YieldLastTokenToOverlappingCompound]),
       new("に決まる", forms: ["に決る", "に決まる", "に極る"]),
       new("に決まってる", forms: ["に決っている", "に決まっている", "に極っている", "に決ってる", "に決まってる", "に極ってる"]),
       new("された", surfaceNot: ["されたら"]),

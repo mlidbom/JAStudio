@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Internals.SystemCE;
+using Compze.Threading;
 using MeCab;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
@@ -17,7 +18,7 @@ public sealed class JNTokenizer
       ["!", "！", "|", "（", "）", " "];
 
    readonly MeCabTagger _tagger;
-   readonly object _lock = new();
+   readonly IMonitor _monitor = IMonitor.New();
 
    JNTokenizer()
    {
@@ -33,37 +34,56 @@ public sealed class JNTokenizer
 
    public JNTokenizedText Tokenize(string text)
    {
+      var tokenizerInput = ReplaceCharactersThatConfuseTheTokenizer(text);
+      var tokens = TokenizeToLinkedTokenList(tokenizerInput);
+
+      if(MisTokenizedQuotativeDatte.AnyIn(tokens))
+      {
+         tokens = TokenizeToLinkedTokenList(MisTokenizedQuotativeDatte.SplitDaFromTteInEach(tokenizerInput, tokens));
+      }
+
+      return new JNTokenizedText(text, tokens);
+   }
+
+   static string ReplaceCharactersThatConfuseTheTokenizer(string text)
+   {
       // The tokenizer does not fully understand that invisible spaces are word separators,
       // so we replace them with a sentinel token since they are not anything that should need to be parsed
-      var sanitizedText = text.Replace(StringExtensions.InvisibleSpace.ToString(), JNToken.SplitterTokenText);
+      var tokenizerInput = text.Replace(StringExtensions.InvisibleSpace.ToString(), JNToken.SplitterTokenText);
 
       foreach(var character in CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces)
       {
-         sanitizedText = sanitizedText.Replace(character, "　");
+         tokenizerInput = tokenizerInput.Replace(character, "　");
       }
 
-      var jnTokens = TokenizeToTokenList(sanitizedText);
-
-      // Link tokens with previous/next pointers
-      for(var i = 0; i < jnTokens.Count; i++)
-      {
-         if(i > 0)
-         {
-            jnTokens[i].Previous = jnTokens[i - 1];
-         }
-
-         if(i < jnTokens.Count - 1)
-         {
-            jnTokens[i].Next = jnTokens[i + 1];
-         }
-      }
-
-      return new JNTokenizedText(text, jnTokens);
+      return tokenizerInput;
    }
 
-   List<JNToken> TokenizeToTokenList(string text)
+   List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput)
    {
-      lock(_lock)
+      var tokens = TokenizeToTokenList(tokenizerInput);
+      LinkNeighbouringTokens();
+      return tokens;
+
+      void LinkNeighbouringTokens()
+      {
+         for(var i = 0; i < tokens.Count; i++)
+         {
+            if(i > 0)
+            {
+               tokens[i].Previous = tokens[i - 1];
+            }
+
+            if(i < tokens.Count - 1)
+            {
+               tokens[i].Next = tokens[i + 1];
+            }
+         }
+      }
+   }
+
+   List<JNToken> TokenizeToTokenList(string text) =>
+      _monitor.Locked(() =>
       {
          var result = new List<JNToken>();
 
@@ -95,8 +115,7 @@ public sealed class JNTokenizer
          }
 
          return result;
-      }
-   }
+      });
 
    static string GetFeatureOrEmpty(string[] features, int index) =>
       index < features.Length ? features[index] : "";
