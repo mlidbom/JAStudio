@@ -66,16 +66,16 @@ public class VocabNoteForms
 
    HashSet<string> ComputeOwnedForms()
    {
-      var owned = new HashSet<string> { _vocab.GetQuestion() };
-      foreach(var form in _enteredFormsWithBrackets)
-      {
-         if(form.StartsWith('['))
-         {
-            owned.Add(StripBrackets(form));
-         }
-      }
+      var questionAndBracketedForms = _enteredFormsWithBrackets
+                                     .Where(IsBracketed)
+                                     .Select(StripBrackets)
+                                     .Prepend(_vocab.GetQuestion());
 
-      return owned;
+      return ExpandsDictionaryFormEndingPlaceholders
+                ? [..questionAndBracketedForms.SelectMany(DictionaryFormEndingPlaceholder.FormAndItsExpansions)]
+                : [..questionAndBracketedForms];
+
+      static bool IsBracketed(string form) => form.StartsWith('[');
    }
 
    HashSet<string> ComputeNotOwnedByOtherVocab()
@@ -95,8 +95,18 @@ public class VocabNoteForms
       }
    }
 
+   /// <summary>Whether <paramref name="form"/> is one of the <see cref="OwnedForms"/>.</summary>
    public bool IsOwnedForm(string form) => _ownedForms.Value.Contains(form);
 
+   /// <summary>
+   /// The forms this vocab claims as its own: its question and its bracketed entered forms, plus, for a vocab that requires<br/>
+   /// the dictionary form start, what those of them starting with the <see cref="DictionaryFormEndingPlaceholder"/> expand to.
+   /// </summary>
+   /// <remarks>
+   /// Owning a form makes this vocab win over the vocab that match the same text without owning it.<br/>
+   /// And when an owning vocab is among the matches for a text, only the vocab matches decide whether the text is a word there:<br/>
+   /// the dictionary is not used as a fallback even if none of them is valid.
+   /// </remarks>
    public HashSet<string> OwnedForms() => _ownedForms.Value;
 
    /// <summary>The forms exactly as the user entered them, with the ownership brackets of owned forms removed.</summary>
@@ -228,7 +238,7 @@ public class VocabNoteForms
 
    /// <summary>
    /// Discards everything derived from the vocab's tags.<br/>
-   /// The <see cref="MatchedFormsList"/> depend on whether the vocab requires the dictionary form start.
+   /// The <see cref="MatchedFormsList"/> and the <see cref="OwnedForms"/> depend on whether the vocab requires the dictionary form start.
    /// </summary>
    internal void OnTagsUpdated() => InvalidateCaches();
 
