@@ -4,104 +4,40 @@ from typing import TYPE_CHECKING
 
 from aqt import gui_hooks
 from jaspythonutils.sysutils import typed
-from jaspythonutils.sysutils.typed import try_cast
-from JAStudio.Core.Note import KanjiNote
-from JAStudio.Core.Note.Sentences import SentenceNote
-from JAStudio.Core.Note.Vocabulary import VocabNote
 from PyQt6.QtCore import pyqtBoundSignal
 from PyQt6.QtGui import QKeySequence, QShortcut
 
 from jastudio.ankiutils import app, ui_utils
+from jastudio.ui import dotnet_ui_root
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
     from aqt.main import MainWindowState
-    from JAStudio.Core.Configuration import ConfigurationValue_1, JapaneseConfig
+    from JAStudio.UI.Shortcuts import NoteViewShortcut
     from PyQt6.QtWidgets import QWidget
 
+# The shortcuts themselves are defined once, in C# (NoteViewShortcuts), and shared with JAStudio's workspace. This only binds Anki's keys to them.
 def init() -> None:
-    def try_get_review_note_of_type[T](note_type: type[T]) -> T | None:
-        return try_cast(note_type, ui_utils.try_get_review_note())
+    def run_on_reviewed_note(shortcut: NoteViewShortcut) -> Callable[[], None]:
+        def run() -> None:
+            reviewed_note = ui_utils.try_get_review_note()
+            if reviewed_note:
+                shortcut.Run(reviewed_note)
+            else:
+                shortcut.Run()
+            app.get_ui_utils().refresh(refresh_browser=False)
 
-    def refresh_shallow() -> None: app.get_ui_utils().refresh(refresh_browser=False)
+        return run
 
-    def remove_mnemonic() -> None:
-        kanji = try_get_review_note_of_type(KanjiNote)
-        if kanji:
-            kanji.UserMnemonic.Set("")
-            refresh_shallow()
-
-        vocab = try_get_review_note_of_type(VocabNote)
-        if vocab:
-            vocab.User.Mnemonic.Empty()
-            refresh_shallow()
-
-    def generate_compound_parts() -> None:
-        vocab = try_get_review_note_of_type(VocabNote)
-        if vocab:
-            vocab.CompoundParts.AutoGenerate()
-            refresh_shallow()
-
-    def reset_incorrect_matches() -> None:
-        sentence = try_get_review_note_of_type(SentenceNote)
-        if sentence:
-            sentence.Configuration.IncorrectMatches.Reset()
-            refresh_shallow()
-
-    def reset_source_comments() -> None:
-        sentence = try_get_review_note_of_type(SentenceNote)
-        if sentence:
-            sentence.SourceComments.Empty()
-            refresh_shallow()
-
-    def _config() -> JapaneseConfig:
-        return app.config() # todo migration hook in dotnet config here
-
-    def toggle_show_compound_parts_in_sentence_breakdown() -> None:
-        _config().ShowCompoundPartsInSentenceBreakdown.Value = not _config().ShowCompoundPartsInSentenceBreakdown.Value
-        if _config().ShowCompoundPartsInSentenceBreakdown.Value:
-            _config().ShowSentenceBreakdownInEditMode.Value = False
-        refresh_shallow()
-
-    def toggle_expando_flag(flag: ConfigurationValue_1[bool]) -> None:
-        flag.Value = not flag.Value
-        refresh_shallow()
-
-    def toggle_hide_transparent_compounds__in_sentence_breakdown() -> None:
-        toggle_expando_flag(_config().HideCompositionallyTransparentCompounds)
-
-    def toggle_hide_all_compounds_in_sentence_breakdown() -> None:
-        toggle_expando_flag(_config().HideAllCompounds)
-
-    def toggle_show_kanji_in_sentence_breakdown() -> None:
-        toggle_expando_flag(_config().ShowKanjiInSentenceBreakdown)
-
-    def toggle_show_kanji_mnemonics_in_sentence_breakdown() -> None:
-        toggle_expando_flag(_config().ShowKanjiMnemonicsInSentenceBreakdown)
-
-    def toggle_show_sentence_breakdown_in_edit_mode() -> None:
-        toggle_expando_flag(_config().ShowSentenceBreakdownInEditMode)
-
-    def toggle_yield_last_token_in_suru_verb_compounds_to_overlapping_compound() -> None:
-        toggle_expando_flag(_config().AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound)
-
-    def toggle_yield_last_token_in_passive_verb_compounds_to_overlapping_compound() -> None:
-        toggle_expando_flag(_config().AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound)
-
-    def toggle_yield_last_token_in_causative_verb_compounds_to_overlapping_compound() -> None:
-        toggle_expando_flag(_config().AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound)
-
-    def toggle_all_yield_last_token_flags() -> None:
-        _config().ToggleAllSentenceDisplayAutoYieldFlags()
-        refresh_shallow()
+    shortcuts: dict[str, Callable[[], None]] = {shortcut.KeyGesture: run_on_reviewed_note(shortcut) for shortcut in dotnet_ui_root().NoteViewShortcuts.All}
 
     # noinspection DuplicatedCode
     def set_shortcut(widget: QWidget, shortcut: str, callback: Callable[[], None]) -> None:
         typed.checked_cast(pyqtBoundSignal, QShortcut(QKeySequence(shortcut), widget).activated).connect(callback)  # pyright: ignore[reportUnknownMemberType]
 
     def inject_shortcuts_in_widget(widget: QWidget) -> None:
-        for key, callback in stortcuts.items():
+        for key, callback in shortcuts.items():
             set_shortcut(widget, key, callback)
 
     # noinspection Annotator
@@ -115,24 +51,8 @@ def init() -> None:
         for char in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "o", "e", "u"]:
             remove_shortcut(char)
 
-        for key, callback in stortcuts.items():
+        for key, callback in shortcuts.items():
             state_shortcuts.append((key, callback))
-
-    stortcuts: dict[str, Callable[[], None]] = {"a": toggle_show_kanji_in_sentence_breakdown,
-                                                "o": toggle_show_compound_parts_in_sentence_breakdown,
-                                                "e": toggle_all_yield_last_token_flags,
-                                                "u": toggle_hide_all_compounds_in_sentence_breakdown,
-                                                "i": toggle_hide_transparent_compounds__in_sentence_breakdown,
-                                                "k": toggle_show_sentence_breakdown_in_edit_mode,
-                                                "q": toggle_show_kanji_mnemonics_in_sentence_breakdown,
-                                                "0": remove_mnemonic,
-                                                "7": reset_source_comments,
-                                                "8": reset_incorrect_matches,
-                                                "9": generate_compound_parts,
-                                                "Ctrl+Shift+Alt+s": toggle_yield_last_token_in_suru_verb_compounds_to_overlapping_compound,
-                                                "Ctrl+Shift+Alt+h": toggle_yield_last_token_in_passive_verb_compounds_to_overlapping_compound,
-                                                "Ctrl+Shift+Alt+t": toggle_yield_last_token_in_causative_verb_compounds_to_overlapping_compound,
-                                                "Ctrl+Shift+Alt+d": toggle_all_yield_last_token_flags}
 
     gui_hooks.previewer_did_init.append(inject_shortcuts_in_widget)  # pyright: ignore[reportUnknownMemberType]
     gui_hooks.state_shortcuts_will_change.append(inject_shortcuts_in_reviewer)  # pyright: ignore[reportUnknownMemberType]

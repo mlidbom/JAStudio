@@ -54,8 +54,22 @@ public abstract class SpecMenuItem
    /// <summary>Child menu items. Only valid for Submenu items.</summary>
    public virtual IReadOnlyList<SpecMenuItem> Children => throw new InvalidOperationException($"Children is not available on a {Kind} menu item");
 
-   /// <summary>Keyboard shortcut display text (e.g., "Ctrl+O"). Display only.</summary>
+   /// <summary>
+   /// The keyboard shortcut that runs this command, shown beside it. Only Command items have one.<br/>
+   /// It's bound wherever the menu is a window's own menu: Anki's Tools menu, and the workspace's main menu.<br/>
+   /// It's written like <see cref="Shortcuts.NoteViewShortcut.KeyGesture"/>, for example <c>Ctrl+Shift+s</c>.
+   /// </summary>
    public virtual string? KeyboardShortcut => null;
+
+   /// <summary>The keyboard shortcuts of the visible commands in <paramref name="menu"/>, submenus included, with what they run.</summary>
+   public static IEnumerable<(string KeyGesture, Action Action)> KeyboardShortcutsIn(IEnumerable<SpecMenuItem> menu) =>
+      menu.Where(it => it.IsVisible)
+          .SelectMany(it => it.Kind switch
+          {
+             SpecMenuItemKind.Submenu => KeyboardShortcutsIn(it.Children),
+             SpecMenuItemKind.Command when it.KeyboardShortcut is {} keyGesture => [(keyGesture, it.Action)],
+             _ => []
+          });
 
    /// <summary>Whether the menu item is enabled (clickable). Disabled items appear grayed out.</summary>
    public virtual bool IsEnabled => true;

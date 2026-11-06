@@ -6,6 +6,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
+using JAStudio.UI.Shortcuts;
 
 namespace JAStudio.UI.ViewModels;
 
@@ -15,13 +16,14 @@ namespace JAStudio.UI.ViewModels;
 /// </summary>
 /// <remarks>
 /// The view, <see cref="Views.WorkspaceWindow"/>, owns the web view that shows the note's page.<br/>
-/// It reports here what the page shows, and reloads the page when <see cref="ShownNoteUpdated"/> says so.
+/// It reports here what the page shows and which keys are pressed on it, and reloads the page when <see cref="PageOutdated"/> says so.
 /// </remarks>
 partial class WorkspaceViewModel : ObservableObject
 {
    const string AppTitle = "JAStudio";
 
    readonly TemporaryServiceCollection _services;
+   readonly NoteViewShortcuts _noteViewShortcuts;
 
    /// <summary>The note on the page, as last reported by the page. Null for a page that shows no note.</summary>
    NoteId? _shownNoteId;
@@ -33,18 +35,21 @@ partial class WorkspaceViewModel : ObservableObject
    public WorkspaceViewModel(TemporaryServiceCollection services)
    {
       _services = services;
+      _noteViewShortcuts = new NoteViewShortcuts(services.CoreApp.Config);
       services.CoreApp.Collection.OnNoteUpdated(note =>
       {
          if(IsShowing(note))
-            ShownNoteUpdated?.Invoke();
+            PageOutdated?.Invoke();
       });
+      services.CoreApp.Config.OnChange(() => PageOutdated?.Invoke());
    }
 
    /// <summary>
-   /// Raised when the note on the page is updated, so the page must be reloaded to show the change.<br/>
-   /// It's raised on the thread that made the update.
+   /// Raised when the page no longer shows the current state, so it must be reloaded:<br/>
+   /// the note on it was updated, or a setting changed, such as how sentence breakdowns are shown.<br/>
+   /// It's raised on the thread that made the change.
    /// </summary>
-   public event Action? ShownNoteUpdated;
+   public event Action? PageOutdated;
 
    /// <summary>The web view now shows the page at <paramref name="pageUrl"/>.</summary>
    public void PageShown(Uri pageUrl)
@@ -52,6 +57,9 @@ partial class WorkspaceViewModel : ObservableObject
       _shownNoteId = CardServerUrl.NoteIdOfPage(pageUrl);
       Title = ShownNote() is {} note ? $"{note.GetQuestion()} - {AppTitle}" : AppTitle;
    }
+
+   /// <summary>Runs the note view shortcut bound to <paramref name="keyGesture"/>, if any, on the note on the page.</summary>
+   public void KeyPressed(string keyGesture) => _noteViewShortcuts.BoundTo(keyGesture)?.Run(ShownNote());
 
    /// <summary>The right-click menu for the note on the page: the same one Anki shows for it.</summary>
    public List<SpecMenuItem> NoteContextMenuSpec(string selection, string clipboard) =>

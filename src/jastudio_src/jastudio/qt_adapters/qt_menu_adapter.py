@@ -23,7 +23,7 @@ def add_to_qt_menu(target_qt_menu: QMenu, specs: Iterable[SpecMenuItem]) -> None
         if not spec.IsVisible:
             continue
 
-        name_with_accelerator = _add_acceleratator_key_to_name(spec.Name, spec.KeyboardShortcut)
+        name_with_accelerator = _qt_name(spec.Name)
 
         if spec.Kind == SpecMenuItemKind.Submenu:
             qt_sub_menu = non_optional(target_qt_menu.addMenu(name_with_accelerator))
@@ -43,7 +43,6 @@ def add_to_qt_menu(target_qt_menu: QMenu, specs: Iterable[SpecMenuItem]) -> None
         else:
             raise Exception(f"Unknown menu spec type: {spec.Name}")
 
-def _add_acceleratator_key_to_name(name: str, accelerator: str) -> str:
-    name = name.replace("_","&")
-    if not accelerator: return name
-    return f"&{accelerator.replace} {name}"
+def _qt_name(name: str) -> str:
+    """The spec's name already carries its accelerator key, marked with '_' the way Avalonia marks it. Qt marks it with '&'."""
+    return name.replace("_", "&")

@@ -1,6 +1,6 @@
 import typing, abc
-from System import Action
-from System.Collections.Generic import IReadOnlyList_1
+from System import Action, ValueTuple_2
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 
 class SpecMenuItem(abc.ABC):
     @property
@@ -25,6 +25,8 @@ class SpecMenuItem(abc.ABC):
     def Name(self) -> str: ...
     @staticmethod
     def Command(name: str, action: Action, acceleratorKey: typing.Optional[str] = ..., shortcut: str = ..., enabled: bool = ...) -> SpecMenuItem: ...
+    @staticmethod
+    def KeyboardShortcutsIn(menu: IEnumerable_1[SpecMenuItem]) -> IEnumerable_1[ValueTuple_2[str, Action]]: ...
     @staticmethod
     def Separator() -> SpecMenuItem: ...
     @staticmethod

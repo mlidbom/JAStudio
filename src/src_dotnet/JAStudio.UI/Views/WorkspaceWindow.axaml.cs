@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.Menus;
+using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels;
 
@@ -31,7 +33,7 @@ namespace JAStudio.UI.Views;
 /// <remarks>
 /// The CardServer renders the note's page, and a <see cref="NativeWebView"/> (WebView2 on Windows) shows it.<br/>
 /// The page's script, <c>card.js</c>, posts messages to this window through the web view:<br/>
-/// which page it shows after every navigation, and the selected text when it is right-clicked.<br/>
+/// which page it shows after every navigation, the selected text when it is right-clicked, and every key pressed on it.<br/>
 /// The page reports navigation itself because following a link is Blazor client-side routing,<br/>
 /// which raises no <see cref="NativeWebView.NavigationCompleted"/>.<br/>
 /// This code-behind only translates between the web view and the <see cref="WorkspaceViewModel"/>.
@@ -41,6 +43,13 @@ public partial class WorkspaceWindow : Window
    static WorkspaceWindow? _instance;
 
    readonly WorkspaceViewModel _viewModel;
+
+   /// <summary>
+   /// The window's own shortcuts and its main menu's, by key in the form of <see cref="Shortcuts.NoteViewShortcut.KeyGesture"/>.<br/>
+   /// They're bound as Avalonia key bindings for when the keyboard is outside the page,<br/>
+   /// and run when the page reports their key, since keys pressed on the page go to the web view.
+   /// </summary>
+   readonly Dictionary<string, Action> _windowShortcuts;
 
    [Obsolete("For XAML designer/previewer only")]
 #pragma warning disable CS8618 // The XAML designer needs a parameterless constructor, and only the real constructor has the services for the view model.
@@ -52,15 +61,24 @@ public partial class WorkspaceWindow : Window
       InitializeComponent();
       DataContext = _viewModel = new WorkspaceViewModel(services);
 
-      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+Shift+O"), Command = new RelayCommand(Hide) });
-      KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse("Ctrl+O"), Command = new RelayCommand(() => NoteSearchDialog.ToggleVisibility(services)) });
-      foreach(var item in SpecMenuRenderer.BuildMenuItems(new JapaneseMainMenu(services).BuildMenuSpec(GetClipboardText)))
+      var mainMenuSpec = new JapaneseMainMenu(services).BuildMenuSpec(GetClipboardText);
+      foreach(var item in SpecMenuRenderer.BuildMenuItems(mainMenuSpec))
          MainMenu.Items.Add(item);
+
+      _windowShortcuts = new Dictionary<string, Action>
+                         {
+                            ["Ctrl+o"] = () => NoteSearchDialog.ToggleVisibility(services),
+                            ["Ctrl+Shift+o"] = Hide
+                         };
+      foreach(var (keyGesture, action) in SpecMenuItem.KeyboardShortcutsIn(mainMenuSpec))
+         _windowShortcuts.Add(keyGesture, action);
+      foreach(var (keyGesture, action) in _windowShortcuts)
+         KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse(keyGesture), Command = new RelayCommand(action) });
 
       WebView.EnvironmentRequested += ConfigureWebView2Environment;
       WebView.NewWindowRequested += OpenNewWindowRequestInPlace;
       WebView.WebMessageReceived += OnPageMessage;
-      _viewModel.ShownNoteUpdated += () => Dispatcher.UIThread.Post(() => WebView.Refresh());
+      _viewModel.PageOutdated += () => Dispatcher.UIThread.Post(() => WebView.Refresh());
    }
 
    static WorkspaceWindow Instance => _instance ?? throw new InvalidOperationException("The workspace window has not been created yet.");
@@ -113,6 +131,9 @@ public partial class WorkspaceWindow : Window
          case "showNoteContextMenu":
             await ShowNoteContextMenuAsync(StringProperty("selection"));
             break;
+         case "keyPressed":
+            OnKeyPressedOnPage(StringProperty("keyGesture"));
+            break;
          default:
             throw new ArgumentOutOfRangeException(nameof(e), e.Body, "Unknown workspace page message.");
       }
@@ -121,6 +142,15 @@ public partial class WorkspaceWindow : Window
 
       string StringProperty(string name) =>
          message.RootElement.GetProperty(name).GetString() ?? throw new InvalidOperationException($"The workspace page message has no {name}: {e.Body}");
+   }
+
+   /// <summary>Runs the window's shortcut for the key pressed on the page, or else the note view shortcut, if any.</summary>
+   void OnKeyPressedOnPage(string keyGesture)
+   {
+      if(_windowShortcuts.TryGetValue(keyGesture, out var windowShortcut))
+         windowShortcut();
+      else
+         _viewModel.KeyPressed(keyGesture);
    }
 
    void OnPageShown(Uri pageUrl)

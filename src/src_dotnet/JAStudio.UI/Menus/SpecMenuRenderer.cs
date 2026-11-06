@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 
@@ -27,12 +28,14 @@ static class SpecMenuRenderer
          _                          => throw new ArgumentOutOfRangeException(nameof(spec), spec.Kind, null)
       };
 
+   /// <summary>The item only shows its <see cref="SpecMenuItem.KeyboardShortcut"/>. Binding it is the job of the window that owns the menu.</summary>
    static MenuItem BuildCommandItem(SpecMenuItem spec) =>
       new()
       {
-         Header    = spec.Name,
-         Command   = new RelayCommand(spec.Action, () => spec.IsEnabled),
-         IsEnabled = spec.IsEnabled
+         Header       = spec.Name,
+         Command      = new RelayCommand(spec.Action, () => spec.IsEnabled),
+         IsEnabled    = spec.IsEnabled,
+         InputGesture = spec.KeyboardShortcut is {} keyGesture ? KeyGesture.Parse(keyGesture) : null
       };
 
    static MenuItem BuildSubmenuItem(SpecMenuItem spec)

@@ -68,6 +68,19 @@ apply here.
 - **Inactive tabs aren't refreshed in the background.** A tab refreshes when it's shown, if anything changed
   while it was hidden.
 
+## Keyboard shortcuts
+
+- **Note view shortcuts** (`NoteViewShortcuts`, in C#) are defined once and shared with Anki's reviewer and
+  previewer, which Python binds from the same table. Most are single-key toggles for sentence breakdowns; a few
+  act on the note being viewed.
+- **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press and the window
+  looks it up. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O) also exist as Avalonia key bindings for when the
+  keyboard is outside the page. Single-key shortcuts deliberately aren't window key bindings, because they would
+  fire while typing in the editors to come.
+- **A setting change reloads the page**, as does an update to the note on it.
+- **Back and forward** are the page's history (Alt+Left, Alt+Right), per window and not saved. Anki's saved
+  history of recently shown cards may come back later, as a "recently viewed" list.
+
 ## Known technical points
 
 - **Tabs must keep their web views alive.** An Avalonia `TabControl` is believed to detach unselected content,

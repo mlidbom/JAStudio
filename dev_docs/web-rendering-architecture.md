@@ -115,7 +115,9 @@ search, editors) is in `jastudio-workspace.md`.
 - **The page talks to the window** through the web view's message channel. It reports every page it shows, because
   following a link is Blazor client-side routing, which the web view doesn't report as a navigation. It also
   reports the selected text when right-clicked.
-- **The page reloads** when the note it shows is updated. A change to another note that the page shows, for
+- **Keyboard shortcuts:** the page reports every key press, and the workspace runs its own shortcuts and the
+  `NoteViewShortcuts` it shares with Anki. See `jastudio-workspace.md`, "Keyboard shortcuts".
+- **The page reloads** when the note it shows is updated, or a setting changes. A change to another note that the page shows, for
   example a vocab in a sentence's breakdown, appears after F5 or the next navigation.
 - **Opening a note in the workspace:** "Open in workspace" in the note menus' "Universal note actions", newly
   created notes, and a result double-clicked in the note search dialog (Ctrl+O).

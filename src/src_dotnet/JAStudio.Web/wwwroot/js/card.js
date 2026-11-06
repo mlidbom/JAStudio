@@ -83,14 +83,22 @@ setupNoteLinks();
 //   workspace can't see by itself. The Navigation API reports those, and Back and Forward too.
 // - Right-click shows the same note menu as in Anki.
 //   Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
+// - Every key press is reported, because keys pressed on the page go to the web view, not to the workspace.
+//   The workspace decides which are shortcuts (NoteViewShortcuts and its own), and the browser still
+//   handles its own keys, such as Alt+Left, Alt+Right and F5.
 // - The shown note's audio plays as soon as the page shows it (AudioPlayButton calls playWhenShown).
 //   Inside Anki's reviewer, Anki plays it instead.
+//   A reload shows the same note again, after an edit or a setting change, so it doesn't replay the audio.
+//   The first navigation after it does.
 const postToWorkspace = window.invokeCSharpAction
                       ?? (window.chrome?.webview ? message => window.chrome.webview.postMessage(message) : null);
 
+let isShowingThePageItWasReloadedOn = performance.getEntriesByType('navigation')[0].type === 'reload';
+navigation.addEventListener('currententrychange', () => isShowingThePageItWasReloadedOn = false);
+
 window.jaStudioWorkspace = {
    playWhenShown: function(audio) {
-      if (postToWorkspace) audio.play();
+      if (postToWorkspace && !isShowingThePageItWasReloadedOn) audio.play();
    }
 };
 
@@ -110,6 +118,17 @@ function setupWorkspace() {
          selection: window.getSelection().toString().trim()
       }));
    });
+
+   document.addEventListener('keydown', function(event) {
+      if (event.repeat || ['Control', 'Shift', 'Alt', 'Meta'].includes(event.key)) return;
+
+      postToWorkspace(JSON.stringify({ request: 'keyPressed', keyGesture: keyGestureOf(event) }));
+   });
+
+   // Written the way NoteViewShortcut.KeyGesture is: the modifiers in the order Ctrl, Shift, Alt, then the key in lower case.
+   function keyGestureOf(event) {
+      return (event.ctrlKey ? 'Ctrl+' : '') + (event.shiftKey ? 'Shift+' : '') + (event.altKey ? 'Alt+' : '') + event.key.toLowerCase();
+   }
 }
 
 setupWorkspace();

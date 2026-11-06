@@ -15,6 +15,7 @@ using JAStudio.Core;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.UI;
+using JAStudio.UI.Shortcuts;
 using JAStudio.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,6 +47,9 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    public PythonAnkiMenus Menus { get; }
 
+   /// <summary>The keyboard shortcuts for a note being viewed, which Python binds in Anki's reviewer and previewer.</summary>
+   public NoteViewShortcuts NoteViewShortcuts { get; }
+
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
@@ -57,6 +61,7 @@ public class JAStudioAnkiAppRoot
       _cardServer = cardServer;
       Dialogs = new AnkiDialogs(coreApp);
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
+      NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
    }
 
    // ReSharper disable once UnusedMember.Global // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python

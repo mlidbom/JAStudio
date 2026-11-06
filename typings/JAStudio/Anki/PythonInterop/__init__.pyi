@@ -4,6 +4,7 @@ from System import Action, Action_1
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.UI import AnkiDialogs
+from JAStudio.UI.Shortcuts import NoteViewShortcuts
 from JAStudio.Core import TemporaryServiceCollection
 from JAStudio.Anki import AnkiLifecycleEvent
 from JAStudio.Core.Note.Collection import IExternalNoteUpdateHandler
@@ -24,6 +25,8 @@ class JAStudioAnkiAppRoot:
     def IsInitialized(self) -> bool: ...
     @property
     def Menus(self) -> PythonAnkiMenus: ...
+    @property
+    def NoteViewShortcuts(self) -> NoteViewShortcuts: ...
     @property
     def Services(self) -> TemporaryServiceCollection: ...
     def HandleAnkiLifecycleEvent(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
