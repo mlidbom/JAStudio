@@ -9,9 +9,9 @@ namespace JAStudio.Web.Specifications;
 /// </summary>
 class NoteLinkOpenerThatRecordsRequests : INoteLinkOpener
 {
-   public List<NoteId> NotesOpenedInNoteViewer { get; } = [];
+   public List<NoteId> NotesOpenedInWorkspace { get; } = [];
    public List<NoteId> NotesOpenedInAnkiPreviewer { get; } = [];
 
-   public void OpenInNoteViewer(NoteId noteId) => NotesOpenedInNoteViewer.Add(noteId);
+   public void OpenInWorkspace(NoteId noteId) => NotesOpenedInWorkspace.Add(noteId);
    public void OpenInAnkiPreviewer(NoteId noteId) => NotesOpenedInAnkiPreviewer.Add(noteId);
 }

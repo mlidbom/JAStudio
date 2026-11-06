@@ -37,11 +37,11 @@ public class When_a_card_page_asks_the_CardServer_to_open_a_note : IAsyncDisposa
       _appScope.Dispose();
    }
 
-   public class in_the_note_viewer : When_a_card_page_asks_the_CardServer_to_open_a_note
+   public class in_the_workspace : When_a_card_page_asks_the_CardServer_to_open_a_note
    {
-      public in_the_note_viewer() => RequestAsACardPage($"/api/open-in-note-viewer/{_noteId}");
+      public in_the_workspace() => RequestAsACardPage($"/api/open-in-workspace/{_noteId}");
 
-      [XF] public void the_note_link_opener_opens_that_note_in_the_note_viewer() => _noteLinkOpener.NotesOpenedInNoteViewer.Must().SequenceEqual(new List<NoteId> { _noteId });
+      [XF] public void the_note_link_opener_opens_that_note_in_the_workspace() => _noteLinkOpener.NotesOpenedInWorkspace.Must().SequenceEqual(new List<NoteId> { _noteId });
       [XF] public void the_note_link_opener_opens_nothing_in_the_Anki_previewer() => _noteLinkOpener.NotesOpenedInAnkiPreviewer.Must().BeEmpty();
    }
 
@@ -50,6 +50,6 @@ public class When_a_card_page_asks_the_CardServer_to_open_a_note : IAsyncDisposa
       public in_the_Anki_previewer() => RequestAsACardPage($"/api/open-in-previewer/{_noteId}");
 
       [XF] public void the_note_link_opener_opens_that_note_in_the_Anki_previewer() => _noteLinkOpener.NotesOpenedInAnkiPreviewer.Must().SequenceEqual(new List<NoteId> { _noteId });
-      [XF] public void the_note_link_opener_opens_nothing_in_the_note_viewer() => _noteLinkOpener.NotesOpenedInNoteViewer.Must().BeEmpty();
+      [XF] public void the_note_link_opener_opens_nothing_in_the_workspace() => _noteLinkOpener.NotesOpenedInWorkspace.Must().BeEmpty();
    }
 }

@@ -9,7 +9,7 @@ namespace JAStudio.Anki.PythonInterop;
 
 /// <summary>
 /// Opens the note behind a clicked note link for the Anki add-on:<br/>
-/// in JAStudio's <see cref="NoteViewerWindow"/>, or in Anki's previewer.
+/// in JAStudio's <see cref="WorkspaceWindow"/>, or in Anki's previewer.
 /// </summary>
 class NoteLinkOpener : INoteLinkOpener
 {
@@ -17,10 +17,9 @@ class NoteLinkOpener : INoteLinkOpener
 
    public NoteLinkOpener(TemporaryServiceCollection services) => _services = services;
 
-   public void OpenInNoteViewer(NoteId noteId) =>
-      NoteViewerWindow.OpenNote(_services.CoreApp.Collection.NoteFromNoteId(noteId)
-                             ?? throw new ArgumentException($"No note has the id {noteId}.", nameof(noteId)),
-                                _services);
+   public void OpenInWorkspace(NoteId noteId) =>
+      WorkspaceWindow.OpenNote(_services.CoreApp.Collection.NoteFromNoteId(noteId)
+                            ?? throw new ArgumentException($"No note has the id {noteId}.", nameof(noteId)));
 
    public void OpenInAnkiPreviewer(NoteId noteId)
    {

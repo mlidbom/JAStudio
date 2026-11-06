@@ -120,7 +120,7 @@ public class CardServer
 
       ConfigureMediaEndpoint(_app);
       ConfigureOpenInBrowserEndpoint(_app);
-      ConfigureOpenInNoteViewerEndpoint(_app);
+      ConfigureOpenInWorkspaceEndpoint(_app);
       ConfigureOpenInPreviewerEndpoint(_app);
 
       try
@@ -181,13 +181,13 @@ public class CardServer
       });
    }
 
-   void ConfigureOpenInNoteViewerEndpoint(WebApplication app)
+   void ConfigureOpenInWorkspaceEndpoint(WebApplication app)
    {
-      // API endpoint for opening a note in JAStudio's note viewer.
+      // API endpoint for opening a note in JAStudio's workspace.
       // Called by card.js on a plain click on a NoteLink inside Anki's reviewer.
-      app.MapGet("/api/open-in-note-viewer/{noteId}", (string noteId) =>
+      app.MapGet("/api/open-in-workspace/{noteId}", (string noteId) =>
       {
-         _noteLinkOpener.OpenInNoteViewer(NoteId.Parse(noteId));
+         _noteLinkOpener.OpenInWorkspace(NoteId.Parse(noteId));
          return Results.Ok();
       });
    }

@@ -50,8 +50,8 @@ document.addEventListener('ended', function (e) {
 // Note link click handling, the same wherever a card page is shown:
 // - Ctrl+Click opens the note in Anki's previewer.
 // - Shift+Click opens the note in the system browser.
-// - A plain click inside Anki's reviewer (the page is in an iframe) opens the note in JAStudio's note viewer.
-// - A plain click anywhere else (the note viewer, the system browser) follows the link in place.
+// - A plain click inside Anki's reviewer (the page is in an iframe) opens the note in JAStudio's workspace.
+// - A plain click anywhere else (the workspace, the system browser) follows the link in place.
 function setupNoteLinks() {
    const isInIframe = window.parent !== window;
 
@@ -69,35 +69,35 @@ function setupNoteLinks() {
          fetch('/api/open-in-browser/' + encodeURIComponent(noteType) + '/' + noteId);
       } else if (isInIframe) {
          event.preventDefault();
-         fetch('/api/open-in-note-viewer/' + noteId);
+         fetch('/api/open-in-workspace/' + noteId);
       }
    });
 }
 
 setupNoteLinks();
 
-// Talking to JAStudio's note viewer (NoteViewerWindow), when the page is shown there.
-// The note viewer hosts the page in a web view that injects a channel for posting messages to it;
+// Talking to JAStudio's workspace (WorkspaceWindow), when the page is shown there.
+// The workspace hosts the page in a web view that injects a channel for posting messages to it;
 // a page shown anywhere else has no such channel, and none of this applies.
 // - Every page shown is reported, because following a link is Blazor client-side routing, which the
-//   note viewer can't see by itself. The Navigation API reports those, and Back and Forward too.
+//   workspace can't see by itself. The Navigation API reports those, and Back and Forward too.
 // - Right-click shows the same note menu as in Anki.
 //   Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
 // - The shown note's audio plays as soon as the page shows it (AudioPlayButton calls playWhenShown).
 //   Inside Anki's reviewer, Anki plays it instead.
-const postToNoteViewer = window.invokeCSharpAction
+const postToWorkspace = window.invokeCSharpAction
                       ?? (window.chrome?.webview ? message => window.chrome.webview.postMessage(message) : null);
 
-window.jaStudioNoteViewer = {
+window.jaStudioWorkspace = {
    playWhenShown: function(audio) {
-      if (postToNoteViewer) audio.play();
+      if (postToWorkspace) audio.play();
    }
 };
 
-function setupNoteViewer() {
-   if (!postToNoteViewer) return;
+function setupWorkspace() {
+   if (!postToWorkspace) return;
 
-   const reportPageShown = () => postToNoteViewer(JSON.stringify({ request: 'pageShown', url: location.href }));
+   const reportPageShown = () => postToWorkspace(JSON.stringify({ request: 'pageShown', url: location.href }));
    reportPageShown();
    navigation.addEventListener('currententrychange', reportPageShown);
 
@@ -105,14 +105,14 @@ function setupNoteViewer() {
       if (event.shiftKey) return;
 
       event.preventDefault();
-      postToNoteViewer(JSON.stringify({
+      postToWorkspace(JSON.stringify({
          request: 'showNoteContextMenu',
          selection: window.getSelection().toString().trim()
       }));
    });
 }
 
-setupNoteViewer();
+setupWorkspace();
 
 // Shell toggle: press 'm' to show/hide the app shell.
 // Stores a .NET object reference set by MainLayout via JS interop.

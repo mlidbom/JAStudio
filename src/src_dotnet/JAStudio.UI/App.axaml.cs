@@ -28,6 +28,6 @@ public class UIApp : Application
       }
    }
 
-   public static void InitializeMainWindow(TemporaryServiceCollection services) =>
-      MainWindow.CreateAndRegister(services);
+   public static void InitializeWorkspaceWindow(TemporaryServiceCollection services) =>
+      WorkspaceWindow.CreateAndRegister(services);
 }

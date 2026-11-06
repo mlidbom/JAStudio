@@ -15,7 +15,7 @@
     /// <summary>
     /// This is the audio of the note the page shows, rather than of a note the page lists:<br/>
     /// its button is as large as the question it stands in front of, the same on every card type,<br/>
-    /// and it plays as soon as JAStudio's note viewer shows the page, the way Anki plays a card's audio.<br/>
+    /// and it plays as soon as JAStudio's workspace shows the page, the way Anki plays a card's audio.<br/>
     /// Inside Anki's reviewer, Anki plays it instead.
     /// </summary>
     [Parameter] public bool IsAudioOfTheShownNote { get; set; }
@@ -23,7 +23,7 @@
     ElementReference _audioElement;
 
     /// <summary>
-    /// The audio last handed to the note viewer to play.<br/>
+    /// The audio last handed to the workspace to play.<br/>
     /// Following a link to another note of the same type reuses this component with a new <see cref="Audio"/>.
     /// </summary>
     string? _lastPlayedFileName;
@@ -34,6 +34,6 @@
             return;
 
         _lastPlayedFileName = fileName;
-        await JavaScriptRuntime.InvokeVoidAsync("jaStudioNoteViewer.playWhenShown", _audioElement);
+        await JavaScriptRuntime.InvokeVoidAsync("jaStudioWorkspace.playWhenShown", _audioElement);
     }
 }

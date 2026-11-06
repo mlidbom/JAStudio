@@ -84,41 +84,43 @@ Anki processes `{{Audio_*}}` tags and queues audio playback **before** the `card
   Anki's `{{furigana::Reading}}`, and the port dropped it. The sentence audio covers pronunciation, and a reading
   that guesses is worse than useless.
 
-## Note Viewer (2026-11-06)
+## Notes in JAStudio's Workspace (2026-11-06)
 
 JAStudio's own window for viewing notes, replacing Anki's previewer. It's the first step in
-`corpus-data-model.md` towards not needing Anki's browser and previewer.
+`corpus-data-model.md` towards not needing Anki's browser and previewer. Where the workspace is heading (tabs,
+search, editors) is in `jastudio-workspace.md`.
 
-- **`NoteViewerWindow`** (`JAStudio.UI/Views`) shows a note's page (`CardServerUrl.NotePagePath`, the card's
-  answer side) in an embedded `NativeWebView` from the `Avalonia.Controls.WebView` package, which uses WebView2 on
-  Windows. There is one note viewer. Closing it only hides it.
+- **`WorkspaceWindow`** (`JAStudio.UI/Views`, with `WorkspaceViewModel`) has the main menu, back and forward, and
+  the note's page (`CardServerUrl.NotePagePath`, the card's answer side). The page is shown in an embedded
+  `NativeWebView` from the `Avalonia.Controls.WebView` package, which uses WebView2 on Windows. There is one
+  workspace for now. Closing it only hides it.
 - **Note link clicks** (`card.js`) work the same everywhere a card page is shown:
   - Ctrl+Click opens the note in Anki's previewer.
   - Shift+Click opens it in the system browser.
-  - A plain click inside Anki's reviewer opens it in the note viewer.
+  - A plain click inside Anki's reviewer opens it in the workspace.
   - A plain click anywhere else follows the link in place.
 
-  The reviewer's clicks reach the `CardServer` endpoints `/api/open-in-note-viewer/{noteId}` and
+  The reviewer's clicks reach the `CardServer` endpoints `/api/open-in-workspace/{noteId}` and
   `/api/open-in-previewer/{noteId}`. The `CardServer` hands them to an `INoteLinkOpener`, implemented by the Anki
   add-on (`NoteLinkOpener`).
-- **Right-click** in the note viewer shows the same note menu as in Anki (`NoteContextMenu.BuildContextMenuSpec`),
+- **Right-click** on the note shows the same note menu as in Anki (`NoteContextMenu.BuildContextMenuSpec`),
   editing included. Shift+Right-click gives the browser's own menu, with "Inspect".
   - The menu is a `PopupMenuWindow`, not an Avalonia `ContextMenu`. A `ContextMenu`'s first level of items
     ignores typed access keys, and over the web view the keyboard stays with the web view.
   - The `PopupMenuWindow` is an activated, tiny, topmost window. The items are the submenu of a hidden
     menu-bar item.
-- **Audio:** vocab and sentence pages show the note's own audio with a ▶ button (`AudioPlayButton`, which also
-  serves the related notes' audio). The note viewer plays it as soon as the page shows it, as Anki does on a
-  card. Inside Anki's reviewer, Anki plays it instead.
+- **Audio:** vocab and sentence pages show the note's own audio with a ▶ button in front of the question
+  (`AudioPlayButton`, which also serves the related notes' audio). The workspace plays it as soon as the page shows
+  it, as Anki does on a card. Inside Anki's reviewer, Anki plays it instead.
 - **The page talks to the window** through the web view's message channel. It reports every page it shows, because
   following a link is Blazor client-side routing, which the web view doesn't report as a navigation. It also
   reports the selected text when right-clicked.
-- **The note viewer reloads** when the note it shows is updated. A change to another note that the page shows,
-  for example a vocab in a sentence's breakdown, appears after F5 or the next navigation.
-- **Newly created notes and "Open in note viewer"**, in the note menus' "Universal note actions", open in the
-  note viewer. So does a result double-clicked in the note search dialog (Ctrl+O).
+- **The page reloads** when the note it shows is updated. A change to another note that the page shows, for
+  example a vocab in a sentence's breakdown, appears after F5 or the next navigation.
+- **Opening a note in the workspace:** "Open in workspace" in the note menus' "Universal note actions", newly
+  created notes, and a result double-clicked in the note search dialog (Ctrl+O).
 - **Not yet:** the menu items that open a *list* of notes still open Anki's browser. JAStudio running outside
-  Anki (`JAStudio.UI.DesktopHost`) doesn't start the `CardServer`, so it has no note viewer.
+  Anki (`JAStudio.UI.DesktopHost`) doesn't start the `CardServer`, so its workspace can't show notes.
 
 ## Card Templates Installed in Anki (status 2026-11-05)
 

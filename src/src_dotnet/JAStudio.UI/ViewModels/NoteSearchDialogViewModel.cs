@@ -250,11 +250,11 @@ partial class NoteSearchDialogViewModel : ObservableObject
       // Strip HTML tags and bracket markup
       html.StripHtmlAndBracketMarkupAndNoiseCharacters();
 
-   /// <summary>Shows the selected search result in JAStudio's note viewer.</summary>
+   /// <summary>Shows the selected search result in JAStudio's workspace.</summary>
    public void OpenSelectedNote()
    {
       if(SelectedResult != null)
-         NoteViewerWindow.OpenNote(SelectedResult.Note, _services);
+         WorkspaceWindow.OpenNote(SelectedResult.Note);
    }
 }
 

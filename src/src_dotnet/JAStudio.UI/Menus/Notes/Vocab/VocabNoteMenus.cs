@@ -129,7 +129,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
 
    public SpecMenuItem CreateNoteCommand(string name, Func<JPNote> createNote, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
       => SpecMenuItem.Command(name,
-                              () => NoteViewerWindow.OpenNote(createNote(), _services),
+                              () => WorkspaceWindow.OpenNote(createNote()),
                               acceleratorKey,
                               shortcut,
                               enabled: enabled);

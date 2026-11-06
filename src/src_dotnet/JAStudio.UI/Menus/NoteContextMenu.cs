@@ -192,7 +192,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          new List<SpecMenuItem>
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
-            SpecMenuItem.Command(ShortcutFinger.Home2("Open in note viewer"), () => NoteViewerWindow.OpenNote(note, _services)),
+            SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
             SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
@@ -258,13 +258,13 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       {
          var newVocab = _services.VocabNoteFactory.CreateWithDictionary(text);
          _services.LocalNoteUpdater.ReparseSentencesForVocab(newVocab);
-         NoteViewerWindow.OpenNote(newVocab, _services);
+         WorkspaceWindow.OpenNote(newVocab);
       });
    }
 
    void OnCreateSentenceNote(string text) =>
-      NoteViewerWindow.OpenNote(SentenceNote.Create(_services.NoteServices, text), _services);
+      WorkspaceWindow.OpenNote(SentenceNote.Create(_services.NoteServices, text));
 
    void OnCreateKanjiNote(string text) =>
-      NoteViewerWindow.OpenNote(KanjiNote.Create(_services.NoteServices, text, "TODO", "", ""), _services);
+      WorkspaceWindow.OpenNote(KanjiNote.Create(_services.NoteServices, text, "TODO", "", ""));
 }

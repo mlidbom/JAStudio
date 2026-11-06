@@ -33,5 +33,5 @@ public class AnkiDialogs
       Dispatcher.UIThread.Invoke(EnglishWordSearchDialog.ToggleVisibility);
    }
 
-   public void ToggleMainWindow() => Dispatcher.UIThread.Invoke(MainWindow.ToggleVisibility);
+   public void ToggleWorkspaceWindow() => Dispatcher.UIThread.Invoke(WorkspaceWindow.ToggleVisibility);
 }

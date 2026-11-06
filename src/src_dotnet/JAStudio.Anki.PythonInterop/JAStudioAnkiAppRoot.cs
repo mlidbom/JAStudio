@@ -107,7 +107,7 @@ public class JAStudioAnkiAppRoot
 #pragma warning disable CS0618 // Type or member is obsolete
       DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
 #pragma warning restore CS0618 // Type or member is obsolete
-      Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(coreApp.Services));
+      Dispatcher.UIThread.Invoke(() => UIApp.InitializeWorkspaceWindow(coreApp.Services));
 
       var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
 

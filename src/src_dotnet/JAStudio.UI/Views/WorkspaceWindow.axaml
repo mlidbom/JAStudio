@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:JAStudio.UI.ViewModels"
+        x:Class="JAStudio.UI.Views.WorkspaceWindow"
+        x:DataType="vm:WorkspaceViewModel"
+        Title="{Binding Title}"
+        Width="1600" Height="900"
+        WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" x:Name="MainMenu" />
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="4" Margin="4">
+            <Button Content="◀" ToolTip.Tip="Back" IsEnabled="{Binding CanGoBack}" Click="OnBackClick" />
+            <Button Content="▶" ToolTip.Tip="Forward" IsEnabled="{Binding CanGoForward}" Click="OnForwardClick" />
+        </StackPanel>
+
+        <NativeWebView x:Name="WebView" />
+    </DockPanel>
+
+</Window>
