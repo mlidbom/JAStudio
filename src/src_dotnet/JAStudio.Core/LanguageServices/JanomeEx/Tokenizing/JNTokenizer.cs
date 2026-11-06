@@ -61,7 +61,7 @@ public sealed class JNTokenizer
 
    List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput)
    {
-      var tokens = TokenizeToTokenList(tokenizerInput);
+      var tokens = MisTokenizedIchidanVerbUnknownToTheTokenizer.CorrectEachIn(TokenizeToTokenList(tokenizerInput));
       LinkNeighbouringTokens();
       return tokens;
 
