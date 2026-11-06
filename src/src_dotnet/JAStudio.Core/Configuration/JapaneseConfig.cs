@@ -41,7 +41,6 @@ public class JapaneseConfig
    // Misc toggles
    public ConfigurationValue<bool> BoostFailedCardAllowedTime { get; }
    public ConfigurationValue<bool> YomitanIntegrationCopyAnswerToClipboard { get; }
-   public ConfigurationValue<bool> AnkiInternalFsrsSetEnableFsrsShortTermWithSteps { get; }
    public ConfigurationValue<bool> DecreaseFailedCardIntervals { get; }
    public ConfigurationValue<bool> PreventDoubleClicks { get; }
    public ConfigurationValue<bool> PreferDefaultMnemonicsToSourceMnemonics { get; }
@@ -106,9 +105,8 @@ public class JapaneseConfig
       DecreaseFailedCardIntervalsInterval = Add(New("decrease_failed_card_intervals_interval", "Failed card again seconds for next again", 60, To.Long));
 
       // misc toggles
-      BoostFailedCardAllowedTime = New("boost_failed_card_allowed_time", "Boost failed card allowed time", true, To.Bool);
+      BoostFailedCardAllowedTime = Add(New("boost_failed_card_allowed_time", "Boost failed card allowed time", true, To.Bool));
       YomitanIntegrationCopyAnswerToClipboard = Add(New("yomitan_integration_copy_answer_to_clipboard", "Yomitan integration: Copy reviewer answer to clipboard", false, To.Bool));
-      AnkiInternalFsrsSetEnableFsrsShortTermWithSteps = New("fsrs_set_enable_fsrs_short_term_with_steps", "FSRS: Enable short term scheduler with steps", false, To.Bool);
       DecreaseFailedCardIntervals = Add(New("decrease_failed_card_intervals", "Decrease failed card intervals", false, To.Bool));
       PreventDoubleClicks = Add(New("prevent_double_clicks", "Prevent double clicks", true, To.Bool));
       PreferDefaultMnemonicsToSourceMnemonics = Add(New("prefer_default_mnemocs_to_source_mnemonics", "Prefer default mnemonics to source mnemonics", false, To.Bool));

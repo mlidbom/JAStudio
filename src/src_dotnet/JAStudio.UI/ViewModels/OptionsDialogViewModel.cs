@@ -175,11 +175,6 @@ partial class OptionsDialogViewModel : ObservableObject
    partial void OnYomitanIntegrationCopyAnswerToClipboardChanged(bool value) =>
       _config.YomitanIntegrationCopyAnswerToClipboard.Value = value;
 
-   [ObservableProperty] bool _ankiInternalFsrsSetEnableFsrsShortTermWithSteps;
-
-   partial void OnAnkiInternalFsrsSetEnableFsrsShortTermWithStepsChanged(bool value) =>
-      _config.AnkiInternalFsrsSetEnableFsrsShortTermWithSteps.Value = value;
-
    [ObservableProperty] bool _decreaseFailedCardIntervals;
 
    partial void OnDecreaseFailedCardIntervalsChanged(bool value) =>
@@ -281,7 +276,6 @@ partial class OptionsDialogViewModel : ObservableObject
 
       // Misc
       YomitanIntegrationCopyAnswerToClipboard = _config.YomitanIntegrationCopyAnswerToClipboard.Value;
-      AnkiInternalFsrsSetEnableFsrsShortTermWithSteps = _config.AnkiInternalFsrsSetEnableFsrsShortTermWithSteps.Value;
       DecreaseFailedCardIntervals = _config.DecreaseFailedCardIntervals.Value;
       PreventDoubleClicks = _config.PreventDoubleClicks.Value;
       BoostFailedCardAllowedTime = _config.BoostFailedCardAllowedTime.Value;

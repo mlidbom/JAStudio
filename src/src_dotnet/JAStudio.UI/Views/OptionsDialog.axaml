@@ -180,7 +180,6 @@
                         <StackPanel Spacing="{StaticResource CheckboxStackPanelSpacing}">
                             <TextBlock Text="Misc" FontWeight="SemiBold" Margin="{StaticResource SectionHeaderMargin}" />
                             <CheckBox Content="Yomitan integration: Copy reviewer answer to clipboard" IsChecked="{Binding YomitanIntegrationCopyAnswerToClipboard}" />
-                            <CheckBox Content="FSRS: Enable short term scheduler with steps" IsChecked="{Binding AnkiInternalFsrsSetEnableFsrsShortTermWithSteps}" />
                             <CheckBox Content="Decrease failed card intervals" IsChecked="{Binding DecreaseFailedCardIntervals}" />
                             <CheckBox Content="Prevent double clicks" IsChecked="{Binding PreventDoubleClicks}" />
                             <CheckBox Content="Boost failed card allowed time" IsChecked="{Binding BoostFailedCardAllowedTime}" />
