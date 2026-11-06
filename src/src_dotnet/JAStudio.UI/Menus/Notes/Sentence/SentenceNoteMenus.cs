@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia.Threading;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus.Notes.Sentence;
 
@@ -29,7 +28,7 @@ class SentenceNoteMenus
                                                              SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().KanjiInString(string.Join("", sentence.ExtractKanji())))),
                                                              SpecMenuItem.Command(ShortcutFinger.Home4("Parsed words"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesByIds(GetParsedWordsNoteIds(sentence))))
                                                           }),
-                                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new SentenceEditorDialog(sentence).ShowNearCursor())),
+                                     SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(sentence)),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"),
                                                           new List<SpecMenuItem>
                                                           {

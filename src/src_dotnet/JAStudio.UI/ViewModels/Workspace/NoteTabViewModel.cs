@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
@@ -55,7 +56,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    /// <summary>
    /// What the workspace's editor section shows for this tab: the editors of the note it shows.<br/>
    /// Each tab has its own, for the note it shows, and the section shows the shown tab's.<br/>
-   /// Null when the tab shows no note, or a note whose type has no editors in the workspace yet.
+   /// Null when the tab shows no note.
    /// </summary>
    [ObservableProperty] INoteEditorSectionViewModel? _editorSection;
 
@@ -172,7 +173,9 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       {
          VocabNote vocab => new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated),
          KanjiNote kanji => new KanjiEditorSectionViewModel(_services, kanji.GetId()),
-         _ => null
+         SentenceNote sentence => new SentenceEditorSectionViewModel(_services, sentence.GetId()),
+         null => null,
+         var note => throw new InvalidOperationException($"No editors exist for notes of type {note.GetType().Name}.")
       };
 
    JPNote? ShownNote() => _shownNoteId is {} noteId ? _services.CoreApp.Collection.NoteFromNoteId(noteId) : null;

@@ -138,8 +138,8 @@ apply here.
    from outside does; middle-click opens it in a background tab. Filling the pane from the menu items that open
    lists of notes in Anki's browser is still to come.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
-   first. *(Started 2026-11-06: a vocab's editors, `VocabEditorSectionViewModel`, replace the "Edit Matching
-   Config" dialog.)*
+   first. *(Built 2026-11-06: every note type's editors are in the workspace, `VocabEditorSectionViewModel`,
+   `KanjiEditorSectionViewModel` and `SentenceEditorSectionViewModel`, and the editor dialogs are gone.)*
    - **One editor section per workspace,** on the right, opened and closed with Ctrl+E or the "Editor" button and
      resized by dragging its edge. It shows the editors of the shown tab's note, so it stays open as links are
      followed and tabs are switched. Each tab keeps its own editors, for the note it shows.
@@ -159,8 +159,11 @@ apply here.
      and isn't stored as one. The other text fields are written on every keystroke.
    - **A kanji's editor** (`KanjiEditorSectionViewModel`) is its text fields. Every keystroke is written to the note,
      and the kanji's generated data, such as its active answer, is updated with it.
-   - "Edit" in the vocab's and the kanji's note menus opens the note in the workspace with the section open. Their
-     editor dialogs are gone; the sentence editor is still a dialog.
+   - **A sentence's editor** (`SentenceEditorSectionViewModel`) is its text fields, written on every keystroke with its
+     generated data. A change to its question reparses the sentence on the spot, which is quick enough for every
+     keystroke.
+   - "Edit" in each note type's note menu opens the note in the workspace with the section open. The editor dialogs
+     are gone.
 6. **Multiple workspaces.**
 7. **Revert to the committed version.**
 

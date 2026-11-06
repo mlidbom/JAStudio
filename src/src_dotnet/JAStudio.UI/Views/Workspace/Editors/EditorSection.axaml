@@ -79,9 +79,12 @@
                 <DataTemplate DataType="editors:KanjiEditorSectionViewModel">
                     <editorViews:KanjiEditorSection />
                 </DataTemplate>
+                <DataTemplate DataType="editors:SentenceEditorSectionViewModel">
+                    <editorViews:SentenceEditorSection />
+                </DataTemplate>
             </ContentControl.DataTemplates>
         </ContentControl>
-        <TextBlock Text="The shown note has no editor in the workspace yet. Its editors are in its right-click menu."
+        <TextBlock Text="The shown page has no note to edit."
                    TextWrapping="Wrap" Margin="8"
                    IsVisible="{Binding SelectedTab.EditorSection, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=True}" />
     </Panel>

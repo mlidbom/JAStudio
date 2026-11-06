@@ -290,9 +290,8 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 
 ### Editors
 
-The vocab and kanji editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectionViewModel`); the
-sentence editor is still a dialog (`SentenceEditorViewModel`). They still mostly copy Anki's note editor: one text box
-per stored string.
+The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectionViewModel`,
+`SentenceEditorSectionViewModel`). They still mostly copy Anki's note editor: one text box per stored string.
 
 - Brackets and `question:disambiguation` are typed by hand.
 - A vocab's forms and parts of speech are lists, with entries added and removed one at a time. Its readings and
