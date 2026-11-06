@@ -3,7 +3,8 @@
 ## Status: Card Rendering Done for Vocab, Kanji and Sentences
 
 **Remaining:**
-- The stub card templates are not yet installed in Anki. See
+- Card templates for mobile review still need to be designed and installed in Anki. The stubs in the repo aren't
+  enough for that. See
   [Card Templates Installed in Anki](#card-templates-installed-in-anki-status-2026-11-05).
 - The corpus browser (Phase 2) has not been started. The only Blazor pages are the three `/card/...` pages.
 
@@ -101,8 +102,11 @@ Anki processes `{{Audio_*}}` tags and queues audio playback **before** the `card
 - `src/web/notes/` holds an older copy of the full templates. Nothing in the code or the build reads it; only
   `.gitignore` and the `.idea` project files mention `src/web/`.
 
-**Next step:** install the stubs in the Anki note types. That is also the prerequisite for removing fields from
-those note types (see `corpus-data-model.md`).
+**Next step (changed 2026-11-06):** basic review must work on mobile, where the add-on doesn't run and the card
+is exactly what the template renders. So the stubs are not the target any more: they would show a mobile card
+with no answer. The next step is to design templates that render the study-note fields well on a phone, while
+desktop keeps replacing or covering them with the iframe, and to install those templates. That is also the
+prerequisite for removing fields from those note types. See `corpus-data-model.md`, "The minimal Anki note type".
 
 ## Superseded Architecture Notes
 
