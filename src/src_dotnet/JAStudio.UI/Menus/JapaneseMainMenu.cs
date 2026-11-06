@@ -5,6 +5,7 @@ using JAStudio.Anki;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus;
 

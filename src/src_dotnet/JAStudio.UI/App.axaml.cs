@@ -3,7 +3,7 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using JAStudio.Core;
-using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI;
 

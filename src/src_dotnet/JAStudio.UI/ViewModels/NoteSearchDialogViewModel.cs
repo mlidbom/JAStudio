@@ -11,7 +11,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
-using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.ViewModels;
 

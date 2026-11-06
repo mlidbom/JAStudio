@@ -76,8 +76,8 @@ function setupNoteLinks() {
 
 setupNoteLinks();
 
-// Talking to JAStudio's workspace (WorkspaceWindow), when the page is shown there.
-// The workspace hosts the page in a web view that injects a channel for posting messages to it;
+// Talking to JAStudio's workspace (WorkspaceWindow), when the page is shown in one of its tabs (NoteTabView).
+// Each tab hosts its page in a web view that injects a channel for posting messages to it;
 // a page shown anywhere else has no such channel, and none of this applies.
 // - Every page shown is reported, because following a link is Blazor client-side routing, which the
 //   workspace can't see by itself. The Navigation API reports those, and Back and Forward too.

@@ -90,15 +90,17 @@ JAStudio's own window for viewing notes, replacing Anki's previewer. It's the fi
 `corpus-data-model.md` towards not needing Anki's browser and previewer. Where the workspace is heading (tabs,
 search, editors) is in `jastudio-workspace.md`.
 
-- **`WorkspaceWindow`** (`JAStudio.UI/Views`, with `WorkspaceViewModel`) has the main menu, back and forward, and
-  the note's page (`CardServerUrl.NotePagePath`, the card's answer side). The page is shown in an embedded
-  `NativeWebView` from the `Avalonia.Controls.WebView` package, which uses WebView2 on Windows. There is one
+- **`WorkspaceWindow`** (`JAStudio.UI/Views/Workspace`, with `WorkspaceViewModel`) has the main menu and tabs.
+  Each tab (`NoteTabView`, with `NoteTabViewModel`) has back and forward, and a note's page
+  (`CardServerUrl.NotePagePath`, the card's answer side). The page is shown in an embedded `NativeWebView` from the
+  `Avalonia.Controls.WebView` package, which uses WebView2 on Windows; every tab has its own. There is one
   workspace for now. Closing it only hides it.
 - **Note link clicks** (`card.js`) work the same everywhere a card page is shown:
   - Ctrl+Click opens the note in Anki's previewer.
   - Shift+Click opens it in the system browser.
   - A plain click inside Anki's reviewer opens it in the workspace.
   - A plain click anywhere else follows the link in place.
+  - A middle-click in the workspace opens the note in a new tab.
 
   The reviewer's clicks reach the `CardServer` endpoints `/api/open-in-workspace/{noteId}` and
   `/api/open-in-previewer/{noteId}`. The `CardServer` hands them to an `INoteLinkOpener`, implemented by the Anki
@@ -112,7 +114,7 @@ search, editors) is in `jastudio-workspace.md`.
 - **Audio:** vocab and sentence pages show the note's own audio with a ▶ button in front of the question
   (`AudioPlayButton`, which also serves the related notes' audio). The workspace plays it as soon as the page shows
   it, as Anki does on a card. Inside Anki's reviewer, Anki plays it instead.
-- **The page talks to the window** through the web view's message channel. It reports every page it shows, because
+- **The page talks to its tab** through the web view's message channel. It reports every page it shows, because
   following a link is Blazor client-side routing, which the web view doesn't report as a navigation. It also
   reports the selected text when right-clicked.
 - **Keyboard shortcuts:** the page reports every key press, and the workspace runs its own shortcuts and the

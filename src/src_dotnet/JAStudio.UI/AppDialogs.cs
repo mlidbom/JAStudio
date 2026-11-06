@@ -3,6 +3,7 @@ using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI;
 

@@ -2,7 +2,7 @@ using System;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
-using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
 
 namespace JAStudio.Anki.PythonInterop;

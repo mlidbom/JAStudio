@@ -5,6 +5,7 @@ using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Shortcuts;
 
@@ -15,7 +16,7 @@ namespace JAStudio.UI.Shortcuts;
 /// </summary>
 /// <remarks>
 /// This is the one definition of these shortcuts.<br/>
-/// The Anki add-on binds Anki's keys from it, and the <see cref="Views.WorkspaceWindow"/> runs the ones its page reports.<br/>
+/// The Anki add-on binds Anki's keys from it, and each workspace tab (<see cref="NoteTabView"/>) runs the ones its page reports.<br/>
 /// Neither refreshes anything here. The view toggles change the <see cref="JapaneseConfig"/>, the note actions
 /// update the note, and each viewer refreshes on those changes in its own way.
 /// </remarks>

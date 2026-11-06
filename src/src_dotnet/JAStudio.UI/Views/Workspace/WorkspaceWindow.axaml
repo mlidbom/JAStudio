@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
+        x:Class="JAStudio.UI.Views.Workspace.WorkspaceWindow"
+        x:DataType="vm:WorkspaceViewModel"
+        Title="{Binding Title}"
+        Width="1600" Height="900"
+        WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" x:Name="MainMenu" />
+
+        <TabStrip DockPanel.Dock="Top" ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
+            <TabStrip.Styles>
+                <Style Selector="TabStripItem">
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="MinHeight" Value="0" />
+                    <Setter Property="Padding" Value="8,4" />
+                </Style>
+            </TabStrip.Styles>
+            <TabStrip.ItemTemplate>
+                <DataTemplate x:DataType="vm:NoteTabViewModel">
+                    <StackPanel Orientation="Horizontal" Spacing="6" Background="Transparent"
+                                ToolTip.Tip="{Binding Header}" PointerReleased="OnTabHeaderPointerReleased">
+                        <TextBlock Text="{Binding Header}" MaxWidth="240" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                        <Button Content="✕" ToolTip.Tip="Close (Ctrl+W)" Command="{Binding CloseCommand}"
+                                Padding="4,0" FontSize="11" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </TabStrip.ItemTemplate>
+        </TabStrip>
+
+        <!-- Every tab's view stays here, the hidden ones invisible: see NoteTabView. Its item template is set in code-behind. -->
+        <ItemsControl x:Name="TabViews" ItemsSource="{Binding Tabs}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Panel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </DockPanel>
+
+</Window>

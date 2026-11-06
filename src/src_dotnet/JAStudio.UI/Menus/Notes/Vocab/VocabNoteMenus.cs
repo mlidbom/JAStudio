@@ -11,6 +11,7 @@ using JAStudio.Core.SysUtils;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 // ReSharper disable once CheckNamespace
 namespace JAStudio.UI.Menus;

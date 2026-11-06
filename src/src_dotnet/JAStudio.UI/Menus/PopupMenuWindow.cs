@@ -5,13 +5,14 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus;
 
 /// <summary>
 /// A menu shown at a point on the screen, rather than opened from a control in one of our windows.<br/>
 /// It serves content Avalonia doesn't render itself, such as the web page in the
-/// <see cref="Views.WorkspaceWindow"/>, and places with no window at all.
+/// <see cref="WorkspaceWindow"/>, and places with no window at all.
 /// </summary>
 /// <remarks>
 /// Avalonia's <see cref="ContextMenu"/> can't do this with working access keys, for two reasons:<br/>

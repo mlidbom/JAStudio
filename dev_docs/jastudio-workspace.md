@@ -75,20 +75,27 @@ apply here.
 - **Note view shortcuts** (`NoteViewShortcuts`, in C#) are defined once and shared with Anki's reviewer and
   previewer, which Python binds from the same table. Most are single-key toggles for sentence breakdowns; a few
   act on the note being viewed.
-- **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press and the window
-  looks it up. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O) also exist as Avalonia key bindings for when the
-  keyboard is outside the page. Single-key shortcuts deliberately aren't window key bindings, because they would
-  fire while typing in the editors to come.
+- **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press, and the tab asks the
+  window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O,
+  Ctrl+W, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the keyboard is outside the page.
+  Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
+  editors to come.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
-  Anki sync.
-- **Back and forward** are the page's history (Alt+Left, Alt+Right), per window and not saved. Anki's saved
+  Anki sync. A hidden tab reloads when it's shown instead.
+- **Back and forward** are the page's history (Alt+Left, Alt+Right), per tab and not saved. Anki's saved
   history of recently shown cards may come back later, as a "recently viewed" list.
 
 ## Known technical points
 
-- **Tabs must keep their web views alive.** An Avalonia `TabControl` is believed to detach unselected content,
-  which would destroy a web view and lose its history and scroll position (unverified). The plan is to keep each
-  tab's content in the tree and toggle visibility. Web views are created when a tab is first shown.
+- **Tabs keep their web views alive.** Removing a `NativeWebView` from the visual tree destroys its native
+  control, and with it the page, its history and its scroll position. Hiding it only hides the native window
+  (verified in Avalonia's `NativeControlHost`). A `TabControl` swaps the selected tab's content in and out of the
+  tree, so the workspace uses a `TabStrip` for the headers and keeps every tab's `NoteTabView` in the tree, the
+  hidden ones invisible.
+- **The keyboard follows the shown tab.** Hiding a web view doesn't take the keyboard focus away from it, so a
+  tab focuses its page when it's shown. Otherwise keys would go to the hidden tab's page and act on its note.
+- **New tabs open in front.** The web view doesn't tell a hidden page that it's hidden, so a page loaded in a
+  background tab would play its note's audio unseen.
 - **Reverting a note** reads its file from the `src/jas_database` git repository as of `HEAD`. It goes through the
   normal update path, so the cache, the files, the snapshot and the notifications stay consistent. A note created
   since the last commit has no committed version, so that case still needs deciding.
@@ -98,9 +105,11 @@ apply here.
 1. **The main window becomes the workspace** and takes over the note viewer: main menu, back and forward, and
    the note's web view. One note at a time. *(Built 2026-11-06: `WorkspaceWindow` and `WorkspaceViewModel`.)*
 2. **Observables** for note updates and setting changes. *(Built 2026-11-06, on `Compze.Internals.SystemCE`
-   0.4.1-internal. Nothing unsubscribes yet: the single workspace hides instead of closing. Tabs will be the first
-   to unsubscribe.)*
-3. **Tabs.**
+   0.4.1-internal.)*
+3. **Tabs.** *(Built 2026-11-06: `NoteTabView` and `NoteTabViewModel`.)* Opening a note from outside the
+   workspace selects a tab already showing it, or else opens a new tab. Middle-clicking a link opens a new tab.
+   Ctrl+W or middle-clicking a tab closes it; Ctrl+Tab and Ctrl+Shift+Tab switch tabs. Each tab subscribes to
+   the update notifications and unsubscribes when it's closed.
 4. **The search pane**, moving the note search dialog in.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
    first.
