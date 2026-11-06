@@ -251,8 +251,9 @@ These are settings, not labels, kept as `::`-path strings in the tag list (`Note
   `StringExtensions.FirstNumber`, and `VocabSentencesList.razor` orders sentences by it. `JPNote.GetMetaTags`
   turns it into CSS classes.
 
-Because `MergeAnkiData` replaces the tag list with Anki's, Anki co-owns all of this today. The `VocabFlagsDialog`
-editor is already structured (checkboxes over these flags); only the storage behind it is wrong.
+Because `MergeAnkiData` replaces the tag list with Anki's, Anki co-owns all of this today. The workspace's vocab
+editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`) are already structured
+(checkboxes over these flags); only the storage behind them is wrong.
 
 ### Persisted-derived-data
 

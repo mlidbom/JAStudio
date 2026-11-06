@@ -40,14 +40,23 @@ partial class WorkspaceViewModel : ObservableObject
    /// <summary>The shown tab's <see cref="NoteTabViewModel.Header"/>, followed by the application's name.</summary>
    [ObservableProperty] string _title = AppTitle;
 
+   /// <summary>
+   /// Whether the editor section, on the right of the tabs, is open. It shows the editors of the shown tab's note,<br/>
+   /// so it stays open as links are followed and tabs are switched.
+   /// </summary>
+   [ObservableProperty] bool _isEditorSectionOpen;
+
    /// <summary>Shows <paramref name="note"/>: selects a tab that already shows it, or else opens a new tab for it.</summary>
    public void OpenNote(JPNote note) => ShowTabFor(note);
 
-   /// <summary>Shows <paramref name="note"/> as <see cref="OpenNote"/> does, with the tab's editor section open.</summary>
-   public void EditNote(JPNote note) => ShowTabFor(note).IsEditorSectionOpen = true;
+   /// <summary>Shows <paramref name="note"/> as <see cref="OpenNote"/> does, with the editor section open.</summary>
+   public void EditNote(JPNote note)
+   {
+      ShowTabFor(note);
+      IsEditorSectionOpen = true;
+   }
 
-   /// <summary>Opens or closes the shown tab's editor section, if a tab is open.</summary>
-   public void ToggleShownTabsEditorSection() => SelectedTab?.ToggleEditorSection();
+   public void ToggleEditorSection() => IsEditorSectionOpen = !IsEditorSectionOpen;
 
    /// <summary>
    /// Opens a new tab for the page at <paramref name="pageUrl"/> without showing it, as a browser does with a middle-clicked link.<br/>

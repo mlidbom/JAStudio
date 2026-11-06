@@ -62,7 +62,7 @@ public partial class WorkspaceWindow : Window
                          {
                             ["Ctrl+o"] = ToggleNoteSearch,
                             ["Ctrl+Shift+o"] = Hide,
-                            ["Ctrl+e"] = ToggleShownTabsEditorSection,
+                            ["Ctrl+e"] = ToggleEditorSection,
                             ["Ctrl+w"] = _viewModel.CloseSelectedTab,
                             ["Ctrl+tab"] = _viewModel.SelectNextTab,
                             ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab
@@ -131,9 +131,9 @@ public partial class WorkspaceWindow : Window
    }
 
    /// <summary>Ctrl+E. Afterwards the keyboard is on the page, so the note view shortcuts work whether the section opened or closed.</summary>
-   void ToggleShownTabsEditorSection()
+   void ToggleEditorSection()
    {
-      _viewModel.ToggleShownTabsEditorSection();
+      _viewModel.ToggleEditorSection();
       FocusShownPage();
    }
 

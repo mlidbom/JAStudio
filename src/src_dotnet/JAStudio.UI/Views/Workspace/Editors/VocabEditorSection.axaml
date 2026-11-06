@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
+             xmlns:controls="clr-namespace:JAStudio.UI.Controls"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.VocabEditorSection"
+             x:DataType="editors:VocabEditorSectionViewModel">
+
+    <!-- The editors' rows, and the look of their sections, shared by every tab. -->
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="controls:RequireForbidControlViewModel">
+            <controls:RequireForbidControl />
+        </DataTemplate>
+        <DataTemplate DataType="controls:TagFlagCheckBoxViewModel">
+            <CheckBox Content="{Binding Label}" IsChecked="{Binding IsSet}" />
+        </DataTemplate>
+        <DataTemplate DataType="controls:StringSetControlViewModel">
+            <controls:StringSetControl Margin="0,0,0,6" />
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <UserControl.Styles>
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="10,4" />
+        </Style>
+        <Style Selector="Border.section">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="6" />
+        </Style>
+        <Style Selector="TextBlock.sectionTitle">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+    </UserControl.Styles>
+
+    <TabControl>
+        <TabItem Header="Matching">
+            <editorViews:VocabMatchingConfigEditor DataContext="{Binding MatchingConfig}" />
+        </TabItem>
+        <TabItem Header="Metadata">
+            <editorViews:VocabMetadataEditor DataContext="{Binding Metadata}" />
+        </TabItem>
+    </TabControl>
+
+</UserControl>

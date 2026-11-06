@@ -52,11 +52,11 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    [ObservableProperty] bool _canGoBack;
    [ObservableProperty] bool _canGoForward;
 
-   /// <summary>Whether the editor section, on the right of the page, is open. It stays open as links are followed in the tab.</summary>
-   [ObservableProperty] bool _isEditorSectionOpen;
-
-   /// <summary>The editor of the shown note's flags, when the shown note is a vocab. The editor section shows it.</summary>
-   [ObservableProperty] VocabFlagsEditorViewModel? _vocabFlagsEditor;
+   /// <summary>
+   /// What the workspace's editor section shows for this tab, when its note is a vocab: the vocab's editors.<br/>
+   /// Each tab has its own, for the note it shows, and the section shows the shown tab's.
+   /// </summary>
+   [ObservableProperty] VocabEditorSectionViewModel? _vocabEditorSection;
 
    public NoteTabViewModel(WorkspaceViewModel workspace, TemporaryServiceCollection services, Uri firstPageUrl)
    {
@@ -74,12 +74,12 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
             if(!IsShowing(note)) return;
 
             PageBecameOutdated();
-            uiThread.PostToUIThread(() => VocabFlagsEditor?.Refresh());
+            uiThread.PostToUIThread(() => VocabEditorSection?.Refresh());
          }),
          services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ =>
          {
             PageBecameOutdated();
-            uiThread.PostToUIThread(CreateTheEditorsForTheShownNote);
+            uiThread.PostToUIThread(CreateTheEditorSectionForTheShownNote);
          }),
          services.CoreApp.Config.Changed.Subscribe(_ => PageBecameOutdated())
       ];
@@ -112,10 +112,8 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       Header = ShownNote()?.GetQuestion() ?? NoNoteHeader;
       _workspace.TabHeaderChanged(this);
       if(showsAnotherNote)
-         CreateTheEditorsForTheShownNote();
+         CreateTheEditorSectionForTheShownNote();
    }
-
-   public void ToggleEditorSection() => IsEditorSectionOpen = !IsEditorSectionOpen;
 
    /// <summary>Runs the note view shortcut bound to <paramref name="keyGesture"/>, if any, on the note on the page.</summary>
    public void KeyPressed(string keyGesture) => _noteViewShortcuts.BoundTo(keyGesture)?.Run(ShownNote());
@@ -165,10 +163,11 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
 
    /// <summary>
    /// Gives the editor section the editors for the note the tab now shows.<br/>
-   /// Also called after the collection reloads, which may have removed the note.
+   /// Also called after the collection reloads, which may have removed the note.<br/>
+   /// A reparse for a change to the vocab's matching config changes which sentences its page shows, so the page is then reloaded.
    /// </summary>
-   void CreateTheEditorsForTheShownNote() =>
-      VocabFlagsEditor = ShownNote() is VocabNote vocab ? new VocabFlagsEditorViewModel(_services, vocab.GetId()) : null;
+   void CreateTheEditorSectionForTheShownNote() =>
+      VocabEditorSection = ShownNote() is VocabNote vocab ? new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated) : null;
 
    JPNote? ShownNote() => _shownNoteId is {} noteId ? _services.CoreApp.Collection.NoteFromNoteId(noteId) : null;
 }

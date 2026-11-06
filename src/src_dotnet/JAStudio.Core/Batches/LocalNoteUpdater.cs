@@ -309,6 +309,16 @@ public class LocalNoteUpdater
       ReparseSentences(sentences.ToList());
    }
 
+   /// <summary>
+   /// <see cref="ReparseSentencesForVocab"/> without the progress dialog, for a caller that shows its progress itself,<br/>
+   /// such as an editor that reparses after every change, which would otherwise pop the dialog up every time.
+   /// </summary>
+   public void ReparseSentencesForVocabWithoutProgressDialog(VocabNote vocab)
+   {
+      using var hiddenScope = _taskRunner.Current("Reanalysing sentences for vocab without a progress dialog", forceHide: true);
+      ReparseSentencesForVocab(vocab);
+   }
+
    public void ReparseMatchingSentences(string questionSubstring)
    {
       var sentencesToUpdate = _sentences.SentencesWithSubstring(questionSubstring);

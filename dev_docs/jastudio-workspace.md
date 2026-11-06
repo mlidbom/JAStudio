@@ -17,10 +17,10 @@ stops making sense. Search results, the note you're viewing and its editors belo
 ## The shape
 
 - **Workspaces.** A workspace is a window. Several can be open at once.
-- **Tabs.** A workspace holds any number of tabs, and each tab shows one note:
-  - the note's page (its card's answer side, rendered by the `CardServer`) in a web view, with its own back and
-    forward history;
-  - optionally, the note's editors, in a collapsible section on the right.
+- **Tabs.** A workspace holds any number of tabs, and each tab shows one note's page (its card's answer side,
+  rendered by the `CardServer`) in a web view, with its own back and forward history.
+- **The editor section,** collapsible, on the right, shows the editors of the shown tab's note. There's one per
+  workspace, opened or closed for all tabs at once.
 - **Search** lives in the workspace too, as a pane whose results open in tabs. The menu items that open lists of
   notes in Anki's browser today fill that pane instead.
 
@@ -127,13 +127,20 @@ apply here.
    from outside does; middle-click opens it in a background tab. Filling the pane from the menu items that open
    lists of notes in Anki's browser is still to come.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
-   first. *(Started 2026-11-06: the vocab flags editor, `VocabFlagsEditorViewModel`, replaces the "Edit Matching
-   Config" dialog.)* Each tab has an editor section on the right, opened and closed with Ctrl+E or the "Editor"
-   button, resized by dragging its edge. It stays open as links are followed and shows the editors of whatever note
-   the tab shows. Every change is written to the note at once. A change to a parsing rule marks the vocab's
-   sentences as needing a reparse, and the "Reparse sentences" button reparses them once, however many rules
-   changed. "Edit Matching Config" in the note menus opens the note in the workspace with the section open. The
-   vocab, kanji and sentence editors are still dialogs.
+   first. *(Started 2026-11-06: a vocab's editors, `VocabEditorSectionViewModel`, replace the "Edit Matching
+   Config" dialog.)*
+   - **One editor section per workspace,** on the right, opened and closed with Ctrl+E or the "Editor" button and
+     resized by dragging its edge. It shows the editors of the shown tab's note, so it stays open as links are
+     followed and tabs are switched. Each tab keeps its own editors, for the note it shows.
+   - **A vocab's editors are tabs:** "Matching" is the matching config, everything that affects parsing; "Metadata"
+     is the rest, such as the register. The vocab editor dialog's text fields will get a tab of their own.
+   - **Every change is written to the note at once.** A change on the "Matching" tab reparses the vocab's
+     sentences, in the background, and the vocab's page then reloads to show the sentences it now matches. The tab
+     shows that it's reparsing and can't be changed meanwhile, because the reparse reads the vocab's tags. The
+     reparse shows no progress dialog (`ReparseSentencesForVocabWithoutProgressDialog`): one popping up after
+     every click would be in the way.
+   - "Edit Matching Config" in the note menus opens the note in the workspace with the section open. The vocab,
+     kanji and sentence editors are still dialogs.
 6. **Multiple workspaces.**
 7. **Revert to the committed version.**
 

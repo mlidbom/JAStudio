@@ -9,28 +9,46 @@ namespace JAStudio.UI.Controls;
 /// </summary>
 /// <remarks>
 /// It reads and writes the flag through <c>currentFlag</c>, which finds it on the note the collection holds now,<br/>
-/// because the note recreates its flag objects whenever its tags change.<br/>
-/// Writing a flag the note already has changes nothing, so a <see cref="Refresh"/> needs no guard against writing back what it read.
+/// because the note recreates its flag objects whenever its tags change.
 /// </remarks>
-partial class TagFlagCheckBoxViewModel : ObservableObject
+class TagFlagCheckBoxViewModel : ObservableObject
 {
    readonly Func<TagFlagField> _currentFlag;
+   readonly Action _flagChanged;
+   bool _isSet;
 
    /// <param name="label">What the flag means, shown beside the check box.</param>
    /// <param name="currentFlag">Finds the flag on the note as the collection holds it now.</param>
-   public TagFlagCheckBoxViewModel(string label, Func<TagFlagField> currentFlag)
+   /// <param name="flagChanged">Called after a change is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
+   public TagFlagCheckBoxViewModel(string label, Func<TagFlagField> currentFlag, Action flagChanged)
    {
       Label = label;
       _currentFlag = currentFlag;
+      _flagChanged = flagChanged;
       _isSet = currentFlag().IsSet();
    }
 
    public string Label { get; }
 
-   [ObservableProperty] bool _isSet;
+   public bool IsSet
+   {
+      get => _isSet;
+      set
+      {
+         if(value == _isSet) return;
+
+         _currentFlag().SetTo(value);
+         Show(value);
+         _flagChanged();
+      }
+   }
 
    /// <summary>Shows the flag as the note has it now, after a change made elsewhere.</summary>
-   public void Refresh() => IsSet = _currentFlag().IsSet();
+   public void Refresh() => Show(_currentFlag().IsSet());
 
-   partial void OnIsSetChanged(bool value) => _currentFlag().SetTo(value);
+   void Show(bool isSet)
+   {
+      _isSet = isSet;
+      OnPropertyChanged(nameof(IsSet));
+   }
 }

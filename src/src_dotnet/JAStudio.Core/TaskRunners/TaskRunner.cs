@@ -19,9 +19,12 @@ public class TaskRunner
 
    /// <summary>Returns a scope that implements <see cref="ITaskProgressRunner"/>. Nested calls share the same progress dialog window which stays open and in place until the outermost scope is disposed.
    /// Each individual method call on the scope gets its own progress panel within that dialog. Each scope gets its own heading panel and logs its total elapsed time.</summary>
+   /// <param name="scopeTitle">The scope's heading in the progress dialog, and its name in the log.</param>
+   /// <param name="forceHide">Shows no progress for this scope, nor for the scopes opened inside it: for a caller that shows its progress itself.</param>
+   /// <param name="allowCancel">Whether the progress dialog offers to cancel the scope's work.</param>
    public ITaskProgressRunner Current(string scopeTitle, bool forceHide = false, bool allowCancel = true)
    {
-      var visible = !CoreApp.IsTesting && !forceHide;
+      var visible = !CoreApp.IsTesting && !forceHide && !IsInsideHiddenScope;
 
       var previousNestingDepth = _nestingDepth.Value;
       _nestingDepth.Value += 1;
@@ -36,6 +39,13 @@ public class TaskRunner
       _currentLogEntry.Value = scope.LogEntry;
       return scope;
    }
+
+   /// <summary>
+   /// Whether the current call chain is inside a hidden scope, so that a scope opened now must be hidden too.<br/>
+   /// A visible scope always has a view model in the progress dialog and a hidden one has none,<br/>
+   /// so this is so exactly when there is an enclosing scope but no enclosing scope view model.
+   /// </summary>
+   bool IsInsideHiddenScope => _nestingDepth.Value > 0 && _parentScopeViewmodel.Value == null;
 
    internal ITaskProgressRunner CreateRunner(TaskProgressScopeViewModel? scopeViewModel, string labelText, bool? visible = null, bool allowCancel = true)
    {

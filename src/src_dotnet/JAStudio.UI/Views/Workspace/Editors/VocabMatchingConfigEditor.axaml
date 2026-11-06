@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMatchingConfigEditor"
+             x:DataType="editors:VocabMatchingConfigEditorViewModel">
+
+    <!-- The rows' look comes from the VocabEditorSection this tab is in. -->
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="6,6,6,0" IsVisible="{Binding IsReparsingSentences}">
+            <TextBlock Text="Reparsing the sentences for this vocab…" />
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8" Margin="6" IsEnabled="{Binding !IsReparsingSentences}">
+                <Border Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="sectionTitle" Text="Display" />
+                        <ContentControl Content="{Binding YieldLastToken}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="sectionTitle" Text="Misc matching rules" />
+                        <ItemsControl ItemsSource="{Binding MiscMatchingRules}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="sectionTitle" Text="Stem matching rules" />
+                        <ItemsControl ItemsSource="{Binding StemMatchingRules}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="sectionTitle" Text="Is" />
+                        <ItemsControl ItemsSource="{Binding IsFlags}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="sectionTitle" Text="Misc" />
+                        <ItemsControl ItemsSource="{Binding MiscFlags}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="sectionTitle" Text="String rules" />
+                        <ItemsControl ItemsSource="{Binding StringRules}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</UserControl>

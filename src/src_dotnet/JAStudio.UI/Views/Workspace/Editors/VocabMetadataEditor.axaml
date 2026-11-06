@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMetadataEditor"
+             x:DataType="editors:VocabMetadataEditorViewModel">
+
+    <!-- The rows' look comes from the VocabEditorSection this tab is in. -->
+    <ScrollViewer>
+        <StackPanel Spacing="8" Margin="6">
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Misc" />
+                    <ItemsControl ItemsSource="{Binding MiscFlags}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Register" />
+                    <ItemsControl ItemsSource="{Binding RegisterFlags}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>
