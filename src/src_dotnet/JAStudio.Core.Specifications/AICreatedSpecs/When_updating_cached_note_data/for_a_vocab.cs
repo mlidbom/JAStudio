@@ -58,7 +58,7 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       }
 
       [XF] public void the_removed_form_is_no_longer_present() =>
-         _vocab.Forms.AllSet().Contains("食う").Must().BeFalse();
+         _vocab.Forms.EnteredFormsSet().Contains("食う").Must().BeFalse();
 
       [XF] public void the_original_question_still_finds_it() =>
          GetService<VocabCollection>().WithQuestion("食べる").Count.Must().Be(1);
@@ -85,9 +85,9 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
          GetService<VocabCollection>().WithQuestion("走る").Must().BeEmpty();
 
       [XF] public void removed_forms_are_gone() =>
-         _vocab.Forms.AllSet().Contains("駆ける").Must().BeFalse();
+         _vocab.Forms.EnteredFormsSet().Contains("駆ける").Must().BeFalse();
 
       [XF] public void surviving_forms_remain() =>
-         _vocab.Forms.AllSet().Must().Contain("ダッシュする");
+         _vocab.Forms.EnteredFormsSet().Must().Contain("ダッシュする");
    }
 }

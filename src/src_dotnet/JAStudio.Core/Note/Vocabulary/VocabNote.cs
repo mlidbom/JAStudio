@@ -102,6 +102,7 @@ public class VocabNote : JPNote
    public override void OnTagsUpdated()
    {
       MatchingConfiguration.RefreshTagBasedFlags();
+      Forms.OnTagsUpdated();
    }
 
    public override void UpdateGeneratedData()
@@ -140,7 +141,7 @@ public class VocabNote : JPNote
 
       if(forms.Any())
       {
-         note.Forms.SetList(forms);
+         note.Forms.SetEnteredForms(forms);
       }
 
       note.UpdateGeneratedData();

@@ -72,7 +72,7 @@ public class QueryBuilder
          var vocabs = _vocab.WithForm(word).ToList();
          if(vocabs.Any())
          {
-            var forms = vocabs.SelectMany(voc => voc.Forms.AllList()).Distinct().ToList();
+            var forms = vocabs.SelectMany(voc => voc.Forms.MatchedFormsList()).Distinct().ToList();
             return result + "(" + string.Join("　OR ", forms.Select(FormQuery)) + ")";
          }
       }
@@ -87,8 +87,8 @@ public class QueryBuilder
    public string PotentiallyMatchingSentencesForVocab(VocabNote vocab)
    {
       var searchStrings = vocab.MatchingConfiguration.RequiresForbids.Surface.IsRequired
-                             ? vocab.Forms.AllList().ToList()
-                             : vocab.Conjugator.GetStemsForAllForms().Concat(vocab.Forms.AllList()).ToList();
+                             ? vocab.Forms.MatchedFormsList().ToList()
+                             : vocab.Conjugator.GetStemsForAllForms().Concat(vocab.Forms.MatchedFormsList()).ToList();
 
       return $"{Builtin.Note}:{NoteTypes.Sentence} {FieldContainsString(AnkiFieldNames.Question, searchStrings.ToArray())}";
    }

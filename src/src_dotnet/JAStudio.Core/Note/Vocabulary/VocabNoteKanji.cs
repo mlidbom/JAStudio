@@ -18,7 +18,7 @@ public class VocabNoteKanji
 
    public HashSet<string> ExtractAllKanji()
    {
-      var combined = Vocab.GetQuestion() + Vocab.Forms.AllRawString();
+      var combined = Vocab.GetQuestion() + Vocab.Forms.EnteredFormsWithBracketsString();
       var clean = StripHtmlAndBracketMarkup(combined);
       return clean.Where(c => IsKanji(c)).Select(c => c.ToString()).ToHashSet();
    }

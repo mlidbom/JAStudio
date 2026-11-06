@@ -52,7 +52,7 @@ public class VocabCloner
       }
 
       newVocab.PartsOfSpeech.SetRawStringValue(speechType);
-      newVocab.Forms.SetList(Note.Forms.AllSet().Select(AppendPrependAddendum).ToList());
+      newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).ToList());
 
       return newVocab;
    }
@@ -152,10 +152,10 @@ public class VocabCloner
    {
       var suruVerb = CreatePostfixPrefixVersion(shimasu ? "します" : "する", POS.SuruVerb);
 
-      var forms = suruVerb.Forms.AllSet()
-                          .Concat(suruVerb.Forms.AllSet().Select(form => form.Replace("する", "をする")))
+      var forms = suruVerb.Forms.EnteredFormsSet()
+                          .Concat(suruVerb.Forms.EnteredFormsSet().Select(form => form.Replace("する", "をする")))
                           .ToList();
-      suruVerb.Forms.SetList(forms);
+      suruVerb.Forms.SetEnteredForms(forms);
 
       if(Note.PartsOfSpeech.IsTransitive())
       {
@@ -183,7 +183,7 @@ public class VocabCloner
       string CreateFullForm(string form) => createFormRoot(Note, form) + formSuffix;
 
       var clone = CreateNewVocabWithSomeDataCopied(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
-      clone.Forms.SetList(Note.Forms.AllList().Select(CreateFullForm).ToList());
+      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).ToList());
       var readings = Note.GetReadings().Select(CreateFullForm).ToList();
       clone.SetReadings(readings);
       clone.PartsOfSpeech.SetRawStringValue(POS.Expression);
@@ -244,7 +244,7 @@ public class VocabCloner
          Conjugator.GetImperative(form, Note.PartsOfSpeech.IsIchidan(), Note.PartsOfSpeech.IsGodan());
 
       var clone = CreateNewVocabWithSomeDataCopied(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
-      clone.Forms.SetList(Note.Forms.AllList().Select(CreateImperativeForm).ToList());
+      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).ToList());
       var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
       clone.SetReadings(readings);
       clone.PartsOfSpeech.SetRawStringValue(POS.Expression);

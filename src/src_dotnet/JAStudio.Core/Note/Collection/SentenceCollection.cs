@@ -23,11 +23,11 @@ public class SentenceCollection
       List<string> searchStrings;
       if(vocab.MatchingConfiguration.RequiresForbids.Surface.IsRequired)
       {
-         searchStrings = vocab.Forms.AllList();
+         searchStrings = vocab.Forms.MatchedFormsList();
       } else
       {
          searchStrings = vocab.Conjugator.GetStemsForAllForms()
-                              .Concat(vocab.Forms.AllList())
+                              .Concat(vocab.Forms.MatchedFormsList())
                               .ToList();
       }
 

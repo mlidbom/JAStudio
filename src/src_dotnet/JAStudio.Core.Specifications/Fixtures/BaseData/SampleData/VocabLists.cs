@@ -10,7 +10,7 @@ static class VocabLists
    public static readonly List<VocabSpec> TestSpecialVocab =
    [
       // <non-standard-token-splitting-to-enable-more-pedagogical-breakdowns-for-conjugations>
-      new("う", "dictionary form verb inflection", forms: ["る"], tags: [VM.Requires.DictionaryFormStart]),
+      new("う", "dictionary form verb inflection", tags: [VM.Requires.DictionaryFormStart]),
       // godan potential
       new("える",
           "to-be-able-to",
@@ -192,7 +192,7 @@ static class VocabLists
       new("すんな", forms: ["[すな]"], tags: [VM.Forbids.DictionaryFormStart]),
 
       new("がある", tags: [VM.YieldLastTokenToOverlappingCompound]),
-      new("うの", forms: ["うの", "くの", "ぐの", "すの", "つの", "ぬの", "ぶの", "むの", "るの"], tags: [VM.Requires.DictionaryFormStart, V.QuestionOverridesForm]),
+      new("うの", tags: [VM.Requires.DictionaryFormStart, V.QuestionOverridesForm]),
 
       new("寝れる", tags: [VM.IsPoisonWord]),
       new("れる:ichidan", tags: [VM.Requires.Ichidan, VM.Requires.Irrealis]),

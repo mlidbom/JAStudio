@@ -71,14 +71,14 @@ public class VocabNoteUserCompoundParts
 
    public void AutoGenerate()
    {
-      var exclusions = Vocab.Forms.AllSet()
+      var exclusions = Vocab.Forms.MatchedFormsSet()
                             .Select(form => WordExclusion.Global(form))
                             .ToList();
       var config = SentenceConfiguration.FromIncorrectMatches(exclusions);
       var analysisServices = new AnalysisServices(Vocab.Services.Collection.Vocab, Vocab.Services.DictLookup, Vocab.Services.Settings);
       var analysis = new TextAnalysis(analysisServices, Vocab.GetQuestion(), config);
       var compoundParts = analysis.DisplayWordVariants
-                                  .Where(a => !Vocab.Forms.AllSet().Contains(a.Form))
+                                  .Where(a => !Vocab.Forms.MatchedFormsSet().Contains(a.Form))
                                   .Select(a => a.Form)
                                   .ToList();
 

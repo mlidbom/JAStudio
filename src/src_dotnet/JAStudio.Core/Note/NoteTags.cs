@@ -22,10 +22,14 @@ public class NoteTags : IEnumerable<Tag>
       }
    }
 
+   /// <summary>
+   /// Lets the note refresh everything it derives from its tags, then flushes it.<br/>
+   /// The refresh comes first because flushing caches a snapshot of the note, and that snapshot must reflect the new tags.
+   /// </summary>
    void Persist()
    {
-      _note.Flush();
       _note.OnTagsUpdated();
+      _note.Flush();
    }
 
    public bool Contains(Tag value) => _tags.Contains(value);

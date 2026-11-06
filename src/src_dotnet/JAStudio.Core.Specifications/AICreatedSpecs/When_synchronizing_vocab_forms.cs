@@ -21,14 +21,14 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
       }
 
       [XF] public void the_other_vocab_gains_this_vocabs_question_as_a_form() =>
-         _vocabB.Forms.AllSet().Must().Contain("食べる");
+         _vocabB.Forms.EnteredFormsSet().Must().Contain("食べる");
 
       public class after_removing_it : after_adding_a_form_that_matches_another_vocabs_question
       {
          public after_removing_it() => _vocabA.Forms.Remove("食う");
 
          [XF] public void the_other_vocab_no_longer_has_this_vocabs_question_as_a_form() =>
-            _vocabB.Forms.AllSet().Contains("食べる").Must().BeFalse();
+            _vocabB.Forms.EnteredFormsSet().Contains("食べる").Must().BeFalse();
       }
    }
 
@@ -39,7 +39,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
       public given_a_vocab_with_bracketed_and_plain_forms()
       {
          _vocab = CreateVocab("走る", "to run", "はしる");
-         _vocab.Forms.SetList(["[駆ける]", "ダッシュする"]);
+         _vocab.Forms.SetEnteredForms(["[駆ける]", "ダッシュする"]);
       }
 
       [XF] public void bracketed_forms_are_owned() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
@@ -67,13 +67,13 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
          _vocab1 = CreateVocab("食べる", "to eat", "たべる");
          _vocab2 = CreateVocab("食う", "to eat (casual)", "くう");
          _vocab3 = CreateVocab("召し上がる", "to eat (honorific)", "めしあがる");
-         _vocab1.Forms.SetList(["食う", "召し上がる"]);
+         _vocab1.Forms.SetEnteredForms(["食う", "召し上がる"]);
       }
 
-      [XF] public void AllListNotes_includes_the_first_form_vocab() =>
-         _vocab1.Forms.AllListNotes().Must().Contain(_vocab2);
+      [XF] public void VocabForEnteredForms_includes_the_first_form_vocab() =>
+         _vocab1.Forms.VocabForEnteredForms().Must().Contain(_vocab2);
 
-      [XF] public void AllListNotes_includes_the_second_form_vocab() =>
-         _vocab1.Forms.AllListNotes().Must().Contain(_vocab3);
+      [XF] public void VocabForEnteredForms_includes_the_second_form_vocab() =>
+         _vocab1.Forms.VocabForEnteredForms().Must().Contain(_vocab3);
    }
 }

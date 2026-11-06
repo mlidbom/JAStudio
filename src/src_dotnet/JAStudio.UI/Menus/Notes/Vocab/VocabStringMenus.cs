@@ -38,7 +38,7 @@ class VocabStringMenus
       var seeAlso = vocab.RelatedNotes.SeeAlso.Strings();
       var confusedWith = vocab.RelatedNotes.ConfusedWith.Get();
       var perfectSynonyms = vocab.RelatedNotes.PerfectSynonyms.Get();
-      var forms = vocab.Forms.AllSet();
+      var matchedForms = vocab.Forms.MatchedFormsSet();
 
       var items = new List<SpecMenuItem>
                   {
@@ -46,7 +46,7 @@ class VocabStringMenus
                      SpecMenuItem.UICommand(ShortcutFinger.Home2("Synonyms transitively one level"), () => vocab.RelatedNotes.Synonyms.AddTransitivelyOneLevel(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Add(text), enabled: !confusedWith.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home4("Antonym"), () => vocab.RelatedNotes.Antonyms.Add(text), enabled: !antonyms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !forms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Add(text), enabled: !seeAlso.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), () => vocab.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(text), enabled: !perfectSynonyms.Contains(text))
                   };
@@ -72,7 +72,7 @@ class VocabStringMenus
       var seeAlso = vocab.RelatedNotes.SeeAlso.Strings();
       var confusedWith = vocab.RelatedNotes.ConfusedWith.Get();
       var perfectSynonyms = vocab.RelatedNotes.PerfectSynonyms.Get();
-      var forms = vocab.Forms.AllSet();
+      var enteredForms = vocab.Forms.EnteredFormsSet();
       var ergativeTwin = vocab.RelatedNotes.ErgativeTwin.Get();
       var derivedFrom = vocab.RelatedNotes.DerivedFrom.Get();
 
@@ -82,7 +82,7 @@ class VocabStringMenus
                      SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Remove(text), enabled: confusedWith.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Antonym"), () => vocab.RelatedNotes.Antonyms.Remove(text), enabled: antonyms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home4("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Remove(), enabled: text == ergativeTwin),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: forms.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: enteredForms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Remove(text), enabled: seeAlso.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym"), () => vocab.RelatedNotes.PerfectSynonyms.Remove(text), enabled: perfectSynonyms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Down2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(""), enabled: text == derivedFrom)

@@ -35,7 +35,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     SpecMenuItem.Submenu(ShortcutFinger.Home1("Vocab"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("Forms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Forms.AllListNotes()))),
+                                                            SpecMenuItem.Command(ShortcutFinger.Home1("Forms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Forms.VocabForEnteredForms()))),
                                                             SpecMenuItem.Command(ShortcutFinger.Home2("Compound parts"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(vocab.CompoundParts.All()))),
                                                             SpecMenuItem.Command(ShortcutFinger.Home3("In compounds"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.InCompounds()))),
                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Synonyms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.Synonyms.Notes()))),
@@ -166,7 +166,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
    SpecMenuItem BuildCreateCloneToFormMenuSpec(string title, VocabNote vocab)
    {
       var col = _services.CoreApp.Collection;
-      var formsWithNoVocab = vocab.Forms.AllSet()
+      var formsWithNoVocab = vocab.Forms.EnteredFormsSet()
                                   .Where(form => !col.Vocab.WithQuestion(form).Any())
                                   .ToList();
 

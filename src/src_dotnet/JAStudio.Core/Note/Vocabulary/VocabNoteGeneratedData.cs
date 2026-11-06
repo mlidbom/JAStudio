@@ -36,7 +36,7 @@ public class VocabNoteGeneratedData
          var excludedPOS = new HashSet<string> { POS.Unknown, "Godan verbIchidan verb", "Ichidan verbGodan verb" };
          var speechTypes = vocab.PartsOfSpeech.Get().Except(excludedPOS).ToHashSet();
 
-         if(vocab.GetReadings().Any() && (!vocab.Forms.AllSet().Any() || !speechTypes.Any())) // this is our rough test for whether the entry is not yet set up manually
+         if(vocab.GetReadings().Any() && (!vocab.Forms.EnteredFormsSet().Any() || !speechTypes.Any())) // this is our rough test for whether the entry is not yet set up manually
          {
             var lookup = _dictLookup.LookupVocabWordOrName(vocab);
             if(lookup.IsUk() && !vocab.Tags.Contains(Tags.DisableKanaOnly))
@@ -44,16 +44,16 @@ public class VocabNoteGeneratedData
                vocab.Tags.Set(Tags.UsuallyKanaOnly);
             }
 
-            if(!vocab.Forms.AllSet().Any())
+            if(!vocab.Forms.EnteredFormsSet().Any())
             {
                if(lookup.FoundWords())
                {
-                  vocab.Forms.SetSet(lookup.ValidForms(vocab.PartsOfSpeech.IsUk()));
+                  vocab.Forms.SetEnteredForms(lookup.ValidForms(vocab.PartsOfSpeech.IsUk()));
                }
 
-               if(vocab.PartsOfSpeech.IsUk() && !vocab.Forms.AllSet().Contains(vocab.GetReadings()[0]))
+               if(vocab.PartsOfSpeech.IsUk() && !vocab.Forms.EnteredFormsSet().Contains(vocab.GetReadings()[0]))
                {
-                  vocab.Forms.SetSet(vocab.Forms.AllSet().Union(vocab.GetReadings()).ToHashSet());
+                  vocab.Forms.SetEnteredForms(vocab.Forms.EnteredFormsSet().Union(vocab.GetReadings()));
                }
             }
 

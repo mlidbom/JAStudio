@@ -84,14 +84,14 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
          _vocab.Forms.Add("駆ける");
       }
 
-      [XF] public void the_form_appears_in_AllList() => _vocab.Forms.AllList().Must().Contain("駆ける");
+      [XF] public void the_form_appears_in_the_entered_forms() => _vocab.Forms.EnteredFormsList().Must().Contain("駆ける");
 
       public class after_removing_it : after_adding_a_form
       {
          public after_removing_it() => _vocab.Forms.Remove("駆ける");
 
-         [XF] public void the_form_no_longer_appears_in_AllList() =>
-            _vocab.Forms.AllList().Contains("駆ける").Must().BeFalse();
+         [XF] public void the_form_no_longer_appears_in_the_entered_forms() =>
+            _vocab.Forms.EnteredFormsList().Contains("駆ける").Must().BeFalse();
       }
    }
 
@@ -112,7 +112,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       {
          _vocab = new VocabNote(NoteServices);
          _vocab.Question.Set("走る");
-         _vocab.Forms.SetList(["[駆ける]", "はしる"]);
+         _vocab.Forms.SetEnteredForms(["[駆ける]", "はしる"]);
       }
 
       [XF] public void a_bracketed_form_is_owned() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
@@ -123,15 +123,15 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       {
          public after_changing_the_question_to_a_new_form() => _vocab.Question.Set("奔る");
 
-         [XF] public void the_bracketed_form_keeps_its_brackets() => _vocab.Forms.AllRawList().Must().Contain("[駆ける]");
-         [XF] public void the_new_question_is_added_as_a_form() => _vocab.Forms.AllSet().Must().Contain("奔る");
+         [XF] public void the_bracketed_form_keeps_its_brackets() => _vocab.Forms.EnteredFormsWithBrackets().Must().Contain("[駆ける]");
+         [XF] public void the_new_question_is_added_as_a_form() => _vocab.Forms.EnteredFormsSet().Must().Contain("奔る");
       }
 
       public class after_ensuring_it_contains_the_bracketed_form_without_brackets : given_a_vocab_with_forms_set_using_brackets
       {
          public after_ensuring_it_contains_the_bracketed_form_without_brackets() => _vocab.Forms.EnsureContains("駆ける");
 
-         [XF] public void the_forms_are_unchanged() => _vocab.Forms.AllRawString().Must().Be("[駆ける], はしる");
+         [XF] public void the_forms_are_unchanged() => _vocab.Forms.EnteredFormsWithBracketsString().Must().Be("[駆ける], はしる");
       }
    }
 
@@ -179,7 +179,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       }
 
       [XF] public void the_question_is_automatically_included_in_forms() =>
-         _vocab.Forms.AllSet().Must().Contain("新しい");
+         _vocab.Forms.EnteredFormsSet().Must().Contain("新しい");
    }
 
    public class given_a_vocab_created_with_explicit_forms : When_working_with_a_VocabNote
@@ -189,7 +189,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       public given_a_vocab_created_with_explicit_forms() =>
          _vocab = CreateVocab("食べる", "to eat", ["たべる"], ["食う", "召し上がる"]);
 
-      [XF] public void the_first_form_is_present() => _vocab.Forms.AllSet().Must().Contain("食う");
-      [XF] public void the_second_form_is_present() => _vocab.Forms.AllSet().Must().Contain("召し上がる");
+      [XF] public void the_first_form_is_present() => _vocab.Forms.EnteredFormsSet().Must().Contain("食う");
+      [XF] public void the_second_form_is_present() => _vocab.Forms.EnteredFormsSet().Must().Contain("召し上がる");
    }
 }

@@ -29,7 +29,7 @@ static class VocabNoteConverter
                 AudioB = note.Audio.First.RawValue(),
                 AudioG = note.Audio.Second.RawValue(),
                 AudioTTS = note.Audio.Tts.RawValue(),
-                Forms = note.Forms.AllRawList(),
+                Forms = note.Forms.EnteredFormsWithBrackets(),
                 SentenceCount = note.MetaData.SentenceCount,
                 TechnicalNotes = note.TechnicalNotes.Value,
                 References = note.References.Value,

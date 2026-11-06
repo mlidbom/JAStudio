@@ -119,7 +119,7 @@ public class VocabCollection
             .ToList();
 
       IEnumerable<VocabNote> CompoundsWithAPartThatCouldReferToIt() =>
-         vocab.Forms.AllSet()
+         vocab.Forms.MatchedFormsSet()
               .Append(vocab.Question.DisambiguationName)
               .SelectMany(Cache.WithCompoundPart)
               .Distinct();

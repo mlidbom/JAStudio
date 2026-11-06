@@ -5,14 +5,25 @@ using JAStudio.Core.Note.CorpusData;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
+/// <summary>
+/// The forms of a <see cref="VocabNote"/>: the texts that, when found in a sentence, are this vocab.<br/>
+/// They come as two sets: the entered forms, exactly as the user typed them and as they are stored,<br/>
+/// and the matched forms, which are the entered forms plus everything they expand to.
+/// </summary>
+/// <remarks>
+/// The two sets differ only for a vocab that requires the dictionary form start, where an entered form starting with the<br/>
+/// <see cref="DictionaryFormEndingPlaceholder"/> expands to one matched form per dictionary form ending.<br/>
+/// Showing, editing, storing and copying forms uses the entered forms; looking forms up in text uses the matched forms.
+/// </remarks>
 public class VocabNoteForms
 {
    readonly VocabNote _vocab;
    readonly NoteGuard _guard;
-   List<string> _rawParts;
-   readonly LazyCE<HashSet<string>> _allRawSet;
-   readonly LazyCE<List<string>> _allList;
-   readonly LazyCE<HashSet<string>> _allSet;
+   List<string> _enteredFormsWithBrackets;
+   readonly LazyCE<List<string>> _enteredFormsList;
+   readonly LazyCE<HashSet<string>> _enteredFormsSet;
+   readonly LazyCE<List<string>> _matchedFormsList;
+   readonly LazyCE<HashSet<string>> _matchedFormsSet;
    readonly LazyCE<HashSet<string>> _ownedForms;
    readonly LazyCE<HashSet<string>> _notOwnedByOtherVocab;
 
@@ -20,29 +31,45 @@ public class VocabNoteForms
    {
       _vocab = vocab;
       _guard = guard;
-      _rawParts = data?.Forms != null ? [..data.Forms] : [];
-      _allRawSet = new LazyCE<HashSet<string>>(() => _rawParts.ToHashSet());
-      _allList = new LazyCE<List<string>>(() => _rawParts.Select(StripBrackets).ToList());
-      _allSet = new LazyCE<HashSet<string>>(() => _allList.Value.ToHashSet());
+      _enteredFormsWithBrackets = data?.Forms != null ? [..data.Forms] : [];
+      _enteredFormsList = new LazyCE<List<string>>(() => [.. _enteredFormsWithBrackets.Select(StripBrackets)]);
+      _enteredFormsSet = new LazyCE<HashSet<string>>(() => [.. _enteredFormsList.Value]);
+      _matchedFormsList = new LazyCE<List<string>>(ComputeMatchedForms);
+      _matchedFormsSet = new LazyCE<HashSet<string>>(() => [.. _matchedFormsList.Value]);
       _ownedForms = new LazyCE<HashSet<string>>(ComputeOwnedForms);
       _notOwnedByOtherVocab = new LazyCE<HashSet<string>>(ComputeNotOwnedByOtherVocab);
    }
 
    void InvalidateCaches()
    {
-      _allRawSet.Reset();
-      _allList.Reset();
-      _allSet.Reset();
+      _enteredFormsList.Reset();
+      _enteredFormsSet.Reset();
+      _matchedFormsList.Reset();
+      _matchedFormsSet.Reset();
       _ownedForms.Reset();
       _notOwnedByOtherVocab.Reset();
    }
 
+   List<string> ComputeMatchedForms()
+   {
+      if(!ExpandsDictionaryFormEndingPlaceholders) return _enteredFormsList.Value;
+
+      return
+      [
+         .. _enteredFormsList.Value
+                             .SelectMany(DictionaryFormEndingPlaceholder.FormAndItsExpansions)
+                             .Distinct()
+      ];
+   }
+
+   bool ExpandsDictionaryFormEndingPlaceholders => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.IsRequired;
+
    HashSet<string> ComputeOwnedForms()
    {
       var owned = new HashSet<string> { _vocab.GetQuestion() };
-      foreach(var form in _allRawSet.Value)
+      foreach(var form in _enteredFormsWithBrackets)
       {
-         if(form.StartsWith("["))
+         if(form.StartsWith('['))
          {
             owned.Add(StripBrackets(form));
          }
@@ -53,65 +80,88 @@ public class VocabNoteForms
 
    HashSet<string> ComputeNotOwnedByOtherVocab()
    {
+      return
+      [
+         .. MatchedFormsSet()
+           .Where(IsNotOwnedByOtherFormNote)
+      ];
+
       bool IsNotOwnedByOtherFormNote(string form)
       {
          return !_vocab.Services.Collection.Vocab.Cache.WithQuestion(form)
                        .Any(formOwningVocab =>
                                !Equals(formOwningVocab, _vocab) &&
-                               formOwningVocab.Forms.AllSet().Contains(_vocab.GetQuestion()));
+                               formOwningVocab.Forms.MatchedFormsSet().Contains(_vocab.GetQuestion()));
       }
-
-      return _vocab.Forms.AllSet()
-                   .Where(IsNotOwnedByOtherFormNote)
-                   .ToHashSet();
    }
 
    public bool IsOwnedForm(string form) => _ownedForms.Value.Contains(form);
 
    public HashSet<string> OwnedForms() => _ownedForms.Value;
 
-   public List<string> AllList() => _allList.Value;
-   public HashSet<string> AllSet() => _allSet.Value;
-   public string AllRawString() => string.Join(", ", _rawParts);
+   /// <summary>The forms exactly as the user entered them, with the ownership brackets of owned forms removed.</summary>
+   public List<string> EnteredFormsList() => _enteredFormsList.Value;
 
-   /// Returns all forms with brackets preserved (e.g. "[form]" stays as-is).
-   public List<string> AllRawList() => _rawParts.ToList();
+   /// <inheritdoc cref="EnteredFormsList"/>
+   public HashSet<string> EnteredFormsSet() => _enteredFormsSet.Value;
 
-   public List<VocabNote> AllListNotes()
+   /// <summary>The forms exactly as the user entered them, ownership brackets included, joined with commas for editing.</summary>
+   public string EnteredFormsWithBracketsString() => string.Join(", ", _enteredFormsWithBrackets);
+
+   /// <summary>The forms exactly as the user entered them, ownership brackets included: <c>[form]</c> stays as it is.</summary>
+   public List<string> EnteredFormsWithBrackets() => [.. _enteredFormsWithBrackets];
+
+   /// <summary>
+   /// The forms this vocab matches in text: the <see cref="EnteredFormsList"/>, plus, for a vocab that requires the dictionary form start,<br/>
+   /// what each entered form starting with the <see cref="DictionaryFormEndingPlaceholder"/> expands to.
+   /// </summary>
+   public List<string> MatchedFormsList() => _matchedFormsList.Value;
+
+   /// <inheritdoc cref="MatchedFormsList"/>
+   public HashSet<string> MatchedFormsSet() => _matchedFormsSet.Value;
+
+   /// <summary>The <see cref="MatchedFormsList"/> with the vocab prefix/suffix marker removed.</summary>
+   public List<string> MatchedFormsWithoutNoiseCharacters() => [.. MatchedFormsList().Select(StripNoiseCharacters)];
+
+   /// <summary>The vocab notes whose question is one of the <see cref="EnteredFormsList"/>.</summary>
+   public List<VocabNote> VocabForEnteredForms()
    {
-      return _allList.Value
-                     .SelectMany(form => _vocab.Services.Collection.Vocab.Cache.WithQuestion(form))
-                     .ToList();
+      return
+      [
+         .. _enteredFormsList.Value
+                             .SelectMany(form => _vocab.Services.Collection.Vocab.Cache.WithQuestion(form))
+      ];
    }
 
-   public List<VocabNote> AllListNotesBySentenceCount()
+   /// <summary>The <see cref="VocabForEnteredForms"/>, the ones found in the most sentences first.</summary>
+   public List<VocabNote> VocabForEnteredFormsBySentenceCount()
    {
-      return AllListNotes()
-            .OrderByDescending(vocab => vocab.Sentences.Counts().Total)
-            .ToList();
+      return
+      [
+         .. VocabForEnteredForms()
+           .OrderByDescending(vocab => vocab.Sentences.Counts().Total)
+      ];
    }
 
+   /// <summary>
+   /// The <see cref="MatchedFormsSet"/> except those that are the question of another vocab<br/>
+   /// which in turn has this vocab's question among its own matched forms.
+   /// </summary>
    public HashSet<string> NotOwnedByOtherVocab() => _notOwnedByOtherVocab.Value;
-
-   public List<string> WithoutNoiseCharacters() => AllList().Select(StripNoiseCharacters).ToList();
 
    static string StripNoiseCharacters(string input) => input.Replace(Mine.VocabPrefixSuffixMarker, "");
 
    static string StripBrackets(string input) => input.Replace("[", "").Replace("]", "");
 
-   public void SetSet(HashSet<string> forms)
+   /// <summary>Replaces the entered forms with <paramref name="forms"/>, dropping duplicates.</summary>
+   public void SetEnteredForms(IEnumerable<string> forms) => _guard.Update(() =>
    {
-      SetList(forms.ToList());
-   }
-
-   public void SetList(List<string> forms) => _guard.Update(() =>
-   {
-      _rawParts = forms.Distinct().ToList();
+      _enteredFormsWithBrackets = [.. forms.Distinct()];
       InvalidateCaches();
    });
 
    /// <summary>
-   /// Adds <paramref name="form"/> unless this vocab already has it, bracketed (owned) or not.<br/>
+   /// Adds <paramref name="form"/> to the entered forms unless this vocab already has it, bracketed (owned) or not.<br/>
    /// All existing forms are kept exactly as stored, so their ownership brackets survive.
    /// </summary>
    /// <remarks>
@@ -119,26 +169,29 @@ public class VocabNoteForms
    /// </remarks>
    public void EnsureContains(string form)
    {
-      if(AllSet().Contains(form)) return;
+      if(EnteredFormsSet().Contains(form)) return;
 
       _guard.Update(() =>
       {
-         _rawParts.Add(form);
+         _enteredFormsWithBrackets.Add(form);
          InvalidateCaches();
       });
    }
 
+   /// <summary>
+   /// Removes <paramref name="remove"/> from the entered forms, and removes this vocab's question from the entered forms<br/>
+   /// of every vocab whose question is <paramref name="remove"/>.
+   /// </summary>
    public void Remove(string remove)
    {
       _guard.Update(() =>
       {
-         _rawParts = _rawParts.Where(item => item != remove).ToList();
+         _enteredFormsWithBrackets = [.. _enteredFormsWithBrackets.Where(item => item != remove)];
          InvalidateCaches();
       });
 
-      // Also remove from notes that have this vocab's question as a form
       var removeNotes = _vocab.Services.Collection.Vocab.Cache.WithQuestion(remove)
-                              .Where(voc => voc.Forms.AllSet().Contains(_vocab.GetQuestion()))
+                              .Where(voc => voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
                               .ToList();
 
       foreach(var removeNote in removeNotes)
@@ -147,21 +200,24 @@ public class VocabNoteForms
       }
    }
 
+   /// <summary>
+   /// Adds <paramref name="add"/> to the entered forms, and adds this vocab's question to the entered forms<br/>
+   /// of every vocab whose question is <paramref name="add"/>.
+   /// </summary>
    public void Add(string add)
    {
       _guard.Update(() =>
       {
-         if(!_rawParts.Contains(add))
+         if(!_enteredFormsWithBrackets.Contains(add))
          {
-            _rawParts.Add(add);
+            _enteredFormsWithBrackets.Add(add);
          }
 
          InvalidateCaches();
       });
 
-      // Also add to notes that reference this form
       var addNotes = _vocab.Services.Collection.Vocab.Cache.WithQuestion(add)
-                           .Where(voc => !voc.Forms.AllSet().Contains(_vocab.GetQuestion()))
+                           .Where(voc => !voc.Forms.EnteredFormsSet().Contains(_vocab.GetQuestion()))
                            .ToList();
 
       foreach(var addNote in addNotes)
@@ -170,5 +226,11 @@ public class VocabNoteForms
       }
    }
 
-   public override string ToString() => string.Join(", ", _rawParts);
+   /// <summary>
+   /// Discards everything derived from the vocab's tags.<br/>
+   /// The <see cref="MatchedFormsList"/> depend on whether the vocab requires the dictionary form start.
+   /// </summary>
+   internal void OnTagsUpdated() => InvalidateCaches();
+
+   public override string ToString() => string.Join(", ", _enteredFormsWithBrackets);
 }

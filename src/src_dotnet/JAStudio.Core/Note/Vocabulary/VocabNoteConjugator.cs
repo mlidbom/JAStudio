@@ -23,7 +23,7 @@ public class VocabNoteConjugator
         .ToList();
 
    public List<string> GetStemsForAllForms() =>
-      Vocab.Forms.AllSet()
+      Vocab.Forms.MatchedFormsSet()
            .SelectMany(GetStemsForForm)
            .Distinct()
            .ToList();

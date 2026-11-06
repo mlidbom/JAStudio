@@ -69,9 +69,9 @@ public class VocabSpec : IEquatable<VocabSpec>
 
       if(ExtraForms.Count > 0)
       {
-         var allForms = new HashSet<string>(vocabNote.Forms.AllSet());
-         allForms.UnionWith(ExtraForms);
-         vocabNote.Forms.SetSet(allForms);
+         var enteredForms = new HashSet<string>(vocabNote.Forms.EnteredFormsSet());
+         enteredForms.UnionWith(ExtraForms);
+         vocabNote.Forms.SetEnteredForms(enteredForms);
       }
 
       foreach(var tag in Tags)

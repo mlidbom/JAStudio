@@ -17,7 +17,7 @@ class VocabSnapshot : CachedNote
    public VocabSnapshot(VocabNote note) : base(note)
    {
       DisambiguationName = note.Question.DisambiguationName;
-      Forms = note.Forms.AllList().ToArray();
+      Forms = note.Forms.MatchedFormsList().ToArray();
       CompoundParts = note.CompoundParts.All().ToArray();
       MainFormKanji = note.Kanji.ExtractMainFormKanji().ToArray();
       AllKanji = note.Kanji.ExtractAllKanji().ToArray();

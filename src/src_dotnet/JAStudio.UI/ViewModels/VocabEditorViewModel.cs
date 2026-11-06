@@ -57,7 +57,7 @@ partial class VocabEditorViewModel : ObservableObject
    {
       Question = _vocab.Question.DisambiguationName;
       Readings = string.Join(", ", _vocab.GetReadings());
-      Forms = _vocab.Forms.AllRawString();
+      Forms = _vocab.Forms.EnteredFormsWithBracketsString();
       UserAnswer = _vocab.User.Answer.Value;
       UserExplanation = _vocab.User.Explanation.Value;
       UserExplanationLong = _vocab.User.ExplanationLong.Value;
@@ -81,7 +81,7 @@ partial class VocabEditorViewModel : ObservableObject
    {
       _vocab.Question.Set(Question.Trim());
       _vocab.SetReadings(SplitCommaSeparated(Readings));
-      _vocab.Forms.SetList(SplitCommaSeparated(Forms));
+      _vocab.Forms.SetEnteredForms(SplitCommaSeparated(Forms));
       _vocab.User.Answer.Set(UserAnswer);
       _vocab.User.Explanation.Set(UserExplanation);
       _vocab.User.ExplanationLong.Set(UserExplanationLong);
