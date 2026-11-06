@@ -4,7 +4,7 @@
              x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMetadataEditor"
              x:DataType="editors:VocabMetadataEditorViewModel">
 
-    <!-- The rows' look comes from the VocabEditorSection this tab is in. -->
+    <!-- The rows' look comes from the EditorSection this tab is shown in. -->
     <ScrollViewer>
         <StackPanel Spacing="8" Margin="6">
             <Border Classes="section">

@@ -2,6 +2,7 @@ using System;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -16,7 +17,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// So every editor reads and writes through <see cref="CurrentVocab"/>, and the tab showing the vocab calls <see cref="Refresh"/>
 /// whenever the note is updated, whoever updated it.
 /// </remarks>
-class VocabEditorSectionViewModel
+class VocabEditorSectionViewModel : INoteEditorSectionViewModel
 {
    readonly TemporaryServiceCollection _services;
    readonly NoteId _vocabId;
@@ -29,7 +30,7 @@ class VocabEditorSectionViewModel
       _services = services;
       _vocabId = vocabId;
       MatchingConfig = new VocabMatchingConfigEditorViewModel(services, CurrentVocab, sentencesReparsed);
-      Metadata = new VocabMetadataEditorViewModel(CurrentVocab);
+      Metadata = new VocabMetadataEditorViewModel(services.Resolve<IFatalErrorHandler>(), CurrentVocab);
    }
 
    public VocabMatchingConfigEditorViewModel MatchingConfig { get; }

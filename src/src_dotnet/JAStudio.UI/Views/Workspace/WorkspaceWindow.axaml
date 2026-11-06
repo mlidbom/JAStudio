@@ -3,7 +3,6 @@
         xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
         xmlns:workspace="clr-namespace:JAStudio.UI.Views.Workspace"
         xmlns:controls="clr-namespace:JAStudio.UI.Controls"
-        xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
         xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
         x:Class="JAStudio.UI.Views.Workspace.WorkspaceWindow"
         x:DataType="vm:WorkspaceViewModel"
@@ -19,19 +18,7 @@
         <controls:PaneResizeEdge DockPanel.Dock="Left" ResizedPane="{Binding #NoteSearchPane}" ResizedPaneSide="Left"
                                  IsVisible="{Binding NoteSearch.IsOpen}" />
 
-        <!-- The editor section: the shown tab's note's editors. -->
-        <Panel x:Name="EditorSection" DockPanel.Dock="Right" Width="480" MinWidth="250" IsVisible="{Binding IsEditorSectionOpen}">
-            <ContentControl Content="{Binding SelectedTab.VocabEditorSection, FallbackValue={x:Null}}">
-                <ContentControl.DataTemplates>
-                    <DataTemplate DataType="editors:VocabEditorSectionViewModel">
-                        <editorViews:VocabEditorSection />
-                    </DataTemplate>
-                </ContentControl.DataTemplates>
-            </ContentControl>
-            <TextBlock Text="The shown note has no editor in the workspace yet. Its editors are in its right-click menu."
-                       TextWrapping="Wrap" Margin="8"
-                       IsVisible="{Binding SelectedTab.VocabEditorSection, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=True}" />
-        </Panel>
+        <editorViews:EditorSection x:Name="EditorSection" DockPanel.Dock="Right" Width="480" MinWidth="250" IsVisible="{Binding IsEditorSectionOpen}" />
         <controls:PaneResizeEdge DockPanel.Dock="Right" ResizedPane="{Binding #EditorSection}" ResizedPaneSide="Right"
                                  IsVisible="{Binding IsEditorSectionOpen}" />
 

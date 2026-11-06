@@ -29,7 +29,7 @@ public class When_working_with_a_KanjiNote : SpecificationStartingWithAnEmptyCol
       {
          _kanji = new KanjiNote(NoteServices);
          _kanji.SetQuestion("漢");
-         _kanji.SetRadicals("漢, 水, 口");
+         _kanji.RadicalsRaw = "漢, 水, 口";
       }
 
       [XF] public void Radicals_excludes_the_kanji_itself() => _kanji.Radicals.Contains("漢").Must().BeFalse();

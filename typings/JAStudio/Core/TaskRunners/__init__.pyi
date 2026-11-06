@@ -43,6 +43,7 @@ class BatchTaskProgressViewModel(TaskProgressViewModel):
 class IFatalErrorHandler(typing.Protocol):
     @abc.abstractmethod
     def Handle(self, exception: Exception) -> None: ...
+    def HandleExceptionsFrom(self, action: Action) -> None: ...
 
 
 class ITaskProgressRunner(IDisposable, typing.Protocol):

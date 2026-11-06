@@ -1,6 +1,7 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.UI.Controls;
 
@@ -14,15 +15,18 @@ namespace JAStudio.UI.Controls;
 /// </remarks>
 class RequireForbidControlViewModel : ObservableObject
 {
+   readonly IFatalErrorHandler _fatalErrorHandler;
    readonly Func<RequireForbidFlagField> _currentField;
    readonly Action _choiceMade;
    RequireForbidChoice _choice;
 
+   /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a choice, which the radio buttons' bindings would swallow.</param>
    /// <param name="label">What the rule is about, shown beside its choices.</param>
    /// <param name="currentField">Finds the rule on the note as the collection holds it now.</param>
    /// <param name="choiceMade">Called after a choice is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public RequireForbidControlViewModel(string label, Func<RequireForbidFlagField> currentField, Action choiceMade)
+   public RequireForbidControlViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<RequireForbidFlagField> currentField, Action choiceMade)
    {
+      _fatalErrorHandler = fatalErrorHandler;
       Label = label;
       _currentField = currentField;
       _choiceMade = choiceMade;
@@ -57,9 +61,12 @@ class RequireForbidControlViewModel : ObservableObject
    {
       if(!isChecked || choice == _choice) return;
 
-      WriteToTheNote(choice);
-      Show(choice);
-      _choiceMade();
+      _fatalErrorHandler.HandleExceptionsFrom(() =>
+      {
+         WriteToTheNote(choice);
+         Show(choice);
+         _choiceMade();
+      });
    }
 
    void WriteToTheNote(RequireForbidChoice choice)

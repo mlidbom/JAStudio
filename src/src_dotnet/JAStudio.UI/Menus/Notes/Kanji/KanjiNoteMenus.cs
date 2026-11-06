@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Avalonia.Threading;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.Views;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus.Notes.Kanji;
 
@@ -27,7 +26,7 @@ class KanjiNoteMenus
                                              SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
                                              SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
                                           }),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new KanjiEditorDialog(kanji).ShowNearCursor())),
+                     SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(kanji)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
                   };
 

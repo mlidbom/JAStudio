@@ -4,7 +4,7 @@
              x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMatchingConfigEditor"
              x:DataType="editors:VocabMatchingConfigEditorViewModel">
 
-    <!-- The rows' look comes from the VocabEditorSection this tab is in. -->
+    <!-- The rows' look comes from the EditorSection this tab is shown in. -->
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="6,6,6,0" IsVisible="{Binding IsReparsingSentences}">
             <TextBlock Text="Reparsing the sentences for this vocab…" />

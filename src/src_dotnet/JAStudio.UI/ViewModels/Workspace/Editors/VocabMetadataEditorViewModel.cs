@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls;
 using JAStudio.UI.Views.Workspace.Editors;
 
@@ -13,11 +14,14 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// </summary>
 class VocabMetadataEditorViewModel
 {
+   readonly IFatalErrorHandler _fatalErrorHandler;
    readonly Func<VocabNote> _currentVocab;
 
+   /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a change.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
-   public VocabMetadataEditorViewModel(Func<VocabNote> currentVocab)
+   public VocabMetadataEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab)
    {
+      _fatalErrorHandler = fatalErrorHandler;
       _currentVocab = currentVocab;
 
       MiscFlags = [Flag("Compositionally transparent compound", it => it.MatchingConfiguration.BoolFlags.IsCompositionallyTransparentCompound)];
@@ -50,5 +54,5 @@ class VocabMetadataEditorViewModel
       foreach(var flag in RegisterFlags) flag.Refresh();
    }
 
-   TagFlagCheckBoxViewModel Flag(string label, Func<VocabNote, TagFlagField> flag) => new(label, () => flag(_currentVocab()), () => {});
+   TagFlagCheckBoxViewModel Flag(string label, Func<VocabNote, TagFlagField> flag) => new(_fatalErrorHandler, label, () => flag(_currentVocab()), () => {});
 }

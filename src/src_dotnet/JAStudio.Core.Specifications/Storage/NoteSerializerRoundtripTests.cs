@@ -86,7 +86,7 @@ public class NoteSerializerRoundtripTests : SpecificationUsingACollection
       var kanji = CreateKanji("試", "test/try", "<primary>ため</primary>", "<primary>し</primary>");
       kanji.UserAnswer.Set("custom answer");
       kanji.UserMnemonic.Set("my mnemonic");
-      kanji.SetRadicals("言, 弋, 工");
+      kanji.RadicalsRaw = "言, 弋, 工";
       kanji.AddUserSimilarMeaning("験");
 
       var json = _serializer.Serialize(kanji);

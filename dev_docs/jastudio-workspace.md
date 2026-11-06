@@ -52,11 +52,20 @@ apply here.
 
 ## Data: live editing and sync
 
-- **Live editing.** An edit is written to the note when a field is committed. There's no Save button. JSON files
-  in git make this unusually safe. A planned "revert this note to its last committed version" covers mistakes.
+- **Live editing.** Every change is written to the note at once: a check box when it's clicked, a text field on
+  every keystroke. There's no Save button. JSON files in git make this unusually safe. A planned "revert this note
+  to its last committed version" covers mistakes.
 - **One shared object per note.** `NoteCache` holds one object per note, and every view shows that object, so
-  several editors on the same note need no special handling. An editor refreshes every field from the note except
-  one being typed in.
+  several editors on the same note need no special handling. An editor refreshes every field from the note whenever
+  the note is updated.
+- **A refresh never overwrites typing.** A text field is written on every keystroke, so the note holds what its text
+  box shows. For that, a text field editor (`TextFieldEditorViewModel`) edits the text exactly as the note stores it,
+  such as a comma separated list as typed. Read back as the list joined again, a trailing ", " being typed would
+  disappear. When the note changes what was typed on purpose, as a kanji's on readings are turned into hiragana, the
+  text box keeps showing what was typed until the editor is shown again; the note is right either way.
+- **Avalonia's bindings swallow exceptions from view model setters** (`BindingExpression.WriteValueToSource` catches
+  them all and drops the change). So a setter that writes to a note runs the write through
+  `IFatalErrorHandler.HandleExceptionsFrom`, and an exception reaches the user.
 - **Views hold note ids, not note objects.** Today the cache replaces note objects in two cases:
   - an edit coming in from Anki (`CreateNoteByMergingAnkiData`);
   - every full reload (`JPCollection.ReloadFromBackend`, after each Anki sync and when the profile reopens).
@@ -139,8 +148,13 @@ apply here.
      shows that it's reparsing and can't be changed meanwhile, because the reparse reads the vocab's tags. The
      reparse shows no progress dialog (`ReparseSentencesForVocabWithoutProgressDialog`): one popping up after
      every click would be in the way.
-   - "Edit Matching Config" in the note menus opens the note in the workspace with the section open. The vocab,
-     kanji and sentence editors are still dialogs.
+   - **A kanji's editor** (`KanjiEditorSectionViewModel`) is its text fields. Every keystroke is written to the note,
+     and the kanji's generated data, such as its active answer, is updated with it.
+   - "Edit Matching Config" in the vocab's note menu and "Edit" in the kanji's open the note in the workspace with the
+     section open. The kanji editor dialog is gone; the vocab and sentence editors are still dialogs.
+   - **A vocab's Question, Forms and Parts of speech can't be written on every keystroke.** Setting the question adds it
+     to the forms, so half-typed questions would stay among the forms, and every keystroke would start a reparse. How
+     they're edited is decided when the vocab's text fields move in.
 6. **Multiple workspaces.**
 7. **Revert to the committed version.**
 

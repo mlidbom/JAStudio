@@ -30,7 +30,7 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    public void BootstrapMnemonic(string kanji, string radicals, string expectedMnemonic)
    {
       var kanjiNote = GetService<KanjiCollection>().WithKanji(kanji)!;
-      kanjiNote.SetRadicals(radicals);
+      kanjiNote.RadicalsRaw = radicals;
 
       kanjiNote.BootstrapMnemonicFromRadicals();
 

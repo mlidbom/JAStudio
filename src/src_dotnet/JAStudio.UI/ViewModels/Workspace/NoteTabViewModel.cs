@@ -53,10 +53,11 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    [ObservableProperty] bool _canGoForward;
 
    /// <summary>
-   /// What the workspace's editor section shows for this tab, when its note is a vocab: the vocab's editors.<br/>
-   /// Each tab has its own, for the note it shows, and the section shows the shown tab's.
+   /// What the workspace's editor section shows for this tab: the editors of the note it shows.<br/>
+   /// Each tab has its own, for the note it shows, and the section shows the shown tab's.<br/>
+   /// Null when the tab shows no note, or a note whose type has no editors in the workspace yet.
    /// </summary>
-   [ObservableProperty] VocabEditorSectionViewModel? _vocabEditorSection;
+   [ObservableProperty] INoteEditorSectionViewModel? _editorSection;
 
    public NoteTabViewModel(WorkspaceViewModel workspace, TemporaryServiceCollection services, Uri firstPageUrl)
    {
@@ -74,7 +75,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
             if(!IsShowing(note)) return;
 
             PageBecameOutdated();
-            uiThread.PostToUIThread(() => VocabEditorSection?.Refresh());
+            uiThread.PostToUIThread(() => EditorSection?.Refresh());
          }),
          services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ =>
          {
@@ -167,7 +168,12 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    /// A reparse for a change to the vocab's matching config changes which sentences its page shows, so the page is then reloaded.
    /// </summary>
    void CreateTheEditorSectionForTheShownNote() =>
-      VocabEditorSection = ShownNote() is VocabNote vocab ? new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated) : null;
+      EditorSection = ShownNote() switch
+      {
+         VocabNote vocab => new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated),
+         KanjiNote kanji => new KanjiEditorSectionViewModel(_services, kanji.GetId()),
+         _ => null
+      };
 
    JPNote? ShownNote() => _shownNoteId is {} noteId ? _services.CoreApp.Collection.NoteFromNoteId(noteId) : null;
 }

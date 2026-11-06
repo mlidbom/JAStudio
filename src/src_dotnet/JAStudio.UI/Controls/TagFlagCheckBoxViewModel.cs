@@ -1,6 +1,7 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.UI.Controls;
 
@@ -13,15 +14,18 @@ namespace JAStudio.UI.Controls;
 /// </remarks>
 class TagFlagCheckBoxViewModel : ObservableObject
 {
+   readonly IFatalErrorHandler _fatalErrorHandler;
    readonly Func<TagFlagField> _currentFlag;
    readonly Action _flagChanged;
    bool _isSet;
 
+   /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a change, which the check box's binding would swallow.</param>
    /// <param name="label">What the flag means, shown beside the check box.</param>
    /// <param name="currentFlag">Finds the flag on the note as the collection holds it now.</param>
    /// <param name="flagChanged">Called after a change is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public TagFlagCheckBoxViewModel(string label, Func<TagFlagField> currentFlag, Action flagChanged)
+   public TagFlagCheckBoxViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<TagFlagField> currentFlag, Action flagChanged)
    {
+      _fatalErrorHandler = fatalErrorHandler;
       Label = label;
       _currentFlag = currentFlag;
       _flagChanged = flagChanged;
@@ -37,9 +41,12 @@ class TagFlagCheckBoxViewModel : ObservableObject
       {
          if(value == _isSet) return;
 
-         _currentFlag().SetTo(value);
-         Show(value);
-         _flagChanged();
+         _fatalErrorHandler.HandleExceptionsFrom(() =>
+         {
+            _currentFlag().SetTo(value);
+            Show(value);
+            _flagChanged();
+         });
       }
    }
 

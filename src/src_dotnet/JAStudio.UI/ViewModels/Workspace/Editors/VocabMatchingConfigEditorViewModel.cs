@@ -25,6 +25,7 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    readonly Func<VocabNote> _currentVocab;
    readonly Action _sentencesReparsed;
    readonly IUIThreadDispatcher _uiThread;
+   readonly IFatalErrorHandler _fatalErrorHandler;
 
    /// <param name="services">The application's services.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
@@ -35,6 +36,7 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
       _currentVocab = currentVocab;
       _sentencesReparsed = sentencesReparsed;
       _uiThread = services.Resolve<IUIThreadDispatcher>();
+      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
 
       YieldLastToken = RequireForbidRule("Yield to overlapping following compound", it => it.YieldLastToken);
       MiscMatchingRules =
@@ -131,10 +133,10 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    }
 
    RequireForbidControlViewModel RequireForbidRule(string label, Func<VocabMatchingRulesConfigurationRequiresForbidsFlags, RequireForbidFlagField> rule) =>
-      new(label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), ReparseSentences);
+      new(_fatalErrorHandler, label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), ReparseSentences);
 
    TagFlagCheckBoxViewModel Flag(string label, Func<VocabMatchingRulesConfigurationBoolFlags, TagFlagField> flag) =>
-      new(label, () => flag(_currentVocab().MatchingConfiguration.BoolFlags), ReparseSentences);
+      new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.BoolFlags), ReparseSentences);
 
    StringSetControlViewModel StringRule(string title, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
       new(title,

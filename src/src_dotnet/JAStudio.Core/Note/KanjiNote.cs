@@ -178,7 +178,12 @@ public class KanjiNote : JPNote
 
    public List<string> AllRadicals => StringExtensions.ExtractCommaSeparatedValues(_radicalsRaw.Value);
 
-   public void SetRadicals(string value) => _radicalsRaw.Set(value);
+   /// <summary>The kanji's radicals as the note stores them: comma separated, exactly as typed. <see cref="AllRadicals"/> is them as a list.</summary>
+   public string RadicalsRaw
+   {
+      get => _radicalsRaw.Value;
+      set => _radicalsRaw.Set(value);
+   }
 
    public void PositionPrimaryVocab(string vocab, int newIndex = -1)
    {
@@ -256,6 +261,13 @@ public class KanjiNote : JPNote
    {
       get => StringExtensions.ExtractCommaSeparatedValues(_primaryVocabRaw.Value);
       set => _primaryVocabRaw.Set(string.Join(", ", value));
+   }
+
+   /// <summary>The kanji's primary vocab as the note stores them: comma separated, exactly as typed. <see cref="PrimaryVocab"/> is them as a list.</summary>
+   public string PrimaryVocabRaw
+   {
+      get => _primaryVocabRaw.Value;
+      set => _primaryVocabRaw.Set(value);
    }
 
    public List<string> GenerateDefaultPrimaryVocab()
@@ -476,7 +488,7 @@ public class KanjiNote : JPNote
          }
       }
 
-      SetRadicals(string.Join(", ", radicals));
+      RadicalsRaw = string.Join(", ", radicals);
    }
 
    public static KanjiNote Create(NoteServices services, string question, string answer, string onReadings, string kunReading)

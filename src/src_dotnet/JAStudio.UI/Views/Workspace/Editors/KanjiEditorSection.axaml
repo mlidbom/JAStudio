@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.KanjiEditorSection"
+             x:DataType="editors:KanjiEditorSectionViewModel">
+
+    <!-- The rows' look comes from the EditorSection this is shown in. -->
+    <ScrollViewer>
+        <StackPanel Spacing="8" Margin="6">
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Core" />
+                    <ItemsControl ItemsSource="{Binding CoreFields}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Readings" />
+                    <ItemsControl ItemsSource="{Binding ReadingFields}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Related" />
+                    <ItemsControl ItemsSource="{Binding RelatedFields}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Source" />
+                    <ItemsControl ItemsSource="{Binding SourceFields}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>
