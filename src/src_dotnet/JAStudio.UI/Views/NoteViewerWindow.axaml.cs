@@ -1,11 +1,8 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives.PopupPositioning;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
@@ -115,27 +112,22 @@ public partial class NoteViewerWindow : Window
    async Task ShowNoteContextMenuAsync(string selection)
    {
       var clipboard = await (Clipboard ?? throw new InvalidOperationException("The note viewer window has no clipboard.")).TryGetTextAsync() ?? string.Empty;
-      var menuSpec = new NoteContextMenu(_services).BuildContextMenuSpec(ShownNote(), selection, clipboard);
-
-      new ContextMenu
-      {
-         ItemsSource = SpecMenuRenderer.BuildMenuItems(menuSpec).ToList(),
-         Placement = PlacementMode.AnchorAndGravity,
-         PlacementRect = new Rect(this.PointToClient(WindowPositioner.CursorPosition()), new Size(1, 1)),
-         PlacementAnchor = PopupAnchor.TopLeft,
-         PlacementGravity = PopupGravity.BottomRight
-      }.Open(this);
+      PopupMenuWindow.ShowAt(WindowPositioner.CursorPosition(), new NoteContextMenu(_services).BuildContextMenuSpec(ShownNote(), selection, clipboard));
    }
 
    /// <summary>
-   /// Keeps the web view's profile in JAStudio's own folder.<br/>
-   /// Left to itself, WebView2 puts it beside the executable, which inside Anki is Anki's install folder.
+   /// Keeps the web view's profile in JAStudio's own folder:<br/>
+   /// left to itself, WebView2 puts it beside the executable, which inside Anki is Anki's install folder.<br/>
+   /// Lets the page play the shown note's audio without a click first, as Anki does on a card.
    /// </summary>
    static void ConfigureWebView2Environment(object? sender, WebViewEnvironmentRequestedEventArgs e)
    {
       e.EnableDevTools = true;
       if(e is WindowsWebView2EnvironmentRequestedEventArgs webView2)
+      {
          webView2.UserDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JAStudio", "NoteViewerWebView2");
+         webView2.AdditionalBrowserArguments = "--autoplay-policy=no-user-gesture-required";
+      }
    }
 
    /// <summary>Middle-clicking a link would otherwise open a bare web view window, without JAStudio's menus.</summary>

@@ -11,3 +11,7 @@ messenger.
 Suppression is the rare exception, justified only when the diagnostic genuinely doesn't fit the site — never
 because the proper fix is work. If you believe a suppression is right, propose it and let Magnus decide, and
 put the rationale on the same line as the directive.
+
+**Approved exception — BDD specification files:** put `// ReSharper disable InconsistentNaming` after the
+usings, as the existing specifications do. BDD class and method names are `lower_case_with_underscores` by
+design, which ReSharper's naming rule flags.

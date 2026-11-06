@@ -10,11 +10,7 @@
                 @foreach(var vocab in Vocabs)
                 {
                     <div class="relatedVocab @(string.Join(" ", vocab.GetMetaTags()))">
-                        @{ var bestAudio = vocab.PreferredAudio; }
-                        @if(bestAudio?.OriginalFileName != null)
-                        {
-                            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
-                        }
+                        <AudioPlayButton Audio="vocab.PreferredAudio" />
                         <NoteLink Note="vocab">
                             <span class="question clipboard">@vocab.Question.DisambiguationName</span>
                             @{ var readings = string.Join(", ", vocab.GetReadings()); }

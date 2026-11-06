@@ -10,11 +10,7 @@
             @foreach(var vocab in _vocabs)
             {
                 <div class="kanjiVocabEntry @CreateClasses(vocab)">
-                    @{ var bestAudio = vocab.PreferredAudio; }
-                    @if(bestAudio?.OriginalFileName != null)
-                    {
-                        <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
-                    }
+                    <AudioPlayButton Audio="vocab.PreferredAudio" />
                     <NoteLink Note="vocab">
                         <span class="kanji clipboard">@vocab.GetQuestion()</span>
                         (<span class="clipboard vocabReading">@((MarkupString)string.Join(", ", Note.TagVocabReadings(vocab)))</span>)

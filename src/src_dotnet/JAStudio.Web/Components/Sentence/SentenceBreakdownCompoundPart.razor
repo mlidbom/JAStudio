@@ -3,11 +3,7 @@
 
 <li class="sentenceVocabEntry compound_part @CompoundPart.MetaTagsString">
     <div class="sentenceVocabEntryDiv">
-        @{ var bestAudio = CompoundPart.VocabNote.PreferredAudio; }
-        @if(bestAudio?.OriginalFileName != null)
-        {
-            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName)"></audio><span class="play-button">▶</span>
-        }
+        <AudioPlayButton Audio="CompoundPart.VocabNote.PreferredAudio" />
         <NoteLink Note="CompoundPart.VocabNote">
             <span class="vocabQuestion clipboard">@CompoundPart.Question</span>
         </NoteLink>

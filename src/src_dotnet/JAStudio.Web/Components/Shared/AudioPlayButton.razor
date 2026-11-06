@@ -1,0 +1,37 @@
+@using JAStudio.Core.Storage.Media
+@using Microsoft.JSInterop
+@inject IJSRuntime JavaScriptRuntime
+
+@* The audio of a note, with a ▶ button that plays it: card.js plays the <audio> just before the button. *@
+@if(Audio?.OriginalFileName is {} fileName)
+{
+    <audio @ref="_audioElement" src="@CardServerUrl.MediaUrl(fileName)"></audio><span class="play-button">▶</span>
+}
+
+@code {
+    /// <summary>The audio to play. A note may have none, and then there is no button.</summary>
+    [Parameter, EditorRequired] public AudioAttachment? Audio { get; set; }
+
+    /// <summary>
+    /// Play the audio as soon as the page is shown in JAStudio's note viewer, the way Anki plays a card's audio.<br/>
+    /// Only for the audio of the note the page shows. Inside Anki's reviewer, Anki plays it instead.
+    /// </summary>
+    [Parameter] public bool PlaysWhenShownInNoteViewer { get; set; }
+
+    ElementReference _audioElement;
+
+    /// <summary>
+    /// The audio last handed to the note viewer to play.<br/>
+    /// Following a link to another note of the same type reuses this component with a new <see cref="Audio"/>.
+    /// </summary>
+    string? _lastPlayedFileName;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(!PlaysWhenShownInNoteViewer || Audio?.OriginalFileName is not {} fileName || fileName == _lastPlayedFileName)
+            return;
+
+        _lastPlayedFileName = fileName;
+        await JavaScriptRuntime.InvokeVoidAsync("jaStudioNoteViewer.playWhenShown", _audioElement);
+    }
+}

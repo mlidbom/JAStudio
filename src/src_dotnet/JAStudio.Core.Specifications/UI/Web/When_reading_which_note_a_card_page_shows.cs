@@ -5,6 +5,8 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.UI.Web;
 
+// ReSharper disable InconsistentNaming
+
 namespace JAStudio.Core.Specifications.UI.Web;
 
 public class When_reading_which_note_a_card_page_shows : SpecificationStartingWithAnEmptyCollection

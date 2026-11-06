@@ -12,11 +12,7 @@
                 @foreach(var sentence in _sentences)
                 {
                     <div class="highlightedSentenceDiv @sentence.SentenceClasses()">
-                        @{ var bestAudio = sentence.Sentence.PreferredAudio; }
-                        @if(bestAudio?.OriginalFileName != null)
-                        {
-                            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
-                        }
+                        <AudioPlayButton Audio="sentence.Sentence.PreferredAudio" />
                         <NoteLink Note="sentence.Sentence">
                             <div class="highlightedSentence">
                                 <div class="sentenceQuestion"><span class="clipboard">@((MarkupString)sentence.FormatSentence())</span> <span class="deck_indicator">@sentence.Sentence.SourceTag</span></div>

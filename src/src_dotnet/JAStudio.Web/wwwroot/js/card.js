@@ -83,9 +83,18 @@ setupNoteLinks();
 //   note viewer can't see by itself. The Navigation API reports those, and Back and Forward too.
 // - Right-click shows the same note menu as in Anki.
 //   Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
+// - The shown note's audio plays as soon as the page shows it (AudioPlayButton calls playWhenShown).
+//   Inside Anki's reviewer, Anki plays it instead.
+const postToNoteViewer = window.invokeCSharpAction
+                      ?? (window.chrome?.webview ? message => window.chrome.webview.postMessage(message) : null);
+
+window.jaStudioNoteViewer = {
+   playWhenShown: function(audio) {
+      if (postToNoteViewer) audio.play();
+   }
+};
+
 function setupNoteViewer() {
-   const postToNoteViewer = window.invokeCSharpAction
-                         ?? (window.chrome?.webview ? message => window.chrome.webview.postMessage(message) : null);
    if (!postToNoteViewer) return;
 
    const reportPageShown = () => postToNoteViewer(JSON.stringify({ request: 'pageShown', url: location.href }));

@@ -8,6 +8,8 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Specifications.Fixtures;
 
+// ReSharper disable InconsistentNaming
+
 namespace JAStudio.Web.Specifications.NoteLinks;
 
 public class When_a_card_page_asks_the_CardServer_to_open_a_note : IAsyncDisposable

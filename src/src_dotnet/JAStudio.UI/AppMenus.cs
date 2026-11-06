@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using Avalonia;
 using Avalonia.Threading;
 using JAStudio.Core;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
-using JAStudio.UI.Views;
 
 namespace JAStudio.UI;
 
@@ -23,16 +23,12 @@ public class AnkiMenus
    public JapaneseMainMenu CreateJapaneseMainMenu() => new(_services);
 
    /// <summary>
-   /// Show the context menu popup at the current cursor position.
+   /// Shows the menu of actions on the clipboard text and the selected text at the screen point
+   /// (<paramref name="x"/>, <paramref name="y"/>), in physical pixels, with no note involved.
    /// </summary>
-   public void ShowContextMenuPopup(string? clipboardContent, string? selectionContent, int x, int y)
-   {
-      Dispatcher.UIThread.Invoke(() =>
-      {
-         var menuControl = new ContextMenuPopup(clipboardContent ?? "", selectionContent ?? "");
-         menuControl.ShowAt(x, y);
-      });
-   }
+   public void ShowContextMenuPopup(string? clipboardContent, string? selectionContent, int x, int y) =>
+      Dispatcher.UIThread.Invoke(() => PopupMenuWindow.ShowAt(new PixelPoint(x, y),
+                                                              new NoteContextMenu(_services).BuildGenericContextMenuSpec(selectionContent ?? "", clipboardContent ?? "")));
 
    /// <summary>
    /// Build browser context menu specification.

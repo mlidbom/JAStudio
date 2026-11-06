@@ -103,6 +103,13 @@ JAStudio's own window for viewing notes, replacing Anki's previewer. It's the fi
   add-on (`NoteLinkOpener`).
 - **Right-click** in the note viewer shows the same note menu as in Anki (`NoteContextMenu.BuildContextMenuSpec`),
   editing included. Shift+Right-click gives the browser's own menu, with "Inspect".
+  - The menu is a `PopupMenuWindow`, not an Avalonia `ContextMenu`. A `ContextMenu`'s first level of items
+    ignores typed access keys, and over the web view the keyboard stays with the web view.
+  - The `PopupMenuWindow` is an activated, tiny, topmost window. The items are the submenu of a hidden
+    menu-bar item.
+- **Audio:** vocab and sentence pages show the note's own audio with a ▶ button (`AudioPlayButton`, which also
+  serves the related notes' audio). The note viewer plays it as soon as the page shows it, as Anki does on a
+  card. Inside Anki's reviewer, Anki plays it instead.
 - **The page talks to the window** through the web view's message channel. It reports every page it shows, because
   following a link is Blazor client-side routing, which the web view doesn't report as a navigation. It also
   reports the selected text when right-clicked.

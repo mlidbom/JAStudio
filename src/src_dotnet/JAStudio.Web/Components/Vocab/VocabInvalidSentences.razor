@@ -10,11 +10,7 @@
                 @foreach(var sentence in _sentences)
                 {
                     <div class="highlightedSentenceDiv">
-                        @{ var bestAudio = sentence.PreferredAudio; }
-                        @if(bestAudio?.OriginalFileName != null)
-                        {
-                            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
-                        }
+                        <AudioPlayButton Audio="sentence.PreferredAudio" />
                         <NoteLink Note="sentence">
                             <div class="highlightedSentence">
                                 <div class="sentenceQuestion"><span class="clipboard">@sentence.Question.WithoutInvisibleSpace()</span></div>

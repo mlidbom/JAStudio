@@ -11,11 +11,7 @@
                 @foreach(var part in _parts)
                 {
                     <div class="relatedVocab @CreateClasses(part.Vocab, part.Depth)">
-                        @{ var bestAudio = part.Vocab.PreferredAudio; }
-                        @if(bestAudio?.OriginalFileName != null)
-                        {
-                            <audio src="@CardServerUrl.MediaUrl(bestAudio.OriginalFileName!)"></audio><span class="play-button">▶</span>
-                        }
+                        <AudioPlayButton Audio="part.Vocab.PreferredAudio" />
                         <NoteLink Note="part.Vocab">
                             <span class="question clipboard">@part.Vocab.Question.DisambiguationName</span>
                             @{ var readings = string.Join(", ", part.Vocab.GetReadings()); }
