@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
-using JAStudio.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
+using JAStudio.UI.Views;
 
 namespace JAStudio.UI.ViewModels;
 
@@ -250,27 +250,24 @@ partial class NoteSearchDialogViewModel : ObservableObject
       // Strip HTML tags and bracket markup
       html.StripHtmlAndBracketMarkupAndNoiseCharacters();
 
+   /// <summary>Shows the selected search result in JAStudio's note viewer.</summary>
    public void OpenSelectedNote()
    {
-      if(SelectedResult == null)
-         return;
-
-      var noteId = SelectedResult.NoteId;
-      var query = _services.QueryBuilder().NotesByIds([noteId]);
-      AnkiFacade.Browser.ExecuteLookup(query);
+      if(SelectedResult != null)
+         NoteViewerWindow.OpenNote(SelectedResult.Note, _services);
    }
 }
 
 class NoteSearchResultViewModel
 {
-   public NoteId NoteId { get; }
+   public JPNote Note { get; }
    public string NoteType { get; }
    public string Question { get; }
    public string Answer { get; }
 
    public NoteSearchResultViewModel(JPNote note)
    {
-      NoteId = note.GetId();
+      Note = note;
       NoteType = GetNoteTypeDisplay(note);
       Question = note.GetQuestion().StripHtmlAndBracketMarkupAndNoiseCharacters();
       Answer = note.GetAnswer().StripHtmlAndBracketMarkupAndNoiseCharacters();

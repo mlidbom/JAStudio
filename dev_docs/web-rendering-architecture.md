@@ -116,7 +116,7 @@ JAStudio's own window for viewing notes, replacing Anki's previewer. It's the fi
 - **The note viewer reloads** when the note it shows is updated. A change to another note that the page shows,
   for example a vocab in a sentence's breakdown, appears after F5 or the next navigation.
 - **Newly created notes and "Open in note viewer"**, in the note menus' "Universal note actions", open in the
-  note viewer.
+  note viewer. So does a result double-clicked in the note search dialog (Ctrl+O).
 - **Not yet:** the menu items that open a *list* of notes still open Anki's browser. JAStudio running outside
   Anki (`JAStudio.UI.DesktopHost`) doesn't start the `CardServer`, so it has no note viewer.
 
