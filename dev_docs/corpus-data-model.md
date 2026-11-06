@@ -156,7 +156,7 @@ playback there is.
 
 | Done in Anki today | What it depends on | Replacement in JAStudio |
 |---|---|---|
-| Searches that `JAStudio.Anki.QueryBuilder` builds for Anki's browser | Fields `F`, `Reading`, `A`, `Reading_On`, `Reading_Kun`, `__parsing_result` | Search JAStudio's own model. Where results should still open in Anki's browser, pass Anki a `nid:` search listing the Anki note ids. |
+| ~~Searches that `JAStudio.Anki.QueryBuilder` builds for Anki's browser~~ | ~~Fields `F`, `Reading`, `A`, `Reading_On`, `Reading_Kun`, `__parsing_result`~~ | *Done 2026-11-06:* the note menus' "Open" items list their notes in the workspace's navigation pane, the old text searches into Anki are deleted, and what still opens Anki's browser passes it a `nid:` search of the Anki note ids. |
 | The card templates installed in the Anki collection | Many fields, in the back templates | Install mobile-review templates that use only study-note fields, then remove the other fields. See [What the card templates actually use](#what-the-card-templates-actually-use). |
 | Browsing and editing notes | All fields | JAStudio navigation and editors |
 | Tagging whole decks and seasons | Tags | JAStudio organizing (own design) |
@@ -573,9 +573,8 @@ the real unit of organization, so organizing may largely mean modeling sources.
 - **The on-disk MemoryPack snapshot** (`JsonFilesystemObjectRepository.SaveSnapshot`) can't be trusted across a
   format change, so each migration deletes it. I haven't checked whether anything already detects a stale
   snapshot.
-- **Anki browser searches** (`JAStudio.Anki.QueryBuilder` searches `F`, `Reading`, `A`,
-  `Reading_On`/`Reading_Kun`, `__parsing_result`) are replaced by JAStudio search in step 3 of the
-  [order of work](#order-of-work-tentative), before the field trim. They don't constrain the vertical-slices.
+- **Anki browser searches** no longer search Anki's fields (done 2026-11-06): what still opens Anki's browser
+  searches by Anki note id. They don't constrain the field trim or the vertical-slices.
 
 ## Order of work (tentative)
 
@@ -596,8 +595,10 @@ they are in the way. Questions are settled when the work reaches them, not up fr
 Progress on step 3:
 - **Viewing and navigating notes** (2026-11-06): JAStudio's workspace replaces Anki's previewer for note links,
   with the same right-click menu and editors. See `web-rendering-architecture.md`, "Notes in JAStudio's
-  Workspace", and `jastudio-workspace.md` for where the workspace is heading. Lists of notes
-  still open in Anki's browser.
+  Workspace", and `jastudio-workspace.md` for where the workspace is heading.
+- **Lists of notes** (2026-11-06): the note menus' "Open" items list their notes in the workspace's navigation
+  pane instead of Anki's browser, and the old text searches into Anki's browser are deleted.
+- **Editing notes** (2026-11-06): every note type is edited live in the workspace; the editor dialogs are gone.
 
 1. **Remove the kanji primary-readings TTS** (deferred). This happens almost entirely on the Anki side:
    - delete the kanji HyperTTS presets;
@@ -662,9 +663,9 @@ except where it can't be avoided).
 4. **What does Magnus use Anki's browser and Anki's tags for today?** The answer decides what JAStudio's
    navigation and search (step 3) must replace first. It also decides which tags the Anki-projection keeps
    writing to Anki. In particular:
-   - The JAStudio menu items that open Anki's browser on a search (`JAStudio.Anki.QueryBuilder`). Examples are
-     vocab by form, reading or answer; kanji by reading; and sentences containing a vocab. Which of these are
-     still in use?
+   - ~~The JAStudio menu items that open Anki's browser on a search.~~ *Answered 2026-11-06:* the note menus'
+     lists moved to the workspace, and the text searches into Anki ("Anki" in the Lookup menus) were unused and
+     are deleted.
    - Searches on tags, for example to build filtered decks or to suspend or move cards in bulk. That could be the
      generated tags (`-::kanji::…`, `-::vocab::has-no-studying-sentences` and so on), or the priority, difficulty
      and source tags.

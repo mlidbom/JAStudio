@@ -20,15 +20,12 @@ class AnkiFieldNames(abc.ABC):
     class Kanji(abc.ABC):
         ActiveAnswer : str
         Question : str
-        ReadingKun : str
-        ReadingOn : str
         SourceAnswer : str
 
 
     class Sentence(abc.ABC):
         Audio : str
         Id : str
-        ParsingResult : str
         Reading : str
         Screenshot : str
         SourceAnswer : str
@@ -49,7 +46,6 @@ class AnkiFieldNames(abc.ABC):
         Forms : str
         Image : str
         Question : str
-        Reading : str
         UserImage : str
 
 

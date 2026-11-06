@@ -17,13 +17,8 @@ namespace JAStudio.UI.Menus;
 public class JapaneseMainMenu
 {
    readonly Core.TemporaryServiceCollection _services;
-   readonly OpenInAnkiMenus _openInAnkiMenus;
 
-   public JapaneseMainMenu(Core.TemporaryServiceCollection services)
-   {
-      _services = services;
-      _openInAnkiMenus = new OpenInAnkiMenus(_services);
-   }
+   public JapaneseMainMenu(Core.TemporaryServiceCollection services) => _services = services;
 
    // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildMenuSpec(Func<string> getClipboardContent) =>
@@ -41,8 +36,7 @@ public class JapaneseMainMenu
                            new List<SpecMenuItem>
                            {
                               SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+O)"), WorkspaceWindow.ToggleNoteSearch),
-                              _openInAnkiMenus.BuildOpenInAnkiMenuSpec(ShortcutFinger.Home2("Anki"), getClipboardContent),
-                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), getClipboardContent)
+                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), getClipboardContent)
                            }
       ),
       SpecMenuItem.Submenu(ShortcutFinger.Home3("Local Actions"),

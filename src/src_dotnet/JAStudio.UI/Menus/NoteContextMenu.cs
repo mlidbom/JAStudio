@@ -21,7 +21,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    readonly VocabNoteMenus _vocabNoteMenus = new(services);
    readonly KanjiNoteMenus _kanjiNoteMenus = new(services);
    readonly SentenceNoteMenus _sentenceNoteMenus = new(services);
-   readonly OpenInAnkiMenus _openInAnkiMenus = new(services);
    readonly VocabStringMenus _vocabStringMenus = new(services);
 
    /// <summary>
@@ -127,9 +126,8 @@ public class NoteContextMenu(TemporaryServiceCollection services)
                            (List<SpecMenuItem>)
                            [
                               BuildCurrentNoteActionsSubmenuSpec(ShortcutFinger.Home1("Current note actions"), text, noteType, note),
-                              _openInAnkiMenus.BuildOpenInAnkiMenuSpec(ShortcutFinger.Home2("Anki"), () => text),
-                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), () => text),
-                              BuildMatchingNotesSubmenuSpec(ShortcutFinger.Home4("Exactly matching notes"), text),
+                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), () => text),
+                              BuildMatchingNotesSubmenuSpec(ShortcutFinger.Home3("Exactly matching notes"), text),
                               BuildCreateNoteSubmenuSpec(ShortcutFinger.Up1($"Create: {TruncateText(text, 40)}"), text),
                               SpecMenuItem.Command(ShortcutFinger.Down1("Reparse matching sentences"), () => OnReparseMatchingSentences(text))
                            ]);

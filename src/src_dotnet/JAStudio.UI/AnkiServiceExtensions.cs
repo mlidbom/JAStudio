@@ -1,7 +1,5 @@
 using JAStudio.Anki;
 using JAStudio.Core;
-using JAStudio.Core.LanguageServices.JanomeEx;
-using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.UI;
 
@@ -16,10 +14,6 @@ static class AnkiServiceExtensions
 
    public static QueryBuilder QueryBuilder(this TemporaryServiceCollection services)
    {
-      return _queryBuilder ??= new QueryBuilder(
-                services.Resolve<VocabCollection>(),
-                services.Resolve<KanjiCollection>(),
-                services.Resolve<AnalysisServices>(),
-                services.ExternalNoteIdMap);
+      return _queryBuilder ??= new QueryBuilder(services.ExternalNoteIdMap);
    }
 }
