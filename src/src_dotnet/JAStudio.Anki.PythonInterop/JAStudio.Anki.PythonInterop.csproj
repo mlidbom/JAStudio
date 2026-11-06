@@ -19,11 +19,11 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Internals.Logging" Version="0.3.2-alpha" />
-      <PackageReference Include="Compze.Internals.SystemCE" Version="0.2.1-internal" />
-      <PackageReference Include="Compze.DependencyInjection" Version="0.3.0-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.3.0-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.3.0-alpha" />
+      <PackageReference Include="Compze.Internals.Logging" Version="0.4.1-alpha" />
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.4.0-internal" />
+      <PackageReference Include="Compze.DependencyInjection" Version="0.8.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.4.0-alpha" />
    </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Internals.SystemCE;
 using JAStudio.Core.Note.CorpusData;
@@ -20,34 +21,31 @@ public class VocabNoteForms
    readonly VocabNote _vocab;
    readonly NoteGuard _guard;
    List<string> _enteredFormsWithBrackets;
-   readonly LazyCE<List<string>> _enteredFormsList;
-   readonly LazyCE<HashSet<string>> _enteredFormsSet;
-   readonly LazyCE<List<string>> _matchedFormsList;
-   readonly LazyCE<HashSet<string>> _matchedFormsSet;
-   readonly LazyCE<HashSet<string>> _ownedForms;
-   readonly LazyCE<HashSet<string>> _notOwnedByOtherVocab;
+   LazyCE<List<string>> _enteredFormsList;
+   LazyCE<HashSet<string>> _enteredFormsSet;
+   LazyCE<List<string>> _matchedFormsList;
+   LazyCE<HashSet<string>> _matchedFormsSet;
+   LazyCE<HashSet<string>> _ownedForms;
+   LazyCE<HashSet<string>> _notOwnedByOtherVocab;
 
    public VocabNoteForms(VocabNote vocab, VocabData? data, NoteGuard guard)
    {
       _vocab = vocab;
       _guard = guard;
       _enteredFormsWithBrackets = data?.Forms != null ? [..data.Forms] : [];
+      InvalidateCaches();
+   }
+
+   /// <summary>Replaces every cached value derived from the forms with one computed afresh on first use.</summary>
+   [MemberNotNull(nameof(_enteredFormsList), nameof(_enteredFormsSet), nameof(_matchedFormsList), nameof(_matchedFormsSet), nameof(_ownedForms), nameof(_notOwnedByOtherVocab))]
+   void InvalidateCaches()
+   {
       _enteredFormsList = new LazyCE<List<string>>(() => [.. _enteredFormsWithBrackets.Select(StripBrackets)]);
       _enteredFormsSet = new LazyCE<HashSet<string>>(() => [.. _enteredFormsList.Value]);
       _matchedFormsList = new LazyCE<List<string>>(ComputeMatchedForms);
       _matchedFormsSet = new LazyCE<HashSet<string>>(() => [.. _matchedFormsList.Value]);
       _ownedForms = new LazyCE<HashSet<string>>(ComputeOwnedForms);
       _notOwnedByOtherVocab = new LazyCE<HashSet<string>>(ComputeNotOwnedByOtherVocab);
-   }
-
-   void InvalidateCaches()
-   {
-      _enteredFormsList.Reset();
-      _enteredFormsSet.Reset();
-      _matchedFormsList.Reset();
-      _matchedFormsSet.Reset();
-      _ownedForms.Reset();
-      _notOwnedByOtherVocab.Reset();
    }
 
    List<string> ComputeMatchedForms()
