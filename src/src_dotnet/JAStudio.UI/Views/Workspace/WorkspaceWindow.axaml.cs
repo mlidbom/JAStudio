@@ -15,11 +15,12 @@ using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace;
+using JAStudio.UI.ViewModels.Workspace.Navigation;
 
 namespace JAStudio.UI.Views.Workspace;
 
 /// <summary>
-/// JAStudio's workspace window: the main menu, the <see cref="NoteSearchPane"/> on the left,<br/>
+/// JAStudio's workspace window: the main menu, the <see cref="Navigation.NavigationPane"/> on the left,<br/>
 /// and tabs, each showing a note whose links are followed in the tab.<br/>
 /// See <c>dev_docs/jastudio-workspace.md</c> for where it's heading: editors, and more workspaces.
 /// </summary>
@@ -103,11 +104,17 @@ public partial class WorkspaceWindow : Window
    public static void EditNote(JPNote note) => Dispatcher.UIThread.Post(() => Instance.ShowNoteInEditor(note));
 
    /// <summary>
-   /// Ctrl+O. In the active workspace with the note search pane open, closes the pane and gives the keyboard to the shown page.<br/>
-   /// Otherwise brings the workspace to the front, opens the pane, and puts the keyboard in the search box.<br/>
+   /// Ctrl+O. In the active workspace with the navigation pane open on its search, closes the pane and gives the keyboard to the shown page.<br/>
+   /// Otherwise brings the workspace to the front, opens the pane on its search, and puts the keyboard in the search box.<br/>
    /// Can be called from any thread.
    /// </summary>
    public static void ToggleNoteSearch() => Dispatcher.UIThread.Post(() => Instance.ToggleNoteSearchInThisWindow());
+
+   /// <summary>
+   /// Lists <paramref name="noteList"/> in the navigation pane's "List" tab, instead of the list shown before, and brings the workspace to the front.<br/>
+   /// Can be called from any thread.
+   /// </summary>
+   internal static void ShowNoteList(NoteList noteList) => Dispatcher.UIThread.Post(() => Instance.ShowNoteListInThisWindow(noteList));
 
    /// <summary>Runs the window's shortcut bound to <paramref name="keyGesture"/>, if there is one, and says whether there was.</summary>
    internal bool TryRunWindowShortcut(string keyGesture)
@@ -139,16 +146,22 @@ public partial class WorkspaceWindow : Window
 
    void ToggleNoteSearchInThisWindow()
    {
-      if(IsActive && _viewModel.NoteSearch.IsOpen)
-         CloseNoteSearch();
+      if(IsActive && _viewModel.Navigation is { IsOpen: true, ShownTab: NavigationPaneTab.Search })
+         CloseNavigationPane();
       else
          ShowAndFocusNoteSearch();
    }
 
-   void CloseNoteSearch()
+   void CloseNavigationPane()
    {
-      _viewModel.NoteSearch.IsOpen = false;
+      _viewModel.Navigation.IsOpen = false;
       FocusShownPage();
+   }
+
+   void ShowNoteListInThisWindow(NoteList noteList)
+   {
+      _viewModel.Navigation.ShowNoteList(noteList);
+      BringToFront();
    }
 
    void FocusShownPage()
@@ -162,7 +175,7 @@ public partial class WorkspaceWindow : Window
 
    void ShowAndFocusNoteSearch()
    {
-      _viewModel.NoteSearch.IsOpen = true;
+      _viewModel.Navigation.ShowSearch();
       BringToFront();
       Dispatcher.UIThread.Post(FocusNoteSearch, DispatcherPriority.Background);
    }
@@ -174,7 +187,7 @@ public partial class WorkspaceWindow : Window
    void FocusNoteSearch()
    {
       NativeKeyboardFocus.MoveToWindowItself(this);
-      NoteSearchPane.FocusSearchBox();
+      NavigationPane.FocusSearchBox();
    }
 
    void BringToFront()

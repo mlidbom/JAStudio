@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:navigation="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation"
+             xmlns:navigationViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
+             x:Class="JAStudio.UI.Views.Workspace.Navigation.NoteListView"
+             x:DataType="navigation:NoteListViewModel">
+
+    <DockPanel Margin="6">
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
+            <Button DockPanel.Dock="Right" Content="Show in Anki's browser" Command="{Binding ShowInAnkisBrowserCommand}"
+                    ToolTip.Tip="Opens Anki's browser on these notes, for what only Anki does with them, such as suspending their cards."
+                    Margin="6,0,0,0" />
+            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" VerticalAlignment="Center" />
+        </DockPanel>
+
+        <navigationViews:ListedNotesView DataContext="{Binding Notes}" />
+    </DockPanel>
+
+</UserControl>

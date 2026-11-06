@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,18 +8,17 @@ using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note;
 using JAStudio.Core.SysUtils;
-using JAStudio.UI.Views.Workspace;
+using JAStudio.UI.Views.Workspace.Navigation;
 
-namespace JAStudio.UI.ViewModels.Workspace;
+namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 
 /// <summary>
-/// A workspace's note search: the search text, the notes found, and opening them in the workspace's tabs.<br/>
-/// Its view is the <see cref="NoteSearchPane"/> on the left of the <see cref="WorkspaceWindow"/>.
+/// A workspace's note search, the "Search" tab of its <see cref="NavigationPaneViewModel"/> (<see cref="NoteSearchView"/>):<br/>
+/// the search text, and the notes found, which open in the workspace's tabs.
 /// </summary>
 partial class NoteSearchViewModel : ObservableObject
 {
    const int MaxResults = 100;
-   readonly WorkspaceViewModel _workspace;
    readonly Core.TemporaryServiceCollection _services;
 
    [ObservableProperty] string _searchText = string.Empty;
@@ -29,19 +27,15 @@ partial class NoteSearchViewModel : ObservableObject
 
    [ObservableProperty] bool _isSearching = false;
 
-   [ObservableProperty] NoteSearchResultViewModel? _selectedResult;
-
-   /// <summary>Whether the pane is open. Closing it gives its space back to the tabs.</summary>
-   [ObservableProperty] bool _isOpen = true;
-
-   public ObservableCollection<NoteSearchResultViewModel> Results { get; } = [];
+   /// <summary>The notes found.</summary>
+   public ListedNotesViewModel Results { get; }
 
    public AsyncRelayCommand SearchCommand { get; }
 
    public NoteSearchViewModel(WorkspaceViewModel workspace, Core.TemporaryServiceCollection services)
    {
-      _workspace = workspace;
       _services = services;
+      Results = new ListedNotesViewModel(workspace);
       SearchCommand = new AsyncRelayCommand(PerformSearchAsync);
    }
 
@@ -50,7 +44,7 @@ partial class NoteSearchViewModel : ObservableObject
       var searchText = SearchText.Trim();
       if(string.IsNullOrWhiteSpace(searchText))
       {
-         Results.Clear();
+         Results.Show([]);
          StatusText = "Hit enter to search";
          return;
       }
@@ -63,11 +57,7 @@ partial class NoteSearchViewModel : ObservableObject
          // Run search in background to avoid blocking UI
          var results = await TaskCE.Run(() => SearchNotes(searchText));
 
-         Results.Clear();
-         foreach(var result in results)
-         {
-            Results.Add(result);
-         }
+         Results.Show(results);
 
          // Update status
          if(results.Count == 0)
@@ -87,9 +77,9 @@ partial class NoteSearchViewModel : ObservableObject
       }
    }
 
-   List<NoteSearchResultViewModel> SearchNotes(string searchText)
+   List<JPNote> SearchNotes(string searchText)
    {
-      var results = new List<NoteSearchResultViewModel>();
+      var results = new List<JPNote>();
 
       var col = _services.CoreApp.Collection;
 
@@ -148,13 +138,13 @@ partial class NoteSearchViewModel : ObservableObject
       return results.Take(MaxResults).ToList();
    }
 
-   static List<NoteSearchResultViewModel> SearchInNotes<TNote>(
+   static List<JPNote> SearchInNotes<TNote>(
       List<TNote> notes,
       string searchText,
       Func<TNote, Dictionary<string, Func<string>>> extractorsFactory)
       where TNote : JPNote
    {
-      var results = new List<NoteSearchResultViewModel>();
+      var results = new List<JPNote>();
 
       // Split search text by " && " to get multiple conditions
       var searchConditions = searchText
@@ -246,7 +236,7 @@ partial class NoteSearchViewModel : ObservableObject
 
          if(allConditionsMatch)
          {
-            results.Add(new NoteSearchResultViewModel(note));
+            results.Add(note);
          }
       }
 
@@ -256,15 +246,4 @@ partial class NoteSearchViewModel : ObservableObject
    static string StripHtml(string html) =>
       // Strip HTML tags and bracket markup
       html.StripHtmlAndBracketMarkupAndNoiseCharacters();
-
-   /// <summary>Shows the selected search result in the workspace, in the tab already showing it or else in a new tab.</summary>
-   [RelayCommand]
-   public void OpenSelectedNote()
-   {
-      if(SelectedResult != null)
-         _workspace.OpenNote(SelectedResult.Note);
-   }
-
-   /// <summary>Opens <paramref name="result"/> in a new tab in the background, as middle-clicking a link does.</summary>
-   public void OpenInBackgroundTab(NoteSearchResultViewModel result) => _workspace.OpenNoteInBackgroundTab(result.Note);
 }

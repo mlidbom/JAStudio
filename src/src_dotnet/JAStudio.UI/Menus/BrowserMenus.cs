@@ -8,6 +8,7 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.Notes.Kanji;
 using JAStudio.UI.Menus.Notes.Sentence;
+using JAStudio.UI.Menus.Notes.Vocab;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 

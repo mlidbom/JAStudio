@@ -6,7 +6,6 @@ using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Anki;
 
@@ -48,14 +47,6 @@ public class QueryBuilder
    }
 
    /// <summary>
-   /// Creates a field search for substring matches using wildcards.
-   /// </summary>
-   static string FieldContainsString(string field, params string[] words)
-   {
-      return OrClauses(words.Select(word => $"\"{field}:*{word}*\""));
-   }
-
-   /// <summary>
    /// Search for sentence notes containing the given word.
    /// If exact=false, searches for all forms of vocab notes matching the word.
    /// Ported from sentence_search()
@@ -78,19 +69,6 @@ public class QueryBuilder
       }
 
       return result + $"({FormQuery(word)})";
-   }
-
-   /// <summary>
-   /// Search for sentences that potentially match a vocab word.
-   /// Ported from potentially_matching_sentences_for_vocab()
-   /// </summary>
-   public string PotentiallyMatchingSentencesForVocab(VocabNote vocab)
-   {
-      var searchStrings = vocab.MatchingConfiguration.RequiresForbids.Surface.IsRequired
-                             ? vocab.Forms.MatchedFormsList().ToList()
-                             : vocab.Conjugator.GetStemsForAllForms().Concat(vocab.Forms.MatchedFormsList()).ToList();
-
-      return $"{Builtin.Note}:{NoteTypes.Sentence} {FieldContainsString(AnkiFieldNames.Question, searchStrings.ToArray())}";
    }
 
    /// <summary>
@@ -153,12 +131,6 @@ public class QueryBuilder
       var kanjiClauses = text.Select(c => $"{AnkiFieldNames.Question}:{c}");
       return $"{Builtin.Note}:{NoteTypes.Kanji} ( {string.Join(" OR ", kanjiClauses)} )";
    }
-
-   /// <summary>
-   /// Search for vocab notes containing a specific kanji.
-   /// Ported from vocab_with_kanji()
-   /// </summary>
-   public string VocabWithKanji(KanjiNote kanji) => $"{Builtin.Note}:{NoteTypes.Vocab} {AnkiFieldNames.Vocab.Forms}:*{kanji.GetQuestion()}*";
 
    /// <summary>
    /// Search for vocab notes by dictionary forms extracted from text.
@@ -267,31 +239,4 @@ public class QueryBuilder
    /// </summary>
    public string KanjiWithMeaning(string search) => $"{Builtin.Note}:{NoteTypes.Kanji} ({AnkiFieldNames.Answer}:*{search}*)";
 
-   /// <summary>
-   /// Search for vocab dependencies (vocab and kanji that a word depends on).
-   /// Ported from vocab_dependencies_lookup_query()
-   /// </summary>
-   public string VocabDependenciesLookupQuery(VocabNote vocab)
-   {
-      string CreateVocabClause(string text)
-      {
-         var dictionaryForms = TextAnalysis.FromText(_analysisServices, text).AllWordsStrings();
-         if(!dictionaryForms.Any())
-            return "";
-
-         var clauses = dictionaryForms.Select(VocabClause);
-         return $"({Builtin.Note}:{NoteTypes.Vocab} ({string.Join(" OR ", clauses)})) OR ";
-      }
-
-      string CreateKanjiClause()
-      {
-         var kanjiClauses = vocab.GetQuestion().Select(c => $"{AnkiFieldNames.Question}:{c}");
-         return $"{Builtin.Note}:{NoteTypes.Kanji} ( {string.Join(" OR ", kanjiClauses)} )";
-      }
-
-      var vocabVocabClause = CreateVocabClause(vocab.GetQuestion());
-      var kanjiClause = CreateKanjiClause();
-
-      return $"{vocabVocabClause}({kanjiClause})";
-   }
 }

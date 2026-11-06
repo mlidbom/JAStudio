@@ -4,8 +4,10 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.Threading;
-using JAStudio.Anki;
+using JAStudio.Core.LanguageServices.JanomeEx;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
@@ -13,7 +15,7 @@ using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace;
 
 // ReSharper disable once CheckNamespace
-namespace JAStudio.UI.Menus;
+namespace JAStudio.UI.Menus.Notes.Vocab;
 
 /// <summary>
 /// Vocab note-specific menu builders.
@@ -22,6 +24,18 @@ namespace JAStudio.UI.Menus;
 class VocabNoteMenus(Core.TemporaryServiceCollection services)
 {
    readonly Core.TemporaryServiceCollection _services = services;
+
+   JPCollection Collection => _services.CoreApp.Collection;
+
+   /// <summary>The vocab and kanji <paramref name="vocab"/> is built from: the vocab for each word its question parses into, and the kanji in its question.</summary>
+   List<JPNote> Dependencies(VocabNote vocab)
+   {
+      var words = TextAnalysis.FromText(_services.Resolve<AnalysisServices>(), vocab.GetQuestion()).AllWordsStrings();
+      return [..Collection.Vocab.WithAnyFormIn(words), ..KanjiIn(vocab.GetQuestion())];
+   }
+
+   /// <summary>The kanji notes for the characters of <paramref name="text"/> that are kanji with a note.</summary>
+   List<KanjiNote> KanjiIn(string text) => Collection.Kanji.WithAnyKanjiIn([..text.Select(character => character.ToString())]);
 
    public SpecMenuItem BuildNoteActionsMenuSpec(string title, VocabNote vocab)
    {
@@ -35,25 +49,25 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     SpecMenuItem.Submenu(ShortcutFinger.Home1("Vocab"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("Forms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Forms.VocabForQuestionAndEnteredForms()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home2("Compound parts"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(vocab.CompoundParts.All()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home3("In compounds"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.InCompounds()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home4("Synonyms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.Synonyms.Notes()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home5("See also"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.SeeAlso.Notes()))),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home1("Forms"), $"Vocab for the forms of {vocab.GetQuestion()}", vocab.Forms.VocabForQuestionAndEnteredForms),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home2("Compound parts"), $"Compound parts of {vocab.GetQuestion()}", () => Collection.Vocab.WithAnyFormIn(vocab.CompoundParts.All())),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home3("In compounds"), $"Compounds with {vocab.GetQuestion()}", vocab.RelatedNotes.InCompounds),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home4("Synonyms"), $"Synonyms of {vocab.GetQuestion()}", vocab.RelatedNotes.Synonyms.Notes),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home5("See also"), $"See also for {vocab.GetQuestion()}", vocab.RelatedNotes.SeeAlso.Notes),
                                                             BuildOpenHomonymsMenuSpec(vocab, ShortcutFinger.Up1("Homonyms")),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up2("Dependencies"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabDependenciesLookupQuery(vocab)))
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Up2("Dependencies"), $"Dependencies of {vocab.GetQuestion()}", () => Dependencies(vocab))
                                                          }),
                                     SpecMenuItem.Submenu(ShortcutFinger.Home2("Sentences"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("Sentences I'm Studying"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Sentences.Studying()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home2("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Sentences.All()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home3("Sentences with primary form"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Sentences.WithPrimaryForm()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home4("Sentences with this word highlighted"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Sentences.UserHighlighted()))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Home5("Potentially matching sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().PotentiallyMatchingSentencesForVocab(vocab))),
-                                                            SpecMenuItem.Command(ShortcutFinger.Up1("Marked invalid in sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Sentences.InvalidIn())))
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home1("Sentences I'm Studying"), $"Sentences with {vocab.GetQuestion()} that I'm studying", vocab.Sentences.Studying),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home2("Sentences"), $"Sentences with {vocab.GetQuestion()}", vocab.Sentences.All),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home3("Sentences with primary form"), $"Sentences with the primary form of {vocab.GetQuestion()}", vocab.Sentences.WithPrimaryForm),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home4("Sentences with this word highlighted"), $"Sentences with {vocab.GetQuestion()} highlighted", vocab.Sentences.UserHighlighted),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home5("Potentially matching sentences"), $"Sentences that may match {vocab.GetQuestion()}", () => Collection.Sentences.PotentiallyMatchingVocab(vocab)),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Up1("Marked invalid in sentences"), $"Sentences where {vocab.GetQuestion()} is marked invalid", vocab.Sentences.InvalidIn)
                                                          }),
-                                    SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().KanjiInString(vocab.GetQuestion()))),
+                                    NoteListMenuItem.Showing(ShortcutFinger.Home3("Kanji"), $"Kanji in {vocab.GetQuestion()}", () => KanjiIn(vocab.GetQuestion())),
                                     BuildOpenErgativeTwinMenuSpec(ShortcutFinger.Home4("Ergative twin"), vocab)
                                  }.Where(it => it != null).ToList()!
             ),
@@ -141,9 +155,9 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       for(var i = 0; i < readings.Count; i++)
       {
          var reading = readings[i];
-         items.Add(SpecMenuItem.UICommand(
-                      ShortcutFinger.FingerByPriorityOrder(i, $"Homonyms: {reading}"),
-                      () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Vocab.WithReading(reading)))));
+         items.Add(NoteListMenuItem.Showing(ShortcutFinger.FingerByPriorityOrder(i, $"Homonyms: {reading}"),
+                                            $"Vocab read {reading}",
+                                            () => Collection.Vocab.WithReading(reading)));
       }
 
       return SpecMenuItem.Submenu(title, items);
@@ -159,7 +173,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       if(!ergativeTwinNotes.Any())
          return null;
 
-      return SpecMenuItem.UICommand(title, () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(ergativeTwinNotes)));
+      return NoteListMenuItem.Showing(title, $"Ergative twin of {vocab.GetQuestion()}", () => ergativeTwinNotes);
    }
 
    SpecMenuItem BuildCreateCloneToFormMenuSpec(string title, VocabNote vocab)

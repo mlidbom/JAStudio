@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using JAStudio.Anki;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace;
@@ -13,6 +13,8 @@ class KanjiNoteMenus
 
    public KanjiNoteMenus(Core.TemporaryServiceCollection services) => _services = services;
 
+   JPCollection Collection => _services.CoreApp.Collection;
+
    public SpecMenuItem BuildNoteActionsMenuSpec(string title, KanjiNote kanji)
    {
       var items = new List<SpecMenuItem>
@@ -20,11 +22,11 @@ class KanjiNoteMenus
                      SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"),
                                           new List<SpecMenuItem>
                                           {
-                                             SpecMenuItem.Command(ShortcutFinger.Home1("Primary Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(kanji.PrimaryVocab))),
-                                             SpecMenuItem.Command(ShortcutFinger.Home2("Vocabs"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabWithKanji(kanji))),
-                                             SpecMenuItem.Command(ShortcutFinger.Home3("Radicals"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(kanji.GetRadicalsNotes()))),
-                                             SpecMenuItem.Command(ShortcutFinger.Home4("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_services.CoreApp.Collection.Kanji.WithRadical(kanji.GetQuestion())))),
-                                             SpecMenuItem.Command(ShortcutFinger.Home5("Sentences"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().SentenceSearch(kanji.GetQuestion(), exact: true)))
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home1("Primary Vocabs"), $"Primary vocab of {kanji.GetQuestion()}", () => Collection.Vocab.WithAnyFormIn(kanji.PrimaryVocab)),
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home2("Vocabs"), $"Vocab with {kanji.GetQuestion()}", kanji.GetVocabNotes),
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Radicals"), $"Radicals of {kanji.GetQuestion()}", kanji.GetRadicalsNotes),
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home4("Kanji"), $"Kanji with the radical {kanji.GetQuestion()}", () => Collection.Kanji.WithRadical(kanji.GetQuestion())),
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home5("Sentences"), $"Sentences with {kanji.GetQuestion()}", () => Collection.Sentences.SentencesWithSubstring(kanji.GetQuestion()))
                                           }),
                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(kanji)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])

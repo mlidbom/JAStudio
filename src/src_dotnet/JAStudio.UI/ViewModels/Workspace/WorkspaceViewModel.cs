@@ -5,16 +5,19 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.UI.Web;
+using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace;
+using JAStudio.UI.Views.Workspace.Navigation;
 
 namespace JAStudio.UI.ViewModels.Workspace;
 
 /// <summary>
 /// A workspace: its tabs (<see cref="NoteTabViewModel"/>), each showing a note's page, which of them is shown,<br/>
-/// its <see cref="NoteSearch"/>, and the window title. See <c>dev_docs/jastudio-workspace.md</c>.
+/// its <see cref="Navigation"/> pane, and the window title. See <c>dev_docs/jastudio-workspace.md</c>.
 /// </summary>
 /// <remarks>
-/// The view is <see cref="WorkspaceWindow"/>: the <see cref="NoteSearchPane"/>, the tab strip, and each tab's <see cref="NoteTabView"/>.
+/// The view is <see cref="WorkspaceWindow"/>: the <see cref="NavigationPane"/>, the tab strip, each tab's <see cref="NoteTabView"/>,<br/>
+/// and the editor section.
 /// </remarks>
 partial class WorkspaceViewModel : ObservableObject
 {
@@ -25,11 +28,11 @@ partial class WorkspaceViewModel : ObservableObject
    public WorkspaceViewModel(TemporaryServiceCollection services)
    {
       _services = services;
-      NoteSearch = new NoteSearchViewModel(this, services);
+      Navigation = new NavigationPaneViewModel(this, services);
    }
 
-   /// <summary>The search pane, whose results open in this workspace's tabs.</summary>
-   public NoteSearchViewModel NoteSearch { get; }
+   /// <summary>The navigation pane on the left: ways to find notes, such as the search, which open in this workspace's tabs.</summary>
+   public NavigationPaneViewModel Navigation { get; }
 
    /// <summary>The open tabs, in the order the tab strip shows them.</summary>
    public ObservableCollection<NoteTabViewModel> Tabs { get; } = [];

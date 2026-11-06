@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace;
@@ -15,6 +17,8 @@ class SentenceNoteMenus
 
    public SentenceNoteMenus(Core.TemporaryServiceCollection services) => _services = services;
 
+   JPCollection Collection => _services.CoreApp.Collection;
+
    public SpecMenuItem BuildNoteActionsMenuSpec(string title, SentenceNote sentence)
    {
       return SpecMenuItem.Submenu(title,
@@ -23,10 +27,10 @@ class SentenceNoteMenus
                                      SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.Command(ShortcutFinger.Home1("Highlighted Vocab"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(sentence.Configuration.HighlightedWords))),
+                                                             NoteListMenuItem.Showing(ShortcutFinger.Home1("Highlighted Vocab"), $"Highlighted vocab in {sentence.GetQuestion()}", () => Collection.Vocab.WithAnyFormIn(sentence.Configuration.HighlightedWords)),
                                                              SpecMenuItem.Command(ShortcutFinger.Home2("Highlighted Vocab Read Card"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStringsReadCard(sentence.Configuration.HighlightedWords))),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home3("Kanji"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().KanjiInString(string.Join("", sentence.ExtractKanji())))),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Parsed words"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesByIds(GetParsedWordsNoteIds(sentence))))
+                                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Kanji"), $"Kanji in {sentence.GetQuestion()}", () => Collection.Kanji.WithAnyKanjiIn(sentence.ExtractKanji())),
+                                                             NoteListMenuItem.Showing(ShortcutFinger.Home4("Parsed words"), $"Parsed words in {sentence.GetQuestion()}", () => ParsedWordsNotes(sentence))
                                                           }),
                                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(sentence)),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"),
@@ -67,13 +71,15 @@ class SentenceNoteMenus
       return SpecMenuItem.Submenu(title, items);
    }
 
-   static IEnumerable<NoteId> GetParsedWordsNoteIds(SentenceNote sentence)
-   {
-      var parsingResult = sentence.GetParsingResult();
-      var vocabIds = parsingResult.ParsedWords
-                                  .Where(p => p.VocabId != null)
-                                  .Select(p => p.VocabId!)
-                                  .Distinct();
-      return vocabIds;
-   }
+   /// <summary>
+   /// The vocab the sentence's parsing result matched. The parsing result is a cache, which can name a vocab deleted since the sentence<br/>
+   /// was parsed: such a vocab has no note to list.
+   /// </summary>
+   IEnumerable<VocabNote> ParsedWordsNotes(SentenceNote sentence) =>
+      sentence.GetParsingResult().ParsedWords
+              .Select(it => it.VocabId)
+              .OfType<NoteId>()
+              .Distinct()
+              .Select(Collection.Vocab.WithIdOrNone)
+              .OfType<VocabNote>();
 }

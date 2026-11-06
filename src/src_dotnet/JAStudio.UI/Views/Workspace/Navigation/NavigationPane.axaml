@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:navigation="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation"
+             xmlns:navigationViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
+             x:Class="JAStudio.UI.Views.Workspace.Navigation.NavigationPane"
+             x:DataType="navigation:NavigationPaneViewModel"
+             IsVisible="{Binding IsOpen}">
+
+    <UserControl.Styles>
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="10,4" />
+        </Style>
+    </UserControl.Styles>
+
+    <TabControl>
+        <TabItem Header="Search" IsSelected="{Binding IsSearchShown, Mode=TwoWay}">
+            <navigationViews:NoteSearchView x:Name="NoteSearch" DataContext="{Binding Search}" />
+        </TabItem>
+        <TabItem Header="List" IsSelected="{Binding IsNoteListShown, Mode=TwoWay}">
+            <navigationViews:NoteListView DataContext="{Binding NoteList}" />
+        </TabItem>
+    </TabControl>
+
+</UserControl>

@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:navigation="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation"
+             x:Class="JAStudio.UI.Views.Workspace.Navigation.ListedNotesView"
+             x:DataType="navigation:ListedNotesViewModel">
+
+    <ListBox ItemsSource="{Binding Notes}"
+             SelectedItem="{Binding SelectedNote}"
+             DoubleTapped="OnListedNoteDoubleTapped"
+             BorderThickness="1" BorderBrush="Gray">
+        <ListBox.KeyBindings>
+            <KeyBinding Gesture="Enter" Command="{Binding OpenSelectedNoteCommand}" />
+        </ListBox.KeyBindings>
+        <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="navigation:ListedNoteViewModel">
+                <DockPanel Background="Transparent" PointerReleased="OnListedNotePointerReleased">
+                    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" Text="{Binding Question}" TextWrapping="Wrap"
+                                   FontFamily="Meiryo UI,Yu Gothic UI,Microsoft YaHei UI" FontSize="18" />
+                        <TextBlock Grid.Column="1" Text="{Binding NoteType}" FontSize="11" Opacity="0.6"
+                                   VerticalAlignment="Top" Margin="6,2,0,0" />
+                    </Grid>
+                    <TextBlock Text="{Binding Answer}" TextWrapping="Wrap" />
+                </DockPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+
+</UserControl>

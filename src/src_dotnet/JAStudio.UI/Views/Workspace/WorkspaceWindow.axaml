@@ -4,6 +4,7 @@
         xmlns:workspace="clr-namespace:JAStudio.UI.Views.Workspace"
         xmlns:controls="clr-namespace:JAStudio.UI.Controls"
         xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
+        xmlns:navigation="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
         x:Class="JAStudio.UI.Views.Workspace.WorkspaceWindow"
         x:DataType="vm:WorkspaceViewModel"
         Title="{Binding Title}"
@@ -13,10 +14,10 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top" x:Name="MainMenu" />
 
-        <workspace:NoteSearchPane x:Name="NoteSearchPane" DockPanel.Dock="Left" DataContext="{Binding NoteSearch}"
-                                  Width="420" MinWidth="200" />
-        <controls:PaneResizeEdge DockPanel.Dock="Left" ResizedPane="{Binding #NoteSearchPane}" ResizedPaneSide="Left"
-                                 IsVisible="{Binding NoteSearch.IsOpen}" />
+        <navigation:NavigationPane x:Name="NavigationPane" DockPanel.Dock="Left" DataContext="{Binding Navigation}"
+                                   Width="420" MinWidth="200" />
+        <controls:PaneResizeEdge DockPanel.Dock="Left" ResizedPane="{Binding #NavigationPane}" ResizedPaneSide="Left"
+                                 IsVisible="{Binding Navigation.IsOpen}" />
 
         <editorViews:EditorSection x:Name="EditorSection" DockPanel.Dock="Right" Width="480" MinWidth="250" IsVisible="{Binding IsEditorSectionOpen}" />
         <controls:PaneResizeEdge DockPanel.Dock="Right" ResizedPane="{Binding #EditorSection}" ResizedPaneSide="Right"
@@ -24,8 +25,9 @@
 
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
-                <ToggleButton DockPanel.Dock="Left" Content="Search" IsChecked="{Binding NoteSearch.IsOpen}"
-                              ToolTip.Tip="Show or hide the note search (Ctrl+O)" Margin="4,2" Padding="8,2" />
+                <ToggleButton DockPanel.Dock="Left" Content="Navigation" IsChecked="{Binding Navigation.IsOpen}"
+                              ToolTip.Tip="Show or hide the navigation pane: the note search (Ctrl+O), and the lists the note menus' Open items show"
+                              Margin="4,2" Padding="8,2" />
                 <ToggleButton DockPanel.Dock="Right" Content="Editor" IsChecked="{Binding IsEditorSectionOpen}"
                               ToolTip.Tip="Show or hide the editor section (Ctrl+E)" Margin="4,2" Padding="8,2" />
 

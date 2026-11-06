@@ -21,8 +21,9 @@ stops making sense. Search results, the note you're viewing and its editors belo
   rendered by the `CardServer`) in a web view, with its own back and forward history.
 - **The editor section,** collapsible, on the right, shows the editors of the shown tab's note. There's one per
   workspace, opened or closed for all tabs at once.
-- **Search** lives in the workspace too, as a pane whose results open in tabs. The menu items that open lists of
-  notes in Anki's browser today fill that pane instead.
+- **The navigation pane,** on the left, holds ways to find notes, as tabs of their own, whose notes open in the
+  workspace's tabs: the search, and the list a note menu's "Open" item shows. Later perhaps more, such as the tag
+  tree.
 
 Defaults, unless something changes them:
 - Following a link navigates within the tab. Middle-clicking a link opens it in a new tab in the background.
@@ -32,7 +33,7 @@ Defaults, unless something changes them:
 
 ## Technology: Avalonia, with the web view only showing the note
 
-- **Avalonia** for the workspace and everything structured: the window, tabs, the search pane, editors, menus
+- **Avalonia** for the workspace and everything structured: the window, tabs, the navigation pane, editors, menus
   and dialogs.
 - **The web view (Blazor) only shows the note's page**, follows its links and passes on right-clicks. HTML is the
   best tool for that richly formatted text, and the card pages already exist.
@@ -130,13 +131,22 @@ apply here.
    the background.
    Ctrl+W or middle-clicking a tab closes it; Ctrl+Tab and Ctrl+Shift+Tab switch tabs. Each tab subscribes to
    the update notifications and unsubscribes when it's closed.
-4. **The search pane**, moving the note search dialog in. *(Built 2026-11-06: `NoteSearchPane` and
-   `NoteSearchViewModel`; the dialog is gone.)* The pane is on the left, resized by dragging its edge, and opened
-   or closed with the "Search" button. Ctrl+O, anywhere including in Anki, brings the workspace forward, opens
-   the pane and puts the keyboard in the search box; pressed in the workspace while the pane is open, it closes
-   the pane and gives the keyboard to the shown page. Double-click or Enter opens a result the way opening a note
-   from outside does; middle-click opens it in a background tab. Filling the pane from the menu items that open
-   lists of notes in Anki's browser is still to come.
+4. **The navigation pane**, moving the note search dialog in, and then the lists of notes the note menus opened in
+   Anki's browser. *(Built 2026-11-06: `NavigationPaneViewModel`, with `NoteSearchViewModel` and
+   `NoteListViewModel`; the dialog is gone.)*
+   - The pane is on the left, resized by dragging its edge, and opened or closed with the "Navigation" button. Its
+     tabs are "Search" and "List".
+   - Ctrl+O, anywhere including in Anki, brings the workspace forward, opens the pane on its search and puts the
+     keyboard in the search box; pressed in the workspace while the pane is open on its search, it closes the pane
+     and gives the keyboard to the shown page.
+   - The "Open" items of the note menus show a `NoteList`, a title and notes, in the "List" tab, replacing the list
+     shown before. "Highlighted Vocab Read Card" is about Anki's cards rather than notes, so it still opens Anki's
+     browser.
+   - The "List" tab's "Show in Anki's browser" opens Anki's browser on the same notes, by their Anki ids, for what
+     only Anki does with them, such as suspending their cards. It's disabled when no listed note is in Anki: the
+     search would be empty, and Anki's browser would show its default search instead.
+   - In both tabs, double-click or Enter opens a note the way opening a note from outside does; middle-click opens
+     it in a background tab (`ListedNotesViewModel`).
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
    first. *(Built 2026-11-06: every note type's editors are in the workspace, `VocabEditorSectionViewModel`,
    `KanjiEditorSectionViewModel` and `SentenceEditorSectionViewModel`, and the editor dialogs are gone.)*
