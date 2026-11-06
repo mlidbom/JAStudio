@@ -30,6 +30,13 @@
    </ItemGroup>
 
    <ItemGroup>
+      <!-- rationale: the specifications drive the workspace through its view models, which are internal. In JAStudio, public
+           means reachable from Python, whose stubs cover every public type, so making them public would widen the Python layer.
+           See dev_docs/code_standard_exceptions/the-ui-specifications-see-the-uis-internals.md -->
+      <InternalsVisibleTo Include="JAStudio.UI.Specifications" />
+   </ItemGroup>
+
+   <ItemGroup>
       <PackageReference Include="Compze.Underscore" Version="0.6.0-beta" />
       <PackageReference Include="Compze.Internals.Logging" Version="0.4.1-alpha" />
       <PackageReference Include="Compze.Internals.SystemCE" Version="0.4.1-internal" />

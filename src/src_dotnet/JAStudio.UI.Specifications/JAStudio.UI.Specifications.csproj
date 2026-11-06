@@ -27,6 +27,8 @@
 
    <ItemGroup>
       <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj"/>
+      <!-- For SpecificationStartingWithAnEmptyCollection: the application's real services with an empty collection. -->
+      <ProjectReference Include="..\JAStudio.Core.Specifications\JAStudio.Core.Specifications.csproj"/>
    </ItemGroup>
 
 </Project>

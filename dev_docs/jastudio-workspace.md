@@ -59,9 +59,9 @@ apply here.
   several editors on the same note need no special handling. An editor refreshes every field from the note whenever
   the note is updated.
 - **A refresh never overwrites typing.** A text field is written on every keystroke, so the note holds what its text
-  box shows. A comma separated list may be read back as the list joined again, so a text field editor
-  (`TextFieldEditorViewModel`) keeps the text as typed as long as it means the same list; otherwise a trailing ", "
-  being typed would disappear. When the note changes what was typed on purpose, as a kanji's on readings are turned
+  box shows. Note fields trim their text, and a comma separated list may be read back as the list joined again, so a
+  text field editor (`TextFieldEditorViewModel`) keeps the text as typed as long as it means the same; otherwise a
+  trailing space or ", " being typed would disappear. When the note changes what was typed on purpose, as a kanji's on readings are turned
   into hiragana, the text box keeps showing what was typed until the editor is shown again; the note is right either
   way. The one field that isn't written on every keystroke, a vocab's question, keeps its uncommitted text through a
   refresh.

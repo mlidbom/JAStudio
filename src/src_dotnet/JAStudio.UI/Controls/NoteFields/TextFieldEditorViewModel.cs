@@ -16,8 +16,8 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// <remarks>
 /// Every keystroke writes the text box's whole text to the note, so the note holds what the text box shows.<br/>
 /// And because it does, <see cref="Refresh"/> never overwrites typing.<br/>
-/// A comma separated list may be read back as the list joined again. The text box then keeps the text as typed, as long as it means the same list:<br/>
-/// otherwise text being typed, like a trailing ", ", would disappear.
+/// The text may be read back differently than it was typed: note fields trim their text, and a comma separated list may come back as the list joined again.<br/>
+/// The text box then keeps the text as typed, as long as it means the same: otherwise text being typed, like a trailing space or ", ", would disappear.
 /// </remarks>
 /// <remarks>
 /// The note may change what was typed on purpose, as when a kanji's on readings are turned into hiragana.<br/>
@@ -92,8 +92,9 @@ class TextFieldEditorViewModel : ObservableObject
       OnPropertyChanged(nameof(Text));
    }
 
+   /// <summary>Whether <paramref name="notesText"/> is what the shown text becomes when it's stored: note fields trim their text, and lists drop empty entries.</summary>
    bool MeansTheSameAsTheShownText(string notesText) =>
       IsCommaSeparated
          ? StringExtensions.ExtractCommaSeparatedValues(notesText).SequenceEqual(StringExtensions.ExtractCommaSeparatedValues(_text))
-         : notesText == _text;
+         : notesText.Trim() == _text.Trim();
 }
