@@ -63,6 +63,10 @@ apply here.
 
   A view holding the old object would then show and edit an orphan. Looking the note up by id keeps "one shared
   object" true. `JPCollection.ReloadedFromBackend` lets views refresh.
+- **Editors read and write through the note as the collection holds it now.** Besides the note objects, a note's
+  flag and rule objects are recreated whenever its tags change, and they cache their state. So each editor row
+  holds a way to find its field on the current note, never the field object itself, and the tab refreshes its
+  editors whenever the note is updated.
 - **Update notifications are observables** (Compze's `SimpleObservable<T>`), so tabs and windows can
   unsubscribe when they close: `JPCollection.NoteUpdated` and `ReloadedFromBackend`, each note cache's
   `NoteUpdated`, `JapaneseConfig.Changed` and `ConfigurationValue<T>.Changed`. A subscriber may subscribe or
@@ -77,7 +81,7 @@ apply here.
   act on the note being viewed.
 - **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press, and the tab asks the
   window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O,
-  Ctrl+W, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the keyboard is outside the page.
+  Ctrl+E, Ctrl+W, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the keyboard is outside the page.
   Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
   editors to come.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
@@ -123,7 +127,13 @@ apply here.
    from outside does; middle-click opens it in a background tab. Filling the pane from the menu items that open
    lists of notes in Anki's browser is still to come.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
-   first.
+   first. *(Started 2026-11-06: the vocab flags editor, `VocabFlagsEditorViewModel`, replaces the "Edit Matching
+   Config" dialog.)* Each tab has an editor section on the right, opened and closed with Ctrl+E or the "Editor"
+   button, resized by dragging its edge. It stays open as links are followed and shows the editors of whatever note
+   the tab shows. Every change is written to the note at once. A change to a parsing rule marks the vocab's
+   sentences as needing a reparse, and the "Reparse sentences" button reparses them once, however many rules
+   changed. "Edit Matching Config" in the note menus opens the note in the workspace with the section open. The
+   vocab, kanji and sentence editors are still dialogs.
 6. **Multiple workspaces.**
 7. **Revert to the committed version.**
 

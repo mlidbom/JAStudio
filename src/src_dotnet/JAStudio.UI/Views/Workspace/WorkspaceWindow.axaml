@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
         xmlns:workspace="clr-namespace:JAStudio.UI.Views.Workspace"
+        xmlns:controls="clr-namespace:JAStudio.UI.Controls"
         x:Class="JAStudio.UI.Views.Workspace.WorkspaceWindow"
         x:DataType="vm:WorkspaceViewModel"
         Title="{Binding Title}"
@@ -13,16 +14,8 @@
 
         <workspace:NoteSearchPane x:Name="NoteSearchPane" DockPanel.Dock="Left" DataContext="{Binding NoteSearch}"
                                   Width="420" MinWidth="200" />
-        <!-- The note search pane's right edge: dragging it resizes the pane.
-             The template draws the edge: a Thumb has no look of its own, and what isn't drawn can't be pointed at. -->
-        <Thumb DockPanel.Dock="Left" Width="5" Cursor="SizeWestEast" Background="LightGray"
-               IsVisible="{Binding NoteSearch.IsOpen}" DragDelta="OnNoteSearchPaneEdgeDragged">
-            <Thumb.Template>
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}" />
-                </ControlTemplate>
-            </Thumb.Template>
-        </Thumb>
+        <controls:PaneResizeEdge DockPanel.Dock="Left" ResizedPane="{Binding #NoteSearchPane}" ResizedPaneSide="Left"
+                                 IsVisible="{Binding NoteSearch.IsOpen}" />
 
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">

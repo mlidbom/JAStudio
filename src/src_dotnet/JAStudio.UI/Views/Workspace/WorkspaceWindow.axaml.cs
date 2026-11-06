@@ -62,6 +62,7 @@ public partial class WorkspaceWindow : Window
                          {
                             ["Ctrl+o"] = ToggleNoteSearch,
                             ["Ctrl+Shift+o"] = Hide,
+                            ["Ctrl+e"] = ToggleShownTabsEditorSection,
                             ["Ctrl+w"] = _viewModel.CloseSelectedTab,
                             ["Ctrl+tab"] = _viewModel.SelectNextTab,
                             ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab
@@ -96,6 +97,12 @@ public partial class WorkspaceWindow : Window
    public static void OpenNote(JPNote note) => Dispatcher.UIThread.Post(() => Instance.ShowNote(note));
 
    /// <summary>
+   /// Shows <paramref name="note"/> as <see cref="OpenNote"/> does, with the tab's editor section open, and brings the workspace to the front.<br/>
+   /// Can be called from any thread.
+   /// </summary>
+   public static void EditNote(JPNote note) => Dispatcher.UIThread.Post(() => Instance.ShowNoteInEditor(note));
+
+   /// <summary>
    /// Ctrl+O. In the active workspace with the note search pane open, closes the pane and gives the keyboard to the shown page.<br/>
    /// Otherwise brings the workspace to the front, opens the pane, and puts the keyboard in the search box.<br/>
    /// Can be called from any thread.
@@ -115,6 +122,19 @@ public partial class WorkspaceWindow : Window
    {
       _viewModel.OpenNote(note);
       BringToFront();
+   }
+
+   void ShowNoteInEditor(JPNote note)
+   {
+      _viewModel.EditNote(note);
+      BringToFront();
+   }
+
+   /// <summary>Ctrl+E. Afterwards the keyboard is on the page, so the note view shortcuts work whether the section opened or closed.</summary>
+   void ToggleShownTabsEditorSection()
+   {
+      _viewModel.ToggleShownTabsEditorSection();
+      FocusShownPage();
    }
 
    void ToggleNoteSearchInThisWindow()
@@ -166,9 +186,6 @@ public partial class WorkspaceWindow : Window
    }
 
    string GetClipboardText() => Clipboard?.TryGetTextAsync().Result ?? string.Empty;
-
-   void OnNoteSearchPaneEdgeDragged(object? sender, VectorEventArgs e) =>
-      NoteSearchPane.Width = Math.Max(NoteSearchPane.MinWidth, NoteSearchPane.Width + e.Vector.X);
 
    /// <summary>Middle-clicking a tab's header closes the tab, as in a browser.</summary>
    void OnTabHeaderPointerReleased(object? sender, PointerReleasedEventArgs e)

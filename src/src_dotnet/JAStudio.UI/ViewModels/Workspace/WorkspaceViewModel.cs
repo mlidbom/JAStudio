@@ -41,8 +41,13 @@ partial class WorkspaceViewModel : ObservableObject
    [ObservableProperty] string _title = AppTitle;
 
    /// <summary>Shows <paramref name="note"/>: selects a tab that already shows it, or else opens a new tab for it.</summary>
-   public void OpenNote(JPNote note) =>
-      SelectedTab = Tabs.FirstOrDefault(it => it.IsShowing(note)) ?? AddTab(CardServerUrl.NotePageUrl(note));
+   public void OpenNote(JPNote note) => ShowTabFor(note);
+
+   /// <summary>Shows <paramref name="note"/> as <see cref="OpenNote"/> does, with the tab's editor section open.</summary>
+   public void EditNote(JPNote note) => ShowTabFor(note).IsEditorSectionOpen = true;
+
+   /// <summary>Opens or closes the shown tab's editor section, if a tab is open.</summary>
+   public void ToggleShownTabsEditorSection() => SelectedTab?.ToggleEditorSection();
 
    /// <summary>
    /// Opens a new tab for the page at <paramref name="pageUrl"/> without showing it, as a browser does with a middle-clicked link.<br/>
@@ -96,6 +101,13 @@ partial class WorkspaceViewModel : ObservableObject
       oldValue?.SelectionChanged();
       newValue?.SelectionChanged();
       UpdateTitle();
+   }
+
+   NoteTabViewModel ShowTabFor(JPNote note)
+   {
+      var tab = Tabs.FirstOrDefault(it => it.IsShowing(note)) ?? AddTab(CardServerUrl.NotePageUrl(note));
+      SelectedTab = tab;
+      return tab;
    }
 
    NoteTabViewModel AddTab(Uri pageUrl)

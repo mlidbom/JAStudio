@@ -3,15 +3,14 @@
              xmlns:local="using:JAStudio.UI.Controls"
              x:Class="JAStudio.UI.Controls.RequireForbidControl"
              x:DataType="local:RequireForbidControlViewModel">
-    <StackPanel Orientation="Horizontal" Spacing="10">
-        <RadioButton Content="Unset" 
-                     IsChecked="{Binding IsUnset, Mode=TwoWay}" 
-                     GroupName="{Binding GroupName}" />
-        <RadioButton Content="Required" 
-                     IsChecked="{Binding IsRequired, Mode=TwoWay}" 
-                     GroupName="{Binding GroupName}" />
-        <RadioButton Content="Forbidden" 
-                     IsChecked="{Binding IsForbidden, Mode=TwoWay}" 
-                     GroupName="{Binding GroupName}" />
-    </StackPanel>
+    <!-- The radio buttons have no GroupName: they group with their siblings, so each rule's three are a group of their own,
+         even with the same rule shown in several tabs. -->
+    <Grid ColumnDefinitions="170,*">
+        <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,6,0" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+            <RadioButton Content="Unset" IsChecked="{Binding IsUnset, Mode=TwoWay}" />
+            <RadioButton Content="Required" IsChecked="{Binding IsRequired, Mode=TwoWay}" />
+            <RadioButton Content="Forbidden" IsChecked="{Binding IsForbidden, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

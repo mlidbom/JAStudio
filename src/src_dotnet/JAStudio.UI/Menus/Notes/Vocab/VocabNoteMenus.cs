@@ -59,7 +59,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                  }.Where(it => it != null).ToList()!
             ),
             SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new VocabEditorDialog(vocab).ShowNearCursor())),
-            SpecMenuItem.UICommand(ShortcutFinger.Home3("Edit Matching Config"), () => Dispatcher.UIThread.Invoke(() => new VocabFlagsDialog(vocab, _services).ShowNearCursor())),
+            SpecMenuItem.Command(ShortcutFinger.Home3("Edit Matching Config"), () => WorkspaceWindow.EditNote(vocab)),
             SpecMenuItem.Submenu(ShortcutFinger.Home4("Create"),
                                  new List<SpecMenuItem>
                                  {
