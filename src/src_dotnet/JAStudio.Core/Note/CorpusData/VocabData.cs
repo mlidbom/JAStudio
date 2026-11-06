@@ -58,7 +58,7 @@ public partial class VocabData : CorpusObjectData
       fields[NoteFieldsConstants.Vocab.AudioB] = AudioB;
       fields[NoteFieldsConstants.Vocab.AudioG] = AudioG;
       fields[NoteFieldsConstants.Vocab.AudioTTS] = AudioTTS;
-      fields[NoteFieldsConstants.Vocab.Forms] = string.Join(", ", Forms);
+      fields[NoteFieldsConstants.Vocab.Forms] = string.Join(", ", [VocabNoteQuestion.RawFromDisambiguationName(Question), ..Forms]);
       fields[NoteFieldsConstants.Vocab.SentenceCount] = SentenceCount.ToString();
       fields[NoteFieldsConstants.Vocab.TechnicalNotes] = TechnicalNotes;
       fields[NoteFieldsConstants.Vocab.References] = References;

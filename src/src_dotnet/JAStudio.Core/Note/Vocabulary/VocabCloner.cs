@@ -152,8 +152,8 @@ public class VocabCloner
    {
       var suruVerb = CreatePostfixPrefixVersion(shimasu ? "します" : "する", POS.SuruVerb);
 
-      var forms = suruVerb.Forms.EnteredFormsSet()
-                          .Concat(suruVerb.Forms.EnteredFormsSet().Select(form => form.Replace("する", "をする")))
+      var forms = suruVerb.Forms.QuestionAndEnteredFormsList()
+                          .Concat(suruVerb.Forms.QuestionAndEnteredFormsList().Select(form => form.Replace("する", "をする")))
                           .ToList();
       suruVerb.Forms.SetEnteredForms(forms);
 

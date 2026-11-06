@@ -70,10 +70,13 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
          _vocab1.Forms.SetEnteredForms(["食う", "召し上がる"]);
       }
 
-      [XF] public void VocabForEnteredForms_includes_the_first_form_vocab() =>
-         _vocab1.Forms.VocabForEnteredForms().Must().Contain(_vocab2);
+      [XF] public void VocabForQuestionAndEnteredForms_includes_the_first_form_vocab() =>
+         _vocab1.Forms.VocabForQuestionAndEnteredForms().Must().Contain(_vocab2);
 
-      [XF] public void VocabForEnteredForms_includes_the_second_form_vocab() =>
-         _vocab1.Forms.VocabForEnteredForms().Must().Contain(_vocab3);
+      [XF] public void VocabForQuestionAndEnteredForms_includes_the_second_form_vocab() =>
+         _vocab1.Forms.VocabForQuestionAndEnteredForms().Must().Contain(_vocab3);
+
+      [XF] public void VocabForQuestionAndEnteredForms_includes_the_vocab_itself() =>
+         _vocab1.Forms.VocabForQuestionAndEnteredForms().Must().Contain(_vocab1);
    }
 }

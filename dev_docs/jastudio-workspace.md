@@ -152,9 +152,11 @@ apply here.
      and the kanji's generated data, such as its active answer, is updated with it.
    - "Edit Matching Config" in the vocab's note menu and "Edit" in the kanji's open the note in the workspace with the
      section open. The kanji editor dialog is gone; the vocab and sentence editors are still dialogs.
-   - **A vocab's Question, Forms and Parts of speech can't be written on every keystroke.** Setting the question adds it
-     to the forms, so half-typed questions would stay among the forms, and every keystroke would start a reparse. How
-     they're edited is decided when the vocab's text fields move in.
+   - **A vocab's Question, Forms and Parts of speech can't be written on every keystroke:** they change what the vocab
+     matches, so every keystroke would start a reparse. On the vocab's coming "Text" tab, the Question box saves on Enter
+     or when the keyboard leaves it, light red while it holds unsaved text. Forms and Parts of speech are lists, where
+     each added or removed entry is one change. The Forms list shows only the forms besides the question: the question
+     is always a form, and isn't stored as one.
 6. **Multiple workspaces.**
 7. **Revert to the committed version.**
 

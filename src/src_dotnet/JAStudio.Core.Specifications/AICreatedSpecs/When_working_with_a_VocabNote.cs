@@ -124,14 +124,18 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
          public after_changing_the_question_to_a_new_form() => _vocab.Question.Set("奔る");
 
          [XF] public void the_bracketed_form_keeps_its_brackets() => _vocab.Forms.EnteredFormsWithBrackets().Must().Contain("[駆ける]");
-         [XF] public void the_new_question_is_added_as_a_form() => _vocab.Forms.EnteredFormsSet().Must().Contain("奔る");
+         [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("奔る");
+         [XF] public void the_new_question_is_not_among_the_entered_forms() => _vocab.Forms.EnteredFormsSet().Contains("奔る").Must().BeFalse();
+         [XF] public void the_old_question_is_no_longer_matched() => _vocab.Forms.MatchedFormsSet().Contains("走る").Must().BeFalse();
+         [XF] public void the_new_question_is_owned() => _vocab.Forms.IsOwnedForm("奔る").Must().BeTrue();
       }
 
-      public class after_ensuring_it_contains_the_bracketed_form_without_brackets : given_a_vocab_with_forms_set_using_brackets
+      public class after_changing_the_question_to_its_bracketed_form : given_a_vocab_with_forms_set_using_brackets
       {
-         public after_ensuring_it_contains_the_bracketed_form_without_brackets() => _vocab.Forms.EnsureContains("駆ける");
+         public after_changing_the_question_to_its_bracketed_form() => _vocab.Question.Set("駆ける");
 
-         [XF] public void the_forms_are_unchanged() => _vocab.Forms.EnteredFormsWithBracketsString().Must().Be("[駆ける], はしる");
+         [XF] public void the_new_question_is_dropped_from_the_entered_forms() => _vocab.Forms.EnteredFormsWithBracketsString().Must().Be("はしる");
+         [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("駆ける");
       }
    }
 
@@ -178,8 +182,11 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
          _vocab.Question.Set("新しい");
       }
 
-      [XF] public void the_question_is_automatically_included_in_forms() =>
-         _vocab.Forms.EnteredFormsSet().Must().Contain("新しい");
+      [XF] public void the_question_is_matched() =>
+         _vocab.Forms.MatchedFormsSet().Must().Contain("新しい");
+
+      [XF] public void the_question_is_not_among_the_entered_forms() =>
+         _vocab.Forms.EnteredFormsList().Must().BeEmpty();
    }
 
    public class given_a_vocab_created_with_explicit_forms : When_working_with_a_VocabNote

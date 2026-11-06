@@ -329,7 +329,6 @@ should drive its JSON key, not the reverse.
   "answer": { "source": "to tear off; to peel off", "user": "" },
   "readings": ["はぐ"],
   "forms": [
-    { "text": "剥ぐ", "owned": false },
     { "text": "剝ぐ", "owned": true }
   ],
   "compoundParts": { "primary": [], "alternative": [] },
@@ -353,6 +352,9 @@ should drive its JSON key, not the reverse.
   "tags": []
 }
 ```
+
+`forms` holds only the forms besides the question. The question is always a form, and always owned, so it isn't
+repeated there. *(Already so in today's files, since 2026-11-06.)*
 
 What disappears from vocab JSON:
 

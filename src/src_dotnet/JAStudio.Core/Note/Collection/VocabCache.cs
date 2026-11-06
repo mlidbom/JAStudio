@@ -27,6 +27,13 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
       return new VocabNote(services, mergedData);
    }
 
+   /// <summary>Also sets up the forms of a vocab that came without any besides its question: see <see cref="VocabNoteGeneratedData.SetUpTheFormsOfVocabAddedInAnki"/>.</summary>
+   protected override void SetUpNoteAddedInAnki(VocabNote vocab)
+   {
+      base.SetUpNoteAddedInAnki(vocab);
+      vocab.Services.VocabNoteGeneratedData.SetUpTheFormsOfVocabAddedInAnki(vocab);
+   }
+
    protected override void ClearDerivedIndexes()
    {
       _byDisambiguationName.Clear();

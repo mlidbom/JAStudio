@@ -26,7 +26,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
 
    public class that_does_not_require_the_dictionary_form_start : When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_placeholder
    {
-      [XF] public void the_matched_forms_are_the_entered_forms() => _vocab.Forms.MatchedFormsSet().SetEquals(_vocab.Forms.EnteredFormsSet()).Must().BeTrue();
+      [XF] public void the_matched_forms_are_the_question_and_the_entered_forms() => _vocab.Forms.MatchedFormsSet().SetEquals(_vocab.Forms.QuestionAndEnteredFormsList()).Must().BeTrue();
       [XF] public void the_vocab_collection_does_not_find_the_vocab_by_any_of_the_forms_starting_with_another_dictionary_form_ending() => TheVocabCollectionFindsTheVocabByAnyOfTheFormsItExpandsTo.Must().BeFalse();
    }
 
@@ -34,8 +34,8 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
    {
       public that_requires_the_dictionary_form_start() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.SetRequired(true);
 
-      [XF] public void the_entered_forms_are_only_the_form_starting_with_the_placeholder() => _vocab.Forms.EnteredFormsList().Must().SequenceEqual(["う限り"]);
-      [XF] public void the_stored_forms_are_only_the_form_starting_with_the_placeholder() => _vocab.Forms.EnteredFormsWithBrackets().Must().SequenceEqual(["う限り"]);
+      [XF] public void the_question_and_the_entered_forms_are_only_the_form_starting_with_the_placeholder() => _vocab.Forms.QuestionAndEnteredFormsList().Must().SequenceEqual(["う限り"]);
+      [XF] public void no_forms_are_stored_since_the_form_starting_with_the_placeholder_is_the_question() => _vocab.Forms.EnteredFormsWithBrackets().Must().BeEmpty();
       [XF] public void the_matched_forms_are_the_form_starting_with_the_placeholder_and_the_form_starting_with_each_other_dictionary_form_ending() =>
          _vocab.Forms.MatchedFormsSet().SetEquals(TheFormStartingWithEachOtherDictionaryFormEnding.Append("う限り")).Must().BeTrue();
       [XF] public void the_vocab_collection_finds_the_vocab_by_the_form_starting_with_each_other_dictionary_form_ending() => TheVocabCollectionFindsTheVocabByEachOfTheFormsItExpandsTo.Must().BeTrue();
@@ -68,7 +68,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
       {
          public after_the_requirement_is_removed_again() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.SetRequired(false);
 
-         [XF] public void the_matched_forms_are_the_entered_forms() => _vocab.Forms.MatchedFormsSet().SetEquals(_vocab.Forms.EnteredFormsSet()).Must().BeTrue();
+         [XF] public void the_matched_forms_are_the_question_and_the_entered_forms() => _vocab.Forms.MatchedFormsSet().SetEquals(_vocab.Forms.QuestionAndEnteredFormsList()).Must().BeTrue();
          [XF] public void the_vocab_collection_no_longer_finds_the_vocab_by_any_of_the_forms_starting_with_another_dictionary_form_ending() => TheVocabCollectionFindsTheVocabByAnyOfTheFormsItExpandsTo.Must().BeFalse();
          [XF] public void none_of_the_forms_starting_with_another_dictionary_form_ending_is_an_owned_form_any_longer() => TheFormStartingWithEachOtherDictionaryFormEnding.Any(_vocab.Forms.IsOwnedForm).Must().BeFalse();
       }
@@ -79,7 +79,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
 
          public after_creating_a_suffix_version_of_it() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("では");
 
-         [XF] public void the_entered_forms_of_the_suffix_version_are_only_the_entered_form_with_the_suffix_appended() => _suffixVersion.Forms.EnteredFormsList().Must().SequenceEqual(["う限りでは"]);
+         [XF] public void the_question_and_the_entered_forms_of_the_suffix_version_are_only_the_question_with_the_suffix_appended() => _suffixVersion.Forms.QuestionAndEnteredFormsList().Must().SequenceEqual(["う限りでは"]);
          [XF] public void the_suffix_version_matches_the_form_starting_with_each_other_dictionary_form_ending_with_the_suffix_appended() =>
             TheFormStartingWithEachOtherDictionaryFormEndingFollowedBy("では").All(_suffixVersion.Forms.MatchedFormsSet().Contains).Must().BeTrue();
       }

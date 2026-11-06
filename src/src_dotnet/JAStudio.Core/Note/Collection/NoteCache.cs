@@ -66,9 +66,12 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
       data.Id = CreateTypedId(Guid.NewGuid());
       _noteServices.ExternalNoteIdMap.Register(externalNoteId, data.Id);
       var note = _noteConstructor(_noteServices, data);
-      note.UpdateGeneratedData();
+      SetUpNoteAddedInAnki(note);
       AddToCache(note);
    }
+
+   /// <summary>Sets up a note just added in Anki, before it's added to the cache: updates its generated data.</summary>
+   protected virtual void SetUpNoteAddedInAnki(TNote note) => note.UpdateGeneratedData();
 
    public void ExternalNoteWillFlush(long externalNoteId, AnkiNoteData data)
    {

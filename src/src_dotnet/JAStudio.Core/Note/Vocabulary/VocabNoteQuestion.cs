@@ -37,22 +37,23 @@ public class VocabNoteQuestion
 
    void InitValueRaw(string value)
    {
-      if(value.Contains(DisambiguationMarker))
-      {
-         DisambiguationName = value;
-         var parts = DisambiguationName.Split(DisambiguationMarker);
+      DisambiguationName = value;
+      Raw = RawFromDisambiguationName(value);
+   }
 
-         Raw = parts.Length == 2 ? parts[0] : InvalidQuestionMessage;
-      } else
-      {
-         Raw = value;
-         DisambiguationName = value;
-      }
+   /// <summary>
+   /// The <see cref="Raw"/> question for a <see cref="DisambiguationName"/>: the question without its disambiguation, as in <c>question:disambiguation</c>.<br/>
+   /// <see cref="InvalidQuestionMessage"/> if it has more than one <see cref="DisambiguationMarker"/>, and <c>[EMPTY]</c> if it's empty.
+   /// </summary>
+   internal static string RawFromDisambiguationName(string disambiguationName)
+   {
+      var raw = !disambiguationName.Contains(DisambiguationMarker)
+                   ? disambiguationName
+                   : disambiguationName.Split(DisambiguationMarker) is [var question, _]
+                      ? question
+                      : InvalidQuestionMessage;
 
-      if(string.IsNullOrEmpty(Raw))
-      {
-         Raw = "[EMPTY]";
-      }
+      return string.IsNullOrEmpty(raw) ? "[EMPTY]" : raw;
    }
 
    public bool IsValid => Raw != InvalidQuestionMessage;
@@ -60,12 +61,13 @@ public class VocabNoteQuestion
 
    public string WithoutNoiseCharacters => Raw.Replace(Mine.VocabPrefixSuffixMarker, "");
 
-   public VocabStems Stems() => new VocabStems(_vocab);
+   public VocabStems Stems() => new(_vocab);
 
+   /// <summary>Sets the question. The question is always one of the vocab's forms, so the old question stops being one.</summary>
    public void Set(string value) => _guard.Update(() =>
    {
       InitValueRaw(value);
-      _vocab.Forms.EnsureContains(Raw);
+      _vocab.Forms.OnQuestionChanged();
    });
 
    public override string ToString() => Raw;

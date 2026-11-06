@@ -36,7 +36,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     SpecMenuItem.Submenu(ShortcutFinger.Home1("Vocab"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            SpecMenuItem.Command(ShortcutFinger.Home1("Forms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Forms.VocabForEnteredForms()))),
+                                                            SpecMenuItem.Command(ShortcutFinger.Home1("Forms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.Forms.VocabForQuestionAndEnteredForms()))),
                                                             SpecMenuItem.Command(ShortcutFinger.Home2("Compound parts"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStrings(vocab.CompoundParts.All()))),
                                                             SpecMenuItem.Command(ShortcutFinger.Home3("In compounds"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.InCompounds()))),
                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Synonyms"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(vocab.RelatedNotes.Synonyms.Notes()))),
