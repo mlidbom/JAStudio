@@ -9,7 +9,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 
 /// <summary>
 /// What the workspace's editor section shows for a vocab (<see cref="VocabEditorSection"/>): its editors, as tabs.<br/>
-/// <see cref="MatchingConfig"/> for everything that affects parsing, <see cref="Metadata"/> for the rest.
+/// <see cref="Text"/> for its text fields, forms and parts of speech, <see cref="MatchingConfig"/> for the rest of what affects parsing,<br/>
+/// <see cref="Metadata"/> for what doesn't.
 /// </summary>
 /// <remarks>
 /// It holds the vocab's id, not the note object, because the collection replaces a note's object when Anki edits the note<br/>
@@ -24,21 +25,29 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
 
    /// <param name="services">The application's services.</param>
    /// <param name="vocabId">The vocab to edit.</param>
-   /// <param name="sentencesReparsed">Called on the UI thread after the sentences were reparsed for a change to the matching config.</param>
+   /// <param name="sentencesReparsed">Called on the UI thread after the sentences were reparsed for a change to what the vocab matches.</param>
    public VocabEditorSectionViewModel(TemporaryServiceCollection services, NoteId vocabId, Action sentencesReparsed)
    {
       _services = services;
       _vocabId = vocabId;
-      MatchingConfig = new VocabMatchingConfigEditorViewModel(services, CurrentVocab, sentencesReparsed);
-      Metadata = new VocabMetadataEditorViewModel(services.Resolve<IFatalErrorHandler>(), CurrentVocab);
+      var fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
+      SentencesReparser = new VocabSentencesReparserViewModel(services, CurrentVocab, sentencesReparsed);
+      Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
+      MatchingConfig = new VocabMatchingConfigEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
+      Metadata = new VocabMetadataEditorViewModel(fatalErrorHandler, CurrentVocab);
    }
 
+   /// <summary>Reparses the vocab's sentences after a change to what it matches. No editor can be changed while it runs.</summary>
+   public VocabSentencesReparserViewModel SentencesReparser { get; }
+
+   public VocabTextEditorViewModel Text { get; }
    public VocabMatchingConfigEditorViewModel MatchingConfig { get; }
    public VocabMetadataEditorViewModel Metadata { get; }
 
    /// <summary>Shows everything as the note has it now. Called by the tab showing the vocab whenever the note is updated.</summary>
    public void Refresh()
    {
+      Text.Refresh();
       MatchingConfig.Refresh();
       Metadata.Refresh();
    }

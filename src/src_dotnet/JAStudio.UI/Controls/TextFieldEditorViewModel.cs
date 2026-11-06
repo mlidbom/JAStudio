@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using JAStudio.Core;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.UI.Controls;
@@ -13,9 +15,9 @@ namespace JAStudio.UI.Controls;
 /// </remarks>
 /// <remarks>
 /// Every keystroke writes the text box's whole text to the note, so the note holds what the text box shows.<br/>
-/// For that, the field must be read back exactly as it was written, such as a comma separated list as typed, not the list joined again.<br/>
-/// Otherwise text being typed, like a trailing ", ", would disappear. And because the note holds what the text box shows,<br/>
-/// <see cref="Refresh"/> never overwrites typing.
+/// And because it does, <see cref="Refresh"/> never overwrites typing.<br/>
+/// A comma separated list may be read back as the list joined again. The text box then keeps the text as typed, as long as it means the same list:<br/>
+/// otherwise text being typed, like a trailing ", ", would disappear.
 /// </remarks>
 /// <remarks>
 /// The note may change what was typed on purpose, as when a kanji's on readings are turned into hiragana.<br/>
@@ -67,6 +69,7 @@ class TextFieldEditorViewModel : ObservableObject
       {
          if(value == _text) return;
 
+         _text = value;
          _fatalErrorHandler.HandleExceptionsFrom(() =>
          {
             _write(value);
@@ -78,5 +81,19 @@ class TextFieldEditorViewModel : ObservableObject
    /// <summary>Shows the field as the note has it now, after a change made elsewhere.</summary>
    public void Refresh() => Show(_currentText());
 
-   void Show(string text) => SetProperty(ref _text, text, nameof(Text));
+   bool IsCommaSeparated => Format is TextFieldFormat.CommaSeparated or TextFieldFormat.CommaSeparatedReadings;
+
+   /// <summary>Shows <paramref name="notesText"/>, unless the text box already holds text that means the same.</summary>
+   void Show(string notesText)
+   {
+      if(MeansTheSameAsTheShownText(notesText)) return;
+
+      _text = notesText;
+      OnPropertyChanged(nameof(Text));
+   }
+
+   bool MeansTheSameAsTheShownText(string notesText) =>
+      IsCommaSeparated
+         ? StringExtensions.ExtractCommaSeparatedValues(notesText).SequenceEqual(StringExtensions.ExtractCommaSeparatedValues(_text))
+         : notesText == _text;
 }

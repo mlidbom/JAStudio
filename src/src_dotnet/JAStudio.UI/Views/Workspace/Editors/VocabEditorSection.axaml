@@ -6,13 +6,30 @@
              x:DataType="editors:VocabEditorSectionViewModel">
 
     <!-- The rows' look comes from the EditorSection this is shown in. -->
-    <TabControl>
-        <TabItem Header="Matching">
-            <editorViews:VocabMatchingConfigEditor DataContext="{Binding MatchingConfig}" />
-        </TabItem>
-        <TabItem Header="Metadata">
-            <editorViews:VocabMetadataEditor DataContext="{Binding Metadata}" />
-        </TabItem>
-    </TabControl>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="6,6,6,0" IsVisible="{Binding SentencesReparser.IsReparsingSentences}">
+            <TextBlock Text="Reparsing the sentences for this vocab…" />
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
+
+        <!-- Each tab's editor is locked while the sentences are reparsed, but the tabs can still be switched. -->
+        <TabControl>
+            <TabItem Header="Text">
+                <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                    <editorViews:VocabTextEditor DataContext="{Binding Text}" />
+                </Panel>
+            </TabItem>
+            <TabItem Header="Matching">
+                <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                    <editorViews:VocabMatchingConfigEditor DataContext="{Binding MatchingConfig}" />
+                </Panel>
+            </TabItem>
+            <TabItem Header="Metadata">
+                <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                    <editorViews:VocabMetadataEditor DataContext="{Binding Metadata}" />
+                </Panel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 
 </UserControl>

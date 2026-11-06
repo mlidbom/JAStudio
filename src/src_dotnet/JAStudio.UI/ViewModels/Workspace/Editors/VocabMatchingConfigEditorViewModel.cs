@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Mvvm.ComponentModel;
-using JAStudio.Core;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
@@ -15,28 +13,20 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// the vocab's matching config, everything that decides how sentences are parsed into words and which words match this vocab.<br/>
 /// Every change is written to the note at once, and the vocab's sentences are then reparsed to reflect it.
 /// </summary>
-/// <remarks>
-/// While the sentences are reparsed, on a background thread, the rules can't be changed (<see cref="IsReparsingSentences"/>):<br/>
-/// the reparse reads the vocab's tags, which a change would modify at the same time from the UI thread.
-/// </remarks>
-partial class VocabMatchingConfigEditorViewModel : ObservableObject
+class VocabMatchingConfigEditorViewModel
 {
-   readonly TemporaryServiceCollection _services;
-   readonly Func<VocabNote> _currentVocab;
-   readonly Action _sentencesReparsed;
-   readonly IUIThreadDispatcher _uiThread;
    readonly IFatalErrorHandler _fatalErrorHandler;
+   readonly Func<VocabNote> _currentVocab;
+   readonly VocabSentencesReparserViewModel _sentencesReparser;
 
-   /// <param name="services">The application's services.</param>
+   /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a change.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
-   /// <param name="sentencesReparsed">Called on the UI thread after a change's reparse has finished, so the vocab's page can show the sentences it now matches.</param>
-   public VocabMatchingConfigEditorViewModel(TemporaryServiceCollection services, Func<VocabNote> currentVocab, Action sentencesReparsed)
+   /// <param name="sentencesReparser">Reparses the vocab's sentences after every change.</param>
+   public VocabMatchingConfigEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, VocabSentencesReparserViewModel sentencesReparser)
    {
-      _services = services;
+      _fatalErrorHandler = fatalErrorHandler;
       _currentVocab = currentVocab;
-      _sentencesReparsed = sentencesReparsed;
-      _uiThread = services.Resolve<IUIThreadDispatcher>();
-      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
+      _sentencesReparser = sentencesReparser;
 
       YieldLastToken = RequireForbidRule("Yield to overlapping following compound", it => it.YieldLastToken);
       MiscMatchingRules =
@@ -90,9 +80,6 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    public IReadOnlyList<TagFlagCheckBoxViewModel> MiscFlags { get; }
    public IReadOnlyList<StringSetControlViewModel> StringRules { get; }
 
-   /// <summary>Whether the vocab's sentences are being reparsed after a change. The rules can't be changed meanwhile.</summary>
-   [ObservableProperty] bool _isReparsingSentences;
-
    /// <summary>Shows every rule as the note has it now, after a change made elsewhere.</summary>
    public void Refresh()
    {
@@ -105,42 +92,26 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
 
    IEnumerable<TagFlagCheckBoxViewModel> AllFlags => [..IsFlags, ..MiscFlags];
 
-   /// <summary>
-   /// Reparses the sentences that may contain the vocab, in the background and without the progress dialog:<br/>
-   /// the editor shows its own progress, and a dialog popping up after every click would be in the way.
-   /// </summary>
-   void ReparseSentences()
-   {
-      IsReparsingSentences = true;
-      var vocab = _currentVocab();
-      _services.BackgroundTaskManager.Run(() =>
-      {
-         try
-         {
-            _services.LocalNoteUpdater.ReparseSentencesForVocabWithoutProgressDialog(vocab);
-         }
-         finally
-         {
-            _uiThread.PostToUIThread(ReparseFinished);
-         }
-      });
-   }
-
-   void ReparseFinished()
-   {
-      IsReparsingSentences = false;
-      _sentencesReparsed();
-   }
-
    RequireForbidControlViewModel RequireForbidRule(string label, Func<VocabMatchingRulesConfigurationRequiresForbidsFlags, RequireForbidFlagField> rule) =>
-      new(_fatalErrorHandler, label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), ReparseSentences);
+      new(_fatalErrorHandler, label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), _sentencesReparser.ReparseSentences);
 
    TagFlagCheckBoxViewModel Flag(string label, Func<VocabMatchingRulesConfigurationBoolFlags, TagFlagField> flag) =>
-      new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.BoolFlags), ReparseSentences);
+      new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.BoolFlags), _sentencesReparser.ReparseSentences);
 
    StringSetControlViewModel StringRule(string title, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
       new(title,
-          () => rule(_currentVocab().MatchingConfiguration.ConfigurableRules),
-          () => _currentVocab().MatchingConfiguration.ConfigurableRules.Save(),
-          ReparseSentences);
+          () => rule(CurrentRules()),
+          value => ChangeAndSave(rules => rule(rules).Add(value)),
+          value => ChangeAndSave(rules => rule(rules).Remove(value)),
+          _sentencesReparser.ReparseSentences);
+
+   VocabNoteMatchingRules CurrentRules() => _currentVocab().MatchingConfiguration.ConfigurableRules;
+
+   /// <summary>Changes the vocab's configurable rules, then saves the note: changing a rule's set itself saves nothing.</summary>
+   void ChangeAndSave(Action<VocabNoteMatchingRules> change)
+   {
+      var rules = CurrentRules();
+      change(rules);
+      rules.Save();
+   }
 }

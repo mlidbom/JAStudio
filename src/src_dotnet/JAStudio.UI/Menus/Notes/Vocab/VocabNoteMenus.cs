@@ -10,7 +10,6 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.Views;
 using JAStudio.UI.Views.Workspace;
 
 // ReSharper disable once CheckNamespace
@@ -58,8 +57,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     BuildOpenErgativeTwinMenuSpec(ShortcutFinger.Home4("Ergative twin"), vocab)
                                  }.Where(it => it != null).ToList()!
             ),
-            SpecMenuItem.UICommand(ShortcutFinger.Home2("Edit"), () => Dispatcher.UIThread.Invoke(() => new VocabEditorDialog(vocab).ShowNearCursor())),
-            SpecMenuItem.Command(ShortcutFinger.Home3("Edit Matching Config"), () => WorkspaceWindow.EditNote(vocab)),
+            SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(vocab)),
             SpecMenuItem.Submenu(ShortcutFinger.Home4("Create"),
                                  new List<SpecMenuItem>
                                  {

@@ -59,10 +59,12 @@ apply here.
   several editors on the same note need no special handling. An editor refreshes every field from the note whenever
   the note is updated.
 - **A refresh never overwrites typing.** A text field is written on every keystroke, so the note holds what its text
-  box shows. For that, a text field editor (`TextFieldEditorViewModel`) edits the text exactly as the note stores it,
-  such as a comma separated list as typed. Read back as the list joined again, a trailing ", " being typed would
-  disappear. When the note changes what was typed on purpose, as a kanji's on readings are turned into hiragana, the
-  text box keeps showing what was typed until the editor is shown again; the note is right either way.
+  box shows. A comma separated list may be read back as the list joined again, so a text field editor
+  (`TextFieldEditorViewModel`) keeps the text as typed as long as it means the same list; otherwise a trailing ", "
+  being typed would disappear. When the note changes what was typed on purpose, as a kanji's on readings are turned
+  into hiragana, the text box keeps showing what was typed until the editor is shown again; the note is right either
+  way. The one field that isn't written on every keystroke, a vocab's question, keeps its uncommitted text through a
+  refresh.
 - **Avalonia's bindings swallow exceptions from view model setters** (`BindingExpression.WriteValueToSource` catches
   them all and drops the change). So a setter that writes to a note runs the write through
   `IFatalErrorHandler.HandleExceptionsFrom`, and an exception reaches the user.
@@ -141,22 +143,24 @@ apply here.
    - **One editor section per workspace,** on the right, opened and closed with Ctrl+E or the "Editor" button and
      resized by dragging its edge. It shows the editors of the shown tab's note, so it stays open as links are
      followed and tabs are switched. Each tab keeps its own editors, for the note it shows.
-   - **A vocab's editors are tabs:** "Matching" is the matching config, everything that affects parsing; "Metadata"
-     is the rest, such as the register. The vocab editor dialog's text fields will get a tab of their own.
-   - **Every change is written to the note at once.** A change on the "Matching" tab reparses the vocab's
-     sentences, in the background, and the vocab's page then reloads to show the sentences it now matches. The tab
-     shows that it's reparsing and can't be changed meanwhile, because the reparse reads the vocab's tags. The
-     reparse shows no progress dialog (`ReparseSentencesForVocabWithoutProgressDialog`): one popping up after
-     every click would be in the way.
+   - **A vocab's editors are tabs:** "Text" is its text fields, forms and parts of speech (`VocabTextEditorViewModel`);
+     "Matching" is the rest of the matching config, everything else that affects parsing; "Metadata" is what doesn't,
+     such as the register.
+   - **Every change is written to the note at once.** A change to what the vocab matches, on the "Matching" tab or to
+     its question, forms or parts of speech, reparses the vocab's sentences in the background
+     (`VocabSentencesReparserViewModel`), and the vocab's page then reloads to show the sentences it now matches. The
+     section shows that it's reparsing, and no tab can be changed meanwhile, because the reparse reads the vocab. The
+     reparse shows no progress dialog (`ReparseSentencesForVocabWithoutProgressDialog`): one popping up after every
+     change would be in the way.
+   - **A vocab's Question, Forms and Parts of speech aren't written on every keystroke,** since every keystroke would
+     start a reparse. The Question box saves on Enter or when the keyboard leaves it, light red while it holds unsaved
+     text (`CommittingTextFieldEditorViewModel`). Forms and Parts of speech are lists, where each added or removed
+     entry is one change. The Forms list shows only the forms besides the question: the question is always a form,
+     and isn't stored as one. The other text fields are written on every keystroke.
    - **A kanji's editor** (`KanjiEditorSectionViewModel`) is its text fields. Every keystroke is written to the note,
      and the kanji's generated data, such as its active answer, is updated with it.
-   - "Edit Matching Config" in the vocab's note menu and "Edit" in the kanji's open the note in the workspace with the
-     section open. The kanji editor dialog is gone; the vocab and sentence editors are still dialogs.
-   - **A vocab's Question, Forms and Parts of speech can't be written on every keystroke:** they change what the vocab
-     matches, so every keystroke would start a reparse. On the vocab's coming "Text" tab, the Question box saves on Enter
-     or when the keyboard leaves it, light red while it holds unsaved text. Forms and Parts of speech are lists, where
-     each added or removed entry is one change. The Forms list shows only the forms besides the question: the question
-     is always a form, and isn't stored as one.
+   - "Edit" in the vocab's and the kanji's note menus opens the note in the workspace with the section open. Their
+     editor dialogs are gone; the sentence editor is still a dialog.
 6. **Multiple workspaces.**
 7. **Revert to the committed version.**
 

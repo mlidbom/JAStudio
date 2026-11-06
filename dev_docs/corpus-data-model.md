@@ -290,16 +290,18 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 
 ### Editors
 
-`VocabEditorViewModel`, `KanjiEditorViewModel` and `SentenceEditorViewModel` copy Anki's note editor: one text
-box per stored string.
+The vocab and kanji editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectionViewModel`); the
+sentence editor is still a dialog (`SentenceEditorViewModel`). They still mostly copy Anki's note editor: one text box
+per stored string.
 
 - Brackets and `question:disambiguation` are typed by hand.
-- Lists are comma-split, and `SplitCommaSeparated` is duplicated in two view models.
-- Parts of speech is free text, and audio is raw `[sound:…]`.
-- Related vocab is a raw JSON text box (`VocabEditorDialog.axaml`).
-- `sentenceCount` is editable.
+- A vocab's forms and parts of speech are lists, with entries added and removed one at a time. Its readings and
+  compound parts, and the kanji's lists, are still comma separated text.
+- Parts of speech are free text, and audio is raw `[sound:…]`.
+- Related vocab can't be edited: its raw JSON text box went with the vocab editor dialog, and a proper editor is
+  still to come.
 - Kanji readings are edited as HTML.
-- The "read-only reference fields" are editable and get saved back.
+- The source fields are editable and get saved back.
 
 ## Target model principles (tentative)
 

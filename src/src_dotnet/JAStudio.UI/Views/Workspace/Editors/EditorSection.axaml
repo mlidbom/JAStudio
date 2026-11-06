@@ -25,6 +25,18 @@
                          AcceptsReturn="{Binding IsMultiLine}" Classes.multiLine="{Binding IsMultiLine}" />
             </StackPanel>
         </DataTemplate>
+        <!-- Committed with Enter here, and when the keyboard leaves the text box in the code-behind. -->
+        <DataTemplate DataType="controls:CommittingTextFieldEditorViewModel">
+            <StackPanel Margin="0,0,0,6">
+                <TextBlock Text="{Binding Label}" Margin="0,0,0,2" />
+                <TextBox Text="{Binding Text}" Classes.uncommitted="{Binding HasUncommittedText}"
+                         ToolTip.Tip="Saved when you press Enter or leave the box. Light red until then.">
+                    <TextBox.KeyBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding CommitCommand}" />
+                    </TextBox.KeyBindings>
+                </TextBox>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.DataTemplates>
 
     <UserControl.Styles>
@@ -45,6 +57,16 @@
         </Style>
         <Style Selector="TextBox.multiLine">
             <Setter Property="MinHeight" Value="60" />
+        </Style>
+        <!-- The theme sets the box's background in its template, differently while hovered or focused, so each state is overridden there. -->
+        <Style Selector="TextBox.uncommitted /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#FFDCDC" />
+        </Style>
+        <Style Selector="TextBox.uncommitted:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#FFDCDC" />
+        </Style>
+        <Style Selector="TextBox.uncommitted:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#FFDCDC" />
         </Style>
     </UserControl.Styles>
 

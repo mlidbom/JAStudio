@@ -1,6 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Input;
+using JAStudio.UI.Controls;
 using JAStudio.UI.ViewModels.Workspace;
-using JAStudio.UI.ViewModels.Workspace.Editors;
 
 namespace JAStudio.UI.Views.Workspace.Editors;
 
@@ -11,5 +12,19 @@ namespace JAStudio.UI.Views.Workspace.Editors;
 /// </summary>
 public partial class EditorSection : UserControl
 {
-   public EditorSection() => InitializeComponent();
+   public EditorSection()
+   {
+      InitializeComponent();
+      AddHandler(LostFocusEvent, CommitWhenTheKeyboardLeavesACommittingTextBox);
+   }
+
+   /// <summary>
+   /// Commits what's typed in the text box of a <see cref="CommittingTextFieldEditorViewModel"/> when the keyboard leaves it.<br/>
+   /// Enter commits through the text box's key binding, but there's no command to bind leaving the box to,<br/>
+   /// so the section catches it as it bubbles up from any of its text boxes.
+   /// </summary>
+   static void CommitWhenTheKeyboardLeavesACommittingTextBox(object? sender, FocusChangedEventArgs e)
+   {
+      if(e.Source is TextBox { DataContext: CommittingTextFieldEditorViewModel field }) field.Commit();
+   }
 }
