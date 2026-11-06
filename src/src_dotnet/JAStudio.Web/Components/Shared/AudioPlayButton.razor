@@ -5,7 +5,7 @@
 @* The audio of a note, with a ▶ button that plays it: card.js plays the <audio> just before the button. *@
 @if(Audio?.OriginalFileName is {} fileName)
 {
-    <audio @ref="_audioElement" src="@CardServerUrl.MediaUrl(fileName)"></audio><span class="play-button">▶</span>
+    <audio @ref="_audioElement" src="@CardServerUrl.MediaUrl(fileName)"></audio><span class="play-button @(IsAudioOfTheShownNote ? "shown-note-audio" : "")">▶</span>
 }
 
 @code {
@@ -13,10 +13,12 @@
     [Parameter, EditorRequired] public AudioAttachment? Audio { get; set; }
 
     /// <summary>
-    /// Play the audio as soon as the page is shown in JAStudio's note viewer, the way Anki plays a card's audio.<br/>
-    /// Only for the audio of the note the page shows. Inside Anki's reviewer, Anki plays it instead.
+    /// This is the audio of the note the page shows, rather than of a note the page lists:<br/>
+    /// its button is as large as the question it stands in front of, the same on every card type,<br/>
+    /// and it plays as soon as JAStudio's note viewer shows the page, the way Anki plays a card's audio.<br/>
+    /// Inside Anki's reviewer, Anki plays it instead.
     /// </summary>
-    [Parameter] public bool PlaysWhenShownInNoteViewer { get; set; }
+    [Parameter] public bool IsAudioOfTheShownNote { get; set; }
 
     ElementReference _audioElement;
 
@@ -28,7 +30,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(!PlaysWhenShownInNoteViewer || Audio?.OriginalFileName is not {} fileName || fileName == _lastPlayedFileName)
+        if(!IsAudioOfTheShownNote || Audio?.OriginalFileName is not {} fileName || fileName == _lastPlayedFileName)
             return;
 
         _lastPlayedFileName = fileName;

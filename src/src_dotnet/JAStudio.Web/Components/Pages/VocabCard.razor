@@ -32,8 +32,7 @@
                         <div>
                             <div class="question">
                                 <div>
-                                    <span class="clipboard">@_note.GetQuestion()</span>
-                                    <AudioPlayButton Audio="_note.PreferredAudio" PlaysWhenShownInNoteViewer="true" />
+                                    <AudioPlayButton Audio="_note.PreferredAudio" IsAudioOfTheShownNote="true" /><span class="clipboard">@_note.GetQuestion()</span>
                                 </div>
                             </div>
                         </div>
