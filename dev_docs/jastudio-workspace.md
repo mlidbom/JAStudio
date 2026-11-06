@@ -67,7 +67,8 @@ apply here.
   way. The one field that isn't written on every keystroke, a vocab's question, keeps its uncommitted text through a
   refresh.
 - **Avalonia's bindings swallow exceptions from view model setters** (`BindingExpression.WriteValueToSource` catches
-  them all and drops the change). So a setter that writes to a note runs the write through
+  them all and drops the change). So a setter that does real work, such as writing to a note or showing the tab
+  clicked in the tab strip, runs it through
   `IFatalErrorHandler.HandleExceptionsFrom`, and an exception reaches the user.
 - **Views hold note ids, not note objects.** Today the cache replaces note objects in two cases:
   - an edit coming in from Anki (`CreateNoteByMergingAnkiData`);

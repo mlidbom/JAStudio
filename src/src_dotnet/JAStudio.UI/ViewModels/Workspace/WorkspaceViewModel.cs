@@ -4,6 +4,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace;
@@ -24,10 +25,12 @@ partial class WorkspaceViewModel : ObservableObject
    const string AppTitle = "JAStudio";
 
    readonly TemporaryServiceCollection _services;
+   readonly IFatalErrorHandler _fatalErrorHandler;
 
    public WorkspaceViewModel(TemporaryServiceCollection services)
    {
       _services = services;
+      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       Navigation = new NavigationPaneViewModel(this, services);
    }
 
@@ -108,12 +111,17 @@ partial class WorkspaceViewModel : ObservableObject
          UpdateTitle();
    }
 
-   partial void OnSelectedTabChanged(NoteTabViewModel? oldValue, NoteTabViewModel? newValue)
-   {
-      oldValue?.SelectionChanged();
-      newValue?.SelectionChanged();
-      UpdateTitle();
-   }
+   /// <remarks>
+   /// Clicking a tab in the tab strip sets <see cref="SelectedTab"/> through a binding, which would swallow an exception thrown here,<br/>
+   /// so it's given to the fatal error handler instead. See <see cref="IFatalErrorHandler.HandleExceptionsFrom"/>.
+   /// </remarks>
+   partial void OnSelectedTabChanged(NoteTabViewModel? oldValue, NoteTabViewModel? newValue) =>
+      _fatalErrorHandler.HandleExceptionsFrom(() =>
+      {
+         oldValue?.SelectionChanged();
+         newValue?.SelectionChanged();
+         UpdateTitle();
+      });
 
    NoteTabViewModel ShowTabFor(JPNote note)
    {
