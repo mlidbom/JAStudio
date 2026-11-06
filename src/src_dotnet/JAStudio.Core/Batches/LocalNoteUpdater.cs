@@ -296,6 +296,11 @@ public class LocalNoteUpdater
                       threads: ThreadCount.WithThreads((int)_config.ReanalysisThreads.Value));
    }
 
+   /// <summary>
+   /// Reparses the sentences that may contain <paramref name="vocab"/>.<br/>
+   /// The vocab's generated data is updated before the reparse, which uses its forms,<br/>
+   /// and again after it, because its stored sentence count depends on which sentences the reparse matched.
+   /// </summary>
    public void ReparseSentencesForVocab(VocabNote vocab)
    {
       vocab.UpdateGeneratedData();
@@ -307,6 +312,7 @@ public class LocalNoteUpdater
 
       sentences.UnionWith(vocab.Sentences.All());
       ReparseSentences(sentences.ToList());
+      vocab.UpdateGeneratedData();
    }
 
    /// <summary>
