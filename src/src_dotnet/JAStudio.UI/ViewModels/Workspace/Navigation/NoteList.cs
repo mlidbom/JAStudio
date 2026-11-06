@@ -8,5 +8,5 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 /// such as the sentences a vocab matches. The "Open" items of the note menus show one.
 /// </summary>
 /// <param name="Title">What the notes are, such as "Sentences with 走る".</param>
-/// <param name="Notes">The notes, in the order to list them.</param>
+/// <param name="Notes">The notes. The "List" tab orders them by their question.</param>
 record NoteList(string Title, IReadOnlyList<JPNote> Notes);

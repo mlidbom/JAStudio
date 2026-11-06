@@ -140,13 +140,17 @@ apply here.
      keyboard in the search box; pressed in the workspace while the pane is open on its search, it closes the pane
      and gives the keyboard to the shown page.
    - The "Open" items of the note menus show a `NoteList`, a title and notes, in the "List" tab, replacing the list
-     shown before. "Highlighted Vocab Read Card" is about Anki's cards rather than notes, so it still opens Anki's
-     browser.
+     shown before, ordered by question. None of them opens Anki's browser any more.
    - The "List" tab's "Show in Anki's browser" opens Anki's browser on the same notes, by their Anki ids, for what
      only Anki does with them, such as suspending their cards. It's disabled when no listed note is in Anki: the
      search would be empty, and Anki's browser would show its default search instead.
-   - In both tabs, double-click or Enter opens a note the way opening a note from outside does; middle-click opens
-     it in a background tab (`ListedNotesViewModel`).
+   - Both tabs list their notes the same way (`ListedNotesViewModel`): each row is a note's question and answer.
+     When notes of more than one type are listed, each type gets a tab of its own, and the type picked last stays
+     shown as long as there are notes of it, since one usually knows which type one is after. A search lists at most
+     100 notes of each type; the search keeps its own order, shortest question first, which tends to put the closest
+     match on top.
+   - Double-click or Enter opens a note the way opening a note from outside does; middle-click opens it in a
+     background tab.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
    first. *(Built 2026-11-06: every note type's editors are in the workspace, `VocabEditorSectionViewModel`,
    `KanjiEditorSectionViewModel` and `SentenceEditorSectionViewModel`, and the editor dialogs are gone.)*

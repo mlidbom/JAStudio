@@ -5,7 +5,10 @@ using JAStudio.UI.ViewModels.Workspace.Navigation;
 
 namespace JAStudio.UI.Views.Workspace.Navigation;
 
-/// <summary>The view of a <see cref="ListedNotesViewModel"/>: a list of notes in the navigation pane, which open in the workspace's tabs.</summary>
+/// <summary>
+/// The view of a <see cref="ListedNotesViewModel"/>: a list of notes in the navigation pane, which open in the workspace's tabs,<br/>
+/// with a tab per note type when it holds more than one.
+/// </summary>
 public partial class ListedNotesView : UserControl
 {
    public ListedNotesView() => InitializeComponent();
@@ -14,12 +17,16 @@ public partial class ListedNotesView : UserControl
    ListedNotesViewModel ViewModel => DataContext as ListedNotesViewModel
                                   ?? throw new InvalidOperationException("The listed notes are shown without their ListedNotesViewModel.");
 
-   void OnListedNoteDoubleTapped(object? sender, TappedEventArgs e) => ViewModel.OpenSelectedNote();
+   /// <summary>The notes in the list being clicked: those of the type shown.</summary>
+   ListedNotesOfOneTypeViewModel ShownNotes => ViewModel.Shown
+                                            ?? throw new InvalidOperationException("A listed note was clicked while no notes are shown.");
+
+   void OnListedNoteDoubleTapped(object? sender, TappedEventArgs e) => ShownNotes.OpenSelectedNote();
 
    /// <summary>Middle-clicking a listed note opens it in a background tab, as middle-clicking a link does.</summary>
    void OnListedNotePointerReleased(object? sender, PointerReleasedEventArgs e)
    {
       if(e.InitialPressMouseButton == MouseButton.Middle && sender is Control { DataContext: ListedNoteViewModel listedNote })
-         ViewModel.OpenInBackgroundTab(listedNote);
+         ShownNotes.OpenInBackgroundTab(listedNote);
    }
 }

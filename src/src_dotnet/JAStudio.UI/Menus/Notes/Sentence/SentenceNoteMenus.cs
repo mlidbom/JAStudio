@@ -28,9 +28,8 @@ class SentenceNoteMenus
                                                           new List<SpecMenuItem>
                                                           {
                                                              NoteListMenuItem.Showing(ShortcutFinger.Home1("Highlighted Vocab"), $"Highlighted vocab in {sentence.GetQuestion()}", () => Collection.Vocab.WithAnyFormIn(sentence.Configuration.HighlightedWords)),
-                                                             SpecMenuItem.Command(ShortcutFinger.Home2("Highlighted Vocab Read Card"), () => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().VocabsLookupStringsReadCard(sentence.Configuration.HighlightedWords))),
-                                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Kanji"), $"Kanji in {sentence.GetQuestion()}", () => Collection.Kanji.WithAnyKanjiIn(sentence.ExtractKanji())),
-                                                             NoteListMenuItem.Showing(ShortcutFinger.Home4("Parsed words"), $"Parsed words in {sentence.GetQuestion()}", () => ParsedWordsNotes(sentence))
+                                                             NoteListMenuItem.Showing(ShortcutFinger.Home2("Kanji"), $"Kanji in {sentence.GetQuestion()}", () => Collection.Kanji.WithAnyKanjiIn(sentence.ExtractKanji())),
+                                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Parsed words"), $"Parsed words in {sentence.GetQuestion()}", () => ParsedWordsNotes(sentence))
                                                           }),
                                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(sentence)),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"),

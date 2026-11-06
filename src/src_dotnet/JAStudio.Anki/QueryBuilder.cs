@@ -160,23 +160,6 @@ public class QueryBuilder
    }
 
    /// <summary>
-   /// Search for vocab notes matching any of the given words (exact word match).
-   /// Ported from vocabs_lookup_strings()
-   /// </summary>
-   public string VocabsLookupStrings(IEnumerable<string> words)
-   {
-      var wordList = words.ToList();
-      var clauses = wordList.Select(word => FieldContainsWord(AnkiFieldNames.Vocab.Forms, word));
-      return $"{Builtin.Note}:{NoteTypes.Vocab} ({string.Join(" OR ", clauses)})";
-   }
-
-   /// <summary>
-   /// Search for vocab reading cards matching any of the given words.
-   /// Ported from vocabs_lookup_strings_read_card()
-   /// </summary>
-   public string VocabsLookupStringsReadCard(IEnumerable<string> words) => $"{VocabsLookupStrings(words)} {Builtin.Card}:{AnkiFieldNames.VocabCard.Reading}";
-
-   /// <summary>
    /// Search for kanji notes whose readings contain the given reading part.
    /// Ported from kanji_with_reading_part()
    /// </summary>

@@ -18,6 +18,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 /// </summary>
 partial class NoteSearchViewModel : ObservableObject
 {
+   /// <summary>The most notes of each type a search lists, so that a search matching thousands stays quick to show.</summary>
    const int MaxResults = 100;
    readonly Core.TemporaryServiceCollection _services;
 
@@ -59,17 +60,7 @@ partial class NoteSearchViewModel : ObservableObject
 
          Results.Show(results);
 
-         // Update status
-         if(results.Count == 0)
-         {
-            StatusText = "No results found";
-         } else if(results.Count >= MaxResults)
-         {
-            StatusText = $"{MaxResults}+ notes found. Showing first {MaxResults}";
-         } else
-         {
-            StatusText = $"{results.Count} note{(results.Count != 1 ? "s" : "")} found";
-         }
+         StatusText = StatusAfterFinding(results);
       }
       finally
       {
@@ -96,9 +87,6 @@ partial class NoteSearchViewModel : ObservableObject
                                   }
                        ));
 
-      if(results.Count >= MaxResults)
-         return results.Take(MaxResults).ToList();
-
       // Search in vocab notes
       var vocabs = col.Vocab.All()
                       .OrderBy(v => v.GetQuestion().Length)
@@ -117,9 +105,6 @@ partial class NoteSearchViewModel : ObservableObject
                                   }
                        ));
 
-      if(results.Count >= MaxResults)
-         return results.Take(MaxResults).ToList();
-
       // Search in sentence notes
       var sentences = col.Sentences.All()
                          .OrderBy(s => s.GetQuestion().Length)
@@ -135,9 +120,21 @@ partial class NoteSearchViewModel : ObservableObject
                                   }
                        ));
 
-      return results.Take(MaxResults).ToList();
+      return results;
    }
 
+   /// <summary>How many notes were found, and whether the search stopped at <see cref="MaxResults"/> for a type.</summary>
+   static string StatusAfterFinding(List<JPNote> results)
+   {
+      if(results.Count == 0) return "No results found";
+
+      var found = $"{results.Count} note{(results.Count != 1 ? "s" : "")} found";
+      return results.GroupBy(it => it.GetType()).Any(it => it.Count() >= MaxResults)
+                ? $"{found}, showing at most {MaxResults} of each type"
+                : found;
+   }
+
+   /// <summary>The notes among <paramref name="notes"/> that match <paramref name="searchText"/>, at most <see cref="MaxResults"/> of them.</summary>
    static List<JPNote> SearchInNotes<TNote>(
       List<TNote> notes,
       string searchText,

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,7 +10,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 
 /// <summary>
 /// The "List" tab of a workspace's <see cref="NavigationPaneViewModel"/> (<see cref="NoteListView"/>): the <see cref="NoteList"/> shown last,<br/>
-/// such as the sentences a vocab matches, shown by an "Open" item of a note menu. Each list shown replaces the one before.
+/// such as the sentences a vocab matches, shown by an "Open" item of a note menu. Each list shown replaces the one before.<br/>
+/// The notes are ordered by their question, character by character.
 /// </summary>
 /// <remarks>
 /// The same notes can be shown in Anki's browser, for what only Anki does with them, such as suspending or rescheduling their cards.
@@ -36,7 +38,7 @@ partial class NoteListViewModel : ObservableObject
    {
       _shownList = noteList;
       Title = $"{noteList.Title} ({noteList.Notes.Count})";
-      Notes.Show(noteList.Notes);
+      Notes.Show(noteList.Notes.OrderBy(it => it.GetQuestion(), StringComparer.Ordinal));
       ShowInAnkisBrowserCommand.NotifyCanExecuteChanged();
    }
 
