@@ -25,7 +25,7 @@ stops making sense. Search results, the note you're viewing and its editors belo
   notes in Anki's browser today fill that pane instead.
 
 Defaults, unless something changes them:
-- Following a link navigates within the tab. Middle-clicking a link opens it in a new tab.
+- Following a link navigates within the tab. Middle-clicking a link opens it in a new tab in the background.
 - Opening a note that is already open in the workspace switches to its tab. That is for convenience; sync doesn't
   require it.
 - A link clicked in Anki's reviewer opens in the most recently used workspace.
@@ -94,8 +94,9 @@ apply here.
   hidden ones invisible.
 - **The keyboard follows the shown tab.** Hiding a web view doesn't take the keyboard focus away from it, so a
   tab focuses its page when it's shown. Otherwise keys would go to the hidden tab's page and act on its note.
-- **New tabs open in front.** The web view doesn't tell a hidden page that it's hidden, so a page loaded in a
-  background tab would play its note's audio unseen.
+- **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
+  hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
+  has only its header, taken from the link.
 - **Reverting a note** reads its file from the `src/jas_database` git repository as of `HEAD`. It goes through the
   normal update path, so the cache, the files, the snapshot and the notifications stay consistent. A note created
   since the last commit has no committed version, so that case still needs deciding.
@@ -107,7 +108,8 @@ apply here.
 2. **Observables** for note updates and setting changes. *(Built 2026-11-06, on `Compze.Internals.SystemCE`
    0.4.1-internal.)*
 3. **Tabs.** *(Built 2026-11-06: `NoteTabView` and `NoteTabViewModel`.)* Opening a note from outside the
-   workspace selects a tab already showing it, or else opens a new tab. Middle-clicking a link opens a new tab.
+   workspace selects a tab already showing it, or else opens a new tab. Middle-clicking a link opens a new tab in
+   the background.
    Ctrl+W or middle-clicking a tab closes it; Ctrl+Tab and Ctrl+Shift+Tab switch tabs. Each tab subscribes to
    the update notifications and unsubscribes when it's closed.
 4. **The search pane**, moving the note search dialog in.

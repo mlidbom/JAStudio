@@ -34,6 +34,9 @@ public partial class NoteTabView : UserControl
 {
    readonly NoteTabViewModel _viewModel;
 
+   /// <summary>Whether the web view was told to load <see cref="NoteTabViewModel.FirstPageUrl"/>, which it is the first time the tab is shown.</summary>
+   bool _pageLoadStarted;
+
    [Obsolete("For XAML designer/previewer only")]
 #pragma warning disable CS8618 // The XAML designer needs a parameterless constructor, and only the real constructor has the tab's view model.
    public NoteTabView() => InitializeComponent();
@@ -46,28 +49,42 @@ public partial class NoteTabView : UserControl
 
       WebView.EnvironmentRequested += ConfigureWebView2Environment;
       WebView.AdapterCreated += (_, _) => FocusPageIfShown();
-      WebView.NewWindowRequested += OpenNewWindowRequestInNewTab;
+      WebView.NewWindowRequested += OpenNewWindowRequestInBackgroundTab;
       WebView.WebMessageReceived += OnPageMessage;
       tab.PageOutdated += () => Dispatcher.UIThread.Post(() => WebView.Refresh());
 
-      WebView.Navigate(tab.FirstPageUrl);
+      LoadPageTheFirstTimeTheTabIsShown();
+   }
+
+   protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+   {
+      base.OnPropertyChanged(change);
+      if(change.Property != IsVisibleProperty) return;
+
+      LoadPageTheFirstTimeTheTabIsShown();
+      FocusPageIfShown();
+   }
+
+   /// <summary>
+   /// A tab opened in the background loads its page only when it's first shown,<br/>
+   /// because the web view doesn't tell a hidden page that it's hidden, and the page would play its note's audio unseen.
+   /// </summary>
+   void LoadPageTheFirstTimeTheTabIsShown()
+   {
+      if(_pageLoadStarted || !IsVisible) return;
+
+      _pageLoadStarted = true;
+      WebView.Navigate(_viewModel.FirstPageUrl);
    }
 
    /// <summary>
    /// When a tab is shown, the keyboard goes to its page, so that the page's keys act on the note being shown.<br/>
    /// Otherwise the keyboard focus would stay in the web view of the tab that was hidden.
    /// </summary>
-   protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-   {
-      base.OnPropertyChanged(change);
-      if(change.Property == IsVisibleProperty)
-         FocusPageIfShown();
-   }
-
-   /// <summary>
+   /// <remarks>
    /// Posted so that it runs after the native web view is shown, which Avalonia does after rendering,<br/>
    /// and after a click on the tab's header has finished focusing the header.
-   /// </summary>
+   /// </remarks>
    void FocusPageIfShown()
    {
       if(IsVisible)
@@ -139,17 +156,13 @@ public partial class NoteTabView : UserControl
    }
 
    /// <summary>
-   /// Middle-clicking a link opens it in a new tab, which is shown at once, like every other way of opening a note in the workspace.<br/>
+   /// Middle-clicking a link opens it in a new tab in the background, as in a browser.<br/>
    /// Left to itself, the web view would open a bare web view window, without JAStudio's menus.
    /// </summary>
-   /// <remarks>
-   /// The new tab isn't left in the background, as a browser would leave it, because its page would play its note's audio unseen:<br/>
-   /// the web view doesn't tell a hidden page that it's hidden.
-   /// </remarks>
-   void OpenNewWindowRequestInNewTab(object? sender, WebViewNewWindowRequestedEventArgs e)
+   void OpenNewWindowRequestInBackgroundTab(object? sender, WebViewNewWindowRequestedEventArgs e)
    {
       e.Handled = true;
-      _viewModel.OpenInNewTab(e.Request ?? throw new InvalidOperationException("The page requested a new window without a URL."));
+      _viewModel.OpenInBackgroundTab(e.Request ?? throw new InvalidOperationException("The page requested a new window without a URL."));
    }
 
    void OnBackClick(object? sender, RoutedEventArgs e) => WebView.GoBack();

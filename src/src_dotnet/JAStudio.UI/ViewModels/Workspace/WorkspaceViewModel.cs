@@ -35,8 +35,11 @@ partial class WorkspaceViewModel(TemporaryServiceCollection services) : Observab
    public void OpenNote(JPNote note) =>
       SelectedTab = Tabs.FirstOrDefault(it => it.IsShowing(note)) ?? AddTab(CardServerUrl.NotePageUrl(note));
 
-   /// <summary>Opens a new tab showing the page at <paramref name="pageUrl"/>, and shows it.</summary>
-   public void OpenPageInNewTab(Uri pageUrl) => SelectedTab = AddTab(pageUrl);
+   /// <summary>
+   /// Opens a new tab for the page at <paramref name="pageUrl"/> without showing it, as a browser does with a middle-clicked link.<br/>
+   /// The page loads when the tab is first shown, so it doesn't play its note's audio unseen.
+   /// </summary>
+   public void OpenPageInBackgroundTab(Uri pageUrl) => AddTab(pageUrl);
 
    /// <summary>Closes <paramref name="tab"/>. If it was the one shown, the tab after it is shown, or else the one before it.</summary>
    public void CloseTab(NoteTabViewModel tab)

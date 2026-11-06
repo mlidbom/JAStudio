@@ -100,7 +100,8 @@ search, editors) is in `jastudio-workspace.md`.
   - Shift+Click opens it in the system browser.
   - A plain click inside Anki's reviewer opens it in the workspace.
   - A plain click anywhere else follows the link in place.
-  - A middle-click in the workspace opens the note in a new tab.
+  - A middle-click in the workspace opens the note in a new tab in the background. Its page loads, and its audio
+    plays, when the tab is first shown.
 
   The reviewer's clicks reach the `CardServer` endpoints `/api/open-in-workspace/{noteId}` and
   `/api/open-in-previewer/{noteId}`. The `CardServer` hands them to an `INoteLinkOpener`, implemented by the Anki

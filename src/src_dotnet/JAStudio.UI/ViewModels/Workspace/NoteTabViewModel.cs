@@ -22,6 +22,7 @@ namespace JAStudio.UI.ViewModels.Workspace;
 /// It reports here what the page shows and which keys are pressed on it, and reloads the page when <see cref="PageOutdated"/> says so.
 /// </remarks>
 /// <remarks>
+/// A tab's page loads the first time the tab is shown, so a tab opened in the background has no page until then.<br/>
 /// A hidden tab isn't reloaded in the background. If its page became outdated while it was hidden,<br/>
 /// <see cref="PageOutdated"/> is raised when the tab is shown again.
 /// </remarks>
@@ -36,6 +37,9 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
 
    /// <summary>The note on the page, as last reported by the page. Null for a page that shows no note.</summary>
    NoteId? _shownNoteId;
+
+   /// <summary>Whether the tab has been shown, and so has loaded its page. Until then there is no page to become outdated.</summary>
+   bool _hasBeenShown;
 
    bool _pageOutdatedWhileHidden;
 
@@ -65,7 +69,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       ];
    }
 
-   /// <summary>The page the tab opened on. Links followed on the page take the tab on from there.</summary>
+   /// <summary>The page the tab opened on, loaded the first time the tab is shown. Links followed on the page take the tab on from there.</summary>
    public Uri FirstPageUrl { get; }
 
    /// <summary>Whether this is the workspace's <see cref="WorkspaceViewModel.SelectedTab"/>: the one being shown.</summary>
@@ -99,7 +103,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       new NoteContextMenu(_services).BuildContextMenuSpec(ShownNote(), selection, clipboard);
 
    /// <summary>The page asked for <paramref name="pageUrl"/> to be opened in a new tab, as when a link is middle-clicked.</summary>
-   public void OpenInNewTab(Uri pageUrl) => _workspace.OpenPageInNewTab(pageUrl);
+   public void OpenInBackgroundTab(Uri pageUrl) => _workspace.OpenPageInBackgroundTab(pageUrl);
 
    [RelayCommand]
    public void Close() => _workspace.CloseTab(this);
@@ -113,12 +117,16 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    internal void SelectionChanged()
    {
       OnPropertyChanged(nameof(IsSelected));
-      if(IsSelected)
-         ReloadPageIfItBecameOutdatedWhileHidden();
+      if(!IsSelected) return;
+
+      _hasBeenShown = true;
+      ReloadPageIfItBecameOutdatedWhileHidden();
    }
 
    void PageBecameOutdated()
    {
+      if(!_hasBeenShown) return;
+
       if(IsSelected)
          PageOutdated?.Invoke();
       else
