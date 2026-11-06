@@ -54,11 +54,12 @@ class TextFieldEditorViewModel : ObservableObject
    /// <summary>Whether the text box wraps its lines and Enter starts a new one.</summary>
    public bool IsMultiLine => Format == TextFieldFormat.Paragraphs;
 
-   /// <summary>Shown in the text box while it's empty: how to write several values, for the formats that hold them.</summary>
+   /// <summary>Shown in the text box while it's empty: how to write several values or lines, for the formats that hold them.</summary>
    public string Hint => Format switch
    {
       TextFieldFormat.CommaSeparated => "comma separated",
       TextFieldFormat.CommaSeparatedReadings => "comma separated, primary readings marked <primary>reading</primary>",
+      TextFieldFormat.Paragraphs => "Enter starts a new line",
       _ => ""
    };
 

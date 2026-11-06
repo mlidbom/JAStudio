@@ -6,7 +6,7 @@ enum TextFieldFormat
    /// <summary>A single line of text.</summary>
    Line,
 
-   /// <summary>Paragraphs of text: the text box wraps its lines, and Enter starts a new one.</summary>
+   /// <summary>Paragraphs of text: Enter starts a new line, as the empty text box says.</summary>
    Paragraphs,
 
    /// <summary>A list of values on one line, separated by commas.</summary>

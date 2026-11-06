@@ -22,7 +22,7 @@
             <StackPanel Margin="0,0,0,6">
                 <TextBlock Text="{Binding Label}" Margin="0,0,0,2" />
                 <TextBox Text="{Binding Text}" PlaceholderText="{Binding Hint}" TextWrapping="Wrap"
-                         AcceptsReturn="{Binding IsMultiLine}" Classes.multiLine="{Binding IsMultiLine}" />
+                         AcceptsReturn="{Binding IsMultiLine}" />
             </StackPanel>
         </DataTemplate>
         <!-- Committed with Enter here, and when the keyboard leaves the text box in the code-behind. -->
@@ -54,9 +54,6 @@
         <Style Selector="TextBlock.sectionTitle">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Margin" Value="0,0,0,4" />
-        </Style>
-        <Style Selector="TextBox.multiLine">
-            <Setter Property="MinHeight" Value="60" />
         </Style>
         <!-- The theme sets the box's background in its template, differently while hovered or focused, so each state is overridden there. -->
         <Style Selector="TextBox.uncommitted /template/ Border#PART_BorderElement">
