@@ -25,7 +25,7 @@ public class QueryBuilder
    /// A query for the notes with the ids <paramref name="noteIds"/> in Anki, by their Anki ids.<br/>
    /// A note that isn't in Anki has no Anki id, so it's left out; if none of them is in Anki, the query is empty.
    /// </summary>
-   public string NotesByIds(IEnumerable<NoteId> noteIds)
+   string NotesByIds(IEnumerable<NoteId> noteIds)
    {
       var externalIds = noteIds
                        .Select(id => _externalNoteIdMap.ToExternalId(id))

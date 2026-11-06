@@ -4,15 +4,12 @@ using System.Linq;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.NoteFields;
-using JAStudio.Core.Note.Sentences;
-using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.ViewModels;
 
@@ -141,17 +138,15 @@ partial class MediaImportDialogViewModel : ObservableObject
 
       Dispatcher.UIThread.Invoke(() =>
       {
-         var dialog = new Views.MissingFilesDialog(vocabRows, sentenceRows, OpenNoteInAnki);
+         var dialog = new Views.MissingFilesDialog(vocabRows, sentenceRows, EditNoteInTheWorkspace);
          dialog.Show();
       });
    }
 
-   void OpenNoteInAnki(NoteId noteId)
-   {
-      var query = _services.QueryBuilder().NotesByIds([noteId]);
-      if(!string.IsNullOrEmpty(query))
-         AnkiFacade.Browser.ExecuteLookup(query);
-   }
+   /// <summary>Opens the note with a missing file in the workspace with its editors, where its media fields can be fixed.</summary>
+   void EditNoteInTheWorkspace(NoteId noteId) =>
+      WorkspaceWindow.EditNote(_services.CoreApp.Collection.NoteFromNoteId(noteId)
+                            ?? throw new InvalidOperationException($"The note {noteId}, listed as missing a file, is no longer in the collection."));
 
    static List<MissingFileRow> BuildMissingFileRows(List<NoteMediaFieldImportState> scans, Func<NoteId, string> getQuestion) =>
       scans.Where(s => s.IndexedAttachment == null && s.AnkiSourcePath == null && s.MatchingRule != null)
