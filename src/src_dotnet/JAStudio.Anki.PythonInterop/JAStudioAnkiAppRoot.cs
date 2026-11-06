@@ -109,19 +109,11 @@ public class JAStudioAnkiAppRoot
 #pragma warning restore CS0618 // Type or member is obsolete
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeMainWindow(coreApp.Services));
 
-      var cardServer = new CardServer(resolver);
+      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer) { _uiThread = uiThread };
 
       root._coreApp.Collection.OnInitialized(AnkiFacade.UIUtils.Refresh);
-
-      cardServer.OpenNoteInPreviewerAction = noteId =>
-      {
-         var domainId = NoteId.Parse(noteId);
-         var externalId = root._coreApp.Services.ExternalNoteIdMap.ToExternalId(domainId);
-         if(externalId.HasValue)
-            AnkiFacade.Browser.ExecuteLookupAndShowPreviewer($"{AnkiFieldNames.NoteId}:{externalId.Value}");
-      };
 
       cardServer.Start();
 

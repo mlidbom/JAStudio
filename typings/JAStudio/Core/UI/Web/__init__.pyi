@@ -1,5 +1,6 @@
 import typing, abc
-from System import Func_5
+from System import Func_5, Uri
+from JAStudio.Core.Note import JPNote, NoteId
 
 class AppendingPrerenderer_GenericClasses(abc.ABCMeta):
     Generic_AppendingPrerenderer_GenericClasses_AppendingPrerenderer_1_TNote = typing.TypeVar('Generic_AppendingPrerenderer_GenericClasses_AppendingPrerenderer_1_TNote')
@@ -21,5 +22,13 @@ class CardServerUrl(abc.ABC):
     @BaseUrl.setter
     def BaseUrl(cls, value: str) -> str: ...
     @staticmethod
+    def CardPageNoteType(note: JPNote) -> str: ...
+    @staticmethod
     def MediaUrl(fileName: str) -> str: ...
+    @staticmethod
+    def NoteIdOfPage(cardServerPageUrl: Uri) -> NoteId: ...
+    @staticmethod
+    def NotePagePath(note: JPNote) -> str: ...
+    @staticmethod
+    def NotePageUrl(note: JPNote) -> Uri: ...
 

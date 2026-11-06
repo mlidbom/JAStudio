@@ -10,7 +10,7 @@ namespace JAStudio.Web.Specifications;
 public class CardServerTests : IAsyncLifetime
 {
    readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(DataNeeded.Kanji | DataNeeded.Vocabulary);
-   readonly CardServer _server = new(TemporaryServiceCollection.Instance.Services);
+   readonly CardServer _server = new(TemporaryServiceCollection.Instance.Services, new NoteLinkOpenerThatRecordsRequests());
    readonly HttpClient _http = new();
 
    public ValueTask InitializeAsync()

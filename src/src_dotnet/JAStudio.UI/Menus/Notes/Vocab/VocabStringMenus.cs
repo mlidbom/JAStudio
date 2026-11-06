@@ -5,6 +5,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
+using JAStudio.UI.Views;
 
 namespace JAStudio.UI.Menus.Notes.Vocab;
 
@@ -170,7 +171,7 @@ class VocabStringMenus
 
    public SpecMenuItem CreateNoteCommand(string name, Func<JPNote> createNote, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
       => SpecMenuItem.Command(name,
-                              () => AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(_services.QueryBuilder().NotesLookup([createNote()])),
+                              () => NoteViewerWindow.OpenNote(createNote(), _services),
                               acceleratorKey,
                               shortcut,
                               enabled: enabled);

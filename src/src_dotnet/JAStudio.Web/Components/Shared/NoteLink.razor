@@ -1,20 +1,8 @@
 @using JAStudio.Core.Note
-@using JAStudio.Core.Note.Vocabulary
-@using JAStudio.Core.Note.Sentences
 
-<a class="note-link" href="@CardUrl()" data-note-type="@NoteType" data-note-id="@Note.GetId()" draggable="false">@ChildContent</a>
+<a class="note-link" href="@CardServerUrl.NotePagePath(Note)" data-note-type="@CardServerUrl.CardPageNoteType(Note)" data-note-id="@Note.GetId()" draggable="false">@ChildContent</a>
 
 @code {
     [Parameter, EditorRequired] public JPNote Note { get; set; } = null!;
     [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = null!;
-
-    string NoteType => Note switch
-    {
-        VocabNote => "vocab",
-        KanjiNote => "kanji",
-        SentenceNote => "sentence",
-        _ => "vocab"
-    };
-
-    string CardUrl() => $"/card/{NoteType}/back?NoteId={Note.GetId()}";
 }

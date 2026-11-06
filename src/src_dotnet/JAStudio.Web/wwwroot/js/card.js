@@ -47,31 +47,63 @@ document.addEventListener('ended', function (e) {
    }
 }, true); // useCapture: 'ended' doesn't bubble
 
-// Note link click handling.
-// In Anki's iframe: regular click opens in the Anki previewer; Shift+Click opens in the system browser.
-// In a regular browser: let the default <a> behavior proceed (same tab, or new tab on ctrl/shift+click).
+// Note link click handling, the same wherever a card page is shown:
+// - Ctrl+Click opens the note in Anki's previewer.
+// - Shift+Click opens the note in the system browser.
+// - A plain click inside Anki's reviewer (the page is in an iframe) opens the note in JAStudio's note viewer.
+// - A plain click anywhere else (the note viewer, the system browser) follows the link in place.
 function setupNoteLinks() {
    const isInIframe = window.parent !== window;
-   if (!isInIframe) return;
 
    document.addEventListener('click', function(event) {
       const link = event.target.closest('.note-link');
       if (!link) return;
 
-      event.preventDefault();
       const noteType = link.dataset.noteType;
-      const noteId = link.dataset.noteId;
-      if (noteType && noteId) {
-         if (event.shiftKey) {
-            fetch('/api/open-in-browser/' + encodeURIComponent(noteType) + '/' + encodeURIComponent(noteId));
-         } else {
-            fetch('/api/open-in-previewer/' + encodeURIComponent(noteId));
-         }
+      const noteId = encodeURIComponent(link.dataset.noteId);
+      if (event.ctrlKey) {
+         event.preventDefault();
+         fetch('/api/open-in-previewer/' + noteId);
+      } else if (event.shiftKey) {
+         event.preventDefault();
+         fetch('/api/open-in-browser/' + encodeURIComponent(noteType) + '/' + noteId);
+      } else if (isInIframe) {
+         event.preventDefault();
+         fetch('/api/open-in-note-viewer/' + noteId);
       }
    });
 }
 
 setupNoteLinks();
+
+// Talking to JAStudio's note viewer (NoteViewerWindow), when the page is shown there.
+// The note viewer hosts the page in a web view that injects a channel for posting messages to it;
+// a page shown anywhere else has no such channel, and none of this applies.
+// - Every page shown is reported, because following a link is Blazor client-side routing, which the
+//   note viewer can't see by itself. The Navigation API reports those, and Back and Forward too.
+// - Right-click shows the same note menu as in Anki.
+//   Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
+function setupNoteViewer() {
+   const postToNoteViewer = window.invokeCSharpAction
+                         ?? (window.chrome?.webview ? message => window.chrome.webview.postMessage(message) : null);
+   if (!postToNoteViewer) return;
+
+   const reportPageShown = () => postToNoteViewer(JSON.stringify({ request: 'pageShown', url: location.href }));
+   reportPageShown();
+   navigation.addEventListener('currententrychange', reportPageShown);
+
+   document.addEventListener('contextmenu', function(event) {
+      if (event.shiftKey) return;
+
+      event.preventDefault();
+      postToNoteViewer(JSON.stringify({
+         request: 'showNoteContextMenu',
+         selection: window.getSelection().toString().trim()
+      }));
+   });
+}
+
+setupNoteViewer();
 
 // Shell toggle: press 'm' to show/hide the app shell.
 // Stores a .NET object reference set by MainLayout via JS interop.

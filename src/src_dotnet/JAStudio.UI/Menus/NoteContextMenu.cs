@@ -11,6 +11,7 @@ using JAStudio.UI.Menus.Notes.Sentence;
 using JAStudio.UI.Menus.Notes.Vocab;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
+using JAStudio.UI.Views;
 
 namespace JAStudio.UI.Menus;
 
@@ -22,6 +23,19 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    readonly SentenceNoteMenus _sentenceNoteMenus = new(services);
    readonly OpenInAnkiMenus _openInAnkiMenus = new(services);
    readonly VocabStringMenus _vocabStringMenus = new(services);
+
+   /// <summary>
+   /// The right-click menu for <paramref name="note"/>, the note being shown.<br/>
+   /// With no note shown, it holds only the actions on the selected text and the clipboard text.
+   /// </summary>
+   public List<SpecMenuItem> BuildContextMenuSpec(JPNote? note, string selection, string clipboard) =>
+      note switch
+      {
+         VocabNote vocab => BuildVocabContextMenuSpec(vocab.GetId(), selection, clipboard),
+         KanjiNote kanji => BuildKanjiContextMenuSpec(kanji.GetId(), selection, clipboard),
+         SentenceNote sentence => BuildSentenceContextMenuSpec(sentence.GetId(), selection, clipboard),
+         _ => BuildGenericContextMenuSpec(selection, clipboard)
+      };
 
    // ReSharper disable once MemberCanBePrivate.Global used from python
    // ReSharper disable once UnusedMember.Global used from python
@@ -178,6 +192,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          new List<SpecMenuItem>
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
+            SpecMenuItem.Command(ShortcutFinger.Home2("Open in note viewer"), () => NoteViewerWindow.OpenNote(note, _services)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
             SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
@@ -243,27 +258,13 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       {
          var newVocab = _services.VocabNoteFactory.CreateWithDictionary(text);
          _services.LocalNoteUpdater.ReparseSentencesForVocab(newVocab);
-
-         var query = _services.QueryBuilder().NotesLookup([newVocab]);
-         AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(query);
+         NoteViewerWindow.OpenNote(newVocab, _services);
       });
    }
 
-   void OnCreateSentenceNote(string text)
-   {
-      var noteServices = _services.NoteServices;
-      var newSentence = SentenceNote.Create(noteServices, text);
+   void OnCreateSentenceNote(string text) =>
+      NoteViewerWindow.OpenNote(SentenceNote.Create(_services.NoteServices, text), _services);
 
-      var query = _services.QueryBuilder().NotesLookup([newSentence]);
-      AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(query);
-   }
-
-   void OnCreateKanjiNote(string text)
-   {
-      var noteServices = _services.NoteServices;
-      var newKanji = KanjiNote.Create(noteServices, text, "TODO", "", "");
-
-      var query = _services.QueryBuilder().NotesLookup([newKanji]);
-      AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(query);
-   }
+   void OnCreateKanjiNote(string text) =>
+      NoteViewerWindow.OpenNote(KanjiNote.Create(_services.NoteServices, text, "TODO", "", ""), _services);
 }

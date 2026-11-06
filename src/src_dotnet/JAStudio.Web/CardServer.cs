@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Extensions.Hosting;
+using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.UI.Web;
 using Microsoft.AspNetCore.Builder;
@@ -26,9 +27,14 @@ namespace JAStudio.Web;
 public class CardServer
 {
    readonly IRootResolver _parentResolver;
+   readonly INoteLinkOpener _noteLinkOpener;
    WebApplication? _app;
 
-   public CardServer(IRootResolver parentResolver) => _parentResolver = parentResolver;
+   public CardServer(IRootResolver parentResolver, INoteLinkOpener noteLinkOpener)
+   {
+      _parentResolver = parentResolver;
+      _noteLinkOpener = noteLinkOpener;
+   }
 
    public int Port { get; private set; }
    public string BaseUrl => $"http://localhost:{Port}";
@@ -114,6 +120,7 @@ public class CardServer
 
       ConfigureMediaEndpoint(_app);
       ConfigureOpenInBrowserEndpoint(_app);
+      ConfigureOpenInNoteViewerEndpoint(_app);
       ConfigureOpenInPreviewerEndpoint(_app);
 
       try
@@ -162,16 +169,10 @@ public class CardServer
       });
    }
 
-   /// <summary>
-   /// Set this callback to handle 'open in Anki previewer' requests from note link clicks.
-   /// Called with the domain NoteId string. Registered by the Anki integration layer on startup.
-   /// </summary>
-   public Action<string>? OpenNoteInPreviewerAction { get; set; }
-
    void ConfigureOpenInBrowserEndpoint(WebApplication app)
    {
       // API endpoint for opening a note card in the system browser.
-      // Called by NoteLink on Shift+Click during review mode.
+      // Called by card.js on Shift+Click on a NoteLink.
       app.MapGet("/api/open-in-browser/{noteType}/{noteId}", (string noteType, string noteId) =>
       {
          var url = $"{BaseUrl}/card/{noteType}/back?NoteId={noteId}";
@@ -180,13 +181,24 @@ public class CardServer
       });
    }
 
+   void ConfigureOpenInNoteViewerEndpoint(WebApplication app)
+   {
+      // API endpoint for opening a note in JAStudio's note viewer.
+      // Called by card.js on a plain click on a NoteLink inside Anki's reviewer.
+      app.MapGet("/api/open-in-note-viewer/{noteId}", (string noteId) =>
+      {
+         _noteLinkOpener.OpenInNoteViewer(NoteId.Parse(noteId));
+         return Results.Ok();
+      });
+   }
+
    void ConfigureOpenInPreviewerEndpoint(WebApplication app)
    {
       // API endpoint for opening a note in the Anki previewer.
-      // Called by NoteLink on regular Click during review mode.
+      // Called by card.js on Ctrl+Click on a NoteLink.
       app.MapGet("/api/open-in-previewer/{noteId}", (string noteId) =>
       {
-         OpenNoteInPreviewerAction?.Invoke(noteId);
+         _noteLinkOpener.OpenInAnkiPreviewer(NoteId.Parse(noteId));
          return Results.Ok();
       });
    }

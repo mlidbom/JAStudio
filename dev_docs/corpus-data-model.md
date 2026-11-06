@@ -589,6 +589,11 @@ What's left lives in `JAStudio.Anki` from the start.
 **Current focus (Magnus, 2026-11-06): step 3, one capability at a time.** Steps 1, 2 and 4 are deferred until
 they are in the way. Questions are settled when the work reaches them, not up front.
 
+Progress on step 3:
+- **Viewing and navigating notes** (2026-11-06): JAStudio's note viewer replaces Anki's previewer for note links,
+  with the same right-click menu and editors. See `web-rendering-architecture.md`, "Note Viewer". Lists of notes
+  still open in Anki's browser.
+
 1. **Remove the kanji primary-readings TTS** (deferred). This happens almost entirely on the Anki side:
    - delete the kanji HyperTTS presets;
    - delete the `_primary_readings_tts_audio` field.

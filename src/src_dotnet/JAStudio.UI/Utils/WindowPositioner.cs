@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
@@ -8,7 +9,7 @@ namespace JAStudio.UI.Utils;
 
 static class WindowPositioner
 {
-   [DllImport("user32.dll")]
+   [DllImport("user32.dll", SetLastError = true)]
    [return: MarshalAs(UnmanagedType.Bool)]
    static extern bool GetCursorPos(out Point lpPoint);
 
@@ -18,6 +19,10 @@ static class WindowPositioner
       public int X;
       public int Y;
    }
+
+   /// <summary>The mouse cursor's position on the screen, in physical pixels.</summary>
+   internal static PixelPoint CursorPosition() =>
+      GetCursorPos(out var cursor) ? new PixelPoint(cursor.X, cursor.Y) : throw new Win32Exception(Marshal.GetLastWin32Error());
 
    extension<TWindow>(TWindow window) where TWindow : Window
    {

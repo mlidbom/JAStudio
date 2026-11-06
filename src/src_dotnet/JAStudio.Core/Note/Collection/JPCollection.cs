@@ -24,6 +24,17 @@ public class JPCollection
    readonly List<Action> _initializedListeners = [];
    public void OnInitialized(Action listener) => _initializedListeners.Add(listener);
 
+   /// <summary>
+   /// Calls <paramref name="listener"/> every time any note in the collection is updated, whatever its type.<br/>
+   /// It runs on the thread that made the update.
+   /// </summary>
+   public void OnNoteUpdated(Action<JPNote> listener)
+   {
+      Vocab.Cache.OnNoteUpdated(listener);
+      Kanji.Cache.OnNoteUpdated(listener);
+      Sentences.Cache.OnNoteUpdated(listener);
+   }
+
    public JPNote? NoteFromNoteId(NoteId noteId)
    {
       JPNote? note = Vocab.WithIdOrNone(noteId);
