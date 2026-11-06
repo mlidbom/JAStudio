@@ -10,7 +10,7 @@ public class JapaneseConfig
    readonly SimpleObservable<JapaneseConfig> _changed = new();
 
    /// <summary>
-   /// Notifies this config every time one of its values changes, after the change is written to the config file.<br/>
+   /// Notifies this config every time one of its values or its readings mappings change, after the change is written to its file.<br/>
    /// It's notified on the thread that made the change.
    /// </summary>
    public IObservable<JapaneseConfig> Changed => _changed;
@@ -174,10 +174,15 @@ public class JapaneseConfig
       AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound.Value = actualValue;
    }
 
+   /// <summary>
+   /// Saves the readings mappings, which the default kanji mnemonics are made with, and announces the change (<see cref="Changed"/>),<br/>
+   /// so that pages showing default mnemonics are reloaded with the new mappings.
+   /// </summary>
    public void SaveMappings(string mappings)
    {
       _store.SaveMappings(mappings);
       ReadingsMappingsDict = _store.GetReadingsMappings();
+      _changed.OnNext(this);
    }
 
    public string ReadReadingsMappingsFile() => _store.ReadReadingsMappingsFile();
