@@ -40,7 +40,7 @@ public class JapaneseMainMenu
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
                            new List<SpecMenuItem>
                            {
-                              SpecMenuItem.Command(ShortcutFinger.Home1("Open note (Ctrl+O)"), () => Dispatcher.UIThread.Invoke(() => NoteSearchDialog.ToggleVisibility(_services))),
+                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+O)"), WorkspaceWindow.ToggleNoteSearch),
                               _openInAnkiMenus.BuildOpenInAnkiMenuSpec(ShortcutFinger.Home2("Anki"), getClipboardContent),
                               WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home3("Web"), getClipboardContent)
                            }

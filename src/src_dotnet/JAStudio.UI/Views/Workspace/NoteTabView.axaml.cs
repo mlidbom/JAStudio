@@ -88,8 +88,11 @@ public partial class NoteTabView : UserControl
    void FocusPageIfShown()
    {
       if(IsVisible)
-         Dispatcher.UIThread.Post(() => WebView.Focus(), DispatcherPriority.Background);
+         FocusPage();
    }
+
+   /// <summary>Gives the keyboard to the page, for its keys to act on the note being shown. See <see cref="FocusPageIfShown"/> for why it's posted.</summary>
+   internal void FocusPage() => Dispatcher.UIThread.Post(() => WebView.Focus(), DispatcherPriority.Background);
 
    WorkspaceWindow WorkspaceWindow => TopLevel.GetTopLevel(this) as WorkspaceWindow
                                    ?? throw new InvalidOperationException("A note tab is only shown in a workspace window.");

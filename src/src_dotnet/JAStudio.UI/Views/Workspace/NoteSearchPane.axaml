@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
+             x:Class="JAStudio.UI.Views.Workspace.NoteSearchPane"
+             x:DataType="vm:NoteSearchViewModel"
+             IsVisible="{Binding IsOpen}">
+
+    <DockPanel Margin="6">
+        <TextBox x:Name="SearchBox" DockPanel.Dock="Top"
+                 Text="{Binding SearchText, Mode=TwoWay}"
+                 PlaceholderText="Search notes (Ctrl+O)"
+                 ToolTip.Tip="Separate conditions with &amp;&amp;. Prefix a condition to search only some fields: r: readings, a: answer, q: question.">
+            <TextBox.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
+            </TextBox.KeyBindings>
+        </TextBox>
+
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*" Margin="0,6" MinHeight="20">
+            <TextBlock Grid.Column="0" Text="{Binding StatusText}" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <ProgressBar Grid.Column="1" IsIndeterminate="True" IsVisible="{Binding IsSearching}" />
+        </Grid>
+
+        <ListBox ItemsSource="{Binding Results}"
+                 SelectedItem="{Binding SelectedResult}"
+                 DoubleTapped="OnResultDoubleTapped"
+                 BorderThickness="1" BorderBrush="Gray">
+            <ListBox.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding OpenSelectedNoteCommand}" />
+            </ListBox.KeyBindings>
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:NoteSearchResultViewModel">
+                    <DockPanel Background="Transparent" PointerReleased="OnResultPointerReleased">
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0" Text="{Binding Question}" TextWrapping="Wrap"
+                                       FontFamily="Meiryo UI,Yu Gothic UI,Microsoft YaHei UI" FontSize="18" />
+                            <TextBlock Grid.Column="1" Text="{Binding NoteType}" FontSize="11" Opacity="0.6"
+                                       VerticalAlignment="Top" Margin="6,2,0,0" />
+                        </Grid>
+                        <TextBlock Text="{Binding Answer}" TextWrapping="Wrap" />
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+
+</UserControl>

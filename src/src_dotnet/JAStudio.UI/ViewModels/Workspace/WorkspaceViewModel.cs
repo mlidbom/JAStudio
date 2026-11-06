@@ -10,17 +10,26 @@ using JAStudio.UI.Views.Workspace;
 namespace JAStudio.UI.ViewModels.Workspace;
 
 /// <summary>
-/// A workspace: its tabs (<see cref="NoteTabViewModel"/>), each showing a note's page, which of them is shown, and the window title.<br/>
-/// See <c>dev_docs/jastudio-workspace.md</c>.
+/// A workspace: its tabs (<see cref="NoteTabViewModel"/>), each showing a note's page, which of them is shown,<br/>
+/// its <see cref="NoteSearch"/>, and the window title. See <c>dev_docs/jastudio-workspace.md</c>.
 /// </summary>
 /// <remarks>
-/// The view is <see cref="WorkspaceWindow"/>: the tab strip, and each tab's <see cref="NoteTabView"/>.
+/// The view is <see cref="WorkspaceWindow"/>: the <see cref="NoteSearchPane"/>, the tab strip, and each tab's <see cref="NoteTabView"/>.
 /// </remarks>
-partial class WorkspaceViewModel(TemporaryServiceCollection services) : ObservableObject
+partial class WorkspaceViewModel : ObservableObject
 {
    const string AppTitle = "JAStudio";
 
-   readonly TemporaryServiceCollection _services = services;
+   readonly TemporaryServiceCollection _services;
+
+   public WorkspaceViewModel(TemporaryServiceCollection services)
+   {
+      _services = services;
+      NoteSearch = new NoteSearchViewModel(this, services);
+   }
+
+   /// <summary>The search pane, whose results open in this workspace's tabs.</summary>
+   public NoteSearchViewModel NoteSearch { get; }
 
    /// <summary>The open tabs, in the order the tab strip shows them.</summary>
    public ObservableCollection<NoteTabViewModel> Tabs { get; } = [];
@@ -40,6 +49,9 @@ partial class WorkspaceViewModel(TemporaryServiceCollection services) : Observab
    /// The page loads when the tab is first shown, so it doesn't play its note's audio unseen.
    /// </summary>
    public void OpenPageInBackgroundTab(Uri pageUrl) => AddTab(pageUrl);
+
+   /// <summary>Opens a new tab for <paramref name="note"/> without showing it. See <see cref="OpenPageInBackgroundTab"/>.</summary>
+   public void OpenNoteInBackgroundTab(JPNote note) => OpenPageInBackgroundTab(CardServerUrl.NotePageUrl(note));
 
    /// <summary>Closes <paramref name="tab"/>. If it was the one shown, the tab after it is shown, or else the one before it.</summary>
    public void CloseTab(NoteTabViewModel tab)

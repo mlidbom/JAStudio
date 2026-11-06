@@ -94,6 +94,9 @@ apply here.
   hidden ones invisible.
 - **The keyboard follows the shown tab.** Hiding a web view doesn't take the keyboard focus away from it, so a
   tab focuses its page when it's shown. Otherwise keys would go to the hidden tab's page and act on its note.
+- **Taking the keyboard back from a web view.** Focusing an Avalonia control in code doesn't take the Windows
+  keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+O first gives
+  the window back its keyboard focus (`NativeKeyboardFocus`), then focuses the search box.
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.
@@ -112,7 +115,13 @@ apply here.
    the background.
    Ctrl+W or middle-clicking a tab closes it; Ctrl+Tab and Ctrl+Shift+Tab switch tabs. Each tab subscribes to
    the update notifications and unsubscribes when it's closed.
-4. **The search pane**, moving the note search dialog in.
+4. **The search pane**, moving the note search dialog in. *(Built 2026-11-06: `NoteSearchPane` and
+   `NoteSearchViewModel`; the dialog is gone.)* The pane is on the left, resized by dragging its edge, and opened
+   or closed with the "Search" button. Ctrl+O, anywhere including in Anki, brings the workspace forward, opens
+   the pane and puts the keyboard in the search box; pressed in the workspace while the pane is open, it closes
+   the pane and gives the keyboard to the shown page. Double-click or Enter opens a result the way opening a note
+   from outside does; middle-click opens it in a background tab. Filling the pane from the menu items that open
+   lists of notes in Anki's browser is still to come.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules
    first.
 6. **Multiple workspaces.**

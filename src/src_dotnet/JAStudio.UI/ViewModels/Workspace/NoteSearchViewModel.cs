@@ -8,16 +8,19 @@ using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Sentences;
-using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
 using JAStudio.UI.Views.Workspace;
 
-namespace JAStudio.UI.ViewModels;
+namespace JAStudio.UI.ViewModels.Workspace;
 
-partial class NoteSearchDialogViewModel : ObservableObject
+/// <summary>
+/// A workspace's note search: the search text, the notes found, and opening them in the workspace's tabs.<br/>
+/// Its view is the <see cref="NoteSearchPane"/> on the left of the <see cref="WorkspaceWindow"/>.
+/// </summary>
+partial class NoteSearchViewModel : ObservableObject
 {
    const int MaxResults = 100;
+   readonly WorkspaceViewModel _workspace;
    readonly Core.TemporaryServiceCollection _services;
 
    [ObservableProperty] string _searchText = string.Empty;
@@ -28,12 +31,16 @@ partial class NoteSearchDialogViewModel : ObservableObject
 
    [ObservableProperty] NoteSearchResultViewModel? _selectedResult;
 
+   /// <summary>Whether the pane is open. Closing it gives its space back to the tabs.</summary>
+   [ObservableProperty] bool _isOpen = true;
+
    public ObservableCollection<NoteSearchResultViewModel> Results { get; } = [];
 
    public AsyncRelayCommand SearchCommand { get; }
 
-   public NoteSearchDialogViewModel(Core.TemporaryServiceCollection services)
+   public NoteSearchViewModel(WorkspaceViewModel workspace, Core.TemporaryServiceCollection services)
    {
+      _workspace = workspace;
       _services = services;
       SearchCommand = new AsyncRelayCommand(PerformSearchAsync);
    }
@@ -250,37 +257,14 @@ partial class NoteSearchDialogViewModel : ObservableObject
       // Strip HTML tags and bracket markup
       html.StripHtmlAndBracketMarkupAndNoiseCharacters();
 
-   /// <summary>Shows the selected search result in JAStudio's workspace.</summary>
+   /// <summary>Shows the selected search result in the workspace, in the tab already showing it or else in a new tab.</summary>
+   [RelayCommand]
    public void OpenSelectedNote()
    {
       if(SelectedResult != null)
-         WorkspaceWindow.OpenNote(SelectedResult.Note);
-   }
-}
-
-class NoteSearchResultViewModel
-{
-   public JPNote Note { get; }
-   public string NoteType { get; }
-   public string Question { get; }
-   public string Answer { get; }
-
-   public NoteSearchResultViewModel(JPNote note)
-   {
-      Note = note;
-      NoteType = GetNoteTypeDisplay(note);
-      Question = note.GetQuestion().StripHtmlAndBracketMarkupAndNoiseCharacters();
-      Answer = note.GetAnswer().StripHtmlAndBracketMarkupAndNoiseCharacters();
+         _workspace.OpenNote(SelectedResult.Note);
    }
 
-   static string GetNoteTypeDisplay(JPNote note)
-   {
-      return note switch
-      {
-         VocabNote    => "Vocab",
-         KanjiNote    => "Kanji",
-         SentenceNote => "Sentence",
-         _            => "Note"
-      };
-   }
+   /// <summary>Opens <paramref name="result"/> in a new tab in the background, as middle-clicking a link does.</summary>
+   public void OpenInBackgroundTab(NoteSearchResultViewModel result) => _workspace.OpenNoteInBackgroundTab(result.Note);
 }

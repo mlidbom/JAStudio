@@ -124,7 +124,7 @@ search, editors) is in `jastudio-workspace.md`.
   sync (`JPCollection.ReloadedFromBackend`). A change to another note that the page shows, for example a vocab in a
   sentence's breakdown, appears after F5 or the next navigation.
 - **Opening a note in the workspace:** "Open in workspace" in the note menus' "Universal note actions", newly
-  created notes, and a result double-clicked in the note search dialog (Ctrl+O).
+  created notes, and a result opened from the workspace's note search pane (Ctrl+O).
 - **Not yet:** the menu items that open a *list* of notes still open Anki's browser. JAStudio running outside
   Anki (`JAStudio.UI.DesktopHost`) doesn't start the `CardServer`, so its workspace can't show notes.
 

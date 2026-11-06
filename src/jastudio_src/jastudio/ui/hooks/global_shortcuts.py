@@ -21,7 +21,7 @@ def init() -> None:
     shortcuts: dict[str, Callable[[], None]] = {
         "Alt+Left": history_navigator.navigator.navigate_back,
         "Alt+Right": history_navigator.navigator.navigate_forward,
-        "Ctrl+o": dotnet_ui_root().Dialogs.ToggleNoteSearchDialog,
+        "Ctrl+o": dotnet_ui_root().Dialogs.ToggleNoteSearch,
         "Ctrl+Shift+o": dotnet_ui_root().Dialogs.ToggleWorkspaceWindow,
         "F5": lambda: app.get_ui_utils().refresh()
     }

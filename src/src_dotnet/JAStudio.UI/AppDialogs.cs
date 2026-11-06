@@ -22,11 +22,7 @@ public class AnkiDialogs
       Dispatcher.UIThread.Invoke(() => new ReadingsMappingsDialog(Services).ShowNearCursor());
    }
 
-   public void ToggleNoteSearchDialog()
-   {
-      this.Log().Info("ToggleNoteSearchDialog() called");
-      Dispatcher.UIThread.Invoke(() => NoteSearchDialog.ToggleVisibility(Services));
-   }
+   public void ToggleNoteSearch() => WorkspaceWindow.ToggleNoteSearch();
 
    public void ToggleEnglishWordSearchDialog()
    {
