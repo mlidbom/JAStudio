@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Internals.SystemCE.LinqCE;
+using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Threading;
 using JAStudio.Core.SysUtils.Collections.Generic;
 
@@ -24,16 +25,21 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
 {
    readonly Func<NoteServices, AnkiNoteData, TNote> _noteConstructor = noteConstructor;
    protected readonly Dictionary<NoteId, TNote> _byId = new();
-   readonly List<Action<TNote>> _updateListeners = [];
+   readonly SimpleObservable<TNote> _noteUpdated = new();
    readonly NoteServices _noteServices = noteServices;
    protected readonly IMonitor _monitor = IMonitor.New();
 
-   public void OnNoteUpdated(Action<JPNote> listener) => _updateListeners.Add(note => listener(note));
+   /// <summary>
+   /// Notifies every note in this cache that is updated, after the cache holds the updated note,<br/>
+   /// whether JAStudio updated it (<see cref="JpNoteUpdated"/>) or Anki did (<see cref="ExternalNoteWillFlush"/>).<br/>
+   /// It's notified on the thread that made the update.
+   /// </summary>
+   public IObservable<TNote> NoteUpdated => _noteUpdated;
 
-   public void OnNoteUpdated(Action<TNote> listener) => _updateListeners.Add(listener);
+   IObservable<JPNote> IExternalNoteUpdateHandler.NoteUpdated => _noteUpdated;
 
    public TNote? WithIdOrNone(NoteId noteId) => _monitor.Locked(() => WithIdOrNoneCore(noteId));
-   protected TNote? WithIdOrNoneCore(NoteId noteId) => _byId.TryGetValue(noteId, out var note) ? note : null;
+   protected TNote? WithIdOrNoneCore(NoteId noteId) => _byId.GetValueOrDefault(noteId);
 
    /// <summary>Look up a note by its external long ID (uses the shared ExternalNoteIdMap).</summary>
    public TNote? WithExternalIdOrNone(long externalNoteId) =>
@@ -77,7 +83,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
       note.CopyStudyingStatusFrom(existing);
       note.UpdateGeneratedData();
       _monitor.Locked(() => RefreshInCacheCore(note));
-      NotifyUpdateListeners(note);
+      _noteUpdated.OnNext(note);
    }
 
    public void ExternalNoteRemoved(long externalNoteId)
@@ -113,15 +119,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
          RefreshInCacheCore(note);
       });
 
-      NotifyUpdateListeners(note);
-   }
-
-   void NotifyUpdateListeners(TNote note)
-   {
-      foreach(var listener in _updateListeners)
-      {
-         listener(note);
-      }
+      _noteUpdated.OnNext(note);
    }
 
    void RefreshInCacheCore(TNote note)

@@ -1,4 +1,5 @@
 using System;
+using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.PythonInterop;
@@ -11,13 +12,13 @@ namespace JAStudio.Anki.PythonInterop;
 public static class NoteUpdatePythonAdapter
 {
    /// <summary>
-   /// Registers a Python callable as an update listener on an <see cref="IExternalNoteUpdateHandler"/>.
+   /// Subscribes a Python callable to <see cref="IExternalNoteUpdateHandler.NoteUpdated"/>, for as long as Anki runs.<br/>
    /// Wraps the Python callable as an <see cref="Action{JPNote}"/> using PythonDotNetShim.
    /// </summary>
    // ReSharper disable once UnusedMember.Global used from python
    public static void Register(IExternalNoteUpdateHandler handler, dynamic pythonCallback)
    {
       Action<JPNote> typed = PythonDotNetShim.Action.ToDotNet<JPNote>(pythonCallback);
-      handler.OnNoteUpdated(typed);
+      handler.NoteUpdated.Subscribe(typed);
    }
 }

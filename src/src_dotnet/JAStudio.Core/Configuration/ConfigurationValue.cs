@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Compze.Internals.SystemCE.ReactiveCE;
 
 namespace JAStudio.Core.Configuration;
 
@@ -7,7 +8,7 @@ public class ConfigurationValue<T>
 {
    T _value;
    readonly Dictionary<string, object> _configDict;
-   readonly List<Action<T>> _changeCallbacks = [];
+   readonly SimpleObservable<T> _changed = new();
 
    public string Title { get; }
    public string Name { get; }
@@ -32,15 +33,10 @@ public class ConfigurationValue<T>
 
          _configDict[Name] = value!;
 
-         foreach(var callback in _changeCallbacks)
-         {
-            callback(Value);
-         }
+         _changed.OnNext(value);
       }
    }
 
-   public void OnChange(Action<T> callback)
-   {
-      _changeCallbacks.Add(callback);
-   }
+   /// <summary>Notifies the new <see cref="Value"/> every time it is set, on the thread that set it.</summary>
+   public IObservable<T> Changed => _changed;
 }

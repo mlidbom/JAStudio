@@ -1,12 +1,19 @@
 using System;
 using System.Collections.Generic;
+using Compze.Internals.SystemCE.ReactiveCE;
 
 namespace JAStudio.Core.Configuration;
 
 public class JapaneseConfig
 {
    readonly ConfigurationStore _store;
-   readonly List<Action> _changeCallbacks = [];
+   readonly SimpleObservable<JapaneseConfig> _changed = new();
+
+   /// <summary>
+   /// Notifies this config every time one of its values changes, after the change is written to the config file.<br/>
+   /// It's notified on the thread that made the change.
+   /// </summary>
+   public IObservable<JapaneseConfig> Changed => _changed;
 
    // Configuration value properties
    public ConfigurationValue<double> BoostFailedCardAllowedTimeByFactor { get; }
@@ -76,19 +83,6 @@ public class JapaneseConfig
       _store = store;
       var configDict = _store.GetConfigDict();
 
-      ConfigurationValue<T> New<T>(string name, string title, T defaultValue, Func<object, T> converter)
-         => new(name, title, defaultValue, converter, configDict);
-
-      ConfigurationValue<T> Add<T>(ConfigurationValue<T> value)
-      {
-         value.OnChange(_ =>
-         {
-            _store.WriteConfigDict();
-            PublishChange();
-         });
-         return value;
-      }
-
       BoostFailedCardAllowedTimeByFactor = Add(New("boost_failed_card_allowed_time_by_factor", "Boost Failed Card Allowed Time Factor", 1.5f, To.Double));
 
       AutoadvanceVocabStartingSeconds = Add(New("autoadvance_vocab_starting_seconds", "Starting Seconds", 3.0f, To.Double));
@@ -155,6 +149,21 @@ public class JapaneseConfig
       LogWhenFlushingNotes = Add(New("log_when_flushing_notes", "Log when flushing notes to backend.", false, To.Bool));
 
       ReadingsMappingsDict = _store.GetReadingsMappings();
+
+      return;
+
+      ConfigurationValue<T> New<T>(string name, string title, T defaultValue, Func<object, T> converter)
+         => new(name, title, defaultValue, converter, configDict);
+
+      ConfigurationValue<T> Add<T>(ConfigurationValue<T> value)
+      {
+         value.Changed.Subscribe(_ =>
+         {
+            _store.WriteConfigDict();
+            _changed.OnNext(this);
+         });
+         return value;
+      }
    }
 
    public void ToggleAllSentenceDisplayAutoYieldFlags(bool? value = null)
@@ -172,17 +181,4 @@ public class JapaneseConfig
    }
 
    public string ReadReadingsMappingsFile() => _store.ReadReadingsMappingsFile();
-
-   void PublishChange()
-   {
-      foreach(var callback in _changeCallbacks)
-      {
-         callback();
-      }
-   }
-
-   public void OnChange(Action callback)
-   {
-      _changeCallbacks.Add(callback);
-   }
 }

@@ -11,6 +11,7 @@ using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Internals.Logging;
 using Compze.Internals.SystemCE;
+using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
@@ -118,7 +119,7 @@ public class JAStudioAnkiAppRoot
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer) { _uiThread = uiThread };
 
-      root._coreApp.Collection.OnInitialized(AnkiFacade.UIUtils.Refresh);
+      root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => AnkiFacade.UIUtils.Refresh());
 
       cardServer.Start();
 

@@ -1,15 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Compze.Internals.Logging;
+using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
-using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -21,19 +20,18 @@ public class JPCollection
 
    public bool IsInitialized { get; private set; }
 
-   readonly List<Action> _initializedListeners = [];
-   public void OnInitialized(Action listener) => _initializedListeners.Add(listener);
+   readonly SimpleObservable<JPCollection> _reloadedFromBackend = new();
 
    /// <summary>
-   /// Calls <paramref name="listener"/> every time any note in the collection is updated, whatever its type.<br/>
-   /// It runs on the thread that made the update.
+   /// Notifies this collection every time <see cref="ReloadFromBackend"/> completes: at startup, and after every Anki sync.<br/>
+   /// The reload replaces every note object, so anything holding on to one must look it up again by its <see cref="NoteId"/>.
    /// </summary>
-   public void OnNoteUpdated(Action<JPNote> listener)
-   {
-      Vocab.Cache.OnNoteUpdated(listener);
-      Kanji.Cache.OnNoteUpdated(listener);
-      Sentences.Cache.OnNoteUpdated(listener);
-   }
+   public IObservable<JPCollection> ReloadedFromBackend => _reloadedFromBackend;
+
+   readonly SimpleObservable<JPNote> _noteUpdated = new();
+
+   /// <summary>Notifies every note in the collection that is updated, whatever its type, on the thread that updated it.</summary>
+   public IObservable<JPNote> NoteUpdated => _noteUpdated;
 
    public JPNote? NoteFromNoteId(NoteId noteId)
    {
@@ -91,9 +89,13 @@ public class JPCollection
       Kanji = new KanjiCollection(backendNoteCreator, NoteServices);
       Sentences = new SentenceCollection(backendNoteCreator, NoteServices);
 
-      Kanji.Cache.OnNoteUpdated(note => _repository.Save(note));
-      Vocab.Cache.OnNoteUpdated(note => _repository.Save(note));
-      Sentences.Cache.OnNoteUpdated(note => _repository.Save(note));
+      Kanji.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
+      Vocab.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
+      Sentences.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
+
+      Kanji.Cache.NoteUpdated.Subscribe(_noteUpdated.OnNext);
+      Vocab.Cache.NoteUpdated.Subscribe(_noteUpdated.OnNext);
+      Sentences.Cache.NoteUpdated.Subscribe(_noteUpdated.OnNext);
    }
 
    readonly INoteRepository _repository;
@@ -172,8 +174,7 @@ public class JPCollection
                               });
 
       IsInitialized = true;
-      foreach(var listener in _initializedListeners)
-         listener();
+      _reloadedFromBackend.OnNext(this);
    }
 
    void LoadFromRepository()

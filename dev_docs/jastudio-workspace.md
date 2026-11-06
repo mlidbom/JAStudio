@@ -62,9 +62,11 @@ apply here.
   - every full reload (`JPCollection.ReloadFromBackend`, after each Anki sync and when the profile reopens).
 
   A view holding the old object would then show and edit an orphan. Looking the note up by id keeps "one shared
-  object" true. A "collection reloaded" notification lets views refresh.
-- **Update notifications become observables** (Compze's `SimpleObservable<T>`), so tabs and windows can
-  unsubscribe when they close. The current listener lists can't be unsubscribed from.
+  object" true. `JPCollection.ReloadedFromBackend` lets views refresh.
+- **Update notifications are observables** (Compze's `SimpleObservable<T>`), so tabs and windows can
+  unsubscribe when they close: `JPCollection.NoteUpdated` and `ReloadedFromBackend`, each note cache's
+  `NoteUpdated`, `JapaneseConfig.Changed` and `ConfigurationValue<T>.Changed`. A subscriber may subscribe or
+  unsubscribe from inside a notification. Notifications arrive on the thread that made the change.
 - **Inactive tabs aren't refreshed in the background.** A tab refreshes when it's shown, if anything changed
   while it was hidden.
 
@@ -77,7 +79,8 @@ apply here.
   looks it up. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O) also exist as Avalonia key bindings for when the
   keyboard is outside the page. Single-key shortcuts deliberately aren't window key bindings, because they would
   fire while typing in the editors to come.
-- **A setting change reloads the page**, as does an update to the note on it.
+- **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
+  Anki sync.
 - **Back and forward** are the page's history (Alt+Left, Alt+Right), per window and not saved. Anki's saved
   history of recently shown cards may come back later, as a "recently viewed" list.
 
@@ -94,8 +97,9 @@ apply here.
 
 1. **The main window becomes the workspace** and takes over the note viewer: main menu, back and forward, and
    the note's web view. One note at a time. *(Built 2026-11-06: `WorkspaceWindow` and `WorkspaceViewModel`.)*
-2. **Observables** for note updates, once Compze's fixed `SimpleObservable` is released. That means a deliberate
-   Compze version bump.
+2. **Observables** for note updates and setting changes. *(Built 2026-11-06, on `Compze.Internals.SystemCE`
+   0.4.1-internal. Nothing unsubscribes yet: the single workspace hides instead of closing. Tabs will be the first
+   to unsubscribe.)*
 3. **Tabs.**
 4. **The search pane**, moving the note search dialog in.
 5. **The editor section**, one editor at a time, switching to live editing as each moves in. Matching rules

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.UI.Web;
@@ -36,17 +37,19 @@ partial class WorkspaceViewModel : ObservableObject
    {
       _services = services;
       _noteViewShortcuts = new NoteViewShortcuts(services.CoreApp.Config);
-      services.CoreApp.Collection.OnNoteUpdated(note =>
+      services.CoreApp.Collection.NoteUpdated.Subscribe(note =>
       {
          if(IsShowing(note))
             PageOutdated?.Invoke();
       });
-      services.CoreApp.Config.OnChange(() => PageOutdated?.Invoke());
+      services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ => PageOutdated?.Invoke());
+      services.CoreApp.Config.Changed.Subscribe(_ => PageOutdated?.Invoke());
    }
 
    /// <summary>
    /// Raised when the page no longer shows the current state, so it must be reloaded:<br/>
-   /// the note on it was updated, or a setting changed, such as how sentence breakdowns are shown.<br/>
+   /// the note on it was updated, the collection was reloaded after an Anki sync,<br/>
+   /// or a setting changed, such as how sentence breakdowns are shown.<br/>
    /// It's raised on the thread that made the change.
    /// </summary>
    public event Action? PageOutdated;
