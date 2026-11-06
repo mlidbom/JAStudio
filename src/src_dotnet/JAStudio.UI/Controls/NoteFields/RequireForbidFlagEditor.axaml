@@ -1,8 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:JAStudio.UI.Controls"
-             x:Class="JAStudio.UI.Controls.RequireForbidControl"
-             x:DataType="local:RequireForbidControlViewModel">
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             x:Class="JAStudio.UI.Controls.NoteFields.RequireForbidFlagEditor"
+             x:DataType="noteFields:RequireForbidFlagEditorViewModel">
     <!-- The radio buttons have no GroupName: they group with their siblings, so each rule's three are a group of their own,
          even with the same rule shown in several tabs. -->
     <Grid ColumnDefinitions="170,*">

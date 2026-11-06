@@ -5,16 +5,16 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace JAStudio.UI.Controls;
+namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>
-/// One set of strings on a note, such as a vocab's "prefix is not" matching rule or its forms, edited live in a <see cref="StringSetControl"/>:<br/>
+/// One set of strings on a note, such as a vocab's "prefix is not" matching rule or its forms, edited live in a <see cref="StringSetEditor"/>:<br/>
 /// typing a string and adding it, or removing one, writes to the note at once.
 /// </summary>
 /// <remarks>
 /// It reads and changes the set through <c>currentValues</c>, <c>add</c> and <c>remove</c>, which find it on the note the collection holds now.
 /// </remarks>
-partial class StringSetControlViewModel : ObservableObject
+partial class StringSetEditorViewModel : ObservableObject
 {
    readonly Func<IEnumerable<string>> _currentValues;
    readonly Action<string> _add;
@@ -26,7 +26,7 @@ partial class StringSetControlViewModel : ObservableObject
    /// <param name="add">Adds a string to the set on the note as the collection holds it now, and saves the note.</param>
    /// <param name="remove">Removes a string from the set on the note as the collection holds it now, and saves the note.</param>
    /// <param name="setChanged">Called after a change to the set is saved, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public StringSetControlViewModel(string title, Func<IEnumerable<string>> currentValues, Action<string> add, Action<string> remove, Action setChanged)
+   public StringSetEditorViewModel(string title, Func<IEnumerable<string>> currentValues, Action<string> add, Action<string> remove, Action setChanged)
    {
       Title = title;
       _currentValues = currentValues;

@@ -4,7 +4,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
-using JAStudio.UI.Controls;
+using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;

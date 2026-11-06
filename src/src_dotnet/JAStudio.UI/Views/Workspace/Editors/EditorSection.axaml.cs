@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using JAStudio.UI.Controls;
+using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace;
 
 namespace JAStudio.UI.Views.Workspace.Editors;

@@ -5,7 +5,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
-using JAStudio.UI.Controls;
+using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -38,12 +38,12 @@ class VocabTextEditorViewModel
       Readings = Field("Readings", TextFieldFormat.CommaSeparated,
                        it => string.Join(", ", it.GetReadings()),
                        (it, readings) => it.SetReadings(StringExtensions.ExtractCommaSeparatedValues(readings)));
-      Forms = new StringSetControlViewModel("Forms",
+      Forms = new StringSetEditorViewModel("Forms",
                                             () => _currentVocab().Forms.EnteredFormsWithBrackets(),
                                             form => _currentVocab().Forms.Add(form),
                                             form => _currentVocab().Forms.Remove(form),
                                             _sentencesReparser.ReparseSentences);
-      PartsOfSpeech = new StringSetControlViewModel("Parts of speech",
+      PartsOfSpeech = new StringSetEditorViewModel("Parts of speech",
                                                     () => _currentVocab().PartsOfSpeech.Get(),
                                                     partOfSpeech => ChangeThePartsOfSpeech(it => it.Append(partOfSpeech)),
                                                     partOfSpeech => ChangeThePartsOfSpeech(it => it.Where(other => other != partOfSpeech)),
@@ -79,9 +79,9 @@ class VocabTextEditorViewModel
    public TextFieldEditorViewModel Readings { get; }
 
    /// <summary>The forms besides the question: the question is always a form. A form written <c>[form]</c> is owned by the vocab.</summary>
-   public StringSetControlViewModel Forms { get; }
+   public StringSetEditorViewModel Forms { get; }
 
-   public StringSetControlViewModel PartsOfSpeech { get; }
+   public StringSetEditorViewModel PartsOfSpeech { get; }
 
    /// <summary>The user's own answer, explanations and mnemonic, which take precedence over the <see cref="SourceFields"/>, and the compound parts.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> UserFields { get; }

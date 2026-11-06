@@ -3,22 +3,22 @@
              xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
              xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
              xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
-             xmlns:controls="clr-namespace:JAStudio.UI.Controls"
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
              x:Class="JAStudio.UI.Views.Workspace.Editors.EditorSection"
              x:DataType="vm:WorkspaceViewModel">
 
     <!-- The editors' rows, and the look of their sections, shared by every note type's editors. -->
     <UserControl.DataTemplates>
-        <DataTemplate DataType="controls:RequireForbidControlViewModel">
-            <controls:RequireForbidControl />
+        <DataTemplate DataType="noteFields:RequireForbidFlagEditorViewModel">
+            <noteFields:RequireForbidFlagEditor />
         </DataTemplate>
-        <DataTemplate DataType="controls:TagFlagCheckBoxViewModel">
+        <DataTemplate DataType="noteFields:TagFlagEditorViewModel">
             <CheckBox Content="{Binding Label}" IsChecked="{Binding IsSet}" />
         </DataTemplate>
-        <DataTemplate DataType="controls:StringSetControlViewModel">
-            <controls:StringSetControl Margin="0,0,0,6" />
+        <DataTemplate DataType="noteFields:StringSetEditorViewModel">
+            <noteFields:StringSetEditor Margin="0,0,0,6" />
         </DataTemplate>
-        <DataTemplate DataType="controls:TextFieldEditorViewModel">
+        <DataTemplate DataType="noteFields:TextFieldEditorViewModel">
             <StackPanel Margin="0,0,0,6">
                 <TextBlock Text="{Binding Label}" Margin="0,0,0,2" />
                 <TextBox Text="{Binding Text}" PlaceholderText="{Binding Hint}" TextWrapping="Wrap"
@@ -26,7 +26,7 @@
             </StackPanel>
         </DataTemplate>
         <!-- Committed with Enter here, and when the keyboard leaves the text box in the code-behind. -->
-        <DataTemplate DataType="controls:CommittingTextFieldEditorViewModel">
+        <DataTemplate DataType="noteFields:CommittingTextFieldEditorViewModel">
             <StackPanel Margin="0,0,0,6">
                 <TextBlock Text="{Binding Label}" Margin="0,0,0,2" />
                 <TextBox Text="{Binding Text}" Classes.uncommitted="{Binding HasUncommittedText}"

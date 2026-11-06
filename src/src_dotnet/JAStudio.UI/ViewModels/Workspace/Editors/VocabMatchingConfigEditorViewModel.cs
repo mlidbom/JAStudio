@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
-using JAStudio.UI.Controls;
+using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -73,12 +73,12 @@ class VocabMatchingConfigEditorViewModel
       ];
    }
 
-   public RequireForbidControlViewModel YieldLastToken { get; }
-   public IReadOnlyList<RequireForbidControlViewModel> MiscMatchingRules { get; }
-   public IReadOnlyList<RequireForbidControlViewModel> StemMatchingRules { get; }
-   public IReadOnlyList<TagFlagCheckBoxViewModel> IsFlags { get; }
-   public IReadOnlyList<TagFlagCheckBoxViewModel> MiscFlags { get; }
-   public IReadOnlyList<StringSetControlViewModel> StringRules { get; }
+   public RequireForbidFlagEditorViewModel YieldLastToken { get; }
+   public IReadOnlyList<RequireForbidFlagEditorViewModel> MiscMatchingRules { get; }
+   public IReadOnlyList<RequireForbidFlagEditorViewModel> StemMatchingRules { get; }
+   public IReadOnlyList<TagFlagEditorViewModel> IsFlags { get; }
+   public IReadOnlyList<TagFlagEditorViewModel> MiscFlags { get; }
+   public IReadOnlyList<StringSetEditorViewModel> StringRules { get; }
 
    /// <summary>Shows every rule as the note has it now, after a change made elsewhere.</summary>
    public void Refresh()
@@ -88,17 +88,17 @@ class VocabMatchingConfigEditorViewModel
       foreach(var rule in StringRules) rule.Refresh();
    }
 
-   IEnumerable<RequireForbidControlViewModel> AllRequireForbidRules => [YieldLastToken, ..MiscMatchingRules, ..StemMatchingRules];
+   IEnumerable<RequireForbidFlagEditorViewModel> AllRequireForbidRules => [YieldLastToken, ..MiscMatchingRules, ..StemMatchingRules];
 
-   IEnumerable<TagFlagCheckBoxViewModel> AllFlags => [..IsFlags, ..MiscFlags];
+   IEnumerable<TagFlagEditorViewModel> AllFlags => [..IsFlags, ..MiscFlags];
 
-   RequireForbidControlViewModel RequireForbidRule(string label, Func<VocabMatchingRulesConfigurationRequiresForbidsFlags, RequireForbidFlagField> rule) =>
+   RequireForbidFlagEditorViewModel RequireForbidRule(string label, Func<VocabMatchingRulesConfigurationRequiresForbidsFlags, RequireForbidFlagField> rule) =>
       new(_fatalErrorHandler, label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), _sentencesReparser.ReparseSentences);
 
-   TagFlagCheckBoxViewModel Flag(string label, Func<VocabMatchingRulesConfigurationBoolFlags, TagFlagField> flag) =>
+   TagFlagEditorViewModel Flag(string label, Func<VocabMatchingRulesConfigurationBoolFlags, TagFlagField> flag) =>
       new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.BoolFlags), _sentencesReparser.ReparseSentences);
 
-   StringSetControlViewModel StringRule(string title, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
+   StringSetEditorViewModel StringRule(string title, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
       new(title,
           () => rule(CurrentRules()),
           value => ChangeAndSave(rules => rule(rules).Add(value)),

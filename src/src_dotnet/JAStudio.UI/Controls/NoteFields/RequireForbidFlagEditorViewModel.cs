@@ -3,17 +3,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
 
-namespace JAStudio.UI.Controls;
+namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>
-/// One require/forbid rule of a note, edited live in a <see cref="RequireForbidControl"/>: unset, required or forbidden.<br/>
+/// One require/forbid rule of a note, edited live in a <see cref="RequireForbidFlagEditor"/>: unset, required or forbidden.<br/>
 /// A choice is written to the note at once.
 /// </summary>
 /// <remarks>
 /// It reads and writes the rule through <c>currentField</c>, which finds it on the note the collection holds now,<br/>
 /// because the note recreates its rule objects whenever its tags change.
 /// </remarks>
-class RequireForbidControlViewModel : ObservableObject
+class RequireForbidFlagEditorViewModel : ObservableObject
 {
    readonly IFatalErrorHandler _fatalErrorHandler;
    readonly Func<RequireForbidFlagField> _currentField;
@@ -24,7 +24,7 @@ class RequireForbidControlViewModel : ObservableObject
    /// <param name="label">What the rule is about, shown beside its choices.</param>
    /// <param name="currentField">Finds the rule on the note as the collection holds it now.</param>
    /// <param name="choiceMade">Called after a choice is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public RequireForbidControlViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<RequireForbidFlagField> currentField, Action choiceMade)
+   public RequireForbidFlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<RequireForbidFlagField> currentField, Action choiceMade)
    {
       _fatalErrorHandler = fatalErrorHandler;
       Label = label;

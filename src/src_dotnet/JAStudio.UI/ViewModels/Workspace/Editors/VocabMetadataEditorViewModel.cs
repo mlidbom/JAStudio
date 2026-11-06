@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
-using JAStudio.UI.Controls;
+using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -44,8 +44,8 @@ class VocabMetadataEditorViewModel
       ];
    }
 
-   public IReadOnlyList<TagFlagCheckBoxViewModel> MiscFlags { get; }
-   public IReadOnlyList<TagFlagCheckBoxViewModel> RegisterFlags { get; }
+   public IReadOnlyList<TagFlagEditorViewModel> MiscFlags { get; }
+   public IReadOnlyList<TagFlagEditorViewModel> RegisterFlags { get; }
 
    /// <summary>Shows every flag as the note has it now, after a change made elsewhere.</summary>
    public void Refresh()
@@ -54,5 +54,5 @@ class VocabMetadataEditorViewModel
       foreach(var flag in RegisterFlags) flag.Refresh();
    }
 
-   TagFlagCheckBoxViewModel Flag(string label, Func<VocabNote, TagFlagField> flag) => new(_fatalErrorHandler, label, () => flag(_currentVocab()), () => {});
+   TagFlagEditorViewModel Flag(string label, Func<VocabNote, TagFlagField> flag) => new(_fatalErrorHandler, label, () => flag(_currentVocab()), () => {});
 }

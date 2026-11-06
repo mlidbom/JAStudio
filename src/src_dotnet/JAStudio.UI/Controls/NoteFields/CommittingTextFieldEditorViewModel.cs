@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core.TaskRunners;
 
-namespace JAStudio.UI.Controls;
+namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>
 /// One text field of a note where every change is costly, such as a vocab's question, which changes what the vocab matches:<br/>

@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
 using JAStudio.Core.TaskRunners;
 
-namespace JAStudio.UI.Controls;
+namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>
 /// One text field of a note, edited live in a text box: every keystroke is written to the note at once.

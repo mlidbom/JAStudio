@@ -1,8 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:JAStudio.UI.Controls"
-             x:Class="JAStudio.UI.Controls.StringSetControl"
-             x:DataType="local:StringSetControlViewModel">
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             x:Class="JAStudio.UI.Controls.NoteFields.StringSetEditor"
+             x:DataType="noteFields:StringSetEditorViewModel">
     <StackPanel Spacing="4">
         <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
         <DockPanel>
@@ -20,7 +20,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="local:StringChipViewModel">
+                <DataTemplate x:DataType="noteFields:StringChipViewModel">
                     <Border Background="#e0e0e0" CornerRadius="3" Padding="6,3" Margin="2">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <TextBlock Text="{Binding Value}" VerticalAlignment="Center" />

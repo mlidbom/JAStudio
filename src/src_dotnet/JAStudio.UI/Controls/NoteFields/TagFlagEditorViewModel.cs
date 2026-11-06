@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
 
-namespace JAStudio.UI.Controls;
+namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>
 /// One flag of a note, stored as a tag, edited live as a check box. Checking or unchecking it writes to the note at once.
@@ -12,7 +12,7 @@ namespace JAStudio.UI.Controls;
 /// It reads and writes the flag through <c>currentFlag</c>, which finds it on the note the collection holds now,<br/>
 /// because the note recreates its flag objects whenever its tags change.
 /// </remarks>
-class TagFlagCheckBoxViewModel : ObservableObject
+class TagFlagEditorViewModel : ObservableObject
 {
    readonly IFatalErrorHandler _fatalErrorHandler;
    readonly Func<TagFlagField> _currentFlag;
@@ -23,7 +23,7 @@ class TagFlagCheckBoxViewModel : ObservableObject
    /// <param name="label">What the flag means, shown beside the check box.</param>
    /// <param name="currentFlag">Finds the flag on the note as the collection holds it now.</param>
    /// <param name="flagChanged">Called after a change is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public TagFlagCheckBoxViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<TagFlagField> currentFlag, Action flagChanged)
+   public TagFlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<TagFlagField> currentFlag, Action flagChanged)
    {
       _fatalErrorHandler = fatalErrorHandler;
       Label = label;

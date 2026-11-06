@@ -1,4 +1,4 @@
-namespace JAStudio.UI.Controls;
+namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>What kind of text a note's text field holds, which decides how its <see cref="TextFieldEditorViewModel"/> edits it.</summary>
 enum TextFieldFormat
