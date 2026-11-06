@@ -179,7 +179,8 @@ apply here.
      keystroke.
    - "Edit" in each note type's note menu opens the note in the workspace with the section open. The editor dialogs
      are gone.
-6. **Multiple workspaces.**
-7. **Revert to the committed version.**
+6. **Multiple workspaces.** *(Parked 2026-11-06.)*
+7. **Revert to the committed version.** *(Parked 2026-11-06.)*
 
-The order after step 1 is tentative.
+The order after step 1 is tentative. Steps 6 and 7 are parked because they free nothing from Anki, and the
+workspace exists for the goal in `corpus-data-model.md`, where import and organizing come next.

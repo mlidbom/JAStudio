@@ -42,7 +42,16 @@ nothing stored only for Anki's sake.
 - **mobile-review** — reviewing cards in an Anki mobile app. The JAStudio add-on doesn't run there, so the card
   is exactly what the installed card template renders from the note's fields.
 - **import-note** — an Anki note with the full set of fields, created by Yomitan or a deck import. JAStudio
-  ingests it into the corpus, creates the study-note, and deletes the import-note.
+  ingests it into the corpus, tags included, and the import-note is then deleted. Deck imports happen in a
+  separate Anki profile (2026-11-06; see [Import and organization](#import-and-organization-needs-its-own-design)).
+- **generated-html-field** — the one Anki field a study-note keeps for mobile-review, besides the question and
+  the audio. JAStudio fills it with HTML generated from the note, and nothing reads it back. See
+  [The minimal Anki note type](#the-minimal-anki-note-type-tentative).
+- **student-data** — data about one student's studying rather than about the language: the studying status,
+  priority, and the student-tags. It doesn't belong in the corpus.
+- **student-tag** and **corpus-tag** — a tag that is student-data, such as a priority tag, and a tag that
+  describes the language data itself, such as its source. See
+  [Student-tags and corpus-tags](#student-tags-and-corpus-tags).
 
 ## Settled so far (Magnus, 2026-11-05)
 
@@ -50,18 +59,26 @@ nothing stored only for Anki's sake.
 |---|---|
 | Anki's role from now on | The review scheduler, a way to import notes, and a way to update audio. |
 | Consumers of `jas_database` | Only Magnus, for the foreseeable future. One-time migrations are enough. |
-| Origin of `-::priority::…` and `-::sentence::difficulty::…` tags | Tagged by hand in Anki, usually a whole deck or season at a time. |
+| Origin of `-::priority::…` and `-::sentence::difficulty::…` tags | Priority: tagged by hand in Anki, usually a whole deck or season at a time. Difficulty, *corrected 2026-11-06*: written by JAStudio code that sorted sentences into decks by difficulty, which was deleted the same day (2024-10-30). See [Tags](#tags). |
 | Renaming "note" (`JPNote`, `VocabNote`, …) now that JAStudio owns the data | Probably yes, but as a separate effort. Out of scope here. |
 | The "unresolved design concerns" about removing media fields (in `media-storage-and-import.md`) | Not remembered. See [Media](#media-open). |
 | Ids or text for references between entities | **2026-11-06:** for now, the word itself (word-reference), not ids, because of the problems ids cause when notes are deleted. Whether renames propagate is still open. See [References between entities](#references-between-entities-word-references). |
-| Anki fields | Direction: remove every Anki field except those Anki needs to work, **and those mobile-review needs** (2026-11-06, next row). See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
-| Mobile-review (2026-11-06) | Basic review must work on mobile. The fields needed to study kanji, vocab and sentences on mobile, by reading or by listening, stay in the Anki notes. The card templates are designed to render well on mobile, wherever the add-on doesn't replace them. At least the active answer field (`A`) is reinstated. The mobile app is AnkiDroid. |
+| Anki fields | Direction: remove every Anki field except those Anki needs to work, **plus what mobile-review needs**, which since 2026-11-06 is one generated-html-field (rows below). See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
+| Mobile-review (2026-11-06) | Basic review must work on mobile, for kanji, vocab and sentences, by reading or by listening. The card templates are designed to render well on mobile, wherever the add-on doesn't replace them. The mobile app is AnkiDroid. *Later the same day:* a single generated-html-field replaces the plan to keep fields such as `A` (next rows). |
 | Work incrementally, not up front (2026-11-06) | Focus on eliminating the need to use Anki at all, one capability at a time. That makes it clear what has to stay in Anki and what doesn't. Questions about deleting or trimming fields, and the template work, are deferred until they are actually in the way. The existing installed templates stay for now. |
 | Sync direction (2026-11-06) | No two-way sync except where it can't be avoided. |
-| Tagging, organizing, batch import | Need their own design. Anki might be bypassed entirely, with .NET reading deck import files directly; the formats and feasibility are unknown. See [Import and organization](#import-and-organization-needs-its-own-design). |
+| Tagging, organizing, batch import | Need their own design. Partly decided 2026-11-06 (rows below). See [Import and organization](#import-and-organization-needs-its-own-design). |
 | Navigation and editing | A large part of this work is building proper navigation and editing into JAStudio itself, so Anki isn't needed for either. |
 | Overall approach | Build out JAStudio's own UI until Anki is only used for TTS, reviewing, and importing sentences and Yomitan-created vocab. The model changes come after that, when they no longer have to keep the Anki format working. |
 | Study approach | Magnus studies sentences, but studying vocab and kanji stays fully supported. That includes mnemonics, studying status and everything else around them. Only the Anki notes become minimal (study-notes). The one removal is the complex kanji audio generation (primary-readings TTS): it's in the way of minimal notes and doesn't help much. Anything else is removed only if it is actually in the way of the refactoring. |
+| Edits in Anki (2026-11-06) | Magnus doesn't edit questions or answers in Anki, on desktop or on AnkiDroid. JAStudio ignores edits made in Anki to the fields it writes, and its next write overwrites them. |
+| Mobile-review content (2026-11-06) | Magnus's proposal: one generated-html-field instead of a set of fields. The back templates are the committed minimal ones (`JAStudio.Web/Styles/notes/`) plus that one field. See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
+| Corpus and Anki (2026-11-06) | Eventually the corpus holds far more sentences than are studied, and only what is studied has Anki cards. **For now** every note stays in Anki, and whether a note is in Anki and whether it's studied stay separate questions. Studied means unsuspended, using the existing suspend and unsuspend actions. Notes that aren't in Anki are dealt with later. |
+| Import (2026-11-06) | Through Anki notes, not by JAStudio reading deck files: Anki imports the decks, and its batch editing gets the notes into shape first. Imports happen in a separate Anki profile, which keeps the decks' media out of the synced profile; that needs the corpus properly separated from the Anki collection. An import takes all the notes' tags along. |
+| Organizing (2026-11-06) | Navigating and editing hierarchical tags in JAStudio is central. They can do most of what folders, tags and decks do in other programs. After import, JAStudio manages the corpus-tags. |
+| Student-data (2026-11-06) | Doesn't belong in the corpus. That covers priority and every other tag about one student rather than the corpus. Priority most likely stays, read from Anki the way the studying status is. Student-tags might still be managed in JAStudio, but stored only in the Anki notes' tags. See [Tags](#tags). |
+| Difficulty tags (2026-11-06) | Deleted, from the corpus and from Anki. Nothing uses them. |
+| The workspace (2026-11-06) | Its remaining steps (multiple workspaces, reverting a note) are parked. They free nothing from Anki. |
 
 ## Anki's role and its consequences
 
@@ -77,23 +94,33 @@ Today Anki is a full two-way partner:
 
 With Anki reduced to scheduler, note import and audio updates, the tentative consequences are:
 
-1. **The Anki-projection becomes one-way, and the Anki note types shrink to the fields Anki and mobile-review
-   need.** This is Magnus's direction. Most fields disappear, so they can't be edited in Anki. The fields kept
-   for mobile-review (the answer, readings and so on) can still be edited in Anki's note editor, on desktop or
-   on mobile. **Tentative proposal:** those fields are display output of the Anki-projection, the Anki-ingestion
-   ignores them, and the next Anki-projection of that note overwrites any edit made in Anki. **Open.**
+1. **The Anki-projection becomes one-way, and the Anki note types shrink to the fields Anki needs plus the
+   generated-html-field.** This is Magnus's direction. Most fields disappear, so they can't be edited in Anki.
+   Nothing reads the generated-html-field back, and the next Anki-projection of a note overwrites any edit made
+   to it in Anki. *(Settled 2026-11-06: Magnus doesn't edit in Anki.)*
 2. **The Anki-ingestion has exactly two jobs:**
-   - **New note import:** build a domain note from a new Anki note (Yomitan, imported decks). This is the one
-     place where Anki-format strings are parsed into the domain model.
+   - **New note import:** build a domain note from a new Anki note (Yomitan, imported decks), tags included.
+     This is the one place where Anki-format strings are parsed into the domain model.
    - **Audio update:** when an audio field changes in Anki (for example HyperTTS generating audio), take the new
      audio into the media layer.
 
-   Everything else Anki sends back is ignored: question, answer, images (**Open**: images too, or audio only?)
-   and tags.
-3. **Tagging a whole deck in Anki would stop reaching the corpus.** That is how priority and difficulty tags
-   were applied. Tagging, organizing and batch import get their own design (see
-   [Import and organization](#import-and-organization-needs-its-own-design)). Until it exists, tag ingestion
-   from Anki can stay.
+   Everything else Anki sends back is ignored: question, answer and corpus-tags. **Open:** images too, or audio
+   only? Student-tags, such as priority, are read from the Anki notes instead of being merged into the corpus
+   (see [Tags](#tags)).
+
+   **Proposed (2026-11-06), not started:** cut `MergeAnkiData` down to audio, images and tags. Tags stay until
+   JAStudio manages them.
+3. **Tagging a whole deck in Anki doesn't reach the corpus, and already doesn't today** (found 2026-11-06).
+   - Anki's tag operations go straight to Anki's backend and skip `note_will_flush`, the hook the
+     Anki-ingestion listens to. That covers adding or removing tags in the browser, renaming or deleting a tag in
+     the sidebar, and find and replace on tags. Only a note saved through Anki's Python API reaches the corpus,
+     and then its whole tag list does: the note editor, HyperTTS, and the "Force flush all Anki notes by ID"
+     batch save notes that way.
+   - Worse, the Anki-projection replaces the Anki note's whole tag list (`JPNoteDataShim.sync_note_to_anki_note`),
+     so the next time JAStudio writes such a note it undoes the tag change made in Anki.
+   - That is how priority tags were applied. Organizing gets its own design (see
+     [Import and organization](#import-and-organization-needs-its-own-design)), centered on hierarchical tags in
+     JAStudio.
 4. **Both mappings move to `JAStudio.Anki`.** Today they live inside the corpus data types (`ToNoteData`,
    `PopulateAnkiNoteFields`, `FromAnki`, `MergeAnkiData` in `VocabData`, `KanjiData`, `SentenceData`), and
    `AnkiNoteData` and `NoteFieldsConstants` sit in `JAStudio.Core.Note`. That breaks the anti-corruption-layers
@@ -101,7 +128,7 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
 
 ### The minimal Anki note type (tentative)
 
-Each note type keeps two groups of fields: the ones Anki itself needs, and the ones mobile-review needs.
+Each note type keeps the fields Anki itself needs, plus the generated-html-field for mobile-review.
 
 **Fields Anki itself needs:**
 
@@ -111,29 +138,29 @@ Each note type keeps two groups of fields: the ones Anki itself needs, and the o
 | The question (`Q`; for kanji, the kanji character) | Reasons:<br>• Vocab and sentence HyperTTS presets read it.<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
 | Audio (vocab and sentences only) | `Audio_b`, `Audio_g`, `Audio_TTS` for vocab; `Audio Sentence` for sentences. Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior"). That is also the only audio playback on mobile.<br>• HyperTTS writes new audio into them. |
 
-**Fields mobile-review needs (decided: at least `A`; the rest is a tentative proposal, Open):**
+**The generated-html-field, for mobile-review (Magnus's proposal, 2026-11-06):**
 
-On mobile the card is exactly what the template renders from these fields. The Anki-projection writes them as
-display-ready values. For example, `A` is "the user answer, else the source answer", which is what it holds
-today. Because nothing reads them back, they may contain whatever HTML the mobile template needs, such as
-`<primary>` around primary readings. Keeping today's field names avoids renaming fields, which would be another
-schema change.
+On mobile the card is exactly what the template renders from the note's fields. Instead of keeping the fields
+mobile-review would read (`A`, `Reading`, `Reading_On` and so on, as an earlier draft proposed), each study-note
+keeps one field that JAStudio fills with HTML generated from the note. The back templates become the committed
+minimal ones in `JAStudio.Web/Styles/notes/` plus that field. What the HTML shows is open (question 1).
 
-| Note type | Proposed fields | Why |
-|---|---|---|
-| Vocab | `A` (decided); `Reading` | The answer, and the kana reading, which a reading card has to show. |
-| Vocab, maybe | `__mnemonic`, `TOS` (parts of speech), `Image`/`__image` | Mnemonic support on mobile; useful context; the picture. Open. |
-| Kanji | `A` (decided); `Reading_On`, `Reading_Kun` | The meaning and the readings, with the primary ones marked. |
-| Kanji, maybe | the active mnemonic (the user mnemonic, else the source mnemonic), `Radicals`, `__reading_Nan` | Mnemonic support on mobile; the radicals the mnemonic is built from. Open. |
-| Sentence | `A` (decided); `Q` is the active question already | The translation. |
-| Sentence, maybe | `Screenshot` | The picture from the scene. Open. |
-
-Not proposed for sentences: the sentence reading. A reading that guesses is worse than useless (Magnus,
-2026-11-05).
+Points to get right when it's built:
+- **A vocab's reading and listening cards share the field.** Anki gives each card a class for its card type
+  (`card1`, `card2`), so CSS can show or hide parts per card type. I believe AnkiDroid does the same; to verify
+  on Magnus's phone.
+- **The CSS goes in the note type's styling, not in each note's HTML,** so a visual change touches no notes. A
+  change to the HTML itself means regenerating the field on every study-note, and the next sync uploads all of
+  them.
+- **To start with, the HTML holds only the note's own data.** If it showed other notes' data, such as a vocab's
+  kanji meanings, editing those notes would leave it stale.
+- **Images in the HTML still reach the phone.** Anki finds media through `<img src>` in any field.
+- **No sentence reading.** A reading that guesses is worse than useless (Magnus, 2026-11-05).
+- **On desktop it renders invisibly** under the add-on's iframe, as the old templates' bodies do today.
 
 No tags are needed in Anki for Anki to work. Suspension and scheduling live on Anki's cards, not in fields.
-Whether Magnus's own Anki searches or filtered decks need any tags is a separate question (see
-[Open questions](#open-questions)).
+Student-tags, such as priority, are stored in the Anki notes' tags (see [Tags](#tags)). Whether Magnus's own Anki
+searches or filtered decks need any other tags is a separate question (see [Open questions](#open-questions)).
 
 **What HyperTTS reads and writes** (from its preset configuration in the `Magnus` profile, 2026-11-05):
 
@@ -157,9 +184,9 @@ playback there is.
 | Done in Anki today | What it depends on | Replacement in JAStudio |
 |---|---|---|
 | ~~Searches that `JAStudio.Anki.QueryBuilder` builds for Anki's browser~~ | ~~Fields `F`, `Reading`, `A`, `Reading_On`, `Reading_Kun`, `__parsing_result`~~ | *Done 2026-11-06:* the note menus' "Open" items list their notes in the workspace's navigation pane, the old text searches into Anki are deleted, and what still opens Anki's browser passes it a `nid:` search of the Anki note ids. |
-| The card templates installed in the Anki collection | Many fields, in the back templates | Install mobile-review templates that use only study-note fields, then remove the other fields. See [What the card templates actually use](#what-the-card-templates-actually-use). |
-| Browsing and editing notes | All fields | JAStudio navigation and editors |
-| Tagging whole decks and seasons | Tags | JAStudio organizing (own design) |
+| The card templates installed in the Anki collection | Many fields, in the back templates | Install the minimal templates plus the generated-html-field, then remove the other fields. See [What the card templates actually use](#what-the-card-templates-actually-use). |
+| Browsing and editing notes | All fields | *Done 2026-11-06:* JAStudio's workspace, navigation pane and editors. |
+| Tagging whole decks and seasons | Tags | Navigating and editing hierarchical tags in JAStudio (own design) |
 | Yomitan adding vocab | The fields Yomitan fills in | Import design (own design) |
 | Searching on generated tags | `-::…` tags | JAStudio search |
 
@@ -192,9 +219,9 @@ Checked against the collections in the `Magnus` and `Anki-Development` profiles,
 
 - **The invisible body still costs something.** It loads images such as `{{Screenshot}}` and runs its
   `<script>`. I haven't checked what that script does there.
-- **The stubs aren't enough any more.** They render only `{{Q}}` and audio, so a mobile card would show no
-  answer. Mobile-review needs new templates: they render the study-note fields well on a phone, and on desktop
-  the add-on still replaces them (the question side) or covers them (the answer side).
+- **The stubs alone aren't enough any more.** They render only `{{Q}}` and audio, so a mobile card would show no
+  answer. The stubs plus the generated-html-field are (2026-11-06). On desktop the add-on still replaces them
+  (the question side) or covers them (the answer side).
 - **Install the new templates before removing fields.** I don't know how Anki handles a template that
   references a field which has been removed, so the safe order is templates first, then removing fields.
 
@@ -249,7 +276,7 @@ These are settings, not labels, kept as `::`-path strings in the tag list (`Note
   tag list.
 - **Priority:** `-::priority::high::011_Natsume_01`. `JPNote.PriorityTagValue` parses out the number with
   `StringExtensions.FirstNumber`, and `VocabSentencesList.razor` orders sentences by it. `JPNote.GetMetaTags`
-  turns it into CSS classes.
+  turns it into CSS classes. It's student-data, not configuration of the corpus (2026-11-06; see [Tags](#tags)).
 
 Because `MergeAnkiData` replaces the tag list with Anki's, Anki co-owns all of this today. The workspace's vocab
 editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`) are already structured
@@ -262,11 +289,11 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 - **Sentence count:** `sentenceCount` on vocab. The vocab editor even lets you edit it.
 - **Generated tags:** `LocalNoteUpdater.TagNoteMetadata` writes about 25 computed tags, such as
   `-::kanji::in-any-vocab-form` and `-::vocab::matching::uses::prefix-is-not`.
-- **Study state:** some generated tags are one user's Anki card state saved into the corpus, for example
-  `-::kanji::studying-vocab` and `-::vocab::has-no-studying-sentences` (17,382 occurrences). The card status
-  itself (`JPNote._cardStatus`) is runtime-only, which is right. The tags derived from it are not.
-- **Orphaned tags:** nothing produces `-::kanji::not-in-any-vocab-form` (148) or
-  `-::kanji::not-in-any-vocab-main-form` (162) any more.
+- **Study state:** some generated tags are one user's Anki card state saved into the corpus, that is
+  student-data, for example `-::kanji::studying-vocab`. The card status itself (`JPNote._cardStatus`) is
+  runtime-only, which is right. The tags derived from it are not.
+- **Orphaned tags:** nothing produces `-::kanji::not-in-any-vocab-form` (148),
+  `-::kanji::not-in-any-vocab-main-form` (162) or `-::vocab::has-no-studying-sentences` (17,382 vocab) any more.
 - **`parsingResult`:** derived, but it's an expensive analysis cache that carries vocab ids. The tentative plan
   is to keep it, named as a cache.
 
@@ -311,8 +338,8 @@ The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectio
 3. **Tags hold only labels the domain does not interpret.** Anything the code reads or reasons about is a
    typed field.
 4. **Nothing in the corpus is there for Anki.** The Anki-projection derives what Anki needs, in `JAStudio.Anki`.
-5. **The corpus is shared language data; per-user study state stays out.** Study state belongs with the
-   scheduler (Anki) or in a per-user store.
+5. **The corpus is shared language data; student-data stays out.** That covers the studying status, priority and
+   every other student-tag. Student-data belongs with the scheduler (Anki) or in a per-student store.
 6. **Editors edit the model, not the storage.** Each concept gets a control that fits it: a list with an
    "owned" checkbox, a vocab picker, a reading list with a primary toggle. Derived values are shown read-only.
 
@@ -480,27 +507,68 @@ That reasoning gives one rule for the other references too:
 
 ## Tags
 
-After the configuration moves out, `tags` holds only labels the domain doesn't interpret.
+After the configuration and the student-data move out, `tags` holds only corpus-tags. Navigating and editing
+hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
 
-- **Difficulty** (`-::sentence::difficulty::N`, 48,552 occurrences): nothing in the code reads it, so it stays a
-  plain user label. **Open:** should it become a typed field if something will use it?
-- **Generated tags and study-state tags:** removed from the corpus. If any of them matter for searching in the
-  Anki browser, the Anki-projection can still write them to Anki only.
+- **Difficulty** (`-::sentence::difficulty::N`, 48,550 sentences): **decided 2026-11-06, deleted.** Nothing reads
+  it.
+  - It was written by JAStudio code from 2024-10-30 that sorted sentences into decks by difficulty. That code was
+    deleted the same day in favor of custom auto-advance timings. The `DifficultyCalculator` still in Core is
+    that replacement: it computes the auto-advance time from a card's character counts and doesn't read the tag.
+  - The data agrees that it's a computed value, not a hand-tagged one. Within every episode it ranges from 1 to
+    6, and it roughly follows sentence length: the median length is 5 characters at difficulty 1, 23 at 5 and
+    67 at 8, with wide overlap.
+- **Generated tags:** removed from the corpus. If any of them matter for searching in the Anki browser, the
+  Anki-projection can still write them to Anki only. The study-state ones are student-data and are computed in
+  memory from the studying status.
 - **Orphaned tags:** deleted by the migration.
-- **Source:** tentatively a typed `source` field holding a `SourceTag`, because the code reads it. Moving source
-  information out of the core corpus entirely (`media-storage-and-import.md`, "Source-Revealing Tags") remains
-  a separate, deferred decision.
-- **Priority:** the corpus data says priority belongs to a source, not to a note:
-  - 48,545 notes carry a priority tag, and every one of them also has a source tag.
-  - There are 17 distinct priority tags spread over 143 source tags.
-  - Only 4 source tags carry more than one priority tag: the JLab inter/booster overlap, and 30 WaniKani notes
-    tagged `130_tts_removed_on_wany`.
-  - The name part of the tag is just a label, and is sometimes wrong: `source::anime::girls-last-tour` notes
-    carry `-::priority::high::011_Natsume_01`.
+- **Source** (`source::…`) is a branch of the hierarchical tags.
+  - The code reads it: the source is shown next to each sentence in a vocab's sentence list
+    (`VocabSentencesList.razor`), and the media import rules pick a note's media folder by it.
+  - The source tags are a tree written out as separate tags. 17,304 sentences carry several levels of one branch,
+    such as both `source::wani` and `source::wani::current`, and 680 carry two unrelated sources, such as JLab
+    booster plus inter.
+  - **Open (question 9):** does the code keep reading it from the tag, or does it become a typed field? Moving
+    source information out of the core corpus entirely (`media-storage-and-import.md`, "Source-Revealing Tags")
+    remains a separate, deferred decision.
+- **Priority** (`-::priority::…`, about 48,500 sentences): **decided 2026-11-06, student-data, not corpus.** It
+  records Magnus's preferences, such as preferring sentences from Natsume's Book of Friends, not facts about the
+  sentences. Priority most likely stays.
+  - **What it's used for:** only a vocab's sentence list. Its number is one of the keys the list is sorted by,
+    after highlighted, studying, displayed and has-an-answer, and the list shows only the first 30 sentences.
+    "high" or "low" in the tag colors the sentence's source label. As the corpus grows, this ordering decides
+    which sentences a vocab shows.
+  - **Leaning:** read it from the Anki notes' tags when JAStudio loads, as the studying status is. The loader
+    already reads every Anki note's `jas_note_id` (`NoteBulkLoader.LoadAnkiIdMaps`), and the tags are in the
+    same row. That needs the Anki-projection to stop replacing the Anki note's whole tag list: it writes only
+    corpus-tags and leaves student-tags alone.
+  - **For later:** a corpus note with no Anki note has nowhere to carry a priority tag. The alternative then is a
+    per-student priority table keyed by source tag prefix, resolved by longest prefix, the way
+    `MediaImportRuleSet` resolves import rules. The data supports that: every note with a priority tag also has
+    a source tag, 17 distinct priority tags are spread over 143 source tags, and only 4 source tags carry more
+    than one priority tag. The name part of a priority tag is just a label, and is sometimes wrong:
+    `source::anime::girls-last-tour` notes carry `-::priority::high::011_Natsume_01`.
 
-  **Tentative proposal:** a priority table keyed by `SourceTag` prefix, resolved by longest prefix (the way
-  `MediaImportRuleSet` resolves import rules), instead of tens of thousands of per-note tags. Changing the
-  priority of a season becomes one edit. The alternative is a typed per-note `priority` number. **Open.**
+### Student-tags and corpus-tags
+
+How today's tags split, as read on 2026-11-06 (the numbers count notes):
+
+- **Student-tags:**
+  - priority (about 48,500 sentences);
+  - `legacy_scheduling` (9,355);
+  - `_only_studying_listening` (1,065 sentences);
+  - Anki's `marked` (2);
+  - the kanji tags generated from what is studied: `-::kanji::studying-vocab` (1,670),
+    `has-studying-vocab-for-each-primary-reading`, `studying-vocab-with-primary-on-reading`,
+    `has-primary-reading-with-no-studying-vocab` and `has-studying-vocab-with-no-matching-primary-reading`.
+    These are computed in memory, not moved to Anki.
+- **Not yet classified:** `active_kanji` (1,531 kanji), `preparing-cards` (20), `tmp` (18), `-::TODO…` (about 40).
+- **Corpus-tags:**
+  - `source::…`;
+  - labels about the words, such as `-::counting`, `-::formal-noun`, `_uk`;
+  - `_tts_audio` and `fixed_primary_readings`;
+  - the matching configuration, which moves out of tags in slice 4;
+  - the generated tags that don't depend on studying, which go in slice 6.
 
 ## Media (Open)
 
@@ -525,10 +593,33 @@ Tentatively, media is the last vertical-slice, after these points are settled.
 
 ## Import and organization (needs its own design)
 
-Magnus: tagging, organizing and batch import need more thinking and design. Anki might be bypassed entirely,
-with .NET code reading deck import files directly. These are notes towards that design, not a proposal.
+Magnus: tagging, organizing and batch import need more thinking and design. These are notes towards that
+design, not a proposal.
 
-**Where new data comes from today, and how each source could reach JAStudio directly:**
+**Decided so far (2026-11-06):**
+- **Import goes through Anki notes,** not through JAStudio reading deck files. Anki already reads every .apkg
+  format version, brings in the media, and has the batch editing to get notes into shape before they're imported
+  (find and replace, change note type with a field mapping, tagging). JAStudio has no batch editing at all yet.
+- **Imports happen in a separate Anki profile.** Importing a big subs2srs deck into the profile that syncs would
+  put all its audio and images into that profile's media folder, and I believe Anki's media sync uploads new
+  files whether or not a note still uses them. A separate profile works only if the corpus is properly separated
+  from the Anki collection. JAStudio loads the corpus from the JSON files and takes only the Anki note ids and
+  the studying status from the open profile, so the leak is the student-data saved in the corpus. In an import
+  profile nothing is studied, so a full rebuild there would rewrite the generated study-state tags as if nothing
+  were studied. Taking student-data out of the corpus removes that leak.
+- **An import takes all the notes' tags along,** so work done while preparing the notes in Anki isn't lost. After
+  import, JAStudio manages the corpus-tags.
+- **The decks** are downloaded subs2srs decks in Magnus's Dropbox. `…\Anki\SUBS2SRS\Unprocessed` hasn't been
+  touched; `…\Anki\SUBS2SRS\Processed` was polished to the standard of the time. Magnus last imported a deck years
+  ago. Their fields tend to be similar to the corpus sentences' fields. The files are online-only, and I believe
+  reading even the note types inside an .apkg downloads the whole file, media included, so pick small ones to
+  inspect.
+- **The import path in the code** is the Anki-ingestion's note-added hook (`ExternalNoteAdded`), which Yomitan's
+  notes go through. I believe Anki's current .apkg importer doesn't run that hook, but I haven't verified it. The
+  Immersion Kit conversion that ran after an import is an empty TODO.
+
+**Where new data comes from, and how each source could reach JAStudio directly** (written before import through
+Anki was decided; kept for reference):
 
 - **Yomitan** adds notes through AnkiConnect, a local HTTP JSON API.
   - JAStudio already runs a Kestrel server (`JAStudio.Web/CardServer.cs`), so it could serve the part of that
@@ -550,13 +641,23 @@ with .NET code reading deck import files directly. These are notes towards that 
 - **The raw source material** (subtitle files plus audio cuts) might be importable without any deck, but this
   is speculative.
 
-**A consequence worth naming.** If import bypasses Anki, corpus entries no longer start life as Anki notes. An
-Anki note would be created when Magnus starts studying an entry: Anki holds study handles for a subset of the
-corpus. That matches `web-rendering-architecture.md`, which plans a corpus browser for 50K+ entries, most of
-them not in any Anki collection.
+**Corpus entries without Anki notes.** Eventually the corpus holds far more sentences than are studied, and only
+what is studied has Anki cards (Magnus, 2026-11-06): Anki holds study handles for a subset of the corpus. That
+matches `web-rendering-architecture.md`, which plans a corpus browser for 50K+ entries, most of them not in any
+Anki collection. Importing in a separate profile is where such entries first appear, so that complexity arrives
+with import. Until then every note stays in Anki, and studied means unsuspended.
 
-**Organizing.** The priority finding under [Tags](#tags) suggests the source (deck, season, episode) is already
-the real unit of organization, so organizing may largely mean modeling sources.
+**Organizing.** Navigating and editing hierarchical tags in JAStudio is central (Magnus, 2026-11-06). They can do
+most of what folders, tags and decks do in other programs. The source tree is the `source::` branch of the tags.
+
+**How Magnus chooses what to study** (2026-11-06; "much of this is up for debate and/or refinement"):
+- **Big batches:** the notes of the next episode of an anime, found by their source tags and sorted by their
+  subs2srs id or media file name, which tends to be the order of the lines in the episode. The subs2srs id is
+  the sentence's `externalId`, for example `ny4-nodup_11_0.15.23.540-0.15.25.620`: the deck, episode 11, and the
+  line's start and end times.
+- **Then, while studying,** more sentences that contain the same vocab as the new ones, to see the vocab in more
+  usages and senses.
+- **Studying** a note means its cards aren't suspended, so they turn up in the decks Magnus studies.
 
 ## Migration approach (tentative)
 
@@ -600,17 +701,28 @@ Progress on step 3:
   pane instead of Anki's browser, and the old text searches into Anki's browser are deleted.
 - **Editing notes** (2026-11-06): every note type is edited live in the workspace; the editor dialogs are gone.
 
+**Where that leaves us (2026-11-06):**
+- Navigation, lists and editing are done. Organizing and import are the open design areas.
+- The workspace's remaining steps (multiple workspaces, reverting a note) are parked, because they free nothing
+  from Anki.
+- **Proposed, not started:** cut the Anki-ingestion down to audio, images and tags (see
+  [Anki's role and its consequences](#ankis-role-and-its-consequences)).
+- Deleting the difficulty tags is decided, but not done.
+- What comes next isn't chosen yet (Magnus, 2026-11-06).
+
 1. **Remove the kanji primary-readings TTS** (deferred). This happens almost entirely on the Anki side:
    - delete the kanji HyperTTS presets;
    - delete the `_primary_readings_tts_audio` field.
 
    On the JAStudio side the only trace is one line in `JAStudio.Web/Styles/notes/kanji/kanji.mustache`.
-2. **Design and install mobile-review card templates** in Anki (deferred; the existing templates stay for now). They render the study-note fields well on a
-   phone, and on desktop the add-on still replaces or covers them. This step needs open questions 1 and 2. See
+2. **Install the mobile-review card templates** in Anki (deferred; the existing templates stay for now): the
+   committed minimal templates plus the generated-html-field. On desktop the add-on still replaces or covers
+   them. This step needs open question 1. See
    [What the card templates actually use](#what-the-card-templates-actually-use).
 3. **JAStudio capabilities that replace Anki:** navigation and search, editing, organizing, and the import
-   flow (import-notes in, study-notes created, import-notes deleted). Each one frees the Anki fields and tags it
-   replaces (see [Anki dependencies to replace](#anki-dependencies-to-replace-before-their-fields-can-go)).
+   flow (see [Import and organization](#import-and-organization-needs-its-own-design)). Each one frees the Anki
+   fields and tags it replaces (see
+   [Anki dependencies to replace](#anki-dependencies-to-replace-before-their-fields-can-go)).
    - Building editors properly is part of each vertical-slice in step 5, not this step, so they aren't built
      twice. The existing editors are crude but work.
    - Fields and tags are separate channels. Tag ingestion can stay until JAStudio's organizing exists, without
@@ -622,7 +734,7 @@ Progress on step 3:
    2. Question and disambiguation, dropping the sentinel strings.
    3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`.
    4. Configuration out of tags: requires/forbids flags, boolean flags, register, `_uk`/`_disable_uk`, source.
-   5. Priority (per-source table or per-note field).
+   5. Priority out of the corpus, as student-data (see [Tags](#tags)).
    6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags.
    7. Kanji readings and parts of speech.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
@@ -639,36 +751,39 @@ Progress on step 3:
 ## Open questions
 
 **Deferred (Magnus, 2026-11-06).** None of these is to be settled up front. Each one is decided when the work
-reaches it, if it still matters by then. Answered so far: question 2 (AnkiDroid) and question 3 (no two-way sync
-except where it can't be avoided).
+reaches it, if it still matters by then. Answered so far: question 2 (AnkiDroid), question 3 (Magnus doesn't
+edit in Anki; no two-way sync except where it can't be avoided), questions 7 and 8 (2026-11-06), and part of
+question 4.
 
 ### About the Anki notes and templates
 
-1. **Which fields does each study-note keep for mobile-review?** `A` is decided. The proposal adds `Reading` for
-   vocab, and `Reading_On` and `Reading_Kun` for kanji. Still undecided: do you want any of these on mobile?
-   - Vocab: the user mnemonic (`__mnemonic`), the parts of speech (`TOS`), the image (`Image`/`__image`).
-   - Kanji: the mnemonic, the radicals (`Radicals`), the readings that are neither on nor kun
-     (`__reading_Nan`).
-   - Sentences: the screenshot (`Screenshot`).
+1. **What does the generated-html-field show on mobile?** *(Reworded 2026-11-06: the single generated-html-field
+   replaced the question of which fields to keep.)* The answer, and for kanji the readings with the primary ones
+   marked, are the obvious start. Candidates beyond that:
+   - Vocab: the reading, the user mnemonic, the parts of speech, the image.
+   - Kanji: the mnemonic, the radicals, the readings that are neither on nor kun.
+   - Sentences: the screenshot.
 
-   Each field kept is one more value the Anki-projection keeps writing. A field removed now and wanted back
-   later means another schema change, and so another full sync. See
+   Unlike a field, content can be added to the generated HTML later without a schema change. Each change does
+   regenerate the field on every study-note, though. See
    [The minimal Anki note type](#the-minimal-anki-note-type-tentative).
 2. **Which mobile app does Magnus use: AnkiDroid (Android) or AnkiMobile (iPhone and iPad)?** The new templates
    have to be tested in that app, because its rendering and night mode differ from desktop Anki's.
-3. **What happens to edits made in Anki to the fields kept for mobile-review?** `A`, `Reading` and the rest can
-   be edited in Anki's note editor, on desktop or on mobile. **Proposal:** JAStudio ignores those edits, and the
-   next Anki-projection of that note overwrites them, so all editing happens in JAStudio. The alternative is to
-   keep ingesting edits to some of those fields, which keeps part of today's two-way sync alive.
+3. ~~What happens to edits made in Anki to the fields kept for mobile-review?~~ *Answered 2026-11-06:* Magnus
+   doesn't edit questions or answers in Anki, on desktop or on AnkiDroid. JAStudio ignores such edits, and its
+   next Anki-projection of the note overwrites them, so all editing happens in JAStudio.
 4. **What does Magnus use Anki's browser and Anki's tags for today?** The answer decides what JAStudio's
    navigation and search (step 3) must replace first. It also decides which tags the Anki-projection keeps
    writing to Anki. In particular:
    - ~~The JAStudio menu items that open Anki's browser on a search.~~ *Answered 2026-11-06:* the note menus'
      lists moved to the workspace, and the text searches into Anki ("Anki" in the Lookup menus) were unused and
      are deleted.
+   - *Partly answered 2026-11-06:* Magnus finds the next episode's notes by their source tags, sorts them by
+     their subs2srs id, and unsuspends them. See
+     [Import and organization](#import-and-organization-needs-its-own-design).
    - Searches on tags, for example to build filtered decks or to suspend or move cards in bulk. That could be the
-     generated tags (`-::kanji::…`, `-::vocab::has-no-studying-sentences` and so on), or the priority, difficulty
-     and source tags.
+     generated tags (`-::kanji::…`, `-::vocab::has-no-studying-sentences` and so on), or the priority and source
+     tags.
    - Anything else the browser is opened for.
 5. **Should an image added or changed in Anki reach the corpus?** Today, saving a note in Anki pulls `Image` and
    `__image` (vocab) and `Screenshot` (sentences) into the corpus. The plan leaves the Anki-ingestion two jobs:
@@ -681,24 +796,17 @@ except where it can't be avoided).
    vocab's question is renamed, or gets a disambiguation. Should every reference to it in other notes be
    rewritten (option C)? Without that (option B), references that use the old spelling silently stop resolving.
    Leaning: C.
-7. **Priority (slice 5).** Today priority is a tag on each note, such as `-::priority::high::011_Natsume_01`,
-   applied by hand to whole decks or seasons. In the data, priority follows the source almost exactly
-   (see [Tags](#tags)). The options:
-   - **A table in JAStudio** that maps source-tag prefixes to a priority, where the longest matching prefix wins.
-     Changing the priority of a whole season is then one edit.
-   - **A typed priority number on each note.**
-
-   Leaning: the table. Today priority only orders the sentences in a vocab's sentence list and adds CSS classes.
-   If question 4 shows that Anki searches use the priority tags, the Anki-projection keeps writing them.
-8. **Difficulty (slice 4 or 6).** 48,552 sentences carry a `-::sentence::difficulty::N` tag, and nothing in
-   JAStudio reads it. Should it stay a plain label that JAStudio doesn't interpret? Or should JAStudio use it,
-   for sorting or filtering for example, in which case it becomes a typed field? Leaning: keep it a label until
-   something uses it.
-9. **Source as a typed field (slice 4).** Every note has a `source::…` tag, such as
-   `source::anime::girls-last-tour`, and JAStudio reads it (`JPNote.SourceTag`). The proposal is a typed `source`
-   field. Separately, `media-storage-and-import.md` ("Source-Revealing Tags") defers a decision to move source
-   information out of the core corpus entirely. Should it become a typed field now, accepting that it might move
-   again later, or wait for that decision? Leaning: now, because the priority table in question 7 is keyed by it.
+7. ~~Priority (slice 5): a per-source table or a per-note field?~~ *Answered 2026-11-06:* priority is
+   student-data and doesn't belong in the corpus. It most likely stays. The leaning is to read it from the Anki
+   notes' tags when JAStudio loads; how it's stored for notes without an Anki note is for later. See
+   [Tags](#tags).
+8. ~~Difficulty: a label or a typed field?~~ *Answered 2026-11-06:* deleted. Nothing uses it. See [Tags](#tags).
+9. **Source (slice 4).** Every note has a `source::…` tag, such as `source::anime::girls-last-tour`, and JAStudio
+   reads it (`JPNote.SourceTag`). Since 2026-11-06, organizing builds on hierarchical tags, and the source tree is
+   the `source::` branch. Does the code keep reading the source from that tag? Target model principle 3 says the
+   code should only interpret typed fields, not tags. Or does the source become a typed field? Separately,
+   `media-storage-and-import.md` ("Source-Revealing Tags") defers a decision to move source information out of
+   the core corpus entirely.
 10. **The media concerns (slice 9).** `media-storage-and-import.md` mentions "unresolved design concerns" about
     removing the media fields from the corpus, and Magnus doesn't remember what they were. My three guesses are
     under [Media](#media-open). Does any of them ring a bell, or was it something else? Mobile-review confirms
@@ -707,8 +815,10 @@ except where it can't be avoided).
 
 ### Needs its own design, later
 
-11. **Tagging, organizing and batch import.** Nothing to answer now. See
+11. **Tagging, organizing and batch import.** Partly decided 2026-11-06. See
     [Import and organization](#import-and-organization-needs-its-own-design).
+12. **Which of these tags are student-tags:** `active_kanji`, `preparing-cards`, `tmp` and `-::TODO…`? See
+    [Student-tags and corpus-tags](#student-tags-and-corpus-tags).
 
 ### For me to verify (not questions for Magnus)
 
