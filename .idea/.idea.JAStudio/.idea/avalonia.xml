@@ -16,6 +16,7 @@
         <entry key="src/src_dotnet/JAStudio.UI/Views/ReadingsMappingsDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="src/src_dotnet/JAStudio.UI/Views/VocabEditorDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
         <entry key="src/src_dotnet/JAStudio.UI/Views/VocabFlagsDialog.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/Workspace/Editors/KanjiEditorSection.axaml" value="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
       </map>
     </option>
   </component>
