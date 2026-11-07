@@ -179,7 +179,8 @@ apply here.
      keystroke.
    - "Edit" in each note type's note menu opens the note in the workspace with the section open. The editor dialogs
      are gone.
-6. **Multiple workspaces.** *(Parked 2026-11-06.)*
+6. **Multiple workspaces.** *(Parked 2026-11-06. Leaning, 2026-11-07: this is how several searches stay open,
+   each workspace keeping its own search, results and opened notes. See `note-search.md`.)*
 7. **Revert to the committed version.** *(Parked 2026-11-06.)*
 
 The order after step 1 is tentative. Steps 6 and 7 are parked because they free nothing from Anki, and the
