@@ -157,8 +157,11 @@ How these interleave with the search increments is in [note-search.md](note-sear
      `Tag.PathsOfTheBranchesItIsIn` lists the paths of a tag's branches, which `TagPathsInUse` uses too.
    - **The filter box** uses the tag picker's matching (`TypedTagPathParts`): the tree keeps the paths that contain
      every typed part, everything below them, and their parents (`TagTree.WithOnlyThePathsMatching`). A parent
-     keeps the count of its whole branch. While there's a filter, every line is expanded. Clearing it brings back the
-     lines expanded before.
+     keeps the count of its whole branch. While there's a filter, the lines above the matches are expanded, so the
+     matches show, collapsed. Clearing it brings back the lines expanded before.
+     - **Not every match is expanded** (Magnus, 2026-11-07): the paths below a match all match too, since they
+       contain its path, so filtering for `anime` expanded the whole anime branch, which was hard to navigate. Now it
+       shows `source` expanded and `anime` collapsed. Ctrl+Right expands a match's whole branch.
    - **Searching for a tag:** Enter, a double-click, or the line's right-click menu. It replaces the whole search
      with "Tags include" the path, in an "all of" group, so conditions added later narrow it down
      (`EditableSearch.ReplaceTheWholeSearchWith`), and shows the Search tab.

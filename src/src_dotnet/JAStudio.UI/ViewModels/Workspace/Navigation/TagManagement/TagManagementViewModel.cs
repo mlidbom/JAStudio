@@ -42,7 +42,10 @@ partial class TagManagementViewModel : ObservableObject
    /// <summary>Parts of a tag path typed to narrow the tree, separated by spaces, as in the tag picker: <c>nat s3</c> leaves the paths that contain both.</summary>
    [ObservableProperty] string _filter = "";
 
-   /// <summary>The tree's top-level lines, of the tree as the <see cref="Filter"/> narrows it. While there's a filter, every line shown is expanded.</summary>
+   /// <summary>
+   /// The tree's top-level lines, of the tree as the <see cref="Filter"/> narrows it.<br/>
+   /// While there's a filter, the lines above the matching paths are expanded, so the matches show, collapsed.
+   /// </summary>
    [ObservableProperty] IReadOnlyList<TagTreeNodeViewModel> _topLevelLines = [];
 
    /// <summary>The selected line, which searching acts on. The tree sets it when a line is clicked.</summary>
@@ -80,7 +83,7 @@ partial class TagManagementViewModel : ObservableObject
 
    /// <summary>
    /// Shows the tree as <paramref name="typedParts"/>, typed in the <see cref="Filter"/>, narrow it, keeping the selected path selected if it's still shown.<br/>
-   /// With a filter, the lines are expanded, so the matching paths show, and expanding or collapsing them is forgotten when the filter changes.
+   /// With a filter, the lines above the matches are expanded, and expanding or collapsing lines is forgotten when the filter changes.
    /// </summary>
    void ShowTheTreeFilteredBy(TypedTagPathParts typedParts)
    {
@@ -89,15 +92,23 @@ partial class TagManagementViewModel : ObservableObject
 
       TopLevelLines = typedParts.AreNone
                          ? LinesFor(tree, _pathsExpandedWithoutAFilter)
-                         : LinesWithEveryPathExpandedFor(tree.WithOnlyThePathsMatching(typedParts));
+                         : LinesExpandedDownToTheMatchesIn(tree.WithOnlyThePathsMatching(typedParts), typedParts);
       SelectedLine = AllLines().FirstOrDefault(it => string.Equals(it.TagPath, selectedPath, StringComparison.OrdinalIgnoreCase));
-      return;
-
-      static IReadOnlyList<TagTreeNodeViewModel> LinesFor(TagTree shownTree, ISet<string> expandedPaths) => [..shownTree.TopLevel.Select(it => new TagTreeNodeViewModel(it, expandedPaths))];
-
-      static IReadOnlyList<TagTreeNodeViewModel> LinesWithEveryPathExpandedFor(TagTree shownTree) =>
-         LinesFor(shownTree, new HashSet<string>(shownTree.TopLevel.SelectMany(it => it.PathsInTheBranch()), StringComparer.OrdinalIgnoreCase));
    }
+
+   /// <summary>The top-level lines of <paramref name="shownTree"/>, each expanded when its path is in <paramref name="expandedPaths"/>, which they keep up to date.</summary>
+   static IReadOnlyList<TagTreeNodeViewModel> LinesFor(TagTree shownTree, ISet<string> expandedPaths) => [..shownTree.TopLevel.Select(it => new TagTreeNodeViewModel(it, expandedPaths))];
+
+   /// <summary>
+   /// The lines of <paramref name="filteredTree"/> with the lines above the matches expanded, so the matches show, and the matches collapsed.<br/>
+   /// The paths below a match all match too, since they contain its path, so expanding the matches would show their whole branches.
+   /// </summary>
+   static IReadOnlyList<TagTreeNodeViewModel> LinesExpandedDownToTheMatchesIn(TagTree filteredTree, TypedTagPathParts typedParts) =>
+      LinesFor(filteredTree, new HashSet<string>(PathsAboveTheMatchesIn(filteredTree, typedParts), StringComparer.OrdinalIgnoreCase));
+
+   /// <summary>The paths of <paramref name="filteredTree"/> that don't match <paramref name="typedParts"/>, which are in it only because a path below them does.</summary>
+   static IEnumerable<string> PathsAboveTheMatchesIn(TagTree filteredTree, TypedTagPathParts typedParts) =>
+      filteredTree.TopLevel.SelectMany(it => it.PathsInTheBranch()).Where(path => !typedParts.AreAllIn(path));
 
    IEnumerable<TagTreeNodeViewModel> AllLines() => TopLevelLines.SelectMany(it => it.ThisAndAllBelow());
 }

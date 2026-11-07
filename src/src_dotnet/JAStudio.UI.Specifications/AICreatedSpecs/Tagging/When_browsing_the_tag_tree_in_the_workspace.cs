@@ -70,11 +70,11 @@ public class When_browsing_the_tag_tree_in_the_workspace : SpecificationUsingAWo
       public after_expanding_the_top_level_and_typing_a_filter()
       {
          LineOf("source").IsExpanded = true;
-         _tags.Filter = "nat 02";
+         _tags.Filter = "nat s3";
       }
 
-      [XF] public void only_the_matching_path_and_its_parents_are_left_all_expanded() =>
-         PathsOfTheVisibleLines().Must().SequenceEqual(["source", "source::anime", Natsume, $"{Natsume}::s3", $"{Natsume}::s3::02"]);
+      [XF] public void the_lines_above_the_matching_path_are_expanded_and_the_match_is_not() =>
+         PathsOfTheVisibleLines().Must().SequenceEqual(["source", "source::anime", Natsume, $"{Natsume}::s3"]);
 
       public class and_clearing_the_filter : after_expanding_the_top_level_and_typing_a_filter
       {
