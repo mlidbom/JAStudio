@@ -3,12 +3,16 @@
 > **Status: draft (2026-11-07).** The direction is agreed with Magnus. It's modeled on Anki's tags, which Magnus
 > considers well designed, with the deliberate differences listed below. Details are settled as each increment
 > needs them. Searching, including searching by tags, is specified in [note-search.md](note-search.md).
+>
+> **The editing mechanisms and keyboard shortcuts below are preliminary.** Anki is the reference for what can be
+> done with tags. Matching its UI style or its keyboard shortcuts is not a goal in itself (Magnus, 2026-11-07).
 
 ## Why
 
 Organizing in JAStudio is built on hierarchical tags. They can do most of what folders, tags and decks do in
 other programs. Today tags can only be organized in Anki, and Anki's tag operations don't even reach the corpus
-(`corpus-data-model.md`, "Anki's role and its consequences"). The goal is feature parity with Anki for:
+(`corpus-data-model.md`, "Anki's role and its consequences"). The goal is parity with Anki in what can be done,
+not necessarily in how:
 - navigating the tag tree;
 - editing the tree;
 - tagging and untagging one note or many at once.
@@ -45,8 +49,8 @@ other programs. Today tags can only be organized in Anki, and Anki's tag operati
 
 ## Navigating the tag tree
 
-The tag tree sits in the search, beside the search box and the results. Where the search lives in the workspace
-is open, see [note-search.md](note-search.md).
+The tag tree sits in the search, beside the search box and the results, in the navigation pane. See
+[note-search.md](note-search.md).
 
 | Anki | JAStudio |
 |---|---|
@@ -56,7 +60,7 @@ is open, see [note-search.md](note-search.md).
 | Clicking a tag, or pressing Enter, searches `tag:x`, which includes the tag's children | The same. |
 | Ctrl+click ANDs with the current search, Shift+click ORs, Alt+click negates, Ctrl+Shift+click replaces terms of the same kind | The same. |
 | Several tags selected → right-click → Search → All selected / Any selected | The same. |
-| Expand and collapse, per tag or for children, remembered in the collection | Expand and collapse the same way. **Remembered for the session at first**; saved later if wanted. |
+| Expand and collapse, per tag or for its children | The same. |
 
 The tree has 368 nodes today (330 distinct tags plus their parents), so its size is no concern.
 
@@ -68,7 +72,7 @@ The tree has 368 nodes today (330 distinct tags plus their parents), so its size
 | **Rename with parents:** edits the full path in a dialog, which moves the tag | The same. |
 | **Drag and drop** onto another tag, or onto the root, moves tags, several at once | The same. |
 | **Delete** (Del): removes the tag and its children from every note, with no confirmation, because Anki has undo | The same, **with a confirmation** that names how many notes change. |
-| Renaming onto an existing tag merges the two | The same. |
+| Renaming onto an existing tag merges the two | The same, **with a very clear warning**: after a merge, the notes of the two tags can't be told apart, so renaming back doesn't undo it. |
 | **Clear unused tags** | Not needed: the tag tree is computed from the notes. |
 | **Find and replace** on tags, with regex | Deferred. |
 
@@ -80,7 +84,7 @@ note, for example "Rename `source::anime` to `source::tv`? 28,693 notes change."
 
 | Anki | JAStudio |
 |---|---|
-| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** chips with autocomplete from the existing tags. Ctrl+Shift+T jumps there. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It shows the note's jastudio-defined-tags read-only, or not at all (open question 2). |
+| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** chips with autocomplete from the existing tags. Ctrl+Shift+T jumps there. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It leaves out jastudio-defined-tags, for now (Magnus, 2026-11-07). |
 | With notes selected: Add Tags (Ctrl+Shift+A) and Remove Tags (Ctrl+Alt+Shift+A) open a prompt with autocomplete | **The same on the search results, which allow selecting several notes** (Ctrl/Shift+click, Ctrl+A). Right-click a selection → Add tags… / Remove tags…, with the same shortcuts. Remove offers only the tags the selected notes have. |
 | Right-click tags in the sidebar → Add to / Remove from selected notes | Deferred. The Add and Remove prompts cover it. |
 | Toggle Mark (Ctrl+K) adds or removes `marked` | Skipped: `marked` is on 2 notes, and it's a student-tag. |
@@ -95,6 +99,13 @@ note, for example "Rename `source::anime` to `source::tv`? 28,693 notes change."
 - **Student-tags** such as priority are still in the corpus today, so they behave like any other tag. When they
   move out of the corpus and are read from Anki instead, the tag tree should still show them. How is decided
   then.
+
+## Later: branches with meaning, and tags with metadata
+
+Magnus (2026-11-07):
+- **Separate branches will probably decide a tag's kind.** That covers whether it's a corpus-tag or a student-tag,
+  and whether it's written to Anki, rather than a list of exceptions.
+- **Tags will probably get metadata,** such as a description, rather than being only strings.
 
 ## Costs
 
@@ -111,15 +122,10 @@ How these interleave with the search increments is in [note-search.md](note-sear
 2. **Tagging notes:** the Tags editor in the editor section, and Add tags / Remove tags on selected search results.
 3. **Editing the tree:** rename, rename with parents, move by drag and drop, delete, all with confirmation.
 
-## Open questions
+## Related
 
-1. **Suspend and unsuspend on a selection.** Once several notes can be selected, should the notes' existing
-   suspend and unsuspend actions apply to the whole selection? That would cover Magnus's "next episode" workflow
-   without Anki's browser.
-2. **jastudio-defined-tags in a note's Tags editor:** shown read-only, or left out? The vocab's checkboxes already
-   show its configuration tags.
-3. **Saving the tree's expanded state** across sessions. Decided when the session-only version proves annoying,
-   if it does.
+- **Studying actions on a selection,** such as suspending a selection's reading cards, belong to studying, not to
+  tags. See [studying.md](studying.md).
 
 ## Noticed
 

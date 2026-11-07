@@ -1,7 +1,10 @@
 # Note Search — Language, Editor and Results
 
-> **Status: research and proposal (2026-11-07). Nothing here is decided** except Magnus's requirements below.
-> Tags themselves are specified in [tags.md](tags.md).
+> **Status: research and proposal (2026-11-07).** Only Magnus's requirements and the points marked as decided are
+> settled. Tags themselves are specified in [tags.md](tags.md).
+>
+> **The search box's mechanisms and keyboard shortcuts are preliminary.** Matching Anki's UI style or its
+> shortcuts is not a goal in itself (Magnus, 2026-11-07).
 
 ## Why
 
@@ -21,10 +24,16 @@ not today's two-line rows.
 
 - **Boolean conditions** (and, or, not, grouping), **substring matches**, and **tag searches** that understand
   the tag hierarchy.
-- **Card state,** at least `is:suspended`.
+- **Regular expressions** too, unless that turns out unfeasible.
+- **Studying state,** such as whether a note's reading or listening is being studied.
 - **A search box** that helps write such searches.
 - **Results with a column per sortable value,** sorted by clicking a column.
+- **No cap on how many notes a search lists,** until a search proves unmanageably slow.
+- **The search lives in the navigation pane,** which is resizable, so it can be made as wide as needed.
+- **Several searches open at once,** as tabs in the navigation pane, designed in from the start. A search can take
+  time to set up, and one doesn't want to lose it to check something else.
 - **The tag tree** in the same place as the search.
+- **Results are notes.** The corpus has no concept of cards.
 
 ## Research: can we use something that exists?
 
@@ -84,17 +93,19 @@ deciding the search keys and what each one matches, and no library does that for
 |---|---|---|
 | bare text, such as `行く` | Notes whose searchable text contains it, case-insensitively | Which fields count as searchable text, per note type, is to be decided. In Anki it's every field except tags. |
 | `tag:x` | Notes with tag `x` or a tag in its branch. `tag:x*` matches by prefix, `tag:none` matches notes with no tags, `tag:re:…` matches by regex. | As in Anki. See [tags.md](tags.md). |
-| `is:suspended` | Notes with a suspended card | JAStudio knows, per card, its card type and whether it's suspended (`CardStudyingStatus`). It doesn't load Anki's other card states. |
-| `card:reading`, `card:listening` | Notes with a card of that type | Combined with `is:suspended` it must apply to the same card: `card:listening is:suspended` means the listening card is suspended. That's how Anki behaves, and it needs card-level matching. To be designed. |
+| `studying-reading:true`, `studying-listening:false` (Magnus's proposal) | Notes whose reading, or listening, is being studied: the note is in the studying add-on (today Anki) and that card isn't suspended | Replaces Anki's `is:suspended` and `card:`, which are about cards. Whether boolean keys use `key:true/false` or an `is:` form is open question 1. See [studying.md](studying.md). |
 | `note:vocab`, `note:kanji`, `note:sentence` | Notes of that type | Anki's `note:` takes a note type's name, so this keeps the habit. |
 | `question:…`, `answer:…`, `reading:…` and other field names | Notes whose field matches. **Exact by default**, as in Anki: `question:*行く*` for "contains". `question:` with no value matches an empty field, `question:_*` a non-empty one. | The field names per note type are to be decided. |
 | `id:…` | Notes with those JAStudio note ids | Anki's `nid:` takes Anki ids. |
-| `source:…` (proposed) | Shorthand for `tag:source::…` | Open question 1. |
 | JAStudio-specific keys (later) | For example `vocab:…` (sentences containing a vocab), `kanji:…`, `form:…`, `pos:…` | Each one when a workflow needs it. `vocab:` fits Magnus's habit of adding sentences that contain the vocab he's studying. |
 
-**Anki keys left out,** because JAStudio doesn't load that data: `deck:`, `flag:`, `prop:`, `rated:`, `added:`,
-`edited:`, `introduced:`, `is:new`, `is:due`, `is:learn`, `is:review` and `is:buried`. Anki's database has all of
-them, so any one can be added later by loading it, as the studying status already is.
+**Anki keys left out,** because they're about Anki's cards and scheduling, which JAStudio doesn't load: `deck:`,
+`flag:`, `prop:`, `rated:`, `added:`, `edited:`, `introduced:`, `card:`, and the `is:` card states. Studying state
+that matters can be added as keys about notes, as the two studying keys above are, without tying the search to
+Anki ([studying.md](studying.md)).
+
+**Regular expressions** (`re:`) work wherever text is matched: alone, after a field key, and after `tag:`. They
+use .NET's regex dialect, which differs from Anki's Rust dialect only in details.
 
 **Maybe later:** `w:` (whole words) and `nc:`, which ignores accents and, usefully for Japanese, voicing marks:
 `nc:は` matches は, ば and ぱ.
@@ -126,33 +137,28 @@ them, so any one can be added later by loading it, as the studying status alread
 - **Selecting several rows** (Ctrl/Shift+click, Ctrl+A), right-click actions on the selection (adding and
   removing tags, see [tags.md](tags.md)), double-click or Enter to open, middle-click to open in a background
   tab, as the lists do now.
-- **No 100-note cap:** the grid only creates the rows on screen. Whether sorting tens of thousands of rows stays
-  quick is to be measured.
+- **No cap on the number of results** (decided, Magnus, 2026-11-07), until a search proves unmanageably slow. The
+  grid only creates the rows on screen. Whether sorting tens of thousands of rows stays quick is to be measured.
 - **Control:** `Avalonia.Controls.DataGrid` (12.1.2, MIT, for Avalonia 12.1). `TreeDataGrid` is out: since
   October 2025 it needs a commercial Avalonia Accelerate license.
 
-## Where the search lives (open)
+## Where the search lives
 
-A grid with useful columns needs width, and the navigation pane is a narrow column on the left of the note's page.
+**Decided (Magnus, 2026-11-07): in the navigation pane.** It's resizable, so it can be made as wide as the
+columns need, and the note's page stays visible beside the results.
 
-- **A. In the navigation pane, as Magnus described:** the search box, the tag tree and the results in one tab of
-  the pane. The note's page stays visible beside the results. The pane is dragged wider when more columns are
-  wanted, which narrows the page.
-- **B. As a kind of workspace tab, beside the note tabs:** the full width for the grid, and several searches open
-  at once, each in its own tab. The tag tree could sit inside the search tab, or stay in the navigation pane and
-  drive the shown search tab's query, the way Anki's sidebar drives its browser. Seeing a result's page means
-  switching tabs, unless the search tab also shows the selected note's page below the grid, as Anki's browser
-  can.
-
-My lean is B, for the width and the several searches. But A is what Magnus described, and it is simpler to
-build. Open question 2.
+**Several search tabs in the pane, designed in from the start.** Each search tab has its own search, results and
+sort order, so a carefully built search isn't lost to check something else. How the tag tree fits in (one per
+search tab, or one that edits the shown search tab's search) is open, as is whether a note menu's list (today's
+"List" tab) becomes a search tab too.
 
 ## Increments (tentative), together with [tags.md](tags.md)
 
-1. **The search language in Core:** the parser, and matching for bare text, `tag:`, `note:`, `is:suspended`, the
-   field keys, `-`, `or` and grouping, with specs. The current Search tab uses it, and the error message shows
-   under the box.
-2. **The results grid** with sortable columns, selecting several rows, and the place in the source.
+1. **The search language in Core:** the parser, and matching for bare text, `re:`, `tag:`, `note:`, the studying
+   keys, the field keys, `-`, `or` and grouping, with specs. The current Search tab uses it, without the result
+   cap, and the error message shows under the box.
+2. **The results grid** with sortable columns, selecting several rows, and the place in the source; and several
+   search tabs in the navigation pane.
 3. **The tag tree** beside the search, with counts. Clicking and modifier-clicking edit the search
    ([tags.md](tags.md), increment 1).
 4. **Tagging notes** ([tags.md](tags.md), increment 2).
@@ -161,12 +167,14 @@ build. Open question 2.
 
 ## Open questions
 
-1. **What does `source:` mean** in Magnus's searches? None of the Anki note types has a field named `source`. Is
-   it shorthand for `tag:source::…`? If so, should JAStudio have a `source:` key that means exactly that?
-2. **Where does the search live:** A (the navigation pane) or B (a workspace tab)? See above.
+*Answered 2026-11-07:* `source:` in Magnus's searches meant the source tags (`tag:source::…`); the search lives in
+the navigation pane; results are notes, so there's no card-level matching.
+
+1. **Boolean keys: `key:true/false`, or an `is:` form** such as `is:studying-reading`? Under discussion.
+2. **A parser library, or a whole search engine, or our own parser?** Under discussion. Magnus (2026-11-07): the
+   need to quote or escape `::` doesn't by itself seem a big deal. What he had in mind was something that does
+   the entire search, once it's populated and configured from the notes.
 3. **Which fields are searchable text** for bare-text searches, per note type? Anki searches every field. For
    JAStudio, the question and answer at least, and perhaps readings, forms and comments.
-4. **Card-level matching for `card:` with `is:`.** Is matching per card, as in Anki, needed from the start, or is
-   note-level matching enough at first?
-5. **Which of Anki's left-out keys does Magnus use?** For example `is:new` or `rated:`. Each needs its data loaded
-   from Anki.
+4. **Which of Anki's left-out keys does Magnus use?** For example `is:new` or `rated:`. Each would need its data
+   loaded from the studying add-on.
