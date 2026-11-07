@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tagManagement="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement"
+        x:Class="JAStudio.UI.Views.Workspace.Navigation.TagManagement.TagRenameDialog"
+        x:DataType="tagManagement:TagRenameDialogViewModel"
+        Title="{Binding Title}"
+        SizeToContent="Height"
+        Width="480"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual">
+
+    <StackPanel Margin="10" Spacing="8">
+        <TextBlock Text="{Binding WhatChanges}" TextWrapping="Wrap" />
+
+        <Grid ColumnDefinitions="Auto,*">
+            <TextBlock Grid.Column="0" Text="{Binding FixedPathAbove}" VerticalAlignment="Center" Margin="0,0,2,0"
+                       IsVisible="{Binding FixedPathAbove, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            <TextBox Grid.Column="1" Classes="initialFocus" Text="{Binding TypedName}" />
+        </Grid>
+
+        <TextBlock Text="{Binding WhyItCannotBeDone}" TextWrapping="Wrap" Foreground="Gray"
+                   IsVisible="{Binding WhyItCannotBeDone, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        <TextBlock Text="{Binding MergeWarning}" TextWrapping="Wrap" Foreground="OrangeRed" FontWeight="Bold"
+                   IsVisible="{Binding Merges}" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <!-- Enter doesn't merge: only clicking Merge does, after the warning. -->
+            <Button Content="{Binding AcceptText}" IsDefault="{Binding !Merges}" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanAccept}" />
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -12,7 +10,6 @@ using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
-using Python.Runtime;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 
@@ -21,7 +18,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 /// and unsuspending or suspending all their cards. The selection's right-click menu offers them, and the grid's keys run some directly.
 /// </summary>
 /// <remarks>
-/// Each runs in the background, with a progress dialog, a note at a time. The rows show each change as it's made,<br/>
+/// Each runs in the background, with a progress dialog, a note at a time (<see cref="BulkNoteChanges"/>). The rows show each change as it's made,<br/>
 /// and stay, even if the search would no longer find them.
 /// </remarks>
 class ActionsOnSelectedResults
@@ -33,13 +30,13 @@ class ActionsOnSelectedResults
    public const string RemoveATagKey = "Ctrl+Shift+T";
 
    readonly JPCollection _collection;
-   readonly TaskRunner _taskRunner;
+   readonly BulkNoteChanges _bulkNoteChanges;
    readonly IFatalErrorHandler _fatalErrorHandler;
 
    public ActionsOnSelectedResults(TemporaryServiceCollection services)
    {
       _collection = services.CoreApp.Collection;
-      _taskRunner = services.TaskRunner;
+      _bulkNoteChanges = new BulkNoteChanges(services);
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
    }
 
@@ -75,7 +72,7 @@ class ActionsOnSelectedResults
          if(await pickATagInADialog(TagPickerDialogViewModel.ForAddingATagTo(notes, _collection)) is not {} tagPath) return;
 
          var tag = Tag.FromName(tagPath);
-         await ChangeEachOf([..notes.Where(it => !it.Tags.Contains(tag))], $"Adding the tag {tag.Name}", it => it.Tags.Set(tag));
+         await _bulkNoteChanges.ChangeEachOf([..notes.Where(it => !it.Tags.Contains(tag))], $"Adding the tag {tag.Name}", it => it.Tags.Set(tag));
       });
    }
 
@@ -88,28 +85,12 @@ class ActionsOnSelectedResults
          if(await pickATagInADialog(TagPickerDialogViewModel.ForRemovingATagFrom(notes)) is not {} tagPath) return;
 
          var tag = Tag.FromName(tagPath);
-         await ChangeEachOf([..notes.Where(it => it.Tags.Contains(tag))], $"Removing the tag {tag.Name}", it => it.Tags.Unset(tag));
+         await _bulkNoteChanges.ChangeEachOf([..notes.Where(it => it.Tags.Contains(tag))], $"Removing the tag {tag.Name}", it => it.Tags.Unset(tag));
       });
    }
 
    static List<JPNote> NotesOf(IReadOnlyList<SearchResultViewModel> selected) => [..selected.Select(it => it.Note)];
 
    void StartChangingEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
-      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => ChangeEachOf(notes, whatIsDone, changeANote));
-
-   /// <summary>Does <paramref name="changeANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.</summary>
-   Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
-      TaskCE.Run(() =>
-      {
-         using(var scope = _taskRunner.Current(whatIsDone))
-            scope.RunBatch(notes, changeANote, whatIsDone);
-         ShowTheChangeInAnki();
-      });
-
-   /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change notes. There's no Anki when JAStudio runs without it.</summary>
-   static void ShowTheChangeInAnki()
-   {
-      if(PythonEngine.IsInitialized)
-         AnkiFacade.UIUtils.Refresh();
-   }
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => _bulkNoteChanges.ChangeEachOf(notes, whatIsDone, changeANote));
 }

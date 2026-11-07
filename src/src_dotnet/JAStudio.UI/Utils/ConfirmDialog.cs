@@ -8,7 +8,8 @@ using Avalonia.Media;
 namespace JAStudio.UI.Utils;
 
 /// <summary>
-/// Simple Yes/No confirmation dialog that appears near the cursor.
+/// A Yes/No confirmation dialog: near the cursor (<see cref="ShowAsync"/>), or modal over a window (<see cref="ShowOverAsync"/>).<br/>
+/// Enter picks Yes, and Esc, No or closing the dialog picks No.
 /// </summary>
 class ConfirmDialog : Window
 {
@@ -54,7 +55,12 @@ class ConfirmDialog : Window
       Content = stack;
 
       KeyDown += OnKeyDown;
-      Opened += (_, _) => yesButton.Focus();
+      Opened += (_, _) =>
+      {
+         NativeKeyboardFocus.MoveToWindowItself(this);
+         yesButton.Focus();
+      };
+      Closed += (_, _) => _resultSource.TrySetResult(false);
    }
 
    void OnKeyDown(object? sender, KeyEventArgs e)
@@ -77,5 +83,13 @@ class ConfirmDialog : Window
       var dialog = new ConfirmDialog(title, message);
       dialog.ShowNearCursor();
       return dialog._resultSource.Task;
+   }
+
+   /// <summary>Shows the dialog modally, centered over <paramref name="owner"/>, and returns whether Yes was picked.</summary>
+   public static async Task<bool> ShowOverAsync(Window owner, string title, string message)
+   {
+      var dialog = new ConfirmDialog(title, message) { WindowStartupLocation = WindowStartupLocation.CenterOwner, ShowInTaskbar = false };
+      await dialog.ShowDialog(owner);
+      return await dialog._resultSource.Task;
    }
 }

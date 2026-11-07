@@ -32,8 +32,7 @@ public class Tag
    Tag(string name)
    {
       Name = name;
-      var levels = name.Split(LevelSeparator);
-      PathsOfTheBranchesItIsIn = [..Enumerable.Range(1, levels.Length).Select(levelCount => string.Join(LevelSeparator, levels.Take(levelCount)))];
+      PathsOfTheBranchesItIsIn = [..new TagBranch(name).PathsAboveIt, name];
    }
 
    /// <summary>The tag named <paramref name="name"/>, ignoring case, created with that spelling if there is none yet.</summary>

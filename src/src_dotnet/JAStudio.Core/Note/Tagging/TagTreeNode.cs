@@ -12,7 +12,7 @@ public sealed class TagTreeNode
    internal TagTreeNode(string tagPath, int numberOfNotesInTheBranch, IReadOnlyList<TagTreeNode> children)
    {
       TagPath = tagPath;
-      LastLevel = tagPath.Split(Tag.LevelSeparator)[^1];
+      LastLevel = new TagBranch(tagPath).LastLevel;
       NumberOfNotesInTheBranch = numberOfNotesInTheBranch;
       Children = children;
    }

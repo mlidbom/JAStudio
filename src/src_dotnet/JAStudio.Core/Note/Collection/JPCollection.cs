@@ -64,6 +64,9 @@ public class JPCollection
    /// <summary>Every tag some note in the collection has, each once. Unlike <see cref="TagPathsInUse"/>, it has no parent paths that aren't tags themselves.</summary>
    public IReadOnlyList<Tag> TagsInUse() => [..AllNotes().SelectMany(it => it.Tags).Distinct()];
 
+   /// <summary>The notes, of every type, with a tag in <paramref name="branch"/>, which renaming or deleting the branch changes.</summary>
+   public List<JPNote> NotesWithATagIn(TagBranch branch) => [..AllNotes().Where(note => note.Tags.Any(branch.Contains))];
+
    /// <summary>The tag tree of the tags in the collection right now, with the number of notes in each branch, for browsing the tags.</summary>
    public TagTree TagTree() => new(AllNotes());
 

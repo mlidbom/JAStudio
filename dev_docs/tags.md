@@ -70,17 +70,18 @@ The tree has 368 nodes today (330 distinct tags plus their parents), so its size
 
 | Anki | JAStudio |
 |---|---|
-| **Rename** (F2, inline): changes the tag and its children on every note | The same. |
-| **Rename with parents:** edits the full path in a dialog, which moves the tag | The same. |
-| **Drag and drop** onto another tag, or onto the root, moves tags, several at once | The same. |
+| **Rename** (F2, inline): changes the tag and its children on every note | The same, in a dialog that edits only the last level, with the levels above shown as staying. A level can't hold `::`. |
+| **Rename with parents:** edits the full path in a dialog, which moves the tag | The same, **kept separate from Rename and only in the right-click menu** (Magnus, 2026-11-07): editing the whole path makes mistakes too easy, and it's rarely needed. |
+| **Drag and drop** onto another tag, or onto the root, moves tags, several at once | Deferred (Magnus, 2026-11-07): Rename with parents moves a tag. |
 | **Delete** (Del): removes the tag and its children from every note, with no confirmation, because Anki has undo | The same, **with a confirmation** that names how many notes change. |
-| Renaming onto an existing tag merges the two | The same, **with a very clear warning**: after a merge, the notes of the two tags can't be told apart, so renaming back doesn't undo it. |
+| Renaming onto an existing tag merges the two | The same, **with a very clear warning**: after a merge, the notes of the two tags can't be told apart, so renaming back doesn't undo it. The dialog's button says Merge, and Enter doesn't press it. |
 | **Clear unused tags** | Not needed: the tag tree is computed from the notes. |
 | **Find and replace** on tags, with regex | Deferred. |
 
 **Why confirm:** JAStudio has no undo. Git in `src/jas_database` can restore the corpus files, but a restore is
-far more work than a confirmation. Renaming, moving and deleting all confirm when they change more than one
-note, for example "Rename `source::anime` to `source::tv`? 28,693 notes change."
+far more work than a confirmation. The rename dialog says how many notes change, such as "`source::anime` and
+every tag below it change on 28,693 notes.", so accepting it is the confirmation. Deleting asks first, naming how
+many notes change.
 
 ## Tagging notes
 
@@ -174,7 +175,25 @@ How these interleave with the search increments is in [note-search.md](note-sear
      lines below it would expand or collapse it too, so the line's content takes the double-click first.
    - **Not yet:** an "Untagged" item, and a key that opens the tab.
 3. **Tag management, editing:** rename, rename with parents, move by drag and drop, delete, all with
-   confirmation.
+   confirmation. *(Built 2026-11-07, without drag and drop.)*
+   - **Core:** a `TagBranch` is a tag path with every tag below it. `TagBranchRename` is a rename made from the
+     typed name (`OfTheLastLevel` for Rename, `WithItsParents` for Rename with parents). It says why it can't be
+     done, and which tags in use it merges with, before anything changes. It works on tag names until it's applied,
+     since the first `Tag` made with a name keeps its spelling, so a half-typed `Tv` would spell the final `tv`.
+     `NoteTags.RenameTheBranch` and `RemoveTheBranch` write a note once. `JPCollection.NotesWithATagIn` finds the
+     notes that change.
+   - **Can't be done:** an invalid name, the same name, a name that differs only in case (tags ignore case, so it
+     would find the same tag), moving a tag below itself, and a rename that would turn a tag into one JAStudio
+     defines. The dialog shows the reason, with its button disabled.
+   - **Branches holding a tag JAStudio defines,** such as `-`, can't be renamed or deleted. Their menu has the
+     items disabled, and a line saying which tag is the reason.
+   - **The changes run in the background** with a progress dialog (`BulkNoteChanges`, which the search results'
+     bulk actions use too). Afterwards the tree is computed again, with the renamed line selected and the lines
+     above it expanded. After a delete, the nearest line above that's left is selected.
+   - **The UI:** F2 renames, Del deletes, and the right-click menu has both and Rename with parents.
+     `TagRenameDialog` and `TagRenameDialogViewModel` are the rename dialog. Deleting confirms in `ConfirmDialog`,
+     which got a modal form over a window and now takes the keyboard from the window behind it.
+   - **Not measured:** how long renaming tens of thousands of notes takes.
 
 ## Related
 

@@ -1,11 +1,13 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement;
@@ -17,8 +19,9 @@ namespace JAStudio.UI.Views.Workspace.Navigation.TagManagement;
 /// It turns keys, clicks and the right-click menu into the view model's operations.
 /// </summary>
 /// <remarks>
-/// Enter or a double-click on a line searches for the notes in its branch, Down in the filter box moves the keyboard to the tree,<br/>
-/// and the right-click menu, also on the menu key, has the rest. F5, anywhere in the tab, counts the tags again.
+/// Enter or a double-click on a line searches for the notes in its branch, F2 renames it, Del deletes it, Down in the filter box moves the keyboard to the tree,<br/>
+/// and the right-click menu, also on the menu key, has the rest. F5, anywhere in the tab, counts the tags again.<br/>
+/// The rename dialog opens below the selected line, and the delete confirmation over the window. Afterwards the keyboard goes back to the tree.
 /// </remarks>
 public partial class TagManagementView : UserControl
 {
@@ -35,13 +38,48 @@ public partial class TagManagementView : UserControl
 
    TagManagementViewModel ViewModel => DataContext as TagManagementViewModel ?? throw new InvalidOperationException("A TagManagementView shows a TagManagementViewModel.");
 
+   /// <summary>Handled before the line sees the key, since Enter on a line with lines below it would also expand or collapse it.</summary>
    void OnKeyDownInTheTree(object? sender, KeyEventArgs e)
    {
-      if(e is not { Key: Key.Enter, KeyModifiers: KeyModifiers.None }) return;
+      switch(e)
+      {
+         case { Key: Key.Enter, KeyModifiers: KeyModifiers.None }:
+            ViewModel.SearchForTheSelectedTag();
+            break;
+         case { Key: Key.F2, KeyModifiers: KeyModifiers.None }:
+            Rename();
+            break;
+         case { Key: Key.Delete, KeyModifiers: KeyModifiers.None }:
+            Delete();
+            break;
+         default:
+            return;
+      }
 
-      ViewModel.SearchForTheSelectedTag();
       e.Handled = true;
    }
+
+   void Rename() => ViewModel.RenameTheSelectedTag(RenameInADialog);
+
+   void RenameWithParents() => ViewModel.RenameTheSelectedTagWithItsParents(RenameInADialog);
+
+   void Delete() => ViewModel.DeleteTheSelectedTag(ConfirmInADialog);
+
+   async Task<TagBranchRename?> RenameInADialog(TagRenameDialogViewModel dialog)
+   {
+      var rename = await TagRenameDialog.ShowAsync(OwnerWindow, dialog, BelowTheSelectedLine());
+      PutTheKeyboardBackOnTheSelectedLine();
+      return rename;
+   }
+
+   async Task<bool> ConfirmInADialog(string question)
+   {
+      var confirmed = await ConfirmDialog.ShowOverAsync(OwnerWindow, "Delete a tag", question);
+      PutTheKeyboardBackOnTheSelectedLine();
+      return confirmed;
+   }
+
+   Window OwnerWindow => TopLevel.GetTopLevel(this) as Window ?? throw new InvalidOperationException("The tag management is only shown in a window.");
 
    /// <summary>Down moves the keyboard from the filter box to the tree, onto the selected line, or the first line when none is selected.</summary>
    void OnKeyDownInTheFilterBox(object? sender, KeyEventArgs e)
@@ -74,7 +112,9 @@ public partial class TagManagementView : UserControl
          ViewModel.SelectedLine = line;
 
       var menuTopLeft = e.TryGetPosition(this, out _) ? WindowPositioner.CursorPosition() : BelowTheSelectedLine();
-      var menu = ViewModel.SelectedLineMenu();
+      var menu = ViewModel.SelectedLineMenu(rename: () => Dispatcher.UIThread.Post(Rename),
+                                            renameWithParents: () => Dispatcher.UIThread.Post(RenameWithParents),
+                                            delete: () => Dispatcher.UIThread.Post(Delete));
       Dispatcher.UIThread.Post(() => PopupMenuWindow.ShowAt(menuTopLeft, menu, whenClosedWithoutAPick: PutTheKeyboardBackOnTheSelectedLine));
       e.Handled = true;
    }

@@ -17,7 +17,7 @@
         </Grid>
 
         <TextBlock DockPanel.Dock="Bottom" Margin="0,6,0,0" TextWrapping="Wrap"
-                   Text="Each tag shows how many notes are in its branch. Enter or a double-click searches for them. Down moves from the filter to the tree. Right-click for more." />
+                   Text="Each tag shows how many notes are in its branch. Enter or a double-click searches for them, F2 renames, Del deletes. Down moves from the filter to the tree. Right-click for more." />
 
         <TreeView x:Name="TagTree" ItemsSource="{Binding TopLevelLines}" SelectedItem="{Binding SelectedLine, Mode=TwoWay}">
             <TreeView.Styles>

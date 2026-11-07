@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace.Navigation.TagManagement;
@@ -15,17 +18,23 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement;
 
 /// <summary>
 /// A workspace's tag management, the "Tags" tab of its <see cref="NavigationPaneViewModel"/> (<see cref="TagManagementView"/>): the <see cref="TagTree"/>,<br/>
-/// with how many notes are in each branch, a <see cref="Filter"/> that narrows it to the tag paths containing the typed parts, and searching for a tag.<br/>
-/// See <c>dev_docs/tags.md</c>.
+/// with how many notes are in each branch, a <see cref="Filter"/> that narrows it to the tag paths containing the typed parts, searching for a tag,<br/>
+/// and renaming and deleting a branch on every note with a tag in it. See <c>dev_docs/tags.md</c>.
 /// </summary>
 /// <remarks>
 /// The tree is computed from the notes' tags each time the tab is shown, and on <see cref="RefreshCommand"/> (F5), so it shows the tags as they are then.<br/>
-/// It isn't kept up to date while it's shown. The expanded lines and the selected line stay through that.
+/// It isn't kept up to date while it's shown, except after its own renames and deletions. The expanded lines and the selected line stay through that.
+/// </remarks>
+/// <remarks>
+/// Renaming and deleting change each note in the background, with a progress dialog (<see cref="BulkNoteChanges"/>).<br/>
+/// A branch holding a tag JAStudio defines can't be renamed or deleted by hand (<see cref="TagBranch.ATagDefinedByJAStudioIn"/>).
 /// </remarks>
 partial class TagManagementViewModel : ObservableObject
 {
    readonly NavigationPaneViewModel _navigationPane;
    readonly JPCollection _collection;
+   readonly BulkNoteChanges _bulkNoteChanges;
+   readonly IFatalErrorHandler _fatalErrorHandler;
 
    /// <summary>The paths of the lines expanded while there's no filter. They stay expanded when the tree is computed again, and when a filter is cleared.</summary>
    readonly HashSet<string> _pathsExpandedWithoutAFilter = new(StringComparer.OrdinalIgnoreCase);
@@ -37,6 +46,8 @@ partial class TagManagementViewModel : ObservableObject
    {
       _navigationPane = navigationPane;
       _collection = services.CoreApp.Collection;
+      _bulkNoteChanges = new BulkNoteChanges(services);
+      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
    }
 
    /// <summary>Parts of a tag path typed to narrow the tree, separated by spaces, as in the tag picker: <c>nat s3</c> leaves the paths that contain both.</summary>
@@ -48,17 +59,13 @@ partial class TagManagementViewModel : ObservableObject
    /// </summary>
    [ObservableProperty] IReadOnlyList<TagTreeNodeViewModel> _topLevelLines = [];
 
-   /// <summary>The selected line, which searching acts on. The tree sets it when a line is clicked.</summary>
+   /// <summary>The selected line, which searching, renaming and deleting act on. The tree sets it when a line is clicked.</summary>
    [ObservableProperty] TagTreeNodeViewModel? _selectedLine;
 
-   partial void OnFilterChanged(string value) => ShowTheTreeFilteredBy(new TypedTagPathParts(value));
+   partial void OnFilterChanged(string value) => ShowTheTreeFilteredBy(new TypedTagPathParts(value), SelectedLine?.TagPath);
 
    /// <summary>Computes the tree from the notes' tags, and shows it. Called each time the tab is shown.</summary>
-   internal void ShowTheTagsAsTheyAreNow()
-   {
-      _tree = _collection.TagTree();
-      ShowTheTreeFilteredBy(new TypedTagPathParts(Filter));
-   }
+   internal void ShowTheTagsAsTheyAreNow() => ShowTheTagsAsTheyAreNowWithSelected(SelectedLine?.TagPath);
 
    /// <summary>F5, or the Refresh button: computes the tree again from the notes' tags, which change while it's shown.</summary>
    [RelayCommand]
@@ -75,25 +82,116 @@ partial class TagManagementViewModel : ObservableObject
       _navigationPane.SearchFor(NoteProperties.Tags.Include(selected.TagPath));
    }
 
-   /// <summary>The selected line's right-click menu.</summary>
-   internal List<SpecMenuItem> SelectedLineMenu() =>
-   [
-      SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', "Search for this tag (Enter, double-click)"), SearchForTheSelectedTag, enabled: SelectedLine is not null)
-   ];
+   /// <summary>
+   /// Rename (F2): renames the last level of the selected line's path, as typed in the dialog <paramref name="renameInADialog"/> shows,<br/>
+   /// on every note with a tag in its branch. Afterwards the renamed line is selected. Does nothing when the selected branch can't be renamed by hand.
+   /// </summary>
+   /// <param name="renameInADialog">Shows the dialog, and returns the rename it was accepted with, or null when it was cancelled.</param>
+   internal void RenameTheSelectedTag(Func<TagRenameDialogViewModel, Task<TagBranchRename?>> renameInADialog) =>
+      RenameTheSelectedBranch(renameInADialog, TagRenameDialogViewModel.ForRenamingTheLastLevelOf);
+
+   /// <summary>Rename with parents: as <see cref="RenameTheSelectedTag"/>, but the whole path is typed, which can move the branch below other tags.</summary>
+   /// <param name="renameInADialog">Shows the dialog, and returns the rename it was accepted with, or null when it was cancelled.</param>
+   internal void RenameTheSelectedTagWithItsParents(Func<TagRenameDialogViewModel, Task<TagBranchRename?>> renameInADialog) =>
+      RenameTheSelectedBranch(renameInADialog, TagRenameDialogViewModel.ForRenamingWithItsParents);
 
    /// <summary>
-   /// Shows the tree as <paramref name="typedParts"/>, typed in the <see cref="Filter"/>, narrow it, keeping the selected path selected if it's still shown.<br/>
+   /// Delete (Del): removes the selected line's tag and every tag below it from every note with one, once <paramref name="confirmInADialog"/> confirms it.<br/>
+   /// Afterwards the nearest line above it that's left is selected. Does nothing when the selected branch can't be deleted by hand.
+   /// </summary>
+   /// <param name="confirmInADialog">Asks the question it's given in a dialog, and returns whether the answer was yes.</param>
+   internal void DeleteTheSelectedTag(Func<string, Task<bool>> confirmInADialog)
+   {
+      if(SelectedBranchThatCanBeChangedByHand() is not {} branch) return;
+
+      var notes = _collection.NotesWithATagIn(branch);
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(!await confirmInADialog($"Delete {branch.Path} and every tag below it from {NotesCounted(notes)}? This can't be undone.")) return;
+
+         await _bulkNoteChanges.ChangeEachOf(notes, $"Deleting {branch.Path}", it => it.Tags.RemoveTheBranch(branch));
+         ShowTheTagsAsTheyAreNowWithSelected(TheNearestPathAboveThatIsStillInUse(branch));
+      });
+   }
+
+   /// <summary>
+   /// The deepest path above <paramref name="branch"/> that a note still has a tag in, or null when there is none.<br/>
+   /// Deleting a branch also removes the paths above it that held nothing else.
+   /// </summary>
+   string? TheNearestPathAboveThatIsStillInUse(TagBranch branch)
+   {
+      var pathsInUse = _collection.TagPathsInUse().All;
+      return branch.PathsAboveIt.LastOrDefault(it => pathsInUse.Contains(it, StringComparer.OrdinalIgnoreCase));
+   }
+
+   /// <summary>The selected line's right-click menu. The actions that need a dialog are given by the view, which shows it.</summary>
+   internal List<SpecMenuItem> SelectedLineMenu(Action rename, Action renameWithParents, Action delete)
+   {
+      var whyItCannotBeChangedByHand = WhyTheSelectedBranchCannotBeChangedByHand();
+      var canBeChanged = SelectedLine is not null && whyItCannotBeChangedByHand is null;
+      return
+      [
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', "Search for this tag (Enter, double-click)"), SearchForTheSelectedTag, enabled: SelectedLine is not null),
+         SpecMenuItem.Separator(),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', "Rename... (F2)"), rename, enabled: canBeChanged),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('p', "Rename with parents..."), renameWithParents, enabled: canBeChanged),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('d', "Delete... (Del)"), delete, enabled: canBeChanged),
+         ..TheExplanationOf(whyItCannotBeChangedByHand)
+      ];
+
+      static IEnumerable<SpecMenuItem> TheExplanationOf(string? whyItCannotBeChangedByHand) =>
+         whyItCannotBeChangedByHand is null ? [] : [SpecMenuItem.Separator(), SpecMenuItem.Command(whyItCannotBeChangedByHand, () => {}, enabled: false)];
+   }
+
+   void RenameTheSelectedBranch(Func<TagRenameDialogViewModel, Task<TagBranchRename?>> renameInADialog,
+                                Func<TagBranch, int, IReadOnlyCollection<Tag>, TagRenameDialogViewModel> dialogFor)
+   {
+      if(SelectedBranchThatCanBeChangedByHand() is not {} branch) return;
+
+      var notes = _collection.NotesWithATagIn(branch);
+      var dialog = dialogFor(branch, notes.Count, [.._collection.TagsInUse()]);
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(await renameInADialog(dialog) is not {} rename) return;
+
+         await _bulkNoteChanges.ChangeEachOf(notes, $"Renaming {branch.Path} to {rename.Renamed.Path}", rename.ApplyTo);
+         ShowTheTagsAsTheyAreNowWithSelected(rename.Renamed.Path);
+      });
+   }
+
+   /// <summary>The selected line's branch, or null when no line is selected, or its branch holds a tag JAStudio defines.</summary>
+   TagBranch? SelectedBranchThatCanBeChangedByHand() => SelectedLine is {} selected && WhyTheSelectedBranchCannotBeChangedByHand() is null ? new TagBranch(selected.TagPath) : null;
+
+   /// <summary>Why the selected line's branch can't be renamed or deleted by hand, for its menu to show, or null when it can, or no line is selected.</summary>
+   string? WhyTheSelectedBranchCannotBeChangedByHand() =>
+      SelectedLine is {} selected && new TagBranch(selected.TagPath).ATagDefinedByJAStudioIn(_collection.TagsInUse()) is {} definedByJAStudio
+         ? $"Can't be renamed or deleted: it holds {definedByJAStudio.Name}, which JAStudio defines"
+         : null;
+
+   /// <summary>
+   /// Computes the tree from the notes' tags, and shows it with the line of <paramref name="pathToSelect"/> selected, if it's shown,<br/>
+   /// expanding the lines above it, so that it shows when there's no filter.
+   /// </summary>
+   void ShowTheTagsAsTheyAreNowWithSelected(string? pathToSelect)
+   {
+      if(pathToSelect is not null)
+         _pathsExpandedWithoutAFilter.UnionWith(new TagBranch(pathToSelect).PathsAboveIt);
+      _tree = _collection.TagTree();
+      ShowTheTreeFilteredBy(new TypedTagPathParts(Filter), pathToSelect);
+   }
+
+   /// <summary>
+   /// Shows the tree as <paramref name="typedParts"/>, typed in the <see cref="Filter"/>, narrow it, with the line of <paramref name="pathToSelect"/> selected, if it's shown.<br/>
    /// With a filter, the lines above the matches are expanded, and expanding or collapsing lines is forgotten when the filter changes.
    /// </summary>
-   void ShowTheTreeFilteredBy(TypedTagPathParts typedParts)
+   void ShowTheTreeFilteredBy(TypedTagPathParts typedParts, string? pathToSelect)
    {
       var tree = _tree ?? throw new InvalidOperationException("The tag tree is shown before it's computed.");
-      var selectedPath = SelectedLine?.TagPath;
 
       TopLevelLines = typedParts.AreNone
                          ? LinesFor(tree, _pathsExpandedWithoutAFilter)
                          : LinesExpandedDownToTheMatchesIn(tree.WithOnlyThePathsMatching(typedParts), typedParts);
-      SelectedLine = AllLines().FirstOrDefault(it => string.Equals(it.TagPath, selectedPath, StringComparison.OrdinalIgnoreCase));
+      SelectedLine = AllLines().FirstOrDefault(it => string.Equals(it.TagPath, pathToSelect, StringComparison.OrdinalIgnoreCase));
    }
 
    /// <summary>The top-level lines of <paramref name="shownTree"/>, each expanded when its path is in <paramref name="expandedPaths"/>, which they keep up to date.</summary>
@@ -111,4 +209,6 @@ partial class TagManagementViewModel : ObservableObject
       filteredTree.TopLevel.SelectMany(it => it.PathsInTheBranch()).Where(path => !typedParts.AreAllIn(path));
 
    IEnumerable<TagTreeNodeViewModel> AllLines() => TopLevelLines.SelectMany(it => it.ThisAndAllBelow());
+
+   static string NotesCounted(IReadOnlyCollection<JPNote> notes) => notes.Count == 1 ? "1 note" : $"{notes.Count} notes";
 }

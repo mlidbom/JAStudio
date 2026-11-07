@@ -5,7 +5,7 @@ using JAStudio.Core.Note.Tagging;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Core.Specifications.AICreatedSpecs;
+namespace JAStudio.Core.Specifications.AICreatedSpecs.Tagging;
 
 /// <summary>Tags ignore case, as in Anki, and a name typed by a person can only be a tag's name if Anki would keep it as one tag.</summary>
 public class When_naming_a_tag : IAIGeneratedSpec

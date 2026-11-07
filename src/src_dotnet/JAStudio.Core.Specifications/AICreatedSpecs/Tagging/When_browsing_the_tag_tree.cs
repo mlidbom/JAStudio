@@ -8,7 +8,7 @@ using JAStudio.Core.Note.Tagging;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Core.Specifications.AICreatedSpecs;
+namespace JAStudio.Core.Specifications.AICreatedSpecs.Tagging;
 
 /// <summary>
 /// The tag tree, computed from the notes' tags: each path with the paths one level below it, and the number of notes in its branch,<br/>
