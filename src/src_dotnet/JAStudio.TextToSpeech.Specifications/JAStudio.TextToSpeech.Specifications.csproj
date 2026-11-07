@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+   <PropertyGroup>
+      <TargetFramework>net10.0</TargetFramework>
+      <ImplicitUsings>disable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+
+      <IsPackable>false</IsPackable>
+      <IsTestProject>true</IsTestProject>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+      <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+         <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="xunit.v3" Version="3.2.2" />
+      <PackageReference Include="Compze.Must" Version="0.4.1-alpha" />
+      <PackageReference Include="Compze.xUnitBDD" Version="0.5.1-beta" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <ProjectReference Include="..\JAStudio.TextToSpeech\JAStudio.TextToSpeech.csproj" />
+   </ItemGroup>
+
+</Project>

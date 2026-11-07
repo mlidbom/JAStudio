@@ -343,7 +343,7 @@ The storage layer (`JAStudio.Core.Storage.Media`) is implemented and tested:
 | Component | Status |
 |---|---|
 | `SourceTag` | Domain type with `::` hierarchy. `Parse()`, `IsContainedIn()`, `Contains()`, equality, JSON serialization. Rejects empty/invalid values. |
-| `MediaAttachment` / `AudioAttachment` / `ImageAttachment` | Record types with typed `SourceTag NoteSourceTag` field. Audio has `TtsInfo?`, Image is a separate schema. |
+| `MediaAttachment` / `AudioAttachment` / `ImageAttachment` | Classes holding the original file name and the file's path. *Corrected 2026-11-07: this row said they have a `SourceTag NoteSourceTag` field and that audio has `TtsInfo?`, but the code has neither. The sidecar format above is the design; see `text-to-speech.md`, "Open questions".* |
 | `SidecarSerializer` | Writes/reads typed sidecar JSON (`*.audio.json` / `*.image.json`). Omits defaults. Custom JSON converters for `NoteId`, `MediaFileId`, `SourceTag`. |
 | `MediaFileId` | GUID-based value type with `Parse`, `TryParse`, `New`. |
 | `MediaFileIndex` | Builds from filesystem scan of sidecar files. Lookups by ID, original filename (case-insensitive), note ID. In-memory `Register()` for newly stored files. |

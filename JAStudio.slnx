@@ -5,6 +5,8 @@
    <Project Path="src/src_dotnet/JAStudio.Core/JAStudio.Core.csproj" />
    <Project Path="src/src_dotnet/JAStudio.Dictionary/JAStudio.Dictionary.csproj" />
    <Project Path="src/src_dotnet/JAStudio.PythonInterop/JAStudio.PythonInterop.csproj" />
+   <Project Path="src/src_dotnet/JAStudio.TextToSpeech.Specifications/JAStudio.TextToSpeech.Specifications.csproj" />
+   <Project Path="src/src_dotnet/JAStudio.TextToSpeech/JAStudio.TextToSpeech.csproj" />
    <Project Path="src/src_dotnet/JAStudio.UI.Specifications/JAStudio.UI.Specifications.csproj" />
    <Project Path="src/src_dotnet/JAStudio.UI/JAStudio.UI.csproj" />
    <Project Path="src/src_dotnet/JAStudio.UI.DesktopHost/JAStudio.UI.DesktopHost.csproj" />
