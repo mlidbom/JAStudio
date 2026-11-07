@@ -172,8 +172,14 @@ public partial class NoteSearchView : UserControl
       return condition;
    }
 
+   /// <remarks>
+   /// It's always posted, so a condition's dialog may have opened meanwhile. Then it does nothing:<br/>
+   /// focusing the line would take the keyboard from the dialog, and the dialog puts it back on the line when it closes.
+   /// </remarks>
    void FocusTheSelectedLine()
    {
+      if(OwnerWindow.HasAWindowOpenOverIt()) return;
+
       if(ConditionTree.GetVisualDescendants().OfType<TreeViewItem>().FirstOrDefault(it => it.DataContext == ViewModel.SelectedNode) is {} selectedLine)
          selectedLine.Focus();
       else

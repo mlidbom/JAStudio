@@ -86,11 +86,13 @@ public partial class WorkspaceWindow : Window
    /// <remarks>Clicking an Avalonia control takes the keyboard back too: the window's handler for pointer presses does that, before any control handles the press.</remarks>
    /// <remarks>
    /// It's posted, so a dialog may have opened over the window meanwhile, such as a search condition's editor.<br/>
-   /// The window isn't active then, and taking the keyboard would take it from the dialog.
+   /// Taking the keyboard then would take it from the dialog. <see cref="Window.IsActive"/> can still say the window is active at that point,<br/>
+   /// so the dialog itself is looked for too.
    /// </remarks>
    void GiveTheKeyboardBackToTheWindowUnlessAPageHasIt()
    {
       if(!IsActive) return;
+      if(this.HasAWindowOpenOverIt()) return;
       if(FocusManager.GetFocusedElement() is NativeWebView) return;
 
       NativeKeyboardFocus.MoveToWindowItself(this);

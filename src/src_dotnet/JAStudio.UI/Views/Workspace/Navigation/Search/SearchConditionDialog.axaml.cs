@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core.Note.Search;
+using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.Search;
 
 namespace JAStudio.UI.Views.Workspace.Navigation.Search;
@@ -59,8 +60,13 @@ partial class SearchConditionDialog : Window
    }
 
    /// <summary>Puts the keyboard in the editor's main input, at the end of any text already in it, as when changing a condition.</summary>
+   /// <remarks>
+   /// The dialog first takes the Windows keyboard focus for its own native window. Focusing the input only moves Avalonia's focus,<br/>
+   /// and if the workspace behind had the Windows keyboard focus, the keys would keep going there.
+   /// </remarks>
    void FocusTheInitialInput()
    {
+      NativeKeyboardFocus.MoveToWindowItself(this);
       var input = this.GetVisualDescendants().OfType<InputElement>().FirstOrDefault(it => it.Classes.Contains(InitialFocusClass))
                ?? throw new InvalidOperationException($"The editor {_editor.GetType().Name} marks no input with the {InitialFocusClass} class.");
       input.Focus();

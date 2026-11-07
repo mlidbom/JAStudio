@@ -118,6 +118,10 @@ apply here.
     be a tab's web view even when an Avalonia control has Avalonia's focus. The keys then went to the page, and
     clicking the control didn't help (found 2026-11-07, in the search). So the window takes the keyboard back
     whenever it's activated, unless Avalonia's focus is on a web view, and whenever it's clicked outside a page.
+  - **Not while a dialog is open over it.** Code that gives the workspace the keyboard runs a moment after what
+    asked for it, so a modal dialog, such as a search condition's editor, may have opened meanwhile. That code holds
+    back while a window the workspace owns is open, and a dialog takes the Windows keyboard focus for itself when it
+    opens. Otherwise typing in the dialog went to the workspace behind it (found 2026-11-07).
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.
