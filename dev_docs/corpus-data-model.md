@@ -510,8 +510,8 @@ That reasoning gives one rule for the other references too:
 After the configuration and the student-data move out, `tags` holds only corpus-tags. Navigating and editing
 hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
 
-- **Difficulty** (`-::sentence::difficulty::N`, 48,550 sentences): **decided 2026-11-06, deleted.** Nothing reads
-  it.
+- **Difficulty** (`-::sentence::difficulty::N`, was on 48,550 sentences): **deleted 2026-11-06**, from the corpus
+  and from Anki. Nothing read it.
   - It was written by JAStudio code from 2024-10-30 that sorted sentences into decks by difficulty. That code was
     deleted the same day in favor of custom auto-advance timings. The `DifficultyCalculator` still in Core is
     that replacement: it computes the auto-advance time from a card's character counts and doesn't read the tag.
@@ -707,8 +707,10 @@ Progress on step 3:
   from Anki.
 - **Proposed, not started:** cut the Anki-ingestion down to audio, images and tags (see
   [Anki's role and its consequences](#ankis-role-and-its-consequences)).
-- Deleting the difficulty tags is decided, but not done.
+- The difficulty tags are deleted, from the corpus and from Anki (2026-11-06).
 - What comes next isn't chosen yet (Magnus, 2026-11-06).
+- *2026-11-07:* tags come next: navigating, editing and tagging, specified in `tags.md`, with a search language
+  and a results grid, proposed in `note-search.md`.
 
 1. **Remove the kanji primary-readings TTS** (deferred). This happens almost entirely on the Anki side:
    - delete the kanji HyperTTS presets;

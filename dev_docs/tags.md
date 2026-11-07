@@ -1,0 +1,127 @@
+# Tags — Specification
+
+> **Status: draft (2026-11-07).** The direction is agreed with Magnus. It's modeled on Anki's tags, which Magnus
+> considers well designed, with the deliberate differences listed below. Details are settled as each increment
+> needs them. Searching, including searching by tags, is specified in [note-search.md](note-search.md).
+
+## Why
+
+Organizing in JAStudio is built on hierarchical tags. They can do most of what folders, tags and decks do in
+other programs. Today tags can only be organized in Anki, and Anki's tag operations don't even reach the corpus
+(`corpus-data-model.md`, "Anki's role and its consequences"). The goal is feature parity with Anki for:
+- navigating the tag tree;
+- editing the tree;
+- tagging and untagging one note or many at once.
+
+## Terms
+
+- **tag** — a label on a note, such as `source::anime::natsume::s3::01`. A note's tags are stored in its corpus
+  file's `tags` list and held in memory by `NoteTags`.
+- **tag path** — a tag's full name. `::` separates its levels: `source` is the parent of `source::anime`.
+- **branch** — a tag together with all the tags below it. `source::anime` and `source::anime::natsume` are both
+  in the `source::anime` branch.
+- **tag tree** — the tree all tag paths form. It's computed from the notes' tags, so a tag no note has isn't in
+  it.
+- **corpus-tag** and **student-tag** — a tag that describes the language data, and a tag that is about one
+  student's studying, such as a priority tag. See `corpus-data-model.md`, "Student-tags and corpus-tags".
+- **jastudio-defined-tag** — a tag that JAStudio itself defines, in `Tags`. Some are generated, such as
+  `-::kanji::in-any-vocab-form`. Others hold configuration that has its own editors, such as
+  `-::vocab::matching::requires::godan`. Tags a person applies, including the ones under `-::` such as
+  `-::priority::…` and `-::counting`, are not jastudio-defined-tags.
+
+## Rules
+
+- **No spaces in a tag.** Anki separates tags with spaces, so a tag with a space would become two tags in Anki.
+  No tag in the corpus has one today.
+- **Tags are case-insensitive, as in Anki.** Adding a tag that differs from an existing one only in case reuses
+  the existing spelling. So JAStudio can't create two tags that Anki would treat as one. No two tags in the
+  corpus differ only in case today. `Tag.FromName` is case-sensitive and has to change.
+- **No empty levels:** `a::::b`, a leading `::` and a trailing `::` are invalid.
+- **jastudio-defined-tags can't be edited by hand.** They appear in the tag tree for navigating, but can't be
+  renamed, moved, deleted, or added to or removed from notes by hand. They're either generated, so a hand edit
+  would be overwritten, or they have their own editors.
+- **Every tag change writes the note** to its corpus file, and through the Anki-projection to its Anki note, as
+  any other edit does.
+
+## Navigating the tag tree
+
+The tag tree sits in the search, beside the search box and the results. Where the search lives in the workspace
+is open, see [note-search.md](note-search.md).
+
+| Anki | JAStudio |
+|---|---|
+| The sidebar's tag tree, with an "Untagged" item | The same. |
+| No counts | **Each tag shows how many notes are in its branch.** The corpus is in memory, so counts are cheap. |
+| A filter box above the sidebar finds tags | The same. |
+| Clicking a tag, or pressing Enter, searches `tag:x`, which includes the tag's children | The same. |
+| Ctrl+click ANDs with the current search, Shift+click ORs, Alt+click negates, Ctrl+Shift+click replaces terms of the same kind | The same. |
+| Several tags selected → right-click → Search → All selected / Any selected | The same. |
+| Expand and collapse, per tag or for children, remembered in the collection | Expand and collapse the same way. **Remembered for the session at first**; saved later if wanted. |
+
+The tree has 368 nodes today (330 distinct tags plus their parents), so its size is no concern.
+
+## Editing the tag tree
+
+| Anki | JAStudio |
+|---|---|
+| **Rename** (F2, inline): changes the tag and its children on every note | The same. |
+| **Rename with parents:** edits the full path in a dialog, which moves the tag | The same. |
+| **Drag and drop** onto another tag, or onto the root, moves tags, several at once | The same. |
+| **Delete** (Del): removes the tag and its children from every note, with no confirmation, because Anki has undo | The same, **with a confirmation** that names how many notes change. |
+| Renaming onto an existing tag merges the two | The same. |
+| **Clear unused tags** | Not needed: the tag tree is computed from the notes. |
+| **Find and replace** on tags, with regex | Deferred. |
+
+**Why confirm:** JAStudio has no undo. Git in `src/jas_database` can restore the corpus files, but a restore is
+far more work than a confirmation. Renaming, moving and deleting all confirm when they change more than one
+note, for example "Rename `source::anime` to `source::tv`? 28,693 notes change."
+
+## Tagging notes
+
+| Anki | JAStudio |
+|---|---|
+| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** chips with autocomplete from the existing tags. Ctrl+Shift+T jumps there. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It shows the note's jastudio-defined-tags read-only, or not at all (open question 2). |
+| With notes selected: Add Tags (Ctrl+Shift+A) and Remove Tags (Ctrl+Alt+Shift+A) open a prompt with autocomplete | **The same on the search results, which allow selecting several notes** (Ctrl/Shift+click, Ctrl+A). Right-click a selection → Add tags… / Remove tags…, with the same shortcuts. Remove offers only the tags the selected notes have. |
+| Right-click tags in the sidebar → Add to / Remove from selected notes | Deferred. The Add and Remove prompts cover it. |
+| Toggle Mark (Ctrl+K) adds or removes `marked` | Skipped: `marked` is on 2 notes, and it's a student-tag. |
+
+## Tags and Anki
+
+- **Today** the Anki-projection writes each note's whole tag list to its Anki note, and saving a note in Anki
+  merges the Anki note's tag list back into the corpus. Anki's own tag operations skip that merge, and JAStudio's
+  next write of the note undoes them. See `corpus-data-model.md`.
+- **Once JAStudio can edit tags,** tags are edited only in JAStudio, and the Anki-ingestion stops taking tags back,
+  except when importing notes, which takes all their tags along.
+- **Student-tags** such as priority are still in the corpus today, so they behave like any other tag. When they
+  move out of the corpus and are read from Anki instead, the tag tree should still show them. How is decided
+  then.
+
+## Costs
+
+- **Bulk changes write each affected note one at a time,** to its corpus file and its Anki note, as the "Force
+  flush all Anki notes by ID" batch does. Renaming `source::anime` touches about 28,700 sentences, so it runs
+  with a progress dialog. That's the simple version. Making the Anki writes faster is for later, and only if it's
+  too slow.
+
+## Increments (tentative)
+
+How these interleave with the search increments is in [note-search.md](note-search.md).
+
+1. **The tag tree, read-only:** counts, the filter box, and clicking and modifier-clicking to search.
+2. **Tagging notes:** the Tags editor in the editor section, and Add tags / Remove tags on selected search results.
+3. **Editing the tree:** rename, rename with parents, move by drag and drop, delete, all with confirmation.
+
+## Open questions
+
+1. **Suspend and unsuspend on a selection.** Once several notes can be selected, should the notes' existing
+   suspend and unsuspend actions apply to the whole selection? That would cover Magnus's "next episode" workflow
+   without Anki's browser.
+2. **jastudio-defined-tags in a note's Tags editor:** shown read-only, or left out? The vocab's checkboxes already
+   show its configuration tags.
+3. **Saving the tree's expanded state** across sessions. Decided when the session-only version proves annoying,
+   if it does.
+
+## Noticed
+
+- `Tag.Bit` (`1L << id`) is unused, and it's wrong past 64 tags; the corpus has 330. Delete it when `Tag` changes
+  for case-insensitivity.
