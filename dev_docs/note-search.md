@@ -16,8 +16,7 @@ It's the "Search" tab of the navigation pane (`NoteSearchViewModel`):
 - everything else is a substring match on the question, answer and similar fields;
 - it lists at most 100 notes of each type.
 
-Magnus (2026-11-07): the tag tree's tab should become a full search and navigation tab that can express such
-searches. The results should be a list with a column per sortable value, not today's two-line rows.
+Magnus (2026-11-07): the navigation pane should get a full search that can express such searches. The results should be a list with a column per sortable value, not today's two-line rows.
 
 ## Requirements (Magnus)
 
@@ -32,7 +31,8 @@ searches. The results should be a list with a column per sortable value, not tod
 - **Several searches open at once,** designed in from the start. A search can take time to set up, and one
   doesn't want to lose it to check something else. Leaning: one search per workspace, and several workspaces (see
   [Where the search lives](#where-the-search-lives)).
-- **The tag tree** in the same place as the search.
+- **Tag management is separate from the search** (Magnus, 2026-11-07). In the search, a tag condition is added by
+  typing, which covers what the search needs. See [tags.md](tags.md).
 - **Results are notes.** The corpus has no concept of cards.
 
 ## Decided (Magnus, 2026-11-07)
@@ -74,25 +74,26 @@ The names below are placeholders, chosen when it's built.
 - **Searches are values.** Two searches with the same conditions are equal. Specs can then compare the tree an
   operation produced with one written out, and an undo can keep earlier trees.
 
-### Conditions in code: nested constructor calls (Magnus, 2026-11-07)
+### Conditions in code: nested calls that indent like the tree (Magnus, 2026-11-07)
 
-A search written in code reads like the tree and indents like the tree, which keeps specs readable:
+A search written in code reads like the tree and indents like the tree, which keeps specs readable. **Factory
+methods are used wherever they read better than constructors;** constructors only where they really are better.
+For example (the names are placeholders):
 
 ```csharp
-new AllOf(
+BooleanGrouping.AllOf(
    Tags.Include("source::anime::natsume"),
-   new Not(Tags.Include("-::priority::low")),
-   new AnyOf(
+   BooleanGrouping.Not(Tags.Include("-::priority::low")),
+   BooleanGrouping.AnyOf(
       Question.Contains("行く"),
       Answer.MatchesRegex("go(ing)?")),
    StudyingReading.Is(false))
 ```
 
-**Proposal for the leaves:** the groups and `Not` are constructor calls, and a condition on a property is created
-by the property itself (`Question.Contains(…)`). The property's type then decides, at compile time, which matches
-exist: `StudyingReading.Contains(…)` doesn't compile. The alternative is constructor calls for the leaves too,
-`new TextCondition(Question, TextMatch.Contains("行く"))`, which is longer and says the property's type twice.
-Open question 4.
+- **A condition on a property is created by the property itself,** such as `Question.Contains(…)`. The property's
+  type then decides, at compile time, which matches exist: `StudyingReading.Contains(…)` doesn't compile.
+- **Groups and negation** come from factory methods too, such as `BooleanGrouping.AllOf(…)`. Where to put them,
+  and whether specs import them with `using static` to write just `AllOf(…)`, is decided when it's built.
 
 A failing spec should print the search indented like the tree, so the difference is easy to see.
 
@@ -126,7 +127,8 @@ typing, and the search is never invalid.
 **Adding a condition,** for example a tag:
 1. Select a group, or start with the empty search, and click its + icon or press the add key.
 2. A menu lists the properties. A single key picks one: T for tags.
-3. That property type's editor opens. For tags, start typing the tag's name and pick it from the matching tags.
+3. That property type's editor opens. For tags, type parts of the tag's path and pick it from the matching tags
+   (see [The tag condition's editor](#the-tag-conditions-editor)).
 4. Enter, or the Add button, adds the condition to the selected group.
 
 **The menu is a JAStudio menu,** with the same single-key accelerators as the note menus (`SpecMenuItem`,
@@ -140,9 +142,7 @@ typing, and the search is never invalid.
 
 Every key has a mouse equivalent, such as the + icon.
 
-**The add key:** Magnus's example uses Ctrl+A, but Ctrl+A means "select all" almost everywhere, including in the
-text boxes inside the condition editors and in the results grid. `+` while the tree has focus would match the +
-icon. To be settled when built.
+**The add key** is `+` or `Ctrl++` (Magnus, 2026-11-07), matching the + icon.
 
 **The tree shows each condition as a readable line,** such as "Tags include `source::anime::natsume`" or "Not:
 studying reading", and each group as "All of" or "Any of".
@@ -156,17 +156,19 @@ small, so keeping the earlier trees is cheap.
 
 **Space:** the condition tree takes height in the pane, so it can be collapsed.
 
-## The tag tree
+## The tag condition's editor
 
-- **It shows the tags of the current results,** each with its count among those results. With an empty search
-  the results are all notes, so it's the full tag browser with total counts. With a search, it shows how the
-  results spread over tags, for example which episodes still have sentences that aren't studied. Shops call this
-  faceted search. Counting the tags of the results is one pass in memory.
-- **Clicking a tag adds a tag condition to the selected group.**
-- **The same control is the tag condition's editor:** a filter box over the tag tree. Until the tag tree exists, the
-  tag condition's editor is a filtered list of tags.
+There's no tag tree in the search (Magnus, 2026-11-07). A filtered list of tags covers what the search needs, and
+is quicker from the keyboard than browsing a tree.
+- **It matches several parts anywhere in the path.** Typing `nat s3 05` finds `source::anime::natsume::s3::05`, so
+  an episode is found without typing its full path.
+- **It shows full paths,** perhaps with the parent part dimmed, so similar tags can be told apart.
 
-How the tag tree is browsed and edited is in [tags.md](tags.md).
+**What's given up** is seeing how the current results spread over tags, for example which episodes still have
+sentences that aren't studied. That's analysis rather than search. If it's missed, it can come back as a feature of
+the results, such as counting the results by a tag level.
+
+Browsing and editing the tag tree is tag management, separate from the search. See [tags.md](tags.md).
 
 ## The results
 
@@ -196,26 +198,22 @@ columns need, and the note's page stays visible beside the results.
 
 **A search can take time to set up, and one doesn't want to lose it to check something else.**
 - **Leaning (Magnus, 2026-11-07): one search per workspace, and several workspaces,** rather than several search
-  tabs in one workspace. A workspace then keeps a whole context: its search, the results, the tag tree, and the
-  notes opened from it. It's step 6 of `jastudio-workspace.md`, so this gives that step a purpose.
-- **The tag tree belongs to the workspace's search.** Each search has its own, so each can be worked with
-  independently.
+  tabs in one workspace. A workspace then keeps a whole context: its search, the results, and the notes opened
+  from it. It's step 6 of `jastudio-workspace.md`, so this gives that step a purpose.
 - **A note menu's list (today's "List" tab) stays separate** from the search, for now. Mixing the two risks odd
   dependencies between them (Magnus, 2026-11-07).
 
 ## Increments (tentative), together with [tags.md](tags.md)
 
-1. **The search model in Core:** the properties and their types, conditions, groups and `Not`, the operations on
-   the tree, and matching, with specs written as nested constructor calls.
+1. **The search model in Core:** the properties and their types, conditions, groups and negation, the operations
+   on the tree, and matching, with specs written as nested calls that indent like the tree.
 2. **The search editor** in the navigation pane, replacing the current Search tab's text box: the condition tree
-   with its keys, and editors for text, tags (a filtered list of tags at first), true-or-false and the note type.
-   The results show in today's list, without the cap.
+   with its keys, and editors for text, tags, true-or-false and the note type. The results show in today's list,
+   without the cap.
 3. **The results grid** with sortable columns, selecting several rows, and the place in the source.
-4. **The tag tree:** the current results' tags with counts. Clicking adds a tag condition, and it becomes the tag
-   condition's editor ([tags.md](tags.md), increment 1).
-5. **Tagging notes** ([tags.md](tags.md), increment 2).
-6. **Editing the tag tree** ([tags.md](tags.md), increment 3).
-7. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.
+4. **Tagging notes** ([tags.md](tags.md), increment 1).
+5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
+6. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.
 
 ## Maybe later: a text form
 
@@ -272,7 +270,8 @@ Today's corpus is a tenth of that, so an engine's main benefit, speed at scale, 
 
 *Answered 2026-11-07:* `source:` in Magnus's searches meant the source tags; the search lives in the navigation
 pane; results are notes; conditions are on typed note properties; matching is our own, in memory, in Core; the
-note menus' lists stay separate; the search is built in a tree editor, with no text syntax at first.
+note menus' lists stay separate; the search is built in a tree editor, with no text syntax at first; in code,
+conditions come from factory methods where those read better, and from the property for a condition on it.
 
 1. **Several workspaces instead of several search tabs?** Magnus's leaning. See
    [Where the search lives](#where-the-search-lives).
@@ -280,5 +279,3 @@ note menus' lists stay separate; the search is built in a tree editor, with no t
    answer at least, and perhaps readings, forms and comments.
 3. **Which of Anki's left-out searches does Magnus use?** For example new cards, or cards answered recently. Each
    would need its data loaded from the studying-add-on, as a property of the note.
-4. **Conditions on a property:** created by the property (`Question.Contains(…)`), or by constructors? See
-   [Conditions in code](#conditions-in-code-nested-constructor-calls-magnus-2026-11-07).
