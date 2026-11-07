@@ -25,7 +25,9 @@ namespace JAStudio.UI.Views.Workspace.Navigation.SearchResults;
 /// <remarks>
 /// Clicking a column header sorts by that column, Shift+click adds a column to sort by when the earlier ones are equal, and Ctrl+click stops sorting.<br/>
 /// A grid starts out sorted by the question. Ctrl/Shift+click and Ctrl+A select several notes. Enter or a double-click opens a note,<br/>
-/// middle-clicking opens it in a background tab, and right-clicking, or the menu key, shows the menu of the selected notes.
+/// middle-clicking opens it in a background tab, and right-clicking, or the menu key, shows the menu of the selected notes.<br/>
+/// Hovering a cell shows its whole text, which a narrow column cuts off with an ellipsis. The studying columns' headers are R and L,<br/>
+/// with their full names on hover, since the columns are only check boxes.
 /// </remarks>
 public partial class SearchResultsView : UserControl
 {

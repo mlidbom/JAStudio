@@ -19,6 +19,14 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="Gray" />
         </Style>
+
+        <!-- A column is often too narrow for its cells' text: text cut off at a cell's edge ends in an ellipsis,
+             and hovering a cell shows its whole text. An empty cell shows no tooltip. -->
+        <Style Selector="DataGridCell TextBlock">
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="ToolTip.Tip" Value="{Binding $self.Text}" />
+            <Setter Property="ToolTip.ServiceEnabled" Value="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        </Style>
     </UserControl.Styles>
 
     <DockPanel>
@@ -49,8 +57,17 @@
                     <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" Width="2*" />
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
                     <DataGridTextColumn Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
-                    <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
-                    <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
+                    <!-- The studying columns are only check boxes, so their headers are abbreviated, with the full name on hover. -->
+                    <DataGridCheckBoxColumn Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto">
+                        <DataGridCheckBoxColumn.Header>
+                            <TextBlock Text="R" ToolTip.Tip="Studying reading" />
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto">
+                        <DataGridCheckBoxColumn.Header>
+                            <TextBlock Text="L" ToolTip.Tip="Studying listening" />
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -62,8 +79,17 @@
                     <DataGridTextColumn Header="Kun readings" Binding="{Binding KunReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
                     <DataGridTextColumn Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
-                    <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
-                    <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
+                    <!-- The studying columns are only check boxes, so their headers are abbreviated, with the full name on hover. -->
+                    <DataGridCheckBoxColumn Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto">
+                        <DataGridCheckBoxColumn.Header>
+                            <TextBlock Text="R" ToolTip.Tip="Studying reading" />
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto">
+                        <DataGridCheckBoxColumn.Header>
+                            <TextBlock Text="L" ToolTip.Tip="Studying listening" />
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -76,8 +102,17 @@
                     <DataGridTextColumn Header="External id" Binding="{Binding ExternalId.Text}" SortMemberPath="ExternalId" Width="Auto" />
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
                     <DataGridTextColumn Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
-                    <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
-                    <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
+                    <!-- The studying columns are only check boxes, so their headers are abbreviated, with the full name on hover. -->
+                    <DataGridCheckBoxColumn Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto">
+                        <DataGridCheckBoxColumn.Header>
+                            <TextBlock Text="R" ToolTip.Tip="Studying reading" />
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto">
+                        <DataGridCheckBoxColumn.Header>
+                            <TextBlock Text="L" ToolTip.Tip="Studying listening" />
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Panel>

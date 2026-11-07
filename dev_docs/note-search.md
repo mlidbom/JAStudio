@@ -287,9 +287,15 @@ columns need, and the note's page stays visible beside the results.
      `SearchResultsView`, with a `DataGrid` per type. Only the shown type's grid is visible, so each keeps its own
      sort and selection.
    - **The columns, fixed for now:**
-     - vocab: question, readings, answer, studying reading, studying listening;
-     - kanji: kanji, answer, on readings, kun readings, studying reading, studying listening;
-     - sentences: question, answer, source, external id, studying reading, studying listening.
+     - vocab: question, readings, answer, tags, studying reading, studying listening;
+     - kanji: kanji, answer, on readings, kun readings, tags, studying reading, studying listening;
+     - sentences: question, answer, source, external id, tags, studying reading, studying listening.
+
+     The tags column came with tagging ([tags.md](tags.md), increment 1b).
+   - **Narrow columns** (Magnus, 2026-11-07): text cut off at a cell's edge ends in an ellipsis, and hovering a cell
+     shows its whole text in a tooltip. An empty cell shows none. Avalonia's text can't tell whether it was cut
+     off, so every cell with text has the tooltip. The studying columns are only check boxes, so their headers are R
+     and L, with "Studying reading" and "Studying listening" on hover.
    - **Sorting is the grid's own** (Magnus, 2026-11-07: no special sorting while this is built in). Clicking a
      header sorts by that column alone. Shift+click adds a column that sorts the rows the earlier columns leave
      equal, and Ctrl+click stops sorting. A grid starts out sorted by the question (Magnus, 2026-11-07). The

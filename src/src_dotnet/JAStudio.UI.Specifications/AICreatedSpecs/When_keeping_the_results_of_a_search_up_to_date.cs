@@ -78,7 +78,7 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
          public and_refreshing_the_results() => Refresh();
 
          [XF] public void the_results_show_both_sentences() => FoundSentences().Select(it => it.Question).Order().Must().SequenceEqual(new[] { SentenceAboutHome, SentenceAboutSchool }.Order());
-         [XF] public void the_sentence_found_before_keeps_its_row() => FoundSentences().Must().Contain(_rowOfTheSentenceAboutHome);
+         [XF] public void the_sentence_found_before_keeps_its_row() => FoundSentences().Any(it => ReferenceEquals(it, _rowOfTheSentenceAboutHome)).Must().BeTrue(); // Not Must().Contain, whose failure message serializes the rows, notes and all, which has crashed the test process.
       }
    }
 

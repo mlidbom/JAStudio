@@ -49,14 +49,22 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
 
       _search = Workspace.Navigation.Search;
       _search.AddCondition(NoteProperties.Tags.Include("source::anime"));
+      WaitForTheSearch();
       _search.AddCondition(NoteProperties.StudyingReading.Is(false));
-      SpinWait.SpinUntil(() => !_search.IsSearching && FoundSentences().Count == 2, TimeToWaitForTheSearch).Must().BeTrue();
+      WaitForTheSearch();
+      FoundSentences().Count.Must().Be(2);
       _rowsBeforeActing = FoundSentences();
       foreach(var row in _rowsBeforeActing)
          row.PropertyChanged += (_, _) => _rowsThatToldTheGridToReadTheirValuesAgain[row] = true;
    }
 
    List<SentenceSearchResultViewModel> FoundSentences() => [.._search.Results.Sentences.Results];
+
+   /// <remarks>
+   /// The specifications have no UI thread, so a search's end runs on a thread of its own, at the same time as the next change.<br/>
+   /// Each change waits for its search, as a person would, or an earlier search could replace the rows of a later one.
+   /// </remarks>
+   void WaitForTheSearch() => SpinWait.SpinUntil(() => !_search.IsSearching, TimeToWaitForTheSearch).Must().BeTrue();
 
    /// <summary>The tag path a person picks in the tag picker dialog, or null to cancel it.</summary>
    string? _tagPathToPickInTheDialog;
@@ -76,6 +84,14 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
    SpecMenuItem ItemInTheMenuOfAllTheFoundSentences(string name) =>
       _search.Results.ActionsOnTheSelected.Menu(FoundSentences(), PickATagInTheDialog).Single(it => it.Name == name);
 
+   /// <summary>
+   /// Whether <paramref name="rows"/> are the very row objects of <paramref name="expected"/>, in the same order.<br/>
+   /// Compared as a true-or-false rather than with SequenceEqual's assertion, whose message on failure serializes the rows,<br/>
+   /// and with them each row's whole note, which has crashed the test process and hidden the failure.
+   /// </summary>
+   static bool TheSameRows(IReadOnlyList<SearchResultViewModel> rows, IReadOnlyList<SearchResultViewModel> expected) =>
+      rows.Count == expected.Count && rows.Zip(expected).All(it => ReferenceEquals(it.First, it.Second));
+
    bool BothSentencesHave(string tagPath) => _rowsBeforeActing.All(it => it.Note.Tags.Contains(Tag.FromName(tagPath)));
 
    bool NeitherSentenceHas(string tagPath) => _rowsBeforeActing.All(it => !it.Note.Tags.Contains(Tag.FromName(tagPath)));
@@ -88,7 +104,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
       {
          _tagPathToPickInTheDialog = NewTag;
          ItemInTheMenuOfAllTheFoundSentences(AddATag).Action();
-         SpinWait.SpinUntil(() => BothSentencesHave(NewTag), TimeToWaitForTheSearch);
+         SpinWait.SpinUntil(() => BothSentencesHave(NewTag) && _rowsThatToldTheGridToReadTheirValuesAgain.Count == 2, TimeToWaitForTheSearch);
       }
 
       [XF] public void both_sentences_have_the_tag() => BothSentencesHave(NewTag).Must().BeTrue();
@@ -138,7 +154,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
 
          [XF] public void both_sentences_are_studying_reading() => _rowsBeforeActing.Select(it => it.Note.IsStudyingRead()).Must().SequenceEqual([true, true]);
          [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue();
-         [XF] public void the_results_still_show_the_same_rows_although_the_search_would_no_longer_find_them() => FoundSentences().Must().SequenceEqual(_rowsBeforeActing);
+         [XF] public void the_results_still_show_the_same_rows_although_the_search_would_no_longer_find_them() => TheSameRows(FoundSentences(), _rowsBeforeActing).Must().BeTrue();
          [XF] public void the_rows_show_both_sentences_as_studying_reading() => FoundSentences().Select(it => it.IsStudyingReading).Must().SequenceEqual([true, true]);
 
          public class and_refreshing_the_results : after_unsuspending_all_cards

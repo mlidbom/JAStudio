@@ -32,9 +32,16 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
 
    string SelectedLine() => _search.SelectedNode?.Description ?? throw new InvalidOperationException("No line is selected.");
 
+   /// <remarks>
+   /// The specifications have no UI thread, so a search's end runs on a thread of its own, at the same time as the next change.<br/>
+   /// A context that changes the search again after a search started waits for it first, as a person would, or the first search could<br/>
+   /// show its results over those of the change. In JAStudio both run on the UI thread, one after the other.
+   /// </remarks>
+   void WaitForTheSearch() => SpinWait.SpinUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
+
    List<string> QuestionsOfTheListedNotes()
    {
-      SpinWait.SpinUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
+      WaitForTheSearch();
       var results = _search.Results;
       return [..results.Vocab.Results.Select(it => it.Question), ..results.Kanji.Results.Select(it => it.Question), ..results.Sentences.Results.Select(it => it.Question)];
    }
@@ -54,7 +61,11 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
 
    public class after_adding_a_tag_condition : When_building_a_search_in_the_workspace
    {
-      public after_adding_a_tag_condition() => _search.AddCondition(NoteProperties.Tags.Include("source::anime"));
+      public after_adding_a_tag_condition()
+      {
+         _search.AddCondition(NoteProperties.Tags.Include("source::anime"));
+         WaitForTheSearch();
+      }
 
       [XF] public void it_is_in_the_root_group() => Lines().Must().SequenceEqual(["All of:", "Tags include source::anime"]);
       [XF] public void it_is_selected() => SelectedLine().Must().Be("Tags include source::anime");
