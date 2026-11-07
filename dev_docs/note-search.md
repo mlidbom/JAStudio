@@ -160,8 +160,9 @@ dialog it opens.
 **Keys act on the selected node,** the highlighted line in the tree, which is a condition or a group. Letters
 start a searchable-text condition, so the direct keys are other keys:
 - **`+` or `Ctrl++`** (Magnus, 2026-11-07) adds a condition to the selected group, or to the group the selected
-  condition is in. `+` and `-` are recognized as typed characters, since which key types them depends on the
-  keyboard layout;
+  condition is in. `+`, `-` and the add menu's keys are recognized by the symbol the key types in the current
+  keyboard layout (`KeyEventArgs.KeySymbol`). Not by key code, which differs between layouts, and not as typed text,
+  which comes through the input method: keys read that way stopped working after switching virtual desktops and back;
 - **Del** removes the selected node, and a group goes with everything in it. The root group can't be removed;
 - **`-`** negates the selected node, putting it under "Not", or takes it out again, as Anki's `-tag:x` negates;
 - **Enter, or a double-click,** edits the selected condition in its dialog;

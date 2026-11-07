@@ -29,7 +29,9 @@ namespace JAStudio.UI.Views.Workspace.Navigation;
 /// The right-click menu, also on the menu key, has the rest.
 /// </remarks>
 /// <remarks>
-/// <c>+</c>, <c>-</c> and the menu keys are recognized as typed characters, not as keys, because which key types them depends on the keyboard layout.<br/>
+/// <c>+</c>, <c>-</c> and the menu keys are recognized by the symbol the pressed key types in the current keyboard layout (<see cref="KeyEventArgs.KeySymbol"/>).<br/>
+/// Not by the key's code, which differs between layouts. Not as typed text either: that comes through the input method, the same system that serves<br/>
+/// an IME, and the keys read that way stopped working after switching virtual desktops and back, until another window had taken activation and given it back.<br/>
 /// Menus open after the key or click that asked for them has been handled, since a menu window opened in the middle of it can lose activation at once, and close.<br/>
 /// When a menu closes without a pick, as with Esc, the keyboard goes back to the selected line. Otherwise it's left on the window's main menu.
 /// </remarks>
@@ -39,7 +41,6 @@ public partial class NoteSearchView : UserControl
    {
       InitializeComponent();
       ConditionTree.AddHandler(KeyDownEvent, OnKeyDownInTheTree, RoutingStrategies.Tunnel);
-      ConditionTree.AddHandler(TextInputEvent, OnTextInputInTheTree, RoutingStrategies.Tunnel);
       ConditionTree.AddHandler(DoubleTappedEvent, OnDoubleTappedInTheTree, RoutingStrategies.Bubble, handledEventsToo: true);
       ConditionTree.ContextRequested += OnContextRequestedInTheTree;
       DataContextChanged += (_, _) =>
@@ -63,43 +64,32 @@ public partial class NoteSearchView : UserControl
          Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Loaded);
    }
 
-   /// <remarks>The numpad's + and - are marked handled, so the tree doesn't also expand or collapse the line. The characters they type act.</remarks>
+   /// <remarks>
+   /// Handling the + and - keys here also keeps the tree from expanding or collapsing the line, as it does on the numpad's + and -.<br/>
+   /// Shift is allowed with a symbol, since some layouts need it for +.
+   /// </remarks>
    void OnKeyDownInTheTree(object? sender, KeyEventArgs e)
    {
-      switch(e.Key)
+      switch(e)
       {
-         case Key.OemPlus or Key.Add when e.KeyModifiers == KeyModifiers.Control:
-            Dispatcher.UIThread.Post(ShowTheAddMenu);
-            break;
-         case Key.Add or Key.Subtract:
-            break;
-         case Key.Delete:
+         case { Key: Key.Delete }:
             ViewModel.RemoveTheSelectedNode();
             break;
-         case Key.Enter:
+         case { Key: Key.Enter }:
             ChangeTheSelectedCondition();
             break;
-         case Key.Z when e.KeyModifiers == KeyModifiers.Control:
+         case { Key: Key.Z, KeyModifiers: KeyModifiers.Control }:
             ViewModel.Undo();
             break;
-         default:
-            return;
-      }
-
-      e.Handled = true;
-   }
-
-   void OnTextInputInTheTree(object? sender, TextInputEventArgs e)
-   {
-      switch(e.Text)
-      {
-         case "+":
+         case { Key: Key.OemPlus or Key.Add, KeyModifiers: KeyModifiers.Control }
+           or { KeyModifiers: KeyModifiers.None or KeyModifiers.Shift, KeySymbol: "+" }:
             Dispatcher.UIThread.Post(ShowTheAddMenu);
             break;
-         case "-":
+         case { KeyModifiers: KeyModifiers.None or KeyModifiers.Shift, KeySymbol: "-" }:
             ViewModel.ToggleNegationOfTheSelectedNode();
             break;
-         case { Length: 1 } typed when NoteSearchViewModel.ItemPickedBy(typed[0], AddConditionMenu()) is {} menuItem:
+         case { KeyModifiers: KeyModifiers.None or KeyModifiers.Shift, KeySymbol: { Length: 1 } symbol }
+            when NoteSearchViewModel.ItemPickedBy(symbol[0], AddConditionMenu()) is {} menuItem:
             Dispatcher.UIThread.Post(() => DoWhatPickingItDoes(menuItem));
             break;
          default:
