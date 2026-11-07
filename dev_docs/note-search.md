@@ -341,7 +341,7 @@ columns need, and the note's page stays visible beside the results.
    - **Measured (2026-11-07),** on the 49,162 sentence texts, outside the grid: sorting by question took about
      25 ms, sorting by external id about 60 ms, and stripping the markup from them about 5 ms. The grid's own
      overhead isn't measured.
-   - **Not yet:** a tags column, showing and hiding columns, and the studying-add-on's other card states.
+   - **Not yet:** showing and hiding columns, and the studying-add-on's other card states.
 4. **Tagging notes** ([tags.md](tags.md), increment 1). *(Adding and removing a tag on the selected results built
    2026-11-07.)*
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
