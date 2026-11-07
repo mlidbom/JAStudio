@@ -105,6 +105,41 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
       [XF] public void a_key_no_item_has_picks_nothing() => (ItemFor('x') is null).Must().BeTrue();
    }
 
+   /// <summary>A property with only a few values has a submenu of them in the add menu, which adds the condition at once, with no editor.</summary>
+   public class when_picking_a_value_in_the_add_menu : When_building_a_search_in_the_workspace
+   {
+      bool _anEditorWasOpened;
+
+      void PickInTheAddMenu(char propertyKey, char valueKey) =>
+         ItemPickedBy(valueKey, ItemPickedBy(propertyKey, _search.AddConditionMenu(_ => _anEditorWasOpened = true)).Children).Action();
+
+      static SpecMenuItem ItemPickedBy(char key, IEnumerable<SpecMenuItem> menu) =>
+         NoteSearchViewModel.ItemPickedBy(key, menu) ?? throw new InvalidOperationException($"No item in the menu has the key {key}.");
+
+      public class n_then_k : when_picking_a_value_in_the_add_menu
+      {
+         public n_then_k() => PickInTheAddMenu('n', 'k');
+
+         [XF] public void adds_a_condition_that_the_note_is_a_kanji() => Lines().Must().SequenceEqual(["All of:", "Note type is KanjiNote"]);
+         [XF] public void opens_no_editor() => _anEditorWasOpened.Must().BeFalse();
+      }
+
+      public class r_then_f : when_picking_a_value_in_the_add_menu
+      {
+         public r_then_f() => PickInTheAddMenu('r', 'f');
+
+         [XF] public void adds_a_condition_that_studying_reading_is_false() => Lines().Must().SequenceEqual(["All of:", "Studying reading is false"]);
+         [XF] public void opens_no_editor() => _anEditorWasOpened.Must().BeFalse();
+      }
+
+      public class l_then_t : when_picking_a_value_in_the_add_menu
+      {
+         public l_then_t() => PickInTheAddMenu('l', 't');
+
+         [XF] public void adds_a_condition_that_studying_listening_is_true() => Lines().Must().SequenceEqual(["All of:", "Studying listening is true"]);
+      }
+   }
+
    public class after_adding_a_group_and_negating_it : When_building_a_search_in_the_workspace
    {
       public after_adding_a_group_and_negating_it()

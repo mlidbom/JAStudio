@@ -11,7 +11,9 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Editing;
 using JAStudio.Core.Note.Search.Grouping;
+using JAStudio.Core.Note.Search.NoteTypeProperties;
 using JAStudio.Core.Note.Search.TextProperties;
+using JAStudio.Core.Note.Search.TrueOrFalseProperties;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -68,13 +70,6 @@ partial class NoteSearchViewModel : ObservableObject
 
    /// <summary>The line the operations act on: the selected one, or the root when none is.</summary>
    SearchConditionNodeViewModel Selected => SelectedNode ?? Root;
-
-   /// <summary>An editor for a new condition on <paramref name="property"/>.</summary>
-   ConditionEditorViewModel EditorForANewConditionOn(NoteProperty property) => ConditionEditorViewModel.ForANewConditionOn(property, _collection);
-
-   /// <summary>An editor for a new condition on the text property <paramref name="property"/>, comparing in the way <paramref name="matchChoice"/> says.</summary>
-   static ConditionEditorViewModel EditorForANewTextCondition(TextProperty property, TextMatchChoice matchChoice) =>
-      new TextConditionEditorViewModel(property, matchChoice, "");
 
    /// <summary>An editor filled in with the selected line's condition, or null when the line is a group, which has no editor.</summary>
    internal ConditionEditorViewModel? EditorForTheSelectedCondition() =>
@@ -154,7 +149,8 @@ partial class NoteSearchViewModel : ObservableObject
 
    /// <summary>
    /// The add menu: the properties a condition can be on, and the groups, each picked by a single key, such as t for tags.<br/>
-   /// A text property opens a submenu of the ways to compare its text, so s then c starts a "searchable text contains" condition.
+   /// A text property opens a submenu of the ways to compare its text, so s then c starts a "searchable text contains" condition in its editor.<br/>
+   /// A property with only a few values opens a submenu of them that adds the condition at once, with no editor, so n then k adds "Note type is KanjiNote".
    /// </summary>
    /// <param name="addAConditionThrough">Opens the editor for the picked condition, and adds the condition it returns.</param>
    internal List<SpecMenuItem> AddConditionMenu(Action<ConditionEditorViewModel> addAConditionThrough)
@@ -164,10 +160,10 @@ partial class NoteSearchViewModel : ObservableObject
          TextPropertySubmenu('s', NoteProperties.SearchableText),
          TextPropertySubmenu('q', NoteProperties.Question),
          TextPropertySubmenu('a', NoteProperties.Answer),
-         PropertyItem('t', NoteProperties.Tags),
-         PropertyItem('n', NoteProperties.NoteType),
-         PropertyItem('r', NoteProperties.StudyingReading),
-         PropertyItem('l', NoteProperties.StudyingListening),
+         Command('t', NoteProperties.Tags.Name, () => addAConditionThrough(ConditionEditorViewModel.ForANewTagCondition(NoteProperties.Tags, _collection))),
+         NoteTypeSubmenu('n', NoteProperties.NoteType),
+         TrueOrFalseSubmenu('r', NoteProperties.StudyingReading),
+         TrueOrFalseSubmenu('l', NoteProperties.StudyingListening),
          Submenu('g', "Group",
          [
             Command('a', "All of", () => AddCondition(ConditionGroup.AllOf())),
@@ -176,9 +172,13 @@ partial class NoteSearchViewModel : ObservableObject
       ];
 
       SpecMenuItem TextPropertySubmenu(char key, TextProperty property) =>
-         Submenu(key, property.Name, [..TextMatchChoice.All.Select(choice => Command(choice.MenuKey, choice.Name, () => addAConditionThrough(EditorForANewTextCondition(property, choice))))]);
+         Submenu(key, property.Name, [..TextMatchChoice.All.Select(choice => Command(choice.MenuKey, choice.Name, () => addAConditionThrough(ConditionEditorViewModel.ForANewTextCondition(property, choice))))]);
 
-      SpecMenuItem PropertyItem(char key, NoteProperty property) => Command(key, property.Name, () => addAConditionThrough(EditorForANewConditionOn(property)));
+      SpecMenuItem NoteTypeSubmenu(char key, NoteTypeProperty property) =>
+         Submenu(key, property.Name, [..NoteTypeChoice.AllFor(property).Select(choice => Command(choice.MenuKey, choice.Name, () => AddCondition(choice.Condition)))]);
+
+      SpecMenuItem TrueOrFalseSubmenu(char key, TrueOrFalseProperty property) =>
+         Submenu(key, property.Name, [Command('t', "is true", () => AddCondition(property.Is(true))), Command('f', "is false", () => AddCondition(property.Is(false)))]);
 
       static SpecMenuItem Command(char key, string text, Action action) => SpecMenuItem.Command(ShortcutFinger.Mnemonic(key, text), action, acceleratorKey: key);
 

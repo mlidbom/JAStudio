@@ -136,6 +136,10 @@ a answer, t tags, n note type, r studying reading, l studying listening, g group
 - **A text property opens a submenu** of the ways to compare its text: c contains, e is exactly, w matches the
   wildcard pattern, r matches the regular expression. So `+` `s` `c` starts a "searchable text contains" condition,
   and the dialog still lets the way be changed (Magnus, 2026-11-07).
+- **A property with only a few values opens a submenu of them, which adds the condition at once,** with no dialog,
+  since a dialog only slows the pick down (Magnus, 2026-11-07). The note type's submenu has v vocab, k kanji and
+  s sentence, so `+` `n` `k` adds "Note type is KanjiNote". Studying reading and studying listening have t "is
+  true" and f "is false". Changing such a condition, with Enter or a double-click, still opens its dialog.
 - **The group submenu** adds an "all of" (a) or an "any of" (o) group, and selects it, so the next `+` adds into it.
 
 **A condition's editor is a small dialog** (decided, Magnus, 2026-11-07), not inline in the tree. The tag editor

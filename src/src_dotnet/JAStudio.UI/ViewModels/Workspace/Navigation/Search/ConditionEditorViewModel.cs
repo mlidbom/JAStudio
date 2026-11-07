@@ -15,6 +15,10 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.Search;
 /// The editor for one condition on a property, shown in a <see cref="SearchConditionDialog"/>: a new condition, or one being changed.<br/>
 /// Each kind of property has its own, such as <see cref="TextConditionEditorViewModel"/>.
 /// </summary>
+/// <remarks>
+/// A new condition on a property with only a few values, such as the note type or studying reading, needs no editor:<br/>
+/// the add menu's submenu for the property adds it at once. Changing one opens its editor.
+/// </remarks>
 abstract class ConditionEditorViewModel : ObservableObject
 {
    protected ConditionEditorViewModel(NoteProperty property) => Title = property.Name;
@@ -41,15 +45,16 @@ abstract class ConditionEditorViewModel : ObservableObject
       OnPropertyChanged(nameof(CanAccept));
    }
 
-   /// <summary>An editor for a new condition on <paramref name="property"/>.</summary>
-   public static ConditionEditorViewModel ForANewConditionOn(NoteProperty property, JPCollection collection) => property switch
-   {
-      TextProperty text => new TextConditionEditorViewModel(text, TextMatchChoice.Contains, ""),
-      TagsProperty tags => new TagConditionEditorViewModel(tags, collection.TagPathsInUse(), ""),
-      TrueOrFalseProperty trueOrFalse => new TrueOrFalseConditionEditorViewModel(trueOrFalse, true),
-      NoteTypeProperty noteType => new NoteTypeConditionEditorViewModel(noteType, null),
-      _ => throw new ArgumentOutOfRangeException(nameof(property), property, "The search editor has no editor for this kind of property.")
-   };
+   /// <summary>
+   /// An editor for a new condition on <paramref name="property"/>, the text property, comparing its text in the way <paramref name="matchChoice"/> says.<br/>
+   /// The add menu's submenu for the property picks the way.
+   /// </summary>
+   public static ConditionEditorViewModel ForANewTextCondition(TextProperty property, TextMatchChoice matchChoice) =>
+      new TextConditionEditorViewModel(property, matchChoice, "");
+
+   /// <summary>An editor for a new tag condition on <paramref name="property"/>, offering the tag paths in use in <paramref name="collection"/>.</summary>
+   public static ConditionEditorViewModel ForANewTagCondition(TagsProperty property, JPCollection collection) =>
+      new TagConditionEditorViewModel(property, collection.TagPathsInUse(), "");
 
    /// <summary>An editor filled in with <paramref name="condition"/>, to change it.</summary>
    public static ConditionEditorViewModel ForChanging(NoteCondition condition, JPCollection collection) => condition switch
