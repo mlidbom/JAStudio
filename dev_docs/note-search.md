@@ -180,6 +180,10 @@ studying reading", and each group as "All of" or "Any of".
 milliseconds per condition today. Sorting 49,000 rows takes tens of milliseconds (measured with increment 3,
 below), so re-sorting the grid after every change looks fine.
 
+**Between changes the results keep showing the same notes** (Magnus, 2026-11-07), until the search is refreshed
+with F5 or the Refresh button. Notes don't disappear while one works on them, even when the search would no longer
+find them, so a change made by mistake can be undone on the same rows. See increment 3 below.
+
 **Undo** keeps the earlier trees, which is cheap since the tree is small.
 
 **Space:** the condition tree takes height in the pane, so it can be collapsed.
@@ -291,9 +295,35 @@ columns need, and the note's page stays visible beside the results.
    - **Selecting and opening:** Ctrl/Shift+click and Ctrl+A select several rows. Enter or a double-click opens
      the note, and middle-click opens it in a background tab.
    - **The selection's right-click menu,** also on the menu key: "Unsuspend all cards" and "Suspend all cards"
-     for every selected note, run in the background with a progress dialog. Then the search runs again, so the
-     results show the change and drop the notes it no longer finds. Suspending reading and listening separately
-     waits for [studying.md](studying.md).
+     for every selected note, run in the background with a progress dialog. Suspending reading and listening
+     separately waits for [studying.md](studying.md).
+   - **The results keep showing the same notes, kept up to date** (Magnus, 2026-11-07). The first version ran
+     the search again after the selection's menu, which dropped the changed notes from under him and cleared the
+     selection, so a mistake couldn't be undone on the same rows.
+     - **Each row shows its note as it is now.** Its values are read from the note, and it's told to read them
+       again when the note is updated (`JPCollection.NoteUpdated`), whatever updated it: the editor section or a
+       note menu. The rows stay the same objects, so the selection stays. The grid doesn't re-sort a row whose
+       values changed, so it stays where it is.
+     - **The studying status has a notification of its own** (`JPCollection.StudyingStatusChanged`). It's held in
+       memory, not stored with the note, so suspending or unsuspending updates no note, and `NoteUpdated` doesn't
+       report it. Found 2026-11-07: the rows didn't show the selection menu's changes, unless Anki's browser had
+       the note open, since its refresh saved the note on Anki's side, and that save was reported as an update. The
+       new notification is raised when JAStudio suspends or unsuspends a note's cards, and when Anki reports a
+       change to a card (`JPCollection.UpdateCardStudyingStatus`). The add-on reports Anki's own suspends and
+       unsuspends, such as those in its browser, through a patch of Anki's scheduler that is put in place when a
+       card is first shown (`clear_studying_cache_on_card_suspend_unsuspend.py`), so not before.
+     - **Refreshing,** with F5 anywhere in the Search tab or the Refresh button, runs the same search again. The
+       rows of the notes still found stay, where they are and selected if they were, and read their values again,
+       so a refresh shows every change, even one no notification reported. The rows of the notes no longer found
+       go, and the newly found notes get rows. Changing the search still replaces all the rows.
+     - **After an Anki sync,** the collection is reloaded and every note object replaced
+       (`JPCollection.ReloadedFromBackend`). Each row then shows the object with its note's id, and the rows of
+       notes that no longer exist go. Before this, rows kept the discarded objects, and a menu action on them would
+       have flushed a discarded note.
+     - **Not followed until a refresh:** a note deleted from a note menu keeps its row.
+     - **A refresh that adds or removes many rows is slow,** since each row is added or removed on its own and the
+       grid finds each one's place. A few hundred is no concern. Tens of thousands would probably take seconds (not
+       measured).
    - **Measured (2026-11-07),** on the 49,162 sentence texts, outside the grid: sorting by question took about
      25 ms, sorting by external id about 60 ms, and stripping the markup from them about 5 ms. The grid's own
      overhead isn't measured.

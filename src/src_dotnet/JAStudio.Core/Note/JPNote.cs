@@ -74,29 +74,26 @@ public abstract class JPNote
    public void SuspendAllCards()
    {
       Services.CardOperations.SuspendAllCardsForNote(_id);
-
-      // Update local status for all known card types
-      var cardTypes = _cardStatus.Keys.ToList();
-      foreach(var cardType in cardTypes)
-      {
-         _cardStatus[cardType] = false; // false = suspended
-      }
-
+      SetTheStatusOfEveryKnownCard(isActive: false);
       Flush();
    }
 
    public void UnsuspendAllCards()
    {
       Services.CardOperations.UnsuspendAllCardsForNote(_id);
-
-      // Update local status for all known card types
-      var cardTypes = _cardStatus.Keys.ToList();
-      foreach(var cardType in cardTypes)
-      {
-         _cardStatus[cardType] = true; // true = active/unsuspended
-      }
-
+      SetTheStatusOfEveryKnownCard(isActive: true);
       Flush();
+   }
+
+   /// <summary>
+   /// Marks every card type the note has a status for as active, that is unsuspended, or as suspended, after the studying-add-on was told to do the same,<br/>
+   /// and notifies the change through <see cref="JPCollection.StudyingStatusChanged"/>, since the status isn't stored with the note and no flush reports it.
+   /// </summary>
+   void SetTheStatusOfEveryKnownCard(bool isActive)
+   {
+      foreach(var cardType in _cardStatus.Keys.ToList())
+         _cardStatus[cardType] = isActive;
+      Services.Collection.NotifyThatTheStudyingStatusChangedFor(this);
    }
 
    public bool HasSuspendedCards()

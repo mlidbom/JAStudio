@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
@@ -28,6 +29,10 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 /// Every change to the search runs it again, in the background. The operations act on the <see cref="SelectedNode"/>,<br/>
 /// and the view calls them from its keys and menus. See <c>dev_docs/note-search.md</c>.
 /// </remarks>
+/// <remarks>
+/// Between changes, the results keep showing the same notes, kept up to date, even when the search would no longer find them.<br/>
+/// <see cref="RefreshCommand"/>, on F5, runs the same search again.
+/// </remarks>
 partial class NoteSearchViewModel : ObservableObject
 {
    const string HowToSearch = "+ adds a condition or a group, or type its key from the + menu, such as s for searchable text or t for tags. "
@@ -42,7 +47,7 @@ partial class NoteSearchViewModel : ObservableObject
    {
       _collection = services.CoreApp.Collection;
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
-      Results = new SearchResultsViewModel(workspace, services, runTheSearchAgain: RunTheSearchAsync);
+      Results = new SearchResultsViewModel(workspace, services);
       ShowTheSearch(ConditionPosition.Root);
    }
 
@@ -202,10 +207,17 @@ partial class NoteSearchViewModel : ObservableObject
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Undo (Ctrl+Z)"), Undo, enabled: _search.CanUndo)
    ];
 
+   /// <summary>
+   /// Runs the same search again, F5 or the Refresh button, so the results show the notes it finds now.<br/>
+   /// The rows of the notes still found stay, where they are and selected if they were, the rows of the notes no longer found go, and the newly found notes get rows.
+   /// </summary>
+   [RelayCommand]
+   void Refresh() => _fatalErrorHandler.StartAndHandleExceptionsFrom(() => RunTheSearchAsync(Results.ShowWhatTheRefreshedSearchFound));
+
    void ChangeTheSearch(ConditionPosition positionToSelect)
    {
       ShowTheSearch(positionToSelect);
-      _fatalErrorHandler.StartAndHandleExceptionsFrom(RunTheSearchAsync);
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => RunTheSearchAsync(Results.Show));
    }
 
    void ShowTheSearch(ConditionPosition positionToSelect)
@@ -223,13 +235,14 @@ partial class NoteSearchViewModel : ObservableObject
                                                           : removed.Parent;
    }
 
-   async Task RunTheSearchAsync()
+   /// <summary>Runs the search in the background, and shows the notes it found with <paramref name="showTheNotesFound"/>, unless a later run has started meanwhile.</summary>
+   async Task RunTheSearchAsync(Action<IReadOnlyList<JPNote>> showTheNotesFound)
    {
       var search = _search.Current;
       var thisSearch = ++_searchesStarted;
       if(search.IsEmpty)
       {
-         Results.Show([]);
+         showTheNotesFound([]);
          StatusText = HowToSearch;
          IsSearching = false;
          return;
@@ -240,7 +253,7 @@ partial class NoteSearchViewModel : ObservableObject
       var found = await TaskCE.Run(() => NotesFoundBy(search));
       if(ALaterSearchHasStarted(thisSearch)) return;
 
-      Results.Show(found);
+      showTheNotesFound(found);
       StatusText = found.Count switch
       {
          0 => "No notes found",
@@ -250,7 +263,7 @@ partial class NoteSearchViewModel : ObservableObject
       IsSearching = false;
    }
 
-   /// <summary>Whether a change made after the search numbered <paramref name="searchNumber"/> started started another, whose results replace its results.</summary>
+   /// <summary>Whether a change or a refresh made after the run numbered <paramref name="searchNumber"/> started started another, whose results replace its results.</summary>
    bool ALaterSearchHasStarted(int searchNumber) => searchNumber != _searchesStarted;
 
    /// <summary>The notes <paramref name="search"/> finds, in no particular order: the results grid sorts them.</summary>

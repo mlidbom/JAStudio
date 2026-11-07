@@ -26,7 +26,7 @@ namespace JAStudio.UI.Views.Workspace.Navigation;
 /// <remarks>
 /// The keys on the tree: <c>+</c> or Ctrl++ opens the add menu, and a key from the add menu does what it does there, so <c>t</c> opens the tag dialog.<br/>
 /// <c>-</c> negates the selected line, Del removes it, Enter or a double-click changes it, and Ctrl+Z undoes.<br/>
-/// The right-click menu, also on the menu key, has the rest.
+/// The right-click menu, also on the menu key, has the rest. F5, anywhere in the tab, refreshes the results.
 /// </remarks>
 /// <remarks>
 /// <c>+</c>, <c>-</c> and the menu keys are recognized by the symbol the pressed key types in the current keyboard layout (<see cref="KeyEventArgs.KeySymbol"/>),<br/>

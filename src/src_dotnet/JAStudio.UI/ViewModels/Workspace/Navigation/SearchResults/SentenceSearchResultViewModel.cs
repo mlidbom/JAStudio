@@ -10,12 +10,15 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 /// </remarks>
 sealed class SentenceSearchResultViewModel(SentenceNote sentence) : SearchResultViewModel(sentence)
 {
+   /// <summary>The row's note, which is always a sentence, since the note it's replaced by has the same id.</summary>
+   SentenceNote Sentence => (SentenceNote)Note;
+
    /// <summary>The sentence's source tag, such as <c>source::anime::natsume::s4::11</c>.</summary>
-   public TextSortedWithNumbersAsNumbers Source { get; } = new(sentence.SourceTag.ToString());
+   public TextSortedWithNumbersAsNumbers Source => new(Sentence.SourceTag.ToString());
 
    /// <summary>
    /// The id the sentence had in the deck it was imported from, such as the subs2srs id <c>ny4-nodup_11_0.15.23.540-0.15.25.620</c>:<br/>
    /// the deck, episode 11, and the line's start and end times. Empty for many sentences.
    /// </summary>
-   public TextSortedWithNumbersAsNumbers ExternalId { get; } = new(sentence.ExternalId.Value);
+   public TextSortedWithNumbersAsNumbers ExternalId => new(Sentence.ExternalId.Value);
 }

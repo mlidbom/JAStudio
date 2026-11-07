@@ -36,6 +36,21 @@ public class JPCollection
    /// <summary>Notifies every note in the collection that is updated, whatever its type, on the thread that updated it.</summary>
    public IObservable<JPNote> NoteUpdated => _noteUpdated;
 
+   readonly SimpleObservable<JPNote> _studyingStatusChanged = new();
+
+   /// <summary>
+   /// Notifies every note whose studying status changed, on the thread that changed it: when JAStudio suspended or unsuspended its cards,<br/>
+   /// or Anki reported a change to one of its cards (<see cref="UpdateCardStudyingStatus"/>).
+   /// </summary>
+   /// <remarks>
+   /// The studying status is held in memory, not stored with the note, so changing it updates no note, and <see cref="NoteUpdated"/> doesn't notify it.<br/>
+   /// A reload sets every note's studying status without notifying it here: <see cref="ReloadedFromBackend"/> notifies the reload.
+   /// </remarks>
+   public IObservable<JPNote> StudyingStatusChanged => _studyingStatusChanged;
+
+   /// <summary>Called by <paramref name="note"/> after its studying status changed, so that <see cref="StudyingStatusChanged"/> notifies it.</summary>
+   internal void NotifyThatTheStudyingStatusChangedFor(JPNote note) => _studyingStatusChanged.OnNext(note);
+
    /// <summary>
    /// The notes, of every type, that match <paramref name="search"/>, found by checking every note in memory.<br/>
    /// They come in no particular order: whoever shows them sorts them.
@@ -75,11 +90,14 @@ public class JPCollection
    public DictLookup DictLookup { get; }
    public VocabNoteGeneratedData VocabNoteGeneratedData { get; }
 
+   /// <summary>Called by Anki when it suspended or unsuspended a card, or added a note: sets the studying status of the card's note, if JAStudio has the note.</summary>
    // ReSharper disable once UnusedMember.Global called from python
    public void UpdateCardStudyingStatus(CardStudyingStatus status)
    {
-      var note = NoteFromExternalId(status.ExternalNoteId);
-      note?.SetStudyingStatus(status);
+      if(NoteFromExternalId(status.ExternalNoteId) is not {} note) return;
+
+      note.SetStudyingStatus(status);
+      NotifyThatTheStudyingStatusChangedFor(note);
    }
 
    public JPCollection(
