@@ -148,9 +148,14 @@ the tree jump around. To keep it as quick as typing:
 - the same dialog edits an existing condition, opened by Enter on the condition;
 - it's small, sized to its content: one line for text, about ten rows for the tag list.
 
-**Typing a letter while the tree has the keyboard starts a searchable-text condition** (decided, Magnus,
-2026-11-07). The searchable-text dialog opens with that letter already typed. So a quick lookup is what it was with
-the old search box: Ctrl+O, a word, Enter.
+**Typing a key from the add menu on the tree does what it does in the add menu** (Magnus, 2026-11-07, replacing
+an earlier decision that typing a letter starts a searchable-text condition). So `t` opens the tag dialog without
+`+` first. `q` opens the whole add menu with the question's submenu open, so it's clear what's happening and another
+choice is one key away. A quick lookup is Ctrl+O, `s`, `c`, a word, Enter.
+
+**When a menu closes without a pick, as with Esc, the keyboard goes back to the selected line.** Otherwise it's left
+on the window's main menu. When an item is picked, what it does decides where the keyboard goes, such as into the
+dialog it opens.
 
 **Keys act on the selected node,** the highlighted line in the tree, which is a condition or a group. Letters
 start a searchable-text condition, so the direct keys are other keys:

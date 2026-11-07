@@ -8,6 +8,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Grouping;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 
 // ReSharper disable InconsistentNaming
@@ -91,6 +92,16 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
          [XF] public void the_root_is_selected_again() => SelectedLine().Must().Be("All of:");
          [XF] public void no_notes_are_listed_for_the_empty_search() => QuestionsOfTheListedNotes().Must().BeEmpty();
       }
+   }
+
+   public class when_typing_a_key_from_the_add_menu : When_building_a_search_in_the_workspace
+   {
+      SpecMenuItem? ItemFor(char key) => NoteSearchViewModel.ItemPickedBy(key, _search.AddConditionMenu(_ => {}));
+
+      [XF] public void t_picks_the_tags_item() => ItemFor('t')?.Name.Must().Be("_t Tags");
+      [XF] public void q_picks_the_questions_submenu() => ItemFor('q')?.Kind.Must().Be(SpecMenuItemKind.Submenu);
+      [XF] public void the_case_of_the_key_is_ignored() => ItemFor('Q')?.Name.Must().Be("_q Question");
+      [XF] public void a_key_no_item_has_picks_nothing() => (ItemFor('x') is null).Must().BeTrue();
    }
 
    public class after_adding_a_group_and_negating_it : When_building_a_search_in_the_workspace

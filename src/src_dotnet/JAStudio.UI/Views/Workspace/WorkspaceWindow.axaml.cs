@@ -7,6 +7,7 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
@@ -72,6 +73,27 @@ public partial class WorkspaceWindow : Window
          _windowShortcuts.Add(keyGesture, action);
       foreach(var (keyGesture, action) in _windowShortcuts)
          KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse(keyGesture), Command = new RelayCommand(action) });
+
+      Activated += (_, _) => Dispatcher.UIThread.Post(GiveTheKeyboardBackToTheWindowUnlessAPageHasIt, DispatcherPriority.Background);
+      AddHandler(PointerPressedEvent, (_, _) => NativeKeyboardFocus.MoveToWindowItself(this), RoutingStrategies.Tunnel, handledEventsToo: true);
+   }
+
+   /// <summary>
+   /// When the window is activated, as after Alt+Tab back to it, Windows gives the keyboard back to the native window that had it last,<br/>
+   /// which can be a tab's web view even when an Avalonia control, such as the search's condition tree, has Avalonia's focus.<br/>
+   /// The keys then go to the page instead of the control. So unless a page is meant to have the keyboard, the window takes it back.
+   /// </summary>
+   /// <remarks>Clicking an Avalonia control takes the keyboard back too: the window's handler for pointer presses does that, before any control handles the press.</remarks>
+   /// <remarks>
+   /// It's posted, so a dialog may have opened over the window meanwhile, such as a search condition's editor.<br/>
+   /// The window isn't active then, and taking the keyboard would take it from the dialog.
+   /// </remarks>
+   void GiveTheKeyboardBackToTheWindowUnlessAPageHasIt()
+   {
+      if(!IsActive) return;
+      if(FocusManager.GetFocusedElement() is NativeWebView) return;
+
+      NativeKeyboardFocus.MoveToWindowItself(this);
    }
 
    static WorkspaceWindow Instance => _instance ?? throw new InvalidOperationException("The workspace window has not been created yet.");

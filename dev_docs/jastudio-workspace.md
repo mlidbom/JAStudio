@@ -114,6 +114,10 @@ apply here.
 - **Taking the keyboard back from a web view.** Focusing an Avalonia control in code doesn't take the Windows
   keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+O first gives
   the window back its keyboard focus (`NativeKeyboardFocus`), then puts it on the search's condition tree.
+  - **After Alt+Tab back to the window,** Windows gives the keyboard to the native window that had it last, which can
+    be a tab's web view even when an Avalonia control has Avalonia's focus. The keys then went to the page, and
+    clicking the control didn't help (found 2026-11-07, in the search). So the window takes the keyboard back
+    whenever it's activated, unless Avalonia's focus is on a web view, and whenever it's clicked outside a page.
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.

@@ -22,17 +22,15 @@ partial class SearchConditionDialog : Window
    const string InitialFocusClass = "initialFocus";
 
    readonly ConditionEditorViewModel _editor;
-   readonly Action _onceItHasTheKeyboard;
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no editor.
    [Obsolete("For the XAML designer/previewer only")]
    public SearchConditionDialog() => InitializeComponent();
 #pragma warning restore CS8618
 
-   SearchConditionDialog(ConditionEditorViewModel editor, Action onceItHasTheKeyboard)
+   SearchConditionDialog(ConditionEditorViewModel editor)
    {
       _editor = editor;
-      _onceItHasTheKeyboard = onceItHasTheKeyboard;
       editor.AcceptCommand = new RelayCommand(Accept);
       editor.CancelCommand = new RelayCommand(() => Close(null));
       DataContext = editor;
@@ -43,10 +41,10 @@ partial class SearchConditionDialog : Window
 
    /// <summary>
    /// Shows <paramref name="editor"/> in a modal dialog over <paramref name="owner"/>, with its top left corner at <paramref name="topLeft"/>,<br/>
-   /// and returns the condition it closed with, or null when it was cancelled. <paramref name="onceItHasTheKeyboard"/> runs once the editor has the keyboard.
+   /// and returns the condition it closed with, or null when it was cancelled.
    /// </summary>
-   internal static Task<NoteCondition?> ShowAsync(Window owner, ConditionEditorViewModel editor, PixelPoint topLeft, Action onceItHasTheKeyboard) =>
-      new SearchConditionDialog(editor, onceItHasTheKeyboard) { Position = topLeft }.ShowDialog<NoteCondition?>(owner);
+   internal static Task<NoteCondition?> ShowAsync(Window owner, ConditionEditorViewModel editor, PixelPoint topLeft) =>
+      new SearchConditionDialog(editor) { Position = topLeft }.ShowDialog<NoteCondition?>(owner);
 
    void Accept()
    {
@@ -60,7 +58,7 @@ partial class SearchConditionDialog : Window
          Accept();
    }
 
-   /// <summary>Puts the keyboard in the editor's main input, at the end of any text already in it, such as the letter typed to start a search.</summary>
+   /// <summary>Puts the keyboard in the editor's main input, at the end of any text already in it, as when changing a condition.</summary>
    void FocusTheInitialInput()
    {
       var input = this.GetVisualDescendants().OfType<InputElement>().FirstOrDefault(it => it.Classes.Contains(InitialFocusClass))
@@ -68,6 +66,5 @@ partial class SearchConditionDialog : Window
       input.Focus();
       if(input is TextBox textBox)
          textBox.CaretIndex = textBox.Text?.Length ?? 0;
-      _onceItHasTheKeyboard();
    }
 }

@@ -29,7 +29,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 /// </remarks>
 partial class NoteSearchViewModel : ObservableObject
 {
-   const string HowToSearch = "Type to search. + adds a condition or a group, - negates, Del removes, Enter or a double-click changes, Ctrl+Z undoes. Right-click for more.";
+   const string HowToSearch = "+ adds a condition or a group, or type its key from the + menu, such as s for searchable text or t for tags. "
+                            + "- negates, Del removes, Enter or a double-click changes, Ctrl+Z undoes. Right-click for more.";
 
    readonly JPCollection _collection;
    readonly IFatalErrorHandler _fatalErrorHandler;
@@ -62,12 +63,11 @@ partial class NoteSearchViewModel : ObservableObject
    /// <summary>The line the operations act on: the selected one, or the root when none is.</summary>
    SearchConditionNodeViewModel Selected => SelectedNode ?? Root;
 
-   /// <summary>An editor for a new condition on <paramref name="property"/>, with <paramref name="typedText"/> already typed into it if it takes text.</summary>
-   internal ConditionEditorViewModel EditorForANewConditionOn(NoteProperty property, string typedText = "") =>
-      ConditionEditorViewModel.ForANewConditionOn(property, _collection, typedText);
+   /// <summary>An editor for a new condition on <paramref name="property"/>.</summary>
+   ConditionEditorViewModel EditorForANewConditionOn(NoteProperty property) => ConditionEditorViewModel.ForANewConditionOn(property, _collection);
 
    /// <summary>An editor for a new condition on the text property <paramref name="property"/>, comparing in the way <paramref name="matchChoice"/> says.</summary>
-   internal static ConditionEditorViewModel EditorForANewTextCondition(TextProperty property, TextMatchChoice matchChoice) =>
+   static ConditionEditorViewModel EditorForANewTextCondition(TextProperty property, TextMatchChoice matchChoice) =>
       new TextConditionEditorViewModel(property, matchChoice, "");
 
    /// <summary>An editor filled in with the selected line's condition, or null when the line is a group, which has no editor.</summary>
@@ -162,21 +162,30 @@ partial class NoteSearchViewModel : ObservableObject
          PropertyItem('n', NoteProperties.NoteType),
          PropertyItem('r', NoteProperties.StudyingReading),
          PropertyItem('l', NoteProperties.StudyingListening),
-         SpecMenuItem.Submenu(ShortcutFinger.Mnemonic('g', "Group"),
+         Submenu('g', "Group",
          [
-            SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', "All of"), () => AddCondition(ConditionGroup.AllOf())),
-            SpecMenuItem.Command(ShortcutFinger.Mnemonic('o', "Any of"), () => AddCondition(ConditionGroup.AnyOf()))
+            Command('a', "All of", () => AddCondition(ConditionGroup.AllOf())),
+            Command('o', "Any of", () => AddCondition(ConditionGroup.AnyOf()))
          ])
       ];
 
       SpecMenuItem TextPropertySubmenu(char key, TextProperty property) =>
-         SpecMenuItem.Submenu(ShortcutFinger.Mnemonic(key, property.Name),
-                              [..TextMatchChoice.All.Select(choice => SpecMenuItem.Command(ShortcutFinger.Mnemonic(choice.MenuKey, choice.Name),
-                                                                                         () => addAConditionThrough(EditorForANewTextCondition(property, choice))))]);
+         Submenu(key, property.Name, [..TextMatchChoice.All.Select(choice => Command(choice.MenuKey, choice.Name, () => addAConditionThrough(EditorForANewTextCondition(property, choice))))]);
 
-      SpecMenuItem PropertyItem(char key, NoteProperty property) =>
-         SpecMenuItem.Command(ShortcutFinger.Mnemonic(key, property.Name), () => addAConditionThrough(EditorForANewConditionOn(property)));
+      SpecMenuItem PropertyItem(char key, NoteProperty property) => Command(key, property.Name, () => addAConditionThrough(EditorForANewConditionOn(property)));
+
+      static SpecMenuItem Command(char key, string text, Action action) => SpecMenuItem.Command(ShortcutFinger.Mnemonic(key, text), action, acceleratorKey: key);
+
+      static SpecMenuItem Submenu(char key, string text, IReadOnlyList<SpecMenuItem> children) => SpecMenuItem.Submenu(ShortcutFinger.Mnemonic(key, text), children, acceleratorKey: key);
    }
+
+   /// <summary>
+   /// The item of <paramref name="menu"/>, such as the <see cref="AddConditionMenu"/>, that <paramref name="key"/> picks, ignoring case,<br/>
+   /// or null when no item has that key. Typing a key on the condition tree does what typing it in the add menu would,<br/>
+   /// so t opens the tag dialog, and q opens the add menu with the question's submenu open.
+   /// </summary>
+   internal static SpecMenuItem? ItemPickedBy(char key, IEnumerable<SpecMenuItem> menu) =>
+      menu.FirstOrDefault(it => it.AcceleratorKey is {} itemKey && char.ToLowerInvariant(itemKey) == char.ToLowerInvariant(key));
 
    /// <summary>The selected line's right-click menu: everything the editor can do to it, each picked by a single key.</summary>
    /// <param name="openTheAddMenu">Opens the <see cref="AddConditionMenu"/>.</param>

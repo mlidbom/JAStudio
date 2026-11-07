@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
@@ -29,8 +30,15 @@ sealed class PopupMenuWindow : Window
 {
    readonly MenuItem _hiddenMenuBarItem;
 
-   PopupMenuWindow(IReadOnlyList<SpecMenuItem> menuSpec, PixelPoint menuTopLeft)
+   /// <summary>The item whose submenu is opened along with the menu, as if its key had been typed. Null to open just the menu.</summary>
+   readonly SpecMenuItem? _submenuToOpen;
+
+   /// <summary>Whether an item without a submenu was clicked or picked by its key, rather than the menu being closed without a pick.</summary>
+   bool _anItemWasPicked;
+
+   PopupMenuWindow(IReadOnlyList<SpecMenuItem> menuSpec, PixelPoint menuTopLeft, SpecMenuItem? submenuToOpen = null)
    {
+      _submenuToOpen = submenuToOpen;
       _hiddenMenuBarItem = new MenuItem
                            {
                               ItemsSource = SpecMenuRenderer.BuildMenuItems(menuSpec).ToList(),
@@ -61,6 +69,11 @@ sealed class PopupMenuWindow : Window
 
       Opened += (_, _) => OpenTheMenu();
       Deactivated += (_, _) => _hiddenMenuBarItem.IsSubMenuOpen = false;
+      _hiddenMenuBarItem.AddHandler(MenuItem.ClickEvent, (_, e) =>
+      {
+         if(e.Source is MenuItem { ItemCount: 0 })
+            _anItemWasPicked = true;
+      });
       _hiddenMenuBarItem.PropertyChanged += (_, e) =>
       {
          if(e.Property == MenuItem.IsSubMenuOpenProperty && !_hiddenMenuBarItem.IsSubMenuOpen)
@@ -76,6 +89,33 @@ sealed class PopupMenuWindow : Window
    public static void ShowAt(PixelPoint menuTopLeft, IReadOnlyList<SpecMenuItem> menuSpec) =>
       new PopupMenuWindow(menuSpec, menuTopLeft).Show();
 
+   /// <summary>
+   /// Shows the menu as <see cref="ShowAt(PixelPoint, IReadOnlyList{SpecMenuItem})"/> does, and runs <paramref name="whenClosedWithoutAPick"/>
+   /// if it closes without an item being picked, as with Esc.<br/>
+   /// The window it came from can then put the keyboard back where it was. When an item is picked, what the item does decides where the keyboard goes,
+   /// such as into a dialog it opens.
+   /// </summary>
+   public static void ShowAt(PixelPoint menuTopLeft, IReadOnlyList<SpecMenuItem> menuSpec, Action whenClosedWithoutAPick) =>
+      new PopupMenuWindow(menuSpec, menuTopLeft).ShowAndRunIfClosedWithoutAPick(whenClosedWithoutAPick);
+
+   /// <summary>
+   /// Shows the menu as <see cref="ShowAt(PixelPoint, IReadOnlyList{SpecMenuItem}, Action)"/> does, with the submenu of <paramref name="submenuToOpen"/>,
+   /// one of its items, open,<br/>
+   /// as if that item's key had been typed in the menu. So it's clear what's happening, and another item is one key away.
+   /// </summary>
+   public static void ShowWithSubmenuOpen(PixelPoint menuTopLeft, IReadOnlyList<SpecMenuItem> menuSpec, SpecMenuItem submenuToOpen, Action whenClosedWithoutAPick) =>
+      new PopupMenuWindow(menuSpec, menuTopLeft, submenuToOpen).ShowAndRunIfClosedWithoutAPick(whenClosedWithoutAPick);
+
+   void ShowAndRunIfClosedWithoutAPick(Action whenClosedWithoutAPick)
+   {
+      Closed += (_, _) =>
+      {
+         if(!_anItemWasPicked)
+            whenClosedWithoutAPick();
+      };
+      Show();
+   }
+
    void OpenTheMenu()
    {
       _hiddenMenuBarItem.IsSubMenuOpen = true;
@@ -83,5 +123,20 @@ sealed class PopupMenuWindow : Window
    }
 
    /// <summary>Access keys reach a menu as text typed into it, so the keyboard focus has to be inside the menu.</summary>
-   void FocusTheFirstItem() => _hiddenMenuBarItem.Items.OfType<MenuItem>().FirstOrDefault(it => it.IsEnabled)?.Focus();
+   void FocusTheFirstItem()
+   {
+      FirstEnabledItemIn(_hiddenMenuBarItem)?.Focus();
+      if(_submenuToOpen is {} submenu)
+         OpenTheSubmenuOf(submenu);
+   }
+
+   void OpenTheSubmenuOf(SpecMenuItem submenu)
+   {
+      var item = _hiddenMenuBarItem.Items.OfType<MenuItem>().Single(it => Equals(it.Header, submenu.Name));
+      item.Focus();
+      item.IsSubMenuOpen = true;
+      Dispatcher.UIThread.Post(() => FirstEnabledItemIn(item)?.Focus(), DispatcherPriority.Loaded);
+   }
+
+   static MenuItem? FirstEnabledItemIn(MenuItem menu) => menu.Items.OfType<MenuItem>().FirstOrDefault(it => it.IsEnabled);
 }

@@ -41,11 +41,11 @@ abstract class ConditionEditorViewModel : ObservableObject
       OnPropertyChanged(nameof(CanAccept));
    }
 
-   /// <summary>An editor for a new condition on <paramref name="property"/>, with <paramref name="typedText"/> already typed into it if it takes text.</summary>
-   public static ConditionEditorViewModel ForANewConditionOn(NoteProperty property, JPCollection collection, string typedText = "") => property switch
+   /// <summary>An editor for a new condition on <paramref name="property"/>.</summary>
+   public static ConditionEditorViewModel ForANewConditionOn(NoteProperty property, JPCollection collection) => property switch
    {
-      TextProperty text => new TextConditionEditorViewModel(text, TextMatchChoice.Contains, typedText),
-      TagsProperty tags => new TagConditionEditorViewModel(tags, collection.TagPathsInUse(), typedText),
+      TextProperty text => new TextConditionEditorViewModel(text, TextMatchChoice.Contains, ""),
+      TagsProperty tags => new TagConditionEditorViewModel(tags, collection.TagPathsInUse(), ""),
       TrueOrFalseProperty trueOrFalse => new TrueOrFalseConditionEditorViewModel(trueOrFalse, true),
       NoteTypeProperty noteType => new NoteTypeConditionEditorViewModel(noteType, null),
       _ => throw new ArgumentOutOfRangeException(nameof(property), property, "The search editor has no editor for this kind of property.")
