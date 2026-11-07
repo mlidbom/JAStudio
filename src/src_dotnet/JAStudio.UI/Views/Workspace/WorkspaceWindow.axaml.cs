@@ -85,6 +85,10 @@ public partial class WorkspaceWindow : Window
    /// </summary>
    /// <remarks>Clicking an Avalonia control takes the keyboard back too: the window's handler for pointer presses does that, before any control handles the press.</remarks>
    /// <remarks>
+   /// Written on 2026-11-07 while Windows' keyboard input was broken system-wide, so the problem it answers may well have been that fault.<br/>
+   /// It's kept because it's harmless and was tested together with the rest. See <c>dev_docs/jastudio-workspace.md</c>.
+   /// </remarks>
+   /// <remarks>
    /// It's posted, so a dialog may have opened over the window meanwhile, such as a search condition's editor.<br/>
    /// Taking the keyboard then would take it from the dialog. <see cref="Window.IsActive"/> can still say the window is active at that point,<br/>
    /// so the dialog itself is looked for too.

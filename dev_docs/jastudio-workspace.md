@@ -118,10 +118,18 @@ apply here.
     be a tab's web view even when an Avalonia control has Avalonia's focus. The keys then went to the page, and
     clicking the control didn't help (found 2026-11-07, in the search). So the window takes the keyboard back
     whenever it's activated, unless Avalonia's focus is on a web view, and whenever it's clicked outside a page.
+    This was written while Windows' keyboard input was broken system-wide (see below), so the problem it answers
+    may well have been that fault. It's kept because it's harmless and was tested together with the rest.
   - **Not while a dialog is open over it.** Code that gives the workspace the keyboard runs a moment after what
     asked for it, so a modal dialog, such as a search condition's editor, may have opened meanwhile. That code holds
     back while a window the workspace owns is open, and a dialog takes the Windows keyboard focus for itself when it
-    opens. Otherwise typing in the dialog went to the workspace behind it (found 2026-11-07).
+    opens. Otherwise typing in the dialog went to the workspace behind it (found 2026-11-07). This one was real:
+    removing these safeguards brought the problem back with Windows healthy.
+- **A Windows input fault, not JAStudio's (2026-11-07).** For a while, keys stopped reaching the search's condition
+  tree after Alt+Tab or a switch of virtual desktops, and came back only after another window had taken activation.
+  It turned out Windows' keyboard input was broken system-wide: even the Start menu's search typed odd kanji with a
+  Western layout active. A reboot fixed it. So if keys stop reaching a control, check that other applications still
+  get normal text before changing the code.
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.

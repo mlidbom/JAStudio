@@ -29,10 +29,10 @@ namespace JAStudio.UI.Views.Workspace.Navigation;
 /// The right-click menu, also on the menu key, has the rest.
 /// </remarks>
 /// <remarks>
-/// <c>+</c>, <c>-</c> and the menu keys are recognized by the symbol the pressed key types in the current keyboard layout (<see cref="KeyEventArgs.KeySymbol"/>).<br/>
-/// Not by the key's code, which differs between layouts. Not as typed text either: that comes through the input method, the same system that serves<br/>
-/// an IME, and the keys read that way stopped working after switching virtual desktops and back, until another window had taken activation and given it back.<br/>
-/// Menus open after the key or click that asked for them has been handled, since a menu window opened in the middle of it can lose activation at once, and close.<br/>
+/// <c>+</c>, <c>-</c> and the menu keys are recognized by the symbol the pressed key types in the current keyboard layout (<see cref="KeyEventArgs.KeySymbol"/>),<br/>
+/// not by the key's code, which differs between layouts.<br/>
+/// Menus open after the key or click that asked for them has been handled. That was done while Windows' keyboard input was broken (2026-11-07),<br/>
+/// on a guess that a menu window opened in the middle of it could lose activation, and may not be needed.<br/>
 /// When a menu closes without a pick, as with Esc, the keyboard goes back to the selected line. Otherwise it's left on the window's main menu.
 /// </remarks>
 public partial class NoteSearchView : UserControl
