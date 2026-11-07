@@ -101,7 +101,7 @@ A failing spec should print the search indented like the tree, so the difference
 
 | Property | Type | Matches | Notes |
 |---|---|---|---|
-| searchable text | text | Notes whose searchable text matches | Which fields count as searchable text, per note type, is open question 2. In Anki it's every field except tags. |
+| searchable text | text | Notes with any searchable field that matches | The fields the old search box covered (open question 2). In Anki it's every field except tags. |
 | tags | tags | Notes with the tag or a tag in its branch. Also: a tag pattern, a regex, or no tags at all. | See [tags.md](tags.md). |
 | studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the studying-add-on (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
 | note type | one of a fixed set | vocab, kanji or sentence | |
@@ -134,15 +134,34 @@ typing, and the search is never invalid.
 **The menu is a JAStudio menu,** with the same single-key accelerators as the note menus (`SpecMenuItem`,
 `ShortcutFinger`).
 
-**Keys act on the selected node:**
-- **on a group:** add a condition, add a subgroup, switch between "all of" and "any of", negate the group;
-- **on a condition:** edit it (Enter), remove it (Del), negate it, wrap it in a new group;
-- **anywhere:** the arrow keys move through the tree, and something like Alt+Up and Alt+Down moves a node within its
-  group.
+**A condition's editor is a small dialog** (decided, Magnus, 2026-11-07), not inline in the tree. The tag editor
+needs room for its list, and the results need room for their tabs and columns, so an editor opening inline would make
+the tree jump around. To keep it as quick as typing:
+- it opens next to the tree, with the keyboard in its input;
+- Enter adds the condition, and Esc cancels;
+- the keyboard goes back to the tree, with the new condition selected;
+- it's modal, so the search can't change while it's open;
+- the same dialog edits an existing condition, opened by Enter on the condition;
+- it's small, sized to its content: one line for text, about ten rows for the tag list.
 
-Every key has a mouse equivalent, such as the + icon.
+**Typing a letter while the tree has the keyboard starts a searchable-text condition** (decided, Magnus,
+2026-11-07). The searchable-text dialog opens with that letter already typed. So a quick lookup is what it was with
+the old search box: Ctrl+O, a word, Enter.
 
-**The add key** is `+` or `Ctrl++` (Magnus, 2026-11-07), matching the + icon.
+**Keys act on the selected node,** the highlighted line in the tree, which is a condition or a group. Letters
+start a searchable-text condition, so the direct keys are other keys:
+- **`+` or `Ctrl++`** (Magnus, 2026-11-07) adds a condition to the selected group, or to the group the selected
+  condition is in;
+- **Del** removes the selected node, and a group goes with everything in it. The root group can't be removed;
+- **`-`** negates the selected node, putting it under "Not", or takes it out again, as Anki's `-tag:x` negates;
+- **Enter** edits the selected condition in its dialog;
+- **Ctrl+Z** undoes the last change, since one misplaced Del on a group could lose a whole search;
+- **the arrow keys** move through the tree.
+
+**Every action is also in the node's right-click menu,** which the menu key and Shift+F10 open too, with
+single-key accelerators like the note menus. Actions without a key of their own live only there, such as switching a
+group between "all of" and "any of". Later actions belong there too, such as adding a subgroup, wrapping a node in a
+new group, and moving a node within its group.
 
 **The tree shows each condition as a readable line,** such as "Tags include `source::anime::natsume`" or "Not:
 studying reading", and each group as "All of" or "Any of".
@@ -151,8 +170,7 @@ studying reading", and each group as "All of" or "Any of".
 milliseconds per condition today. Whether re-sorting a grid of 49,000 rows after every change stays quick is to be
 measured.
 
-**Undo** within the editor: one misplaced Del on a group could lose a search that took a while to build. The tree is
-small, so keeping the earlier trees is cheap.
+**Undo** keeps the earlier trees, which is cheap since the tree is small.
 
 **Space:** the condition tree takes height in the pane, so it can be collapsed.
 
@@ -218,9 +236,13 @@ columns need, and the note's page stays visible beside the results.
      Anki's note type names, which the search shouldn't depend on.
    - **`JPCollection.NotesMatching`** finds the notes a search matches, by checking every note in memory.
    - The specs are in `JAStudio.Core.Specifications/AICreatedSpecs/Search/`.
-2. **The search editor** in the navigation pane, replacing the current Search tab's text box: the condition tree
-   with its keys, and editors for text, tags, true-or-false and the note type. The results show in today's list,
-   without the cap.
+2. **The search editor** in the navigation pane, replacing the current Search tab's text box, in two parts:
+   - **2a, a working search editor:** the operations on the tree in Core (add, remove, negate, switch a group), with
+     specs; the searchable-text property; the condition tree with the keys above, undo included; the node's
+     right-click menu; and a dialog per property type, for text, tags, true-or-false and the note type. The results
+     show in today's list, without the cap.
+   - **2b, the rest:** subgroups, wrapping a node in a new group, moving a node within its group, and collapsing the
+     tree.
 3. **The results grid** with sortable columns, selecting several rows, and the place in the source.
 4. **Tagging notes** ([tags.md](tags.md), increment 1).
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
@@ -286,7 +308,12 @@ conditions come from factory methods where those read better, and from the prope
 
 1. **Several workspaces instead of several search tabs?** Magnus's leaning. See
    [Where the search lives](#where-the-search-lives).
-2. **Which fields are searchable text,** per note type? Anki searches every field. For JAStudio, the question and
-   answer at least, and perhaps readings, forms and comments.
+2. ~~Which fields are searchable text?~~ *Answered 2026-11-07:* exactly what the old search box covered, with HTML
+   stripped:
+   - vocab: question, answer, readings, readings in romaji, forms;
+   - kanji: question, answer, readings, readings in romaji;
+   - sentences: question and answer.
+
+   The old box's `r:` (readings only) becomes a readings property later.
 3. **Which of Anki's left-out searches does Magnus use?** For example new cards, or cards answered recently. Each
    would need its data loaded from the studying-add-on, as a property of the note.
