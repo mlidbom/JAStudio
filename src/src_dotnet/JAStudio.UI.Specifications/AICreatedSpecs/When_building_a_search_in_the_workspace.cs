@@ -35,7 +35,8 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
    List<string> QuestionsOfTheListedNotes()
    {
       SpinWait.SpinUntil(() => !_search.IsSearching, TimeSpan.FromSeconds(10)).Must().BeTrue();
-      return [.._search.Results.OfEachType.SelectMany(it => it.Notes).Select(it => it.Question)];
+      var results = _search.Results;
+      return [..results.Vocab.Results.Select(it => it.Question), ..results.Kanji.Results.Select(it => it.Question), ..results.Sentences.Results.Select(it => it.Question)];
    }
 
    public class that_was_just_opened : When_building_a_search_in_the_workspace

@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:results="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults"
+             x:Class="JAStudio.UI.Views.Workspace.Navigation.SearchResults.SearchResultsView"
+             x:DataType="results:SearchResultsViewModel">
+
+    <UserControl.Resources>
+        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="DataGrid">
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="SelectionMode" Value="Extended" />
+            <Setter Property="CanUserSortColumns" Value="True" />
+            <Setter Property="CanUserResizeColumns" Value="True" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+        </Style>
+    </UserControl.Styles>
+
+    <DockPanel>
+        <!-- One tab per note type, for the types with results, when there's more than one. -->
+        <TabStrip DockPanel.Dock="Top" ItemsSource="{Binding OfEachType}" SelectedItem="{Binding Shown}"
+                  IsVisible="{Binding ShowsSeveralTypes}" Margin="0,0,0,4">
+            <TabStrip.Styles>
+                <Style Selector="TabStripItem" x:DataType="results:SearchResultsOfOneTypeViewModel">
+                    <Setter Property="IsVisible" Value="{Binding HasResults}" />
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="MinHeight" Value="0" />
+                    <Setter Property="Padding" Value="8,3" />
+                </Style>
+            </TabStrip.Styles>
+            <TabStrip.ItemTemplate>
+                <DataTemplate x:DataType="results:SearchResultsOfOneTypeViewModel">
+                    <TextBlock Text="{Binding Header}" />
+                </DataTemplate>
+            </TabStrip.ItemTemplate>
+        </TabStrip>
+
+        <!-- A grid per note type, each with the type's columns. Only the shown type's grid is visible, so each grid keeps its own sort and selection. -->
+        <Panel>
+            <DataGrid x:Name="VocabGrid" ItemsSource="{Binding Vocab.Results}" IsVisible="{Binding Vocab.IsShown}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="*" FontFamily="{StaticResource JapaneseFont}" FontSize="16" />
+                    <DataGridTextColumn Header="Readings" Binding="{Binding Readings}" Width="Auto" FontFamily="{StaticResource JapaneseFont}" />
+                    <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" Width="2*" />
+                    <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
+                    <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid x:Name="KanjiGrid" ItemsSource="{Binding Kanji.Results}" IsVisible="{Binding Kanji.IsShown}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Kanji" Binding="{Binding Question}" Width="Auto" FontFamily="{StaticResource JapaneseFont}" FontSize="18" />
+                    <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" Width="2*" />
+                    <DataGridTextColumn Header="On readings" Binding="{Binding OnReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
+                    <DataGridTextColumn Header="Kun readings" Binding="{Binding KunReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
+                    <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
+                    <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid x:Name="SentencesGrid" ItemsSource="{Binding Sentences.Results}" IsVisible="{Binding Sentences.IsShown}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="2*" FontFamily="{StaticResource JapaneseFont}" FontSize="16" />
+                    <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" Width="2*" />
+                    <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
+                    <DataGridTextColumn Header="Source" Binding="{Binding Source.Text}" SortMemberPath="Source" Width="Auto" />
+                    <DataGridTextColumn Header="External id" Binding="{Binding ExternalId.Text}" SortMemberPath="ExternalId" Width="Auto" />
+                    <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
+                    <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Panel>
+    </DockPanel>
+
+</UserControl>

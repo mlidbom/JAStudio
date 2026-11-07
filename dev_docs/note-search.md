@@ -177,8 +177,8 @@ new group, and moving a node within its group.
 studying reading", and each group as "All of" or "Any of".
 
 **The search runs after every change,** since every change leaves a valid search. Scanning takes a few
-milliseconds per condition today. Whether re-sorting a grid of 49,000 rows after every change stays quick is to be
-measured.
+milliseconds per condition today. Sorting 49,000 rows takes tens of milliseconds (measured with increment 3,
+below), so re-sorting the grid after every change looks fine.
 
 **Undo** keeps the earlier trees, which is cheap since the tree is small.
 
@@ -207,10 +207,13 @@ Browsing and editing the tag tree is tag management, separate from the search. S
 - **Candidate columns:**
   - vocab: question, answer, readings, parts of speech, forms, sentence count, studying (reading, listening), tags;
   - kanji: kanji, answer, on readings, kun readings, radicals, studying, tags;
-  - sentences: question, answer, source, place in the source, studying, tags.
-- **The place in the source** is the subs2srs id (`externalId`, for example
-  `ny4-nodup_11_0.15.23.540-0.15.25.620`), sorted with numbers compared as numbers, so episode 2 comes before
-  episode 11. That's Magnus's "next episode" workflow.
+  - sentences: question, answer, source, external id, studying, tags.
+- **A sentence's external id** (`SentenceNote.ExternalId`) is the id it had in the deck it was imported from. A
+  subs2srs id such as `ny4-nodup_11_0.15.23.540-0.15.25.620` is the deck, episode 11, and the line's start and end
+  times. It's sorted with numbers compared as numbers, so episode 2 comes before episode 11, and an episode's
+  sentences come in the order their lines are spoken. That's Magnus's "next episode" workflow. On 2026-11-07, 20,041
+  of the 49,162 sentences had a subs2srs id, 14,696 had none, and the rest had other formats, such as
+  `A_VioletEvergarden_S01_E01_123` and `sentence:1234`, which sort sensibly the same way.
 - **Selecting several rows** (Ctrl/Shift+click, select all), right-click actions on the selection (adding and
   removing tags, see [tags.md](tags.md)), double-click or Enter to open, middle-click to open in a background
   tab, as the lists do now.
@@ -266,7 +269,35 @@ columns need, and the note's page stays visible beside the results.
      - **Not yet:** dimming the parent part of the tag paths in the tag dialog.
    - **2b, the rest:** wrapping a node in a new group, moving a node within its group, and collapsing the tree.
      Adding groups moved into 2a (Magnus, 2026-11-07).
-3. **The results grid** with sortable columns, selecting several rows, and the place in the source.
+3. **The results grid** with sortable columns, selecting several rows, and the external id. *(First version built
+   2026-11-07.)*
+   - **It replaces the results list in the Search tab only.** The note menus' List tab keeps its list
+     (`ListedNotesView`).
+   - **The UI:** `SearchResultsViewModel` holds the results, in a `SearchResultsOfOneTypeViewModel<TSearchResult>`
+     per note type, each row a `SearchResultViewModel` subclass with the type's columns
+     (`VocabSearchResultViewModel`, `KanjiSearchResultViewModel`, `SentenceSearchResultViewModel`). The view is
+     `SearchResultsView`, with a `DataGrid` per type. Only the shown type's grid is visible, so each keeps its own
+     sort and selection.
+   - **The columns, fixed for now:**
+     - vocab: question, readings, answer, studying reading, studying listening;
+     - kanji: kanji, answer, on readings, kun readings, studying reading, studying listening;
+     - sentences: question, answer, source, external id, studying reading, studying listening.
+   - **Sorting is the grid's own** (Magnus, 2026-11-07: no special sorting while this is built in). Clicking a
+     header sorts by that column alone. Shift+click adds a column that sorts the rows the earlier columns leave
+     equal, and Ctrl+click stops sorting. A grid starts out sorted by the question (Magnus, 2026-11-07). The
+     source and the external id compare their numbers as numbers (`TextSortedWithNumbersAsNumbers`).
+   - **The grid keeps its sort when the search changes:** the rows are replaced in the same collection
+     (`ReplaceableObservableCollection`), with one notification, and the grid sorts the new rows the same way.
+   - **Selecting and opening:** Ctrl/Shift+click and Ctrl+A select several rows. Enter or a double-click opens
+     the note, and middle-click opens it in a background tab.
+   - **The selection's right-click menu,** also on the menu key: "Unsuspend all cards" and "Suspend all cards"
+     for every selected note, run in the background with a progress dialog. Then the search runs again, so the
+     results show the change and drop the notes it no longer finds. Suspending reading and listening separately
+     waits for [studying.md](studying.md).
+   - **Measured (2026-11-07),** on the 49,162 sentence texts, outside the grid: sorting by question took about
+     25 ms, sorting by external id about 60 ms, and stripping the markup from them about 5 ms. The grid's own
+     overhead isn't measured.
+   - **Not yet:** a tags column, showing and hiding columns, and the studying-add-on's other card states.
 4. **Tagging notes** ([tags.md](tags.md), increment 1).
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
 6. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.

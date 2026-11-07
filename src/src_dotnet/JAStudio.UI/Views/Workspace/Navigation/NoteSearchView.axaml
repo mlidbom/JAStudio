@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:navigation="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation"
              xmlns:search="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation.Search"
-             xmlns:navigationViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
+             xmlns:resultsViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation.SearchResults"
              x:Class="JAStudio.UI.Views.Workspace.Navigation.NoteSearchView"
              x:DataType="navigation:NoteSearchViewModel">
 
@@ -32,7 +32,7 @@
             <ProgressBar Grid.Column="1" Width="60" IsIndeterminate="True" IsVisible="{Binding IsSearching}" />
         </Grid>
 
-        <navigationViews:ListedNotesView DataContext="{Binding Results}" />
+        <resultsViews:SearchResultsView DataContext="{Binding Results}" />
     </DockPanel>
 
 </UserControl>

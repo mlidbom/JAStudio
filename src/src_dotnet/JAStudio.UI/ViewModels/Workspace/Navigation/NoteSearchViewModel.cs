@@ -15,6 +15,7 @@ using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.Search;
+using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 using JAStudio.UI.Views.Workspace.Navigation;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation;
@@ -41,12 +42,12 @@ partial class NoteSearchViewModel : ObservableObject
    {
       _collection = services.CoreApp.Collection;
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
-      Results = new ListedNotesViewModel(workspace);
+      Results = new SearchResultsViewModel(workspace, services, runTheSearchAgain: RunTheSearchAsync);
       ShowTheSearch(ConditionPosition.Root);
    }
 
    /// <summary>The notes the search found.</summary>
-   public ListedNotesViewModel Results { get; }
+   public SearchResultsViewModel Results { get; }
 
    /// <summary>The condition tree's lines: just the root, with every other line under it.</summary>
    [ObservableProperty] IReadOnlyList<SearchConditionNodeViewModel> _nodes = [];
@@ -252,7 +253,6 @@ partial class NoteSearchViewModel : ObservableObject
    /// <summary>Whether a change made after the search numbered <paramref name="searchNumber"/> started started another, whose results replace its results.</summary>
    bool ALaterSearchHasStarted(int searchNumber) => searchNumber != _searchesStarted;
 
-   /// <summary>The notes <paramref name="search"/> finds, shortest question first, which tends to put the closest match on top.</summary>
-   List<JPNote> NotesFoundBy(NoteCondition search) =>
-      [.._collection.NotesMatching(search).OrderBy(it => it.GetQuestion().Length).ThenBy(it => it.GetQuestion(), StringComparer.Ordinal)];
+   /// <summary>The notes <paramref name="search"/> finds, in no particular order: the results grid sorts them.</summary>
+   List<JPNote> NotesFoundBy(NoteCondition search) => [.._collection.NotesMatching(search)];
 }
