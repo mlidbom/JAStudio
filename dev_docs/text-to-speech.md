@@ -194,11 +194,16 @@ vocab's readings, so a later increment could tell a voice how to pronounce a kan
 
 1. **Which audio field a kept speech replaces,** when a vocab already has Forvo or imported audio in `Audio_g`:
    probably only `Audio_TTS`, as HyperTTS's TTS presets do.
-2. **Recording the voice in the media layer.** `media-storage-and-import.md` designs a `tts` section in the audio
-   sidecar, with the engine, the voice and a version, but `AudioAttachment` doesn't have it yet (found 2026-11-07).
-   Increment 2 adds it, or decides it isn't needed.
-3. **Where the media layer puts a kept speech:** its import rules route files by source tag and field, and TTS
-   audio is `Free`.
+2. **Recording the voice.** The media layer works by file name alone, with no sidecars: they were dropped on
+   2026-05-15 (`media-storage-and-import.md`). *Corrected 2026-11-07: this question first assumed a sidecar to record
+   the voice in.* So the only place left is the file name, such as `jastudio-tts-azure-daichi-hdomni-<guid>.mp3`, or
+   it isn't recorded at all.
+3. **Where a kept speech goes:** next to HyperTTS's, in `free/TTS/vocab` and `free/TTS/sentences/<source>`, under a
+   name unique across the media tree. `MediaStorageService.StoreFile` copies from a file, so it needs a way to store
+   bytes too, and to register them in `MediaFileIndex`.
+4. **The file a kept speech replaces** becomes an orphan, still in the media layer and in Anki's media folder, as when
+   HyperTTS regenerates audio today. The simple version leaves it. Deleting it safely needs a check that no other
+   note references the same name, which a later batch could do for every orphan at once.
 
 ## Sources
 
