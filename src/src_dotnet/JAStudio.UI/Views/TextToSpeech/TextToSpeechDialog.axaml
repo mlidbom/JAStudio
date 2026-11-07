@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:textToSpeech="clr-namespace:JAStudio.UI.ViewModels.TextToSpeech"
+        xmlns:providers="clr-namespace:JAStudio.TextToSpeech;assembly=JAStudio.TextToSpeech"
+        x:Class="JAStudio.UI.Views.TextToSpeech.TextToSpeechDialog"
+        x:DataType="textToSpeech:TextToSpeechDialogViewModel"
+        Title="{Binding Title}"
+        Width="680"
+        Height="560"
+        WindowStartupLocation="Manual">
+
+    <Window.Resources>
+        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
+    </Window.Resources>
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top" Spacing="8">
+            <TextBlock Text="Text to speak. Editing it changes only what's spoken, such as writing a word in kana to force its reading:" TextWrapping="Wrap" />
+            <TextBox x:Name="TextToSpeakBox" Text="{Binding TextToSpeak}" FontFamily="{StaticResource JapaneseFont}" FontSize="18" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="The note's TTS audio now:" VerticalAlignment="Center" />
+                <Button Content="▶ (0)" Click="OnPlayTheCurrentAudio" IsEnabled="{Binding CanPlayTheCurrentAudio}" Padding="8,2" />
+                <TextBlock Text="{Binding CurrentAudio}" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock Text="Generate with:" />
+            <ItemsControl ItemsSource="{Binding ChosenVoices}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="providers:TextToSpeechVoice">
+                        <Button Content="{Binding}" Click="OnGenerateWithAVoice" Margin="0,0,6,6" Padding="8,2" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="Every voice" Click="OnGenerateWithEveryVoice" Padding="8,2" />
+                <Button Content="Voices..." Click="OnChooseTheVoices" Padding="8,2" />
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsGenerating}" Width="80" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock Text="Attempts. Selecting one plays it, 1 to 9 play attempts 1 to 9, and Enter keeps the selected one:" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,8,0,0">
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Foreground="OrangeRed"
+                       IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button Content="{Binding KeepText}" Click="OnKeep" IsEnabled="{Binding CanKeep}" />
+                <Button Content="Close" IsCancel="True" Click="OnClose" />
+            </StackPanel>
+        </StackPanel>
+
+        <ListBox x:Name="AttemptList" ItemsSource="{Binding Attempts}" SelectedItem="{Binding SelectedAttempt}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="textToSpeech:SpeechAttemptViewModel">
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+                        <TextBlock Grid.Column="0" Text="{Binding Description}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Length}" Margin="12,0,0,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding Comparison}" Margin="12,0,0,0" Foreground="Gray" MinWidth="220" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+
+</Window>

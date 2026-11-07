@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:textToSpeech="clr-namespace:JAStudio.UI.ViewModels.TextToSpeech"
+        x:Class="JAStudio.UI.Views.TextToSpeech.ChosenVoicesDialog"
+        x:DataType="textToSpeech:ChosenVoicesDialogViewModel"
+        Title="Text-to-speech voices"
+        Width="900"
+        Height="600"
+        WindowStartupLocation="Manual">
+
+    <DockPanel Margin="10">
+        <TextBlock DockPanel.Dock="Top" Margin="0,0,0,8" TextWrapping="Wrap"
+                   Text="Your voices, in priority order: the TTS dialog offers them in this order, and the first, the default, speaks as soon as it opens. ▶ plays a voice's sample." />
+
+        <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,8,0,0">
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Foreground="OrangeRed"
+                       IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button Content="Save" IsDefault="True" Click="OnSave" />
+                <Button Content="Cancel" IsCancel="True" Click="OnCancel" />
+            </StackPanel>
+        </StackPanel>
+
+        <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,*">
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Your voices" FontWeight="Bold" Margin="0,0,0,4" />
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Other voices" FontWeight="Bold" Margin="0,0,0,4" />
+
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Chosen}" SelectedItem="{Binding SelectedChosen}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="textToSpeech:VoiceChoiceViewModel">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button Content="▶" Click="OnPlayTheSample" Padding="6,0" />
+                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Grid.Row="1" Grid.Column="1" Spacing="6" Margin="8,0" VerticalAlignment="Center">
+                <Button Content="◀ Choose" Click="OnChoose" HorizontalAlignment="Stretch" />
+                <Button Content="Remove ▶" Click="OnUnchoose" HorizontalAlignment="Stretch" />
+                <Button Content="▲ Up" Click="OnMoveUp" HorizontalAlignment="Stretch" />
+                <Button Content="▼ Down" Click="OnMoveDown" HorizontalAlignment="Stretch" />
+            </StackPanel>
+
+            <ListBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Available}" SelectedItem="{Binding SelectedAvailable}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="textToSpeech:VoiceChoiceViewModel">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button Content="▶" Click="OnPlayTheSample" Padding="6,0" />
+                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </DockPanel>
+
+</Window>

@@ -2,7 +2,7 @@ import typing, abc
 from System.Collections.Generic import Dictionary_2, List_1, HashSet_1, IEnumerable_1, IReadOnlyList_1
 from System import Action, Guid, IDisposable, Func_2
 from JAStudio.Core.Note.Sentences import SentenceNote
-from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteFactory, VocabNoteGeneratedData
+from JAStudio.Core.Note.Vocabulary import VocabNote, WritableAudioValue, VocabNoteFactory, VocabNoteGeneratedData
 from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
 from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
@@ -75,6 +75,15 @@ class ICardOperations(typing.Protocol):
     def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
     @abc.abstractmethod
     def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
+
+
+class IHasTextToSpeechAudio(typing.Protocol):
+    @property
+    def TextToSpeak(self) -> str: ...
+    @property
+    def TextToSpeechAudio(self) -> WritableAudioValue: ...
+    @staticmethod
+    def SpeakableTextOf(question: str) -> str: ...
 
 
 class JPNote(abc.ABC):

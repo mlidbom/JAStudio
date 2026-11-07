@@ -1,12 +1,12 @@
 import typing, abc
-from JAStudio.Core.Note import NoteId
+from JAStudio.Core.Note import NoteId, IHasTextToSpeechAudio
 from System.Collections.Generic import IEnumerable_1, IReadOnlyCollection_1, IReadOnlyList_1, List_1
 from JAStudio.Core.TaskRunners import TaskRunner
 from JAStudio.Core import IEnvironmentPaths
 from JAStudio.Core.Note.NoteFields import MediaType
+from System import Array_1, IEquatable_1
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
-from System import IEquatable_1
 
 class AlreadyStoredFile:
     def __init__(self, existing: MediaAttachment, noteId: NoteId) -> None: ...
@@ -124,6 +124,7 @@ class MediaStorageService:
     @typing.overload
     def __init__(self, paths: IEnvironmentPaths, index: MediaFileIndex) -> None: ...
     def StoreFile(self, sourceFilePath: str, targetDirectory: str, originalFileName: str, mediaType: MediaType) -> None: ...
+    def StoreNewAudioFile(self, audioFile: Array_1[int], targetDirectory: str, fileName: str) -> AudioAttachment: ...
 
 
 class MissingFile:
@@ -224,6 +225,11 @@ class SourceTag(IEquatable_1[SourceTag]):
         @typing.overload
         def __call__(self, obj: typing.Any) -> bool:...
 
+
+
+class TextToSpeechAudioFolders(abc.ABC):
+    @staticmethod
+    def For(note: IHasTextToSpeechAudio) -> str: ...
 
 
 class VocabMediaField(typing.SupportsInt):

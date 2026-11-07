@@ -69,6 +69,14 @@ def batches_flush_anki_note(note_id: int) -> None:
     note = col.get_note(NoteId(note_id))
     col.update_note(note)
 
+# ── Media ──
+
+# noinspection PyUnusedFunction
+def media_add_file(file_path: str) -> str:
+    """Copies the file into Anki's media folder, for Anki's playback and media sync, and returns the name Anki keeps it under."""
+    from jastudio.ankiutils import app
+    return app.anki_collection().media.add_file(file_path)
+
 # ── NoteEx ──
 # noinspection PyUnusedFunction
 def note_suspend_all_cards(note_id: int) -> None:

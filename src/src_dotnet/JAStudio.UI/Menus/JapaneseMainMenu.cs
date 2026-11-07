@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Avalonia.Threading;
 using JAStudio.Anki;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views;
@@ -29,7 +30,8 @@ public class JapaneseMainMenu
                            {
                               SpecMenuItem.Command(ShortcutFinger.Home1("Options"), () => Dispatcher.UIThread.Invoke(() => new OptionsDialog(_services).ShowNearCursor()), shortcut: "Ctrl+Shift+s"),
                               SpecMenuItem.Command(ShortcutFinger.Home2("Readings mappings"), () => Dispatcher.UIThread.Invoke(() => new ReadingsMappingsDialog(_services).ShowNearCursor()), shortcut: "Ctrl+Shift+m"),
-                              SpecMenuItem.Command(ShortcutFinger.Home3("Media import"), () => Dispatcher.UIThread.Invoke(() => new MediaImportDialog(_services).ShowNearCursor()))
+                              SpecMenuItem.Command(ShortcutFinger.Home3("Media import"), () => Dispatcher.UIThread.Invoke(() => new MediaImportDialog(_services).ShowNearCursor())),
+                              SpecMenuItem.Command(ShortcutFinger.Home4("Text-to-speech voices"), () => Dispatcher.UIThread.Invoke(() => ChosenVoicesDialog.OpenNearTheCursor(_services)))
                            }
       ),
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),

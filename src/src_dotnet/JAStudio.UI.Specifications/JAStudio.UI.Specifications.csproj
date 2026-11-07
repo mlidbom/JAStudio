@@ -29,6 +29,8 @@
       <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj"/>
       <!-- For SpecificationStartingWithAnEmptyCollection: the application's real services with an empty collection. -->
       <ProjectReference Include="..\JAStudio.Core.Specifications\JAStudio.Core.Specifications.csproj"/>
+      <!-- For GeneratedWav: audio made in code, for the fake tts-provider. -->
+      <ProjectReference Include="..\JAStudio.TextToSpeech.Specifications\JAStudio.TextToSpeech.Specifications.csproj"/>
    </ItemGroup>
 
 </Project>

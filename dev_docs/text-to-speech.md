@@ -45,7 +45,15 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
 - **Generation is manual:** Magnus listens to the results and picks. Nothing is generated when a note is created.
 - **The keys live in a settings file in the user's profile,** outside both repositories:
   `%APPDATA%\JAStudio\text-to-speech.json`.
-- **JAStudio isn't Windows-only,** so the dialog's audio playback mustn't make it so. See [To do](#to-do).
+- **JAStudio isn't Windows-only,** so the dialog's audio playback mustn't make it so. *(Done: SoundFlow, below.)*
+- **Your voices, in priority order:** the TTS dialog offers only the voices chosen, in an order Magnus sets. The first is
+  the default. One list serves vocab and sentences.
+- **Listening without generating again:** every attempt stays in the dialog to replay, and generating again adds a new
+  one. The dialog tells whether a new attempt actually differs from the one before it.
+- **Nothing changes until one attempt is kept.**
+- **The text to speak can be edited** in the dialog, such as to write a word in kana to force its reading. Only what's
+  spoken changes, not the note.
+- **The default voice speaks as soon as the dialog opens.**
 
 ## Terms
 
@@ -54,6 +62,9 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
 - **voice** — one of a tts-provider's voices, such as Azure's `ja-JP-DaichiNeural` (`TextToSpeechVoice`).
 - **synthesized speech** — the audio a voice generated for a text, not yet kept (`SynthesizedSpeech`).
 - **keeping** a synthesized speech — storing it in the media layer and making it the note's audio.
+- **chosen voice** — a voice chosen to be offered in the TTS dialog (`ChosenVoice`). The chosen voices are in priority
+  order, and the first is the default.
+- **attempt** — one speech in the TTS dialog, numbered in the order generated (`SpeechAttemptViewModel`).
 
 ## The tts-providers
 
@@ -125,12 +136,13 @@ would be reported as never used.
 ```json
 {
   "azure": { "key": "…", "region": "swedencentral" },
-  "google": { "apiKey": "…" }
+  "google": { "apiKey": "…" },
+  "chosenVoices": [ { "provider": "Azure", "name": "ja-JP-Daichi:DragonHDOmniLatestNeural", "gender": "Male" } ]
 }
 ```
 
 A tts-provider without settings isn't offered. With no file, none is. The settings types don't print their keys,
-so logging one leaks nothing.
+so logging one leaks nothing. The chosen voices are written by the dialog for choosing them, which keeps the keys.
 
 ## The accounts
 
@@ -158,52 +170,75 @@ so logging one leaks nothing.
    text, for Azure and Google, with specs against a fake HTTP handler. Then a first try against the real services,
    with Magnus's go-ahead, since it spends characters on his accounts. *(Built 2026-11-07, and verified against
    both real services.)*
-2. **The dialog for one note, end to end:**
-   - opened from a note's tab or its editor section;
-   - pick a voice from the list, grouped by tts-provider;
-   - generate it, and it plays;
-   - try other voices, each result staying in the list to replay and compare;
-   - keep one.
-
-   Keeping it:
-   - stores the MP3 in the media layer;
-   - copies it into Anki's media folder, through a small Python function, for Anki's playback and the listening
-     cards (Anki's media sync takes it to mobile);
-   - replaces the note's audio field: vocab `Audio_TTS`, sentence `Audio Sentence`.
+2. **The dialog for one note, end to end.** *(Built 2026-11-07.)*
+   - **Opening it:** "Text-to-speech audio..." in a vocab's or a sentence's note actions, in its right-click menu
+     (`TextToSpeechDialog`, `TextToSpeechDialogViewModel`). It opens near the cursor, and the default voice speaks at
+     once.
+   - **The dialog:**
+     - the text to speak, editable;
+     - the note's TTS audio as it is now, to compare with;
+     - a button per chosen voice, "Every voice", and "Voices..." for choosing them;
+     - the attempts, each with its length and how it compares, such as "same as #1" or "differs from #2: 0.25 s
+       longer". Selecting one plays it.
+   - **Keys,** while the keyboard isn't in the text: 1 to 9 play attempts 1 to 9, 0 plays the current audio, and Enter
+     keeps the selected attempt.
+   - **Comparing:** on the decoded audio, not on the files, since Azure's standard voices send slightly different bytes
+     for the same speech every time (`DecodedAudio`). Two attempts sound the same when they're about as long, and their
+     sample-by-sample difference is below 0.2 of the audio's strength. Measured: Azure's standard voice differed from
+     itself by 0.025, an HD voice by 1.5, and two voices by 1.2. A new attempt is compared with the one before it with
+     the same voice and text.
+   - **Keeping** (`SpeechKeeping`), the only step that changes anything:
+     1. the MP3 is stored in the media layer under a new name naming its voice, such as
+        `jastudio-tts-azure-daichi-dragonhdomnilatestneural-<guid>.mp3` (`MediaStorageService.StoreNewAudioFile`);
+     2. it's copied into Anki's media folder through Anki's own `col.media.add_file`, for Anki's playback and the
+        listening cards (Anki's media sync takes it to mobile). Without Anki this is left out;
+     3. the note's TTS audio field references it (`IHasTextToSpeechAudio.TextToSpeechAudio`).
+   - **Choosing the voices:** Config > Text-to-speech voices, or "Voices..." in the TTS dialog (`ChosenVoicesDialog`).
+     It lists every voice of every tts-provider with a key, the chosen ones first, in order, with ▶ for a sample of
+     each, generated once and replayed from memory.
+   - **Playing** is SoundFlow's (`SoundFlowAudioPlayer`, `IAudioPlayer`): a cross-platform .NET audio library built on
+     miniaudio, a native library of 660 KB on Windows, which it brings for each platform. Tried on 2026-11-07: playback
+     starts 9 to 27 ms after the call. JAStudio is built for one platform at a time, so `miniaudio.dll` sits beside
+     its assemblies, as SkiaSharp's native library already does inside Anki.
+   - **Not verified yet: playing inside Anki's process.** Everything else was tried outside it.
 3. **Later:** one voice for the selected search results, remembered favorite voices, and pronunciation help from a
    vocab's readings where the voice supports it.
 
-## The text spoken (increment 2)
+## The text spoken
 
-The note's question, cleaned as HyperTTS cleans it: markup removed, and `〜` and `|` deleted. JAStudio knows a
-vocab's readings, so a later increment could tell a voice how to pronounce a kanji it gets wrong, through SSML's
+The note's question, cleaned as HyperTTS cleans it: markup removed, and `〜` and `|` deleted
+(`IHasTextToSpeechAudio.SpeakableTextOf`). The dialog lets it be edited before speaking. JAStudio knows a vocab's
+readings, so a later increment could tell a voice how to pronounce a kanji it gets wrong, through SSML's
 `<phoneme>` or `<sub>` where the voice supports them.
+
+**Google may answer the same request with the same audio.** Two identical requests to Chirp 3 HD Kore gave
+identical audio once (2026-11-07), and different audio an hour earlier, so Google may cache identical requests for a
+while. Then generating again gives "same as #1", and a different rendition needs a change to the text, even a small
+one.
 
 ## To do
 
-- **Playing audio in the dialog without tying JAStudio to Windows** (Magnus, 2026-11-07). A Windows-only library
-  such as NAudio, first recommended, is out. Options to weigh when increment 2 starts:
-  - a cross-platform audio library;
-  - the note page's web view, which already plays audio (`AudioPlayButton.razor`);
-  - Anki's own player, through a small Python function, which isn't there when JAStudio runs outside Anki.
+- ~~**Playing audio in the dialog without tying JAStudio to Windows**~~ *Done 2026-11-07, with SoundFlow, chosen
+  over the note page's web view, which would have needed glue code and a page to be shown, and Anki's own player,
+  which isn't there outside Anki.*
 - **Found meanwhile: JAStudio's UI doesn't run outside Windows as it is.** Two utilities call Windows' `user32`
   unconditionally: `NativeKeyboardFocus` (`SetFocus`) and `WindowPositioner` (`GetCursorPos`). The web view's
   WebView2 setup (`NoteTabView`) and `JAStudioAnkiAppRoot` check the platform first.
 
 ## Open questions
 
-1. **Which audio field a kept speech replaces,** when a vocab already has Forvo or imported audio in `Audio_g`:
-   probably only `Audio_TTS`, as HyperTTS's TTS presets do.
-2. **Recording the voice.** The media layer works by file name alone, with no sidecars: they were dropped on
-   2026-05-15 (`media-storage-and-import.md`). *Corrected 2026-11-07: this question first assumed a sidecar to record
-   the voice in.* So the only place left is the file name, such as `jastudio-tts-azure-daichi-hdomni-<guid>.mp3`, or
-   it isn't recorded at all.
-3. **Where a kept speech goes:** next to HyperTTS's, in `free/TTS/vocab` and `free/TTS/sentences/<source>`, under a
-   name unique across the media tree. `MediaStorageService.StoreFile` copies from a file, so it needs a way to store
-   bytes too, and to register them in `MediaFileIndex`.
+1. ~~**Which audio field a kept speech replaces**~~ *Settled 2026-11-07:* a vocab's `Audio_TTS`, as HyperTTS's TTS
+   presets did, and a sentence's `Audio Sentence`, which for an imported sentence holds its recorded clip. The dialog
+   shows the audio being replaced.
+2. ~~**Recording the voice.**~~ *Settled 2026-11-07:* in the file name, since the media layer works by file name alone,
+   with no sidecars (`media-storage-and-import.md`).
+3. ~~**Where a kept speech goes.**~~ *Settled 2026-11-07:* a vocab's into `free/TTS/vocab`, with HyperTTS's, and a
+   sentence's into `free/TTS/sentences/jastudio` (`TextToSpeechAudioFolders`). HyperTTS's sentence audio is in a
+   folder per source, named by import rules rather than by anything a note says, and TTS audio is free, so there's no
+   takedown to split it by source for.
 4. **The file a kept speech replaces** becomes an orphan, still in the media layer and in Anki's media folder, as when
-   HyperTTS regenerates audio today. The simple version leaves it. Deleting it safely needs a check that no other
-   note references the same name, which a later batch could do for every orphan at once.
+   HyperTTS regenerates audio today. It's left there. Deleting it safely needs a check that no other note references
+   the same name, which a later batch could do for every orphan at once.
 
 ## Sources
 

@@ -11,7 +11,7 @@ using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
 
-public class SentenceNote : JPNote
+public class SentenceNote : JPNote, IHasTextToSpeechAudio
 {
    public CachingSentenceConfigurationField Configuration { get; private set; }
 
@@ -71,6 +71,10 @@ public class SentenceNote : JPNote
    }
 
    public override string GetQuestion() => Question.WithoutInvisibleSpace();
+
+   public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
+
+   public WritableAudioValue TextToSpeechAudio => Audio;
 
    public override string GetAnswer() => Answer.Get();
 

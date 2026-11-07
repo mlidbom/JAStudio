@@ -1,3 +1,4 @@
+using Avalonia.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Anki;
@@ -5,6 +6,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace;
@@ -32,6 +34,7 @@ class SentenceNoteMenus
                                                              NoteListMenuItem.Showing(ShortcutFinger.Home3("Parsed words"), $"Parsed words in {sentence.GetQuestion()}", () => ParsedWordsNotes(sentence))
                                                           }),
                                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(sentence)),
+                                     SpecMenuItem.Command(ShortcutFinger.Home5("Text-to-speech audio..."), () => Dispatcher.UIThread.Invoke(() => TextToSpeechDialog.OpenFor(sentence, _services))),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"),
                                                           new List<SpecMenuItem>
                                                           {

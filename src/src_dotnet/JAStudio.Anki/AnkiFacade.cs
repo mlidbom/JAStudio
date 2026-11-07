@@ -54,6 +54,15 @@ public static class AnkiFacade
       public static void FlushAnkiNote(long externalNoteId) => Backend.Use(it => it.batches_flush_anki_note(externalNoteId));
    }
 
+   public static class Media
+   {
+      /// <summary>
+      /// Copies the file at <paramref name="filePath"/> into Anki's media folder, so that Anki plays it and its media sync takes it to other devices,<br/>
+      /// and returns the name Anki keeps it under. That's the file's own name, unless Anki already has a different file by that name.
+      /// </summary>
+      public static string AddFile(string filePath) => Backend.Use(it => (string)it.media_add_file(filePath));
+   }
+
    internal static class NoteEx
    {
       /// <summary>Suspend all cards for the given note ID.</summary>

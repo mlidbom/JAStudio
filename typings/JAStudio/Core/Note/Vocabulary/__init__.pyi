@@ -3,7 +3,7 @@ from JAStudio.Core.Note.NoteFields import TagFlagField, RequireForbidFlagField, 
 from JAStudio.Core.Note.Tagging import Tag, NoteTags
 from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1, IEnumerable_1
 from System import Func_1, Func_3, Array_1, Action_1
-from JAStudio.Core.Note import JPNote, NoteServices, NoteGuard, NoteFlushGuard
+from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard, NoteFlushGuard
 from JAStudio.Core.Note.CorpusData import VocabData, CorpusObjectData
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
@@ -174,7 +174,7 @@ class VocabMatchingRulesConfigurationRequiresForbidsFlags:
     def YieldLastToken(self) -> YieldLastTokenToOverlappingCompound: ...
 
 
-class VocabNote(JPNote):
+class VocabNote(JPNote, IHasTextToSpeechAudio):
     def __init__(self, services: NoteServices, data: VocabData = ...) -> None: ...
     @property
     def ActiveAnswer(self) -> WritableStringValue: ...
@@ -244,6 +244,10 @@ class VocabNote(JPNote):
     def Tags(self) -> NoteTags: ...
     @property
     def TechnicalNotes(self) -> WritableStringValue: ...
+    @property
+    def TextToSpeak(self) -> str: ...
+    @property
+    def TextToSpeechAudio(self) -> WritableAudioValue: ...
     @property
     def TtsAudio(self) -> IReadOnlyList_1[AudioAttachment]: ...
     @property

@@ -10,6 +10,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace;
@@ -72,6 +73,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                  }.Where(it => it != null).ToList()!
             ),
             SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(vocab)),
+            SpecMenuItem.Command(ShortcutFinger.Home3("Text-to-speech audio..."), () => Dispatcher.UIThread.Invoke(() => TextToSpeechDialog.OpenFor(vocab, _services))),
             SpecMenuItem.Submenu(ShortcutFinger.Home4("Create"),
                                  new List<SpecMenuItem>
                                  {

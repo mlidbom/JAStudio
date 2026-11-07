@@ -1,6 +1,6 @@
 import typing
 from JAStudio.Core.Note.CorpusData import SentenceConfigSubData, SentenceData, CorpusObjectData
-from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, NoteServices, NoteFlushGuard
+from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, IHasTextToSpeechAudio, NoteServices, NoteFlushGuard
 from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis
@@ -85,7 +85,7 @@ class SentenceConfiguration:
     def ToString(self) -> str: ...
 
 
-class SentenceNote(JPNote):
+class SentenceNote(JPNote, IHasTextToSpeechAudio):
     def __init__(self, services: NoteServices, data: SentenceData = ...) -> None: ...
     @property
     def ActiveAnswer(self) -> WritableStringValue: ...
@@ -137,6 +137,10 @@ class SentenceNote(JPNote):
     def SourceTag(self) -> SourceTag: ...
     @property
     def Tags(self) -> NoteTags: ...
+    @property
+    def TextToSpeak(self) -> str: ...
+    @property
+    def TextToSpeechAudio(self) -> WritableAudioValue: ...
     @property
     def User(self) -> SentenceUserFields: ...
     @staticmethod

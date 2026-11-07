@@ -71,6 +71,11 @@ class AnkiFacade(abc.ABC):
 
 
 
+    class Media(abc.ABC):
+        @staticmethod
+        def AddFile(filePath: str) -> str: ...
+
+
     class UIUtils(abc.ABC):
         @staticmethod
         def Refresh() -> None: ...

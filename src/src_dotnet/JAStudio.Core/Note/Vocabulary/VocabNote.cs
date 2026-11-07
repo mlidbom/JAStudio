@@ -8,7 +8,7 @@ using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
-public class VocabNote : JPNote
+public class VocabNote : JPNote, IHasTextToSpeechAudio
 {
    public VocabNoteQuestion Question { get; private set; }
    public VocabNoteUserFields User { get; }
@@ -72,6 +72,10 @@ public class VocabNote : JPNote
    public override CorpusObjectData ToCorpusData() => VocabNoteConverter.ToCorpusData(this);
 
    public override string GetQuestion() => Question.Raw;
+
+   public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
+
+   public WritableAudioValue TextToSpeechAudio => Audio.Tts;
 
    public IReadOnlyList<AudioAttachment> FirstAudio   => Services.MediaFileIndex.GetAudioAttachments(Audio.First.RawValue());
    public IReadOnlyList<AudioAttachment> SecondAudio  => Services.MediaFileIndex.GetAudioAttachments(Audio.Second.RawValue());
