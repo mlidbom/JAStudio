@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Search.TagProperties;
 

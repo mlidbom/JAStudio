@@ -1,6 +1,6 @@
 import typing
 from JAStudio.Core.Note.CorpusData import SentenceConfigSubData, SentenceData, CorpusObjectData
-from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, NoteServices, NoteFlushGuard, NoteTags
+from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, NoteServices, NoteFlushGuard
 from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis
@@ -9,6 +9,7 @@ from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.Vocabulary import WritableAudioValue
 from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
 from JAStudio.Core.Note.Collection import JPCollection
+from JAStudio.Core.Note.Tagging import NoteTags
 from System import Action
 
 class CachingSentenceConfigurationField:

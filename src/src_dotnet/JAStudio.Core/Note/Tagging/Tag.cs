@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Threading;
 
-namespace JAStudio.Core.Note;
+namespace JAStudio.Core.Note.Tagging;
 
 /// <summary>
 /// A label on a note, such as <c>source::anime::natsume::s3::01</c>, named by its tag path, whose levels <c>::</c> separates.<br/>

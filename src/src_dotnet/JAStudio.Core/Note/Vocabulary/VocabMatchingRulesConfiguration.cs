@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;
 

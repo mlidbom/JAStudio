@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JAStudio.Core.Note;
+namespace JAStudio.Core.Note.Tagging;
 
 /// <summary>
 /// The parts of a tag path typed so far to find a tag, separated by spaces, such as <c>nat s3 05</c>.<br/>

@@ -4,6 +4,7 @@ using System.Linq;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Media;
 using MemoryPack;
 
@@ -160,7 +161,7 @@ public abstract class JPNote
    {
       foreach(var tag in Tags)
       {
-         if(tag.Name.StartsWith(Note.Tags.PriorityFolder))
+         if(tag.Name.StartsWith(Tagging.Tags.PriorityFolder))
          {
             var numberStr = StringExtensions.FirstNumber(tag.Name);
             if(int.TryParse(numberStr, out var num))
@@ -179,7 +180,7 @@ public abstract class JPNote
 
       foreach(var tag in Tags)
       {
-         if(tag.Name.StartsWith(Note.Tags.PriorityFolder))
+         if(tag.Name.StartsWith(Tagging.Tags.PriorityFolder))
          {
             if(tag.Name.Contains("high")) tags.Add("high_priority");
             if(tag.Name.Contains("low")) tags.Add("low_priority");
@@ -193,7 +194,7 @@ public abstract class JPNote
 
       if(IsStudying(CardTypes.Reading)) tags.Add("is_studying_reading");
       if(IsStudying(CardTypes.Listening)) tags.Add("is_studying_listening");
-      if(Tags.Contains(Note.Tags.TTSAudio)) tags.Add("tts_audio");
+      if(Tags.Contains(Tagging.Tags.TTSAudio)) tags.Add("tts_audio");
 
       return tags;
    }
@@ -204,7 +205,7 @@ public abstract class JPNote
    {
       get
       {
-         var sourceTags = Tags.Where(t => t.Name.StartsWith(Note.Tags.Source.Folder)).ToList();
+         var sourceTags = Tags.Where(t => t.Name.StartsWith(Tagging.Tags.Source.Folder)).ToList();
          if(sourceTags.Any())
          {
             var sorted = sourceTags.OrderBy(t => t.Name.Length).ToList();

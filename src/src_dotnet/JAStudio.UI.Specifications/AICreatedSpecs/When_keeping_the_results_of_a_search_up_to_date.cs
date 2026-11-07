@@ -8,6 +8,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 

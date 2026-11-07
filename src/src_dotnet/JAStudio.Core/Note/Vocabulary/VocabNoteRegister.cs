@@ -1,4 +1,5 @@
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;
 

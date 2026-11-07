@@ -1,8 +1,9 @@
 import typing, abc
 from JAStudio.Core.Note.NoteFields import TagFlagField, RequireForbidFlagField, WritableStringValue, WritableImageValue, MediaReference, IObjectSerializer_1
-from JAStudio.Core.Note import Tag, JPNote, NoteServices, NoteGuard, NoteFlushGuard, NoteTags
+from JAStudio.Core.Note.Tagging import Tag, NoteTags
 from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1, IEnumerable_1
 from System import Func_1, Func_3, Array_1, Action_1
+from JAStudio.Core.Note import JPNote, NoteServices, NoteGuard, NoteFlushGuard
 from JAStudio.Core.Note.CorpusData import VocabData, CorpusObjectData
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag

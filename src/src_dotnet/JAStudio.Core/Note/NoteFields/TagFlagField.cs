@@ -1,3 +1,5 @@
+using JAStudio.Core.Note.Tagging;
+
 namespace JAStudio.Core.Note.NoteFields;
 
 public class TagFlagField

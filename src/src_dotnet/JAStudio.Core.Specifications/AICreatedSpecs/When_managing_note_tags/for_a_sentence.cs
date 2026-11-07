@@ -1,7 +1,7 @@
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Tagging;
 
 // ReSharper disable InconsistentNaming
 

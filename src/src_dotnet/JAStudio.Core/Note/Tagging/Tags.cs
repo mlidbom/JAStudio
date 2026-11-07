@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace JAStudio.Core.Note;
+namespace JAStudio.Core.Note.Tagging;
 
 public static class Tags
 {

@@ -264,7 +264,7 @@ Two encodings look like in-string-micro-syntaxes but are probably fine as text:
 
 ### Configuration stored as tags
 
-These are settings, not labels, kept as `::`-path strings in the tag list (`Note/Tags.cs`):
+These are settings, not labels, kept as `::`-path strings in the tag list (`Note/Tagging/Tags.cs`):
 
 - **Requires/forbids flags:** 18 pairs such as `-::vocab::matching::requires::godan` /
   `…::forbids::godan`, read through `RequireForbidFlagField` in

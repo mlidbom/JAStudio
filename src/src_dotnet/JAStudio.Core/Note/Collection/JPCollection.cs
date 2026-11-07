@@ -9,6 +9,7 @@ using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.TagProperties;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;

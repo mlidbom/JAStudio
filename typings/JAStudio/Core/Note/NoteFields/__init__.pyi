@@ -1,6 +1,7 @@
 import typing, abc
 from System.Collections.Generic import List_1
-from JAStudio.Core.Note import JPNote, Tag, NoteGuard
+from JAStudio.Core.Note import JPNote, NoteGuard
+from JAStudio.Core.Note.Tagging import Tag
 from System import IObservable_1, IDisposable, IObserver_1
 
 class IObjectSerializer_GenericClasses(abc.ABCMeta):

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Converters;
 
 namespace JAStudio.Core.Note.Vocabulary;

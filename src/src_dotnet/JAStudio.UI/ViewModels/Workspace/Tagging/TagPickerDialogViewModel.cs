@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.UI.Views.Workspace.Tagging;
 
 namespace JAStudio.UI.ViewModels.Workspace.Tagging;

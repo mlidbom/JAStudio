@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JAStudio.Core.Note.Vocabulary;
-using V = JAStudio.Core.Note.Tags.Vocab;
-using VM = JAStudio.Core.Note.Tags.Vocab.Matching;
+using V = JAStudio.Core.Note.Tagging.Tags.Vocab;
+using VM = JAStudio.Core.Note.Tagging.Tags.Vocab.Matching;
 
 namespace JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
 

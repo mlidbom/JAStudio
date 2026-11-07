@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JAStudio.Core.Note;
+namespace JAStudio.Core.Note.Tagging;
 
 public class NoteTags : IEnumerable<Tag>
 {
