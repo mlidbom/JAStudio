@@ -55,11 +55,10 @@ The tag tree sits in the search, beside the search box and the results, in the n
 | Anki | JAStudio |
 |---|---|
 | The sidebar's tag tree, with an "Untagged" item | The same. |
-| No counts | **Each tag shows how many notes are in its branch.** The corpus is in memory, so counts are cheap. |
+| The tree shows every tag, with no counts | **The tree shows the tags of the current search's results,** each with how many results are in its branch. With an empty search, that's every tag and its total count. |
 | A filter box above the sidebar finds tags | The same. |
-| Clicking a tag, or pressing Enter, searches `tag:x`, which includes the tag's children | The same. |
-| Ctrl+click ANDs with the current search, Shift+click ORs, Alt+click negates, Ctrl+Shift+click replaces terms of the same kind | The same. |
-| Several tags selected → right-click → Search → All selected / Any selected | The same. |
+| Clicking a tag searches `tag:x`, which includes the tag's children. Modifier keys combine it with the current search. | **Clicking a tag adds a tag condition to the search's selected group.** How it's combined with the rest of the search is the condition tree's job ([note-search.md](note-search.md)). |
+| — | **The tag tree is also the tag condition's editor:** a filter box over it picks the tag. |
 | Expand and collapse, per tag or for its children | The same. |
 
 The tree has 368 nodes today (330 distinct tags plus their parents), so its size is no concern.
@@ -118,7 +117,8 @@ Magnus (2026-11-07):
 
 How these interleave with the search increments is in [note-search.md](note-search.md).
 
-1. **The tag tree, read-only:** counts, the filter box, and clicking and modifier-clicking to search.
+1. **The tag tree, read-only:** the current results' tags with counts, the filter box, clicking to add a tag
+   condition, and serving as the tag condition's editor.
 2. **Tagging notes:** the Tags editor in the editor section, and Add tags / Remove tags on selected search results.
 3. **Editing the tree:** rename, rename with parents, move by drag and drop, delete, all with confirmation.
 

@@ -1,10 +1,10 @@
-# Note Search — Language, Editor and Results
+# Note Search — Model, Editor and Results
 
-> **Status: research and proposal (2026-11-07).** Only Magnus's requirements and the points marked as decided are
-> settled. Tags themselves are specified in [tags.md](tags.md).
+> **Status: agreed direction (2026-11-07).** Details are settled as each increment needs them. Tags themselves
+> are specified in [tags.md](tags.md).
 >
-> **The search box's mechanisms and keyboard shortcuts are preliminary.** Matching Anki's UI style or its
-> shortcuts is not a goal in itself (Magnus, 2026-11-07).
+> **The editor's mechanisms and keyboard shortcuts are preliminary.** Matching Anki's UI style or its shortcuts is
+> not a goal in itself (Magnus, 2026-11-07).
 
 ## Why
 
@@ -16,9 +16,8 @@ It's the "Search" tab of the navigation pane (`NoteSearchViewModel`):
 - everything else is a substring match on the question, answer and similar fields;
 - it lists at most 100 notes of each type.
 
-Magnus (2026-11-07): the tag tree's tab should become a full search and navigation tab, with a search language
-and a search box that can handle such searches. The results should be a list with a column per sortable value,
-not today's two-line rows.
+Magnus (2026-11-07): the tag tree's tab should become a full search and navigation tab that can express such
+searches. The results should be a list with a column per sortable value, not today's two-line rows.
 
 ## Requirements (Magnus)
 
@@ -26,7 +25,7 @@ not today's two-line rows.
   the tag hierarchy.
 - **Regular expressions** too, unless that turns out unfeasible.
 - **Studying state,** such as whether a note's reading or listening is being studied.
-- **A search box** that helps write such searches.
+- **An editor that makes building such searches quick,** almost as quick as typing them.
 - **Results with a column per sortable value,** sorted by clicking a column.
 - **No cap on how many notes a search lists,** until a search proves unmanageably slow.
 - **The search lives in the navigation pane,** which is resizable, so it can be made as wide as needed.
@@ -36,146 +35,138 @@ not today's two-line rows.
 - **The tag tree** in the same place as the search.
 - **Results are notes.** The corpus has no concept of cards.
 
-## Research: can we use something that exists?
+## Decided (Magnus, 2026-11-07)
 
-**Lucene-style query parsers.** Lucene's query syntax is the most widespread search-box language: `field:value`,
-`AND`/`OR`/`NOT`, `-`, quotes, wildcards, parentheses and ranges.
-- `Foundatio.Parsers.LuceneQueries` (8.0.2, Apache-2.0) parses it into a syntax tree that visitors can walk. That
-  is the shape we'd want.
-- **Tested 2026-11-07 on Magnus's kind of query, in a scratch project:**
-  - `tag:source::anime::natsume` **fails to parse** ("Unexpected character ':'"). Hierarchical tags have to be
-    quoted (`tag:"source::anime"`) or escaped (`tag:source\:\:anime`).
-  - A lowercase `or` is a search word, not an operator. Lucene's operators are uppercase.
-- Newer successors exist (`Foundatio.LuceneQuery`, `Foundatio.LuceneQueryParser`). I haven't tested them, but
-  they parse the same Lucene syntax.
-- Lucene.NET's own query parser has the same syntax and is tied to Lucene indexes.
-
-**Programmer-oriented filter syntaxes,** such as Dynamic LINQ (`System.Linq.Dynamic.Core`), OData's `$filter`
-and Gridify: expressions like `Tags.Contains("x") && !IsSuspended`. They're powerful, but nothing one wants to
-type into a search box many times a day.
-
-**Parser libraries** (Superpower, Pidgin, Parlot) are tools for building a parser, not ready languages.
-
-**Anki's syntax:** I found no .NET implementation in a brief search. Anki's own parser is in Rust, in Anki's
-source, and is AGPL-3.0. It's a reference for how Anki behaves, not code to copy.
-
-**Conclusion:** a library could parse a search, but its syntax is the wrong one for hierarchical tags, and it
-isn't the syntax Magnus already types every day. The parser is the small part of the work. The real work is
-deciding the search keys and what each one matches, and no library does that for JAStudio's notes.
-
-**Whole search engines** (Lucene.NET being the obvious one) would do the matching too, once an index is filled
-from the notes. Measured 2026-11-07: a plain in-memory scan over ten copies of the sentences (about 490,000)
-takes 40 to 95 ms per condition: substring in question or answer 90 ms, tag branch with a negated tag 40 ms,
-regex 65 to 95 ms. Today's corpus is a tenth of that. So an engine's main benefit, speed at scale, isn't needed.
-Its costs are real:
-- a second copy of every note, kept in step with every edit, flush and reload;
-- word-based matching, which Japanese text, having no spaces, needs a Japanese analyzer or character n-grams for;
-- regex on single indexed words, in Lucene's own dialect;
-- and the domain keys (tag branches, studying state, `vocab:`) still have to be computed into the index by us.
-
-## Decided: our own parser, with in-memory matching, in Core (Magnus, 2026-11-07)
-
-- **Anki's syntax.** Magnus knows it, it's designed for exactly this kind of search, and `tag:a::b` works
-  without escaping. Where a key means the same in JAStudio, it keeps Anki's name and behavior. JAStudio adds
-  keys of its own, and leaves out Anki's keys about cards and scheduling.
-- **The search is a domain concept in Core:** a tree of conditions (see [The search model](#the-search-model)).
-  This also moves today's search logic out of the UI, which was already planned.
-- **The parser is hand-written,** a small recursive-descent parser over a tokenizer. The grammar below is small,
-  and a hand-written parser gives exact error positions for the search box to mark. Superpower is the fallback if
-  that turns out wrong.
-- **If the corpus ever outgrows a plain scan,** an index can go in underneath the search model without changing
-  the language.
+- **The search is a domain concept in Core: a tree of conditions on typed note properties.** See
+  [The search model](#the-search-model). This also moves today's search logic out of the UI, which was already
+  planned.
+- **A search is built in a tree editor, not typed as text.** Every edit leaves a valid search, and with keyboard
+  shortcuts that act on the selected part of the tree, building a search is almost as quick as typing it. See
+  [The search editor](#the-search-editor).
+- **No text syntax and no parser, at first.** The domain model is the tree either way, so a text form can be added
+  later if it's missed. See [Maybe later: a text form](#maybe-later-a-text-form).
+- **Matching is in memory, by scanning the notes.** If the corpus ever outgrows a plain scan, an index can go in
+  underneath the search model. See [Research](#research-can-we-use-something-that-exists).
 
 ## The search model
 
-Agreed with Magnus, 2026-11-07. The names below are placeholders, chosen when it's built.
+The names below are placeholders, chosen when it's built.
 
-- **A key is a property of the note, and the property's type decides how it matches.** There's no `is:`: a
-  true-or-false property is written `key:true` or `key:false`, like any other key.
-- **The property types,** each with its own .NET implementation:
-  - **text,** such as `question:`: exact by default, with wildcards, or `re:` for a regular expression;
-  - **list of texts,** such as `form:`: matches if any entry matches;
-  - **tags:** a list whose entries also match their parent tags, so `tag:x` includes the `x` branch;
-  - **true-or-false,** such as `studying-reading:`: `true` or `false`;
-  - **number,** if one is ever wanted, such as `sentence-count:>10`.
-- **A property** has a key, the note types that have it, and a way to read its value from a note.
+- **A condition is on a property of the note, and the property's type decides how it matches.** There's no
+  separate syntax for true-or-false states, such as Anki's `is:`.
+- **The property types,** each with its own .NET implementation and its own condition editor in the UI:
+  - **text,** such as the question: equals, contains, matches a pattern with wildcards, or matches a regular
+    expression;
+  - **list of texts,** such as a vocab's forms: matches if any entry matches;
+  - **tags:** a list whose entries also match their parent tags, so a condition on `x` includes the `x` branch;
+  - **true-or-false,** such as "studying reading";
+  - **one of a fixed set,** such as the note type;
+  - **number,** if one is ever wanted, such as the sentence count.
+- **A property** has a name, the note types that have it, and a way to read its value from a note.
 - **A search is a literal tree of conditions:**
-  - a **condition on a property,** such as "`tag` matches `source::anime`";
+  - a **condition on a property,** such as "tags include `source::anime`";
   - **all of** a group of conditions (AND), and **any of** a group (OR);
-  - **not** a condition.
-- **Bare text** is a condition on the note's searchable text: any of its searchable fields.
-- **The text form and the tree are two forms of the same search.** The parser builds the tree from the text,
-  and a formatter writes the text from the tree.
+  - **not** a condition or a group.
+- **An empty group adds nothing to the search,** and an empty search lists every note.
+- **The operations on the tree are part of the model:** adding, editing and removing a condition, adding a group,
+  switching a group between "all of" and "any of", negating, wrapping in a new group, and moving within a group.
+  The view models only call them, so specs cover them without the UI.
+- **Searches are values.** Two searches with the same conditions are equal. Specs can then compare the tree an
+  operation produced with one written out, and an undo can keep earlier trees.
 
-### Syntax (draft, following Anki's manual)
+### Conditions in code: nested constructor calls (Magnus, 2026-11-07)
 
-- **Terms separated by spaces must all match** (implicit AND). `and` may be written out. `or` combines
-  alternatives, and AND binds tighter than OR. Both are case-insensitive words.
-- **`-` negates** a term or a group: `-tag:x`, `-(a or b)`.
-- **Parentheses** group: `dog (cat or mouse)`.
-- **Quotes** make one term of text with spaces: `"a dog"`, `question:"a dog"`, `"question:a dog"`.
-- **`key:value`** splits at the first colon that isn't escaped, so `tag:source::anime` is the key `tag` and the
-  value `source::anime`.
-- **Wildcards:** `*` matches any run of characters, `_` exactly one.
-- **Escapes:** `\"`, `\*`, `\_`, `\\`, `\:`, `\(`, `\)`, and `\-` at the start of a term.
-- **`re:`** takes a regular expression, after a key (`question:re:…`, `tag:re:…`) or alone.
+A search written in code reads like the tree and indents like the tree, which keeps specs readable:
 
-### Keys (draft)
+```csharp
+new AllOf(
+   Tags.Include("source::anime::natsume"),
+   new Not(Tags.Include("-::priority::low")),
+   new AnyOf(
+      Question.Contains("行く"),
+      Answer.MatchesRegex("go(ing)?")),
+   StudyingReading.Is(false))
+```
 
-| Key | Property type | Matches | Notes |
+**Proposal for the leaves:** the groups and `Not` are constructor calls, and a condition on a property is created
+by the property itself (`Question.Contains(…)`). The property's type then decides, at compile time, which matches
+exist: `StudyingReading.Contains(…)` doesn't compile. The alternative is constructor calls for the leaves too,
+`new TextCondition(Question, TextMatch.Contains("行く"))`, which is longer and says the property's type twice.
+Open question 4.
+
+A failing spec should print the search indented like the tree, so the difference is easy to see.
+
+### Properties (draft)
+
+| Property | Type | Matches | Notes |
 |---|---|---|---|
-| bare text, such as `行く` | text | Notes whose searchable text contains it, case-insensitively | Which fields count as searchable text, per note type, is to be decided. In Anki it's every field except tags. |
-| `tag:x` | tags | Notes with tag `x` or a tag in its branch. `tag:x*` matches by prefix, `tag:none` matches notes with no tags, `tag:re:…` matches by regex. | As in Anki. See [tags.md](tags.md). |
-| `studying-reading:true`, `studying-listening:false` | true-or-false | Notes whose reading, or listening, is being studied: the note is in the studying-add-on (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
-| `note:vocab`, `note:kanji`, `note:sentence` | one of a fixed set | Notes of that type | Anki's `note:` takes a note type's name, so this keeps the habit. |
-| `question:…`, `answer:…`, `reading:…` and other field names | text, or list of texts | Notes whose field matches. **Exact by default**, as in Anki: `question:*行く*` for "contains". `question:` with no value matches an empty field, `question:_*` a non-empty one. | The field names per note type are to be decided. |
-| `id:…` | text | Notes with those JAStudio note ids | Anki's `nid:` takes Anki ids. |
-| JAStudio-specific keys (later) | | For example `vocab:…` (sentences containing a vocab), `kanji:…`, `form:…`, `pos:…` | Each one when a workflow needs it. `vocab:` fits Magnus's habit of adding sentences that contain the vocab he's studying. |
+| searchable text | text | Notes whose searchable text matches | Which fields count as searchable text, per note type, is open question 2. In Anki it's every field except tags. |
+| tags | tags | Notes with the tag or a tag in its branch. Also: a tag pattern, a regex, or no tags at all. | See [tags.md](tags.md). |
+| studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the studying-add-on (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
+| note type | one of a fixed set | vocab, kanji or sentence | |
+| question, answer, reading, and other fields | text, or list of texts | Notes whose field matches | The fields per note type are to be decided. |
+| id | text | Notes with those JAStudio note ids | |
+| JAStudio-specific properties (later) | | For example the vocab a sentence contains, the kanji, the forms, the parts of speech | Each one when a workflow needs it. "Contains vocab" fits Magnus's habit of adding sentences that contain the vocab he's studying. |
 
-**Anki keys left out,** because they're about Anki's cards and scheduling, which JAStudio doesn't load: `deck:`,
-`flag:`, `prop:`, `rated:`, `added:`, `edited:`, `introduced:`, `card:`, and the `is:` card states. Studying state
-that matters can be added as properties of notes, as the two studying keys above are, without tying the search to
-Anki ([studying.md](studying.md)).
+**Anki's searches about its cards and scheduling are left out:** decks, flags, card properties, review history,
+and card states other than suspended. Studying state that matters can be added as properties of notes, as the two
+studying properties are, without tying the search to Anki ([studying.md](studying.md)).
 
-**Regular expressions** (`re:`) work wherever text is matched: alone, after a field key, and after `tag:`. They
-use .NET's regex dialect, which differs from Anki's Rust dialect only in details.
+**Regular expressions** work wherever text is matched, using .NET's regex dialect.
 
-**Maybe later:** `w:` (whole words) and `nc:`, which ignores accents and, usefully for Japanese, voicing marks:
-`nc:は` matches は, ば and ぱ.
+**Maybe later:** whole-word matching, and matching that ignores accents and, usefully for Japanese, voicing marks,
+so は matches ば and ぱ (Anki's `nc:`).
 
-## The search box
+## The search editor
 
-- **Searches run on Enter,** as in Anki, not on every keystroke.
-- **A search with a syntax error** shows the error, and marks where it is in the text.
-- **Autocomplete** for keys after typing a word start, for tags after `tag:`, `true` and `false` after a
-  true-or-false key, and note types after `note:`.
-- **Later:** coloring of keys, operators and quoted text, and a history of recent searches (Anki's search box
-  has one).
-- **Implementation:** a plain text box with an autocomplete popup first. AvaloniaEdit has syntax coloring and a
-  completion window, if a plain text box isn't enough; I haven't checked its support for Avalonia 12.
+Magnus (2026-11-07): proper UI elements combined with menu accelerator keys and keyboard shortcuts that act on
+the selected part of the condition tree. With some design, editing a tree this way can be almost as quick as
+typing, and the search is never invalid.
 
-## Editing a search as a tree of conditions (proposed)
+**Adding a condition,** for example a tag:
+1. Select a group, or start with the empty search, and click its + icon or press the add key.
+2. A menu lists the properties. A single key picks one: T for tags.
+3. That property type's editor opens. For tags, start typing the tag's name and pick it from the matching tags.
+4. Enter, or the Add button, adds the condition to the selected group.
 
-Magnus (2026-11-07): since a search is a tree of conditions, the UI can show that tree.
-- Conditions and groups can be added, removed and regrouped there.
-- Each property type has its own condition editor: for example a text box with its match mode for text, a
-  true/false choice, a tag picker for tags.
-- Editing the text reparses it and rebuilds the tree. Editing the tree rewrites the text.
+**The menu is a JAStudio menu,** with the same single-key accelerators as the note menus (`SpecMenuItem`,
+`ShortcutFinger`).
 
-Points to get right:
-- **The tree must show every search the text can express.** Otherwise switching between the two forms loses
-  information. Jira's basic search builder, for example, refuses queries its builder can't show.
-- **Text written from the tree is normalized.** When the tree is edited, the text's own spacing, extra parentheses
-  and quoting are replaced. That happens only when the tree is edited, never while typing in the text, for the
-  same reason the note editors never overwrite typing.
-- **While the text has a syntax error,** the tree keeps the last valid search, and the error is shown.
-- **The tag tree's clicks become operations on the condition tree.** A plain click replaces the search with the
-  tag. Ctrl+click adds the tag to an all-of group, Shift+click adds it to an any-of group, and Alt+click adds it
-  negated.
-- **Space:** the tree takes height in the pane, so it can be collapsed.
+**Keys act on the selected node:**
+- **on a group:** add a condition, add a subgroup, switch between "all of" and "any of", negate the group;
+- **on a condition:** edit it (Enter), remove it (Del), negate it, wrap it in a new group;
+- **anywhere:** the arrow keys move through the tree, and something like Alt+Up and Alt+Down moves a node within its
+  group.
 
-Suggested order: the text form first, since Magnus writes searches as text. Then the tree, shown read-only, which
-also shows how the text was read, such as which `or` groups what. Then the tree made editable.
+Every key has a mouse equivalent, such as the + icon.
+
+**The add key:** Magnus's example uses Ctrl+A, but Ctrl+A means "select all" almost everywhere, including in the
+text boxes inside the condition editors and in the results grid. `+` while the tree has focus would match the +
+icon. To be settled when built.
+
+**The tree shows each condition as a readable line,** such as "Tags include `source::anime::natsume`" or "Not:
+studying reading", and each group as "All of" or "Any of".
+
+**The search runs after every change,** since every change leaves a valid search. Scanning takes a few
+milliseconds per condition today. Whether re-sorting a grid of 49,000 rows after every change stays quick is to be
+measured.
+
+**Undo** within the editor: one misplaced Del on a group could lose a search that took a while to build. The tree is
+small, so keeping the earlier trees is cheap.
+
+**Space:** the condition tree takes height in the pane, so it can be collapsed.
+
+## The tag tree
+
+- **It shows the tags of the current results,** each with its count among those results. With an empty search
+  the results are all notes, so it's the full tag browser with total counts. With a search, it shows how the
+  results spread over tags, for example which episodes still have sentences that aren't studied. Shops call this
+  faceted search. Counting the tags of the results is one pass in memory.
+- **Clicking a tag adds a tag condition to the selected group.**
+- **The same control is the tag condition's editor:** a filter box over the tag tree. Until the tag tree exists, the
+  tag condition's editor is a filtered list of tags.
+
+How the tag tree is browsed and edited is in [tags.md](tags.md).
 
 ## The results
 
@@ -190,11 +181,11 @@ also shows how the text was read, such as which `or` groups what. Then the tree 
 - **The place in the source** is the subs2srs id (`externalId`, for example
   `ny4-nodup_11_0.15.23.540-0.15.25.620`), sorted with numbers compared as numbers, so episode 2 comes before
   episode 11. That's Magnus's "next episode" workflow.
-- **Selecting several rows** (Ctrl/Shift+click, Ctrl+A), right-click actions on the selection (adding and
+- **Selecting several rows** (Ctrl/Shift+click, select all), right-click actions on the selection (adding and
   removing tags, see [tags.md](tags.md)), double-click or Enter to open, middle-click to open in a background
   tab, as the lists do now.
 - **No cap on the number of results** (decided, Magnus, 2026-11-07), until a search proves unmanageably slow. The
-  grid only creates the rows on screen. Whether sorting tens of thousands of rows stays quick is to be measured.
+  grid only creates the rows on screen.
 - **Control:** `Avalonia.Controls.DataGrid` (12.1.2, MIT, for Avalonia 12.1). `TreeDataGrid` is out: since
   October 2025 it needs a commercial Avalonia Accelerate license.
 
@@ -214,32 +205,80 @@ columns need, and the note's page stays visible beside the results.
 
 ## Increments (tentative), together with [tags.md](tags.md)
 
-1. **The search model and language in Core:** the condition tree, the property types, the parser and the
-   formatter, with matching for bare text, `re:`, `tag:`, `note:`, the studying keys, the field keys, `-`, `or` and
-   grouping, with specs. The current Search tab uses it, without the result cap, and the error message shows under
-   the box.
-2. **The results grid** with sortable columns, selecting several rows, and the place in the source.
-3. **The tag tree** beside the search, with counts. Clicking and modifier-clicking edit the search
-   ([tags.md](tags.md), increment 1).
-4. **Tagging notes** ([tags.md](tags.md), increment 2).
-5. **Editing the tag tree** ([tags.md](tags.md), increment 3).
-6. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.
-7. **The condition tree in the UI:** read-only first, then editable.
-8. **The search box's help:** autocomplete, then coloring and history.
+1. **The search model in Core:** the properties and their types, conditions, groups and `Not`, the operations on
+   the tree, and matching, with specs written as nested constructor calls.
+2. **The search editor** in the navigation pane, replacing the current Search tab's text box: the condition tree
+   with its keys, and editors for text, tags (a filtered list of tags at first), true-or-false and the note type.
+   The results show in today's list, without the cap.
+3. **The results grid** with sortable columns, selecting several rows, and the place in the source.
+4. **The tag tree:** the current results' tags with counts. Clicking adds a tag condition, and it becomes the tag
+   condition's editor ([tags.md](tags.md), increment 1).
+5. **Tagging notes** ([tags.md](tags.md), increment 2).
+6. **Editing the tag tree** ([tags.md](tags.md), increment 3).
+7. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.
+
+## Maybe later: a text form
+
+Added only if it's missed. The tree editor may well make it unnecessary.
+- **What text would give:** typing speed for well-known searches, pasting and sharing, and a one-line summary of a
+  search, for a history list or a window title. A one-line summary only needs a formatter (tree to text), which is
+  small.
+- **The syntax would be Anki's,** which Magnus knows and which handles `tag:a::b` without escaping:
+  - terms separated by spaces must all match;
+  - `or` combines alternatives, and binds looser than AND;
+  - `-` negates;
+  - parentheses group;
+  - quotes make a term of text with spaces;
+  - `key:value` splits at the first colon that isn't escaped;
+  - `*` and `_` are wildcards;
+  - `re:` takes a regular expression.
+
+  It would come with a hand-written recursive-descent parser for exact error positions.
+- **Text and tree together** would need the tree to show every search the text can express. Text written from
+  the tree would be normalized, but only when the tree is edited, never while typing. While the text has a syntax
+  error, the tree keeps the last valid search.
+
+## Research: can we use something that exists?
+
+Done 2026-11-07, when a text syntax was still planned.
+
+**Lucene-style query parsers.** Lucene's query syntax is the most widespread search-box language.
+`Foundatio.Parsers.LuceneQueries` (8.0.2, Apache-2.0) parses it into a syntax tree that visitors can walk. Tested
+in a scratch project:
+- `tag:source::anime::natsume` fails to parse ("Unexpected character ':'"), so hierarchical tags have to be quoted
+  or escaped.
+- A lowercase `or` is a search word, not an operator.
+
+**Programmer-oriented filter syntaxes,** such as Dynamic LINQ, OData's `$filter` and Gridify, aren't meant to be
+typed into a search box many times a day. **Parser libraries** (Superpower, Pidgin, Parlot) are tools for
+building a parser. **Anki's syntax:** no .NET implementation found in a brief search. Anki's own parser is Rust
+and AGPL-3.0.
+
+**Whole search engines** (Lucene.NET being the obvious one) would do the matching once an index is filled from
+the notes. A plain in-memory scan over ten copies of the sentences (about 490,000) took 40 to 95 ms per
+condition:
+- substring in question or answer: 90 ms;
+- tag branch with a negated tag: 40 ms;
+- regex: 65 to 95 ms.
+
+Today's corpus is a tenth of that, so an engine's main benefit, speed at scale, isn't needed. Its costs:
+- a second copy of every note, kept in step with every edit, flush and reload;
+- word-based matching, which Japanese text, having no spaces, needs a Japanese analyzer or character n-grams for;
+- regex on single indexed words, in Lucene's own dialect;
+- the domain properties (tag branches, studying state, the vocab a sentence contains) still computed into the
+  index by us.
 
 ## Open questions
 
-*Answered 2026-11-07:*
-- `source:` in Magnus's searches meant the source tags (`tag:source::…`).
-- The search lives in the navigation pane.
-- Results are notes, so there's no card-level matching.
-- Keys are typed note properties, and there's no `is:`.
-- The parser is our own, with in-memory matching, in Core.
-- The note menus' lists stay separate from the search.
+*Answered 2026-11-07:* `source:` in Magnus's searches meant the source tags; the search lives in the navigation
+pane; results are notes; conditions are on typed note properties; matching is our own, in memory, in Core; the
+note menus' lists stay separate; the search is built in a tree editor, with no text syntax at first.
 
 1. **Several workspaces instead of several search tabs?** Magnus's leaning. See
    [Where the search lives](#where-the-search-lives).
-2. **Which fields are searchable text** for bare-text searches, per note type? Anki searches every field. For
-   JAStudio, the question and answer at least, and perhaps readings, forms and comments.
-3. **Which of Anki's left-out keys does Magnus use?** For example `is:new` or `rated:`. Each would need its data
-   loaded from the studying-add-on, as a property of the note.
+2. **Which fields are searchable text,** per note type? Anki searches every field. For JAStudio, the question and
+   answer at least, and perhaps readings, forms and comments.
+3. **Which of Anki's left-out searches does Magnus use?** For example new cards, or cards answered recently. Each
+   would need its data loaded from the studying-add-on, as a property of the note.
+4. **Conditions on a property:** created by the property (`Question.Contains(…)`), or by constructors? See
+   [Conditions in code](#conditions-in-code-nested-constructor-calls-magnus-2026-11-07).
