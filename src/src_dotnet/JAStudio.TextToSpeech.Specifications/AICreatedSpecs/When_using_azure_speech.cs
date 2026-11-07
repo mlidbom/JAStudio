@@ -75,7 +75,7 @@ public class When_using_azure_speech : IAIGeneratedSpec
       [XF] public void it_posts_to_the_synthesis_endpoint_of_the_region() =>
          (_service.Request.Method, _service.Request.Uri).Must().Be((HttpMethod.Post, "https://swedencentral.tts.speech.microsoft.com/cognitiveservices/v1"));
       [XF] public void it_sends_the_key() => _service.Request.Headers["Ocp-Apim-Subscription-Key"].Must().Be(Key);
-      [XF] public void it_asks_for_mp3_of_the_highest_quality() => _service.Request.Headers["X-Microsoft-OutputFormat"].Must().Be("audio-48khz-192kbitrate-mono-mp3");
+      [XF] public void it_asks_for_mp3_at_96_kbit_and_24_khz() => _service.Request.Headers["X-Microsoft-OutputFormat"].Must().Be("audio-24khz-96kbitrate-mono-mp3");
       [XF] public void it_sends_ssml() => _service.Request.ContentType.Must().Be("application/ssml+xml");
       [XF] public void the_ssml_is_in_japanese() => (TheSsmlSent().Name, TheSsmlSent().Attribute(XNamespace.Xml + "lang")?.Value).Must().Be((Ssml + "speak", "ja-JP"));
       [XF] public void the_ssml_names_the_voice() =>

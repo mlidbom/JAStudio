@@ -15,7 +15,7 @@ namespace JAStudio.TextToSpeech.Google;
 /// </summary>
 /// <remarks>
 /// The text is sent as plain text, not SSML, which Chirp 3 HD voices may not support. The audio comes back as base64 in the response's JSON.<br/>
-/// Google's MP3 is 32 kbit/s for Chirp 3 HD voices and 64 kbit/s for Neural2, at 24 kHz, far below Azure's. See <c>dev_docs/text-to-speech.md</c>.
+/// Google's MP3 is 32 kbit/s for Chirp 3 HD voices and 64 kbit/s for Neural2, at 24 kHz, below Azure's 96 kbit/s, but good enough. See <c>dev_docs/text-to-speech.md</c>.
 /// </remarks>
 public sealed class GoogleTextToSpeechProvider : ITextToSpeechProvider
 {

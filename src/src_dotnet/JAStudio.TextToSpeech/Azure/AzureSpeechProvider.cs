@@ -15,7 +15,7 @@ namespace JAStudio.TextToSpeech.Azure;
 /// Its voices include the standard neural voices, such as <c>ja-JP-DaichiNeural</c>, and HD voices, such as <c>ja-JP-Masaru:DragonHDLatestNeural</c>.
 /// </summary>
 /// <remarks>
-/// Speaking sends SSML, which names the voice, and asks for <see cref="Mp3OfTheHighestQuality"/>. The text goes into the SSML as XML text, so characters<br/>
+/// Speaking sends SSML, which names the voice, and asks for <see cref="Mp3Format"/>. The text goes into the SSML as XML text, so characters<br/>
 /// such as <c>&amp;</c> and <c>&lt;</c> are spoken rather than read as markup.
 /// See <see href="https://learn.microsoft.com/azure/ai-services/speech-service/rest-text-to-speech">the REST API</see>.
 /// </remarks>
@@ -24,8 +24,11 @@ public sealed class AzureSpeechProvider : ITextToSpeechProvider
    const string Japanese = "ja-JP";
    const string KeyHeader = "Ocp-Apim-Subscription-Key";
 
-   /// <summary>Azure's MP3 with the highest sample rate and bit rate. 48 kHz also makes Azure use its high-fidelity voice models.</summary>
-   const string Mp3OfTheHighestQuality = "audio-48khz-192kbitrate-mono-mp3";
+   /// <summary>
+   /// MP3 at 96 kbit/s and 24 kHz, mono: the format of nearly all the TTS audio HyperTTS made, and by ear all but indistinguishable<br/>
+   /// from Azure's best, 192 kbit/s at 48 kHz, at half the size (Magnus, 2026-11-07). The media repositories' size matters.
+   /// </summary>
+   const string Mp3Format = "audio-24khz-96kbitrate-mono-mp3";
 
    /// <summary>What a standard neural voice's name ends with, as in <c>ja-JP-DaichiNeural</c>.</summary>
    const string StandardNeuralSuffix = "Neural";
@@ -74,7 +77,7 @@ public sealed class AzureSpeechProvider : ITextToSpeechProvider
       using var request = new HttpRequestMessage(HttpMethod.Post, $"{Host}/cognitiveservices/v1");
       request.Content = new StringContent(SsmlFor(text, voice), Encoding.UTF8, "application/ssml+xml");
       request.Headers.Add(KeyHeader, _settings.Key);
-      request.Headers.Add("X-Microsoft-OutputFormat", Mp3OfTheHighestQuality);
+      request.Headers.Add("X-Microsoft-OutputFormat", Mp3Format);
       request.Headers.UserAgent.ParseAdd("JAStudio");
       using var response = await _http.SendAsync(request, cancellation);
       await TextToSpeechRequestFailedException.ThrowUnlessItSucceeded(response, Name, cancellation);

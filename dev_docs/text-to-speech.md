@@ -70,7 +70,7 @@ would be reported as never used.
 
 - **Speaking:** `POST https://{region}.tts.speech.microsoft.com/cognitiveservices/v1`, with the resource key in
   `Ocp-Apim-Subscription-Key`, SSML as the body (`application/ssml+xml`), and
-  `X-Microsoft-OutputFormat: audio-48khz-192kbitrate-mono-mp3`, its highest-quality MP3. The body of a successful
+  `X-Microsoft-OutputFormat: audio-24khz-96kbitrate-mono-mp3`, MP3 at 96 kbit/s and 24 kHz. The body of a successful
   response is the audio.
 - **The voices:** `GET https://{region}.tts.speech.microsoft.com/cognitiveservices/voices/list`. Each voice's
   `ShortName` is what the SSML names, and only the `ja-JP` locale is kept.
@@ -87,7 +87,11 @@ would be reported as never used.
     `ja-JP-Daichi:DragonHDOmniLatestNeural`. So `AzureSpeechProvider` adds one for each standard voice it lists,
     16 Japanese voices in all;
   - a made-up voice name is refused with 400 Bad Request, so the Omni voices aren't a fallback to some default;
-  - the audio is MP3 at 192 kbit/s, 48 kHz, mono.
+  - **the format is MP3 at 96 kbit/s and 24 kHz, mono,** not Azure's best, 192 kbit/s at 48 kHz. By ear the two are all
+    but indistinguishable, and the smaller one is half the size (Magnus, 2026-11-07). Nearly all the TTS audio HyperTTS
+    made is in it too: 94% of a sample of 400 of its 32,043 files, which average 34.5 KB;
+  - the standard neural voices seem to say a text the same way every time, so comparing formats with them is fair.
+    The HD voices don't.
 - **HD voices support fewer SSML elements.** DragonHD supports `<phoneme>` and `<sub>`, but no `<prosody>`.
   Dragon HD Omni has no `<phoneme>` either. That matters for pronunciation fixes later.
 - **The region:** HD voices are only in some regions. In Europe those are France Central, Sweden Central and West
@@ -106,7 +110,7 @@ would be reported as never used.
   - **Google lists 41 Japanese voices:** 30 Chirp 3 HD voices, named after stars and moons, such as
     `ja-JP-Chirp3-HD-Kore`, 3 Neural2 (B, C and D), 4 WaveNet and 4 Standard;
   - **its MP3 is encoded at a much lower bit rate than Azure's:** 32 kbit/s for Chirp 3 HD and 64 kbit/s for
-    Neural2, both at 24 kHz, against Azure's 192 kbit/s at 48 kHz. Google offers no better MP3. Its other formats are
+    Neural2, both at 24 kHz, against Azure's 96 kbit/s. Google offers no better MP3. Its other formats are
     uncompressed WAV (`LINEAR16`, 24 kHz, about ten times the size) and OGG Opus, about as small as its MP3. Its MP3
     is good enough (Magnus, 2026-11-07), so that's what's kept.
   - **Chirp 3 HD doesn't say the same text the same way twice.** Three requests for `明日は学校に行きます。` with
