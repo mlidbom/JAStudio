@@ -24,4 +24,8 @@
       <ProjectReference Include="..\JAStudio.TextToSpeech\JAStudio.TextToSpeech.csproj" />
    </ItemGroup>
 
+   <ItemGroup>
+      <None Include="Mp3Fixtures\**" CopyToOutputDirectory="PreserveNewest" />
+   </ItemGroup>
+
 </Project>

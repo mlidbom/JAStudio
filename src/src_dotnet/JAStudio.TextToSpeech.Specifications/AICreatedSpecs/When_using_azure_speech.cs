@@ -65,7 +65,7 @@ public class When_using_azure_speech : IAIGeneratedSpec
       public speaking_a_text_holding_characters_that_are_markup_in_ssml()
       {
          _service.AnswersWithAudio(TheAudio);
-         _speech = new TextToSpeechVoice(_azure, "ja-JP-DaichiNeural", VoiceGender.Male).SpeakAsync(Text, CancellationToken.None).GetAwaiter().GetResult();
+         _speech = _azure.SpeakAsync(Text, new TextToSpeechVoice(_azure, "ja-JP-DaichiNeural", VoiceGender.Male), CancellationToken.None).GetAwaiter().GetResult();
       }
 
       XElement TheSsmlSent() => XElement.Parse(_service.Request.Body);

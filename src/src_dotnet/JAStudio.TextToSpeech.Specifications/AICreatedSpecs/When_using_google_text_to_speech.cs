@@ -66,7 +66,7 @@ public class When_using_google_text_to_speech : IAIGeneratedSpec
       public speaking_a_text()
       {
          _service.AnswersWith(HttpStatusCode.OK, """{ "audioContent": "AQID" }""");
-         _speech = new TextToSpeechVoice(_google, "ja-JP-Neural2-B", VoiceGender.Female).SpeakAsync(Text, CancellationToken.None).GetAwaiter().GetResult();
+         _speech = _google.SpeakAsync(Text, new TextToSpeechVoice(_google, "ja-JP-Neural2-B", VoiceGender.Female), CancellationToken.None).GetAwaiter().GetResult();
       }
 
       JsonElement TheRequestSent() => JsonDocument.Parse(_service.Request.Body).RootElement;

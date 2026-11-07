@@ -5,10 +5,10 @@ using System.Text;
 namespace JAStudio.TextToSpeech.Specifications;
 
 /// <summary>
-/// WAV files made in code, for specifying how audio is compared and played without keeping recordings in the repository:<br/>
+/// WAV files made in code, for specifying how decoded audio is compared, with tones whose differences are known exactly:<br/>
 /// a tone of a pitch and a length, mono, 16-bit, at 24 kHz, the sample rate of the tts-providers' speech, optionally with a little noise.
 /// </summary>
-public static class GeneratedWav
+static class GeneratedWav
 {
    const int SamplesPerSecond = 24_000;
 

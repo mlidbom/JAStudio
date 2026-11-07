@@ -15,8 +15,12 @@ public sealed record TextToSpeechVoice(ITextToSpeechProvider Provider, string Na
    /// <summary>The <see cref="Name"/> without the <c>ja-JP-</c>, in any case, that Japanese voices' names start with, such as <c>DaichiNeural</c>, for showing in a list.</summary>
    public string ShortName => Name.StartsWith(JapanesePrefix, StringComparison.OrdinalIgnoreCase) ? Name[JapanesePrefix.Length..] : Name;
 
-   /// <summary>Has this voice speak <paramref name="text"/>.</summary>
-   public Task<SynthesizedSpeech> SpeakAsync(string text, CancellationToken cancellation) => Provider.SpeakAsync(text, this, cancellation);
+   /// <summary>
+   /// Has this voice speak <paramref name="text"/>, brought to ReplayGain's reference loudness (<see cref="SynthesizedSpeech.NormalizedToTheReplayGainReference"/>),<br/>
+   /// so that every voice sounds as loud as the others, and as the TTS audio HyperTTS made.
+   /// </summary>
+   public async Task<SynthesizedSpeech> SpeakAsync(string text, CancellationToken cancellation) =>
+      (await Provider.SpeakAsync(text, this, cancellation)).NormalizedToTheReplayGainReference();
 
    public override string ToString() => $"{Provider.Name} {ShortName}";
 }

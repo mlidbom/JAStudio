@@ -1,4 +1,5 @@
 using System;
+using JAStudio.TextToSpeech.Audio.Mp3;
 
 namespace JAStudio.TextToSpeech;
 
@@ -13,6 +14,12 @@ public sealed record SynthesizedSpeech(string Text, TextToSpeechVoice Voice, byt
    /// and naming the voice, such as <c>jastudio-tts-azure-daichi-dragonhdomnilatestneural-3f2a….mp3</c>.
    /// </summary>
    public string UniqueFileName() => $"jastudio-tts-{Voice.Provider.Name}-{Voice.ShortName.Replace(':', '-')}-{Guid.NewGuid():N}.mp3".ToLowerInvariant();
+
+   /// <summary>
+   /// This speech brought to ReplayGain's reference loudness without re-encoding it, as <c>mp3gain /r /c</c> would bring it (<see cref="Mp3File.NormalizedToTheReplayGainReference"/>):<br/>
+   /// the TTS audio HyperTTS made was normalized so, by Magnus's mp3gain script, so the two sound as loud as each other.
+   /// </summary>
+   public SynthesizedSpeech NormalizedToTheReplayGainReference() => this with { Mp3 = new Mp3File(Mp3).NormalizedToTheReplayGainReference().Bytes() };
 
    /// <summary>Not the audio's bytes, which would only fill a log.</summary>
    public override string ToString() => $"{Voice} speaking {Text} ({Mp3.Length} bytes of MP3)";

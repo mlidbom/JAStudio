@@ -1,0 +1,14 @@
+File	MP3 gain	dB gain	Max Amplitude	Max global_gain	Min global_gain
+azure-nanami-24khz.mp3	-4	-6.130000	22380.166259	210	68
+azure-nanami-dragon-hd-24khz.mp3	-2	-3.660000	23970.251830	210	73
+google-chirp3-hd-gacrux-24khz.mp3	-5	-8.090000	32054.818099	179	133
+google-chirp3-hd-kore-24khz.mp3	-3	-4.810000	31669.621237	179	133
+lame-24khz-mono.mp3	-3	-5.090000	21468.891571	210	86
+lame-32khz-stereo.mp3	-1	-0.800000	15541.744555	210	67
+lame-cbr-48khz-joint-stereo.mp3	2	3.450000	9684.066527	210	53
+lame-crc-32khz-stereo.mp3	-1	-1.250000	16398.779638	210	0
+lame-mpeg-2.5-11khz-mono.mp3	-2	-3.350000	16022.380015	210	102
+lame-quiet-22khz-mono.mp3	16	24.820000	627.508243	210	70
+lame-vbr-44khz-mono-with-id3-tags.mp3	-3	-4.110000	19104.462400	255	142
+two-files-joined-by-a-tag-with-an-ape-tag.mp3	-4	-6.080000	25048.107769	210	0
+"Album"	-3	-4.490000	32054.818099	255	0
