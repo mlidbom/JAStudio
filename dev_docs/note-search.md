@@ -296,6 +296,10 @@ columns need, and the note's page stays visible beside the results.
      shows its whole text in a tooltip. An empty cell shows none. Avalonia's text can't tell whether it was cut
      off, so every cell with text has the tooltip. The studying columns are only check boxes, so their headers are R
      and L, with "Studying reading" and "Studying listening" on hover.
+     - **The tooltips respond over the whole cell and the whole header,** not only over the text, which first made
+       them hit and miss (Magnus). A text column is a `TextColumnShowingTheWholeTextOnHover`, which puts the tooltip
+       on the cell. The grid has no tooltip for a header, so the view moves the R and L headers' tooltips onto their
+       header cells.
    - **Sorting is the grid's own** (Magnus, 2026-11-07: no special sorting while this is built in). Clicking a
      header sorts by that column alone. Shift+click adds a column that sorts the rows the earlier columns leave
      equal, and Ctrl+click stops sorting. A grid starts out sorted by the question (Magnus, 2026-11-07). The

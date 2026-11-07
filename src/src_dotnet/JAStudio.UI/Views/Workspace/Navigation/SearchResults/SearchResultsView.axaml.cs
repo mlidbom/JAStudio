@@ -26,8 +26,8 @@ namespace JAStudio.UI.Views.Workspace.Navigation.SearchResults;
 /// Clicking a column header sorts by that column, Shift+click adds a column to sort by when the earlier ones are equal, and Ctrl+click stops sorting.<br/>
 /// A grid starts out sorted by the question. Ctrl/Shift+click and Ctrl+A select several notes. Enter or a double-click opens a note,<br/>
 /// middle-clicking opens it in a background tab, and right-clicking, or the menu key, shows the menu of the selected notes.<br/>
-/// Hovering a cell shows its whole text, which a narrow column cuts off with an ellipsis. The studying columns' headers are R and L,<br/>
-/// with their full names on hover, since the columns are only check boxes.
+/// Hovering anywhere over a cell shows its whole text, which a narrow column cuts off with an ellipsis (<see cref="TextColumnShowingTheWholeTextOnHover"/>).<br/>
+/// The studying columns' headers are R and L, with their full names on hover anywhere over the header, since the columns are only check boxes.
 /// </remarks>
 public partial class SearchResultsView : UserControl
 {
@@ -37,6 +37,7 @@ public partial class SearchResultsView : UserControl
       foreach(var grid in new[] { VocabGrid, KanjiGrid, SentencesGrid })
       {
          SortByTheQuestionAtFirst(grid);
+         ShowTheHeaderTooltipsOverTheWholeHeadersOf(grid);
          BindTheTaggingKeysOf(grid);
          grid.AddHandler(KeyDownEvent, (_, e) => OnKeyDownIn(grid, e), RoutingStrategies.Tunnel);
          grid.AddHandler(DoubleTappedEvent, OnDoubleTappedInAGrid, RoutingStrategies.Bubble, handledEventsToo: true);
@@ -63,6 +64,28 @@ public partial class SearchResultsView : UserControl
          if(e.Property == DataGrid.CollectionViewProperty && e.NewValue is IDataGridCollectionView sortedRows)
             sortedRows.SortDescriptions.Add(DataGridSortDescription.FromPath(nameof(SearchResultViewModel.Question)));
       };
+
+   /// <summary>
+   /// Moves the tooltip of each column header given one, such as the R header's "Studying reading", from the header's own content<br/>
+   /// to the header cell that shows it, so that it shows wherever over the header the mouse is, not only over the letter.
+   /// </summary>
+   /// <remarks>
+   /// The grid has no tooltip for a column's header, and creates the header cells itself, so the tooltip moves once the content is in its cell.<br/>
+   /// The full name is read before the move, since the content's own tooltip is gone after it, and a header cell made anew gets it again.
+   /// </remarks>
+   static void ShowTheHeaderTooltipsOverTheWholeHeadersOf(DataGrid grid)
+   {
+      foreach(var headerContent in grid.Columns.Select(it => it.Header).OfType<Control>())
+      {
+         if(ToolTip.GetTip(headerContent) is not {} tooltip) continue;
+
+         ToolTip.SetTip(headerContent, null);
+         headerContent.AttachedToVisualTree += (_, _) => ToolTip.SetTip(TheHeaderCellShowing(headerContent), tooltip);
+      }
+   }
+
+   static DataGridColumnHeader TheHeaderCellShowing(Control headerContent) =>
+      headerContent.FindAncestorOfType<DataGridColumnHeader>() ?? throw new InvalidOperationException("A column header's content is shown outside a header cell.");
 
    /// <summary>Enter opens the note on the current row. Handling it here keeps the grid from moving to the next row, as it otherwise does on Enter.</summary>
    void OnKeyDownIn(DataGrid grid, KeyEventArgs e)
