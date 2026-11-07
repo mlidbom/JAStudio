@@ -7,19 +7,22 @@ namespace JAStudio.UI.ViewModels.TextToSpeech;
 
 /// <summary>
 /// One attempt in the TTS dialog: a voice's speech of the text, numbered in the order generated, kept in memory to replay without generating it again.<br/>
-/// It says whether it sounds the same as the attempt before it with the same voice and text, since a voice may say a text differently each time.
+/// It says whether it sounds the same as the attempt before it with the same voice and text, since a voice may say a text differently each time,<br/>
+/// and whether it sounds the same as the note's current audio, which keeping it would replace.
 /// </summary>
 sealed class SpeechAttemptViewModel
 {
    /// <param name="number">The attempt's number in the dialog, from 1.</param>
    /// <param name="speech">The speech generated.</param>
    /// <param name="earlierWithTheSameVoiceAndText">The latest earlier attempt with the same voice and text, or null when this is the first.</param>
-   public SpeechAttemptViewModel(int number, SynthesizedSpeech speech, SpeechAttemptViewModel? earlierWithTheSameVoiceAndText)
+   /// <param name="currentAudio">The note's TTS audio as it was when the dialog opened.</param>
+   public SpeechAttemptViewModel(int number, SynthesizedSpeech speech, SpeechAttemptViewModel? earlierWithTheSameVoiceAndText, CurrentAudioViewModel currentAudio)
    {
       Number = number;
       Speech = speech;
       Audio = DecodedAudio.Of(speech.Mp3);
-      Comparison = earlierWithTheSameVoiceAndText is {} earlier ? HowItComparesWith(earlier) : "";
+      ComparisonWithTheEarlierAttempt = earlierWithTheSameVoiceAndText is {} earlier ? HowItComparesWith(earlier.Audio, $"#{earlier.Number}") : "";
+      ComparisonWithTheCurrentAudio = currentAudio.Decoded is {} current ? HowItComparesWith(current, "current") : "";
    }
 
    public int Number { get; }
@@ -38,19 +41,26 @@ sealed class SpeechAttemptViewModel
    /// How it compares with the attempt before it with the same voice and text: "same as #1", or "differs from #1: 0.29 s shorter".<br/>
    /// Empty for the first attempt with its voice and text.
    /// </summary>
-   public string Comparison { get; }
+   public string ComparisonWithTheEarlierAttempt { get; }
+
+   /// <summary>
+   /// How it compares with the note's current audio, whatever its voice: "same as current", or "differs from current: 0.40 s longer".<br/>
+   /// Empty when there's no current audio to compare with (<see cref="CurrentAudioViewModel.CanPlay"/>).
+   /// </summary>
+   public string ComparisonWithTheCurrentAudio { get; }
 
    /// <summary>Whether it was generated with <paramref name="voice"/>, speaking <paramref name="text"/>.</summary>
    public bool IsOf(TextToSpeechVoice voice, string text) => Speech.Voice == voice && Speech.Text == text;
 
-   string HowItComparesWith(SpeechAttemptViewModel earlier)
+   /// <summary>How this attempt's audio compares with <paramref name="other"/>, which the comparison calls <paramref name="otherName"/>, such as "#1" or "current".</summary>
+   string HowItComparesWith(DecodedAudio other, string otherName)
    {
-      if(Audio.SoundsTheSameAs(earlier.Audio)) return $"same as #{earlier.Number}";
+      if(Audio.SoundsTheSameAs(other)) return $"same as {otherName}";
 
-      var longer = Audio.Duration - earlier.Audio.Duration;
-      return longer == TimeSpan.Zero ? $"differs from #{earlier.Number}, as long"
-             : longer > TimeSpan.Zero ? $"differs from #{earlier.Number}: {Seconds(longer)} longer"
-                                      : $"differs from #{earlier.Number}: {Seconds(longer.Negate())} shorter";
+      var longer = Audio.Duration - other.Duration;
+      return longer == TimeSpan.Zero ? $"differs from {otherName}, as long"
+             : longer > TimeSpan.Zero ? $"differs from {otherName}: {Seconds(longer)} longer"
+                                      : $"differs from {otherName}: {Seconds(longer.Negate())} shorter";
    }
 
    static string Seconds(TimeSpan time) => $"{time.TotalSeconds.ToString("0.00", CultureInfo.InvariantCulture)} s";

@@ -49,7 +49,8 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
 - **Your voices, in priority order:** the TTS dialog offers only the voices chosen, in an order Magnus sets. The first is
   the default. One list serves vocab and sentences.
 - **Listening without generating again:** every attempt stays in the dialog to replay, and generating again adds a new
-  one. The dialog tells whether a new attempt actually differs from the one before it.
+  one. The dialog tells whether a new attempt actually differs from the one before it, and from the note's current
+  audio.
 - **Nothing changes until one attempt is kept.**
 - **The text to speak can be edited** in the dialog, such as to write a word in kana to force its reading. Only what's
   spoken changes, not the note.
@@ -171,22 +172,30 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
    with Magnus's go-ahead, since it spends characters on his accounts. *(Built 2026-11-07, and verified against
    both real services.)*
 2. **The dialog for one note, end to end.** *(Built 2026-11-07.)*
-   - **Opening it:** "Text-to-speech audio..." in a vocab's or a sentence's note actions, in its right-click menu
-     (`TextToSpeechDialog`, `TextToSpeechDialogViewModel`). It opens near the cursor, and the default voice speaks at
-     once.
+   - **Opening it** (`TextToSpeechDialog`, `TextToSpeechDialogViewModel`): with the "TTS..." button beside the note's
+     TTS audio field in the workspace's editor section, a vocab's "Text to speech" or a sentence's "Audio"
+     (`TextToSpeechAudioFieldEditorViewModel`). Or with "Text-to-speech audio..." in a vocab's or a sentence's note
+     actions, in its right-click menu, which is also there while reviewing in Anki, where the editor section isn't.
+     It opens near the cursor, and the default voice speaks at once.
    - **The dialog:**
      - the text to speak, editable;
-     - the note's TTS audio as it is now, to compare with;
+     - the note's current audio, its TTS audio as it was when the dialog opened (`CurrentAudioViewModel`);
      - a button per chosen voice, "Every voice", and "Voices..." for choosing them;
-     - the attempts, each with its length and how it compares, such as "same as #1" or "differs from #2: 0.25 s
-       longer". Selecting one plays it.
-   - **Keys,** while the keyboard isn't in the text: 1 to 9 play attempts 1 to 9, 0 plays the current audio, and Enter
-     keeps the selected attempt.
+     - the attempts, each with ▶, its length, and how it compares with the attempt before it with the same voice and
+       text, such as "same as #1" or "differs from #2: 0.25 s longer", and with the current audio, such as
+       "differs from current: 0.40 s shorter". Selecting one plays it, and ▶ plays it again.
+   - **Keys,** while the keyboard isn't in the text: 1 to 9 play attempts 1 to 9, even the one already selected, 0
+     plays the current audio, and Enter keeps the selected attempt. The ▶ buttons don't take the keyboard, so that
+     Enter keeps the attempt rather than pressing ▶ again.
    - **Comparing:** on the decoded audio, not on the files, since Azure's standard voices send slightly different bytes
      for the same speech every time (`DecodedAudio`). Two attempts sound the same when they're about as long, and their
      sample-by-sample difference is below 0.2 of the audio's strength. Measured: Azure's standard voice differed from
      itself by 0.025, an HD voice by 1.5, and two voices by 1.2. A new attempt is compared with the one before it with
-     the same voice and text.
+     the same voice and text, and with the current audio, whatever its voice. HyperTTS's MP3s are 24 kHz mono, as
+     JAStudio's are (checked 2026-11-07), so a HyperTTS file can sound the same as a new attempt.
+   - **A current audio JAStudio doesn't play:** SoundFlow decodes MP3, WAV and FLAC, but Ogg Vorbis only with a codec
+     package of its own, and four imported sentences have `.ogg` audio (2026-11-07). The dialog says it doesn't play
+     such audio, and doesn't compare with it (`DecodedAudio.CanDecode`).
    - **Keeping** (`SpeechKeeping`), the only step that changes anything:
      1. the MP3 is stored in the media layer under a new name naming its voice, such as
         `jastudio-tts-azure-daichi-dragonhdomnilatestneural-<guid>.mp3` (`MediaStorageService.StoreNewAudioFile`);
@@ -221,6 +230,10 @@ one.
 - ~~**Playing audio in the dialog without tying JAStudio to Windows**~~ *Done 2026-11-07, with SoundFlow, chosen
   over the note page's web view, which would have needed glue code and a page to be shown, and Anki's own player,
   which isn't there outside Anki.*
+- **Normalizing the MP3s before we're done** (Magnus, 2026-11-07): the voices and tts-providers speak at different
+  loudness, and the kept files should be brought to a common loudness, so that cards don't jump in volume from one
+  to the next. Whether that means re-encoding, which needs an MP3 encoder, or setting a loudness tag that players
+  honor, is to be found out.
 - **Found meanwhile: JAStudio's UI doesn't run outside Windows as it is.** Two utilities call Windows' `user32`
   unconditionally: `NativeKeyboardFocus` (`SetFocus`) and `WindowPositioner` (`GetCursorPos`). The web view's
   WebView2 setup (`NoteTabView`) and `JAStudioAnkiAppRoot` check the platform first.

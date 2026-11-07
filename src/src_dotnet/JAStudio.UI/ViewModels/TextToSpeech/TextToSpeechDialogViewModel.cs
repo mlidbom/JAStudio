@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -22,7 +21,8 @@ namespace JAStudio.UI.ViewModels.TextToSpeech;
 /// </summary>
 /// <remarks>
 /// The default voice, the first chosen, speaks as soon as the dialog opens (<see cref="GenerateWithTheDefaultVoice"/>). Each new attempt says whether it sounds<br/>
-/// the same as the attempt before it with the same voice and text. The text to speak can be edited, such as to write a word in kana to force its reading.<br/>
+/// the same as the attempt before it with the same voice and text, and as the note's <see cref="CurrentAudio"/>.<br/>
+/// The text to speak can be edited, such as to write a word in kana to force its reading.<br/>
 /// The attempts live only in memory: closing the dialog without keeping one changes nothing.
 /// </remarks>
 partial class TextToSpeechDialogViewModel : ObservableObject
@@ -31,7 +31,6 @@ partial class TextToSpeechDialogViewModel : ObservableObject
    readonly IAudioPlayer _player;
    readonly SpeechKeeping _keeping;
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly AudioAttachment? _currentAudio;
    int _generationsUnderWay;
 
    /// <param name="note">The note to generate TTS audio for.</param>
@@ -46,7 +45,7 @@ partial class TextToSpeechDialogViewModel : ObservableObject
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       _chosenVoices = chosenVoices;
       _textToSpeak = note.TextToSpeak;
-      _currentAudio = services.Resolve<MediaFileIndex>().GetAudioAttachments(note.TextToSpeechAudio.RawValue()).FirstOrDefault();
+      CurrentAudio = CurrentAudioViewModel.Of(note, services.Resolve<MediaFileIndex>());
       _status = WhyThereIsNothingToGenerateWith(chosenVoices);
    }
 
@@ -81,12 +80,8 @@ partial class TextToSpeechDialogViewModel : ObservableObject
    /// <summary>Whether a voice is speaking the text right now. Several may be at once.</summary>
    [ObservableProperty] bool _isGenerating;
 
-   /// <summary>The note's TTS audio as it is now, such as <c>hypertts-….mp3</c>, to compare the attempts with, or what's wrong with it.</summary>
-   public string CurrentAudio =>
-      _currentAudio?.OriginalFileName
-   ?? (_note.TextToSpeechAudio.HasAudio() ? $"{_note.TextToSpeechAudio.RawValue()}, not in JAStudio's media yet" : "none");
-
-   public bool CanPlayTheCurrentAudio => _currentAudio is not null;
+   /// <summary>The note's TTS audio as it was when the dialog opened, to listen to and to compare the attempts with.</summary>
+   public CurrentAudioViewModel CurrentAudio { get; }
 
    public bool CanKeep => SelectedAttempt is not null;
 
@@ -98,15 +93,24 @@ partial class TextToSpeechDialogViewModel : ObservableObject
          _player.Play(value.Speech.Mp3);
    }
 
-   /// <summary>Plays the note's TTS audio as it is now. Only when <see cref="CanPlayTheCurrentAudio"/>.</summary>
-   internal void PlayTheCurrentAudio() =>
-      _player.Play(File.ReadAllBytes((_currentAudio ?? throw new InvalidOperationException("The note has no TTS audio in JAStudio's media to play.")).FilePath));
+   /// <summary>Plays the note's <see cref="CurrentAudio"/>. Only when it <see cref="CurrentAudioViewModel.CanPlay"/>.</summary>
+   internal void PlayTheCurrentAudio() => CurrentAudio.PlayWith(_player);
 
-   /// <summary>Plays the attempt numbered <paramref name="number"/>, by selecting it. Does nothing when there's no such attempt.</summary>
-   internal void PlayAttempt(int number)
+   /// <summary>Plays the attempt numbered <paramref name="number"/>, and selects it. Does nothing when there's no such attempt.</summary>
+   internal void PlayTheAttemptNumbered(int number)
    {
       if(Attempts.FirstOrDefault(it => it.Number == number) is {} attempt)
-         SelectedAttempt = attempt;
+         Play(attempt);
+   }
+
+   /// <summary>
+   /// Plays <paramref name="attempt"/>, and selects it. It plays even when it's selected already, as when replaying it.<br/>
+   /// Selecting an attempt plays it, so one not selected yet is played by selecting it.
+   /// </summary>
+   internal void Play(SpeechAttemptViewModel attempt)
+   {
+      if(attempt == SelectedAttempt) _player.Play(attempt.Speech.Mp3);
+      else SelectedAttempt = attempt;
    }
 
    /// <summary>Has the default voice, the first chosen, speak the text. The dialog does this as soon as it opens. Does nothing with no voices chosen.</summary>
@@ -156,7 +160,7 @@ partial class TextToSpeechDialogViewModel : ObservableObject
    void AddTheAttempt(SynthesizedSpeech speech)
    {
       var earlier = Attempts.LastOrDefault(it => it.IsOf(speech.Voice, speech.Text));
-      var attempt = new SpeechAttemptViewModel(Attempts.Count + 1, speech, earlier);
+      var attempt = new SpeechAttemptViewModel(Attempts.Count + 1, speech, earlier, CurrentAudio);
       Attempts.Add(attempt);
       SelectedAttempt = attempt;
    }

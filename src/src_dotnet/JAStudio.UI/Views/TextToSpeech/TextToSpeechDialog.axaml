@@ -5,7 +5,7 @@
         x:Class="JAStudio.UI.Views.TextToSpeech.TextToSpeechDialog"
         x:DataType="textToSpeech:TextToSpeechDialogViewModel"
         Title="{Binding Title}"
-        Width="680"
+        Width="860"
         Height="560"
         WindowStartupLocation="Manual">
 
@@ -20,8 +20,8 @@
 
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <TextBlock Text="The note's TTS audio now:" VerticalAlignment="Center" />
-                <Button Content="▶ (0)" Click="OnPlayTheCurrentAudio" IsEnabled="{Binding CanPlayTheCurrentAudio}" Padding="8,2" />
-                <TextBlock Text="{Binding CurrentAudio}" VerticalAlignment="Center" />
+                <Button Content="▶ (0)" Click="OnPlayTheCurrentAudio" IsEnabled="{Binding CurrentAudio.CanPlay}" Padding="8,2" />
+                <TextBlock Text="{Binding CurrentAudio.Description}" VerticalAlignment="Center" />
             </StackPanel>
 
             <TextBlock Text="Generate with:" />
@@ -43,7 +43,7 @@
                 <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsGenerating}" Width="80" VerticalAlignment="Center" />
             </StackPanel>
 
-            <TextBlock Text="Attempts. Selecting one plays it, 1 to 9 play attempts 1 to 9, and Enter keeps the selected one:" TextWrapping="Wrap" />
+            <TextBlock Text="Attempts. Selecting one plays it, ▶ plays it again, 1 to 9 play attempts 1 to 9, and Enter keeps the selected one:" TextWrapping="Wrap" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,8,0,0">
@@ -57,11 +57,14 @@
 
         <ListBox x:Name="AttemptList" ItemsSource="{Binding Attempts}" SelectedItem="{Binding SelectedAttempt}">
             <ListBox.ItemTemplate>
+                <!-- The ▶ doesn't take the keyboard, which stays on the attempts, so that Enter keeps the selected attempt rather than pressing ▶ again. -->
                 <DataTemplate x:DataType="textToSpeech:SpeechAttemptViewModel">
-                    <Grid ColumnDefinitions="*,Auto,Auto">
-                        <TextBlock Grid.Column="0" Text="{Binding Description}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Length}" Margin="12,0,0,0" />
-                        <TextBlock Grid.Column="2" Text="{Binding Comparison}" Margin="12,0,0,0" Foreground="Gray" MinWidth="220" />
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+                        <Button Grid.Column="0" Content="▶" Click="OnPlayAnAttempt" Focusable="False" Padding="6,0" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding Length}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="{Binding ComparisonWithTheEarlierAttempt}" Margin="12,0,0,0" Foreground="Gray" MinWidth="190" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="4" Text="{Binding ComparisonWithTheCurrentAudio}" Margin="12,0,0,0" Foreground="Gray" MinWidth="210" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

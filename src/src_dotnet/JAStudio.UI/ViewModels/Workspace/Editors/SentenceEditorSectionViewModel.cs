@@ -7,6 +7,7 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -48,7 +49,11 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       ];
       OtherFields =
       [
-         Field("Audio", TextFieldFormat.Line, it => it.Audio.RawValue(), (it, audio) => it.Audio.SetRawValue(audio)),
+         new TextToSpeechAudioFieldEditorViewModel(_fatalErrorHandler,
+                                                   "Audio",
+                                                   () => CurrentSentence().TextToSpeechAudio.RawValue(),
+                                                   WritingToTheCurrentSentence((it, audio) => it.TextToSpeechAudio.SetRawValue(audio)),
+                                                   () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
          Field("Screenshot", TextFieldFormat.Line, it => it.Screenshot.RawValue(), (it, screenshot) => it.Screenshot.SetRawValue(screenshot)),
          Field("External id", TextFieldFormat.Line, it => it.ExternalId)
       ];
@@ -61,7 +66,10 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The question, answer and comments the sentence came with.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
-   /// <summary>The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, and the id of where it came from.</summary>
+   /// <summary>
+   /// The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, and the id of where it came from.<br/>
+   /// The audio is its TTS audio, with a button for generating new (<see cref="TextToSpeechAudioFieldEditorViewModel"/>).
+   /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
 
    public NoteTagsEditorViewModel Tags { get; }
@@ -78,16 +86,16 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));
 
    TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<SentenceNote, string> read, Action<SentenceNote, string> write) =>
-      new(_fatalErrorHandler,
-          label,
-          format,
-          () => read(CurrentSentence()),
-          text =>
-          {
-             var sentence = CurrentSentence();
-             write(sentence, text);
-             sentence.UpdateGeneratedData();
-          });
+      new(_fatalErrorHandler, label, format, () => read(CurrentSentence()), WritingToTheCurrentSentence(write));
+
+   /// <summary>Writes a field's text with <paramref name="write"/> to the sentence as the collection holds it now, and updates the sentence's generated data.</summary>
+   Action<string> WritingToTheCurrentSentence(Action<SentenceNote, string> write) =>
+      text =>
+      {
+         var sentence = CurrentSentence();
+         write(sentence, text);
+         sentence.UpdateGeneratedData();
+      };
 
    /// <summary>The sentence being edited, as the collection holds it now.</summary>
    SentenceNote CurrentSentence() => _services.CoreApp.Collection.Sentences.WithIdOrNone(_sentenceId)

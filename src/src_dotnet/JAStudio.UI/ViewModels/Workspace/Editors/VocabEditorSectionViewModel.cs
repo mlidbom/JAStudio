@@ -3,6 +3,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -32,7 +33,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
       _vocabId = vocabId;
       var fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       SentencesReparser = new VocabSentencesReparserViewModel(services, CurrentVocab, sentencesReparsed);
-      Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
+      Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser, () => TextToSpeechDialog.OpenFor(CurrentVocab(), services));
       MatchingConfig = new VocabMatchingConfigEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
       Metadata = new VocabMetadataEditorViewModel(services, CurrentVocab);
    }

@@ -26,7 +26,6 @@ namespace JAStudio.UI.Views.TextToSpeech;
 partial class TextToSpeechDialog : Window
 {
    readonly TextToSpeechDialogViewModel _dialog;
-   readonly SoundFlowAudioPlayer _player;
    readonly IReadOnlyList<ITextToSpeechProvider> _providers;
    readonly IFatalErrorHandler _fatalErrorHandler;
 
@@ -40,8 +39,8 @@ partial class TextToSpeechDialog : Window
       var settings = TextToSpeechSettings.ReadFromTheUserProfile();
       _providers = settings.ProvidersWithKeys();
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
-      _player = new SoundFlowAudioPlayer();
-      _dialog = new TextToSpeechDialogViewModel(note, settings.ChosenVoicesOf(_providers), _player, services);
+      var player = new SoundFlowAudioPlayer();
+      _dialog = new TextToSpeechDialogViewModel(note, settings.ChosenVoicesOf(_providers), player, services);
       DataContext = _dialog;
       InitializeComponent();
       KeyDown += OnKeyDown;
@@ -50,7 +49,7 @@ partial class TextToSpeechDialog : Window
          Dispatcher.UIThread.Post(() => AttemptList.Focus(), DispatcherPriority.Loaded);
          _dialog.GenerateWithTheDefaultVoice();
       };
-      Closed += (_, _) => _player.Dispose();
+      Closed += (_, _) => player.Dispose();
    }
 
    /// <summary>Opens the TTS dialog for <paramref name="note"/>, near the cursor.</summary>
@@ -63,9 +62,9 @@ partial class TextToSpeechDialog : Window
       switch(e.Key)
       {
          case >= Key.D1 and <= Key.D9:
-            _dialog.PlayAttempt(e.Key - Key.D0);
+            _dialog.PlayTheAttemptNumbered(e.Key - Key.D0);
             break;
-         case Key.D0 when _dialog.CanPlayTheCurrentAudio:
+         case Key.D0 when _dialog.CurrentAudio.CanPlay:
             _dialog.PlayTheCurrentAudio();
             break;
          case Key.Enter when _dialog.CanKeep:
@@ -79,6 +78,14 @@ partial class TextToSpeechDialog : Window
    }
 
    void OnPlayTheCurrentAudio(object? sender, RoutedEventArgs e) => _dialog.PlayTheCurrentAudio();
+
+   void OnPlayAnAttempt(object? sender, RoutedEventArgs e)
+   {
+      if(sender is not Control { DataContext: SpeechAttemptViewModel attempt })
+         throw new InvalidOperationException("An attempt's ▶ shows something other than a SpeechAttemptViewModel.");
+
+      _dialog.Play(attempt);
+   }
 
    void OnGenerateWithAVoice(object? sender, RoutedEventArgs e)
    {

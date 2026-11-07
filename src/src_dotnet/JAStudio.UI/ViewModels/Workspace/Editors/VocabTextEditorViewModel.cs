@@ -6,6 +6,7 @@ using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -28,7 +29,8 @@ class VocabTextEditorViewModel
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a change.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
    /// <param name="sentencesReparser">Reparses the vocab's sentences after a change to what it matches.</param>
-   public VocabTextEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, VocabSentencesReparserViewModel sentencesReparser)
+   /// <param name="openTheTextToSpeechDialog">Opens the <see cref="TextToSpeechDialog"/> for the vocab as the collection holds it now.</param>
+   public VocabTextEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, VocabSentencesReparserViewModel sentencesReparser, Action openTheTextToSpeechDialog)
    {
       _fatalErrorHandler = fatalErrorHandler;
       _currentVocab = currentVocab;
@@ -62,7 +64,11 @@ class VocabTextEditorViewModel
       [
          Field("First", TextFieldFormat.Line, it => it.Audio.First.RawValue(), (it, audio) => it.Audio.First.SetRawValue(audio)),
          Field("Second", TextFieldFormat.Line, it => it.Audio.Second.RawValue(), (it, audio) => it.Audio.Second.SetRawValue(audio)),
-         Field("Text to speech", TextFieldFormat.Line, it => it.Audio.Tts.RawValue(), (it, audio) => it.Audio.Tts.SetRawValue(audio))
+         new TextToSpeechAudioFieldEditorViewModel(fatalErrorHandler,
+                                                   "Text to speech",
+                                                   () => _currentVocab().TextToSpeechAudio.RawValue(),
+                                                   WritingToTheCurrentVocab((it, audio) => it.TextToSpeechAudio.SetRawValue(audio)),
+                                                   openTheTextToSpeechDialog)
       ];
       TechnicalNotes = Field("Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes);
       SourceFields =
@@ -86,7 +92,10 @@ class VocabTextEditorViewModel
    /// <summary>The user's own answer, explanations and mnemonic, which take precedence over the <see cref="SourceFields"/>, and the compound parts.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> UserFields { get; }
 
-   /// <summary>The vocab's audio, as Anki's <c>[sound:file]</c> references.</summary>
+   /// <summary>
+   /// The vocab's audio, as Anki's <c>[sound:file]</c> references. The last is its TTS audio, with a button for generating new<br/>
+   /// (<see cref="TextToSpeechAudioFieldEditorViewModel"/>).
+   /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> AudioFields { get; }
 
    public TextFieldEditorViewModel TechnicalNotes { get; }
@@ -121,14 +130,14 @@ class VocabTextEditorViewModel
       Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));
 
    TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<VocabNote, string> read, Action<VocabNote, string> write) =>
-      new(_fatalErrorHandler,
-          label,
-          format,
-          () => read(_currentVocab()),
-          text =>
-          {
-             var vocab = _currentVocab();
-             write(vocab, text);
-             vocab.UpdateGeneratedData();
-          });
+      new(_fatalErrorHandler, label, format, () => read(_currentVocab()), WritingToTheCurrentVocab(write));
+
+   /// <summary>Writes a field's text with <paramref name="write"/> to the vocab as the collection holds it now, and updates the vocab's generated data.</summary>
+   Action<string> WritingToTheCurrentVocab(Action<VocabNote, string> write) =>
+      text =>
+      {
+         var vocab = _currentVocab();
+         write(vocab, text);
+         vocab.UpdateGeneratedData();
+      };
 }

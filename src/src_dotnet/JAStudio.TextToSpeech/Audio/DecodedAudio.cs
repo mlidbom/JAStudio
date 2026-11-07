@@ -30,7 +30,16 @@ public sealed class DecodedAudio
       _samplesPerSecond = samplesPerSecond;
    }
 
-   /// <summary>Decodes <paramref name="audioFile"/>, the bytes of an MP3, WAV or FLAC file, with SoundFlow (<see cref="SharedAudioEngine"/>).</summary>
+   /// <summary>The kinds of audio file SoundFlow decodes, and so plays: those miniaudio, the native library under it, decodes itself.</summary>
+   static readonly string[] DecodableFileExtensions = [".mp3", ".wav", ".flac"];
+
+   /// <summary>
+   /// Whether the audio file named <paramref name="fileName"/> is of a kind SoundFlow decodes, and so plays: an MP3, WAV or FLAC file.<br/>
+   /// Others, such as the Ogg Vorbis audio of a few imported sentences, would need a codec SoundFlow brings in a separate package.
+   /// </summary>
+   public static bool CanDecode(string fileName) => DecodableFileExtensions.Contains(Path.GetExtension(fileName), StringComparer.OrdinalIgnoreCase);
+
+   /// <summary>Decodes <paramref name="audioFile"/>, the bytes of a file <see cref="CanDecode"/> says it can, with SoundFlow (<see cref="SharedAudioEngine"/>).</summary>
    public static DecodedAudio Of(byte[] audioFile)
    {
       using var decoder = new SoundFlow.Providers.StreamDataProvider(SharedAudioEngine.Instance, new MemoryStream(audioFile));
