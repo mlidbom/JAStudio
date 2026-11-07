@@ -10,8 +10,10 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Editing;
 using JAStudio.Core.Note.Search.Grouping;
+using JAStudio.Core.Note.Search.TextProperties;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
+using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.Search;
 using JAStudio.UI.Views.Workspace.Navigation;
 
@@ -27,7 +29,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 /// </remarks>
 partial class NoteSearchViewModel : ObservableObject
 {
-   const string HowToSearch = "Type to search. + adds a condition, - negates one, Del removes one, Ctrl+Z undoes. Right-click for more.";
+   const string HowToSearch = "Type to search. + adds a condition or a group, - negates, Del removes, Enter or a double-click changes, Ctrl+Z undoes. Right-click for more.";
 
    readonly JPCollection _collection;
    readonly IFatalErrorHandler _fatalErrorHandler;
@@ -64,18 +66,19 @@ partial class NoteSearchViewModel : ObservableObject
    internal ConditionEditorViewModel EditorForANewConditionOn(NoteProperty property, string typedText = "") =>
       ConditionEditorViewModel.ForANewConditionOn(property, _collection, typedText);
 
+   /// <summary>An editor for a new condition on the text property <paramref name="property"/>, comparing in the way <paramref name="matchChoice"/> says.</summary>
+   internal static ConditionEditorViewModel EditorForANewTextCondition(TextProperty property, TextMatchChoice matchChoice) =>
+      new TextConditionEditorViewModel(property, matchChoice, "");
+
    /// <summary>An editor filled in with the selected line's condition, or null when the line is a group, which has no editor.</summary>
    internal ConditionEditorViewModel? EditorForTheSelectedCondition() =>
       Selected.IsGroup ? null : ConditionEditorViewModel.ForChanging(Selected.Condition, _collection);
 
-   /// <summary>
-   /// Opens an editor for a new condition on <paramref name="property"/> through <paramref name="editInADialog"/>, and adds the condition it returns, if any.<br/>
-   /// <paramref name="typedText"/> is already typed into the editor, if it takes text.
-   /// </summary>
-   internal void AddAConditionThroughAnEditor(NoteProperty property, Func<ConditionEditorViewModel, Task<NoteCondition?>> editInADialog, string typedText = "") =>
+   /// <summary>Opens <paramref name="editor"/>, for a new condition, through <paramref name="editInADialog"/>, and adds the condition it returns, if any.</summary>
+   internal void AddAConditionThroughAnEditor(ConditionEditorViewModel editor, Func<ConditionEditorViewModel, Task<NoteCondition?>> editInADialog) =>
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
-         if(await editInADialog(EditorForANewConditionOn(property, typedText)) is {} condition)
+         if(await editInADialog(editor) is {} condition)
             AddCondition(condition);
       });
 
@@ -143,31 +146,50 @@ partial class NoteSearchViewModel : ObservableObject
       ChangeTheSearch(selected.Position);
    }
 
-   /// <summary>The add menu: the properties a condition can be on, each picked by a single key, such as T for tags.</summary>
-   /// <param name="addAConditionOn">Opens the editor for a new condition on the picked property.</param>
-   internal static List<SpecMenuItem> AddConditionMenu(Action<NoteProperty> addAConditionOn) =>
-   [
-      SpecMenuItem.Command("_Searchable text", () => addAConditionOn(NoteProperties.SearchableText)),
-      SpecMenuItem.Command("_Question", () => addAConditionOn(NoteProperties.Question)),
-      SpecMenuItem.Command("_Answer", () => addAConditionOn(NoteProperties.Answer)),
-      SpecMenuItem.Command("_Tags", () => addAConditionOn(NoteProperties.Tags)),
-      SpecMenuItem.Command("_Note type", () => addAConditionOn(NoteProperties.NoteType)),
-      SpecMenuItem.Command("Studying _reading", () => addAConditionOn(NoteProperties.StudyingReading)),
-      SpecMenuItem.Command("Studying _listening", () => addAConditionOn(NoteProperties.StudyingListening))
-   ];
+   /// <summary>
+   /// The add menu: the properties a condition can be on, and the groups, each picked by a single key, such as t for tags.<br/>
+   /// A text property opens a submenu of the ways to compare its text, so s then c starts a "searchable text contains" condition.
+   /// </summary>
+   /// <param name="addAConditionThrough">Opens the editor for the picked condition, and adds the condition it returns.</param>
+   internal List<SpecMenuItem> AddConditionMenu(Action<ConditionEditorViewModel> addAConditionThrough)
+   {
+      return
+      [
+         TextPropertySubmenu('s', NoteProperties.SearchableText),
+         TextPropertySubmenu('q', NoteProperties.Question),
+         TextPropertySubmenu('a', NoteProperties.Answer),
+         PropertyItem('t', NoteProperties.Tags),
+         PropertyItem('n', NoteProperties.NoteType),
+         PropertyItem('r', NoteProperties.StudyingReading),
+         PropertyItem('l', NoteProperties.StudyingListening),
+         SpecMenuItem.Submenu(ShortcutFinger.Mnemonic('g', "Group"),
+         [
+            SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', "All of"), () => AddCondition(ConditionGroup.AllOf())),
+            SpecMenuItem.Command(ShortcutFinger.Mnemonic('o', "Any of"), () => AddCondition(ConditionGroup.AnyOf()))
+         ])
+      ];
+
+      SpecMenuItem TextPropertySubmenu(char key, TextProperty property) =>
+         SpecMenuItem.Submenu(ShortcutFinger.Mnemonic(key, property.Name),
+                              [..TextMatchChoice.All.Select(choice => SpecMenuItem.Command(ShortcutFinger.Mnemonic(choice.MenuKey, choice.Name),
+                                                                                         () => addAConditionThrough(EditorForANewTextCondition(property, choice))))]);
+
+      SpecMenuItem PropertyItem(char key, NoteProperty property) =>
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic(key, property.Name), () => addAConditionThrough(EditorForANewConditionOn(property)));
+   }
 
    /// <summary>The selected line's right-click menu: everything the editor can do to it, each picked by a single key.</summary>
    /// <param name="openTheAddMenu">Opens the <see cref="AddConditionMenu"/>.</param>
    /// <param name="changeTheSelectedCondition">Opens the editor filled in with the selected line's condition.</param>
    internal List<SpecMenuItem> SelectedNodeMenu(Action openTheAddMenu, Action changeTheSelectedCondition) =>
    [
-      SpecMenuItem.Command("_Add a condition (+)", openTheAddMenu),
-      SpecMenuItem.Command("_Change (Enter)", changeTheSelectedCondition, enabled: !Selected.IsGroup),
-      SpecMenuItem.Command(Selected.IsNegated ? "Remove the _negation (-)" : "_Negate (-)", ToggleNegationOfTheSelectedNode),
-      SpecMenuItem.Command(Selected.Condition is AnyOfGroup ? "_Switch to all of" : "_Switch to any of", SwitchTheSelectedGroup, enabled: Selected.IsGroup),
-      SpecMenuItem.Command("_Remove (Del)", RemoveTheSelectedNode, enabled: !Selected.IsRoot),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', "Add a condition (+)"), openTheAddMenu),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('c', "Change (Enter, double-click)"), changeTheSelectedCondition, enabled: !Selected.IsGroup),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('n', Selected.IsNegated ? "Remove the negation (-)" : "Negate (-)"), ToggleNegationOfTheSelectedNode),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', Selected.Condition is AnyOfGroup ? "Switch to all of" : "Switch to any of"), SwitchTheSelectedGroup, enabled: Selected.IsGroup),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', "Remove (Del)"), RemoveTheSelectedNode, enabled: !Selected.IsRoot),
       SpecMenuItem.Separator(),
-      SpecMenuItem.Command("_Undo (Ctrl+Z)", Undo, enabled: _search.CanUndo)
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Undo (Ctrl+Z)"), Undo, enabled: _search.CanUndo)
    ];
 
    void ChangeTheSearch(ConditionPosition positionToSelect)

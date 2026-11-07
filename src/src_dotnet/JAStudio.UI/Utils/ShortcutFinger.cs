@@ -43,6 +43,12 @@ public static class ShortcutFinger
    /// </summary>
    public static string None(string text) => text;
 
+   /// <summary>
+   /// <paramref name="text"/> with <paramref name="key"/> as its access key, shown in front of it as the finger keys are.<br/>
+   /// For a menu whose keys are picked to be remembered, such as t for "Tags" in the search's add menu, rather than by where the fingers rest.
+   /// </summary>
+   public static string Mnemonic(char key, string text) => FormatFinger(key, text);
+
    // Numpad functions (0-9 mapped to specific fingers)
    static readonly Func<string, string>[] NumpadFunctions =
    [

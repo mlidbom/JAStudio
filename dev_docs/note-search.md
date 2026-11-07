@@ -130,8 +130,13 @@ typing, and the search is never invalid.
    (see [The tag condition's editor](#the-tag-conditions-editor)).
 4. Enter, or the Add button, adds the condition to the selected group.
 
-**The menu is a JAStudio menu,** with the same single-key accelerators as the note menus (`SpecMenuItem`,
-`ShortcutFinger`).
+**The menu is a JAStudio menu,** with single-key accelerators shown in front of each item, as in the note menus
+(`SpecMenuItem`, `ShortcutFinger.Mnemonic`). Its keys are picked to be remembered: s searchable text, q question,
+a answer, t tags, n note type, r studying reading, l studying listening, g group.
+- **A text property opens a submenu** of the ways to compare its text: c contains, e is exactly, w matches the
+  wildcard pattern, r matches the regular expression. So `+` `s` `c` starts a "searchable text contains" condition,
+  and the dialog still lets the way be changed (Magnus, 2026-11-07).
+- **The group submenu** adds an "all of" (a) or an "any of" (o) group, and selects it, so the next `+` adds into it.
 
 **A condition's editor is a small dialog** (decided, Magnus, 2026-11-07), not inline in the tree. The tag editor
 needs room for its list, and the results need room for their tabs and columns, so an editor opening inline would make
@@ -150,10 +155,11 @@ the old search box: Ctrl+O, a word, Enter.
 **Keys act on the selected node,** the highlighted line in the tree, which is a condition or a group. Letters
 start a searchable-text condition, so the direct keys are other keys:
 - **`+` or `Ctrl++`** (Magnus, 2026-11-07) adds a condition to the selected group, or to the group the selected
-  condition is in;
+  condition is in. `+` and `-` are recognized as typed characters, since which key types them depends on the
+  keyboard layout;
 - **Del** removes the selected node, and a group goes with everything in it. The root group can't be removed;
 - **`-`** negates the selected node, putting it under "Not", or takes it out again, as Anki's `-tag:x` negates;
-- **Enter** edits the selected condition in its dialog;
+- **Enter, or a double-click,** edits the selected condition in its dialog;
 - **Ctrl+Z** undoes the last change, since one misplaced Del on a group could lose a whole search;
 - **the arrow keys** move through the tree.
 
@@ -253,8 +259,8 @@ columns need, and the note's page stays visible beside the results.
      - **An empty search lists no notes in the UI,** although the model's empty search matches every note. Listing
        every note before anything is searched would be slow and of no use.
      - **Not yet:** dimming the parent part of the tag paths in the tag dialog.
-   - **2b, the rest:** subgroups, wrapping a node in a new group, moving a node within its group, and collapsing the
-     tree.
+   - **2b, the rest:** wrapping a node in a new group, moving a node within its group, and collapsing the tree.
+     Adding groups moved into 2a (Magnus, 2026-11-07).
 3. **The results grid** with sortable columns, selecting several rows, and the place in the source.
 4. **Tagging notes** ([tags.md](tags.md), increment 1).
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
