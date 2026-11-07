@@ -21,11 +21,8 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
 
    public VocabCache(NoteServices noteServices) : base((services, data) => new VocabNote(services, VocabData.FromAnkiNoteData(data)), noteServices) {}
 
-   protected override VocabNote CreateNoteByMergingAnkiData(NoteServices services, VocabNote existing, AnkiNoteData ankiData)
-   {
-      var mergedData = VocabNoteConverter.ToCorpusData(existing).MergeAnkiData(ankiData);
-      return new VocabNote(services, mergedData);
-   }
+   protected override VocabNote NoteWithTheAudioTTSWroteInAnki(NoteServices services, VocabNote existing, AnkiNoteData ankiData) =>
+      new(services, VocabNoteConverter.ToCorpusData(existing).WithTheAudioTTSWritesFrom(ankiData));
 
    /// <summary>Also sets up the forms of a vocab that came without any besides its question: see <see cref="VocabNoteGeneratedData.SetUpTheFormsOfVocabAddedInAnki"/>.</summary>
    protected override void SetUpNoteAddedInAnki(VocabNote vocab)

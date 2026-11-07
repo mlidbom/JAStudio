@@ -82,7 +82,8 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
       if(existing.IsFlushing) return; // Our code initiated this flush, nothing to do
 
       data.Id = noteId;
-      var note = CreateNoteByMergingAnkiData(_noteServices, existing, data);
+      if(NoteWithTheAudioTTSWroteInAnki(_noteServices, existing, data) is not {} note) return;
+
       note.CopyStudyingStatusFrom(existing);
       note.UpdateGeneratedData();
       _monitor.Locked(() => RefreshInCacheCore(note));
@@ -108,8 +109,16 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    /// <summary>Creates the correctly typed NoteId for this cache (VocabId, KanjiId, etc.)</summary>
    protected abstract NoteId CreateTypedId(Guid value);
 
-   /// <summary>Creates a new note by merging Anki-owned fields into the existing note's data, preserving all fields Anki does not store.</summary>
-   protected abstract TNote CreateNoteByMergingAnkiData(NoteServices services, TNote existing, AnkiNoteData ankiData);
+   /// <summary>
+   /// The note as <paramref name="existing"/> is, but with the audio TTS writes into its Anki note taken from <paramref name="ankiData"/>,<br/>
+   /// or null when TTS writes no audio for this note type, so that saving the note in Anki changes nothing.
+   /// </summary>
+   /// <remarks>
+   /// Everything else in a note is edited in JAStudio, and the Anki-projection writes it to the Anki note, so an edit made to it in Anki<br/>
+   /// isn't taken, and JAStudio's next write of the note undoes it. TTS audio is the exception: HyperTTS, an Anki add-on, generates it into the Anki note.<br/>
+   /// A note added in Anki is different: <see cref="ExternalNoteAdded"/> takes all of it, as an import must. See <c>dev_docs/corpus-data-model.md</c>.
+   /// </remarks>
+   protected abstract TNote? NoteWithTheAudioTTSWroteInAnki(NoteServices services, TNote existing, AnkiNoteData ankiData);
 
    public void JpNoteUpdated(TNote note)
    {

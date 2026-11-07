@@ -71,7 +71,7 @@ apply here.
   clicked in the tab strip, runs it through
   `IFatalErrorHandler.HandleExceptionsFrom`, and an exception reaches the user.
 - **Views hold note ids, not note objects.** Today the cache replaces note objects in two cases:
-  - an edit coming in from Anki (`CreateNoteByMergingAnkiData`);
+  - TTS audio coming in from Anki (`NoteWithTheAudioTTSWroteInAnki`);
   - every full reload (`JPCollection.ReloadFromBackend`, after each Anki sync and when the profile reopens).
 
   A view holding the old object would then show and edit an orphan. Looking the note up by id keeps "one shared

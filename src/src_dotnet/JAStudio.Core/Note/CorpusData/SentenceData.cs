@@ -93,26 +93,29 @@ public partial class SentenceData : CorpusObjectData
          Screenshot = anki.Screenshot,
       };
 
-   /// Merges Anki-owned fields (every field exposed by <see cref="AnkiSentenceNote"/>, plus tags) into existing data, preserving all fields Anki does not store.
-   public SentenceData MergeAnkiData(AnkiNoteData ankiData)
+   /// <summary>
+   /// This data with the audio TTS writes into the sentence's Anki note taken from <paramref name="ankiData"/>: <c>Audio Sentence</c>,<br/>
+   /// which HyperTTS's sentence presets write. Everything else stays as it is: it's edited in JAStudio, and the screenshot only comes with an import.
+   /// </summary>
+   public SentenceData WithTheAudioTTSWritesFrom(AnkiNoteData ankiData)
    {
       var anki = new AnkiSentenceNote(ankiData);
       return new SentenceData
              {
                 Id = Id,
-                Tags = [..anki.Tags],
-                SourceQuestion = anki.SourceQuestion,
+                Tags = [..Tags],
+                SourceQuestion = SourceQuestion,
                 UserQuestion = UserQuestion,
                 ActiveQuestion = ActiveQuestion,
-                SourceAnswer = anki.SourceAnswer,
+                SourceAnswer = SourceAnswer,
                 UserAnswer = UserAnswer,
                 ActiveAnswer = ActiveAnswer,
-                SourceComments = anki.SourceComments,
+                SourceComments = SourceComments,
                 UserComments = UserComments,
-                Reading = anki.Reading,
-                ExternalId = anki.ExternalId,
+                Reading = Reading,
+                ExternalId = ExternalId,
                 Audio = anki.Audio,
-                Screenshot = anki.Screenshot,
+                Screenshot = Screenshot,
                 Configuration = Configuration,
                 ParsingResult = ParsingResult,
              };

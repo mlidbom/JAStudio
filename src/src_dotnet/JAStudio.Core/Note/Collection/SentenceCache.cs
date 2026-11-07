@@ -18,11 +18,8 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
 
    public SentenceCache(NoteServices noteServices) : base((services, data) => new SentenceNote(services, SentenceData.FromAnkiNoteData(data)), noteServices) {}
 
-   protected override SentenceNote CreateNoteByMergingAnkiData(NoteServices services, SentenceNote existing, AnkiNoteData ankiData)
-   {
-      var mergedData = SentenceNoteConverter.ToCorpusData(existing).MergeAnkiData(ankiData);
-      return new SentenceNote(services, mergedData);
-   }
+   protected override SentenceNote NoteWithTheAudioTTSWroteInAnki(NoteServices services, SentenceNote existing, AnkiNoteData ankiData) =>
+      new(services, SentenceNoteConverter.ToCorpusData(existing).WithTheAudioTTSWritesFrom(ankiData));
 
    protected override void ClearDerivedIndexes()
    {

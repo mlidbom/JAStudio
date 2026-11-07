@@ -82,15 +82,16 @@ nothing stored only for Anki's sake.
 
 ## Anki's role and its consequences
 
-Today Anki is a full two-way partner:
+Until 2026-11-07 Anki was a full two-way partner:
 
 - **Outbound:** every domain flush writes all of a note's old Anki fields and all of its tags to the Anki note.
   The path is `NoteFlushGuard.Flush` → `NoteCache` update listeners → Python `_update_anki_note` →
   `JPNoteDataShim.sync_note_to_anki_note`, which writes `JPNote.GetData()`
   (= `ToCorpusData().ToNoteData()`).
-- **Inbound:** every save on the Anki side runs `MergeAnkiData` on the corpus data types. For vocab, that pulls
+- **Inbound:** every save on the Anki side ran `MergeAnkiData` on the corpus data types. For vocab, that pulled
   `Question`, `ActiveAnswer`, the audio fields, `Image`, `UserImage` and **all tags** back into the corpus.
-  Kanji and sentences pull similar sets.
+  Kanji and sentences pulled similar sets. *Since 2026-11-07 a save in Anki takes only the audio TTS writes: see
+  point 2.*
 
 With Anki reduced to scheduler, note import and audio updates, the tentative consequences are:
 
@@ -104,25 +105,36 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
    - **Audio update:** when an audio field changes in Anki (for example HyperTTS generating audio), take the new
      audio into the media layer.
 
-   Everything else Anki sends back is ignored: question, answer and corpus-tags. **Open:** images too, or audio
-   only? Student-tags, such as priority, are read from the Anki notes instead of being merged into the corpus
-   (see [Tags](#tags)).
+   Everything else Anki sends back is ignored: question, answer and corpus-tags. Student-tags, such as priority,
+   are read from the Anki notes instead of being merged into the corpus (see [Tags](#tags)).
 
-   **Proposed (2026-11-06), not started:** cut `MergeAnkiData` down to audio, images and tags. Tags stay until
-   JAStudio manages them.
+   **Done (2026-11-07): a note saved in Anki takes only the audio TTS writes.** Tags went with it, since
+   JAStudio now edits them (`tags.md`).
+   - **Which audio** (Magnus, 2026-11-07): only the fields HyperTTS writes, since duplicating TTS would be a major
+     task, accounts with TTS services included. Those are vocab `Audio_TTS` and `Audio_g`, and sentence
+     `Audio Sentence` (see "What HyperTTS reads and writes" under [The minimal Anki note type](#the-minimal-anki-note-type-tentative)). Vocab
+     `Audio_b` and the images only come with an import: there's no point in editing them in Anki. Kanji take
+     nothing, since the primary-readings TTS is going.
+   - **The code:** `NoteCache.ExternalNoteWillFlush` asks each note type for `NoteWithTheAudioTTSWroteInAnki`,
+     which `VocabData.WithTheAudioTTSWritesFrom` and `SentenceData.WithTheAudioTTSWritesFrom` make. For kanji it's
+     null, and the save changes nothing. A note added in Anki still takes all of its fields and tags
+     (`NoteCache.ExternalNoteAdded`).
+   - **What an edit made in Anki does now:** nothing in the corpus, and JAStudio's next write of the note undoes
+     it in Anki. JAStudio has no image editor, so a note's images are fixed after import.
+   - The "Force flush all Anki notes by ID" batch now only takes in the TTS audio.
 3. **Tagging a whole deck in Anki doesn't reach the corpus, and already doesn't today** (found 2026-11-06).
    - Anki's tag operations go straight to Anki's backend and skip `note_will_flush`, the hook the
      Anki-ingestion listens to. That covers adding or removing tags in the browser, renaming or deleting a tag in
-     the sidebar, and find and replace on tags. Only a note saved through Anki's Python API reaches the corpus,
-     and then its whole tag list does: the note editor, HyperTTS, and the "Force flush all Anki notes by ID"
-     batch save notes that way.
+     the sidebar, and find and replace on tags. Only a note saved through Anki's Python API reached the corpus,
+     and then its whole tag list did: the note editor, HyperTTS, and the "Force flush all Anki notes by ID"
+     batch save notes that way. *Since 2026-11-07 no tags are taken from a save in Anki (point 2).*
    - Worse, the Anki-projection replaces the Anki note's whole tag list (`JPNoteDataShim.sync_note_to_anki_note`),
      so the next time JAStudio writes such a note it undoes the tag change made in Anki.
    - That is how priority tags were applied. Organizing gets its own design (see
      [Import and organization](#import-and-organization-needs-its-own-design)), centered on hierarchical tags in
      JAStudio.
 4. **Both mappings move to `JAStudio.Anki`.** Today they live inside the corpus data types (`ToNoteData`,
-   `PopulateAnkiNoteFields`, `FromAnki`, `MergeAnkiData` in `VocabData`, `KanjiData`, `SentenceData`), and
+   `PopulateAnkiNoteFields`, `FromAnki`, `WithTheAudioTTSWritesFrom` in `VocabData`, `KanjiData`, `SentenceData`), and
    `AnkiNoteData` and `NoteFieldsConstants` sit in `JAStudio.Core.Note`. That breaks the anti-corruption-layers
    code standard (foreign formats only at the boundary) and Core's own rule of having no Anki dependency.
 
@@ -278,7 +290,7 @@ These are settings, not labels, kept as `::`-path strings in the tag list (`Note
   `StringExtensions.FirstNumber`, and `VocabSentencesList.razor` orders sentences by it. `JPNote.GetMetaTags`
   turns it into CSS classes. It's student-data, not configuration of the corpus (2026-11-06; see [Tags](#tags)).
 
-Because `MergeAnkiData` replaces the tag list with Anki's, Anki co-owns all of this today. The workspace's vocab
+Until 2026-11-07, `MergeAnkiData` replaced the tag list with Anki's, so Anki co-owned all of this. The workspace's vocab
 editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`) are already structured
 (checkboxes over these flags); only the storage behind them is wrong.
 
@@ -684,7 +696,7 @@ JAStudio's own UI until Anki's role is minimal, and only then change the model.
 
 An earlier draft started by moving the whole Anki-projection and Anki-ingestion into `JAStudio.Anki` unchanged.
 That step is dropped. Under this order most of that code gets deleted rather than moved:
-- `MergeAnkiData` shrinks to picking up audio changes.
+- `MergeAnkiData` shrinks to picking up audio changes. *(Done 2026-11-07: `WithTheAudioTTSWritesFrom`.)*
 - `PopulateAnkiNoteFields` shrinks to the study-note fields.
 - `FromAnki` survives as the import-note mapping.
 
@@ -705,8 +717,8 @@ Progress on step 3:
 - Navigation, lists and editing are done. Organizing and import are the open design areas.
 - The workspace's remaining steps (multiple workspaces, reverting a note) are parked, because they free nothing
   from Anki.
-- **Proposed, not started:** cut the Anki-ingestion down to audio, images and tags (see
-  [Anki's role and its consequences](#ankis-role-and-its-consequences)).
+- ~~**Proposed, not started:** cut the Anki-ingestion down to audio, images and tags~~ *Done 2026-11-07, cut
+  further, to the audio TTS writes (see [Anki's role and its consequences](#ankis-role-and-its-consequences)).*
 - The difficulty tags are deleted, from the corpus and from Anki (2026-11-06).
 - What comes next isn't chosen yet (Magnus, 2026-11-06).
 - *2026-11-07:* tags come next: navigating, editing and tagging, specified in `tags.md`, with a search language

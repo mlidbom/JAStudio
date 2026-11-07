@@ -94,11 +94,10 @@ many notes change.
 
 ## Tags and Anki
 
-- **Today** the Anki-projection writes each note's whole tag list to its Anki note, and saving a note in Anki
-  merges the Anki note's tag list back into the corpus. Anki's own tag operations skip that merge, and JAStudio's
-  next write of the note undoes them. See `corpus-data-model.md`.
-- **Once JAStudio can edit tags,** tags are edited only in JAStudio, and the Anki-ingestion stops taking tags back,
-  except when importing notes, which takes all their tags along.
+- **The Anki-projection** writes each note's whole tag list to its Anki note.
+- **Tags are edited only in JAStudio** (since 2026-11-07). Saving a note in Anki no longer takes its tags back, so
+  a tag change made in Anki is undone by JAStudio's next write of the note. Importing a note still takes all its
+  tags along. See `corpus-data-model.md`, "Anki's role and its consequences".
 - **Student-tags** such as priority are still in the corpus today, so they behave like any other tag. When they
   move out of the corpus and are read from Anki instead, the tag tree should still show them. How is decided
   then.
