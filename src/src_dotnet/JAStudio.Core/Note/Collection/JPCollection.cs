@@ -60,6 +60,9 @@ public class JPCollection
    /// <summary>The tag paths in use in the collection right now, for the tag condition's editor to offer. See <see cref="Search.TagProperties.TagPathsInUse"/>.</summary>
    public TagPathsInUse TagPathsInUse() => new(AllNotes());
 
+   /// <summary>Every tag some note in the collection has, each once. Unlike <see cref="TagPathsInUse"/>, it has no parent paths that aren't tags themselves.</summary>
+   public IReadOnlyList<Tag> TagsInUse() => [..AllNotes().SelectMany(it => it.Tags).Distinct()];
+
    IEnumerable<JPNote> AllNotes() => [..Vocab.All(), ..Kanji.All(), ..Sentences.All()];
 
    public JPNote? NoteFromNoteId(NoteId noteId)

@@ -39,11 +39,14 @@ not necessarily in how:
   No tag in the corpus has one today.
 - **Tags are case-insensitive, as in Anki.** Adding a tag that differs from an existing one only in case reuses
   the existing spelling. So JAStudio can't create two tags that Anki would treat as one. No two tags in the
-  corpus differ only in case today. `Tag.FromName` is case-sensitive and has to change.
+  corpus differ only in case today. *(Done 2026-11-07: `Tag.FromName` ignores case.)*
 - **No empty levels:** `a::::b`, a leading `::` and a trailing `::` are invalid.
+  *(2026-11-07: `Tag.WhyItCannotBeTheNameOfATag` checks a typed name against this rule and the one on spaces. Only
+  typed names are checked: tags loaded from the corpus or Anki aren't.)*
 - **jastudio-defined-tags can't be edited by hand.** They appear in the tag tree for navigating, but can't be
   renamed, moved, deleted, or added to or removed from notes by hand. They're either generated, so a hand edit
-  would be overwritten, or they have their own editors.
+  would be overwritten, or they have their own editors. *(2026-11-07: `Tags.IsDefinedByJAStudio` says which they
+  are: every tag declared in `Tags` and its nested classes.)*
 - **Every tag change writes the note** to its corpus file, and through the Anki-projection to its Anki note, as
   any other edit does.
 
@@ -119,6 +122,21 @@ Magnus (2026-11-07):
 How these interleave with the search increments is in [note-search.md](note-search.md).
 
 1. **Tagging notes:** the Tags editor in the editor section, and Add tags / Remove tags on selected search results.
+   - **1a, built 2026-11-07: adding and removing a tag on the selected search results** (Magnus: the bulk case first).
+     - **The selection's right-click menu** has "Add a tag..." (Ctrl+Shift+A) and "Remove a tag..."
+       (Ctrl+Alt+Shift+A), as in Anki's browser. Each opens a small dialog (`TagPickerDialog`) that picks one tag,
+       and then changes each selected note in the background, with a progress dialog, as suspending does
+       (`ActionsOnSelectedResults`). The rows show the change, and stay.
+     - **The dialog's tag picker** (`TagPickerViewModel`) is the one the search's tag condition uses, moved out of
+       it: typing parts anywhere in the path lists the matching tags, and the first is picked.
+     - **Adding** offers every tag some note has (`JPCollection.TagsInUse`), and the typed text itself, listed last
+       as "(a new tag)", when it can be the name of a tag no note has. Typing parts separated by spaces finds
+       existing tags, since a tag has no spaces. A new tag that differs from an existing one only in case gets the
+       existing spelling.
+     - **Removing** offers only the tags the selected notes have.
+     - **Neither offers a jastudio-defined-tag.**
+     - **One tag at a time,** unlike Anki's prompt, which takes several. That's the simple version.
+   - **1b, next:** the Tags editor in each note type's editor section.
 2. **Tag management, browsing:** the tag tree with counts, the filter box, and "search for this tag".
 3. **Tag management, editing:** rename, rename with parents, move by drag and drop, delete, all with
    confirmation.
@@ -130,5 +148,5 @@ How these interleave with the search increments is in [note-search.md](note-sear
 
 ## Noticed
 
-- `Tag.Bit` (`1L << id`) is unused, and it's wrong past 64 tags; the corpus has 330. Delete it when `Tag` changes
-  for case-insensitivity.
+- ~~`Tag.Bit` (`1L << id`) is unused, and it's wrong past 64 tags; the corpus has 330.~~ *Deleted 2026-11-07, with
+  `Tag.Id` and `Tag.FromId`, which were unused too.*

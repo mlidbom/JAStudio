@@ -300,7 +300,7 @@ columns need, and the note's page stays visible beside the results.
      the note, and middle-click opens it in a background tab.
    - **The selection's right-click menu,** also on the menu key: "Unsuspend all cards" and "Suspend all cards"
      for every selected note, run in the background with a progress dialog. Suspending reading and listening
-     separately waits for [studying.md](studying.md).
+     separately waits for [studying.md](studying.md). Adding and removing a tag came with increment 4.
    - **The results keep showing the same notes, kept up to date** (Magnus, 2026-11-07). The first version ran
      the search again after the selection's menu, which dropped the changed notes from under him and cleared the
      selection, so a mistake couldn't be undone on the same rows.
@@ -332,7 +332,8 @@ columns need, and the note's page stays visible beside the results.
      25 ms, sorting by external id about 60 ms, and stripping the markup from them about 5 ms. The grid's own
      overhead isn't measured.
    - **Not yet:** a tags column, showing and hiding columns, and the studying-add-on's other card states.
-4. **Tagging notes** ([tags.md](tags.md), increment 1).
+4. **Tagging notes** ([tags.md](tags.md), increment 1). *(Adding and removing a tag on the selected results built
+   2026-11-07.)*
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
 6. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.
 

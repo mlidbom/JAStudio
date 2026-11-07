@@ -345,15 +345,11 @@ class SentenceId(NoteId):
 
 class Tag:
     @property
-    def Bit(self) -> int: ...
-    @property
-    def Id(self) -> int: ...
-    @property
     def Name(self) -> str: ...
     @staticmethod
-    def FromId(id: int) -> Tag: ...
-    @staticmethod
     def FromName(name: str) -> Tag: ...
+    @staticmethod
+    def WhyItCannotBeTheNameOfATag(typedName: str) -> str: ...
 
 
 class Tags(abc.ABC):
@@ -361,6 +357,8 @@ class Tags(abc.ABC):
     PriorityFolder : str
     TTSAudio : Tag
     UsuallyKanaOnly : Tag
+    @staticmethod
+    def IsDefinedByJAStudio(tagName: str) -> bool: ...
 
     class Kanji(abc.ABC):
         HasNonPrimaryOnReadingVocab : Tag
@@ -482,6 +480,12 @@ class Tags(abc.ABC):
             Vulgar : Tag
 
 
+
+
+class TypedTagPathParts:
+    def __init__(self, typed: str) -> None: ...
+    def AreAllIn(self, tagPath: str) -> bool: ...
+    def Matching(self, tagPaths: IEnumerable_1[str]) -> IReadOnlyList_1[str]: ...
 
 
 class VocabId(NoteId):

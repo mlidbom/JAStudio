@@ -1,12 +1,12 @@
 import typing, abc
 from System import IObservable_1
-from JAStudio.Core.Note import JPNote, AnkiNoteData, NoteId, IBackendNoteCreator, NoteServices, KanjiNote
+from JAStudio.Core.Note import JPNote, AnkiNoteData, NoteId, IBackendNoteCreator, NoteServices, Tag, KanjiNote
 from JAStudio.Core.Storage import INoteRepository
 from JAStudio.Core.Storage.Media import MediaFileIndex
 from JAStudio.Core import IBackendDataLoader
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedData, VocabNote
-from System.Collections.Generic import List_1, HashSet_1, IEnumerable_1
+from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1, IEnumerable_1
 from JAStudio.Core.Note.Search import NoteCondition
 from JAStudio.Core.Note.Search.TagProperties import TagPathsInUse
 from JAStudio.Core.Note.Sentences import SentenceNote
@@ -70,6 +70,7 @@ class JPCollection:
     def NotesMatching(self, search: NoteCondition) -> List_1[JPNote]: ...
     def ReloadFromBackend(self) -> None: ...
     def TagPathsInUse(self) -> TagPathsInUse: ...
+    def TagsInUse(self) -> IReadOnlyList_1[Tag]: ...
     def UpdateCardStudyingStatus(self, status: CardStudyingStatus) -> None: ...
 
 

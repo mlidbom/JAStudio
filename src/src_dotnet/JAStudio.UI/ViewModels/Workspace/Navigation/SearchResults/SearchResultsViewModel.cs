@@ -3,24 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Compze.Internals.SystemCE.ReactiveCE;
-using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
-using JAStudio.UI.Menus.UIAgnosticMenuStructure;
-using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace.Navigation.SearchResults;
-using Python.Runtime;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 
 /// <summary>
 /// The notes a workspace's search found, below the search's condition tree (<see cref="SearchResultsView"/>):<br/>
 /// a grid for each note type, with the type's columns, and a tab per type when the search found several.<br/>
-/// Several notes can be selected, and the selection's menu acts on all of them at once, such as unsuspending all their cards.
+/// Several notes can be selected, and <see cref="ActionsOnTheSelected"/> act on all of them at once, such as adding a tag.
 /// </summary>
 /// <remarks>
 /// The results keep showing the same notes until the search changes or is refreshed, so nothing disappears while one works on them.<br/>
@@ -33,9 +28,6 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 /// </remarks>
 class SearchResultsViewModel : ObservableObject
 {
-   readonly TaskRunner _taskRunner;
-   readonly IFatalErrorHandler _fatalErrorHandler;
-
    SearchResultsOfOneTypeViewModel? _shown;
 
    /// <summary>The type picked last in its tab. Null until one is picked.</summary>
@@ -45,8 +37,7 @@ class SearchResultsViewModel : ObservableObject
    /// <param name="services">The collection the notes are in, and the services the selection's menu acts through.</param>
    public SearchResultsViewModel(WorkspaceViewModel workspace, TemporaryServiceCollection services)
    {
-      _taskRunner = services.TaskRunner;
-      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
+      ActionsOnTheSelected = new ActionsOnSelectedResults(services);
       Vocab = new SearchResultsOfOneTypeViewModel<VocabNote, VocabSearchResultViewModel>(workspace, "Vocab", it => new VocabSearchResultViewModel(it));
       Kanji = new SearchResultsOfOneTypeViewModel<KanjiNote, KanjiSearchResultViewModel>(workspace, "Kanji", it => new KanjiSearchResultViewModel(it));
       Sentences = new SearchResultsOfOneTypeViewModel<SentenceNote, SentenceSearchResultViewModel>(workspace, "Sentences", it => new SentenceSearchResultViewModel(it));
@@ -84,40 +75,8 @@ class SearchResultsViewModel : ObservableObject
    /// </summary>
    public void ShowWhatTheRefreshedSearchFound(IReadOnlyList<JPNote> found) => ShowEachType(it => it.ShowWhatTheRefreshedSearchFound(found));
 
-   /// <summary>The menu of the <paramref name="selected"/> results: what can be done to all their notes at once, each picked by a single key.</summary>
-   internal List<SpecMenuItem> SelectionMenu(IReadOnlyList<SearchResultViewModel> selected)
-   {
-      var withSuspendedCards = selected.Select(it => it.Note).Where(it => it.HasSuspendedCards()).ToList();
-      var withActiveCards = selected.Select(it => it.Note).Where(it => it.HasActiveCards()).ToList();
-      return
-      [
-         SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Unsuspend all cards"),
-                              () => ChangeTheCardsOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),
-                              enabled: withSuspendedCards.Count > 0),
-         SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', "Suspend all cards"),
-                              () => ChangeTheCardsOf(withActiveCards, "Suspending all cards", it => it.SuspendAllCards()),
-                              enabled: withActiveCards.Count > 0)
-      ];
-   }
-
-   /// <summary>
-   /// Does <paramref name="changeTheCardsOfANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.<br/>
-   /// The rows show the change as each note is updated, and stay, even if the search would no longer find them.
-   /// </summary>
-   void ChangeTheCardsOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeTheCardsOfANote) =>
-      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => TaskCE.Run(() =>
-      {
-         using(var scope = _taskRunner.Current(whatIsDone))
-            scope.RunBatch(notes, changeTheCardsOfANote, whatIsDone);
-         ShowTheChangeInAnki();
-      }));
-
-   /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change cards. There's no Anki when JAStudio runs without it.</summary>
-   static void ShowTheChangeInAnki()
-   {
-      if(PythonEngine.IsInitialized)
-         AnkiFacade.UIUtils.Refresh();
-   }
+   /// <summary>What can be done to the notes of the selected results, all at once, such as adding a tag. The view passes the selection.</summary>
+   public ActionsOnSelectedResults ActionsOnTheSelected { get; }
 
    /// <summary>
    /// Keeps the rows showing their notes as they are now: when a note is updated, or its studying status changes, on whatever thread,<br/>

@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tagging="clr-namespace:JAStudio.UI.ViewModels.Workspace.Tagging"
+             x:Class="JAStudio.UI.Views.Workspace.Tagging.TagPickerView"
+             x:DataType="tagging:TagPickerViewModel">
+
+    <StackPanel Spacing="6">
+        <TextBox x:Name="TypedPartsBox" Classes="initialFocus"
+                 Text="{Binding TypedParts}"
+                 PlaceholderText="Parts of the tag's path, such as nat s3 05" />
+        <ListBox x:Name="ChoicesList" Height="240"
+                 ItemsSource="{Binding Choices}"
+                 SelectedItem="{Binding Picked}" />
+    </StackPanel>
+
+</UserControl>

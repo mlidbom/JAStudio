@@ -1,0 +1,114 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
+using JAStudio.Anki;
+using JAStudio.Core;
+using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
+using JAStudio.Core.TaskRunners;
+using JAStudio.UI.Menus.UIAgnosticMenuStructure;
+using JAStudio.UI.Utils;
+using JAStudio.UI.ViewModels.Workspace.Tagging;
+using Python.Runtime;
+
+namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
+
+/// <summary>
+/// What can be done to the notes of the search results selected in the grid, all at once: adding or removing a tag,<br/>
+/// and unsuspending or suspending all their cards. The selection's right-click menu offers them, and the grid's keys run some directly.
+/// </summary>
+/// <remarks>
+/// Each runs in the background, with a progress dialog, a note at a time. The rows show each change as it's made,<br/>
+/// and stay, even if the search would no longer find them.
+/// </remarks>
+class ActionsOnSelectedResults
+{
+   /// <summary>The key that adds a tag to the selected notes, as in Anki's browser, as the menu shows it.</summary>
+   public const string AddATagKey = "Ctrl+Shift+A";
+
+   /// <summary>The key that removes a tag from the selected notes, as in Anki's browser.</summary>
+   public const string RemoveATagKey = "Ctrl+Alt+Shift+A";
+
+   readonly JPCollection _collection;
+   readonly TaskRunner _taskRunner;
+   readonly IFatalErrorHandler _fatalErrorHandler;
+
+   public ActionsOnSelectedResults(TemporaryServiceCollection services)
+   {
+      _collection = services.CoreApp.Collection;
+      _taskRunner = services.TaskRunner;
+      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
+   }
+
+   /// <summary>The menu of the <paramref name="selected"/> results: what can be done to all their notes at once, each picked by a single key.</summary>
+   /// <param name="selected">The results selected in the grid.</param>
+   /// <param name="pickATagInADialog">Shows a tag picker dialog, and returns the tag path picked in it, or null when it was cancelled.</param>
+   internal List<SpecMenuItem> Menu(IReadOnlyList<SearchResultViewModel> selected, Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog)
+   {
+      var notes = NotesOf(selected);
+      var withSuspendedCards = notes.Where(it => it.HasSuspendedCards()).ToList();
+      var withActiveCards = notes.Where(it => it.HasActiveCards()).ToList();
+      return
+      [
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', $"Add a tag... ({AddATagKey})"), () => AddATagTo(selected, pickATagInADialog)),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', $"Remove a tag... ({RemoveATagKey})"), () => RemoveATagFrom(selected, pickATagInADialog),
+                              enabled: notes.Any(it => it.Tags.Any(tag => !Tags.IsDefinedByJAStudio(tag.Name)))),
+         SpecMenuItem.Separator(),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Unsuspend all cards"),
+                              () => StartChangingEachOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),
+                              enabled: withSuspendedCards.Count > 0),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', "Suspend all cards"),
+                              () => StartChangingEachOf(withActiveCards, "Suspending all cards", it => it.SuspendAllCards()),
+                              enabled: withActiveCards.Count > 0)
+      ];
+   }
+
+   /// <summary>Picks a tag through <paramref name="pickATagInADialog"/>, any tag in use or a new one, and adds it to the notes of the <paramref name="selected"/> results.</summary>
+   internal void AddATagTo(IReadOnlyList<SearchResultViewModel> selected, Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog)
+   {
+      var notes = NotesOf(selected);
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(await pickATagInADialog(TagPickerDialogViewModel.ForAddingATagTo(notes, _collection)) is not {} tagPath) return;
+
+         var tag = Tag.FromName(tagPath);
+         await ChangeEachOf([..notes.Where(it => !it.Tags.Contains(tag))], $"Adding the tag {tag.Name}", it => it.Tags.Set(tag));
+      });
+   }
+
+   /// <summary>Picks one of the tags the notes of the <paramref name="selected"/> results have through <paramref name="pickATagInADialog"/>, and removes it from them.</summary>
+   internal void RemoveATagFrom(IReadOnlyList<SearchResultViewModel> selected, Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog)
+   {
+      var notes = NotesOf(selected);
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(await pickATagInADialog(TagPickerDialogViewModel.ForRemovingATagFrom(notes)) is not {} tagPath) return;
+
+         var tag = Tag.FromName(tagPath);
+         await ChangeEachOf([..notes.Where(it => it.Tags.Contains(tag))], $"Removing the tag {tag.Name}", it => it.Tags.Unset(tag));
+      });
+   }
+
+   static List<JPNote> NotesOf(IReadOnlyList<SearchResultViewModel> selected) => [..selected.Select(it => it.Note)];
+
+   void StartChangingEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(() => ChangeEachOf(notes, whatIsDone, changeANote));
+
+   /// <summary>Does <paramref name="changeANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.</summary>
+   Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
+      TaskCE.Run(() =>
+      {
+         using(var scope = _taskRunner.Current(whatIsDone))
+            scope.RunBatch(notes, changeANote, whatIsDone);
+         ShowTheChangeInAnki();
+      });
+
+   /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change notes. There's no Anki when JAStudio runs without it.</summary>
+   static void ShowTheChangeInAnki()
+   {
+      if(PythonEngine.IsInitialized)
+         AnkiFacade.UIUtils.Refresh();
+   }
+}

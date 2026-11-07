@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -11,6 +12,8 @@ using Avalonia.VisualTree;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
+using JAStudio.UI.ViewModels.Workspace.Tagging;
+using JAStudio.UI.Views.Workspace.Tagging;
 
 namespace JAStudio.UI.Views.Workspace.Navigation.SearchResults;
 
@@ -57,12 +60,27 @@ public partial class SearchResultsView : UserControl
             sortedRows.SortDescriptions.Add(DataGridSortDescription.FromPath(nameof(SearchResultViewModel.Question)));
       };
 
-   /// <summary>Enter opens the note on the current row. Handling it here keeps the grid from moving to the next row, as it otherwise does on Enter.</summary>
+   /// <remarks>
+   /// Enter opens the note on the current row. Handling it here keeps the grid from moving to the next row, as it otherwise does on Enter.<br/>
+   /// Ctrl+Shift+A adds a tag to the selected notes, and Ctrl+Alt+Shift+A removes one, as in Anki's browser (<see cref="ActionsOnSelectedResults"/>).
+   /// </remarks>
    void OnKeyDownIn(DataGrid grid, KeyEventArgs e)
    {
-      if(e is not { Key: Key.Enter, KeyModifiers: KeyModifiers.None } || grid.SelectedItem is not SearchResultViewModel current) return;
+      switch(e)
+      {
+         case { Key: Key.Enter, KeyModifiers: KeyModifiers.None } when grid.SelectedItem is SearchResultViewModel current:
+            ShownResults.Open(current);
+            break;
+         case { Key: Key.A, KeyModifiers: KeyModifiers.Control | KeyModifiers.Shift } when SelectedIn(grid) is { Count: > 0 } selected:
+            ViewModel.ActionsOnTheSelected.AddATagTo(selected, dialog => PickATagInADialog(grid, dialog));
+            break;
+         case { Key: Key.A, KeyModifiers: KeyModifiers.Control | KeyModifiers.Alt | KeyModifiers.Shift } when SelectedIn(grid) is { Count: > 0 } selected:
+            ViewModel.ActionsOnTheSelected.RemoveATagFrom(selected, dialog => PickATagInADialog(grid, dialog));
+            break;
+         default:
+            return;
+      }
 
-      ShownResults.Open(current);
       e.Handled = true;
    }
 
@@ -92,13 +110,27 @@ public partial class SearchResultsView : UserControl
       if(ResultUnder(e) is {} clicked && !grid.SelectedItems.Contains(clicked))
          grid.SelectedItem = clicked;
 
-      var selected = grid.SelectedItems.OfType<SearchResultViewModel>().ToList();
+      var selected = SelectedIn(grid);
       if(selected.Count == 0) return;
 
       var menuTopLeft = e.TryGetPosition(grid, out _) ? WindowPositioner.CursorPosition() : BelowTheCurrentRowOf(grid);
-      var menu = ViewModel.SelectionMenu(selected);
-      Dispatcher.UIThread.Post(() => PopupMenuWindow.ShowAt(menuTopLeft, menu, whenClosedWithoutAPick: () => Dispatcher.UIThread.Post(() => grid.Focus(), DispatcherPriority.Background)));
+      var menu = ViewModel.ActionsOnTheSelected.Menu(selected, dialog => PickATagInADialog(grid, dialog));
+      Dispatcher.UIThread.Post(() => PopupMenuWindow.ShowAt(menuTopLeft, menu, whenClosedWithoutAPick: () => PutTheKeyboardBackOn(grid)));
    }
+
+   /// <summary>Shows <paramref name="dialog"/> below the current row of <paramref name="grid"/>, and puts the keyboard back on the grid when it closes.</summary>
+   async Task<string?> PickATagInADialog(DataGrid grid, TagPickerDialogViewModel dialog)
+   {
+      var tagPath = await TagPickerDialog.ShowAsync(OwnerWindow, dialog, BelowTheCurrentRowOf(grid));
+      PutTheKeyboardBackOn(grid);
+      return tagPath;
+   }
+
+   static void PutTheKeyboardBackOn(DataGrid grid) => Dispatcher.UIThread.Post(() => grid.Focus(), DispatcherPriority.Background);
+
+   Window OwnerWindow => TopLevel.GetTopLevel(this) as Window ?? throw new InvalidOperationException("The search results are only shown in a window.");
+
+   static List<SearchResultViewModel> SelectedIn(DataGrid grid) => [..grid.SelectedItems.OfType<SearchResultViewModel>()];
 
    static SearchResultViewModel? ResultUnder(RoutedEventArgs e) =>
       (e.Source as Visual)?.FindAncestorOfType<DataGridRow>(includeSelf: true)?.DataContext as SearchResultViewModel;

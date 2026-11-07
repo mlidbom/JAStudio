@@ -1,7 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:search="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation.Search"
-        xmlns:searchViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation.Search"
+        xmlns:taggingViews="clr-namespace:JAStudio.UI.Views.Workspace.Tagging"
         x:Class="JAStudio.UI.Views.Workspace.Navigation.Search.SearchConditionDialog"
         x:DataType="search:ConditionEditorViewModel"
         Title="{Binding Title}"
@@ -25,7 +25,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="search:TagConditionEditorViewModel">
-            <searchViews:TagConditionEditorView Width="{StaticResource EditorWidth}" />
+            <taggingViews:TagPickerView DataContext="{Binding Picker}" Width="{StaticResource EditorWidth}" />
         </DataTemplate>
 
         <DataTemplate DataType="search:TrueOrFalseConditionEditorViewModel">

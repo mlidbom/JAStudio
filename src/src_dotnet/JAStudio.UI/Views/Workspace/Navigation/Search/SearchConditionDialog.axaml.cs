@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -15,13 +14,11 @@ namespace JAStudio.UI.Views.Workspace.Navigation.Search;
 
 /// <summary>
 /// The small modal dialog the search editor edits a condition in, new or existing, with the editor for its kind of property inside.<br/>
-/// It opens with the keyboard in the editor's main input, the one marked with the <c>initialFocus</c> class.<br/>
-/// Enter, or OK, closes it with the condition, Esc or Cancel closes it without one, and so does double-clicking a choice in a list.
+/// It opens with the keyboard in the editor's main input, the one marked with the <see cref="DialogInitialFocus.ClassName"/> class.<br/>
+/// Enter, or OK, closes it with the condition, Esc or Cancel closes it without one, and double-clicking a choice in a list closes it with the condition.
 /// </summary>
 partial class SearchConditionDialog : Window
 {
-   const string InitialFocusClass = "initialFocus";
-
    readonly ConditionEditorViewModel _editor;
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no editor.
@@ -36,7 +33,7 @@ partial class SearchConditionDialog : Window
       editor.CancelCommand = new RelayCommand(() => Close(null));
       DataContext = editor;
       InitializeComponent();
-      Opened += (_, _) => Dispatcher.UIThread.Post(FocusTheInitialInput, DispatcherPriority.Loaded);
+      Opened += (_, _) => Dispatcher.UIThread.Post(() => DialogInitialFocus.PutTheKeyboardInTheMainInputOf(this), DispatcherPriority.Loaded);
       AddHandler(DoubleTappedEvent, OnDoubleTapped);
    }
 
@@ -57,20 +54,5 @@ partial class SearchConditionDialog : Window
    {
       if((e.Source as Visual)?.FindAncestorOfType<ListBoxItem>(includeSelf: true) is not null)
          Accept();
-   }
-
-   /// <summary>Puts the keyboard in the editor's main input, at the end of any text already in it, as when changing a condition.</summary>
-   /// <remarks>
-   /// The dialog first takes the Windows keyboard focus for its own native window. Focusing the input only moves Avalonia's focus,<br/>
-   /// and if the workspace behind had the Windows keyboard focus, the keys would keep going there.
-   /// </remarks>
-   void FocusTheInitialInput()
-   {
-      NativeKeyboardFocus.MoveToWindowItself(this);
-      var input = this.GetVisualDescendants().OfType<InputElement>().FirstOrDefault(it => it.Classes.Contains(InitialFocusClass))
-               ?? throw new InvalidOperationException($"The editor {_editor.GetType().Name} marks no input with the {InitialFocusClass} class.");
-      input.Focus();
-      if(input is TextBox textBox)
-         textBox.CaretIndex = textBox.Text?.Length ?? 0;
    }
 }

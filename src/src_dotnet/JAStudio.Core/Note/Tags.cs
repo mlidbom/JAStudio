@@ -1,4 +1,9 @@
 // ReSharper disable MemberCanBeInternal todo: review
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
 namespace JAStudio.Core.Note;
 
 public static class Tags
@@ -157,4 +162,21 @@ public static class Tags
    public static readonly Tag DisableKanaOnly = Tag.FromName("_disable_uk");
    public static readonly Tag UsuallyKanaOnly = Tag.FromName("_uk");
    public static readonly Tag TTSAudio = Tag.FromName("_tts_audio");
+
+   /// <summary>
+   /// Whether the tag named <paramref name="tagName"/>, ignoring case, is a jastudio-defined-tag: one of the tags defined here,<br/>
+   /// in <see cref="Tags"/> and its nested classes. Some are generated, such as <see cref="Kanji.InAnyVocabForm"/>,<br/>
+   /// and others hold configuration that has its own editors, such as <see cref="Vocab.Matching.Requires.Godan"/>.<br/>
+   /// So they aren't added to or removed from notes by hand: a generated tag would be overwritten, and a configuration tag has its editor.
+   /// </summary>
+   public static bool IsDefinedByJAStudio(string tagName) => NamesOfTheTagsDefinedByJAStudio.Value.Contains(tagName);
+
+   /// <summary>Read on first use, by when every tag field here has its value.</summary>
+   static readonly Lazy<HashSet<string>> NamesOfTheTagsDefinedByJAStudio = new(() => new HashSet<string>(NamesOfTheTagsDeclaredIn(typeof(Tags)), StringComparer.OrdinalIgnoreCase));
+
+   static IEnumerable<string> NamesOfTheTagsDeclaredIn(Type type) =>
+   [
+      ..type.GetFields(BindingFlags.Public | BindingFlags.Static).Select(it => it.GetValue(null)).OfType<Tag>().Select(it => it.Name),
+      ..type.GetNestedTypes().SelectMany(NamesOfTheTagsDeclaredIn)
+   ];
 }

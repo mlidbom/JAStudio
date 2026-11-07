@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tagging="clr-namespace:JAStudio.UI.ViewModels.Workspace.Tagging"
+        xmlns:taggingViews="clr-namespace:JAStudio.UI.Views.Workspace.Tagging"
+        x:Class="JAStudio.UI.Views.Workspace.Tagging.TagPickerDialog"
+        x:DataType="tagging:TagPickerDialogViewModel"
+        Title="{Binding Title}"
+        SizeToContent="WidthAndHeight"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual">
+
+    <StackPanel Margin="10" Spacing="10">
+        <taggingViews:TagPickerView DataContext="{Binding Picker}" Width="420" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button Content="OK" IsDefault="True" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanAccept}" />
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

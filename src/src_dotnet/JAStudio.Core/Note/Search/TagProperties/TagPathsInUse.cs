@@ -24,15 +24,8 @@ public class TagPathsInUse
    /// <summary>Every tag path in use, in alphabetical order, so that a tag comes right before the tags in its branch.</summary>
    public IReadOnlyList<string> All { get; }
 
-   /// <summary>
-   /// The tag paths that contain every part of <paramref name="typedParts"/>, ignoring case, where the parts are separated by spaces.<br/>
-   /// So <c>nat s3 05</c> finds <c>source::anime::natsume::s3::05</c>. With no parts typed, every path matches.
-   /// </summary>
-   public IReadOnlyList<string> Matching(string typedParts)
-   {
-      var parts = typedParts.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-      return [..All.Where(path => parts.All(part => path.Contains(part, StringComparison.OrdinalIgnoreCase)))];
-   }
+   /// <summary>The tag paths that contain every part of <paramref name="typedParts"/>, as <see cref="TypedTagPathParts"/> matches them.</summary>
+   public IReadOnlyList<string> Matching(string typedParts) => new TypedTagPathParts(typedParts).Matching(All);
 
    static IEnumerable<string> TheTagAndItsParents(string tagPath)
    {
