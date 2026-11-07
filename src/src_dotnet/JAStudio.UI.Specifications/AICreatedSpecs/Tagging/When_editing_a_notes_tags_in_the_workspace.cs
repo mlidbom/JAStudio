@@ -26,7 +26,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    readonly SentenceNote _sentence;
    readonly NoteTagsEditorViewModel _tagsEditor;
 
-   protected When_editing_a_notes_tags_in_the_workspace()
+   public When_editing_a_notes_tags_in_the_workspace()
    {
       _sentence = CreateTestSentence("家に帰る", "Go home");
       _sentence.Tags.Set(Tag.FromName(SourceTag));

@@ -13,6 +13,9 @@ public sealed class TypedTagPathParts(string typed)
 {
    readonly string[] _parts = typed.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
+   /// <summary>Whether nothing but spaces is typed, so that every path matches.</summary>
+   public bool AreNone => _parts.Length == 0;
+
    public bool AreAllIn(string tagPath) => _parts.All(part => tagPath.Contains(part, StringComparison.OrdinalIgnoreCase));
 
    /// <summary>The paths among <paramref name="tagPaths"/> that contain every part, in the order they came in.</summary>

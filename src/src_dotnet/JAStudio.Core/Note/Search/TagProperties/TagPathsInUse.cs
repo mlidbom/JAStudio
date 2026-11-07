@@ -13,12 +13,10 @@ namespace JAStudio.Core.Note.Search.TagProperties;
 /// </summary>
 public class TagPathsInUse
 {
-   const string LevelSeparator = "::";
-
    internal TagPathsInUse(IEnumerable<JPNote> notes) =>
       All = [..notes.SelectMany(it => it.Tags)
-                    .Select(it => it.Name)
-                    .SelectMany(TheTagAndItsParents)
+                    .Distinct()
+                    .SelectMany(it => it.PathsOfTheBranchesItIsIn)
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .Order(StringComparer.OrdinalIgnoreCase)];
 
@@ -27,10 +25,4 @@ public class TagPathsInUse
 
    /// <summary>The tag paths that contain every part of <paramref name="typedParts"/>, as <see cref="TypedTagPathParts"/> matches them.</summary>
    public IReadOnlyList<string> Matching(string typedParts) => new TypedTagPathParts(typedParts).Matching(All);
-
-   static IEnumerable<string> TheTagAndItsParents(string tagPath)
-   {
-      var levels = tagPath.Split(LevelSeparator);
-      return Enumerable.Range(1, levels.Length).Select(levelCount => string.Join(LevelSeparator, levels.Take(levelCount)));
-   }
 }

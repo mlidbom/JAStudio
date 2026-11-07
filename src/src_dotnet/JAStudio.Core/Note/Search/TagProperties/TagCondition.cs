@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Search.TagProperties;
 
@@ -10,8 +11,6 @@ namespace JAStudio.Core.Note.Search.TagProperties;
 /// </summary>
 public sealed record TagCondition : NoteCondition
 {
-   const string LevelSeparator = "::";
-
    internal TagCondition(TagsProperty property, string tagPath)
    {
       Property = property;
@@ -30,5 +29,5 @@ public sealed record TagCondition : NoteCondition
 
    bool IsInTheBranch(string tagName) =>
       tagName.Equals(TagPath, StringComparison.OrdinalIgnoreCase)
-   || tagName.StartsWith(TagPath + LevelSeparator, StringComparison.OrdinalIgnoreCase);
+   || tagName.StartsWith(TagPath + Tag.LevelSeparator, StringComparison.OrdinalIgnoreCase);
 }

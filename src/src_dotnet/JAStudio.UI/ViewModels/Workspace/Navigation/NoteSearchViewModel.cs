@@ -98,6 +98,9 @@ partial class NoteSearchViewModel : ObservableObject
       });
    }
 
+   /// <summary>Replaces the whole search with one that finds only the notes <paramref name="condition"/> matches, and selects the condition. Undo goes back to the search before.</summary>
+   internal void SearchFor(NoteCondition condition) => ChangeTheSearch(_search.ReplaceTheWholeSearchWith(condition));
+
    /// <summary>Adds <paramref name="condition"/> to the selected group, or to the group the selected condition is in, and selects it.</summary>
    internal void AddCondition(NoteCondition condition) => ChangeTheSearch(_search.AddCondition(Selected.GroupToAddTo, condition));
 

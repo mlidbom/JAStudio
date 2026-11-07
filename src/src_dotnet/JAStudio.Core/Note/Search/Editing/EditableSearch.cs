@@ -31,6 +31,17 @@ public class EditableSearch
       return groupPosition.Child(group.Conditions.Count);
    }
 
+   /// <summary>
+   /// Replaces the whole search with an "all of" group holding only <paramref name="condition"/>, as searching for a tag from the tag tree does.<br/>
+   /// The group lets conditions added later narrow the search down. Undo goes back to the search before.
+   /// </summary>
+   /// <returns>The position of <paramref name="condition"/>.</returns>
+   public ConditionPosition ReplaceTheWholeSearchWith(NoteCondition condition)
+   {
+      Change(ConditionGroup.AllOf(condition));
+      return ConditionPosition.Root.Child(0);
+   }
+
    /// <summary>Replaces the condition at <paramref name="position"/> with <paramref name="replacement"/>, as when a condition is edited.</summary>
    public void ReplaceCondition(ConditionPosition position, NoteCondition replacement) => Change(Current.WithConditionAt(position, replacement));
 

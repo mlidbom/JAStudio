@@ -9,7 +9,7 @@ from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedDa
 from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1, IEnumerable_1
 from JAStudio.Core.Note.Search import NoteCondition
 from JAStudio.Core.Note.Search.TagProperties import TagPathsInUse
-from JAStudio.Core.Note.Tagging import Tag
+from JAStudio.Core.Note.Tagging import Tag, TagTree
 from JAStudio.Core.Note.Sentences import SentenceNote
 
 class CardStudyingStatus:
@@ -72,6 +72,7 @@ class JPCollection:
     def ReloadFromBackend(self) -> None: ...
     def TagPathsInUse(self) -> TagPathsInUse: ...
     def TagsInUse(self) -> IReadOnlyList_1[Tag]: ...
+    def TagTree(self) -> TagTree: ...
     def UpdateCardStudyingStatus(self, status: CardStudyingStatus) -> None: ...
 
 

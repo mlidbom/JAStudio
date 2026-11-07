@@ -7,5 +7,8 @@ enum NavigationPaneTab
    Search,
 
    /// <summary>The <see cref="NavigationPaneViewModel.NoteList"/>.</summary>
-   NoteList
+   NoteList,
+
+   /// <summary>The <see cref="NavigationPaneViewModel.TagManagement"/>.</summary>
+   TagManagement
 }

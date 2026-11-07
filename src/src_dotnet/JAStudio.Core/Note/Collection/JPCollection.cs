@@ -64,7 +64,10 @@ public class JPCollection
    /// <summary>Every tag some note in the collection has, each once. Unlike <see cref="TagPathsInUse"/>, it has no parent paths that aren't tags themselves.</summary>
    public IReadOnlyList<Tag> TagsInUse() => [..AllNotes().SelectMany(it => it.Tags).Distinct()];
 
-   IEnumerable<JPNote> AllNotes() => [..Vocab.All(), ..Kanji.All(), ..Sentences.All()];
+   /// <summary>The tag tree of the tags in the collection right now, with the number of notes in each branch, for browsing the tags.</summary>
+   public TagTree TagTree() => new(AllNotes());
+
+   IReadOnlyList<JPNote> AllNotes() => [..Vocab.All(), ..Kanji.All(), ..Sentences.All()];
 
    public JPNote? NoteFromNoteId(NoteId noteId)
    {

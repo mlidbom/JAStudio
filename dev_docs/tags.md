@@ -54,15 +54,14 @@ not necessarily in how:
 
 **Tag management is its own view, separate from the search** (Magnus, 2026-11-07). In the search, a tag condition
 is added by typing parts of its path, which covers what the search needs ([note-search.md](note-search.md)). A tag
-tree in the search would mostly add complexity. Where the tag management view lives, a navigation pane tab or its
-own window, is decided when it's built.
+tree in the search would mostly add complexity. It's a "Tags" tab in the navigation pane (Magnus, 2026-11-07).
 
 | Anki | JAStudio |
 |---|---|
-| The sidebar's tag tree, with an "Untagged" item | The same. |
+| The sidebar's tag tree, with an "Untagged" item | The same, but **no "Untagged" item for now** (Magnus, 2026-11-07): it needs a search condition for notes with no tags. |
 | The tree shows every tag, with no counts | **Each tag shows how many notes are in its branch.** The corpus is in memory, so counts are cheap. |
 | A filter box above the sidebar finds tags | The same. |
-| Clicking a tag searches for it | **A "search for this tag" action** sets the workspace's search to a condition on that tag. |
+| Clicking a tag searches for it | **A "search for this tag" action** replaces the workspace's search with a condition on that tag, as Anki does (Magnus, 2026-11-07). The search's undo goes back to the search before. |
 | Expand and collapse, per tag or for its children | The same. |
 
 The tree has 368 nodes today (330 distinct tags plus their parents), so its size is no concern.
@@ -150,7 +149,27 @@ How these interleave with the search increments is in [note-search.md](note-sear
      - **The column and the editor leave out the jastudio-defined-tags,** as the dialogs do
        (`NoteTags.NotDefinedByJAStudio`). Otherwise a vocab's matching-configuration tags would crowd out the
        rest, and they have editors of their own.
-2. **Tag management, browsing:** the tag tree with counts, the filter box, and "search for this tag".
+2. **Tag management, browsing:** the tag tree with counts, the filter box, and "search for this tag". *(Built
+   2026-11-07.)*
+   - **Core:** `TagTree` is the tree, made by `JPCollection.TagTree`, each path a `TagTreeNode` with its last level,
+     its children and the number of notes in its branch. A note with several tags in a branch counts once there.
+     Siblings are in alphabetical order with the numbers in them compared as numbers, so `s2` comes before `s10`.
+     `Tag.PathsOfTheBranchesItIsIn` lists the paths of a tag's branches, which `TagPathsInUse` uses too.
+   - **The filter box** uses the tag picker's matching (`TypedTagPathParts`): the tree keeps the paths that contain
+     every typed part, everything below them, and their parents (`TagTree.WithOnlyThePathsMatching`). A parent
+     keeps the count of its whole branch. While there's a filter, every line is expanded. Clearing it brings back the
+     lines expanded before.
+   - **Searching for a tag:** Enter, a double-click, or the line's right-click menu. It replaces the whole search
+     with "Tags include" the path, in an "all of" group, so conditions added later narrow it down
+     (`EditableSearch.ReplaceTheWholeSearchWith`), and shows the Search tab.
+   - **Counted when shown:** the tree is computed from the notes' tags each time the tab is shown, and on F5 or the
+     Refresh button. It isn't kept up to date while shown. The expanded lines and the selected line stay. Computing
+     it hasn't been measured on the real collection.
+   - **The UI:** `TagManagementViewModel`, each line a `TagTreeNodeViewModel`, and `TagManagementView`, in
+     `Navigation/TagManagement/`. Down in the filter box moves the keyboard to the tree. The tree's own keys expand
+     and collapse: Right and Left a line, Ctrl+Right and Ctrl+Left its whole branch. A double-click on a line with
+     lines below it would expand or collapse it too, so the line's content takes the double-click first.
+   - **Not yet:** an "Untagged" item, and a key that opens the tab.
 3. **Tag management, editing:** rename, rename with parents, move by drag and drop, delete, all with
    confirmation.
 

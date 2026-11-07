@@ -15,14 +15,26 @@ namespace JAStudio.Core.Note.Tagging;
 /// </remarks>
 public class Tag
 {
-   const string LevelSeparator = "::";
+   /// <summary>What separates the levels of a tag path, as in <c>source::anime</c>.</summary>
+   public const string LevelSeparator = "::";
 
    static readonly IMonitor Monitor = IMonitor.New();
    static readonly Dictionary<string, Tag> ByName = new(StringComparer.OrdinalIgnoreCase);
 
    public string Name { get; }
 
-   Tag(string name) => Name = name;
+   /// <summary>
+   /// The paths of the branches this tag is in, from the top level down, its own last: <c>source</c> and <c>source::anime</c> for <c>source::anime</c>.<br/>
+   /// A note with this tag is in each of these branches.
+   /// </summary>
+   public IReadOnlyList<string> PathsOfTheBranchesItIsIn { get; }
+
+   Tag(string name)
+   {
+      Name = name;
+      var levels = name.Split(LevelSeparator);
+      PathsOfTheBranchesItIsIn = [..Enumerable.Range(1, levels.Length).Select(levelCount => string.Join(LevelSeparator, levels.Take(levelCount)))];
+   }
 
    /// <summary>The tag named <paramref name="name"/>, ignoring case, created with that spelling if there is none yet.</summary>
    public static Tag FromName(string name) => Monitor.Locked(() =>

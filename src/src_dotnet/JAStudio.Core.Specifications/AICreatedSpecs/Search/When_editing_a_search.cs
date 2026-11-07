@@ -98,6 +98,24 @@ public class When_editing_a_search : IAIGeneratedSpec
             _search.Current.Must().Be(ConditionGroup.AllOf(TaggedAnime, NoteProperties.StudyingListening.Is(false)));
       }
 
+      public class after_replacing_the_whole_search_with_a_condition : after_adding_two_conditions_to_the_root
+      {
+         static readonly NoteCondition TaggedWani = NoteProperties.Tags.Include("source::wani");
+         readonly ConditionPosition _positionOfTheCondition;
+
+         public after_replacing_the_whole_search_with_a_condition() => _positionOfTheCondition = _search.ReplaceTheWholeSearchWith(TaggedWani);
+
+         [XF] public void the_search_is_an_all_of_group_holding_only_the_condition() => _search.Current.Must().Be(ConditionGroup.AllOf(TaggedWani));
+         [XF] public void replacing_returns_the_position_of_the_condition() => _positionOfTheCondition.Must().Be(ConditionPosition.Root.Child(0));
+
+         public class and_undoing_it : after_replacing_the_whole_search_with_a_condition
+         {
+            public and_undoing_it() => _search.Undo();
+
+            [XF] public void the_search_before_is_back() => _search.Current.Must().Be(ConditionGroup.AllOf(TaggedAnime, StudyingReading));
+         }
+      }
+
       public class after_adding_a_group_and_then_a_condition_to_that_group : after_adding_two_conditions_to_the_root
       {
          readonly ConditionPosition _positionInTheGroup;

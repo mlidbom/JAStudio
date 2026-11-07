@@ -344,7 +344,8 @@ columns need, and the note's page stays visible beside the results.
    - **Not yet:** showing and hiding columns, and the studying-add-on's other card states.
 4. **Tagging notes** ([tags.md](tags.md), increment 1). *(Adding and removing a tag on the selected results built
    2026-11-07.)*
-5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3).
+5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3). *(Browsing built
+   2026-11-07: a Tags tab in the navigation pane, whose "search for this tag" replaces the search.)*
 6. **Several workspaces** (`jastudio-workspace.md`, step 6), if that's how several searches are kept open.
 
 ## Maybe later: a text form
