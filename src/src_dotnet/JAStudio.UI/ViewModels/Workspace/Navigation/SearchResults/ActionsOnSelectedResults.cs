@@ -26,11 +26,11 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 /// </remarks>
 class ActionsOnSelectedResults
 {
-   /// <summary>The key that adds a tag to the selected notes, as in Anki's browser, as the menu shows it.</summary>
-   public const string AddATagKey = "Ctrl+Shift+A";
+   /// <summary>The key that adds a tag to the selected notes, as the menu shows it: T for tag, as everywhere in the search.</summary>
+   public const string AddATagKey = "Ctrl+T";
 
-   /// <summary>The key that removes a tag from the selected notes, as in Anki's browser.</summary>
-   public const string RemoveATagKey = "Ctrl+Alt+Shift+A";
+   /// <summary>The key that removes a tag from the selected notes: Shift for the reverse of adding one.</summary>
+   public const string RemoveATagKey = "Ctrl+Shift+T";
 
    readonly JPCollection _collection;
    readonly TaskRunner _taskRunner;

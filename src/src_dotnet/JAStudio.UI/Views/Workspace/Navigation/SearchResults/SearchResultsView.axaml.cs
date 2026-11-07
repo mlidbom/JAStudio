@@ -62,7 +62,7 @@ public partial class SearchResultsView : UserControl
 
    /// <remarks>
    /// Enter opens the note on the current row. Handling it here keeps the grid from moving to the next row, as it otherwise does on Enter.<br/>
-   /// Ctrl+Shift+A adds a tag to the selected notes, and Ctrl+Alt+Shift+A removes one, as in Anki's browser (<see cref="ActionsOnSelectedResults"/>).
+   /// Ctrl+T adds a tag to the selected notes, and Ctrl+Shift+T removes one (<see cref="ActionsOnSelectedResults"/>).
    /// </remarks>
    void OnKeyDownIn(DataGrid grid, KeyEventArgs e)
    {
@@ -71,10 +71,10 @@ public partial class SearchResultsView : UserControl
          case { Key: Key.Enter, KeyModifiers: KeyModifiers.None } when grid.SelectedItem is SearchResultViewModel current:
             ShownResults.Open(current);
             break;
-         case { Key: Key.A, KeyModifiers: KeyModifiers.Control | KeyModifiers.Shift } when SelectedIn(grid) is { Count: > 0 } selected:
+         case { Key: Key.T, KeyModifiers: KeyModifiers.Control } when SelectedIn(grid) is { Count: > 0 } selected:
             ViewModel.ActionsOnTheSelected.AddATagTo(selected, dialog => PickATagInADialog(grid, dialog));
             break;
-         case { Key: Key.A, KeyModifiers: KeyModifiers.Control | KeyModifiers.Alt | KeyModifiers.Shift } when SelectedIn(grid) is { Count: > 0 } selected:
+         case { Key: Key.T, KeyModifiers: KeyModifiers.Control | KeyModifiers.Shift } when SelectedIn(grid) is { Count: > 0 } selected:
             ViewModel.ActionsOnTheSelected.RemoveATagFrom(selected, dialog => PickATagInADialog(grid, dialog));
             break;
          default:

@@ -26,8 +26,8 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_acting_on_selected_search_results : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   const string AddATag = "_a Add a tag... (Ctrl+Shift+A)";
-   const string RemoveATag = "_r Remove a tag... (Ctrl+Alt+Shift+A)";
+   const string AddATag = "_a Add a tag... (Ctrl+T)";
+   const string RemoveATag = "_r Remove a tag... (Ctrl+Shift+T)";
    const string UnsuspendAllCards = "_u Unsuspend all cards";
    const string SuspendAllCards = "_s Suspend all cards";
    static readonly TimeSpan TimeToWaitForTheSearch = TimeSpan.FromSeconds(10);

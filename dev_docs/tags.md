@@ -87,8 +87,8 @@ note, for example "Rename `source::anime` to `source::tv`? 28,693 notes change."
 
 | Anki | JAStudio |
 |---|---|
-| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** chips with autocomplete from the existing tags. Ctrl+Shift+T jumps there. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It leaves out jastudio-defined-tags, for now (Magnus, 2026-11-07). |
-| With notes selected: Add Tags (Ctrl+Shift+A) and Remove Tags (Ctrl+Alt+Shift+A) open a prompt with autocomplete | **The same on the search results, which allow selecting several notes** (Ctrl/Shift+click, Ctrl+A). Right-click a selection → Add tags… / Remove tags…, with the same shortcuts. Remove offers only the tags the selected notes have. |
+| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** chips with autocomplete from the existing tags. A key jumps there, to be chosen when it's built: Anki's Ctrl+Shift+T now removes a tag from the selected search results. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It leaves out jastudio-defined-tags, for now (Magnus, 2026-11-07). |
+| With notes selected: Add Tags (Ctrl+Shift+A) and Remove Tags (Ctrl+Alt+Shift+A) open a prompt with autocomplete | **The same on the search results, which allow selecting several notes** (Ctrl/Shift+click, Ctrl+A). Right-click a selection → Add tags… / Remove tags…. Remove offers only the tags the selected notes have. *Shortcuts (Magnus, 2026-11-07): Ctrl+T adds and Ctrl+Shift+T removes, rather than Anki's, which are hard to remember: T for tag, as everywhere in the search, and Shift for the reverse.* |
 | Right-click tags in the sidebar → Add to / Remove from selected notes | Deferred. The Add and Remove prompts cover it. |
 | Toggle Mark (Ctrl+K) adds or removes `marked` | Skipped: `marked` is on 2 notes, and it's a student-tag. |
 
@@ -123,8 +123,8 @@ How these interleave with the search increments is in [note-search.md](note-sear
 
 1. **Tagging notes:** the Tags editor in the editor section, and Add tags / Remove tags on selected search results.
    - **1a, built 2026-11-07: adding and removing a tag on the selected search results** (Magnus: the bulk case first).
-     - **The selection's right-click menu** has "Add a tag..." (Ctrl+Shift+A) and "Remove a tag..."
-       (Ctrl+Alt+Shift+A), as in Anki's browser. Each opens a small dialog (`TagPickerDialog`) that picks one tag,
+     - **The selection's right-click menu** has "Add a tag..." (Ctrl+T) and "Remove a tag..."
+       (Ctrl+Shift+T). Each opens a small dialog (`TagPickerDialog`) that picks one tag,
        and then changes each selected note in the background, with a progress dialog, as suspending does
        (`ActionsOnSelectedResults`). The rows show the change, and stay.
      - **The dialog's tag picker** (`TagPickerViewModel`) is the one the search's tag condition uses, moved out of
