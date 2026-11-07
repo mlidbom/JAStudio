@@ -81,19 +81,19 @@ methods are used wherever they read better than constructors;** constructors onl
 For example (the names are placeholders):
 
 ```csharp
-BooleanGrouping.AllOf(
-   Tags.Include("source::anime::natsume"),
-   BooleanGrouping.Not(Tags.Include("-::priority::low")),
-   BooleanGrouping.AnyOf(
-      Question.Contains("行く"),
-      Answer.MatchesRegex("go(ing)?")),
-   StudyingReading.Is(false))
+ConditionGroup.AllOf(
+   NoteProperties.Tags.Include("source::anime::natsume"),
+   ConditionGroup.Not(NoteProperties.Tags.Include("-::priority::low")),
+   ConditionGroup.AnyOf(
+      NoteProperties.Question.Contains("行く"),
+      NoteProperties.Answer.MatchesRegex("go(ing)?")),
+   NoteProperties.StudyingReading.Is(false))
 ```
 
 - **A condition on a property is created by the property itself,** such as `Question.Contains(…)`. The property's
   type then decides, at compile time, which matches exist: `StudyingReading.Contains(…)` doesn't compile.
-- **Groups and negation** come from factory methods too, such as `BooleanGrouping.AllOf(…)`. Where to put them,
-  and whether specs import them with `using static` to write just `AllOf(…)`, is decided when it's built.
+- **Groups and negation** come from factory methods too: `ConditionGroup.AllOf(…)`, `ConditionGroup.AnyOf(…)` and
+  `ConditionGroup.Not(…)`.
 
 A failing spec should print the search indented like the tree, so the difference is easy to see.
 
@@ -205,8 +205,19 @@ columns need, and the note's page stays visible beside the results.
 
 ## Increments (tentative), together with [tags.md](tags.md)
 
-1. **The search model in Core:** the properties and their types, conditions, groups and negation, the operations
-   on the tree, and matching, with specs written as nested calls that indent like the tree.
+1. **The search model in Core:** the properties and their types, conditions, groups and negation, and matching,
+   with specs written as nested calls that indent like the tree. *(Built 2026-11-07, without the operations on the
+   tree, which come with the search editor that uses them.)*
+   - **The namespaces:** `JAStudio.Core.Note.Search` holds `NoteCondition`, `NoteProperty` and the catalogue
+     `NoteProperties`. `Grouping` holds `ConditionGroup`, `AllOfGroup`, `AnyOfGroup` and `NegatedCondition`. Each
+     property type has its own namespace: `TextProperties`, `TagProperties`, `TrueOrFalseProperties` and
+     `NoteTypeProperties`.
+   - **The properties:** question, answer, tags, note type, studying reading and studying listening. Searchable text
+     waits for open question 2.
+   - **The note type** is a condition on the note's class, such as `NoteType.Is<SentenceNote>()`. `NoteTypes` holds
+     Anki's note type names, which the search shouldn't depend on.
+   - **`JPCollection.NotesMatching`** finds the notes a search matches, by checking every note in memory.
+   - The specs are in `JAStudio.Core.Specifications/AICreatedSpecs/Search/`.
 2. **The search editor** in the navigation pane, replacing the current Search tab's text box: the condition tree
    with its keys, and editors for text, tags, true-or-false and the note type. The results show in today's list,
    without the cap.

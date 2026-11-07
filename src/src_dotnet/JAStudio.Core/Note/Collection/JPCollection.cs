@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Compze.Internals.Logging;
 using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.LanguageServices.JamdictEx;
+using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
@@ -32,6 +34,14 @@ public class JPCollection
 
    /// <summary>Notifies every note in the collection that is updated, whatever its type, on the thread that updated it.</summary>
    public IObservable<JPNote> NoteUpdated => _noteUpdated;
+
+   /// <summary>
+   /// The notes, of every type, that match <paramref name="search"/>, found by checking every note in memory.<br/>
+   /// They come in no particular order: whoever shows them sorts them.
+   /// </summary>
+   public List<JPNote> NotesMatching(NoteCondition search) => [..AllNotes().Where(search.Matches)];
+
+   IEnumerable<JPNote> AllNotes() => [..Vocab.All(), ..Kanji.All(), ..Sentences.All()];
 
    public JPNote? NoteFromNoteId(NoteId noteId)
    {

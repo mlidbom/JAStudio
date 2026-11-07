@@ -1,0 +1,47 @@
+import typing
+from JAStudio.Core.Note.Search import NoteCondition, NoteProperty
+from System import IEquatable_1
+from System.Collections.Generic import IEnumerable_1
+from JAStudio.Core.Note import JPNote
+
+class NoteTypeCondition(NoteCondition, IEquatable_1[NoteTypeCondition]):
+    @property
+    def IsEmpty(self) -> bool: ...
+    @property
+    def NoteType(self) -> typing.Type[typing.Any]: ...
+    @property
+    def Property(self) -> NoteTypeProperty: ...
+    def DescriptionLines(self) -> IEnumerable_1[str]: ...
+    def GetHashCode(self) -> int: ...
+    def Matches(self, note: JPNote) -> bool: ...
+    def __eq__(self, left: NoteTypeCondition, right: NoteTypeCondition) -> bool: ...
+    def __ne__(self, left: NoteTypeCondition, right: NoteTypeCondition) -> bool: ...
+    # Skipped Equals due to it being static, abstract and generic.
+
+    Equals : Equals_MethodGroup
+    class Equals_MethodGroup:
+        @typing.overload
+        def __call__(self, other: NoteTypeCondition) -> bool:...
+        @typing.overload
+        def __call__(self, other: NoteCondition) -> bool:...
+        @typing.overload
+        def __call__(self, obj: typing.Any) -> bool:...
+
+
+
+class NoteTypeProperty(NoteProperty):
+    @property
+    def Name(self) -> str: ...
+    # Skipped Is due to it being static, abstract and generic.
+
+    Is : Is_MethodGroup
+    class Is_MethodGroup:
+        def __getitem__(self, t:typing.Type[Is_1_T1]) -> Is_1[Is_1_T1]: ...
+
+        Is_1_T1 = typing.TypeVar('Is_1_T1')
+        class Is_1(typing.Generic[Is_1_T1]):
+            Is_1_TNote = NoteTypeProperty.Is_MethodGroup.Is_1_T1
+            def __call__(self) -> NoteTypeCondition:...
+
+
+
