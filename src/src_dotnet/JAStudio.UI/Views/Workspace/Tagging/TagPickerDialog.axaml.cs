@@ -43,6 +43,10 @@ partial class TagPickerDialog : Window
    internal static Task<string?> ShowAsync(Window owner, TagPickerDialogViewModel dialog, PixelPoint topLeft) =>
       new TagPickerDialog(dialog) { Position = topLeft }.ShowDialog<string?>(owner);
 
+   /// <summary>Shows <paramref name="dialog"/> as <see cref="ShowAsync"/> does, centered over <paramref name="owner"/>, as for a key pressed with no place on screen to open at.</summary>
+   internal static Task<string?> ShowCenteredOverAsync(Window owner, TagPickerDialogViewModel dialog) =>
+      new TagPickerDialog(dialog) { WindowStartupLocation = WindowStartupLocation.CenterOwner }.ShowDialog<string?>(owner);
+
    void Accept()
    {
       if(_dialog.PickedTagPath is {} tagPath)

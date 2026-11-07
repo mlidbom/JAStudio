@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ReactiveCE;
@@ -13,6 +14,7 @@ using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Shortcuts;
 using JAStudio.UI.ViewModels.Workspace.Editors;
+using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.ViewModels.Workspace;
@@ -124,6 +126,24 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    public List<SpecMenuItem> NoteContextMenuSpec(string selection, string clipboard) =>
       new NoteContextMenu(_services).BuildContextMenuSpec(ShownNote(), selection, clipboard);
 
+   /// <summary>Ctrl+T: picks a tag through <paramref name="pickATagInADialog"/> and adds it to the note on the page. Does nothing when the page shows no note.</summary>
+   /// <param name="pickATagInADialog">Shows a tag picker dialog, and returns the tag path picked in it, or null when it was cancelled.</param>
+   internal void AddATagToTheShownNote(Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog)
+   {
+      if(ShownNote() is null) return;
+
+      new OneNoteTagging(_services).AddATagTo(TheShownNote, pickATagInADialog);
+   }
+
+   /// <summary>Ctrl+Shift+T: picks one of the tags of the note on the page through <paramref name="pickATagInADialog"/>, and removes it. Does nothing when the page shows no note.</summary>
+   /// <param name="pickATagInADialog">Shows a tag picker dialog, and returns the tag path picked in it, or null when it was cancelled.</param>
+   internal void RemoveATagFromTheShownNote(Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog)
+   {
+      if(ShownNote() is null) return;
+
+      new OneNoteTagging(_services).RemoveATagFrom(TheShownNote, pickATagInADialog);
+   }
+
    /// <summary>The page asked for <paramref name="pageUrl"/> to be opened in a new tab, as when a link is middle-clicked.</summary>
    public void OpenInBackgroundTab(Uri pageUrl) => _workspace.OpenPageInBackgroundTab(pageUrl);
 
@@ -179,4 +199,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       };
 
    JPNote? ShownNote() => _shownNoteId is {} noteId ? _services.CoreApp.Collection.NoteFromNoteId(noteId) : null;
+
+   /// <summary>The note on the page, as the collection holds it now, for an action that started while the page showed one.</summary>
+   JPNote TheShownNote() => ShownNote() ?? throw new InvalidOperationException("The page no longer shows a note in the collection.");
 }

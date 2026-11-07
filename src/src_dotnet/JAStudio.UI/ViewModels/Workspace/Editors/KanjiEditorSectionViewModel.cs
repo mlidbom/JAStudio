@@ -5,6 +5,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
+using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -54,6 +55,7 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
          Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceAnswer),
          Field("Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceMeaningMnemonic)
       ];
+      Tags = new NoteTagsEditorViewModel(services, CurrentKanji);
    }
 
    /// <summary>The kanji itself, and the user's answer and mnemonic for it.</summary>
@@ -67,9 +69,12 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The answer and mnemonic the kanji came with. The user's own, in <see cref="CoreFields"/>, take precedence over them.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
+   public NoteTagsEditorViewModel Tags { get; }
+
    public void Refresh()
    {
       foreach(var field in AllFields()) field.Refresh();
+      Tags.Refresh();
    }
 
    IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..ReadingFields, ..RelatedFields, ..SourceFields];

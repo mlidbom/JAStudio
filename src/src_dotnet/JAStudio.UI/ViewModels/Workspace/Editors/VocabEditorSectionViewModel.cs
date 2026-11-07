@@ -34,7 +34,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
       SentencesReparser = new VocabSentencesReparserViewModel(services, CurrentVocab, sentencesReparsed);
       Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
       MatchingConfig = new VocabMatchingConfigEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
-      Metadata = new VocabMetadataEditorViewModel(fatalErrorHandler, CurrentVocab);
+      Metadata = new VocabMetadataEditorViewModel(services, CurrentVocab);
    }
 
    /// <summary>Reparses the vocab's sentences after a change to what it matches. No editor can be changed while it runs.</summary>

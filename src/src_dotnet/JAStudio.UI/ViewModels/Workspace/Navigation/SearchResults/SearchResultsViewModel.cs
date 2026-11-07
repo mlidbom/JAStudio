@@ -89,6 +89,7 @@ class SearchResultsViewModel : ObservableObject
       collection.NoteUpdated.Subscribe(ShowTheChangeTo);
       collection.StudyingStatusChanged.Subscribe(ShowTheChangeTo);
       collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowTheReloadedNotesOf(collection))));
+      return;
 
       void ShowTheChangeTo(JPNote changed) => uiThread.PostToUIThread(() => ForEachType(it => it.ShowTheChangeTo(changed)));
    }

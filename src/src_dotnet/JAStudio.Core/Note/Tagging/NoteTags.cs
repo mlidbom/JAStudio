@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,4 +72,11 @@ public class NoteTags : IEnumerable<Tag>
    {
       return this.Select(t => t.Name).OrderBy(n => n).ToList();
    }
+
+   /// <summary>
+   /// The note's tags that a person manages, in alphabetical order: all but the jastudio-defined-tags (<see cref="Tags.IsDefinedByJAStudio"/>),<br/>
+   /// which are generated or have editors of their own. These are the tags shown with the note, and added and removed by hand.
+   /// </summary>
+   public IReadOnlyList<Tag> NotDefinedByJAStudio() =>
+      [..this.Where(it => !Tags.IsDefinedByJAStudio(it.Name)).OrderBy(it => it.Name, StringComparer.OrdinalIgnoreCase)];
 }

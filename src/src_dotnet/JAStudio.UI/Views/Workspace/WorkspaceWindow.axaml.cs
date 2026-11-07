@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -17,6 +18,8 @@ using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
+using JAStudio.UI.ViewModels.Workspace.Tagging;
+using JAStudio.UI.Views.Workspace.Tagging;
 
 namespace JAStudio.UI.Views.Workspace;
 
@@ -66,6 +69,8 @@ public partial class WorkspaceWindow : Window
                             ["Ctrl+Shift+o"] = Hide,
                             ["Ctrl+e"] = ToggleEditorSection,
                             ["Ctrl+w"] = _viewModel.CloseSelectedTab,
+                            ["Ctrl+t"] = AddATagToTheShownNote,
+                            ["Ctrl+Shift+t"] = RemoveATagFromTheShownNote,
                             ["Ctrl+tab"] = _viewModel.SelectNextTab,
                             ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab
                          };
@@ -164,6 +169,17 @@ public partial class WorkspaceWindow : Window
       _viewModel.EditNote(note);
       BringToFront();
    }
+
+   /// <summary>
+   /// Ctrl+T: adds a tag, picked in a dialog over the window, to the note the shown tab shows.<br/>
+   /// The search's results grid takes Ctrl+T itself while it has the keyboard, for its selected notes.
+   /// </summary>
+   void AddATagToTheShownNote() => _viewModel.SelectedTab?.AddATagToTheShownNote(PickATagInADialogOverTheWindow);
+
+   /// <summary>Ctrl+Shift+T: removes one of the tags of the note the shown tab shows, picked in a dialog over the window.</summary>
+   void RemoveATagFromTheShownNote() => _viewModel.SelectedTab?.RemoveATagFromTheShownNote(PickATagInADialogOverTheWindow);
+
+   Task<string?> PickATagInADialogOverTheWindow(TagPickerDialogViewModel dialog) => TagPickerDialog.ShowCenteredOverAsync(this, dialog);
 
    /// <summary>Ctrl+E. Afterwards the keyboard is on the page, so the note view shortcuts work whether the section opened or closed.</summary>
    void ToggleEditorSection()

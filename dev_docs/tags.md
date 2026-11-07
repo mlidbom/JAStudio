@@ -87,7 +87,7 @@ note, for example "Rename `source::anime` to `source::tv`? 28,693 notes change."
 
 | Anki | JAStudio |
 |---|---|
-| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** chips with autocomplete from the existing tags. A key jumps there, to be chosen when it's built: Anki's Ctrl+Shift+T now removes a tag from the selected search results. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It leaves out jastudio-defined-tags, for now (Magnus, 2026-11-07). |
+| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** the tags as chips, each with a × that removes it, and a button that adds a tag picked in the tag picker dialog. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It leaves out jastudio-defined-tags, for now (Magnus, 2026-11-07). **No key jumps there:** Ctrl+T and Ctrl+Shift+T add and remove a tag on a note's tab directly (Magnus, 2026-11-07). |
 | With notes selected: Add Tags (Ctrl+Shift+A) and Remove Tags (Ctrl+Alt+Shift+A) open a prompt with autocomplete | **The same on the search results, which allow selecting several notes** (Ctrl/Shift+click, Ctrl+A). Right-click a selection → Add tags… / Remove tags…. Remove offers only the tags the selected notes have. *Shortcuts (Magnus, 2026-11-07): Ctrl+T adds and Ctrl+Shift+T removes, rather than Anki's, which are hard to remember: T for tag, as everywhere in the search, and Shift for the reverse.* |
 | Right-click tags in the sidebar → Add to / Remove from selected notes | Deferred. The Add and Remove prompts cover it. |
 | Toggle Mark (Ctrl+K) adds or removes `marked` | Skipped: `marked` is on 2 notes, and it's a student-tag. |
@@ -136,7 +136,20 @@ How these interleave with the search increments is in [note-search.md](note-sear
      - **Removing** offers only the tags the selected notes have.
      - **Neither offers a jastudio-defined-tag.**
      - **One tag at a time,** unlike Anki's prompt, which takes several. That's the simple version.
-   - **1b, next:** the Tags editor in each note type's editor section.
+   - **1b, built 2026-11-07: seeing and editing a note's tags.**
+     - **A Tags column in the search's results grid,** for every note type, so a bulk tagging shows in the rows it
+       changed. It sorts with the numbers in the tags compared as numbers.
+     - **A Tags editor in the editor section** (`NoteTagsEditorViewModel`): the note's tags as chips, each with a ×
+       that removes it at once, and an "Add a tag... (Ctrl+T)" button that opens the tag picker dialog.
+     - **Ctrl+T and Ctrl+Shift+T on a note's tab** add a tag to the note it shows, or remove one, through the same
+       dialog (`OneNoteTagging`). They're window shortcuts, so they work on the page and in the editor section. So
+       Ctrl+T always adds a tag to what's being looked at: on the results grid, which binds the same keys for
+       itself, to the selected notes.
+     - **A single note is changed at once,** on the UI thread, as the other editors change it, with no progress
+       dialog, which would only flash for one note.
+     - **The column and the editor leave out the jastudio-defined-tags,** as the dialogs do
+       (`NoteTags.NotDefinedByJAStudio`). Otherwise a vocab's matching-configuration tags would crowd out the
+       rest, and they have editors of their own.
 2. **Tag management, browsing:** the tag tree with counts, the filter box, and "search for this tag".
 3. **Tag management, editing:** rename, rename with parents, move by drag and drop, delete, all with
    confirmation.

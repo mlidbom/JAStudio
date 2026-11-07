@@ -9,6 +9,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CommunityToolkit.Mvvm.Input;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
@@ -34,6 +35,7 @@ public partial class SearchResultsView : UserControl
       foreach(var grid in new[] { VocabGrid, KanjiGrid, SentencesGrid })
       {
          SortByTheQuestionAtFirst(grid);
+         BindTheTaggingKeysOf(grid);
          grid.AddHandler(KeyDownEvent, (_, e) => OnKeyDownIn(grid, e), RoutingStrategies.Tunnel);
          grid.AddHandler(DoubleTappedEvent, OnDoubleTappedInAGrid, RoutingStrategies.Bubble, handledEventsToo: true);
          grid.AddHandler(PointerReleasedEvent, OnPointerReleasedInAGrid, RoutingStrategies.Bubble, handledEventsToo: true);
@@ -60,28 +62,36 @@ public partial class SearchResultsView : UserControl
             sortedRows.SortDescriptions.Add(DataGridSortDescription.FromPath(nameof(SearchResultViewModel.Question)));
       };
 
-   /// <remarks>
-   /// Enter opens the note on the current row. Handling it here keeps the grid from moving to the next row, as it otherwise does on Enter.<br/>
-   /// Ctrl+T adds a tag to the selected notes, and Ctrl+Shift+T removes one (<see cref="ActionsOnSelectedResults"/>).
-   /// </remarks>
+   /// <summary>Enter opens the note on the current row. Handling it here keeps the grid from moving to the next row, as it otherwise does on Enter.</summary>
    void OnKeyDownIn(DataGrid grid, KeyEventArgs e)
    {
-      switch(e)
-      {
-         case { Key: Key.Enter, KeyModifiers: KeyModifiers.None } when grid.SelectedItem is SearchResultViewModel current:
-            ShownResults.Open(current);
-            break;
-         case { Key: Key.T, KeyModifiers: KeyModifiers.Control } when SelectedIn(grid) is { Count: > 0 } selected:
-            ViewModel.ActionsOnTheSelected.AddATagTo(selected, dialog => PickATagInADialog(grid, dialog));
-            break;
-         case { Key: Key.T, KeyModifiers: KeyModifiers.Control | KeyModifiers.Shift } when SelectedIn(grid) is { Count: > 0 } selected:
-            ViewModel.ActionsOnTheSelected.RemoveATagFrom(selected, dialog => PickATagInADialog(grid, dialog));
-            break;
-         default:
-            return;
-      }
+      if(e is not { Key: Key.Enter, KeyModifiers: KeyModifiers.None } || grid.SelectedItem is not SearchResultViewModel current) return;
 
+      ShownResults.Open(current);
       e.Handled = true;
+   }
+
+   /// <summary>
+   /// Ctrl+T adds a tag to the selected notes, and Ctrl+Shift+T removes one (<see cref="ActionsOnSelectedResults"/>). With no row selected they do nothing.<br/>
+   /// The window binds the same keys to tag the note its shown tab shows. Key bindings are tried from the control with the keyboard outwards,<br/>
+   /// before the key reaches any control, so the grid's own bindings are the ones that run while it has the keyboard.
+   /// </summary>
+   void BindTheTaggingKeysOf(DataGrid grid)
+   {
+      BindTheKey(new KeyGesture(Key.T, KeyModifiers.Control), selected => ViewModel.ActionsOnTheSelected.AddATagTo(selected, dialog => PickATagInADialog(grid, dialog)));
+      BindTheKey(new KeyGesture(Key.T, KeyModifiers.Control | KeyModifiers.Shift), selected => ViewModel.ActionsOnTheSelected.RemoveATagFrom(selected, dialog => PickATagInADialog(grid, dialog)));
+      return;
+
+      void BindTheKey(KeyGesture gesture, Action<List<SearchResultViewModel>> actOnTheSelected) =>
+         grid.KeyBindings.Add(new KeyBinding
+                              {
+                                 Gesture = gesture,
+                                 Command = new RelayCommand(() =>
+                                 {
+                                    if(SelectedIn(grid) is { Count: > 0 } selected)
+                                       actOnTheSelected(selected);
+                                 })
+                              });
    }
 
    void OnDoubleTappedInAGrid(object? sender, TappedEventArgs e)

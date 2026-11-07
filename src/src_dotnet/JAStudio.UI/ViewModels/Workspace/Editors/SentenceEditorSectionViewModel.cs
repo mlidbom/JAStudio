@@ -6,6 +6,7 @@ using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
+using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -51,6 +52,7 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
          Field("Screenshot", TextFieldFormat.Line, it => it.Screenshot.RawValue(), (it, screenshot) => it.Screenshot.SetRawValue(screenshot)),
          Field("External id", TextFieldFormat.Line, it => it.ExternalId)
       ];
+      Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
    }
 
    /// <summary>The user's own question, answer and comments, which take precedence over the <see cref="SourceFields"/>, and the reading.</summary>
@@ -62,9 +64,12 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, and the id of where it came from.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
 
+   public NoteTagsEditorViewModel Tags { get; }
+
    public void Refresh()
    {
       foreach(var field in AllFields()) field.Refresh();
+      Tags.Refresh();
    }
 
    IEnumerable<TextFieldEditorViewModel> AllFields() => [..UserFields, ..SourceFields, ..OtherFields];

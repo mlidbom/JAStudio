@@ -47,6 +47,8 @@
                     <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="*" FontFamily="{StaticResource JapaneseFont}" FontSize="16" />
                     <DataGridTextColumn Header="Readings" Binding="{Binding Readings}" Width="Auto" FontFamily="{StaticResource JapaneseFont}" />
                     <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" Width="2*" />
+                    <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
+                    <DataGridTextColumn Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
                     <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
                     <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
                 </DataGrid.Columns>
@@ -58,6 +60,8 @@
                     <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" Width="2*" />
                     <DataGridTextColumn Header="On readings" Binding="{Binding OnReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
                     <DataGridTextColumn Header="Kun readings" Binding="{Binding KunReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
+                    <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
+                    <DataGridTextColumn Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
                     <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
                     <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
                 </DataGrid.Columns>
@@ -70,6 +74,8 @@
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
                     <DataGridTextColumn Header="Source" Binding="{Binding Source.Text}" SortMemberPath="Source" Width="Auto" />
                     <DataGridTextColumn Header="External id" Binding="{Binding ExternalId.Text}" SortMemberPath="ExternalId" Width="Auto" />
+                    <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
+                    <DataGridTextColumn Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
                     <DataGridCheckBoxColumn Header="Studying reading" Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto" />
                     <DataGridCheckBoxColumn Header="Studying listening" Binding="{Binding IsStudyingListening, Mode=OneWay}" Width="Auto" />
                 </DataGrid.Columns>

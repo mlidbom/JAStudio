@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             xmlns:taggingViews="clr-namespace:JAStudio.UI.Views.Workspace.Tagging"
              x:Class="JAStudio.UI.Views.Workspace.Editors.KanjiEditorSection"
              x:DataType="editors:KanjiEditorSectionViewModel">
 
@@ -32,6 +33,13 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Source" />
                     <ItemsControl ItemsSource="{Binding SourceFields}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Tags" />
+                    <taggingViews:NoteTagsEditor DataContext="{Binding Tags}" />
                 </StackPanel>
             </Border>
         </StackPanel>
