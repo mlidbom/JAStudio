@@ -74,6 +74,13 @@ public class KanjiNote : JPNote
 
    public string AnswerText => StringExtensions.StripHtmlMarkup(GetAnswer());
 
+   /// <summary>The question and answer, and the readings in kana and in romaji.</summary>
+   public override IEnumerable<string> SearchableTexts()
+   {
+      var readings = ReadingsClean;
+      return [..base.SearchableTexts(), ..readings, ..readings.Select(KanaUtils.Romanize)];
+   }
+
    public override void UpdateGeneratedData()
    {
       base.UpdateGeneratedData();

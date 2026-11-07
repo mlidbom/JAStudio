@@ -117,6 +117,12 @@ public abstract class JPNote
 
    public abstract string GetAnswer();
 
+   /// <summary>
+   /// The texts a search for the note's searchable text looks in (<see cref="Search.NoteProperties.SearchableText"/>): its question and answer,<br/>
+   /// and for vocab and kanji also their readings, in kana and in romaji, so that typing <c>taberu</c> finds 食べる.
+   /// </summary>
+   public virtual IEnumerable<string> SearchableTexts() => [GetQuestion(), GetAnswer()];
+
    public virtual void OnTagsUpdated()
    {
       // Called when tags are modified. Subclasses can override to invalidate cached state.

@@ -9,6 +9,8 @@ namespace JAStudio.Core.Note.Search.Grouping;
 /// </summary>
 public sealed record NegatedCondition : NoteCondition
 {
+   const string Prefix = "Not: ";
+
    internal NegatedCondition(NoteCondition condition) => Condition = condition;
 
    /// <summary>The condition a note must not match.</summary>
@@ -18,5 +20,17 @@ public sealed record NegatedCondition : NoteCondition
 
    public override bool Matches(JPNote note) => IsEmpty || !Condition.Matches(note);
 
-   public override IEnumerable<string> DescriptionLines() => ["Not:", ..Condition.DescriptionLines().Select(Indented)];
+   /// <summary>
+   /// The negated condition's own lines, with "Not: " in front of the first, such as "Not: Tags include x" or "Not: All of:".<br/>
+   /// So the search editor shows a negation on the same line as what it negates.
+   /// </summary>
+   public override IEnumerable<string> DescriptionLines()
+   {
+      var conditionLines = Condition.DescriptionLines().ToList();
+      return [Prefix + conditionLines[0], ..conditionLines.Skip(1)];
+   }
+
+   public override IReadOnlyList<NoteCondition> Children => [Condition];
+
+   protected override NoteCondition WithChildReplaced(int index, NoteCondition replacement) => new NegatedCondition(replacement);
 }

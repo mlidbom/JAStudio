@@ -11,6 +11,6 @@ public partial class NavigationPane : UserControl
 {
    public NavigationPane() => InitializeComponent();
 
-   /// <summary>Puts the keyboard in the search tab's search box. The search tab must be the one shown.</summary>
-   internal void FocusSearchBox() => NoteSearch.FocusSearchBox();
+   /// <summary>Puts the keyboard on the search tab's condition tree, ready for typing a search. The search tab must be the one shown.</summary>
+   internal void FocusSearch() => NoteSearch.FocusConditionTree();
 }

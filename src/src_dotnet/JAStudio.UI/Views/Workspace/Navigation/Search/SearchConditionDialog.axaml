@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:search="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation.Search"
+        xmlns:searchViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation.Search"
+        x:Class="JAStudio.UI.Views.Workspace.Navigation.Search.SearchConditionDialog"
+        x:DataType="search:ConditionEditorViewModel"
+        Title="{Binding Title}"
+        SizeToContent="WidthAndHeight"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual">
+
+    <Window.Resources>
+        <x:Double x:Key="EditorWidth">420</x:Double>
+    </Window.Resources>
+
+    <Window.DataTemplates>
+        <DataTemplate DataType="search:TextConditionEditorViewModel">
+            <StackPanel Spacing="6" Width="{StaticResource EditorWidth}">
+                <ComboBox ItemsSource="{Binding MatchChoices}" SelectedItem="{Binding MatchChoice}" HorizontalAlignment="Stretch" />
+                <TextBox Classes="initialFocus" Text="{Binding Text}" />
+                <TextBlock Text="{Binding Problem}" Foreground="Red" TextWrapping="Wrap"
+                           IsVisible="{Binding Problem, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="search:TagConditionEditorViewModel">
+            <searchViews:TagConditionEditorView Width="{StaticResource EditorWidth}" />
+        </DataTemplate>
+
+        <DataTemplate DataType="search:TrueOrFalseConditionEditorViewModel">
+            <ListBox Classes="initialFocus" ItemsSource="{Binding Values}" SelectedItem="{Binding Value}" Width="200" />
+        </DataTemplate>
+
+        <DataTemplate DataType="search:NoteTypeConditionEditorViewModel">
+            <ListBox Classes="initialFocus" ItemsSource="{Binding Choices}" SelectedItem="{Binding PickedChoice}" Width="200" />
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <StackPanel Margin="10" Spacing="10">
+        <ContentControl Content="{Binding}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button Content="OK" IsDefault="True" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanAccept}" />
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

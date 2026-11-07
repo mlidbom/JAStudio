@@ -105,7 +105,7 @@ public partial class WorkspaceWindow : Window
 
    /// <summary>
    /// Ctrl+O. In the active workspace with the navigation pane open on its search, closes the pane and gives the keyboard to the shown page.<br/>
-   /// Otherwise brings the workspace to the front, opens the pane on its search, and puts the keyboard in the search box.<br/>
+   /// Otherwise brings the workspace to the front, opens the pane on its search, and puts the keyboard on the search's condition tree.<br/>
    /// Can be called from any thread.
    /// </summary>
    public static void ToggleNoteSearch() => Dispatcher.UIThread.Post(() => Instance.ToggleNoteSearchInThisWindow());
@@ -187,7 +187,7 @@ public partial class WorkspaceWindow : Window
    void FocusNoteSearch()
    {
       NativeKeyboardFocus.MoveToWindowItself(this);
-      NavigationPane.FocusSearchBox();
+      NavigationPane.FocusSearch();
    }
 
    void BringToFront()

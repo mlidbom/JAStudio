@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace JAStudio.Core.TaskRunners;
 
@@ -18,6 +19,23 @@ public interface IFatalErrorHandler
       try
       {
          action();
+      }
+      catch(Exception exception)
+      {
+         Handle(exception);
+      }
+   }
+
+   /// <summary>Starts <paramref name="asyncWork"/> without waiting for it to finish, and gives an exception it throws to <see cref="Handle"/>.</summary>
+   /// <remarks>
+   /// For work a UI event starts and nothing awaits, such as the search the search editor runs again after each change.<br/>
+   /// An exception from such work would otherwise go unnoticed.
+   /// </remarks>
+   async void StartAndHandleExceptionsFrom(Func<Task> asyncWork)
+   {
+      try
+      {
+         await asyncWork();
       }
       catch(Exception exception)
       {

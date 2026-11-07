@@ -113,7 +113,7 @@ apply here.
   tab focuses its page when it's shown. Otherwise keys would go to the hidden tab's page and act on its note.
 - **Taking the keyboard back from a web view.** Focusing an Avalonia control in code doesn't take the Windows
   keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+O first gives
-  the window back its keyboard focus (`NativeKeyboardFocus`), then focuses the search box.
+  the window back its keyboard focus (`NativeKeyboardFocus`), then puts it on the search's condition tree.
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.
@@ -138,7 +138,7 @@ apply here.
    - The pane is on the left, resized by dragging its edge, and opened or closed with the "Navigation" button. Its
      tabs are "Search" and "List".
    - Ctrl+O, anywhere including in Anki, brings the workspace forward, opens the pane on its search and puts the
-     keyboard in the search box; pressed in the workspace while the pane is open on its search, it closes the pane
+     keyboard on the search's condition tree; pressed in the workspace while the pane is open on its search, it closes the pane
      and gives the keyboard to the shown page.
    - The "Open" items of the note menus show a `NoteList`, a title and notes, in the "List" tab, replacing the list
      shown before, ordered by question. None of them opens Anki's browser any more.

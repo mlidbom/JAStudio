@@ -3,244 +3,225 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
-using JAStudio.Core.LanguageServices;
+using JAStudio.Core;
 using JAStudio.Core.Note;
-using JAStudio.Core.SysUtils;
+using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Search;
+using JAStudio.Core.Note.Search.Editing;
+using JAStudio.Core.Note.Search.Grouping;
+using JAStudio.Core.TaskRunners;
+using JAStudio.UI.Menus.UIAgnosticMenuStructure;
+using JAStudio.UI.ViewModels.Workspace.Navigation.Search;
 using JAStudio.UI.Views.Workspace.Navigation;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 
 /// <summary>
 /// A workspace's note search, the "Search" tab of its <see cref="NavigationPaneViewModel"/> (<see cref="NoteSearchView"/>):<br/>
-/// the search text, and the notes found, which open in the workspace's tabs.
+/// the search being built (an <see cref="EditableSearch"/>), shown as a tree of <see cref="Nodes"/>, and the notes it finds, which open in the workspace's tabs.
 /// </summary>
+/// <remarks>
+/// Every change to the search runs it again, in the background. The operations act on the <see cref="SelectedNode"/>,<br/>
+/// and the view calls them from its keys and menus. See <c>dev_docs/note-search.md</c>.
+/// </remarks>
 partial class NoteSearchViewModel : ObservableObject
 {
-   /// <summary>The most notes of each type a search lists, so that a search matching thousands stays quick to show.</summary>
-   const int MaxResults = 100;
-   readonly Core.TemporaryServiceCollection _services;
+   const string HowToSearch = "Type to search. + adds a condition, - negates one, Del removes one, Ctrl+Z undoes. Right-click for more.";
 
-   [ObservableProperty] string _searchText = string.Empty;
+   readonly JPCollection _collection;
+   readonly IFatalErrorHandler _fatalErrorHandler;
+   readonly EditableSearch _search = new();
+   int _searchesStarted;
 
-   [ObservableProperty] string _statusText = "Hit enter to search";
-
-   [ObservableProperty] bool _isSearching = false;
-
-   /// <summary>The notes found.</summary>
-   public ListedNotesViewModel Results { get; }
-
-   public AsyncRelayCommand SearchCommand { get; }
-
-   public NoteSearchViewModel(WorkspaceViewModel workspace, Core.TemporaryServiceCollection services)
+   public NoteSearchViewModel(WorkspaceViewModel workspace, TemporaryServiceCollection services)
    {
-      _services = services;
+      _collection = services.CoreApp.Collection;
+      _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       Results = new ListedNotesViewModel(workspace);
-      SearchCommand = new AsyncRelayCommand(PerformSearchAsync);
+      ShowTheSearch(ConditionPosition.Root);
    }
 
-   async Task PerformSearchAsync()
+   /// <summary>The notes the search found.</summary>
+   public ListedNotesViewModel Results { get; }
+
+   /// <summary>The condition tree's lines: just the root, with every other line under it.</summary>
+   [ObservableProperty] IReadOnlyList<SearchConditionNodeViewModel> _nodes = [];
+
+   /// <summary>The selected line, which the keys and the right-click menu act on. The tree sets it when a line is clicked.</summary>
+   [ObservableProperty] SearchConditionNodeViewModel? _selectedNode;
+
+   [ObservableProperty] string _statusText = HowToSearch;
+
+   [ObservableProperty] bool _isSearching;
+
+   SearchConditionNodeViewModel Root => Nodes[0];
+
+   /// <summary>The line the operations act on: the selected one, or the root when none is.</summary>
+   SearchConditionNodeViewModel Selected => SelectedNode ?? Root;
+
+   /// <summary>An editor for a new condition on <paramref name="property"/>, with <paramref name="typedText"/> already typed into it if it takes text.</summary>
+   internal ConditionEditorViewModel EditorForANewConditionOn(NoteProperty property, string typedText = "") =>
+      ConditionEditorViewModel.ForANewConditionOn(property, _collection, typedText);
+
+   /// <summary>An editor filled in with the selected line's condition, or null when the line is a group, which has no editor.</summary>
+   internal ConditionEditorViewModel? EditorForTheSelectedCondition() =>
+      Selected.IsGroup ? null : ConditionEditorViewModel.ForChanging(Selected.Condition, _collection);
+
+   /// <summary>
+   /// Opens an editor for a new condition on <paramref name="property"/> through <paramref name="editInADialog"/>, and adds the condition it returns, if any.<br/>
+   /// <paramref name="typedText"/> is already typed into the editor, if it takes text.
+   /// </summary>
+   internal void AddAConditionThroughAnEditor(NoteProperty property, Func<ConditionEditorViewModel, Task<NoteCondition?>> editInADialog, string typedText = "") =>
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(await editInADialog(EditorForANewConditionOn(property, typedText)) is {} condition)
+            AddCondition(condition);
+      });
+
+   /// <summary>
+   /// Opens an editor filled in with the selected line's condition through <paramref name="editInADialog"/>, and puts the condition it returns, if any, in its place.<br/>
+   /// Does nothing when the selected line is a group, which has no editor.
+   /// </summary>
+   internal void ChangeTheSelectedConditionThroughAnEditor(Func<ConditionEditorViewModel, Task<NoteCondition?>> editInADialog)
    {
-      var searchText = SearchText.Trim();
-      if(string.IsNullOrWhiteSpace(searchText))
+      if(EditorForTheSelectedCondition() is not {} editor) return;
+
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(await editInADialog(editor) is {} changed)
+            ChangeTheSelectedCondition(changed);
+      });
+   }
+
+   /// <summary>Adds <paramref name="condition"/> to the selected group, or to the group the selected condition is in, and selects it.</summary>
+   internal void AddCondition(NoteCondition condition) => ChangeTheSearch(_search.AddCondition(Selected.GroupToAddTo, condition));
+
+   /// <summary>Replaces the selected line's condition with <paramref name="replacement"/>, keeping any negation around it.</summary>
+   internal void ChangeTheSelectedCondition(NoteCondition replacement)
+   {
+      var selected = Selected;
+      _search.ReplaceCondition(selected.ConditionPosition, replacement);
+      ChangeTheSearch(selected.Position);
+   }
+
+   /// <summary>Removes the selected line, and a group with everything in it. The root can't be removed, so removing it does nothing.</summary>
+   internal void RemoveTheSelectedNode()
+   {
+      if(Selected.IsRoot) return;
+
+      var removed = Selected.Position;
+      _search.RemoveCondition(removed);
+      ChangeTheSearch(PositionToSelectAfterRemoving(removed));
+   }
+
+   /// <summary>Negates the selected line's condition, or takes its negation away.</summary>
+   internal void ToggleNegationOfTheSelectedNode()
+   {
+      var selected = Selected;
+      _search.ToggleNegation(selected.Position);
+      ChangeTheSearch(selected.Position);
+   }
+
+   /// <summary>Switches the selected group between "all of" and "any of". Does nothing when the selected line isn't a group.</summary>
+   internal void SwitchTheSelectedGroup()
+   {
+      var selected = Selected;
+      if(!selected.IsGroup) return;
+
+      _search.SwitchGroup(selected.ConditionPosition);
+      ChangeTheSearch(selected.Position);
+   }
+
+   /// <summary>Undoes the last change to the search, if there is one.</summary>
+   internal void Undo()
+   {
+      if(!_search.CanUndo) return;
+
+      var selected = Selected;
+      _search.Undo();
+      ChangeTheSearch(selected.Position);
+   }
+
+   /// <summary>The add menu: the properties a condition can be on, each picked by a single key, such as T for tags.</summary>
+   /// <param name="addAConditionOn">Opens the editor for a new condition on the picked property.</param>
+   internal static List<SpecMenuItem> AddConditionMenu(Action<NoteProperty> addAConditionOn) =>
+   [
+      SpecMenuItem.Command("_Searchable text", () => addAConditionOn(NoteProperties.SearchableText)),
+      SpecMenuItem.Command("_Question", () => addAConditionOn(NoteProperties.Question)),
+      SpecMenuItem.Command("_Answer", () => addAConditionOn(NoteProperties.Answer)),
+      SpecMenuItem.Command("_Tags", () => addAConditionOn(NoteProperties.Tags)),
+      SpecMenuItem.Command("_Note type", () => addAConditionOn(NoteProperties.NoteType)),
+      SpecMenuItem.Command("Studying _reading", () => addAConditionOn(NoteProperties.StudyingReading)),
+      SpecMenuItem.Command("Studying _listening", () => addAConditionOn(NoteProperties.StudyingListening))
+   ];
+
+   /// <summary>The selected line's right-click menu: everything the editor can do to it, each picked by a single key.</summary>
+   /// <param name="openTheAddMenu">Opens the <see cref="AddConditionMenu"/>.</param>
+   /// <param name="changeTheSelectedCondition">Opens the editor filled in with the selected line's condition.</param>
+   internal List<SpecMenuItem> SelectedNodeMenu(Action openTheAddMenu, Action changeTheSelectedCondition) =>
+   [
+      SpecMenuItem.Command("_Add a condition (+)", openTheAddMenu),
+      SpecMenuItem.Command("_Change (Enter)", changeTheSelectedCondition, enabled: !Selected.IsGroup),
+      SpecMenuItem.Command(Selected.IsNegated ? "Remove the _negation (-)" : "_Negate (-)", ToggleNegationOfTheSelectedNode),
+      SpecMenuItem.Command(Selected.Condition is AnyOfGroup ? "_Switch to all of" : "_Switch to any of", SwitchTheSelectedGroup, enabled: Selected.IsGroup),
+      SpecMenuItem.Command("_Remove (Del)", RemoveTheSelectedNode, enabled: !Selected.IsRoot),
+      SpecMenuItem.Separator(),
+      SpecMenuItem.Command("_Undo (Ctrl+Z)", Undo, enabled: _search.CanUndo)
+   ];
+
+   void ChangeTheSearch(ConditionPosition positionToSelect)
+   {
+      ShowTheSearch(positionToSelect);
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(RunTheSearchAsync);
+   }
+
+   void ShowTheSearch(ConditionPosition positionToSelect)
+   {
+      Nodes = [new SearchConditionNodeViewModel(_search.Current, ConditionPosition.Root, parent: null)];
+      SelectedNode = Root.ThisAndAllBelow().FirstOrDefault(it => it.Position == positionToSelect || it.ConditionPosition == positionToSelect) ?? Root;
+   }
+
+   /// <summary>The removed line's next sibling, which now has its position, or else its previous sibling, or else its group.</summary>
+   ConditionPosition PositionToSelectAfterRemoving(ConditionPosition removed)
+   {
+      var group = _search.Current.ConditionAt(removed.Parent);
+      return removed.IndexInParent < group.Children.Count ? removed
+             : removed.IndexInParent > 0                  ? removed.Parent.Child(removed.IndexInParent - 1)
+                                                          : removed.Parent;
+   }
+
+   async Task RunTheSearchAsync()
+   {
+      var search = _search.Current;
+      var thisSearch = ++_searchesStarted;
+      if(search.IsEmpty)
       {
          Results.Show([]);
-         StatusText = "Hit enter to search";
+         StatusText = HowToSearch;
+         IsSearching = false;
          return;
       }
 
       IsSearching = true;
       StatusText = "Searching...";
+      var found = await TaskCE.Run(() => NotesFoundBy(search));
+      if(ALaterSearchHasStarted(thisSearch)) return;
 
-      try
+      Results.Show(found);
+      StatusText = found.Count switch
       {
-         // Run search in background to avoid blocking UI
-         var results = await TaskCE.Run(() => SearchNotes(searchText));
-
-         Results.Show(results);
-
-         StatusText = StatusAfterFinding(results);
-      }
-      finally
-      {
-         IsSearching = false;
-      }
+         0 => "No notes found",
+         1 => "1 note found",
+         _ => $"{found.Count} notes found"
+      };
+      IsSearching = false;
    }
 
-   List<JPNote> SearchNotes(string searchText)
-   {
-      var results = new List<JPNote>();
+   /// <summary>Whether a change made after the search numbered <paramref name="searchNumber"/> started started another, whose results replace its results.</summary>
+   bool ALaterSearchHasStarted(int searchNumber) => searchNumber != _searchesStarted;
 
-      var col = _services.CoreApp.Collection;
-
-      // Search in kanji notes
-      results.AddRange(SearchInNotes(
-                          col.Kanji.All().ToList(),
-                          searchText,
-                          note => new Dictionary<string, Func<string>>
-                                  {
-                                     ["kanji_readings"] = () => string.Join(" ", note.ReadingsClean),
-                                     ["kanji_romaji_readings"] = () => KanaUtils.Romanize(string.Join(" ", note.ReadingsClean)),
-                                     ["question"] = () => StripHtml(note.GetQuestion()),
-                                     ["answer"] = () => StripHtml(note.GetAnswer())
-                                  }
-                       ));
-
-      // Search in vocab notes
-      var vocabs = col.Vocab.All()
-                      .OrderBy(v => v.GetQuestion().Length)
-                      .ToList();
-
-      results.AddRange(SearchInNotes(
-                          vocabs,
-                          searchText,
-                          note => new Dictionary<string, Func<string>>
-                                  {
-                                     ["vocab_readings"] = () => string.Join(" ", note.GetReadings()),
-                                     ["vocab_romaji_readings"] = () => KanaUtils.Romanize(string.Join(" ", note.GetReadings())),
-                                     ["forms"] = () => string.Join(" ", note.Forms.MatchedFormsWithoutNoiseCharacters()),
-                                     ["question"] = () => StripHtml(note.GetQuestion()),
-                                     ["answer"] = () => StripHtml(note.GetAnswer())
-                                  }
-                       ));
-
-      // Search in sentence notes
-      var sentences = col.Sentences.All()
-                         .OrderBy(s => s.GetQuestion().Length)
-                         .ToList();
-
-      results.AddRange(SearchInNotes(
-                          sentences,
-                          searchText,
-                          note => new Dictionary<string, Func<string>>
-                                  {
-                                     ["question"] = () => StripHtml(note.GetQuestion()),
-                                     ["answer"] = () => StripHtml(note.GetAnswer())
-                                  }
-                       ));
-
-      return results;
-   }
-
-   /// <summary>How many notes were found, and whether the search stopped at <see cref="MaxResults"/> for a type.</summary>
-   static string StatusAfterFinding(List<JPNote> results)
-   {
-      if(results.Count == 0) return "No results found";
-
-      var found = $"{results.Count} note{(results.Count != 1 ? "s" : "")} found";
-      return results.GroupBy(it => it.GetType()).Any(it => it.Count() >= MaxResults)
-                ? $"{found}, showing at most {MaxResults} of each type"
-                : found;
-   }
-
-   /// <summary>The notes among <paramref name="notes"/> that match <paramref name="searchText"/>, at most <see cref="MaxResults"/> of them.</summary>
-   static List<JPNote> SearchInNotes<TNote>(
-      List<TNote> notes,
-      string searchText,
-      Func<TNote, Dictionary<string, Func<string>>> extractorsFactory)
-      where TNote : JPNote
-   {
-      var results = new List<JPNote>();
-
-      // Split search text by " && " to get multiple conditions
-      var searchConditions = searchText
-                            .Split([" && "], StringSplitOptions.RemoveEmptyEntries)
-                            .Select(c => c.Trim())
-                            .ToList();
-
-      foreach(var note in notes)
-      {
-         if(results.Count >= MaxResults)
-            break;
-
-         var extractors = extractorsFactory(note);
-         var allConditionsMatch = true;
-
-         foreach(var condition in searchConditions)
-         {
-            var conditionMatches = false;
-            var conditionLower = condition.ToLowerInvariant();
-
-            // Check for prefixed search
-            if(condition.StartsWith("r:", StringComparison.OrdinalIgnoreCase))
-            {
-               // Only search in reading fields
-               var readingValue = condition.Substring(2).Trim().ToLowerInvariant();
-               var readingFields = extractors
-                                  .Where(kvp => kvp.Key.Contains("reading", StringComparison.OrdinalIgnoreCase))
-                                  .ToList();
-
-               if(!readingFields.Any())
-               {
-                  allConditionsMatch = false;
-                  break;
-               }
-
-               foreach(var extractor in readingFields)
-               {
-                  var fieldText = extractor.Value().ToLowerInvariant();
-                  if(fieldText.Contains(readingValue))
-                  {
-                     conditionMatches = true;
-                     break;
-                  }
-               }
-            } else if(condition.StartsWith("a:", StringComparison.OrdinalIgnoreCase))
-            {
-               // Only search in answer field
-               var answerValue = condition.Substring(2).Trim().ToLowerInvariant();
-               if(extractors.TryGetValue("answer", out var answerExtractor))
-               {
-                  var fieldText = answerExtractor().ToLowerInvariant();
-                  if(fieldText.Contains(answerValue))
-                  {
-                     conditionMatches = true;
-                  }
-               }
-            } else if(condition.StartsWith("q:", StringComparison.OrdinalIgnoreCase))
-            {
-               // Only search in question field
-               var questionValue = condition.Substring(2).Trim().ToLowerInvariant();
-               if(extractors.TryGetValue("question", out var questionExtractor))
-               {
-                  var fieldText = questionExtractor().ToLowerInvariant();
-                  if(fieldText.Contains(questionValue))
-                  {
-                     conditionMatches = true;
-                  }
-               }
-            } else
-            {
-               // Standard search in all fields
-               foreach(var extractor in extractors.Values)
-               {
-                  var fieldText = extractor().ToLowerInvariant();
-                  if(fieldText.Contains(conditionLower))
-                  {
-                     conditionMatches = true;
-                     break;
-                  }
-               }
-            }
-
-            if(!conditionMatches)
-            {
-               allConditionsMatch = false;
-               break;
-            }
-         }
-
-         if(allConditionsMatch)
-         {
-            results.Add(note);
-         }
-      }
-
-      return results;
-   }
-
-   static string StripHtml(string html) =>
-      // Strip HTML tags and bracket markup
-      html.StripHtmlAndBracketMarkupAndNoiseCharacters();
+   /// <summary>The notes <paramref name="search"/> finds, shortest question first, which tends to put the closest match on top.</summary>
+   List<JPNote> NotesFoundBy(NoteCondition search) =>
+      [.._collection.NotesMatching(search).OrderBy(it => it.GetQuestion().Length).ThenBy(it => it.GetQuestion(), StringComparer.Ordinal)];
 }

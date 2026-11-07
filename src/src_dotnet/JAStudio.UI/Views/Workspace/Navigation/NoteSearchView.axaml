@@ -1,23 +1,35 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:navigation="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation"
+             xmlns:search="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation.Search"
              xmlns:navigationViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
              x:Class="JAStudio.UI.Views.Workspace.Navigation.NoteSearchView"
              x:DataType="navigation:NoteSearchViewModel">
 
     <DockPanel Margin="6">
-        <TextBox x:Name="SearchBox" DockPanel.Dock="Top"
-                 Text="{Binding SearchText, Mode=TwoWay}"
-                 PlaceholderText="Search notes (Ctrl+O)"
-                 ToolTip.Tip="Separate conditions with &amp;&amp;. Prefix a condition to search only some fields: r: readings, a: answer, q: question.">
-            <TextBox.KeyBindings>
-                <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
-            </TextBox.KeyBindings>
-        </TextBox>
+        <TreeView x:Name="ConditionTree" DockPanel.Dock="Top" MaxHeight="300"
+                  ItemsSource="{Binding Nodes}"
+                  SelectedItem="{Binding SelectedNode, Mode=TwoWay}">
+            <TreeView.Styles>
+                <Style Selector="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.Styles>
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate DataType="search:SearchConditionNodeViewModel" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                        <Button Content="+" Padding="6,0" IsVisible="{Binding IsGroup}"
+                                ToolTip.Tip="Add a condition (+)"
+                                Click="OnAddButtonClicked" />
+                    </StackPanel>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
 
-        <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*" Margin="0,6" MinHeight="20">
-            <TextBlock Grid.Column="0" Text="{Binding StatusText}" VerticalAlignment="Center" Margin="0,0,10,0" />
-            <ProgressBar Grid.Column="1" IsIndeterminate="True" IsVisible="{Binding IsSearching}" />
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,6" MinHeight="20">
+            <TextBlock Grid.Column="0" Text="{Binding StatusText}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <ProgressBar Grid.Column="1" Width="60" IsIndeterminate="True" IsVisible="{Binding IsSearching}" />
         </Grid>
 
         <navigationViews:ListedNotesView DataContext="{Binding Results}" />

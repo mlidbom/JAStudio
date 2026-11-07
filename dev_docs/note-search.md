@@ -55,9 +55,8 @@ The names below are placeholders, chosen when it's built.
 - **A condition is on a property of the note, and the property's type decides how it matches.** There's no
   separate syntax for true-or-false states, such as Anki's `is:`.
 - **The property types,** each with its own .NET implementation and its own condition editor in the UI:
-  - **text,** such as the question: equals, contains, matches a pattern with wildcards, or matches a regular
-    expression;
-  - **list of texts,** such as a vocab's forms: matches if any entry matches;
+  - **text,** one or more texts, such as the question or a vocab's forms: equals, contains, matches a pattern with
+    wildcards, or matches a regular expression, and matches when any of the texts does;
   - **tags:** a list whose entries also match their parent tags, so a condition on `x` includes the `x` branch;
   - **true-or-false,** such as "studying reading";
   - **one of a fixed set,** such as the note type;
@@ -240,7 +239,20 @@ columns need, and the note's page stays visible beside the results.
    - **2a, a working search editor:** the operations on the tree in Core (add, remove, negate, switch a group), with
      specs; the searchable-text property; the condition tree with the keys above, undo included; the node's
      right-click menu; and a dialog per property type, for text, tags, true-or-false and the note type. The results
-     show in today's list, without the cap.
+     show in today's list, without the cap. *(Built 2026-11-07.)*
+     - **Core:** `EditableSearch` holds the search being edited, its operations and undo. A `ConditionPosition`
+       finds a condition in the tree. `NoteCondition.ConditionAt` and `WithConditionAt` read and replace one.
+       `JPCollection.TagPathsInUse` lists the tag paths the tag dialog offers, parents included.
+     - **Searchable text** is `NoteProperties.SearchableText`. Each note type says which of its texts are searchable
+       (`JPNote.SearchableTexts`). A `TextProperty` holds one or more texts and matches when any of them does, so
+       "text" and "list of texts" turned out to be one property type.
+     - **A negation shows on the line of what it negates,** such as "Not: Tags include x" or "Not: All of:".
+     - **The UI:** the condition tree is `NoteSearchViewModel`, each line a `SearchConditionNodeViewModel`. The
+       dialog is `SearchConditionDialog`, with an editor view model per property type in
+       `ViewModels/Workspace/Navigation/Search/`. Menus and dialogs open just below the condition tree.
+     - **An empty search lists no notes in the UI,** although the model's empty search matches every note. Listing
+       every note before anything is searched would be slow and of no use.
+     - **Not yet:** dimming the parent part of the tag paths in the tag dialog.
    - **2b, the rest:** subgroups, wrapping a node in a new group, moving a node within its group, and collapsing the
      tree.
 3. **The results grid** with sortable columns, selecting several rows, and the place in the source.

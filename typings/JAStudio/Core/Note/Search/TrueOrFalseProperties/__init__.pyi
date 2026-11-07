@@ -1,10 +1,12 @@
 import typing
 from JAStudio.Core.Note.Search import NoteCondition, NoteProperty
 from System import IEquatable_1
-from System.Collections.Generic import IEnumerable_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note import JPNote
 
 class TrueOrFalseCondition(NoteCondition, IEquatable_1[TrueOrFalseCondition]):
+    @property
+    def Children(self) -> IReadOnlyList_1[NoteCondition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property

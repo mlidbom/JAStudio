@@ -7,6 +7,7 @@ using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Search;
+using JAStudio.Core.Note.Search.TagProperties;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
@@ -40,6 +41,9 @@ public class JPCollection
    /// They come in no particular order: whoever shows them sorts them.
    /// </summary>
    public List<JPNote> NotesMatching(NoteCondition search) => [..AllNotes().Where(search.Matches)];
+
+   /// <summary>The tag paths in use in the collection right now, for the tag condition's editor to offer. See <see cref="Search.TagProperties.TagPathsInUse"/>.</summary>
+   public TagPathsInUse TagPathsInUse() => new(AllNotes());
 
    IEnumerable<JPNote> AllNotes() => [..Vocab.All(), ..Kanji.All(), ..Sentences.All()];
 

@@ -11,4 +11,8 @@ public sealed record AnyOfGroup : ConditionGroup
    public override bool Matches(JPNote note) => IsEmpty || ConditionsThatAddSomething.Any(it => it.Matches(note));
 
    protected override string Heading => "Any of:";
+
+   public override ConditionGroup SwitchedBetweenAllOfAndAnyOf() => new AllOfGroup(Conditions);
+
+   protected override ConditionGroup WithConditions(IReadOnlyList<NoteCondition> conditions) => new AnyOfGroup(conditions);
 }

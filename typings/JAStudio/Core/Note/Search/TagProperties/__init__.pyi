@@ -1,10 +1,12 @@
 import typing
 from JAStudio.Core.Note.Search import NoteCondition, NoteProperty
 from System import IEquatable_1
-from System.Collections.Generic import IEnumerable_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note import JPNote
 
 class TagCondition(NoteCondition, IEquatable_1[TagCondition]):
+    @property
+    def Children(self) -> IReadOnlyList_1[NoteCondition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property
@@ -27,6 +29,12 @@ class TagCondition(NoteCondition, IEquatable_1[TagCondition]):
         @typing.overload
         def __call__(self, obj: typing.Any) -> bool:...
 
+
+
+class TagPathsInUse:
+    @property
+    def All(self) -> IReadOnlyList_1[str]: ...
+    def Matching(self, typedParts: str) -> IReadOnlyList_1[str]: ...
 
 
 class TagsProperty(NoteProperty):

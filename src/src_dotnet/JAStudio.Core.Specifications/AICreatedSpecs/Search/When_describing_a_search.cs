@@ -22,12 +22,11 @@ public class When_describing_a_search : IAIGeneratedSpec
                                         NoteProperties.StudyingReading.Is(false))
                                     .ToString();
 
-      [XF] public void it_shows_one_condition_per_line_with_each_groups_conditions_indented_under_it() =>
+      [XF] public void it_shows_one_condition_per_line_with_each_groups_conditions_indented_under_it_and_a_negation_on_the_line_of_what_it_negates() =>
          _description.Must().Be(string.Join(Environment.NewLine,
                                             "All of:",
                                             "   Tags include source::anime::natsume",
-                                            "   Not:",
-                                            "      Tags include -::priority::low",
+                                            "   Not: Tags include -::priority::low",
                                             "   Any of:",
                                             "      Question contains \"行く\"",
                                             "      Answer matches the regular expression \"go(ing)?\"",

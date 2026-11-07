@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Converters;
@@ -98,6 +99,15 @@ public class VocabNote : JPNote
       var sourceAnswer = SourceAnswer.Value;
       return !string.IsNullOrEmpty(userAnswer) ? userAnswer : sourceAnswer;
    }
+
+   /// <summary>The question and answer, the readings in kana and in romaji, and the forms.</summary>
+   public override IEnumerable<string> SearchableTexts() =>
+   [
+      ..base.SearchableTexts(),
+      .._readings,
+      .._readings.Select(KanaUtils.Romanize),
+      ..Forms.MatchedFormsWithoutNoiseCharacters()
+   ];
 
    public override void OnTagsUpdated()
    {

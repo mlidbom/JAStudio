@@ -30,6 +30,23 @@ public abstract record ConditionGroup : NoteCondition
 
    public override bool IsEmpty => Conditions.All(it => it.IsEmpty);
 
+   public override IReadOnlyList<NoteCondition> Children => Conditions;
+
+   /// <summary>This group with <paramref name="condition"/> added after its other conditions.</summary>
+   public ConditionGroup WithConditionAdded(NoteCondition condition) => WithConditions([..Conditions, condition]);
+
+   /// <summary>This group without its condition at <paramref name="index"/>.</summary>
+   public ConditionGroup WithoutConditionAt(int index) => WithConditions([..Conditions.Where((_, conditionIndex) => conditionIndex != index)]);
+
+   /// <summary>An "any of" group with this group's conditions, if this is an "all of" group, and the other way around.</summary>
+   public abstract ConditionGroup SwitchedBetweenAllOfAndAnyOf();
+
+   /// <summary>A group of the same kind as this one, with <paramref name="conditions"/> in it.</summary>
+   protected abstract ConditionGroup WithConditions(IReadOnlyList<NoteCondition> conditions);
+
+   protected override NoteCondition WithChildReplaced(int index, NoteCondition replacement) =>
+      WithConditions([..Conditions.Select((condition, conditionIndex) => conditionIndex == index ? replacement : condition)]);
+
    /// <summary>The conditions that decide whether a note matches this group: all but the empty ones.</summary>
    protected IEnumerable<NoteCondition> ConditionsThatAddSomething => Conditions.Where(it => !it.IsEmpty);
 

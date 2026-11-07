@@ -11,4 +11,8 @@ public sealed record AllOfGroup : ConditionGroup
    public override bool Matches(JPNote note) => ConditionsThatAddSomething.All(it => it.Matches(note));
 
    protected override string Heading => "All of:";
+
+   public override ConditionGroup SwitchedBetweenAllOfAndAnyOf() => new AnyOfGroup(Conditions);
+
+   protected override ConditionGroup WithConditions(IReadOnlyList<NoteCondition> conditions) => new AllOfGroup(conditions);
 }
