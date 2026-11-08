@@ -163,8 +163,9 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
   - **The API key** "JAStudio-text-to-speech" is restricted to the Text-to-Speech API, and is in the settings file.
     To replace it: create a new one with `gcloud services api-keys create`, put it in the settings file, and delete
     the old one.
-  - The organization's other project, "My First Project", was made by the console on the first visit, and isn't
-    used.
+  - The organization's other project, "My First Project" (`triple-router-514011-j7`), was made by the console on the
+    first visit, held nothing, and was deleted on 2026-11-08. Until 2026-12-08 `gcloud projects undelete` restores it.
+  - The billing account has a budget alert, set up by Magnus on 2026-11-08.
 
 ## Increments
 
