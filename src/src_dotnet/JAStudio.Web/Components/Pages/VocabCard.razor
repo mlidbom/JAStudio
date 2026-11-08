@@ -74,9 +74,9 @@
                         <VocabInvalidSentences Note="_note"/>
                     </div>
 
-                    @if(!string.IsNullOrEmpty(_note.User.ExplanationLong.Value))
+                    @if(!string.IsNullOrEmpty(_note.ExplanationLong.Value))
                     {
-                        <div id="__explanation_long" class="user">@((MarkupString)_note.User.ExplanationLong.Value)</div>
+                        <div id="__explanation_long" class="user">@((MarkupString)_note.ExplanationLong.Value)</div>
                     }
                 </div>
             </div>
@@ -120,8 +120,8 @@
     string ContainerClasses()
     {
         var classes = "";
-        if(!string.IsNullOrEmpty(_note!.User.Explanation.Value)) classes += " has__explanation";
-        if(!string.IsNullOrEmpty(_note.User.ExplanationLong.Value)) classes += " has__explanation_long";
+        if(!string.IsNullOrEmpty(_note!.Explanation.Value)) classes += " has__explanation";
+        if(!string.IsNullOrEmpty(_note.ExplanationLong.Value)) classes += " has__explanation_long";
         return classes;
     }
 }

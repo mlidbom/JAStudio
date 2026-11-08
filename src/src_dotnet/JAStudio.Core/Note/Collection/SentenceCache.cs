@@ -9,7 +9,7 @@ namespace JAStudio.Core.Note.Collection;
 class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
 {
    readonly Dictionary<string, HashSet<SentenceNote>> _byVocabForm = new();
-   readonly Dictionary<string, HashSet<SentenceNote>> _byUserHighlightedVocab = new();
+   readonly Dictionary<string, HashSet<SentenceNote>> _byHighlightedVocab = new();
    readonly Dictionary<string, HashSet<SentenceNote>> _byUserMarkedInvalidVocab = new();
    readonly Dictionary<NoteId, HashSet<SentenceNote>> _byVocabId = new();
 
@@ -18,7 +18,7 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
    protected override void ClearDerivedIndexes()
    {
       _byVocabForm.Clear();
-      _byUserHighlightedVocab.Clear();
+      _byHighlightedVocab.Clear();
       _byUserMarkedInvalidVocab.Clear();
       _byVocabId.Clear();
    }
@@ -32,8 +32,8 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
    public List<SentenceNote> WithVocabForm(string form) =>
       _monitor.Locked(() => _byVocabForm.TryGetValue(form, out var notes) ? notes.ToList() : []);
 
-   public List<SentenceNote> WithUserHighlightedVocab(string form) =>
-      _monitor.Locked(() => _byUserHighlightedVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
+   public List<SentenceNote> WithHighlightedVocab(string form) =>
+      _monitor.Locked(() => _byHighlightedVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
 
    public List<SentenceNote> WithUserMarkedInvalidVocab(string form) =>
       _monitor.Locked(() => _byUserMarkedInvalidVocab.TryGetValue(form, out var notes) ? notes.ToList() : []);
@@ -41,7 +41,7 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
    protected override void InheritorRemoveFromCache(SentenceNote note, SentenceSnapshot snapshot)
    {
       _byVocabForm.RemoveFromSets(snapshot.Words, note);
-      _byUserHighlightedVocab.RemoveFromSets(snapshot.UserHighlightedVocab, note);
+      _byHighlightedVocab.RemoveFromSets(snapshot.HighlightedVocab, note);
       _byUserMarkedInvalidVocab.RemoveFromSets(snapshot.MarkedIncorrectVocab, note);
       _byVocabId.RemoveFromSets(snapshot.DetectedVocab, note);
    }
@@ -49,7 +49,7 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
    protected override void InheritorAddToCache(SentenceNote note, SentenceSnapshot snapshot)
    {
       _byVocabForm.AddToSets(snapshot.Words, note);
-      _byUserHighlightedVocab.AddToSets(snapshot.UserHighlightedVocab, note);
+      _byHighlightedVocab.AddToSets(snapshot.HighlightedVocab, note);
       _byUserMarkedInvalidVocab.AddToSets(snapshot.MarkedIncorrectVocab, note);
       _byVocabId.AddToSets(snapshot.DetectedVocab, note);
    }

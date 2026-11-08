@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Compze.Contracts;
 using Compze.Internals.SystemCE;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -34,7 +34,7 @@ public class VocabNoteForms
    LazyCE<HashSet<string>> _ownedForms;
    LazyCE<HashSet<string>> _notOwnedByOtherVocab;
 
-   public VocabNoteForms(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNoteForms(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       _vocab = vocab;
       _guard = guard;

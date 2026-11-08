@@ -2,13 +2,13 @@
 @using JAStudio.Core.Note.NoteFields
 @using JAStudio.Core.Note.Sentences
 
-@* The sentence's audio button stands in front of the first question shown: the user's question if there is one, else the source question. *@
+@* The sentence's audio button stands in front of the first question shown: the corpus's question if there is one, else the source's. *@
 <div id="expressionAndReading">
-    @if(HasUserQuestion)
+    @if(HasCorpusQuestion)
     {
-        <div class="expression user"><AudioPlayButton Audio="Note.PreferredAudio" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.User.Question.Value))</span></div>
+        <div class="expression user"><AudioPlayButton Audio="Note.PreferredAudio" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.CorpusQuestion.Value))</span></div>
     }
-    <div class="expression @(HasUserQuestion ? "overridden" : "")"><AudioPlayButton Audio="@(HasUserQuestion ? null : Note.PreferredAudio)" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.SourceQuestion.Value))</span></div>
+    <div class="expression @(HasCorpusQuestion ? "overridden" : "")"><AudioPlayButton Audio="@(HasCorpusQuestion ? null : Note.PreferredAudio)" IsAudioOfTheShownNote="true" /><span class="clipboard">@((MarkupString)RenderWbr(Note.SourceData.Question.Value))</span></div>
     <div class="reading">@((MarkupString)Note.Reading.Value)</div>
 </div>
 
@@ -16,7 +16,7 @@
     [Parameter, EditorRequired] public SentenceNote Note { get; set; } = null!;
     [Parameter, EditorRequired] public JapaneseConfig Config { get; set; } = null!;
 
-    bool HasUserQuestion => !string.IsNullOrEmpty(Note.User.Question.Value);
+    bool HasCorpusQuestion => Note.CorpusQuestion.HasValue();
 
     string RenderWbr(string question) =>
         Config.ShowSentenceBreakdownInEditMode.Value

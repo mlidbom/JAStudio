@@ -33,11 +33,12 @@ public class VocabNoteFactory
       return created;
    }
 
-   public VocabNote Create(string question, string answer, List<string> readings, Action<VocabNote>? initializer = null)
+   /// <summary>Creates a vocab whose answer, <paramref name="sourceAnswer"/>, is its source's, such as the dictionary's.</summary>
+   public VocabNote Create(string question, string sourceAnswer, List<string> readings, Action<VocabNote>? initializer = null)
    {
       var note = new VocabNote(_noteServices);
       note.Question.SetText(question);
-      note.SourceAnswer.Set(answer);
+      note.SourceData.Answer.Set(sourceAnswer);
       note.SetReadings(readings);
 
       if(initializer != null)
@@ -49,11 +50,11 @@ public class VocabNoteFactory
       return note;
    }
 
-   public VocabNote CreateFromUserData(string question, string answer, List<string> readings, Action<VocabNote>? initializer = null)
+   /// <summary>Creates a vocab whose answer, <paramref name="corpusAnswer"/>, is the corpus's own: a vocab that came from no source.</summary>
+   public VocabNote CreateWithCorpusAnswer(string question, string corpusAnswer, List<string> readings, Action<VocabNote>? initializer = null)
    {
-      var note = Create(question, answer, readings, initializer);
-      note.User.Answer.Set(note.SourceAnswer.Value);
-      note.SourceAnswer.Empty();
+      var note = Create(question, "", readings, initializer);
+      note.CorpusAnswer.Set(corpusAnswer);
       return note;
    }
 }

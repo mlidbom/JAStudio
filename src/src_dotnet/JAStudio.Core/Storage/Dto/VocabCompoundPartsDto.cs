@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using JAStudio.Core.Note.Vocabulary;
 using MemoryPack;
 
-namespace JAStudio.Core.Note.CorpusData;
+namespace JAStudio.Core.Storage.Dto;
 
 /// <summary>A vocab's <see cref="VocabNoteCompoundParts"/> as the corpus stores them.</summary>
 [MemoryPackable]
-public partial class VocabCompoundPartsSubData
+public partial class VocabCompoundPartsDto
 {
    /// <summary>The <see cref="VocabNoteCompoundParts.Primary"/> parts, in their order.</summary>
    public List<string> Primary { get; init; } = [];

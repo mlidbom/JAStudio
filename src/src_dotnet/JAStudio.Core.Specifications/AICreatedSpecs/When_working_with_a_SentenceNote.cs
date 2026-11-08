@@ -26,7 +26,7 @@ public class When_working_with_a_SentenceNote : SpecificationStartingWithAnEmpty
       public given_an_answer_with_html()
       {
          _sentence = new SentenceNote(NoteServices);
-         _sentence.SourceAnswer.Set("<b>This</b> is a <i>book</i>.");
+         _sentence.SourceData.Answer.Set("<b>This</b> is a <i>book</i>.");
       }
 
       [XF] public void GetAnswer_strips_bold_tags() => _sentence.GetAnswer().Must().NotContain("<b>");

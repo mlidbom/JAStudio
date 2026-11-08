@@ -1,4 +1,4 @@
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -8,7 +8,7 @@ public class VocabNoteAudio
    public WritableAudioValue Second { get; }
    public WritableAudioValue Tts { get; }
 
-   public VocabNoteAudio(VocabData? data, NoteGuard guard)
+   public VocabNoteAudio(VocabDto? data, NoteGuard guard)
    {
       First = new WritableAudioValue(data?.AudioB ?? string.Empty, guard);
       Second = new WritableAudioValue(data?.AudioG ?? string.Empty, guard);

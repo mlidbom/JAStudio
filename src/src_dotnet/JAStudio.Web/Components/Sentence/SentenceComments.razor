@@ -1,18 +1,18 @@
 @using JAStudio.Core.Note.Sentences
 
 <div class="bottomSection">
-    @if(!string.IsNullOrEmpty(Note.User.Comments.Value))
+    @if(Note.Comments.HasValue())
     {
         <div class="user comments short page_section">
             <div class="page_section_title">user comments</div>
-            @((MarkupString)Note.User.Comments.Value)
+            @((MarkupString)Note.Comments.Value)
         </div>
     }
-    @if(!string.IsNullOrEmpty(Note.SourceComments.Value))
+    @if(Note.SourceData.Comments.HasValue())
     {
         <div class="comments page_section">
             <div class="page_section_title">source comments</div>
-            @((MarkupString)Note.SourceComments.Value)
+            @((MarkupString)Note.SourceData.Comments.Value)
         </div>
     }
 </div>

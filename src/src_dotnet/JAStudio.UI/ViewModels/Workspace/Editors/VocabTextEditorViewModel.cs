@@ -47,12 +47,12 @@ class VocabTextEditorViewModel
                                                     partOfSpeech => ChangeThePartsOfSpeech(it => it.Append(partOfSpeech)),
                                                     partOfSpeech => ChangeThePartsOfSpeech(it => it.Where(other => other != partOfSpeech)),
                                                     _sentencesReparser.ReparseSentences);
-      UserFields =
+      CorpusFields =
       [
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.User.Answer),
-         Field("Explanation", TextFieldFormat.Paragraphs, it => it.User.Explanation),
-         Field("Long explanation", TextFieldFormat.Paragraphs, it => it.User.ExplanationLong),
-         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.User.Mnemonic),
+         Field("Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer),
+         Field("Explanation", TextFieldFormat.Paragraphs, it => it.Explanation),
+         Field("Long explanation", TextFieldFormat.Paragraphs, it => it.ExplanationLong),
+         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic),
          Field("Compound parts", TextFieldFormat.CommaSeparated,
                it => string.Join(", ", it.CompoundParts.Primary()),
                (it, compoundParts) => it.CompoundParts.SetPrimary(StringExtensions.ExtractCommaSeparatedValues(compoundParts))),
@@ -73,9 +73,9 @@ class VocabTextEditorViewModel
       TechnicalNotes = Field("Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes);
       SourceFields =
       [
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceAnswer),
-         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.SourceMnemonic),
-         Field("Reading mnemonic", TextFieldFormat.Paragraphs, it => it.SourceReadingMnemonic)
+         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer),
+         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.Mnemonic),
+         Field("Reading mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.ReadingMnemonic)
       ];
    }
 
@@ -93,10 +93,10 @@ class VocabTextEditorViewModel
    public StringSetEditorViewModel PartsOfSpeech { get; }
 
    /// <summary>
-   /// The user's own answer, explanations and mnemonic, which take precedence over the <see cref="SourceFields"/>,<br/>
+   /// The corpus's own answer, which takes the place of the source's, its explanations and mnemonic,<br/>
    /// and the <see cref="VocabNoteCompoundParts.Primary"/> and <see cref="VocabNoteCompoundParts.Alternative"/> compound parts.
    /// </summary>
-   public IReadOnlyList<TextFieldEditorViewModel> UserFields { get; }
+   public IReadOnlyList<TextFieldEditorViewModel> CorpusFields { get; }
 
    /// <summary>
    /// The vocab's audio, as Anki's <c>[sound:file]</c> references. The last is its TTS audio, with a button for generating new<br/>
@@ -106,7 +106,7 @@ class VocabTextEditorViewModel
 
    public TextFieldEditorViewModel TechnicalNotes { get; }
 
-   /// <summary>The answer and mnemonics the vocab came with.</summary>
+   /// <summary>What the vocab's source gave it (<see cref="VocabNote.SourceData"/>): its answer and mnemonics. The mnemonics are never shown on a card.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
    /// <summary>Shows everything as the note has it now, after a change made elsewhere.</summary>
@@ -119,7 +119,7 @@ class VocabTextEditorViewModel
       foreach(var field in LiveTextFields()) field.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> LiveTextFields() => [Readings, TechnicalNotes, ..UserFields, ..AudioFields, ..SourceFields];
+   IEnumerable<TextFieldEditorViewModel> LiveTextFields() => [Readings, TechnicalNotes, ..CorpusFields, ..AudioFields, ..SourceFields];
 
    void CommitTheQuestion(string question)
    {

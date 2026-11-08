@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Text.Json;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
@@ -30,45 +29,45 @@ public class NoteSerializer
 
    internal NoteServices NoteServices => _noteServices;
 
-   public string Serialize(KanjiNote note) => JsonSerializer.Serialize(KanjiNoteConverter.ToCorpusData(note), JsonOptions);
-   public string Serialize(VocabNote note) => JsonSerializer.Serialize(VocabNoteConverter.ToCorpusData(note), JsonOptions);
-   public string Serialize(SentenceNote note) => JsonSerializer.Serialize(SentenceNoteConverter.ToCorpusData(note), JsonOptions);
+   public string Serialize(KanjiNote note) => JsonSerializer.Serialize(KanjiNoteConverter.ToDto(note), JsonOptions);
+   public string Serialize(VocabNote note) => JsonSerializer.Serialize(VocabNoteConverter.ToDto(note), JsonOptions);
+   public string Serialize(SentenceNote note) => JsonSerializer.Serialize(SentenceNoteConverter.ToDto(note), JsonOptions);
 
    public string Serialize(AllNotesData data)
    {
-      var container = new AllNotesContainer
+      var container = new AllNotesDto
                       {
-                         Kanji = data.Kanji.Select(KanjiNoteConverter.ToCorpusData).ToList(),
-                         Vocab = data.Vocab.Select(VocabNoteConverter.ToCorpusData).ToList(),
-                         Sentences = data.Sentences.Select(SentenceNoteConverter.ToCorpusData).ToList(),
+                         Kanji = data.Kanji.Select(KanjiNoteConverter.ToDto).ToList(),
+                         Vocab = data.Vocab.Select(VocabNoteConverter.ToDto).ToList(),
+                         Sentences = data.Sentences.Select(SentenceNoteConverter.ToDto).ToList(),
                       };
       return JsonSerializer.Serialize(container, JsonOptions);
    }
 
    public KanjiNote DeserializeKanji(string json)
    {
-      var data = JsonSerializer.Deserialize<KanjiData>(json, JsonOptions)
-              ?? throw new JsonException("Failed to deserialize KanjiData");
+      var data = JsonSerializer.Deserialize<KanjiDto>(json, JsonOptions)
+              ?? throw new JsonException("Failed to deserialize KanjiDto");
       return new KanjiNote(_noteServices, data);
    }
 
    public VocabNote DeserializeVocab(string json)
    {
-      var data = JsonSerializer.Deserialize<VocabData>(json, JsonOptions)
-              ?? throw new JsonException("Failed to deserialize VocabData");
+      var data = JsonSerializer.Deserialize<VocabDto>(json, JsonOptions)
+              ?? throw new JsonException("Failed to deserialize VocabDto");
       return new VocabNote(_noteServices, data);
    }
 
    public SentenceNote DeserializeSentence(string json)
    {
-      var data = JsonSerializer.Deserialize<SentenceData>(json, JsonOptions)
-              ?? throw new JsonException("Failed to deserialize SentenceData");
+      var data = JsonSerializer.Deserialize<SentenceDto>(json, JsonOptions)
+              ?? throw new JsonException("Failed to deserialize SentenceDto");
       return new SentenceNote(_noteServices, data);
    }
 
    public AllNotesData DeserializeAll(string json)
    {
-      var container = JsonSerializer.Deserialize<AllNotesContainer>(json, JsonOptions)
+      var container = JsonSerializer.Deserialize<AllNotesDto>(json, JsonOptions)
                    ?? throw new JsonException("Failed to deserialize AllNotesData");
 
       var kanji = container.Kanji.Select(data => new KanjiNote(_noteServices, data)).ToList();

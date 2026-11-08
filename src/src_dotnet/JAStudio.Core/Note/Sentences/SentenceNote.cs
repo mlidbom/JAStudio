@@ -3,7 +3,7 @@ using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
@@ -15,43 +15,46 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
 {
    public CachingSentenceConfigurationField Configuration { get; private set; }
 
-   public SentenceUserFields User { get; }
+   /// <summary>The corpus's own question for the sentence. While it's empty the source's question is shown instead (<see cref="Question"/>).</summary>
+   public WritableStringValue CorpusQuestion { get; }
 
-   public WritableStringValue ExternalId { get; }
+   /// <summary>The corpus's own answer for the sentence. While it's empty the source's answer is shown instead (<see cref="Answer"/>).</summary>
+   public WritableStringValue CorpusAnswer { get; }
 
-   /// <summary>The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>: see <see cref="SentenceData.SourceName"/>.</summary>
+   /// <summary>The corpus's comments on the sentence, shown beside its source's comments.</summary>
+   public WritableStringValue Comments { get; }
+
+   /// <summary>What the sentence's source gave it when it was imported.</summary>
+   public SentenceSourceData SourceData { get; }
+
+   /// <summary>The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>: see <see cref="SentenceDto.SourceName"/>.</summary>
    public WritableStringValue SourceName { get; }
 
    public WritableStringValue Reading { get; }
-   public WritableStringValue SourceQuestion { get; }
-   public WritableStringValue ActiveQuestion { get; }
-   public WritableStringValue SourceAnswer { get; }
-   public WritableStringValue ActiveAnswer { get; }
-   public WritableStringValue SourceComments { get; }
    public WritableImageValue Screenshot { get; }
    public WritableAudioValue Audio { get; }
 
    ParsingResult _parsingResult;
 
-   public SentenceQuestionField Question => new(User.Question, SourceQuestion);
-   public StripHtmlOnReadFallbackStringField Answer => new(User.Answer, SourceAnswer);
+   /// <summary>The question shown: the <see cref="CorpusQuestion"/>, or the source's question while the corpus has none.</summary>
+   public SentenceQuestionField Question => new(CorpusQuestion, SourceData.Question);
 
-   public SentenceNote(NoteServices services, SentenceData? data = null) : base(services, data != null ? new SentenceId(data.Id) : SentenceId.New(), data?.Tags)
+   /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none, without its HTML.</summary>
+   public StripHtmlOnReadFallbackStringField Answer => new(CorpusAnswer, SourceData.Answer);
+
+   public SentenceNote(NoteServices services, SentenceDto? data = null) : base(services, data != null ? new SentenceId(data.Id) : SentenceId.New(), data?.Tags)
    {
-      ExternalId = new WritableStringValue(data?.ExternalId ?? string.Empty, Guard);
       SourceName = new WritableStringValue(data?.SourceName ?? string.Empty, Guard);
       Reading = new WritableStringValue(data?.Reading ?? string.Empty, Guard);
-      SourceQuestion = new WritableStringValue(data?.SourceQuestion ?? string.Empty, Guard);
-      ActiveQuestion = new WritableStringValue(data?.ActiveQuestion ?? string.Empty, Guard);
-      SourceAnswer = new WritableStringValue(data?.SourceAnswer ?? string.Empty, Guard);
-      ActiveAnswer = new WritableStringValue(data?.ActiveAnswer ?? string.Empty, Guard);
-      SourceComments = new WritableStringValue(data?.SourceComments ?? string.Empty, Guard);
+      CorpusQuestion = new WritableStringValue(data?.UserQuestion ?? string.Empty, Guard);
+      CorpusAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
+      Comments = new WritableStringValue(data?.UserComments ?? string.Empty, Guard);
+      SourceData = new SentenceSourceData(data, Guard);
       Screenshot = new WritableImageValue(data?.Screenshot ?? string.Empty, Guard);
       Audio = new WritableAudioValue(data?.Audio ?? string.Empty, Guard);
 
-      User = new SentenceUserFields(data, Guard);
       Configuration = new CachingSentenceConfigurationField(this, data?.Configuration, Guard);
-      _parsingResult = SentenceData.CreateParsingResult(data?.ParsingResult);
+      _parsingResult = SentenceDto.CreateParsingResult(data?.ParsingResult);
    }
 
    public override void UpdateInCache()
@@ -59,7 +62,7 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
       Services.Collection.Sentences.Cache.JpNoteUpdated(this);
    }
 
-   public override CorpusObjectData ToCorpusData() => SentenceNoteConverter.ToCorpusData(this);
+   public override CorpusNoteDto ToDto() => SentenceNoteConverter.ToDto(this);
 
    public IReadOnlyList<AudioAttachment> AudioAttachments => Services.MediaFileIndex.GetAudioAttachments(Audio.RawValue());
    public AudioAttachment?               PreferredAudio   => AudioAttachments.FirstOrDefault();
@@ -104,7 +107,7 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
       allWords.UnionWith(highlightedWords);
       allWords.ExceptWith(incorrectWords);
 
-      return allWords.Distinct().ToList();
+      return [.. allWords.Distinct()];
    }
 
    public override void UpdateGeneratedData()
@@ -112,9 +115,6 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
       base.UpdateGeneratedData();
 
       UpdateParsedWords();
-
-      ActiveAnswer.Set(GetAnswer());
-      ActiveQuestion.Set(GetQuestion());
    }
 
    public void UpdateParsedWords(bool force = false)
@@ -132,16 +132,18 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    public List<string> ExtractKanji()
    {
       var clean = StringExtensions.StripHtmlMarkup(Question.WithoutInvisibleSpace());
-      return clean.Where(KanaUtils.CharacterIsKanji)
-                  .Select(c => c.ToString())
-                  .ToList();
+      return
+      [
+         .. clean.Where(KanaUtils.CharacterIsKanji)
+                 .Select(c => c.ToString())
+      ];
    }
 
    public static SentenceNote CreateTestNote(NoteServices services, string question, string answer)
    {
       var note = new SentenceNote(services);
-      note.SourceQuestion.Set(question);
-      note.User.Answer.Set(answer);
+      note.SourceData.Question.Set(question);
+      note.CorpusAnswer.Set(answer);
       note.UpdateGeneratedData();
       services.Collection.Sentences.Add(note);
       return note;
@@ -150,7 +152,7 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    public static SentenceNote Create(NoteServices services, string question)
    {
       var note = new SentenceNote(services);
-      note.SourceQuestion.Set(question);
+      note.SourceData.Question.Set(question);
       note.UpdateGeneratedData();
       services.Collection.Sentences.Add(note);
       return note;

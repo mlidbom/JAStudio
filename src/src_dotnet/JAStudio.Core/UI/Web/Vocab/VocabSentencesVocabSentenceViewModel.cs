@@ -76,7 +76,7 @@ public class VocabSentenceViewModel
                       .Select(match => new VocabSentenceMatchViewModel(match, this))
                       .ToList();
       DisplayedMatches = Matches.Where(match => match.IsDisplayed).ToList();
-      HighlightedSentences = vocabNote.Sentences.UserHighlighted().ToHashSet();
+      HighlightedSentences = vocabNote.Sentences.Highlighted().ToHashSet();
       ShadedMatches = Matches.Where(match => !match.IsDisplayed).ToList();
       MatchedVocabIds = Result.ParsedWords.Where(match => match.VocabId != null).Select(match => match.VocabId!).ToHashSet();
    }

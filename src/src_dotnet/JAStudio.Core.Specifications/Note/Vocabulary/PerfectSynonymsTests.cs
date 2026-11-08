@@ -26,7 +26,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
 
       first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.GetQuestion());
 
-      first.User.Answer.Set("new answer");
+      first.CorpusAnswer.Set("new answer");
       Assert.Equal("new answer", second.GetAnswer());
 
       var third = GetService<VocabNoteFactory>().Create("third", "third_answer", []);
@@ -34,7 +34,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal("third_answer", first.GetAnswer());
       Assert.Equal("third_answer", second.GetAnswer());
 
-      third.User.Answer.Set("third_new");
+      third.CorpusAnswer.Set("third_new");
       Assert.Equal("third_new", first.GetAnswer());
       Assert.Equal("third_new", second.GetAnswer());
 
@@ -47,7 +47,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal([first.GetQuestion()], second.RelatedNotes.PerfectSynonyms.Get());
       Assert.Empty(third.RelatedNotes.PerfectSynonyms.Get());
 
-      first.User.Answer.Set("first_latest");
+      first.CorpusAnswer.Set("first_latest");
       Assert.Equal("first_latest", first.GetAnswer());
       Assert.Equal("first_latest", second.GetAnswer());
       Assert.Equal("third_new", third.GetAnswer());

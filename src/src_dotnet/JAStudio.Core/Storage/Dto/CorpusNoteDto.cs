@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core.Anki;
-using JAStudio.Core.Storage;
+using JAStudio.Core.Note;
 using MemoryPack;
 
-namespace JAStudio.Core.Note.CorpusData;
+namespace JAStudio.Core.Storage.Dto;
 
 [MemoryPackable(GenerateType.NoGenerate)]
-[MemoryPackUnion(0, typeof(VocabData))]
-[MemoryPackUnion(1, typeof(KanjiData))]
-[MemoryPackUnion(2, typeof(SentenceData))]
-public abstract partial class CorpusObjectData : IIdentifiableByGuid
+[MemoryPackUnion(0, typeof(VocabDto))]
+[MemoryPackUnion(1, typeof(KanjiDto))]
+[MemoryPackUnion(2, typeof(SentenceDto))]
+public abstract partial class CorpusNoteDto : IIdentifiableByGuid
 {
    public Guid Id { get; init; }
    public List<string> Tags { get; init; } = [];

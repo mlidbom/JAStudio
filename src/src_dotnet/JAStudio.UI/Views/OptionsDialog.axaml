@@ -182,7 +182,6 @@
                             <CheckBox Content="Decrease failed card intervals" IsChecked="{Binding DecreaseFailedCardIntervals}" />
                             <CheckBox Content="Prevent double clicks" IsChecked="{Binding PreventDoubleClicks}" />
                             <CheckBox Content="Boost failed card allowed time" IsChecked="{Binding BoostFailedCardAllowedTime}" />
-                            <CheckBox Content="Prefer default mnemonics to source mnemonics" IsChecked="{Binding PreferDefaultMnemonicsToSourceMnemonics}" />
                         </StackPanel>
                     </Border>
 

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using JAStudio.Core.Anki;
+using JAStudio.Core.Note;
 using MemoryPack;
 
-namespace JAStudio.Core.Note.CorpusData;
+namespace JAStudio.Core.Storage.Dto;
 
 [MemoryPackable]
-public partial class KanjiData : CorpusObjectData
+public partial class KanjiDto : CorpusNoteDto
 {
    public string Kanji { get; init; } = string.Empty;
    public string SourceAnswer { get; init; } = string.Empty;

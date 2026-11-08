@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.SysUtils.Json;
 
@@ -97,7 +97,7 @@ public class VocabNoteMatchingRules
    public HashSet<string> SuffixIsNot => _data.SuffixIsNot;
    public HashSet<string> RequiredPrefix => _data.RequiredPrefix;
 
-   internal VocabNoteMatchingRules(VocabMatchingRulesSubData? subData, NoteGuard guard)
+   internal VocabNoteMatchingRules(VocabMatchingRulesDto? subData, NoteGuard guard)
    {
       _guard = guard;
       _data = subData != null

@@ -1,5 +1,5 @@
 using Compze.Contracts;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -18,7 +18,7 @@ public class VocabNoteQuestion
    readonly VocabNote _vocab;
    readonly NoteGuard _guard;
 
-   public VocabNoteQuestion(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNoteQuestion(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       _vocab = vocab;
       _guard = guard;
@@ -39,10 +39,10 @@ public class VocabNoteQuestion
    /// The name other notes refer to the vocab by: the <see cref="Text"/>, followed by the <see cref="DisambiguationMarker"/> and the <see cref="Disambiguation"/><br/>
    /// if the vocab has one, as <c>入る:masu</c>.
    /// </summary>
-   public string DisambiguationName => DisambiguationNameOf(ToCorpusData());
+   public string DisambiguationName => DisambiguationNameOf(ToDto());
 
    /// <summary>The <see cref="DisambiguationName"/> of a vocab whose question the corpus stores as <paramref name="question"/>.</summary>
-   internal static string DisambiguationNameOf(VocabQuestionSubData question) =>
+   internal static string DisambiguationNameOf(VocabQuestionDto question) =>
       question.Disambiguation == string.Empty
          ? question.Text
          : question.Text + DisambiguationMarker + question.Disambiguation;
@@ -72,7 +72,7 @@ public class VocabNoteQuestion
       _guard.Update(() => Disambiguation = disambiguation);
    }
 
-   internal VocabQuestionSubData ToCorpusData() => new() { Text = Text, Disambiguation = Disambiguation };
+   internal VocabQuestionDto ToDto() => new() { Text = Text, Disambiguation = Disambiguation };
 
    static void AssertHasNoDisambiguationMarker(string text) =>
       Contract.Argument.Assert(!text.Contains(DisambiguationMarker),

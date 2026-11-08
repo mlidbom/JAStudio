@@ -8,20 +8,20 @@
             {
                 <text> !</text><span class="clipboard">@confused</span>
             }
-            @foreach(var similar in Note.UserSimilarMeaning)
+            @foreach(var similar in Note.SimilarMeaning)
             {
                 <text> =</text><span class="clipboard">@similar</span>
             }
         </div>
     </div>
 
-    @if(!string.IsNullOrEmpty(Note.UserAnswer.Value))
+    @if(Note.CorpusAnswer.HasValue())
     {
-        <div class="meaning user">@((MarkupString)Note.UserAnswer.Value)</div>
+        <div class="meaning user">@((MarkupString)Note.CorpusAnswer.Value)</div>
     }
     else
     {
-        <div class="meaning">@((MarkupString)Note.SourceAnswer.Value)</div>
+        <div class="meaning">@((MarkupString)Note.SourceData.Answer.Value)</div>
     }
 
     @if(!string.IsNullOrEmpty(Note.KanjiReferences.Value))

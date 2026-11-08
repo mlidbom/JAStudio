@@ -64,7 +64,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home1("Sentences I'm Studying"), $"Sentences with {vocab.GetQuestion()} that I'm studying", vocab.Sentences.Studying),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home2("Sentences"), $"Sentences with {vocab.GetQuestion()}", vocab.Sentences.All),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Sentences with primary form"), $"Sentences with the primary form of {vocab.GetQuestion()}", vocab.Sentences.WithPrimaryForm),
-                                                            NoteListMenuItem.Showing(ShortcutFinger.Home4("Sentences with this word highlighted"), $"Sentences with {vocab.GetQuestion()} highlighted", vocab.Sentences.UserHighlighted),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home4("Sentences with this word highlighted"), $"Sentences with {vocab.GetQuestion()} highlighted", vocab.Sentences.Highlighted),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home5("Potentially matching sentences"), $"Sentences that may match {vocab.GetQuestion()}", () => Collection.Sentences.PotentiallyMatchingVocab(vocab)),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Up1("Marked invalid in sentences"), $"Sentences where {vocab.GetQuestion()} is marked invalid", vocab.Sentences.InvalidIn)
                                                          }),
@@ -124,7 +124,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Up1("Misc"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Accept meaning"), () => vocab.User.Answer.Set(FormatVocabMeaning(vocab.GetAnswer())), enabled: !vocab.User.Answer.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Accept meaning"), () => vocab.CorpusAnswer.Set(FormatVocabMeaning(vocab.GetAnswer())), enabled: !vocab.CorpusAnswer.HasValue()),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Generate answer"), vocab.GenerateAndSetAnswer),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Repopulate TOS"), () => vocab.PartsOfSpeech.SetAutomaticallyFromDictionary()),
@@ -133,10 +133,10 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("User explanation"), () => vocab.User.Explanation.Empty(), enabled: vocab.User.Explanation.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("User explanation long"), () => vocab.User.ExplanationLong.Empty(), enabled: vocab.User.ExplanationLong.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("User mnemonic"), () => vocab.User.Mnemonic.Empty(), enabled: vocab.User.Mnemonic.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("User answer"), () => vocab.User.Answer.Empty(), enabled: vocab.User.Answer.HasValue())
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Explanation"), () => vocab.Explanation.Empty(), enabled: vocab.Explanation.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("Long explanation"), () => vocab.ExplanationLong.Empty(), enabled: vocab.ExplanationLong.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("Mnemonic"), () => vocab.Mnemonic.Empty(), enabled: vocab.Mnemonic.HasValue()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Corpus answer"), () => vocab.CorpusAnswer.Empty(), enabled: vocab.CorpusAnswer.HasValue())
                                  })
          }
       );

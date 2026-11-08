@@ -34,18 +34,19 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       _sentenceId = sentenceId;
 
-      UserFields =
+      CorpusFields =
       [
-         Field("Question", TextFieldFormat.Paragraphs, it => it.User.Question),
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.User.Answer),
-         Field("Comments", TextFieldFormat.Paragraphs, it => it.User.Comments),
+         Field("Question", TextFieldFormat.Paragraphs, it => it.CorpusQuestion),
+         Field("Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer),
+         Field("Comments", TextFieldFormat.Paragraphs, it => it.Comments),
          Field("Reading", TextFieldFormat.Line, it => it.Reading)
       ];
       SourceFields =
       [
-         Field("Question", TextFieldFormat.Paragraphs, it => it.SourceQuestion),
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceAnswer),
-         Field("Comments", TextFieldFormat.Paragraphs, it => it.SourceComments)
+         Field("Question", TextFieldFormat.Paragraphs, it => it.SourceData.Question),
+         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer),
+         Field("Comments", TextFieldFormat.Paragraphs, it => it.SourceData.Comments),
+         Field("External id", TextFieldFormat.Line, it => it.SourceData.ExternalId)
       ];
       OtherFields =
       [
@@ -55,21 +56,22 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
                                                    WritingToTheCurrentSentence((it, audio) => it.TextToSpeechAudio.SetRawValue(audio)),
                                                    () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
          Field("Screenshot", TextFieldFormat.Line, it => it.Screenshot.RawValue(), (it, screenshot) => it.Screenshot.SetRawValue(screenshot)),
-         Field("External id", TextFieldFormat.Line, it => it.ExternalId),
          Field("Source name", TextFieldFormat.Line, it => it.SourceName)
       ];
       Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
    }
 
-   /// <summary>The user's own question, answer and comments, which take precedence over the <see cref="SourceFields"/>, and the reading.</summary>
-   public IReadOnlyList<TextFieldEditorViewModel> UserFields { get; }
+   /// <summary>
+   /// The corpus's own question and answer, which take the place of the source's, its comments, shown beside the source's, and the reading.
+   /// </summary>
+   public IReadOnlyList<TextFieldEditorViewModel> CorpusFields { get; }
 
-   /// <summary>The question, answer and comments the sentence came with.</summary>
+   /// <summary>What the sentence's source gave it (<see cref="SentenceNote.SourceData"/>): its question, answer and comments, and the id it has there.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
    /// <summary>
-   /// The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, the id it has where it came from, and the name<br/>
-   /// of the work or deck it came from (<see cref="SentenceNote.SourceName"/>).<br/>
+   /// The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, and the name of the work or deck it came from<br/>
+   /// (<see cref="SentenceNote.SourceName"/>).<br/>
    /// The audio is its TTS audio, with a button for generating new (<see cref="TextToSpeechAudioFieldEditorViewModel"/>).
    /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
@@ -82,7 +84,7 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       Tags.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> AllFields() => [..UserFields, ..SourceFields, ..OtherFields];
+   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CorpusFields, ..SourceFields, ..OtherFields];
 
    TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<SentenceNote, WritableStringValue> field) =>
       Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));

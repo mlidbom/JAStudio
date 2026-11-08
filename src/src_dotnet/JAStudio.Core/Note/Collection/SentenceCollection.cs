@@ -77,7 +77,7 @@ public class SentenceCollection
 
    public List<SentenceNote> WithForm(string form) => Cache.WithVocabForm(form);
 
-   public List<SentenceNote> WithUserHighlightedVocab(string form) => Cache.WithUserHighlightedVocab(form);
+   public List<SentenceNote> WithHighlightedVocab(string form) => Cache.WithHighlightedVocab(form);
 
    /// <summary>Adds <paramref name="note"/> to the corpus, and gives it a note in the open Anki profile to study.</summary>
    public void Add(SentenceNote note)

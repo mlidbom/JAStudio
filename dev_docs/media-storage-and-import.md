@@ -44,7 +44,7 @@ Anki,** such as `hypertts-0001168b….mp3`, so file names must be unique across 
 `<img src="…">` for images. That file name is the only connection between a note and a file. The files don't know
 their notes.
 
-| Note type | Media fields (`VocabData`, `SentenceData`) |
+| Note type | Media fields (`VocabDto`, `SentenceDto`) |
 |---|---|
 | Vocab | `AudioB` (`Audio_b`), `AudioG` (`Audio_g`), `AudioTTS` (`Audio_TTS`), `Image`, `UserImage` |
 | Sentence | `Audio` (`Audio Sentence`), `Screenshot` |

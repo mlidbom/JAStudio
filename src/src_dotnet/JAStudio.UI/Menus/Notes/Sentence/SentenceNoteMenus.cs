@@ -41,14 +41,14 @@ class SentenceNoteMenus
                                                              SpecMenuItem.UICommand(ShortcutFinger.Home1("All highlighted"), () => sentence.Configuration.ResetHighlightedWords(), enabled: sentence.Configuration.HighlightedWords.Any()),
                                                              SpecMenuItem.UICommand(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Configuration.IncorrectMatches.Reset(), enabled: sentence.Configuration.IncorrectMatches.Get().Any()),
                                                              SpecMenuItem.UICommand(ShortcutFinger.Home3("All hidden matches"), () => sentence.Configuration.HiddenMatches.Reset(), enabled: sentence.Configuration.HiddenMatches.Get().Any()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home4("Source comments"), () => sentence.SourceComments.Empty(), enabled: sentence.SourceComments.HasValue())
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home4("Source comments"), () => sentence.SourceData.Comments.Empty(), enabled: sentence.SourceData.Comments.HasValue())
                                                           }),
-                                     SpecMenuItem.Submenu(ShortcutFinger.Home4("Remove User"),
+                                     SpecMenuItem.Submenu(ShortcutFinger.Home4("Remove corpus"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home1("comments"), () => sentence.User.Comments.Empty(), enabled: sentence.User.Comments.HasValue()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home2("answer"), () => sentence.User.Answer.Empty(), enabled: sentence.User.Answer.HasValue()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home3("question"), () => sentence.User.Question.Empty(), enabled: sentence.User.Question.HasValue())
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home1("comments"), () => sentence.Comments.Empty(), enabled: sentence.Comments.HasValue()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home2("answer"), () => sentence.CorpusAnswer.Empty(), enabled: sentence.CorpusAnswer.HasValue()),
+                                                             SpecMenuItem.UICommand(ShortcutFinger.Home3("question"), () => sentence.CorpusQuestion.Empty(), enabled: sentence.CorpusQuestion.HasValue())
                                                           })
                                   }
       );

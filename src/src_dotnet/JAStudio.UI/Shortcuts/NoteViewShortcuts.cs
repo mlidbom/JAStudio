@@ -32,8 +32,8 @@ public class NoteViewShortcuts
          new("i", Toggle(config.HideCompositionallyTransparentCompounds)),
          new("k", Toggle(config.ShowSentenceBreakdownInEditMode)),
          new("q", Toggle(config.ShowKanjiMnemonicsInSentenceBreakdown)),
-         new("0", RemoveUserMnemonic),
-         new("7", OnSentence(sentence => sentence.SourceComments.Empty())),
+         new("0", RemoveMnemonic),
+         new("7", OnSentence(sentence => sentence.SourceData.Comments.Empty())),
          new("8", OnSentence(sentence => sentence.Configuration.IncorrectMatches.Reset())),
          new("9", OnVocab(vocab => vocab.CompoundParts.AutoGenerate())),
          new("Ctrl+Shift+Alt+s", Toggle(config.AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound)),
@@ -57,15 +57,15 @@ public class NoteViewShortcuts
          config.ShowSentenceBreakdownInEditMode.Value = false;
    }
 
-   static void RemoveUserMnemonic(JPNote? viewedNote)
+   static void RemoveMnemonic(JPNote? viewedNote)
    {
       switch(viewedNote)
       {
          case KanjiNote kanji:
-            kanji.UserMnemonic.Empty();
+            kanji.Mnemonic.Empty();
             break;
          case VocabNote vocab:
-            vocab.User.Mnemonic.Empty();
+            vocab.Mnemonic.Empty();
             break;
       }
    }

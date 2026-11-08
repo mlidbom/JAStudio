@@ -23,7 +23,7 @@ public class When_editing_a_sentence_in_the_workspace : SpecificationUsingAWorks
       _editor = Edit<SentenceEditorSectionViewModel>(_sentence);
    }
 
-   TextFieldEditorViewModel UserQuestion => _editor.UserFields.Single(it => it.Label == "Question");
+   TextFieldEditorViewModel CorpusQuestion => _editor.CorpusFields.Single(it => it.Label == "Question");
 
    public class before_its_question_is_changed : When_editing_a_sentence_in_the_workspace
    {
@@ -32,7 +32,7 @@ public class When_editing_a_sentence_in_the_workspace : SpecificationUsingAWorks
 
    public class after_typing_a_question_containing_the_vocab : When_editing_a_sentence_in_the_workspace
    {
-      public after_typing_a_question_containing_the_vocab() => UserQuestion.Text = "毎日走る。";
+      public after_typing_a_question_containing_the_vocab() => CorpusQuestion.Text = "毎日走る。";
 
       [XF] public void the_question_is_written_to_the_sentence() => _sentence.GetQuestion().Must().Be("毎日走る。");
       [XF] public void the_sentence_is_reparsed_and_matches_the_vocab() => _vocab.Sentences.All().Must().Contain(_sentence);

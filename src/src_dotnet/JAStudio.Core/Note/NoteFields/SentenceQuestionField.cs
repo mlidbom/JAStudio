@@ -4,19 +4,19 @@ public class SentenceQuestionField
 {
    public const string WordBreakTag = "<wbr>";
 
-   readonly IWritableStringValue _userField;
-   readonly IWritableStringValue _sourceField;
+   readonly IWritableStringValue _corpusQuestion;
+   readonly IWritableStringValue _sourceQuestion;
 
-   public SentenceQuestionField(IWritableStringValue primaryField, IWritableStringValue fallbackField)
+   public SentenceQuestionField(IWritableStringValue corpusQuestion, IWritableStringValue sourceQuestion)
    {
-      _userField = primaryField;
-      _sourceField = fallbackField;
+      _corpusQuestion = corpusQuestion;
+      _sourceQuestion = sourceQuestion;
    }
 
    string SentenceQuestionFieldRawValue()
    {
-      var userValue = _userField.Value;
-      return string.IsNullOrEmpty(userValue) ? _sourceField.Value : userValue;
+      var corpusQuestion = _corpusQuestion.Value;
+      return string.IsNullOrEmpty(corpusQuestion) ? _sourceQuestion.Value : corpusQuestion;
    }
 
    public string WithInvisibleSpace() =>
@@ -36,12 +36,12 @@ public class SentenceQuestionField
       var newSection = $"{section[0]}{WordBreakTag}{section.Substring(1)}";
       var newValue = rawValue.Replace(section, newSection);
 
-      if(_userField.HasValue())
+      if(_corpusQuestion.HasValue())
       {
-         _userField.Set(newValue);
+         _corpusQuestion.Set(newValue);
       } else
       {
-         _sourceField.Set(newValue);
+         _sourceQuestion.Set(newValue);
       }
    }
 }

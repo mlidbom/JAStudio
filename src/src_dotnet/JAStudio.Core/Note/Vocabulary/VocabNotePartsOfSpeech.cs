@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;
@@ -11,7 +11,7 @@ public class VocabNotePartsOfSpeech
    readonly NoteGuard _guard;
    string _value;
 
-   public VocabNotePartsOfSpeech(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNotePartsOfSpeech(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       Vocab = vocab;
       _guard = guard;

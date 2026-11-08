@@ -1,7 +1,7 @@
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note import NoteGuard, NoteId
 from System.Collections.Generic import List_1, HashSet_1
-from JAStudio.Core.Note.CorpusData import VocabRelatedSubData
+from JAStudio.Core.Storage.Dto import VocabRelatedDto
 from JAStudio.Core.Note.NoteFields.AutoSaveWrappers import ValueWrapper_1
 from JAStudio.Core.Note.NoteFields import IObjectSerializer_1
 
@@ -47,7 +47,7 @@ class PerfectSynonyms:
 
 
 class RelatedVocab:
-    def __init__(self, vocab: VocabNote, subData: VocabRelatedSubData, guard: NoteGuard) -> None: ...
+    def __init__(self, vocab: VocabNote, subData: VocabRelatedDto, guard: NoteGuard) -> None: ...
     @property
     def Antonyms(self) -> Antonyms: ...
     @property

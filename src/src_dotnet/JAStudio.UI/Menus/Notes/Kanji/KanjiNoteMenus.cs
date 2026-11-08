@@ -32,15 +32,14 @@ class KanjiNoteMenus
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
                   };
 
-      // Add conditional "Accept meaning" if no user answer exists
-      if(string.IsNullOrEmpty(kanji.UserAnswer.Value))
+      if(!kanji.CorpusAnswer.HasValue())
       {
-         items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up1("Accept meaning"), () => kanji.UserAnswer.Set(FormatKanjiMeaning(kanji.GetAnswer()))));
+         items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up1("Accept meaning"), () => kanji.CorpusAnswer.Set(FormatKanjiMeaning(kanji.GetAnswer()))));
       }
 
       items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up2("Populate radicals from mnemonic tags"), kanji.PopulateRadicalsFromMnemonicTags));
       items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"), kanji.BootstrapMnemonicFromRadicals));
-      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.UserMnemonic.Set("")));
+      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Mnemonic.Empty()));
 
       return SpecMenuItem.Submenu(title, items);
    }

@@ -34,8 +34,8 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
       CoreFields =
       [
          Field("Question", TextFieldFormat.Line, it => it.GetQuestion(), (it, question) => it.SetQuestion(question)),
-         Field("Answer", TextFieldFormat.Line, it => it.UserAnswer),
-         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.UserMnemonic)
+         Field("Answer", TextFieldFormat.Line, it => it.CorpusAnswer),
+         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic)
       ];
       ReadingFields =
       [
@@ -47,13 +47,13 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
       [
          Field("Radicals", TextFieldFormat.CommaSeparated, it => it.RadicalsRaw, (it, radicals) => it.RadicalsRaw = radicals),
          Field("Primary vocab", TextFieldFormat.CommaSeparated, it => it.PrimaryVocabRaw, (it, primaryVocab) => it.PrimaryVocabRaw = primaryVocab),
-         Field("Similar meaning", TextFieldFormat.CommaSeparated, it => it.UserSimilarMeaningRaw, (it, similarMeaning) => it.UserSimilarMeaningRaw = similarMeaning),
+         Field("Similar meaning", TextFieldFormat.CommaSeparated, it => it.SimilarMeaningRaw, (it, similarMeaning) => it.SimilarMeaningRaw = similarMeaning),
          Field("Confused with", TextFieldFormat.CommaSeparated, it => it.RelatedConfusedWithRaw, (it, confusedWith) => it.RelatedConfusedWithRaw = confusedWith)
       ];
       SourceFields =
       [
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceAnswer),
-         Field("Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceMeaningMnemonic)
+         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer),
+         Field("Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.MeaningMnemonic)
       ];
       OtherFields =
       [
@@ -62,7 +62,7 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
       Tags = new NoteTagsEditorViewModel(services, CurrentKanji);
    }
 
-   /// <summary>The kanji itself, and the user's answer and mnemonic for it.</summary>
+   /// <summary>The kanji itself, and the corpus's own answer, which takes the place of the source's, and mnemonic for it.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> CoreFields { get; }
 
    public IReadOnlyList<TextFieldEditorViewModel> ReadingFields { get; }
@@ -70,7 +70,10 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The radicals the kanji is made of, and the vocab and other kanji it's related to.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> RelatedFields { get; }
 
-   /// <summary>The answer and mnemonic the kanji came with. The user's own, in <see cref="CoreFields"/>, take precedence over them.</summary>
+   /// <summary>
+   /// What the kanji's source gave it (<see cref="KanjiNote.SourceData"/>): its answer, which the corpus's own in <see cref="CoreFields"/> takes the place of,<br/>
+   /// and its meaning mnemonic, which is never shown on a card.
+   /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
    /// <summary>The kanji's image, as Anki's <c>&lt;img src="…"&gt;</c> markup (<see cref="KanjiNote.Image"/>).</summary>

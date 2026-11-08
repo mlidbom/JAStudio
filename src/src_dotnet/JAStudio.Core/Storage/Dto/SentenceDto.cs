@@ -4,12 +4,13 @@ using System.Linq;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note;
 using MemoryPack;
 
-namespace JAStudio.Core.Note.CorpusData;
+namespace JAStudio.Core.Storage.Dto;
 
 [MemoryPackable]
-public partial class SentenceData : CorpusObjectData
+public partial class SentenceDto : CorpusNoteDto
 {
    public string SourceQuestion { get; init; } = string.Empty;
    public string UserQuestion { get; init; } = string.Empty;
@@ -23,8 +24,8 @@ public partial class SentenceData : CorpusObjectData
    public string ExternalId { get; init; } = string.Empty;
    public string Audio { get; init; } = string.Empty;
    public string Screenshot { get; init; } = string.Empty;
-   public SentenceConfigSubData Configuration { get; init; } = new();
-   public SentenceParsingResultSubData? ParsingResult { get; init; }
+   public SentenceConfigDto Configuration { get; init; } = new();
+   public SentenceParsingResultDto? ParsingResult { get; init; }
 
    /// <summary>
    /// The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>. Empty when the source gave none.<br/>
@@ -44,23 +45,22 @@ public partial class SentenceData : CorpusObjectData
       fields[AnkiFieldNames.Sentence.Audio] = Audio;
    }
 
-   static WordExclusion FromExclusionSubData(WordExclusionSubData d) =>
+   static WordExclusion FromWordExclusionDto(WordExclusionDto d) =>
       d.Index == -1 ? WordExclusion.Global(d.Word) : WordExclusion.AtIndex(d.Word, d.Index);
 
-   static ParsedMatch FromParsedMatchSubData(ParsedMatchSubData d) =>
+   static ParsedMatch FromParsedMatchDto(ParsedMatchDto d) =>
       new(d.Variant, d.StartIndex, d.IsDisplayed, d.ParsedForm, d.VocabId.HasValue ? new VocabId(d.VocabId.Value) : null);
 
-
-   public static ParsingResult CreateParsingResult(SentenceParsingResultSubData? data)
+   public static ParsingResult CreateParsingResult(SentenceParsingResultDto? data)
    {
       if(data == null) return new ParsingResult([], "", "");
       return new ParsingResult(
-         data.ParsedWords.Select(FromParsedMatchSubData).ToList(),
+         [.. data.ParsedWords.Select(FromParsedMatchDto)],
          data.Sentence,
          data.ParserVersion);
    }
 
-   public static SentenceConfiguration CreateConfiguration(SentenceConfigSubData? data, Action saveCallback)
+   public static SentenceConfiguration CreateConfiguration(SentenceConfigDto? data, Action saveCallback)
    {
       if(data == null)
          return new SentenceConfiguration(
@@ -68,41 +68,8 @@ public partial class SentenceData : CorpusObjectData
             WordExclusionSet.Empty(saveCallback),
             WordExclusionSet.Empty(saveCallback));
       return new SentenceConfiguration(
-         data.HighlightedWords.ToList(),
-         new WordExclusionSet(saveCallback, data.IncorrectMatches.Select(FromExclusionSubData).ToList()),
-         new WordExclusionSet(saveCallback, data.HiddenMatches.Select(FromExclusionSubData).ToList()));
+         [.. data.HighlightedWords],
+         new WordExclusionSet(saveCallback, [.. data.IncorrectMatches.Select(FromWordExclusionDto)]),
+         new WordExclusionSet(saveCallback, [.. data.HiddenMatches.Select(FromWordExclusionDto)]));
    }
-}
-
-[MemoryPackable]
-public partial class SentenceConfigSubData
-{
-   public List<string> HighlightedWords { get; init; } = [];
-   public List<WordExclusionSubData> IncorrectMatches { get; init; } = [];
-   public List<WordExclusionSubData> HiddenMatches { get; init; } = [];
-}
-
-[MemoryPackable]
-public partial class WordExclusionSubData
-{
-   public string Word { get; init; } = string.Empty;
-   public int Index { get; init; } = -1;
-}
-
-[MemoryPackable]
-public partial class SentenceParsingResultSubData
-{
-   public string Sentence { get; init; } = string.Empty;
-   public string ParserVersion { get; init; } = string.Empty;
-   public List<ParsedMatchSubData> ParsedWords { get; init; } = [];
-}
-
-[MemoryPackable]
-public partial class ParsedMatchSubData
-{
-   public string Variant { get; init; } = string.Empty;
-   public int StartIndex { get; init; }
-   public bool IsDisplayed { get; init; }
-   public string ParsedForm { get; init; } = string.Empty;
-   public Guid? VocabId { get; init; }
 }

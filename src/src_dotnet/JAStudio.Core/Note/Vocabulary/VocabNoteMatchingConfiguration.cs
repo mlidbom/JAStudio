@@ -1,4 +1,4 @@
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -11,7 +11,7 @@ public class VocabNoteMatchingConfiguration
    public VocabMatchingRulesConfigurationRequiresForbidsFlags RequiresForbids { get; private set; }
    public VocabMatchingRulesConfigurationBoolFlags BoolFlags { get; private set; }
 
-   public VocabNoteMatchingConfiguration(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNoteMatchingConfiguration(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       _vocab = vocab;
       ConfigurableRules = new VocabNoteMatchingRules(data?.MatchingRules, guard);

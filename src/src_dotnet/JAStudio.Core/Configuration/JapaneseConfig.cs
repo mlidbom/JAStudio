@@ -43,7 +43,6 @@ public class JapaneseConfig
    public ConfigurationValue<bool> YomitanIntegrationCopyAnswerToClipboard { get; }
    public ConfigurationValue<bool> DecreaseFailedCardIntervals { get; }
    public ConfigurationValue<bool> PreventDoubleClicks { get; }
-   public ConfigurationValue<bool> PreferDefaultMnemonicsToSourceMnemonics { get; }
 
    // Sentence view toggles
    public ConfigurationValue<bool> ShowCompoundPartsInSentenceBreakdown { get; }
@@ -109,7 +108,6 @@ public class JapaneseConfig
       YomitanIntegrationCopyAnswerToClipboard = Add(New("yomitan_integration_copy_answer_to_clipboard", "Yomitan integration: Copy reviewer answer to clipboard", false, To.Bool));
       DecreaseFailedCardIntervals = Add(New("decrease_failed_card_intervals", "Decrease failed card intervals", false, To.Bool));
       PreventDoubleClicks = Add(New("prevent_double_clicks", "Prevent double clicks", true, To.Bool));
-      PreferDefaultMnemonicsToSourceMnemonics = Add(New("prefer_default_mnemocs_to_source_mnemonics", "Prefer default mnemonics to source mnemonics", false, To.Bool));
 
       // sentence_view_toggles
       ShowCompoundPartsInSentenceBreakdown = Add(New("show_compound_parts_in_sentence_breakdown", "Show compound parts in sentence breakdown", true, To.Bool));

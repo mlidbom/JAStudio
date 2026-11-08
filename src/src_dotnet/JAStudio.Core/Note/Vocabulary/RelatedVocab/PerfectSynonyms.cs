@@ -15,7 +15,7 @@ public class PerfectSynonyms
       _vocab = vocab;
       _data = data;
       _guard = guard;
-      vocab.User.Answer.Subscribe(_ => PushAnswerToOtherSynonyms());
+      vocab.CorpusAnswer.Subscribe(_ => PushAnswerToOtherSynonyms());
    }
 
    public List<VocabNote> Notes() => _vocab.Services.Collection.Vocab.WithAnyDisambiguationNameIn(_data.PerfectSynonyms).ToList();
@@ -24,7 +24,7 @@ public class PerfectSynonyms
    {
       foreach(var synonym in Notes())
       {
-         synonym.User.Answer.Set(_vocab.GetAnswer());
+         synonym.CorpusAnswer.Set(_vocab.GetAnswer());
       }
    }
 

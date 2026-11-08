@@ -10,8 +10,8 @@
         <StackPanel Spacing="8" Margin="6">
             <Border Classes="section">
                 <StackPanel>
-                    <TextBlock Classes="sectionTitle" Text="User" />
-                    <ItemsControl ItemsSource="{Binding UserFields}" />
+                    <TextBlock Classes="sectionTitle" Text="Corpus" />
+                    <ItemsControl ItemsSource="{Binding CorpusFields}" />
                 </StackPanel>
             </Border>
 

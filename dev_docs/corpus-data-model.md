@@ -29,9 +29,16 @@ nothing stored only for Anki's sake.
 - **Anki-projection** — the mapping from the domain model to Anki note fields and tags. It runs on every flush.
 - **Anki-ingestion** — the mapping from an Anki note into the domain model. It runs when a note is added in
   Anki and when an Anki note is saved.
-- **overridable-text** — text that comes from a source (WaniKani, a dictionary, a subtitle file) and that
-  Magnus can override with his own text. Examples are `sourceAnswer`/`userAnswer` and
-  `sourceQuestion`/`userQuestion`.
+- **source data** — what a note's source (WaniKani, a dictionary, Immersion Kit, a JLab deck) gave it when it was
+  imported: `VocabNote.SourceData`, `KanjiNote.SourceData`, `SentenceNote.SourceData`. *(Named 2026-11-08: WaniKani is a
+  source; `{ 行く, go }` is source data.)*
+- **corpus answer**, **corpus question** — the corpus's own answer or question for a note: the canonical value, not
+  student data. While a note has none, its source data's is shown. (`CorpusAnswer`, `CorpusQuestion`.) The corpus's
+  other own texts, such as comments, explanations and mnemonics, have no prefix. *Until 2026-11-08 these were "user"
+  fields, a misnomer: they were never the student's.*
+- ~~**overridable-text**~~ — *replaced 2026-11-08 by source data and the corpus's own fields: how the two combine is
+  decided per field. The answer and the sentence question show the corpus's, else the source's; comments show both,
+  side by side; the source's mnemonics and hints are never shown.*
 - **word-reference** and **note-id-reference** — the two ways one entity can refer to another. See
   [References between entities](#references-between-entities-word-references).
 - **vertical-slice** — one concept changed end to end in a single increment: the domain value type, the JSON
@@ -89,7 +96,7 @@ Until 2026-11-07 Anki was a full two-way partner:
 - **Outbound:** every domain flush writes all of a note's old Anki fields and all of its tags to the Anki note.
   The path is `NoteFlushGuard.Flush` → `NoteCache` update listeners → Python `_update_anki_note` →
   `JPNoteDataShim.sync_note_to_anki_note`, which writes `JPNote.GetData()`
-  (= `ToCorpusData().ToNoteData()`).
+  (= `ToDto().ToNoteData()`).
 - **Inbound:** every save on the Anki side ran `MergeAnkiData` on the corpus data types. For vocab, that pulled
   `Question`, `ActiveAnswer`, the audio fields, `Image`, `UserImage` and **all tags** back into the corpus.
   Kanji and sentences pulled similar sets. *Since 2026-11-08 a save in Anki takes nothing: see point 2.*
@@ -141,7 +148,7 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
      [Import and organization](#import-and-organization-needs-its-own-design)), centered on hierarchical tags in
      JAStudio.
 4. **Both mappings move to `JAStudio.Anki`.** Today they live inside the corpus data types (`ToNoteData`,
-   `PopulateAnkiNoteFields`, `FromAnki` in `VocabData`, `KanjiData`, `SentenceData`), and
+   `PopulateAnkiNoteFields`, `FromAnki` in `VocabDto`, `KanjiDto`, `SentenceDto`), and
    `AnkiNoteData` and `NoteFieldsConstants` sit in `JAStudio.Core.Note`. That breaks the anti-corruption-layers
    code standard (foreign formats only at the boundary) and Core's own rule of having no Anki dependency.
 
@@ -158,7 +165,7 @@ and HyperTTS isn't used any more, so its reasons below no longer apply. The stud
 | Kanji | `Q`, `jas_note_id` |
 | Sentence | `Q`, moved to be the first field, `Audio Sentence`, `jas_note_id` |
 
-JAStudio writes only these since 2026-11-08 (`AnkiFieldNames`, `CorpusObjectData.ToNoteData`), and reads only
+JAStudio writes only these since 2026-11-08 (`AnkiFieldNames`, `CorpusNoteDto.ToNoteData`), and reads only
 `jas_note_id`. The installed templates already reference no other field, except the kanji answer template's
 `{{_primary_readings_tts_audio}}` and the sentences' browser column, `{{source_question}}`, which become empty and
 `{{Q}}`. Magnus trims the note types in Anki by hand, with syncing to AnkiWeb turned off until he has tested the result.
@@ -342,6 +349,12 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 `KanjiNote.ActiveMnemonic` falling back) are all one concept. In code it's sibling strings plus
 `FallbackStringField`.
 
+*2026-11-08 (slice 3), decided with Magnus:* they're not one concept but two, and "user" was a misnomer. See
+[source data and the corpus answer](#terms-used-in-this-document). The source's mnemonics, and the kanji's
+meaning and reading hints, are WaniKani's and never shown: the kanji card shows the corpus's own mnemonic, or else a
+default one made from the kanji's readings (`KanjiNote.ShownMnemonic`), and the option that showed WaniKani's
+instead is gone.
+
 ### A domain model shaped like Anki fields
 
 - `KanjiNote` joins the JSON lists `radicals`, `primaryVocab`, `similarMeaning` and `confusedWith` back into
@@ -441,7 +454,8 @@ Parts of speech are harmonized to one spelling per part during migration.
 **Checked (2026-11-06):** vocab `sourceMnemonic` and `userMnemonic` are not overridable-text. The vocab card
 (`VocabMnemonic.razor`) shows only the user mnemonic, with no fallback to the source mnemonic, which appears
 only in the editor. So they're two separate fields, unlike the kanji mnemonic (`KanjiNote.ActiveMnemonic`
-falls back).
+falls back). *2026-11-08: no mnemonic falls back to the source's any more; see
+[Overridable-text without a type](#overridable-text-without-a-type).*
 
 ### Kanji
 

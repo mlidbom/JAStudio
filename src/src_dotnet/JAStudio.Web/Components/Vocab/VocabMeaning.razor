@@ -1,11 +1,11 @@
 @using JAStudio.Core.Note.Vocabulary
 
-@if(!string.IsNullOrEmpty(Note.User.Answer.Value))
+@if(Note.CorpusAnswer.HasValue())
 {
     <div class="meaning user">@((MarkupString)Note.GetAnswer())</div>
 } else
 {
-    <div class="meaning"> @((MarkupString)Note.SourceAnswer.Value)</div>
+    <div class="meaning"> @((MarkupString)Note.SourceData.Answer.Value)</div>
 }
 
 @code {

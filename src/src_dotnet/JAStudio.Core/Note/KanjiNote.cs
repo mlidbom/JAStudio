@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using JAStudio.Core.LanguageServices;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
-using JAStudio.Core.Storage.Media;
 using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note;
@@ -15,20 +14,23 @@ public class KanjiNote : JPNote
 {
    static readonly Regex PrimaryReadingPattern = new("<primary>(.*?)</primary>", RegexOptions.Compiled);
 
-   public WritableStringValue SourceAnswer { get; }
-   public WritableStringValue UserAnswer { get; }
-   public WritableStringValue ActiveAnswer { get; }
-   public WritableStringValue MeaningInfo { get; }
-   public WritableStringValue ReadingMnemonic { get; }
-   public WritableStringValue ReadingInfo { get; }
+   /// <summary>
+   /// The corpus's own answer for the kanji: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
+   /// </summary>
+   public WritableStringValue CorpusAnswer { get; }
+
+   /// <summary>The corpus's own mnemonic for the kanji. The card shows it, or while there's none, a default one: see <see cref="ShownMnemonic"/>.</summary>
+   public WritableStringValue Mnemonic { get; }
+
+   /// <summary>What the kanji's source gave it when it was imported.</summary>
+   public KanjiSourceData SourceData { get; }
+
    public WritableStringValue ReadingOnHtml { get; }
    public WritableStringValue ReadingKunHtml { get; }
    public WritableStringValue ReadingNanHtml { get; }
-   public WritableStringValue SourceMeaningMnemonic { get; }
-   public WritableStringValue UserMnemonic { get; }
    public WritableStringValue KanjiReferences { get; }
 
-   /// <summary>An image for the kanji, which only a few have: see <see cref="KanjiData.Image"/>.</summary>
+   /// <summary>An image for the kanji, which only a few have: see <see cref="KanjiDto.Image"/>.</summary>
    public WritableImageValue Image { get; }
 
    readonly WritableStringValue _question;
@@ -37,20 +39,15 @@ public class KanjiNote : JPNote
    readonly WritableStringValue _similarMeaningRaw;
    readonly WritableStringValue _confusedWithRaw;
 
-   public KanjiNote(NoteServices services, KanjiData? data = null) : base(services, data != null ? new KanjiId(data.Id) : KanjiId.New(), data?.Tags)
+   public KanjiNote(NoteServices services, KanjiDto? data = null) : base(services, data != null ? new KanjiId(data.Id) : KanjiId.New(), data?.Tags)
    {
       _question = new WritableStringValue(data?.Kanji ?? string.Empty, Guard);
-      SourceAnswer = new WritableStringValue(data?.SourceAnswer ?? string.Empty, Guard);
-      UserAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
-      ActiveAnswer = new WritableStringValue(data?.ActiveAnswer ?? string.Empty, Guard);
-      MeaningInfo = new WritableStringValue(data?.MeaningInfo ?? string.Empty, Guard);
-      ReadingMnemonic = new WritableStringValue(data?.ReadingMnemonic ?? string.Empty, Guard);
-      ReadingInfo = new WritableStringValue(data?.ReadingInfo ?? string.Empty, Guard);
+      CorpusAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
+      Mnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
+      SourceData = new KanjiSourceData(data, Guard);
       ReadingOnHtml = new WritableStringValue(data?.ReadingOnHtml ?? string.Empty, Guard);
       ReadingKunHtml = new WritableStringValue(data?.ReadingKunHtml ?? string.Empty, Guard);
       ReadingNanHtml = new WritableStringValue(data?.ReadingNanHtml ?? string.Empty, Guard);
-      SourceMeaningMnemonic = new WritableStringValue(data?.SourceMeaningMnemonic ?? string.Empty, Guard);
-      UserMnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
       Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
       _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
@@ -64,17 +61,14 @@ public class KanjiNote : JPNote
       Services.Collection.Kanji.Cache.JpNoteUpdated(this);
    }
 
-   public override CorpusObjectData ToCorpusData() => KanjiNoteConverter.ToCorpusData(this);
+   public override CorpusNoteDto ToDto() => KanjiNoteConverter.ToDto(this);
 
    public override string GetQuestion() => _question.Value;
 
    public void SetQuestion(string value) => _question.Set(value);
 
-   public override string GetAnswer()
-   {
-      var userAnswer = UserAnswer.Value;
-      return !string.IsNullOrEmpty(userAnswer) ? userAnswer : SourceAnswer.Value;
-   }
+   /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
+   public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
 
    public string AnswerText => StringExtensions.StripHtmlMarkup(GetAnswer());
 
@@ -91,8 +85,6 @@ public class KanjiNote : JPNote
 
       // Katakana sneaks in via yomitan etc
       ReadingOnHtml.Set(KanaUtils.KatakanaToHiragana(ReadingOnHtml.Value));
-
-      ActiveAnswer.Set(GetAnswer());
    }
 
    public List<string> ReadingsOn => StringExtensions.ExtractCommaSeparatedValues(
@@ -115,7 +107,7 @@ public class KanjiNote : JPNote
          allReadings.AddRange(ReadingOnListHtml);
          allReadings.AddRange(ReadingKunListHtml);
          allReadings.AddRange(ReadingNanListHtml);
-         return allReadings.Select(StringExtensions.StripHtmlMarkup).ToList();
+         return [.. allReadings.Select(StringExtensions.StripHtmlMarkup)];
       }
    }
 
@@ -136,7 +128,7 @@ public class KanjiNote : JPNote
       get
       {
          var matches = PrimaryReadingPattern.Matches(ReadingOnHtml.Value);
-         return matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value)).ToList();
+         return [.. matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value))];
       }
    }
 
@@ -145,7 +137,7 @@ public class KanjiNote : JPNote
       get
       {
          var matches = PrimaryReadingPattern.Matches(ReadingKunHtml.Value);
-         return matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value)).ToList();
+         return [.. matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value))];
       }
    }
 
@@ -154,7 +146,7 @@ public class KanjiNote : JPNote
       get
       {
          var matches = PrimaryReadingPattern.Matches(ReadingNanHtml.Value);
-         return matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value)).ToList();
+         return [.. matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value))];
       }
    }
 
@@ -183,7 +175,7 @@ public class KanjiNote : JPNote
       get
       {
          var question = GetQuestion();
-         return AllRadicals.Where(r => r != question).ToList();
+         return [.. AllRadicals.Where(r => r != question)];
       }
    }
 
@@ -224,11 +216,11 @@ public class KanjiNote : JPNote
       PrimaryVocab = primaryVocabList;
    }
 
-   public List<string> UserSimilarMeaning => StringExtensions.ExtractCommaSeparatedValues(_similarMeaningRaw.Value);
+   public List<string> SimilarMeaning => StringExtensions.ExtractCommaSeparatedValues(_similarMeaningRaw.Value);
 
-   public void AddUserSimilarMeaning(string newSynonymQuestion, bool isRecursiveCall = false)
+   public void AddSimilarMeaning(string newSynonymQuestion, bool isRecursiveCall = false)
    {
-      var nearSynonymsQuestions = UserSimilarMeaning;
+      var nearSynonymsQuestions = SimilarMeaning;
       if(!nearSynonymsQuestions.Contains(newSynonymQuestion))
       {
          nearSynonymsQuestions.Add(newSynonymQuestion);
@@ -241,7 +233,7 @@ public class KanjiNote : JPNote
          var newSynonym = Services.Collection.Kanji.WithKanji(newSynonymQuestion);
          if(newSynonym != null)
          {
-            newSynonym.AddUserSimilarMeaning(GetQuestion(), isRecursiveCall: true);
+            newSynonym.AddSimilarMeaning(GetQuestion(), isRecursiveCall: true);
          }
       }
    }
@@ -340,11 +332,13 @@ public class KanjiNote : JPNote
 
    public List<KanjiNote> GetRadicalsNotes()
    {
-      return Radicals
-            .Select(radical => Services.Collection.Kanji.WithKanji(radical))
-            .Where(k => k != null)
-            .Cast<KanjiNote>()
-            .ToList();
+      return
+      [
+         .. Radicals
+           .Select(radical => Services.Collection.Kanji.WithKanji(radical))
+           .Where(k => k != null)
+           .Cast<KanjiNote>()
+      ];
    }
 
    public List<string> TagVocabReadings(VocabNote vocab)
@@ -424,25 +418,13 @@ public class KanjiNote : JPNote
                 : kanjiReading == "";
    }
 
-   public string ActiveMnemonic
-   {
-      get
-      {
-         if(!string.IsNullOrEmpty(UserMnemonic.Value))
-         {
-            return UserMnemonic.Value;
-         }
+   /// <summary>
+   /// The mnemonic the kanji's card shows: the corpus's own <see cref="Mnemonic"/>, or while there's none, a default one made from the kanji's readings<br/>
+   /// (<see cref="KanjiNoteMnemonicMaker"/>). The source's mnemonics are never shown.
+   /// </summary>
+   public string ShownMnemonic => Mnemonic.HasValue() ? Mnemonic.Value : $"# {Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this)}";
 
-         if(Services.Config.PreferDefaultMnemonicsToSourceMnemonics.Value)
-         {
-            return $"# {Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this)}";
-         }
-
-         return SourceMeaningMnemonic.Value;
-      }
-   }
-
-   public string UserSimilarMeaningRaw
+   public string SimilarMeaningRaw
    {
       get => _similarMeaningRaw.Value;
       set => _similarMeaningRaw.Set(value);
@@ -466,14 +448,14 @@ public class KanjiNote : JPNote
 
    public void BootstrapMnemonicFromRadicals()
    {
-      UserMnemonic.Set(Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this));
+      Mnemonic.Set(Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this));
    }
 
    public void PopulateRadicalsFromMnemonicTags()
    {
       List<string> DetectRadicalsFromMnemonic()
       {
-         var radicalNames = Regex.Matches(UserMnemonic.Value, "<rad>(.*?)</rad>")
+         var radicalNames = Regex.Matches(Mnemonic.Value, "<rad>(.*?)</rad>")
                                  .Select(m => m.Groups[1].Value)
                                  .ToList();
 
@@ -484,10 +466,12 @@ public class KanjiNote : JPNote
             return radicalNames.Any(name => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji));
          }
 
-         return Services.Collection.Kanji.All()
-                        .Where(KanjiAnswerContainsAnyRadicalNameAsASeparateWord)
-                        .Select(kanji => kanji.GetQuestion())
-                        .ToList();
+         return
+         [
+            .. Services.Collection.Kanji.All()
+                       .Where(KanjiAnswerContainsAnyRadicalNameAsASeparateWord)
+                       .Select(kanji => kanji.GetQuestion())
+         ];
       }
 
       var radicals = Radicals;
@@ -506,7 +490,7 @@ public class KanjiNote : JPNote
    {
       var note = new KanjiNote(services);
       note.SetQuestion(question);
-      note.UserAnswer.Set(answer);
+      note.CorpusAnswer.Set(answer);
       note.ReadingOnHtml.Set(onReadings);
       note.ReadingKunHtml.Set(kunReading);
       services.Collection.Kanji.Add(note);

@@ -24,36 +24,36 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
    }
 
    VocabTextEditorViewModel Text => _editor.Text;
-   TextFieldEditorViewModel UserAnswer => Text.UserFields.Single(it => it.Label == "Answer");
+   TextFieldEditorViewModel CorpusAnswer => Text.CorpusFields.Single(it => it.Label == "Answer");
 
    /// <summary>A change to the vocab made elsewhere, as by Anki or a note menu, which makes the editor refresh.</summary>
-   void ChangeTheMnemonicElsewhere() => _vocab.User.Mnemonic.Set("changed elsewhere");
+   void ChangeTheMnemonicElsewhere() => _vocab.Mnemonic.Set("changed elsewhere");
 
    void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class after_typing_an_answer : When_editing_a_vocabs_text_in_the_workspace
    {
-      public after_typing_an_answer() => UserAnswer.Text = "to dash";
+      public after_typing_an_answer() => CorpusAnswer.Text = "to dash";
 
-      [XF] public void the_answer_is_written_to_the_vocab() => _vocab.User.Answer.Value.Must().Be("to dash");
-      [XF] public void the_vocabs_generated_active_answer_follows_it() => _vocab.ActiveAnswer.Value.Must().Be("to dash");
+      [XF] public void the_answer_is_written_to_the_vocabs_corpus_answer() => _vocab.CorpusAnswer.Value.Must().Be("to dash");
+      [XF] public void the_answer_shown_is_it() => _vocab.GetAnswer().Must().Be("to dash");
    }
 
    public class after_typing_an_answer_followed_by_a_space : When_editing_a_vocabs_text_in_the_workspace
    {
       public after_typing_an_answer_followed_by_a_space()
       {
-         UserAnswer.Text = "to dash";
-         UserAnswer.Text = "to dash ";
+         CorpusAnswer.Text = "to dash";
+         CorpusAnswer.Text = "to dash ";
       }
 
-      [XF] public void the_vocab_stores_the_answer_trimmed() => _vocab.User.Answer.Value.Must().Be("to dash");
+      [XF] public void the_vocab_stores_the_answer_trimmed() => _vocab.CorpusAnswer.Value.Must().Be("to dash");
 
       public class and_a_change_made_elsewhere : after_typing_an_answer_followed_by_a_space
       {
          public and_a_change_made_elsewhere() => ChangeTheMnemonicElsewhere();
 
-         [XF] public void the_answers_text_keeps_the_space() => UserAnswer.Text.Must().Be("to dash ");
+         [XF] public void the_answers_text_keeps_the_space() => CorpusAnswer.Text.Must().Be("to dash ");
       }
    }
 

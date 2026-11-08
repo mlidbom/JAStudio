@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Media;
@@ -41,7 +41,7 @@ public abstract class JPNote
    }
 
    // ReSharper disable once UnusedMember.Global Used from python
-   public AnkiNoteData GetData() => ToCorpusData().ToNoteData();
+   public AnkiNoteData GetData() => ToDto().ToNoteData();
 
    public override bool Equals(object? obj) => obj is JPNote other && other.GetId() == _id;
 
@@ -135,9 +135,9 @@ public abstract class JPNote
 
    public abstract List<MediaReference> MediaReferences { get; }
 
-   public abstract CorpusObjectData ToCorpusData();
+   public abstract CorpusNoteDto ToDto();
 
-   byte[] TakeSnapshot() => MemoryPackSerializer.Serialize(ToCorpusData());
+   byte[] TakeSnapshot() => MemoryPackSerializer.Serialize(ToDto());
 
    internal void MarkAsPersisted()
    {

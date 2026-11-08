@@ -36,7 +36,7 @@ static class VocabNoteMetaTagFormatter
       {
          string MaxNineNumber(int value) => value < 10 ? value.ToString() : "+";
 
-         var highlightedIn = vocab.Sentences.UserHighlighted();
+         var highlightedIn = vocab.Sentences.Highlighted();
          meta.Add(new VocabMetaTag("highlighted_in_sentences", MaxNineNumber(highlightedIn.Count), $"highlighted in {highlightedIn.Count} sentences"));
 
          var counts = vocab.Sentences.Counts();

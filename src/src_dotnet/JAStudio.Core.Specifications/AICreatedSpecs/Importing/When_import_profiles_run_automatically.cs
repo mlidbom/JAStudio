@@ -61,8 +61,8 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    protected void WaitForAnExecutedRun() => SpinWait.SpinUntil(() => !_executedRuns.IsEmpty, TimeToWaitForTheRun).Must().BeTrue();
    protected void WaitForARunStoppedByProblems() => SpinWait.SpinUntil(() => !_profilesStoppedByProblems.IsEmpty, TimeToWaitForTheRun).Must().BeTrue();
 
-   protected bool TheSentenceCardWasImported() => Sentences.All().Any(it => it.SourceQuestion.Value == "ずっと1人で生きていくんだ");
-   protected bool TheSubs2srsNoteWasImported() => Sentences.All().Any(it => it.SourceQuestion.Value == "猫が好きだ");
+   protected bool TheSentenceCardWasImported() => Sentences.All().Any(it => it.SourceData.Question.Value == "ずっと1人で生きていくんだ");
+   protected bool TheSubs2srsNoteWasImported() => Sentences.All().Any(it => it.SourceData.Question.Value == "猫が好きだ");
 
    public class with_the_subs2srs_profile_not_running_automatically : When_import_profiles_run_automatically
    {

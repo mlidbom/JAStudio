@@ -4,7 +4,7 @@ using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Sentences;
 
 namespace JAStudio.Core.Note.Vocabulary;
@@ -21,7 +21,7 @@ public class VocabNoteCompoundParts
    List<string> _primary;
    HashSet<string> _enteredAlternatives;
 
-   public VocabNoteCompoundParts(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNoteCompoundParts(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       Vocab = vocab;
       _guard = guard;

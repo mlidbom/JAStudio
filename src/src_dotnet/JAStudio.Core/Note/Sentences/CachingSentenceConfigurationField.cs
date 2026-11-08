@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note.Sentences;
@@ -11,11 +11,11 @@ public class CachingSentenceConfigurationField
    readonly SentenceNote _sentence;
    readonly NoteGuard _guard;
 
-   public CachingSentenceConfigurationField(SentenceNote sentence, SentenceConfigSubData? data, NoteGuard guard)
+   public CachingSentenceConfigurationField(SentenceNote sentence, SentenceConfigDto? data, NoteGuard guard)
    {
       _sentence = sentence;
       _guard = guard;
-      Configuration = SentenceData.CreateConfiguration(data, () => _guard.Update(() => _sentence.UpdateParsedWords(force: true)));
+      Configuration = SentenceDto.CreateConfiguration(data, () => _guard.Update(() => _sentence.UpdateParsedWords(force: true)));
    }
 
    public SentenceConfiguration Configuration { get; private set; }

@@ -1,11 +1,11 @@
 using JAStudio.Core.Note.Vocabulary;
 using MemoryPack;
 
-namespace JAStudio.Core.Note.CorpusData;
+namespace JAStudio.Core.Storage.Dto;
 
 /// <summary>A vocab's <see cref="VocabNoteQuestion"/> as the corpus stores it.</summary>
 [MemoryPackable]
-public partial class VocabQuestionSubData
+public partial class VocabQuestionDto
 {
    /// <summary>The <see cref="VocabNoteQuestion.Text"/>.</summary>
    public string Text { get; init; } = string.Empty;

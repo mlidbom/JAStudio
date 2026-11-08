@@ -24,7 +24,7 @@ public class KanjiViewModel
       return readings;
    }
 
-   public string Mnemonic() => Kanji.ActiveMnemonic;
+   public string Mnemonic() => Kanji.ShownMnemonic;
 
    public override string ToString() => $"{Question()}      {StringExtensions.PadToLength(Answer(), 60)}: {Readings()}";
 }

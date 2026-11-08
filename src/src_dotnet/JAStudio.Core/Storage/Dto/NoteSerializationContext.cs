@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using JAStudio.Core.Note.CorpusData;
 
 namespace JAStudio.Core.Storage.Dto;
 
@@ -10,19 +9,19 @@ namespace JAStudio.Core.Storage.Dto;
 /// Options (encoder, indenting, naming policy) are supplied at construction time
 /// via NoteSerializer so the Encoder (not settable via attribute) can be configured.
 /// </summary>
-[JsonSerializable(typeof(KanjiData))]
-[JsonSerializable(typeof(VocabData))]
-[JsonSerializable(typeof(VocabQuestionSubData))]
-[JsonSerializable(typeof(VocabCompoundPartsSubData))]
-[JsonSerializable(typeof(EnteredFormSubData))]
-[JsonSerializable(typeof(VocabMatchingRulesSubData))]
-[JsonSerializable(typeof(VocabRelatedSubData))]
-[JsonSerializable(typeof(SentenceData))]
-[JsonSerializable(typeof(SentenceConfigSubData))]
-[JsonSerializable(typeof(WordExclusionSubData))]
-[JsonSerializable(typeof(SentenceParsingResultSubData))]
-[JsonSerializable(typeof(ParsedMatchSubData))]
-[JsonSerializable(typeof(AllNotesContainer))]
+[JsonSerializable(typeof(KanjiDto))]
+[JsonSerializable(typeof(VocabDto))]
+[JsonSerializable(typeof(VocabQuestionDto))]
+[JsonSerializable(typeof(VocabCompoundPartsDto))]
+[JsonSerializable(typeof(EnteredFormDto))]
+[JsonSerializable(typeof(VocabMatchingRulesDto))]
+[JsonSerializable(typeof(VocabRelatedDto))]
+[JsonSerializable(typeof(SentenceDto))]
+[JsonSerializable(typeof(SentenceConfigDto))]
+[JsonSerializable(typeof(WordExclusionDto))]
+[JsonSerializable(typeof(SentenceParsingResultDto))]
+[JsonSerializable(typeof(ParsedMatchDto))]
+[JsonSerializable(typeof(AllNotesDto))]
 [JsonSourceGenerationOptions(
    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
    GenerationMode = JsonSourceGenerationMode.Default)]

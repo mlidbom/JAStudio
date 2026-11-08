@@ -1,4 +1,4 @@
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -7,7 +7,7 @@ public class VocabNoteMetaData
    readonly VocabNote _vocab;
    readonly NoteGuard _guard;
 
-   public VocabNoteMetaData(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNoteMetaData(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       _vocab = vocab;
       _guard = guard;

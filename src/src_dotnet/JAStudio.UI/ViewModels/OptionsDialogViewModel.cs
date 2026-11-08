@@ -190,10 +190,6 @@ partial class OptionsDialogViewModel : ObservableObject
    partial void OnBoostFailedCardAllowedTimeChanged(bool value) =>
       _config.BoostFailedCardAllowedTime.Value = value;
 
-   [ObservableProperty] bool _preferDefaultMnemonicsToSourceMnemonics;
-
-   partial void OnPreferDefaultMnemonicsToSourceMnemonicsChanged(bool value) =>
-      _config.PreferDefaultMnemonicsToSourceMnemonics.Value = value;
 
    // --- Performance and Memory Toggles ---
 
@@ -279,7 +275,6 @@ partial class OptionsDialogViewModel : ObservableObject
       DecreaseFailedCardIntervals = _config.DecreaseFailedCardIntervals.Value;
       PreventDoubleClicks = _config.PreventDoubleClicks.Value;
       BoostFailedCardAllowedTime = _config.BoostFailedCardAllowedTime.Value;
-      PreferDefaultMnemonicsToSourceMnemonics = _config.PreferDefaultMnemonicsToSourceMnemonics.Value;
 
       // Performance
       LoadStudioInForeground = _config.LoadStudioInForeground.Value;

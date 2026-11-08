@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Importing.RawNotes;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
 
 namespace JAStudio.Core.Importing;
@@ -20,7 +20,7 @@ public class SentenceFieldMapping
    /// <summary>The raw note's id in its source, such as Immersion Kit's <c>anime_the_garden_of_words_000000346</c>, or a subs2srs id.</summary>
    public string ExternalId { get; set; } = "";
 
-   /// <summary>The name of the work or deck the raw note came from, such as a JLab note's <c>Source</c>: see <see cref="SentenceData.SourceName"/>.</summary>
+   /// <summary>The name of the work or deck the raw note came from, such as a JLab note's <c>Source</c>: see <see cref="SentenceDto.SourceName"/>.</summary>
    public string SourceName { get; set; } = "";
 
    public string SourceComments { get; set; } = "";
@@ -34,7 +34,7 @@ public class SentenceFieldMapping
       new[] { SourceQuestion, SourceAnswer, Reading, ExternalId, SourceName, SourceComments, Audio, Screenshot }.Where(it => it != "");
 
    /// <summary>The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, with its own tags and <paramref name="tagsToAdd"/>.</summary>
-   public SentenceData SentenceDataFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
+   public SentenceDto SentenceDataFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
    {
       Id = Guid.NewGuid(),
       SourceQuestion = rawNote.Field(SourceQuestion),

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Converters;
 
@@ -60,7 +60,7 @@ public class VocabCloner
 
    VocabNote CreateNewVocabWithSomeDataCopied(string question, string answer, List<string> readings, bool copyVocabTags = true, bool copyMatchingRules = true)
    {
-      var clone = Note.Services.VocabNoteFactory.CreateFromUserData(question, answer, readings);
+      var clone = Note.Services.VocabNoteFactory.CreateWithCorpusAnswer(question, answer, readings);
       if(copyVocabTags)
       {
          CopyVocabTagsTo(clone);
@@ -84,8 +84,8 @@ public class VocabCloner
 
    public VocabNote Clone()
    {
-      var source = VocabNoteConverter.ToCorpusData(Note);
-      var cloneData = new VocabData
+      var source = VocabNoteConverter.ToDto(Note);
+      var cloneData = new VocabDto
                       {
                          Id = Guid.NewGuid(),
                          Tags = [],

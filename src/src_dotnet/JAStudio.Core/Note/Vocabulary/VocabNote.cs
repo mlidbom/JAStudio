@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
@@ -11,7 +11,24 @@ namespace JAStudio.Core.Note.Vocabulary;
 public class VocabNote : JPNote, IHasTextToSpeechAudio
 {
    public VocabNoteQuestion Question { get; private set; }
-   public VocabNoteUserFields User { get; }
+
+   /// <summary>
+   /// The corpus's own answer for the vocab: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
+   /// </summary>
+   public WritableStringValue CorpusAnswer { get; }
+
+   /// <summary>The corpus's explanation of the vocab, shown on its card.</summary>
+   public WritableStringValue Explanation { get; }
+
+   /// <summary>The corpus's longer explanation of the vocab, shown on its card.</summary>
+   public WritableStringValue ExplanationLong { get; }
+
+   /// <summary>The corpus's own mnemonic for the vocab, shown on its card.</summary>
+   public WritableStringValue Mnemonic { get; }
+
+   /// <summary>What the vocab's source gave it when it was imported.</summary>
+   public VocabSourceData SourceData { get; }
+
    public VocabNoteForms Forms { get; }
    public VocabNoteKanji Kanji { get; }
    public VocabNotePartsOfSpeech PartsOfSpeech { get; }
@@ -25,10 +42,6 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public VocabNoteMatchingConfiguration MatchingConfiguration { get; private set; }
    public VocabCloner Cloner { get; }
 
-   public WritableStringValue SourceAnswer { get; }
-   public WritableStringValue ActiveAnswer { get; }
-   public WritableStringValue SourceMnemonic { get; }
-   public WritableStringValue SourceReadingMnemonic { get; }
    public WritableStringValue TechnicalNotes { get; }
    public WritableStringValue References { get; }
    public WritableImageValue Image { get; }
@@ -36,12 +49,13 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    readonly List<string> _readings;
 
-   public VocabNote(NoteServices services, VocabData? data = null) : base(services, data != null ? new VocabId(data.Id) : VocabId.New(), data?.Tags)
+   public VocabNote(NoteServices services, VocabDto? data = null) : base(services, data != null ? new VocabId(data.Id) : VocabId.New(), data?.Tags)
    {
-      SourceAnswer = new WritableStringValue(data?.SourceAnswer ?? string.Empty, Guard);
-      ActiveAnswer = new WritableStringValue(data?.ActiveAnswer ?? string.Empty, Guard);
-      SourceMnemonic = new WritableStringValue(data?.SourceMnemonic ?? string.Empty, Guard);
-      SourceReadingMnemonic = new WritableStringValue(data?.SourceReadingMnemonic ?? string.Empty, Guard);
+      CorpusAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
+      Explanation = new WritableStringValue(data?.UserExplanation ?? string.Empty, Guard);
+      ExplanationLong = new WritableStringValue(data?.UserExplanationLong ?? string.Empty, Guard);
+      Mnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
+      SourceData = new VocabSourceData(data, Guard);
       TechnicalNotes = new WritableStringValue(data?.TechnicalNotes ?? string.Empty, Guard);
       References = new WritableStringValue(data?.References ?? string.Empty, Guard);
       Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
@@ -49,7 +63,6 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       _readings = data?.Readings != null ? [..data.Readings] : [];
 
       Question = new VocabNoteQuestion(this, data, Guard);
-      User = new VocabNoteUserFields(data, Guard);
       Forms = new VocabNoteForms(this, data, Guard);
       Kanji = new VocabNoteKanji(this);
       PartsOfSpeech = new VocabNotePartsOfSpeech(this, data, Guard);
@@ -69,7 +82,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       Services.Collection.Vocab.Cache.JpNoteUpdated(this);
    }
 
-   public override CorpusObjectData ToCorpusData() => VocabNoteConverter.ToCorpusData(this);
+   public override CorpusNoteDto ToDto() => VocabNoteConverter.ToDto(this);
 
    public override string GetQuestion() => Question.Text;
 
@@ -97,12 +110,8 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       }
    }
 
-   public override string GetAnswer()
-   {
-      var userAnswer = User.Answer.Value;
-      var sourceAnswer = SourceAnswer.Value;
-      return !string.IsNullOrEmpty(userAnswer) ? userAnswer : sourceAnswer;
-   }
+   /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
+   public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
 
    /// <summary>The question and answer, the readings in kana and in romaji, and the forms.</summary>
    public override IEnumerable<string> SearchableTexts() =>
@@ -126,7 +135,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       Services.VocabNoteGeneratedData.UpdateGeneratedData(this);
    }
 
-   public List<string> GetReadings() => _readings.ToList();
+   public List<string> GetReadings() => [.. _readings];
 
    public void SetReadings(List<string> readings) => Guard.Update(() =>
    {
@@ -140,7 +149,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       if(dictLookup.FoundWords())
       {
          var generated = dictLookup.FormatAnswer();
-         SourceAnswer.Set(generated);
+         SourceData.Answer.Set(generated);
       }
 
       UpdateGeneratedData();
@@ -150,7 +159,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    {
       var note = new VocabNote(services);
       note.Question.SetText(question);
-      note.User.Answer.Set(answer);
+      note.CorpusAnswer.Set(answer);
       note.SetReadings(readings);
 
       if(forms.Any())
@@ -164,5 +173,5 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    }
 
    public static VocabNote Create(NoteServices services, string question, string answer, params string[] readings) =>
-      Create(services, question, answer, readings.ToList(), []);
+      Create(services, question, answer, [.. readings], []);
 }

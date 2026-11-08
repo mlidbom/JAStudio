@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields.AutoSaveWrappers;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
@@ -15,7 +15,7 @@ public class RelatedVocab
    readonly NoteGuard _guard;
    readonly Lazy<HashSet<NoteId>> _inCompoundIds;
 
-   public RelatedVocab(VocabNote vocab, VocabRelatedSubData? subData, NoteGuard guard)
+   public RelatedVocab(VocabNote vocab, VocabRelatedDto? subData, NoteGuard guard)
    {
       _vocab = vocab;
       _guard = guard;

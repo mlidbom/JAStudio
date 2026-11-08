@@ -1,39 +1,39 @@
 using System.Linq;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Storage.Converters;
 
 static class VocabNoteConverter
 {
-   public static VocabData ToCorpusData(VocabNote note)
+   public static VocabDto ToDto(VocabNote note)
    {
       var rules = note.MatchingConfiguration.ConfigurableRules;
       var related = note.RelatedNotes;
 
-      return new VocabData
+      return new VocabDto
              {
                 Id = note.GetId().Value,
-                Question = note.Question.ToCorpusData(),
-                SourceAnswer = note.SourceAnswer.Value,
-                UserAnswer = note.User.Answer.Value,
-                ActiveAnswer = note.ActiveAnswer.Value,
-                UserExplanation = note.User.Explanation.Value,
-                UserExplanationLong = note.User.ExplanationLong.Value,
-                UserMnemonic = note.User.Mnemonic.Value,
-                CompoundParts = new VocabCompoundPartsSubData { Primary = note.CompoundParts.Primary(), Alternative = note.CompoundParts.Alternative() },
+                Question = note.Question.ToDto(),
+                SourceAnswer = note.SourceData.Answer.Value,
+                UserAnswer = note.CorpusAnswer.Value,
+                ActiveAnswer = note.GetAnswer(),
+                UserExplanation = note.Explanation.Value,
+                UserExplanationLong = note.ExplanationLong.Value,
+                UserMnemonic = note.Mnemonic.Value,
+                CompoundParts = new VocabCompoundPartsDto { Primary = note.CompoundParts.Primary(), Alternative = note.CompoundParts.Alternative() },
                 Readings = note.GetReadings(),
                 PartsOfSpeech = note.PartsOfSpeech.RawStringValue(),
-                SourceMnemonic = note.SourceMnemonic.Value,
-                SourceReadingMnemonic = note.SourceReadingMnemonic.Value,
+                SourceMnemonic = note.SourceData.Mnemonic.Value,
+                SourceReadingMnemonic = note.SourceData.ReadingMnemonic.Value,
                 AudioB = note.Audio.First.RawValue(),
                 AudioG = note.Audio.Second.RawValue(),
                 AudioTTS = note.Audio.Tts.RawValue(),
-                Forms = [.. note.Forms.EnteredForms().Select(it => new EnteredFormSubData { Text = it.Text, IsOwned = it.IsOwned })],
+                Forms = [.. note.Forms.EnteredForms().Select(it => new EnteredFormDto { Text = it.Text, IsOwned = it.IsOwned })],
                 SentenceCount = note.MetaData.SentenceCount,
                 TechnicalNotes = note.TechnicalNotes.Value,
                 References = note.References.Value,
-                MatchingRules = new VocabMatchingRulesSubData
+                MatchingRules = new VocabMatchingRulesDto
                                 {
                                    PrefixIsNot = [.. rules.PrefixIsNot.OrderBy(s => s)],
                                    SuffixIsNot = [.. rules.SuffixIsNot.OrderBy(s => s)],
@@ -41,7 +41,7 @@ static class VocabNoteConverter
                                    YieldToSurface = [.. rules.YieldToSurface.OrderBy(s => s)],
                                    RequiredPrefix = [.. rules.RequiredPrefix.OrderBy(s => s)],
                                 },
-                RelatedVocab = new VocabRelatedSubData
+                RelatedVocab = new VocabRelatedDto
                                {
                                   ErgativeTwin = related.ErgativeTwin.Get(),
                                   DerivedFrom = related.DerivedFrom.Get(),

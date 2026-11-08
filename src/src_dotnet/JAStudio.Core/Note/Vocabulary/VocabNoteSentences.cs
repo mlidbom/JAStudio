@@ -83,5 +83,5 @@ public class VocabNoteSentences
 
    public List<SentenceNote> WithPrimaryForm() => Vocab.Services.Collection.Sentences.WithForm(Vocab.GetQuestion());
 
-   public List<SentenceNote> UserHighlighted() => Vocab.Services.Collection.Sentences.WithUserHighlightedVocab(Vocab.GetQuestion());
+   public List<SentenceNote> Highlighted() => Vocab.Services.Collection.Sentences.WithHighlightedVocab(Vocab.GetQuestion());
 }

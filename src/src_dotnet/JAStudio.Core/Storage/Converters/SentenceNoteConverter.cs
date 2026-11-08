@@ -1,68 +1,68 @@
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.Note.CorpusData;
+using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Sentences;
 
 namespace JAStudio.Core.Storage.Converters;
 
 static class SentenceNoteConverter
 {
-   public static SentenceData ToCorpusData(SentenceNote note)
+   public static SentenceDto ToDto(SentenceNote note)
    {
       var config = note.Configuration.Configuration;
       var parsingResult = note.GetParsingResult();
 
-      return new SentenceData
+      return new SentenceDto
              {
                 Id = note.GetId().Value,
-                SourceQuestion = note.SourceQuestion.Value,
-                UserQuestion = note.User.Question.Value,
-                ActiveQuestion = note.ActiveQuestion.Value,
-                SourceAnswer = note.SourceAnswer.Value,
-                UserAnswer = note.User.Answer.Value,
-                ActiveAnswer = note.ActiveAnswer.Value,
-                SourceComments = note.SourceComments.Value,
-                UserComments = note.User.Comments.Value,
+                SourceQuestion = note.SourceData.Question.Value,
+                UserQuestion = note.CorpusQuestion.Value,
+                ActiveQuestion = note.GetQuestion(),
+                SourceAnswer = note.SourceData.Answer.Value,
+                UserAnswer = note.CorpusAnswer.Value,
+                ActiveAnswer = note.GetAnswer(),
+                SourceComments = note.SourceData.Comments.Value,
+                UserComments = note.Comments.Value,
                 Reading = note.Reading.Value,
-                ExternalId = note.ExternalId.Value,
+                ExternalId = note.SourceData.ExternalId.Value,
                 Audio = note.Audio.RawValue(),
                 Screenshot = note.Screenshot.RawValue(),
-                Configuration = ToConfigSubData(config),
-                ParsingResult = ToParsingResultSubData(parsingResult),
+                Configuration = ToConfigurationDto(config),
+                ParsingResult = ToParsingResultDto(parsingResult),
                 SourceName = note.SourceName.Value,
                 Tags = note.Tags.ToStringList(),
              };
    }
 
-   static SentenceConfigSubData ToConfigSubData(SentenceConfiguration config) =>
+   static SentenceConfigDto ToConfigurationDto(SentenceConfiguration config) =>
       new()
       {
          HighlightedWords = config.HighlightedWords.ToList(),
-         IncorrectMatches = config.IncorrectMatches.Get().Select(ToWordExclusionSubData).ToList(),
-         HiddenMatches = config.HiddenMatches.Get().Select(ToWordExclusionSubData).ToList(),
+         IncorrectMatches = config.IncorrectMatches.Get().Select(ToWordExclusionDto).ToList(),
+         HiddenMatches = config.HiddenMatches.Get().Select(ToWordExclusionDto).ToList(),
       };
 
-   static WordExclusionSubData ToWordExclusionSubData(WordExclusion exclusion) =>
+   static WordExclusionDto ToWordExclusionDto(WordExclusion exclusion) =>
       new()
       {
          Word = exclusion.Word,
          Index = exclusion.Index,
       };
 
-   static SentenceParsingResultSubData? ToParsingResultSubData(ParsingResult? result)
+   static SentenceParsingResultDto? ToParsingResultDto(ParsingResult? result)
    {
       if(result == null || string.IsNullOrEmpty(result.Sentence))
          return null;
 
-      return new SentenceParsingResultSubData
+      return new SentenceParsingResultDto
              {
                 Sentence = result.Sentence,
                 ParserVersion = result.ParserVersion,
-                ParsedWords = result.ParsedWords.Select(ToMatchSubData).ToList(),
+                ParsedWords = result.ParsedWords.Select(ToParsedMatchDto).ToList(),
              };
    }
 
-   static ParsedMatchSubData ToMatchSubData(ParsedMatch match) =>
+   static ParsedMatchDto ToParsedMatchDto(ParsedMatch match) =>
       new()
       {
          Variant = match.Variant,

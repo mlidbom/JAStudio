@@ -20,5 +20,5 @@ sealed class SentenceSearchResultViewModel(SentenceNote sentence) : SearchResult
    /// The id the sentence had in the deck it was imported from, such as the subs2srs id <c>ny4-nodup_11_0.15.23.540-0.15.25.620</c>:<br/>
    /// the deck, episode 11, and the line's start and end times. Empty for many sentences.
    /// </summary>
-   public TextSortedWithNumbersAsNumbers ExternalId => new(Sentence.ExternalId.Value);
+   public TextSortedWithNumbersAsNumbers ExternalId => new(Sentence.SourceData.ExternalId.Value);
 }
