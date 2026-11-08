@@ -41,8 +41,9 @@ nothing stored only for Anki's sake.
   [The minimal Anki note type](#the-minimal-anki-note-type-tentative).
 - **mobile-review** — reviewing cards in an Anki mobile app. The JAStudio add-on doesn't run there, so the card
   is exactly what the installed card template renders from the note's fields.
-- **import-note** — an Anki note with the full set of fields, created by Yomitan or a deck import. JAStudio
-  ingests it into the corpus, tags included, and the import-note is then deleted. Deck imports happen in a
+- **import-note** — an Anki note with the full set of fields, created by a deck import or through AnkiConnect, in a
+  note type of its own. JAStudio ingests it into the corpus through an import profile (`import-profiles.md`), tags
+  included, and the import-note is then deleted or tagged as imported. Deck imports happen in a
   separate Anki profile (2026-11-06; see [Import and organization](#import-and-organization-needs-its-own-design)).
 - **generated-html-field** — the one Anki field a study-note keeps for mobile-review, besides the question and
   the audio. JAStudio fills it with HTML generated from the note, and nothing reads it back. See
@@ -69,7 +70,7 @@ nothing stored only for Anki's sake.
 | Sync direction (2026-11-06) | No two-way sync except where it can't be avoided. |
 | Tagging, organizing, batch import | Need their own design. Partly decided 2026-11-06 (rows below). See [Import and organization](#import-and-organization-needs-its-own-design). |
 | Navigation and editing | A large part of this work is building proper navigation and editing into JAStudio itself, so Anki isn't needed for either. |
-| Overall approach | Build out JAStudio's own UI until Anki is only used for TTS, reviewing, and importing sentences and Yomitan-created vocab. The model changes come after that, when they no longer have to keep the Anki format working. *2026-11-08: TTS no longer needs Anki: JAStudio generates it itself (`text-to-speech.md`).* |
+| Overall approach | Build out JAStudio's own UI until Anki is only used for TTS, reviewing, and importing sentences and Yomitan-created vocab. The model changes come after that, when they no longer have to keep the Anki format working. *2026-11-08: TTS no longer needs Anki: JAStudio generates it itself (`text-to-speech.md`). Yomitan no longer creates vocab: Magnus creates it in JAStudio (`import-profiles.md`, "Decided since").* |
 | Study approach | Magnus studies sentences, but studying vocab and kanji stays fully supported. That includes mnemonics, studying status and everything else around them. Only the Anki notes become minimal (study-notes). The one removal is the complex kanji audio generation (primary-readings TTS): it's in the way of minimal notes and doesn't help much. Anything else is removed only if it is actually in the way of the refactoring. |
 | Edits in Anki (2026-11-06) | Magnus doesn't edit questions or answers in Anki, on desktop or on AnkiDroid. JAStudio ignores edits made in Anki to the fields it writes, and its next write overwrites them. |
 | Mobile-review content (2026-11-06) | Magnus's proposal: one generated-html-field instead of a set of fields. The back templates are the committed minimal ones (`JAStudio.Web/Styles/notes/`) plus that one field. See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
@@ -99,8 +100,9 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
    Nothing reads the generated-html-field back, and the next Anki-projection of a note overwrites any edit made
    to it in Anki. *(Settled 2026-11-06: Magnus doesn't edit in Anki.)*
 2. **The Anki-ingestion has one job, importing new notes.** *It had two until 2026-11-08.*
-   - **New note import:** build a domain note from a new Anki note (Yomitan, imported decks), tags included.
-     This is the one place where Anki-format strings are parsed into the domain model.
+   - **New note import:** build a domain note from a new Anki note, tags included. *Since 2026-11-08* import
+     profiles do this, from notes of note types of their own (`import-profiles.md`). Notes of JAStudio's own types
+     added in Anki aren't taken in any more.
    - ~~**Audio update:**~~ *Gone 2026-11-08.* It took in the audio HyperTTS generated into an Anki note. JAStudio
      generates its own TTS audio now (`text-to-speech.md`), HyperTTS isn't used any more, and nothing else writes
      audio in Anki.
@@ -113,8 +115,9 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
    audio went too.
    - **Images** (Magnus, 2026-11-07) only come with an import: there's no point in editing them in Anki. JAStudio has
      no image editor, so a note's images are fixed after import.
-   - **The code:** JAStudio doesn't listen to Anki's `note_will_flush` hook any more. A note added in Anki still takes
-     all of its fields and tags (`NoteCache.ExternalNoteAdded`).
+   - **The code:** JAStudio doesn't listen to Anki's `note_will_flush` hook any more. *Since 2026-11-08* it doesn't
+     take in notes of its own types added in Anki either: `NoteCache.ExternalNoteAdded` is gone, and the corpus-validity
+     checks report such a note (`corpus-validity.md`).
    - **A note deleted in Anki stays in the corpus** (Magnus, 2026-11-08). JAStudio forgets its Anki note and cards
      (`NoteCache.ExternalNoteRemoved`), so it's no longer studied in that Anki profile, and nothing recreates the Anki
      note. Anki holds the notes being studied; the corpus holds them all. Deleting a note for good is JAStudio's own
@@ -202,7 +205,7 @@ playback there is.
 | The card templates installed in the Anki collection | Many fields, in the back templates | Install the minimal templates plus the generated-html-field, then remove the other fields. See [What the card templates actually use](#what-the-card-templates-actually-use). |
 | Browsing and editing notes | All fields | *Done 2026-11-06:* JAStudio's workspace, navigation pane and editors. |
 | Tagging whole decks and seasons | Tags | Navigating and editing hierarchical tags in JAStudio (own design) |
-| Yomitan adding vocab | The fields Yomitan fills in | Import design (own design) |
+| ~~Yomitan adding vocab~~ | ~~The fields Yomitan fills in~~ | *Gone 2026-11-08:* Yomitan no longer adds notes. Vocab is created in JAStudio. |
 | Searching on generated tags | `-::…` tags | JAStudio search |
 
 ### What the card templates actually use
@@ -630,16 +633,18 @@ design, not a proposal. *The design of importing itself, import profiles, is in 
   ago. Their fields tend to be similar to the corpus sentences' fields. The files are online-only, and I believe
   reading even the note types inside an .apkg downloads the whole file, media included, so pick small ones to
   inspect.
-- **The import path in the code** is the Anki-ingestion's note-added hook (`ExternalNoteAdded`), which Yomitan's
-  notes go through. *Verified 2026-11-08 in Anki 26.9.3:* the .apkg importer doesn't run that hook; it runs in
+- **The import path in the code** was the Anki-ingestion's note-added hook (`ExternalNoteAdded`), which Yomitan's
+  notes went through. *Verified 2026-11-08 in Anki 26.9.3:* the .apkg importer doesn't run that hook; it runs in
   Anki's Rust backend, and Anki only announces the finished import (`operation_did_execute`, with the
   `ImportDialog` as source). The Immersion Kit conversion that ran after an import was an empty TODO until import
-  profiles replaced it on 2026-11-08 (`import-profiles.md`), run by hand for now.
+  profiles replaced it on 2026-11-08 (`import-profiles.md`). They run on both signals, and `ExternalNoteAdded` is
+  gone.
 
 **Where new data comes from, and how each source could reach JAStudio directly** (written before import through
 Anki was decided; kept for reference):
 
-- **Yomitan** adds notes through AnkiConnect, a local HTTP JSON API.
+- **Yomitan** adds notes through AnkiConnect, a local HTTP JSON API. *Moot since 2026-11-08: Yomitan no longer adds
+  notes.*
   - JAStudio already runs a Kestrel server (`JAStudio.Web/CardServer.cs`), so it could serve the part of that
     API Yomitan uses, and Yomitan would talk to JAStudio instead of Anki.
   - Unverified: exactly which actions Yomitan calls. They probably include `addNote`, `canAddNotes` and
@@ -766,9 +771,7 @@ Progress on step 3:
    9. Media, once the points under [Media](#media-open) are settled.
 
 **Watch-outs for the import flow (step 3):**
-- **Yomitan's "already added" check.** Once import-notes are deleted, that check has to find the vocab
-  study-note instead. That probably needs the study-note's first field to hold the text Yomitan checks against,
-  and Yomitan checking across note types. Not verified.
+- ~~**Yomitan's "already added" check.**~~ *Moot since 2026-11-08:* Yomitan no longer adds notes.
 - **HyperTTS automatic rules** are keyed by note type id and deck id. Not verified whether they fire for notes
   that code creates.
 
@@ -845,8 +848,6 @@ question 4.
 
 ### For me to verify (not questions for Magnus)
 
-- Yomitan's "already added" check once import-notes are deleted (see the watch-outs under
-  [Order of work](#order-of-work-tentative)).
 - Whether HyperTTS's automatic rules fire for notes created by code.
 - Whether removing fields forces a full AnkiWeb sync. With mobile-review in the picture, a full sync also means
   the phone downloads the whole collection again, so batching the field changes matters more.

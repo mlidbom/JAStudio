@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils.Collections.Generic;
@@ -15,7 +13,7 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
    readonly Dictionary<string, HashSet<SentenceNote>> _byUserMarkedInvalidVocab = new();
    readonly Dictionary<NoteId, HashSet<SentenceNote>> _byVocabId = new();
 
-   public SentenceCache(NoteServices noteServices) : base((services, data) => new SentenceNote(services, SentenceData.FromAnkiNoteData(data)), noteServices) {}
+   public SentenceCache(NoteServices noteServices) : base(noteServices) {}
 
    protected override void ClearDerivedIndexes()
    {
@@ -25,7 +23,6 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
       _byVocabId.Clear();
    }
 
-   protected override NoteId CreateTypedId(Guid value) => new SentenceId(value);
 
    protected override SentenceSnapshot CreateSnapshot(SentenceNote note) => new(note);
 

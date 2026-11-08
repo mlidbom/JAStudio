@@ -20,10 +20,9 @@ class CachedNote
    }
 }
 
-abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> noteConstructor, NoteServices noteServices) : IExternalNoteUpdateHandler
+abstract class NoteCacheBase<TNote>(NoteServices noteServices) : IExternalNoteUpdateHandler
    where TNote : JPNote
 {
-   readonly Func<NoteServices, AnkiNoteData, TNote> _noteConstructor = noteConstructor;
    protected readonly Dictionary<NoteId, TNote> _byId = new();
    readonly SimpleObservable<TNote> _noteUpdated = new();
    readonly NoteServices _noteServices = noteServices;
@@ -55,23 +54,6 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    public long GetExternalNoteId(NoteId noteId) =>
       _noteServices.ExternalNoteIdMap.ToExternalId(noteId) ?? 0;
 
-   public void ExternalNoteAdded(long externalNoteId, AnkiNoteData data)
-   {
-      // If we already registered this external ID (we created the note ourselves),
-      // don't create a duplicate — the note is already in the cache.
-      if(_noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId) != null)
-         return;
-
-      data.Id = CreateTypedId(Guid.NewGuid());
-      _noteServices.ExternalNoteIdMap.Register(externalNoteId, data.Id);
-      var note = _noteConstructor(_noteServices, data);
-      SetUpNoteAddedInAnki(note);
-      AddToCache(note);
-   }
-
-   /// <summary>Sets up a note just added in Anki, before it's added to the cache: updates its generated data.</summary>
-   protected virtual void SetUpNoteAddedInAnki(TNote note) => note.UpdateGeneratedData();
-
    /// <summary>
    /// Called when a note is deleted in Anki: the note's Anki note is forgotten, and with it its cards, so the note is no longer studied in this Anki profile.<br/>
    /// The note itself stays in the corpus and in JAStudio. Deleting it from the corpus is <see cref="JPCollection.Delete"/>.
@@ -86,9 +68,6 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
       _noteServices.ExternalNoteIdMap.Unregister(externalNoteId);
       note.ForgetTheCardsOfItsDeletedAnkiNote();
    }
-
-   /// <summary>Creates the correctly typed NoteId for this cache (VocabId, KanjiId, etc.)</summary>
-   protected abstract NoteId CreateTypedId(Guid value);
 
    public void JpNoteUpdated(TNote note)
    {
@@ -143,7 +122,7 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    }
 }
 
-abstract class NoteCache<TNote, TSnapshot>(Func<NoteServices, AnkiNoteData, TNote> noteConstructor, NoteServices noteServices) : NoteCacheBase<TNote>(noteConstructor, noteServices)
+abstract class NoteCache<TNote, TSnapshot>(NoteServices noteServices) : NoteCacheBase<TNote>(noteServices)
    where TNote : JPNote
    where TSnapshot : CachedNote
 {

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.NoteFields.AutoSaveWrappers;
 using JAStudio.Core.Note.Vocabulary;
@@ -86,22 +85,6 @@ public partial class VocabData : CorpusObjectData
                                           RelatedVocab.ConfusedWith.ToHashSet(),
                                           RelatedVocab.SeeAlso.ToHashSet()));
 
-   /// Creates VocabData from raw AnkiNoteData
-   public static VocabData FromAnkiNoteData(AnkiNoteData data) => FromAnki(new AnkiVocabNote(data));
-
-   public static VocabData FromAnki(AnkiVocabNote anki) =>
-      new()
-      {
-         Id = (anki.Id ?? VocabId.New()).Value,
-         Tags = [..anki.Tags],
-         Question = anki.Question,
-         ActiveAnswer = anki.ActiveAnswer,
-         AudioB = anki.AudioB,
-         AudioG = anki.AudioG,
-         AudioTTS = anki.AudioTTS,
-         Image = anki.Image,
-         UserImage = anki.UserImage,
-      };
 }
 
 /// Matching rules sub-data for vocab word matching (serialized in JSON).

@@ -72,7 +72,7 @@ class AnkiCollectionSyncRunner(Slots):
         with self._lock:
             for callback in self._will_remove_subscribers: callback(note_ids)
 
-    def connect_note_addded(self, on_added: Callable[[Note], None]) -> None:
+    def connect_note_added(self, on_added: Callable[[Note], None]) -> None:
         with self._lock:
             self._added_subscribers.append(on_added)
 

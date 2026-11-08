@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -11,20 +12,21 @@ public interface IBackendNoteCreator
    void CreateSentence(SentenceNote note, Action callback);
 }
 
+/// <summary>
+/// Gives each note a pretend Anki note in specifications, where there's no Anki: registers a new Anki note id for the note, as creating its<br/>
+/// real Anki note does, so that what Anki reports about the Anki note, such as its deletion or its cards' studying status, reaches the note.
+/// </summary>
 class TestingBackendNoteCreator : IBackendNoteCreator
 {
-   public void CreateKanji(KanjiNote note, Action callback)
-   {
-      callback();
-   }
+   long _lastAnkiNoteId;
 
-   public void CreateVocab(VocabNote note, Action callback)
-   {
-      callback();
-   }
+   public void CreateKanji(KanjiNote note, Action callback) => CreateThePretendAnkiNoteOf(note, callback);
+   public void CreateVocab(VocabNote note, Action callback) => CreateThePretendAnkiNoteOf(note, callback);
+   public void CreateSentence(SentenceNote note, Action callback) => CreateThePretendAnkiNoteOf(note, callback);
 
-   public void CreateSentence(SentenceNote note, Action callback)
+   void CreateThePretendAnkiNoteOf(JPNote note, Action callback)
    {
+      note.Services.ExternalNoteIdMap.Register(Interlocked.Increment(ref _lastAnkiNoteId), note.GetId());
       callback();
    }
 }

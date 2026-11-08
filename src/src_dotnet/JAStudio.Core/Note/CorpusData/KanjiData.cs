@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JAStudio.Core.Anki;
 using MemoryPack;
 
 namespace JAStudio.Core.Note.CorpusData;
@@ -49,16 +48,4 @@ public partial class KanjiData : CorpusObjectData
 
    }
 
-   /// Creates KanjiData from raw AnkiNoteData
-   public static KanjiData FromAnkiNoteData(AnkiNoteData data) => FromAnki(new AnkiKanjiNote(data));
-
-   public static KanjiData FromAnki(AnkiKanjiNote anki) =>
-      new()
-      {
-         Id = (anki.Id ?? KanjiId.New()).Value,
-         Tags = [..anki.Tags],
-         Kanji = anki.Question,
-         SourceAnswer = anki.SourceAnswer,
-         ActiveAnswer = anki.ActiveAnswer,
-      };
 }

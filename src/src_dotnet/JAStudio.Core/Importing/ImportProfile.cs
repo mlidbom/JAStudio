@@ -11,7 +11,7 @@ namespace JAStudio.Core.Importing;
 /// </summary>
 /// <remarks>
 /// "Profile" isn't an Anki profile: the separate Anki profile imports happen in is "the Anki profile for importing".<br/>
-/// An import profile creates sentences only, so far. Vocab comes with the import of Yomitan's notes.
+/// An import profile creates sentences only. Vocab would come with a source of vocab to import.
 /// </remarks>
 public class ImportProfile
 {

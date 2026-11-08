@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils.Collections.Generic;
 
@@ -18,14 +16,7 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
    readonly Dictionary<string, HashSet<VocabNote>> _byReading = new();
    readonly Dictionary<string, HashSet<VocabNote>> _byStem = new();
 
-   public VocabCache(NoteServices noteServices) : base((services, data) => new VocabNote(services, VocabData.FromAnkiNoteData(data)), noteServices) {}
-
-   /// <summary>Also sets up the forms of a vocab that came without any besides its question: see <see cref="VocabNoteGeneratedData.SetUpTheFormsOfVocabAddedInAnki"/>.</summary>
-   protected override void SetUpNoteAddedInAnki(VocabNote vocab)
-   {
-      base.SetUpNoteAddedInAnki(vocab);
-      vocab.Services.VocabNoteGeneratedData.SetUpTheFormsOfVocabAddedInAnki(vocab);
-   }
+   public VocabCache(NoteServices noteServices) : base(noteServices) {}
 
    protected override void ClearDerivedIndexes()
    {
@@ -39,7 +30,6 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
       _byStem.Clear();
    }
 
-   protected override NoteId CreateTypedId(Guid value) => new VocabId(value);
 
    public List<VocabNote> WithForm(string form) =>
       _monitor.Locked(() => _byForm.TryGetValue(form, out var notes) ? notes.ToList() : []);

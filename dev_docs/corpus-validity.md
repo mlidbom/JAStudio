@@ -16,6 +16,12 @@ Anki, go unnoticed until something trips on them. Checking the whole corpus find
   did. Deleting one safely needs a check that no other note references the same name. Deleting a note in JAStudio
   takes its unused files with it since 2026-11-08, but notes deleted before then left theirs.
 - **Missing media files:** references to files the media layer doesn't have.
+- **Anki notes of JAStudio's note types that no corpus note has.** In Anki, only JAStudio writes notes of its own note
+  types (`import-profiles.md`, principle 3), so such a note is a mistake: one added through Anki's Add dialog, by a tool
+  through AnkiConnect, or on the phone and brought in by a sync. JAStudio ignores them: the reload matches Anki notes
+  to corpus notes by their `jas_note_id` field, and nothing takes in a note added in Anki since 2026-11-08. The check
+  only reports them, and they're fixed by hand (Magnus, 2026-11-08): it should never happen, so JAStudio needs no
+  support for it.
 - **Audio that isn't MP3.** The corpus holds only MP3 (Magnus, 2026-11-08). Supporting other formats might happen, but
   not to rescue a few files.
   - Four imported sentences have Ogg Vorbis audio, which JAStudio can't play or compare: `0x0005a48b.wav.ogg`,

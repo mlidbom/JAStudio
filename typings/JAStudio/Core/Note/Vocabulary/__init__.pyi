@@ -324,7 +324,6 @@ class VocabNoteForms:
 
 
 class VocabNoteGeneratedData:
-    def SetUpTheFormsOfVocabAddedInAnki(self, vocab: VocabNote) -> None: ...
     def UpdateGeneratedData(self, vocab: VocabNote) -> None: ...
 
 

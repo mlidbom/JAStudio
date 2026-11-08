@@ -2,7 +2,8 @@
 
 > **Status: design agreed with Magnus on 2026-11-08, and increment 2 built the same day:** import profiles for
 > sentences, with the editor, the check and running by hand (see [As built](#as-built-2026-11-08)). Increment 3,
-> automatic runs, was built the same day. Not built yet: vocab, and subs2srs decks. What import profiles replace is described in
+> automatic runs, was built the same day, and the take-in of notes added in Anki retired. Not built yet: subs2srs
+> decks. Yomitan is no longer an import source (see [Decided since](#decided-since-magnus-2026-11-08)). What import profiles replace is described in
 > `media-storage-and-import.md` ("Importing from Anki") and `corpus-data-model.md` ("Import and organization").
 
 ## What an import profile is
@@ -38,8 +39,9 @@ Two things built for the February 2026 move out of Anki don't fit what comes nex
 Both did their job. Every media reference in the corpus resolved in the media layer on 2026-11-08. Since the
 February move, only about 300 vocab and 10 sentences have been added. Import profiles are for the imports ahead:
 - subs2srs decks;
-- Immersion Kit's sentence cards, through its "Download sentence card" .apkg files;
-- Yomitan.
+- Immersion Kit's sentence cards, through its "Download sentence card" .apkg files.
+
+Yomitan was to be the third, until Magnus decided against importing from it (see [Decided since](#decided-since-magnus-2026-11-08)).
 
 ## Principles (Magnus, 2026-11-08)
 
@@ -51,7 +53,8 @@ February move, only about 300 vocab and 10 sentences have been added. Import pro
 3. **In Anki, only JAStudio writes notes of JAStudio's own note types.** Everything else arrives as raw notes in a
    note type of its own, and import profiles are the only way from Anki into the corpus. Importing from JAStudio's
    own note types was rejected as iffy. So the take-in of JAStudio-type notes added in Anki
-   (`NoteCache.ExternalNoteAdded`) retires once Yomitan has a note type and an import profile of its own.
+   (`NoteCache.ExternalNoteAdded`) was retired on 2026-11-08, once Yomitan stopped adding notes. A note of JAStudio's
+   own types added in Anki anyway is a mistake that the corpus-validity checks report (`corpus-validity.md`).
 4. **Anki holds the notes being studied, and the corpus holds them all.** An import doesn't need to create Anki
    notes, and in the Anki profile for importing there's no point. A note deleted in Anki stays in the corpus; that
    was done on 2026-11-08 (`corpus-data-model.md`, "Anki's role and its consequences").
@@ -66,7 +69,7 @@ where "Convert Immersion Kit sentences" used to be. Every change is saved at onc
 | Name | |
 | Anki note type | Mandatory, chosen from a dropdown: the raw notes' note type. It gives the list of fields for the field mapping. JAStudio's own note types aren't offered. |
 | Anki search | Optional: narrows the selection within the note type, such as to a deck or tags. It runs through Anki's own search. |
-| What it creates | Sentence or vocab. *Sentences only so far: vocab comes with Yomitan's import profile (increment 5).* |
+| What it creates | Sentences. Vocab would come with a source of vocab to import. Yomitan, the one planned, no longer adds notes (2026-11-08). |
 | Field mapping | For each sentence field, the Anki field it takes its value from, chosen from the note type's fields: source question, source answer, reading, external id, source comments, audio and screenshot. |
 | Tags | Tags to add, such as `source::immersion_kit`. The raw notes' own tags come along too. |
 | Media folders | A folder in the media layer for each mapped media field, such as audio to one folder and screenshots to another. Typed in, and checked to be `free/` or a commercial repository, or inside one (`MediaLayerFolders`). |
@@ -157,8 +160,7 @@ file's finding on hover.
   - **an import finished.** Anki's .apkg importer runs in its Rust backend and doesn't fire `note_will_be_added`.
     It only announces the finished operation: `operation_did_execute`, with the `ImportDialog` as source. Verified
     on 2026-11-08 in Anki 26.9.3. This is the signal for Immersion Kit's .apkg sentence cards and for decks.
-  - **a note was added** (`note_will_be_added`). AnkiConnect adds notes this way, and Immersion Kit and Yomitan
-    can both use it.
+  - **a note was added** (`note_will_be_added`). AnkiConnect adds notes this way, and Immersion Kit can use it.
 
   Both signals run the automatic import profiles over their selections: a finished import runs every automatic profile
   whose note type the open Anki profile has, and an added note runs those of its note type. An automatic run that has
@@ -213,8 +215,10 @@ doesn't matter to lookups.
 - **The rules-based media import:** `MediaImportDialog`, `NoteMediaFieldScanner`, `MediaImportPlan`,
   `MediaImportExecutor`, `ImportRule`, and `media/metadata/media-import-rules.json`. They retire once subs2srs decks
   go through import profiles. Its missing-files report becomes one of the corpus-validity checks.
-- **The take-in of JAStudio-type notes added in Anki** (`NoteCache.ExternalNoteAdded`), once Yomitan has its own
-  import profile.
+- **The take-in of JAStudio-type notes added in Anki** (`NoteCache.ExternalNoteAdded`), *retired 2026-11-08*, with
+  what only it used: the caches building notes from Anki notes, the Anki note wrappers (`AnkiVocabNote`,
+  `AnkiKanjiNote`, `AnkiSentenceNote`), the corpus data's `FromAnki` conversions, `NoteDataPythonAdapter`, and the set-up
+  of the forms of a vocab added in Anki.
 
 ## Increments
 
@@ -226,7 +230,8 @@ doesn't matter to lookups.
    imported sentences shown in the List tab.
 3. *Built 2026-11-08:* automatic runs on both signals.
 4. subs2srs decks, and retiring the rules-based media import.
-5. Yomitan through a note type of its own and an import profile, and retiring `ExternalNoteAdded`'s take-in.
+5. *Done 2026-11-08:* retiring `ExternalNoteAdded`'s take-in. It was to come with Yomitan's own note type and import
+   profile, but Yomitan no longer adds notes.
 
 ## Decided since (Magnus, 2026-11-08)
 
@@ -245,6 +250,13 @@ doesn't matter to lookups.
 - **Only the notes a run imports are tagged or deleted.** Tagging skipped duplicates would later show them as imported
   by an earlier run, which they weren't.
 - **An unused file that's the same is reused, and a different one is a problem.**
+- **Yomitan isn't an import source** (2026-11-08). Magnus uses it as a dictionary while reading, and creates vocab in
+  JAStudio, which fills in the definition from its own dictionary and the audio with its own TTS. Importing from
+  Yomitan wasn't worth it:
+  - its meanings are messy HTML, useful only as a reference for writing one's own;
+  - its audio isn't free to use;
+  - its "already in Anki" check compares only the question field, so a vocab held under another form shows as
+    missing, and checking across note types matches short sentences.
 - **Editing and running are two windows:** the import profiles window, and an import run window per profile. One
   window holding the list, the editor and the report barely fit a 4K monitor; apart, each fits a laptop's screen.
 - **Automatic runs** (increment 3, decided while building it):
@@ -299,11 +311,8 @@ doesn't matter to lookups.
 
 ## Open questions
 
-- **The vocab fields the mapping offers.** To decide when vocab is imported.
 - **Magnus's mp3gain script** (`normalize-anki-collection.ps1`) would tag Anki's copy of the files an import run has
   normalized. They'd then differ from the media layer's copies by that tag, unless the script leaves them out.
-- **Yomitan:** it shows whether a word is "already in Anki" by looking for the note in Anki. Its import profile
-  should therefore keep the raw notes.
 - **Studying corpus notes in an Anki profile that doesn't have them yet** means creating their Anki notes and copying
   their media from the media layer into that profile's media folder. That's for later. It belongs to "Corpus entries
   without Anki notes" in `corpus-data-model.md`.

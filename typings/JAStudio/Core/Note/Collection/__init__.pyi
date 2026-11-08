@@ -1,6 +1,6 @@
 import typing, abc
 from System import IObservable_1
-from JAStudio.Core.Note import JPNote, AnkiNoteData, NoteId, IBackendNoteCreator, NoteServices, KanjiNote
+from JAStudio.Core.Note import JPNote, NoteId, IBackendNoteCreator, NoteServices, KanjiNote
 from JAStudio.Core.Storage import INoteRepository
 from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
 from JAStudio.Core import IBackendDataLoader
@@ -27,8 +27,6 @@ class CardStudyingStatus:
 class IExternalNoteUpdateHandler(typing.Protocol):
     @property
     def NoteUpdated(self) -> IObservable_1[JPNote]: ...
-    @abc.abstractmethod
-    def ExternalNoteAdded(self, externalNoteId: int, data: AnkiNoteData) -> None: ...
     @abc.abstractmethod
     def ExternalNoteRemoved(self, externalNoteId: int) -> None: ...
     @abc.abstractmethod

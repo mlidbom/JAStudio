@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
@@ -11,7 +9,7 @@ class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
    readonly Dictionary<string, HashSet<KanjiNote>> _byRadical = new();
    readonly Dictionary<string, HashSet<KanjiNote>> _byReading = new();
 
-   public KanjiCache(NoteServices noteServices) : base((services, data) => new KanjiNote(services, KanjiData.FromAnkiNoteData(data)), noteServices) {}
+   public KanjiCache(NoteServices noteServices) : base(noteServices) {}
 
    protected override void ClearDerivedIndexes()
    {
@@ -19,7 +17,6 @@ class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
       _byReading.Clear();
    }
 
-   protected override NoteId CreateTypedId(Guid value) => new KanjiId(value);
 
    protected override KanjiSnapshot CreateSnapshot(KanjiNote note) => new(note);
 

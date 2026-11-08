@@ -4,7 +4,6 @@ from JAStudio.Core.Storage import IIdentifiableByGuid
 from System import Guid, Action
 from System.Collections.Generic import List_1
 from JAStudio.Core.Note import AnkiNoteData
-from JAStudio.Core.Anki import AnkiKanjiNote, AnkiSentenceNote, AnkiVocabNote
 from JAStudio.Core.Note.Sentences import SentenceConfiguration, ParsingResult
 
 class CorpusObjectData(IMemoryPackFormatterRegister, IIdentifiableByGuid, abc.ABC):
@@ -97,10 +96,6 @@ class KanjiData(CorpusObjectData, IMemoryPackable_1[KanjiData]):
     def UserMnemonic(self) -> str: ...
     @UserMnemonic.setter
     def UserMnemonic(self, value: str) -> str: ...
-    @staticmethod
-    def FromAnki(anki: AnkiKanjiNote) -> KanjiData: ...
-    @staticmethod
-    def FromAnkiNoteData(data: AnkiNoteData) -> KanjiData: ...
 
 
 class ParsedMatchSubData(IMemoryPackable_1[ParsedMatchSubData]):
@@ -213,10 +208,6 @@ class SentenceData(CorpusObjectData, IMemoryPackable_1[SentenceData]):
     def CreateConfiguration(data: SentenceConfigSubData, saveCallback: Action) -> SentenceConfiguration: ...
     @staticmethod
     def CreateParsingResult(data: SentenceParsingResultSubData) -> ParsingResult: ...
-    @staticmethod
-    def FromAnki(anki: AnkiSentenceNote) -> SentenceData: ...
-    @staticmethod
-    def FromAnkiNoteData(data: AnkiNoteData) -> SentenceData: ...
 
 
 class SentenceParsingResultSubData(IMemoryPackable_1[SentenceParsingResultSubData]):
@@ -337,10 +328,6 @@ class VocabData(CorpusObjectData, IMemoryPackable_1[VocabData]):
     def UserMnemonic(self) -> str: ...
     @UserMnemonic.setter
     def UserMnemonic(self, value: str) -> str: ...
-    @staticmethod
-    def FromAnki(anki: AnkiVocabNote) -> VocabData: ...
-    @staticmethod
-    def FromAnkiNoteData(data: AnkiNoteData) -> VocabData: ...
 
 
 class VocabMatchingRulesSubData(IMemoryPackable_1[VocabMatchingRulesSubData]):

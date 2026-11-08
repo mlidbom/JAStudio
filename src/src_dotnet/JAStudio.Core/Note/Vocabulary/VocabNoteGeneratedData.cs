@@ -46,36 +46,6 @@ public class VocabNoteGeneratedData
       }
    }
 
-   /// <summary>
-   /// Sets up the forms of a vocab just added in Anki, as Yomitan adds them through AnkiConnect: takes them from the dictionary,<br/>
-   /// and tags the vocab usually kana only if the dictionary says so. Only a vocab with a reading can be looked up.
-   /// </summary>
-   /// <remarks>
-   /// A vocab added in Anki brings no forms and no readings, since only the fields <see cref="AnkiVocabNote"/> exposes are taken from Anki.<br/>
-   /// So this is called after <see cref="UpdateGeneratedData"/>, which takes the reading of a vocab whose question is in kana from its question.
-   /// </remarks>
-   /// <remarks>
-   /// Only a vocab just added in Anki is known to be new. Most vocab have no forms besides their question,<br/>
-   /// so having none can't be taken as a sign that a vocab was never set up.
-   /// </remarks>
-   public void SetUpTheFormsOfVocabAddedInAnki(VocabNote vocab)
-   {
-      if(!vocab.GetReadings().Any()) return;
-
-      var lookup = _dictLookup.LookupVocabWordOrName(vocab);
-      TagAsUsuallyKanaOnlyIfTheDictionarySaysSo(vocab, lookup);
-
-      if(lookup.FoundWords())
-      {
-         vocab.Forms.SetEnteredForms(lookup.ValidForms(vocab.PartsOfSpeech.IsUk()));
-      }
-
-      if(vocab.PartsOfSpeech.IsUk() && !vocab.Forms.QuestionAndEnteredFormsList().Contains(vocab.GetReadings()[0]))
-      {
-         vocab.Forms.SetEnteredForms(vocab.Forms.EnteredFormsSet().Union(vocab.GetReadings()));
-      }
-   }
-
    static void TagAsUsuallyKanaOnlyIfTheDictionarySaysSo(VocabNote vocab, DictLookupResult lookup)
    {
       if(lookup.IsUk() && !vocab.Tags.Contains(Tags.DisableKanaOnly))

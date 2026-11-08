@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.Serialization;
@@ -76,22 +75,6 @@ public partial class SentenceData : CorpusObjectData
    static ParsedMatch FromParsedMatchSubData(ParsedMatchSubData d) =>
       new(d.Variant, d.StartIndex, d.IsDisplayed, d.ParsedForm, d.VocabId.HasValue ? new VocabId(d.VocabId.Value) : null);
 
-   /// Creates SentenceData from raw AnkiNoteData
-   public static SentenceData FromAnkiNoteData(AnkiNoteData data) => FromAnki(new AnkiSentenceNote(data));
-
-   public static SentenceData FromAnki(AnkiSentenceNote anki) =>
-      new()
-      {
-         Id = (anki.Id ?? SentenceId.New()).Value,
-         Tags = [..anki.Tags],
-         SourceQuestion = anki.SourceQuestion,
-         SourceAnswer = anki.SourceAnswer,
-         SourceComments = anki.SourceComments,
-         Reading = anki.Reading,
-         ExternalId = anki.ExternalId,
-         Audio = anki.Audio,
-         Screenshot = anki.Screenshot,
-      };
 
    public static ParsingResult CreateParsingResult(SentenceParsingResultSubData? data)
    {
