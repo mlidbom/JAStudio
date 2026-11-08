@@ -87,6 +87,16 @@ public abstract class JPNote
       Services.Collection.NotifyThatTheStudyingStatusChangedFor(this);
    }
 
+   /// <summary>
+   /// Forgets the studying status of every card of the note, after its Anki note was deleted: with no cards in this Anki profile, the note isn't studied in it.<br/>
+   /// Notifies the change through <see cref="JPCollection.StudyingStatusChanged"/>, since the status isn't stored with the note and no flush reports it.
+   /// </summary>
+   public void ForgetTheCardsOfItsDeletedAnkiNote()
+   {
+      _cardStatus.Clear();
+      Services.Collection.NotifyThatTheStudyingStatusChangedFor(this);
+   }
+
    public bool HasSuspendedCards()
    {
       // Return true if ANY card is suspended (value == false)

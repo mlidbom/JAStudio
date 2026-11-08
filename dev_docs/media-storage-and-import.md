@@ -21,13 +21,16 @@ holders can be aggressive, so:
 
 ## Where the files are
 
-`jas_database/media` is a git repository of its own, `JAStudioData-media`. In it:
+`jas_database/media` is a folder of the corpus repository, `jas_database`. It used to be a repository of its own,
+`JAStudioData-media`, but that made creating vocab by hand a pain, so its files moved into the corpus repository.
+*A leftover of that: `media/.git` is a small file that still points at the old repository's git data, so git run
+inside `media/` shows the old repository, last committed 2026-03-26, instead of the corpus repository.* In it:
 
 | Folder | What | Files (2026-11-07) |
 |---|---|---|
-| `commercial-01` | A submodule, `JAStudioData-media-commercial-01`: commercial vocab audio and images, such as Core 2000's and WaniKani's | about 15,000 |
-| `commercial-02` | A submodule, `JAStudioData-media-commercial-02`: anime audio and screenshots, per show | about 69,000 |
-| `free` | Freely redistributable media, among it the TTS audio in `free/TTS/vocab` and `free/TTS/sentences/<source>` | about 35,000 |
+| `commercial-01` | A submodule of the corpus repository, `JAStudioData-media-commercial-01`: commercial vocab audio and images, such as Core 2000's and WaniKani's. New commercial media goes here, since commercial-02 is near GitHub's recommended size | about 15,000 |
+| `commercial-02` | A submodule of the corpus repository, `JAStudioData-media-commercial-02`: anime audio and screenshots, per show. About 2 GB | about 69,000 |
+| `free` | Freely redistributable media, in the corpus repository itself, among it the TTS audio in `free/TTS/vocab` and `free/TTS/sentences/<source>` | about 35,000 |
 | `metadata` | The import rules, `media-import-rules.json` | |
 
 The folders are organizational: they say nothing about a file that the code reads. **A file keeps the name it had in
@@ -55,6 +58,10 @@ reference whose file isn't in the media layer finds nothing. The card server ser
 `/media?name={file name}`, through the index.
 
 ## Importing from Anki
+
+*To be replaced (decided 2026-11-08): an import profile stores a note's media when it imports the note, in folders
+chosen in the import profile (`import-profiles.md`). This rules-based media import was built to move everything out
+of Anki in February 2026, and it did: on 2026-11-08 every media reference in the corpus resolved in the media layer.*
 
 A new file reaches the media layer by being copied from Anki's media folder (`collection.media`) by a media import,
 in Config > Media import (`MediaImportDialog`). An import is batch, incremental, and per note type:

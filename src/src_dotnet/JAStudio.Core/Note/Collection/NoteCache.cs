@@ -72,20 +72,19 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    /// <summary>Sets up a note just added in Anki, before it's added to the cache: updates its generated data.</summary>
    protected virtual void SetUpNoteAddedInAnki(TNote note) => note.UpdateGeneratedData();
 
+   /// <summary>
+   /// Called when a note is deleted in Anki: the note's Anki note is forgotten, and with it its cards, so the note is no longer studied in this Anki profile.<br/>
+   /// The note itself stays in the corpus and in JAStudio. Deleting it from the corpus is <see cref="JPCollection.Delete"/>.
+   /// </summary>
+   /// <remarks>
+   /// Every cache is told about every note deleted in Anki, so a note this cache doesn't hold is left to the cache that does.
+   /// </remarks>
    public void ExternalNoteRemoved(long externalNoteId)
    {
-      var noteId = _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
-      if(noteId == null) return;
-      _monitor.Locked(() =>
-      {
-         var existing = WithIdOrNoneCore(noteId);
-         if(existing != null)
-         {
-            RemoveFromCacheCore(existing);
-         }
-      });
+      if(WithExternalIdOrNone(externalNoteId) is not {} note) return;
 
       _noteServices.ExternalNoteIdMap.Unregister(externalNoteId);
+      note.ForgetTheCardsOfItsDeletedAnkiNote();
    }
 
    /// <summary>Creates the correctly typed NoteId for this cache (VocabId, KanjiId, etc.)</summary>

@@ -144,20 +144,19 @@ public class JPCollection
    readonly MediaFileIndex _mediaFileIndex;
    readonly IBackendDataLoader _backendDataLoader;
 
-   /// <summary>Permanently delete a note from corpus data, Anki, and the in-memory cache.</summary>
+   /// <summary>
+   /// Permanently deletes <paramref name="note"/>: its Anki note, if it has one in this Anki profile, its corpus data, and the note in this collection.<br/>
+   /// Deleting a note in Anki instead only forgets its Anki note (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
+   /// </summary>
    public void Delete(JPNote note)
    {
+      NoteServices.CardOperations.DeleteNote(note.GetId());
       _repository.Delete(note.GetId());
+      RemoveFromItsCache();
+      return;
 
-      if(NoteServices.ExternalNoteIdMap.ToExternalId(note.GetId()).HasValue)
+      void RemoveFromItsCache()
       {
-         // In Anki: delete from there; the notes_will_be_deleted hook fires reactively,
-         // calling ExternalNoteRemoved which handles cache eviction automatically.
-         NoteServices.CardOperations.DeleteNote(note.GetId());
-      }
-      else
-      {
-         // Not yet in Anki: evict from the in-memory cache manually.
          switch(note)
          {
             case VocabNote vocab: Vocab.Cache.RemoveFromCache(vocab); break;

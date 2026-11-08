@@ -114,8 +114,12 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
    - **Images** (Magnus, 2026-11-07) only come with an import: there's no point in editing them in Anki. JAStudio has
      no image editor, so a note's images are fixed after import.
    - **The code:** JAStudio doesn't listen to Anki's `note_will_flush` hook any more. A note added in Anki still takes
-     all of its fields and tags (`NoteCache.ExternalNoteAdded`), and a note deleted in Anki leaves the corpus
-     (`NoteCache.ExternalNoteRemoved`).
+     all of its fields and tags (`NoteCache.ExternalNoteAdded`).
+   - **A note deleted in Anki stays in the corpus** (Magnus, 2026-11-08). JAStudio forgets its Anki note and cards
+     (`NoteCache.ExternalNoteRemoved`), so it's no longer studied in that Anki profile, and nothing recreates the Anki
+     note. Anki holds the notes being studied; the corpus holds them all. Deleting a note for good is JAStudio's own
+     delete (`JPCollection.Delete`). *Until 2026-11-08 a note deleted in Anki left JAStudio's in-memory collection,
+     though not the corpus files, and came back, without an Anki note, at the next reload.*
    - **What an edit made in Anki does now:** nothing in the corpus, and JAStudio's next write of the note undoes
      it in Anki.
    - The "Force flush all Anki notes by ID" batch, which made Anki save every note for the take-in, is gone.
@@ -603,19 +607,20 @@ Tentatively, media is the last vertical-slice, after these points are settled.
 ## Import and organization (needs its own design)
 
 Magnus: tagging, organizing and batch import need more thinking and design. These are notes towards that
-design, not a proposal.
+design, not a proposal. *The design of importing itself, import profiles, is in `import-profiles.md`
+(2026-11-08).*
 
 **Decided so far (2026-11-06):**
 - **Import goes through Anki notes,** not through JAStudio reading deck files. Anki already reads every .apkg
   format version, brings in the media, and has the batch editing to get notes into shape before they're imported
   (find and replace, change note type with a field mapping, tagging). JAStudio has no batch editing at all yet.
-- **Imports happen in a separate Anki profile.** Importing a big subs2srs deck into the profile that syncs would
+- **Imports happen in a separate Anki profile, the Anki profile for importing.** Importing a big subs2srs deck into the profile that syncs would
   put all its audio and images into that profile's media folder, and I believe Anki's media sync uploads new
   files whether or not a note still uses them. A separate profile works only if the corpus is properly separated
   from the Anki collection. JAStudio loads the corpus from the JSON files and takes only the Anki note ids and
-  the studying status from the open profile, so the leak is the student-data saved in the corpus. In an import
-  profile nothing is studied, so a full rebuild there would rewrite the generated study-state tags as if nothing
-  were studied. Taking student-data out of the corpus removes that leak.
+  the studying status from the open profile, so the leak is the student-data saved in the corpus. In the Anki
+  profile for importing nothing is studied, so a full rebuild there would rewrite the generated study-state tags as
+  if nothing were studied. Taking student-data out of the corpus removes that leak.
 - **An import takes all the notes' tags along,** so work done while preparing the notes in Anki isn't lost. After
   import, JAStudio manages the corpus-tags.
 - **The decks** are downloaded subs2srs decks in Magnus's Dropbox. `…\Anki\SUBS2SRS\Unprocessed` hasn't been
@@ -624,8 +629,10 @@ design, not a proposal.
   reading even the note types inside an .apkg downloads the whole file, media included, so pick small ones to
   inspect.
 - **The import path in the code** is the Anki-ingestion's note-added hook (`ExternalNoteAdded`), which Yomitan's
-  notes go through. I believe Anki's current .apkg importer doesn't run that hook, but I haven't verified it. The
-  Immersion Kit conversion that ran after an import is an empty TODO.
+  notes go through. *Verified 2026-11-08 in Anki 26.9.3:* the .apkg importer doesn't run that hook; it runs in
+  Anki's Rust backend, and Anki only announces the finished import (`operation_did_execute`, with the
+  `ImportDialog` as source). The Immersion Kit conversion that ran after an import is an empty TODO. Import
+  profiles replace all of this (`import-profiles.md`).
 
 **Where new data comes from, and how each source could reach JAStudio directly** (written before import through
 Anki was decided; kept for reference):
