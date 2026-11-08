@@ -6,6 +6,7 @@ using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views;
+using JAStudio.UI.Views.Importing;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus;
@@ -56,7 +57,7 @@ public class JapaneseMainMenu
                                                       BatchCommand(ShortcutFinger.Down1("All the above: Full rebuild"), _services.LocalNoteUpdater.FullRebuild)
                                                    }
                               ),
-                              BatchCommand(ShortcutFinger.Home2("Convert Immersion Kit sentences"), AnkiFacade.Batches.ConvertImmersionKitSentences),
+                              SpecMenuItem.Command(ShortcutFinger.Home2("Import profiles"), () => Dispatcher.UIThread.Invoke(() => ImportProfilesWindow.OpenNearTheCursor(_services))),
                               BatchCommand(ShortcutFinger.Home3("Update everything except reanalysing sentences"), _services.LocalNoteUpdater.UpdateAll),
                               BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
                               BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),

@@ -118,6 +118,11 @@ class MediaImportRulePersistence:
     def Save(rules: PersistedImportRules, paths: IEnvironmentPaths) -> None: ...
 
 
+class MediaLayerFolders(abc.ABC):
+    @staticmethod
+    def IsInsideFreeOrACommercialRepository(folder: str) -> bool: ...
+
+
 class MediaStorageService:
     @typing.overload
     def __init__(self, mediaRoot: str, index: MediaFileIndex) -> None: ...

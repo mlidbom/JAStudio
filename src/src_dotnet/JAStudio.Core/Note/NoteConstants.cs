@@ -39,7 +39,6 @@ public static class CardTypes
 
 public static class NoteTypes
 {
-   public const string ImmersionKit = "Immersion Kit Sentence";
    public const string Kanji = "_Kanji";
    public const string Vocab = "_Vocab";
    public const string Sentence = "_japanese_sentence";

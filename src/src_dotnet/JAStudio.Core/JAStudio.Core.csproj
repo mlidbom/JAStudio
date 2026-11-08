@@ -9,6 +9,7 @@
 
    <ItemGroup>
       <ProjectReference Include="..\JAStudio.Dictionary\JAStudio.Dictionary.csproj" />
+      <ProjectReference Include="..\Mp3LoudnessNormalization\Mp3LoudnessNormalization.csproj" />
    </ItemGroup>
 
    <ItemGroup>

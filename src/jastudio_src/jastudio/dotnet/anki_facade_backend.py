@@ -68,6 +68,24 @@ def media_add_file(file_path: str) -> str:
     from jastudio.ankiutils import app
     return app.anki_collection().media.add_file(file_path)
 
+# ── Notes ──
+
+# noinspection PyUnusedFunction
+def notes_find(search: str) -> list[int]:
+    """The ids of the notes the Anki search finds."""
+    from jastudio.ankiutils import app
+    return [int(note_id) for note_id in app.anki_collection().find_notes(search)]
+
+# noinspection PyUnusedFunction
+def notes_add_tag(note_ids: list[int], tag: str) -> None:
+    from jastudio.ankiutils import app
+    app.anki_collection().tags.bulk_add([NoteId(note_id) for note_id in note_ids], tag)
+
+# noinspection PyUnusedFunction
+def notes_remove(note_ids: list[int]) -> None:
+    from jastudio.ankiutils import app
+    app.anki_collection().remove_notes([NoteId(note_id) for note_id in note_ids])
+
 # ── NoteEx ──
 # noinspection PyUnusedFunction
 def note_suspend_all_cards(note_id: int) -> None:

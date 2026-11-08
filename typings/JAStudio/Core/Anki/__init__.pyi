@@ -8,15 +8,6 @@ class AnkiFieldNames(abc.ABC):
     NoteId : str
     Question : str
 
-    class ImmersionKit(abc.ABC):
-        Answer : str
-        Audio : str
-        Id : str
-        Question : str
-        Reading : str
-        Screenshot : str
-
-
     class Kanji(abc.ABC):
         ActiveAnswer : str
         Question : str

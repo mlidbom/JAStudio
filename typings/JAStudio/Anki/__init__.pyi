@@ -3,6 +3,8 @@ from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
 from JAStudio.Core.TaskRunners import TaskRunner
 from System.Collections.Generic import List_1, Dictionary_2, IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note import AnkiNoteData, NoteId, ICardOperations, ExternalNoteIdMap, JPNote
+from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
+from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Note.Collection import CardStudyingStatus
 from System import Func_2, Guid
 
@@ -50,11 +52,6 @@ class AnkiFacade(abc.ABC):
     @staticmethod
     def GetNoteIdFromCardId(cardId: int) -> int: ...
 
-    class Batches(abc.ABC):
-        @staticmethod
-        def ConvertImmersionKitSentences() -> None: ...
-
-
     class Browser(abc.ABC):
         @staticmethod
         def ExecuteLookup(query: str) -> None: ...
@@ -97,6 +94,14 @@ class AnkiLifecycleEvent(typing.SupportsInt):
     CollectionLoaded : AnkiLifecycleEvent # 4
 
 
+class AnkiRawNotes(IAnkiRawNotes):
+    def __init__(self) -> None: ...
+    def Delete(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
+    def NoteTypesForRawNotes(self) -> IReadOnlyList_1[AnkiNoteType]: ...
+    def NotYetImported(self, profile: ImportProfile) -> IReadOnlyList_1[RawNote]: ...
+    def TagAsImported(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
+
+
 class CardStudyingStatusLoader(abc.ABC):
     @staticmethod
     def FetchAll(dbFilePath: str) -> List_1[CardStudyingStatus]: ...
@@ -111,6 +116,5 @@ class NoteBulkLoader(abc.ABC):
 
 class QueryBuilder:
     def __init__(self, externalNoteIdMap: ExternalNoteIdMap) -> None: ...
-    def ImmersionKitSentences(self) -> str: ...
     def NotesLookup(self, notes: IEnumerable_1[JPNote]) -> str: ...
 

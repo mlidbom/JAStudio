@@ -58,16 +58,4 @@ public static class AnkiFieldNames
       public const string Audio = "Audio Sentence";
       public const string Screenshot = "Screenshot";
    }
-
-   //Do not remove, we will be restoring the ImmersionKit import functionality
-   // ReSharper disable once UnusedType.Global
-   public static class ImmersionKit
-   {
-      public const string Audio = "Audio Sentence";
-      public const string Id = "ID";
-      public const string Screenshot = "Screenshot";
-      public const string Reading = "Reading";
-      public const string Answer = "English";
-      public const string Question = "Expression";
-   }
 }

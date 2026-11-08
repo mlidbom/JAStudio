@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from jastudio.ui.hooks import (
     clear_studying_cache_on_card_suspend_unsuspend,
-    convert_immersion_kit_sentences_on_import,
     copy_sort_field_to_clipboard,
     custom_auto_advance_timings,
     custom_short_term_scheduling,
@@ -26,4 +25,3 @@ def init() -> None:
     timebox_end_sound.init()
     note_view_shortcuts.init()
     global_shortcuts.init()
-    convert_immersion_kit_sentences_on_import.init()

@@ -2,6 +2,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Storage;
@@ -14,8 +15,11 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar)
    {
       var paths = new TestEnvironmentPaths();
+      var ankiRawNotes = new InMemoryAnkiRawNotes();
 
       registrar.Register(
+         Singleton.For<InMemoryAnkiRawNotes>().Instance(ankiRawNotes),
+         Singleton.For<IAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IEnvironmentPaths>().Instance(paths),
          Singleton.For<INoteRepository>().Instance(new InMemoryNoteRepository()),
          Singleton.For<IBackendNoteCreator>().Instance(new TestingBackendNoteCreator()),

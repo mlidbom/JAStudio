@@ -74,13 +74,24 @@ public class SentenceCollection
    }
 
    public List<SentenceNote> WithVocabMarkedInvalid(VocabNote vocabNote) => Cache.WithUserMarkedInvalidVocab(vocabNote.Question.DisambiguationName);
-   
+
    public List<SentenceNote> WithForm(string form) => Cache.WithVocabForm(form);
 
    public List<SentenceNote> WithUserHighlightedVocab(string form) => Cache.WithUserHighlightedVocab(form);
 
+   /// <summary>Adds <paramref name="note"/> to the corpus, and gives it a note in the open Anki profile to study.</summary>
    public void Add(SentenceNote note)
    {
       _backendNoteCreator.CreateSentence(note, () => Cache.AddToCache(note));
+   }
+
+   /// <summary>
+   /// Adds <paramref name="note"/> to the corpus only, without a note in Anki: Anki holds the notes being studied, and the corpus holds them all.<br/>
+   /// Saving it to the corpus is what <see cref="JPNote.UpdateInCache"/> does for a note in the collection.
+   /// </summary>
+   public void AddWithoutAnAnkiNote(SentenceNote note)
+   {
+      Cache.AddToCache(note);
+      note.UpdateInCache();
    }
 }

@@ -5,6 +5,8 @@ using Compze.DependencyInjection.Microsoft;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Importing;
+using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.Note;
@@ -57,6 +59,11 @@ public static class AppBootstrapper
          // Media storage
          Singleton.For<MediaFileIndex>().CreatedBy((IEnvironmentPaths paths, TaskRunner taskRunner) => new MediaFileIndex(paths, taskRunner)),
          Singleton.For<MediaStorageService>().CreatedBy((IEnvironmentPaths paths, MediaFileIndex index) => new MediaStorageService(paths, index)),
+
+         // Importing
+         Singleton.For<SavedImportProfiles>().CreatedBy((IEnvironmentPaths paths) => new SavedImportProfiles(paths)),
+         Singleton.For<Importer>().CreatedBy((IAnkiRawNotes ankiRawNotes, NoteServices noteServices, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, IEnvironmentPaths paths, TaskRunner taskRunner) =>
+                                                new Importer(ankiRawNotes, noteServices, mediaFileIndex, mediaStorage, paths, taskRunner)),
 
          // Core services
          Singleton.For<Settings>().CreatedBy((JapaneseConfig config) => new Settings(config)),

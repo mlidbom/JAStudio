@@ -4,6 +4,7 @@ using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage;
 using JAStudio.Core.TaskRunners;
@@ -23,6 +24,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar(string configJson, Action<string
          Singleton.For<INoteRepository>().CreatedBy((NoteSerializer serializer, IEnvironmentPaths paths) => (INoteRepository)new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<IBackendNoteCreator>().Instance(new AnkiBackendNoteCreator()),
          Singleton.For<IBackendDataLoader>().Instance(new AnkiBackendDataLoader()),
+         Singleton.For<IAnkiRawNotes>().Instance(new AnkiRawNotes()),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new AnkiConfigDictSource(_configJson, _configUpdateCallback)),

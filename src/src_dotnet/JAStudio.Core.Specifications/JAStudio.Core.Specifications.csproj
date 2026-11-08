@@ -20,6 +20,10 @@
    </ItemGroup>
 
    <ItemGroup>
+      <None Include="AICreatedSpecs\Importing\RawNoteMedia\**" CopyToOutputDirectory="PreserveNewest" />
+   </ItemGroup>
+
+   <ItemGroup>
       <ProjectReference Include="..\JAStudio.Anki\JAStudio.Anki.csproj" />
       <ProjectReference Include="..\JAStudio.Core\JAStudio.Core.csproj" />
       <ProjectReference Include="..\JAStudio.PythonInterop\JAStudio.PythonInterop.csproj" />

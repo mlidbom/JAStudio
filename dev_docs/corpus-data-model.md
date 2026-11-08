@@ -631,8 +631,8 @@ design, not a proposal. *The design of importing itself, import profiles, is in 
 - **The import path in the code** is the Anki-ingestion's note-added hook (`ExternalNoteAdded`), which Yomitan's
   notes go through. *Verified 2026-11-08 in Anki 26.9.3:* the .apkg importer doesn't run that hook; it runs in
   Anki's Rust backend, and Anki only announces the finished import (`operation_did_execute`, with the
-  `ImportDialog` as source). The Immersion Kit conversion that ran after an import is an empty TODO. Import
-  profiles replace all of this (`import-profiles.md`).
+  `ImportDialog` as source). The Immersion Kit conversion that ran after an import was an empty TODO until import
+  profiles replaced it on 2026-11-08 (`import-profiles.md`), run by hand for now.
 
 **Where new data comes from, and how each source could reach JAStudio directly** (written before import through
 Anki was decided; kept for reference):

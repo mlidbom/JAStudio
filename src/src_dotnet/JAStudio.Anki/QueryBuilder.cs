@@ -34,10 +34,4 @@ public class QueryBuilder
                        .ToList();
       return externalIds.Count > 0 ? $"{AnkiFieldNames.NoteId}:{string.Join(",", externalIds)}" : "";
    }
-
-   /// <summary>
-   /// A query for the Immersion Kit sentence notes in Anki. Kept, as are <see cref="AnkiFieldNames.ImmersionKit"/>'s field names,<br/>
-   /// for when the Immersion Kit import comes back.
-   /// </summary>
-   public string ImmersionKitSentences() => $"\"{Builtin.Note}:{NoteTypes.ImmersionKit}\"";
 }

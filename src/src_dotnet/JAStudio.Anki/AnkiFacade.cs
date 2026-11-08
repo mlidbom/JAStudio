@@ -45,10 +45,17 @@ public static class AnkiFacade
       public static void Refresh() => Backend.Use(it => it.ui_refresh());
    }
 
-   public static class Batches
+   /// <summary>Notes of any note type, for what only Anki does with them: its search, and tagging and deleting them. JAStudio reads notes straight from Anki's database.</summary>
+   internal static class Notes
    {
-      /// <summary>This is about converting between Anki note types. There's no way to avoid interfacing with anki for that. </summary>
-      public static void ConvertImmersionKitSentences() => Backend.Use(it => it.batches_convert_immersion_kit_sentences());
+      /// <summary>The ids of the notes that the Anki search <paramref name="search"/> finds.</summary>
+      public static List<long> Find(string search) => Backend.Use(it => PythonDotNetShim.LongList.ToDotNet(it.notes_find(search)));
+
+      /// <summary>Gives the notes with the ids <paramref name="noteIds"/> the tag <paramref name="tag"/>.</summary>
+      public static void AddTag(IReadOnlyList<long> noteIds, string tag) => Backend.Use(it => it.notes_add_tag(PythonDotNetShim.LongList.ToPython(noteIds), tag));
+
+      /// <summary>Permanently deletes the notes with the ids <paramref name="noteIds"/> from Anki.</summary>
+      public static void Delete(IReadOnlyList<long> noteIds) => Backend.Use(it => it.notes_remove(PythonDotNetShim.LongList.ToPython(noteIds)));
    }
 
    public static class Media

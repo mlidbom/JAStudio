@@ -320,7 +320,6 @@ class NoteServices:
 class NoteTypes(abc.ABC):
     All : HashSet_1[str]
     AllList : IReadOnlyList_1[str]
-    ImmersionKit : str
     Kanji : str
     Sentence : str
     Vocab : str
