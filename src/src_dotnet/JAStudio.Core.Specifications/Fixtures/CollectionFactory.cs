@@ -42,7 +42,9 @@ public static class CollectionFactory
       {
          foreach(var kanjiSpec in KanjiSpec.TestKanjiList)
          {
-            KanjiNote.Create(noteServices, kanjiSpec.Question, kanjiSpec.Answer, kanjiSpec.OnReadings, kanjiSpec.KunReading);
+            var kanji = KanjiNote.Create(noteServices, kanjiSpec.Question, kanjiSpec.Answer);
+            KanjiReadingsNotation.AddTo(kanji.Readings.On, kanjiSpec.OnReadings);
+            KanjiReadingsNotation.AddTo(kanji.Readings.Kun, kanjiSpec.KunReadings);
          }
       }
 

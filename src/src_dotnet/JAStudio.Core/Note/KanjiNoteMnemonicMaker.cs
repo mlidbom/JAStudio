@@ -129,7 +129,7 @@ public class KanjiNoteMnemonicMaker
 
       var radicalParts = string.Join(" ", radicalNames.Select(name => $"<rad>{name}</rad>"));
       var meaningPart = $"<kan>{kanjiNote.PrimaryMeaning}</kan>";
-      var readingsParts = string.Join(" ", kanjiNote.PrimaryReadings.Select(CreateReadingsTag));
+      var readingsParts = string.Join(" ", kanjiNote.Readings.PrimaryKana().Select(CreateReadingsTag));
 
       var mnemonic = $"{radicalParts} {meaningPart} {readingsParts} ...";
       return mnemonic.Trim();

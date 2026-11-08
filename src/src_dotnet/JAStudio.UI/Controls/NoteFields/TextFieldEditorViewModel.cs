@@ -58,7 +58,6 @@ class TextFieldEditorViewModel : ObservableObject
    public string Hint => Format switch
    {
       TextFieldFormat.CommaSeparated => "comma separated",
-      TextFieldFormat.CommaSeparatedReadings => "comma separated, primary readings marked <primary>reading</primary>",
       TextFieldFormat.Paragraphs => "Enter starts a new line",
       _ => ""
    };
@@ -82,7 +81,7 @@ class TextFieldEditorViewModel : ObservableObject
    /// <summary>Shows the field as the note has it now, after a change made elsewhere.</summary>
    public void Refresh() => Show(_currentText());
 
-   bool IsCommaSeparated => Format is TextFieldFormat.CommaSeparated or TextFieldFormat.CommaSeparatedReadings;
+   bool IsCommaSeparated => Format is TextFieldFormat.CommaSeparated;
 
    /// <summary>Shows <paramref name="notesText"/>, unless the text box already holds text that means the same.</summary>
    void Show(string notesText)

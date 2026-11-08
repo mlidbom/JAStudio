@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
+using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
@@ -13,8 +14,6 @@ namespace JAStudio.Core.Note;
 
 public class KanjiNote : JPNote
 {
-   static readonly Regex PrimaryReadingPattern = new("<primary>(.*?)</primary>", RegexOptions.Compiled);
-
    /// <summary>
    /// The corpus's own answer for the kanji: the canonical one. While it's empty the source's answer is shown instead (<see cref="GetAnswer"/>).
    /// </summary>
@@ -26,9 +25,9 @@ public class KanjiNote : JPNote
    /// <summary>What the kanji's source gave it when it was imported.</summary>
    public KanjiSourceData SourceData { get; }
 
-   public WritableStringValue ReadingOnHtml { get; }
-   public WritableStringValue ReadingKunHtml { get; }
-   public WritableStringValue ReadingNanHtml { get; }
+   /// <summary>The kanji's on, kun and nanori readings, each primary or secondary.</summary>
+   public KanjiNoteReadings Readings { get; }
+
    public WritableStringValue KanjiReferences { get; }
 
    /// <summary>An image for the kanji, which only a few have: see <see cref="KanjiDto.Image"/>.</summary>
@@ -46,9 +45,7 @@ public class KanjiNote : JPNote
       CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
       Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
       SourceData = new KanjiSourceData(data?.SourceData, Guard);
-      ReadingOnHtml = new WritableStringValue(data?.ReadingOnHtml ?? string.Empty, Guard);
-      ReadingKunHtml = new WritableStringValue(data?.ReadingKunHtml ?? string.Empty, Guard);
-      ReadingNanHtml = new WritableStringValue(data?.ReadingNanHtml ?? string.Empty, Guard);
+      Readings = new KanjiNoteReadings(data?.Readings, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
       Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
       _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
@@ -78,99 +75,8 @@ public class KanjiNote : JPNote
    /// <summary>The question and answer, and the readings in kana and in romaji.</summary>
    public override IEnumerable<string> SearchableTexts()
    {
-      var readings = ReadingsClean;
+      var readings = Readings.AllKana();
       return [..base.SearchableTexts(), ..readings, ..readings.Select(KanaUtils.Romanize)];
-   }
-
-   public override void UpdateGeneratedData()
-   {
-      base.UpdateGeneratedData();
-
-      // Katakana sneaks in via yomitan etc
-      ReadingOnHtml.Set(KanaUtils.KatakanaToHiragana(ReadingOnHtml.Value));
-   }
-
-   public List<string> ReadingsOn => StringExtensions.ExtractCommaSeparatedValues(
-      StringExtensions.StripHtmlMarkup(ReadingOnHtml.Value));
-
-   public List<string> ReadingOnListHtml => StringExtensions.ExtractCommaSeparatedValues(ReadingOnHtml.Value);
-
-   public List<string> ReadingsKun => StringExtensions.ExtractCommaSeparatedValues(
-      StringExtensions.StripHtmlMarkup(ReadingKunHtml.Value));
-
-   public List<string> ReadingKunListHtml => StringExtensions.ExtractCommaSeparatedValues(ReadingKunHtml.Value);
-
-   public List<string> ReadingNanListHtml => StringExtensions.ExtractCommaSeparatedValues(ReadingNanHtml.Value);
-
-   public List<string> ReadingsClean
-   {
-      get
-      {
-         var allReadings = new List<string>();
-         allReadings.AddRange(ReadingOnListHtml);
-         allReadings.AddRange(ReadingKunListHtml);
-         allReadings.AddRange(ReadingNanListHtml);
-         return [.. allReadings.Select(StringExtensions.StripHtmlMarkup)];
-      }
-   }
-
-   public List<string> PrimaryReadings
-   {
-      get
-      {
-         var readings = new List<string>();
-         readings.AddRange(PrimaryReadingsOn);
-         readings.AddRange(PrimaryReadingsKun);
-         readings.AddRange(PrimaryReadingsNan);
-         return readings;
-      }
-   }
-
-   public List<string> PrimaryReadingsOn
-   {
-      get
-      {
-         var matches = PrimaryReadingPattern.Matches(ReadingOnHtml.Value);
-         return [.. matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value))];
-      }
-   }
-
-   public List<string> PrimaryReadingsKun
-   {
-      get
-      {
-         var matches = PrimaryReadingPattern.Matches(ReadingKunHtml.Value);
-         return [.. matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value))];
-      }
-   }
-
-   public List<string> PrimaryReadingsNan
-   {
-      get
-      {
-         var matches = PrimaryReadingPattern.Matches(ReadingNanHtml.Value);
-         return [.. matches.Select(m => StringExtensions.StripHtmlMarkup(m.Groups[1].Value))];
-      }
-   }
-
-   public void AddPrimaryOnReading(string reading)
-   {
-      ReadingOnHtml.Set(StringExtensions.ReplaceWord(reading, $"<primary>{reading}</primary>", ReadingOnHtml.Value));
-   }
-
-   public void RemovePrimaryOnReading(string reading)
-   {
-      ReadingOnHtml.Set(ReadingOnHtml.Value.Replace($"<primary>{reading}</primary>", reading));
-   }
-
-   public void AddPrimaryKunReading(string reading)
-   {
-      ReadingKunHtml.Set(StringExtensions.ReplaceWord(reading, $"<primary>{reading}</primary>", ReadingKunHtml.Value));
-   }
-
-   public void RemovePrimaryKunReading(string reading)
-   {
-      ReadingKunHtml.Set(ReadingKunHtml.Value.Replace($"<primary>{reading}</primary>", reading));
    }
 
    public List<string> Radicals
@@ -286,7 +192,7 @@ public class KanjiNote : JPNote
                                                                   .ThenBy(v => v.GetQuestion().Length)
                                                                   .ToList();
 
-      var primaryReadings = PrimaryReadings.Distinct().ToList();
+      var primaryReadings = Readings.PrimaryKana().Distinct().ToList();
 
       foreach(var primaryReading in primaryReadings)
       {
@@ -349,9 +255,9 @@ public class KanjiNote : JPNote
       string PrimaryReading(string read) => $"<span class=\"kanjiReadingPrimary\">{read}</span>";
       string SecondaryReading(string read) => $"<span class=\"kanjiReadingSecondary\">{read}</span>";
 
-      var primaryReadings = PrimaryReadings;
-      var secondaryReadings = ReadingsClean
-                             .Where(reading => !primaryReadings.Contains(reading) && !string.IsNullOrEmpty(reading))
+      var primaryReadings = Readings.PrimaryKana();
+      var secondaryReadings = Readings.AllKana()
+                             .Where(reading => !primaryReadings.Contains(reading))
                              .ToList();
 
       var result = new List<string>();
@@ -397,7 +303,7 @@ public class KanjiNote : JPNote
    {
       vocabForm = vocabForm.StripHtmlAndBracketMarkupAndNoiseCharacters();
 
-      var coveringReadings = ReadingsClean
+      var coveringReadings = Readings.AllKana()
                             .Where(r => kanjiReading != r && r.Contains(kanjiReading))
                             .ToList();
 
@@ -489,13 +395,12 @@ public class KanjiNote : JPNote
       RadicalsRaw = string.Join(", ", radicals);
    }
 
-   public static KanjiNote Create(NoteServices services, string question, string answer, string onReadings, string kunReading)
+   /// <summary>Creates a kanji with no readings and adds it to the collection.</summary>
+   public static KanjiNote Create(NoteServices services, string question, string answer)
    {
       var note = new KanjiNote(services);
       note.SetQuestion(question);
       note.CorpusAnswer.Set(answer);
-      note.ReadingOnHtml.Set(onReadings);
-      note.ReadingKunHtml.Set(kunReading);
       services.Collection.Kanji.Add(note);
       return note;
    }

@@ -10,8 +10,5 @@ enum TextFieldFormat
    Paragraphs,
 
    /// <summary>A list of values on one line, separated by commas.</summary>
-   CommaSeparated,
-
-   /// <summary>A comma separated list of readings, the primary ones marked as <c>&lt;primary&gt;reading&lt;/primary&gt;</c>.</summary>
-   CommaSeparatedReadings
+   CommaSeparated
 }

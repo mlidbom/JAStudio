@@ -11,11 +11,11 @@ using JAStudio.UI.Views.Workspace.Editors;
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
 
 /// <summary>
-/// What the workspace's editor section shows for a kanji (<see cref="KanjiEditorSection"/>): its text fields, edited live.<br/>
-/// Every keystroke is written to the note at once, and the kanji's generated data, such as its active answer, is updated with it.
+/// What the workspace's editor section shows for a kanji (<see cref="KanjiEditorSection"/>): its text fields and its readings, edited live.<br/>
+/// Every keystroke, and every change to the readings, is written to the note at once.
 /// </summary>
 /// <remarks>
-/// Every field reads and writes through <see cref="CurrentKanji"/>, the kanji as the collection holds it now. See <see cref="INoteEditorSectionViewModel"/>.
+/// Every field and the readings read and write through <see cref="CurrentKanji"/>, the kanji as the collection holds it now. See <see cref="INoteEditorSectionViewModel"/>.
 /// </remarks>
 class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
 {
@@ -37,11 +37,11 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
          Field("Answer", TextFieldFormat.Line, it => it.CorpusAnswer),
          Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic)
       ];
-      ReadingFields =
+      Readings =
       [
-         Field("On", TextFieldFormat.CommaSeparatedReadings, it => it.ReadingOnHtml),
-         Field("Kun", TextFieldFormat.CommaSeparatedReadings, it => it.ReadingKunHtml),
-         Field("Nanori", TextFieldFormat.CommaSeparated, it => it.ReadingNanHtml)
+         new KanjiReadingListEditorViewModel(_fatalErrorHandler, () => CurrentKanji().Readings.On),
+         new KanjiReadingListEditorViewModel(_fatalErrorHandler, () => CurrentKanji().Readings.Kun),
+         new KanjiReadingListEditorViewModel(_fatalErrorHandler, () => CurrentKanji().Readings.Nanori)
       ];
       RelatedFields =
       [
@@ -65,7 +65,8 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The kanji itself, and the corpus's own answer, which takes the place of the source's, and mnemonic for it.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> CoreFields { get; }
 
-   public IReadOnlyList<TextFieldEditorViewModel> ReadingFields { get; }
+   /// <summary>The kanji's on, kun and nanori readings (<see cref="KanjiNote.Readings"/>), each primary or secondary.</summary>
+   public IReadOnlyList<KanjiReadingListEditorViewModel> Readings { get; }
 
    /// <summary>The radicals the kanji is made of, and the vocab and other kanji it's related to.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> RelatedFields { get; }
@@ -84,10 +85,11 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    public void Refresh()
    {
       foreach(var field in AllFields()) field.Refresh();
+      foreach(var readings in Readings) readings.Refresh();
       Tags.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..ReadingFields, ..RelatedFields, ..SourceFields, ..OtherFields];
+   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..RelatedFields, ..SourceFields, ..OtherFields];
 
    TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<KanjiNote, WritableStringValue> field) =>
       Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));

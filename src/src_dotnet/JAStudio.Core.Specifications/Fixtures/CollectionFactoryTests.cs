@@ -18,8 +18,8 @@ public class CollectionFactoryTests : SpecificationUsingACollection
                                           new KanjiSpec(
                                              kanji.GetQuestion(),
                                              kanji.GetAnswer(),
-                                             kanji.ReadingKunHtml.Value,
-                                             kanji.ReadingOnHtml.Value
+                                             KanjiReadingsNotation.Of(kanji.Readings.On),
+                                             KanjiReadingsNotation.Of(kanji.Readings.Kun)
                                           )
       ).ToHashSet();
 

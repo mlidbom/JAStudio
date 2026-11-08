@@ -264,5 +264,5 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       WorkspaceWindow.OpenNote(SentenceNote.Create(_services.NoteServices, text));
 
    void OnCreateKanjiNote(string text) =>
-      WorkspaceWindow.OpenNote(KanjiNote.Create(_services.NoteServices, text, "TODO", "", ""));
+      WorkspaceWindow.OpenNote(KanjiNote.Create(_services.NoteServices, text, "TODO"));
 }

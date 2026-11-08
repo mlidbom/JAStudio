@@ -9,8 +9,8 @@ sealed class KanjiSearchResultViewModel(KanjiNote kanji) : SearchResultViewModel
    KanjiNote Kanji => (KanjiNote)Note;
 
    /// <summary>The kanji's on readings, separated by commas.</summary>
-   public string OnReadings => string.Join(", ", Kanji.ReadingsOn);
+   public string OnReadings => string.Join(", ", Kanji.Readings.On.AllKana());
 
    /// <summary>The kanji's kun readings, separated by commas.</summary>
-   public string KunReadings => string.Join(", ", Kanji.ReadingsKun);
+   public string KunReadings => string.Join(", ", Kanji.Readings.Kun.AllKana());
 }

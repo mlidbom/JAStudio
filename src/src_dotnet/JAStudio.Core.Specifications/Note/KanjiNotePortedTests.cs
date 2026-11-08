@@ -24,7 +24,7 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
 
    [Theory]
    [InlineData("内", "冂, 人", "<rad>head</rad> <rad>person</rad> <kan>inside</kan> <compound-reading><read>U</read>ber-<read>chi</read>mp</compound-reading> ...")]
-   [InlineData("病", "疒,丙", "<rad>sick</rad> <rad>dynamite</rad> <kan>illness</kan> <read>yu</read>ck <compound-reading><read>yu</read>ck-<read>mi</read>ce</compound-reading> <read>BO</read> ...")]
+   [InlineData("病", "疒,丙", "<rad>sick</rad> <rad>dynamite</rad> <kan>illness</kan> <read>BO</read> <read>yu</read>ck <compound-reading><read>yu</read>ck-<read>mi</read>ce</compound-reading> ...")]
    [InlineData("品", "", "<kan>goods</kan> <read>hin</read>t <compound-reading><read>shi</read>t-<read>nu</read>t</compound-reading> ...")]
    [InlineData("塚", "", "<kan>a-mound</kan> <read>Tsuka</read> ...")]
    public void BootstrapMnemonic(string kanji, string radicals, string expectedMnemonic)

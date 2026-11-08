@@ -40,7 +40,7 @@
 
     string HighlightInheritedReading(string text)
     {
-        foreach(var reading in Note.ReadingsClean)
+        foreach(var reading in Note.Readings.AllKana())
         {
             var hiragana = KanaUtils.KatakanaToHiragana(reading);
             var katakana = KanaUtils.HiraganaToKatakana(reading);

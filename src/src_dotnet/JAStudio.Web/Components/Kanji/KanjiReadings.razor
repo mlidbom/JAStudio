@@ -1,23 +1,21 @@
-@using JAStudio.Core.LanguageServices
 @using JAStudio.Core.Note
+@using JAStudio.Core.Note.KanjiReadings
+@using JAStudio.Core.ViewModels
 
 <span class="reading">@((MarkupString)OnReadings)</span> <span class="readingsSeparator">|</span>
 <span class="reading">@((MarkupString)KunReadings)</span> <span class="readingsSeparator">|</span>
-<span class="reading">@((MarkupString)NanReadings)</span>
+<span class="reading">@((MarkupString)NanoriReadings)</span>
 
 @code {
     [Parameter, EditorRequired] public KanjiNote Note { get; set; } = null!;
 
-    string OnReadings => string.Join(", ",
-        Note.ReadingOnListHtml
-            .Select(KanaUtils.HiraganaToKatakana)
-            .Select(r => $"""<span class="clipboard">{r}</span>"""));
+    string OnReadings => EachCopyable(Note.Readings.On);
 
-    string KunReadings => string.Join(", ",
-        Note.ReadingKunListHtml
-            .Select(r => $"""<span class="clipboard">{r}</span>"""));
+    string KunReadings => EachCopyable(Note.Readings.Kun);
 
-    string NanReadings => string.Join(", ",
-        Note.ReadingNanListHtml
+    string NanoriReadings => EachCopyable(Note.Readings.Nanori);
+
+    static string EachCopyable(KanjiReadingList readings) => string.Join(", ",
+        KanjiReadingsHtml.Of(readings)
             .Select(r => $"""<span class="clipboard">{r}</span>"""));
 }

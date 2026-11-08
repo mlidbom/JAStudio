@@ -9,9 +9,7 @@ public partial class KanjiDto : CorpusNoteDto
 {
    public string Kanji { get; init; } = string.Empty;
    public string CorpusAnswer { get; init; } = string.Empty;
-   public string ReadingOnHtml { get; init; } = string.Empty;
-   public string ReadingKunHtml { get; init; } = string.Empty;
-   public string ReadingNanHtml { get; init; } = string.Empty;
+   public KanjiReadingsDto Readings { get; init; } = new();
    public List<string> Radicals { get; init; } = [];
    public List<string> PrimaryVocab { get; init; } = [];
    public string References { get; init; } = string.Empty;

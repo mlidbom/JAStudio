@@ -287,7 +287,7 @@ Two cautions:
 | ~~Invalid / empty question~~ | `VocabNoteQuestion` | ~~Sentinel strings `InvalidQuestionMessage` and `"[EMPTY]"` stored as the question~~ *Gone 2026-11-08 (slice 2). None was stored in the corpus: the code made them up while it ran. A question can't be set empty, or to text containing `:`, now.* |
 | Prefix / suffix marker | `Mine.VocabPrefixSuffixMarker` | `〜` in the question and forms, stripped as a "noise character". This is also standard dictionary notation, so it may rightly stay text. |
 | Parts of speech | `VocabNotePartsOfSpeech`, `POSSetManager.InternAndHarmonize` | One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times) |
-| Primary kanji readings | `KanjiNote.PrimaryReadingPattern`, plus a duplicate regex in `LocalNoteUpdater` | Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml` |
+| ~~Primary kanji readings~~ | `KanjiNoteReadings` | ~~Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml`~~ *Gone 2026-11-08 (slice 7a): `readings` is `{ "on", "kun", "nanori" }`, each a list of `{ "kana", "isPrimary" }`. The cards still show a primary reading inside `<primary>`, made from the model (`KanjiReadingsHtml`).* |
 | Primary kanji meaning | kanji `sourceAnswer` | `<primary>Stab</primary>, Thrust` |
 | Media references | `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue` | Anki's `[sound:x.mp3]` and `<img src="…">` |
 | Word-break hints | `SentenceQuestionField` | `<wbr>` inserted into the question text by `SentenceQuestionField.SplitTokenWithWordBreakTag`, to force the tokenizer to split there. It writes the source question when there is no user question. 252 sentence files have one: 233 in `sourceQuestion`, 19 in `userQuestion`. |
@@ -512,9 +512,9 @@ falls back). *2026-11-08: no mnemonic falls back to the source's any more; see
   "kanji": "突",
   "corpusAnswer": "sudden/abrupt | stab/thrust/pierce/prick",
   "readings": {
-    "on":  [{ "kana": "とつ", "primary": true }],
-    "kun": [{ "kana": "つ",   "primary": true }],
-    "nan": []
+    "on":     [{ "kana": "とつ", "isPrimary": true }],
+    "kun":    [{ "kana": "つ",   "isPrimary": true }],
+    "nanori": []
   },
   "radicals": ["穴", "大"],
   "mnemonic": "",
@@ -938,7 +938,44 @@ Progress on step 3:
       [Persisted-derived-data](#persisted-derived-data). `sentenceCount` and the tags derived from corpus data stay, as
       derived data kept on purpose; the study-state and orphaned tags are gone.* `_tts_audio` moved to slice 9: see
       [TTS audio](#tts-audio-only-what-we-know-for-sure-is-tts-magnus-2026-11-08).
-   7. Kanji readings and parts of speech.
+   7. Kanji readings and parts of speech. **Planned with Magnus, 2026-11-08, in two parts:**
+      - **7a, kanji readings.** Stored as `"readings": { "on": [{ "kana": "とつ", "isPrimary": true }], "kun": […], "nanori": […] }`,
+        replacing `readingOnHtml`, `readingKunHtml` and `readingNanHtml`. The HTML uses only `<primary>`, and separates readings
+        with `, `, `,`, `、` or stray spaces. A `.` (`あわ.せる`, KANJIDIC's okurigana mark) and a leading `-` (`-なが.ら`, a
+        suffix) are part of a reading. The `...` leftovers are dropped (4 kanji, among them 曽, whose kun reading is only `...`).
+        Typos such as `うすづｒ` (臼) and a newline after `がと` (難) are listed for Magnus to fix in the new editor, not guessed
+        at. On readings are stored as hiragana (`KanjiReadingList` converts them). About 15 places use the readings: matching and
+        `LocalNoteUpdater.TagKanjiMetadata`, `KanjiNoteMnemonicMaker`, the kanji views and web components (`KanjiReadings.razor`,
+        `KanjiDependencies.razor`, `KanjiList.razor`), `KanjiStringMenus` and the kanji editor. The editor gets a list of
+        readings per kind with a primary toggle, like a form's "owned" check box, instead of HTML text boxes.
+        *Built 2026-11-08:* `KanjiNoteReadings` holds a `KanjiReadingList` per `KanjiReadingKind`, each reading a `KanjiReading`;
+        the editor is a `KanjiReadingListEditor` per kind. Kun and nanori readings are kept as typed, since a few are rightly
+        katakana (頁's kun reading ページ). The migration dropped the `...` leftovers (數, 曽, 卆) and 从's repeated kun reading
+        したが; 臼's `うすづｒ` and 難's `がと` are kept for Magnus to fix. Readings separated by `、` or spaces became separate
+        readings (25 fields), which changes, for those kanji, what tagging and the vocab's reading highlights find.
+      - **7b, parts of speech as a closed set.** Stored as a list instead of one comma separated string. Only valid parts of
+        speech can be added in the UI: from the list of valid ones, filterable by typing (Magnus).
+        - **The valid list** is what the whole dictionary maps to, plus JAStudio's own `masu-suffix`, plus `mimetic` and
+          `in compounds` (real categories the dictionary has no part of speech for; Magnus: "if they are real, add them").
+        - **The dictionary:** `jmdict.db` (`%LOCALAPPDATA%\JAStudio`, table `WordSenseRow`, `PartsOfSpeechRaw` split on `|`)
+          has 83 parts of speech; `POSSetManager`'s remapping covers 43. The other 40 are archaic and get mapped: every nidan
+          subtype to `nidan verb`, every yodan subtype to `yodan verb`, and new values `ku-adjective`, `shiku-adjective`,
+          `nari-adjective` (the archaic form of na-adjectives), `ri verb` (the irregular `-ri` verb, あり) and `verb` (the
+          dictionary's "verb unspecified"); `unclassified` maps to nothing.
+        - **Filling from the dictionary throws** on a part of speech that doesn't map (Magnus: it must not be missed), which
+          with the mapping complete can only happen if a new dictionary version adds one.
+        - **Existing data (82 distinct values):** synonyms and typos map directly: `する verb` (1,207) and `verbal noun` (85) to
+          `suru verb`, `の adjective` (989) and `の-adjective` to `no-adjective`, `い adjective` (172) to `i-adjective`,
+          `な-adjective` to `na-adjective`, `proper-noun`, `suru-verb`, `conjuction`, `expressino`, `instransitive`,
+          `intransient` and `intransitev` to the word they misspell, `transitive/intransitive` to both, and `unknown`
+          (lowercased, it never matched the constant `Unknown`) is checked like the rest. The rest are checked per word against
+          the dictionary, as Magnus suggested for the run-together ones such as `godan verbichidan verb`: replaced by what the
+          dictionary confirms (出しゃばる: `godan verb`; 要する and its kind: `suru verb` with `special-class`), dropped where it
+          can't (行ける, たかが知れてる). That covers `adjective`, `adjectival`, `aru-verb`, `'`, `kana`, `4-dan`, `archaic`
+          and the 12 `unmapped-pos-…`. Also agreed with Magnus: `imperative` (2) is dropped, being a verb form rather than a
+          part of speech, and `masculine` (飯) becomes the register `roughMasculine`.
+        - **Matching changes** where godan, ichidan or na-adjective change, about 20 vocab, so the full rebuild's diff gets
+          analyzed. Mostly the vocab page's markers change (の- and い-adjectives start showing).
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
       pickers to replace the related-vocab JSON text box.
    9. Media, once the points under [Media](#media-open) are settled.

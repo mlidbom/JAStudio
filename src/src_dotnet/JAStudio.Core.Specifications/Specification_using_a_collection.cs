@@ -23,8 +23,14 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
    protected VocabNote CreateVocab(string question, string answer, List<string> readings, List<string> forms) =>
       VocabNote.Create(NoteServices, question, answer, readings, forms);
 
-   protected KanjiNote CreateKanji(string question, string answer, string onReadings, string kunReading) =>
-      KanjiNote.Create(NoteServices, question, answer, onReadings, kunReading);
+   /// <summary>Creates a kanji with the readings <paramref name="onReadings"/> and <paramref name="kunReadings"/>, each written in the <see cref="KanjiReadingsNotation"/>.</summary>
+   protected KanjiNote CreateKanji(string question, string answer, string onReadings, string kunReadings)
+   {
+      var kanji = KanjiNote.Create(NoteServices, question, answer);
+      KanjiReadingsNotation.AddTo(kanji.Readings.On, onReadings);
+      KanjiReadingsNotation.AddTo(kanji.Readings.Kun, kunReadings);
+      return kanji;
+   }
 
    protected SentenceNote CreateSentence(string question) =>
       SentenceNote.Create(NoteServices, question);

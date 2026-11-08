@@ -10,6 +10,8 @@ namespace JAStudio.Core.Storage.Dto;
 /// via NoteSerializer so the Encoder (not settable via attribute) can be configured.
 /// </summary>
 [JsonSerializable(typeof(KanjiDto))]
+[JsonSerializable(typeof(KanjiReadingsDto))]
+[JsonSerializable(typeof(KanjiReadingDto))]
 [JsonSerializable(typeof(VocabDto))]
 [JsonSerializable(typeof(VocabQuestionDto))]
 [JsonSerializable(typeof(VocabCompoundPartsDto))]

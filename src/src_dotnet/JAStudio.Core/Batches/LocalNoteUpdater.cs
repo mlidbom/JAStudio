@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
@@ -121,10 +120,6 @@ public class LocalNoteUpdater
    /// </summary>
    public void TagKanjiMetadata()
    {
-      var primaryReadingPattern = new Regex("<primary>(.*?)</primary>", RegexOptions.Compiled);
-
-      List<string> PrimaryReadingsIn(string readingsHtml) => [.. primaryReadingPattern.Matches(readingsHtml).Select(m => m.Groups[1].Value)];
-
       void TagKanji(KanjiNote kanji)
       {
          var vocabWithKanjiInMainForm = _vocab.WithKanjiInMainForm(kanji);
@@ -134,11 +129,11 @@ public class LocalNoteUpdater
          kanji.Tags.Toggle(Tags.Kanji.InVocabMainForm, vocabWithKanjiInMainForm.Any());
          kanji.Tags.Toggle(Tags.Kanji.InAnyVocabForm, vocabWithKanjiInAnyForm.Any());
 
-         var primaryReadings = PrimaryReadingsIn($"{kanji.ReadingOnHtml.Value} {kanji.ReadingKunHtml.Value} {kanji.ReadingNanHtml.Value}");
+         var primaryReadings = kanji.Readings.PrimaryKana();
          kanji.Tags.Toggle(Tags.Kanji.WithNoPrimaryReadings, !primaryReadings.Any());
 
-         var primaryOnReadings = PrimaryReadingsIn(kanji.ReadingOnHtml.Value);
-         var nonPrimaryOnReadings = kanji.ReadingsOn
+         var primaryOnReadings = kanji.Readings.On.PrimaryKana();
+         var nonPrimaryOnReadings = kanji.Readings.On.AllKana()
                                          .Where(reading => !primaryReadings.Contains(reading))
                                          .ToList();
 
@@ -164,7 +159,7 @@ public class LocalNoteUpdater
       void TagHasSingleKanjiVocabWithReadingDifferentFromKanjiPrimaryReading(KanjiNote kanji)
       {
          var singleKanjiVocab = _vocab.WithKanjiInMainForm(kanji).Where(v => v.GetQuestion() == kanji.GetQuestion()).ToList();
-         var primaryReadings = PrimaryReadingsIn($"{kanji.ReadingOnHtml.Value} {kanji.ReadingKunHtml.Value} {kanji.ReadingNanHtml.Value}");
+         var primaryReadings = kanji.Readings.PrimaryKana();
 
          kanji.Tags.Toggle(Tags.Kanji.WithSingleKanjiVocab, singleKanjiVocab.Any());
          kanji.Tags.Toggle(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading,

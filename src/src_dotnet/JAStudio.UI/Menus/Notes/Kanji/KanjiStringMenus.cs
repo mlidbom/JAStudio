@@ -46,22 +46,23 @@ static class KanjiStringMenus
 
          if(KanaUtils.IsOnlyKatakana(str))
          {
-            var hiraganaString = KanaUtils.KatakanaToHiragana(str);
-            if(kanji.PrimaryReadingsOn.Contains(hiraganaString))
+            var onReadings = kanji.Readings.On;
+            if(onReadings.IsPrimary(str))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Onyomi Reading"), () => kanji.RemovePrimaryOnReading(hiraganaString)));
-            } else if(kanji.ReadingsOn.Contains(hiraganaString))
+               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Onyomi Reading"), () => onReadings.MakeSecondary(str)));
+            } else if(onReadings.Contains(str))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Onyomi Reading"), () => kanji.AddPrimaryOnReading(hiraganaString)));
+               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Onyomi Reading"), () => onReadings.MakePrimary(str)));
             }
          } else if(KanaUtils.IsOnlyHiragana(str))
          {
-            if(kanji.PrimaryReadingsKun.Contains(str))
+            var kunReadings = kanji.Readings.Kun;
+            if(kunReadings.IsPrimary(str))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Kunyomi reading"), () => kanji.RemovePrimaryKunReading(str)));
-            } else if(kanji.ReadingsKun.Contains(str))
+               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Kunyomi reading"), () => kunReadings.MakeSecondary(str)));
+            } else if(kunReadings.Contains(str))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Kunyomi reading"), () => kanji.AddPrimaryKunReading(str)));
+               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Kunyomi reading"), () => kunReadings.MakePrimary(str)));
             }
          }
 

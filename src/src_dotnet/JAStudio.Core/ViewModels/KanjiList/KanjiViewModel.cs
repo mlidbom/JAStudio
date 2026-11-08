@@ -1,4 +1,4 @@
-using JAStudio.Core.LanguageServices;
+using System.Linq;
 using JAStudio.Core.Note;
 
 namespace JAStudio.Core.ViewModels.KanjiList;
@@ -15,10 +15,10 @@ public class KanjiViewModel
 
    public string Readings()
    {
-      var readings = $"{KanaUtils.HiraganaToKatakana(Kanji.ReadingOnHtml.Value)} <span class=\"readingsSeparator\">|</span> {Kanji.ReadingKunHtml.Value}";
-      if(!string.IsNullOrEmpty(Kanji.ReadingNanHtml.Value))
+      var readings = $"{KanjiReadingsHtml.Listed(Kanji.Readings.On)} <span class=\"readingsSeparator\">|</span> {KanjiReadingsHtml.Listed(Kanji.Readings.Kun)}";
+      if(Kanji.Readings.Nanori.All().Any())
       {
-         readings += $" <span class=\"readingsSeparator\">|</span> {Kanji.ReadingNanHtml.Value}";
+         readings += $" <span class=\"readingsSeparator\">|</span> {KanjiReadingsHtml.Listed(Kanji.Readings.Nanori)}";
       }
 
       return readings;
