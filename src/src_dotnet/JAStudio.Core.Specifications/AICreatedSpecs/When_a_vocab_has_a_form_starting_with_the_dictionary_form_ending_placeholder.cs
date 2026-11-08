@@ -35,7 +35,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
       public that_requires_the_dictionary_form_start() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.SetRequired(true);
 
       [XF] public void the_question_and_the_entered_forms_are_only_the_form_starting_with_the_placeholder() => _vocab.Forms.QuestionAndEnteredFormsList().Must().SequenceEqual(["う限り"]);
-      [XF] public void no_forms_are_stored_since_the_form_starting_with_the_placeholder_is_the_question() => _vocab.Forms.EnteredFormsWithBrackets().Must().BeEmpty();
+      [XF] public void no_forms_are_stored_since_the_form_starting_with_the_placeholder_is_the_question() => _vocab.Forms.EnteredForms().Must().BeEmpty();
       [XF] public void the_matched_forms_are_the_form_starting_with_the_placeholder_and_the_form_starting_with_each_other_dictionary_form_ending() =>
          _vocab.Forms.MatchedFormsSet().SetEquals(TheFormStartingWithEachOtherDictionaryFormEnding.Append("う限り")).Must().BeTrue();
       [XF] public void the_vocab_collection_finds_the_vocab_by_the_form_starting_with_each_other_dictionary_form_ending() => TheVocabCollectionFindsTheVocabByEachOfTheFormsItExpandsTo.Must().BeTrue();
@@ -49,9 +49,13 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
          [XF] public void none_of_the_forms_starting_with_another_dictionary_form_ending_is_an_owned_form() => TheFormStartingWithEachOtherDictionaryFormEndingFollowedBy("では").Any(_vocab.Forms.IsOwnedForm).Must().BeFalse();
       }
 
-      public class and_a_bracketed_entered_form_starting_with_the_placeholder : that_requires_the_dictionary_form_start
+      public class and_an_owned_entered_form_starting_with_the_placeholder : that_requires_the_dictionary_form_start
       {
-         public and_a_bracketed_entered_form_starting_with_the_placeholder() => _vocab.Forms.Add("[う限りでは]");
+         public and_an_owned_entered_form_starting_with_the_placeholder()
+         {
+            _vocab.Forms.Add("う限りでは");
+            _vocab.Forms.Own("う限りでは");
+         }
 
          [XF] public void the_form_starting_with_each_other_dictionary_form_ending_is_an_owned_form() => TheFormStartingWithEachOtherDictionaryFormEndingFollowedBy("では").All(_vocab.Forms.IsOwnedForm).Must().BeTrue();
       }

@@ -135,9 +135,9 @@ static class VocabLists
       new("たか", tags: [VM.IsPoisonWord]),
       new("なんて", tags: [VM.YieldLastTokenToOverlappingCompound]),
       new("何て", tags: [VM.YieldLastTokenToOverlappingCompound]),
-      new("というか", forms: ["[と言うか]", "っていうか", "ていうか", "て言うか"]),
-      new("ていうか", forms: ["と言うか", "というか", "っていうか", "[て言うか]"]),
-      new("鰻", forms: ["[うな]"], prefixNot: ["ろ", "よ"]),
+      new("というか", forms: ["っていうか", "ていうか", "て言うか"], ownedForms: ["と言うか"]),
+      new("ていうか", forms: ["と言うか", "というか", "っていうか"], ownedForms: ["て言うか"]),
+      new("鰻", ownedForms: ["うな"], prefixNot: ["ろ", "よ"]),
       new("書き"),
       new("風の強い", tags: [VM.Requires.Surface]),
       new("たね", tags: [VM.Requires.SingleToken]),
@@ -179,7 +179,7 @@ static class VocabLists
       new("外出中", tags: [V.IsCompositionallyTransparentCompound]),
       new("買い替える", tags: [V.IsCompositionallyTransparentCompound]),
 
-      new("きれない", forms: ["[切れない]"], tags: [VM.Requires.MasuStem]),
+      new("きれない", ownedForms: ["切れない"], tags: [VM.Requires.MasuStem]),
 
       new("考えすぎ", tags: [VM.Forbids.AdverbHead]),
       new("考えすぎる", tags: [VM.Forbids.AdverbHead]),
@@ -189,7 +189,7 @@ static class VocabLists
       new("な:masu", tags: [VM.Requires.MasuStem]),
       new("な:s.end", tags: [VM.Requires.SentenceEnd, VM.Forbids.SentenceStart]),
       new("な:s.start", tags: [VM.Requires.SentenceStart]),
-      new("すんな", forms: ["[すな]"], tags: [VM.Forbids.DictionaryFormStart]),
+      new("すんな", ownedForms: ["すな"], tags: [VM.Forbids.DictionaryFormStart]),
 
       new("がある", tags: [VM.YieldLastTokenToOverlappingCompound]),
       new("うの", tags: [VM.Requires.DictionaryFormStart, V.QuestionOverridesForm]),

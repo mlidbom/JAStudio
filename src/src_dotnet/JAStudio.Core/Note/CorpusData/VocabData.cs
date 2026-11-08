@@ -14,7 +14,7 @@ public partial class VocabData : CorpusObjectData
    public string UserExplanation { get; init; } = string.Empty;
    public string UserExplanationLong { get; init; } = string.Empty;
    public string UserMnemonic { get; init; } = string.Empty;
-   public List<string> UserCompounds { get; init; } = [];
+   public VocabCompoundPartsSubData CompoundParts { get; init; } = new();
    public List<string> Readings { get; init; } = [];
    public string PartsOfSpeech { get; init; } = string.Empty;
    public string SourceMnemonic { get; init; } = string.Empty;
@@ -22,7 +22,7 @@ public partial class VocabData : CorpusObjectData
    public string AudioB { get; init; } = string.Empty;
    public string AudioG { get; init; } = string.Empty;
    public string AudioTTS { get; init; } = string.Empty;
-   public List<string> Forms { get; init; } = [];
+   public List<EnteredFormSubData> Forms { get; init; } = [];
    public int SentenceCount { get; init; }
    public string TechnicalNotes { get; init; } = string.Empty;
    public string References { get; init; } = string.Empty;

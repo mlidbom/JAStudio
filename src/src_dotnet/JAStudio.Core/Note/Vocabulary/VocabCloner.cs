@@ -49,11 +49,11 @@ public class VocabCloner
          var compounds = isPrefix
                             ? new List<string> { addendum, Note.Question.DisambiguationName }
                             : new List<string> { Note.Question.DisambiguationName, addendum };
-         newVocab.CompoundParts.Set(compounds);
+         newVocab.CompoundParts.SetPrimary(compounds);
       }
 
       newVocab.PartsOfSpeech.SetRawStringValue(speechType);
-      newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).ToList());
+      newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
 
       return newVocab;
    }
@@ -96,7 +96,7 @@ public class VocabCloner
                          UserExplanation = source.UserExplanation,
                          UserExplanationLong = source.UserExplanationLong,
                          UserMnemonic = source.UserMnemonic,
-                         UserCompounds = source.UserCompounds,
+                         CompoundParts = source.CompoundParts,
                          Readings = source.Readings,
                          PartsOfSpeech = source.PartsOfSpeech,
                          SourceMnemonic = source.SourceMnemonic,
@@ -156,7 +156,7 @@ public class VocabCloner
       var forms = suruVerb.Forms.QuestionAndEnteredFormsList()
                           .Concat(suruVerb.Forms.QuestionAndEnteredFormsList().Select(form => form.Replace("する", "をする")))
                           .ToList();
-      suruVerb.Forms.SetEnteredForms(forms);
+      suruVerb.Forms.SetEnteredForms(forms.Select(EnteredForm.NotOwned));
 
       if(Note.PartsOfSpeech.IsTransitive())
       {
@@ -184,12 +184,12 @@ public class VocabCloner
       string CreateFullForm(string form) => createFormRoot(Note, form) + formSuffix;
 
       var clone = CreateNewVocabWithSomeDataCopied(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
-      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).ToList());
+      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
       var readings = Note.GetReadings().Select(CreateFullForm).ToList();
       clone.SetReadings(readings);
       clone.PartsOfSpeech.SetRawStringValue(POS.Expression);
       var compounds = new List<string> { Note.Question.DisambiguationName, formSuffix };
-      clone.CompoundParts.Set(compounds);
+      clone.CompoundParts.SetPrimary(compounds);
       return clone;
    }
 
@@ -222,18 +222,18 @@ public class VocabCloner
    public VocabNote CreateReceptiveForm()
    {
       var result = SuffixToAStem("れる");
-      var compoundParts = result.CompoundParts.All();
-      compoundParts[compoundParts.Count - 1] = "あれる";
-      result.CompoundParts.Set(compoundParts);
+      var compoundParts = result.CompoundParts.Primary();
+      compoundParts[^1] = "あれる";
+      result.CompoundParts.SetPrimary(compoundParts);
       return result;
    }
 
    public VocabNote CreateCausativeForm()
    {
       var result = SuffixToAStem("せる");
-      var compoundParts = result.CompoundParts.All();
-      compoundParts[compoundParts.Count - 1] = "あせる";
-      result.CompoundParts.Set(compoundParts);
+      var compoundParts = result.CompoundParts.Primary();
+      compoundParts[^1] = "あせる";
+      result.CompoundParts.SetPrimary(compoundParts);
       return result;
    }
 
@@ -245,7 +245,7 @@ public class VocabCloner
          Conjugator.GetImperative(form, Note.PartsOfSpeech.IsIchidan(), Note.PartsOfSpeech.IsGodan());
 
       var clone = CreateNewVocabWithSomeDataCopied(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
-      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).ToList());
+      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
       var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
       clone.SetReadings(readings);
       clone.PartsOfSpeech.SetRawStringValue(POS.Expression);
@@ -255,7 +255,7 @@ public class VocabCloner
    public VocabNote CreatePotentialGodan()
    {
       var clone = SuffixToEStem("る");
-      clone.CompoundParts.Set([Note.Question.DisambiguationName, "える"]);
+      clone.CompoundParts.SetPrimary([Note.Question.DisambiguationName, "える"]);
       return clone;
    }
 }

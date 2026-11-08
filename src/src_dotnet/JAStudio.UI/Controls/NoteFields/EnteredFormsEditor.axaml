@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             x:Class="JAStudio.UI.Controls.NoteFields.EnteredFormsEditor"
+             x:DataType="noteFields:EnteredFormsEditorViewModel">
+    <StackPanel Spacing="4">
+        <TextBlock Text="Forms" FontWeight="SemiBold" />
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Content="Add" Command="{Binding AddCommand}" Margin="6,0,0,0" />
+            <TextBox Text="{Binding NewForm, Mode=TwoWay}" PlaceholderText="Type a form to add">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding AddCommand}" />
+                </TextBox.KeyBindings>
+            </TextBox>
+        </DockPanel>
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="noteFields:EnteredFormChipViewModel">
+                    <Border Background="#e0e0e0" CornerRadius="3" Padding="6,3" Margin="2">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="{Binding Text}" VerticalAlignment="Center" />
+                            <CheckBox Content="owned" IsChecked="{Binding IsOwned}" VerticalAlignment="Center"
+                                      ToolTip.Tip="An owned form is this vocab wherever it's found, rather than one of the other vocab that match it" />
+                            <Button Content="×" Command="{Binding RemoveCommand}" ToolTip.Tip="Remove"
+                                    Width="16" Height="16" Padding="0" FontSize="14" FontWeight="Bold" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

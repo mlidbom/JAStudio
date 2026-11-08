@@ -91,7 +91,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
    {
       foreach(var vocab in vocabs.WithQuestion(token.BaseForm))
       {
-         var compoundParts = vocab.CompoundParts.All();
+         var compoundParts = vocab.CompoundParts.Primary();
          if(compoundParts.Count == 2 && PotentialOrImperativeGodanLastCompoundParts.Contains(compoundParts[1]))
          {
             if(WordInfo.IsGodan(vocabs, dictLookup, compoundParts[0]))

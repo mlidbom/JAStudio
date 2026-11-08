@@ -12,6 +12,8 @@ namespace JAStudio.Core.Storage.Dto;
 /// </summary>
 [JsonSerializable(typeof(KanjiData))]
 [JsonSerializable(typeof(VocabData))]
+[JsonSerializable(typeof(VocabCompoundPartsSubData))]
+[JsonSerializable(typeof(EnteredFormSubData))]
 [JsonSerializable(typeof(VocabMatchingRulesSubData))]
 [JsonSerializable(typeof(VocabRelatedSubData))]
 [JsonSerializable(typeof(SentenceData))]

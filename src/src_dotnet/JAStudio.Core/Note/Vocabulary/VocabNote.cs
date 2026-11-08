@@ -17,7 +17,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public VocabNotePartsOfSpeech PartsOfSpeech { get; }
    public VocabNoteConjugator Conjugator { get; }
    public VocabNoteSentences Sentences { get; }
-   public VocabNoteUserCompoundParts CompoundParts { get; }
+   public VocabNoteCompoundParts CompoundParts { get; }
    public Vocabulary.RelatedVocab.RelatedVocab RelatedNotes { get; }
    public VocabNoteMetaData MetaData { get; }
    public VocabNoteRegister Register { get; }
@@ -55,7 +55,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       PartsOfSpeech = new VocabNotePartsOfSpeech(this, data, Guard);
       Conjugator = new VocabNoteConjugator(this);
       Sentences = new VocabNoteSentences(this);
-      CompoundParts = new VocabNoteUserCompoundParts(this, data, Guard);
+      CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(this);
@@ -155,7 +155,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
       if(forms.Any())
       {
-         note.Forms.SetEnteredForms(forms);
+         note.Forms.SetEnteredForms(forms.Select(EnteredForm.NotOwned));
       }
 
       note.UpdateGeneratedData();

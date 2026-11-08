@@ -20,13 +20,15 @@ public class VocabSpec : IEquatable<VocabSpec>
       IEnumerable<string>? prefixIn = null,
       IEnumerable<string>? prefixNot = null,
       IEnumerable<string>? suffixNot = null,
-      IEnumerable<string>? tos = null)
+      IEnumerable<string>? tos = null,
+      List<string>? ownedForms = null)
    {
       DisambiguationName = question;
       Question = question.Split(VocabNoteQuestion.DisambiguationMarker)[0];
       Answer = answer ?? question;
       Readings = readings ?? [Question];
       ExtraForms = forms != null ? [..forms] : [];
+      OwnedForms = ownedForms != null ? [..ownedForms] : [];
       Tags = tags != null ? [..tags] : [];
       Compounds = compounds ?? [];
       SurfaceIsNot = surfaceNot != null ? [..surfaceNot] : [];
@@ -42,6 +44,7 @@ public class VocabSpec : IEquatable<VocabSpec>
    public string Answer { get; }
    public List<string> Readings { get; }
    public HashSet<string> ExtraForms { get; }
+   public HashSet<string> OwnedForms { get; }
    public HashSet<Tag> Tags { get; }
    public List<string> Compounds { get; }
    public HashSet<string> SurfaceIsNot { get; }
@@ -65,13 +68,11 @@ public class VocabSpec : IEquatable<VocabSpec>
 
    public void InitializeNote(VocabNote vocabNote)
    {
-      vocabNote.CompoundParts.Set(Compounds);
+      vocabNote.CompoundParts.SetPrimary(Compounds);
 
-      if(ExtraForms.Count > 0)
+      if(ExtraForms.Count > 0 || OwnedForms.Count > 0)
       {
-         var enteredForms = new HashSet<string>(vocabNote.Forms.EnteredFormsSet());
-         enteredForms.UnionWith(ExtraForms);
-         vocabNote.Forms.SetEnteredForms(enteredForms);
+         vocabNote.Forms.SetEnteredForms([.. OwnedForms.Select(EnteredForm.Owned), .. vocabNote.Forms.EnteredForms(), .. ExtraForms.Select(EnteredForm.NotOwned)]);
       }
 
       foreach(var tag in Tags)

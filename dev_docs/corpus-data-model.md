@@ -22,8 +22,8 @@ nothing stored only for Anki's sake.
 ## Terms used in this document
 
 - **in-string-micro-syntax** — meaning hidden in a string's characters, which code has to parse back out. For
-  example, brackets around a form, `question:disambiguation`, `<primary>` HTML around a kanji reading, or
-  `[sound:file.mp3]`.
+  example, brackets around a form (gone 2026-11-08), `question:disambiguation`, `<primary>` HTML around a kanji reading,
+  or `[sound:file.mp3]`.
 - **persisted-derived-data** — a value computed from other data that is stored anyway, for example
   `activeAnswer` or `sentenceCount`.
 - **Anki-projection** — the mapping from the domain model to Anki note fields and tags. It runs on every flush.
@@ -274,8 +274,8 @@ Two cautions:
 
 | Concept | Where | Encoding |
 |---|---|---|
-| Owned form | `VocabNoteForms.ComputeOwnedForms` | `[form]` in the `forms` list |
-| Alternative compound part | `VocabNoteUserCompoundParts` | `[part]` in `userCompounds`: the same syntax as owned forms, with a different meaning |
+| ~~Owned form~~ | `VocabNoteForms.ComputeOwnedForms` | ~~`[form]` in the `forms` list~~ *Gone 2026-11-08 (slice 1): each form is `{ "text", "isOwned" }`.* |
+| ~~Alternative compound part~~ | `VocabNoteCompoundParts` | ~~`[part]` in `userCompounds`~~ *Gone 2026-11-08 (slice 1): `compoundParts` is `{ "primary", "alternative" }`.* |
 | Disambiguation | `VocabNoteQuestion` (`DisambiguationMarker`) | `question:disambiguation` (32 vocab) |
 | Invalid / empty question | `VocabNoteQuestion` | Sentinel strings `InvalidQuestionMessage` and `"[EMPTY]"` stored as the question |
 | Prefix / suffix marker | `Mine.VocabPrefixSuffixMarker` | `〜` in the question and forms, stripped as a "noise character". This is also standard dictionary notation, so it may rightly stay text. |
@@ -285,8 +285,13 @@ Two cautions:
 | Media references | `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue` | Anki's `[sound:x.mp3]` and `<img src="…">` |
 | Word-break hints | `SentenceQuestionField` | `<wbr>` inserted into the question text by `SentenceQuestionField.SplitTokenWithWordBreakTag`, to force the tokenizer to split there. It writes the source question when there is no user question. 252 sentence files have one: 233 in `sourceQuestion`, 19 in `userQuestion`. |
 
-The brackets have already caused two bugs: `a921f09cb` (alternative compound parts lost when editing a vocab)
-and `51a2ab4ae` (owned forms lost when editing a vocab). About 217 vocab files use them.
+The brackets caused two bugs: `a921f09cb` (alternative compound parts lost when editing a vocab) and `51a2ab4ae`
+(owned forms lost when editing a vocab). About 217 vocab files used them. Two more turned up when they were removed
+(2026-11-08):
+- `VocabNoteKanji.ExtractAllKanji` cut `[…]` out of the forms *with its content*, so an owned form's kanji never counted
+  among the vocab's kanji (`VocabCache`'s kanji-in-any-form index, and the kanji tags the full rebuild sets from it);
+- `くれよ`'s alternative parts were typed as `[くれる, よ]` into the comma separated box, which split them into `[くれる`
+  and `よ]`, so `よ]` was a primary part.
 
 Two encodings look like in-string-micro-syntaxes but are probably fine as text:
 
@@ -353,7 +358,8 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectionViewModel`,
 `SentenceEditorSectionViewModel`). They still mostly copy Anki's note editor: one text box per stored string.
 
-- Brackets and `question:disambiguation` are typed by hand.
+- `question:disambiguation` is typed by hand. *(The brackets were, until 2026-11-08: each form now has an "owned"
+  check box, and compound parts have a box each for the primary and the alternative ones.)*
 - A vocab's forms and parts of speech are lists, with entries added and removed one at a time. Its readings and
   compound parts, and the kanji's lists, are still comma separated text.
 - Parts of speech are free text, and audio is raw `[sound:…]`.
@@ -390,7 +396,7 @@ should drive its JSON key, not the reverse.
   "answer": { "source": "to tear off; to peel off", "user": "" },
   "readings": ["はぐ"],
   "forms": [
-    { "text": "剝ぐ", "owned": true }
+    { "text": "剝ぐ", "isOwned": true }
   ],
   "compoundParts": { "primary": [], "alternative": [] },
   "partsOfSpeech": ["godan verb", "transitive verb"],
@@ -416,6 +422,12 @@ should drive its JSON key, not the reverse.
 
 `forms` holds only the forms besides the question. The question is always a form, and always owned, so it isn't
 repeated there. *(Already so in today's files, since 2026-11-06.)*
+
+**`forms` and `compoundParts` are as above since 2026-11-08 (slice 1).** A form's text is unique within a vocab. The
+primary compound parts are the vocab split into words, in order, and a word may repeat (`どいつもこいつも`). The
+alternative ones are a set of words from other ways of understanding the vocab (Magnus, 2026-11-08): stored in a fixed
+(ordinal) order, and never a word that's also a primary part, since it would add nothing. `VocabNoteCompoundParts.Alternative`
+applies that rule when read, so typing the primary parts can't drop an alternative part on the way.
 
 What disappears from vocab JSON:
 
@@ -781,11 +793,13 @@ Progress on step 3:
    - Fields and tags are separate channels. Tag ingestion can stay until JAStudio's organizing exists, without
      holding up the field trim in step 4.
 4. **Trim the existing notes into study-notes** in as few schema changes as possible. Trimming in place keeps
-   review history and note type ids. *2026-11-08:* the checks before it are done ([Before the trim](#before-the-trim-2026-11-08)),
-   and JAStudio writes only the fields the study-notes keep ([The minimal Anki note type](#the-minimal-anki-note-type-tentative)).
-   Magnus removes the other fields in Anki by hand.
+   review history and note type ids. *Done 2026-11-08:* the checks before it ([Before the trim](#before-the-trim-2026-11-08)),
+   JAStudio writing only the fields the study-notes keep ([The minimal Anki note type](#the-minimal-anki-note-type-tentative)),
+   and Magnus removing the other fields in Anki by hand, then testing the result.
 5. **Vertical-slices, one concept each,** now free of the Anki format:
-   1. Brackets: owned forms and alternative compound parts. This one has caused real bugs.
+   1. Brackets: owned forms and alternative compound parts. This one has caused real bugs. *Done 2026-11-08: see
+      [In-string-micro-syntaxes](#in-string-micro-syntaxes) and [Vocab](#vocab). The migration also merged 25 forms
+      entered twice within a vocab and dropped the empty question's sentinel, `[EMPTY]`, from the forms of `げ` and `極まる`.*
    2. Question and disambiguation, dropping the sentinel strings.
    3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`.
    4. Configuration out of tags: requires/forbids flags, boolean flags, register, `_uk`/`_disable_uk`, source.

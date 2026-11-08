@@ -104,37 +104,37 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       [XF] public void OwnedForms_includes_the_question() => _vocab.Forms.OwnedForms().Must().Contain("走る");
    }
 
-   public class given_a_vocab_with_forms_set_using_brackets : When_working_with_a_VocabNote
+   public class given_a_vocab_with_an_owned_and_a_not_owned_entered_form : When_working_with_a_VocabNote
    {
       readonly VocabNote _vocab;
 
-      public given_a_vocab_with_forms_set_using_brackets()
+      public given_a_vocab_with_an_owned_and_a_not_owned_entered_form()
       {
          _vocab = new VocabNote(NoteServices);
          _vocab.Question.Set("走る");
-         _vocab.Forms.SetEnteredForms(["[駆ける]", "はしる"]);
+         _vocab.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("はしる")]);
       }
 
-      [XF] public void a_bracketed_form_is_owned() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
+      [XF] public void the_owned_entered_form_is_an_owned_form() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
       [XF] public void the_question_is_owned() => _vocab.Forms.IsOwnedForm("走る").Must().BeTrue();
-      [XF] public void a_plain_form_is_not_owned() => _vocab.Forms.IsOwnedForm("はしる").Must().BeFalse();
+      [XF] public void the_not_owned_entered_form_is_not_an_owned_form() => _vocab.Forms.IsOwnedForm("はしる").Must().BeFalse();
 
-      public class after_changing_the_question_to_a_new_form : given_a_vocab_with_forms_set_using_brackets
+      public class after_changing_the_question_to_a_new_form : given_a_vocab_with_an_owned_and_a_not_owned_entered_form
       {
          public after_changing_the_question_to_a_new_form() => _vocab.Question.Set("奔る");
 
-         [XF] public void the_bracketed_form_keeps_its_brackets() => _vocab.Forms.EnteredFormsWithBrackets().Must().Contain("[駆ける]");
+         [XF] public void the_owned_entered_form_stays_owned() => _vocab.Forms.EnteredForms().Must().Contain(EnteredForm.Owned("駆ける"));
          [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("奔る");
          [XF] public void the_new_question_is_not_among_the_entered_forms() => _vocab.Forms.EnteredFormsSet().Contains("奔る").Must().BeFalse();
          [XF] public void the_old_question_is_no_longer_matched() => _vocab.Forms.MatchedFormsSet().Contains("走る").Must().BeFalse();
          [XF] public void the_new_question_is_owned() => _vocab.Forms.IsOwnedForm("奔る").Must().BeTrue();
       }
 
-      public class after_changing_the_question_to_its_bracketed_form : given_a_vocab_with_forms_set_using_brackets
+      public class after_changing_the_question_to_its_owned_entered_form : given_a_vocab_with_an_owned_and_a_not_owned_entered_form
       {
-         public after_changing_the_question_to_its_bracketed_form() => _vocab.Question.Set("駆ける");
+         public after_changing_the_question_to_its_owned_entered_form() => _vocab.Question.Set("駆ける");
 
-         [XF] public void the_new_question_is_dropped_from_the_entered_forms() => _vocab.Forms.EnteredFormsWithBracketsString().Must().Be("はしる");
+         [XF] public void the_new_question_is_dropped_from_the_entered_forms() => _vocab.Forms.EnteredFormsList().Must().SequenceEqual(["はしる"]);
          [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("駆ける");
       }
    }

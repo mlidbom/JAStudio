@@ -18,6 +18,9 @@
         <DataTemplate DataType="noteFields:StringSetEditorViewModel">
             <noteFields:StringSetEditor Margin="0,0,0,6" />
         </DataTemplate>
+        <DataTemplate DataType="noteFields:EnteredFormsEditorViewModel">
+            <noteFields:EnteredFormsEditor Margin="0,0,0,6" />
+        </DataTemplate>
         <!-- Before the TextFieldEditorViewModel's template, which would show it too, since it is one. -->
         <DataTemplate DataType="noteFields:TextToSpeechAudioFieldEditorViewModel">
             <StackPanel Margin="0,0,0,6">

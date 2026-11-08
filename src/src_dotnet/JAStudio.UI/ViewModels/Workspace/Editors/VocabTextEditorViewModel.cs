@@ -40,11 +40,7 @@ class VocabTextEditorViewModel
       Readings = Field("Readings", TextFieldFormat.CommaSeparated,
                        it => string.Join(", ", it.GetReadings()),
                        (it, readings) => it.SetReadings(StringExtensions.ExtractCommaSeparatedValues(readings)));
-      Forms = new StringSetEditorViewModel("Forms",
-                                            () => _currentVocab().Forms.EnteredFormsWithBrackets(),
-                                            form => _currentVocab().Forms.Add(form),
-                                            form => _currentVocab().Forms.Remove(form),
-                                            _sentencesReparser.ReparseSentences);
+      Forms = new EnteredFormsEditorViewModel(_currentVocab, _sentencesReparser.ReparseSentences);
       PartsOfSpeech = new StringSetEditorViewModel("Parts of speech",
                                                     () => _currentVocab().PartsOfSpeech.Get(),
                                                     partOfSpeech => ChangeThePartsOfSpeech(it => it.Append(partOfSpeech)),
@@ -57,8 +53,11 @@ class VocabTextEditorViewModel
          Field("Long explanation", TextFieldFormat.Paragraphs, it => it.User.ExplanationLong),
          Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.User.Mnemonic),
          Field("Compound parts", TextFieldFormat.CommaSeparated,
-               it => string.Join(", ", it.CompoundParts.AllRaw()),
-               (it, compoundParts) => it.CompoundParts.Set(StringExtensions.ExtractCommaSeparatedValues(compoundParts)))
+               it => string.Join(", ", it.CompoundParts.Primary()),
+               (it, compoundParts) => it.CompoundParts.SetPrimary(StringExtensions.ExtractCommaSeparatedValues(compoundParts))),
+         Field("Alternative compound parts", TextFieldFormat.CommaSeparated,
+               it => string.Join(", ", it.CompoundParts.Alternative()),
+               (it, compoundParts) => it.CompoundParts.SetAlternative(StringExtensions.ExtractCommaSeparatedValues(compoundParts)))
       ];
       AudioFields =
       [
@@ -84,12 +83,15 @@ class VocabTextEditorViewModel
 
    public TextFieldEditorViewModel Readings { get; }
 
-   /// <summary>The forms besides the question: the question is always a form. A form written <c>[form]</c> is owned by the vocab.</summary>
-   public StringSetEditorViewModel Forms { get; }
+   /// <summary>The forms besides the question, which is always a form, each owned by the vocab or not.</summary>
+   public EnteredFormsEditorViewModel Forms { get; }
 
    public StringSetEditorViewModel PartsOfSpeech { get; }
 
-   /// <summary>The user's own answer, explanations and mnemonic, which take precedence over the <see cref="SourceFields"/>, and the compound parts.</summary>
+   /// <summary>
+   /// The user's own answer, explanations and mnemonic, which take precedence over the <see cref="SourceFields"/>,<br/>
+   /// and the <see cref="VocabNoteCompoundParts.Primary"/> and <see cref="VocabNoteCompoundParts.Alternative"/> compound parts.
+   /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> UserFields { get; }
 
    /// <summary>

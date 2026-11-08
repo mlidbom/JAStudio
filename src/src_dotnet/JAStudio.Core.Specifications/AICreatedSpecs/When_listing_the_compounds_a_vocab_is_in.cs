@@ -10,10 +10,11 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   void CreateCompound(string question, params string[] compoundParts)
+   VocabNote CreateCompound(string question, params string[] primaryCompoundParts)
    {
       var compound = CreateVocab(question, "a compound");
-      compound.CompoundParts.Set([..compoundParts]);
+      compound.CompoundParts.SetPrimary(primaryCompoundParts);
+      return compound;
    }
 
    static List<string> QuestionsOfTheCompoundsListedFor(VocabNote vocab) => vocab.RelatedNotes.InCompounds().Select(it => it.GetQuestion()).ToList();
@@ -38,9 +39,9 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
          [XF] public void the_compound_is_listed() => QuestionsOfTheCompoundsListedFor(_vocab).Must().SequenceEqual(["時間割"]);
       }
 
-      public class with_a_compound_that_has_its_other_form_only_as_a_bracketed_alternative_part : given_a_vocab_with_another_form
+      public class with_a_compound_that_has_its_other_form_only_as_an_alternative_part : given_a_vocab_with_another_form
       {
-         public with_a_compound_that_has_its_other_form_only_as_a_bracketed_alternative_part() => CreateCompound("時間割", "[じかん]", "割");
+         public with_a_compound_that_has_its_other_form_only_as_an_alternative_part() => CreateCompound("時間割", "割").CompoundParts.SetAlternative(["じかん"]);
 
          [XF] public void the_compound_is_listed() => QuestionsOfTheCompoundsListedFor(_vocab).Must().SequenceEqual(["時間割"]);
       }

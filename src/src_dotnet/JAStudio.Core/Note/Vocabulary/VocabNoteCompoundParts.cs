@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx;
@@ -9,50 +10,62 @@ using JAStudio.Core.Note.Sentences;
 namespace JAStudio.Core.Note.Vocabulary;
 
 /// <summary>
-/// The compound parts of a <see cref="VocabNote"/>: the words the user has entered as what the vocab is built from.<br/>
-/// A part written in brackets, like <c>[word]</c>, is an alternative compound part: another way of thinking about the vocab.<br/>
-/// The parts without brackets are the primary compound parts, the ones displayed when showing what the vocab is built from.
+/// The compound parts of a <see cref="VocabNote"/>: the words the vocab is built from.<br/>
+/// The <see cref="Primary"/> parts are the vocab split into words, in order, and are what's shown when showing what the vocab is built from.<br/>
+/// The <see cref="Alternative"/> parts are words from other ways of understanding the vocab, such as <c>くれる</c> for <c>くれよ</c>,<br/>
+/// which is also <c>くれ</c> followed by <c>よ</c>.
 /// </summary>
-public class VocabNoteUserCompoundParts
+public class VocabNoteCompoundParts
 {
    readonly NoteGuard _guard;
-   List<string> _parts;
+   List<string> _primary;
+   HashSet<string> _enteredAlternatives;
 
-   public VocabNoteUserCompoundParts(VocabNote vocab, VocabData? data, NoteGuard guard)
+   public VocabNoteCompoundParts(VocabNote vocab, VocabData? data, NoteGuard guard)
    {
       Vocab = vocab;
       _guard = guard;
-      _parts = data?.UserCompounds != null ? [..data.UserCompounds] : [];
+      _primary = data != null ? [..data.CompoundParts.Primary] : [];
+      _enteredAlternatives = data != null ? [..data.CompoundParts.Alternative] : [];
    }
 
    VocabNote Vocab { get; }
 
    JPCollection Collection => Vocab.Collection;
 
-   /// <summary>The primary compound parts: those not written in brackets.</summary>
-   public List<string> Primary()
-   {
-      return _parts
-            .Where(part => !part.StartsWith("["))
-            .ToList();
-   }
+   /// <summary>The vocab split into the words it's built from, in order. A word can occur more than once, as in <c>どいつもこいつも</c>.</summary>
+   public List<string> Primary() => [.. _primary];
 
-   /// <summary>Every compound part, alternative ones included, with the brackets stripped.</summary>
-   public List<string> All() =>
-      _parts
-        .Select(StripBrackets)
-        .ToList();
+   /// <summary>
+   /// The words from other ways of understanding the vocab: a set, in a fixed order.<br/>
+   /// A word that's also a <see cref="Primary"/> part is never one of them, since it would add nothing.
+   /// </summary>
+   /// <remarks>
+   /// That rule is applied here rather than when the alternatives are set, so that typing the primary parts in the editor can't drop an alternative<br/>
+   /// part on the way: typing <c>よう</c> passes through <c>よ</c>.
+   /// </remarks>
+   public List<string> Alternative() =>
+   [
+      .. _enteredAlternatives
+        .Except(_primary)
+        .Order(StringComparer.Ordinal)
+   ];
 
-   /// Returns all compound parts with brackets preserved (e.g. "[word]" stays as-is).
-   public List<string> AllRaw() => _parts.ToList();
+   /// <summary>Every compound part: the <see cref="Primary"/> parts, followed by the <see cref="Alternative"/> ones.</summary>
+   public List<string> All() => [.. _primary, .. Alternative()];
 
-   public void Set(List<string> value) => _guard.Update(() => _parts = [..value]);
+   /// <summary>Replaces the <see cref="Primary"/> parts with <paramref name="parts"/>, in their order.</summary>
+   public void SetPrimary(IEnumerable<string> parts) => _guard.Update(() => _primary = [.. parts]);
+
+   /// <summary>Replaces the <see cref="Alternative"/> parts with <paramref name="parts"/>.</summary>
+   public void SetAlternative(IEnumerable<string> parts) => _guard.Update(() => _enteredAlternatives = [.. parts]);
 
    /// <summary>The vocab notes the primary compound parts refer to, in the order of the parts.</summary>
    public List<VocabNote> PrimaryPartsNotes() =>
-      Primary()
+   [
+      .. Primary()
         .SelectMany(NotesThePartRefersTo)
-        .ToList();
+   ];
 
    /// <summary>
    /// Whether any compound part, alternative ones included, refers to <paramref name="vocab"/>.<br/>
@@ -69,6 +82,10 @@ public class VocabNoteUserCompoundParts
 
    List<VocabNote> NotesThePartRefersTo(string part) => Collection.Vocab.WithFormPreferDisambiguationNameOrExactMatch(part);
 
+   /// <summary>
+   /// Replaces the <see cref="Primary"/> parts with the words the vocab's question splits into, creating a vocab from the dictionary for each word<br/>
+   /// that has none. The <see cref="Alternative"/> parts are kept.
+   /// </summary>
    public void AutoGenerate()
    {
       var exclusions = Vocab.Forms.MatchedFormsSet()
@@ -102,9 +119,11 @@ public class VocabNoteUserCompoundParts
                                 .Where(w => Vocab.Services.DictLookup.IsDictionaryOrCollectionWord(w))
                                 .ToList();
 
-         compoundParts = allWordSubstrings
-                        .Where(segment => !allWordSubstrings.Any(parent => parent.Contains(segment) && parent != segment))
-                        .ToList();
+         compoundParts =
+         [
+            .. allWordSubstrings
+              .Where(segment => !allWordSubstrings.Any(parent => parent.Contains(segment) && parent != segment))
+         ];
       }
 
       var segmentsMissingVocab = compoundParts
@@ -116,10 +135,8 @@ public class VocabNoteUserCompoundParts
          Vocab.Services.VocabNoteFactory.CreateWithDictionary(missing);
       }
 
-      Set(compoundParts);
+      SetPrimary(compoundParts);
    }
 
-   static string StripBrackets(string part) => part.Replace("[", string.Empty).Replace("]", string.Empty);
-
-   public override string ToString() => string.Join(", ", _parts);
+   public override string ToString() => string.Join(", ", All());
 }

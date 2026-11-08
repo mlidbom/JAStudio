@@ -115,13 +115,30 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
       {
          public after_adding_that_form()
          {
-            Text.Forms.NewValue = "駆ける";
+            Text.Forms.NewForm = "駆ける";
             Text.Forms.AddCommand.Execute(null);
             WaitForTheReparseToFinish();
          }
 
+         EnteredFormChipViewModel TheFormsChip => Text.Forms.Items.Single(it => it.Text == "駆ける");
+
          [XF] public void the_form_is_among_the_vocabs_entered_forms() => _vocab.Forms.EnteredFormsSet().Must().Contain("駆ける");
+         [XF] public void the_vocab_does_not_own_the_form() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeFalse();
+         [XF] public void the_forms_chip_shows_it_as_not_owned() => TheFormsChip.IsOwned.Must().BeFalse();
          [XF] public void the_sentence_is_reparsed_and_matches_the_vocab() => _vocab.Sentences.All().Must().Contain(_sentence);
+
+         public class and_checking_owned_on_its_chip : after_adding_that_form
+         {
+            public and_checking_owned_on_its_chip()
+            {
+               TheFormsChip.IsOwned = true;
+               WaitForTheReparseToFinish();
+            }
+
+            [XF] public void the_vocab_owns_the_form() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
+            [XF] public void the_forms_chip_shows_it_as_owned() => TheFormsChip.IsOwned.Must().BeTrue();
+            [XF] public void the_sentence_still_matches_the_vocab() => _vocab.Sentences.All().Must().Contain(_sentence);
+         }
       }
    }
 }

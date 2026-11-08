@@ -29,7 +29,7 @@ public class VocabCollection
    /// and, recursively, every vocab those in turn are part of. Alphabetical by question.
    /// </summary>
    /// <remarks>
-   /// A compound part refers to <paramref name="vocab"/> as decided by <see cref="VocabNoteUserCompoundParts.AnyPartRefersTo"/>,<br/>
+   /// A compound part refers to <paramref name="vocab"/> as decided by <see cref="VocabNoteCompoundParts.AnyPartRefersTo"/>,<br/>
    /// the same lookup a compound uses to show its own parts, so the two directions of navigation always agree.
    /// </remarks>
    public List<VocabNote> CompoundsContaining(VocabNote vocab) => IncludingTheCompoundsTheyArePartOf(CompoundsWithAPartReferringTo(vocab));

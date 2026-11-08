@@ -30,7 +30,7 @@ public class VocabNoteGeneratedData
       if(vocab.CompoundParts.All().Count == 0 && vocab.PartsOfSpeech.IsSuruVerbIncluded())
       {
          var compounds = new List<string> { question.Substring(0, question.Length - 2), "する" };
-         vocab.CompoundParts.Set(compounds);
+         vocab.CompoundParts.SetPrimary(compounds);
       }
 
       if(!string.IsNullOrEmpty(vocab.GetQuestion()))

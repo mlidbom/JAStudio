@@ -32,19 +32,19 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
       }
    }
 
-   public class given_a_vocab_with_bracketed_and_plain_forms : When_synchronizing_vocab_forms
+   public class given_a_vocab_with_an_owned_and_a_not_owned_entered_form : When_synchronizing_vocab_forms
    {
       readonly VocabNote _vocab;
 
-      public given_a_vocab_with_bracketed_and_plain_forms()
+      public given_a_vocab_with_an_owned_and_a_not_owned_entered_form()
       {
          _vocab = CreateVocab("走る", "to run", "はしる");
-         _vocab.Forms.SetEnteredForms(["[駆ける]", "ダッシュする"]);
+         _vocab.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("ダッシュする")]);
       }
 
-      [XF] public void bracketed_forms_are_owned() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
+      [XF] public void the_owned_entered_form_is_an_owned_form() => _vocab.Forms.IsOwnedForm("駆ける").Must().BeTrue();
       [XF] public void the_question_is_always_owned() => _vocab.Forms.IsOwnedForm("走る").Must().BeTrue();
-      [XF] public void non_bracketed_forms_are_not_owned() => _vocab.Forms.IsOwnedForm("ダッシュする").Must().BeFalse();
+      [XF] public void the_not_owned_entered_form_is_not_an_owned_form() => _vocab.Forms.IsOwnedForm("ダッシュする").Must().BeFalse();
    }
 
    public class given_a_newly_created_vocab : When_synchronizing_vocab_forms
@@ -67,7 +67,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
          _vocab1 = CreateVocab("食べる", "to eat", "たべる");
          _vocab2 = CreateVocab("食う", "to eat (casual)", "くう");
          _vocab3 = CreateVocab("召し上がる", "to eat (honorific)", "めしあがる");
-         _vocab1.Forms.SetEnteredForms(["食う", "召し上がる"]);
+         _vocab1.Forms.SetEnteredForms([EnteredForm.NotOwned("食う"), EnteredForm.NotOwned("召し上がる")]);
       }
 
       [XF] public void VocabForQuestionAndEnteredForms_includes_the_first_form_vocab() =>
