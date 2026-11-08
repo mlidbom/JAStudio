@@ -3,7 +3,7 @@ namespace JAStudio.Core.Anki;
 /// <summary>
 /// The names of the fields JAStudio's note types have in Anki. Since the notes were trimmed into study-notes they hold only what Anki itself needs:<br/>
 /// the question, the audio, and the id of the corpus note each Anki note belongs to. JAStudio writes them from the corpus<br/>
-/// (<see cref="Storage.Dto.CorpusNoteDto.ToNoteData"/>), and reads only <see cref="JasNoteId"/> back.
+/// (<see cref="Note.JPNote.GetData"/>), and reads only <see cref="JasNoteId"/> back.
 /// </summary>
 public static class AnkiFieldNames
 {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
@@ -51,11 +52,11 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    public VocabNote(NoteServices services, VocabDto? data = null) : base(services, data != null ? new VocabId(data.Id) : VocabId.New(), data?.Tags)
    {
-      CorpusAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
-      Explanation = new WritableStringValue(data?.UserExplanation ?? string.Empty, Guard);
-      ExplanationLong = new WritableStringValue(data?.UserExplanationLong ?? string.Empty, Guard);
-      Mnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
-      SourceData = new VocabSourceData(data, Guard);
+      CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
+      Explanation = new WritableStringValue(data?.Explanation ?? string.Empty, Guard);
+      ExplanationLong = new WritableStringValue(data?.ExplanationLong ?? string.Empty, Guard);
+      Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
+      SourceData = new VocabSourceData(data?.SourceData, Guard);
       TechnicalNotes = new WritableStringValue(data?.TechnicalNotes ?? string.Empty, Guard);
       References = new WritableStringValue(data?.References ?? string.Empty, Guard);
       Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
@@ -83,6 +84,14 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    }
 
    public override CorpusNoteDto ToDto() => VocabNoteConverter.ToDto(this);
+
+   protected override Dictionary<string, string> StudyNoteFields() => new()
+   {
+      [AnkiFieldNames.Question] = Question.DisambiguationName,
+      [AnkiFieldNames.Vocab.AudioB] = Audio.First.RawValue(),
+      [AnkiFieldNames.Vocab.AudioG] = Audio.Second.RawValue(),
+      [AnkiFieldNames.Vocab.AudioTTS] = Audio.Tts.RawValue()
+   };
 
    public override string GetQuestion() => Question.Text;
 

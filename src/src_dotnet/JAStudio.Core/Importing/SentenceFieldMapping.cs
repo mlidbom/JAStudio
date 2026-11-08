@@ -33,18 +33,24 @@ public class SentenceFieldMapping
    public IEnumerable<string> MappedAnkiFields() =>
       new[] { SourceQuestion, SourceAnswer, Reading, ExternalId, SourceName, SourceComments, Audio, Screenshot }.Where(it => it != "");
 
-   /// <summary>The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, with its own tags and <paramref name="tagsToAdd"/>.</summary>
-   public SentenceDto SentenceDataFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
+   /// <summary>
+   /// The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, the texts as the sentence's source data, with its own tags<br/>
+   /// and <paramref name="tagsToAdd"/>.
+   /// </summary>
+   public SentenceDto SentenceDtoFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
    {
       Id = Guid.NewGuid(),
-      SourceQuestion = rawNote.Field(SourceQuestion),
-      SourceAnswer = rawNote.Field(SourceAnswer),
       Reading = rawNote.Field(Reading),
-      ExternalId = rawNote.Field(ExternalId),
       SourceName = rawNote.Field(SourceName),
-      SourceComments = rawNote.Field(SourceComments),
       Audio = rawNote.Field(Audio),
       Screenshot = rawNote.Field(Screenshot),
+      SourceData = new SentenceSourceDataDto
+                   {
+                      Question = rawNote.Field(SourceQuestion),
+                      Answer = rawNote.Field(SourceAnswer),
+                      Comments = rawNote.Field(SourceComments),
+                      ExternalId = rawNote.Field(ExternalId)
+                   },
       Tags = [.. rawNote.Tags.Concat(tagsToAdd).Distinct()]
    };
 

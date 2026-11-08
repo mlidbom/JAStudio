@@ -1,5 +1,5 @@
 import typing
-from JAStudio.Core.Storage.Dto import SentenceConfigDto, SentenceDto, CorpusNoteDto
+from JAStudio.Core.Storage.Dto import SentenceConfigDto, SentenceDto, CorpusNoteDto, SentenceSourceDataDto
 from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, IHasTextToSpeechAudio, NoteServices, NoteFlushGuard
 from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
@@ -155,7 +155,7 @@ class SentenceNote(JPNote, IHasTextToSpeechAudio):
 
 
 class SentenceSourceData:
-    def __init__(self, data: SentenceDto, guard: NoteGuard) -> None: ...
+    def __init__(self, data: SentenceSourceDataDto, guard: NoteGuard) -> None: ...
     @property
     def Answer(self) -> WritableStringValue: ...
     @property

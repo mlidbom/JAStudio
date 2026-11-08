@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
@@ -40,8 +41,19 @@ public abstract class JPNote
       _cardStatus[status.CardType] = !status.IsSuspended;
    }
 
+   /// <summary>
+   /// The note as its Anki study-note has it: the <see cref="StudyNoteFields"/>, the id of this note that links the two, and the note's tags.
+   /// </summary>
    // ReSharper disable once UnusedMember.Global Used from python
-   public AnkiNoteData GetData() => ToDto().ToNoteData();
+   public AnkiNoteData GetData()
+   {
+      var fields = StudyNoteFields();
+      fields[AnkiFieldNames.JasNoteId] = _id.Value.ToString();
+      return new AnkiNoteData(_id, fields, Tags.ToStringList());
+   }
+
+   /// <summary>The fields JAStudio writes into the note's Anki study-note besides <see cref="AnkiFieldNames.JasNoteId"/>: its question and its audio.</summary>
+   protected abstract Dictionary<string, string> StudyNoteFields();
 
    public override bool Equals(object? obj) => obj is JPNote other && other.GetId() == _id;
 

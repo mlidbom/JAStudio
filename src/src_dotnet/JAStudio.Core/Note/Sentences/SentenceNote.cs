@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -46,10 +47,10 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    {
       SourceName = new WritableStringValue(data?.SourceName ?? string.Empty, Guard);
       Reading = new WritableStringValue(data?.Reading ?? string.Empty, Guard);
-      CorpusQuestion = new WritableStringValue(data?.UserQuestion ?? string.Empty, Guard);
-      CorpusAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
-      Comments = new WritableStringValue(data?.UserComments ?? string.Empty, Guard);
-      SourceData = new SentenceSourceData(data, Guard);
+      CorpusQuestion = new WritableStringValue(data?.CorpusQuestion ?? string.Empty, Guard);
+      CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
+      Comments = new WritableStringValue(data?.Comments ?? string.Empty, Guard);
+      SourceData = new SentenceSourceData(data?.SourceData, Guard);
       Screenshot = new WritableImageValue(data?.Screenshot ?? string.Empty, Guard);
       Audio = new WritableAudioValue(data?.Audio ?? string.Empty, Guard);
 
@@ -63,6 +64,12 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    }
 
    public override CorpusNoteDto ToDto() => SentenceNoteConverter.ToDto(this);
+
+   protected override Dictionary<string, string> StudyNoteFields() => new()
+   {
+      [AnkiFieldNames.Question] = GetQuestion(),
+      [AnkiFieldNames.Sentence.Audio] = Audio.RawValue()
+   };
 
    public IReadOnlyList<AudioAttachment> AudioAttachments => Services.MediaFileIndex.GetAudioAttachments(Audio.RawValue());
    public AudioAttachment?               PreferredAudio   => AudioAttachments.FirstOrDefault();

@@ -407,7 +407,7 @@ should drive its JSON key, not the reverse.
 {
   "id": "00b4a087-8057-41b4-9172-c17752e65455",
   "question": { "text": "剥ぐ", "disambiguation": "" },
-  "answer": { "source": "to tear off; to peel off", "user": "" },
+  "corpusAnswer": "",
   "readings": ["はぐ"],
   "forms": [
     { "text": "剝ぐ", "isOwned": true }
@@ -416,8 +416,7 @@ should drive its JSON key, not the reverse.
   "partsOfSpeech": ["godan verb", "transitive verb"],
   "register": [],
   "explanation": { "short": "", "long": "" },
-  "mnemonic": { "source": "", "user": "" },
-  "readingMnemonic": "",
+  "mnemonic": "",
   "matching": {
     "requiresOrForbids": { "godan": "requires", "ichidan": "forbids" },
     "flags": ["isInflectingWord"],
@@ -430,6 +429,7 @@ should drive its JSON key, not the reverse.
   },
   "technicalNotes": "",
   "references": "",
+  "sourceData": { "answer": "to tear off; to peel off", "mnemonic": "…", "readingMnemonic": "…" },
   "tags": []
 }
 ```
@@ -463,21 +463,19 @@ falls back). *2026-11-08: no mnemonic falls back to the source's any more; see
 {
   "id": "…",
   "kanji": "突",
-  "answer": { "source": "Stab, Thrust, Sudden", "user": "sudden/abrupt | stab/thrust/pierce/prick" },
+  "corpusAnswer": "sudden/abrupt | stab/thrust/pierce/prick",
   "readings": {
     "on":  [{ "kana": "とつ", "primary": true }],
     "kun": [{ "kana": "つ",   "primary": true }],
     "nan": []
   },
   "radicals": ["穴", "大"],
-  "meaningMnemonic": { "source": "…", "user": "" },
-  "meaningInfo": "…",
-  "readingMnemonic": "…",
-  "readingInfo": "…",
+  "mnemonic": "",
   "primaryVocab": [],
   "similarMeaning": [],
   "confusedWith": ["空"],
   "references": "",
+  "sourceData": { "answer": "Stab, Thrust, Sudden", "meaningMnemonic": "…", "readingMnemonic": "…", "meaningInfo": "…", "readingInfo": "…" },
   "tags": []
 }
 ```
@@ -491,11 +489,11 @@ from the source, like the WaniKani markup in mnemonics, and stays text.
 ```json
 {
   "id": "…",
-  "question": { "source": "…", "user": "" },
-  "answer": { "source": "…", "user": "" },
-  "comments": { "source": "", "user": "" },
+  "corpusQuestion": "",
+  "corpusAnswer": "",
+  "comments": "",
   "reading": "…",
-  "externalId": "…",
+  "sourceData": { "question": "…", "answer": "…", "comments": "", "externalId": "…" },
   "configuration": {
     "highlightedWords": ["強制"],
     "incorrectMatches": [{ "word": "思える", "index": 11 }],
@@ -818,7 +816,12 @@ Progress on step 3:
    2. Question and disambiguation, dropping the sentinel strings. *Done 2026-11-08: see
       [In-string-micro-syntaxes](#in-string-micro-syntaxes). References keep naming a vocab `text:disambiguation` until
       slice 8 (Magnus, 2026-11-08).*
-   3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`.
+   3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`. *Done 2026-11-08, re-modeled with Magnus: no
+      overridable-text type, but each note's `sourceData` and the corpus's own fields (see
+      [Terms](#terms-used-in-this-document)). `activeAnswer` and `activeQuestion` aren't stored: the notes compute them, and
+      the Anki study-note is built from the note (`JPNote.GetData`), not from its DTO. The migration found 433 stored ones
+      that differed from the computed only by surrounding whitespace, and none that differed otherwise. `sourceName` stays
+      where it is until slice 4.*
    4. Configuration out of tags: requires/forbids flags, boolean flags, register, `_uk`/`_disable_uk`, source.
       **TODO, decided to do here (Magnus, 2026-11-08): untangle the provider from the work in the data.** "Source" mixes
       two levels today: the *provider* a note was imported from (WaniKani, jamdict, the JLab deck, Immersion Kit) and the

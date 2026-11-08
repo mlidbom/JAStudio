@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
@@ -42,9 +43,9 @@ public class KanjiNote : JPNote
    public KanjiNote(NoteServices services, KanjiDto? data = null) : base(services, data != null ? new KanjiId(data.Id) : KanjiId.New(), data?.Tags)
    {
       _question = new WritableStringValue(data?.Kanji ?? string.Empty, Guard);
-      CorpusAnswer = new WritableStringValue(data?.UserAnswer ?? string.Empty, Guard);
-      Mnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
-      SourceData = new KanjiSourceData(data, Guard);
+      CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
+      Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
+      SourceData = new KanjiSourceData(data?.SourceData, Guard);
       ReadingOnHtml = new WritableStringValue(data?.ReadingOnHtml ?? string.Empty, Guard);
       ReadingKunHtml = new WritableStringValue(data?.ReadingKunHtml ?? string.Empty, Guard);
       ReadingNanHtml = new WritableStringValue(data?.ReadingNanHtml ?? string.Empty, Guard);
@@ -62,6 +63,8 @@ public class KanjiNote : JPNote
    }
 
    public override CorpusNoteDto ToDto() => KanjiNoteConverter.ToDto(this);
+
+   protected override Dictionary<string, string> StudyNoteFields() => new() { [AnkiFieldNames.Question] = GetQuestion() };
 
    public override string GetQuestion() => _question.Value;
 

@@ -7,7 +7,7 @@ from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
 from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue, WritableImageValue
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Note.Tagging import NoteTags
-from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto
+from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
 from Compze.Abstractions import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
@@ -261,7 +261,7 @@ class KanjiNoteMnemonicMaker:
 
 
 class KanjiSourceData:
-    def __init__(self, data: KanjiDto, guard: NoteGuard) -> None: ...
+    def __init__(self, data: KanjiSourceDataDto, guard: NoteGuard) -> None: ...
     @property
     def Answer(self) -> WritableStringValue: ...
     @property

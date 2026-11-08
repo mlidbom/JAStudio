@@ -4,7 +4,7 @@ from JAStudio.Core.Note.NoteFields import TagFlagField, RequireForbidFlagField, 
 from JAStudio.Core.Note.Tagging import Tag, NoteTags
 from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1, IEnumerable_1
 from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard, NoteFlushGuard
-from JAStudio.Core.Storage.Dto import VocabDto, CorpusNoteDto
+from JAStudio.Core.Storage.Dto import VocabDto, CorpusNoteDto, VocabSourceDataDto
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
 from JAStudio.Core.Note.Vocabulary.RelatedVocab import RelatedVocab
@@ -549,7 +549,7 @@ class VocabNoteSorting(abc.ABC):
 
 
 class VocabSourceData:
-    def __init__(self, data: VocabDto, guard: NoteGuard) -> None: ...
+    def __init__(self, data: VocabSourceDataDto, guard: NoteGuard) -> None: ...
     @property
     def Answer(self) -> WritableStringValue: ...
     @property

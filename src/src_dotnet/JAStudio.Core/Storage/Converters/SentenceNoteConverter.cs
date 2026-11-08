@@ -15,21 +15,16 @@ static class SentenceNoteConverter
       return new SentenceDto
              {
                 Id = note.GetId().Value,
-                SourceQuestion = note.SourceData.Question.Value,
-                UserQuestion = note.CorpusQuestion.Value,
-                ActiveQuestion = note.GetQuestion(),
-                SourceAnswer = note.SourceData.Answer.Value,
-                UserAnswer = note.CorpusAnswer.Value,
-                ActiveAnswer = note.GetAnswer(),
-                SourceComments = note.SourceData.Comments.Value,
-                UserComments = note.Comments.Value,
+                CorpusQuestion = note.CorpusQuestion.Value,
+                CorpusAnswer = note.CorpusAnswer.Value,
+                Comments = note.Comments.Value,
                 Reading = note.Reading.Value,
-                ExternalId = note.SourceData.ExternalId.Value,
                 Audio = note.Audio.RawValue(),
                 Screenshot = note.Screenshot.RawValue(),
                 Configuration = ToConfigurationDto(config),
                 ParsingResult = ToParsingResultDto(parsingResult),
                 SourceName = note.SourceName.Value,
+                SourceData = note.SourceData.ToDto(),
                 Tags = note.Tags.ToStringList(),
              };
    }

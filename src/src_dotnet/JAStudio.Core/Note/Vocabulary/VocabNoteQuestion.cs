@@ -39,13 +39,7 @@ public class VocabNoteQuestion
    /// The name other notes refer to the vocab by: the <see cref="Text"/>, followed by the <see cref="DisambiguationMarker"/> and the <see cref="Disambiguation"/><br/>
    /// if the vocab has one, as <c>入る:masu</c>.
    /// </summary>
-   public string DisambiguationName => DisambiguationNameOf(ToDto());
-
-   /// <summary>The <see cref="DisambiguationName"/> of a vocab whose question the corpus stores as <paramref name="question"/>.</summary>
-   internal static string DisambiguationNameOf(VocabQuestionDto question) =>
-      question.Disambiguation == string.Empty
-         ? question.Text
-         : question.Text + DisambiguationMarker + question.Disambiguation;
+   public string DisambiguationName => IsDisambiguated ? Text + DisambiguationMarker + Disambiguation : Text;
 
    public string WithoutNoiseCharacters => Text.Replace(Mine.VocabPrefixSuffixMarker, "");
 

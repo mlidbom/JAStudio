@@ -133,7 +133,7 @@ public class ImportRun
 
    void AddTheSentenceOf(RawNote rawNote)
    {
-      var sentence = new SentenceNote(_noteServices, Profile.FieldMapping.SentenceDataFrom(rawNote, Profile.TagsToAdd));
+      var sentence = new SentenceNote(_noteServices, Profile.FieldMapping.SentenceDtoFrom(rawNote, Profile.TagsToAdd));
       sentence.UpdateGeneratedData();
 
       if(Profile.CreatesAnkiNotesToStudy)

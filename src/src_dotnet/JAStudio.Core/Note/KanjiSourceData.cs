@@ -13,14 +13,23 @@ namespace JAStudio.Core.Note;
 /// </remarks>
 public class KanjiSourceData
 {
-   public KanjiSourceData(KanjiDto? data, NoteGuard guard)
+   public KanjiSourceData(KanjiSourceDataDto? data, NoteGuard guard)
    {
-      Answer = new WritableStringValue(data?.SourceAnswer ?? string.Empty, guard);
-      MeaningMnemonic = new WritableStringValue(data?.SourceMeaningMnemonic ?? string.Empty, guard);
+      Answer = new WritableStringValue(data?.Answer ?? string.Empty, guard);
+      MeaningMnemonic = new WritableStringValue(data?.MeaningMnemonic ?? string.Empty, guard);
       ReadingMnemonic = new WritableStringValue(data?.ReadingMnemonic ?? string.Empty, guard);
       MeaningInfo = new WritableStringValue(data?.MeaningInfo ?? string.Empty, guard);
       ReadingInfo = new WritableStringValue(data?.ReadingInfo ?? string.Empty, guard);
    }
+
+   internal KanjiSourceDataDto ToDto() => new()
+   {
+      Answer = Answer.Value,
+      MeaningMnemonic = MeaningMnemonic.Value,
+      ReadingMnemonic = ReadingMnemonic.Value,
+      MeaningInfo = MeaningInfo.Value,
+      ReadingInfo = ReadingInfo.Value
+   };
 
    /// <summary>The source's answer, shown while the kanji has no <see cref="KanjiNote.CorpusAnswer"/>.</summary>
    public WritableStringValue Answer { get; }
