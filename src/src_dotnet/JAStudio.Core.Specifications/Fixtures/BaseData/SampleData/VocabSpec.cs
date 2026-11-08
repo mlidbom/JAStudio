@@ -24,7 +24,9 @@ public class VocabSpec : IEquatable<VocabSpec>
       List<string>? ownedForms = null)
    {
       DisambiguationName = question;
-      Question = question.Split(VocabNoteQuestion.DisambiguationMarker)[0];
+      var questionAndDisambiguation = question.Split(VocabNoteQuestion.DisambiguationMarker);
+      Question = questionAndDisambiguation[0];
+      Disambiguation = questionAndDisambiguation.Length > 1 ? questionAndDisambiguation[1] : "";
       Answer = answer ?? question;
       Readings = readings ?? [Question];
       ExtraForms = forms != null ? [..forms] : [];
@@ -41,6 +43,7 @@ public class VocabSpec : IEquatable<VocabSpec>
 
    public string DisambiguationName { get; }
    public string Question { get; }
+   public string Disambiguation { get; }
    public string Answer { get; }
    public List<string> Readings { get; }
    public HashSet<string> ExtraForms { get; }
@@ -68,6 +71,7 @@ public class VocabSpec : IEquatable<VocabSpec>
 
    public void InitializeNote(VocabNote vocabNote)
    {
+      vocabNote.Question.SetDisambiguation(Disambiguation);
       vocabNote.CompoundParts.SetPrimary(Compounds);
 
       if(ExtraForms.Count > 0 || OwnedForms.Count > 0)

@@ -153,7 +153,7 @@ public sealed class VocabMatch : Match
 
    public override string ParsedForm =>
       MatchingConfiguration.BoolFlags.QuestionOverridesForm.IsSet()
-         ? Vocab.Question.Raw
+         ? Vocab.Question.Text
          : base.ParsedForm;
 
    public override string ExclusionForm
@@ -162,12 +162,12 @@ public sealed class VocabMatch : Match
       {
          var question = Vocab.Question;
          var tokenizedForm = TokenizedForm;
-         if(question.Raw == tokenizedForm && question.IsDisambiguated)
+         if(question.Text == tokenizedForm && question.IsDisambiguated)
          {
             return question.DisambiguationName;
          }
 
-         return question.Raw;
+         return question.Text;
       }
    }
 

@@ -17,7 +17,7 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       {
          _vocab = CreateVocab("食べる", "to eat", "たべる");
          _vocab.GetQuestion();
-         _vocab.Question.Set("飲む");
+         _vocab.Question.SetText("飲む");
          _vocab.UpdateGeneratedData();
       }
 
@@ -73,7 +73,7 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
          _vocab = CreateVocab("走る", "to run", "はしる");
          _vocab.Forms.Add("駆ける");
          _vocab.Forms.Add("ダッシュする");
-         _vocab.Question.Set("疾走する");
+         _vocab.Question.SetText("疾走する");
          _vocab.UpdateGeneratedData();
          _vocab.Forms.Remove("駆ける");
       }

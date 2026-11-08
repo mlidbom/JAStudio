@@ -86,7 +86,7 @@ public class RelatedVocab
    /// <remarks>See <see cref="VocabCollection.CompoundsContaining"/> for which compounds count as containing this vocab.</remarks>
    public List<VocabNote> InCompounds()
    {
-      var thisVocabAndItsStems = Conjugator.GetVocabStems(_vocab).Append(_vocab.Question.Raw).ToList();
+      var thisVocabAndItsStems = Conjugator.GetVocabStems(_vocab).Append(_vocab.Question.Text).ToList();
 
       return _vocab.Services.Collection.Vocab.CompoundsContaining(_vocab)
                    .OrderByDescending(HasAPartThatIsThisVocabsDisambiguationName)
@@ -96,7 +96,7 @@ public class RelatedVocab
 
       bool HasAPartThatIsThisVocabsDisambiguationName(VocabNote compound) => compound.CompoundParts.AnyPartIsTheDisambiguationNameOf(_vocab);
 
-      bool StartsWithThisVocab(VocabNote compound) => thisVocabAndItsStems.Any(it => compound.Question.Raw.StartsWith(it, StringComparison.Ordinal));
+      bool StartsWithThisVocab(VocabNote compound) => thisVocabAndItsStems.Any(it => compound.Question.Text.StartsWith(it, StringComparison.Ordinal));
    }
 
    public HashSet<VocabNote> HomophonesNotes()

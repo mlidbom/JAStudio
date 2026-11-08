@@ -89,7 +89,11 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
    {
       readonly VocabNote _vocab;
 
-      public given_a_disambiguated_vocab() => _vocab = CreateVocab("方:かた", "way of doing");
+      public given_a_disambiguated_vocab()
+      {
+         _vocab = CreateVocab("方", "way of doing");
+         _vocab.Question.SetDisambiguation("かた");
+      }
 
       public class with_a_compound_that_has_its_question_without_the_disambiguation_as_a_part : given_a_disambiguated_vocab
       {

@@ -11,6 +11,7 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Core" />
                     <ContentControl Content="{Binding Question}" />
+                    <ContentControl Content="{Binding Disambiguation}" />
                     <ContentControl Content="{Binding Readings}" />
                     <ContentControl Content="{Binding Forms}" />
                     <ContentControl Content="{Binding PartsOfSpeech}" />

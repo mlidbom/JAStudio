@@ -50,7 +50,7 @@ public static class CollectionFactory
       {
          foreach(var vocab in VocabLists.TestSpecialVocab)
          {
-            app.Services.VocabNoteFactory.Create(vocab.DisambiguationName, vocab.Answer, vocab.Readings, vocab.InitializeNote);
+            app.Services.VocabNoteFactory.Create(vocab.Question, vocab.Answer, vocab.Readings, vocab.InitializeNote);
          }
       }
 

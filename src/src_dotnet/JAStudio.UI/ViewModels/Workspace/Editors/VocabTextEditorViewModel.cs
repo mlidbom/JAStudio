@@ -17,7 +17,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// </summary>
 /// <remarks>
 /// The question, the forms and the parts of speech change what the vocab matches, so every change to them reparses the vocab's sentences.<br/>
-/// One per keystroke would be far too many, so the question is written when it's committed,<br/>
+/// One per keystroke would be far too many, so the question and its disambiguation are written when they're committed,<br/>
 /// and the forms and the parts of speech are lists, where each added or removed entry is one change.
 /// </remarks>
 class VocabTextEditorViewModel
@@ -36,7 +36,8 @@ class VocabTextEditorViewModel
       _currentVocab = currentVocab;
       _sentencesReparser = sentencesReparser;
 
-      Question = new CommittingTextFieldEditorViewModel(fatalErrorHandler, "Question", () => _currentVocab().Question.DisambiguationName, CommitTheQuestion);
+      Question = new CommittingTextFieldEditorViewModel(fatalErrorHandler, "Question", () => _currentVocab().Question.Text, CommitTheQuestion);
+      Disambiguation = new CommittingTextFieldEditorViewModel(fatalErrorHandler, "Disambiguation", () => _currentVocab().Question.Disambiguation, CommitTheDisambiguation);
       Readings = Field("Readings", TextFieldFormat.CommaSeparated,
                        it => string.Join(", ", it.GetReadings()),
                        (it, readings) => it.SetReadings(StringExtensions.ExtractCommaSeparatedValues(readings)));
@@ -78,8 +79,11 @@ class VocabTextEditorViewModel
       ];
    }
 
-   /// <summary>The vocab's question, with its disambiguation if it has one, as in <c>question:disambiguation</c>.</summary>
+   /// <summary>The vocab's question: its <see cref="VocabNoteQuestion.Text"/>.</summary>
    public CommittingTextFieldEditorViewModel Question { get; }
+
+   /// <summary>The <see cref="VocabNoteQuestion.Disambiguation"/> that tells the vocab apart from others with the same question, if it has one.</summary>
+   public CommittingTextFieldEditorViewModel Disambiguation { get; }
 
    public TextFieldEditorViewModel Readings { get; }
 
@@ -109,6 +113,7 @@ class VocabTextEditorViewModel
    public void Refresh()
    {
       Question.Refresh();
+      Disambiguation.Refresh();
       Forms.Refresh();
       PartsOfSpeech.Refresh();
       foreach(var field in LiveTextFields()) field.Refresh();
@@ -118,7 +123,13 @@ class VocabTextEditorViewModel
 
    void CommitTheQuestion(string question)
    {
-      _currentVocab().Question.Set(question.Trim());
+      _currentVocab().Question.SetText(question.Trim());
+      _sentencesReparser.ReparseSentences();
+   }
+
+   void CommitTheDisambiguation(string disambiguation)
+   {
+      _currentVocab().Question.SetDisambiguation(disambiguation.Trim());
       _sentencesReparser.ReparseSentences();
    }
 

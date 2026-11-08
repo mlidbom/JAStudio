@@ -93,7 +93,7 @@ public class VocabNotePartsOfSpeech
       return AnalysisConstants.CausativeVerbEndings.Contains(compounds[compounds.Count - 1]);
    }
 
-   public bool IsCompleteNaAdjective() => Vocab.Question.Raw.EndsWith("な") && Get().Contains(POS.NaAdjective);
+   public bool IsCompleteNaAdjective() => Vocab.Question.Text.EndsWith("な") && Get().Contains(POS.NaAdjective);
 
    public override string ToString() => RawStringValue();
 }

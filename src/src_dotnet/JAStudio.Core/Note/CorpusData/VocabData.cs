@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JAStudio.Core.Anki;
+using JAStudio.Core.Note.Vocabulary;
 using MemoryPack;
 
 namespace JAStudio.Core.Note.CorpusData;
@@ -7,7 +8,7 @@ namespace JAStudio.Core.Note.CorpusData;
 [MemoryPackable]
 public partial class VocabData : CorpusObjectData
 {
-   public string Question { get; init; } = string.Empty;
+   public VocabQuestionSubData Question { get; init; } = new();
    public string SourceAnswer { get; init; } = string.Empty;
    public string UserAnswer { get; init; } = string.Empty;
    public string ActiveAnswer { get; init; } = string.Empty;
@@ -35,7 +36,7 @@ public partial class VocabData : CorpusObjectData
 
    protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
    {
-      fields[AnkiFieldNames.Question] = Question;
+      fields[AnkiFieldNames.Question] = VocabNoteQuestion.DisambiguationNameOf(Question);
       fields[AnkiFieldNames.Vocab.AudioB] = AudioB;
       fields[AnkiFieldNames.Vocab.AudioG] = AudioG;
       fields[AnkiFieldNames.Vocab.AudioTTS] = AudioTTS;

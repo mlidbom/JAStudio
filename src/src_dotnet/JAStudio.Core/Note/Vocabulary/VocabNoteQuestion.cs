@@ -1,74 +1,83 @@
-using JAStudio.Core.LanguageServices;
+using Compze.Contracts;
 using JAStudio.Core.Note.CorpusData;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
-public class VocabStems
-{
-   readonly VocabNote _vocab;
-
-   public VocabStems(VocabNote vocab) => _vocab = vocab;
-
-   public string? MasuStem()
-   {
-      var masuStem = Conjugator.GetIStemVocab(_vocab);
-      return masuStem != _vocab.Question.Raw ? masuStem : null;
-   }
-}
-
+/// <summary>
+/// A <see cref="VocabNote"/>'s question: its <see cref="Text"/>, the word itself, and, when another vocab has the same text,<br/>
+/// a <see cref="Disambiguation"/> that tells them apart, such as <c>masu</c> for the <c>入る</c> that follows a masu stem.
+/// </summary>
+/// <remarks>
+/// Other notes refer to a vocab by its <see cref="DisambiguationName"/>, <c>入る:masu</c>, until references between notes get a type of their own.
+/// </remarks>
 public class VocabNoteQuestion
 {
+   /// <summary>Separates the <see cref="Text"/> from the <see cref="Disambiguation"/> in a <see cref="DisambiguationName"/>, so neither may contain it.</summary>
    public const string DisambiguationMarker = ":";
-   public const string InvalidQuestionMessage = "INVALID QUESTION FORMAT. If you need to specify disambiguation, use question:disambiguation if not do NOT use : characters. More than one is invalid";
 
    readonly VocabNote _vocab;
    readonly NoteGuard _guard;
-   public string Raw { get; private set; }
-   public string DisambiguationName { get; private set; }
 
    public VocabNoteQuestion(VocabNote vocab, VocabData? data, NoteGuard guard)
    {
       _vocab = vocab;
       _guard = guard;
-      Raw = string.Empty;
-      DisambiguationName = string.Empty;
-      InitValueRaw(data?.Question ?? string.Empty);
+      Text = data?.Question.Text ?? string.Empty;
+      Disambiguation = data?.Question.Disambiguation ?? string.Empty;
    }
 
-   void InitValueRaw(string value)
-   {
-      DisambiguationName = value;
-      Raw = RawFromDisambiguationName(value);
-   }
+   /// <summary>The question itself: the vocab's main form, as <c>入る</c>. Empty only on a vocab that's being created and hasn't been given its question yet.</summary>
+   public string Text { get; private set; }
+
+   /// <summary>What tells this vocab apart from others with the same <see cref="Text"/>, as <c>masu</c> in <c>入る:masu</c>. Empty for most vocab.</summary>
+   public string Disambiguation { get; private set; }
+
+   /// <summary>Whether the vocab has a <see cref="Disambiguation"/>.</summary>
+   public bool IsDisambiguated => Disambiguation != string.Empty;
 
    /// <summary>
-   /// The <see cref="Raw"/> question for a <see cref="DisambiguationName"/>: the question without its disambiguation, as in <c>question:disambiguation</c>.<br/>
-   /// <see cref="InvalidQuestionMessage"/> if it has more than one <see cref="DisambiguationMarker"/>, and <c>[EMPTY]</c> if it's empty.
+   /// The name other notes refer to the vocab by: the <see cref="Text"/>, followed by the <see cref="DisambiguationMarker"/> and the <see cref="Disambiguation"/><br/>
+   /// if the vocab has one, as <c>入る:masu</c>.
    /// </summary>
-   internal static string RawFromDisambiguationName(string disambiguationName)
-   {
-      var raw = !disambiguationName.Contains(DisambiguationMarker)
-                   ? disambiguationName
-                   : disambiguationName.Split(DisambiguationMarker) is [var question, _]
-                      ? question
-                      : InvalidQuestionMessage;
+   public string DisambiguationName => DisambiguationNameOf(ToCorpusData());
 
-      return string.IsNullOrEmpty(raw) ? "[EMPTY]" : raw;
-   }
+   /// <summary>The <see cref="DisambiguationName"/> of a vocab whose question the corpus stores as <paramref name="question"/>.</summary>
+   internal static string DisambiguationNameOf(VocabQuestionSubData question) =>
+      question.Disambiguation == string.Empty
+         ? question.Text
+         : question.Text + DisambiguationMarker + question.Disambiguation;
 
-   public bool IsValid => Raw != InvalidQuestionMessage;
-   public bool IsDisambiguated => DisambiguationName.Contains(DisambiguationMarker);
-
-   public string WithoutNoiseCharacters => Raw.Replace(Mine.VocabPrefixSuffixMarker, "");
+   public string WithoutNoiseCharacters => Text.Replace(Mine.VocabPrefixSuffixMarker, "");
 
    public VocabStems Stems() => new(_vocab);
 
-   /// <summary>Sets the question. The question is always one of the vocab's forms, so the old question stops being one.</summary>
-   public void Set(string value) => _guard.Update(() =>
+   /// <summary>
+   /// Sets the <see cref="Text"/>, keeping the <see cref="Disambiguation"/>. The question is always one of the vocab's forms, so the old one stops being one.
+   /// </summary>
+   public void SetText(string text)
    {
-      InitValueRaw(value);
-      _vocab.Forms.OnQuestionChanged();
-   });
+      Contract.Argument.Assert(text != string.Empty, () => "A vocab's question can't be empty.");
+      AssertHasNoDisambiguationMarker(text);
+      _guard.Update(() =>
+      {
+         Text = text;
+         _vocab.Forms.OnQuestionChanged();
+      });
+   }
 
-   public override string ToString() => Raw;
+   /// <summary>Sets the <see cref="Disambiguation"/>: empty for none.</summary>
+   public void SetDisambiguation(string disambiguation)
+   {
+      AssertHasNoDisambiguationMarker(disambiguation);
+      _guard.Update(() => Disambiguation = disambiguation);
+   }
+
+   internal VocabQuestionSubData ToCorpusData() => new() { Text = Text, Disambiguation = Disambiguation };
+
+   static void AssertHasNoDisambiguationMarker(string text) =>
+      Contract.Argument.Assert(!text.Contains(DisambiguationMarker),
+                               () => $"'{text}' contains '{DisambiguationMarker}', which separates a vocab's question from its disambiguation when other notes refer to it."
+                                   + " The question and the disambiguation are set separately.");
+
+   public override string ToString() => Text;
 }

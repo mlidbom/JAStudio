@@ -38,7 +38,7 @@ public class When_a_vocabs_forms_include_its_question : SpecificationStartingWit
                                 new VocabData
                                 {
                                    Id = Guid.NewGuid(),
-                                   Question = "走る",
+                                   Question = new VocabQuestionSubData { Text = "走る" },
                                    Forms = [new EnteredFormSubData { Text = "走る", IsOwned = true }, new EnteredFormSubData { Text = "駆ける" }]
                                 });
 

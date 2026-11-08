@@ -22,8 +22,8 @@ nothing stored only for Anki's sake.
 ## Terms used in this document
 
 - **in-string-micro-syntax** — meaning hidden in a string's characters, which code has to parse back out. For
-  example, brackets around a form (gone 2026-11-08), `question:disambiguation`, `<primary>` HTML around a kanji reading,
-  or `[sound:file.mp3]`.
+  example, brackets around a form (gone 2026-11-08), `question:disambiguation` (gone from the question 2026-11-08),
+  `<primary>` HTML around a kanji reading, or `[sound:file.mp3]`.
 - **persisted-derived-data** — a value computed from other data that is stored anyway, for example
   `activeAnswer` or `sentenceCount`.
 - **Anki-projection** — the mapping from the domain model to Anki note fields and tags. It runs on every flush.
@@ -276,8 +276,8 @@ Two cautions:
 |---|---|---|
 | ~~Owned form~~ | `VocabNoteForms.ComputeOwnedForms` | ~~`[form]` in the `forms` list~~ *Gone 2026-11-08 (slice 1): each form is `{ "text", "isOwned" }`.* |
 | ~~Alternative compound part~~ | `VocabNoteCompoundParts` | ~~`[part]` in `userCompounds`~~ *Gone 2026-11-08 (slice 1): `compoundParts` is `{ "primary", "alternative" }`.* |
-| Disambiguation | `VocabNoteQuestion` (`DisambiguationMarker`) | `question:disambiguation` (32 vocab) |
-| Invalid / empty question | `VocabNoteQuestion` | Sentinel strings `InvalidQuestionMessage` and `"[EMPTY]"` stored as the question |
+| Disambiguation | `VocabNoteQuestion` (`DisambiguationMarker`) | ~~`question:disambiguation` (32 vocab)~~ *Gone from the question 2026-11-08 (slice 2): it's `{ "text", "disambiguation" }`, 34 vocab with one. References to a vocab still name it `text:disambiguation` (`VocabNoteQuestion.DisambiguationName`), 115 of them in 111 vocab, until slice 8.* |
+| ~~Invalid / empty question~~ | `VocabNoteQuestion` | ~~Sentinel strings `InvalidQuestionMessage` and `"[EMPTY]"` stored as the question~~ *Gone 2026-11-08 (slice 2). None was stored in the corpus: the code made them up while it ran. A question can't be set empty, or to text containing `:`, now.* |
 | Prefix / suffix marker | `Mine.VocabPrefixSuffixMarker` | `〜` in the question and forms, stripped as a "noise character". This is also standard dictionary notation, so it may rightly stay text. |
 | Parts of speech | `VocabNotePartsOfSpeech`, `POSSetManager.InternAndHarmonize` | One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times) |
 | Primary kanji readings | `KanjiNote.PrimaryReadingPattern`, plus a duplicate regex in `LocalNoteUpdater` | Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml` |
@@ -358,8 +358,9 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectionViewModel`,
 `SentenceEditorSectionViewModel`). They still mostly copy Anki's note editor: one text box per stored string.
 
-- `question:disambiguation` is typed by hand. *(The brackets were, until 2026-11-08: each form now has an "owned"
-  check box, and compound parts have a box each for the primary and the alternative ones.)*
+- *(Until 2026-11-08 the brackets and `question:disambiguation` were typed by hand. Each form now has an "owned" check
+  box, compound parts have a box each for the primary and the alternative ones, and the question and its
+  disambiguation have a box each.)*
 - A vocab's forms and parts of speech are lists, with entries added and removed one at a time. Its readings and
   compound parts, and the kanji's lists, are still comma separated text.
 - Parts of speech are free text, and audio is raw `[sound:…]`.
@@ -392,7 +393,7 @@ should drive its JSON key, not the reverse.
 ```json
 {
   "id": "00b4a087-8057-41b4-9172-c17752e65455",
-  "question": { "text": "剥ぐ", "disambiguation": null },
+  "question": { "text": "剥ぐ", "disambiguation": "" },
   "answer": { "source": "to tear off; to peel off", "user": "" },
   "readings": ["はぐ"],
   "forms": [
@@ -800,7 +801,9 @@ Progress on step 3:
    1. Brackets: owned forms and alternative compound parts. This one has caused real bugs. *Done 2026-11-08: see
       [In-string-micro-syntaxes](#in-string-micro-syntaxes) and [Vocab](#vocab). The migration also merged 25 forms
       entered twice within a vocab and dropped the empty question's sentinel, `[EMPTY]`, from the forms of `げ` and `極まる`.*
-   2. Question and disambiguation, dropping the sentinel strings.
+   2. Question and disambiguation, dropping the sentinel strings. *Done 2026-11-08: see
+      [In-string-micro-syntaxes](#in-string-micro-syntaxes). References keep naming a vocab `text:disambiguation` until
+      slice 8 (Magnus, 2026-11-08).*
    3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`.
    4. Configuration out of tags: requires/forbids flags, boolean flags, register, `_uk`/`_disable_uk`, source.
    5. Priority out of the corpus, as student-data (see [Tags](#tags)).

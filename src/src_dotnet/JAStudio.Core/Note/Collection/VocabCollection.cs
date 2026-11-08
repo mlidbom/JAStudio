@@ -59,7 +59,7 @@ public class VocabCollection
          return withDisambiguationName;
 
       var matches = WithForm(form);
-      var exactMatch = matches.Where(voc => voc.Question.Raw == form).ToList();
+      var exactMatch = matches.Where(voc => voc.Question.Text == form).ToList();
       var sequence = exactMatch.Any() ? exactMatch : matches;
       return sequence.Distinct().ToList();
    }

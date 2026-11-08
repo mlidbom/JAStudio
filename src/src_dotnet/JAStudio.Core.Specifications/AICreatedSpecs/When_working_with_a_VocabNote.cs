@@ -1,6 +1,8 @@
+using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
+using static Compze.Must.MustActions;
 
 // ReSharper disable InconsistentNaming
 
@@ -45,33 +47,45 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       [XF] public void it_includes_the_second_reading() => _vocab.GetReadings().Must().Contain("もと");
    }
 
-   public class given_a_disambiguated_question : When_working_with_a_VocabNote
+   public class given_a_question_with_a_disambiguation : When_working_with_a_VocabNote
    {
       readonly VocabNote _vocab;
 
-      public given_a_disambiguated_question()
+      public given_a_question_with_a_disambiguation()
       {
          _vocab = new VocabNote(NoteServices);
-         _vocab.Question.Set("取る:to take");
+         _vocab.Question.SetText("取る");
+         _vocab.Question.SetDisambiguation("to take");
       }
 
-      [XF] public void IsDisambiguated_is_true() => _vocab.Question.IsDisambiguated.Must().BeTrue();
-      [XF] public void Raw_returns_the_base_question() => _vocab.Question.Raw.Must().Be("取る");
-      [XF] public void DisambiguationName_returns_the_full_form() => _vocab.Question.DisambiguationName.Must().Be("取る:to take");
-   }
+      [XF] public void it_is_disambiguated() => _vocab.Question.IsDisambiguated.Must().BeTrue();
+      [XF] public void the_text_is_the_question_alone() => _vocab.Question.Text.Must().Be("取る");
+      [XF] public void the_vocab_question_is_the_question_alone() => _vocab.GetQuestion().Must().Be("取る");
+      [XF] public void the_disambiguation_name_is_the_question_and_the_disambiguation_joined_by_the_disambiguation_marker() =>
+         _vocab.Question.DisambiguationName.Must().Be("取る:to take");
 
-   public class given_an_invalid_question_format : When_working_with_a_VocabNote
-   {
-      readonly VocabNote _vocab;
-
-      public given_an_invalid_question_format()
+      public class after_changing_the_question : given_a_question_with_a_disambiguation
       {
-         _vocab = new VocabNote(NoteServices);
-         _vocab.Question.Set("a:b:c");
+         public after_changing_the_question() => _vocab.Question.SetText("採る");
+
+         [XF] public void the_disambiguation_is_kept() => _vocab.Question.DisambiguationName.Must().Be("採る:to take");
       }
 
-      [XF] public void IsValid_is_false() => _vocab.Question.IsValid.Must().BeFalse();
-      [XF] public void Raw_returns_the_invalid_question_message() => _vocab.Question.Raw.Must().Be(VocabNoteQuestion.InvalidQuestionMessage);
+      public class after_removing_the_disambiguation : given_a_question_with_a_disambiguation
+      {
+         public after_removing_the_disambiguation() => _vocab.Question.SetDisambiguation("");
+
+         [XF] public void it_is_not_disambiguated() => _vocab.Question.IsDisambiguated.Must().BeFalse();
+         [XF] public void the_disambiguation_name_is_the_question_alone() => _vocab.Question.DisambiguationName.Must().Be("取る");
+      }
+
+      [XF] public void setting_a_question_containing_the_disambiguation_marker_is_refused() =>
+         Invoking(() => _vocab.Question.SetText("取る:to grab")).Must().Throw<ArgumentAssertionFailedException>();
+
+      [XF] public void setting_a_disambiguation_containing_the_disambiguation_marker_is_refused() =>
+         Invoking(() => _vocab.Question.SetDisambiguation("to:grab")).Must().Throw<ArgumentAssertionFailedException>();
+
+      [XF] public void setting_an_empty_question_is_refused() => Invoking(() => _vocab.Question.SetText("")).Must().Throw<ArgumentAssertionFailedException>();
    }
 
    public class after_adding_a_form : When_working_with_a_VocabNote
@@ -111,7 +125,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       public given_a_vocab_with_an_owned_and_a_not_owned_entered_form()
       {
          _vocab = new VocabNote(NoteServices);
-         _vocab.Question.Set("走る");
+         _vocab.Question.SetText("走る");
          _vocab.Forms.SetEnteredForms([EnteredForm.Owned("駆ける"), EnteredForm.NotOwned("はしる")]);
       }
 
@@ -121,7 +135,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
       public class after_changing_the_question_to_a_new_form : given_a_vocab_with_an_owned_and_a_not_owned_entered_form
       {
-         public after_changing_the_question_to_a_new_form() => _vocab.Question.Set("奔る");
+         public after_changing_the_question_to_a_new_form() => _vocab.Question.SetText("奔る");
 
          [XF] public void the_owned_entered_form_stays_owned() => _vocab.Forms.EnteredForms().Must().Contain(EnteredForm.Owned("駆ける"));
          [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("奔る");
@@ -132,7 +146,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
       public class after_changing_the_question_to_its_owned_entered_form : given_a_vocab_with_an_owned_and_a_not_owned_entered_form
       {
-         public after_changing_the_question_to_its_owned_entered_form() => _vocab.Question.Set("駆ける");
+         public after_changing_the_question_to_its_owned_entered_form() => _vocab.Question.SetText("駆ける");
 
          [XF] public void the_new_question_is_dropped_from_the_entered_forms() => _vocab.Forms.EnteredFormsList().Must().SequenceEqual(["はしる"]);
          [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("駆ける");
@@ -179,7 +193,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
       public after_setting_a_question_on_a_new_note()
       {
          _vocab = new VocabNote(NoteServices);
-         _vocab.Question.Set("新しい");
+         _vocab.Question.SetText("新しい");
       }
 
       [XF] public void the_question_is_matched() =>

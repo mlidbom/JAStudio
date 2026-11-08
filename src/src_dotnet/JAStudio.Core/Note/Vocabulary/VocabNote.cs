@@ -71,7 +71,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    public override CorpusObjectData ToCorpusData() => VocabNoteConverter.ToCorpusData(this);
 
-   public override string GetQuestion() => Question.Raw;
+   public override string GetQuestion() => Question.Text;
 
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
 
@@ -149,7 +149,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public static VocabNote Create(NoteServices services, string question, string answer, List<string> readings, List<string> forms)
    {
       var note = new VocabNote(services);
-      note.Question.Set(question);
+      note.Question.SetText(question);
       note.User.Answer.Set(answer);
       note.SetReadings(readings);
 

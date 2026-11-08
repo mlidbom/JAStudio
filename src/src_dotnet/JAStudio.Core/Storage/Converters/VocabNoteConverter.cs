@@ -14,7 +14,7 @@ static class VocabNoteConverter
       return new VocabData
              {
                 Id = note.GetId().Value,
-                Question = note.Question.DisambiguationName,
+                Question = note.Question.ToCorpusData(),
                 SourceAnswer = note.SourceAnswer.Value,
                 UserAnswer = note.User.Answer.Value,
                 ActiveAnswer = note.ActiveAnswer.Value,

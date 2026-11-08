@@ -2,6 +2,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
 
@@ -23,4 +24,14 @@ public class When_a_note_is_written_to_its_Anki_study_note : SpecificationStarti
 
    [XF] public void a_sentence_writes_its_question_its_audio_and_its_corpus_note_id() =>
       FieldsWrittenFor(CreateTestSentence("川に行く", "go to the river")).Must().SequenceEqual(new[] { "Audio Sentence", "Q", "jas_note_id" }.Order());
+
+   [XF] public void a_vocab_with_a_disambiguation_writes_its_disambiguation_name_as_its_question() =>
+      CreateVocabWithTheDisambiguation("入る", "masu").GetData().Fields["Q"].Must().Be("入る:masu");
+
+   VocabNote CreateVocabWithTheDisambiguation(string question, string disambiguation)
+   {
+      var vocab = CreateVocab(question, "to enter", "いる");
+      vocab.Question.SetDisambiguation(disambiguation);
+      return vocab;
+   }
 }

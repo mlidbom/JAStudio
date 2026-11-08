@@ -129,7 +129,7 @@ public class VocabCloner
    public VocabNote CloneToForm(string form)
    {
       var clone = Clone();
-      clone.Question.Set(form);
+      clone.Question.SetText(form);
       return clone;
    }
 
