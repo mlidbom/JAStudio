@@ -98,6 +98,12 @@ class ImportProfileEditorViewModel : ObservableObject
       set => Change(() => Profile.CreatesAnkiNotesToStudy = value);
    }
 
+   public bool RunsAutomatically
+   {
+      get => Profile.RunsAutomatically;
+      set => Change(() => Profile.RunsAutomatically = value);
+   }
+
    void Change(Action change, string? alsoChangedProperty = null, [CallerMemberName] string changedProperty = "")
    {
       change();

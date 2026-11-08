@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.Checking;
+using JAStudio.Core.Importing.RawNotes;
 using JAStudio.UI.ViewModels.Importing;
 using JAStudio.UI.Views.Importing;
 
@@ -40,4 +43,28 @@ public class When_checking_an_import_profile_in_its_import_run_window : ImportWi
    [XF] public void the_column_of_the_audio_the_profile_maps_is_shown() => TheColumnIsShown("Audio").Must().BeTrue();
    [XF] public void the_column_of_the_screenshot_the_profile_does_not_map_is_hidden() => TheColumnIsShown("Screenshot").Must().BeFalse();
    [XF] public void the_window_is_titled_with_the_profile() => OnTheUIThread(() => _window.Title ?? throw new InvalidOperationException("The window has no title.")).Must().Be("Import run: Immersion Kit");
+
+   /// <summary>A run of a profile for a subs2srs deck's note type imports a note, as an automatic run does while the window is open.</summary>
+   public class and_then_a_run_of_another_import_profile_is_executed : When_checking_an_import_profile_in_its_import_run_window
+   {
+      const string Subs2srsNoteType = "subs2srs Sentence";
+      readonly ImportRun _runTheWindowCheckedBefore;
+
+      public and_then_a_run_of_another_import_profile_is_executed()
+      {
+         _runTheWindowCheckedBefore = TheCheckedRun();
+
+         AnkiRawNotes.AddNoteType(new AnkiNoteType(Subs2srsNoteType, ["Expression"]));
+         AnkiRawNotes.Add(Subs2srsNoteType, new Dictionary<string, string> { ["Expression"] = "猫が好きだ" });
+         var subs2srsProfile = new ImportProfile { Name = "subs2srs", AnkiNoteType = Subs2srsNoteType, FieldMapping = new SentenceFieldMapping { SourceQuestion = "Expression" } };
+         GetService<Importer>().Prepare(subs2srsProfile).ExecuteUnlessOutOfDate().Must().BeTrue();
+
+         WaitUntil(() => TheWindowsViewModel() is { IsBusy: false, CheckedRun: {} checkedRun } && checkedRun != _runTheWindowCheckedBefore);
+      }
+
+      ImportRun TheCheckedRun() => OnTheUIThread(() => TheWindowsViewModel().CheckedRun ?? throw new InvalidOperationException("The window has no checked run."));
+
+      [XF] public void the_window_checks_again_so_that_its_checked_run_is_not_out_of_date() => TheCheckedRun().IsOutOfDate.Must().BeFalse();
+      [XF] public void the_run_it_checked_before_is_out_of_date() => _runTheWindowCheckedBefore.IsOutOfDate.Must().BeTrue();
+   }
 }

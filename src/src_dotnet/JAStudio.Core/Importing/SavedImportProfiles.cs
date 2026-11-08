@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using Compze.Contracts;
+using Compze.Threading;
 using JAStudio.Core.SysUtils.Json;
 
 namespace JAStudio.Core.Importing;
@@ -13,7 +15,8 @@ namespace JAStudio.Core.Importing;
 /// </summary>
 /// <remarks>
 /// They're loaded once, and every window works on the same <see cref="ImportProfile"/> objects: an import run window keeps track of its profile<br/>
-/// while the import profiles window edits it, through <see cref="ProfileChanged"/>.
+/// while the import profiles window edits it, through <see cref="ProfileChanged"/>.<br/>
+/// The import profiles window adds and deletes them on the UI thread while <see cref="AutomaticImportRuns"/> reads them on the threads Anki signals on.
 /// </remarks>
 public class SavedImportProfiles
 {
@@ -26,6 +29,7 @@ public class SavedImportProfiles
 
    readonly string _filePath;
    readonly List<ImportProfile> _profiles;
+   readonly IMonitor _monitor = IMonitor.New();
 
    public SavedImportProfiles(IEnvironmentPaths paths)
    {
@@ -33,27 +37,41 @@ public class SavedImportProfiles
       _profiles = Load();
    }
 
-   public IReadOnlyList<ImportProfile> All => _profiles;
+   /// <summary>The profiles as they are now: a list that later additions and deletions don't change.</summary>
+   public IReadOnlyList<ImportProfile> All => _monitor.Locked(() => _profiles.ToList());
 
    /// <summary>Raised after a profile was changed or deleted, and the profiles saved.</summary>
    public event Action<ImportProfile>? ProfileChanged;
 
-   public bool Contains(ImportProfile profile) => _profiles.Contains(profile);
+   public bool Contains(ImportProfile profile) => _monitor.Locked(() => _profiles.Contains(profile));
 
    /// <summary>Adds a new, empty profile and saves the profiles.</summary>
    public ImportProfile AddNew()
    {
       var profile = new ImportProfile { Name = "New import profile" };
-      _profiles.Add(profile);
-      Save();
+      Add(profile);
       return profile;
+   }
+
+   /// <summary>Adds <paramref name="profile"/> and saves the profiles.</summary>
+   public void Add(ImportProfile profile)
+   {
+      Contract.Argument.Assert(!Contains(profile), () => $"The import profile {profile.Name} is saved already.");
+      _monitor.Locked(() =>
+      {
+         _profiles.Add(profile);
+         Save();
+      });
    }
 
    public void Delete(ImportProfile profile)
    {
       Contract.Argument.Assert(Contains(profile), () => $"The import profile {profile.Name} isn't saved.");
-      _profiles.Remove(profile);
-      Save();
+      _monitor.Locked(() =>
+      {
+         _profiles.Remove(profile);
+         Save();
+      });
       ProfileChanged?.Invoke(profile);
    }
 
@@ -61,7 +79,7 @@ public class SavedImportProfiles
    public void SaveTheChangeOf(ImportProfile profile)
    {
       Contract.Argument.Assert(Contains(profile), () => $"The import profile {profile.Name} isn't saved.");
-      Save();
+      _monitor.Locked(Save);
       ProfileChanged?.Invoke(profile);
    }
 

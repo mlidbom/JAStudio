@@ -40,6 +40,12 @@ public class ImportProfile
    /// <summary>Whether each imported sentence gets a note in the open Anki profile to study. Otherwise it's added to the corpus only.</summary>
    public bool CreatesAnkiNotesToStudy { get; set; }
 
+   /// <summary>
+   /// Whether the profile runs on its own, through <see cref="AutomaticImportRuns"/>, when Anki signals that raw notes of its <see cref="AnkiNoteType"/> may have arrived:<br/>
+   /// when Anki finished importing a file, such as an .apkg, or a note of the type was added, as AnkiConnect adds them. Otherwise it runs only by hand.
+   /// </summary>
+   public bool RunsAutomatically { get; set; }
+
    /// <summary>A copy that later changes to this profile don't reach, such as the one an <see cref="ImportRun"/> runs, so that it does what it was checked to do.</summary>
    public ImportProfile Copy() => new()
    {
@@ -51,6 +57,7 @@ public class ImportProfile
       AudioFolder = AudioFolder,
       ScreenshotFolder = ScreenshotFolder,
       DeletesTheRawNotesAfterwards = DeletesTheRawNotesAfterwards,
-      CreatesAnkiNotesToStudy = CreatesAnkiNotesToStudy
+      CreatesAnkiNotesToStudy = CreatesAnkiNotesToStudy,
+      RunsAutomatically = RunsAutomatically
    };
 }

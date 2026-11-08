@@ -1,8 +1,8 @@
 # Import profiles
 
 > **Status: design agreed with Magnus on 2026-11-08, and increment 2 built the same day:** import profiles for
-> sentences, with the editor, the check and running by hand (see [As built](#as-built-2026-11-08)). Not built yet:
-> automatic runs, vocab, and subs2srs decks. What import profiles replace is described in
+> sentences, with the editor, the check and running by hand (see [As built](#as-built-2026-11-08)). Increment 3,
+> automatic runs, was built the same day. Not built yet: vocab, and subs2srs decks. What import profiles replace is described in
 > `media-storage-and-import.md` ("Importing from Anki") and `corpus-data-model.md` ("Import and organization").
 
 ## What an import profile is
@@ -72,7 +72,7 @@ where "Convert Immersion Kit sentences" used to be. Every change is saved at onc
 | Media folders | A folder in the media layer for each mapped media field, such as audio to one folder and screenshots to another. Typed in, and checked to be `free/` or a commercial repository, or inside one (`MediaLayerFolders`). |
 | Delete the raw notes afterwards | Yes or no. Magnus wants both options to start with, to compare and check while he gets imports going. |
 | Create Anki notes to study | Yes or no: whether each new corpus note gets a note in the open Anki profile. |
-| Runs automatically | Yes or no: see [When a run starts](#when-a-run-starts). *Not built yet: increment 3.* |
+| Runs automatically | Yes or no: see [When a run starts](#when-a-run-starts). |
 
 ## An import run
 
@@ -160,8 +160,15 @@ file's finding on hover.
   - **a note was added** (`note_will_be_added`). AnkiConnect adds notes this way, and Immersion Kit and Yomitan
     can both use it.
 
-  Both signals do the same thing: run every automatic import profile over its selection. An automatic run that
-  has problems opens its import run window with the report instead of running.
+  Both signals run the automatic import profiles over their selections: a finished import runs every automatic profile
+  whose note type the open Anki profile has, and an added note runs those of its note type. An automatic run that has
+  problems opens its import run window with the report instead of running. One that imports says so in a tooltip in
+  Anki, where the import happened.
+
+**One check or execution at a time.** Checks and executions, by hand or automatic, happen one at a time, so a check
+never sees an execution half done. A run is **out of date** when another run was executed after its check: that run may
+have imported what the check found missing from JAStudio. An out-of-date run isn't executed, so no raw note is imported
+twice: Run checks again instead, and an open import run window checks again by itself when another run was executed.
 
 ## Anki knows nothing of particular imports
 
@@ -217,7 +224,7 @@ doesn't matter to lookups.
    first import profile, imported through .apkg. The same day, after Magnus tried it: a row per raw note with
    specific findings, notes imported by earlier runs counted rather than hidden, unused files reused, and the
    imported sentences shown in the List tab.
-3. Automatic runs on both signals.
+3. *Built 2026-11-08:* automatic runs on both signals.
 4. subs2srs decks, and retiring the rules-based media import.
 5. Yomitan through a note type of its own and an import profile, and retiring `ExternalNoteAdded`'s take-in.
 
@@ -240,6 +247,18 @@ doesn't matter to lookups.
 - **An unused file that's the same is reused, and a different one is a problem.**
 - **Editing and running are two windows:** the import profiles window, and an import run window per profile. One
   window holding the list, the editor and the report barely fit a 4K monitor; apart, each fits a laptop's screen.
+- **Automatic runs** (increment 3, decided while building it):
+  - **Which profiles a signal runs.** An added note runs only the automatic profiles of its note type: no profile takes
+    JAStudio's own note types, so the Anki notes an import run creates, or JAStudio creates, run none, and a profile
+    with a problem doesn't open its window whenever any note is added. A finished import runs every automatic profile
+    whose note type the open Anki profile has: one whose note type it hasn't has nothing to import there, and isn't
+    reported as a problem in, say, the Anki profile for studying.
+  - **What an automatic run shows.** One with problems opens its import run window, which checks again and shows the
+    report. One that imports shows a tooltip in Anki with the number of sentences; it doesn't list them in the List tab
+    or bring the workspace to the front, so adding notes one by one from a browser isn't interrupted. One with nothing to
+    import shows nothing. Each is logged.
+  - **A burst of signals.** AnkiConnect announces each added note, so a profile signalled again while it waits to run
+    runs once, and one signalled while it runs runs again afterwards, to import what arrived meanwhile.
 
 ## As built (2026-11-08)
 
@@ -257,6 +276,17 @@ doesn't matter to lookups.
 - **`JAStudio.Core.Importing.RawNotes`:** `RawNote`, `AnkiNoteType`, and `IAnkiRawNotes`, which is Anki's side.
   `AnkiRawNotes` in `JAStudio.Anki` implements it; specifications use `InMemoryAnkiRawNotes`.
 - **Corpus only:** a sentence imported without an Anki note is added with `SentenceCollection.AddWithoutAnAnkiNote`.
+- **One at a time:** `ChecksAndExecutionsOfImportRuns`, which `Importer` checks through and each `ImportRun` executes
+  through, lets one check or execution happen at a time and counts the executed runs, so a run knows when it
+  `IsOutOfDate`. `ImportRun.ExecuteUnlessOutOfDate` executes it unless it's out of date, and `Importer.RunExecuted`
+  notifies every executed run.
+- **Automatic runs:** `ImportProfile.RunsAutomatically`, and `AutomaticImportRuns`, which runs the automatic profiles in
+  the background, one at a time, after `AfterAnkiImportedAFile` and `AfterANoteWasAddedInAnki`. It notifies a profile
+  whose run problems stopped (`StoppedByProblems`) and every run it executed (`Executed`); `AutomaticImportRunReports`
+  in the UI shows them.
+- **Anki's side:** `announce_finished_imports.py` calls `JAStudioAnkiAppRoot.AnkiImportedAFile` on
+  `operation_did_execute` from the import dialog, and `AnkiCollectionSynchronizer` calls
+  `JAStudioAnkiAppRoot.ANoteWasAddedInAnki` with the note type of every note added, once it's in Anki's database.
 - **Dependencies:** `JAStudio.Core` references `Mp3LoudnessNormalization` to normalize the audio.
 - **UI:**
   - `ImportProfilesWindow`, with `ImportProfilesWindowViewModel` and an `ImportProfileEditorViewModel` per profile;

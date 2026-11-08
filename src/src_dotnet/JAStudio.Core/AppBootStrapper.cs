@@ -64,6 +64,8 @@ public static class AppBootstrapper
          Singleton.For<SavedImportProfiles>().CreatedBy((IEnvironmentPaths paths) => new SavedImportProfiles(paths)),
          Singleton.For<Importer>().CreatedBy((IAnkiRawNotes ankiRawNotes, NoteServices noteServices, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, IEnvironmentPaths paths, TaskRunner taskRunner) =>
                                                 new Importer(ankiRawNotes, noteServices, mediaFileIndex, mediaStorage, paths, taskRunner)),
+         Singleton.For<AutomaticImportRuns>().CreatedBy((SavedImportProfiles savedProfiles, Importer importer, BackgroundTaskManager backgroundTaskManager) =>
+                                                           new AutomaticImportRuns(savedProfiles, importer, backgroundTaskManager)),
 
          // Core services
          Singleton.For<Settings>().CreatedBy((JapaneseConfig config) => new Settings(config)),

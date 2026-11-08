@@ -13,10 +13,10 @@ using Compze.Internals.Logging;
 using Compze.Internals.SystemCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
-using JAStudio.Core.Anki;
-using JAStudio.Core.Note;
+using JAStudio.Core.Importing;
 using JAStudio.UI;
 using JAStudio.UI.Shortcuts;
+using JAStudio.UI.Views.Importing;
 using JAStudio.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -114,6 +114,7 @@ public class JAStudioAnkiAppRoot
       DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
 #pragma warning restore CS0618 // Type or member is obsolete
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeWorkspaceWindow(coreApp.Services));
+      AutomaticImportRunReports.StartShowing(coreApp.Services);
 
       var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
 
@@ -163,6 +164,20 @@ public class JAStudioAnkiAppRoot
             throw new ArgumentOutOfRangeException(nameof(lifecycleEvent), lifecycleEvent, null);
       }
    }
+
+   /// <summary>
+   /// Anki finished importing a file, such as an .apkg, through its import dialog: runs the <see cref="AutomaticImportRuns"/>. Python calls it from Anki's<br/>
+   /// <c>operation_did_execute</c> hook, since Anki's importer adds the notes in its Rust backend without announcing each one.
+   /// </summary>
+   // ReSharper disable once UnusedMember.Global used from python
+   public void AnkiImportedAFile() => _coreApp.Services.Resolve<AutomaticImportRuns>().AfterAnkiImportedAFile();
+
+   /// <summary>
+   /// A note of the note type <paramref name="ankiNoteType"/> was added in Anki, as AnkiConnect adds them: runs the <see cref="AutomaticImportRuns"/> of that<br/>
+   /// note type. Python calls it once the note is in Anki's database.
+   /// </summary>
+   // ReSharper disable once UnusedMember.Global used from python
+   public void ANoteWasAddedInAnki(string ankiNoteType) => _coreApp.Services.Resolve<AutomaticImportRuns>().AfterANoteWasAddedInAnki(ankiNoteType);
 
    // ReSharper disable once UnusedMember.Global used from python
    public void ShutDown() => this.Log().Info().MethodExecutionTime(() =>

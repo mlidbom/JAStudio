@@ -5,6 +5,7 @@ using System.Text;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.Checking;
@@ -22,7 +23,8 @@ namespace JAStudio.UI.ViewModels.Importing;
 /// <remarks>
 /// It's a window of its own, apart from the import profiles window, so that each fits a laptop's screen: the report grows with the raw notes.<br/>
 /// The profile is edited in the import profiles window while the report stays in view, to fix what it found. A change to the profile leaves<br/>
-/// the report as it is, but running waits for checking again, so a run never does what its report didn't show.
+/// the report as it is, but running waits for checking again, so a run never does what its report didn't show. When another run was executed,<br/>
+/// such as one of the <see cref="AutomaticImportRuns"/>, the window checks again by itself: that run may have imported what the report shows to import.
 /// </remarks>
 partial class ImportRunWindowViewModel : ObservableObject, IDisposable
 {
@@ -32,6 +34,7 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
    readonly BackgroundTaskManager _backgroundTaskManager;
    readonly Action<NoteList> _showInTheWorkspace;
    readonly Action _closeTheWindow;
+   readonly IDisposable _followingTheExecutedRuns;
    IReadOnlyList<CheckedRawNoteRow> _everyRow = [];
    bool _theProfileChangedSinceTheCheckStarted;
 
@@ -55,6 +58,7 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
       _closeTheWindow = closeTheWindow;
 
       _savedImportProfiles.ProfileChanged += OnAProfileChanged;
+      _followingTheExecutedRuns = _importer.RunExecuted.Subscribe(_ => Dispatcher.UIThread.Post(CheckAgainIfTheCheckedRunIsOutOfDate));
       Check();
    }
 
@@ -78,7 +82,10 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
    [NotifyCanExecuteChangedFor(nameof(RunCommand))]
    bool _isBusy;
 
-   /// <summary>The run the last check prepared, which <see cref="Run"/> executes. Cleared when the profile changes, so a run never does more than its report said.</summary>
+   /// <summary>
+   /// The run the last check prepared, which <see cref="Run"/> executes. Cleared when the profile changes, so a run never does more than its report said,<br/>
+   /// and replaced by checking again when it's out of date.
+   /// </summary>
    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(RunCommand))] ImportRun? _checkedRun;
 
    /// <summary>The last run executed, whose imported sentences <see cref="ShowTheImportedSentences"/> shows again.</summary>
@@ -90,23 +97,11 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
    [RelayCommand(CanExecute = nameof(IsIdle))]
    void Check()
    {
-      IsBusy = true;
       _theProfileChangedSinceTheCheckStarted = false;
       CheckedRun = null;
       Summary = "Checking…";
       ShowNoReport();
-      _backgroundTaskManager.Run(() =>
-      {
-         try
-         {
-            var run = _importer.Prepare(_profile);
-            Dispatcher.UIThread.Invoke(() => ShowTheCheckOf(run));
-         }
-         finally
-         {
-            Dispatcher.UIThread.Invoke(() => IsBusy = false);
-         }
-      });
+      DoInTheBackgroundWhileBusy(() => _importer.Prepare(_profile), ShowTheCheckOf);
    }
 
    /// <summary>Checks the profile again, as the import profiles window's Check does with this window open, unless a check or a run is under way.</summary>
@@ -120,28 +115,47 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
    [RelayCommand(CanExecute = nameof(CanRun))]
    void Run()
    {
-      var run = CheckedRun!;
+      var run = CheckedRun ?? throw new InvalidOperationException("Run can't execute without a checked run.");
       CheckedRun = null;
-      IsBusy = true;
       Summary = "Importing…";
       ShowNoReport();
+      DoInTheBackgroundWhileBusy(run.ExecuteUnlessOutOfDate, executed =>
+      {
+         if(executed)
+            ShowTheExecuted(run);
+         else
+            Check();
+      });
+   }
+
+   /// <summary>
+   /// Does <paramref name="work"/> in the background while <see cref="IsBusy"/>, then <paramref name="showTheResult"/> on the UI thread once it's no longer busy,<br/>
+   /// so that showing it can start another check.
+   /// </summary>
+   void DoInTheBackgroundWhileBusy<TResult>(Func<TResult> work, Action<TResult> showTheResult)
+   {
+      IsBusy = true;
       _backgroundTaskManager.Run(() =>
       {
+         TResult result;
          try
          {
-            run.Execute();
-            Dispatcher.UIThread.Invoke(() =>
-            {
-               ExecutedRun = run;
-               Summary = SummaryOfTheExecuted(run);
-               ShowTheImportedSentences();
-            });
+            result = work();
          }
          finally
          {
             Dispatcher.UIThread.Invoke(() => IsBusy = false);
          }
+
+         Dispatcher.UIThread.Invoke(() => showTheResult(result));
       });
+   }
+
+   void ShowTheExecuted(ImportRun run)
+   {
+      ExecutedRun = run;
+      Summary = SummaryOfTheExecuted(run);
+      ShowTheImportedSentences();
    }
 
    bool HasImportedSentencesToShow() => ExecutedRun is { ImportedSentences.Count: > 0 };
@@ -150,12 +164,25 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
    [RelayCommand(CanExecute = nameof(HasImportedSentencesToShow))]
    void ShowTheImportedSentences()
    {
-      var run = ExecutedRun!;
+      var run = ExecutedRun ?? throw new InvalidOperationException("There's no executed run to show the imported sentences of.");
       _showInTheWorkspace(new NoteList($"Imported by {run.Profile.Name}, {DateTime.Now:yyyy-MM-dd HH:mm}", [.. run.ImportedSentences]));
    }
 
-   /// <summary>Stops following the changes to the saved profiles, when the window closes.</summary>
-   public void Dispose() => _savedImportProfiles.ProfileChanged -= OnAProfileChanged;
+   /// <summary>Stops following the changes to the saved profiles and the executed runs, when the window closes.</summary>
+   public void Dispose()
+   {
+      _savedImportProfiles.ProfileChanged -= OnAProfileChanged;
+      _followingTheExecutedRuns.Dispose();
+   }
+
+   /// <summary>
+   /// After another run was executed: checks again if the checked run is out of date. While a check is under way, <see cref="ShowTheCheckOf"/> checks<br/>
+   /// again if that check is out of date once it's done.
+   /// </summary>
+   void CheckAgainIfTheCheckedRunIsOutOfDate()
+   {
+      if(CheckedRun is { IsOutOfDate: true }) CheckAgainUnlessBusy();
+   }
 
    void OnAProfileChanged(ImportProfile changedProfile)
    {
@@ -174,6 +201,12 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
 
    void ShowTheCheckOf(ImportRun run)
    {
+      if(run.IsOutOfDate)
+      {
+         Check();
+         return;
+      }
+
       ShowTheReportOn(run);
       if(_theProfileChangedSinceTheCheckStarted)
          ShowThatTheProfileChangedAfterTheCheckOf(run);

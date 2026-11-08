@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from jastudio.ui.hooks import (
+    announce_finished_imports,
     clear_studying_cache_on_card_suspend_unsuspend,
     copy_sort_field_to_clipboard,
     custom_auto_advance_timings,
@@ -15,6 +16,7 @@ from jastudio.ui.hooks import (
 
 
 def init() -> None:
+    announce_finished_imports.init()
     clear_studying_cache_on_card_suspend_unsuspend.init()
     copy_sort_field_to_clipboard.init()
     custom_auto_advance_timings.init()

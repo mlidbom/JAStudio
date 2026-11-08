@@ -28,7 +28,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
          SentenceCard = AddImmersionKitSentenceCard("ずっと1人で生きていくんだ", "anime_the_garden_of_words_000000346", "garden_of_words_346.mp3", "garden_of_words_346.jpg",
                                                     english: "You've been living your whole life alone!!", reading: "ずっと 1 人[にん]で 生[い]きていくんだ");
          FirstRun = Importer.Prepare(ImmersionKitProfile);
-         FirstRun.Execute();
+         FirstRun.ExecuteUnlessOutOfDate();
          Sentence = Sentences.All().Single();
       }
 
@@ -100,7 +100,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
 
             public class and_run : and_the_sentence_cards_imported_tag_is_removed_in_Anki
             {
-               public and_run() => _run.Execute();
+               public and_run() => _run.ExecuteUnlessOutOfDate();
 
                [XF] public void the_sentence_is_back() => Sentences.All().Single().ExternalId.Value.Must().Be("anime_the_garden_of_words_000000346");
                [XF] public void it_finds_its_audio_in_the_media_layer() => Sentences.All().Single().PreferredAudio.Must().NotBeNull();
@@ -196,7 +196,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
       {
          _sentenceCard = AddImmersionKitSentenceCard("文です", "anime_1", "anime_1.mp3", "anime_1.jpg");
          ImmersionKitProfile.DeletesTheRawNotesAfterwards = true;
-         Importer.Prepare(ImmersionKitProfile).Execute();
+         Importer.Prepare(ImmersionKitProfile).ExecuteUnlessOutOfDate();
       }
 
       [XF] public void the_sentence_is_imported() => Sentences.All().Single().SourceQuestion.Value.Must().Be("文です");
@@ -210,7 +210,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
          AddImmersionKitSentenceCard("文です", "anime_1", "anime_1.mp3", "anime_1.jpg");
          var run = Importer.Prepare(ImmersionKitProfile);
          ImmersionKitProfile.TagsToAdd = ["source::something_else"];
-         run.Execute();
+         run.ExecuteUnlessOutOfDate();
       }
 
       [XF] public void the_run_does_what_it_was_prepared_to_do() => Sentences.All().Single().Tags.ToStringList().Must().Contain("source::immersion_kit");

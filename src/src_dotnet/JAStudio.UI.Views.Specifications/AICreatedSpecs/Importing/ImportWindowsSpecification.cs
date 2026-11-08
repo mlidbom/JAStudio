@@ -32,7 +32,7 @@ public abstract class ImportWindowsSpecification : SpecificationOpeningWindows
 
    protected ImportProfile Profile { get; }
 
-   InMemoryAnkiRawNotes AnkiRawNotes => GetService<InMemoryAnkiRawNotes>();
+   protected InMemoryAnkiRawNotes AnkiRawNotes => GetService<InMemoryAnkiRawNotes>();
    string AnkiMediaFolder => GetService<IEnvironmentPaths>().AnkiMediaDir;
 
    /// <summary>Adds a sentence card to the pretend Anki, with its audio file in Anki's media folder: an MP3 file's first bytes, which the check doesn't look past.</summary>

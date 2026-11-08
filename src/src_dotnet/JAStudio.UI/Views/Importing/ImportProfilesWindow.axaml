@@ -5,7 +5,7 @@
         x:DataType="importing:ImportProfilesWindowViewModel"
         Title="Import profiles"
         Width="1000"
-        Height="560">
+        Height="620">
 
     <Window.Styles>
         <Style Selector="TextBlock.label">
@@ -96,6 +96,12 @@
                                         </CheckBox>
                                         <CheckBox IsChecked="{Binding CreatesAnkiNotesToStudy}">
                                             <TextBlock TextWrapping="Wrap" Text="Give each sentence a note in this Anki profile to study. Otherwise it's added to the corpus only." />
+                                        </CheckBox>
+
+                                        <TextBlock Classes="heading" Text="When it runs" />
+                                        <CheckBox IsChecked="{Binding RunsAutomatically}">
+                                            <TextBlock TextWrapping="Wrap"
+                                                       Text="Automatically, when Anki finishes importing a file or a note of the note type is added. A run with problems opens its import run window instead." />
                                         </CheckBox>
                                     </StackPanel>
                                 </Grid>

@@ -15,7 +15,8 @@ namespace JAStudio.Core.Importing;
 
 /// <summary>
 /// One application of an <see cref="ImportProfile"/>, prepared by <see cref="Importer.Prepare"/>: every <see cref="RawNote"/> it selected in Anki,<br/>
-/// each as a <see cref="CheckedRawNote"/> with its <see cref="RawNoteOutcome"/>, and the <see cref="ProblemsWithTheProfile"/>, all found before <see cref="Execute"/> changes anything.
+/// each as a <see cref="CheckedRawNote"/> with its <see cref="RawNoteOutcome"/>, and the <see cref="ProblemsWithTheProfile"/>, all found before<br/>
+/// <see cref="ExecuteUnlessOutOfDate"/> changes anything.
 /// </summary>
 /// <remarks>
 /// Executing it turns each raw note that <see cref="RawNoteOutcome.WillBeImported"/> into a corpus sentence and stores its media in the media layer, the audio<br/>
@@ -25,6 +26,8 @@ namespace JAStudio.Core.Importing;
 /// </remarks>
 public class ImportRun
 {
+   readonly ChecksAndExecutionsOfImportRuns _checksAndExecutions;
+   readonly int _numberOfExecutedRunsAtItsCheck;
    readonly IAnkiRawNotes _ankiRawNotes;
    readonly NoteServices _noteServices;
    readonly MediaFileIndex _mediaFileIndex;
@@ -33,9 +36,14 @@ public class ImportRun
    readonly TaskRunner _taskRunner;
    readonly List<SentenceNote> _importedSentences = [];
 
+   /// <summary>
+   /// Created by <see cref="Importer.Prepare"/> at the end of the run's check, so the <see cref="ChecksAndExecutionsOfImportRuns.NumberOfExecutedRuns"/> it notes<br/>
+   /// is the one at its check.
+   /// </summary>
    internal ImportRun(ImportProfile profile,
                       IReadOnlyList<ImportProfileProblem> problemsWithTheProfile,
                       IReadOnlyList<CheckedRawNote> checkedRawNotes,
+                      ChecksAndExecutionsOfImportRuns checksAndExecutions,
                       IAnkiRawNotes ankiRawNotes,
                       NoteServices noteServices,
                       MediaFileIndex mediaFileIndex,
@@ -46,6 +54,8 @@ public class ImportRun
       Profile = profile;
       ProblemsWithTheProfile = problemsWithTheProfile;
       CheckedRawNotes = checkedRawNotes;
+      _checksAndExecutions = checksAndExecutions;
+      _numberOfExecutedRunsAtItsCheck = checksAndExecutions.NumberOfExecutedRuns;
       _ankiRawNotes = ankiRawNotes;
       _noteServices = noteServices;
       _mediaFileIndex = mediaFileIndex;
@@ -62,7 +72,7 @@ public class ImportRun
    /// <summary>Every raw note the profile selected: the notes of its note type that its search finds, those an earlier run imported included.</summary>
    public IReadOnlyList<CheckedRawNote> CheckedRawNotes { get; }
 
-   /// <summary>The sentences <see cref="Execute"/> imported, in the order of their raw notes. Empty before it's executed.</summary>
+   /// <summary>The sentences <see cref="ExecuteUnlessOutOfDate"/> imported, in the order of their raw notes. Empty before it's executed.</summary>
    public IReadOnlyList<SentenceNote> ImportedSentences => _importedSentences;
 
    public IReadOnlyList<CheckedRawNote> With(RawNoteOutcome outcome) => [.. CheckedRawNotes.Where(it => it.Outcome == outcome)];
@@ -73,10 +83,24 @@ public class ImportRun
    /// <summary>Whether executing does anything: nothing stops it, and some raw note <see cref="RawNoteOutcome.WillBeImported"/>.</summary>
    public bool HasNotesToImportAndNoProblems => CanExecute && With(RawNoteOutcome.WillBeImported).Count > 0;
 
-   public void Execute()
+   /// <summary>
+   /// Whether another run was executed after this one's check, this one included once it's executed. The other run may have imported what the check found<br/>
+   /// missing from JAStudio, so executing this one could import the same raw notes twice: it's checked again instead.
+   /// </summary>
+   public bool IsOutOfDate => _checksAndExecutions.NumberOfExecutedRuns != _numberOfExecutedRunsAtItsCheck;
+
+   /// <summary>
+   /// Imports the raw notes that <see cref="RawNoteOutcome.WillBeImported"/>, unless the run <see cref="IsOutOfDate"/>, once a check or an execution under way<br/>
+   /// has finished. Says whether it executed the run: an out-of-date run is checked again instead.
+   /// </summary>
+   public bool ExecuteUnlessOutOfDate()
    {
       Contract.State.Assert(CanExecute, () => $"The import run of {Profile.Name} has problems.");
+      return _checksAndExecutions.ExecuteUnlessOutOfDate(this, Execute);
+   }
 
+   void Execute()
+   {
       var notesToImport = With(RawNoteOutcome.WillBeImported).Select(it => it.RawNote).ToList();
       using var scope = _taskRunner.Current($"Importing with the import profile {Profile.Name}");
       scope.RunBatch(notesToImport, Import, "Importing raw notes");
