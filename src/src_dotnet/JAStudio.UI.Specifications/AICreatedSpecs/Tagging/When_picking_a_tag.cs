@@ -37,7 +37,7 @@ public class When_picking_a_tag : IAIGeneratedSpec
 
       [XF] public void a_name_with_an_empty_level_is_no_new_tag() => PickerThatOffersANewTag("todo::::check").Choices.Must().BeEmpty();
 
-      [XF] public void a_jastudio_defined_tag_is_no_new_tag() => PickerThatOffersANewTag("_uk").Choices.Must().BeEmpty();
+      [XF] public void a_jastudio_defined_tag_is_no_new_tag() => PickerThatOffersANewTag("_tts_audio").Choices.Must().BeEmpty();
    }
 
    public class that_does_not_offer_the_typed_text_as_a_new_tag : When_picking_a_tag

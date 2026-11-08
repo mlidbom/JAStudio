@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JamdictEx;
-using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -23,7 +21,7 @@ public class VocabNoteGeneratedData
       if(string.IsNullOrEmpty(readings) && KanaUtils.IsOnlyKana(question))
       {
          vocab.SetReadings([question]);
-         vocab.Tags.Set(Tags.UsuallyKanaOnly);
+         vocab.UsuallyWrittenInKana.DecideAsYesUnlessDecided();
       }
 
       if(vocab.CompoundParts.All().Count == 0 && vocab.PartsOfSpeech.IsSuruVerbIncluded())
@@ -39,17 +37,9 @@ public class VocabNoteGeneratedData
 
          if(vocab.GetReadings().Any() && !speechTypes.Any())
          {
-            TagAsUsuallyKanaOnlyIfTheDictionarySaysSo(vocab, _dictLookup.LookupVocabWordOrName(vocab));
+            if(_dictLookup.LookupVocabWordOrName(vocab).IsUk()) vocab.UsuallyWrittenInKana.DecideAsYesUnlessDecided();
             vocab.PartsOfSpeech.SetAutomaticallyFromDictionary();
          }
-      }
-   }
-
-   static void TagAsUsuallyKanaOnlyIfTheDictionarySaysSo(VocabNote vocab, DictLookupResult lookup)
-   {
-      if(lookup.IsUk() && !vocab.Tags.Contains(Tags.DisableKanaOnly))
-      {
-         vocab.Tags.Set(Tags.UsuallyKanaOnly);
       }
    }
 }

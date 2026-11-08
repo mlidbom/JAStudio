@@ -17,6 +17,8 @@ public partial class VocabDto : CorpusNoteDto
    public string PartsOfSpeech { get; init; } = string.Empty;
    /// <summary>The names of the vocab's <see cref="Note.Vocabulary.VocabNoteRegister"/> flags that are set.</summary>
    public List<string> Register { get; init; } = [];
+   /// <summary>The vocab's <see cref="Note.Vocabulary.VocabNoteUsuallyWrittenInKana.Decision"/>: true for yes, false for no, and null while it's undecided.</summary>
+   public bool? UsuallyWrittenInKana { get; init; }
    public string AudioB { get; init; } = string.Empty;
    public string AudioG { get; init; } = string.Empty;
    public string AudioTTS { get; init; } = string.Empty;

@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.UsuallyWrittenInKanaEditor"
+             x:DataType="editors:UsuallyWrittenInKanaEditorViewModel">
+    <!-- The radio buttons have no GroupName: they group with their siblings. -->
+    <Grid ColumnDefinitions="170,*">
+        <TextBlock Grid.Column="0" Text="Usually written in kana" VerticalAlignment="Center" Margin="0,0,6,0"
+                   ToolTip.Tip="Shown as &quot;uk&quot;. While it's undecided, JAStudio may decide it as yes when it generates the vocab's data, as it does for a question that's all kana" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+            <RadioButton Content="Undecided" IsChecked="{Binding IsUndecided, Mode=TwoWay}" />
+            <RadioButton Content="Yes" IsChecked="{Binding IsYes, Mode=TwoWay}" />
+            <RadioButton Content="No" IsChecked="{Binding IsNo, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

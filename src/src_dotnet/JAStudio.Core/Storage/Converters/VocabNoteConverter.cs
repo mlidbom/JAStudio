@@ -22,6 +22,7 @@ static class VocabNoteConverter
                 Readings = note.GetReadings(),
                 PartsOfSpeech = note.PartsOfSpeech.RawStringValue(),
                 Register = note.Register.ToDto(),
+                UsuallyWrittenInKana = note.UsuallyWrittenInKana.ToDto(),
                 AudioB = note.Audio.First.RawValue(),
                 AudioG = note.Audio.Second.RawValue(),
                 AudioTTS = note.Audio.Tts.RawValue(),

@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
              xmlns:taggingViews="clr-namespace:JAStudio.UI.Views.Workspace.Tagging"
              x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMetadataEditor"
              x:DataType="editors:VocabMetadataEditorViewModel">
@@ -11,6 +12,7 @@
             <Border Classes="section">
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Misc" />
+                    <editorViews:UsuallyWrittenInKanaEditor DataContext="{Binding UsuallyWrittenInKana}" Margin="0,0,0,4" />
                     <ItemsControl ItemsSource="{Binding MiscFlags}" />
                 </StackPanel>
             </Border>

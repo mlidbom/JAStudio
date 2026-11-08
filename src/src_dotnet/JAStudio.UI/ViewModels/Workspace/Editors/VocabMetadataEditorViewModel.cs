@@ -27,6 +27,7 @@ class VocabMetadataEditorViewModel
       _currentVocab = currentVocab;
       Tags = new NoteTagsEditorViewModel(services, currentVocab);
 
+      UsuallyWrittenInKana = new UsuallyWrittenInKanaEditorViewModel(_fatalErrorHandler, () => _currentVocab().UsuallyWrittenInKana);
       MiscFlags = [Flag("Compositionally transparent compound", it => it.MatchingConfiguration.Flags.IsCompositionallyTransparentCompound)];
       RegisterFlags =
       [
@@ -47,14 +48,16 @@ class VocabMetadataEditorViewModel
       ];
    }
 
+   public UsuallyWrittenInKanaEditorViewModel UsuallyWrittenInKana { get; }
    public IReadOnlyList<FlagEditorViewModel> MiscFlags { get; }
    public IReadOnlyList<FlagEditorViewModel> RegisterFlags { get; }
 
    public NoteTagsEditorViewModel Tags { get; }
 
-   /// <summary>Shows every flag, and the tags, as the note has them now, after a change made elsewhere.</summary>
+   /// <summary>Shows whether the vocab is usually written in kana, every flag, and the tags, as the note has them now, after a change made elsewhere.</summary>
    public void Refresh()
    {
+      UsuallyWrittenInKana.Refresh();
       foreach(var flag in MiscFlags) flag.Refresh();
       foreach(var flag in RegisterFlags) flag.Refresh();
       Tags.Refresh();

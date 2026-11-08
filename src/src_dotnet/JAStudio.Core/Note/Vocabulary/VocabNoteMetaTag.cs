@@ -25,7 +25,6 @@ static class VocabNoteMetaTagFormatter
    public static string GetMetaTagsHtml(VocabNote vocab, bool displayExtendedSentenceStatistics = true, bool noSentenceStatistics = false)
    {
       var tags = vocab.Tags;
-      var tagNames = tags.Select(t => t.Name).ToHashSet();
       var meta = new List<VocabMetaTag>();
       var tos = vocab.PartsOfSpeech.RawStringValue()
                      .Split(',')
@@ -70,7 +69,7 @@ static class VocabNoteMetaTagFormatter
       }
 
       // Overarching info
-      if(tagNames.Contains("_uk")) meta.Add(new VocabMetaTag("uk", "uk", "usually written using kana only"));
+      if(vocab.UsuallyWrittenInKana.IsYes) meta.Add(new VocabMetaTag("uk", "uk", "usually written using kana only"));
       if(tos.Contains(POS.Expression)) meta.Add(new VocabMetaTag(POS.Expression, "x", "expression"));
       if(tos.Contains(POS.Abbreviation)) meta.Add(new VocabMetaTag("abbreviation", "abbr", "abbreviation"));
       if(tos.Contains(POS.Auxiliary)) meta.Add(new VocabMetaTag("auxiliary", "aux", "auxiliary"));

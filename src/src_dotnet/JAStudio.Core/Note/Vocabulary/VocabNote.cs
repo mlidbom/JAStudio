@@ -40,6 +40,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public Vocabulary.RelatedVocab.RelatedVocab RelatedNotes { get; }
    public VocabNoteMetaData MetaData { get; }
    public VocabNoteRegister Register { get; }
+   public VocabNoteUsuallyWrittenInKana UsuallyWrittenInKana { get; }
    public VocabNoteAudio Audio { get; }
    public VocabNoteMatchingConfiguration MatchingConfiguration { get; }
    public VocabCloner Cloner { get; }
@@ -74,6 +75,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
+      UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
       Audio = new VocabNoteAudio(data, Guard);
       MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
       Cloner = new VocabCloner(this);

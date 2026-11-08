@@ -329,6 +329,7 @@ editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`
 
 *2026-11-08 (slice 4a): the requires/forbids flags, the boolean matching flags and the register are the vocab's own data
 now, not tags (see [Vocab](#vocab)). What's left as tags is `_uk`, `_disable_uk`, `_tts_audio` and the source.*
+*Slice 4b: `_uk` and `_disable_uk` became the vocab's `usuallyWrittenInKana`. What's left is `_tts_audio` and the source.*
 
 ### Persisted-derived-data
 
@@ -418,6 +419,7 @@ should drive its JSON key, not the reverse.
   "compoundParts": { "primary": [], "alternative": [] },
   "partsOfSpeech": ["godan verb", "transitive verb"],
   "register": [],
+  "usuallyWrittenInKana": null,
   "explanation": { "short": "", "long": "" },
   "mnemonic": "",
   "matching": {
@@ -451,6 +453,15 @@ What disappears from vocab JSON:
 - `activeAnswer` and `sentenceCount` (persisted-derived-data);
 - `audioB`, `audioG`, `audioTTS`, `image`, `userImage` (media; see [Media](#media-open));
 - every configuration tag, which moves into `matching`, `register` and `source`.
+
+**`usuallyWrittenInKana` is as above since 2026-11-08 (slice 4b):** true, false, or null while undecided, placed after
+`register`. It replaced the tags `_uk` (true) and `_disable_uk` (false); the three vocab with both, つづり, ていく and いく,
+became true, since `_disable_uk` had no effect once `_uk` was set. While it's null, generating the vocab's data may set it
+to true, and once it's decided it's never changed automatically (Magnus, 2026-11-08). The editor shows it as Undecided,
+Yes and No, and true shows as "uk" on the vocab page and in the sentence breakdown. **Found while doing it:** the
+dictionary half of the automatic decision never runs. Its condition is that the vocab has no parts of speech, but an
+empty parts of speech parses as `{""}`, never an empty set, so only a kana-only question without readings sets it. That's
+been so since before the slice, which kept it as it was.
 
 **`register` and `matching` are as above since 2026-11-08 (slice 4a).** `register` is placed after `partsOfSpeech`.
 `requiredOrForbidden` holds only the require/forbid rules that are set, each under its name (`RequireForbidFlagField.Name`),
@@ -635,7 +646,7 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
 - **Not yet classified:** `active_kanji` (1,531 kanji), `preparing-cards` (20), `tmp` (18), `-::TODO…` (about 40).
 - **Corpus-tags:**
   - `source::…`;
-  - labels about the words, such as `-::counting`, `-::formal-noun`, `_uk`;
+  - labels about the words, such as `-::counting`, `-::formal-noun`, ~~`_uk`~~ *(the vocab's `usuallyWrittenInKana` since slice 4b)*;
   - `_tts_audio` and `fixed_primary_readings`;
   - ~~the matching configuration~~, *moved out of tags 2026-11-08 (slice 4a), with the register*;
   - the generated tags that don't depend on studying, which go in slice 6.
@@ -838,11 +849,10 @@ Progress on step 3:
         along because it's the same mechanism (`FlagField`), which retired the tag-backed `TagFlagField`. The full rebuild
         changed nothing. The matching configuration's own design is up for a major refactoring later, to a flexible tree
         structure resembling the note search's (Magnus, 2026-11-08), so its type names weren't polished here.*
-      - 4b, `_uk`, `_disable_uk` and `_tts_audio`. `VocabNoteGeneratedData` sets `_uk` itself from the dictionary, unless
-        the vocab has `_disable_uk`, so `_uk` may be persisted-derived-data rather than configuration, and `_tts_audio`
-        may be media. The workspace can't set `_disable_uk` today, since its tag pickers refuse jastudio-defined-tags. It
-        must come back in some form (Magnus, 2026-11-08): it has to stay possible to stop JAStudio insisting that a vocab is
-        usually written in kana when the dictionary lookup got it wrong.
+      - 4b, `_uk` and `_disable_uk`. *Done 2026-11-08, as a pure refactoring: see [Vocab](#vocab). The workspace can set
+        both again: the tag pickers refused them as jastudio-defined-tags, and the Metadata tab now has Undecided, Yes and No
+        (Magnus: it must stay possible to stop JAStudio insisting that a vocab is usually written in kana).* `_tts_audio`
+        moved to slice 6.
       - 4c, source, with the TODO below.
       **TODO, decided to do here (Magnus, 2026-11-08): untangle the provider from the work in the data.** "Source" mixes
       two levels today: the *provider* a note was imported from (WaniKani, jamdict, the JLab deck, Immersion Kit) and the
@@ -854,7 +864,11 @@ Progress on step 3:
       `source::jlab::booster::1` and `source::jlab::inter`, 233 in `source::anime::violet::07` and `::08`. (A parent
       tag together with its child, as `source::wani` with `source::wani::current` on 14,567 sentences, is one source.)
    5. Priority out of the corpus, as student-data (see [Tags](#tags)).
-   6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags.
+   6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags. Also `_tts_audio`, if
+      the media decides it: nothing sets the tag, not even JAStudio's own text-to-speech, while the vocab page reads it to
+      mark sentences and to list those with text-to-speech audio after those with native audio. Check against the 14,607
+      sentences and 245 vocab tagged whether the audio file (a HyperTTS file name, or JAStudio's text-to-speech folder)
+      says the same.
    7. Kanji readings and parts of speech.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
       pickers to replace the related-vocab JSON text box.

@@ -79,14 +79,12 @@ public static class Tags
       public static readonly Tag Jamdict = Tag.FromName(FSource + "jamdict");
    }
 
-   public static readonly Tag DisableKanaOnly = Tag.FromName("_disable_uk");
-   public static readonly Tag UsuallyKanaOnly = Tag.FromName("_uk");
    public static readonly Tag TTSAudio = Tag.FromName("_tts_audio");
 
    /// <summary>
    /// Whether the tag named <paramref name="tagName"/>, ignoring case, is a jastudio-defined-tag: one of the tags defined here,<br/>
-   /// in <see cref="Tags"/> and its nested classes. Most are generated, such as <see cref="Kanji.InAnyVocabForm"/>, and a few hold configuration,<br/>
-   /// such as <see cref="DisableKanaOnly"/>. So they aren't added to or removed from notes by hand: a generated tag would be overwritten.
+   /// in <see cref="Tags"/> and its nested classes. Most are generated, such as <see cref="Kanji.InAnyVocabForm"/>, and a few hold data JAStudio reads,<br/>
+   /// such as <see cref="TTSAudio"/>. So they aren't added to or removed from notes by hand: a generated tag would be overwritten.
    /// </summary>
    public static bool IsDefinedByJAStudio(string tagName) => NamesOfTheTagsDefinedByJAStudio.Value.Contains(tagName);
 

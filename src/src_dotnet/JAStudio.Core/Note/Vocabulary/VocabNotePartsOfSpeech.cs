@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Storage.Dto;
-using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -32,7 +31,7 @@ public class VocabNotePartsOfSpeech
       SetRawStringValue(string.Join(",", value));
    }
 
-   public HashSet<string> Get() => POSSetManager.Get(RawStringValue()).ToHashSet();
+   public HashSet<string> Get() => [.. POSSetManager.Get(RawStringValue())];
 
    public bool IsIchidan() => Get().Contains(POS.IchidanVerb);
    public bool IsGodan() => Get().Contains(POS.GodanVerb);
@@ -58,8 +57,6 @@ public class VocabNotePartsOfSpeech
       return GaSuruNiSuruEndings.Contains(ending);
    }
 
-   public bool IsUk() => Vocab.Tags.Contains(Tags.UsuallyKanaOnly);
-
    public void SetAutomaticallyFromDictionary()
    {
       var lookup = Vocab.Services.DictLookup.LookupVocabWordOrName(Vocab);
@@ -83,14 +80,14 @@ public class VocabNotePartsOfSpeech
    {
       var compounds = Vocab.CompoundParts.Primary();
       if(compounds.Count == 0) return false;
-      return AnalysisConstants.PassiveVerbEndings.Contains(compounds[compounds.Count - 1]);
+      return AnalysisConstants.PassiveVerbEndings.Contains(compounds[^1]);
    }
 
    public bool IsCausativeVerbCompound()
    {
       var compounds = Vocab.CompoundParts.Primary();
       if(compounds.Count == 0) return false;
-      return AnalysisConstants.CausativeVerbEndings.Contains(compounds[compounds.Count - 1]);
+      return AnalysisConstants.CausativeVerbEndings.Contains(compounds[^1]);
    }
 
    public bool IsCompleteNaAdjective() => Vocab.Question.Text.EndsWith("な") && Get().Contains(POS.NaAdjective);

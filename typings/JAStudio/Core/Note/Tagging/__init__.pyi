@@ -66,10 +66,8 @@ class TagBranchRename:
 
 
 class Tags(abc.ABC):
-    DisableKanaOnly : Tag
     PriorityFolder : str
     TTSAudio : Tag
-    UsuallyKanaOnly : Tag
     @staticmethod
     def IsDefinedByJAStudio(tagName: str) -> bool: ...
 

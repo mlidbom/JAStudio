@@ -34,8 +34,8 @@ public class When_naming_a_tag : IAIGeneratedSpec
    public class defined_by_jastudio : When_naming_a_tag
    {
       [XF] public void a_tag_defined_in_a_nested_class_is() => Tags.IsDefinedByJAStudio(Tags.Vocab.Matching.Uses.PrefixIsNot.Name).Must().BeTrue();
-      [XF] public void a_tag_defined_at_the_top_is() => Tags.IsDefinedByJAStudio("_uk").Must().BeTrue();
-      [XF] public void case_is_ignored() => Tags.IsDefinedByJAStudio("_UK").Must().BeTrue();
+      [XF] public void a_tag_defined_at_the_top_is() => Tags.IsDefinedByJAStudio("_tts_audio").Must().BeTrue();
+      [XF] public void case_is_ignored() => Tags.IsDefinedByJAStudio("_TTS_AUDIO").Must().BeTrue();
       [XF] public void a_tag_a_person_applies_is_not() => Tags.IsDefinedByJAStudio("source::anime::natsume").Must().BeFalse();
    }
 }
