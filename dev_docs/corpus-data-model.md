@@ -792,9 +792,11 @@ once, from throwaway code that isn't kept, on a copy of the Anki collection.
   endings expanded where the corpus keeps the placeholder. Two vocab differ for real: `でいられる` has the alternative
   compound parts `[でいる]` and `[られる]` in Anki only, and one vocab's answer is reordered in the corpus.
 - **Fields only Anki holds,** and what becomes of them:
-  - kanji `_image` (71 kanji) and `__audio` (1,657 kanji): *dropped with the trim* (Magnus). JAStudio doesn't target
-    studying kanji in isolation, images would have to be made for every kanji to be worth having, and the audio can
-    be computed;
+  - kanji `__audio` (1,657 kanji): *dropped with the trim* (Magnus). JAStudio doesn't target studying kanji in
+    isolation, and the audio can be computed from the kanji's vocab;
+  - kanji `_image` (71 kanji, 80 images): *kept,* as the kanji's `Image`, a field JAStudio only carries (Magnus: keep
+    for now whatever is easy to keep, to be safe). Unlike the audio, an image can't be made again. Its files count as
+    used by the kanji (`KanjiNote.MediaReferences`), so deleting another note never deletes them;
   - kanji `_primary_readings_tts_audio`: dropped, as planned (step 1);
   - sentence `Source` (5,772 sentences): the work or deck a sentence came from, such as JLab's "Shirokuma Cafe", which
     no tag records for JLab's 3,009 sentences. *Kept,* as the sentence's `SourceName`, a field JAStudio only carries

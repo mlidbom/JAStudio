@@ -28,6 +28,9 @@ public class KanjiNote : JPNote
    public WritableStringValue UserMnemonic { get; }
    public WritableStringValue KanjiReferences { get; }
 
+   /// <summary>An image for the kanji, which only a few have: see <see cref="KanjiData.Image"/>.</summary>
+   public WritableImageValue Image { get; }
+
    readonly WritableStringValue _question;
    readonly WritableStringValue _radicalsRaw;
    readonly WritableStringValue _primaryVocabRaw;
@@ -49,6 +52,7 @@ public class KanjiNote : JPNote
       SourceMeaningMnemonic = new WritableStringValue(data?.SourceMeaningMnemonic ?? string.Empty, Guard);
       UserMnemonic = new WritableStringValue(data?.UserMnemonic ?? string.Empty, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
+      Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
       _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
       _primaryVocabRaw = new WritableStringValue(data?.PrimaryVocab != null ? string.Join(", ", data.PrimaryVocab) : string.Empty, Guard);
       _similarMeaningRaw = new WritableStringValue(data?.SimilarMeaning != null ? string.Join(", ", data.SimilarMeaning) : string.Empty, Guard);
@@ -452,7 +456,7 @@ public class KanjiNote : JPNote
 
    public List<VocabNote> GetVocabNotes() => Services.Collection.Vocab.WithKanjiInAnyForm(this);
 
-   public override List<MediaReference> MediaReferences => [];
+   public override List<MediaReference> MediaReferences => Image.GetMediaReferences();
 
    public List<VocabNote> GetVocabNotesSorted() =>
       VocabNoteSorting.SortVocabListByStudyingStatus(

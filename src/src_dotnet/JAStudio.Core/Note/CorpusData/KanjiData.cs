@@ -24,6 +24,16 @@ public partial class KanjiData : CorpusObjectData
    public List<string> SimilarMeaning { get; init; } = [];
    public List<string> ConfusedWith { get; init; } = [];
 
+   /// <summary>
+   /// An image for the kanji, as Anki's <c>&lt;img src="…"&gt;</c> markup, or empty. Only a few kanji have one: JAStudio only carries it, kept from<br/>
+   /// the Anki notes before they were trimmed, since an image can't be made again the way the kanji's audio can be computed.
+   /// </summary>
+   /// <remarks>
+   /// Declared last on purpose: the corpus's snapshot cache (MemoryPack) reads members by their position, and old snapshots read correctly only while<br/>
+   /// new members come after the existing ones.
+   /// </remarks>
+   public string Image { get; init; } = string.Empty;
+
    protected override NoteId CreateTypedId() => new KanjiId(Id);
 
    protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)

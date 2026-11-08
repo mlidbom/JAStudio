@@ -38,6 +38,13 @@
 
             <Border Classes="section">
                 <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Other" />
+                    <ItemsControl ItemsSource="{Binding OtherFields}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Tags" />
                     <taggingViews:NoteTagsEditor DataContext="{Binding Tags}" />
                 </StackPanel>

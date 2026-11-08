@@ -4,7 +4,7 @@ from System import Action, Guid, IDisposable, Func_2
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote, WritableAudioValue, VocabNoteFactory, VocabNoteGeneratedData
 from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
-from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue
+from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue, WritableImageValue
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Note.Tagging import NoteTags
 from JAStudio.Core.Note.CorpusData import CorpusObjectData, KanjiData
@@ -152,6 +152,8 @@ class KanjiNote(JPNote):
     def Collection(self) -> JPCollection: ...
     @property
     def Guard(self) -> NoteGuard: ...
+    @property
+    def Image(self) -> WritableImageValue: ...
     @property
     def KanjiReferences(self) -> WritableStringValue: ...
     @property

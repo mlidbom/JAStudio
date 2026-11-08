@@ -55,6 +55,10 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
          Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceAnswer),
          Field("Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceMeaningMnemonic)
       ];
+      OtherFields =
+      [
+         Field("Image", TextFieldFormat.Line, it => it.Image.RawValue(), (it, image) => it.Image.SetRawValue(image))
+      ];
       Tags = new NoteTagsEditorViewModel(services, CurrentKanji);
    }
 
@@ -69,6 +73,9 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The answer and mnemonic the kanji came with. The user's own, in <see cref="CoreFields"/>, take precedence over them.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
+   /// <summary>The kanji's image, as Anki's <c>&lt;img src="…"&gt;</c> markup (<see cref="KanjiNote.Image"/>).</summary>
+   public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
+
    public NoteTagsEditorViewModel Tags { get; }
 
    public void Refresh()
@@ -77,7 +84,7 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
       Tags.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..ReadingFields, ..RelatedFields, ..SourceFields];
+   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..ReadingFields, ..RelatedFields, ..SourceFields, ..OtherFields];
 
    TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<KanjiNote, WritableStringValue> field) =>
       Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));
