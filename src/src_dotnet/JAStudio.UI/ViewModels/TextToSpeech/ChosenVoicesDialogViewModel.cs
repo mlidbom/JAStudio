@@ -7,7 +7,7 @@ using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
-using JAStudio.TextToSpeech.Audio;
+using JAStudio.Audio;
 using JAStudio.UI.Views.TextToSpeech;
 
 namespace JAStudio.UI.ViewModels.TextToSpeech;

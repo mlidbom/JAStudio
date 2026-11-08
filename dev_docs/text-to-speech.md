@@ -67,7 +67,7 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
   order, and the first is the default.
 - **attempt** — one speech in the TTS dialog, numbered in the order generated (`SpeechAttemptViewModel`).
 - **normalizing** a speech — bringing it to ReplayGain's reference loudness, as `mp3gain /r /c` does, without
-  re-encoding it (`Mp3File.NormalizedToTheReplayGainReference`). See [Normalizing](#normalizing).
+  re-encoding it (`SynthesizedSpeech.NormalizedToTheReplayGainReference`). See [Normalizing](#normalizing).
 
 ## The tts-providers
 
@@ -217,49 +217,17 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
 
 ## Normalizing
 
-Every speech a voice gives JAStudio is normalized before anything else sees it (`TextToSpeechVoice.SpeakAsync`), so
-attempts and voice samples sound as loud as each other, and as the TTS audio HyperTTS made, which Magnus's script
-(`mp3gainBatchNormalizer`) normalized with `mp3gain -c -r`. It also lets an attempt sound the same as a HyperTTS file
-of the same speech: both got the same gain.
+Every speech a voice gives JAStudio is normalized before anything else sees it (`TextToSpeechVoice.SpeakAsync`,
+`SynthesizedSpeech.NormalizedToTheReplayGainReference`), so attempts and voice samples sound as loud as each other, and
+as the TTS audio HyperTTS made, which Magnus's script (`mp3gainBatchNormalizer`) normalized with `mp3gain -c -r`. It also
+lets an attempt sound the same as a HyperTTS file of the same speech: both got the same gain.
 
-- **How:** as mp3gain 1.4.6 does it, verified byte for byte (`JAStudio.TextToSpeech.Audio.Mp3` and `.Loudness`).
-  1. Measure how loud the file sounds, with ReplayGain 1's algorithm (`ReplayGainMeasurement`): an equal-loudness filter,
-     the loudness of each 50 ms window, and the loudness only 5% of them exceed. The result is the gain to the reference,
-     89 dB (`ReplayGain`).
-  2. Round it to whole steps of an MP3 frame's gain, 1.5 dB each, and add them to every frame's gains (`Mp3Frame`).
-     Nothing is decoded or re-encoded, so nothing is lost. Clipping is ignored, as `-c` does.
-  - mp3gain's tags, which record what it changed, aren't written.
-- **Why mp3gain's algorithm, not the newer EBU R128 (BS.1770):** R128 is the standard today and generally considered a
-  little better, but ~30,000 files were normalized by mp3gain, and new ones should match them. Switching later is
-  possible, and lossless, since it's only gains.
-- **No library does this in .NET** (searched 2026-11-07). The code follows ReplayGain's published algorithm and mp3gain's
-  frame handling, with mp3rgain, an MIT-licensed Rust port verified against mp3gain, as the reference
-  (<https://github.com/M-Igashi/mp3rgain>). The filter coefficients are generated from its copy of ReplayGain's tables.
-- **What mp3gain measures** took finding out, since its decoder (mpglib, from 2004) and JAStudio's (miniaudio) give
-  different samples otherwise (`Mp3File`):
-  - the frames between the tags, skipping anything between them, and frames of another MPEG version or sample rate;
-  - not a VBR header frame at the start, whose LAME data would make miniaudio trim the encoder's padding;
-  - not the last frame, which mpglib never puts out. On a two-second clip one frame decides which window is the
-    loudest 5%, so it moved the result by up to 2.5 dB.
-- **Verified** against mp3gain 1.4.6, the version Magnus's script uses:
-  - 12 fixtures, with mp3gain's results beside them (`JAStudio.TextToSpeech.Specifications/Mp3Fixtures`): 8 encoded
-    by `dev_scripts/generate-mp3-fixtures.cs` with `lame.exe`, and 4 Azure and Google files. They cover MPEG-1, -2 and
-    -2.5, mono and stereo, CBR and VBR, a CRC, ID3 and APE tags, silent granules, and two files joined by a tag.
-    Specified in `When_normalizing_mp3_files_to_the_replaygain_reference`.
-  - The media layer, up to 300 files per folder, by an explicit specification, run on purpose with `mp3gain.exe` named
-    by the `MP3GAIN` environment variable (`When_normalizing_the_media_layers_mp3_files_as_mp3gain_does`).
-  - On 2026-11-07, 7,565 files: every one came out byte for byte as mp3gain made it, but for the exceptions below.
-- **Known exceptions:**
-  - **A file starting with a frame whose audio data is missing**, as in clips ffmpeg cut, whose first frame's data was
-    in a frame ffmpeg overwrote with its VBR header: mpglib drops only that frame, miniaudio drops every frame lacking
-    data, so the windows shift. 121 of the 1,472 such files in the media layer, all anime clips but two, got a gain one
-    step apart. TTS files don't start so.
-  - **A file whose frames have a CRC:** mp3gain 1.4.6 measures it differently from the same audio without one, which
-    looks like a bug in its decoder, and JAStudio doesn't copy it. Its frames' gains and CRCs are changed exactly as
-    mp3gain changes them. None turned up in the media layer.
-- **Not verified yet: what Magnus's script does to a JAStudio file.** Kept files go into Anki's media folder, which the
-  script normalizes. They carry no mp3gain tags, so mp3gain measures them, finds them at the reference, and may add its
-  tags, so that Anki's copy differs from the media layer's.
+The normalizing is `Mp3LoudnessNormalization`'s, a library knowing nothing of JAStudio that does what mp3gain does, byte
+for byte: see [mp3-loudness-normalization.md](mp3-loudness-normalization.md).
+
+**Magnus's script skips JAStudio's files** (2026-11-08). Kept files go into Anki's media folder, which the script
+normalizes. Tried on 2026-11-08: mp3gain finds a JAStudio file needs no change, but adds its tag, of 174 bytes, so Anki's
+copy would differ from the media layer's. So the script leaves out `jastudio-tts-*.mp3`.
 
 ## The text spoken
 

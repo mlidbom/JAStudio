@@ -1,5 +1,5 @@
 using System;
-using JAStudio.TextToSpeech.Audio.Mp3;
+using Mp3LoudnessNormalization;
 
 namespace JAStudio.TextToSpeech;
 

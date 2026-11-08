@@ -25,7 +25,8 @@
    </ItemGroup>
 
    <ItemGroup>
-      <None Include="Mp3Fixtures\**" CopyToOutputDirectory="PreserveNewest" />
+      <!-- Speech as a service sent it, for the fake of its web service to answer with. -->
+      <None Include="SpeechFromTheServices\**" CopyToOutputDirectory="PreserveNewest" />
    </ItemGroup>
 
 </Project>

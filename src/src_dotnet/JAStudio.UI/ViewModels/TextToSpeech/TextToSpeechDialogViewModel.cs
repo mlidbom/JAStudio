@@ -10,7 +10,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
-using JAStudio.TextToSpeech.Audio;
+using JAStudio.Audio;
 using JAStudio.UI.Views.TextToSpeech;
 
 namespace JAStudio.UI.ViewModels.TextToSpeech;

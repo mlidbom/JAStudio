@@ -7,8 +7,8 @@
    </PropertyGroup>
 
    <ItemGroup>
-      <!-- Plays and decodes the synthesized speech, on every platform JAStudio runs on: see dev_docs/text-to-speech.md. -->
-      <PackageReference Include="SoundFlow" Version="1.4.2" />
+      <!-- Every voice's speech is normalized as mp3gain normalized the TTS audio HyperTTS made: see dev_docs/text-to-speech.md. -->
+      <ProjectReference Include="..\Mp3LoudnessNormalization\Mp3LoudnessNormalization.csproj" />
    </ItemGroup>
 
 </Project>

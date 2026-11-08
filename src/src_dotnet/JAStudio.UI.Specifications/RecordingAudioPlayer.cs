@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JAStudio.TextToSpeech.Audio;
+using JAStudio.Audio;
 
 namespace JAStudio.UI.Specifications;
 

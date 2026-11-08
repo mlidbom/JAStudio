@@ -28,6 +28,7 @@
       <ProjectReference Include="..\JAStudio.Anki\JAStudio.Anki.csproj" />
       <ProjectReference Include="..\JAStudio.Core\JAStudio.Core.csproj" />
       <ProjectReference Include="..\JAStudio.TextToSpeech\JAStudio.TextToSpeech.csproj" />
+      <ProjectReference Include="..\JAStudio.Audio\JAStudio.Audio.csproj" />
    </ItemGroup>
 
    <ItemGroup>

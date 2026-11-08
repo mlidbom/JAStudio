@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using JAStudio.TextToSpeech;
-using JAStudio.TextToSpeech.Audio;
+using JAStudio.Audio;
 
 namespace JAStudio.UI.ViewModels.TextToSpeech;
 

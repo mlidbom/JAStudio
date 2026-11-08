@@ -8,7 +8,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
-using JAStudio.TextToSpeech.Audio;
+using JAStudio.Audio;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.TextToSpeech;
 

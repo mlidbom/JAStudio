@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+   <!-- Brings MP3 files to ReplayGain's reference loudness as mp3gain does, byte for byte, without re-encoding them.
+        It knows nothing of JAStudio: see dev_docs/mp3-loudness-normalization.md. -->
+   <PropertyGroup>
+      <TargetFramework>net10.0</TargetFramework>
+      <ImplicitUsings>disable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <!-- Decodes the frames it measures, with miniaudio, on every platform. -->
+      <PackageReference Include="SoundFlow" Version="1.4.2" />
+   </ItemGroup>
+
+</Project>

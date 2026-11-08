@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Media;
-using JAStudio.TextToSpeech.Audio;
+using JAStudio.Audio;
 
 namespace JAStudio.UI.ViewModels.TextToSpeech;
 

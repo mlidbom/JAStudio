@@ -9,6 +9,11 @@
 - `JAStudio.Anki/` — C#-side Anki integration utilities (no direct pythonnet — that belongs in PythonInterop)
 - `JAStudio.Web/` — in-process Kestrel/Blazor card-rendering server (see `dev_docs/web-rendering-architecture.md`)
 - `JAStudio.Dictionary/` — Japanese dictionary integration
+- `JAStudio.TextToSpeech/` — JAStudio's own TTS: the tts-providers (Azure, Google), voices and settings (see
+  `dev_docs/text-to-speech.md`)
+- `JAStudio.Audio/` — decoding, comparing and playing audio, with SoundFlow, for the UI
+- `Mp3LoudnessNormalization/` — brings MP3 files to ReplayGain's reference loudness as mp3gain does, byte for byte;
+  knows nothing of JAStudio (see `dev_docs/mp3-loudness-normalization.md`)
 - `*.Specifications/` projects (`JAStudio.Core.Specifications/`, `JAStudio.UI.Specifications/`,
   `JAStudio.Web.Specifications/`, …) — xUnit v3 black-box specs
 
