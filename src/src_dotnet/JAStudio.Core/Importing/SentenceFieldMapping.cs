@@ -20,6 +20,9 @@ public class SentenceFieldMapping
    /// <summary>The raw note's id in its source, such as Immersion Kit's <c>anime_the_garden_of_words_000000346</c>, or a subs2srs id.</summary>
    public string ExternalId { get; set; } = "";
 
+   /// <summary>The name of the work or deck the raw note came from, such as a JLab note's <c>Source</c>: see <see cref="SentenceData.SourceName"/>.</summary>
+   public string SourceName { get; set; } = "";
+
    public string SourceComments { get; set; } = "";
    public string Audio { get; set; } = "";
    public string Screenshot { get; set; } = "";
@@ -28,7 +31,7 @@ public class SentenceFieldMapping
 
    /// <summary>The names of the raw note type's fields this mapping takes values from.</summary>
    public IEnumerable<string> MappedAnkiFields() =>
-      new[] { SourceQuestion, SourceAnswer, Reading, ExternalId, SourceComments, Audio, Screenshot }.Where(it => it != "");
+      new[] { SourceQuestion, SourceAnswer, Reading, ExternalId, SourceName, SourceComments, Audio, Screenshot }.Where(it => it != "");
 
    /// <summary>The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, with its own tags and <paramref name="tagsToAdd"/>.</summary>
    public SentenceData SentenceDataFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
@@ -38,6 +41,7 @@ public class SentenceFieldMapping
       SourceAnswer = rawNote.Field(SourceAnswer),
       Reading = rawNote.Field(Reading),
       ExternalId = rawNote.Field(ExternalId),
+      SourceName = rawNote.Field(SourceName),
       SourceComments = rawNote.Field(SourceComments),
       Audio = rawNote.Field(Audio),
       Screenshot = rawNote.Field(Screenshot),

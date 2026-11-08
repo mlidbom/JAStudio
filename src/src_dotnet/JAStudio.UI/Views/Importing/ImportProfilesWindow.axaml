@@ -57,7 +57,7 @@
                                 <Grid ColumnDefinitions="5*,24,7*">
                                     <StackPanel Grid.Column="0" Spacing="4">
                                         <TextBlock Classes="heading" Text="Each sentence field takes its value from" />
-                                        <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="4">
+                                        <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="4">
                                             <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Source question" />
                                             <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceQuestion}" />
                                             <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Source answer" />
@@ -66,12 +66,15 @@
                                             <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Reading}" />
                                             <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="External id" />
                                             <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding ExternalId}" />
-                                            <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Source comments" />
-                                            <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceComments}" />
-                                            <TextBlock Grid.Row="5" Grid.Column="0" Classes="label" Text="Audio" />
-                                            <ComboBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Audio}" />
-                                            <TextBlock Grid.Row="6" Grid.Column="0" Classes="label" Text="Screenshot" />
-                                            <ComboBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Screenshot}" />
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Source name" />
+                                            <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceName}"
+                                                      ToolTip.Tip="The name of the work or deck the sentence came from, such as Shirokuma Cafe" />
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Classes="label" Text="Source comments" />
+                                            <ComboBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceComments}" />
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Classes="label" Text="Audio" />
+                                            <ComboBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Audio}" />
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Classes="label" Text="Screenshot" />
+                                            <ComboBox Grid.Row="7" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Screenshot}" />
                                         </Grid>
                                     </StackPanel>
 

@@ -18,6 +18,10 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    public SentenceUserFields User { get; }
 
    public WritableStringValue ExternalId { get; }
+
+   /// <summary>The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>: see <see cref="SentenceData.SourceName"/>.</summary>
+   public WritableStringValue SourceName { get; }
+
    public WritableStringValue Reading { get; }
    public WritableStringValue SourceQuestion { get; }
    public WritableStringValue ActiveQuestion { get; }
@@ -35,6 +39,7 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    public SentenceNote(NoteServices services, SentenceData? data = null) : base(services, data != null ? new SentenceId(data.Id) : SentenceId.New(), data?.Tags)
    {
       ExternalId = new WritableStringValue(data?.ExternalId ?? string.Empty, Guard);
+      SourceName = new WritableStringValue(data?.SourceName ?? string.Empty, Guard);
       Reading = new WritableStringValue(data?.Reading ?? string.Empty, Guard);
       SourceQuestion = new WritableStringValue(data?.SourceQuestion ?? string.Empty, Guard);
       ActiveQuestion = new WritableStringValue(data?.ActiveQuestion ?? string.Empty, Guard);

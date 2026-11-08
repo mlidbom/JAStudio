@@ -744,13 +744,17 @@ Progress on step 3:
 - *2026-11-07 and 08:* JAStudio generates its own TTS audio (`text-to-speech.md`), normalized as mp3gain normalized
   HyperTTS's (`mp3-loudness-normalization.md`), so Anki is no longer needed for TTS, and HyperTTS isn't used any more.
 - *2026-11-08:* checking the whole corpus is wanted (`corpus-validity.md`, a draft).
+- *2026-11-08:* the import flow is done (`import-profiles.md`), and JAStudio's own UI is complete enough for the model
+  phase (Magnus): what turns out missing gets added as it's found, without holding the model phase up. Mobile-review
+  is deferred (step 2): Magnus doesn't review on mobile now, and adding it later should be simple. The checks before
+  the trim are done (see [Before the trim](#before-the-trim-2026-11-08)).
 
 1. **Remove the kanji primary-readings TTS** (deferred). This happens almost entirely on the Anki side:
    - delete the kanji HyperTTS presets;
    - delete the `_primary_readings_tts_audio` field.
 
    On the JAStudio side the only trace is one line in `JAStudio.Web/Styles/notes/kanji/kanji.mustache`.
-2. **Install the mobile-review card templates** in Anki (deferred; the existing templates stay for now): the
+2. **Install the mobile-review card templates** in Anki (deferred, 2026-11-08: Magnus doesn't review on mobile now; the existing templates stay for now): the
    committed minimal templates plus the generated-html-field. On desktop the add-on still replaces or covers
    them. This step needs open question 1. See
    [What the card templates actually use](#what-the-card-templates-actually-use).
@@ -775,6 +779,28 @@ Progress on step 3:
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
       pickers to replace the related-vocab JSON text box.
    9. Media, once the points under [Media](#media-open) are settled.
+
+### Before the trim (2026-11-08)
+
+Before step 4 deletes the Anki fields, the corpus was checked against Anki, so that anything only Anki held could still
+be saved (Magnus: anything we need the Anki data to fix has to turn up before the Anki data is deleted). The checks ran
+once, from throwaway code that isn't kept, on a copy of the Anki collection.
+- **Every Anki note has its corpus note,** the tags are identical, and every media reference in the corpus is in the
+  media layer.
+- **The fields JAStudio writes match the corpus,** but for formatting (list separators, spacing, JSON layout, line
+  breaks) and old forms of the same content, such as the question repeated among the forms, or dictionary-form
+  endings expanded where the corpus keeps the placeholder. Two vocab differ for real: `でいられる` has the alternative
+  compound parts `[でいる]` and `[られる]` in Anki only, and one vocab's answer is reordered in the corpus.
+- **Fields only Anki holds,** and what becomes of them:
+  - kanji `_image` (71 kanji) and `__audio` (1,657 kanji): *dropped with the trim* (Magnus). JAStudio doesn't target
+    studying kanji in isolation, images would have to be made for every kanji to be worth having, and the audio can
+    be computed;
+  - kanji `_primary_readings_tts_audio`: dropped, as planned (step 1);
+  - sentence `Source` (5,772 sentences): the work or deck a sentence came from, such as JLab's "Shirokuma Cafe", which
+    no tag records for JLab's 3,009 sentences. *Kept,* as the sentence's `SourceName`, a field JAStudio only carries
+    (Magnus): source tags are for whole imported seasons, and source comments are the note creator's comments, which
+    are on their way out. Import profiles can map it, and it was filled from Anki's `Source` field on 2026-11-08.
+- **Audio that isn't MP3:** the four known Ogg files, and two Yomitan WAV files on vocab (`corpus-validity.md`).
 
 **Watch-outs for the import flow (step 3):**
 - ~~**Yomitan's "already added" check.**~~ *Moot since 2026-11-08:* Yomitan no longer adds notes.

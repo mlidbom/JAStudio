@@ -29,6 +29,16 @@ public partial class SentenceData : CorpusObjectData
    public SentenceConfigSubData Configuration { get; init; } = new();
    public SentenceParsingResultSubData? ParsingResult { get; init; }
 
+   /// <summary>
+   /// The name of the work or deck the sentence came from, as its source gave it, such as <c>Shirokuma Cafe</c>. Empty when the source gave none.<br/>
+   /// JAStudio only carries it: nothing interprets it.
+   /// </summary>
+   /// <remarks>
+   /// Declared last on purpose: the corpus's snapshot cache (MemoryPack) reads members by their position, and old snapshots read correctly only while<br/>
+   /// new members come after the existing ones.
+   /// </remarks>
+   public string SourceName { get; init; } = string.Empty;
+
    protected override NoteId CreateTypedId() => new SentenceId(Id);
 
    protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)

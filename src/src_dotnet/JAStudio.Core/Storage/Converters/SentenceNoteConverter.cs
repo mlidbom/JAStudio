@@ -29,6 +29,7 @@ static class SentenceNoteConverter
                 Screenshot = note.Screenshot.RawValue(),
                 Configuration = ToConfigSubData(config),
                 ParsingResult = ToParsingResultSubData(parsingResult),
+                SourceName = note.SourceName.Value,
                 Tags = note.Tags.ToStringList(),
              };
    }

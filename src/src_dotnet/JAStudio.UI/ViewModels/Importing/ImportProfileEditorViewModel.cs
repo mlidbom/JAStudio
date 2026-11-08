@@ -63,6 +63,7 @@ class ImportProfileEditorViewModel : ObservableObject
    public string SourceAnswer { get => Shown(Profile.FieldMapping.SourceAnswer); set => Change(() => Profile.FieldMapping.SourceAnswer = Mapped(value)); }
    public string Reading { get => Shown(Profile.FieldMapping.Reading); set => Change(() => Profile.FieldMapping.Reading = Mapped(value)); }
    public string ExternalId { get => Shown(Profile.FieldMapping.ExternalId); set => Change(() => Profile.FieldMapping.ExternalId = Mapped(value)); }
+   public string SourceName { get => Shown(Profile.FieldMapping.SourceName); set => Change(() => Profile.FieldMapping.SourceName = Mapped(value)); }
    public string SourceComments { get => Shown(Profile.FieldMapping.SourceComments); set => Change(() => Profile.FieldMapping.SourceComments = Mapped(value)); }
    public string Audio { get => Shown(Profile.FieldMapping.Audio); set => Change(() => Profile.FieldMapping.Audio = Mapped(value)); }
    public string Screenshot { get => Shown(Profile.FieldMapping.Screenshot); set => Change(() => Profile.FieldMapping.Screenshot = Mapped(value)); }

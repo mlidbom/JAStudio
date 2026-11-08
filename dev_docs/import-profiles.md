@@ -71,7 +71,7 @@ where "Convert Immersion Kit sentences" used to be. Every change is saved at onc
 | Anki note type | Mandatory, chosen from a dropdown: the raw notes' note type. It gives the list of fields for the field mapping. JAStudio's own note types aren't offered. |
 | Anki search | Optional: narrows the selection within the note type, such as to a deck or tags. It runs through Anki's own search. |
 | What it creates | Sentences. Vocab would come with a source of vocab to import. Yomitan, the one planned, no longer adds notes (2026-11-08). |
-| Field mapping | For each sentence field, the Anki field it takes its value from, chosen from the note type's fields: source question, source answer, reading, external id, source comments, audio and screenshot. |
+| Field mapping | For each sentence field, the Anki field it takes its value from, chosen from the note type's fields: source question, source answer, reading, external id, source name, source comments, audio and screenshot. The source name is the work or deck the sentence came from, such as a JLab note's `Source`: see `corpus-data-model.md`, "Before the trim". |
 | Tags | Tags to add, such as `source::immersion_kit`. The raw notes' own tags come along too. |
 | Media folders | A folder in the media layer for each mapped media field, such as audio to one folder and screenshots to another. Typed in, and checked to be `free/` or a commercial repository, or inside one (`MediaLayerFolders`). |
 | Delete the raw notes afterwards | Yes or no. Magnus wants both options to start with, to compare and check while he gets imports going. |

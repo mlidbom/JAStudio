@@ -55,7 +55,8 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
                                                    WritingToTheCurrentSentence((it, audio) => it.TextToSpeechAudio.SetRawValue(audio)),
                                                    () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
          Field("Screenshot", TextFieldFormat.Line, it => it.Screenshot.RawValue(), (it, screenshot) => it.Screenshot.SetRawValue(screenshot)),
-         Field("External id", TextFieldFormat.Line, it => it.ExternalId)
+         Field("External id", TextFieldFormat.Line, it => it.ExternalId),
+         Field("Source name", TextFieldFormat.Line, it => it.SourceName)
       ];
       Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
    }
@@ -67,7 +68,8 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
    /// <summary>
-   /// The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, and the id of where it came from.<br/>
+   /// The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, the id it has where it came from, and the name<br/>
+   /// of the work or deck it came from (<see cref="SentenceNote.SourceName"/>).<br/>
    /// The audio is its TTS audio, with a button for generating new (<see cref="TextToSpeechAudioFieldEditorViewModel"/>).
    /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
