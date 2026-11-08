@@ -28,9 +28,9 @@ not necessarily in how:
   it.
 - **corpus-tag** and **student-tag** — a tag that describes the language data, and a tag that is about one
   student's studying, such as a priority tag. See `corpus-data-model.md`, "Student-tags and corpus-tags".
-- **jastudio-defined-tag** — a tag that JAStudio itself defines, in `Tags`. Some are generated, such as
-  `-::kanji::in-any-vocab-form`. Others hold configuration that has its own editors, such as
-  `-::vocab::matching::requires::godan`. Tags a person applies, including the ones under `-::` such as
+- **jastudio-defined-tag** — a tag that JAStudio itself defines, in `Tags`. Most are generated, such as
+  `-::kanji::in-any-vocab-form`. A few hold configuration, such as `_disable_uk`. *(Until 2026-11-08 the vocab's
+  matching configuration and register were such tags too, such as `-::vocab::matching::requires::godan`.)* Tags a person applies, including the ones under `-::` such as
   `-::priority::…` and `-::counting`, are not jastudio-defined-tags.
 
 ## Rules

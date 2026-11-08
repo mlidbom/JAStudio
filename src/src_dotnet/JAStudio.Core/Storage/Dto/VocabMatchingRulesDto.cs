@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using JAStudio.Core.Note.Vocabulary.Matching;
 using MemoryPack;
 
 namespace JAStudio.Core.Storage.Dto;
 
-/// <summary>A vocab's configurable matching rules (<see cref="Note.Vocabulary.VocabNoteMatchingRules"/>) as the corpus stores them.</summary>
+/// <summary>A vocab's configurable matching rules (<see cref="VocabNoteMatchingRules"/>) as the corpus stores them.</summary>
 [MemoryPackable]
 public partial class VocabMatchingRulesDto
 {

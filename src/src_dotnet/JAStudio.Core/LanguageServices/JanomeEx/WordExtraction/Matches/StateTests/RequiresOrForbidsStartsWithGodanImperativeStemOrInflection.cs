@@ -11,7 +11,7 @@ static class RequiresOrForbidsStartsWithGodanImperativeStemOrInflection
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.RequiresForbids.GodanImperative;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = inspector.Word.StartLocation.Token.IsGodanImperativeInflection ||
                          inspector.Word.StartLocation.Token.IsGodanImperativeStem;

@@ -1,6 +1,6 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.UI.Controls.NoteFields;
@@ -10,8 +10,8 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// A choice is written to the note at once.
 /// </summary>
 /// <remarks>
-/// It reads and writes the rule through <c>currentField</c>, which finds it on the note the collection holds now,<br/>
-/// because the note recreates its rule objects whenever its tags change.
+/// It reads and writes the rule through <c>currentField</c>, which finds it on the note the collection holds now, since the collection<br/>
+/// replaces a note's object when it reloads the note (see <see cref="ViewModels.Workspace.Editors.VocabEditorSectionViewModel"/>).
 /// </remarks>
 class RequireForbidFlagEditorViewModel : ObservableObject
 {
@@ -63,30 +63,10 @@ class RequireForbidFlagEditorViewModel : ObservableObject
 
       _fatalErrorHandler.HandleExceptionsFrom(() =>
       {
-         WriteToTheNote(choice);
+         _currentField().Choose(choice);
          Show(choice);
          _choiceMade();
       });
-   }
-
-   void WriteToTheNote(RequireForbidChoice choice)
-   {
-      var field = _currentField();
-      switch(choice)
-      {
-         case RequireForbidChoice.Required:
-            field.SetRequired(true);
-            break;
-         case RequireForbidChoice.Forbidden:
-            field.SetForbidden(true);
-            break;
-         case RequireForbidChoice.Unset:
-            field.SetRequired(false);
-            field.SetForbidden(false);
-            break;
-         default:
-            throw new ArgumentOutOfRangeException(nameof(choice), choice, null);
-      }
    }
 
    void Show(RequireForbidChoice choice)
@@ -97,11 +77,5 @@ class RequireForbidFlagEditorViewModel : ObservableObject
       OnPropertyChanged(nameof(IsForbidden));
    }
 
-   RequireForbidChoice ChoiceOnTheNote()
-   {
-      var field = _currentField();
-      return field.IsConfiguredRequired  ? RequireForbidChoice.Required
-           : field.IsConfiguredForbidden ? RequireForbidChoice.Forbidden
-                                         : RequireForbidChoice.Unset;
-   }
+   RequireForbidChoice ChoiceOnTheNote() => _currentField().Choice;
 }

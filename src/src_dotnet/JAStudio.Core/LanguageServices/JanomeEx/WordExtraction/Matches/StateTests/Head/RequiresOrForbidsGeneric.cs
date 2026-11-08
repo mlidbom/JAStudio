@@ -1,6 +1,6 @@
 using System;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 

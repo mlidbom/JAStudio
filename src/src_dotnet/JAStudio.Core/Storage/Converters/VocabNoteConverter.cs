@@ -8,7 +8,6 @@ static class VocabNoteConverter
 {
    public static VocabDto ToDto(VocabNote note)
    {
-      var rules = note.MatchingConfiguration.ConfigurableRules;
       var related = note.RelatedNotes;
 
       return new VocabDto
@@ -22,6 +21,7 @@ static class VocabNoteConverter
                 CompoundParts = new VocabCompoundPartsDto { Primary = note.CompoundParts.Primary(), Alternative = note.CompoundParts.Alternative() },
                 Readings = note.GetReadings(),
                 PartsOfSpeech = note.PartsOfSpeech.RawStringValue(),
+                Register = note.Register.ToDto(),
                 AudioB = note.Audio.First.RawValue(),
                 AudioG = note.Audio.Second.RawValue(),
                 AudioTTS = note.Audio.Tts.RawValue(),
@@ -29,14 +29,7 @@ static class VocabNoteConverter
                 SentenceCount = note.MetaData.SentenceCount,
                 TechnicalNotes = note.TechnicalNotes.Value,
                 References = note.References.Value,
-                MatchingRules = new VocabMatchingRulesDto
-                                {
-                                   PrefixIsNot = [.. rules.PrefixIsNot.OrderBy(s => s)],
-                                   SuffixIsNot = [.. rules.SuffixIsNot.OrderBy(s => s)],
-                                   SurfaceIsNot = [.. rules.SurfaceIsNot.OrderBy(s => s)],
-                                   YieldToSurface = [.. rules.YieldToSurface.OrderBy(s => s)],
-                                   RequiredPrefix = [.. rules.RequiredPrefix.OrderBy(s => s)],
-                                },
+                Matching = note.MatchingConfiguration.ToDto(),
                 RelatedVocab = new VocabRelatedDto
                                {
                                   ErgativeTwin = related.ErgativeTwin.Get(),

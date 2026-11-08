@@ -6,6 +6,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Tail;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 
@@ -91,7 +92,7 @@ public sealed class VocabMatch : Match
         .GetValue(null) as List<Func<MatchInspector, FailedMatchRequirement?>> ?? [];
 
    public VocabMatchInspector VocabInspector { get; }
-   public VocabMatchingRulesConfigurationRequiresForbidsFlags RequiresForbids { get; }
+   public VocabMatchingRequireForbidFlags RequiresForbids { get; }
    public VocabNoteMatchingRules Rules { get; }
    public VocabNote Vocab { get; }
 
@@ -152,7 +153,7 @@ public sealed class VocabMatch : Match
    public override List<string> Readings => Vocab.GetReadings();
 
    public override string ParsedForm =>
-      MatchingConfiguration.BoolFlags.QuestionOverridesForm.IsSet()
+      MatchingConfiguration.Flags.QuestionOverridesForm.IsSet()
          ? Vocab.Question.Text
          : base.ParsedForm;
 
@@ -217,7 +218,7 @@ public sealed class VocabMatch : Match
 
    protected override int StartIndexInternal()
    {
-      if(MatchingConfiguration.BoolFlags.QuestionOverridesForm.IsSet())
+      if(MatchingConfiguration.Flags.QuestionOverridesForm.IsSet())
       {
          var lengthDiff = Vocab.GetQuestion().Length - TokenizedForm.Length;
          if(lengthDiff != 0 && TokenizedForm != "" && Vocab.GetQuestion().Contains(TokenizedForm))

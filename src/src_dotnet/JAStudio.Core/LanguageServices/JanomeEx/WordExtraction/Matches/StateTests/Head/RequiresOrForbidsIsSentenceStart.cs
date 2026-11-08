@@ -10,7 +10,7 @@ static class RequiresOrForbidsIsSentenceStart
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.MatchingConfiguration.RequiresForbids.SentenceStart;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = inspector.Prefix.Length == 0 ||
                          AnalysisConstants.SentenceStartCharacters.Contains(inspector.Prefix[^1]);

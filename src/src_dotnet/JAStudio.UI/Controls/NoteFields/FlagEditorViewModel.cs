@@ -6,16 +6,16 @@ using JAStudio.Core.TaskRunners;
 namespace JAStudio.UI.Controls.NoteFields;
 
 /// <summary>
-/// One flag of a note, stored as a tag, edited live as a check box. Checking or unchecking it writes to the note at once.
+/// One <see cref="FlagField"/> of a note, edited live as a check box. Checking or unchecking it writes to the note at once.
 /// </summary>
 /// <remarks>
-/// It reads and writes the flag through <c>currentFlag</c>, which finds it on the note the collection holds now,<br/>
-/// because the note recreates its flag objects whenever its tags change.
+/// It reads and writes the flag through <c>currentFlag</c>, which finds it on the note the collection holds now, since the collection<br/>
+/// replaces a note's object when it reloads the note (see <see cref="ViewModels.Workspace.Editors.VocabEditorSectionViewModel"/>).
 /// </remarks>
-class TagFlagEditorViewModel : ObservableObject
+class FlagEditorViewModel : ObservableObject
 {
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly Func<TagFlagField> _currentFlag;
+   readonly Func<FlagField> _currentFlag;
    readonly Action _flagChanged;
    bool _isSet;
 
@@ -23,7 +23,7 @@ class TagFlagEditorViewModel : ObservableObject
    /// <param name="label">What the flag means, shown beside the check box.</param>
    /// <param name="currentFlag">Finds the flag on the note as the collection holds it now.</param>
    /// <param name="flagChanged">Called after a change is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public TagFlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<TagFlagField> currentFlag, Action flagChanged)
+   public FlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<FlagField> currentFlag, Action flagChanged)
    {
       _fatalErrorHandler = fatalErrorHandler;
       Label = label;

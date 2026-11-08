@@ -11,7 +11,7 @@ static class RequiresOrForbidsIsSentenceEnd
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.RequiresForbids.SentenceEnd;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = inspector.IsEndOfStatement;
          if(requirement.IsRequired && !isInState)

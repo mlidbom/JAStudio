@@ -11,7 +11,7 @@ static class RequiresOrForbidsIsSingleToken
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.RequiresForbids.SingleToken;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = !inspector.Word.IsCompound;
          if(requirement.IsRequired && !isInState)

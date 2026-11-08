@@ -10,7 +10,7 @@ static class RequiresOrForbidsDictionaryFormHead
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.RequiresForbids.DictionaryFormHead;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = InternalIsInState(inspector);
          if(requirement.IsRequired && !isInState)

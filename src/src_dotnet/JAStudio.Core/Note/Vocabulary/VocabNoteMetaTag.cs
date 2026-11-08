@@ -113,20 +113,21 @@ static class VocabNoteMetaTagFormatter
       if(tos.Contains(POS.MasuSuffix)) meta.Add(new VocabMetaTag("masu-suffix", "連", "follows the 連用形/masu-stem form of a verb"));
 
       // Register
-      if(tags.Contains(Tags.Vocab.Register.Polite)) meta.Add(new VocabMetaTag("register-polite", "P", "Polite"));
-      if(tags.Contains(Tags.Vocab.Register.Formal)) meta.Add(new VocabMetaTag("register-formal", "F", "Formal"));
-      if(tags.Contains(Tags.Vocab.Register.Informal)) meta.Add(new VocabMetaTag("register-informal", "I", "Informal"));
-      if(tags.Contains(Tags.Vocab.Register.Archaic)) meta.Add(new VocabMetaTag("register-archaic", "A", "Archaic"));
-      if(tags.Contains(Tags.Vocab.Register.Sensitive)) meta.Add(new VocabMetaTag("register-sensitive", "Se", "Sensitive"));
-      if(tags.Contains(Tags.Vocab.Register.Vulgar)) meta.Add(new VocabMetaTag("register-vulgar", "V", "Vulgar, usually offensive"));
-      if(tags.Contains(Tags.Vocab.Register.Childish)) meta.Add(new VocabMetaTag("register-childish", "C", "Childish, apt to make the speaker sound immature"));
-      if(tags.Contains(Tags.Vocab.Register.Slang)) meta.Add(new VocabMetaTag("register-slang", "Sl", "Slang"));
-      if(tags.Contains(Tags.Vocab.Register.Humble)) meta.Add(new VocabMetaTag("register-humble", "Hu", "Humble speech"));
-      if(tags.Contains(Tags.Vocab.Register.Honorific)) meta.Add(new VocabMetaTag("register-honorific", "Ho", "Honorific form, used to elevate the listener"));
-      if(tags.Contains(Tags.Vocab.Register.RoughMasculine)) meta.Add(new VocabMetaTag("register-rough-masculine", "R", "Rough speech, traditionally thought masculine"));
-      if(tags.Contains(Tags.Vocab.Register.SoftFeminine)) meta.Add(new VocabMetaTag("register-soft-feminine", "S", "Soft speech, traditionally thought feminine"));
-      if(tags.Contains(Tags.Vocab.Register.Derogatory)) meta.Add(new VocabMetaTag("register-derogatory", "D", "Derogatory form, usually offensive"));
-      if(tags.Contains(Tags.Vocab.Register.Literary)) meta.Add(new VocabMetaTag("register-literary", "L", "literary, apt to stand out in speech"));
+      var register = vocab.Register;
+      if(register.Polite.IsSet()) meta.Add(new VocabMetaTag("register-polite", "P", "Polite"));
+      if(register.Formal.IsSet()) meta.Add(new VocabMetaTag("register-formal", "F", "Formal"));
+      if(register.Informal.IsSet()) meta.Add(new VocabMetaTag("register-informal", "I", "Informal"));
+      if(register.Archaic.IsSet()) meta.Add(new VocabMetaTag("register-archaic", "A", "Archaic"));
+      if(register.Sensitive.IsSet()) meta.Add(new VocabMetaTag("register-sensitive", "Se", "Sensitive"));
+      if(register.Vulgar.IsSet()) meta.Add(new VocabMetaTag("register-vulgar", "V", "Vulgar, usually offensive"));
+      if(register.Childish.IsSet()) meta.Add(new VocabMetaTag("register-childish", "C", "Childish, apt to make the speaker sound immature"));
+      if(register.Slang.IsSet()) meta.Add(new VocabMetaTag("register-slang", "Sl", "Slang"));
+      if(register.Humble.IsSet()) meta.Add(new VocabMetaTag("register-humble", "Hu", "Humble speech"));
+      if(register.Honorific.IsSet()) meta.Add(new VocabMetaTag("register-honorific", "Ho", "Honorific form, used to elevate the listener"));
+      if(register.RoughMasculine.IsSet()) meta.Add(new VocabMetaTag("register-rough-masculine", "R", "Rough speech, traditionally thought masculine"));
+      if(register.SoftFeminine.IsSet()) meta.Add(new VocabMetaTag("register-soft-feminine", "S", "Soft speech, traditionally thought feminine"));
+      if(register.Derogatory.IsSet()) meta.Add(new VocabMetaTag("register-derogatory", "D", "Derogatory form, usually offensive"));
+      if(register.Literary.IsSet()) meta.Add(new VocabMetaTag("register-literary", "L", "literary, apt to stand out in speech"));
 
       // other
       if(tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential))

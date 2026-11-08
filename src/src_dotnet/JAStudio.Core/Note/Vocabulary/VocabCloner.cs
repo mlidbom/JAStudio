@@ -42,7 +42,7 @@ public class VocabCloner
       var newQuestion = AppendPrependAddendum(Note.GetQuestion());
       var newReadings = vocabNote.GetReadings().Select(AppendPrependAddendum).ToList();
 
-      var newVocab = CreateNewVocabWithSomeDataCopied(newQuestion, Note.GetAnswer(), newReadings);
+      var newVocab = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(newQuestion, Note.GetAnswer(), newReadings);
 
       if(setCompounds)
       {
@@ -58,19 +58,13 @@ public class VocabCloner
       return newVocab;
    }
 
-   VocabNote CreateNewVocabWithSomeDataCopied(string question, string answer, List<string> readings, bool copyVocabTags = true, bool copyMatchingRules = true)
+   /// <summary>Creates a vocab with the question, answer and readings given, and the vocab's tags, register and matching configuration.</summary>
+   VocabNote CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(string question, string answer, List<string> readings)
    {
       var clone = Note.Services.VocabNoteFactory.CreateWithCorpusAnswer(question, answer, readings);
-      if(copyVocabTags)
-      {
-         CopyVocabTagsTo(clone);
-      }
-
-      if(copyMatchingRules)
-      {
-         clone.MatchingConfiguration.ConfigurableRules.OverwriteWith(Note.MatchingConfiguration.ConfigurableRules);
-      }
-
+      CopyVocabTagsTo(clone);
+      clone.Register.OverwriteWith(Note.Register);
+      clone.MatchingConfiguration.OverwriteWith(Note.MatchingConfiguration);
       return clone;
    }
 
@@ -97,6 +91,7 @@ public class VocabCloner
                          CompoundParts = source.CompoundParts,
                          Readings = source.Readings,
                          PartsOfSpeech = source.PartsOfSpeech,
+                         Register = source.Register,
                          AudioB = source.AudioB,
                          AudioG = source.AudioG,
                          AudioTTS = source.AudioTTS,
@@ -106,7 +101,7 @@ public class VocabCloner
                          References = source.References,
                          Image = source.Image,
                          UserImage = source.UserImage,
-                         MatchingRules = source.MatchingRules,
+                         Matching = source.Matching,
                          RelatedVocab = source.RelatedVocab,
                          SourceData = source.SourceData,
                       };
@@ -180,7 +175,7 @@ public class VocabCloner
    {
       string CreateFullForm(string form) => createFormRoot(Note, form) + formSuffix;
 
-      var clone = CreateNewVocabWithSomeDataCopied(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
+      var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
       clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
       var readings = Note.GetReadings().Select(CreateFullForm).ToList();
       clone.SetReadings(readings);
@@ -241,7 +236,7 @@ public class VocabCloner
       string CreateImperativeForm(string form) =>
          Conjugator.GetImperative(form, Note.PartsOfSpeech.IsIchidan(), Note.PartsOfSpeech.IsGodan());
 
-      var clone = CreateNewVocabWithSomeDataCopied(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
+      var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
       clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
       var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
       clone.SetReadings(readings);

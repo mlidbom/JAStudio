@@ -2,6 +2,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 // ReSharper disable InconsistentNaming
 
@@ -30,7 +31,7 @@ public class When_reparsing_the_sentences_for_a_vocab : SpecificationStartingWit
       {
          public after_requiring_the_vocab_to_start_the_sentence_which_it_does_not()
          {
-            _vocab.MatchingConfiguration.RequiresForbids.SentenceStart.SetRequired(true);
+            _vocab.MatchingConfiguration.RequiresForbids.SentenceStart.Choose(RequireForbidChoice.Required);
             LocalNoteUpdater.ReparseSentencesForVocab(_vocab);
          }
 

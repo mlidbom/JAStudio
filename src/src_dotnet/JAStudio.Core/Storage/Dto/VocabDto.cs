@@ -15,6 +15,8 @@ public partial class VocabDto : CorpusNoteDto
    public VocabCompoundPartsDto CompoundParts { get; init; } = new();
    public List<string> Readings { get; init; } = [];
    public string PartsOfSpeech { get; init; } = string.Empty;
+   /// <summary>The names of the vocab's <see cref="Note.Vocabulary.VocabNoteRegister"/> flags that are set.</summary>
+   public List<string> Register { get; init; } = [];
    public string AudioB { get; init; } = string.Empty;
    public string AudioG { get; init; } = string.Empty;
    public string AudioTTS { get; init; } = string.Empty;
@@ -24,7 +26,7 @@ public partial class VocabDto : CorpusNoteDto
    public string References { get; init; } = string.Empty;
    public string Image { get; init; } = string.Empty;
    public string UserImage { get; init; } = string.Empty;
-   public VocabMatchingRulesDto MatchingRules { get; init; } = new();
+   public VocabMatchingDto Matching { get; init; } = new();
    public VocabRelatedDto RelatedVocab { get; init; } = new();
    public VocabSourceDataDto SourceData { get; init; } = new();
 }

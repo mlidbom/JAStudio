@@ -3,7 +3,7 @@ from JAStudio.Core.Note.Sentences import SentenceConfiguration
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import TextAnalysisLocation, CandidateWordVariant, CandidateWord
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match, VocabMatch
 from JAStudio.Core.Configuration import Settings
-from JAStudio.Core.Note.Vocabulary import VocabMatchingRulesConfigurationRequiresForbidsFlags
+from JAStudio.Core.Note.Vocabulary.Matching import VocabMatchingRequireForbidFlags
 
 class CustomForbidsNoCache(MatchRequirement):
     @property
@@ -130,7 +130,7 @@ class VocabMatchInspector(MatchInspector):
     @property
     def PreviousLocationIsIrrealis(self) -> bool: ...
     @property
-    def RequiresForbids(self) -> VocabMatchingRulesConfigurationRequiresForbidsFlags: ...
+    def RequiresForbids(self) -> VocabMatchingRequireForbidFlags: ...
     @property
     def Settings(self) -> Settings: ...
     @property

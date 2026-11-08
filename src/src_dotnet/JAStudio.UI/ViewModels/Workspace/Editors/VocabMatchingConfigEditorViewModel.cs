@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
@@ -76,8 +77,8 @@ class VocabMatchingConfigEditorViewModel
    public RequireForbidFlagEditorViewModel YieldLastToken { get; }
    public IReadOnlyList<RequireForbidFlagEditorViewModel> MiscMatchingRules { get; }
    public IReadOnlyList<RequireForbidFlagEditorViewModel> StemMatchingRules { get; }
-   public IReadOnlyList<TagFlagEditorViewModel> IsFlags { get; }
-   public IReadOnlyList<TagFlagEditorViewModel> MiscFlags { get; }
+   public IReadOnlyList<FlagEditorViewModel> IsFlags { get; }
+   public IReadOnlyList<FlagEditorViewModel> MiscFlags { get; }
    public IReadOnlyList<StringSetEditorViewModel> StringRules { get; }
 
    /// <summary>Shows every rule as the note has it now, after a change made elsewhere.</summary>
@@ -90,13 +91,13 @@ class VocabMatchingConfigEditorViewModel
 
    IEnumerable<RequireForbidFlagEditorViewModel> AllRequireForbidRules => [YieldLastToken, ..MiscMatchingRules, ..StemMatchingRules];
 
-   IEnumerable<TagFlagEditorViewModel> AllFlags => [..IsFlags, ..MiscFlags];
+   IEnumerable<FlagEditorViewModel> AllFlags => [..IsFlags, ..MiscFlags];
 
-   RequireForbidFlagEditorViewModel RequireForbidRule(string label, Func<VocabMatchingRulesConfigurationRequiresForbidsFlags, RequireForbidFlagField> rule) =>
+   RequireForbidFlagEditorViewModel RequireForbidRule(string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>
       new(_fatalErrorHandler, label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), _sentencesReparser.ReparseSentences);
 
-   TagFlagEditorViewModel Flag(string label, Func<VocabMatchingRulesConfigurationBoolFlags, TagFlagField> flag) =>
-      new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.BoolFlags), _sentencesReparser.ReparseSentences);
+   FlagEditorViewModel Flag(string label, Func<VocabMatchingFlags, FlagField> flag) =>
+      new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.Flags), _sentencesReparser.ReparseSentences);
 
    StringSetEditorViewModel StringRule(string title, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
       new(title,

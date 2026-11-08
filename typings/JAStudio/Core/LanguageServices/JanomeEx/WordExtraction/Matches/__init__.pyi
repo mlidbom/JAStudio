@@ -2,7 +2,8 @@ import abc
 from System.Collections.Generic import List_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements import MatchInspector, VocabMatchInspector
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant, CandidateWord, WordExclusion
-from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteMatchingConfiguration, VocabMatchingRulesConfigurationRequiresForbidsFlags, VocabNoteMatchingRules
+from JAStudio.Core.Note.Vocabulary import VocabNote
+from JAStudio.Core.Note.Vocabulary.Matching import VocabNoteMatchingConfiguration, VocabMatchingRequireForbidFlags, VocabNoteMatchingRules
 
 class Match(abc.ABC):
     @property
@@ -86,7 +87,7 @@ class VocabMatch(Match):
     @property
     def Readings(self) -> List_1[str]: ...
     @property
-    def RequiresForbids(self) -> VocabMatchingRulesConfigurationRequiresForbidsFlags: ...
+    def RequiresForbids(self) -> VocabMatchingRequireForbidFlags: ...
     @property
     def Rules(self) -> VocabNoteMatchingRules: ...
     @property

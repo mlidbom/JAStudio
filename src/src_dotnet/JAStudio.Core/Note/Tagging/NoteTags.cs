@@ -23,16 +23,6 @@ public class NoteTags : IEnumerable<Tag>
       }
    }
 
-   /// <summary>
-   /// Lets the note refresh everything it derives from its tags, then flushes it.<br/>
-   /// The refresh comes first because flushing caches a snapshot of the note, and that snapshot must reflect the new tags.
-   /// </summary>
-   void Persist()
-   {
-      _note.OnTagsUpdated();
-      _note.Flush();
-   }
-
    public bool Contains(Tag value) => _tags.Contains(value);
 
    public void Set(Tag tag)
@@ -40,7 +30,7 @@ public class NoteTags : IEnumerable<Tag>
       if(!Contains(tag))
       {
          _tags.Add(tag);
-         Persist();
+         _note.Flush();
       }
    }
 
@@ -49,7 +39,7 @@ public class NoteTags : IEnumerable<Tag>
       if(Contains(tag))
       {
          _tags.Remove(tag);
-         Persist();
+         _note.Flush();
       }
    }
 
@@ -75,14 +65,14 @@ public class NoteTags : IEnumerable<Tag>
 
       _tags.ExceptWith(inTheBranch);
       _tags.UnionWith(inTheBranch.Select(it => Tag.FromName(branch.TheNameRenamedTo(renamed, it.Name))));
-      Persist();
+      _note.Flush();
    }
 
    /// <summary>Removes the note's tags in <paramref name="branch"/>: the tag at its path and every tag below it, writing the note once.</summary>
    public void RemoveTheBranch(TagBranch branch)
    {
       if(_tags.RemoveWhere(branch.Contains) > 0)
-         Persist();
+         _note.Flush();
    }
 
    public IEnumerator<Tag> GetEnumerator() => _tags.GetEnumerator();
@@ -91,7 +81,7 @@ public class NoteTags : IEnumerable<Tag>
 
    public List<string> ToStringList()
    {
-      return this.Select(t => t.Name).OrderBy(n => n).ToList();
+      return [.. this.Select(t => t.Name).OrderBy(n => n)];
    }
 
    /// <summary>

@@ -154,6 +154,6 @@ TextLocation('{CharacterStartIndex}-{CharacterEndIndex}, {Token.Surface} | {Toke
    public bool IsInflectingWord()
    {
       var vocab = Analysis.Services.Vocab.WithAnyFormIn([Token.BaseForm, Token.Surface]);
-      return vocab.Any(voc => voc.MatchingConfiguration.BoolFlags.IsInflectingWord.IsActive);
+      return vocab.Any(voc => voc.MatchingConfiguration.Flags.IsInflectingWord.IsActive);
    }
 }

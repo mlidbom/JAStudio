@@ -9,7 +9,7 @@ static class ForbidsIsPoisonWord
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      if(inspector.Match.Vocab.MatchingConfiguration.BoolFlags.IsPoisonWord.IsSet())
+      if(inspector.Match.Vocab.MatchingConfiguration.Flags.IsPoisonWord.IsSet())
       {
          return Failed;
       }

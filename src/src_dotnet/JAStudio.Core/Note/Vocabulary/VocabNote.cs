@@ -4,6 +4,7 @@ using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
 
@@ -40,7 +41,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public VocabNoteMetaData MetaData { get; }
    public VocabNoteRegister Register { get; }
    public VocabNoteAudio Audio { get; }
-   public VocabNoteMatchingConfiguration MatchingConfiguration { get; private set; }
+   public VocabNoteMatchingConfiguration MatchingConfiguration { get; }
    public VocabCloner Cloner { get; }
 
    public WritableStringValue TechnicalNotes { get; }
@@ -72,9 +73,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       CompoundParts = new VocabNoteCompoundParts(this, data, Guard);
       RelatedNotes = new Vocabulary.RelatedVocab.RelatedVocab(this, data?.RelatedVocab, Guard);
       MetaData = new VocabNoteMetaData(this, data, Guard);
-      Register = new VocabNoteRegister(this);
+      Register = new VocabNoteRegister(data?.Register ?? [], Guard);
       Audio = new VocabNoteAudio(data, Guard);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(this, data, Guard);
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
       Cloner = new VocabCloner(this);
    }
 
@@ -131,10 +132,14 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       ..Forms.MatchedFormsWithoutNoiseCharacters()
    ];
 
-   public override void OnTagsUpdated()
+   /// <summary>
+   /// Flushes the vocab after a change to its <see cref="MatchingConfiguration"/>, once the <see cref="Forms"/> have dropped what they derived from it:<br/>
+   /// the snapshot the flush takes must reflect the change.
+   /// </summary>
+   void FlushAfterTheMatchingConfigurationChanged()
    {
-      MatchingConfiguration.RefreshTagBasedFlags();
-      Forms.OnTagsUpdated();
+      Forms.OnMatchingConfigurationChanged();
+      Flush();
    }
 
    public override void UpdateGeneratedData()

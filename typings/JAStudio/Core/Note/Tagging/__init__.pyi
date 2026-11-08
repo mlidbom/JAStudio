@@ -110,63 +110,10 @@ class Tags(abc.ABC):
 
     class Vocab(abc.ABC):
         HasNoStudyingSentences : Tag
-        IsCompositionallyTransparentCompound : Tag
         IsIchidanHidingGodanPotential : Tag
-        QuestionOverridesForm : Tag
         Root : str
 
         class Matching(abc.ABC):
-            IsInflectingWord : Tag
-            IsPoisonWord : Tag
-            YieldLastTokenToOverlappingCompound : Tag
-
-            class Forbids(abc.ABC):
-                AdverbHead : Tag
-                AutoYielding : Tag
-                DictionaryFormHead : Tag
-                DictionaryFormStart : Tag
-                Godan : Tag
-                GodanImperative : Tag
-                GodanImperativeHead : Tag
-                GodanPotential : Tag
-                Ichidan : Tag
-                IchidanImperative : Tag
-                Irrealis : Tag
-                MasuStem : Tag
-                PastTenseStem : Tag
-                SentenceEnd : Tag
-                SentenceStart : Tag
-                Surface : Tag
-                TeFormStemHead : Tag
-                TeFormStemStart : Tag
-
-
-            class Requires(abc.ABC):
-                AdverbHead : Tag
-                Compound : Tag
-                DictionaryFormHead : Tag
-                DictionaryFormStart : Tag
-                FolderName : str
-                Godan : Tag
-                GodanImperative : Tag
-                GodanImperativeHead : Tag
-                GodanPotential : Tag
-                Ichidan : Tag
-                IchidanImperative : Tag
-                Irrealis : Tag
-                MasuStem : Tag
-                PastTenseStem : Tag
-                SentenceEnd : Tag
-                SentenceStart : Tag
-                SingleToken : Tag
-                Surface : Tag
-                TeFormStemHead : Tag
-                TeFormStemStart : Tag
-
-
-            class Todo(abc.ABC):
-                WithPrecedingVowel : Tag
-
 
             class Uses(abc.ABC):
                 PrefixIsNot : Tag
@@ -174,23 +121,6 @@ class Tags(abc.ABC):
                 SuffixIsNot : Tag
                 SurfaceIsNot : Tag
 
-
-
-        class Register(abc.ABC):
-            Archaic : Tag
-            Childish : Tag
-            Derogatory : Tag
-            Formal : Tag
-            Honorific : Tag
-            Humble : Tag
-            Informal : Tag
-            Literary : Tag
-            Polite : Tag
-            RoughMasculine : Tag
-            Sensitive : Tag
-            Slang : Tag
-            SoftFeminine : Tag
-            Vulgar : Tag
 
 
 

@@ -10,7 +10,7 @@ static class RequiresOrForbidsGodanImperativeHead
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.RequiresForbids.GodanImperativeHead;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = InternalIsInState(inspector);
          if(requirement.IsRequired && !isInState)

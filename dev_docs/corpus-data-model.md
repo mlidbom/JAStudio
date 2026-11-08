@@ -327,6 +327,9 @@ Until 2026-11-07, `MergeAnkiData` replaced the tag list with Anki's, so Anki co-
 editors (`VocabMatchingConfigEditorViewModel` and `VocabMetadataEditorViewModel`) are already structured
 (checkboxes over these flags); only the storage behind them is wrong.
 
+*2026-11-08 (slice 4a): the requires/forbids flags, the boolean matching flags and the register are the vocab's own data
+now, not tags (see [Vocab](#vocab)). What's left as tags is `_uk`, `_disable_uk`, `_tts_audio` and the source.*
+
 ### Persisted-derived-data
 
 - **Active answer and question:** `activeAnswer`, and `activeQuestion` on sentences, are just "user value, else
@@ -360,8 +363,8 @@ instead is gone.
 - `KanjiNote` joins the JSON lists `radicals`, `primaryVocab`, `similarMeaning` and `confusedWith` back into
   comma strings in memory, then re-parses them on every read.
 - `VocabNotePartsOfSpeech` holds one raw string.
-- `RelatedVocabDataSerializer`, `VocabNoteMatchingRulesSerializer`, `ISentenceConfigurationSerializer` and
-  `ParsingResultSerializer` exist only to produce Anki field strings and feed editor text boxes.
+- `RelatedVocabDataSerializer`, `VocabNoteMatchingRulesSerializer` (*deleted 2026-11-08: nothing used it*),
+  `ISentenceConfigurationSerializer` and `ParsingResultSerializer` exist only to produce Anki field strings and feed editor text boxes.
 - There are two tables of Anki field names: `AnkiFieldNames` in `JAStudio.Anki`, and
   `NoteFieldsConstants` / `SentenceNoteFields` / `MyNoteFields` in `JAStudio.Core.Note`.
 - `AnkiNoteData` is declared in `Note/JPNoteData.cs`, where the file name and the type name disagree.
@@ -418,7 +421,7 @@ should drive its JSON key, not the reverse.
   "explanation": { "short": "", "long": "" },
   "mnemonic": "",
   "matching": {
-    "requiresOrForbids": { "godan": "requires", "ichidan": "forbids" },
+    "requiredOrForbidden": { "godan": "required", "ichidan": "forbidden" },
     "flags": ["isInflectingWord"],
     "rules": { "prefixIsNot": [], "suffixIsNot": [], "surfaceIsNot": [], "yieldToSurface": [], "requiredPrefix": [] }
   },
@@ -448,6 +451,14 @@ What disappears from vocab JSON:
 - `activeAnswer` and `sentenceCount` (persisted-derived-data);
 - `audioB`, `audioG`, `audioTTS`, `image`, `userImage` (media; see [Media](#media-open));
 - every configuration tag, which moves into `matching`, `register` and `source`.
+
+**`register` and `matching` are as above since 2026-11-08 (slice 4a).** `register` is placed after `partsOfSpeech`.
+`requiredOrForbidden` holds only the require/forbid rules that are set, each under its name (`RequireForbidFlagField.Name`),
+so a rule can't be both required and forbidden. One vocab had both tags, which the old code read as failing every match:
+笊, the noun, now forbids irrealis, which the auxiliary `ざる:masu` requires. The flags, the register and the rules' sets are
+written in ordinal order. A name JAStudio doesn't know fails loudly when the vocab is read, since saving would lose it.
+`isCompositionallyTransparentCompound` is a matching flag because only matching reads it, though the editor shows it
+under Metadata. `matchWithPrecedingVowel` is a to-do flag that nothing reads and no vocab has.
 
 Parts of speech are harmonized to one spelling per part during migration.
 
@@ -626,7 +637,7 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
   - `source::…`;
   - labels about the words, such as `-::counting`, `-::formal-noun`, `_uk`;
   - `_tts_audio` and `fixed_primary_readings`;
-  - the matching configuration, which moves out of tags in slice 4;
+  - ~~the matching configuration~~, *moved out of tags 2026-11-08 (slice 4a), with the register*;
   - the generated tags that don't depend on studying, which go in slice 6.
 
 ## Media (Open)
@@ -823,6 +834,16 @@ Progress on step 3:
       that differed from the computed only by surrounding whitespace, and none that differed otherwise. `sourceName` stays
       where it is until slice 4.*
    4. Configuration out of tags: requires/forbids flags, boolean flags, register, `_uk`/`_disable_uk`, source.
+      - 4a, the vocab's matching configuration and register. *Done 2026-11-08: see [Vocab](#vocab). The register came
+        along because it's the same mechanism (`FlagField`), which retired the tag-backed `TagFlagField`. The full rebuild
+        changed nothing. The matching configuration's own design is up for a major refactoring later, to a flexible tree
+        structure resembling the note search's (Magnus, 2026-11-08), so its type names weren't polished here.*
+      - 4b, `_uk`, `_disable_uk` and `_tts_audio`. `VocabNoteGeneratedData` sets `_uk` itself from the dictionary, unless
+        the vocab has `_disable_uk`, so `_uk` may be persisted-derived-data rather than configuration, and `_tts_audio`
+        may be media. The workspace can't set `_disable_uk` today, since its tag pickers refuse jastudio-defined-tags. It
+        must come back in some form (Magnus, 2026-11-08): it has to stay possible to stop JAStudio insisting that a vocab is
+        usually written in kana when the dictionary lookup got it wrong.
+      - 4c, source, with the TODO below.
       **TODO, decided to do here (Magnus, 2026-11-08): untangle the provider from the work in the data.** "Source" mixes
       two levels today: the *provider* a note was imported from (WaniKani, jamdict, the JLab deck, Immersion Kit) and the
       *work* its content comes from (Shirokuma Cafe, Girls' Last Tour). For WaniKani vocab and the subs2srs anime decks

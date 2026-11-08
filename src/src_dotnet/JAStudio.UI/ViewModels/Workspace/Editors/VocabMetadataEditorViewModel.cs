@@ -27,7 +27,7 @@ class VocabMetadataEditorViewModel
       _currentVocab = currentVocab;
       Tags = new NoteTagsEditorViewModel(services, currentVocab);
 
-      MiscFlags = [Flag("Compositionally transparent compound", it => it.MatchingConfiguration.BoolFlags.IsCompositionallyTransparentCompound)];
+      MiscFlags = [Flag("Compositionally transparent compound", it => it.MatchingConfiguration.Flags.IsCompositionallyTransparentCompound)];
       RegisterFlags =
       [
          Flag("Archaic", it => it.Register.Archaic),
@@ -47,8 +47,8 @@ class VocabMetadataEditorViewModel
       ];
    }
 
-   public IReadOnlyList<TagFlagEditorViewModel> MiscFlags { get; }
-   public IReadOnlyList<TagFlagEditorViewModel> RegisterFlags { get; }
+   public IReadOnlyList<FlagEditorViewModel> MiscFlags { get; }
+   public IReadOnlyList<FlagEditorViewModel> RegisterFlags { get; }
 
    public NoteTagsEditorViewModel Tags { get; }
 
@@ -60,5 +60,5 @@ class VocabMetadataEditorViewModel
       Tags.Refresh();
    }
 
-   TagFlagEditorViewModel Flag(string label, Func<VocabNote, TagFlagField> flag) => new(_fatalErrorHandler, label, () => flag(_currentVocab()), () => {});
+   FlagEditorViewModel Flag(string label, Func<VocabNote, FlagField> flag) => new(_fatalErrorHandler, label, () => flag(_currentVocab()), () => {});
 }

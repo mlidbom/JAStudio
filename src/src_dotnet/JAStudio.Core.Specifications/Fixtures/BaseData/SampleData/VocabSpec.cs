@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
@@ -13,7 +12,7 @@ public class VocabSpec : IEquatable<VocabSpec>
       string? answer = null,
       List<string>? readings = null,
       List<string>? forms = null,
-      List<Tag>? tags = null,
+      List<VocabMatchingSetting>? matching = null,
       List<string>? compounds = null,
       IEnumerable<string>? surfaceNot = null,
       IEnumerable<string>? yieldToSurface = null,
@@ -31,7 +30,7 @@ public class VocabSpec : IEquatable<VocabSpec>
       Readings = readings ?? [Question];
       ExtraForms = forms != null ? [..forms] : [];
       OwnedForms = ownedForms != null ? [..ownedForms] : [];
-      Tags = tags != null ? [..tags] : [];
+      Matching = matching ?? [];
       Compounds = compounds ?? [];
       SurfaceIsNot = surfaceNot != null ? [..surfaceNot] : [];
       YieldToSurface = yieldToSurface != null ? [..yieldToSurface] : [];
@@ -48,7 +47,7 @@ public class VocabSpec : IEquatable<VocabSpec>
    public List<string> Readings { get; }
    public HashSet<string> ExtraForms { get; }
    public HashSet<string> OwnedForms { get; }
-   public HashSet<Tag> Tags { get; }
+   public List<VocabMatchingSetting> Matching { get; }
    public List<string> Compounds { get; }
    public HashSet<string> SurfaceIsNot { get; }
    public HashSet<string> YieldToSurface { get; }
@@ -79,9 +78,9 @@ public class VocabSpec : IEquatable<VocabSpec>
          vocabNote.Forms.SetEnteredForms([.. OwnedForms.Select(EnteredForm.Owned), .. vocabNote.Forms.EnteredForms(), .. ExtraForms.Select(EnteredForm.NotOwned)]);
       }
 
-      foreach(var tag in Tags)
+      foreach(var setting in Matching)
       {
-         vocabNote.Tags.Set(tag);
+         setting.ApplyTo(vocabNote.MatchingConfiguration);
       }
 
       foreach(var excludedSurface in SurfaceIsNot)

@@ -4,6 +4,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 // ReSharper disable InconsistentNaming
 
@@ -32,7 +33,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
 
    public class that_requires_the_dictionary_form_start : When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_placeholder
    {
-      public that_requires_the_dictionary_form_start() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.SetRequired(true);
+      public that_requires_the_dictionary_form_start() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Required);
 
       [XF] public void the_question_and_the_entered_forms_are_only_the_form_starting_with_the_placeholder() => _vocab.Forms.QuestionAndEnteredFormsList().Must().SequenceEqual(["う限り"]);
       [XF] public void no_forms_are_stored_since_the_form_starting_with_the_placeholder_is_the_question() => _vocab.Forms.EnteredForms().Must().BeEmpty();
@@ -70,7 +71,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
 
       public class after_the_requirement_is_removed_again : that_requires_the_dictionary_form_start
       {
-         public after_the_requirement_is_removed_again() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.SetRequired(false);
+         public after_the_requirement_is_removed_again() => _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Unset);
 
          [XF] public void the_matched_forms_are_the_question_and_the_entered_forms() => _vocab.Forms.MatchedFormsSet().SetEquals(_vocab.Forms.QuestionAndEnteredFormsList()).Must().BeTrue();
          [XF] public void the_vocab_collection_no_longer_finds_the_vocab_by_any_of_the_forms_starting_with_another_dictionary_form_ending() => TheVocabCollectionFindsTheVocabByAnyOfTheFormsItExpandsTo.Must().BeFalse();

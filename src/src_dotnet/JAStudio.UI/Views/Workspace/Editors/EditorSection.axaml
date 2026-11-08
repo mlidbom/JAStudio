@@ -12,7 +12,7 @@
         <DataTemplate DataType="noteFields:RequireForbidFlagEditorViewModel">
             <noteFields:RequireForbidFlagEditor />
         </DataTemplate>
-        <DataTemplate DataType="noteFields:TagFlagEditorViewModel">
+        <DataTemplate DataType="noteFields:FlagEditorViewModel">
             <CheckBox Content="{Binding Label}" IsChecked="{Binding IsSet}" />
         </DataTemplate>
         <DataTemplate DataType="noteFields:StringSetEditorViewModel">

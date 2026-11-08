@@ -133,11 +133,6 @@ public abstract class JPNote
    /// </summary>
    public virtual IEnumerable<string> SearchableTexts() => [GetQuestion(), GetAnswer()];
 
-   public virtual void OnTagsUpdated()
-   {
-      // Called when tags are modified. Subclasses can override to invalidate cached state.
-   }
-
    public NoteId GetId() => _id;
 
    public virtual void UpdateGeneratedData()

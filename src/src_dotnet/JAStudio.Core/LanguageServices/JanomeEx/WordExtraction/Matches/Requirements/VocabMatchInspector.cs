@@ -1,4 +1,4 @@
-using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements;
 
@@ -9,33 +9,20 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Require
 /// </summary>
 public class VocabMatchInspector : MatchInspector
 {
-   VocabMatchingRulesConfigurationRequiresForbidsFlags? _requiresForbids;
-
    public VocabMatchInspector(VocabMatch match) : base(match) {}
 
    public new VocabMatch Match => (VocabMatch)base.Match;
 
-   public VocabMatchingRulesConfigurationRequiresForbidsFlags RequiresForbids
-   {
-      get
-      {
-         if(_requiresForbids == null)
-         {
-            _requiresForbids = Match.RequiresForbids;
-         }
-
-         return _requiresForbids;
-      }
-   }
+   public VocabMatchingRequireForbidFlags RequiresForbids => Match.RequiresForbids;
 
    public bool PreviousLocationIsIrrealis =>
-      PreviousLocation != null && PreviousLocation.Token.IsIrrealis;
+      PreviousLocation is { Token.IsIrrealis: true };
 
    public bool PreviousLocationIsGodan =>
-      PreviousLocation != null && PreviousLocation.Token.IsGodanVerb;
+      PreviousLocation is { Token.IsGodanVerb: true };
 
    public bool PreviousLocationIsIchidan =>
-      PreviousLocation != null && PreviousLocation.Token.IsIchidanVerb;
+      PreviousLocation is { Token.IsIchidanVerb: true };
 
    public bool BaseEqualsSurface => Word.SurfaceForm == Word.BaseForm;
 }

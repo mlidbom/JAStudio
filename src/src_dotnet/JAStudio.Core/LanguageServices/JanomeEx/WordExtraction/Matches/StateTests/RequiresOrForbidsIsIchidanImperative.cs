@@ -11,7 +11,7 @@ static class RequiresOrForbidsStartsWithIchidanImperativeStemOrInflection
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
       var requirement = inspector.Match.RequiresForbids.IchidanImperative;
-      if(requirement.IsActive)
+      if(requirement.IsConfigured)
       {
          var isInState = inspector.Word.StartLocation.Token.IsIchidanImperativeStem ||
                          inspector.Word.StartLocation.Token.IsIchidanImperativeInflection;

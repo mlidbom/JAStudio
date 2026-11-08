@@ -14,7 +14,7 @@ static class ForbidsCompositionallyTransparentCompound
          match.Word.Analysis.ForUI &&
          match.Word.IsCompound &&
          inspector.CompoundLocationsAllHaveValidNonCompoundMatches &&
-         match.Vocab.MatchingConfiguration.BoolFlags.IsCompositionallyTransparentCompound.IsSet())
+         match.Vocab.MatchingConfiguration.Flags.IsCompositionallyTransparentCompound.IsSet())
       {
          return Failed;
       }

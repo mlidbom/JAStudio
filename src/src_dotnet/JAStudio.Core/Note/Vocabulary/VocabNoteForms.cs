@@ -194,7 +194,7 @@ public class VocabNoteForms
    });
 
    /// <summary>
-   /// Called by <see cref="VocabNoteQuestion.Set"/>: drops the new question from the entered forms, where it would now be a copy,<br/>
+   /// Called by <see cref="VocabNoteQuestion.SetText"/>: drops the new question from the entered forms, where it would now be a copy,<br/>
    /// and discards everything derived from the old question.
    /// </summary>
    internal void OnQuestionChanged()
@@ -254,10 +254,10 @@ public class VocabNoteForms
    }
 
    /// <summary>
-   /// Discards everything derived from the vocab's tags.<br/>
+   /// Discards everything derived from the vocab's <see cref="VocabNote.MatchingConfiguration"/>.<br/>
    /// The <see cref="MatchedFormsList"/> and the <see cref="OwnedForms"/> depend on whether the vocab requires the dictionary form start.
    /// </summary>
-   internal void OnTagsUpdated() => InvalidateCaches();
+   internal void OnMatchingConfigurationChanged() => InvalidateCaches();
 
    public override string ToString() => string.Join(", ", EnteredFormsList());
 }
