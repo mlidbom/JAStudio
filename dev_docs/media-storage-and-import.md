@@ -74,19 +74,21 @@ in Config > Media import (`MediaImportDialog`). An import is batch, incremental,
 
 ## What happens when a note's audio changes
 
-- **The field gets the new reference,** for example when a save in Anki brings audio HyperTTS generated
+- **The field gets the new reference** when a speech is kept in JAStudio's TTS dialog (`text-to-speech.md`). Until
+  2026-11-08 a save in Anki also brought in audio HyperTTS generated; now it brings in nothing
   (`corpus-data-model.md`, "Anki's role and its consequences").
-- **The new file has to reach the media layer** before JAStudio can play it: today through a media import. JAStudio's
-  own TTS will store its files directly (`text-to-speech.md`).
+- **The new file is in the media layer at once:** JAStudio's TTS stores it there itself, and copies it into Anki's
+  media folder. Files that come with notes imported through Anki reach the media layer through a media import.
 - **The old file stays where it was,** in the media layer and in Anki's media folder. Nothing deletes it. It's just no
-  longer referenced: an orphan. Nothing in JAStudio finds orphans. Anki's "Check Media" finds the unused files in its
-  own folder.
+  longer referenced: an orphan. Nothing in JAStudio finds orphans yet (`corpus-validity.md`). Anki's "Check Media"
+  finds the unused files in its own folder.
 
 ## Not done
 
 - **The corpus still holds the media references,** as Anki's markup in the note fields. Moving them out has
   unresolved design questions: see `corpus-data-model.md`, "Media (Open)".
-- **Removing orphaned files.** A batch could compare every note's references with the index.
+- **Removing orphaned files.** Checking the whole corpus could find them, by comparing every note's references with the
+  index (`corpus-validity.md`).
 - **Access gating:** offering a commercial source's media only to someone entitled to it.
 - **Source-revealing tags:** a sentence's `source::…` tags reveal where it comes from. Moving them out of the corpus
   is deferred.

@@ -30,9 +30,8 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    protected readonly IMonitor _monitor = IMonitor.New();
 
    /// <summary>
-   /// Notifies every note in this cache that is updated, after the cache holds the updated note,<br/>
-   /// whether JAStudio updated it (<see cref="JpNoteUpdated"/>) or Anki did (<see cref="ExternalNoteWillFlush"/>).<br/>
-   /// It's notified on the thread that made the update.
+   /// Notifies every note in this cache that JAStudio updates (<see cref="JpNoteUpdated"/>), after the cache holds the updated note.<br/>
+   /// It's notified on the thread that made the update. A note saved in Anki isn't taken in: everything in it is edited in JAStudio.
    /// </summary>
    public IObservable<TNote> NoteUpdated => _noteUpdated;
 
@@ -73,23 +72,6 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
    /// <summary>Sets up a note just added in Anki, before it's added to the cache: updates its generated data.</summary>
    protected virtual void SetUpNoteAddedInAnki(TNote note) => note.UpdateGeneratedData();
 
-   public void ExternalNoteWillFlush(long externalNoteId, AnkiNoteData data)
-   {
-      var noteId = _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
-      if(noteId == null) return;
-      var existing = WithIdOrNone(noteId);
-      if(existing == null) return;
-      if(existing.IsFlushing) return; // Our code initiated this flush, nothing to do
-
-      data.Id = noteId;
-      if(NoteWithTheAudioTTSWroteInAnki(_noteServices, existing, data) is not {} note) return;
-
-      note.CopyStudyingStatusFrom(existing);
-      note.UpdateGeneratedData();
-      _monitor.Locked(() => RefreshInCacheCore(note));
-      _noteUpdated.OnNext(note);
-   }
-
    public void ExternalNoteRemoved(long externalNoteId)
    {
       var noteId = _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
@@ -108,17 +90,6 @@ abstract class NoteCacheBase<TNote>(Func<NoteServices, AnkiNoteData, TNote> note
 
    /// <summary>Creates the correctly typed NoteId for this cache (VocabId, KanjiId, etc.)</summary>
    protected abstract NoteId CreateTypedId(Guid value);
-
-   /// <summary>
-   /// The note as <paramref name="existing"/> is, but with the audio TTS writes into its Anki note taken from <paramref name="ankiData"/>,<br/>
-   /// or null when TTS writes no audio for this note type, so that saving the note in Anki changes nothing.
-   /// </summary>
-   /// <remarks>
-   /// Everything else in a note is edited in JAStudio, and the Anki-projection writes it to the Anki note, so an edit made to it in Anki<br/>
-   /// isn't taken, and JAStudio's next write of the note undoes it. TTS audio is the exception: HyperTTS, an Anki add-on, generates it into the Anki note.<br/>
-   /// A note added in Anki is different: <see cref="ExternalNoteAdded"/> takes all of it, as an import must. See <c>dev_docs/corpus-data-model.md</c>.
-   /// </remarks>
-   protected abstract TNote? NoteWithTheAudioTTSWroteInAnki(NoteServices services, TNote existing, AnkiNoteData ankiData);
 
    public void JpNoteUpdated(TNote note)
    {

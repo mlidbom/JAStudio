@@ -21,9 +21,7 @@ if TYPE_CHECKING:
 
 class AnkiCollectionSyncRunner(Slots):
     def __init__(self, anki_collection: Collection) -> None:
-        self._merge_pending_subscribers: list[Callable[[], None]] = []
         self._added_subscribers: list[Callable[[Note], None]] = []
-        self._will_flush_subscribers: list[Callable[[Note], None]] = []
         self._will_remove_subscribers: list[Callable[[Sequence[NoteId]], None]] = []
         self._anki_collection: Collection = anki_collection
         self._running: bool = False
@@ -38,7 +36,6 @@ class AnkiCollectionSyncRunner(Slots):
 
         hooks.notes_will_be_deleted.append(self._on_will_be_removed)  # pyright: ignore[reportUnknownMemberType]
         hooks.note_will_be_added.append(self._on_will_be_added)  # pyright: ignore[reportUnknownMemberType]
-        hooks.note_will_flush.append(self._on_will_flush)
 
     def start(self) -> None:
         with self._lock:
@@ -70,11 +67,6 @@ class AnkiCollectionSyncRunner(Slots):
         with self._lock:
             self._pending_add.append(backend_note)
 
-    def _on_will_flush(self, backend_note: Note) -> None:
-        if not self._running: return
-        with self._lock:
-            for subscriber in self._will_flush_subscribers: subscriber(backend_note)
-
     def _on_will_be_removed(self, _: Collection, note_ids: Sequence[NoteId]) -> None:
         if not self._running: return
         with self._lock:
@@ -83,10 +75,6 @@ class AnkiCollectionSyncRunner(Slots):
     def connect_note_addded(self, on_added: Callable[[Note], None]) -> None:
         with self._lock:
             self._added_subscribers.append(on_added)
-
-    def connect_will_flush(self, on_will_flush: Callable[[Note], None]) -> None:
-        with self._lock:
-            self._will_flush_subscribers.append(on_will_flush)
 
     def connect_will_remove(self, on_will_remove: Callable[[Sequence[NoteId]], None]) -> None:
         with self._lock:

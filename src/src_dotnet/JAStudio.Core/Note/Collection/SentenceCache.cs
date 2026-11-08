@@ -4,7 +4,6 @@ using System.Linq;
 using JAStudio.Core.Note.CorpusData;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
@@ -17,9 +16,6 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
    readonly Dictionary<NoteId, HashSet<SentenceNote>> _byVocabId = new();
 
    public SentenceCache(NoteServices noteServices) : base((services, data) => new SentenceNote(services, SentenceData.FromAnkiNoteData(data)), noteServices) {}
-
-   protected override SentenceNote NoteWithTheAudioTTSWroteInAnki(NoteServices services, SentenceNote existing, AnkiNoteData ankiData) =>
-      new(services, SentenceNoteConverter.ToCorpusData(existing).WithTheAudioTTSWritesFrom(ankiData));
 
    protected override void ClearDerivedIndexes()
    {

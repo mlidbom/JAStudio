@@ -60,15 +60,6 @@ def ui_refresh() -> None:
         app.get_ui_utils().refresh()
     run_on_ui_thread_fire_and_forget(do_it)
 
-# ── Batches ──
-
-# noinspection PyUnusedFunction
-def batches_flush_anki_note(note_id: int) -> None:
-    from jastudio.ankiutils import app
-    col = app.anki_collection()
-    note = col.get_note(NoteId(note_id))
-    col.update_note(note)
-
 # ── Media ──
 
 # noinspection PyUnusedFunction

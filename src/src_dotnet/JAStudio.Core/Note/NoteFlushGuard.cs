@@ -27,8 +27,6 @@ public class NoteFlushGuard
 
    bool ShouldFlush() => _depth == 0;
 
-   public bool IsFlushing => _depth > 0;
-
    public void Flush()
    {
       if(ShouldFlush())

@@ -49,9 +49,6 @@ public static class AnkiFacade
    {
       /// <summary>This is about converting between Anki note types. There's no way to avoid interfacing with anki for that. </summary>
       public static void ConvertImmersionKitSentences() => Backend.Use(it => it.batches_convert_immersion_kit_sentences());
-
-      /// <summary>Loads an Anki note by external ID and calls update_note to flush it, triggering the ExternalNoteWillFlush merge path.</summary>
-      public static void FlushAnkiNote(long externalNoteId) => Backend.Use(it => it.batches_flush_anki_note(externalNoteId));
    }
 
    public static class Media

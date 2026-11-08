@@ -70,9 +70,9 @@ apply here.
   them all and drops the change). So a setter that does real work, such as writing to a note or showing the tab
   clicked in the tab strip, runs it through
   `IFatalErrorHandler.HandleExceptionsFrom`, and an exception reaches the user.
-- **Views hold note ids, not note objects.** Today the cache replaces note objects in two cases:
-  - TTS audio coming in from Anki (`NoteWithTheAudioTTSWroteInAnki`);
-  - every full reload (`JPCollection.ReloadFromBackend`, after each Anki sync and when the profile reopens).
+- **Views hold note ids, not note objects.** The cache replaces note objects on every full reload
+  (`JPCollection.ReloadFromBackend`, after each Anki sync and when the profile reopens). Until 2026-11-08, TTS audio
+  coming in from Anki did too.
 
   A view holding the old object would then show and edit an orphan. Looking the note up by id keeps "one shared
   object" true. `JPCollection.ReloadedFromBackend` lets views refresh.

@@ -102,43 +102,6 @@ public partial class VocabData : CorpusObjectData
          Image = anki.Image,
          UserImage = anki.UserImage,
       };
-
-   /// <summary>
-   /// This data with the audio TTS writes into the vocab's Anki note taken from <paramref name="ankiData"/>: <c>Audio_TTS</c> and <c>Audio_g</c>,<br/>
-   /// which HyperTTS's vocab presets write. Everything else stays as it is: it's edited in JAStudio, and <c>Audio_b</c> and the images only come with an import.
-   /// </summary>
-   public VocabData WithTheAudioTTSWritesFrom(AnkiNoteData ankiData)
-   {
-      var anki = new AnkiVocabNote(ankiData);
-      return new VocabData
-             {
-                Id = Id,
-                Tags = [..Tags],
-                Question = Question,
-                SourceAnswer = SourceAnswer,
-                UserAnswer = UserAnswer,
-                ActiveAnswer = ActiveAnswer,
-                UserExplanation = UserExplanation,
-                UserExplanationLong = UserExplanationLong,
-                UserMnemonic = UserMnemonic,
-                UserCompounds = UserCompounds,
-                Readings = Readings,
-                PartsOfSpeech = PartsOfSpeech,
-                SourceMnemonic = SourceMnemonic,
-                SourceReadingMnemonic = SourceReadingMnemonic,
-                AudioB = AudioB,
-                AudioG = anki.AudioG,
-                AudioTTS = anki.AudioTTS,
-                Forms = Forms,
-                SentenceCount = SentenceCount,
-                TechnicalNotes = TechnicalNotes,
-                References = References,
-                Image = Image,
-                UserImage = UserImage,
-                MatchingRules = MatchingRules,
-                RelatedVocab = RelatedVocab,
-             };
-   }
 }
 
 /// Matching rules sub-data for vocab word matching (serialized in JSON).

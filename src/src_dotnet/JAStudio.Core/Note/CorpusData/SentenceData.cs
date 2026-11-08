@@ -93,34 +93,6 @@ public partial class SentenceData : CorpusObjectData
          Screenshot = anki.Screenshot,
       };
 
-   /// <summary>
-   /// This data with the audio TTS writes into the sentence's Anki note taken from <paramref name="ankiData"/>: <c>Audio Sentence</c>,<br/>
-   /// which HyperTTS's sentence presets write. Everything else stays as it is: it's edited in JAStudio, and the screenshot only comes with an import.
-   /// </summary>
-   public SentenceData WithTheAudioTTSWritesFrom(AnkiNoteData ankiData)
-   {
-      var anki = new AnkiSentenceNote(ankiData);
-      return new SentenceData
-             {
-                Id = Id,
-                Tags = [..Tags],
-                SourceQuestion = SourceQuestion,
-                UserQuestion = UserQuestion,
-                ActiveQuestion = ActiveQuestion,
-                SourceAnswer = SourceAnswer,
-                UserAnswer = UserAnswer,
-                ActiveAnswer = ActiveAnswer,
-                SourceComments = SourceComments,
-                UserComments = UserComments,
-                Reading = Reading,
-                ExternalId = ExternalId,
-                Audio = anki.Audio,
-                Screenshot = Screenshot,
-                Configuration = Configuration,
-                ParsingResult = ParsingResult,
-             };
-   }
-
    public static ParsingResult CreateParsingResult(SentenceParsingResultSubData? data)
    {
       if(data == null) return new ParsingResult([], "", "");

@@ -13,9 +13,6 @@ class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
 
    public KanjiCache(NoteServices noteServices) : base((services, data) => new KanjiNote(services, KanjiData.FromAnkiNoteData(data)), noteServices) {}
 
-   /// <summary>Null: TTS writes no kanji audio that JAStudio keeps. Only the primary-readings TTS did, and it's being removed (<c>dev_docs/corpus-data-model.md</c>).</summary>
-   protected override KanjiNote? NoteWithTheAudioTTSWroteInAnki(NoteServices services, KanjiNote existing, AnkiNoteData ankiData) => null;
-
    protected override void ClearDerivedIndexes()
    {
       _byRadical.Clear();

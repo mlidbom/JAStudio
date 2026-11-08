@@ -53,8 +53,6 @@ class AnkiFacade(abc.ABC):
     class Batches(abc.ABC):
         @staticmethod
         def ConvertImmersionKitSentences() -> None: ...
-        @staticmethod
-        def FlushAnkiNote(externalNoteId: int) -> None: ...
 
 
     class Browser(abc.ABC):

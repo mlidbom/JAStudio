@@ -21,14 +21,6 @@ public abstract class JPNote
    // Dictionary tracks card suspend status: true = active/unsuspended, false = suspended
    readonly Dictionary<string, bool> _cardStatus = new();
 
-   public void CopyStudyingStatusFrom(JPNote other)
-   {
-      foreach(var kvp in other._cardStatus)
-      {
-         _cardStatus[kvp.Key] = kvp.Value;
-      }
-   }
-
    public NoteTags Tags { get; }
 
    readonly NoteId _id;
@@ -41,8 +33,6 @@ public abstract class JPNote
       Tags = new NoteTags(this, tags);
       _id = id;
    }
-
-   public bool IsFlushing => RecursiveFlushGuard.IsFlushing;
 
    public void SetStudyingStatus(CardStudyingStatus status)
    {

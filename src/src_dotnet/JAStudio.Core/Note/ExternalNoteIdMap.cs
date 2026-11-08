@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace JAStudio.Core.Note;
 
@@ -20,14 +19,13 @@ public class ExternalNoteIdMap
       _noteIdToExternal[noteId] = externalId;
    }
 
-   public NoteId? FromExternalId(long externalId) => _externalToNoteId.TryGetValue(externalId, out var noteId) ? noteId : null;
+   public NoteId? FromExternalId(long externalId) => _externalToNoteId.GetValueOrDefault(externalId);
    public long? ToExternalId(NoteId noteId) => _noteIdToExternal.TryGetValue(noteId, out var externalId) ? externalId : null;
 
    public long RequireExternalId(NoteId noteId) => _noteIdToExternal.TryGetValue(noteId, out var externalId)
                                                       ? externalId
                                                       : throw new KeyNotFoundException($"No external ID mapping found for NoteId {noteId}");
 
-   public List<long> AllExternalIds() => _externalToNoteId.Keys.ToList();
 
    public void Unregister(long externalId)
    {

@@ -22,34 +22,21 @@ class AnkiSingleCollectionSyncer[TNote: JPNote](Slots):
         self._note_type: type[TNote] = cached_note_type
         self._anki_sync_handler: IExternalNoteUpdateHandler = anki_sync_handler
         self._note_type_name: str = note_type_name
-        self._is_updating_anki_note: bool = False
 
         NoteUpdatePythonAdapter.Register(self._anki_sync_handler, self._update_anki_note)
 
         cache_runner.connect_will_remove(self._on_will_be_removed)
         cache_runner.connect_note_addded(self._on_added)
-        cache_runner.connect_will_flush(self._on_will_flush)
 
     def _is_my_note_type(self, backend_note: Note) -> bool:
         return NoteEx(backend_note).note_type().name == self._note_type_name
 
     def _update_anki_note(self, note: TNote) -> None:
-        self._is_updating_anki_note = True
-        try:
-            anki_id = self._anki_sync_handler.GetExternalNoteId(note.GetId())
-            if anki_id:
-                anki_note = app.anki_collection().get_note(NoteId(anki_id))
-                JPNoteDataShim.sync_note_to_anki_note(note, anki_note)
-                app.anki_collection().update_note(anki_note)
-        finally:
-            self._is_updating_anki_note = False
-
-    def _on_will_flush(self, backend_note: Note) -> None:
-        if self._is_updating_anki_note: return
-        if not self._is_my_note_type(backend_note): return
-        if not backend_note.id: return
-        note_data = JPNoteDataShim.from_note(backend_note)
-        self._anki_sync_handler.ExternalNoteWillFlush(int(backend_note.id), note_data)
+        anki_id = self._anki_sync_handler.GetExternalNoteId(note.GetId())
+        if anki_id:
+            anki_note = app.anki_collection().get_note(NoteId(anki_id))
+            JPNoteDataShim.sync_note_to_anki_note(note, anki_note)
+            app.anki_collection().update_note(anki_note)
 
     def _on_added(self, backend_note: Note) -> None:
         if not self._is_my_note_type(backend_note): return

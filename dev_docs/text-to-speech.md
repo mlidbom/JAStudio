@@ -5,10 +5,10 @@
 
 ## Why
 
-Today the TTS audio comes from HyperTTS, an Anki add-on, through HyperTTS Pro, a vocab.ai subscription that proxies
-the TTS services. HyperTTS writes the audio into the Anki note, a save in Anki brings the audio field into the corpus
-(`corpus-data-model.md`, "Anki's role and its consequences"), and the file only plays in JAStudio after a media
-import (`media-storage-and-import.md`).
+Until JAStudio's own TTS, the TTS audio came from HyperTTS, an Anki add-on, through HyperTTS Pro, a vocab.ai
+subscription that proxies the TTS services. HyperTTS wrote the audio into the Anki note, a save in Anki brought the
+audio field into the corpus (`corpus-data-model.md`, "Anki's role and its consequences"), and the file only played in
+JAStudio after a media import (`media-storage-and-import.md`).
 
 JAStudio calling the TTS services itself:
 - **gives the very best voices,** the ones that pronounce Japanese most correctly and naturally, including newer
@@ -251,10 +251,10 @@ one.
   over the note page's web view, which would have needed glue code and a page to be shown, and Anki's own player,
   which isn't there outside Anki.*
 - ~~**Normalizing the MP3s before we're done**~~ *Done 2026-11-07, as mp3gain does it. See [Normalizing](#normalizing).*
-- **Stop taking in audio from Anki.** HyperTTS isn't used any more (Magnus, 2026-11-08). Nothing in it runs fully
-  automatically, so it can stay in Anki until Magnus removes it. Nothing else writes audio in Anki, so the
-  Anki-ingestion's last job besides importing, taking in that audio, can go (`corpus-data-model.md`, "Anki's role and
-  its consequences", point 2).
+- ~~**Stop taking in audio from Anki.**~~ *Done 2026-11-08.* HyperTTS isn't used any more (Magnus, 2026-11-08). Nothing
+  in it runs fully automatically, so it can stay in Anki until Magnus removes it, and nothing else writes audio in
+  Anki. So a note saved in Anki changes nothing in the corpus now (`corpus-data-model.md`, "Anki's role and its
+  consequences", point 2).
 - **Activate Google's full account before the free trial ends, around 2027-02-05,** 90 days after 2026-11-07, or Google
   stops the service until it is (see [The accounts](#the-accounts)). Found 2026-11-08: activating keeps the unused
   credit until the trial would have ended, and there's no monthly fee, only use: each kind of voice has a free
