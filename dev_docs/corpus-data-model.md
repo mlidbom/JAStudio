@@ -806,6 +806,15 @@ Progress on step 3:
       slice 8 (Magnus, 2026-11-08).*
    3. Overridable-text as a type, dropping `activeAnswer`/`activeQuestion`.
    4. Configuration out of tags: requires/forbids flags, boolean flags, register, `_uk`/`_disable_uk`, source.
+      **TODO, decided to do here (Magnus, 2026-11-08): untangle the provider from the work in the data.** "Source" mixes
+      two levels today: the *provider* a note was imported from (WaniKani, jamdict, the JLab deck, Immersion Kit) and the
+      *work* its content comes from (Shirokuma Cafe, Girls' Last Tour). For WaniKani vocab and the subs2srs anime decks
+      they're the same; for JLab and Immersion Kit sentences they differ, which is why a JLab sentence has a tag naming
+      the deck (`source::jlab::booster::1`) and a `sourceName` naming the anime. Decide whether they're one concept or
+      two, and how a note's source is stored (a path, or fields), then move `sourceName` once, to where that puts it.
+      Also fix the sentences tagged with two different sources, most likely editing mistakes: 291 in both
+      `source::jlab::booster::1` and `source::jlab::inter`, 233 in `source::anime::violet::07` and `::08`. (A parent
+      tag together with its child, as `source::wani` with `source::wani::current` on 14,567 sentences, is one source.)
    5. Priority out of the corpus, as student-data (see [Tags](#tags)).
    6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags.
    7. Kanji readings and parts of speech.
@@ -894,7 +903,8 @@ question 4.
    notes' tags when JAStudio loads; how it's stored for notes without an Anki note is for later. See
    [Tags](#tags).
 8. ~~Difficulty: a label or a typed field?~~ *Answered 2026-11-06:* deleted. Nothing uses it. See [Tags](#tags).
-9. **Source (slice 4).** Every note has a `source::…` tag, such as `source::anime::girls-last-tour`, and JAStudio
+9. **Source (slice 4).** See the TODO under slice 4 in [Order of work](#order-of-work-tentative): the provider and
+   the work have to be untangled first. Every note has a `source::…` tag, such as `source::anime::girls-last-tour`, and JAStudio
    reads it (`JPNote.SourceTag`). Since 2026-11-06, organizing builds on hierarchical tags, and the source tree is
    the `source::` branch. Does the code keep reading the source from that tag? Target model principle 3 says the
    code should only interpret typed fields, not tags. Or does the source become a typed field? Separately,
