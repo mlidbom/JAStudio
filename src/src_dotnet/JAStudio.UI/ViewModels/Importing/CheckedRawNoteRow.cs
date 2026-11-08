@@ -4,7 +4,7 @@ using JAStudio.Core.Importing.Checking;
 namespace JAStudio.UI.ViewModels.Importing;
 
 /// <summary>
-/// A row of the import profiles window's report: one <see cref="CheckedRawNote"/>. Its question is text; its outcome and its checked fields are<br/>
+/// A row of the import run window's report: one <see cref="CheckedRawNote"/>. Its question is text; its outcome and its checked fields are<br/>
 /// <see cref="ReportMark"/>s, with the details on hover; and <see cref="WhatIsWrong"/> has text only for an orange or red mark.
 /// </summary>
 class CheckedRawNoteRow(CheckedRawNote checkedRawNote)

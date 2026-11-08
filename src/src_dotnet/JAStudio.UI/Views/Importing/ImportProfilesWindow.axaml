@@ -1,17 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:importing="clr-namespace:JAStudio.UI.ViewModels.Importing"
-        xmlns:importingViews="clr-namespace:JAStudio.UI.Views.Importing"
         x:Class="JAStudio.UI.Views.Importing.ImportProfilesWindow"
         x:DataType="importing:ImportProfilesWindowViewModel"
         Title="Import profiles"
-        Width="1100"
-        Height="900"
+        Width="1000"
+        Height="560"
         WindowStartupLocation="Manual">
-
-    <Window.Resources>
-        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
-    </Window.Resources>
 
     <Window.Styles>
         <Style Selector="TextBlock.label">
@@ -24,7 +19,7 @@
         </Style>
     </Window.Styles>
 
-    <Grid ColumnDefinitions="240,*" Margin="10">
+    <Grid ColumnDefinitions="200,*" Margin="10">
         <DockPanel Grid.Column="0" Margin="0,0,10,0">
             <TextBlock DockPanel.Dock="Top" Text="Import profiles" FontWeight="Bold" Margin="0,0,0,4" />
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="6" Margin="0,6,0,0">
@@ -40,13 +35,18 @@
             </ListBox>
         </DockPanel>
 
-        <Grid Grid.Column="1" RowDefinitions="*,Auto,*,Auto">
-            <ContentControl Grid.Row="0" Content="{Binding SelectedProfile}">
+        <DockPanel Grid.Column="1">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0" HorizontalAlignment="Right">
+                <Button Content="Check" Command="{Binding CheckCommand}"
+                        ToolTip.Tip="Opens the profile's import run window, which shows what a run would do with each raw note, and every problem that stops it." />
+            </StackPanel>
+
+            <ContentControl Content="{Binding SelectedProfile}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate x:DataType="importing:ImportProfileEditorViewModel">
                         <ScrollViewer>
                             <StackPanel Spacing="4" Margin="0,0,16,0">
-                                <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                                <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
                                     <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Name" />
                                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
                                     <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Anki note type" />
@@ -55,126 +55,57 @@
                                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding AnkiSearch}" PlaceholderText="Optional: narrows the notes of the note type, such as deck:Natsume" />
                                 </Grid>
 
-                                <TextBlock Classes="heading" Text="Each sentence field takes its value from" />
-                                <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="4">
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Source question" />
-                                    <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceQuestion}" />
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Source answer" />
-                                    <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceAnswer}" />
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="Reading" />
-                                    <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Reading}" />
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="External id" />
-                                    <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding ExternalId}" />
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Source comments" />
-                                    <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceComments}" />
-                                    <TextBlock Grid.Row="5" Grid.Column="0" Classes="label" Text="Audio" />
-                                    <ComboBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Audio}" />
-                                    <TextBlock Grid.Row="6" Grid.Column="0" Classes="label" Text="Screenshot" />
-                                    <ComboBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Screenshot}" />
+                                <Grid ColumnDefinitions="5*,24,7*">
+                                    <StackPanel Grid.Column="0" Spacing="4">
+                                        <TextBlock Classes="heading" Text="Each sentence field takes its value from" />
+                                        <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="4">
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Source question" />
+                                            <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceQuestion}" />
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Source answer" />
+                                            <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceAnswer}" />
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="Reading" />
+                                            <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Reading}" />
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="External id" />
+                                            <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding ExternalId}" />
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Source comments" />
+                                            <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding SourceComments}" />
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Classes="label" Text="Audio" />
+                                            <ComboBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Audio}" />
+                                            <TextBlock Grid.Row="6" Grid.Column="0" Classes="label" Text="Screenshot" />
+                                            <ComboBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding AnkiFieldChoices}" SelectedItem="{Binding Screenshot}" />
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" Spacing="4">
+                                        <TextBlock Classes="heading" Text="The media goes into these folders of the media layer" TextWrapping="Wrap" />
+                                        <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto" RowSpacing="4">
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Audio folder" />
+                                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AudioFolder}" PlaceholderText="Inside free/ or a commercial repository"
+                                                     ToolTip.Tip="Inside free/ or a commercial repository, such as commercial-01/anime/immersion-kit/audio" />
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Screenshot folder" />
+                                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ScreenshotFolder}" PlaceholderText="Inside free/ or a commercial repository"
+                                                     ToolTip.Tip="Inside free/ or a commercial repository, such as commercial-01/anime/immersion-kit/screenshots" />
+                                        </Grid>
+
+                                        <TextBlock Classes="heading" Text="Tags" />
+                                        <TextBox Text="{Binding TagsToAdd}" PlaceholderText="Besides the raw note's own, separated by spaces"
+                                                 ToolTip.Tip="Tags each sentence gets besides the raw note's own, separated by spaces, such as source::immersion_kit" />
+
+                                        <TextBlock Classes="heading" Text="After a run" />
+                                        <CheckBox IsChecked="{Binding DeletesTheRawNotesAfterwards}">
+                                            <TextBlock TextWrapping="Wrap" Text="Delete the raw notes from Anki. Otherwise they're tagged jastudio::imported, which later runs leave out." />
+                                        </CheckBox>
+                                        <CheckBox IsChecked="{Binding CreatesAnkiNotesToStudy}">
+                                            <TextBlock TextWrapping="Wrap" Text="Give each sentence a note in this Anki profile to study. Otherwise it's added to the corpus only." />
+                                        </CheckBox>
+                                    </StackPanel>
                                 </Grid>
-
-                                <TextBlock Classes="heading" Text="The media goes into these folders of the media layer" />
-                                <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto" RowSpacing="4">
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Audio folder" />
-                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AudioFolder}" PlaceholderText="Inside free/ or a commercial repository, such as commercial-01/anime/immersion-kit/audio" />
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Screenshot folder" />
-                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ScreenshotFolder}" PlaceholderText="Inside free/ or a commercial repository, such as commercial-01/anime/immersion-kit/screenshots" />
-                                </Grid>
-
-                                <TextBlock Classes="heading" Text="Tags" />
-                                <TextBox Text="{Binding TagsToAdd}" PlaceholderText="Tags each sentence gets besides the raw note's own, separated by spaces, such as source::immersion_kit" />
-
-                                <TextBlock Classes="heading" Text="After a run" />
-                                <CheckBox IsChecked="{Binding DeletesTheRawNotesAfterwards}" Content="Delete the raw notes from Anki. Otherwise they're tagged jastudio::imported, which later runs leave out." />
-                                <CheckBox IsChecked="{Binding CreatesAnkiNotesToStudy}" Content="Give each sentence a note in this Anki profile to study. Otherwise it's added to the corpus only." />
                             </StackPanel>
                         </ScrollViewer>
                     </DataTemplate>
                 </ContentControl.ContentTemplate>
             </ContentControl>
-
-            <GridSplitter Grid.Row="1" Height="6" ResizeDirection="Rows" Background="Transparent" />
-
-            <DockPanel Grid.Row="2">
-                <TextBox DockPanel.Dock="Top" MaxHeight="140" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
-                         Text="{Binding Summary}" PlaceholderText="Check shows what a run would do with each raw note, and every problem that stops it." />
-                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding OutcomeFilters}" Margin="0,6,0,0">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" Spacing="16" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="importing:OutcomeFilterViewModel">
-                            <CheckBox IsChecked="{Binding IsShown}">
-                                <StackPanel Orientation="Horizontal">
-                                    <importingViews:ReportMarkView DataContext="{Binding Mark}" />
-                                    <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </CheckBox>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <DataGrid x:Name="ReportGrid" ItemsSource="{Binding Rows}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,6,0,0">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Question" Width="2*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <Panel>
-                                        <TextBlock Text="{Binding Question}" FontFamily="{StaticResource JapaneseFont}" VerticalAlignment="Center" Margin="4,2"
-                                                   TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Question}" IsVisible="{Binding !QuestionIsAProblem}" />
-                                        <Border HorizontalAlignment="Left" IsVisible="{Binding QuestionIsAProblem}">
-                                            <importingViews:ReportMarkView DataContext="{Binding QuestionMark}" />
-                                        </Border>
-                                    </Panel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Outcome" Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <importingViews:ReportMarkView DataContext="{Binding OutcomeMark}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="External id" Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <importingViews:ReportMarkView DataContext="{Binding ExternalId}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Audio" Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <importingViews:ReportMarkView DataContext="{Binding Audio}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Screenshot" Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <importingViews:ReportMarkView DataContext="{Binding Screenshot}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="What's wrong" Width="3*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <TextBlock Text="{Binding WhatIsWrong}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4,2" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-
-            <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0" HorizontalAlignment="Right">
-                <Button Content="Show the imported sentences in the workspace" Command="{Binding ShowTheImportedSentencesCommand}" />
-                <Button Content="Check" Command="{Binding CheckCommand}" IsEnabled="{Binding !IsBusy}" />
-                <Button Content="Run" Command="{Binding RunCommand}" IsEnabled="{Binding !IsBusy}" />
-            </StackPanel>
-        </Grid>
+        </DockPanel>
     </Grid>
 
 </Window>

@@ -11,7 +11,8 @@ namespace JAStudio.UI.ViewModels.Importing;
 
 /// <summary>
 /// Edits one <see cref="ImportProfile"/> in the import profiles window. Every change goes straight into the profile and is saved,<br/>
-/// so there's nothing to save or lose when the window closes.
+/// so there's nothing to save or lose when the window closes. An open import run window of the profile learns of it through<br/>
+/// <see cref="SavedImportProfiles.ProfileChanged"/>.
 /// </summary>
 class ImportProfileEditorViewModel : ObservableObject
 {
@@ -19,13 +20,13 @@ class ImportProfileEditorViewModel : ObservableObject
    public const string NoField = "(none)";
 
    readonly IReadOnlyList<AnkiNoteType> _noteTypesForRawNotes;
-   readonly Action _saveEveryProfile;
+   readonly SavedImportProfiles _savedImportProfiles;
 
-   public ImportProfileEditorViewModel(ImportProfile profile, IReadOnlyList<AnkiNoteType> noteTypesForRawNotes, Action saveEveryProfile)
+   public ImportProfileEditorViewModel(ImportProfile profile, IReadOnlyList<AnkiNoteType> noteTypesForRawNotes, SavedImportProfiles savedImportProfiles)
    {
       Profile = profile;
       _noteTypesForRawNotes = noteTypesForRawNotes;
-      _saveEveryProfile = saveEveryProfile;
+      _savedImportProfiles = savedImportProfiles;
    }
 
    public ImportProfile Profile { get; }
@@ -102,7 +103,7 @@ class ImportProfileEditorViewModel : ObservableObject
       change();
       OnPropertyChanged(changedProperty);
       if(alsoChangedProperty != null) OnPropertyChanged(alsoChangedProperty);
-      _saveEveryProfile();
+      _savedImportProfiles.SaveTheChangeOf(Profile);
    }
 
    static string Shown(string ankiFieldName) => ankiFieldName == "" ? NoField : ankiFieldName;

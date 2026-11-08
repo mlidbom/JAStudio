@@ -4,7 +4,7 @@ using JAStudio.Core.Importing.Checking;
 namespace JAStudio.UI.ViewModels.Importing;
 
 /// <summary>
-/// A mark in the import profiles window's report: ✓, – or ✗ in a <see cref="ReportMarkColour"/>, with its details on hover.<br/>
+/// A mark in the import run window's report: ✓, – or ✗ in a <see cref="ReportMarkColour"/>, with its details on hover.<br/>
 /// It marks a raw note's outcome, or one of its <see cref="FieldCheck"/>s, so a long report can be scanned by colour.
 /// </summary>
 class ReportMark(string symbol, ReportMarkColour colour, string hoverText)

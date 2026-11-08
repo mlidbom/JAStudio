@@ -87,10 +87,16 @@ where "Convert Immersion Kit sentences" used to be. Every change is saved at onc
 4. **Then** delete the raw notes it imported, or tag them `jastudio::imported`. The tag is visible in Anki, and
    removing it makes a note importable again. The other raw notes are left as they are.
 5. **Show the imported sentences** in the workspace's List tab, titled with the profile and the time of the run. The
-   window's "Show the imported sentences in the workspace" brings them back later.
+   import run window's "Show the imported sentences in the workspace" brings them back later.
 
-The window's Run executes the run its Check prepared, with the profile as it was then (`ImportProfile.Copy`): a run
-does what its report said, even if the profile was edited in between.
+**Two windows** (Magnus, 2026-11-08: one window barely fit a 4K monitor). The import profiles window edits the
+profiles; its Check opens the profile's import run window, which shows the report and has Run. A profile has one import
+run window at most: Check brings it to the front and checks again. The report grows with the raw notes, so its window
+is the one to make large, and the profile can be fixed in the other while the report stays in view.
+
+Run executes the run the last check prepared, with the profile as it was then (`ImportProfile.Copy`): a run does what
+its report said. When the profile changes after a check, the report stays, to fix what it found, but Run waits for
+checking again. Deleting the profile closes its import run window.
 
 ## The check
 
@@ -146,7 +152,7 @@ file's finding on hover.
 
 ## When a run starts
 
-- **By hand,** from the import window.
+- **By hand,** with Check in the import profiles window, then Run in the profile's import run window.
 - **Automatically,** for import profiles marked to run that way, on either of two signals from Anki:
   - **an import finished.** Anki's .apkg importer runs in its Rust backend and doesn't fire `note_will_be_added`.
     It only announces the finished operation: `operation_did_execute`, with the `ImportDialog` as source. Verified
@@ -155,7 +161,7 @@ file's finding on hover.
     can both use it.
 
   Both signals do the same thing: run every automatic import profile over its selection. An automatic run that
-  has problems opens the import window with its report instead of running.
+  has problems opens its import run window with the report instead of running.
 
 ## Anki knows nothing of particular imports
 
@@ -232,12 +238,16 @@ doesn't matter to lookups.
 - **Only the notes a run imports are tagged or deleted.** Tagging skipped duplicates would later show them as imported
   by an earlier run, which they weren't.
 - **An unused file that's the same is reused, and a different one is a problem.**
+- **Editing and running are two windows:** the import profiles window, and an import run window per profile. One
+  window holding the list, the editor and the report barely fit a 4K monitor; apart, each fits a laptop's screen.
 
 ## As built (2026-11-08)
 
 - **`JAStudio.Core.Importing`:**
   - `ImportProfile`, with its `SentenceFieldMapping`;
-  - `SavedImportProfiles`, which keeps them in `import-profiles.json` in the corpus repository;
+  - `SavedImportProfiles`, which keeps them in `import-profiles.json` in the corpus repository. It loads them once,
+    so every window works on the same `ImportProfile` objects, and raises `ProfileChanged` when one is changed or
+    deleted;
   - `Importer.Prepare`, which selects and checks, and returns an `ImportRun`. The run holds its
     `ProblemsWithTheProfile` and its `CheckedRawNotes`; `Execute` runs it, and `ImportedSentences` are the sentences
     it imported.
@@ -248,10 +258,12 @@ doesn't matter to lookups.
   `AnkiRawNotes` in `JAStudio.Anki` implements it; specifications use `InMemoryAnkiRawNotes`.
 - **Corpus only:** a sentence imported without an Anki note is added with `SentenceCollection.AddWithoutAnAnkiNote`.
 - **Dependencies:** `JAStudio.Core` references `Mp3LoudnessNormalization` to normalize the audio.
-- **UI:** `ImportProfilesWindow`, with `ImportProfilesWindowViewModel` and an `ImportProfileEditorViewModel` per
-  profile. The report has a `CheckedRawNoteRow` per raw note, whose marks are `ReportMark`s shown by `ReportMarkView`,
-  and an `OutcomeFilterViewModel` per outcome. The imported sentences go to the List tab through
-  `WorkspaceWindow.ShowNoteList`.
+- **UI:**
+  - `ImportProfilesWindow`, with `ImportProfilesWindowViewModel` and an `ImportProfileEditorViewModel` per profile;
+  - `ImportRunWindow`, one per profile at most (`ImportRunWindow.CheckInItsWindow`), with
+    `ImportRunWindowViewModel`. Its report has a `CheckedRawNoteRow` per raw note, whose marks are `ReportMark`s
+    shown by `ReportMarkView`, and an `OutcomeFilterViewModel` per outcome. The imported sentences go to the List tab
+    through `WorkspaceWindow.ShowNoteList`.
 - **Specifications:** `AICreatedSpecs/Importing` in `JAStudio.Core.Specifications`. They check, among other things,
   that the stored audio is byte for byte what mp3gain makes of it.
 

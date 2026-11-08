@@ -1,0 +1,96 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:importing="clr-namespace:JAStudio.UI.ViewModels.Importing"
+        xmlns:importingViews="clr-namespace:JAStudio.UI.Views.Importing"
+        x:Class="JAStudio.UI.Views.Importing.ImportRunWindow"
+        x:DataType="importing:ImportRunWindowViewModel"
+        Title="{Binding Title}"
+        Width="1000"
+        Height="640"
+        WindowStartupLocation="Manual">
+
+    <Window.Resources>
+        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
+    </Window.Resources>
+
+    <DockPanel Margin="10">
+        <TextBox DockPanel.Dock="Top" MaxHeight="140" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Summary}" />
+        <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding OutcomeFilters}" Margin="0,6,0,0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" ItemSpacing="16" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="importing:OutcomeFilterViewModel">
+                    <CheckBox IsChecked="{Binding IsShown}">
+                        <StackPanel Orientation="Horizontal">
+                            <importingViews:ReportMarkView DataContext="{Binding Mark}" />
+                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </CheckBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0" HorizontalAlignment="Right">
+            <Button Content="Show the imported sentences in the workspace" Command="{Binding ShowTheImportedSentencesCommand}" />
+            <Button Content="Check again" Command="{Binding CheckCommand}" />
+            <Button Content="Run" Command="{Binding RunCommand}" />
+        </StackPanel>
+
+        <DataGrid x:Name="ReportGrid" ItemsSource="{Binding Rows}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,6,0,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Question" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                            <Panel>
+                                <TextBlock Text="{Binding Question}" FontFamily="{StaticResource JapaneseFont}" VerticalAlignment="Center" Margin="4,2"
+                                           TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Question}" IsVisible="{Binding !QuestionIsAProblem}" />
+                                <Border HorizontalAlignment="Left" IsVisible="{Binding QuestionIsAProblem}">
+                                    <importingViews:ReportMarkView DataContext="{Binding QuestionMark}" />
+                                </Border>
+                            </Panel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Outcome" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                            <importingViews:ReportMarkView DataContext="{Binding OutcomeMark}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="External id" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                            <importingViews:ReportMarkView DataContext="{Binding ExternalId}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Audio" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                            <importingViews:ReportMarkView DataContext="{Binding Audio}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Screenshot" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                            <importingViews:ReportMarkView DataContext="{Binding Screenshot}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="What's wrong" Width="3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                            <TextBlock Text="{Binding WhatIsWrong}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4,2" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</Window>
