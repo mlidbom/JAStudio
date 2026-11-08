@@ -653,10 +653,11 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
 
 ## Media (Open)
 
-The direction is already set in `media-storage-and-import.md`: the core corpus stores no media data, and all
-media association lives in the media layer's sidecars, which already record `noteIds`. What's missing is
+The direction is already set in `media-storage-and-import.md`: the core corpus stores no media data. What's missing is
 removing `audioB`/`audioG`/`audioTTS`/`image`/`userImage` (vocab), `audio`/`screenshot` (sentences) and the
-kanji media fields from the corpus data types.
+kanji media fields from the corpus data types. *(Corrected 2026-11-08: this said that all media association lives in the
+media layer's sidecars, which record `noteIds`. The sidecars were dropped on 2026-05-15, and the media layer works by
+file name alone, so where a note's media association would live without its media fields is open again.)*
 
 Magnus doesn't remember the "unresolved design concerns". These are my **guesses** at what they might have
 been. They are not reconstructions:
@@ -674,6 +675,51 @@ been. They are not reconstructions:
    import is retired.
 
 Tentatively, media is the last vertical-slice, after these points are settled.
+
+### TTS audio: only what we know for sure is TTS (Magnus, 2026-11-08)
+
+**Why it matters: it's legal.** Audio we generated with TTS is about the only audio we know for sure anyone may play and
+store, so whether audio is TTS must be certain: audio is marked as TTS only when we're sure, never by guess.
+
+**A HyperTTS file name doesn't prove TTS.** HyperTTS also delivered human recordings from Forvo, and `hypertts-<hash>`
+doesn't say which. Few vocab got them, since Forvo was hit and miss and often poor, but some still have them, and not only
+outside the TTS field: HyperTTS's presets "Vocab-Forvo-any" and "_Vocab-Forvo-any->Azure-Daichi" wrote Forvo audio into
+`Audio_TTS` too. HyperTTS's presets and rules are in Anki's profile, `addons21/111623432/meta.json` (which also holds the
+services' keys).
+
+**But the file name proves the voice.** HyperTTS names a file
+`hypertts-` + `sha224(str({'source_text': text, 'voice_id': voice_id, 'options': options}))`, where `voice_id` is its
+`TtsVoiceId_v3(voice_key=…, service=…)` (`hypertts_addon/hypertts.py`, `get_hash_for_audio_request`). Recomputing that for
+each preset's voice and options, with the vocab's question, disambiguation, forms, readings or answer as the text, proves
+which voice made the file. Checked 2026-11-08, for the 15,837 `hypertts-` audio references in vocab:
+
+| Field | Azure | Google | Forvo | Not proven |
+|---|---|---|---|---|
+| `audioTTS` | 14,643 | 62 | 2 | 11 |
+| `audioB` | 844 | 33 | 211 | 3 |
+| `audioG` | 4 | 1 | 23 | 0 |
+
+The encoding agrees with the proof in every case: TTS is mono at 24 kHz (or 48 kHz, Azure's high-quality format), and Forvo
+is 44.1 kHz, often stereo or re-encoded by ffmpeg with ID3 tags. The 14 not proven are all 24 kHz mono. `ATTS <text> (<voice>)`
+files, most likely from AwesomeTTS, HyperTTS's predecessor, name their Azure voice. No Google-named files turned up.
+
+**What counts as TTS in the existing data** (Magnus's rules, applied to the evidence):
+- **Sentences:** the `_tts_audio` tag, or a TTS file name, `hypertts-` included: Forvo has recordings of words, not sentences.
+  All 14,652 sentences with `hypertts-` audio are 24 kHz or 48 kHz mono.
+- **Vocab:** a file whose name proves a TTS voice: a recomputed HyperTTS hash for an Azure or Google voice, an `ATTS` name, or
+  JAStudio's own `jastudio-tts-<provider>-<voice>-<id>`. Being in the TTS field doesn't prove it (2 Forvo files are there),
+  and neither does the `_tts_audio` tag: 4 vocab with the tag have Forvo audio.
+- **The 14 not proven count as not TTS** (Magnus), though they're encoded like TTS: only what we're sure about. They can be
+  generated again with JAStudio's own TTS.
+
+**A legal follow-up, for slice 9:** the 235 distinct Forvo files are all filed under `free/`, which the media layer says is
+freely redistributable: 221 in `free/yomitan/vocab/audio` and 14 in `free/TTS/vocab`. They move to `commercial-01`, as
+WaniKani's audio is there (Magnus, 2026-11-08). Not urgent: the commercial repositories are private, and the problem is old.
+
+**The direction (thoughts, not decided):** state whether audio is TTS where the audio is referenced, rather than in a tag:
+probably the audio fields become a list of objects with metadata, starting with whether the audio is TTS, replacing the
+fixed `audioB`, `audioG` and `audioTTS`. A dedicated TTS field was the alternative. Decided in slice 9; until then
+`_tts_audio` stays as it is.
 
 ## Import and organization (needs its own design)
 
