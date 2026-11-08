@@ -6,12 +6,7 @@
         x:DataType="importing:ImportRunWindowViewModel"
         Title="{Binding Title}"
         Width="1000"
-        Height="640"
-        WindowStartupLocation="Manual">
-
-    <Window.Resources>
-        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
-    </Window.Resources>
+        Height="640">
 
     <DockPanel Margin="10">
         <TextBox DockPanel.Dock="Top" MaxHeight="140" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Summary}" />

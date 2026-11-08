@@ -1,34 +1,16 @@
 using Avalonia.Threading;
-using Compze.Internals.Logging;
-using JAStudio.Core;
-using JAStudio.UI.Utils;
-using JAStudio.UI.Views;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI;
 
+/// <summary>What Anki's shortcuts open of JAStudio: the workspace, which everything else in JAStudio is reached from.</summary>
 // ReSharper disable MemberCanBeInternal used from python
 // ReSharper disable UnusedMember.Global used from python
 public class AnkiDialogs
 {
-   readonly CoreApp _coreApp;
-   TemporaryServiceCollection Services => _coreApp.Services;
-
-   public AnkiDialogs(CoreApp coreApp) => _coreApp = coreApp;
-
-   internal void ShowReadingsMappingsDialog()
-   {
-      this.Log().Info("ShowReadingsMappingsDialog() called");
-      Dispatcher.UIThread.Invoke(() => new ReadingsMappingsDialog(Services).ShowNearCursor());
-   }
-
+   /// <summary>Ctrl+O in Anki: opens the workspace on its search, or closes the search.</summary>
    public void ToggleNoteSearch() => WorkspaceWindow.ToggleNoteSearch();
 
-   public void ToggleEnglishWordSearchDialog()
-   {
-      this.Log().Info("ToggleEnglishWordSearchDialog() called");
-      Dispatcher.UIThread.Invoke(EnglishWordSearchDialog.ToggleVisibility);
-   }
-
+   /// <summary>Ctrl+Shift+O in Anki: shows the workspace, or hides it.</summary>
    public void ToggleWorkspaceWindow() => Dispatcher.UIThread.Invoke(WorkspaceWindow.ToggleVisibility);
 }

@@ -6,8 +6,8 @@ using JAStudio.Core;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
 using JAStudio.Audio;
-using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.TextToSpeech;
+using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Views.TextToSpeech;
 
@@ -19,7 +19,6 @@ namespace JAStudio.UI.Views.TextToSpeech;
 partial class ChosenVoicesDialog : Window
 {
    readonly ChosenVoicesDialogViewModel _dialog;
-   readonly SoundFlowAudioPlayer _player;
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
@@ -29,16 +28,16 @@ partial class ChosenVoicesDialog : Window
    ChosenVoicesDialog(IFatalErrorHandler fatalErrorHandler)
    {
       var settings = TextToSpeechSettings.ReadFromTheUserProfile();
-      _player = new SoundFlowAudioPlayer();
-      _dialog = new ChosenVoicesDialogViewModel(settings, settings.ProvidersWithKeys(), _player, fatalErrorHandler);
+      var player = new SoundFlowAudioPlayer();
+      _dialog = new ChosenVoicesDialogViewModel(settings, settings.ProvidersWithKeys(), player, fatalErrorHandler);
       DataContext = _dialog;
       InitializeComponent();
       Opened += (_, _) => _dialog.ListTheVoices();
-      Closed += (_, _) => _player.Dispose();
+      Closed += (_, _) => player.Dispose();
    }
 
-   /// <summary>Opens the dialog near the cursor, as from the Config menu.</summary>
-   internal static void OpenNearTheCursor(TemporaryServiceCollection services) => new ChosenVoicesDialog(services.Resolve<IFatalErrorHandler>()).ShowNearCursor();
+   /// <summary>Opens the dialog where it was last, as from the workspace's Config menu.</summary>
+   internal static void Open(TemporaryServiceCollection services) => new ChosenVoicesDialog(services.Resolve<IFatalErrorHandler>()).ShowWhereItWasLast(services);
 
    /// <summary>Shows the dialog modally over <paramref name="owner"/>, and returns the settings saved, or null when it was cancelled.</summary>
    internal static Task<TextToSpeechSettings?> ShowOverAsync(Window owner, IFatalErrorHandler fatalErrorHandler) =>

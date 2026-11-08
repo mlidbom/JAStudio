@@ -139,7 +139,7 @@ public partial class NoteTabView : UserControl
    async Task ShowNoteContextMenuAsync(string selection)
    {
       var clipboard = await (WorkspaceWindow.Clipboard ?? throw new InvalidOperationException("The workspace window has no clipboard.")).TryGetTextAsync() ?? string.Empty;
-      PopupMenuWindow.ShowAt(WindowPositioner.CursorPosition(), _viewModel.NoteContextMenuSpec(selection, clipboard));
+      PopupMenuWindow.ShowAt(MouseCursor.ScreenPosition(), _viewModel.NoteContextMenuSpec(selection, clipboard));
    }
 
    /// <summary>

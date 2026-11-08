@@ -5,8 +5,7 @@
         x:DataType="importing:ImportProfilesWindowViewModel"
         Title="Import profiles"
         Width="1000"
-        Height="560"
-        WindowStartupLocation="Manual">
+        Height="560">
 
     <Window.Styles>
         <Style Selector="TextBlock.label">

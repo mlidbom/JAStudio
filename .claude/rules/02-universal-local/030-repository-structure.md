@@ -19,8 +19,7 @@
 - `JAStudio.UI.Views.Specifications/` — specs that open the windows themselves, on Avalonia's headless platform
   (`SpecificationOpeningWindows`). Each window a spec renders lands in `RenderedWindows/<name>.png` in its output folder:
   render a window you built and read the image to see it. A process of its own, since the headless platform takes over
-  the UI dispatcher that `JAStudio.UI.Specifications` relies on. Windows only, like the UI: `dotnet test` skips it
-  elsewhere, such as in CI on Linux.
+  the UI dispatcher that `JAStudio.UI.Specifications` relies on.
 
 ## Python
 

@@ -2,6 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="JAStudio.UI.UIApp"
              RequestedThemeVariant="Default">
+    <Application.Resources>
+        <!-- Japanese text: Windows', macOS's and Linux's Japanese fonts, then Windows' Chinese one, which has the kanji too. Fonts that aren't installed are skipped. -->
+        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Hiragino Sans,Noto Sans CJK JP,Microsoft YaHei UI</FontFamily>
+    </Application.Resources>
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />

@@ -5,9 +5,6 @@
              x:Class="JAStudio.UI.Views.Workspace.Navigation.SearchResults.SearchResultsView"
              x:DataType="results:SearchResultsViewModel">
 
-    <UserControl.Resources>
-        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
-    </UserControl.Resources>
 
     <UserControl.Styles>
         <Style Selector="DataGrid">

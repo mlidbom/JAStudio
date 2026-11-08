@@ -37,7 +37,7 @@
                             <DataTemplate x:DataType="navigation:ListedNoteViewModel">
                                 <StackPanel Background="Transparent" PointerReleased="OnListedNotePointerReleased">
                                     <TextBlock Text="{Binding Question}" TextWrapping="Wrap"
-                                               FontFamily="Meiryo UI,Yu Gothic UI,Microsoft YaHei UI" FontSize="18" />
+                                               FontFamily="{StaticResource JapaneseFont}" FontSize="18" />
                                     <TextBlock Text="{Binding Answer}" TextWrapping="Wrap" />
                                 </StackPanel>
                             </DataTemplate>

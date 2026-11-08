@@ -20,6 +20,7 @@ using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace.Tagging;
+using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Views.Workspace;
 
@@ -56,10 +57,11 @@ public partial class WorkspaceWindow : Window
    WorkspaceWindow(TemporaryServiceCollection services)
    {
       InitializeComponent();
+      this.PlacedWhereItWasLast(services);
       DataContext = _viewModel = new WorkspaceViewModel(services);
       TabViews.ItemTemplate = new FuncDataTemplate<NoteTabViewModel>((tab, _) => new NoteTabView(tab));
 
-      var mainMenuSpec = new JapaneseMainMenu(services).BuildMenuSpec(GetClipboardText);
+      var mainMenuSpec = new WorkspaceMainMenu(services).BuildMenuSpec(GetClipboardText);
       foreach(var item in SpecMenuRenderer.BuildMenuItems(mainMenuSpec))
          MainMenu.Items.Add(item);
 

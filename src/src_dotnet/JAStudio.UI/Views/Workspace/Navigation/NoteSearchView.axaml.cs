@@ -114,7 +114,7 @@ public partial class NoteSearchView : UserControl
       if((e.Source as Visual)?.FindAncestorOfType<TreeViewItem>(includeSelf: true) is { DataContext: SearchConditionNodeViewModel line })
          ViewModel.SelectedNode = line;
 
-      var menuTopLeft = e.TryGetPosition(this, out _) ? WindowPositioner.CursorPosition() : BelowTheTree();
+      var menuTopLeft = e.TryGetPosition(this, out var pointer) ? this.PointToScreen(pointer) : BelowTheTree();
       var menu = ViewModel.SelectedNodeMenu(openTheAddMenu: () => Dispatcher.UIThread.Post(ShowTheAddMenu),
                                             changeTheSelectedCondition: () => Dispatcher.UIThread.Post(ChangeTheSelectedCondition));
       Dispatcher.UIThread.Post(() => ShowAMenu(menu, menuTopLeft));

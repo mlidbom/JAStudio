@@ -7,8 +7,7 @@
         x:Class="JAStudio.UI.Views.ReadingsMappingsDialog"
         x:DataType="vm:ReadingsMappingsDialogViewModel"
         Title="Readings Mappings"
-        Width="600" Height="500"
-        WindowStartupLocation="Manual">
+        Width="600" Height="500">
     
     <DockPanel Margin="10">
         <!-- Search Box -->

@@ -6,8 +6,7 @@
         Title="Japanese Options"
         SizeToContent="WidthAndHeight"
         MinWidth="600" MinHeight="400"
-        Design.Width="1400" Design.Height="980"
-        WindowStartupLocation="Manual">
+        Design.Width="1400" Design.Height="980">
 
    <Window.Resources>
       <x:Double x:Key="CheckboxStackPanelSpacing">-10</x:Double>

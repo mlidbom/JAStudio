@@ -8,7 +8,7 @@ using Avalonia.Media;
 namespace JAStudio.UI.Utils;
 
 /// <summary>
-/// A Yes/No confirmation dialog: near the cursor (<see cref="ShowAsync"/>), or modal over a window (<see cref="ShowOverAsync"/>).<br/>
+/// A Yes/No confirmation dialog: centred on the screen (<see cref="ShowAsync"/>), or modal over a window (<see cref="ShowOverAsync"/>).<br/>
 /// Enter picks Yes, and Esc, No or closing the dialog picks No.
 /// </summary>
 class ConfirmDialog : Window
@@ -78,10 +78,11 @@ class ConfirmDialog : Window
       Close();
    }
 
+   /// <summary>Shows the dialog centred on the screen, as from a menu outside JAStudio's windows, and returns whether Yes was picked.</summary>
    public static Task<bool> ShowAsync(string title, string message)
    {
-      var dialog = new ConfirmDialog(title, message);
-      dialog.ShowNearCursor();
+      var dialog = new ConfirmDialog(title, message) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+      dialog.Show();
       return dialog._resultSource.Task;
    }
 

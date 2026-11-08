@@ -9,14 +9,14 @@ using JAStudio.Core.Note;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
 using JAStudio.Audio;
-using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.TextToSpeech;
+using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Views.TextToSpeech;
 
 /// <summary>
 /// The TTS dialog for one note, showing a <see cref="TextToSpeechDialogViewModel"/>: generate the note's TTS audio with the chosen voices,<br/>
-/// listen to the attempts, and keep one. It opens near the cursor, with the keyboard on the attempts, and the default voice speaking.
+/// listen to the attempts, and keep one. It opens where it was last, with the keyboard on the attempts, and the default voice speaking.
 /// </summary>
 /// <remarks>
 /// The keys 1 to 9 play attempts 1 to 9, 0 plays the note's TTS audio as it is now, and Enter keeps the selected attempt. They do nothing while<br/>
@@ -52,8 +52,8 @@ partial class TextToSpeechDialog : Window
       Closed += (_, _) => player.Dispose();
    }
 
-   /// <summary>Opens the TTS dialog for <paramref name="note"/>, near the cursor.</summary>
-   internal static void OpenFor(IHasTextToSpeechAudio note, TemporaryServiceCollection services) => new TextToSpeechDialog(note, services).ShowNearCursor();
+   /// <summary>Opens the TTS dialog for <paramref name="note"/>, where the dialog was last.</summary>
+   internal static void OpenFor(IHasTextToSpeechAudio note, TemporaryServiceCollection services) => new TextToSpeechDialog(note, services).ShowWhereItWasLast(services);
 
    void OnKeyDown(object? sender, KeyEventArgs e)
    {

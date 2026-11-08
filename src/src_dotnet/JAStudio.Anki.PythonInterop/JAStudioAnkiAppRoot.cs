@@ -60,7 +60,7 @@ public class JAStudioAnkiAppRoot
       _host = host;
       _coreApp = coreApp;
       _cardServer = cardServer;
-      Dialogs = new AnkiDialogs(coreApp);
+      Dialogs = new AnkiDialogs();
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
    }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Avalonia.Threading;
 using JAStudio.Anki;
 using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
@@ -8,31 +7,32 @@ using JAStudio.UI.Utils;
 using JAStudio.UI.Views;
 using JAStudio.UI.Views.Importing;
 using JAStudio.UI.Views.Workspace;
+using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Menus;
 
 /// <summary>
-/// Builds the main "Japanese" menu for Anki.
-/// This will replace the Python menu in tools_menu.py.
-/// Now uses UI-agnostic MenuItem specifications and AnkiFacade for Anki calls.
+/// The workspace's main menu, its menu bar, with the keyboard shortcuts the workspace window binds: the way to everything in JAStudio<br/>
+/// besides the notes, such as the options, the import profiles and the batch updates.
 /// </summary>
-public class JapaneseMainMenu
+/// <remarks>
+/// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, with Ctrl+Shift+O, or opens it on its search with Ctrl+O.
+/// </remarks>
+public class WorkspaceMainMenu
 {
    readonly Core.TemporaryServiceCollection _services;
 
-   public JapaneseMainMenu(Core.TemporaryServiceCollection services) => _services = services;
+   public WorkspaceMainMenu(Core.TemporaryServiceCollection services) => _services = services;
 
-   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildMenuSpec(Func<string> getClipboardContent) =>
    [
-      SpecMenuItem.Command(ShortcutFinger.Home4("Workspace"), () => Dispatcher.UIThread.Invoke(WorkspaceWindow.ToggleVisibility)),
       SpecMenuItem.Submenu(ShortcutFinger.Home1("Config"),
                            new List<SpecMenuItem>
                            {
-                              SpecMenuItem.Command(ShortcutFinger.Home1("Options"), () => Dispatcher.UIThread.Invoke(() => new OptionsDialog(_services).ShowNearCursor()), shortcut: "Ctrl+Shift+s"),
-                              SpecMenuItem.Command(ShortcutFinger.Home2("Readings mappings"), () => Dispatcher.UIThread.Invoke(() => new ReadingsMappingsDialog(_services).ShowNearCursor()), shortcut: "Ctrl+Shift+m"),
-                              SpecMenuItem.Command(ShortcutFinger.Home3("Media import"), () => Dispatcher.UIThread.Invoke(() => new MediaImportDialog(_services).ShowNearCursor())),
-                              SpecMenuItem.Command(ShortcutFinger.Home4("Text-to-speech voices"), () => Dispatcher.UIThread.Invoke(() => ChosenVoicesDialog.OpenNearTheCursor(_services)))
+                              SpecMenuItem.Command(ShortcutFinger.Home1("Options"), () => new OptionsDialog(_services).ShowWhereItWasLast(_services), shortcut: "Ctrl+Shift+s"),
+                              SpecMenuItem.Command(ShortcutFinger.Home2("Readings mappings"), () => new ReadingsMappingsDialog(_services).ShowWhereItWasLast(_services), shortcut: "Ctrl+Shift+m"),
+                              SpecMenuItem.Command(ShortcutFinger.Home3("Media import"), () => new MediaImportDialog(_services).ShowWhereItWasLast(_services)),
+                              SpecMenuItem.Command(ShortcutFinger.Home4("Text-to-speech voices"), () => ChosenVoicesDialog.Open(_services))
                            }
       ),
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
@@ -57,7 +57,7 @@ public class JapaneseMainMenu
                                                       BatchCommand(ShortcutFinger.Down1("All the above: Full rebuild"), _services.LocalNoteUpdater.FullRebuild)
                                                    }
                               ),
-                              SpecMenuItem.Command(ShortcutFinger.Home2("Import profiles"), () => Dispatcher.UIThread.Invoke(() => ImportProfilesWindow.OpenNearTheCursor(_services))),
+                              SpecMenuItem.Command(ShortcutFinger.Home2("Import profiles"), () => ImportProfilesWindow.Open(_services)),
                               BatchCommand(ShortcutFinger.Home3("Update everything except reanalysing sentences"), _services.LocalNoteUpdater.UpdateAll),
                               BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
                               BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),

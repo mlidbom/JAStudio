@@ -7,14 +7,14 @@ using JAStudio.UI.Views.Importing;
 
 namespace JAStudio.UI.Views.Specifications.AICreatedSpecs.Importing;
 
-/// <summary>The import profiles window, opened as from the main menu with one saved profile. The specification renders the window.</summary>
+/// <summary>The import profiles window, opened as from the workspace's main menu with one saved profile. The specification renders the window.</summary>
 public class When_opening_the_import_profiles_window : ImportWindowsSpecification, IAIGeneratedSpec
 {
    readonly ImportProfilesWindow _window;
 
    public When_opening_the_import_profiles_window()
    {
-      _window = Open(() => ImportProfilesWindow.OpenNearTheCursor(Services));
+      _window = Open(() => ImportProfilesWindow.Open(Services));
       Render(_window, "ImportProfilesWindow");
    }
 

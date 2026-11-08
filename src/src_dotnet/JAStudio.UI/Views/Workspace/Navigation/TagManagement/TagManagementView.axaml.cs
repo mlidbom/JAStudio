@@ -111,7 +111,7 @@ public partial class TagManagementView : UserControl
       if((e.Source as Visual)?.FindAncestorOfType<TreeViewItem>(includeSelf: true) is { DataContext: TagTreeNodeViewModel line })
          ViewModel.SelectedLine = line;
 
-      var menuTopLeft = e.TryGetPosition(this, out _) ? WindowPositioner.CursorPosition() : BelowTheSelectedLine();
+      var menuTopLeft = e.TryGetPosition(this, out var pointer) ? this.PointToScreen(pointer) : BelowTheSelectedLine();
       var menu = ViewModel.SelectedLineMenu(rename: () => Dispatcher.UIThread.Post(Rename),
                                             renameWithParents: () => Dispatcher.UIThread.Post(RenameWithParents),
                                             delete: () => Dispatcher.UIThread.Post(Delete));

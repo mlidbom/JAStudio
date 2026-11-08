@@ -2,7 +2,7 @@ using System;
 using Avalonia.Controls;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
-using JAStudio.UI.Utils;
+using JAStudio.UI.WindowPlaces;
 using JAStudio.UI.ViewModels.Importing;
 
 namespace JAStudio.UI.Views.Importing;
@@ -24,6 +24,6 @@ partial class ImportProfilesWindow : Window
       InitializeComponent();
    }
 
-   /// <summary>Opens the window near the cursor, as from the main menu, and returns it.</summary>
-   internal static ImportProfilesWindow OpenNearTheCursor(TemporaryServiceCollection services) => new ImportProfilesWindow(services).ShowNearCursor();
+   /// <summary>Opens the window where it was last, as from the workspace's main menu, and returns it.</summary>
+   internal static ImportProfilesWindow Open(TemporaryServiceCollection services) => new ImportProfilesWindow(services).ShowWhereItWasLast(services);
 }

@@ -178,7 +178,7 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
      TTS audio field in the workspace's editor section, a vocab's "Text to speech" or a sentence's "Audio"
      (`TextToSpeechAudioFieldEditorViewModel`). Or with "Text-to-speech audio..." in a vocab's or a sentence's note
      actions, in its right-click menu, which is also there while reviewing in Anki, where the editor section isn't.
-     It opens near the cursor, and the default voice speaks at once.
+     It opens where it was last (`WindowPlaceExtensions`), and the default voice speaks at once.
    - **The dialog:**
      - the text to speak, editable;
      - the note's current audio, its TTS audio as it was when the dialog opened (`CurrentAudioViewModel`);
@@ -260,9 +260,9 @@ one.
   credit until the trial would have ended, and there's no monthly fee, only use: each kind of voice has a free
   allowance a month, 1 million characters for Chirp 3 HD and for Neural2, then about $30 and $16 per million.
   ([trial](https://docs.cloud.google.com/free/docs/free-cloud-features), [pricing](https://cloud.google.com/text-to-speech/pricing))
-- **Found meanwhile: JAStudio's UI doesn't run outside Windows as it is.** Two utilities call Windows' `user32`
-  unconditionally: `NativeKeyboardFocus` (`SetFocus`) and `WindowPositioner` (`GetCursorPos`). The web view's
-  WebView2 setup (`NoteTabView`) and `JAStudioAnkiAppRoot` check the platform first.
+- **Found meanwhile: JAStudio's UI doesn't run outside Windows as it is.** Tracked in `multiplatform.md` since
+  2026-11-08, when windows stopped opening at the mouse cursor. `NativeKeyboardFocus` (`SetFocus`) still calls
+  Windows' `user32`, and so does `MouseCursor` (`GetCursorPos`), for the note page's right-click menu only.
 
 ## Open questions
 

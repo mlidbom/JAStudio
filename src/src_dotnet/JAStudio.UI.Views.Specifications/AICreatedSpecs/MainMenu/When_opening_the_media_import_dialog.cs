@@ -1,6 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.UI.Utils;
+using JAStudio.UI.WindowPlaces;
 
 // ReSharper disable InconsistentNaming
 
@@ -16,7 +16,7 @@ public class When_opening_the_media_import_dialog : SpecificationOpeningWindows,
 
    public When_opening_the_media_import_dialog()
    {
-      _dialog = Open(() => new MediaImportDialog(Services).ShowNearCursor());
+      _dialog = Open(() => new MediaImportDialog(Services).ShowWhereItWasLast(Services));
       Render(_dialog, "MediaImportDialog");
    }
 

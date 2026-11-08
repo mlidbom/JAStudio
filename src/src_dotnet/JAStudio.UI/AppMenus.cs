@@ -19,9 +19,6 @@ public class AnkiMenus
    /// <summary>Called from Python to build right-click context menus.</summary>
    public NoteContextMenu CreateNoteContextMenu() => new(_services);
 
-   /// <summary>Called from Python to build the main "Japanese" tools menu.</summary>
-   public JapaneseMainMenu CreateJapaneseMainMenu() => new(_services);
-
    /// <summary>
    /// Shows the menu of actions on the clipboard text and the selected text at the screen point
    /// (<paramref name="x"/>, <paramref name="y"/>), in physical pixels, with no note involved.

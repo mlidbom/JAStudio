@@ -6,12 +6,7 @@
         x:DataType="textToSpeech:TextToSpeechDialogViewModel"
         Title="{Binding Title}"
         Width="860"
-        Height="560"
-        WindowStartupLocation="Manual">
-
-    <Window.Resources>
-        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
-    </Window.Resources>
+        Height="560">
 
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Top" Spacing="8">

@@ -25,12 +25,13 @@ partial class MultiTaskProgressDialog : Window
    {
       if(_instance is not { IsVisible: true })
       {
-         _instance = new MultiTaskProgressDialog { DataContext = viewModel }.ShowNearCursor();
+         _instance = new MultiTaskProgressDialog { DataContext = viewModel, WindowStartupLocation = WindowStartupLocation.CenterScreen };
+         _instance.Show();
       }
    }
 
    /// <summary>Close the dialog. Must be called on the UI thread.</summary>
-   internal static new void Hide()
+   internal new static void Hide()
    {
       if(_instance == null) return;
       _instance.Close();

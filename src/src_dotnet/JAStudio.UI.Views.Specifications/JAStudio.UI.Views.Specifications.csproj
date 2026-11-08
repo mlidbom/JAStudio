@@ -11,9 +11,6 @@
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <IsPackable>false</IsPackable>
-      <!-- The windows position themselves through Windows' user32 (WindowPositioner): JAStudio's UI runs only on Windows, in Anki.
-           So these specifications run only on Windows, and dotnet test skips them elsewhere, such as in CI on Linux. -->
-      <IsTestProject Condition="!$([MSBuild]::IsOSPlatform('Windows'))">false</IsTestProject>
       <!-- Include native libraries for current platform -->
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>

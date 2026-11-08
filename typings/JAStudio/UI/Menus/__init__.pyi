@@ -2,13 +2,8 @@ import abc
 from JAStudio.Core import TemporaryServiceCollection
 from System.Collections.Generic import List_1
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
-from System import Func_1
 from JAStudio.Core.Note import JPNote, NoteId
-
-class JapaneseMainMenu:
-    def __init__(self, services: TemporaryServiceCollection) -> None: ...
-    def BuildMenuSpec(self, getClipboardContent: Func_1[str]) -> List_1[SpecMenuItem]: ...
-
+from System import Func_1
 
 class NoteContextMenu:
     def __init__(self, services: TemporaryServiceCollection) -> None: ...
@@ -22,4 +17,9 @@ class NoteContextMenu:
 class WebSearchMenuBuilder(abc.ABC):
     @staticmethod
     def BuildWebSearchMenu(title: str, getSearchText: Func_1[str]) -> SpecMenuItem: ...
+
+
+class WorkspaceMainMenu:
+    def __init__(self, services: TemporaryServiceCollection) -> None: ...
+    def BuildMenuSpec(self, getClipboardContent: Func_1[str]) -> List_1[SpecMenuItem]: ...
 

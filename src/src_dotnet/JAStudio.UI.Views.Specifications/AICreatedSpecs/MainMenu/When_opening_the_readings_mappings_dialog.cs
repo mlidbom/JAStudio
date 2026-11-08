@@ -1,6 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.UI.Utils;
+using JAStudio.UI.WindowPlaces;
 
 // ReSharper disable InconsistentNaming
 
@@ -16,7 +16,7 @@ public class When_opening_the_readings_mappings_dialog : SpecificationOpeningWin
 
    public When_opening_the_readings_mappings_dialog()
    {
-      _dialog = Open(() => new ReadingsMappingsDialog(Services).ShowNearCursor());
+      _dialog = Open(() => new ReadingsMappingsDialog(Services).ShowWhereItWasLast(Services));
       Render(_dialog, "ReadingsMappingsDialog");
    }
 

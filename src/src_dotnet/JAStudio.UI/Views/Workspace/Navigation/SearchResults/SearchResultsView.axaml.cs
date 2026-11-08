@@ -11,7 +11,6 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.UI.Menus;
-using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace.Tagging;
@@ -148,7 +147,7 @@ public partial class SearchResultsView : UserControl
       var selected = SelectedIn(grid);
       if(selected.Count == 0) return;
 
-      var menuTopLeft = e.TryGetPosition(grid, out _) ? WindowPositioner.CursorPosition() : BelowTheCurrentRowOf(grid);
+      var menuTopLeft = e.TryGetPosition(grid, out var pointer) ? grid.PointToScreen(pointer) : BelowTheCurrentRowOf(grid);
       var menu = ViewModel.ActionsOnTheSelected.Menu(selected, dialog => PickATagInADialog(grid, dialog));
       Dispatcher.UIThread.Post(() => PopupMenuWindow.ShowAt(menuTopLeft, menu, whenClosedWithoutAPick: () => PutTheKeyboardBackOn(grid)));
    }

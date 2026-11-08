@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using JAStudio.PythonInterop;
 using JAStudio.UI;
 using JAStudio.UI.Menus;
@@ -20,9 +19,6 @@ public class PythonAnkiMenus
 
    /// <summary>Called from Python to build right-click context menus.</summary>
    public NoteContextMenu CreateNoteContextMenu() => _menus.CreateNoteContextMenu();
-
-   /// <summary>Called from Python to build the main "Japanese" tools menu.</summary>
-   public JapaneseMainMenu CreateJapaneseMainMenu() => _menus.CreateJapaneseMainMenu();
 
    /// <summary>Show the context menu popup at the current cursor position.</summary>
    public void ShowContextMenuPopup(string? clipboardContent, string? selectionContent, int x, int y) =>

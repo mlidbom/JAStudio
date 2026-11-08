@@ -4,7 +4,7 @@ using System.Linq;
 using Avalonia.Controls;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
-using JAStudio.UI.Utils;
+using JAStudio.UI.WindowPlaces;
 using JAStudio.UI.ViewModels.Importing;
 using JAStudio.UI.Views.Workspace;
 
@@ -42,13 +42,13 @@ partial class ImportRunWindow : Window
    }
 
    /// <summary>
-   /// Checks <paramref name="profile"/> in its import run window: in the one already open, brought to the front, or in a new one opened near the cursor.<br/>
+   /// Checks <paramref name="profile"/> in its import run window: in the one already open, brought to the front, or in a new one opened where the window was last.<br/>
    /// Returns the window.
    /// </summary>
    internal static ImportRunWindow CheckInItsWindow(ImportProfile profile, TemporaryServiceCollection services)
    {
       if(!OpenWindowsByProfile.TryGetValue(profile, out var openWindow))
-         return OpenWindowsByProfile[profile] = new ImportRunWindow(profile, services).ShowNearCursor();
+         return OpenWindowsByProfile[profile] = new ImportRunWindow(profile, services).ShowWhereItWasLast(services);
 
       openWindow._viewModel.CheckAgainUnlessBusy();
       openWindow.BringToFront();

@@ -42,3 +42,4 @@ snapshot_vocab.json
 *.cache
 *.ncrunchproject.user
 *.lscache
+/src/user_files/window-places.json

@@ -11,7 +11,7 @@
         Width="780"
         SizeToContent="Height"
         CanResize="False"
-        WindowStartupLocation="Manual"
+       
         ShowInTaskbar="False">
 
     <ScrollViewer MaxHeight="600">

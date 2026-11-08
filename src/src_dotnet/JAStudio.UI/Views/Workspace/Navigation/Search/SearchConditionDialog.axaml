@@ -7,8 +7,7 @@
         Title="{Binding Title}"
         SizeToContent="WidthAndHeight"
         CanResize="False"
-        ShowInTaskbar="False"
-        WindowStartupLocation="Manual">
+        ShowInTaskbar="False">
 
     <Window.Resources>
         <x:Double x:Key="EditorWidth">420</x:Double>

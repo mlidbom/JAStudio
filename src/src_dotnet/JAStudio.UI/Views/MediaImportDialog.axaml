@@ -6,8 +6,7 @@
         Title="Media Import"
         Width="950" Height="1600"
         MinWidth="700" MinHeight="500"
-        Design.Width="950" Design.Height="700"
-        WindowStartupLocation="Manual">
+        Design.Width="950" Design.Height="700">
 
     <Window.Styles>
         <Style Selector="Border.rule-active">
