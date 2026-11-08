@@ -59,11 +59,19 @@ partial class ImportProfilesWindowViewModel : ObservableObject
       }
    }
 
-   /// <summary>The summary of the last check or run: its counts, the problems with the profile, and what running does.</summary>
+   /// <summary>The summary of the last check or run: the problems with the profile, and what running does.</summary>
    [ObservableProperty] string _summary = "";
 
-   /// <summary>A row for each raw note the last check selected.</summary>
+   IReadOnlyList<CheckedRawNoteRow> _everyRow = [];
+
+   /// <summary>A row for each raw note the last check selected, of the outcomes the <see cref="OutcomeFilters"/> show.</summary>
    [ObservableProperty] IReadOnlyList<CheckedRawNoteRow> _rows = [];
+
+   /// <summary>A check box per outcome, with its count, that shows or hides its rows. None before a check.</summary>
+   [ObservableProperty] IReadOnlyList<OutcomeFilterViewModel> _outcomeFilters = [];
+
+   /// <summary>The field mapping of the profile the report is of, which decides the columns it shows: those of the mapped fields. Null without a report.</summary>
+   [ObservableProperty] SentenceFieldMapping? _reportedFieldMapping;
 
    [ObservableProperty] bool _isBusy;
 
@@ -98,7 +106,7 @@ partial class ImportProfilesWindowViewModel : ObservableObject
       var profile = SelectedProfile.Profile;
       IsBusy = true;
       Summary = "Checking…";
-      Rows = [];
+      ShowNoReport();
       _backgroundTaskManager.Run(() =>
       {
          try
@@ -108,7 +116,7 @@ partial class ImportProfilesWindowViewModel : ObservableObject
             {
                CheckedRun = run;
                Summary = SummaryOf(run);
-               Rows = [.. run.CheckedRawNotes.Select(it => new CheckedRawNoteRow(it))];
+               ShowTheReportOn(run);
             });
          }
          finally
@@ -127,7 +135,7 @@ partial class ImportProfilesWindowViewModel : ObservableObject
       CheckedRun = null;
       IsBusy = true;
       Summary = "Importing…";
-      Rows = [];
+      ShowNoReport();
       _backgroundTaskManager.Run(() =>
       {
          try
@@ -169,7 +177,29 @@ partial class ImportProfilesWindowViewModel : ObservableObject
    {
       CheckedRun = null;
       Summary = "";
+      ShowNoReport();
+   }
+
+   void ShowTheReportOn(ImportRun run)
+   {
+      _everyRow = [.. run.CheckedRawNotes.Select(it => new CheckedRawNoteRow(it))];
+      ReportedFieldMapping = run.Profile.FieldMapping;
+      OutcomeFilters = [.. Enum.GetValues<RawNoteOutcome>().Select(it => new OutcomeFilterViewModel(it, run.With(it).Count, ShowTheRowsOfTheShownOutcomes))];
+      ShowTheRowsOfTheShownOutcomes();
+   }
+
+   void ShowTheRowsOfTheShownOutcomes()
+   {
+      var shownOutcomes = OutcomeFilters.Where(it => it.IsShown).Select(it => it.Outcome).ToHashSet();
+      Rows = [.. _everyRow.Where(it => shownOutcomes.Contains(it.Outcome))];
+   }
+
+   void ShowNoReport()
+   {
+      _everyRow = [];
       Rows = [];
+      OutcomeFilters = [];
+      ReportedFieldMapping = null;
    }
 
    static string SummaryOf(ImportRun run)
@@ -182,10 +212,8 @@ partial class ImportProfilesWindowViewModel : ObservableObject
          return summary.ToString();
       }
 
-      summary.AppendLine($"Raw notes: {run.CheckedRawNotes.Count}. " + string.Join(". ", Enum.GetValues<RawNoteOutcome>().Select(it => $"{CheckedRawNoteRow.DescriptionOf(it)}: {run.With(it).Count}")) + ".");
-
       if(!run.CanExecute)
-         summary.AppendLine("The raw notes with problems stop the run: fix them in Anki, and check again.");
+         summary.AppendLine("The raw notes with a red ✗ stop the run: fix them in Anki, and check again.");
       else if(run.HasNotesToImportAndNoProblems)
          summary.AppendLine($"Running imports {run.With(RawNoteOutcome.WillBeImported).Count} sentences{(run.Profile.CreatesAnkiNotesToStudy ? ", each with an Anki note to study" : " into the corpus only")}, "
                           + $"then their raw notes are {WhatBecomesOfTheImportedRawNotesOf(run.Profile)}. The other raw notes are left as they are.");

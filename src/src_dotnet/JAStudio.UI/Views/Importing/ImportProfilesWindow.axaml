@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:importing="clr-namespace:JAStudio.UI.ViewModels.Importing"
+        xmlns:importingViews="clr-namespace:JAStudio.UI.Views.Importing"
         x:Class="JAStudio.UI.Views.Importing.ImportProfilesWindow"
         x:DataType="importing:ImportProfilesWindowViewModel"
         Title="Import profiles"
@@ -97,15 +98,70 @@
             <DockPanel Grid.Row="2">
                 <TextBox DockPanel.Dock="Top" MaxHeight="140" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
                          Text="{Binding Summary}" PlaceholderText="Check shows what a run would do with each raw note, and every problem that stops it." />
-                <DataGrid ItemsSource="{Binding Rows}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,6,0,0">
+                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding OutcomeFilters}" Margin="0,6,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="16" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="importing:OutcomeFilterViewModel">
+                            <CheckBox IsChecked="{Binding IsShown}">
+                                <StackPanel Orientation="Horizontal">
+                                    <importingViews:ReportMarkView DataContext="{Binding Mark}" />
+                                    <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <DataGrid x:Name="ReportGrid" ItemsSource="{Binding Rows}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,6,0,0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="2*" FontFamily="{StaticResource JapaneseFont}" />
-                        <DataGridTextColumn Header="External id" Binding="{Binding ExternalId}" Width="*" />
-                        <DataGridTextColumn Header="Outcome" Binding="{Binding Outcome}" Width="Auto" />
-                        <DataGridTemplateColumn Header="Findings" Width="3*" SortMemberPath="Findings">
+                        <DataGridTemplateColumn Header="Question" Width="2*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="importing:CheckedRawNoteRow">
-                                    <TextBlock Text="{Binding Findings}" TextWrapping="Wrap" Margin="4,2" />
+                                    <Panel>
+                                        <TextBlock Text="{Binding Question}" FontFamily="{StaticResource JapaneseFont}" VerticalAlignment="Center" Margin="4,2"
+                                                   TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Question}" IsVisible="{Binding !QuestionIsAProblem}" />
+                                        <Border HorizontalAlignment="Left" IsVisible="{Binding QuestionIsAProblem}">
+                                            <importingViews:ReportMarkView DataContext="{Binding QuestionMark}" />
+                                        </Border>
+                                    </Panel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Outcome" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                                    <importingViews:ReportMarkView DataContext="{Binding OutcomeMark}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="External id" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                                    <importingViews:ReportMarkView DataContext="{Binding ExternalId}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Audio" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                                    <importingViews:ReportMarkView DataContext="{Binding Audio}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Screenshot" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                                    <importingViews:ReportMarkView DataContext="{Binding Screenshot}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="What's wrong" Width="3*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                                    <TextBlock Text="{Binding WhatIsWrong}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4,2" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

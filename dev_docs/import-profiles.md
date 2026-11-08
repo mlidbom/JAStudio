@@ -101,35 +101,48 @@ does what its report said, even if the profile was edited in between.
 - a media folder that isn't `free/` or a commercial repository, or inside one. That catches the kind of mistake
   that put files in the stray `media/vocab/TTS`.
 
-**A row per raw note** (Magnus: a report with the details, not only a summary): its question, its external id, its
-outcome and every finding behind it, with a count per outcome above the rows.
+**A row per raw note** (Magnus: a report with the details, not only a summary), built to be scanned: the question as
+text, then a mark per outcome and per checked field, with the details on hover, and a "What's wrong" column with a
+short line for each orange or red mark. Columns of fields the profile doesn't map are hidden. Above the rows, a check
+box per outcome, with its mark and count, filters the rows and is the legend.
 
-| Outcome | When |
-|---|---|
-| Will be imported | Nothing else applies, and it has no problems. |
-| Imported by an earlier run | It's tagged `jastudio::imported`. It's left as it is. |
-| Skipped: already in JAStudio | A sentence has its external id, or a note uses one of its media files. It's left in Anki and shows on every check. |
-| Problem | Something about it stops the whole run. |
+| Mark | On a field | As the outcome |
+|---|---|---|
+| ✓ green | as it should be | Will be imported |
+| ✓ grey | | Imported by an earlier run: it's tagged `jastudio::imported`, and left as it is |
+| – grey | not checked, or nothing wrong but worth knowing | |
+| ✗ orange | already in JAStudio | Skipped: already in JAStudio. It's left in Anki and shows on every check |
+| ✗ red | a problem | Problem: it stops the whole run |
 
-**The findings say exactly what matched** (Magnus). Notes and media files live apart, so they can disagree, as when
-a sentence was deleted and its files stayed:
-- "A sentence in the corpus has the external id X: the sentence "…"", or, for a note imported by an earlier run, "No
-  sentence in the corpus has the external id X any more."
-- "The file X is in the media layer, used by the sentence "…"", "…, but no note uses it", or "The file X isn't in
-  the media layer."
-- Both the external id and the file names are always checked (Magnus). Some decks have no external ids, and decks
-  differ in which is reliable.
+**How each kind of raw note is checked.** A field with several files shows the worst of their marks, and lists each
+file's finding on hover.
 
-**A file in the media layer that no note uses** isn't a sign of a duplicate. When it's the same file as Anki's copy,
-the same bytes once Anki's copy is normalized, the import reuses it. A different file by the same name is a problem:
-it would give the sentence the wrong file.
+*A note an earlier run imported* (tagged): is anything of it left in JAStudio?
+- External id: ✓ when a sentence has it; – when none has it any more.
+- Each media file: ✓ when a note uses it; – when it's in the media layer unused, or not in it. That's normal, for
+  example after its audio was replaced.
+- When nothing of it is left, that is no sentence has its external id and no note uses any of its files, it's a
+  problem (Magnus): its fields get a red ✗, and "What's wrong" says once "Imported by an earlier run, but no longer
+  in JAStudio: remove its `jastudio::imported` tag in Anki to import it again, or delete it."
 
-**The problems with a note to import:**
-- its question is empty;
-- a media file it references isn't in Anki's media folder;
-- its audio isn't MP3. The corpus holds only MP3 (`corpus-validity.md`);
-- another note of the run uses the same media file;
-- a different file by the same name is in the media layer, unused.
+*A note that isn't tagged:* is it in JAStudio already? Both the external id and the file names are always checked
+(Magnus): some decks have no external ids, and decks differ in which is reliable.
+- External id: orange ✗ when a sentence has it ("External id taken by the sentence "…""), ✓ otherwise.
+- Each media file: orange ✗ when a note uses it ("Audio used by the sentence "…"").
+- Any orange ✗ skips the note, and it isn't checked for problems: its other files show –.
+
+*A note to import* (not tagged, nothing of it in JAStudio): any red ✗ stops the run.
+- Question: red ✗ in place of the text when it's empty.
+- External id: ✓, since no sentence has it.
+- Each media file, the first that applies:
+  - not in Anki's media folder: red ✗;
+  - audio that isn't MP3: red ✗. The corpus holds only MP3 (`corpus-validity.md`);
+  - used by another note of the run too: red ✗;
+  - in the media layer, unused, and a different file by the same name: red ✗. It would give the sentence the wrong
+    file;
+  - in the media layer, unused, and the same file, the same bytes once Anki's copy is normalized: ✓, and the import
+    reuses it;
+  - otherwise ✓: it will be stored.
 
 ## When a run starts
 
@@ -212,6 +225,10 @@ doesn't matter to lookups.
   left tagged notes out of the selection, so a check after a run said "Raw notes found: 0", which Magnus found
   confusing with the note right there in Anki.
 - **The report lists every raw note with specific findings,** not only counts, since notes and files can disagree.
+  It's built to be scanned (Magnus): a mark per outcome and per checked field, the details on hover, text only for
+  what's wrong, and a check box per outcome to filter the rows.
+- **A note an earlier run imported, of which nothing is left in JAStudio, is a problem** (Magnus): skipping it would
+  hide that a decision is needed, to import it again or to delete it.
 - **Only the notes a run imports are tagged or deleted.** Tagging skipped duplicates would later show them as imported
   by an earlier run, which they weren't.
 - **An unused file that's the same is reused, and a different one is a problem.**
@@ -225,14 +242,15 @@ doesn't matter to lookups.
     `ProblemsWithTheProfile` and its `CheckedRawNotes`; `Execute` runs it, and `ImportedSentences` are the sentences
     it imported.
 - **`JAStudio.Core.Importing.Checking`:** `ImportCheck`, which uses `WhatIsInJAStudio` (the corpus's sentences by
-  external id, and the notes by the media files they use); `CheckedRawNote`, with its `RawNoteOutcome` and its
-  `RawNoteFinding`s; and `ImportProfileProblem`.
+  external id, and the notes by the media files they use); `CheckedRawNote`, with its `RawNoteOutcome` and a
+  `FieldCheck` with a `CheckMark` for its question, external id, audio and screenshot; and `ImportProfileProblem`.
 - **`JAStudio.Core.Importing.RawNotes`:** `RawNote`, `AnkiNoteType`, and `IAnkiRawNotes`, which is Anki's side.
   `AnkiRawNotes` in `JAStudio.Anki` implements it; specifications use `InMemoryAnkiRawNotes`.
 - **Corpus only:** a sentence imported without an Anki note is added with `SentenceCollection.AddWithoutAnAnkiNote`.
 - **Dependencies:** `JAStudio.Core` references `Mp3LoudnessNormalization` to normalize the audio.
-- **UI:** `ImportProfilesWindow`, with `ImportProfilesWindowViewModel`, an `ImportProfileEditorViewModel` per profile,
-  and a `CheckedRawNoteRow` per raw note in the report. The imported sentences go to the List tab through
+- **UI:** `ImportProfilesWindow`, with `ImportProfilesWindowViewModel` and an `ImportProfileEditorViewModel` per
+  profile. The report has a `CheckedRawNoteRow` per raw note, whose marks are `ReportMark`s shown by `ReportMarkView`,
+  and an `OutcomeFilterViewModel` per outcome. The imported sentences go to the List tab through
   `WorkspaceWindow.ShowNoteList`.
 - **Specifications:** `AICreatedSpecs/Importing` in `JAStudio.Core.Specifications`. They check, among other things,
   that the stored audio is byte for byte what mp3gain makes of it.

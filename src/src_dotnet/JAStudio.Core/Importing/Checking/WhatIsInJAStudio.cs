@@ -4,7 +4,6 @@ using System.Linq;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Media;
@@ -31,51 +30,26 @@ class WhatIsInJAStudio
                                           .ToLookup(it => it.FileName, it => it.note, StringComparer.OrdinalIgnoreCase);
    }
 
+   /// <summary>The sentences with the external id <paramref name="externalId"/>: none for an empty one.</summary>
+   public List<SentenceNote> SentencesWithTheExternalId(string externalId) => externalId == "" ? [] : [.. _sentencesByExternalId[externalId]];
+
+   /// <summary>The file named <paramref name="fileName"/> in the media layer, or null when there's none.</summary>
+   public MediaAttachment? InTheMediaLayer(string fileName) => _mediaFileIndex.TryGetByOriginalFileName(fileName);
+
+   /// <summary>The notes whose media fields reference the file named <paramref name="fileName"/>.</summary>
+   public List<JPNote> NotesUsing(string fileName) => [.. _notesByTheFilesTheyUse[fileName]];
+
    /// <summary>Whether a sentence has <paramref name="rawNote"/>'s external id, or a note uses one of its media files.</summary>
-   public bool Has(RawNote rawNote, SentenceFieldMapping mapping) =>
-      SentencesWithTheExternalIdOf(rawNote, mapping).Count > 0 || mapping.MediaOf(rawNote).Any(it => _notesByTheFilesTheyUse[it.FileName].Any());
+   public bool HasAnythingOf(RawNote rawNote, SentenceFieldMapping mapping) =>
+      SentencesWithTheExternalId(mapping.ExternalIdOf(rawNote)).Count > 0 || mapping.MediaOf(rawNote).Any(it => NotesUsing(it.FileName).Count > 0);
 
-   /// <summary>Why <paramref name="rawNote"/>, which isn't tagged as imported, is in JAStudio already, and what else is there of it.</summary>
-   public List<RawNoteFinding> FindingsAboutANoteThatIsInJAStudio(RawNote rawNote, SentenceFieldMapping mapping) =>
-   [
-      .. SentencesWithTheExternalIdOf(rawNote, mapping).Select(it => RawNoteFinding.AlreadyInJAStudio($"A sentence in the corpus has the external id {mapping.ExternalIdOf(rawNote)}: {Describe(it)}.")),
-      .. mapping.MediaOf(rawNote).Select(FindingAboutTheFile).OfType<RawNoteFinding>()
-   ];
-
-   /// <summary>What's in JAStudio of <paramref name="rawNote"/>, which an earlier run imported: since notes and files live apart, any of it may be gone.</summary>
-   public List<RawNoteFinding> FindingsAboutAnImportedNote(RawNote rawNote, SentenceFieldMapping mapping)
-   {
-      var findings = new List<RawNoteFinding>();
-      var externalId = mapping.ExternalIdOf(rawNote);
-      var sentences = SentencesWithTheExternalIdOf(rawNote, mapping);
-
-      if(sentences.Count > 0) findings.AddRange(sentences.Select(it => RawNoteFinding.Information($"A sentence in the corpus has the external id {externalId}: {Describe(it)}.")));
-      else if(externalId != "") findings.Add(RawNoteFinding.Information($"No sentence in the corpus has the external id {externalId} any more."));
-
-      findings.AddRange(mapping.MediaOf(rawNote).Select(it => FindingAboutTheFile(it) is {} finding
-                                                                 ? RawNoteFinding.Information(finding.Description)
-                                                                 : RawNoteFinding.Information($"The file {it.FileName} isn't in the media layer.")));
-      return findings;
-   }
-
-   /// <summary>Which notes use <paramref name="file"/>, if it's in the media layer, or null when it isn't.</summary>
-   RawNoteFinding? FindingAboutTheFile(MediaReference file)
-   {
-      if(!_mediaFileIndex.ContainsByOriginalFileName(file.FileName)) return null;
-
-      var notesUsingIt = _notesByTheFilesTheyUse[file.FileName].ToList();
-      return notesUsingIt.Count > 0
-                ? RawNoteFinding.AlreadyInJAStudio($"The file {file.FileName} is in the media layer, used by {string.Join(", and by ", notesUsingIt.Select(Describe))}.")
-                : RawNoteFinding.Information($"The file {file.FileName} is in the media layer, but no note uses it.");
-   }
-
-   List<SentenceNote> SentencesWithTheExternalIdOf(RawNote rawNote, SentenceFieldMapping mapping) =>
-      mapping.ExternalIdOf(rawNote) is var externalId && externalId != "" ? [.. _sentencesByExternalId[externalId]] : [];
-
-   static string Describe(JPNote note) => note switch
+   /// <summary>A note as the report names it, such as <c>the sentence "ずっと1人で…"</c>.</summary>
+   public static string Describe(JPNote note) => note switch
    {
       SentenceNote => $"the sentence \"{note.GetQuestion()}\"",
       VocabNote => $"the vocab \"{note.GetQuestion()}\"",
       _ => $"the note \"{note.GetQuestion()}\""
    };
+
+   public static string Describe(IEnumerable<JPNote> notes) => string.Join(", and ", notes.Select(Describe));
 }

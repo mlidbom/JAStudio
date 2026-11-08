@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:importing="clr-namespace:JAStudio.UI.ViewModels.Importing"
+             x:Class="JAStudio.UI.Views.Importing.ReportMarkView"
+             x:DataType="importing:ReportMark">
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.green">
+            <Setter Property="Foreground" Value="#2E9E44" />
+        </Style>
+        <Style Selector="TextBlock.grey">
+            <Setter Property="Foreground" Value="#8A8A8A" />
+        </Style>
+        <Style Selector="TextBlock.orange">
+            <Setter Property="Foreground" Value="#E07B00" />
+        </Style>
+        <Style Selector="TextBlock.red">
+            <Setter Property="Foreground" Value="#D32F2F" />
+        </Style>
+    </UserControl.Styles>
+
+    <Border Background="Transparent" ToolTip.Tip="{Binding HoverText}">
+        <TextBlock Text="{Binding Symbol}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0"
+                   Classes.green="{Binding IsGreen}" Classes.grey="{Binding IsGrey}" Classes.orange="{Binding IsOrange}" Classes.red="{Binding IsRed}" />
+    </Border>
+
+</UserControl>

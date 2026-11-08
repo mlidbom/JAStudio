@@ -12,19 +12,22 @@ namespace JAStudio.Core.Importing.Checking;
 
 /// <summary>
 /// Checks an <see cref="ImportProfile"/> and the <see cref="RawNote"/>s it selects before an <see cref="ImportRun"/> changes anything:<br/>
-/// finds the <see cref="ImportProfileProblem"/>s, and decides each raw note's <see cref="RawNoteOutcome"/>, stating every <see cref="RawNoteFinding"/> behind it.
+/// finds the <see cref="ImportProfileProblem"/>s, and checks each field of each raw note, deciding its <see cref="RawNoteOutcome"/>.
 /// </summary>
 /// <remarks>
-/// Notes and media files live apart: deleting a sentence leaves its files in the media layer. So the check states what it finds about a raw note's<br/>
-/// external id and about each of its files on its own. A file in the media layer that no note uses is reused, when it's the same file.
+/// A raw note is checked by what it is. A note an earlier run imported is checked for what's left of it in JAStudio; a note that isn't tagged is first<br/>
+/// checked against what's in JAStudio, and skipped on a match; only a note to import is checked for problems.<br/>
+/// Notes and media files live apart: deleting a sentence leaves its files in the media layer. A file there that no note uses is reused, when it's the same file.
 /// </remarks>
 class ImportCheck(ImportProfile profile, IReadOnlyList<AnkiNoteType> noteTypesForRawNotes, JPCollection collection, MediaFileIndex mediaFileIndex, string ankiMediaFolder)
 {
+   const string Audio = "Audio";
+   const string Screenshot = "Screenshot";
+
    readonly ImportProfile _profile = profile;
    readonly SentenceFieldMapping _mapping = profile.FieldMapping;
    readonly IReadOnlyList<AnkiNoteType> _noteTypesForRawNotes = noteTypesForRawNotes;
-   readonly JPCollection _collection = collection;
-   readonly MediaFileIndex _mediaFileIndex = mediaFileIndex;
+   readonly WhatIsInJAStudio _whatIsInJAStudio = new(collection, mediaFileIndex);
    readonly string _ankiMediaFolder = ankiMediaFolder;
 
    /// <summary>The problems with the import profile itself. While there are any, its raw notes aren't even selected.</summary>
@@ -50,69 +53,132 @@ class ImportCheck(ImportProfile profile, IReadOnlyList<AnkiNoteType> noteTypesFo
       return [.. problems.Select(it => new ImportProfileProblem(it))];
    }
 
-   /// <summary>Each of <paramref name="rawNotes"/> with its outcome and findings.</summary>
+   /// <summary>Each of <paramref name="rawNotes"/> with its outcome and the check of each of its fields.</summary>
    public List<CheckedRawNote> Check(IReadOnlyList<RawNote> rawNotes)
    {
-      var whatIsInJAStudio = new WhatIsInJAStudio(_collection, _mediaFileIndex);
-      var notesInJAStudioAlready = rawNotes.Where(it => !it.IsTaggedAsImported && whatIsInJAStudio.Has(it, _mapping)).ToHashSet();
-      var candidates = rawNotes.Where(it => !it.IsTaggedAsImported && !notesInJAStudioAlready.Contains(it)).ToList();
-      var fileNamesOfMoreThanOneCandidate = FileNamesOfMoreThanOneNoteIn(candidates);
+      var notesToCheckForProblems = rawNotes.Where(it => !it.IsTaggedAsImported && !_whatIsInJAStudio.HasAnythingOf(it, _mapping)).ToList();
+      var fileNamesOfMoreThanOneNoteToImport = FileNamesOfMoreThanOneNoteIn(notesToCheckForProblems);
 
-      return [.. rawNotes.Select(CheckedRawNoteFor)];
-
-      CheckedRawNote CheckedRawNoteFor(RawNote rawNote)
-      {
-         if(rawNote.IsTaggedAsImported)
-            return Checked(rawNote, RawNoteOutcome.ImportedByAnEarlierRun, whatIsInJAStudio.FindingsAboutAnImportedNote(rawNote, _mapping));
-
-         if(notesInJAStudioAlready.Contains(rawNote))
-            return Checked(rawNote, RawNoteOutcome.AlreadyInJAStudio, whatIsInJAStudio.FindingsAboutANoteThatIsInJAStudio(rawNote, _mapping));
-
-         var findings = FindingsAboutACandidate(rawNote, fileNamesOfMoreThanOneCandidate);
-         return Checked(rawNote, findings.Any(it => it.Kind == RawNoteFindingKind.Problem) ? RawNoteOutcome.Problem : RawNoteOutcome.WillBeImported, findings);
-      }
-   }
-
-   CheckedRawNote Checked(RawNote rawNote, RawNoteOutcome outcome, List<RawNoteFinding> findings) =>
-      new(rawNote, _mapping.QuestionOf(rawNote), _mapping.ExternalIdOf(rawNote), outcome, findings);
-
-   List<RawNoteFinding> FindingsAboutACandidate(RawNote rawNote, HashSet<string> fileNamesOfMoreThanOneCandidate)
-   {
-      var findings = new List<RawNoteFinding>();
-      if(_mapping.QuestionOf(rawNote).Trim() == "") findings.Add(RawNoteFinding.Problem($"The question, its field {_mapping.SourceQuestion}, is empty."));
-
-      foreach(var file in _mapping.MediaOf(rawNote))
-      {
-         if(!File.Exists(InAnkisMediaFolder(file)))
-         {
-            findings.Add(RawNoteFinding.Problem($"The file {file.FileName} isn't in Anki's media folder."));
-            continue;
-         }
-
-         if(fileNamesOfMoreThanOneCandidate.Contains(file.FileName)) findings.Add(RawNoteFinding.Problem($"Another raw note of this run uses the file {file.FileName} too."));
-         if(_mediaFileIndex.TryGetByOriginalFileName(file.FileName) is {} inTheMediaLayer) findings.Add(FindingAboutAnUnusedFileInTheMediaLayer(file, inTheMediaLayer));
-      }
-
-      findings.AddRange(_mapping.AudioOf(rawNote).Where(IsNotAnMp3File).Select(it => RawNoteFinding.Problem($"The audio {it.FileName} isn't an MP3 file, and the corpus holds only MP3.")));
-      return findings;
+      return [.. rawNotes.Select(it => it.IsTaggedAsImported ? CheckOfANoteImportedEarlier(it)
+                                    : _whatIsInJAStudio.HasAnythingOf(it, _mapping) ? CheckOfANoteAlreadyInJAStudio(it)
+                                    : CheckOfANoteToImport(it, fileNamesOfMoreThanOneNoteToImport))];
    }
 
    /// <summary>
-   /// No note uses <paramref name="inTheMediaLayer"/>, or the raw note would be in JAStudio already. When it's the same file as Anki's copy, the import reuses it:<br/>
-   /// for audio, the same once Anki's copy is normalized, as the import normalizes it. A different file by the same name would give the sentence the wrong file.
+   /// A note an earlier run imported is fine while anything of it is left in JAStudio. Its file that no note uses any more is normal, as after its audio was replaced.<br/>
+   /// When nothing of it is left, it's a problem: only Magnus can decide whether to import it again or to delete it.
    /// </summary>
-   RawNoteFinding FindingAboutAnUnusedFileInTheMediaLayer(MediaReference file, MediaAttachment inTheMediaLayer)
+   CheckedRawNote CheckOfANoteImportedEarlier(RawNote rawNote)
    {
-      return IsTheSameFile()
-                ? RawNoteFinding.Information($"The file {file.FileName} is in the media layer, but no note uses it: the import reuses it.")
-                : RawNoteFinding.Problem($"A different file named {file.FileName} is in the media layer, though no note uses it, in {inTheMediaLayer.FilePath}.");
+      var externalId = _mapping.ExternalIdOf(rawNote);
+      var hasSomethingToFindItBy = externalId != "" || _mapping.MediaOf(rawNote).Count > 0;
+      var isGoneFromJAStudio = hasSomethingToFindItBy && !_whatIsInJAStudio.HasAnythingOf(rawNote, _mapping);
 
-      bool IsTheSameFile()
+      return isGoneFromJAStudio
+                ? Checked(rawNote,
+                          RawNoteOutcome.Problem,
+                          ExternalIdCheck(externalId, () => FieldCheck.ProblemOfTheNoteAsAWhole(externalId, $"No sentence in the corpus has the external id {externalId} any more.")),
+                          MediaFieldCheck(_mapping.Audio, _mapping.AudioOf(rawNote), FileOfANoteGoneFromJAStudio),
+                          MediaFieldCheck(_mapping.Screenshot, _mapping.ScreenshotsOf(rawNote), FileOfANoteGoneFromJAStudio),
+                          [$"Imported by an earlier run, but no longer in JAStudio: remove its {RawNote.ImportedTag} tag in Anki to import it again, or delete it."])
+                : Checked(rawNote,
+                          RawNoteOutcome.ImportedByAnEarlierRun,
+                          ExternalIdCheck(externalId, () => _whatIsInJAStudio.SentencesWithTheExternalId(externalId) is { Count: > 0 } sentences
+                                                   ? FieldCheck.Fine(externalId, $"A sentence in the corpus has the external id {externalId}: {WhatIsInJAStudio.Describe(sentences)}.")
+                                                   : FieldCheck.Neutral(externalId, $"No sentence in the corpus has the external id {externalId} any more.")),
+                          MediaFieldCheck(_mapping.Audio, _mapping.AudioOf(rawNote), FileOfANoteImportedEarlier),
+                          MediaFieldCheck(_mapping.Screenshot, _mapping.ScreenshotsOf(rawNote), FileOfANoteImportedEarlier),
+                          []);
+
+      FieldCheck FileOfANoteGoneFromJAStudio(MediaReference file) =>
+         FieldCheck.ProblemOfTheNoteAsAWhole(file.FileName, _whatIsInJAStudio.InTheMediaLayer(file.FileName) == null
+                                                               ? $"The file {file.FileName} isn't in the media layer."
+                                                               : $"The file {file.FileName} is in the media layer, but no note uses it.");
+
+      FieldCheck FileOfANoteImportedEarlier(MediaReference file) =>
+         _whatIsInJAStudio.NotesUsing(file.FileName) is { Count: > 0 } notes
+            ? FieldCheck.Fine(file.FileName, $"The file {file.FileName} is in the media layer, used by {WhatIsInJAStudio.Describe(notes)}.")
+            : FieldCheck.Neutral(file.FileName, _whatIsInJAStudio.InTheMediaLayer(file.FileName) == null
+                                                   ? $"The file {file.FileName} isn't in the media layer."
+                                                   : $"The file {file.FileName} is in the media layer, but no note uses it.");
+   }
+
+   /// <summary>A note that isn't tagged as imported, of which JAStudio has something: it's skipped, and not checked for problems.</summary>
+   CheckedRawNote CheckOfANoteAlreadyInJAStudio(RawNote rawNote)
+   {
+      var externalId = _mapping.ExternalIdOf(rawNote);
+      return Checked(rawNote,
+                     RawNoteOutcome.AlreadyInJAStudio,
+                     ExternalIdCheck(externalId, () => ExternalIdOfANoteThatIsNotTagged(externalId)),
+                     MediaFieldCheck(_mapping.Audio, _mapping.AudioOf(rawNote), file => FileOfANoteAlreadyInJAStudio(file, Audio)),
+                     MediaFieldCheck(_mapping.Screenshot, _mapping.ScreenshotsOf(rawNote), file => FileOfANoteAlreadyInJAStudio(file, Screenshot)),
+                     []);
+
+      FieldCheck FileOfANoteAlreadyInJAStudio(MediaReference file, string field) =>
+         _whatIsInJAStudio.NotesUsing(file.FileName) is { Count: > 0 } notes
+            ? FieldCheck.AlreadyInJAStudio(file.FileName, $"The file {file.FileName} is in the media layer, used by {WhatIsInJAStudio.Describe(notes)}.", $"{field} used by {WhatIsInJAStudio.Describe(notes)}")
+            : FieldCheck.Neutral(file.FileName, "Not checked: the note is skipped.");
+   }
+
+   /// <summary>A note that isn't tagged as imported, of which JAStudio has nothing: it's checked for problems, any one of which stops the run.</summary>
+   CheckedRawNote CheckOfANoteToImport(RawNote rawNote, HashSet<string> fileNamesOfMoreThanOneNoteToImport)
+   {
+      var question = _mapping.QuestionOf(rawNote);
+      var externalId = _mapping.ExternalIdOf(rawNote);
+      var questionCheck = question.Trim() == ""
+                             ? FieldCheck.Problem(question, $"The question, its field {_mapping.SourceQuestion}, is empty.", "Question is empty")
+                             : FieldCheck.Fine(question, "");
+      var audio = MediaFieldCheck(_mapping.Audio, _mapping.AudioOf(rawNote), it => FileOfANoteToImport(it, Audio, _profile.AudioFolder));
+      var screenshot = MediaFieldCheck(_mapping.Screenshot, _mapping.ScreenshotsOf(rawNote), it => FileOfANoteToImport(it, Screenshot, _profile.ScreenshotFolder));
+      var hasAProblem = new[] { questionCheck, audio, screenshot }.Any(it => it.Mark == CheckMark.Problem);
+
+      return new CheckedRawNote(rawNote,
+                                hasAProblem ? RawNoteOutcome.Problem : RawNoteOutcome.WillBeImported,
+                                questionCheck,
+                                ExternalIdCheck(externalId, () => ExternalIdOfANoteThatIsNotTagged(externalId)),
+                                audio,
+                                screenshot,
+                                []);
+
+      FieldCheck FileOfANoteToImport(MediaReference file, string field, string folder)
       {
-         var ankisCopy = File.ReadAllBytes(InAnkisMediaFolder(file));
-         var asTheImportWouldStoreIt = file.Type == MediaType.Audio && !IsNotAnMp3File(file) ? new Mp3File(ankisCopy).NormalizedToTheReplayGainReference().Bytes() : ankisCopy;
-         return File.ReadAllBytes(inTheMediaLayer.FilePath).AsSpan().SequenceEqual(asTheImportWouldStoreIt);
+         var name = file.FileName;
+         if(!File.Exists(InAnkisMediaFolder(file))) return FieldCheck.Problem(name, $"The file {name} isn't in Anki's media folder.", $"{field} {name} isn't in Anki's media folder");
+         if(field == Audio && IsNotAnMp3File(file)) return FieldCheck.Problem(name, $"The audio {name} isn't an MP3 file, and the corpus holds only MP3.", $"Audio {name} isn't MP3");
+         if(fileNamesOfMoreThanOneNoteToImport.Contains(name)) return FieldCheck.Problem(name, $"Another raw note of this run uses the file {name} too.", $"{field} {name} is used by another raw note of this run too");
+
+         return _whatIsInJAStudio.InTheMediaLayer(name) switch
+         {
+            null => FieldCheck.Fine(name, $"The file {name} will be stored in {folder}."),
+            var unused when IsTheSameFile(file, unused) => FieldCheck.Fine(name, $"The file {name} is in the media layer, but no note uses it: the import reuses it."),
+            var unused => FieldCheck.Problem(name, $"A different file named {name} is in the media layer, though no note uses it, in {unused.FilePath}.", $"A different file named {name} is in the media layer")
+         };
       }
+   }
+
+   FieldCheck ExternalIdOfANoteThatIsNotTagged(string externalId) =>
+      _whatIsInJAStudio.SentencesWithTheExternalId(externalId) is { Count: > 0 } sentences
+         ? FieldCheck.AlreadyInJAStudio(externalId, $"A sentence in the corpus has the external id {externalId}: {WhatIsInJAStudio.Describe(sentences)}.", $"External id taken by {WhatIsInJAStudio.Describe(sentences)}")
+         : FieldCheck.Fine(externalId, $"No sentence in the corpus has the external id {externalId}.");
+
+   /// <summary>The check of <paramref name="externalId"/>, or a grey mark when the profile maps none, or the raw note has none, which a deck doesn't always give.</summary>
+   FieldCheck ExternalIdCheck(string externalId, Func<FieldCheck> checkOfTheExternalId) =>
+      _mapping.ExternalId == "" ? FieldCheck.NotMapped()
+      : externalId == "" ? FieldCheck.Neutral("", "No external id.")
+      : checkOfTheExternalId();
+
+   static FieldCheck MediaFieldCheck(string mappedAnkiField, List<MediaReference> files, Func<MediaReference, FieldCheck> checkOfAFile) =>
+      mappedAnkiField == "" ? FieldCheck.NotMapped() : FieldCheck.OfAMediaField([.. files.Select(checkOfAFile)]);
+
+   CheckedRawNote Checked(RawNote rawNote, RawNoteOutcome outcome, FieldCheck externalId, FieldCheck audio, FieldCheck screenshot, IReadOnlyList<string> whatIsWrongWithTheNoteAsAWhole) =>
+      new(rawNote, outcome, FieldCheck.Neutral(_mapping.QuestionOf(rawNote), ""), externalId, audio, screenshot, whatIsWrongWithTheNoteAsAWhole);
+
+   /// <summary>Whether <paramref name="inTheMediaLayer"/> is the same file as Anki's copy of <paramref name="file"/>: for audio, once Anki's copy is normalized, as the import would store it.</summary>
+   bool IsTheSameFile(MediaReference file, MediaAttachment inTheMediaLayer)
+   {
+      var ankisCopy = File.ReadAllBytes(InAnkisMediaFolder(file));
+      var asTheImportWouldStoreIt = file.Type == MediaType.Audio ? new Mp3File(ankisCopy).NormalizedToTheReplayGainReference().Bytes() : ankisCopy;
+      return File.ReadAllBytes(inTheMediaLayer.FilePath).AsSpan().SequenceEqual(asTheImportWouldStoreIt);
    }
 
    HashSet<string> FileNamesOfMoreThanOneNoteIn(IEnumerable<RawNote> rawNotes) =>

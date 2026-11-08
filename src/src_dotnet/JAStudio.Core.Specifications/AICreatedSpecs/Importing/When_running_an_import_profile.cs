@@ -55,7 +55,10 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
 
          [XF] public void the_check_finds_the_sentence_card() => _secondRun.CheckedRawNotes.Count.Must().Be(1);
          [XF] public void the_sentence_card_was_imported_by_an_earlier_run() => CheckOf(_secondRun, SentenceCard).Outcome.Must().Be(RawNoteOutcome.ImportedByAnEarlierRun);
-         [XF] public void a_finding_names_the_sentence_with_its_external_id() => AFindingSays(CheckOf(_secondRun, SentenceCard), "A sentence in the corpus has the external id anime_the_garden_of_words_000000346: the sentence \"ずっと1人で生きていくんだ\"").Must().BeTrue();
+         [XF] public void its_external_id_is_fine() => CheckOf(_secondRun, SentenceCard).ExternalId.Mark.Must().Be(CheckMark.Fine);
+         [XF] public void the_finding_of_its_external_id_names_the_sentence() => CheckOf(_secondRun, SentenceCard).ExternalId.Finding.Must().Contain("the sentence \"ずっと1人で生きていくんだ\"");
+         [XF] public void its_audio_is_fine() => CheckOf(_secondRun, SentenceCard).Audio.Mark.Must().Be(CheckMark.Fine);
+         [XF] public void nothing_is_wrong() => CheckOf(_secondRun, SentenceCard).WhatIsWrong.Must().BeEmpty();
          [XF] public void there_is_nothing_to_import() => _secondRun.HasNotesToImportAndNoProblems.Must().BeFalse();
       }
 
@@ -68,9 +71,12 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
             readonly CheckedRawNote _check;
             public and_checked_again() => _check = CheckOf(Importer.Prepare(ImmersionKitProfile), SentenceCard);
 
-            [XF] public void the_sentence_card_was_still_imported_by_an_earlier_run() => _check.Outcome.Must().Be(RawNoteOutcome.ImportedByAnEarlierRun);
-            [XF] public void a_finding_says_no_sentence_has_its_external_id_any_more() => AFindingSays(_check, "No sentence in the corpus has the external id anime_the_garden_of_words_000000346 any more").Must().BeTrue();
-            [XF] public void a_finding_says_no_note_uses_its_audio_file() => AFindingSays(_check, "The file garden_of_words_346.mp3 is in the media layer, but no note uses it").Must().BeTrue();
+            [XF] public void the_sentence_card_is_a_problem_since_nothing_of_it_is_left_in_JAStudio() => _check.Outcome.Must().Be(RawNoteOutcome.Problem);
+            [XF] public void whats_wrong_says_to_remove_its_imported_tag_or_delete_it() => WhatIsWrongSays(_check, "Imported by an earlier run, but no longer in JAStudio: remove its jastudio::imported tag in Anki to import it again, or delete it").Must().BeTrue();
+            [XF] public void whats_wrong_says_it_once_for_the_note() => _check.WhatIsWrong.Count.Must().Be(1);
+            [XF] public void its_external_id_is_marked_as_a_problem() => _check.ExternalId.Mark.Must().Be(CheckMark.Problem);
+            [XF] public void the_finding_of_its_external_id_says_no_sentence_has_it_any_more() => _check.ExternalId.Finding.Must().Contain("No sentence in the corpus has the external id anime_the_garden_of_words_000000346 any more");
+            [XF] public void the_finding_of_its_audio_says_no_note_uses_it() => _check.Audio.Finding.Must().Contain("The file garden_of_words_346.mp3 is in the media layer, but no note uses it");
          }
 
          public class and_the_sentence_cards_imported_tag_is_removed_in_Anki : and_then_the_sentence_is_deleted
@@ -84,7 +90,8 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
             }
 
             [XF] public void the_sentence_card_will_be_imported() => CheckOf(_run, SentenceCard).Outcome.Must().Be(RawNoteOutcome.WillBeImported);
-            [XF] public void a_finding_says_the_import_reuses_its_audio_file() => AFindingSays(CheckOf(_run, SentenceCard), "The file garden_of_words_346.mp3 is in the media layer, but no note uses it: the import reuses it").Must().BeTrue();
+            [XF] public void its_audio_is_fine() => CheckOf(_run, SentenceCard).Audio.Mark.Must().Be(CheckMark.Fine);
+            [XF] public void the_finding_of_its_audio_says_the_import_reuses_the_file() => CheckOf(_run, SentenceCard).Audio.Finding.Must().Contain("The file garden_of_words_346.mp3 is in the media layer, but no note uses it: the import reuses it");
 
             public class and_run : and_the_sentence_cards_imported_tag_is_removed_in_Anki
             {
@@ -107,7 +114,8 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
             }
 
             [XF] public void the_card_has_a_problem() => _check.Outcome.Must().Be(RawNoteOutcome.Problem);
-            [XF] public void a_finding_says_a_different_file_by_that_name_is_in_the_media_layer() => AFindingSays(_check, "A different file named garden_of_words_346.jpg is in the media layer, though no note uses it").Must().BeTrue();
+            [XF] public void its_screenshot_is_marked_as_a_problem() => _check.Screenshot.Mark.Must().Be(CheckMark.Problem);
+            [XF] public void whats_wrong_says_a_different_file_by_that_name_is_in_the_media_layer() => WhatIsWrongSays(_check, "A different file named garden_of_words_346.jpg is in the media layer").Must().BeTrue();
          }
       }
 
@@ -123,7 +131,9 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
          }
 
          [XF] public void the_card_is_skipped_as_already_in_JAStudio() => CheckOf(_run, _duplicate).Outcome.Must().Be(RawNoteOutcome.AlreadyInJAStudio);
-         [XF] public void a_finding_names_the_sentence_with_its_external_id() => AFindingSays(CheckOf(_run, _duplicate), "A sentence in the corpus has the external id anime_the_garden_of_words_000000346: the sentence \"ずっと1人で生きていくんだ\"").Must().BeTrue();
+         [XF] public void its_external_id_is_marked_as_already_in_JAStudio() => CheckOf(_run, _duplicate).ExternalId.Mark.Must().Be(CheckMark.AlreadyInJAStudio);
+         [XF] public void whats_wrong_names_the_sentence_with_its_external_id() => WhatIsWrongSays(CheckOf(_run, _duplicate), "External id taken by the sentence \"ずっと1人で生きていくんだ\"").Must().BeTrue();
+         [XF] public void its_audio_is_not_checked() => CheckOf(_run, _duplicate).Audio.Mark.Must().Be(CheckMark.Neutral);
          [XF] public void there_is_nothing_to_import() => _run.HasNotesToImportAndNoProblems.Must().BeFalse();
          [XF] public void the_card_is_not_tagged_as_imported() => AnkiRawNotes.IsTaggedAsImported(_duplicate).Must().BeFalse();
       }
@@ -141,8 +151,8 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
 
          [XF] public void the_card_is_skipped_as_already_in_JAStudio() => CheckOf(_run, _duplicate).Outcome.Must().Be(RawNoteOutcome.AlreadyInJAStudio);
 
-         [XF] public void a_finding_names_the_sentence_using_the_file() =>
-            AFindingSays(CheckOf(_run, _duplicate), "The file garden_of_words_346.mp3 is in the media layer, used by the sentence \"ずっと1人で生きていくんだ\"").Must().BeTrue();
+         [XF] public void its_audio_is_marked_as_already_in_JAStudio() => CheckOf(_run, _duplicate).Audio.Mark.Must().Be(CheckMark.AlreadyInJAStudio);
+         [XF] public void whats_wrong_names_the_sentence_using_the_file() => WhatIsWrongSays(CheckOf(_run, _duplicate), "Audio used by the sentence \"ずっと1人で生きていくんだ\"").Must().BeTrue();
 
          [XF] public void nothing_stops_the_run() => _run.CanExecute.Must().BeTrue();
       }

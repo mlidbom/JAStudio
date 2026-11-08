@@ -1,25 +1,27 @@
 using System;
-using System.Linq;
 using JAStudio.Core.Importing.Checking;
 
 namespace JAStudio.UI.ViewModels.Importing;
 
-/// <summary>A row of the import profiles window's report: one <see cref="CheckedRawNote"/>, its outcome and every finding behind it.</summary>
+/// <summary>
+/// A row of the import profiles window's report: one <see cref="CheckedRawNote"/>. Its question is text; its outcome and its checked fields are<br/>
+/// <see cref="ReportMark"/>s, with the details on hover; and <see cref="WhatIsWrong"/> has text only for an orange or red mark.
+/// </summary>
 class CheckedRawNoteRow(CheckedRawNote checkedRawNote)
 {
-   public string Question { get; } = checkedRawNote.Question;
-   public string ExternalId { get; } = checkedRawNote.ExternalId;
-   public string Outcome { get; } = DescriptionOf(checkedRawNote.Outcome);
+   public RawNoteOutcome Outcome { get; } = checkedRawNote.Outcome;
 
-   /// <summary>The findings, a line each.</summary>
-   public string Findings { get; } = string.Join(Environment.NewLine, checkedRawNote.Findings.Select(it => it.Description));
+   public string Question { get; } = checkedRawNote.Question.Value;
 
-   public static string DescriptionOf(RawNoteOutcome outcome) => outcome switch
-   {
-      RawNoteOutcome.WillBeImported => "Will be imported",
-      RawNoteOutcome.ImportedByAnEarlierRun => "Imported by an earlier run",
-      RawNoteOutcome.AlreadyInJAStudio => "Skipped: already in JAStudio",
-      RawNoteOutcome.Problem => "Problem",
-      _ => throw new ArgumentOutOfRangeException(nameof(outcome), outcome, null)
-   };
+   /// <summary>Whether the question is empty on a note to import, which shows a red ✗ in its place.</summary>
+   public bool QuestionIsAProblem { get; } = checkedRawNote.Question.Mark == CheckMark.Problem;
+
+   public ReportMark QuestionMark { get; } = ReportMark.Of(checkedRawNote.Question);
+   public ReportMark OutcomeMark { get; } = ReportMark.Of(checkedRawNote.Outcome);
+   public ReportMark ExternalId { get; } = ReportMark.Of(checkedRawNote.ExternalId);
+   public ReportMark Audio { get; } = ReportMark.Of(checkedRawNote.Audio);
+   public ReportMark Screenshot { get; } = ReportMark.Of(checkedRawNote.Screenshot);
+
+   /// <summary>A line for each orange or red mark, or nothing.</summary>
+   public string WhatIsWrong { get; } = string.Join(Environment.NewLine, checkedRawNote.WhatIsWrong);
 }

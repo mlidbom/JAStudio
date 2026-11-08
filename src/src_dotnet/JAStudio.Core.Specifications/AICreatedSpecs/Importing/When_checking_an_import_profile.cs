@@ -97,7 +97,8 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
       }
 
       [XF] public void the_card_has_a_problem() => CheckOf(_run, _card).Outcome.Must().Be(RawNoteOutcome.Problem);
-      [XF] public void a_finding_names_the_missing_file() => AFindingSays(CheckOf(_run, _card), "The file missing.mp3 isn't in Anki's media folder").Must().BeTrue();
+      [XF] public void its_audio_is_marked_as_a_problem() => CheckOf(_run, _card).Audio.Mark.Must().Be(CheckMark.Problem);
+      [XF] public void whats_wrong_names_the_missing_file() => WhatIsWrongSays(CheckOf(_run, _card), "Audio missing.mp3 isn't in Anki's media folder").Must().BeTrue();
       [XF] public void it_cannot_run() => _run.CanExecute.Must().BeFalse();
    }
 
@@ -112,7 +113,8 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_finding_says_the_corpus_holds_only_mp3() => AFindingSays(CheckOf(_run, _card), "isn't an MP3 file, and the corpus holds only MP3").Must().BeTrue();
+      [XF] public void whats_wrong_says_it_is_not_mp3() => WhatIsWrongSays(CheckOf(_run, _card), "Audio anime_1.wav.ogg isn't MP3").Must().BeTrue();
+      [XF] public void the_finding_of_its_audio_says_the_corpus_holds_only_mp3() => CheckOf(_run, _card).Audio.Finding.Must().Contain("the corpus holds only MP3");
    }
 
    public class with_a_sentence_card_whose_question_is_empty : When_checking_an_import_profile
@@ -126,7 +128,8 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_finding_says_the_question_is_empty() => AFindingSays(CheckOf(_run, _card), "The question, its field Expression, is empty").Must().BeTrue();
+      [XF] public void its_question_is_marked_as_a_problem() => CheckOf(_run, _card).Question.Mark.Must().Be(CheckMark.Problem);
+      [XF] public void whats_wrong_says_the_question_is_empty() => WhatIsWrongSays(CheckOf(_run, _card), "Question is empty").Must().BeTrue();
    }
 
    public class with_two_sentence_cards_using_the_same_audio_file : When_checking_an_import_profile
@@ -141,7 +144,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_finding_says_another_card_of_the_run_uses_it_too() => AFindingSays(CheckOf(_run, _secondCard), "Another raw note of this run uses the file shared.mp3 too").Must().BeTrue();
+      [XF] public void whats_wrong_says_another_card_of_the_run_uses_it_too() => WhatIsWrongSays(CheckOf(_run, _secondCard), "Audio shared.mp3 is used by another raw note of this run too").Must().BeTrue();
    }
 
    public class with_valid_sentence_cards : When_checking_an_import_profile
@@ -158,5 +161,21 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
       [XF] public void nothing_stops_the_run() => _run.CanExecute.Must().BeTrue();
       [XF] public void every_card_will_be_imported() => _run.With(RawNoteOutcome.WillBeImported).Count.Must().Be(2);
       [XF] public void nothing_is_imported_yet() => Sentences.All().Must().BeEmpty();
+      [XF] public void every_checked_field_is_fine() => _run.CheckedRawNotes.SelectMany(it => new[] { it.Question, it.ExternalId, it.Audio, it.Screenshot }).All(it => it.Mark == CheckMark.Fine).Must().BeTrue();
+   }
+
+   public class that_maps_no_external_id : When_checking_an_import_profile
+   {
+      readonly ImportRun _run;
+
+      public that_maps_no_external_id()
+      {
+         AddImmersionKitSentenceCard("文です", "anime_1", "anime_1.mp3", "anime_1.jpg");
+         ImmersionKitProfile.FieldMapping.ExternalId = "";
+         _run = Check();
+      }
+
+      [XF] public void the_external_id_is_not_checked() => _run.CheckedRawNotes.Single().ExternalId.Mark.Must().Be(CheckMark.Neutral);
+      [XF] public void the_card_will_be_imported() => _run.CheckedRawNotes.Single().Outcome.Must().Be(RawNoteOutcome.WillBeImported);
    }
 }
