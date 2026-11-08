@@ -32,16 +32,19 @@ def add_to_qt_menu(target_qt_menu: QMenu, specs: Iterable[SpecMenuItem]) -> None
         elif spec.Kind == SpecMenuItemKind.Separator:
             target_qt_menu.addSeparator()
         elif spec.Kind == SpecMenuItemKind.Command:
-            action = QAction(name_with_accelerator, target_qt_menu)
+            action = QAction(_qt_text(name_with_accelerator, spec.KeyboardShortcut), target_qt_menu)
             action.setEnabled(spec.IsEnabled)
-
-            if spec.KeyboardShortcut:
-                action.setShortcut(QKeySequence(spec.KeyboardShortcut))
-
             action.triggered.connect(lambda urdu, a=spec.Action: a.Invoke())  # pyright: ignore [reportUnknownMemberType, reportUnknownLambdaType]
             target_qt_menu.addAction(action)  # pyright: ignore [reportUnknownMemberType]
         else:
             raise Exception(f"Unknown menu spec type: {spec.Name}")
+
+def _qt_text(name_with_accelerator: str, keyboard_shortcut: str | None) -> str:
+    """The command's text, with its shortcut after a tab, which Qt shows beside it without binding it.
+    Binding a menu's shortcuts is the job of whoever owns the menu, as in the workspace: in Anki, global_shortcuts.py."""
+    if not keyboard_shortcut:
+        return name_with_accelerator
+    return f"{name_with_accelerator}\t{QKeySequence(keyboard_shortcut).toString(QKeySequence.SequenceFormat.NativeText)}"
 
 def _qt_name(name: str) -> str:
     """The spec's name already carries its accelerator key, marked with '_' the way Avalonia marks it. Qt marks it with '&'."""

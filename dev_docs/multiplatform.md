@@ -29,14 +29,19 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
   (below), so it isn't worth reworking.
 - **The generic context menu Anki asks for** (`AnkiMenus.ShowContextMenuPopup`) already gets its position from Qt,
   through Python. Nothing to change.
-- **Windows open where they were last** (`WindowPlaceExtensions`, `RememberedWindowPlaces`), the workspace included.
-  A window remembers its place when another window is activated or it's closed, in `window-places.json` in the user
-  files folder. The first time, and when its place is on no connected screen, Avalonia centres it on the screen.
-  Transient windows, the confirm dialog and the progress dialog, are always centred on the screen.
+- **Windows open where they were last** (`WindowPlaceKeeper`, `RememberedWindowPlaces`), the workspace included.
+  A window's place is followed while it's shown and remembered when another window is activated or it's closed, in
+  `window-places.json` in the user files folder. The first time, and when its place is on no connected screen,
+  Avalonia centres it on the screen. Transient windows, the confirm dialog and the progress dialog, are always centred
+  on the screen.
+- **The workspace is shown again where it was hidden,** maximized or snapped included. Avalonia shows a hidden window
+  in the state code last set, and Windows then undoes a maximize or a snap the user made (`SW_SHOWNORMAL`), so the
+  keeper maximizes it again before showing it, or moves it back after.
 - **Windows opened from Anki:** hardly any are needed any more (Magnus). Anki's "Japanese" menu is gone: the
-  workspace shows the same menu, now `WorkspaceMainMenu`, as its menu bar, with the same shortcuts. Anki keeps
-  Ctrl+Shift+O, which toggles the workspace, and Ctrl+O, which opens it on its search. The reviewer's hotkeys open no
-  windows.
+  workspace shows the same menu, now `WorkspaceMainMenu`, as its menu bar, with the same shortcuts. Anki has a JA
+  Studio menu instead, with just the workspace and the workspace on its search, so that JAStudio can be found
+  (`AnkiMenus.BuildJAStudioMenuSpec`). Their shortcuts, Ctrl+Shift+O and Ctrl+O, are bound by Anki's global
+  shortcuts and only shown in the menu. The reviewer's hotkeys open no windows.
 - **The reviewer's right-click menu,** and the note page's menu in the workspace, which is the same menu
   (`NoteContextMenu`), are to go (Magnus, 2026-11-08). They were a hack to get some UI for a rendered note before the
   cards were rendered with Blazor, and they guess what was clicked from the text JavaScript found selected. A

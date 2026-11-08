@@ -9,6 +9,7 @@ from JAStudio.Core import TemporaryServiceCollection
 from JAStudio.Anki import AnkiLifecycleEvent
 from JAStudio.Core.Note.Collection import IExternalNoteUpdateHandler
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
+from System.Collections.Generic import List_1
 from JAStudio.UI.Menus import NoteContextMenu
 
 class AnkiBackendNoteCreator(IBackendNoteCreator):
@@ -47,6 +48,7 @@ class NoteUpdatePythonAdapter(abc.ABC):
 
 class PythonAnkiMenus:
     def BuildBrowserMenuSpec(self, selectedCardIds: typing.Any, selectedNoteIds: typing.Any) -> SpecMenuItem: ...
+    def BuildJAStudioMenuSpec(self) -> List_1[SpecMenuItem]: ...
     def CreateNoteContextMenu(self) -> NoteContextMenu: ...
     def ShowContextMenuPopup(self, clipboardContent: str, selectionContent: str, x: int, y: int) -> None: ...
 

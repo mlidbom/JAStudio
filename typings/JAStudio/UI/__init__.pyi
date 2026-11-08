@@ -1,7 +1,7 @@
 import typing
 from JAStudio.Core import TemporaryServiceCollection
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
-from System.Collections.Generic import IReadOnlyList_1
+from System.Collections.Generic import IReadOnlyList_1, List_1
 from JAStudio.UI.Menus import NoteContextMenu
 from Avalonia import Application, AvaloniaProperty
 from Avalonia.Styling import ThemeVariant, Styles
@@ -22,6 +22,7 @@ class AnkiDialogs:
 class AnkiMenus:
     def __init__(self, services: TemporaryServiceCollection) -> None: ...
     def BuildBrowserMenuSpec(self, selectedCardIds: IReadOnlyList_1[int], selectedNoteIds: IReadOnlyList_1[int]) -> SpecMenuItem: ...
+    def BuildJAStudioMenuSpec(self) -> List_1[SpecMenuItem]: ...
     def CreateNoteContextMenu(self) -> NoteContextMenu: ...
     def ShowContextMenuPopup(self, clipboardContent: str, selectionContent: str, x: int, y: int) -> None: ...
 

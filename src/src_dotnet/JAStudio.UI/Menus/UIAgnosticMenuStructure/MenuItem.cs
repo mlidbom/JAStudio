@@ -56,7 +56,8 @@ public abstract class SpecMenuItem
 
    /// <summary>
    /// The keyboard shortcut that runs this command, shown beside it. Only Command items have one.<br/>
-   /// It's bound wherever the menu is a window's own menu: Anki's Tools menu, and the workspace's main menu.<br/>
+   /// The menu only shows it. Binding it is the job of whoever owns the menu: the workspace window binds its main menu's,<br/>
+   /// and Anki's global shortcuts bind those of the JA Studio menu in Anki's menu bar.<br/>
    /// It's written like <see cref="Shortcuts.NoteViewShortcut.KeyGesture"/>, for example <c>Ctrl+Shift+s</c>.
    /// </summary>
    public virtual string? KeyboardShortcut => null;

@@ -16,7 +16,8 @@ namespace JAStudio.UI.Menus;
 /// besides the notes, such as the options, the import profiles and the batch updates.
 /// </summary>
 /// <remarks>
-/// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, with Ctrl+Shift+O, or opens it on its search with Ctrl+O.
+/// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, or opens it on its search, from its JA Studio menu<br/>
+/// (<see cref="AnkiMenus.BuildJAStudioMenuSpec"/>) or with Ctrl+Shift+O and Ctrl+O.
 /// </remarks>
 public class WorkspaceMainMenu
 {

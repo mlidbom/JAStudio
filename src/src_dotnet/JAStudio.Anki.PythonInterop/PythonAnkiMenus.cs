@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JAStudio.PythonInterop;
 using JAStudio.UI;
 using JAStudio.UI.Menus;
@@ -16,6 +17,9 @@ public class PythonAnkiMenus
    readonly AnkiMenus _menus;
 
    internal PythonAnkiMenus(AnkiMenus menus) => _menus = menus;
+
+   /// <summary>Called from Python to build the JA Studio menu in Anki's menu bar.</summary>
+   public List<SpecMenuItem> BuildJAStudioMenuSpec() => _menus.BuildJAStudioMenuSpec();
 
    /// <summary>Called from Python to build right-click context menus.</summary>
    public NoteContextMenu CreateNoteContextMenu() => _menus.CreateNoteContextMenu();

@@ -21,6 +21,7 @@ def init() -> None:
     shortcuts: dict[str, Callable[[], None]] = {
         "Alt+Left": history_navigator.navigator.navigate_back,
         "Alt+Right": history_navigator.navigator.navigate_forward,
+        # The JA Studio menu shows these two (AnkiMenus.BuildJAStudioMenuSpec) without binding them.
         "Ctrl+o": dotnet_ui_root().Dialogs.ToggleNoteSearch,
         "Ctrl+Shift+o": dotnet_ui_root().Dialogs.ToggleWorkspaceWindow,
         "F5": lambda: app.get_ui_utils().refresh()

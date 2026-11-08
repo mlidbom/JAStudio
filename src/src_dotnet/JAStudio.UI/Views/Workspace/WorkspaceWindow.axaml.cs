@@ -41,6 +41,7 @@ public partial class WorkspaceWindow : Window
    static WorkspaceWindow? _instance;
 
    readonly WorkspaceViewModel _viewModel;
+   readonly WindowPlaceKeeper _placeKeeper;
 
    /// <summary>
    /// The window's own shortcuts and its main menu's, by key in the form of <see cref="Shortcuts.NoteViewShortcut.KeyGesture"/>.<br/>
@@ -57,7 +58,7 @@ public partial class WorkspaceWindow : Window
    WorkspaceWindow(TemporaryServiceCollection services)
    {
       InitializeComponent();
-      this.PlacedWhereItWasLast(services);
+      _placeKeeper = WindowPlaceKeeper.KeepThePlaceOf(this, services);
       DataContext = _viewModel = new WorkspaceViewModel(services);
       TabViews.ItemTemplate = new FuncDataTemplate<NoteTabViewModel>((tab, _) => new NoteTabView(tab));
 
@@ -236,11 +237,13 @@ public partial class WorkspaceWindow : Window
       NavigationPane.FocusSearch();
    }
 
+   /// <summary>Shows the window where it was when it was hidden, maximized or snapped included, or else un-minimizes it, and activates it.</summary>
    void BringToFront()
    {
-      if(WindowState == WindowState.Minimized)
+      if(!IsVisible)
+         _placeKeeper.ShowItWhereItWas();
+      else if(WindowState == WindowState.Minimized)
          WindowState = WindowState.Normal;
-      Show();
       Activate();
    }
 

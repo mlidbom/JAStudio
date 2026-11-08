@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
@@ -9,7 +10,7 @@ using JAStudio.UI.Views.Importing;
 namespace JAStudio.UI.Views.Specifications.AICreatedSpecs.WindowPlaces;
 
 /// <summary>
-/// The import profiles window, opened as from the workspace's main menu, moved, made 900×500 and closed, then opened again.<br/>
+/// The import profiles window, opened as from the workspace's main menu, left somewhere by closing it, then opened again.<br/>
 /// The headless platform has one screen, 1920×1280 pixels.
 /// </summary>
 public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGeneratedSpec
@@ -37,6 +38,25 @@ public class When_a_window_is_opened_again : SpecificationOpeningWindows, IAIGen
 
       [XF] public void it_opens_where_it_was_left() => OnTheUIThread(() => _openedAgain.Position).Must().Be(new PixelPoint(300, 200));
       [XF] public void it_has_the_size_it_was_left_with() => OnTheUIThread(() => _openedAgain.ClientSize).Must().Be(new Size(900, 500));
+   }
+
+   public class after_being_left_maximized : When_a_window_is_opened_again
+   {
+      readonly ImportProfilesWindow _openedAgain;
+
+      public after_being_left_maximized()
+      {
+         var window = OnTheUIThread(() => ImportProfilesWindow.Open(Services));
+         OnTheUIThread(() =>
+         {
+            window.WindowState = WindowState.Maximized;
+            Dispatcher.UIThread.RunJobs();
+            window.Close();
+         });
+         _openedAgain = Open(() => ImportProfilesWindow.Open(Services));
+      }
+
+      [XF] public void it_opens_maximized() => OnTheUIThread(() => _openedAgain.WindowState).Must().Be(WindowState.Maximized);
    }
 
    public class after_being_left_on_a_screen_that_is_no_longer_connected : When_a_window_is_opened_again

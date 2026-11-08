@@ -19,9 +19,10 @@ def dotnet_ui_root() -> JAStudioAnkiAppRoot:
 
 def init() -> None:
     _init_dot_net_app()
-    from jastudio.ui import hooks, menus, timing_hacks, web
+    from jastudio.ui import hooks, jastudio_menu, menus, timing_hacks, web
     hooks.init()
     timing_hacks.init()
+    jastudio_menu.init()
     web.init()
     menus.init()
 
