@@ -28,6 +28,9 @@ partial class NavigationPaneViewModel : ObservableObject
    /// <summary>Whether the pane is open. Closing it gives its space back to the tabs.</summary>
    [ObservableProperty] bool _isOpen = true;
 
+   /// <summary>The pane's width, as its edge was last dragged. Bound to the pane, so that it's kept between sessions.</summary>
+   [ObservableProperty] double _width = 420;
+
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(IsSearchShown), nameof(IsNoteListShown), nameof(IsTagManagementShown))]
    NavigationPaneTab _shownTab = NavigationPaneTab.Search;

@@ -14,12 +14,12 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top" x:Name="MainMenu" />
 
-        <navigation:NavigationPane x:Name="NavigationPane" DockPanel.Dock="Left" DataContext="{Binding Navigation}"
-                                   Width="420" MinWidth="200" />
+        <navigation:NavigationPane x:Name="NavigationPane" DockPanel.Dock="Left" DataContext="{Binding Navigation}" MinWidth="200" />
         <controls:PaneResizeEdge DockPanel.Dock="Left" ResizedPane="{Binding #NavigationPane}" ResizedPaneSide="Left"
                                  IsVisible="{Binding Navigation.IsOpen}" />
 
-        <editorViews:EditorSection x:Name="EditorSection" DockPanel.Dock="Right" Width="480" MinWidth="250" IsVisible="{Binding IsEditorSectionOpen}" />
+        <editorViews:EditorSection x:Name="EditorSection" DockPanel.Dock="Right" Width="{Binding EditorSectionWidth, Mode=TwoWay}" MinWidth="250"
+                                   IsVisible="{Binding IsEditorSectionOpen}" />
         <controls:PaneResizeEdge DockPanel.Dock="Right" ResizedPane="{Binding #EditorSection}" ResizedPaneSide="Right"
                                  IsVisible="{Binding IsEditorSectionOpen}" />
 

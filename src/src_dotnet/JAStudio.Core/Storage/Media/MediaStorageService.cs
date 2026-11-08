@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Compze.Contracts;
 using JAStudio.Core.Note.NoteFields;
@@ -32,6 +33,14 @@ public class MediaStorageService
       var attachment = new AudioAttachment { OriginalFileName = fileName, FilePath = filePath };
       _index.Register(attachment);
       return attachment;
+   }
+
+   /// <summary>Deletes the file named <paramref name="fileName"/> from the media layer, and from the <see cref="MediaFileIndex"/>, which must have it.</summary>
+   public void DeleteFile(string fileName)
+   {
+      var file = _index.TryGetByOriginalFileName(fileName) ?? throw new ArgumentException($"The media layer has no file named {fileName}.", nameof(fileName));
+      File.Delete(file.FilePath);
+      _index.Forget(fileName);
    }
 
    public void StoreFile(string sourceFilePath, string targetDirectory, string originalFileName, MediaType mediaType)

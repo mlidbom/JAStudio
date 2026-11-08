@@ -5,7 +5,8 @@
              xmlns:tagManagementViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation.TagManagement"
              x:Class="JAStudio.UI.Views.Workspace.Navigation.NavigationPane"
              x:DataType="navigation:NavigationPaneViewModel"
-             IsVisible="{Binding IsOpen}">
+             IsVisible="{Binding IsOpen}"
+             Width="{Binding Width, Mode=TwoWay}">
 
     <UserControl.Styles>
         <Style Selector="TabItem">

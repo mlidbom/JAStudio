@@ -83,6 +83,7 @@ public partial class WorkspaceWindow : Window
          KeyBindings.Add(new KeyBinding { Gesture = KeyGesture.Parse(keyGesture), Command = new RelayCommand(action) });
 
       Activated += (_, _) => Dispatcher.UIThread.Post(GiveTheKeyboardBackToTheWindowUnlessAPageHasIt, DispatcherPriority.Background);
+      Deactivated += (_, _) => _viewModel.SaveTheState();
       AddHandler(PointerPressedEvent, (_, _) => NativeKeyboardFocus.MoveToWindowItself(this), RoutingStrategies.Tunnel, handledEventsToo: true);
    }
 
@@ -256,10 +257,12 @@ public partial class WorkspaceWindow : Window
          tab.Close();
    }
 
+   /// <summary>Closing the workspace only hides it, after saving its state.</summary>
    protected override void OnClosing(WindowClosingEventArgs e)
    {
       base.OnClosing(e);
       e.Cancel = true;
+      _viewModel.SaveTheState();
       Hide();
    }
 }

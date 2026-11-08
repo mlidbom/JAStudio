@@ -2,8 +2,11 @@ using System;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Anki;
 using JAStudio.Core;
+using JAStudio.Core.Note;
+using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Views.Workspace.Navigation;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation;
@@ -26,12 +29,17 @@ partial class NoteListViewModel : ObservableObject
    {
       _services = services;
       Notes = new ListedNotesViewModel(workspace);
+      var uiThread = services.Resolve<IUIThreadDispatcher>();
+      services.CoreApp.Collection.NoteDeleted.Subscribe(deleted => uiThread.PostToUIThread(() => StopListing(deleted)));
    }
 
    /// <summary>What the listed notes are, with how many there are.</summary>
    [ObservableProperty] string _title = "No list shown yet";
 
    public ListedNotesViewModel Notes { get; }
+
+   /// <summary>The list the tab shows, with no notes before any is shown.</summary>
+   internal NoteList ShownList => _shownList;
 
    /// <summary>Lists <paramref name="noteList"/>'s notes instead of the list shown so far.</summary>
    public void Show(NoteList noteList)
@@ -40,6 +48,13 @@ partial class NoteListViewModel : ObservableObject
       Title = $"{noteList.Title} ({noteList.Notes.Count})";
       Notes.Show(noteList.Notes.OrderBy(it => it.GetQuestion(), StringComparer.Ordinal));
       ShowInAnkisBrowserCommand.NotifyCanExecuteChanged();
+   }
+
+   /// <summary>Takes <paramref name="deleted"/> off the list, if it's listed.</summary>
+   void StopListing(JPNote deleted)
+   {
+      if(_shownList.Notes.Any(it => it.GetId().Equals(deleted.GetId())))
+         Show(_shownList.Without(deleted));
    }
 
    /// <summary>Opens Anki's browser on the listed notes, the ones that are in Anki, and no others.</summary>

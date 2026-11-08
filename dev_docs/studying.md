@@ -31,7 +31,8 @@
   can suspend all of a note's cards, unsuspend all of them, and delete the note's Anki note. Its names and docs
   speak of cards and Anki notes.
 - **The note context menu** has "Unsuspend all cards", "Suspend all cards", and "Delete note". "Delete note"
-  removes the note from the corpus and from Anki, review history included.
+  removes the note from the corpus and from Anki, review history included, and its media files that no other note
+  uses (`corpus-data-model.md`).
 - **Some study state is stored in the corpus anyway,** as generated kanji tags such as
   `-::kanji::studying-vocab`. They're student-data and are to move out (`corpus-data-model.md`).
 - **Every corpus note has an Anki note,** apart from one leftover sentence. Whether a note is in the

@@ -2,7 +2,7 @@ import typing, abc
 from System import IObservable_1
 from JAStudio.Core.Note import JPNote, AnkiNoteData, NoteId, IBackendNoteCreator, NoteServices, KanjiNote
 from JAStudio.Core.Storage import INoteRepository
-from JAStudio.Core.Storage.Media import MediaFileIndex
+from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
 from JAStudio.Core import IBackendDataLoader
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedData, VocabNote
@@ -36,7 +36,7 @@ class IExternalNoteUpdateHandler(typing.Protocol):
 
 
 class JPCollection:
-    def __init__(self, backendNoteCreator: IBackendNoteCreator, noteServices: NoteServices, noteRepository: INoteRepository, mediaFileIndex: MediaFileIndex, backendDataLoader: IBackendDataLoader) -> None: ...
+    def __init__(self, backendNoteCreator: IBackendNoteCreator, noteServices: NoteServices, noteRepository: INoteRepository, mediaFileIndex: MediaFileIndex, mediaStorage: MediaStorageService, backendDataLoader: IBackendDataLoader) -> None: ...
     @property
     def DictLookup(self) -> DictLookup: ...
     @property
@@ -45,6 +45,8 @@ class JPCollection:
     def IsInitialized(self, value: bool) -> bool: ...
     @property
     def Kanji(self) -> KanjiCollection: ...
+    @property
+    def NoteDeleted(self) -> IObservable_1[JPNote]: ...
     @property
     def NoteServices(self) -> NoteServices: ...
     @property

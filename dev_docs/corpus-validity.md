@@ -13,7 +13,8 @@ Anki, go unnoticed until something trips on them. Checking the whole corpus find
 
 - **Orphaned media files:** files in the media layer, and in Anki's media folder, that no note references. Keeping a TTS
   attempt leaves the audio it replaces behind (`text-to-speech.md`, open question 4), as HyperTTS regenerating audio
-  did. Deleting one safely needs a check that no other note references the same name.
+  did. Deleting one safely needs a check that no other note references the same name. Deleting a note in JAStudio
+  takes its unused files with it since 2026-11-08, but notes deleted before then left theirs.
 - **Missing media files:** references to files the media layer doesn't have.
 - **Audio that isn't MP3.** The corpus holds only MP3 (Magnus, 2026-11-08). Supporting other formats might happen, but
   not to rescue a few files.

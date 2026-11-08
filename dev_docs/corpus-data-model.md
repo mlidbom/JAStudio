@@ -118,7 +118,9 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
    - **A note deleted in Anki stays in the corpus** (Magnus, 2026-11-08). JAStudio forgets its Anki note and cards
      (`NoteCache.ExternalNoteRemoved`), so it's no longer studied in that Anki profile, and nothing recreates the Anki
      note. Anki holds the notes being studied; the corpus holds them all. Deleting a note for good is JAStudio's own
-     delete (`JPCollection.Delete`). *Until 2026-11-08 a note deleted in Anki left JAStudio's in-memory collection,
+     delete (`JPCollection.Delete`). The media is part of the note (Magnus, 2026-11-08), so that delete also deletes its
+     media files from the media layer, unless another note uses the same file. Their copies in Anki's media folder are
+     left to Anki's "Check Media". *Until 2026-11-08 a note deleted in Anki left JAStudio's in-memory collection,
      though not the corpus files, and came back, without an Anki note, at the next reload.*
    - **What an edit made in Anki does now:** nothing in the corpus, and JAStudio's next write of the note undoes
      it in Anki.

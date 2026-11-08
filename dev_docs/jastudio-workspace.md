@@ -198,6 +198,19 @@ apply here.
 6. **Multiple workspaces.** *(Parked 2026-11-06. Leaning, 2026-11-07: this is how several searches stay open,
    each workspace keeping its own search, results and opened notes. See `note-search.md`.)*
 7. **Revert to the committed version.** *(Parked 2026-11-06.)*
+8. **The workspace comes back after a restart.** *(Built 2026-11-08, Magnus: "immensely helpful".)* When the
+   workspace window is left (`WorkspaceViewModel.SaveTheState`), its `WorkspaceState` is saved in
+   `workspace-state.json` in the user files folder (`SavedWorkspaceState`), per machine and not versioned:
+   - the notes the tabs show, and which tab is shown, though not each tab's back and forward history, which lives in
+     its web view;
+   - the search (`NoteConditionJson`), the List tab's list, which navigation tab is shown, and whether the navigation
+     pane and the editor section are open, with their widths.
+
+   It's shown again once the notes are loaded, at Anki's start when the collection is first loaded. Notes deleted
+   meanwhile are left out. Until it's shown, nothing is saved, so leaving the window early doesn't overwrite it.
+   Where the window was is kept separately (`WindowPlaceKeeper`, `multiplatform.md`).
+9. **A deleted note leaves the workspace.** *(Built 2026-11-08.)* `JPCollection.NoteDeleted` closes the tabs showing
+   the note, and takes it out of the search results and the List tab.
 
 The order after step 1 is tentative. Steps 6 and 7 are parked because they free nothing from Anki, and the
 workspace exists for the goal in `corpus-data-model.md`, where import and organizing come next.

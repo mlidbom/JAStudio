@@ -2,6 +2,7 @@ import typing, abc
 from System import IEquatable_1
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note import JPNote
+from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Search.TextProperties import TextProperty
 from JAStudio.Core.Note.Search.NoteTypeProperties import NoteTypeProperty
 from JAStudio.Core.Note.Search.TrueOrFalseProperties import TrueOrFalseProperty
@@ -61,6 +62,13 @@ class NoteCondition(IEquatable_1[NoteCondition], abc.ABC):
 
 
 
+class NoteConditionJson(abc.ABC):
+    @staticmethod
+    def ConditionFrom(json: JsonObject) -> NoteCondition: ...
+    @staticmethod
+    def Of(condition: NoteCondition) -> JsonObject: ...
+
+
 class NoteProperties(abc.ABC):
     Answer : TextProperty
     NoteType : NoteTypeProperty
@@ -69,6 +77,12 @@ class NoteProperties(abc.ABC):
     StudyingListening : TrueOrFalseProperty
     StudyingReading : TrueOrFalseProperty
     Tags : TagsProperty
+    @classmethod
+    @property
+    def EveryTextProperty(cls) -> IReadOnlyList_1[TextProperty]: ...
+    @classmethod
+    @property
+    def EveryTrueOrFalseProperty(cls) -> IReadOnlyList_1[TrueOrFalseProperty]: ...
 
 
 class NoteProperty(abc.ABC):

@@ -20,6 +20,9 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
       protected readonly ImportRun FirstRun;
       protected readonly SentenceNote Sentence;
 
+      protected string StoredAudioPath => Path.Combine(MediaLayerFolder, AudioFolder, "garden_of_words_346.mp3");
+      protected string StoredScreenshotPath => Path.Combine(MediaLayerFolder, ScreenshotFolder, "garden_of_words_346.jpg");
+
       public on_an_Immersion_Kit_sentence_card()
       {
          SentenceCard = AddImmersionKitSentenceCard("ずっと1人で生きていくんだ", "anime_the_garden_of_words_000000346", "garden_of_words_346.mp3", "garden_of_words_346.jpg",
@@ -38,12 +41,12 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
       [XF] public void the_sentence_is_tagged_with_the_profiles_tag() => Sentence.Tags.ToStringList().Must().Contain("source::immersion_kit");
 
       [XF] public void the_audio_is_stored_in_the_profiles_audio_folder_normalized_as_mp3gain_normalizes_it() =>
-         File.ReadAllBytes(Path.Combine(MediaLayerFolder, AudioFolder, "garden_of_words_346.mp3")).Must().SequenceEqual(SentenceAudioNormalizedByMp3Gain);
+         File.ReadAllBytes(StoredAudioPath).Must().SequenceEqual(SentenceAudioNormalizedByMp3Gain);
 
       [XF] public void Ankis_copy_of_the_audio_is_replaced_by_the_normalized_file() =>
          File.ReadAllBytes(Path.Combine(AnkiMediaFolder, "garden_of_words_346.mp3")).Must().SequenceEqual(SentenceAudioNormalizedByMp3Gain);
 
-      [XF] public void the_screenshot_is_stored_in_the_profiles_screenshot_folder() => File.Exists(Path.Combine(MediaLayerFolder, ScreenshotFolder, "garden_of_words_346.jpg")).Must().BeTrue();
+      [XF] public void the_screenshot_is_stored_in_the_profiles_screenshot_folder() => File.Exists(StoredScreenshotPath).Must().BeTrue();
       [XF] public void the_sentence_finds_its_audio_in_the_media_layer() => Sentence.PreferredAudio.Must().NotBeNull();
       [XF] public void the_sentence_card_is_tagged_as_imported_in_Anki() => AnkiRawNotes.IsTaggedAsImported(SentenceCard).Must().BeTrue();
       [XF] public void the_run_lists_the_sentence_as_imported() => FirstRun.ImportedSentences.Must().SequenceEqual([Sentence]);
@@ -66,6 +69,9 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
       {
          public and_then_the_sentence_is_deleted() => GetService<JPCollection>().Delete(Sentence);
 
+         [XF] public void its_audio_is_deleted_from_the_media_layer_with_it() => File.Exists(StoredAudioPath).Must().BeFalse();
+         [XF] public void its_screenshot_is_deleted_from_the_media_layer_with_it() => File.Exists(StoredScreenshotPath).Must().BeFalse();
+
          public class and_checked_again : and_then_the_sentence_is_deleted
          {
             readonly CheckedRawNote _check;
@@ -76,7 +82,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
             [XF] public void whats_wrong_says_it_once_for_the_note() => _check.WhatIsWrong.Count.Must().Be(1);
             [XF] public void its_external_id_is_marked_as_a_problem() => _check.ExternalId.Mark.Must().Be(CheckMark.Problem);
             [XF] public void the_finding_of_its_external_id_says_no_sentence_has_it_any_more() => _check.ExternalId.Finding.Must().Contain("No sentence in the corpus has the external id anime_the_garden_of_words_000000346 any more");
-            [XF] public void the_finding_of_its_audio_says_no_note_uses_it() => _check.Audio.Finding.Must().Contain("The file garden_of_words_346.mp3 is in the media layer, but no note uses it");
+            [XF] public void the_finding_of_its_audio_says_the_file_is_not_in_the_media_layer() => _check.Audio.Finding.Must().Contain("The file garden_of_words_346.mp3 isn't in the media layer");
          }
 
          public class and_the_sentence_cards_imported_tag_is_removed_in_Anki : and_then_the_sentence_is_deleted
@@ -90,8 +96,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
             }
 
             [XF] public void the_sentence_card_will_be_imported() => CheckOf(_run, SentenceCard).Outcome.Must().Be(RawNoteOutcome.WillBeImported);
-            [XF] public void its_audio_is_fine() => CheckOf(_run, SentenceCard).Audio.Mark.Must().Be(CheckMark.Fine);
-            [XF] public void the_finding_of_its_audio_says_the_import_reuses_the_file() => CheckOf(_run, SentenceCard).Audio.Finding.Must().Contain("The file garden_of_words_346.mp3 is in the media layer, but no note uses it: the import reuses it");
+            [XF] public void the_finding_of_its_audio_says_the_file_will_be_stored_again() => CheckOf(_run, SentenceCard).Audio.Finding.Must().Contain($"The file garden_of_words_346.mp3 will be stored in {AudioFolder}");
 
             public class and_run : and_the_sentence_cards_imported_tag_is_removed_in_Anki
             {
@@ -101,8 +106,33 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
                [XF] public void it_finds_its_audio_in_the_media_layer() => Sentences.All().Single().PreferredAudio.Must().NotBeNull();
             }
          }
+      }
 
-         public class and_another_sentence_card_has_a_different_screenshot_with_the_same_name : and_then_the_sentence_is_deleted
+      /// <summary>The sentence's audio and screenshot fields are emptied, which leaves both files in the media layer, used by no note.</summary>
+      public class and_then_the_sentence_stops_using_its_media_files : on_an_Immersion_Kit_sentence_card
+      {
+         public and_then_the_sentence_stops_using_its_media_files()
+         {
+            Sentence.Audio.SetRawValue("");
+            Sentence.Screenshot.SetRawValue("");
+         }
+
+         public class and_another_sentence_card_has_the_same_audio_file : and_then_the_sentence_stops_using_its_media_files
+         {
+            readonly CheckedRawNote _check;
+
+            public and_another_sentence_card_has_the_same_audio_file()
+            {
+               var otherCard = AddImmersionKitSentenceCard("別の文", "anime_another_id", "garden_of_words_346.mp3", "another_screenshot.jpg");
+               _check = CheckOf(Importer.Prepare(ImmersionKitProfile), otherCard);
+            }
+
+            [XF] public void the_card_will_be_imported() => _check.Outcome.Must().Be(RawNoteOutcome.WillBeImported);
+            [XF] public void its_audio_is_fine() => _check.Audio.Mark.Must().Be(CheckMark.Fine);
+            [XF] public void the_finding_of_its_audio_says_the_import_reuses_the_file() => _check.Audio.Finding.Must().Contain("The file garden_of_words_346.mp3 is in the media layer, but no note uses it: the import reuses it");
+         }
+
+         public class and_another_sentence_card_has_a_different_screenshot_with_the_same_name : and_then_the_sentence_stops_using_its_media_files
          {
             readonly CheckedRawNote _check;
 

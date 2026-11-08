@@ -37,6 +37,11 @@ public class JPCollection
    /// <summary>Notifies every note in the collection that is updated, whatever its type, on the thread that updated it.</summary>
    public IObservable<JPNote> NoteUpdated => _noteUpdated;
 
+   readonly SimpleObservable<JPNote> _noteDeleted = new();
+
+   /// <summary>Notifies every note <see cref="Delete"/> deleted, on the thread that deleted it, after it and its media are gone.</summary>
+   public IObservable<JPNote> NoteDeleted => _noteDeleted;
+
    readonly SimpleObservable<JPNote> _studyingStatusChanged = new();
 
    /// <summary>
@@ -115,6 +120,7 @@ public class JPCollection
       NoteServices noteServices,
       INoteRepository noteRepository,
       MediaFileIndex mediaFileIndex,
+      MediaStorageService mediaStorage,
       IBackendDataLoader backendDataLoader)
    {
       using var _ = this.Log().Info().MethodExecutionTime();
@@ -122,6 +128,7 @@ public class JPCollection
       NoteServices = noteServices;
       _repository = noteRepository;
       _mediaFileIndex = mediaFileIndex;
+      _mediaStorage = mediaStorage;
       _backendDataLoader = backendDataLoader;
       DictLookup = new DictLookup(this);
       VocabNoteGeneratedData = new VocabNoteGeneratedData(DictLookup);
@@ -142,10 +149,12 @@ public class JPCollection
 
    readonly INoteRepository _repository;
    readonly MediaFileIndex _mediaFileIndex;
+   readonly MediaStorageService _mediaStorage;
    readonly IBackendDataLoader _backendDataLoader;
 
    /// <summary>
-   /// Permanently deletes <paramref name="note"/>: its Anki note, if it has one in this Anki profile, its corpus data, and the note in this collection.<br/>
+   /// Permanently deletes <paramref name="note"/>: its Anki note, if it has one in this Anki profile, its corpus data, the note in this collection,<br/>
+   /// and its media files in the media layer that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media".<br/>
    /// Deleting a note in Anki instead only forgets its Anki note (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
    /// </summary>
    public void Delete(JPNote note)
@@ -153,7 +162,20 @@ public class JPCollection
       NoteServices.CardOperations.DeleteNote(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
+      DeleteTheMediaNoOtherNoteUses();
+      _noteDeleted.OnNext(note);
       return;
+
+      void DeleteTheMediaNoOtherNoteUses()
+      {
+         var filesOfTheNote = note.MediaReferences.Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+         if(filesOfTheNote.Count == 0) return;
+
+         var filesOtherNotesUse = AllNotes().SelectMany(it => it.MediaReferences).Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+         filesOfTheNote.Where(it => !filesOtherNotesUse.Contains(it) && _mediaFileIndex.ContainsByOriginalFileName(it))
+                       .ToList()
+                       .ForEach(_mediaStorage.DeleteFile);
+      }
 
       void RemoveFromItsCache()
       {

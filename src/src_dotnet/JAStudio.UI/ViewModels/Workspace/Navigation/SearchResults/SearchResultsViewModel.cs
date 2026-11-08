@@ -80,7 +80,8 @@ class SearchResultsViewModel : ObservableObject
 
    /// <summary>
    /// Keeps the rows showing their notes as they are now: when a note is updated, or its studying status changes, on whatever thread,<br/>
-   /// its row is updated on the UI thread. After the collection is reloaded, every row shows the object that replaced its note.
+   /// its row is updated on the UI thread, and when a note is deleted, its row goes. After the collection is reloaded, every row shows the object<br/>
+   /// that replaced its note.
    /// </summary>
    void FollowTheChangesToTheNotesIn(TemporaryServiceCollection services)
    {
@@ -88,6 +89,7 @@ class SearchResultsViewModel : ObservableObject
       var uiThread = services.Resolve<IUIThreadDispatcher>();
       collection.NoteUpdated.Subscribe(ShowTheChangeTo);
       collection.StudyingStatusChanged.Subscribe(ShowTheChangeTo);
+      collection.NoteDeleted.Subscribe(deleted => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowThatItWasDeleted(deleted))));
       collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowTheReloadedNotesOf(collection))));
       return;
 

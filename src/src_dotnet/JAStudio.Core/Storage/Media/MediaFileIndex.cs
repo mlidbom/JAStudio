@@ -130,4 +130,7 @@ public class MediaFileIndex
       if(attachment.OriginalFileName != null)
          _byOriginalFileName.TryAdd(attachment.OriginalFileName, attachment);
    }
+
+   /// <summary>Forgets the file named <paramref name="originalFileName"/>, which was deleted from the media layer.</summary>
+   public void Forget(string originalFileName) => _byOriginalFileName.Remove(originalFileName);
 }

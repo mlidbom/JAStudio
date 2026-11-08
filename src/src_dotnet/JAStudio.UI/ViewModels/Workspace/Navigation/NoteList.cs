@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation;
@@ -9,4 +10,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 /// </summary>
 /// <param name="Title">What the notes are, such as "Sentences with 走る".</param>
 /// <param name="Notes">The notes. The "List" tab orders them by their question.</param>
-record NoteList(string Title, IReadOnlyList<JPNote> Notes);
+record NoteList(string Title, IReadOnlyList<JPNote> Notes)
+{
+   /// <summary>The same list without <paramref name="deleted"/>.</summary>
+   public NoteList Without(JPNote deleted) => this with { Notes = [.. Notes.Where(it => !it.GetId().Equals(deleted.GetId()))] };
+}

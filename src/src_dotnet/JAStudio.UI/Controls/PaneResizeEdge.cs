@@ -50,6 +50,6 @@ class PaneResizeEdge : Thumb
    {
       var pane = ResizedPane ?? throw new InvalidOperationException("A pane resize edge needs its ResizedPane.");
       var widening = ResizedPaneSide == PaneSide.Left ? e.Vector.X : -e.Vector.X;
-      pane.Width = Math.Max(pane.MinWidth, pane.Width + widening);
+      pane.SetCurrentValue(WidthProperty, Math.Max(pane.MinWidth, pane.Width + widening));
    }
 }

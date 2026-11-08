@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Search;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
@@ -26,12 +29,21 @@ partial class WorkspaceViewModel : ObservableObject
 
    readonly TemporaryServiceCollection _services;
    readonly IFatalErrorHandler _fatalErrorHandler;
+   readonly SavedWorkspaceState _savedState;
+
+   /// <summary>
+   /// Whether the state the workspace was last left in is shown again, or there was none. Until then, saving the state would overwrite it<br/>
+   /// with an empty workspace.
+   /// </summary>
+   bool _theSavedStateIsShown;
 
    public WorkspaceViewModel(TemporaryServiceCollection services)
    {
       _services = services;
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
+      _savedState = new SavedWorkspaceState(services.Resolve<IEnvironmentPaths>());
       Navigation = new NavigationPaneViewModel(this, services);
+      ShowTheSavedStateOnceTheNotesAreLoaded();
    }
 
    /// <summary>The navigation pane on the left: ways to find notes, such as the search, which open in this workspace's tabs.</summary>
@@ -51,6 +63,15 @@ partial class WorkspaceViewModel : ObservableObject
    /// so it stays open as links are followed and tabs are switched.
    /// </summary>
    [ObservableProperty] bool _isEditorSectionOpen;
+
+   /// <summary>The editor section's width, as its edge was last dragged. Bound to the section, so that it's kept between sessions.</summary>
+   [ObservableProperty] double _editorSectionWidth = 480;
+
+   /// <summary>Saves what the workspace shows (<see cref="WorkspaceState"/>), to show it again after a restart. The window calls it whenever it's left.</summary>
+   internal void SaveTheState()
+   {
+      if(_theSavedStateIsShown) _savedState.Save(State());
+   }
 
    /// <summary>Shows <paramref name="note"/>: selects a tab that already shows it, or else opens a new tab for it.</summary>
    public void OpenNote(JPNote note) => ShowTabFor(note);
@@ -122,6 +143,67 @@ partial class WorkspaceViewModel : ObservableObject
          newValue?.SelectionChanged();
          UpdateTitle();
       });
+
+   /// <summary>
+   /// Shows the state the workspace was last left in, if it was saved, as soon as the notes are loaded: at once if they are, or else when<br/>
+   /// the collection is first loaded, which notifies <see cref="Core.Note.Collection.JPCollection.ReloadedFromBackend"/>.
+   /// </summary>
+   void ShowTheSavedStateOnceTheNotesAreLoaded()
+   {
+      if(_savedState.Load() is not {} saved)
+      {
+         _theSavedStateIsShown = true;
+         return;
+      }
+
+      var collection = _services.CoreApp.Collection;
+      var uiThread = _services.Resolve<IUIThreadDispatcher>();
+      collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(ShowItIfNotShownYet));
+      if(collection.IsInitialized) uiThread.PostToUIThread(ShowItIfNotShownYet);
+      return;
+
+      void ShowItIfNotShownYet()
+      {
+         if(_theSavedStateIsShown) return;
+
+         Show(saved);
+         _theSavedStateIsShown = true;
+      }
+   }
+
+   WorkspaceState State() =>
+      new(TabNoteIds: [.. Tabs.Select(it => it.ShownNoteId).OfType<NoteId>().Select(it => it.ToString())],
+          ShownTabNoteId: SelectedTab?.ShownNoteId?.ToString(),
+          IsNavigationPaneOpen: Navigation.IsOpen,
+          ShownNavigationPaneTab: Navigation.ShownTab,
+          NavigationPaneWidth: Navigation.Width,
+          IsEditorSectionOpen: IsEditorSectionOpen,
+          EditorSectionWidth: EditorSectionWidth,
+          Search: NoteConditionJson.Of(Navigation.Search.CurrentSearch),
+          NoteListTitle: Navigation.NoteList.ShownList is { Notes.Count: > 0 } list ? list.Title : null,
+          NoteListNoteIds: [.. Navigation.NoteList.ShownList.Notes.Select(it => it.GetId().ToString())]);
+
+   /// <summary>Shows <paramref name="saved"/>. Notes deleted since it was saved are left out.</summary>
+   void Show(WorkspaceState saved)
+   {
+      foreach(var note in NotesWithTheIds(saved.TabNoteIds))
+         OpenNoteInBackgroundTab(note);
+      SelectedTab = Tabs.FirstOrDefault(it => it.ShownNoteId?.ToString() == saved.ShownTabNoteId) ?? Tabs.FirstOrDefault();
+      IsEditorSectionOpen = saved.IsEditorSectionOpen;
+      EditorSectionWidth = saved.EditorSectionWidth;
+
+      if(NoteConditionJson.ConditionFrom(saved.Search) is { IsEmpty: false } search)
+         Navigation.Search.StartFrom(search);
+      if(saved.NoteListTitle is {} noteListTitle)
+         Navigation.NoteList.Show(new NoteList(noteListTitle, NotesWithTheIds(saved.NoteListNoteIds)));
+      Navigation.Width = saved.NavigationPaneWidth;
+      Navigation.ShownTab = saved.ShownNavigationPaneTab;
+      Navigation.IsOpen = saved.IsNavigationPaneOpen;
+      return;
+
+      List<JPNote> NotesWithTheIds(IEnumerable<string> noteIds) =>
+         [.. noteIds.Select(NoteId.Parse).Select(_services.CoreApp.Collection.NoteFromNoteId).OfType<JPNote>()];
+   }
 
    NoteTabViewModel ShowTabFor(JPNote note)
    {

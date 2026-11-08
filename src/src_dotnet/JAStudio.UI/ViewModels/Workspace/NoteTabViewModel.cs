@@ -80,6 +80,10 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
             PageBecameOutdated();
             uiThread.PostToUIThread(() => EditorSection?.Refresh());
          }),
+         services.CoreApp.Collection.NoteDeleted.Subscribe(note =>
+         {
+            if(IsShowing(note)) uiThread.PostToUIThread(Close);
+         }),
          services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ =>
          {
             PageBecameOutdated();
@@ -154,6 +158,9 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    public void Dispose() => _subscriptions.ForEach(it => it.Dispose());
 
    internal bool IsShowing(JPNote note) => note.GetId().Equals(_shownNoteId);
+
+   /// <summary>The id of the note the tab's page shows, or null for a page that shows no note.</summary>
+   internal NoteId? ShownNoteId => _shownNoteId;
 
    /// <summary>Called by the workspace when this tab became, or stopped being, its <see cref="WorkspaceViewModel.SelectedTab"/>.</summary>
    internal void SelectionChanged()

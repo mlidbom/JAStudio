@@ -99,6 +99,16 @@ partial class NoteSearchViewModel : ObservableObject
    }
 
    /// <summary>Replaces the whole search with one that finds only the notes <paramref name="condition"/> matches, and selects the condition. Undo goes back to the search before.</summary>
+   /// <summary>The whole search, as the condition tree shows it.</summary>
+   internal NoteCondition CurrentSearch => _search.Current;
+
+   /// <summary>Shows and runs <paramref name="search"/>, the search the workspace was last left with, with no change to undo.</summary>
+   internal void StartFrom(NoteCondition search)
+   {
+      _search.StartFrom(search);
+      ChangeTheSearch(ConditionPosition.Root);
+   }
+
    internal void SearchFor(NoteCondition condition) => ChangeTheSearch(_search.ReplaceTheWholeSearchWith(condition));
 
    /// <summary>Adds <paramref name="condition"/> to the selected group, or to the group the selected condition is in, and selects it.</summary>

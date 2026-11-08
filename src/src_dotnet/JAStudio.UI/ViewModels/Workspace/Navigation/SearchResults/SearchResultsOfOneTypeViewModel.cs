@@ -53,6 +53,9 @@ abstract partial class SearchResultsOfOneTypeViewModel : ObservableObject
    /// <summary>Makes the row of <paramref name="updated"/>, if there is one, show the note as it is now.</summary>
    public abstract void ShowTheChangeTo(JPNote updated);
 
+   /// <summary>Removes the row of <paramref name="deleted"/>, if there is one.</summary>
+   public abstract void ShowThatItWasDeleted(JPNote deleted);
+
    /// <summary>
    /// After <paramref name="collection"/> was reloaded, which replaces every note object: each row shows the object that now has its note's id,<br/>
    /// and the rows of notes that no longer exist go.
