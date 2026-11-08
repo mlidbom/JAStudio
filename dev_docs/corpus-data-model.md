@@ -41,10 +41,11 @@ nothing stored only for Anki's sake.
   [The minimal Anki note type](#the-minimal-anki-note-type-tentative).
 - **mobile-review** — reviewing cards in an Anki mobile app. The JAStudio add-on doesn't run there, so the card
   is exactly what the installed card template renders from the note's fields.
-- **import-note** — an Anki note with the full set of fields, created by a deck import or through AnkiConnect, in a
-  note type of its own. JAStudio ingests it into the corpus through an import profile (`import-profiles.md`), tags
-  included, and the import-note is then deleted or tagged as imported. Deck imports happen in a
-  separate Anki profile (2026-11-06; see [Import and organization](#import-and-organization-needs-its-own-design)).
+- **raw note** — an Anki note an import takes, in a note type of its own, such as "Immersion Kit Sentence" or a
+  subs2srs deck's note type. It arrives through a deck import or AnkiConnect. JAStudio ingests it into the corpus
+  through an import profile (`import-profiles.md`, the word's home), tags included, and the raw note is then deleted
+  or tagged as imported. Deck imports happen in a separate Anki profile (2026-11-06; see
+  [Import and organization](#import-and-organization-needs-its-own-design)).
 - **generated-html-field** — the one Anki field a study-note keeps for mobile-review, besides the question and
   the audio. JAStudio fills it with HTML generated from the note, and nothing reads it back. See
   [The minimal Anki note type](#the-minimal-anki-note-type-tentative).
@@ -152,7 +153,7 @@ Each note type keeps the fields Anki itself needs, plus the generated-html-field
 
 | Field | Why Anki needs it |
 |---|---|
-| `jas_note_id` | Links the Anki note to its corpus entry (`NoteBulkLoader.LoadAnkiIdMaps`). |
+| `jas_note_id` | Links the Anki note to its corpus entry (`AnkiNoteIdMapLoader.Load`). |
 | The question (`Q`; for kanji, the kanji character) | Reasons:<br>• Vocab and sentence HyperTTS presets read it.<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
 | Audio (vocab and sentences only) | `Audio_b`, `Audio_g`, `Audio_TTS` for vocab; `Audio Sentence` for sentences. Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior"). That is also the only audio playback on mobile.<br>• HyperTTS writes new audio into them. |
 
@@ -557,7 +558,7 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     "high" or "low" in the tag colors the sentence's source label. As the corpus grows, this ordering decides
     which sentences a vocab shows.
   - **Leaning:** read it from the Anki notes' tags when JAStudio loads, as the studying status is. The loader
-    already reads every Anki note's `jas_note_id` (`NoteBulkLoader.LoadAnkiIdMaps`), and the tags are in the
+    already reads every Anki note's `jas_note_id` (`AnkiNoteIdMapLoader.Load`), and the tags are in the
     same row. That needs the Anki-projection to stop replacing the Anki note's whole tag list: it writes only
     corpus-tags and leaves student-tags alone.
   - **For later:** a corpus note with no Anki note has nowhere to carry a priority tag. The alternative then is a
@@ -710,7 +711,8 @@ That step is dropped. Under this order most of that code gets deleted rather tha
 - `MergeAnkiData` shrinks to picking up audio changes. *(Done 2026-11-07, and gone entirely on 2026-11-08: a
   save in Anki takes nothing.)*
 - `PopulateAnkiNoteFields` shrinks to the study-note fields.
-- `FromAnki` survives as the import-note mapping.
+- `FromAnki` was to survive as the raw note mapping. *Gone 2026-11-08:* an import profile's field mapping maps raw
+  notes (`import-profiles.md`), and `FromAnki` went with the take-in of notes added in Anki.
 
 What's left lives in `JAStudio.Anki` from the start.
 

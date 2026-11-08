@@ -1,24 +1,15 @@
 import typing, abc
 from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
 from JAStudio.Core.TaskRunners import TaskRunner
-from System.Collections.Generic import List_1, Dictionary_2, IReadOnlyList_1, IEnumerable_1
-from JAStudio.Core.Note import AnkiNoteData, NoteId, ICardOperations, ExternalNoteIdMap, JPNote
+from JAStudio.Core.Note import ICardOperations, ExternalNoteIdMap, NoteId, JPNote
+from System.Collections.Generic import IReadOnlyList_1, Dictionary_2, List_1, IEnumerable_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Note.Collection import CardStudyingStatus
-from System import Func_2, Guid
 
 class AnkiBackendDataLoader(IBackendDataLoader):
     def __init__(self) -> None: ...
     def Load(self, taskRunner: TaskRunner) -> BackendData: ...
-
-
-class AnkiBulkLoadResult:
-    def __init__(self, notes: List_1[AnkiNoteData], ankiIdMap: Dictionary_2[int, NoteId]) -> None: ...
-    @property
-    def AnkiIdMap(self) -> Dictionary_2[int, NoteId]: ...
-    @property
-    def Notes(self) -> List_1[AnkiNoteData]: ...
 
 
 class AnkiCardOperationsImpl(ICardOperations):
@@ -94,6 +85,11 @@ class AnkiLifecycleEvent(typing.SupportsInt):
     CollectionLoaded : AnkiLifecycleEvent # 4
 
 
+class AnkiNoteIdMapLoader(abc.ABC):
+    @staticmethod
+    def Load(dbFilePath: str) -> Dictionary_2[int, NoteId]: ...
+
+
 class AnkiRawNotes(IAnkiRawNotes):
     def __init__(self) -> None: ...
     def Delete(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
@@ -105,13 +101,6 @@ class AnkiRawNotes(IAnkiRawNotes):
 class CardStudyingStatusLoader(abc.ABC):
     @staticmethod
     def FetchAll(dbFilePath: str) -> List_1[CardStudyingStatus]: ...
-
-
-class NoteBulkLoader(abc.ABC):
-    @staticmethod
-    def LoadAllNotesOfType(dbFilePath: str, noteTypeName: str, idFactory: Func_2[Guid, NoteId]) -> AnkiBulkLoadResult: ...
-    @staticmethod
-    def LoadAnkiIdMaps(dbFilePath: str) -> Dictionary_2[int, NoteId]: ...
 
 
 class QueryBuilder:

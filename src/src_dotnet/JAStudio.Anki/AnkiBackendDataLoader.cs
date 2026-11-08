@@ -17,7 +17,7 @@ public class AnkiBackendDataLoader : IBackendDataLoader
 
       using var runner = taskRunner.Current("Loading user data from Anki");
 
-      var ankiIdMapTask = runner.RunIndeterminateAsync("Loading Anki ID mappings", () => NoteBulkLoader.LoadAnkiIdMaps(dbPath));
+      var ankiIdMapTask = runner.RunIndeterminateAsync("Loading Anki ID mappings", () => AnkiNoteIdMapLoader.Load(dbPath));
       var studyingStatusesTask = runner.RunIndeterminateAsync("Fetching studying statuses from Anki", () => CardStudyingStatusLoader.FetchAll(dbPath));
 
       Task.WaitAll(ankiIdMapTask, studyingStatusesTask);
