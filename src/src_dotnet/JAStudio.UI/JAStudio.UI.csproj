@@ -36,6 +36,7 @@
            means reachable from Python, whose stubs cover every public type, so making them public would widen the Python layer.
            See dev_docs/code_standard_exceptions/the-ui-specifications-see-the-uis-internals.md -->
       <InternalsVisibleTo Include="JAStudio.UI.Specifications" />
+      <InternalsVisibleTo Include="JAStudio.UI.Views.Specifications" />
    </ItemGroup>
 
    <ItemGroup>

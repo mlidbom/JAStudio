@@ -42,17 +42,17 @@ partial class ImportRunWindow : Window
    }
 
    /// <summary>
-   /// Checks <paramref name="profile"/> in its import run window: in the one already open, brought to the front, or in a new one opened near the cursor.
+   /// Checks <paramref name="profile"/> in its import run window: in the one already open, brought to the front, or in a new one opened near the cursor.<br/>
+   /// Returns the window.
    /// </summary>
-   internal static void CheckInItsWindow(ImportProfile profile, TemporaryServiceCollection services)
+   internal static ImportRunWindow CheckInItsWindow(ImportProfile profile, TemporaryServiceCollection services)
    {
-      if(OpenWindowsByProfile.TryGetValue(profile, out var openWindow))
-      {
-         openWindow._viewModel.CheckAgainUnlessBusy();
-         openWindow.BringToFront();
-      }
-      else
-         OpenWindowsByProfile[profile] = new ImportRunWindow(profile, services).ShowNearCursor();
+      if(!OpenWindowsByProfile.TryGetValue(profile, out var openWindow))
+         return OpenWindowsByProfile[profile] = new ImportRunWindow(profile, services).ShowNearCursor();
+
+      openWindow._viewModel.CheckAgainUnlessBusy();
+      openWindow.BringToFront();
+      return openWindow;
    }
 
    void BringToFront()

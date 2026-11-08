@@ -4,9 +4,11 @@
 and that a test that can't reach something through the container is a design signal: fix the design, not the
 visibility.
 
-**The exception:** `JAStudio.UI` grants `InternalsVisibleTo` to `JAStudio.UI.Specifications` (in `JAStudio.UI.csproj`).
+**The exception:** `JAStudio.UI` grants `InternalsVisibleTo` to `JAStudio.UI.Specifications` and
+`JAStudio.UI.Views.Specifications` (in `JAStudio.UI.csproj`).
 
-**Why:** Magnus approved it on 2026-11-06.
+**Why:** Magnus approved it on 2026-11-06, for `JAStudio.UI.Specifications`. `JAStudio.UI.Views.Specifications`, which
+opens the windows themselves, was given the same on 2026-11-08, when Magnus asked for the headless window specifications.
 
 - The rule is aimed at libraries, which should be specified through the API they publish. JAStudio is an application.
 - In JAStudio, `public` already means something: reachable from Python, whose type stubs in `typings/` cover every public
@@ -15,4 +17,5 @@ visibility.
 
 **What stays the same:** the specifications are still black-box. They start the application's real services with an
 empty collection (`SpecificationStartingWithAnEmptyCollection`), and open notes through the `WorkspaceViewModel` the way
-the app does (`SpecificationUsingAWorkspace`), rather than building view models by hand.
+the app does (`SpecificationUsingAWorkspace`), rather than building view models by hand. The window specifications open
+windows the way the app does, through the windows' own openers (`SpecificationOpeningWindows`).

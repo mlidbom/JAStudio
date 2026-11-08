@@ -24,6 +24,6 @@ partial class ImportProfilesWindow : Window
       InitializeComponent();
    }
 
-   /// <summary>Opens the window near the cursor, as from the main menu.</summary>
-   internal static void OpenNearTheCursor(TemporaryServiceCollection services) => new ImportProfilesWindow(services).ShowNearCursor();
+   /// <summary>Opens the window near the cursor, as from the main menu, and returns it.</summary>
+   internal static ImportProfilesWindow OpenNearTheCursor(TemporaryServiceCollection services) => new ImportProfilesWindow(services).ShowNearCursor();
 }

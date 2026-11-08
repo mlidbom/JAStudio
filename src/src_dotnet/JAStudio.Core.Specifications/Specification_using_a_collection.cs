@@ -9,7 +9,7 @@ namespace JAStudio.Core.Specifications;
 
 public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded.All) : IDisposable
 {
-   public void Dispose() => _appScope.Dispose();
+   public virtual void Dispose() => _appScope.Dispose();
 
    readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(data);
 
