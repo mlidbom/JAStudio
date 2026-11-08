@@ -1,8 +1,7 @@
 # Text-to-speech — Design
 
-> **Status: draft (2026-11-07).** The direction is agreed with Magnus. Details are settled as each increment needs
-> them. Facts about the providers come from their documentation, and are verified against the real services once
-> the accounts exist.
+> **Status: in use (2026-11-08).** Increments 1 and 2 are built, and Magnus uses them in Anki. The facts about the
+> tts-providers are verified against the real services. What's left is under [To do](#to-do) and increment 3.
 
 ## Why
 
@@ -167,7 +166,7 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
   - The organization's other project, "My First Project", was made by the console on the first visit, and isn't
     used.
 
-## Increments (tentative)
+## Increments
 
 1. **The tts-providers and their settings** (`JAStudio.TextToSpeech`): listing the Japanese voices and speaking a
    text, for Azure and Google, with specs against a fake HTTP handler. Then a first try against the real services,
@@ -197,7 +196,8 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
      JAStudio's are (checked 2026-11-07), so a HyperTTS file can sound the same as a new attempt.
    - **A current audio JAStudio doesn't play:** SoundFlow decodes MP3, WAV and FLAC, but Ogg Vorbis only with a codec
      package of its own, and four imported sentences have `.ogg` audio (2026-11-07). The dialog says it doesn't play
-     such audio, and doesn't compare with it (`DecodedAudio.CanDecode`).
+     such audio, and doesn't compare with it (`DecodedAudio.CanDecode`). *Decided 2026-11-08: the corpus holds only
+     MP3, and the four are to be converted (`corpus-validity.md`).*
    - **Keeping** (`SpeechKeeping`), the only step that changes anything:
      1. the MP3 is stored in the media layer under a new name naming its voice, such as
         `jastudio-tts-azure-daichi-dragonhdomnilatestneural-<guid>.mp3` (`MediaStorageService.StoreNewAudioFile`);
@@ -211,7 +211,7 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
      miniaudio, a native library of 660 KB on Windows, which it brings for each platform. Tried on 2026-11-07: playback
      starts 9 to 27 ms after the call. JAStudio is built for one platform at a time, so `miniaudio.dll` sits beside
      its assemblies, as SkiaSharp's native library already does inside Anki.
-   - **Not verified yet: playing inside Anki's process.** Everything else was tried outside it.
+   - **Verified in Anki** by Magnus on 2026-11-07: generating, playing, comparing and keeping.
 3. **Later:** one voice for the selected search results, remembered favorite voices, and pronunciation help from a
    vocab's readings where the voice supports it.
 
@@ -236,6 +236,9 @@ The note's question, cleaned as HyperTTS cleans it: markup removed, and `〜` an
 readings, so a later increment could tell a voice how to pronounce a kanji it gets wrong, through SSML's
 `<phoneme>` or `<sub>` where the voice supports them.
 
+**Chirp 3 HD takes no SSML,** so pronunciation help through SSML would work only for the other voices
+([Google's pricing page](https://cloud.google.com/text-to-speech/pricing), 2026-11-08).
+
 **Google may answer the same request with the same audio.** Two identical requests to Chirp 3 HD Kore gave
 identical audio once (2026-11-07), and different audio an hour earlier, so Google may cache identical requests for a
 while. Then generating again gives "same as #1", and a different rendition needs a change to the text, even a small
@@ -247,6 +250,15 @@ one.
   over the note page's web view, which would have needed glue code and a page to be shown, and Anki's own player,
   which isn't there outside Anki.*
 - ~~**Normalizing the MP3s before we're done**~~ *Done 2026-11-07, as mp3gain does it. See [Normalizing](#normalizing).*
+- **Stop taking in audio from Anki.** HyperTTS isn't used any more (Magnus, 2026-11-08). Nothing in it runs fully
+  automatically, so it can stay in Anki until Magnus removes it. Nothing else writes audio in Anki, so the
+  Anki-ingestion's last job besides importing, taking in that audio, can go (`corpus-data-model.md`, "Anki's role and
+  its consequences", point 2).
+- **Activate Google's full account before the free trial ends, around 2027-02-05,** 90 days after 2026-11-07, or Google
+  stops the service until it is (see [The accounts](#the-accounts)). Found 2026-11-08: activating keeps the unused
+  credit until the trial would have ended, and there's no monthly fee, only use: each kind of voice has a free
+  allowance a month, 1 million characters for Chirp 3 HD and for Neural2, then about $30 and $16 per million.
+  ([trial](https://docs.cloud.google.com/free/docs/free-cloud-features), [pricing](https://cloud.google.com/text-to-speech/pricing))
 - **Found meanwhile: JAStudio's UI doesn't run outside Windows as it is.** Two utilities call Windows' `user32`
   unconditionally: `NativeKeyboardFocus` (`SetFocus`) and `WindowPositioner` (`GetCursorPos`). The web view's
   WebView2 setup (`NoteTabView`) and `JAStudioAnkiAppRoot` check the platform first.
@@ -263,8 +275,8 @@ one.
    folder per source, named by import rules rather than by anything a note says, and TTS audio is free, so there's no
    takedown to split it by source for.
 4. **The file a kept speech replaces** becomes an orphan, still in the media layer and in Anki's media folder, as when
-   HyperTTS regenerates audio today. It's left there. Deleting it safely needs a check that no other note references
-   the same name, which a later batch could do for every orphan at once.
+   HyperTTS regenerated audio. It's left there. Deleting it safely needs a check that no other note references the
+   same name, which checking the whole corpus could do for every orphan at once (`corpus-validity.md`).
 
 ## Sources
 

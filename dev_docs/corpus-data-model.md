@@ -69,7 +69,7 @@ nothing stored only for Anki's sake.
 | Sync direction (2026-11-06) | No two-way sync except where it can't be avoided. |
 | Tagging, organizing, batch import | Need their own design. Partly decided 2026-11-06 (rows below). See [Import and organization](#import-and-organization-needs-its-own-design). |
 | Navigation and editing | A large part of this work is building proper navigation and editing into JAStudio itself, so Anki isn't needed for either. |
-| Overall approach | Build out JAStudio's own UI until Anki is only used for TTS, reviewing, and importing sentences and Yomitan-created vocab. The model changes come after that, when they no longer have to keep the Anki format working. |
+| Overall approach | Build out JAStudio's own UI until Anki is only used for TTS, reviewing, and importing sentences and Yomitan-created vocab. The model changes come after that, when they no longer have to keep the Anki format working. *2026-11-08: TTS no longer needs Anki: JAStudio generates it itself (`text-to-speech.md`).* |
 | Study approach | Magnus studies sentences, but studying vocab and kanji stays fully supported. That includes mnemonics, studying status and everything else around them. Only the Anki notes become minimal (study-notes). The one removal is the complex kanji audio generation (primary-readings TTS): it's in the way of minimal notes and doesn't help much. Anything else is removed only if it is actually in the way of the refactoring. |
 | Edits in Anki (2026-11-06) | Magnus doesn't edit questions or answers in Anki, on desktop or on AnkiDroid. JAStudio ignores edits made in Anki to the fields it writes, and its next write overwrites them. |
 | Mobile-review content (2026-11-06) | Magnus's proposal: one generated-html-field instead of a set of fields. The back templates are the committed minimal ones (`JAStudio.Web/Styles/notes/`) plus that one field. See [The minimal Anki note type](#the-minimal-anki-note-type-tentative). |
@@ -111,7 +111,8 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
    **Done (2026-11-07): a note saved in Anki takes only the audio TTS writes.** Tags went with it, since
    JAStudio now edits them (`tags.md`).
    - **Which audio** (Magnus, 2026-11-07): only the fields HyperTTS writes, since duplicating TTS would be a major
-     task, accounts with TTS services included. Those are vocab `Audio_TTS` and `Audio_g`, and sentence
+     task, accounts with TTS services included. *2026-11-08: JAStudio now generates TTS itself (`text-to-speech.md`),
+     and HyperTTS isn't used any more, so nothing writes audio in Anki, and taking it in can go.* Those are vocab `Audio_TTS` and `Audio_g`, and sentence
      `Audio Sentence` (see "What HyperTTS reads and writes" under [The minimal Anki note type](#the-minimal-anki-note-type-tentative)). Vocab
      `Audio_b` and the images only come with an import: there's no point in editing them in Anki. Kanji take
      nothing, since the primary-readings TTS is going.
@@ -723,6 +724,9 @@ Progress on step 3:
 - What comes next isn't chosen yet (Magnus, 2026-11-06).
 - *2026-11-07:* tags come next: navigating, editing and tagging, specified in `tags.md`, with a search language
   and a results grid, proposed in `note-search.md`.
+- *2026-11-07 and 08:* JAStudio generates its own TTS audio (`text-to-speech.md`), normalized as mp3gain normalized
+  HyperTTS's (`mp3-loudness-normalization.md`), so Anki is no longer needed for TTS, and HyperTTS isn't used any more.
+- *2026-11-08:* checking the whole corpus is wanted (`corpus-validity.md`, a draft).
 
 1. **Remove the kanji primary-readings TTS** (deferred). This happens almost entirely on the Anki side:
    - delete the kanji HyperTTS presets;
