@@ -33,7 +33,12 @@
   Anki startup (`jastudio/dotnet/copy_runtime_binaries.py`), so a rebuild reaches Anki on its next restart
 - `src/jastudio_src/_lib/`, `_lib_patched/`, `manually_copied_in_libraries/` — bundled third-party Python
   libs, excluded from lint/typecheck
-- `submodules/pythonnet-stub-generator`, `src/jas_database` — read-only third-party code / separate repos,
-  excluded from lint/typecheck/search; coordinate changes through their own workflows
+- `submodules/pythonnet-stub-generator` — read-only third-party code, a separate repo excluded from
+  lint/typecheck/search; coordinate changes through its own workflow
+- `src/jas_database` — **the corpus repository** (`JAStudioData`), a submodule: the corpus notes, the import profiles and
+  the media layer, itself with the media submodules `media/commercial-01` and `media/commercial-02`. Excluded from
+  lint/typecheck/search. It's JAStudio's own data, which the code reads and writes, not third-party code. Change it only
+  as part of work that changes what the code expects of it, and commit it with that work: see
+  [045-committing-with-the-corpus-repository.md](045-committing-with-the-corpus-repository.md)
 - `.github/workflows/` — CI configuration; don't modify without explicit permission
 - Build artifacts: `bin/`, `obj/`, `venv/`, `.vs/`, `CopilotIndices/`
