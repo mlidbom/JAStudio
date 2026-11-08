@@ -73,10 +73,6 @@ class Tags(abc.ABC):
 
     class Kanji(abc.ABC):
         HasNonPrimaryOnReadingVocab : Tag
-        HasNonPrimaryOnReadingVocabWithOnlyKnownKanji : Tag
-        HasPrimaryReadingWithNoStudyingVocab : Tag
-        HasStudyingVocabForEachPrimaryReading : Tag
-        HasStudyingVocabWithNoMatchingPrimaryReading : Tag
         InAnyVocabForm : Tag
         InVocabMainForm : Tag
         IsRadical : Tag
@@ -86,9 +82,6 @@ class Tags(abc.ABC):
         WithNoPrimaryReadings : Tag
         WithSingleKanjiVocab : Tag
         WithSingleKanjiVocabWithDifferentReading : Tag
-        WithStudyingSingleKanjiVocabWithDifferentReading : Tag
-        WithStudyingVocab : Tag
-        WithStudyingVocabWithPrimaryOnReading : Tag
         WithVocabWithPrimaryOnReading : Tag
 
 
@@ -107,7 +100,6 @@ class Tags(abc.ABC):
 
 
     class Vocab(abc.ABC):
-        HasNoStudyingSentences : Tag
         IsIchidanHidingGodanPotential : Tag
         Root : str
 

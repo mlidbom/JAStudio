@@ -36,25 +36,17 @@ public static class Tags
 
       public static readonly Tag WithSingleKanjiVocab = Tag.FromName(FKanji + "single-kanji-vocab");
       public static readonly Tag WithSingleKanjiVocabWithDifferentReading = Tag.FromName(FKanji + "single-kanji-vocab-with-different-reading");
-      public static readonly Tag WithStudyingSingleKanjiVocabWithDifferentReading = Tag.FromName(FKanji + "studying-single-kanji-vocab-with-different-reading");
       public static readonly Tag WithNoPrimaryOnReadings = Tag.FromName(FKanji + "no-primary-on-readings");
       public static readonly Tag WithNoPrimaryReadings = Tag.FromName(FKanji + "no-primary-readings");
-      public static readonly Tag WithStudyingVocab = Tag.FromName(FKanji + "studying-vocab");
       public static readonly Tag WithVocabWithPrimaryOnReading = Tag.FromName(FKanji + "has-vocab-with-primary-on-reading");
-      public static readonly Tag WithStudyingVocabWithPrimaryOnReading = Tag.FromName(FKanji + "studying-vocab-with-primary-on-reading");
 
-      public static readonly Tag HasStudyingVocabWithNoMatchingPrimaryReading = Tag.FromName(FKanji + "has-studying-vocab-with-no-matching-primary-reading");
-      public static readonly Tag HasStudyingVocabForEachPrimaryReading = Tag.FromName(FKanji + "has-studying-vocab-for-each-primary-reading");
-      public static readonly Tag HasPrimaryReadingWithNoStudyingVocab = Tag.FromName(FKanji + "has-primary-reading-with-no-studying-vocab");
       public static readonly Tag HasNonPrimaryOnReadingVocab = Tag.FromName(FKanji + "has-non-primary-on-reading-vocab");
-      public static readonly Tag HasNonPrimaryOnReadingVocabWithOnlyKnownKanji = Tag.FromName(FKanji + "has-non-primary-on-reading-vocab-with-only-known-kanji");
    }
 
    public static class Vocab
    {
       public const string Root = FVocab; // Keep as string for startswith() checks
 
-      public static readonly Tag HasNoStudyingSentences = Tag.FromName(FVocab + "has-no-studying-sentences");
       public static readonly Tag IsIchidanHidingGodanPotential = Tag.FromName(FVocab + "is-ichidan-hiding-godan-potential");
 
       public static class Matching

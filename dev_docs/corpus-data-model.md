@@ -346,6 +346,30 @@ now, not tags (see [Vocab](#vocab)). What's left as tags is `_uk`, `_disable_uk`
 - **`parsingResult`:** derived, but it's an expensive analysis cache that carries vocab ids. The tentative plan
   is to keep it, named as a cache.
 
+*2026-11-08 (slice 6), decided with Magnus:*
+- **`sentenceCount` stays, as derived data kept on purpose.** It's cheap to compute, but it shows in the corpus diff: a
+  change to matching, or a few sentences added, changes the counts of the vocab it affects, which says what the change did
+  from the vocab's side. An import touching many vocab files is part of what it did, too. (The workspace's editors
+  don't let it be edited.)
+- **The generated tags that follow from corpus data stay, as derived data, for now:** kanji `in-any-vocab-form`,
+  `in-vocab-main-form`, `has-vocab-with-primary-on-reading`, `no-primary-on-readings`, `no-primary-readings`,
+  `has-non-primary-on-reading-vocab`, `is-radical`, `is-radical-purely`, `is-radical-silent`, `single-kanji-vocab` and
+  `single-kanji-vocab-with-different-reading`; vocab `is-ichidan-hiding-godan-potential` and `matching::uses::*`; sentence
+  `uses::incorrect-matches` and `uses::hidden-matches`. Magnus searched by them a lot when studying kanji and may well want
+  them again, and keeping them costs little: they're stale between rebuilds, and they add to the diff. They go once
+  JAStudio's search can compute them. The code reads only `is-ichidan-hiding-godan-potential` (the "HG" on the vocab page).
+- **The study-state tags are gone,** with the code that generated them: kanji `studying-vocab`,
+  `studying-vocab-with-primary-on-reading`, `has-studying-vocab-for-each-primary-reading`,
+  `has-primary-reading-with-no-studying-vocab`, `has-studying-vocab-with-no-matching-primary-reading` and
+  `has-non-primary-on-reading-vocab-with-only-known-kanji` (4,670 tags). Help with choosing what to study next would be
+  designed then, and its data won't live in the corpus.
+- **The orphaned tags are gone:** kanji `not-in-any-vocab-form` and `not-in-any-vocab-main-form`, vocab
+  `has-no-studying-sentences` (17,382) and `parser-metadata-only-vocab-not`, and a stray `-::vocab::question-overrides-form` on
+  one sentence.
+- **Every rebuild rewrote 185 kanji with identical content:** tagging a kanji with a single-kanji vocab unset
+  `single-kanji-vocab-with-different-reading` and then set it again, writing the file twice. It's computed once now. That also
+  removed the tag from 干 and 莫, which have no single-kanji vocab, where it was stale.
+
 ### Overridable-text without a type
 
 `sourceAnswer`/`userAnswer`/`activeAnswer`, `sourceQuestion`/`userQuestion`/`activeQuestion`,
@@ -391,7 +415,8 @@ The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectio
 1. **The JSON mirrors the domain model.** Every concept with meaning has its own JSON structure. No
    in-string-micro-syntax for anything the code interprets. Rich text that is only displayed stays text.
 2. **Store facts, not conclusions.** No persisted-derived-data, except caches that are expensive to recompute
-   and named as caches (`parsingResult`).
+   and named as caches (`parsingResult`), and derived data kept on purpose: `sentenceCount`, whose changes in the diff show
+   what a change did, and for now the generated tags derived from corpus data (slice 6, 2026-11-08).
 3. **Tags hold only labels the domain does not interpret.** Anything the code reads or reasons about is a
    typed field.
 4. **Nothing in the corpus is there for Anki.** The Anki-projection derives what Anki needs, in `JAStudio.Anki`.
@@ -639,17 +664,16 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
   - `legacy_scheduling` (9,355);
   - `_only_studying_listening` (1,065 sentences);
   - Anki's `marked` (2);
-  - the kanji tags generated from what is studied: `-::kanji::studying-vocab` (1,670),
-    `has-studying-vocab-for-each-primary-reading`, `studying-vocab-with-primary-on-reading`,
-    `has-primary-reading-with-no-studying-vocab` and `has-studying-vocab-with-no-matching-primary-reading`.
-    These are computed in memory, not moved to Anki.
+  - ~~the kanji tags generated from what is studied~~, such as `-::kanji::studying-vocab`: *gone since 2026-11-08 (slice 6),
+    with the code that generated them.*
 - **Not yet classified:** `active_kanji` (1,531 kanji), `preparing-cards` (20), `tmp` (18), `-::TODO…` (about 40).
 - **Corpus-tags:**
   - `source::…`;
   - labels about the words, such as `-::counting`, `-::formal-noun`, ~~`_uk`~~ *(the vocab's `usuallyWrittenInKana` since slice 4b)*;
   - `_tts_audio` and `fixed_primary_readings`;
   - ~~the matching configuration~~, *moved out of tags 2026-11-08 (slice 4a), with the register*;
-  - the generated tags that don't depend on studying, which go in slice 6.
+  - the generated tags that don't depend on studying: *kept as derived data for now (slice 6, 2026-11-08), until JAStudio's
+    search can compute them.*
 
 ## Media (Open)
 
@@ -910,11 +934,10 @@ Progress on step 3:
       `source::jlab::booster::1` and `source::jlab::inter`, 233 in `source::anime::violet::07` and `::08`. (A parent
       tag together with its child, as `source::wani` with `source::wani::current` on 14,567 sentences, is one source.)
    5. Priority out of the corpus, as student-data (see [Tags](#tags)).
-   6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags. Also `_tts_audio`, if
-      the media decides it: nothing sets the tag, not even JAStudio's own text-to-speech, while the vocab page reads it to
-      mark sentences and to list those with text-to-speech audio after those with native audio. Check against the 14,607
-      sentences and 245 vocab tagged whether the audio file (a HyperTTS file name, or JAStudio's text-to-speech folder)
-      says the same.
+   6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags. *Done 2026-11-08: see
+      [Persisted-derived-data](#persisted-derived-data). `sentenceCount` and the tags derived from corpus data stay, as
+      derived data kept on purpose; the study-state and orphaned tags are gone.* `_tts_audio` moved to slice 9: see
+      [TTS audio](#tts-audio-only-what-we-know-for-sure-is-tts-magnus-2026-11-08).
    7. Kanji readings and parts of speech.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
       pickers to replace the related-vocab JSON text box.
