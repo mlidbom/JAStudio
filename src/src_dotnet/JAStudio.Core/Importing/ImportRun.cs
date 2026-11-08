@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Compze.Contracts;
+using JAStudio.Core.Importing.Checking;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.NoteFields;
@@ -13,38 +14,41 @@ using Mp3LoudnessNormalization;
 namespace JAStudio.Core.Importing;
 
 /// <summary>
-/// One application of an <see cref="ImportProfile"/>, prepared by <see cref="Importer.Prepare"/>: the <see cref="RawNote"/>s it selected in Anki,<br/>
-/// the <see cref="Problems"/> that stop it and the <see cref="AlreadyImported"/> notes it skips, all found before <see cref="Execute"/> changes anything.
+/// One application of an <see cref="ImportProfile"/>, prepared by <see cref="Importer.Prepare"/>: every <see cref="RawNote"/> it selected in Anki,<br/>
+/// each as a <see cref="CheckedRawNote"/> with its <see cref="RawNoteOutcome"/>, and the <see cref="ProblemsWithTheProfile"/>, all found before <see cref="Execute"/> changes anything.
 /// </summary>
 /// <remarks>
-/// Executing it turns each raw note into a corpus sentence and stores the sentence's media in the media layer, the audio normalized to ReplayGain's<br/>
-/// reference loudness as mp3gain normalizes it, with the same normalized file replacing Anki's copy. Then it deletes every raw note it selected,<br/>
-/// or tags it <see cref="RawNote.ImportedTag"/>, the skipped ones too, so that later runs leave them out.
+/// Executing it turns each raw note that <see cref="RawNoteOutcome.WillBeImported"/> into a corpus sentence and stores its media in the media layer, the audio<br/>
+/// normalized to ReplayGain's reference loudness as mp3gain normalizes it, with the same normalized file replacing Anki's copy. A file the check found<br/>
+/// in the media layer, the same and used by no note, is reused. Then it deletes the raw notes it imported, or tags them <see cref="RawNote.ImportedTag"/>.<br/>
+/// The others are left as they are.
 /// </remarks>
 public class ImportRun
 {
    readonly IAnkiRawNotes _ankiRawNotes;
    readonly NoteServices _noteServices;
+   readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
    readonly string _ankiMediaFolder;
    readonly TaskRunner _taskRunner;
+   readonly List<SentenceNote> _importedSentences = [];
 
    internal ImportRun(ImportProfile profile,
-                      IReadOnlyList<RawNote> rawNotes,
-                      IReadOnlyList<ImportProblem> problems,
-                      IReadOnlyList<AlreadyImportedNote> alreadyImported,
+                      IReadOnlyList<ImportProfileProblem> problemsWithTheProfile,
+                      IReadOnlyList<CheckedRawNote> checkedRawNotes,
                       IAnkiRawNotes ankiRawNotes,
                       NoteServices noteServices,
+                      MediaFileIndex mediaFileIndex,
                       MediaStorageService mediaStorage,
                       string ankiMediaFolder,
                       TaskRunner taskRunner)
    {
       Profile = profile;
-      RawNotes = rawNotes;
-      Problems = problems;
-      AlreadyImported = alreadyImported;
+      ProblemsWithTheProfile = problemsWithTheProfile;
+      CheckedRawNotes = checkedRawNotes;
       _ankiRawNotes = ankiRawNotes;
       _noteServices = noteServices;
+      _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
       _ankiMediaFolder = ankiMediaFolder;
       _taskRunner = taskRunner;
@@ -52,29 +56,31 @@ public class ImportRun
 
    public ImportProfile Profile { get; }
 
-   /// <summary>The raw notes the profile selected: the notes of its note type that its search finds and that aren't tagged <see cref="RawNote.ImportedTag"/>.</summary>
-   public IReadOnlyList<RawNote> RawNotes { get; }
+   /// <summary>The problems with the profile itself. While there are any, no raw notes are selected.</summary>
+   public IReadOnlyList<ImportProfileProblem> ProblemsWithTheProfile { get; }
 
-   /// <summary>What stops this run. Any one problem stops all of it: the raw notes are fixed in Anki, and the profile is run again.</summary>
-   public IReadOnlyList<ImportProblem> Problems { get; }
+   /// <summary>Every raw note the profile selected: the notes of its note type that its search finds, those an earlier run imported included.</summary>
+   public IReadOnlyList<CheckedRawNote> CheckedRawNotes { get; }
 
-   /// <summary>The raw notes that look imported already, which this run skips.</summary>
-   public IReadOnlyList<AlreadyImportedNote> AlreadyImported { get; }
+   /// <summary>The sentences <see cref="Execute"/> imported, in the order of their raw notes. Empty before it's executed.</summary>
+   public IReadOnlyList<SentenceNote> ImportedSentences => _importedSentences;
 
-   public IReadOnlyList<RawNote> NotesToImport => [.. RawNotes.Except(AlreadyImported.Select(it => it.RawNote))];
+   public IReadOnlyList<CheckedRawNote> With(RawNoteOutcome outcome) => [.. CheckedRawNotes.Where(it => it.Outcome == outcome)];
 
-   public bool CanExecute => Problems.Count == 0;
+   /// <summary>Whether nothing stops this run. Any one problem, with the profile or with a raw note, stops all of it: they're fixed, and the profile is run again.</summary>
+   public bool CanExecute => ProblemsWithTheProfile.Count == 0 && With(RawNoteOutcome.Problem).Count == 0;
 
-   /// <summary>Whether executing does anything: it found raw notes, and no problems. A run whose raw notes are all imported already still tags or deletes them.</summary>
-   public bool HasRawNotesAndNoProblems => CanExecute && RawNotes.Count > 0;
+   /// <summary>Whether executing does anything: nothing stops it, and some raw note <see cref="RawNoteOutcome.WillBeImported"/>.</summary>
+   public bool HasNotesToImportAndNoProblems => CanExecute && With(RawNoteOutcome.WillBeImported).Count > 0;
 
    public void Execute()
    {
-      Contract.State.Assert(CanExecute, () => $"The import run of {Profile.Name} has problems: {string.Join(" ", Problems)}");
+      Contract.State.Assert(CanExecute, () => $"The import run of {Profile.Name} has problems.");
 
+      var notesToImport = With(RawNoteOutcome.WillBeImported).Select(it => it.RawNote).ToList();
       using var scope = _taskRunner.Current($"Importing with the import profile {Profile.Name}");
-      scope.RunBatch([.. NotesToImport], Import, "Importing raw notes");
-      FinishWithTheRawNotes();
+      scope.RunBatch(notesToImport, Import, "Importing raw notes");
+      FinishWith(notesToImport);
    }
 
    void Import(RawNote rawNote)
@@ -86,7 +92,7 @@ public class ImportRun
 
    void StoreTheAudioOf(RawNote rawNote)
    {
-      foreach(var audio in Profile.FieldMapping.AudioOf(rawNote))
+      foreach(var audio in Profile.FieldMapping.AudioOf(rawNote).Where(IsNotInTheMediaLayer))
       {
          var ankisCopy = InAnkisMediaFolder(audio);
          var normalized = new Mp3File(File.ReadAllBytes(ankisCopy)).NormalizedToTheReplayGainReference().Bytes();
@@ -97,7 +103,7 @@ public class ImportRun
 
    void StoreTheScreenshotsOf(RawNote rawNote)
    {
-      foreach(var screenshot in Profile.FieldMapping.ScreenshotsOf(rawNote))
+      foreach(var screenshot in Profile.FieldMapping.ScreenshotsOf(rawNote).Where(IsNotInTheMediaLayer))
          _mediaStorage.StoreFile(InAnkisMediaFolder(screenshot), Profile.ScreenshotFolder, screenshot.FileName, MediaType.Image);
    }
 
@@ -110,15 +116,20 @@ public class ImportRun
          _noteServices.Collection.Sentences.Add(sentence);
       else
          _noteServices.Collection.Sentences.AddWithoutAnAnkiNote(sentence);
+
+      _importedSentences.Add(sentence);
    }
 
-   void FinishWithTheRawNotes()
+   void FinishWith(IReadOnlyList<RawNote> importedRawNotes)
    {
       if(Profile.DeletesTheRawNotesAfterwards)
-         _ankiRawNotes.Delete(RawNotes);
+         _ankiRawNotes.Delete(importedRawNotes);
       else
-         _ankiRawNotes.TagAsImported(RawNotes);
+         _ankiRawNotes.TagAsImported(importedRawNotes);
    }
+
+   /// <summary>A file of a note to import that's in the media layer already is one no note uses, and the same file: the check made it a problem otherwise. It's reused.</summary>
+   bool IsNotInTheMediaLayer(MediaReference file) => !_mediaFileIndex.ContainsByOriginalFileName(file.FileName);
 
    string InAnkisMediaFolder(MediaReference file) => Path.Combine(_ankiMediaFolder, file.FileName);
 }

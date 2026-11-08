@@ -8,6 +8,10 @@
         Height="900"
         WindowStartupLocation="Manual">
 
+    <Window.Resources>
+        <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Microsoft YaHei UI</FontFamily>
+    </Window.Resources>
+
     <Window.Styles>
         <Style Selector="TextBlock.label">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -35,16 +39,8 @@
             </ListBox>
         </DockPanel>
 
-        <DockPanel Grid.Column="1">
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0" HorizontalAlignment="Right">
-                <Button Content="Check" Command="{Binding CheckCommand}" IsEnabled="{Binding !IsBusy}" />
-                <Button Content="Run" Command="{Binding RunCommand}" IsEnabled="{Binding !IsBusy}" />
-            </StackPanel>
-
-            <TextBox DockPanel.Dock="Bottom" Height="260" Margin="0,8,0,0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
-                     Text="{Binding Report}" PlaceholderText="Check shows what a run would import, and every problem that stops it." />
-
-            <ContentControl Content="{Binding SelectedProfile}">
+        <Grid Grid.Column="1" RowDefinitions="*,Auto,*,Auto">
+            <ContentControl Grid.Row="0" Content="{Binding SelectedProfile}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate x:DataType="importing:ImportProfileEditorViewModel">
                         <ScrollViewer>
@@ -95,7 +91,34 @@
                     </DataTemplate>
                 </ContentControl.ContentTemplate>
             </ContentControl>
-        </DockPanel>
+
+            <GridSplitter Grid.Row="1" Height="6" ResizeDirection="Rows" Background="Transparent" />
+
+            <DockPanel Grid.Row="2">
+                <TextBox DockPanel.Dock="Top" MaxHeight="140" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
+                         Text="{Binding Summary}" PlaceholderText="Check shows what a run would do with each raw note, and every problem that stops it." />
+                <DataGrid ItemsSource="{Binding Rows}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,6,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Question" Binding="{Binding Question}" Width="2*" FontFamily="{StaticResource JapaneseFont}" />
+                        <DataGridTextColumn Header="External id" Binding="{Binding ExternalId}" Width="*" />
+                        <DataGridTextColumn Header="Outcome" Binding="{Binding Outcome}" Width="Auto" />
+                        <DataGridTemplateColumn Header="Findings" Width="3*" SortMemberPath="Findings">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="importing:CheckedRawNoteRow">
+                                    <TextBlock Text="{Binding Findings}" TextWrapping="Wrap" Margin="4,2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0" HorizontalAlignment="Right">
+                <Button Content="Show the imported sentences in the workspace" Command="{Binding ShowTheImportedSentencesCommand}" />
+                <Button Content="Check" Command="{Binding CheckCommand}" IsEnabled="{Binding !IsBusy}" />
+                <Button Content="Run" Command="{Binding RunCommand}" IsEnabled="{Binding !IsBusy}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 
 </Window>

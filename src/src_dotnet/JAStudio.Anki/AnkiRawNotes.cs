@@ -28,7 +28,7 @@ public class AnkiRawNotes : IAnkiRawNotes
       ];
    }
 
-   public IReadOnlyList<RawNote> NotYetImported(ImportProfile profile)
+   public IReadOnlyList<RawNote> SelectedBy(ImportProfile profile)
    {
       var ankiNoteIds = AnkiFacade.Notes.Find(SearchFor(profile));
 
@@ -50,13 +50,13 @@ public class AnkiRawNotes : IAnkiRawNotes
    public void Delete(IReadOnlyList<RawNote> rawNotes) => AnkiFacade.Notes.Delete(AnkiNoteIdsOf(rawNotes));
 
    /// <summary>
-   /// The Anki search for <paramref name="profile"/>'s raw notes: the notes of its note type that its own search finds, leaving out those tagged <see cref="RawNote.ImportedTag"/>.<br/>
+   /// The Anki search for <paramref name="profile"/>'s raw notes: the notes of its note type that its own search finds.<br/>
    /// In a quoted Anki search term, <c>*</c> and <c>_</c> are wildcards, so a note type's name has them escaped, with its backslashes and quotes.
    /// </summary>
    static string SearchFor(ImportProfile profile)
    {
-      var notYetImportedNotesOfTheNoteType = $"\"{Builtin.Note}:{EscapedForAQuotedSearchTerm(profile.AnkiNoteType)}\" -{Builtin.Tag}:{RawNote.ImportedTag}";
-      return profile.AnkiSearch == "" ? notYetImportedNotesOfTheNoteType : $"{notYetImportedNotesOfTheNoteType} ({profile.AnkiSearch})";
+      var notesOfTheNoteType = $"\"{Builtin.Note}:{EscapedForAQuotedSearchTerm(profile.AnkiNoteType)}\"";
+      return profile.AnkiSearch == "" ? notesOfTheNoteType : $"{notesOfTheNoteType} ({profile.AnkiSearch})";
 
       static string EscapedForAQuotedSearchTerm(string text) => text.Replace(@"\", @"\\").Replace("\"", "\\\"").Replace("*", @"\*").Replace("_", @"\_");
    }

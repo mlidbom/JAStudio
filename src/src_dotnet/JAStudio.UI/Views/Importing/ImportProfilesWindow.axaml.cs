@@ -4,6 +4,7 @@ using JAStudio.Core;
 using JAStudio.Core.Importing;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Importing;
+using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Views.Importing;
 
@@ -17,7 +18,7 @@ partial class ImportProfilesWindow : Window
 
    ImportProfilesWindow(TemporaryServiceCollection services)
    {
-      DataContext = new ImportProfilesWindowViewModel(services);
+      DataContext = new ImportProfilesWindowViewModel(services, WorkspaceWindow.ShowNoteList);
       InitializeComponent();
    }
 

@@ -1,7 +1,7 @@
 # Import profiles
 
 > **Status: design agreed with Magnus on 2026-11-08, and increment 2 built the same day:** import profiles for
-> sentences, with the editor, validation and running by hand (see [As built](#as-built-2026-11-08)). Not built yet:
+> sentences, with the editor, the check and running by hand (see [As built](#as-built-2026-11-08)). Not built yet:
 > automatic runs, vocab, and subs2srs decks. What import profiles replace is described in
 > `media-storage-and-import.md` ("Importing from Anki") and `corpus-data-model.md` ("Import and organization").
 
@@ -14,7 +14,7 @@ subs2srs deck. It says:
 - which tags the notes get;
 - where their media goes in the media layer.
 
-An **import run** applies an import profile. It validates first, reporting every problem before anything changes.
+An **import run** applies an import profile. It's checked first, reporting on every raw note and every problem before anything changes.
 Then it turns the raw notes into corpus notes and stores their media in the media layer, with the audio normalized.
 
 *"Profile" here isn't an Anki profile. The separate Anki profile that imports happen in is called **the Anki
@@ -76,41 +76,60 @@ where "Convert Immersion Kit sentences" used to be. Every change is saved at onc
 
 ## An import run
 
-1. **Select** the notes of the note type that match the search and don't carry the tag `jastudio::imported`.
-   The tag name is tentative.
-2. **Validate,** and show the report. Any error stops the whole run.
-3. **For each note that isn't already imported:**
-   - create the corpus note from the field mapping, with the tags;
+1. **Select** every note of the note type that matches the search, those an earlier run imported included.
+2. **Check** the profile and each raw note, and show the report (see [The check](#the-check)). Any problem stops the
+   whole run.
+3. **For each note that will be imported:**
    - store its media in the media layer, in the profile's folders. Audio is normalized to ReplayGain's reference
-     (`Mp3LoudnessNormalization`), and the same normalized file replaces Anki's copy.
-4. **Then** delete the raw notes, or tag them `jastudio::imported`. The tag keeps later runs from finding them again
-   and is visible in Anki. Removing it makes a note importable again. This includes the notes skipped as already
-   imported, so that later runs don't warn about them again.
+     (`Mp3LoudnessNormalization`), and the same normalized file replaces Anki's copy. A file already in the media
+     layer that no note uses, and that is the same file, is reused;
+   - create the corpus note from the field mapping, with the tags.
+4. **Then** delete the raw notes it imported, or tag them `jastudio::imported`. The tag is visible in Anki, and
+   removing it makes a note importable again. The other raw notes are left as they are.
+5. **Show the imported sentences** in the workspace's List tab, titled with the profile and the time of the run. The
+   window's "Show the imported sentences in the workspace" brings them back later.
 
 The window's Run executes the run its Check prepared, with the profile as it was then (`ImportProfile.Copy`): a run
 does what its report said, even if the profile was edited in between.
 
-## Validation
+## The check
 
-- How many notes the selection finds.
-- **Problems with the profile itself,** while there are any, no notes are selected:
-  - no note type, or one Anki doesn't have, or one of JAStudio's own;
-  - the source question isn't mapped;
-  - a mapped Anki field that the note type doesn't have. The dropdowns guarantee most of this;
-  - a media folder that isn't `free/` or a commercial repository, or inside one. That catches the kind of mistake
-    that put files in the stray `media/vocab/TTS`.
-- **Problems with a note:**
-  - its source question is empty;
-  - a media file it references isn't in Anki's media folder;
-  - its audio isn't MP3. The corpus holds only MP3 (`corpus-validity.md`);
-  - another note of the run references the same media file.
-- **Already imported:**
-  - A note counts as already imported when its external id is already in the corpus, or when any of its media file
-    names is already in the media layer.
-  - Both are always checked (Magnus). Some decks have no external ids, and decks differ in which of the two is
-    reliable. Media file names must be unique across the media layer anyway, so a match on a name means either a
-    duplicate or a collision that couldn't be stored.
-  - Such notes are skipped, under a clear warning that lists each note and what matched.
+**Problems with the profile itself.** While there are any, no notes are selected:
+- no note type, or one Anki doesn't have, or one of JAStudio's own;
+- the source question isn't mapped;
+- a mapped Anki field that the note type doesn't have. The dropdowns guarantee most of this;
+- a media folder that isn't `free/` or a commercial repository, or inside one. That catches the kind of mistake
+  that put files in the stray `media/vocab/TTS`.
+
+**A row per raw note** (Magnus: a report with the details, not only a summary): its question, its external id, its
+outcome and every finding behind it, with a count per outcome above the rows.
+
+| Outcome | When |
+|---|---|
+| Will be imported | Nothing else applies, and it has no problems. |
+| Imported by an earlier run | It's tagged `jastudio::imported`. It's left as it is. |
+| Skipped: already in JAStudio | A sentence has its external id, or a note uses one of its media files. It's left in Anki and shows on every check. |
+| Problem | Something about it stops the whole run. |
+
+**The findings say exactly what matched** (Magnus). Notes and media files live apart, so they can disagree, as when
+a sentence was deleted and its files stayed:
+- "A sentence in the corpus has the external id X: the sentence "…"", or, for a note imported by an earlier run, "No
+  sentence in the corpus has the external id X any more."
+- "The file X is in the media layer, used by the sentence "…"", "…, but no note uses it", or "The file X isn't in
+  the media layer."
+- Both the external id and the file names are always checked (Magnus). Some decks have no external ids, and decks
+  differ in which is reliable.
+
+**A file in the media layer that no note uses** isn't a sign of a duplicate. When it's the same file as Anki's copy,
+the same bytes once Anki's copy is normalized, the import reuses it. A different file by the same name is a problem:
+it would give the sentence the wrong file.
+
+**The problems with a note to import:**
+- its question is empty;
+- a media file it references isn't in Anki's media folder;
+- its audio isn't MP3. The corpus holds only MP3 (`corpus-validity.md`);
+- another note of the run uses the same media file;
+- a different file by the same name is in the media layer, unused.
 
 ## When a run starts
 
@@ -123,7 +142,7 @@ does what its report said, even if the profile was edited in between.
     can both use it.
 
   Both signals do the same thing: run every automatic import profile over its selection. An automatic run that
-  fails validation opens the import window with its report instead of running.
+  has problems opens the import window with its report instead of running.
 
 ## Anki knows nothing of particular imports
 
@@ -175,8 +194,10 @@ doesn't matter to lookups.
 
 1. *Done 2026-11-08:* a note deleted in Anki stays in the corpus and in JAStudio. Its Anki note and cards are
    forgotten.
-2. *Built 2026-11-08:* import profiles: the editor, validation, and running by hand, with Immersion Kit as the
-   first import profile, imported through .apkg.
+2. *Built 2026-11-08:* import profiles: the editor, the check, and running by hand, with Immersion Kit as the
+   first import profile, imported through .apkg. The same day, after Magnus tried it: a row per raw note with
+   specific findings, notes imported by earlier runs counted rather than hidden, unused files reused, and the
+   imported sentences shown in the List tab.
 3. Automatic runs on both signals.
 4. subs2srs decks, and retiring the rules-based media import.
 5. Yomitan through a note type of its own and an import profile, and retiring `ExternalNoteAdded`'s take-in.
@@ -185,21 +206,34 @@ doesn't matter to lookups.
 
 - **Import profiles are saved in the corpus repository.** They name the corpus's sources and media folders, and they
   replace `media/metadata/media-import-rules.json`, which lives there too.
-- **A validation error blocks the whole run,** as the simple version: the notes are fixed in Anki, and the profile is
-  run again. Already-imported notes aren't errors: they get the warning and are skipped.
+- **A problem blocks the whole run,** as the simple version: the notes are fixed in Anki, and the profile is run
+  again. Notes already in JAStudio aren't problems: they're skipped.
+- **Every raw note of the profile is found and reported,** those an earlier run imported included. A first version
+  left tagged notes out of the selection, so a check after a run said "Raw notes found: 0", which Magnus found
+  confusing with the note right there in Anki.
+- **The report lists every raw note with specific findings,** not only counts, since notes and files can disagree.
+- **Only the notes a run imports are tagged or deleted.** Tagging skipped duplicates would later show them as imported
+  by an earlier run, which they weren't.
+- **An unused file that's the same is reused, and a different one is a problem.**
 
 ## As built (2026-11-08)
 
 - **`JAStudio.Core.Importing`:**
   - `ImportProfile`, with its `SentenceFieldMapping`;
   - `SavedImportProfiles`, which keeps them in `import-profiles.json` in the corpus repository;
-  - `Importer.Prepare`, which selects and validates (`ImportRunValidation`) and returns an `ImportRun`. The run holds
-    its `Problems` and `AlreadyImported` notes, and `Execute` runs it.
+  - `Importer.Prepare`, which selects and checks, and returns an `ImportRun`. The run holds its
+    `ProblemsWithTheProfile` and its `CheckedRawNotes`; `Execute` runs it, and `ImportedSentences` are the sentences
+    it imported.
+- **`JAStudio.Core.Importing.Checking`:** `ImportCheck`, which uses `WhatIsInJAStudio` (the corpus's sentences by
+  external id, and the notes by the media files they use); `CheckedRawNote`, with its `RawNoteOutcome` and its
+  `RawNoteFinding`s; and `ImportProfileProblem`.
 - **`JAStudio.Core.Importing.RawNotes`:** `RawNote`, `AnkiNoteType`, and `IAnkiRawNotes`, which is Anki's side.
   `AnkiRawNotes` in `JAStudio.Anki` implements it; specifications use `InMemoryAnkiRawNotes`.
 - **Corpus only:** a sentence imported without an Anki note is added with `SentenceCollection.AddWithoutAnAnkiNote`.
 - **Dependencies:** `JAStudio.Core` references `Mp3LoudnessNormalization` to normalize the audio.
-- **UI:** `ImportProfilesWindow`, with `ImportProfilesWindowViewModel` and an `ImportProfileEditorViewModel` per profile.
+- **UI:** `ImportProfilesWindow`, with `ImportProfilesWindowViewModel`, an `ImportProfileEditorViewModel` per profile,
+  and a `CheckedRawNoteRow` per raw note in the report. The imported sentences go to the List tab through
+  `WorkspaceWindow.ShowNoteList`.
 - **Specifications:** `AICreatedSpecs/Importing` in `JAStudio.Core.Specifications`. They check, among other things,
   that the stored audio is byte for byte what mp3gain makes of it.
 

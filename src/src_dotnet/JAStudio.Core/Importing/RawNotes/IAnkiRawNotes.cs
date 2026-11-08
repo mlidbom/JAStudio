@@ -14,9 +14,9 @@ public interface IAnkiRawNotes
 
    /// <summary>
    /// The notes of <paramref name="profile"/>'s <see cref="ImportProfile.AnkiNoteType"/> that its <see cref="ImportProfile.AnkiSearch"/> finds,<br/>
-   /// leaving out those tagged <see cref="RawNote.ImportedTag"/>.
+   /// those an earlier run imported and tagged <see cref="RawNote.ImportedTag"/> included.
    /// </summary>
-   IReadOnlyList<RawNote> NotYetImported(ImportProfile profile);
+   IReadOnlyList<RawNote> SelectedBy(ImportProfile profile);
 
    /// <summary>Tags <paramref name="rawNotes"/> <see cref="RawNote.ImportedTag"/> in Anki.</summary>
    void TagAsImported(IReadOnlyList<RawNote> rawNotes);
