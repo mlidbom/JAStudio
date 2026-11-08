@@ -23,8 +23,11 @@ holders can be aggressive, so:
 
 `jas_database/media` is a folder of the corpus repository, `jas_database`. It used to be a repository of its own,
 `JAStudioData-media`, but that made creating vocab by hand a pain, so its files moved into the corpus repository.
-*A leftover of that: `media/.git` is a small file that still points at the old repository's git data, so git run
-inside `media/` shows the old repository, last committed 2026-03-26, instead of the corpus repository.* In it:
+*A leftover of that: the git data of the `commercial-01` and `commercial-02` submodules is still inside the old
+repository's git data, in `.git/modules/src/jas_database/modules/media/modules/` of the main repository. That
+folder holds about 3.9 GB, of which about 1.8 GB is the old repository's own data, but deleting it breaks both
+submodules. A file `media/.git` that made git run inside `media/` show the old repository was deleted on
+2026-11-08.* In it:
 
 | Folder | What | Files (2026-11-07) |
 |---|---|---|
