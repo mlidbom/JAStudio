@@ -27,9 +27,9 @@ Anki, go unnoticed until something trips on them. Checking the whole corpus find
   - Four imported sentences have Ogg Vorbis audio, which JAStudio can't play or compare: `0x0005a48b.wav.ogg`,
     `0x00066667.wav.ogg`, `0x000f63fb.wav.ogg` and `0x000f9437.wav.ogg`, in `commercial-02/unknown`. They're to be
     converted to MP3, and their notes and Anki's media folder to reference the MP3s.
-  - Then nothing but MP3 should come in, such as through a media import.
+  - Nothing but MP3 comes in any more: an import run's check makes audio that isn't MP3 a problem.
 
 ## Open questions
 
 - How a check reports what it finds, and whether it offers to fix it.
-- Whether checks run only on demand, or also as part of something else, such as a media import.
+- Whether checks run only on demand, or also as part of something else, such as an import run.

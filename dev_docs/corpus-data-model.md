@@ -543,7 +543,8 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
 - **Orphaned tags:** deleted by the migration.
 - **Source** (`source::…`) is a branch of the hierarchical tags.
   - The code reads it: the source is shown next to each sentence in a vocab's sentence list
-    (`VocabSentencesList.razor`), and the media import rules pick a note's media folder by it.
+    (`VocabSentencesList.razor`). The media import rules picked a note's media folder by it until they were retired
+    on 2026-11-08.
   - The source tags are a tree written out as separate tags. 17,304 sentences carry several levels of one branch,
     such as both `source::wani` and `source::wani::current`, and 680 carry two unrelated sources, such as JLab
     booster plus inter.
@@ -600,13 +601,16 @@ Magnus doesn't remember the "unresolved design concerns". These are my **guesses
 been. They are not reconstructions:
 
 1. **Field roles.** The corpus field says which slot a file fills (`audioB` versus `audioG` versus `audioTTS`,
-   `image` versus `userImage`). The sidecars don't record that role. `VocabMediaField` exists only in the
-   import rules. Dropping the fields loses the role, unless the sidecar or a preference layer records it.
+   `image` versus `userImage`). The sidecars don't record that role. `VocabMediaField` existed only in the
+   import rules, retired on 2026-11-08. Dropping the fields loses the role, unless the sidecar or a preference layer
+   records it.
 2. **The Anki-projection still has to fill Anki's audio fields** so listening cards can auto-play. It needs a
    rule for which attachment goes into which Anki field, and the file has to exist in Anki's media folder.
 3. **The audio-update ingestion path changes.** Today new audio arrives as a changed Anki field string, lands in
    the corpus, and is later picked up by the media import scan (`MediaImportAnalyzer`). Without corpus fields,
-   the Anki-ingestion has to store the file into the media layer directly (`MediaStorageService`).
+   the Anki-ingestion has to store the file into the media layer directly (`MediaStorageService`). *Moot since
+   2026-11-08:* a save in Anki takes nothing, JAStudio's TTS stores its audio in the media layer itself, and the media
+   import is retired.
 
 Tentatively, media is the last vertical-slice, after these points are settled.
 

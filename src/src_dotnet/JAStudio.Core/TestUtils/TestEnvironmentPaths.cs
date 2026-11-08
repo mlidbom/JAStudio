@@ -15,7 +15,6 @@ public class TestEnvironmentPaths : IEnvironmentPaths, IDisposable
       Directory.CreateDirectory(UserFilesDir);
       Directory.CreateDirectory(DatabaseDir);
       Directory.CreateDirectory(MediaDir);
-      Directory.CreateDirectory(MetadataDir);
    }
 
    public string AddonRootDir { get; }
@@ -23,7 +22,6 @@ public class TestEnvironmentPaths : IEnvironmentPaths, IDisposable
    public string UserFilesDir => Path.Combine(AddonRootDir, "user_files");
    public string DatabaseDir => Path.Combine(AddonRootDir, "jas_database");
    public string MediaDir => Path.Combine(DatabaseDir, "media");
-   public string MetadataDir => Path.Combine(MediaDir, "metadata");
 
    public void Dispose()
    {

@@ -2,8 +2,9 @@
 
 > **Status: design agreed with Magnus on 2026-11-08, and increment 2 built the same day:** import profiles for
 > sentences, with the editor, the check and running by hand (see [As built](#as-built-2026-11-08)). Increment 3,
-> automatic runs, was built the same day, and the take-in of notes added in Anki retired. Not built yet: subs2srs
-> decks. Yomitan is no longer an import source (see [Decided since](#decided-since-magnus-2026-11-08)). What import profiles replace is described in
+> automatic runs, was built the same day, the take-in of notes added in Anki retired, and the rules-based media import
+> retired. subs2srs decks are assumed to import like any raw notes; none has been tried yet. Yomitan is no longer an
+> import source (see [Decided since](#decided-since-magnus-2026-11-08)). What import profiles replace is described in
 > `media-storage-and-import.md` ("Importing from Anki") and `corpus-data-model.md` ("Import and organization").
 
 ## What an import profile is
@@ -212,9 +213,10 @@ doesn't matter to lookups.
     data.
 
   The menu item "Convert Immersion Kit sentences" became "Import profiles".
-- **The rules-based media import:** `MediaImportDialog`, `NoteMediaFieldScanner`, `MediaImportPlan`,
-  `MediaImportExecutor`, `ImportRule`, and `media/metadata/media-import-rules.json`. They retire once subs2srs decks
-  go through import profiles. Its missing-files report becomes one of the corpus-validity checks.
+- **The rules-based media import,** *retired 2026-11-08*: `MediaImportDialog`, `NoteMediaFieldScanner`,
+  `MediaImportPlan`, `MediaImportExecutor`, `ImportRule`, `MediaImportRulePersistence`, `MissingFilesDialog`, the media
+  field enums only they used, and `media/metadata/media-import-rules.json`. Its missing-files report is to become one of
+  the corpus-validity checks.
 - **The take-in of JAStudio-type notes added in Anki** (`NoteCache.ExternalNoteAdded`), *retired 2026-11-08*, with
   what only it used: the caches building notes from Anki notes, the Anki note wrappers (`AnkiVocabNote`,
   `AnkiKanjiNote`, `AnkiSentenceNote`), the corpus data's `FromAnki` conversions, `NoteDataPythonAdapter`, and the set-up
@@ -229,14 +231,16 @@ doesn't matter to lookups.
    specific findings, notes imported by earlier runs counted rather than hidden, unused files reused, and the
    imported sentences shown in the List tab.
 3. *Built 2026-11-08:* automatic runs on both signals.
-4. subs2srs decks, and retiring the rules-based media import.
+4. *Done 2026-11-08:* retiring the rules-based media import. It was to wait for a subs2srs deck to go through an
+   import profile, but a subs2srs deck's notes are raw notes like Immersion Kit's, so Magnus decided to assume they
+   import the same way. None has been tried yet.
 5. *Done 2026-11-08:* retiring `ExternalNoteAdded`'s take-in. It was to come with Yomitan's own note type and import
    profile, but Yomitan no longer adds notes.
 
 ## Decided since (Magnus, 2026-11-08)
 
 - **Import profiles are saved in the corpus repository.** They name the corpus's sources and media folders, and they
-  replace `media/metadata/media-import-rules.json`, which lives there too.
+  replaced `media/metadata/media-import-rules.json`, which lived there too, and was deleted on 2026-11-08.
 - **A problem blocks the whole run,** as the simple version: the notes are fixed in Anki, and the profile is run
   again. Notes already in JAStudio aren't problems: they're skipped.
 - **Every raw note of the profile is found and reported,** those an earlier run imported included. A first version

@@ -13,5 +13,4 @@ public interface IEnvironmentPaths
    string UserFilesDir { get; }
    string DatabaseDir { get; }
    string MediaDir { get; }
-   string MetadataDir { get; }
 }

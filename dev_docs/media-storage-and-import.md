@@ -34,7 +34,6 @@ submodules. A file `media/.git` that made git run inside `media/` show the old r
 | `commercial-01` | A submodule of the corpus repository, `JAStudioData-media-commercial-01`: commercial vocab audio and images, such as Core 2000's and WaniKani's. New commercial media goes here, since commercial-02 is near GitHub's recommended size | about 15,000 |
 | `commercial-02` | A submodule of the corpus repository, `JAStudioData-media-commercial-02`: anime audio and screenshots, per show. About 2 GB | about 69,000 |
 | `free` | Freely redistributable media, in the corpus repository itself, among it the TTS audio in `free/TTS/vocab` and `free/TTS/sentences/<source>` | about 35,000 |
-| `metadata` | The import rules, `media-import-rules.json` | |
 
 The folders are organizational: they say nothing about a file that the code reads. **A file keeps the name it had in
 Anki,** such as `hypertts-0001168b….mp3`, so file names must be unique across the whole tree.
@@ -45,9 +44,9 @@ Anki,** such as `hypertts-0001168b….mp3`, so file names must be unique across 
 `<img src="…">` for images. That file name is the only connection between a note and a file. The files don't know
 their notes.
 
-| Note type | Media fields (`VocabMediaField`, `SentenceMediaField`) |
+| Note type | Media fields (`VocabData`, `SentenceData`) |
 |---|---|
-| Vocab | `AudioFirst` (`Audio_b`), `AudioSecond` (`Audio_g`), `AudioTts` (`Audio_TTS`), `Image`, `UserImage` |
+| Vocab | `AudioB` (`Audio_b`), `AudioG` (`Audio_g`), `AudioTTS` (`Audio_TTS`), `Image`, `UserImage` |
 | Sentence | `Audio` (`Audio Sentence`), `Screenshot` |
 | Kanji | none |
 
@@ -62,25 +61,17 @@ reference whose file isn't in the media layer finds nothing. The card server ser
 
 ## Importing from Anki
 
-*To be replaced (decided 2026-11-08): an import profile stores a note's media when it imports the note, in folders
-chosen in the import profile (`import-profiles.md`). This rules-based media import was built to move everything out
-of Anki in February 2026, and it did: on 2026-11-08 every media reference in the corpus resolved in the media layer.*
+An import profile stores a note's media in the media layer when it imports the note, in the folders the profile names,
+with the audio normalized (`import-profiles.md`).
 
-A new file reaches the media layer by being copied from Anki's media folder (`collection.media`) by a media import,
-in Config > Media import (`MediaImportDialog`). An import is batch, incremental, and per note type:
-
-1. **Scanning** (`NoteMediaFieldScanner`): one pass over the notes makes a `NoteMediaFieldImportState` for each
-   media reference. It records the note's source tag (`JPNote.SourceTag`, from its `source::…` tags), the field, the
-   file name, and whether the file is already in the index or in Anki's media folder.
-2. **Rules** (`ImportRule`): each rule says that a field of the notes with a source tag in a branch goes to a folder:
-   `(source tag prefix, field) → target folder`. The rule with the longest matching prefix wins
-   (`ImportRulesCE.TryResolve`). Rules are a positive selection: a field no rule covers isn't imported, with no
-   error. They're kept in `media/metadata/media-import-rules.json` (`MediaImportRulePersistence`).
-3. **Planning** (`MediaImportPlan`): a file a rule covers is either *to import*, when it's in Anki's media folder,
-   *already stored*, when the index has its name, or *missing*, when it's in neither. The dialog shows the counts, and
-   lists the missing files in a `MissingFilesDialog`.
-4. **Executing** (`MediaImportExecutor`): each file to import is copied by `MediaStorageService.StoreFile` to
-   `{media root}/{target folder}/{file name}`, and registered in the index.
+**Retired 2026-11-08: the rules-based media import.** It was built to move everything out of Anki in February 2026,
+and did: on 2026-11-08 every media reference in the corpus resolved in the media layer. It was a separate step in
+Config > Media import, after the notes had arrived. It scanned the notes' media references, picked each file's folder
+by rules matching the note's first source tag and the field (`media/metadata/media-import-rules.json`), and copied the
+files from Anki's media folder. A reference no rule covered was skipped without an error, and every rule named its
+repository. Its code (`MediaImportDialog`, `NoteMediaFieldScanner`, `MediaImportPlan`, `MediaImportExecutor`,
+`ImportRule`, `MediaImportRulePersistence`, `MissingFilesDialog`) and the rules file are gone. Its report of missing
+files is to become a corpus-validity check (`corpus-validity.md`, "Missing media files").
 
 ## What happens when a note's audio changes
 
@@ -88,7 +79,8 @@ in Config > Media import (`MediaImportDialog`). An import is batch, incremental,
   2026-11-08 a save in Anki also brought in audio HyperTTS generated; now it brings in nothing
   (`corpus-data-model.md`, "Anki's role and its consequences").
 - **The new file is in the media layer at once:** JAStudio's TTS stores it there itself, and copies it into Anki's
-  media folder. Files that come with notes imported through Anki reach the media layer through a media import.
+  media folder. Files that come with notes imported through Anki reach the media layer with them, through the import
+  run that imports the notes (`import-profiles.md`).
 - **The old file stays where it was,** in the media layer and in Anki's media folder. Nothing deletes it. It's just no
   longer referenced: an orphan. Nothing in JAStudio finds orphans yet (`corpus-validity.md`). Anki's "Check Media"
   finds the unused files in its own folder.
@@ -106,8 +98,8 @@ in Config > Media import (`MediaImportDialog`). An import is batch, incremental,
 ## Specifications
 
 In `JAStudio.Core.Specifications/Storage/Media`: `When_building_a_MediaFileIndex`,
-`When_querying_MediaFileIndex_by_original_filename`, `When_storing_a_media_file`, `When_configuring_media_routing`,
-`When_working_with_SourceTag`, and `When_importing_media_from_anki` (in `AnkiSync/When_syncing_media_from_anki.cs`).
+`When_querying_MediaFileIndex_by_original_filename`, `When_storing_a_media_file` and `When_working_with_SourceTag`.
+An import run's storing of media is specified with the import profiles, in `AICreatedSpecs/Importing`.
 
 ## Dropped: sidecars (2026-05-15)
 

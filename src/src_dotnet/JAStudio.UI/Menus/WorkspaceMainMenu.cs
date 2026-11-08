@@ -32,8 +32,7 @@ public class WorkspaceMainMenu
                            {
                               SpecMenuItem.Command(ShortcutFinger.Home1("Options"), () => new OptionsDialog(_services).ShowWhereItWasLast(_services), shortcut: "Ctrl+Shift+s"),
                               SpecMenuItem.Command(ShortcutFinger.Home2("Readings mappings"), () => new ReadingsMappingsDialog(_services).ShowWhereItWasLast(_services), shortcut: "Ctrl+Shift+m"),
-                              SpecMenuItem.Command(ShortcutFinger.Home3("Media import"), () => new MediaImportDialog(_services).ShowWhereItWasLast(_services)),
-                              SpecMenuItem.Command(ShortcutFinger.Home4("Text-to-speech voices"), () => ChosenVoicesDialog.Open(_services))
+                              SpecMenuItem.Command(ShortcutFinger.Home3("Text-to-speech voices"), () => ChosenVoicesDialog.Open(_services))
                            }
       ),
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
