@@ -33,6 +33,7 @@ class Builtin(abc.ABC):
     Card : str
     Deck : str
     Note : str
+    NoteId : str
     Tag : str
 
 

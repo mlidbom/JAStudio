@@ -46,8 +46,8 @@ public class SentenceCounts
       {
          _lastUpdateTime = DateTime.Now;
          var sentences = _parent().WithOwnedForm();
-         _studyingReading = GetStudyingSentenceCount(NoteFieldsConstants.VocabNoteType.Card.Reading);
-         _studyingListening = GetStudyingSentenceCount(NoteFieldsConstants.VocabNoteType.Card.Listening);
+         _studyingReading = GetStudyingSentenceCount(CardTypes.Reading);
+         _studyingListening = GetStudyingSentenceCount(CardTypes.Listening);
          _total = sentences.Count;
          _cacheSeconds = HowLongToCacheFor();
       }

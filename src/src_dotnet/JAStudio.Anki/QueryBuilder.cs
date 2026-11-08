@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 
 namespace JAStudio.Anki;
@@ -32,6 +31,6 @@ public class QueryBuilder
                        .Where(id => id.HasValue)
                        .Select(id => id!.Value)
                        .ToList();
-      return externalIds.Count > 0 ? $"{AnkiFieldNames.NoteId}:{string.Join(",", externalIds)}" : "";
+      return externalIds.Count > 0 ? $"{Builtin.NoteId}:{string.Join(",", externalIds)}" : "";
    }
 }

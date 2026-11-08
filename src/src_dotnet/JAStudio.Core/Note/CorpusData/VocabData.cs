@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using JAStudio.Core.Note.NoteFields;
-using JAStudio.Core.Note.NoteFields.AutoSaveWrappers;
-using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Note.Vocabulary.RelatedVocab;
+using JAStudio.Core.Anki;
 using MemoryPack;
 
 namespace JAStudio.Core.Note.CorpusData;
@@ -11,9 +7,6 @@ namespace JAStudio.Core.Note.CorpusData;
 [MemoryPackable]
 public partial class VocabData : CorpusObjectData
 {
-   static readonly VocabNoteMatchingRulesSerializer MatchingRulesSerializer = new();
-   static readonly IObjectSerializer<RelatedVocabData> RelatedVocabSerializer = RelatedVocabData.Serializer();
-
    public string Question { get; init; } = string.Empty;
    public string SourceAnswer { get; init; } = string.Empty;
    public string UserAnswer { get; init; } = string.Empty;
@@ -42,49 +35,11 @@ public partial class VocabData : CorpusObjectData
 
    protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
    {
-      fields[NoteFieldsConstants.Vocab.Question] = Question;
-      fields[NoteFieldsConstants.Vocab.SourceAnswer] = SourceAnswer;
-      fields[NoteFieldsConstants.Vocab.UserAnswer] = UserAnswer;
-      fields[NoteFieldsConstants.Vocab.ActiveAnswer] = ActiveAnswer;
-      fields[NoteFieldsConstants.Vocab.UserExplanation] = UserExplanation;
-      fields[NoteFieldsConstants.Vocab.UserExplanationLong] = UserExplanationLong;
-      fields[NoteFieldsConstants.Vocab.UserMnemonic] = UserMnemonic;
-      fields[NoteFieldsConstants.Vocab.UserCompounds] = string.Join(", ", UserCompounds);
-      fields[NoteFieldsConstants.Vocab.Reading] = string.Join(", ", Readings);
-      fields[NoteFieldsConstants.Vocab.PartsOfSpeech] = PartsOfSpeech;
-      fields[NoteFieldsConstants.Vocab.SourceMnemonic] = SourceMnemonic;
-      fields[NoteFieldsConstants.Vocab.SourceReadingMnemonic] = SourceReadingMnemonic;
-      fields[NoteFieldsConstants.Vocab.AudioB] = AudioB;
-      fields[NoteFieldsConstants.Vocab.AudioG] = AudioG;
-      fields[NoteFieldsConstants.Vocab.AudioTTS] = AudioTTS;
-      fields[NoteFieldsConstants.Vocab.Forms] = string.Join(", ", [VocabNoteQuestion.RawFromDisambiguationName(Question), ..Forms]);
-      fields[NoteFieldsConstants.Vocab.SentenceCount] = SentenceCount.ToString();
-      fields[NoteFieldsConstants.Vocab.TechnicalNotes] = TechnicalNotes;
-      fields[NoteFieldsConstants.Vocab.References] = References;
-      fields[NoteFieldsConstants.Vocab.Image] = Image;
-      fields[NoteFieldsConstants.Vocab.UserImage] = UserImage;
-      fields[NoteFieldsConstants.Vocab.MatchingRules] = SerializeMatchingRules();
-      fields[NoteFieldsConstants.Vocab.RelatedVocab] = SerializeRelatedVocab();
+      fields[AnkiFieldNames.Question] = Question;
+      fields[AnkiFieldNames.Vocab.AudioB] = AudioB;
+      fields[AnkiFieldNames.Vocab.AudioG] = AudioG;
+      fields[AnkiFieldNames.Vocab.AudioTTS] = AudioTTS;
    }
-
-   string SerializeMatchingRules() =>
-      MatchingRulesSerializer.Serialize(new VocabNoteMatchingRulesData(
-                                           MatchingRules.SurfaceIsNot.ToHashSet(),
-                                           MatchingRules.PrefixIsNot.ToHashSet(),
-                                           MatchingRules.SuffixIsNot.ToHashSet(),
-                                           MatchingRules.RequiredPrefix.ToHashSet(),
-                                           MatchingRules.YieldToSurface.ToHashSet()));
-
-   string SerializeRelatedVocab() =>
-      RelatedVocabSerializer.Serialize(new RelatedVocabData(
-                                          RelatedVocab.ErgativeTwin,
-                                          new ValueWrapper<string>(RelatedVocab.DerivedFrom),
-                                          RelatedVocab.PerfectSynonyms.ToHashSet(),
-                                          RelatedVocab.Synonyms.ToHashSet(),
-                                          RelatedVocab.Antonyms.ToHashSet(),
-                                          RelatedVocab.ConfusedWith.ToHashSet(),
-                                          RelatedVocab.SeeAlso.ToHashSet()));
-
 }
 
 /// Matching rules sub-data for vocab word matching (serialized in JSON).

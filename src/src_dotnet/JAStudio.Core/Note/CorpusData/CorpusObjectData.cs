@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Storage;
 using MemoryPack;
 
@@ -23,7 +24,7 @@ public abstract partial class CorpusObjectData : IIdentifiableByGuid
    {
       var fields = new Dictionary<string, string>();
       PopulateAnkiNoteFields(fields);
-      fields[MyNoteFields.JasNoteId] = Id.ToString();
+      fields[AnkiFieldNames.JasNoteId] = Id.ToString();
       return new AnkiNoteData(CreateTypedId(), fields, Tags);
    }
 }

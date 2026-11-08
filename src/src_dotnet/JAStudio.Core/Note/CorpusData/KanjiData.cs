@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.Anki;
 using MemoryPack;
 
 namespace JAStudio.Core.Note.CorpusData;
@@ -36,26 +37,5 @@ public partial class KanjiData : CorpusObjectData
 
    protected override NoteId CreateTypedId() => new KanjiId(Id);
 
-   protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
-   {
-      fields[NoteFieldsConstants.Kanji.Question] = Kanji;
-      fields[NoteFieldsConstants.Kanji.SourceAnswer] = SourceAnswer;
-      fields[NoteFieldsConstants.Kanji.UserAnswer] = UserAnswer;
-      fields[NoteFieldsConstants.Kanji.ActiveAnswer] = ActiveAnswer;
-      fields[NoteFieldsConstants.Kanji.ReadingOn] = ReadingOnHtml;
-      fields[NoteFieldsConstants.Kanji.ReadingKun] = ReadingKunHtml;
-      fields[NoteFieldsConstants.Kanji.ReadingNan] = ReadingNanHtml;
-      fields[NoteFieldsConstants.Kanji.Radicals] = string.Join(", ", Radicals);
-      fields[NoteFieldsConstants.Kanji.SourceMeaningMnemonic] = SourceMeaningMnemonic;
-      fields[NoteFieldsConstants.Kanji.MeaningInfo] = MeaningInfo;
-      fields[NoteFieldsConstants.Kanji.ReadingMnemonic] = ReadingMnemonic;
-      fields[NoteFieldsConstants.Kanji.ReadingInfo] = ReadingInfo;
-      fields[NoteFieldsConstants.Kanji.PrimaryVocab] = string.Join(", ", PrimaryVocab);
-      fields[NoteFieldsConstants.Kanji.References] = References;
-      fields[NoteFieldsConstants.Kanji.UserMnemonic] = UserMnemonic;
-      fields[NoteFieldsConstants.Kanji.UserSimilarMeaning] = string.Join(", ", SimilarMeaning);
-      fields[NoteFieldsConstants.Kanji.RelatedConfusedWith] = string.Join(", ", ConfusedWith);
-
-   }
-
+   protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields) => fields[AnkiFieldNames.Question] = Kanji;
 }

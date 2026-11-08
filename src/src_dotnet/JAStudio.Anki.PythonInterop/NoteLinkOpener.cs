@@ -1,6 +1,5 @@
 using System;
 using JAStudio.Core;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
@@ -25,6 +24,6 @@ class NoteLinkOpener : INoteLinkOpener
    {
       var externalId = _services.ExternalNoteIdMap.ToExternalId(noteId);
       if(externalId.HasValue)
-         AnkiFacade.Browser.ExecuteLookupAndShowPreviewer($"{AnkiFieldNames.NoteId}:{externalId.Value}");
+         AnkiFacade.Browser.ExecuteLookupAndShowPreviewer($"{Builtin.NoteId}:{externalId.Value}");
    }
 }

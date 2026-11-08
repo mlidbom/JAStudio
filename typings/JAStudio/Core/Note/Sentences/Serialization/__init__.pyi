@@ -1,22 +1,4 @@
-import typing, abc
-from JAStudio.Core.Note.Sentences import SentenceConfiguration, ParsedMatch
-from System import Action
-
-class ISentenceConfigurationSerializer(typing.Protocol):
-    @classmethod
-    @property
-    def Instance(cls) -> ISentenceConfigurationSerializer: ...
-    @abc.abstractmethod
-    def Deserialize(self, json: str, saveCallback: Action) -> SentenceConfiguration: ...
-    @abc.abstractmethod
-    def Serialize(self, config: SentenceConfiguration) -> str: ...
-
-    class SentenceConfigurationSerializer(ISentenceConfigurationSerializer):
-        def __init__(self) -> None: ...
-        def Deserialize(self, json: str, saveCallback: Action) -> SentenceConfiguration: ...
-        def Serialize(self, config: SentenceConfiguration) -> str: ...
-
-
+from JAStudio.Core.Note.Sentences import ParsedMatch
 
 class ParsedWordSerializer:
     def __init__(self) -> None: ...

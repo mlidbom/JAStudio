@@ -149,6 +149,20 @@ With Anki reduced to scheduler, note import and audio updates, the tentative con
 
 Each note type keeps the fields Anki itself needs, plus the generated-html-field for mobile-review.
 
+**Decided for the trim (Magnus, 2026-11-08).** Mobile-review is deferred, so the generated-html-field isn't added yet,
+and HyperTTS isn't used any more, so its reasons below no longer apply. The study-notes keep:
+
+| Note type | Fields |
+|---|---|
+| Vocab | `Q`, `Audio_b`, `Audio_g`, `Audio_TTS`, `jas_note_id` |
+| Kanji | `Q`, `jas_note_id` |
+| Sentence | `Q`, moved to be the first field, `Audio Sentence`, `jas_note_id` |
+
+JAStudio writes only these since 2026-11-08 (`AnkiFieldNames`, `CorpusObjectData.ToNoteData`), and reads only
+`jas_note_id`. The installed templates already reference no other field, except the kanji answer template's
+`{{_primary_readings_tts_audio}}` and the sentences' browser column, `{{source_question}}`, which become empty and
+`{{Q}}`. Magnus trims the note types in Anki by hand, with syncing to AnkiWeb turned off until he has tested the result.
+
 **Fields Anki itself needs:**
 
 | Field | Why Anki needs it |
@@ -714,7 +728,7 @@ An earlier draft started by moving the whole Anki-projection and Anki-ingestion 
 That step is dropped. Under this order most of that code gets deleted rather than moved:
 - `MergeAnkiData` shrinks to picking up audio changes. *(Done 2026-11-07, and gone entirely on 2026-11-08: a
   save in Anki takes nothing.)*
-- `PopulateAnkiNoteFields` shrinks to the study-note fields.
+- `PopulateAnkiNoteFields` shrinks to the study-note fields. *(Done 2026-11-08.)*
 - `FromAnki` was to survive as the raw note mapping. *Gone 2026-11-08:* an import profile's field mapping maps raw
   notes (`import-profiles.md`), and `FromAnki` went with the take-in of notes added in Anki.
 
@@ -766,8 +780,10 @@ Progress on step 3:
      twice. The existing editors are crude but work.
    - Fields and tags are separate channels. Tag ingestion can stay until JAStudio's organizing exists, without
      holding up the field trim in step 4.
-4. **Trim the existing notes into study-notes** (deferred) in as few schema changes as possible. Trimming in place keeps
-   review history and note type ids.
+4. **Trim the existing notes into study-notes** in as few schema changes as possible. Trimming in place keeps
+   review history and note type ids. *2026-11-08:* the checks before it are done ([Before the trim](#before-the-trim-2026-11-08)),
+   and JAStudio writes only the fields the study-notes keep ([The minimal Anki note type](#the-minimal-anki-note-type-tentative)).
+   Magnus removes the other fields in Anki by hand.
 5. **Vertical-slices, one concept each,** now free of the Anki format:
    1. Brackets: owned forms and alternative compound parts. This one has caused real bugs.
    2. Question and disambiguation, dropping the sentinel strings.

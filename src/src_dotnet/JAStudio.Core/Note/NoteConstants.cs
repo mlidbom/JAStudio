@@ -1,35 +1,9 @@
 using System;
 using System.Collections.Generic;
 // ReSharper disable MemberCanBeInternal
-// ReSharper disable MemberHidesStaticFromOuterClass
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace JAStudio.Core.Note;
-
-static class MyNoteFields
-{
-   public const string Question = "Q";
-   public const string Answer = "A";
-   public const string JasNoteId = "jas_note_id";
-}
-
-static class SentenceNoteFields
-{
-   public const string Reading = "Reading";
-   public const string Id = "ID";
-   public const string ActiveQuestion = MyNoteFields.Question;
-   public const string SourceQuestion = "source_question";
-   public const string SourceComments = "Comments";
-   public const string UserComments = "__comments";
-   public const string UserQuestion = "__question";
-   public const string ActiveAnswer = MyNoteFields.Answer;
-   public const string SourceAnswer = "source_answer";
-   public const string UserAnswer = "__answer";
-   public const string ParsingResult = "__parsing_result";
-   public const string Audio = "Audio Sentence";
-   public const string Screenshot = "Screenshot";
-   public const string Configuration = "__configuration";
-}
 
 public static class CardTypes
 {
@@ -59,80 +33,12 @@ public static class NoteTypes
                                                                               };
 }
 
-static class NoteFieldsConstants
-{
-   public const string NoteId = "nid";
-
-   internal static class VocabNoteType
-   {
-      internal static class Card
-      {
-         public const string Reading = CardTypes.Reading;
-         public const string Listening = CardTypes.Listening;
-      }
-   }
-
-   public static class SentencesNoteType
-   {
-      public static class Card
-      {
-         public const string Reading = CardTypes.Reading;
-         public const string Listening = CardTypes.Listening;
-      }
-   }
-
-   internal static class Kanji
-   {
-      public const string Question = MyNoteFields.Question;
-      public const string ActiveAnswer = MyNoteFields.Answer;
-      public const string SourceAnswer = "source_answer";
-      public const string UserAnswer = "__answer";
-      public const string ReadingOn = "Reading_On";
-      public const string ReadingKun = "Reading_Kun";
-      public const string ReadingNan = "__reading_Nan";
-      public const string Radicals = "Radicals";
-      public const string SourceMeaningMnemonic = "Meaning_Mnemonic";
-      public const string MeaningInfo = "Meaning_Info";
-      public const string ReadingMnemonic = "Reading_Mnemonic";
-      public const string ReadingInfo = "Reading_Info";
-      public const string PrimaryVocab = "__primary_Vocab";
-      public const string References = "__references";
-      public const string UserMnemonic = "__mnemonic";
-      public const string UserSimilarMeaning = "__similar_meaning";
-      public const string RelatedConfusedWith = "__confused_with";
-   }
-
-   internal static class Vocab
-   {
-      public const string MatchingRules = "__matching_rules";
-      public const string RelatedVocab = "__related_vocab";
-      public const string SentenceCount = "sentence_count";
-      public const string Question = MyNoteFields.Question;
-      public const string ActiveAnswer = MyNoteFields.Answer;
-      public const string SourceAnswer = "source_answer";
-      public const string UserAnswer = "__answer";
-      public const string UserExplanation = "__explanation";
-      public const string UserExplanationLong = "__explanation_long";
-      public const string UserCompounds = "__compounds";
-      public const string UserMnemonic = "__mnemonic";
-      public const string Reading = "Reading";
-      public const string PartsOfSpeech = "TOS";
-      public const string SourceMnemonic = "source_mnemonic";
-      public const string AudioB = "Audio_b";
-      public const string AudioG = "Audio_g";
-      public const string AudioTTS = "Audio_TTS";
-      public const string Kanji = "__kanji";
-      public const string Forms = "F";
-      public const string SourceReadingMnemonic = "source_reading_mnemonic";
-      public const string TechnicalNotes = "__technical_notes";
-      public const string References = "__references";
-      public const string Image = "Image";
-      public const string UserImage = "__image";
-   }
-}
-
+/// <summary>Keywords of Anki's search language, such as the <c>note:</c> of <c>note:"Immersion Kit Sentence"</c>.</summary>
 public static class Builtin
 {
+   /// <summary>Searches by Anki note id, as in <c>nid:1234,5678</c>.</summary>
+   public const string NoteId = "nid";
+
    public const string Tag = "tag";
    public const string Note = "note";
    public const string Deck = "deck";

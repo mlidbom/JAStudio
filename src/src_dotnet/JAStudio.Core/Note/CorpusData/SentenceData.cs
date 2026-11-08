@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences;
-using JAStudio.Core.Note.Sentences.Serialization;
 using MemoryPack;
 
 namespace JAStudio.Core.Note.CorpusData;
@@ -11,9 +11,6 @@ namespace JAStudio.Core.Note.CorpusData;
 [MemoryPackable]
 public partial class SentenceData : CorpusObjectData
 {
-   static readonly ISentenceConfigurationSerializer ConfigSerializer = ISentenceConfigurationSerializer.Instance;
-   static readonly ParsingResultSerializer ParsingSerializer = new();
-
    public string SourceQuestion { get; init; } = string.Empty;
    public string UserQuestion { get; init; } = string.Empty;
    public string ActiveQuestion { get; init; } = string.Empty;
@@ -43,40 +40,8 @@ public partial class SentenceData : CorpusObjectData
 
    protected override void PopulateAnkiNoteFields(Dictionary<string, string> fields)
    {
-      fields[SentenceNoteFields.SourceQuestion] = SourceQuestion;
-      fields[SentenceNoteFields.UserQuestion] = UserQuestion;
-      fields[SentenceNoteFields.ActiveQuestion] = ActiveQuestion;
-      fields[SentenceNoteFields.SourceAnswer] = SourceAnswer;
-      fields[SentenceNoteFields.UserAnswer] = UserAnswer;
-      fields[SentenceNoteFields.ActiveAnswer] = ActiveAnswer;
-      fields[SentenceNoteFields.SourceComments] = SourceComments;
-      fields[SentenceNoteFields.UserComments] = UserComments;
-      fields[SentenceNoteFields.Reading] = Reading;
-      fields[SentenceNoteFields.Id] = ExternalId;
-      fields[SentenceNoteFields.Audio] = Audio;
-      fields[SentenceNoteFields.Screenshot] = Screenshot;
-      fields[SentenceNoteFields.Configuration] = SerializeConfiguration();
-      fields[SentenceNoteFields.ParsingResult] = SerializeParsingResult();
-   }
-
-   string SerializeConfiguration()
-   {
-      var config = new SentenceConfiguration(
-         Configuration.HighlightedWords.ToList(),
-         new WordExclusionSet(() => {}, Configuration.IncorrectMatches.Select(FromExclusionSubData).ToList()),
-         new WordExclusionSet(() => {}, Configuration.HiddenMatches.Select(FromExclusionSubData).ToList()));
-      return ConfigSerializer.Serialize(config);
-   }
-
-   string SerializeParsingResult()
-   {
-      if(ParsingResult == null) return string.Empty;
-
-      var result = new ParsingResult(
-         ParsingResult.ParsedWords.Select(FromParsedMatchSubData).ToList(),
-         ParsingResult.Sentence,
-         ParsingResult.ParserVersion);
-      return ParsingSerializer.Serialize(result);
+      fields[AnkiFieldNames.Question] = ActiveQuestion;
+      fields[AnkiFieldNames.Sentence.Audio] = Audio;
    }
 
    static WordExclusion FromExclusionSubData(WordExclusionSubData d) =>
