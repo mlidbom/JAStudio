@@ -36,8 +36,8 @@ partial class ChosenVoicesDialog : Window
       Closed += (_, _) => player.Dispose();
    }
 
-   /// <summary>Opens the dialog where it was last, as from the workspace's Config menu.</summary>
-   internal static void Open(TemporaryServiceCollection services) => new ChosenVoicesDialog(services.Resolve<IFatalErrorHandler>()).ShowWhereItWasLast(services);
+   /// <summary>Opens the dialog where it was last, as from the workspace's Config menu, and returns it.</summary>
+   internal static ChosenVoicesDialog Open(TemporaryServiceCollection services) => new ChosenVoicesDialog(services.Resolve<IFatalErrorHandler>()).ShowWhereItWasLast(services);
 
    /// <summary>Shows the dialog modally over <paramref name="owner"/>, and returns the settings saved, or null when it was cancelled.</summary>
    internal static Task<TextToSpeechSettings?> ShowOverAsync(Window owner, IFatalErrorHandler fatalErrorHandler) =>

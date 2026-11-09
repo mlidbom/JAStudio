@@ -25,7 +25,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IEnvironmentPaths>().Instance(new HeadlessEnvironmentPaths(_arguments)),
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<IBackendNoteCreator>().Instance(new HeadlessBackendNoteCreator()),
-         Singleton.For<IAnkiRawNotes>().Instance(new HeadlessAnkiRawNotes()),
+         Singleton.For<IAnkiRawNotes>().Instance(new HeadlessAnkiRawNotes(_arguments.AnkiCollectionFile)),
          Singleton.For<IBackendDataLoader>().Instance(AnkiBackendDataLoader.ForTheCollectionIn(_arguments.AnkiCollectionFile)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),

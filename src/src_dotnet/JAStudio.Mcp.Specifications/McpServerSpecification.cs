@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Specifications;
+using JAStudio.Mcp.UI;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol;
 
@@ -22,9 +23,14 @@ public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyC
    readonly JAStudioMcpServer _server;
    readonly McpClient _client;
 
-   protected McpServerSpecification()
+   protected McpServerSpecification() : this(jastudio => JAStudioMcpServer.Start(jastudio, port: 0)) {}
+
+   /// <summary>The server of a JAStudio whose UI is <paramref name="headlessUI"/>, as the headless JAStudio's is, with the tools that need it.</summary>
+   protected McpServerSpecification(HeadlessUI headlessUI) : this(jastudio => JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, port: 0, headlessUI)) {}
+
+   McpServerSpecification(Func<IRootResolver, JAStudioMcpServer> startTheServer)
    {
-      _server = JAStudioMcpServer.Start(GetService<IRootResolver>(), port: 0);
+      _server = startTheServer(GetService<IRootResolver>());
       _client = McpClient.CreateAsync(new HttpClientTransport(new HttpClientTransportOptions { Endpoint = _server.Url })).GetAwaiter().GetResult();
    }
 

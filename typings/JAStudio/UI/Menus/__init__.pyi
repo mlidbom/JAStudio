@@ -1,9 +1,43 @@
-import abc
+import typing, clr, abc
+from System import IEquatable_1, Func_2, Func_1
 from JAStudio.Core import TemporaryServiceCollection
+from Avalonia.Controls import Window
 from System.Collections.Generic import List_1
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
 from JAStudio.Core.Note import JPNote, NoteId
-from System import Func_1
+
+class MainMenuWindow(IEquatable_1[MainMenuWindow]):
+    def __init__(self, Name: str, Open: Func_2[TemporaryServiceCollection, Window]) -> None: ...
+    @property
+    def Name(self) -> str: ...
+    @Name.setter
+    def Name(self, value: str) -> str: ...
+    @property
+    def Open(self) -> Func_2[TemporaryServiceCollection, Window]: ...
+    @Open.setter
+    def Open(self, value: Func_2[TemporaryServiceCollection, Window]) -> Func_2[TemporaryServiceCollection, Window]: ...
+    def Deconstruct(self, Name: clr.Reference[str], Open: clr.Reference[Func_2[TemporaryServiceCollection, Window]]) -> None: ...
+    def GetHashCode(self) -> int: ...
+    def __eq__(self, left: MainMenuWindow, right: MainMenuWindow) -> bool: ...
+    def __ne__(self, left: MainMenuWindow, right: MainMenuWindow) -> bool: ...
+    def ToString(self) -> str: ...
+    # Skipped Equals due to it being static, abstract and generic.
+
+    Equals : Equals_MethodGroup
+    class Equals_MethodGroup:
+        @typing.overload
+        def __call__(self, other: MainMenuWindow) -> bool:...
+        @typing.overload
+        def __call__(self, obj: typing.Any) -> bool:...
+
+
+
+class MainMenuWindows(abc.ABC):
+    ImportProfiles : MainMenuWindow
+    Options : MainMenuWindow
+    ReadingsMappings : MainMenuWindow
+    TextToSpeechVoices : MainMenuWindow
+
 
 class NoteContextMenu:
     def __init__(self, services: TemporaryServiceCollection) -> None: ...

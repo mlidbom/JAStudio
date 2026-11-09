@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Anki;
-using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.Views;
-using JAStudio.UI.Views.Importing;
 using JAStudio.UI.Views.Workspace;
-using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Menus;
 
@@ -30,9 +26,9 @@ public class WorkspaceMainMenu
       SpecMenuItem.Submenu(ShortcutFinger.Home1("Config"),
                            new List<SpecMenuItem>
                            {
-                              SpecMenuItem.Command(ShortcutFinger.Home1("Options"), () => new OptionsDialog(_services).ShowWhereItWasLast(_services), shortcut: "Ctrl+Shift+s"),
-                              SpecMenuItem.Command(ShortcutFinger.Home2("Readings mappings"), () => new ReadingsMappingsDialog(_services).ShowWhereItWasLast(_services), shortcut: "Ctrl+Shift+m"),
-                              SpecMenuItem.Command(ShortcutFinger.Home3("Text-to-speech voices"), () => ChosenVoicesDialog.Open(_services))
+                              SpecMenuItem.Command(ShortcutFinger.Home1(MainMenuWindows.Options.Name), () => MainMenuWindows.Options.Open(_services), shortcut: "Ctrl+Shift+s"),
+                              SpecMenuItem.Command(ShortcutFinger.Home2(MainMenuWindows.ReadingsMappings.Name), () => MainMenuWindows.ReadingsMappings.Open(_services), shortcut: "Ctrl+Shift+m"),
+                              SpecMenuItem.Command(ShortcutFinger.Home3(MainMenuWindows.TextToSpeechVoices.Name), () => MainMenuWindows.TextToSpeechVoices.Open(_services))
                            }
       ),
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
@@ -57,7 +53,7 @@ public class WorkspaceMainMenu
                                                       BatchCommand(ShortcutFinger.Down1("All the above: Full rebuild"), _services.LocalNoteUpdater.FullRebuild)
                                                    }
                               ),
-                              SpecMenuItem.Command(ShortcutFinger.Home2("Import profiles"), () => ImportProfilesWindow.Open(_services)),
+                              SpecMenuItem.Command(ShortcutFinger.Home2(MainMenuWindows.ImportProfiles.Name), () => MainMenuWindows.ImportProfiles.Open(_services)),
                               BatchCommand(ShortcutFinger.Home3("Update everything except reanalysing sentences"), _services.LocalNoteUpdater.UpdateAll),
                               BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
                               BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),

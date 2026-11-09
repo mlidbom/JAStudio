@@ -17,6 +17,8 @@ using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reloading;
+using JAStudio.Mcp.Tools.Windows;
+using JAStudio.Mcp.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,9 +58,18 @@ public sealed class JAStudioMcpServer
    /// Starts serving the tools, which use the services of <paramref name="jastudio"/>, such as its collection, on <paramref name="port"/> of this<br/>
    /// computer's loopback address, or on a free port the system picks when it's 0.
    /// </summary>
-   public static JAStudioMcpServer Start(IRootResolver jastudio, int port)
+   public static JAStudioMcpServer Start(IRootResolver jastudio, int port) => Start(jastudio, port, headlessUI: null);
+
+   /// <summary>
+   /// Starts serving the tools, as <see cref="Start(IRootResolver,int)"/> does, and the tools of a JAStudio whose UI is <paramref name="headlessUI"/>,<br/>
+   /// such as <see cref="WindowTools.RenderWindow"/>: the headless JAStudio's.
+   /// </summary>
+   public static JAStudioMcpServer StartWithTheHeadlessUI(IRootResolver jastudio, int port, HeadlessUI headlessUI) => Start(jastudio, port, headlessUI);
+
+   /// <summary>Starts serving the tools, and the tools of a headless UI too when there is one, <paramref name="headlessUI"/>.</summary>
+   static JAStudioMcpServer Start(IRootResolver jastudio, int port, HeadlessUI? headlessUI)
    {
-      var webApplication = WebApplicationServingTheTools(jastudio, port);
+      var webApplication = WebApplicationServingTheTools(jastudio, port, headlessUI);
       webApplication.StartAsync().GetAwaiter().GetResult();
       return new JAStudioMcpServer(webApplication);
    }
@@ -69,7 +80,7 @@ public sealed class JAStudioMcpServer
       await _webApplication.DisposeAsync();
    }
 
-   static WebApplication WebApplicationServingTheTools(IRootResolver jastudio, int port)
+   static WebApplication WebApplicationServingTheTools(IRootResolver jastudio, int port, HeadlessUI? headlessUI)
    {
       var builder = WebApplication.CreateBuilder(new WebApplicationOptions
       {
@@ -79,7 +90,7 @@ public sealed class JAStudioMcpServer
       builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Loopback, port));
       builder.Logging.SetMinimumLevel(LogLevel.Warning);
 
-      builder.Services.AddMcpServer(options => options.ServerInfo = new Implementation { Name = "JAStudio", Version = "1" })
+      var mcpServer = builder.Services.AddMcpServer(options => options.ServerInfo = new Implementation { Name = "JAStudio", Version = "1" })
              .WithHttpTransport(options => options.SessionMode = HttpServerSessionMode.Stateless)
              .WithRequestFilters(filters => filters.AddCallToolFilter(ToolExceptionReporting.ReportsTheWholeException))
              .WithTools<NoteTools>(ToolResultJsonOptions)
@@ -92,6 +103,12 @@ public sealed class JAStudioMcpServer
              .WithTools<VocabEditingTools>(ToolResultJsonOptions)
              .WithTools<KanjiEditingTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
+
+      if(headlessUI != null)
+      {
+         mcpServer.WithTools<WindowTools>(ToolResultJsonOptions);
+         builder.Services.AddSingleton(headlessUI);
+      }
 
       jastudio.Resolve<IChildContainerHostIntegration>().UseChildContainerAsServiceProviderFor(builder.Host);
 

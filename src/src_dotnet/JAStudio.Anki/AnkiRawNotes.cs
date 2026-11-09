@@ -15,18 +15,7 @@ public class AnkiRawNotes : IAnkiRawNotes
 {
    const char FieldSeparator = '\x1f';
 
-   public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes()
-   {
-      using var db = AnkiDb.OpenReadOnly(DbFilePath());
-      var fields = db.Fields.ToList();
-      return
-      [
-         .. db.NoteTypes.ToList()
-              .Where(it => !NoteTypes.All.Contains(it.Name))
-              .OrderBy(it => it.Name, StringComparer.CurrentCultureIgnoreCase)
-              .Select(noteType => new AnkiNoteType(noteType.Name, FieldNamesOf(noteType.Id, fields)))
-      ];
-   }
+   public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes() => AnkiRawNoteTypes.In(DbFilePath());
 
    public IReadOnlyList<RawNote> SelectedBy(ImportProfile profile)
    {
@@ -34,7 +23,7 @@ public class AnkiRawNotes : IAnkiRawNotes
 
       using var db = AnkiDb.OpenReadOnly(DbFilePath());
       var noteType = db.NoteTypes.ToList().Single(it => it.Name == profile.AnkiNoteType);
-      var fieldNames = FieldNamesOf(noteType.Id, [.. db.Fields]);
+      var fieldNames = AnkiRawNoteTypes.FieldNamesOf(noteType.Id, [.. db.Fields]);
 
       return
       [
@@ -68,9 +57,6 @@ public class AnkiRawNotes : IAnkiRawNotes
                                    .ToDictionary(it => it.name, it => it.value);
       return new RawNote(row.Id, fieldsByName, row.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries));
    }
-
-   static List<string> FieldNamesOf(long noteTypeId, IEnumerable<FieldRow> fields) =>
-      [.. fields.Where(it => it.NoteTypeId == noteTypeId).OrderBy(it => it.Ordinal).Select(it => it.Name)];
 
    static List<long> AnkiNoteIdsOf(IReadOnlyList<RawNote> rawNotes) => [.. rawNotes.Select(it => it.AnkiNoteId)];
 

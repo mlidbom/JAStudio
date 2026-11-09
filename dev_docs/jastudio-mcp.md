@@ -69,8 +69,13 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
     Anki reads it. While Anki runs, its latest changes may still be in the database's write-ahead log, which reading
     the file doesn't see.
   - **The configuration** is read from the add-on's `meta.json`, never written: Anki owns it.
+  - **The user files are a copy of its own** (`HeadlessUserFiles`), of the add-on's, made as it starts: the add-on's are
+    the live JAStudio's, where the window places and the workspace's state are saved.
+  - **Its UI runs on Avalonia's headless platform** (`HeadlessUI`, in `JAStudio.Mcp`), on a thread of its own, as the UI
+    inside Anki runs on one: windows open and are drawn as on a screen, but on none, for `render_window`.
   - **What needs Anki itself refuses with an exception:** creating a new note's Anki note, changing a note's cards, and
-    importing.
+    importing. The note types for raw notes, which the import profiles window lists, it reads from the collection, as
+    JAStudio inside Anki does.
   - It loads the collection and starts the MCP server, on a port the system picks, then writes the server's address to
     standard output, and exits when the process it was told to live with, the gateway, exits.
 - **The live JAStudio, inside Anki,** runs the same server (`LiveJAStudioMcpServer`, started from
@@ -141,6 +146,10 @@ the headless JAStudio.
     `note-search.md`). It counts the notes found, and lists up to 50 of them, or as many as asked for.
   - `get_note` gets a note as the corpus stores it.
   - `describe_collection` gives the corpus folder and the notes of each type, studied or not.
+- **The UI, built, in the headless JAStudio only:** `render_window` renders one of the main menu's windows, the options, the
+  readings mappings or the import profiles: opened as the menu opens it, drawn as on a screen, and given as an image.
+  Only the headless JAStudio offers it (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a window
+  opened would open on Magnus's screen. The workspace window and cards are next (`speeding-up-development.md`).
 - **The dictionary, built:** `look_up_in_the_dictionary` looks up a word, or a vocab as JAStudio looks it up, and shows each
   entry's forms and senses, with the dictionary's own parts of speech and the ones JAStudio maps them to.
 - **Analysis, built:** `analyze_sentence` analyzes a sentence, given as text or by its note, with the note's

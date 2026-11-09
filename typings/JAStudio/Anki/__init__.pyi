@@ -100,6 +100,11 @@ class AnkiRawNotes(IAnkiRawNotes):
     def TagAsImported(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
 
 
+class AnkiRawNoteTypes(abc.ABC):
+    @staticmethod
+    def In(collectionFilePath: str) -> IReadOnlyList_1[AnkiNoteType]: ...
+
+
 class CardStudyingStatusLoader(abc.ABC):
     @staticmethod
     def FetchAll(dbFilePath: str) -> List_1[CardStudyingStatus]: ...

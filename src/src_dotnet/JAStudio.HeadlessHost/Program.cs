@@ -6,6 +6,7 @@ using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.Mcp;
+using JAStudio.Mcp.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -29,11 +30,12 @@ static class Program
       Console.OutputEncoding = Encoding.UTF8;
       CompzeLogger.LogLevel = LogLevel.Info;
       var arguments = HeadlessHostArguments.From(args);
+      HeadlessUserFiles.ReplaceWithACopyOfTheUserFilesOf(arguments.AddonFolder);
 
       using var host = BuildJAStudio(arguments);
       var jastudio = StartJAStudioAndLoadTheCollection(host);
 
-      var mcpServer = JAStudioMcpServer.Start(jastudio, arguments.McpServerPort);
+      var mcpServer = JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, arguments.McpServerPort, HeadlessUI.OfThisProcess());
       Console.WriteLine($"{McpServerListensAt}{mcpServer.Url}");
 
       arguments.ProcessToExitWith.WaitForExit();
