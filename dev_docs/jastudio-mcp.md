@@ -32,6 +32,18 @@ not an occasional one, so it's built as a permanent part of JAStudio, not as thr
   any edit does. No tool edits the corpus's files directly.
 - **Every operation is a plain tool call.** A full rebuild takes about 8 seconds, so nothing needs to run in the
   background.
+- **Claude owns it** (Magnus, 2026-11-09). It's Claude's UI into JAStudio: Claude adds and changes its tools as the
+  work needs them, without asking first, tells Magnus what it added, and commits it separately. See the project rule
+  `090-claude-owns-the-jastudio-mcp-server.md`.
+
+## Decided
+
+- **Which corpus checkout the headless JAStudio works on** is chosen case by case, by default a git worktree of the
+  corpus repository of its own (Magnus, 2026-11-09). Two JAStudio processes writing the same checkout would overwrite
+  each other's changes.
+- **Reloading the collection from disk** is how a migration, or resetting the corpus with git, reaches a running
+  JAStudio: an MCP tool, and also a command in JAStudio's UI (Magnus, 2026-11-09: resetting with git and reloading is
+  valuable in itself).
 
 ## The first tools (a proposal)
 
@@ -46,16 +58,13 @@ not an occasional one, so it's built as a permanent part of JAStudio, not as thr
 
 ## Open questions
 
-1. **Which corpus the headless JAStudio works on.** Two JAStudio processes writing the same checkout would overwrite
-   each other's changes. A git worktree of the corpus repository would make each experiment a branch of its own, but how
-   its results then reach Magnus's checkout, while the live JAStudio holds the corpus in memory, needs working out.
-2. **Migrations and the live JAStudio.** A migration rewrites the corpus's files, which the live JAStudio would
-   overwrite from memory, so today Anki is closed first. A tool that reloads the collection from disk might be enough.
-3. **The endpoint.** The card server listens on a port that may change (`CardServer`), but Claude Code's configuration
+1. **How a headless experiment's results reach Magnus's checkout,** from the worktree it ran on: committed there and
+   merged, then reloaded in the live JAStudio, most likely.
+2. **The endpoint.** The card server listens on a port that may change (`CardServer`), but Claude Code's configuration
    needs a fixed address for each JAStudio, the live one and the headless one, which may run at the same time.
-4. **Rebuilding while the headless JAStudio runs.** Windows locks the assemblies a process has loaded, so a build would
+3. **Rebuilding while the headless JAStudio runs.** Windows locks the assemblies a process has loaded, so a build would
    fail while it runs. It might run from a copy of the build output, as Anki's JAStudio runs from `runtime_binaries`.
-5. **For Claude to verify:** whether Claude Code reconnects to an MCP server over HTTP after the server restarts, and
+4. **For Claude to verify:** whether Claude Code reconnects to an MCP server over HTTP after the server restarts, and
    whether tools from a server that wasn't running when the session started can be connected later.
 
 ## Order of work (tentative)
@@ -66,5 +75,5 @@ not an occasional one, so it's built as a permanent part of JAStudio, not as thr
    does what the rebuild inside Anki does. Running it twice and checking that the second run changes nothing is also the
    test for a full rebuild that reaches a stable result in one run (`corpus-data-model.md`, open question 14).
 3. Analyzing a sentence.
-4. The same server in the live JAStudio, inside Anki.
+4. The same server in the live JAStudio, inside Anki, and reloading the collection from disk, as a tool and in the UI.
 5. The writing tools.

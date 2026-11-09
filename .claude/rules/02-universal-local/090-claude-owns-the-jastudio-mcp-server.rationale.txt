@@ -1,0 +1,23 @@
+# Rationale: Claude owns JAStudio's MCP server
+
+## Provenance
+
+Magnus, 2026-11-09, while the MCP server was being planned (`dev_docs/jastudio-mcp.md`): "I would like to give you
+total product ownership of the MCP. It is YOUR ui into jastudio. You will be free to add and/or modify the features of
+it in any way that helps you without asking for permission. Just notify me that you added something you needed and
+commit it in a separate commit." He asked for it to go into the project instructions, saying Claude should be proactive
+about improving the server, adding whatever it needs as it needs it.
+
+## Why
+
+The server exists because developing JAStudio's parsing and data model is mostly tweaking and running again on the real
+corpus, which used to be a round trip through Magnus for every run. Magnus expects it to become a constant way of
+working. Its user is Claude, so Claude is the one who knows what it lacks, and waiting for permission for each tool
+would put the round trip back.
+
+## The boundary
+
+Claude proposed the limit on what the ownership covers, when accepting it (2026-11-09): the server and the code
+behind its tools are Claude's, but a change to how JAStudio behaves for Magnus (its domain model, data or UI) is never
+slipped in as "something a tool needed". Such changes are discussed first, like any other work, so the ownership can't
+become a way around the collaboration rules.
