@@ -38,6 +38,23 @@ public sealed class ScreenDescription
       return description._text.ToString();
    }
 
+   /// <summary>
+   /// <paramref name="part"/>, a control on <paramref name="screen"/>, described with the controls in it: a part of the screen, such as an editor's tab,<br/>
+   /// rather than all of it. A window or a popup is described as <see cref="Of(HeadlessScreen, IEnumerable{TopLevel})"/> describes it.
+   /// </summary>
+   public static string Of(HeadlessScreen screen, Control part)
+   {
+      if(part is TopLevel topLevel) return Of(screen, [topLevel]);
+
+      var description = new ScreenDescription(screen);
+      var peer = ControlAutomationPeer.CreatePeerForElement(part);
+      var described = new ControlDescription(peer, part);
+      description._text.AppendLine(described.Line(screen.Refs));
+      description._listed.Add(part);
+      description.DescribeTheControlsIn(peer, indent: 1, described.Text);
+      return description._text.ToString();
+   }
+
    /// <summary>The line of a window or a popup: its ref, its title, where it is, and whether it has the keyboard.</summary>
    internal static string TopLevelLine(HeadlessScreen screen, TopLevel topLevel)
    {

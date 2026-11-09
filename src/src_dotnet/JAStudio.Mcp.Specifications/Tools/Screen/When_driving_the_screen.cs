@@ -70,6 +70,18 @@ public class When_driving_the_screen : McpServerSpecification
       [XF] public void it_doesnt_list_the_buttons_text_again_as_a_label_in_it() => _description.Split("\"Count the clicks\"").Length.Must().Be(2);
    }
 
+   public class describing_only_the_auto_complete_box : When_driving_the_screen
+   {
+      readonly string _description;
+
+      public describing_only_the_auto_complete_box() =>
+         _description = TextOf(CallTool("describe_the_screen", new Dictionary<string, object?> { ["part"] = RefOfTheControl("AutoCompleteBox") }));
+
+      [XF] public void it_lists_the_auto_complete_box_first() => _description.Must().StartWith(RefOfTheControl("AutoCompleteBox") + " AutoCompleteBox");
+      [XF] public void it_lists_the_text_box_in_it() => _description.Must().Contain("placeholder \"Type a fruit\"");
+      [XF] public void it_lists_nothing_else_such_as_the_check_box() => _description.Must().NotContain("CheckBox");
+   }
+
    public class clicking_the_check_box : When_driving_the_screen
    {
       readonly string _checkBoxRef;

@@ -186,7 +186,8 @@ the headless JAStudio.
     on, from Avalonia's automation tree, the tree screen readers read. Each control has a ref, such as `c12`, then its
     kind, its text, its state, such as checked, selected, expanded, out of sight or has the keyboard, and where it is.
     A control keeps its ref (`ControlRef`) as long as it exists (`ControlRefs`). A control's line is its
-    `ControlDescription`.
+    `ControlDescription`. Given a control's ref, it describes only that part of the screen, such as an editor's tab:
+    the whole workspace's description is about 5,000 tokens (added 2026-11-09).
   - `click_a_control`, `type_text`, `press_keys`, `scroll_a_control` and `close_a_window` act on it through the headless
     platform's own mouse and keyboard, so the input goes where a person's would and does what a person's does, and each
     gives the screen afterwards, as an image unless told not to. Each waits until the UI has handled what it started,

@@ -50,12 +50,17 @@ public class ScreenTools
                 they're in. Each control has its ref, such as c12, which the tools that act on a control take, then its kind, its text, its state, such as checked,
                 selected, expanded, disabled or has the keyboard, and where it is on the screen. The controls are those a person reads or acts on, from Avalonia's
                 automation tree, which screen readers read: labels, buttons, text boxes, lists and their items, menus and their items, tabs. A control keeps its ref
-                as long as it exists, so only controls that appeared since need a new description.
+                as long as it exists, so only controls that appeared since need a new description. Describing only a part of the screen, such as an editor's tab,
+                by its ref, saves reading the rest.
                 """)]
-   public string DescribeTheScreen([Description("A window's or a popup's ref, to describe only it. Every window and popup if none.")] string? window = null) =>
+   public string DescribeTheScreen(
+      [Description("The ref of a window, a popup, or any control on the screen, such as an editor's tab, to describe only it and the controls in it. Every window and popup if none.")]
+      string? part = null) =>
       _headlessUI.OnTheUIThread(() =>
       {
-         var topLevels = window == null ? Screen.TopLevelsFromTheFront : [Screen.TopLevelWithRef(new ControlRef(window))];
+         if(part != null) return ScreenDescription.Of(Screen, Screen.Refs.ControlWithRef(new ControlRef(part)));
+
+         var topLevels = Screen.TopLevelsFromTheFront;
          return topLevels.Count == 0 ? NothingIsOpen : ScreenDescription.Of(Screen, topLevels);
       });
 
