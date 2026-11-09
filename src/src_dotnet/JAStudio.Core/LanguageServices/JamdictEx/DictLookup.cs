@@ -128,7 +128,7 @@ public class DictLookup
 
    public DictLookupResult LookupName(string word)
    {
-      if(!MightBeWord(word))
+      if(!MightBeName(word))
       {
          return DictLookupResult.Failed();
       }
