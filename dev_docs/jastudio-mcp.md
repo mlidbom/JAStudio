@@ -1,6 +1,6 @@
 # JAStudio's MCP server — Design
 
-> **Status: agreed direction (Magnus, 2026-11-09); step 1, the headless JAStudio behind the MCP gateway, is built.** Details
+> **Status: agreed direction (Magnus, 2026-11-09); steps 1 and 2 are built: the headless JAStudio behind the MCP gateway, and the full rebuild as a tool.** Details
 > are settled as each increment needs them. [How it's built](#how-its-built) describes what exists.
 > The corpus data-model work (`corpus-data-model.md`, "Order of work") waits for this: its remaining slices are mostly
 > migrate, rebuild, analyze, tweak and rebuild again, which this makes Claude's own loop instead of a round trip through
@@ -109,8 +109,12 @@ belongs in the headless JAStudio.
   and why a candidate was rejected. This replaces the throwaway tokenizer programs, and answers questions such as why
   a word doesn't match a vocab.
 - **Writing:** the edits the workspace's editors make, through the same domain operations.
-- **Running:** a full rebuild, reparsing sentences, regenerating a note's data. What a run changed is in the corpus
-  repository's diff, which Claude reads with git.
+- **Running, built:**
+  - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
+    what it changed.
+  - `list_changed_notes` gives the notes whose files in the corpus checkout differ from its git `HEAD`, by note type, from
+    `git status`. How each changed is in the checkout's git diff.
+- **Running, proposed:** reparsing some sentences, regenerating a note's data.
 
 ## Open questions
 
@@ -134,9 +138,12 @@ Answered:
    notes studied match the corpus and Anki's profile. Claude Code follows the gateway's tool list as it changes:
    after `start_headless_jastudio`, the headless JAStudio's tools are there to call in the same session (confirmed
    2026-11-09).
-2. The full rebuild as a tool. A headless full rebuild of a clean corpus checkout must change nothing, which shows it
-   does what the rebuild inside Anki does. Running it twice and checking that the second run changes nothing is also the
-   test for a full rebuild that reaches a stable result in one run (`corpus-data-model.md`, open question 14).
+2. **Done:** the full rebuild as a tool.
+   - **On a clean corpus checkout it changed nothing,** in 7.9 seconds, so the headless rebuild does what the rebuild
+     inside Anki did.
+   - **A second run changed nothing either,** in 5.9 seconds. That checkout had already settled, after Magnus's two
+     runs, so it doesn't yet show that a full rebuild reaches a stable result in one run (`corpus-data-model.md`, open
+     question 14). The test for that is the same two runs, after a change whose effect on vocab feeds back into parsing.
 3. Analyzing a sentence.
 4. The same server in the live JAStudio, inside Anki, and reloading the collection from disk, as a tool and in the UI.
 5. The writing tools.

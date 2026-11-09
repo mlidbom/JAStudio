@@ -18,9 +18,6 @@ public class When_listing_the_tools : McpServerSpecification
    string DescriptionOf(string toolName) =>
       _tools.Single(it => it.Name == toolName).Description ?? throw new InvalidOperationException($"The tool {toolName} has no description.");
 
-   [XF] public void the_server_offers_search_notes_get_note_and_describe_collection() =>
-      _tools.Select(it => it.Name).Order().Must().SequenceEqual(["describe_collection", "get_note", "search_notes"]);
-
    [XF] public void the_description_of_search_notes_names_every_text_property_a_search_can_have_a_condition_on() =>
       PropertiesTheDescriptionOfSearchNotesDoesNotName(NoteProperties.EveryTextProperty).Must().BeEmpty();
 

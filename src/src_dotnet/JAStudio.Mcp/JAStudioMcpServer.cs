@@ -8,6 +8,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Extensions.Hosting;
 using JAStudio.Core.SysUtils.Json;
+using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -75,7 +76,10 @@ public sealed class JAStudioMcpServer
              .WithHttpTransport(options => options.SessionMode = HttpServerSessionMode.Stateless)
              .WithRequestFilters(filters => filters.AddCallToolFilter(ToolExceptionReporting.ReportsTheWholeException))
              .WithTools<NoteTools>(ToolResultJsonOptions)
-             .WithTools<CollectionTools>(ToolResultJsonOptions);
+             .WithTools<CollectionTools>(ToolResultJsonOptions)
+             .WithTools<CorpusTools>(ToolResultJsonOptions)
+             .WithTools<RebuildTools>(ToolResultJsonOptions);
+      builder.Services.AddSingleton<CorpusCheckout>();
 
       jastudio.Resolve<IChildContainerHostIntegration>().UseChildContainerAsServiceProviderFor(builder.Host);
 
