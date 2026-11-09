@@ -1,8 +1,7 @@
 # Speeding up development: the next big pieces
 
-**Status: all four pieces of work agreed (Magnus, 2026-11-09: "We will do them both", and the other two the same day). The
-first is scoped; the others not yet.** Each starts by scoping it: what it takes, and whether it's feasible, before
-any code.
+**Status: all four pieces of work agreed (Magnus, 2026-11-09: "We will do them both", and the other two the same day).
+1, 3 and 4 are scoped; 2 not yet.** Each starts by scoping it: what it takes, and whether it's feasible, before any code.
 
 These are the changes the collaboration rule "Build the tools the work will need again now, not later — and propose the
 big ones" asks for: changes to how JAStudio is developed, rather than to what it does.
@@ -186,6 +185,64 @@ as JSON. Or each case a folder, of one or more files holding the sentence, the e
   and checking the result against their old expectations.
 - **The name of a case's file is its name** in the test explorer, so it should say what the case is about.
 
+## 3 and 4, scoped together (2026-11-09): feasible, and best built together
+
+**Why together:** an exact result names each vocab by its id, which only a corpus of the real vocab gives (item 4's point on
+naming vocab). And specifications against the real vocab are worth most when they check the whole result.
+
+**What scoping found:**
+- **The drift is real.** Two of the existing cases, run against the real corpus in the headless JAStudio: 食べれる parses
+  as its case expects. 座っているのはいただけない doesn't: the case expects の, は and いただける, while the corpus parses のは
+  and いただけない, for which it has vocab and the copies don't.
+- **Parsing reaches the corpus only through the vocab collection's lookups,** so a hook there records exactly "every vocab
+  the parsing machinery loads". The analysis is given the vocab collection, the dictionary and the settings
+  (`AnalysisServices`), and finds vocab by form, question and so on (`CandidateWordVariant`, `TextLocation`, `WordInfo`,
+  `IchidanGodanPotentialOrImperativeHybridSplitter`, `DictLookup.IsDictionaryOrCollectionWord`), all of it answered by
+  `VocabCache`. Recording every vocab a lookup there returns covers them all, and any lookup added later.
+- **So the stripped-down corpus parses each case exactly as the whole corpus does, by construction:** every lookup returns
+  the same vocab, since all it returned is in the stripped-down corpus. The full mode's self-check, every case parsing the
+  same against both, then only catches a way of reaching vocab that bypasses the lookups.
+- **The stored parsing result doesn't depend on the options.** The two settings parsing reads, hiding all compounds and
+  hiding transparent compounds, apply only to the sentence breakdown (`TextAnalysis.ForUI`). So a case's exact result
+  holds whatever Magnus's options are. The breakdown's displayed words do depend on them: a case about those would hold
+  the settings it assumes.
+- **The dictionary is the code's, not the corpus's:** parsing looks words with no vocab up in JMdict, the same on every
+  machine.
+- **Loading needs nothing new.** `FileSystemNoteRepository` loads notes from any folder in the corpus's layout, so the
+  stripped-down corpus can be a folder of the corpus's own vocab files, loaded by the same code.
+- **One collection for all the cases, loaded once per run.** Now every specification builds a collection of its own, from
+  the 143 copies. A case can instead be parsed with `TextAnalysis` directly, from its text and configuration, without
+  creating a sentence note, so all the cases share one collection that nothing changes.
+- **Size:** each sentence sampled loads 20 to 30 vocab, many of them shared (particles, endings). The about 174 cases might
+  load 1,000 to 2,000 vocab: 5 to 10 MB of the corpus's JSON, at about 5 KB a vocab. A guess, for the first run to measure.
+- **CI** checks out only the stub generator's submodule, not the corpus. The committed stripped-down corpus lets the
+  everyday mode run there.
+- **Both repositories are public,** so committing vocab to the source repository publishes nothing new.
+
+**Recommended: build it as tooling first, in the code, and the corpus-itself variant (below) later, on top of it.** The
+case files, the stripped-down corpus, the full mode and accepting are what the corpus variant needs too, as its export to
+the test suite. The corpus variant adds data to sentence notes and a way to review in the UI: a change to the domain model,
+better designed once the tooling shows how specifications like these work in practice.
+
+**The first increment:**
+1. The recording hook in `VocabCache`.
+2. A case: a JSON file holding the text, the sentence's configuration if it has one, why the case exists, and the exact
+   parsing result as the corpus stores it: every valid match, with its form, place, surface or base form, whether it's
+   displayed, and its vocab's id, with the vocab's question beside it to read, not compared.
+3. A parameterized specification over the case files, against the stripped-down corpus. A failure says how the words
+   differ, as `diff_the_changed_notes` does.
+4. The full mode: the same specification, run with a switch, against the corpus checkout. It writes the stripped-down
+   corpus, checks it, and reports the cases whose result differs. And accepting: another switch, which writes the actual
+   results over the expected ones, for review in git's diff.
+5. A handful of the existing cases converted, to prove the loop. Then the rest, reviewing each difference with Magnus: the
+   corpus right, the code wrong, or the old expectation an artifact of the copies.
+
+**Calls made, open to change:**
+- The full mode reads the corpus checkout as it is (`src/jas_database`), not the commit the source records. That's what
+  the specifications should match, and the committed stripped-down corpus records what a run used.
+- The full mode is a mode of the specifications, run from the IDE or the command line, so Magnus can run it as easily as
+  Claude. A tool of the MCP server that makes a case from a corpus sentence comes later.
+
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 
 **Preliminary, like the rest of 3 and 4.** It could replace their designs, or feed them.
@@ -225,3 +282,13 @@ change that improves the parse is accepted; one that doesn't means the vocab edi
 ## Order of work
 
 Not decided. Each starts with scoping, and the scoping decides the order.
+
+**Claude's proposal (2026-11-09), asked what it needs most:**
+1. **3 and 4 together.** Changes to parsing are the most common and the riskiest work, and today the only reliable check
+   of one is a full rebuild and a review of its diff. Exact specifications against the real vocab would make most of
+   that check a test run, in CI too.
+2. **Driving the headless windows** (item 1's step 3): small, and the server is Claude's to change. It makes a UI bug
+   reproducible, and its fix checkable, without Magnus.
+3. **Scoping 2.** Its biggest gain, Claude seeing the UI without Anki, item 1 now gives. What remains is a new build
+   reaching Magnus without a restart, and checking code that only runs inside Anki: worth it, but the biggest change of
+   the four.
