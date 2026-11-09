@@ -32,6 +32,8 @@ class CachingSentenceConfigurationField:
 
 class ParsedMatch:
     def __init__(self, variant: str, startIndex: int, isDisplayed: bool, word: str, vocabId: NoteId) -> None: ...
+    BaseVariant : str
+    SurfaceVariant : str
     @property
     def EndIndex(self) -> int: ...
     @property

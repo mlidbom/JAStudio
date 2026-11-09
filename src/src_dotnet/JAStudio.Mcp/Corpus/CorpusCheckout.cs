@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using JAStudio.Core;
 
 namespace JAStudio.Mcp.Corpus;
 
 /// <summary>
 /// The checkout of the corpus repository a JAStudio loaded its notes from and saves them to, as git sees it: which note files differ from the<br/>
-/// checkout's <c>HEAD</c>, which is what a change to the notes, such as a full rebuild, changed, and moving the checkout to another commit.
+/// checkout's <c>HEAD</c>, which is what a change to the notes, such as a full rebuild, changed, the versions of those files, and moving the<br/>
+/// checkout to another commit.
 /// </summary>
 public class CorpusCheckout
 {
@@ -18,11 +17,19 @@ public class CorpusCheckout
    static readonly string[] NoteFolders = ["kanji", "vocab", "sentences"];
 
    readonly DirectoryInfo _folder;
+   readonly GitCommandLine _git;
 
-   public CorpusCheckout(IEnvironmentPaths paths) => _folder = new DirectoryInfo(paths.DatabaseDir);
+   public CorpusCheckout(IEnvironmentPaths paths)
+   {
+      _folder = new DirectoryInfo(paths.DatabaseDir);
+      _git = new GitCommandLine(_folder);
+   }
 
    /// <summary>The commit the checkout's <c>HEAD</c> is at, by its hash.</summary>
    public CorpusCommit Head() => new(Git(["rev-parse", "HEAD"]).Trim());
+
+   /// <summary>The commit <paramref name="commit"/> names, by its hash, so that it stays the same commit while a branch moves on. Git refuses a name that names no commit.</summary>
+   public CorpusCommit ByItsHash(CorpusCommit commit) => new(Git(["rev-parse", "--verify", "--end-of-options", $"{commit.Name}^{{commit}}"]).Trim());
 
    /// <summary>
    /// Moves the checkout, its branch and its files, forward to <paramref name="commit"/>, as <c>git merge --ff-only</c> does. Git refuses, and changes<br/>
@@ -40,20 +47,61 @@ public class CorpusCheckout
    public IReadOnlyList<Guid> IdsOfTheNotesWhoseFilesDifferBetween(CorpusCommit from, CorpusCommit to) =>
       IdsOfTheNotesWithTheFiles(PathsOfTheFilesThatDifferBetween(from, to));
 
+   /// <summary>The note files whose contents in the commit <paramref name="from"/> differ from the checkout's files as they are now, with both versions of each.</summary>
+   public IReadOnlyList<NoteFileVersions> NoteFilesThatDifferFromTheWorkingTree(CorpusCommit from)
+   {
+      var paths = NoteFiles(PathsOfTheFilesThatDifferFromTheWorkingTree(from));
+      var contentsBefore = ContentsOfTheFiles(from, paths);
+      return [.. paths.Select((path, index) => new NoteFileVersions(path, contentsBefore[index], ContentsInTheWorkingTree(path)))];
+   }
+
+   /// <summary>The note files whose contents differ between the commits <paramref name="from"/> and <paramref name="to"/>, with both versions of each.</summary>
+   public IReadOnlyList<NoteFileVersions> NoteFilesThatDifferBetween(CorpusCommit from, CorpusCommit to)
+   {
+      var paths = NoteFiles(PathsOfTheFilesThatDifferBetween(from, to));
+      var contentsBefore = ContentsOfTheFiles(from, paths);
+      var contentsAfter = ContentsOfTheFiles(to, paths);
+      return [.. paths.Select((path, index) => new NoteFileVersions(path, contentsBefore[index], contentsAfter[index]))];
+   }
+
    /// <summary>The ids of the notes whose files are among <paramref name="paths"/>, relative to the checkout: the paths in the note folders that are note files.</summary>
    static IReadOnlyList<Guid> IdsOfTheNotesWithTheFiles(IEnumerable<string> paths) =>
-      [.. paths.Where(it => it.EndsWith(".json", StringComparison.Ordinal)).Select(it => Guid.Parse(Path.GetFileNameWithoutExtension(it)))];
+      [.. NoteFiles(paths).Select(it => Guid.Parse(Path.GetFileNameWithoutExtension(it)))];
+
+   /// <summary>The paths among <paramref name="paths"/> in the note folders that are note files, rather than another file kept there, such as a snapshot of the notes.</summary>
+   static IReadOnlyList<string> NoteFiles(IEnumerable<string> paths) => [.. paths.Where(it => it.EndsWith(".json", StringComparison.Ordinal))];
+
+   /// <summary>The contents of the files <paramref name="paths"/> in <paramref name="commit"/>, in the same order: null for a file the commit doesn't have.</summary>
+   IReadOnlyList<string?> ContentsOfTheFiles(CorpusCommit commit, IReadOnlyList<string> paths) => _git.ContentsOfTheFiles([.. paths.Select(it => $"{commit.Name}:{it}")]);
+
+   /// <summary>The contents of the file <paramref name="path"/> in the checkout as it is now: null when there is no such file, as for a deleted note.</summary>
+   string? ContentsInTheWorkingTree(string path)
+   {
+      var file = new FileInfo(Path.Combine(_folder.FullName, path));
+      return file.Exists ? File.ReadAllText(file.FullName) : null;
+   }
 
    /// <summary>The paths, relative to the checkout, of the files in the note folders that git reports as differing from <c>HEAD</c>, untracked ones included.</summary>
    IEnumerable<string> PathsOfTheFilesThatDifferFromHead() =>
       PathsInTheStatusEntries(Git(["status", "--porcelain=v1", "-z", "--untracked-files=all", "--", .. NoteFolders]));
 
    /// <summary>
-   /// The paths, relative to the checkout, of the files in the note folders that differ between the commits <paramref name="from"/> and<br/>
-   /// <paramref name="to"/>: <c>git diff --name-only -z</c> lists each path ended by a NUL.
+   /// The paths, relative to the checkout, of the files in the note folders whose contents in the commit <paramref name="from"/> differ from the<br/>
+   /// checkout's files as they are now, or that are in only one of the two: the tracked ones, from <c>git diff</c>, and the untracked ones.
    /// </summary>
-   string[] PathsOfTheFilesThatDifferBetween(CorpusCommit from, CorpusCommit to) =>
-      Git(["diff", "--name-only", "--no-renames", "-z", from.Name, to.Name, "--", .. NoteFolders]).Split('\0', StringSplitOptions.RemoveEmptyEntries);
+   IEnumerable<string> PathsOfTheFilesThatDifferFromTheWorkingTree(CorpusCommit from) =>
+      PathsEndedByNul(Git(["diff", "--name-only", "--no-renames", "-z", from.Name, "--", .. NoteFolders]))
+        .Concat(PathsEndedByNul(Git(["ls-files", "--others", "--exclude-standard", "-z", "--", .. NoteFolders])));
+
+   /// <summary>
+   /// The paths, relative to the checkout, of the files in the note folders that differ between the commits <paramref name="from"/> and<br/>
+   /// <paramref name="to"/>.
+   /// </summary>
+   IEnumerable<string> PathsOfTheFilesThatDifferBetween(CorpusCommit from, CorpusCommit to) =>
+      PathsEndedByNul(Git(["diff", "--name-only", "--no-renames", "-z", from.Name, to.Name, "--", .. NoteFolders]));
+
+   /// <summary>The paths in the output of a git command run with <c>-z</c> that lists only paths: each path ended by a NUL.</summary>
+   static string[] PathsEndedByNul(string output) => output.Split('\0', StringSplitOptions.RemoveEmptyEntries);
 
    /// <summary>
    /// The paths in the output of <c>git status --porcelain=v1 -z</c>: each entry is two status letters, a space and the path, ended by a NUL.<br/>
@@ -71,34 +119,5 @@ public class CorpusCheckout
    }
 
    /// <summary>Runs git with <paramref name="arguments"/> in the corpus checkout, and returns what it writes to its standard output.</summary>
-   /// <remarks>
-   /// Git runs with no console window. Inside Anki, which has no console, git would otherwise get a console of its own, which Windows can show<br/>
-   /// as a terminal window for every git command. In the first fast-forward from inside Anki (2026-11-09), one git command was ended with<br/>
-   /// <c>STATUS_CONTROL_C_EXIT</c>, the exit code of a process whose console closed, though the same command run by hand succeeded.
-   /// </remarks>
-   string Git(IReadOnlyList<string> arguments)
-   {
-      var startInfo = new ProcessStartInfo("git")
-      {
-         WorkingDirectory = _folder.FullName,
-         UseShellExecute = false,
-         CreateNoWindow = true,
-         RedirectStandardInput = true,
-         RedirectStandardOutput = true,
-         RedirectStandardError = true,
-         StandardOutputEncoding = Encoding.UTF8,
-         StandardErrorEncoding = Encoding.UTF8
-      };
-      foreach(var argument in arguments) startInfo.ArgumentList.Add(argument);
-
-      using var git = Process.Start(startInfo) ?? throw new InvalidOperationException("git started no process.");
-      git.StandardInput.Close();
-      var standardError = git.StandardError.ReadToEndAsync();
-      var output = git.StandardOutput.ReadToEnd();
-      git.WaitForExit();
-
-      return git.ExitCode == 0
-                ? output
-                : throw new InvalidOperationException($"`git {string.Join(' ', arguments)}` in {_folder.FullName} failed with exit code {git.ExitCode}: {standardError.Result}");
-   }
+   string Git(IReadOnlyList<string> arguments) => _git.Output(arguments);
 }

@@ -162,19 +162,31 @@ the headless JAStudio.
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.
   - `list_changed_notes` gives the notes whose files in the corpus checkout differ from its git `HEAD`, by note type, from
-    `git status`. How each changed is in the checkout's git diff.
+    `git status`. How each changed is what `diff_the_changed_notes` shows.
   - `reload_the_collection` loads the collection again from the corpus checkout, and reports the notes it found changed
     on disk.
   - `fast_forward_the_corpus_checkout` fast-forwards the corpus checkout to a commit and reloads, and reports the commits
     before and after and the notes whose files it changed. Git refuses what isn't a fast-forward, or would overwrite
     changes not committed.
 - **Running, proposed:** reparsing some sentences, regenerating a note's data.
-- **Proposed, from git (Magnus, 2026-11-09):** a diff of notes rather than of files. Both versions of a note's file,
-  from git, read into notes and compared as notes: forms added, matching configuration changed, a sentence's words now
-  matching other vocab. A tool first, to analyze rebuilds with, then the same comparison under JAStudio's own features
-  Magnus would love: committing inside JAStudio while seeing which notes changed and how, a note's history with rolling
-  back to a version, and which sentences a change to vocab changed. The git command line suits it: on the corpus
-  repository (207 commits, 79,718 note files) `git status` took 0.17 seconds and a note's history 0.035.
+- **A diff of notes rather than of files, built (Magnus, 2026-11-09):** `diff_the_changed_notes` compares the notes whose
+  files differ between two versions of the corpus: by default the checkout's `HEAD` and its files as they are now, which
+  is what a full rebuild changed, or any two commits.
+  - **Both versions of each note's file are read into notes,** as JAStudio reads notes, and written again as it stores
+    them, so the comparison is of notes: a file that differs only in how it's written counts as changed only in its file.
+    The versions in commits are read with a single `git cat-file --batch`, however many there are.
+  - **Notes are compared property by property:** each value changed, before and after, and the items added to and removed
+    from each list, such as a vocab's forms or a kanji's kun readings. It counts how many notes each property changed in.
+  - **A sentence's parsed words are compared as words,** each with the vocab it's matched to, by question: words added,
+    removed, now displayed and no longer displayed. Those are also counted over all the sentences, word by word, which is
+    how a change to parsing played out across the corpus at a glance.
+  - **It can't compare across a change to how the corpus stores notes:** a file from before the change can't be read into
+    a note, and the tool says which file in which version.
+
+  Still proposed: the same comparison under JAStudio's own features Magnus would love: committing inside JAStudio while
+  seeing which notes changed and how, a note's history with rolling back to a version, and which sentences a change to
+  vocab changed. The git command line suits it: on the corpus repository (207 commits, 79,718 note files) `git status`
+  took 0.17 seconds and a note's history 0.035.
 
 ## Open questions
 
@@ -220,3 +232,13 @@ Answered:
    godan verbs (`corpus-data-issues.md`): looking the six up in the dictionary, setting their parts of speech in the headless
    JAStudio, and a full rebuild, which changed only those six vocab. A second run changed nothing more. The second, for
    the kanji readings that looked wrong: the three reading edits, and a full rebuild that changed only the two kanji.
+6. **Done:** the diff of notes, `diff_the_changed_notes`, to analyze rebuilds with instead of throwaway scripts over the
+   git diff. Checked on the real corpus (2026-11-09):
+   - **Over the two data fixes** it reported exactly them: six vocab with `godan verb` removed from their parts of speech,
+     and the kanji readings removed and added.
+   - **Over Magnus's commit adding 点が入る** it showed the three sentences that now parse it, each hiding 点, が and 入る.
+   - **Over all 49,162 sentences,** with a line break added to each file, it found every one changed only in its file, in
+     about 20 seconds.
+   - **It found 23 sentences that store the same parsed word twice:** えば, at the same place and matched to the same vocab,
+     displayed once and hidden once, as in 触れれば. The comparison counts words as many times as a sentence has them.
+     Whether the twice-parsed word is right is a question for the parsing.

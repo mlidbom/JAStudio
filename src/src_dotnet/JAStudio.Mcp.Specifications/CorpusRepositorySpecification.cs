@@ -5,6 +5,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Storage;
 
 namespace JAStudio.Mcp.Specifications;
 
@@ -25,6 +26,12 @@ public abstract class CorpusRepositorySpecification : McpServerSpecification
    {
       var idText = id.ToString();
       return new FileInfo(Path.Combine(CorpusFolder.FullName, noteFolder, idText[..2], $"{idText}.json"));
+   }
+
+   /// <summary>Writes the files of <paramref name="notes"/>, each as the corpus stores the note as it is now.</summary>
+   protected void WriteTheFilesOf(params JPNote[] notes)
+   {
+      foreach(var note in notes) Write(FileOf(note), GetService<NoteSerializer>().Serialize(note));
    }
 
    protected static void Write(FileInfo file, string content)

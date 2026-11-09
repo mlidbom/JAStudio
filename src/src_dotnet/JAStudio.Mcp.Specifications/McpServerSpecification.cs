@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Specifications;
 using ModelContextProtocol.Client;
@@ -15,7 +16,8 @@ namespace JAStudio.Mcp.Specifications;
 /// </summary>
 public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyCollection
 {
-   static readonly JsonSerializerOptions ToolResultJsonOptions = new(JsonSerializerDefaults.Web);
+   /// <summary>How tool results are read back: as the server writes them, with property names in camel case and enum values by name.</summary>
+   static readonly JsonSerializerOptions ToolResultJsonOptions = new(JsonSerializerDefaults.Web) { Converters = { new JsonStringEnumConverter() } };
 
    readonly JAStudioMcpServer _server;
    readonly McpClient _client;
