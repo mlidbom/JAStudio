@@ -12,6 +12,8 @@ using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Analysis;
 using JAStudio.Mcp.Tools.Collection;
 using JAStudio.Mcp.Tools.Corpus;
+using JAStudio.Mcp.Tools.Dictionary;
+using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reloading;
@@ -85,7 +87,9 @@ public sealed class JAStudioMcpServer
              .WithTools<CorpusTools>(ToolResultJsonOptions)
              .WithTools<RebuildTools>(ToolResultJsonOptions)
              .WithTools<ReloadTools>(ToolResultJsonOptions)
-             .WithTools<AnalysisTools>(ToolResultJsonOptions);
+             .WithTools<AnalysisTools>(ToolResultJsonOptions)
+             .WithTools<DictionaryTools>(ToolResultJsonOptions)
+             .WithTools<VocabEditingTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
 
       jastudio.Resolve<IChildContainerHostIntegration>().UseChildContainerAsServiceProviderFor(builder.Host);

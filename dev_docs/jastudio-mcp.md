@@ -141,7 +141,8 @@ the headless JAStudio.
     `note-search.md`). It counts the notes found, and lists up to 50 of them, or as many as asked for.
   - `get_note` gets a note as the corpus stores it.
   - `describe_collection` gives the corpus folder and the notes of each type, studied or not.
-- **Reading, proposed:** look a word up in the dictionary (its entries, senses and parts of speech, raw and mapped).
+- **The dictionary, built:** `look_up_in_the_dictionary` looks up a word, or a vocab as JAStudio looks it up, and shows each
+  entry's forms and senses, with the dictionary's own parts of speech and the ones JAStudio maps them to.
 - **Analysis, built:** `analyze_sentence` analyzes a sentence, given as text or by its note, with the note's
   configuration. It reports:
   - the tokens, after JAStudio's preprocessing, each with the token it was split from;
@@ -152,7 +153,9 @@ the headless JAStudio.
   It replaces the throwaway tokenizer programs, and answers questions such as why a word doesn't match a vocab: it
   showed at once why まかれる parses as まかる + える + う (MeCab reads まかれる as one ichidan verb, and the preprocessing
   splits it as a godan potential).
-- **Writing:** the edits the workspace's editors make, through the same domain operations.
+- **Writing:** the edits the workspace's editors make, through the same domain operations, added as the work needs them.
+  - **Built:** `set_the_parts_of_speech_of_a_vocab` replaces a vocab's parts of speech, as adding and removing them in its
+    editor does, and reports them before and after. It doesn't reparse sentences: `full_rebuild` shows what the change does.
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.
@@ -207,4 +210,6 @@ Answered:
    (2026-11-09): `connect_to_live_jastudio` connected, the counts of notes matched the corpus checkout's files, studying
    statuses came from Anki, and a reload took 3.1 seconds and found nothing changed on Magnus's clean checkout. The
    live fast-forward waits for its first real use, which lands on Magnus's checkout.
-5. The writing tools.
+5. **Under way:** the writing tools, built for the data fixes they're needed for. The first, for the suru verbs stored as
+   godan verbs (`corpus-data-issues.md`): looking the six up in the dictionary, setting their parts of speech in the headless
+   JAStudio, and a full rebuild, which changed only those six vocab. A second run changed nothing more.

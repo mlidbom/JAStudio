@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Vocabulary;
+using ModelContextProtocol.Server;
+
+namespace JAStudio.Mcp.Tools.Editing;
+
+/// <summary>
+/// The tools that edit a vocab as its editors in the workspace do: through the vocab itself, so each edit is saved to the corpus checkout, and<br/>
+/// passed on to the vocab's Anki note, like any edit.
+/// </summary>
+[McpServerToolType]
+public class VocabEditingTools
+{
+   readonly JPCollection _collection;
+
+   public VocabEditingTools(JPCollection collection) => _collection = collection;
+
+   [McpServerTool(Name = "set_the_parts_of_speech_of_a_vocab", Destructive = true, Idempotent = true)]
+   [Description("""
+                Sets a vocab's parts of speech, replacing the ones it has, as adding and removing them in its editor in the workspace does. The
+                vocab is saved to the corpus checkout, and its Anki note updated, as any edit is. Sentences aren't reparsed: a vocab's parts of
+                speech decide how it's matched, such as whether it inflects as a godan or an ichidan verb, so run full_rebuild to see what the
+                change does to the sentences. Every name must be one of the parts of speech JAStudio knows, such as "godan verb", "suru verb" or
+                "transitive"; an unknown one changes nothing and fails with the names there are. Reports the parts of speech before and after.
+                """)]
+   public PartsOfSpeechChange SetThePartsOfSpeechOfAVocab(
+      [Description("The id of the vocab, as search_notes lists it.")] string vocabNoteId,
+      [Description("The names of all the parts of speech the vocab is to have, in any order.")] string[] partsOfSpeech)
+   {
+      var vocab = VocabWithTheId(vocabNoteId);
+      var partsOfSpeechToSet = partsOfSpeech.Select(PartOfSpeechNamed).ToList();
+
+      var before = vocab.PartsOfSpeech.All();
+      vocab.PartsOfSpeech.Set(partsOfSpeechToSet);
+      return new PartsOfSpeechChange(vocab.GetQuestion(), NamesOf(before), NamesOf(vocab.PartsOfSpeech.All()));
+   }
+
+   static PartOfSpeech PartOfSpeechNamed(string name) =>
+      PartOfSpeech.Exists(name)
+         ? PartOfSpeech.Named(name)
+         : throw new ArgumentException($"There is no part of speech named '{name}'. The parts of speech JAStudio knows are: {string.Join(", ", NamesOf(PartOfSpeech.All).Select(it => $"\"{it}\""))}.");
+
+   static string[] NamesOf(IEnumerable<PartOfSpeech> partsOfSpeech) => [.. partsOfSpeech.Select(it => it.Name)];
+
+   VocabNote VocabWithTheId(string noteId) =>
+      _collection.Vocab.WithIdOrNone(NoteId.Parse(noteId)) ?? throw new ArgumentException($"No vocab has the id {noteId}.", nameof(noteId));
+}
