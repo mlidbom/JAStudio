@@ -58,6 +58,18 @@ public class PerfectSynonyms
          synonym.RelatedNotes.PerfectSynonyms.RemoveKeepingItAsASynonym(removed);
    }
 
+   /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if it's a perfect synonym.</summary>
+   internal void Rename(WordReference oldName, WordReference newName)
+   {
+      if(!Contains(oldName)) return;
+
+      _guard.Update(() =>
+      {
+         _words.Remove(oldName);
+         _words.Add(newName);
+      });
+   }
+
    void LeaveTheWeb() => _guard.Update(() => _words.Clear());
 
    void RemoveKeepingItAsASynonym(WordReference synonym) => _guard.Update(() =>

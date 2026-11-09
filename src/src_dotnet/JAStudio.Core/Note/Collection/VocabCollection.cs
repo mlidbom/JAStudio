@@ -48,6 +48,21 @@ public class VocabCollection
       return withTheQuestion.Count > 0 ? withTheQuestion : withTheForm;
    }
 
+   /// <summary>
+   /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, in every vocab's related vocab and compound<br/>
+   /// parts, after the vocab that had the one name got the other. References that still name a vocab exactly, a duplicate of the renamed one, stay.
+   /// </summary>
+   /// <remarks>
+   /// A reference that only refers to the vocab through one of its forms is a spelling, not the vocab's name, and stays: the vocab may well keep that form.
+   /// </remarks>
+   internal void RenameTheReferences(WordReference oldName, WordReference newName)
+   {
+      if(NamedExactlyBy(oldName).Count > 0) return;
+
+      foreach(var vocab in All())
+         vocab.RenameTheReferences(oldName, newName);
+   }
+
    /// <summary>The vocab any of <paramref name="references"/> refers to (<see cref="ReferredToBy"/>).</summary>
    public List<VocabNote> ReferredToByAny(IEnumerable<WordReference> references) => [.. references.SelectMany(ReferredToBy).Distinct()];
 

@@ -571,8 +571,9 @@ The sentence shape is already close. What changes:
 ## References between entities (word-references)
 
 **Decided (Magnus, 2026-11-06): for now, references store the word itself, not ids,** because of the problems
-ids cause when notes are deleted. That rules out option A below. **Open:** option B or C, that is, whether a
-rename propagates.
+ids cause when notes are deleted. That rules out option A below. ~~**Open:** option B or C, that is, whether a
+rename propagates.~~ *Built 2026-11-09 (slice 8): C, word-references (`WordReference`) whose renames propagate. See slice 8 in
+[Order of work](#order-of-work-tentative).*
 
 The three options as they were weighed:
 
@@ -1049,7 +1050,19 @@ Progress on step 3:
         - **Checked:** a full rebuild after the migration changed no note, so parsing is unchanged, and JAStudio writes the
           migrated files exactly as the migration wrote them. A part of `え:imperative` still doesn't count as an imperative
           ending where the tokenizer looks for one (a `review:` comment in `IchidanGodanPotentialOrImperativeHybridSplitter`).
-      - **8b, rename propagation (option C).** Next.
+      - **8b, rename propagation (option C).** *Built 2026-11-09:* changing a vocab's question or its disambiguation renames
+        every word-reference that named it exactly, in every vocab's related vocab and compound parts
+        (`VocabCollection.RenameTheReferences`), so they keep naming it. Calls made:
+        - **Compound parts are renamed too:** a compound part is a spelling of the word in the compound, but the old question
+          stops being one of the vocab's forms when it's renamed, so a part left as it was would stop referring to the vocab.
+        - **Only references that named the vocab exactly are renamed.** One that referred to it through another of its forms
+          is a spelling the vocab most likely keeps, as `掛ける` in 引っ掛ける's parts when かける is renamed 懸ける.
+        - **References that still name another vocab exactly stay**, when the corpus has a duplicate with the old name.
+        - **Not renamed:** a sentence's configuration, which names a vocab `text:disambiguation` in 22 entries (see
+          [In-string-micro-syntaxes](#in-string-micro-syntaxes)), and a kanji's primary vocab, which are still text, and which
+          no kanji has. Nor are the sentences of the vocab whose compound parts were renamed reparsed, though compound parts
+          feed parsing in one place (`IchidanGodanPotentialOrImperativeHybridSplitter`): renaming is rare, and the renamed
+          vocab's own sentences are reparsed, as for any change to its question.
       - **8c, vocab pickers** in the vocab editor, for the related vocab. Then.
    9. Media, once the points under [Media](#media-open) are settled.
 
@@ -1125,7 +1138,7 @@ question 4.
 
 ### Needed for later vertical-slices
 
-6. **Rename propagation for word-references (slice 8).** References store the word (decided 2026-11-06). Say a
+6. ~~**Rename propagation for word-references (slice 8).**~~ *Built 2026-11-09, option C: see slice 8.* References store the word (decided 2026-11-06). Say a
    vocab's question is renamed, or gets a disambiguation. Should every reference to it in other notes be
    rewritten (option C)? Without that (option B), references that use the old spelling silently stop resolving.
    Leaning: C.

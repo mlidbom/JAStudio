@@ -61,6 +61,18 @@ public class VocabNoteCompoundParts
    /// <summary>Replaces the <see cref="Alternative"/> parts with <paramref name="parts"/>.</summary>
    public void SetAlternative(IEnumerable<WordReference> parts) => _guard.Update(() => _enteredAlternatives = [.. parts]);
 
+   /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, wherever it's a part.</summary>
+   internal void Rename(WordReference oldName, WordReference newName)
+   {
+      if(!_primary.Contains(oldName) && !_enteredAlternatives.Contains(oldName)) return;
+
+      _guard.Update(() =>
+      {
+         _primary = [.. _primary.Select(it => it == oldName ? newName : it)];
+         _enteredAlternatives = [.. _enteredAlternatives.Select(it => it == oldName ? newName : it)];
+      });
+   }
+
    /// <summary>The vocab notes the primary compound parts refer to, in the order of the parts.</summary>
    public List<VocabNote> PrimaryPartsNotes() =>
    [

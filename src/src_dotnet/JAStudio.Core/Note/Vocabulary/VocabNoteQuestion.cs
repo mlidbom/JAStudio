@@ -1,3 +1,4 @@
+using System;
 using Compze.Contracts;
 using JAStudio.Core.Storage.Dto;
 
@@ -55,24 +56,40 @@ public class VocabNoteQuestion
    public VocabStems Stems() => new(_vocab);
 
    /// <summary>
-   /// Sets the <see cref="Text"/>, keeping the <see cref="Disambiguation"/>. The question is always one of the vocab's forms, so the old one stops being one.
+   /// Sets the <see cref="Text"/>, keeping the <see cref="Disambiguation"/>. The question is always one of the vocab's forms, so the old one stops being one.<br/>
+   /// The references that named the vocab by its old name are renamed with it (<see cref="RenamingTheReferencesToIt"/>).
    /// </summary>
    public void SetText(string text)
    {
       Contract.Argument.Assert(text != string.Empty, () => "A vocab's question can't be empty.");
       AssertHasNoDisambiguationMarker(text);
-      _guard.Update(() =>
+      RenamingTheReferencesToIt(() => _guard.Update(() =>
       {
          Text = text;
          _vocab.Forms.OnQuestionChanged();
-      });
+      }));
    }
 
-   /// <summary>Sets the <see cref="Disambiguation"/>: empty for none.</summary>
+   /// <summary>
+   /// Sets the <see cref="Disambiguation"/>: empty for none. The references that named the vocab by its old name are renamed with it<br/>
+   /// (<see cref="RenamingTheReferencesToIt"/>).
+   /// </summary>
    public void SetDisambiguation(string disambiguation)
    {
       AssertHasNoDisambiguationMarker(disambiguation);
-      _guard.Update(() => Disambiguation = disambiguation);
+      RenamingTheReferencesToIt(() => _guard.Update(() => Disambiguation = disambiguation));
+   }
+
+   /// <summary>
+   /// Renames the vocab with <paramref name="rename"/>, then renames the word-references that named it by its old name, so they keep naming it<br/>
+   /// (<see cref="Collection.VocabCollection.RenameTheReferences"/>). A vocab given its first question, as it's created, had no name to be referred to by.
+   /// </summary>
+   void RenamingTheReferencesToIt(Action rename)
+   {
+      var oldName = HasText ? Reference : null;
+      rename();
+      if(oldName is {} named && !IsNamedBy(named))
+         _vocab.Services.Collection.Vocab.RenameTheReferences(named, Reference);
    }
 
    internal VocabQuestionDto ToDto() => new() { Text = Text, Disambiguation = Disambiguation };

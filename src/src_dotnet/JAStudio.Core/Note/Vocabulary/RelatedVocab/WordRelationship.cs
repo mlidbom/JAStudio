@@ -43,6 +43,18 @@ public class WordRelationship
 
    public virtual void Remove(WordReference word) => RemoveTheWord(word);
 
+   /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if the relationship has it.</summary>
+   internal void Rename(WordReference oldName, WordReference newName)
+   {
+      if(!Contains(oldName)) return;
+
+      Guard.Update(() =>
+      {
+         _words.Remove(oldName);
+         _words.Add(newName);
+      });
+   }
+
    /// <summary>Adds <paramref name="word"/> to this vocab's side of the relationship only.</summary>
    protected void AddTheWord(WordReference word)
    {

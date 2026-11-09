@@ -52,6 +52,18 @@ public class RelatedVocab
 
    public HashSet<NoteId> InCompoundIds => _inCompoundIds.Value;
 
+   /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, in every relationship.</summary>
+   internal void Rename(WordReference oldName, WordReference newName)
+   {
+      ErgativeTwins.Rename(oldName, newName);
+      Synonyms.Rename(oldName, newName);
+      PerfectSynonyms.Rename(oldName, newName);
+      Antonyms.Rename(oldName, newName);
+      SeeAlso.Rename(oldName, newName);
+      DerivedFrom.Rename(oldName, newName);
+      ConfusedWith.Rename(oldName, newName);
+   }
+
    /// <summary>
    /// The vocab notes this vocab is part of, directly or through compounds of compounds, most relevant first:<br/>
    /// first those with a compound part that names exactly this vocab (<see cref="VocabNoteQuestion.Reference"/>),<br/>

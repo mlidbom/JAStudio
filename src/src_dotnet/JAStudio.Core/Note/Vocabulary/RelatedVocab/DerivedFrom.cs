@@ -24,5 +24,12 @@ public class DerivedFrom
    /// <summary>Sets the word the vocab is derived from: null for none.</summary>
    public void Set(WordReference? word) => _guard.Update(() => Word = word);
 
+   /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if it's the word.</summary>
+   internal void Rename(WordReference oldName, WordReference newName)
+   {
+      if(Word == oldName)
+         Set(newName);
+   }
+
    public override string ToString() => Word?.DisambiguationName ?? "";
 }

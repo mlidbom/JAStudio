@@ -170,6 +170,16 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       Services.VocabNoteGeneratedData.UpdateGeneratedData(this);
    }
 
+   /// <summary>
+   /// Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, wherever this vocab<br/>
+   /// refers to it: in its related vocab and its compound parts (<see cref="Collection.VocabCollection.RenameTheReferences"/>).
+   /// </summary>
+   internal void RenameTheReferences(WordReference oldName, WordReference newName)
+   {
+      RelatedNotes.Rename(oldName, newName);
+      CompoundParts.Rename(oldName, newName);
+   }
+
    public List<string> GetReadings() => [.. _readings];
 
    public void SetReadings(List<string> readings) => Guard.Update(() =>
