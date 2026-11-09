@@ -20,7 +20,7 @@ static class Program
 {
    /// <summary>
    /// What the headless JAStudio writes to standard output, followed by its MCP server's address, once its MCP server listens: the MCP gateway<br/>
-   /// waits for it, and reads the address from it (<c>JAStudio.Mcp.Gateway.HeadlessJAStudioProcess</c>, which can't share this constant).
+   /// waits for it, and reads the address from it (<c>JAStudio.Mcp.Gateway.Headless.HeadlessJAStudioProcess</c>, which can't share this constant).
    /// </summary>
    const string McpServerListensAt = "JAStudio's MCP server listens at ";
 

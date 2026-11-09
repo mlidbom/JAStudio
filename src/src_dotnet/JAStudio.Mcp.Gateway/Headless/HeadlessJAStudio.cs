@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol.Server;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>
 /// The headless JAStudio this gateway runs, when it runs one. The gateway's tools (<see cref="HeadlessJAStudioTools"/>) start, restart and stop it,<br/>

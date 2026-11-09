@@ -14,6 +14,7 @@ using JAStudio.Mcp.Tools.Collection;
 using JAStudio.Mcp.Tools.Corpus;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
+using JAStudio.Mcp.Tools.Reloading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,12 +27,12 @@ namespace JAStudio.Mcp;
 
 /// <summary>
 /// JAStudio's MCP server: the tools Claude works with JAStudio through, such as <see cref="NoteTools.SearchNotes"/>, served over HTTP to this<br/>
-/// computer only. The same server runs in each JAStudio that starts it: the headless JAStudio (<c>JAStudio.HeadlessHost</c>) now, and the one<br/>
-/// inside Anki later.
+/// computer only. The same server runs in each JAStudio that starts it: the headless JAStudio (<c>JAStudio.HeadlessHost</c>), and the live one,<br/>
+/// inside Anki (<see cref="Live.LiveJAStudioMcpServer"/>).
 /// </summary>
 /// <remarks>
-/// Claude Code doesn't connect to it directly: the MCP gateway (<c>JAStudio.Mcp.Gateway</c>) does, and forwards its tools to Claude Code,<br/>
-/// so the JAStudio behind it can be restarted without Claude Code losing them. The design is in <c>dev_docs/jastudio-mcp.md</c>.
+/// Claude Code doesn't connect to it directly: an MCP gateway (<c>JAStudio.Mcp.Gateway</c>) does, one for each of the two, and forwards its tools<br/>
+/// to Claude Code, so the JAStudio behind it can be restarted without Claude Code losing them. The design is in <c>dev_docs/jastudio-mcp.md</c>.
 /// </remarks>
 public sealed class JAStudioMcpServer
 {
@@ -83,6 +84,7 @@ public sealed class JAStudioMcpServer
              .WithTools<CollectionTools>(ToolResultJsonOptions)
              .WithTools<CorpusTools>(ToolResultJsonOptions)
              .WithTools<RebuildTools>(ToolResultJsonOptions)
+             .WithTools<ReloadTools>(ToolResultJsonOptions)
              .WithTools<AnalysisTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
 

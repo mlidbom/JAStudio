@@ -8,7 +8,10 @@ using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Mcp.Tools.Corpus;
 
-/// <summary>The notes whose files in the corpus checkout differ from its git <c>HEAD</c>, by note type, as <see cref="CorpusTools.ListChangedNotes"/> reports them.</summary>
+/// <summary>
+/// The notes whose files in the corpus checkout changed, by note type: those that differ from its git <c>HEAD</c>, as <see cref="CorpusTools.ListChangedNotes"/><br/>
+/// reports them, or those a fast-forward changed, as <see cref="Reloading.ReloadTools.FastForwardTheCorpusCheckout"/> does.
+/// </summary>
 /// <param name="IdsOfNotesNotInTheCollection">The ids of changed note files whose notes the collection doesn't have, such as deleted notes.</param>
 public record ChangedNotes(NotesOfOneType Vocab, NotesOfOneType Kanji, NotesOfOneType Sentences, IReadOnlyList<string> IdsOfNotesNotInTheCollection)
 {

@@ -10,7 +10,12 @@
     "jastudio-headless": {
       "type": "stdio",
       "command": "pwsh",
-      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1"]
+      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1", "-JAStudio", "headless"]
+    },
+    "jastudio-live": {
+      "type": "stdio",
+      "command": "pwsh",
+      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1", "-JAStudio", "live"]
     },
     "jetbrains-rider": {
       "type": "streamable-http",

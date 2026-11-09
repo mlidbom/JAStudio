@@ -1,6 +1,6 @@
 # JAStudio's MCP server — Design
 
-> **Status: agreed direction (Magnus, 2026-11-09); steps 1 to 3 are built: the headless JAStudio behind the MCP gateway, the full rebuild and analyzing a sentence as tools.** Details
+> **Status: agreed direction (Magnus, 2026-11-09); steps 1 to 4 are built: the headless JAStudio behind the MCP gateway, the full rebuild and analyzing a sentence as tools, and the same server in the live JAStudio, with reloading the collection and fast-forwarding the corpus checkout.** Details
 > are settled as each increment needs them. [How it's built](#how-its-built) describes what exists.
 > The corpus data-model work (`corpus-data-model.md`, "Order of work") waits for this: its remaining slices are mostly
 > migrate, rebuild, analyze, tweak and rebuild again, which this makes Claude's own loop instead of a round trip through
@@ -44,11 +44,19 @@ not an occasional one, so it's built as a permanent part of JAStudio, not as thr
   each other's changes.
 - **Reloading the collection from disk** is how a migration, or resetting the corpus with git, reaches a running
   JAStudio: an MCP tool, and also a command in JAStudio's UI (Magnus, 2026-11-09: resetting with git and reloading is
-  valuable in itself).
+  valuable in itself). *Built: `reload_the_collection`, and the workspace's Local Actions > "Reload the collection from
+  disk".*
+- **A change to the notes made and checked in the headless JAStudio reaches the live one without a restart** (Magnus,
+  2026-11-09), when it needs no new code: Claude commits it in the headless JAStudio's worktree, shows Magnus what it
+  changed, and on his word fast-forwards his corpus checkout to it through the live JAStudio
+  (`fast_forward_the_corpus_checkout`), which reloads. If his checkout's `HEAD` has moved meanwhile, as it does all
+  day, Claude redoes the change on top of it instead of rebasing rebuilt data. A change that needs new code goes the
+  other way: the fast-forward is made while Anki is closed, and Anki's restart on the new build loads it.
 
 ## How it's built
 
-Three projects, plus the specifications of the tools (`JAStudio.Mcp.Specifications`):
+Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, and the specifications of the tools
+(`JAStudio.Mcp.Specifications`):
 
 - **`JAStudio.Mcp`, the MCP server:** the tools, served over HTTP on the loopback address only, stateless, by
   `JAStudioMcpServer`. Its tools use JAStudio's services through the same child container the card server uses. An
@@ -65,14 +73,37 @@ Three projects, plus the specifications of the tools (`JAStudio.Mcp.Specificatio
     importing.
   - It loads the collection and starts the MCP server, on a port the system picks, then writes the server's address to
     standard output, and exits when the process it was told to live with, the gateway, exits.
-- **`JAStudio.Mcp.Gateway`, the MCP gateway:** the stdio MCP server Claude Code starts, `jastudio-headless` in
-  `.mcp.json`.
+- **The live JAStudio, inside Anki,** runs the same server (`LiveJAStudioMcpServer`, started from
+  `JAStudioAnkiAppRoot`):
+  - **It starts once the collection has loaded for the first time,** on a port the system picks, so its tools never see
+    a collection still loading at startup, and stops as Anki closes.
+  - **It announces itself** in `%LOCALAPPDATA%\JAStudio\live-jastudio.json` (`LiveJAStudioAnnouncement`): the server's
+    address, Anki's process id and the corpus checkout. The file is deleted when the server stops.
+  - **Anki takes in the server's assemblies** because `JAStudio.Anki.PythonInterop` copies its NuGet assemblies to its
+    output (`CopyLocalLockFileAssemblies`), which `copy_runtime_binaries.py` copies Anki's runtime from. That added
+    exactly the MCP SDK's assemblies and `JAStudio.Mcp.dll`, and changed none Anki already had (checked 2026-11-09).
+- **Reloading** (`JPCollection.ReloadFromBackend`, and `ReloadFromBackendAfter`, which makes a change to the corpus
+  checkout, such as the fast-forward, while the collection holds no notes):
+  - **Each note whose file changed on disk is passed on as updated,** so what follows note updates catches up, such as
+    its Anki note: a reload compares each note's data with the same note's as held before. Saving it again on the way
+    leaves the checkout as git has it: after a fast-forward on the real corpus, `list_changed_notes` showed nothing.
+  - **Notes added or deleted on disk** are loaded or dropped, but not passed on: an added note gets no Anki note, and a
+    deleted note's Anki note stays. A change that adds or deletes notes is better made through JAStudio.
+- **`JAStudio.Mcp.Gateway`, the MCP gateway:** the stdio MCP server Claude Code starts, once for each JAStudio, chosen by
+  its `--jastudio` argument:
+  - **`jastudio-headless`** in `.mcp.json` (`Headless/`): its own tools start and stop the headless JAStudio, as below.
+  - **`jastudio-live`** (`Live/`): its own tool, `connect_to_live_jastudio`, reads the live JAStudio's announcement,
+    connects to its MCP server and offers its tools. They're withdrawn when Anki's process exits; connecting again
+    after Anki restarts offers them again. Claude Code tells the two gateways' tools apart by the server's name:
+    `mcp__jastudio-live__search_notes` and `mcp__jastudio-headless__search_notes`.
   - **Claude Code starts it through `start-the-gateway.ps1`,** which builds it into a folder of its own for that start,
     `%LOCALAPPDATA%\JAStudio\mcp-gateway\build-for-process-<process id>`, and runs it from there. Run from its build
     output instead, it would lock that output for the whole session, and every build of the solution that recompiled
     it, in Rider or for the Definition of Done, would fail on the locked file. That happened (2026-11-09) even though
     the gateway hadn't changed: Magnus's rebuild in Rider recompiled it to identical bytes, and the next build failed
-    to copy them over the locked file, since MSBuild copies by timestamp, not content.
+    to copy them over the locked file, since MSBuild copies by timestamp, not content. Claude Code starts both gateways
+    at once, so the script builds one at a time (a named mutex): two builds of one project at once fail on each other's
+    files in its `obj` folder.
   - **Its own tools** are `start_headless_jastudio` and `stop_headless_jastudio`. Starting builds the headless JAStudio
     from the source checkout the gateway runs in, so it always runs the checkout's code as it is. It copies the build
     output to `%LOCALAPPDATA%\JAStudio\headless\runtime-of-gateway-<process id>` and runs it from there, so building
@@ -127,18 +158,28 @@ the headless JAStudio.
     what it changed.
   - `list_changed_notes` gives the notes whose files in the corpus checkout differ from its git `HEAD`, by note type, from
     `git status`. How each changed is in the checkout's git diff.
+  - `reload_the_collection` loads the collection again from the corpus checkout, and reports the notes it found changed
+    on disk.
+  - `fast_forward_the_corpus_checkout` fast-forwards the corpus checkout to a commit and reloads, and reports the commits
+    before and after and the notes whose files it changed. Git refuses what isn't a fast-forward, or would overwrite
+    changes not committed.
 - **Running, proposed:** reparsing some sentences, regenerating a note's data.
+- **Proposed, from git (Magnus, 2026-11-09):** a diff of notes rather than of files. Both versions of a note's file,
+  from git, read into notes and compared as notes: forms added, matching configuration changed, a sentence's words now
+  matching other vocab. A tool first, to analyze rebuilds with, then the same comparison under JAStudio's own features
+  Magnus would love: committing inside JAStudio while seeing which notes changed and how, a note's history with rolling
+  back to a version, and which sentences a change to vocab changed. The git command line suits it: on the corpus
+  repository (207 commits, 79,718 note files) `git status` took 0.17 seconds and a note's history 0.035.
 
 ## Open questions
 
-1. **How a headless experiment's results reach Magnus's checkout,** from the worktree it ran on: committed there and
-   merged, then reloaded in the live JAStudio, most likely.
-2. **How the gateway reaches the live JAStudio** (step 4). The headless JAStudio's address needs no configuring, since
-   the gateway starts it and reads it. The live one starts with Anki, so the gateway must find it: a fixed port, or an
-   address the live JAStudio writes to a file. Most likely a second gateway, `jastudio-live`, offering its tools once it
-   finds it.
+None at the moment.
 
 Answered:
+- **How a headless experiment's results reach Magnus's checkout:** fast-forwarded through the live JAStudio, which
+  reloads (see [Decided](#decided)).
+- **How the gateway reaches the live JAStudio:** by the file the live JAStudio announces its server in, from a gateway
+  of its own, `jastudio-live` (see [How it's built](#how-its-built)).
 - **Rebuilding while the headless JAStudio runs:** it runs from a copy of its build output (see
   [How it's built](#how-its-built)).
 - **Whether Claude Code reconnects to a restarted server:** it doesn't, which is why there's a gateway (see
@@ -158,5 +199,10 @@ Answered:
      runs, so it doesn't yet show that a full rebuild reaches a stable result in one run (`corpus-data-model.md`, open
      question 14). The test for that is the same two runs, after a change whose effect on vocab feeds back into parsing.
 3. **Done:** analyzing a sentence.
-4. The same server in the live JAStudio, inside Anki, and reloading the collection from disk, as a tool and in the UI.
+4. **Done:** the same server in the live JAStudio, inside Anki, reloading the collection from disk as a tool and in the
+   UI, and fast-forwarding the corpus checkout. Checked with the headless JAStudio on the real corpus: a fast-forward to
+   a test commit changing one vocab reported that vocab and left the checkout clean, and a git reset back and a reload
+   found it changed back. The `jastudio-live` gateway was checked against the headless JAStudio standing in for the live
+   one: it connected, forwarded calls, and withdrew the tools when the announced process exited. Still to check in Anki
+   itself, on its next restart.
 5. The writing tools.

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ModelContextProtocol;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>
 /// The process of a run of the headless JAStudio, started from a copy of its build output, with everything it writes kept in its <see cref="Log"/>,<br/>

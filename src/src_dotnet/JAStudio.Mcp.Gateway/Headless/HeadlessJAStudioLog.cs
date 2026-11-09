@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>The log of a run of the headless JAStudio: everything it wrote, to standard output and standard error, in a file of its own.</summary>
 sealed class HeadlessJAStudioLog : IAsyncDisposable

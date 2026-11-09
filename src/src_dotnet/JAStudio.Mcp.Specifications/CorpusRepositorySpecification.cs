@@ -33,11 +33,15 @@ public abstract class CorpusRepositorySpecification : McpServerSpecification
       File.WriteAllText(file.FullName, content);
    }
 
-   protected void CommitEverything()
+   /// <summary>Commits every file in the corpus folder, on the branch checked out, and gives the new commit's hash.</summary>
+   protected string CommitEverything(string message = "The notes as committed")
    {
       Git("add", "--all");
-      Git("-c", "user.name=Specification", "-c", "user.email=specification@localhost", "commit", "--quiet", "--message", "The notes as committed");
+      Git("-c", "user.name=Specification", "-c", "user.email=specification@localhost", "commit", "--quiet", "--message", message);
+      return HeadCommit();
    }
+
+   protected string HeadCommit() => Git("rev-parse", "HEAD").Trim();
 
    static string NoteFolderOf(JPNote note) => note switch
    {
@@ -47,15 +51,16 @@ public abstract class CorpusRepositorySpecification : McpServerSpecification
       _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "A kind of note the corpus doesn't store.")
    };
 
-   void Git(params string[] arguments)
+   /// <summary>Runs git with <paramref name="arguments"/> in the corpus folder, and gives what it wrote to standard output.</summary>
+   protected string Git(params string[] arguments)
    {
       var startInfo = new ProcessStartInfo("git") { WorkingDirectory = CorpusFolder.FullName, UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
       foreach(var argument in arguments) startInfo.ArgumentList.Add(argument);
 
       using var git = Process.Start(startInfo) ?? throw new InvalidOperationException("git started no process.");
       var errors = git.StandardError.ReadToEndAsync();
-      git.StandardOutput.ReadToEnd();
+      var output = git.StandardOutput.ReadToEnd();
       git.WaitForExit();
-      if(git.ExitCode != 0) throw new InvalidOperationException($"`git {string.Join(' ', arguments)}` failed: {errors.Result}");
+      return git.ExitCode == 0 ? output : throw new InvalidOperationException($"`git {string.Join(' ', arguments)}` failed: {errors.Result}");
    }
 }

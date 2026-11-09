@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>What a run of the headless JAStudio works with: the add-on folder of the source checkout, a corpus checkout, and an Anki profile's collection.</summary>
 /// <param name="AddonFolder">The source checkout's <c>src</c> folder, with JAStudio's configuration and the user files.</param>

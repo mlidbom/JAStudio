@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>
 /// The checkout of JAStudio's source repository the gateway was started for, the folder with <c>JAStudio.slnx</c>: the headless JAStudio is built<br/>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>Builds the headless JAStudio from the source checkout, so that each start runs the checkout's code as it is.</summary>
 static class HeadlessJAStudioBuild

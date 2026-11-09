@@ -14,6 +14,7 @@ using Compze.Internals.SystemCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
+using JAStudio.Mcp.Live;
 using JAStudio.UI;
 using JAStudio.UI.Shortcuts;
 using JAStudio.UI.Views.Importing;
@@ -30,6 +31,7 @@ public class JAStudioAnkiAppRoot
    readonly IHost _host;
    readonly CoreApp _coreApp;
    readonly CardServer _cardServer;
+   readonly LiveJAStudioMcpServer _liveMcpServer;
    CancellationTokenSource? _reloadCts;
    static readonly TimeSpan ReloadDebounceDelay = TimeSpan.FromMilliseconds(500);
 
@@ -55,11 +57,12 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
 
-   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, CardServer cardServer)
+   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, CardServer cardServer, LiveJAStudioMcpServer liveMcpServer)
    {
       _host = host;
       _coreApp = coreApp;
       _cardServer = cardServer;
+      _liveMcpServer = liveMcpServer;
       Dialogs = new AnkiDialogs();
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
@@ -118,7 +121,9 @@ public class JAStudioAnkiAppRoot
 
       var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
 
-      var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer) { _uiThread = uiThread };
+      var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver);
+
+      var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer, liveMcpServer) { _uiThread = uiThread };
 
       root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => AnkiFacade.UIUtils.Refresh());
 
@@ -182,6 +187,7 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedMember.Global used from python
    public void ShutDown() => this.Log().Info().MethodExecutionTime(() =>
    {
+      _liveMcpServer.Stop();
       _cardServer.StopAsync().GetAwaiter().GetResult();
       _coreApp.Dispose();
       _host.StopAsync().GetAwaiter().GetResult();

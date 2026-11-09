@@ -8,14 +8,17 @@ using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Gateway;
 
-/// <summary>A tool of the headless JAStudio's MCP server, which the gateway offers Claude Code as its own, and forwards each call of to the headless JAStudio.</summary>
-sealed class ToolOfTheHeadlessJAStudio : McpServerTool
+/// <summary>
+/// A tool of the MCP server of the JAStudio the gateway serves, headless or live, which the gateway offers Claude Code as its own, and forwards<br/>
+/// each call of to that JAStudio (<see cref="ConnectionToTheJAStudio"/>).
+/// </summary>
+sealed class ToolOfTheJAStudio : McpServerTool
 {
    readonly McpClient _mcpServerConnection;
 
-   /// <param name="tool">The tool as the headless JAStudio's MCP server describes it.</param>
-   /// <param name="mcpServerConnection">The gateway's connection to the headless JAStudio's MCP server, which each call is forwarded over.</param>
-   public ToolOfTheHeadlessJAStudio(Tool tool, McpClient mcpServerConnection)
+   /// <param name="tool">The tool as the JAStudio's MCP server describes it.</param>
+   /// <param name="mcpServerConnection">The gateway's connection to the JAStudio's MCP server, which each call is forwarded over.</param>
+   public ToolOfTheJAStudio(Tool tool, McpClient mcpServerConnection)
    {
       ProtocolTool = tool;
       _mcpServerConnection = mcpServerConnection;

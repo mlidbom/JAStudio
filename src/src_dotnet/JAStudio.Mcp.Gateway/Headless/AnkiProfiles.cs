@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>
 /// Anki's profiles on this computer, each a folder in Anki's data folder with its collection file, <c>collection.anki2</c>, which the headless<br/>

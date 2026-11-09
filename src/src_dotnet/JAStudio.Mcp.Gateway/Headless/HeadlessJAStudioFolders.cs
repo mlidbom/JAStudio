@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JAStudio.Mcp.Gateway.SysUtils.IO;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>
 /// The folders the gateway keeps the headless JAStudio's files in, under <c>%LOCALAPPDATA%\JAStudio\headless</c>: the copy of its build output<br/>

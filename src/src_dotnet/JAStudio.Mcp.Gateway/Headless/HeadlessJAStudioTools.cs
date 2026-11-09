@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ModelContextProtocol.Server;
 
-namespace JAStudio.Mcp.Gateway;
+namespace JAStudio.Mcp.Gateway.Headless;
 
 /// <summary>The gateway's own tools, which start and stop the headless JAStudio.</summary>
 [McpServerToolType]
