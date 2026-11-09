@@ -67,7 +67,7 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
 
       public class and_then_the_sentence_is_deleted : on_an_Immersion_Kit_sentence_card
       {
-         public and_then_the_sentence_is_deleted() => GetService<JPCollection>().Delete(Sentence);
+         public and_then_the_sentence_is_deleted() => GetService<JPCollection>().Delete(Sentence, ItsAnkiNote.IsDeleted);
 
          [XF] public void its_audio_is_deleted_from_the_media_layer_with_it() => File.Exists(StoredAudioPath).Must().BeFalse();
          [XF] public void its_screenshot_is_deleted_from_the_media_layer_with_it() => File.Exists(StoredScreenshotPath).Must().BeFalse();

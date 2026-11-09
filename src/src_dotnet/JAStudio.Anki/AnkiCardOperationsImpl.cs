@@ -22,10 +22,16 @@ public class AnkiCardOperationsImpl : ICardOperations
       AnkiFacade.NoteEx.UnsuspendAllCardsForNote(_idMap.RequireExternalId(noteId));
    }
 
+   /// <summary>
+   /// Removes the note's Anki note, if it has one, then resets the search of Anki's browser, which would otherwise fail when it refreshes the note<br/>
+   /// that no longer exists.
+   /// </summary>
    public void DeleteNote(NoteId noteId)
    {
       var externalId = _idMap.ToExternalId(noteId);
-      if(externalId.HasValue)
-         AnkiFacade.NoteEx.RemoveNote(externalId.Value);
+      if(!externalId.HasValue) return;
+
+      AnkiFacade.NoteEx.RemoveNote(externalId.Value);
+      AnkiFacade.Browser.ExecuteLookup("");
    }
 }

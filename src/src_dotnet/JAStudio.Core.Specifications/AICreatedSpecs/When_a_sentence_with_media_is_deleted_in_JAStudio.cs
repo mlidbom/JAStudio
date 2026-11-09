@@ -41,7 +41,7 @@ public class When_a_sentence_with_media_is_deleted_in_JAStudio : SpecificationSt
 
       var collection = GetService<JPCollection>();
       collection.NoteDeleted.Subscribe(_notifiedAsDeleted.Add);
-      collection.Delete(_deleted);
+      collection.Delete(_deleted, ItsAnkiNote.IsDeleted);
    }
 
    [XF] public void its_audio_file_that_no_other_note_uses_is_deleted_from_the_media_layer() => File.Exists(_ownAudioPath).Must().BeFalse();

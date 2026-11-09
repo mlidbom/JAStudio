@@ -77,7 +77,7 @@ public class When_the_workspace_is_left : SpecificationUsingAWorkspace, IAIGener
 
       public and_a_note_in_a_tab_is_deleted_before_it_is_opened_again_after_a_restart()
       {
-         GetService<JPCollection>().Delete(_sentenceAboutHome);
+         GetService<JPCollection>().Delete(_sentenceAboutHome, ItsAnkiNote.IsDeleted);
          _openedAgain = OpenedAgainAfterARestart();
       }
 

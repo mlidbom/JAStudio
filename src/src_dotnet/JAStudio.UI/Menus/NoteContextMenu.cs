@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Threading;
 using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.Notes.Kanji;
@@ -230,14 +232,28 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    {
       _ = Dispatcher.UIThread.InvokeAsync(async () =>
       {
-         if(await ConfirmDialog.ShowAsync(
-               "Delete Note",
-               $"Permanently delete \"{note.GetQuestion()}\"?\n\nThis will remove it from corpus data and from Anki, including all review history."))
+         if(await WhatToDoWithTheAnkiNoteOfTheDeleted(note) is {} itsAnkiNote)
          {
-            _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note));
-            AnkiFacade.Browser.ExecuteLookup("");//Keeps Anki from choking on a refresh of a note that no longer exists. Just resets the browser to not having a search.
+            _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note, itsAnkiNote));
          }
       });
+   }
+
+   /// <summary>
+   /// Asks whether to delete <paramref name="note"/>, and when it has an Anki note, whether to keep the Anki note, with its review history, or to delete<br/>
+   /// it too. What to do with the Anki note, or null when the note isn't to be deleted.
+   /// </summary>
+   static async Task<ItsAnkiNote?> WhatToDoWithTheAnkiNoteOfTheDeleted(JPNote note)
+   {
+      if(!note.HasAnAnkiNote())
+         return await ConfirmDialog.ShowAsync("Delete Note", $"Permanently delete \"{note.GetQuestion()}\" from JAStudio?") ? ItsAnkiNote.IsKept : null;
+
+      return await ChoiceDialog<ItsAnkiNote>.ShowAsync(
+                "Delete Note",
+                $"Permanently delete \"{note.GetQuestion()}\" from JAStudio?\n\n"
+                + "It has an Anki note, which holds its cards and their review history. Keeping the Anki note keeps the history, and its cards will "
+                + "show that the note no longer exists in JAStudio. Deleting the Anki note too deletes the history, which can't be undone.",
+                [("Delete, keep the Anki note", ItsAnkiNote.IsKept), ("Delete with the Anki note and its history", ItsAnkiNote.IsDeleted)]);
    }
 
    void OnReparseMatchingSentences(string text)

@@ -153,13 +153,14 @@ public class JPCollection
    readonly IBackendDataLoader _backendDataLoader;
 
    /// <summary>
-   /// Permanently deletes <paramref name="note"/>: its Anki note, if it has one in this Anki profile, its corpus data, the note in this collection,<br/>
-   /// and its media files in the media layer that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media".<br/>
-   /// Deleting a note in Anki instead only forgets its Anki note (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
+   /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
+   /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its Anki note, if it has one in this Anki profile,<br/>
+   /// is kept or deleted as <paramref name="itsAnkiNote"/> says. Deleting a note in Anki instead only forgets its Anki note<br/>
+   /// (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
    /// </summary>
-   public void Delete(JPNote note)
+   public void Delete(JPNote note, ItsAnkiNote itsAnkiNote)
    {
-      NoteServices.CardOperations.DeleteNote(note.GetId());
+      if(itsAnkiNote == ItsAnkiNote.IsDeleted) NoteServices.CardOperations.DeleteNote(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
       DeleteTheMediaNoOtherNoteUses();

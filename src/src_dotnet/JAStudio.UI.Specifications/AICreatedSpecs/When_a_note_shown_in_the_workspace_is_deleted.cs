@@ -37,7 +37,7 @@ public class When_a_note_shown_in_the_workspace_is_deleted : SpecificationUsingA
       _search.AddCondition(NoteProperties.Tags.Include("source::anime"));
       SpinWait.SpinUntil(() => !_search.IsSearching && _search.Results.Sentences.Count == 2, TimeToWaitForTheSearch).Must().BeTrue();
 
-      GetService<JPCollection>().Delete(deleted);
+      GetService<JPCollection>().Delete(deleted, ItsAnkiNote.IsDeleted);
    }
 
    SentenceNote CreateTaggedSentence(string question)

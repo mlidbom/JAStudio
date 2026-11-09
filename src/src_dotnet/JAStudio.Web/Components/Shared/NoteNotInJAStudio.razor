@@ -1,0 +1,11 @@
+@* What a card shows in place of its note when JAStudio has no note with the card's note id: the note was deleted in JAStudio while its Anki note, with
+   its cards and their review history, was kept. *@
+<div class="note-not-in-jastudio">
+    <p>This card's note no longer exists in JAStudio. It was deleted, and its Anki note was kept, with its review history.</p>
+    <p>Note id: @NoteId</p>
+</div>
+
+@code {
+    /// <summary>The id of the card's note, as Anki passed it to the card.</summary>
+    [Parameter, EditorRequired] public string? NoteId { get; set; }
+}
