@@ -946,7 +946,8 @@ Progress on step 3:
       Also fix the sentences tagged with two different sources, most likely editing mistakes: 291 in both
       `source::jlab::booster::1` and `source::jlab::inter`, 233 in `source::anime::violet::07` and `::08`. (A parent
       tag together with its child, as `source::wani` with `source::wani::current` on 14,567 sentences, is one source.)
-      **How to resume it (Magnus, 2026-11-09):** first find out what the data looks like. Then recommend, from that data:
+      *The survey and Claude's recommendation are in `sources-providers-and-works.md` (2026-11-09), with three questions for
+      Magnus.* **How to resume it (Magnus, 2026-11-09):** first find out what the data looks like. Then recommend, from that data:
       list what Claude considers the works and what the providers, say where each is stored now, and where it would be
       stored after the change, with how each specific kind of data the corpus has would end up represented.
    5. Priority out of the corpus, as student-data (see [Tags](#tags)).
