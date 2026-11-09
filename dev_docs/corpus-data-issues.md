@@ -7,7 +7,4 @@
 >
 > The checks JAStudio could run to find such problems itself are in `corpus-validity.md`.
 
-## Kanji
-
-- **Readings that look wrong** (found 2026-11-08, slice 7a). 行 has や as a primary on reading, and 眩 has げん, an on
-  reading, among its kun readings.
+None at the moment.
