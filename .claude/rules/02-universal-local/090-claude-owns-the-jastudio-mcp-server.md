@@ -1,7 +1,8 @@
 # Claude owns JAStudio's MCP server — improve it proactively, without asking
 
 **JAStudio's MCP server is Claude's UI into JAStudio, and Claude owns it as a product.** Its design is in
-`dev_docs/jastudio-mcp.md`: one server, started live inside Anki or headless without it.
+`dev_docs/jastudio-mcp.md`: one server, started live inside Anki or headless without it. It's this project's case of the
+collaboration rule "Build the tools the work will need again now, not later — and propose the big ones".
 
 - **Be proactive.** Whenever a task would go faster or better with a tool the server doesn't have, or with an existing
   tool changed, add or change it then, as part of the work. Don't work around a missing tool with throwaway programs,
