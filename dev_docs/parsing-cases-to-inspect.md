@@ -1,9 +1,10 @@
 # Parsing cases to inspect: those whose result differs from what their old case expected
 
 **The todo (Magnus, 2026-11-09):** Claude and Magnus each inspect how these cases' sentences are displayed. Claude from the
-case files; Magnus in JAStudio, once it has a way of dealing with the cases' sentences there. The cases record what the
-corpus parses each sentence to now, as regression tests: nothing in the code changed, so that's how it has worked all
-along, and the old expectations were made against vocab copied by hand. Whether the results are right is judged here.
+case files, done (below); Magnus in JAStudio, once it has a way of dealing with the cases' sentences there. The cases
+record what the corpus parses each sentence to now, as regression tests: nothing in the code changed, so that's how it
+has worked all along, and the old expectations were made against vocab copied by hand. Whether the results are right is
+judged here.
 
 Of the first 169 converted cases, 73 parse as their old cases expected, 102 comparisons differ (a case converted from two old
 cases is compared with each), and one isn't compared: `a sentence with many overlapping candidates - 風の強さに驚きました`, whose
@@ -15,24 +16,35 @@ word is written as the old cases wrote it: `form:shown as` for a form shown besi
 emergency, and `[vocab …]` for a vocab whose question isn't the form. The old notation also wrote a vocab's
 disambiguation name, such as `な:s.end`, which says nothing about the parse.
 
-## Claude's first pass (2026-11-09)
+## Claude's inspection (2026-11-09)
 
-Most differences are the real corpus having a vocab the copies lack, mostly compounds (くれよ, 俺は, しない, てくる, に思える,
-のは, いただけない, いらっしゃいません), or naming a vocab otherwise: the vocab う, which the copies showed as る shown as
-う, now displays as う. These look like what the corpus means them to be.
+**Done, from the case files and the corpus's vocab: every one of the 112 reads as the corpus means it to, with one data
+error and three questions for Magnus.** Each difference is the real corpus having a vocab the copies lacked, mostly a
+compound (くれよ, 俺は, しない, てくる, に思える, のは, いただけない, いらっしゃいません), or JAStudio's conventions for
+inflections, which the copies only approximated:
+- The dictionary form marker displays as the vocab う, where the copies showed る shown as う, and the volitional as おう.
+- A godan verb's euphonic change stays with the auxiliary after it: はしゃいでる is はしゃぐ and いでる, the vocab for a ぐ
+  verb's ている, い and でる, which requires the prefix い.
+- Potential and passive endings are vocab of their own: いただけない after a て is ていただく and えない, and 横取りされたら
+  is 横取りする and あれたら.
+- An adjective's endings: よくて is よい and くて, and うまく is うまい.
 
-**Worth a closer look, as possible misparses:**
-- **はしゃいでる** displays いでる, where the old case expected でる.
-- **うわ こわっ** parses こ, where the old case expected こい (こわっ from こわい).
-- **横取りされたらたまらん** displays 横取りする and あれたら, where the old case expected 横取り, される and たら.
-- **見えなくなったって そんな** displays 見えない and なる, where the old case expected 見える and なくなる.
-- **うまく笑えずに** displays うまい, where the old case expected うまく.
-- **償いきれない** displays 償う, where the old case expected 償い.
-- **天気がよくて** displays くて, where the old case expected て.
-- **お金を貸していただけないでしょうか** displays ていただく and えない, where the old case expected て, いただける and ない.
-- **私が行きましょう。** no longer parses 行き, ましょ or う.
-- **前だったのか** no longer parses たの.
-- **うるせえ** parses うる twice, う, せ and え, where the old case expected う, せえ and せる.
+The eleven possible misparses of the first pass are all of these kinds, but for 見えなくなったって, which is 見えない and
+なる (見えなく, then なった): as right as the old 見える and なくなる.
+
+**A data error:** the vocab 行った had the reading いいた, for いった. Fixed (2026-11-09).
+
+**Questions for Magnus, answered (2026-11-09):**
+- **Hiding all compounds takes words apart that aren't compounds.** It hides every match spanning several tokens, so a
+  word cut into several tokens, by the tokenizer or by JAStudio's splitting of inflections, shows as junk parts: いえ
+  (いいえ) as 言う and え, こわっ as こ and わっ, うるせえ as うる, う, せ and え. Under the default options each shows as the
+  one word. A todo in `code-issues.md` (Magnus: "an excellent question"), not to change as part of the refactoring.
+- **会いに行ったんだ displays に and 行った, rather than に行く and た.** The corpus's 行った (went) wins over に行く (to go
+  to do), which is valid but not displayed. Accepted for now (Magnus): not unreasonable, and the vocab's configuration
+  can change it.
+- **また寒くなるな displays うな, the prohibitive: "don't get cold".** It's likely the sentence-final な: "it's getting
+  cold again". JAStudio can't tell the two apart from the words alone; the old case expected the prohibitive too.
+  Accepted for now (Magnus): not unreasonable, and configuration can change it.
 
 ## Every case that differs
 

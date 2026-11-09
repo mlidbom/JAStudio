@@ -266,9 +266,9 @@ better designed once the tooling shows how specifications like these work in pra
    that's how it has worked all along, and the old expectation was an artifact of the copies made by hand. Regression
    tests come first; whether the results are right is judged after.
 4. **Todo: Claude and Magnus each inspect how the converted cases whose result differs from their old expectation are
-   displayed.** 112 comparisons, listed in `parsing-cases-to-inspect.md`, with Claude's first pass. Claude from the case
-   files; Magnus in JAStudio, once it has a way of dealing with the cases' sentences there, since reading the files is
-   hard for him.
+   displayed.** 112 comparisons, listed in `parsing-cases-to-inspect.md`. Claude from the case files: done (2026-11-09),
+   with one data error and three questions for Magnus there. Magnus in JAStudio, once it has a way of dealing with the
+   cases' sentences there, since reading the files is hard for him.
 5. **Done (2026-11-09): faster JMdict lookups,** for the specifications (agreed, Magnus, 2026-11-09): the everyday mode
    went from 4.75 seconds to 3.5. The cost wasn't the lookups as such. JAStudio looks a word up in JMdict only if it's
    among JMdict's forms, a set of all 1.36 million, loaded once per process, but the specifications skipped that check
