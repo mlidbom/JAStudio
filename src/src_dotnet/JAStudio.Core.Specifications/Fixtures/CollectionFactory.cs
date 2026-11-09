@@ -5,6 +5,8 @@ using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
+using JAStudio.Core.Specifications.LanguageServices.ParsingCases;
+using JAStudio.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +16,8 @@ public enum DataNeeded
 {
    None = 0,
    Kanji = 2,
+   /// <summary>The vocab of the parsing cases' stripped-down corpus (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>): real vocab of the corpus,<br/>
+   /// committed with the specifications.</summary>
    Vocabulary = 4,
    Sentences = 8,
    All = Kanji | Vocabulary | Sentences
@@ -50,9 +54,9 @@ public static class CollectionFactory
 
       if(data.HasFlag(DataNeeded.Vocabulary))
       {
-         foreach(var vocab in VocabLists.TestSpecialVocab)
+         foreach(var vocab in ParsingCasesFolder.StrippedDownCorpus.ReadTheVocab(app.Services.Resolve<NoteSerializer>()))
          {
-            app.Services.VocabNoteFactory.Create(vocab.Question, vocab.Answer, vocab.Readings, vocab.InitializeNote);
+            app.Collection.Vocab.Add(vocab);
          }
       }
 
@@ -67,7 +71,7 @@ public static class CollectionFactory
       return new AppScope(host, app);
    }
 
-   public class AppScope(IHost host, CoreApp coreApp) : IDisposable
+   public sealed class AppScope(IHost host, CoreApp coreApp) : IDisposable
    {
       readonly IHost _host = host;
       public CoreApp CoreApp { get; } = coreApp;

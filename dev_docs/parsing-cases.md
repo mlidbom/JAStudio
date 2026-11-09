@@ -93,5 +93,6 @@ looks up, such as those of a compound's parts.
   full mode in about 10. Profiled (2026-11-09): about 2 seconds are the breakdowns, and 0.5 to 0.9 loading JMdict's forms,
   once. The cases run one after another, as the rows of one theory: running them in parallel waits for xUnit v3 4.0
   (`speeding-up-development.md`).
-- **Still using the vocab copied by hand (`VocabLists`):** eight specifications that aren't about parsing, using them as
-  sample data, such as the card server's and the serializer's. To replace, and then delete the copies.
+- **The vocab copied by hand are gone (2026-11-09).** The specifications that aren't about parsing but need vocab as sample
+  data, such as the card server's and the serializer's, get the stripped-down corpus's (`DataNeeded.Vocabulary`). So a
+  run of the full mode changes their sample data too: they need only real vocab, and the web specifications 入れる.

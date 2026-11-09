@@ -267,7 +267,8 @@ better designed once the tooling shows how specifications like these work in pra
    tests come first; whether the results are right is judged after.
 4. **Todo: Claude and Magnus each inspect how the converted cases whose result differs from their old expectation are
    displayed.** 112 comparisons, listed in `parsing-cases-to-inspect.md`, with Claude's first pass. Claude from the case
-   files.
+   files; Magnus in JAStudio, once it has a way of dealing with the cases' sentences there, since reading the files is
+   hard for him.
 5. **Done (2026-11-09): faster JMdict lookups,** for the specifications (agreed, Magnus, 2026-11-09): the everyday mode
    went from 4.75 seconds to 3.5. The cost wasn't the lookups as such. JAStudio looks a word up in JMdict only if it's
    among JMdict's forms, a set of all 1.36 million, loaded once per process, but the specifications skipped that check
@@ -282,9 +283,13 @@ better designed once the tooling shows how specifications like these work in pra
 
    What's left of the 3.5 seconds: loading the forms, 0.5 to 0.9 seconds once per process, and the parsing itself, most
    of it the 32 breakdowns of each case.
-6. **Then the vocab copied by hand (`VocabLists`)**, still sample data for eight specifications that aren't about parsing:
-   replaced, and deleted. Magnus in JAStudio, once it has a way of dealing with the cases'
-   sentences there, since reading the files is hard for him.
+6. **Done (2026-11-09): the vocab copied by hand deleted.** The specifications that used them as sample data, such as the
+   serializer's, the file system repository's and the card server's, get the stripped-down corpus's real vocab instead
+   (`DataNeeded.Vocabulary`). It costs time: those specifications roundtrip every vocab, now 872 rather than 143, and
+   `FileSystemNoteRepositoryTests` writes them all to files and reads them back in most of its tests. It went from 5.4
+   seconds to 10.4 in a run of all of Core's, which it ends, so that run went from 7 seconds to about 10.5. Accepted for
+   now (Magnus, 2026-11-09): running the tests in parallel (7) should absorb most of it, and it can be optimized later
+   if it's a problem.
 7. **Todo: run the cases in parallel, with xUnit v3 4.0** (agreed, Magnus, 2026-11-09). xUnit runs the tests of one class
    one after another, a theory's rows included, so the 230 cases run serially, on one of 32 cores. xUnit v3 4.0 (August
    2026) can run every test in parallel, within a class and across a theory's rows, with opt-outs per collection, class,

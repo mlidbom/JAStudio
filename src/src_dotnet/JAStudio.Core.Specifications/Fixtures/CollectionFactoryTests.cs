@@ -1,6 +1,8 @@
 using System.Linq;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Specifications.Fixtures.BaseData.SampleData;
+using JAStudio.Core.Specifications.LanguageServices.ParsingCases;
+using JAStudio.Core.Storage;
 using Xunit;
 
 namespace JAStudio.Core.Specifications.Fixtures;
@@ -29,12 +31,8 @@ public class CollectionFactoryTests : SpecificationUsingACollection
    [Fact]
    public void VocabAddedCorrectly()
    {
-      var expectedVocab = VocabLists.TestSpecialVocab.OrderBy(x => x.Question).ToList();
-      var vocabAll = GetService<VocabCollection>().All();
-      var savedVocab = vocabAll
-                      .Select(vocab => new VocabSpec(vocab.GetQuestion(), vocab.GetAnswer(), vocab.GetReadings()))
-                      .OrderBy(x => x.Question)
-                      .ToList();
+      var expectedVocab = ParsingCasesFolder.StrippedDownCorpus.ReadTheVocab(GetService<NoteSerializer>()).Select(it => (it.GetId(), it.GetQuestion())).ToHashSet();
+      var savedVocab = GetService<VocabCollection>().All().Select(it => (it.GetId(), it.GetQuestion())).ToHashSet();
 
       Assert.Equal(expectedVocab, savedVocab);
    }
