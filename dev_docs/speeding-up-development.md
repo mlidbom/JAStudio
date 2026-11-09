@@ -290,14 +290,30 @@ better designed once the tooling shows how specifications like these work in pra
    seconds to 10.4 in a run of all of Core's, which it ends, so that run went from 7 seconds to about 10.5. Accepted for
    now (Magnus, 2026-11-09): running the tests in parallel (7) should absorb most of it, and it can be optimized later
    if it's a problem.
-7. **Todo: run the cases in parallel, with xUnit v3 4.0** (agreed, Magnus, 2026-11-09). xUnit runs the tests of one class
-   one after another, a theory's rows included, so the 230 cases run serially, on one of 32 cores. xUnit v3 4.0 (August
-   2026) can run every test in parallel, within a class and across a theory's rows, with opt-outs per collection, class,
-   method, data source and row. Parsing already runs on several threads against one collection in the full rebuild, so the
-   cases can share their fixture. **Unblocked (2026-11-09):** Compze.xUnit 0.2.0-alpha and Compze.xUnitBDD 0.6.0-beta,
-   on nuget.org, work with xUnit 4 (they depend on xunit.v3.extensibility.core 4.0.3 or later, below 5); JAStudio is on
-   0.1.1-alpha and 0.5.1-beta. Next: upgrade, check how the parallel mode is switched on and whether any class relies on
-   its tests running one after another, and measure.
+7. **Done (2026-11-09): the cases run in parallel, with xUnit v3 4.0** (agreed, Magnus, 2026-11-09). xUnit ran the tests
+   of one class one after another, a theory's rows included, so the 230 cases ran serially, on one of 32 cores. xUnit v3
+   4.0 (August 2026) can run every test in parallel, within a class and across a theory's rows
+   (`[assembly: Parallelization(Mode = ParallelMode.All)]`), with opt-outs per collection, class, method, data source and
+   row. Parsing already runs on several threads against one collection in the full rebuild, so the cases share their
+   fixture. As built:
+   - **The packages:** xUnit 4.0.3, Compze.xUnit 0.2.0-alpha and Compze.xUnitBDD 0.6.0-beta. xUnit 4 supports Microsoft
+     Testing Platform by default, which the .NET 10 SDK's `dotnet test` then refuses to run through VSTest, so the
+     projects use `xunit.v3.mtp-off`: `dotnet test`, Rider, NCrunch and CI run the tests as they did. Moving to Microsoft
+     Testing Platform is a decision of its own.
+   - **Each project's mode,** with why in its `AssemblyInfo.cs`: Core's and the UI's specifications run all in parallel;
+     the windows' specifications by class, since they share one UI thread and gained nothing; the MCP server's and the
+     CardServer's one after another, as before, since they set process-wide state.
+   - **Measured,** in runs of each project alone: Core's 973 from 11.1 seconds to 6.2, the UI's 205 from 2.0 to 1.8.
+     Nine runs of Core and six of the UI in the parallel mode all passed. What sets Core's 6.2 now is its longest
+     specifications, about 4 seconds each while everything else runs: reloading the collection, and
+     `FileSystemNoteRepositoryTests` roundtripping all 872 vocab.
+   - **Found on the way: every request to the CardServer waited 2 seconds.** Its address said `localhost`, which Windows
+     resolves to the IPv6 loopback address first, where the server doesn't listen, and a client waits about 2 seconds for
+     that connection to be refused. The address is `127.0.0.1` now (`CardServer.BaseUrl`), and the CardServer's 9
+     specifications went from 20 seconds to 2.
+   - **The whole suite** went from 25.9 seconds to 19.7, and is now as long as the MCP server's specifications, 189 run one
+     after another in about 15 to 17 seconds. They're serial because each starts a server whose collection publishes
+     process-wide state (`TemporaryServiceCollection.Instance`): removing that is the next gain.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 

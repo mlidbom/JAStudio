@@ -12,11 +12,11 @@
    <ItemGroup>
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
       <PackageReference Include="NCrunch.Framework" Version="5.11.0" />
-      <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
          <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-      <PackageReference Include="xunit.v3" Version="3.2.2" />
+      <PackageReference Include="xunit.v3.mtp-off" Version="4.0.3" />
    </ItemGroup>
 
    <ItemGroup>
@@ -31,8 +31,8 @@
 
    <ItemGroup>
       <PackageReference Include="Compze.Must" Version="0.4.1-alpha" />
-      <PackageReference Include="Compze.xUnit" Version="0.1.1-alpha" />
-      <PackageReference Include="Compze.xUnitBDD" Version="0.5.1-beta" />
+      <PackageReference Include="Compze.xUnit" Version="0.2.0-alpha" />
+      <PackageReference Include="Compze.xUnitBDD" Version="0.6.0-beta" />
       <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
       <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.4.0-alpha" />
    </ItemGroup>
