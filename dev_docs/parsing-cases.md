@@ -89,8 +89,9 @@ looks up, such as those of a compound's parts.
 - **Each records what the corpus parses its sentence to now,** as a regression test, even where its old case expected
   otherwise (Magnus, 2026-11-09). 102 comparisons with old expectations differ: `parsing-cases-to-inspect.md` lists them,
   for Claude and Magnus to inspect.
-- **The everyday mode runs the 230 in 4.7 seconds,** each under all 32 combinations of the breakdown's options, and the
-  full mode in about 10. Profiled (2026-11-09): 2 of the seconds are lookups in JMdict, each building its SQL anew through
-  LinqToDB, and 1 is loading JMdict's forms; the parsing itself is cheap. Speeding up the lookups is next.
+- **The everyday mode runs the 230 in 3.5 seconds,** each under all 32 combinations of the breakdown's options, and the
+  full mode in about 10. Profiled (2026-11-09): about 2 seconds are the breakdowns, and 0.5 to 0.9 loading JMdict's forms,
+  once. The cases run one after another, as the rows of one theory: running them in parallel waits for xUnit v3 4.0
+  (`speeding-up-development.md`).
 - **Still using the vocab copied by hand (`VocabLists`):** eight specifications that aren't about parsing, using them as
   sample data, such as the card server's and the serializer's. To replace, and then delete the copies.

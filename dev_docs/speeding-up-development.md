@@ -268,12 +268,30 @@ better designed once the tooling shows how specifications like these work in pra
 4. **Todo: Claude and Magnus each inspect how the converted cases whose result differs from their old expectation are
    displayed.** 112 comparisons, listed in `parsing-cases-to-inspect.md`, with Claude's first pass. Claude from the case
    files.
-5. **Next: faster JMdict lookups** (agreed, Magnus, 2026-11-09). Profiled with dotTrace: 2 of the everyday mode's 4.7
-   seconds are lookups, each building its SQL anew through LinqToDB. The real corpus has vocab for nearly every word, so
-   it hardly meets this outside the specifications.
+5. **Done (2026-11-09): faster JMdict lookups,** for the specifications (agreed, Magnus, 2026-11-09): the everyday mode
+   went from 4.75 seconds to 3.5. The cost wasn't the lookups as such. JAStudio looks a word up in JMdict only if it's
+   among JMdict's forms, a set of all 1.36 million, loaded once per process, but the specifications skipped that check
+   (`CoreApp.IsTesting` in `DictLookup`, from when loading the forms was costly in tests), so every candidate word went to
+   the database, through LinqToDB. They check the forms now, as JAStudio does. Tried and not kept:
+   - **Lookups in SQL of their own,** since LinqToDB processes the expression and builds the SQL anew on every lookup:
+     with every word going to the database, that cut the lookups from about 1 second to 0.3. With the forms checked
+     first, the lookups are a small share, and it gained nothing measurable, in the specifications or in a full rebuild.
+   - **Dropping the set of forms,** with lookups that cheap: a full rebuild, the first after starting, took 59 seconds
+     rather than 6.6, measured in the headless JAStudio. Most candidate words aren't in JMdict, and the set answers those
+     without touching the database.
+
+   What's left of the 3.5 seconds: loading the forms, 0.5 to 0.9 seconds once per process, and the parsing itself, most
+   of it the 32 breakdowns of each case.
 6. **Then the vocab copied by hand (`VocabLists`)**, still sample data for eight specifications that aren't about parsing:
    replaced, and deleted. Magnus in JAStudio, once it has a way of dealing with the cases'
    sentences there, since reading the files is hard for him.
+7. **Todo: run the cases in parallel, with xUnit v3 4.0** (agreed, Magnus, 2026-11-09). xUnit runs the tests of one class
+   one after another, a theory's rows included, so the 230 cases run serially, on one of 32 cores. xUnit v3 4.0 (August
+   2026) can run every test in parallel, within a class and across a theory's rows, with opt-outs per collection, class,
+   method, data source and row. Parsing already runs on several threads against one collection in the full rebuild, so the
+   cases can share their fixture. **Blocked on Compze:** Compze.xUnit and Compze.xUnitBDD don't work with xUnit 4 yet;
+   Magnus is getting a version that does released. Then: upgrade, check how the parallel mode is switched on and whether
+   any class relies on its tests running one after another, and measure.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 
