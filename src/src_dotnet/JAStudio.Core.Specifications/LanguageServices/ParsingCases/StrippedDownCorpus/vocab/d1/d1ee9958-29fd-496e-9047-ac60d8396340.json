@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "う:non-past",
-      "以上"
+      {
+        "text": "う",
+        "disambiguation": "non-past"
+      },
+      {
+        "text": "以上",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -48,13 +54,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "てる以上"
+      {
+        "text": "てる以上",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

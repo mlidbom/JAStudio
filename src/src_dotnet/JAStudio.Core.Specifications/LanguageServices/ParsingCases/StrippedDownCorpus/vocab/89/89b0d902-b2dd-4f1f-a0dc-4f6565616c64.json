@@ -42,15 +42,24 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "だ",
+    "derivedFrom": {
+      "text": "だ",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [
-      "な:s.start"
+      {
+        "text": "な",
+        "disambiguation": "s.start"
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "なあ"
+      {
+        "text": "なあ",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

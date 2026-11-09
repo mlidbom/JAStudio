@@ -46,10 +46,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "怖い"
+      {
+        "text": "怖い",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

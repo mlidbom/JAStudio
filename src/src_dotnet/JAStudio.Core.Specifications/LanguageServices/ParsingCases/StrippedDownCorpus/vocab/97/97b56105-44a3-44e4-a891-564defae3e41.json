@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "れる",
-      "ない"
+      {
+        "text": "れる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ない",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -52,12 +58,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あれない",
-      "えれない",
-      "れない"
+      {
+        "text": "あれない",
+        "disambiguation": ""
+      },
+      {
+        "text": "えれない",
+        "disambiguation": ""
+      },
+      {
+        "text": "れない",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

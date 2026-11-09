@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "で",
-      "も"
+      {
+        "text": "で",
+        "disambiguation": ""
+      },
+      {
+        "text": "も",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -48,10 +54,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ても"
+      {
+        "text": "ても",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

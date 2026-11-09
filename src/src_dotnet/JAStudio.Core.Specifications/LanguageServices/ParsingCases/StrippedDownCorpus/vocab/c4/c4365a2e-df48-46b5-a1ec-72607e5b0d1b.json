@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "しまう"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "しまう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,15 +51,30 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "んでしまう"
+      {
+        "text": "んでしまう",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ちまう",
-      "ちゃう",
-      "てしまいます",
-      "んでしまう"
+      {
+        "text": "ちまう",
+        "disambiguation": ""
+      },
+      {
+        "text": "ちゃう",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでしまう",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

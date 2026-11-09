@@ -47,9 +47,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "立てる"
+      {
+        "text": "立てる",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

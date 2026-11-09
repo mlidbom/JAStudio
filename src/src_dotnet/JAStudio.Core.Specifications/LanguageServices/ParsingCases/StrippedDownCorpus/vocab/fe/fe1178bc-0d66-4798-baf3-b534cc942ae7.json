@@ -59,10 +59,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "合う"
+      {
+        "text": "合う",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

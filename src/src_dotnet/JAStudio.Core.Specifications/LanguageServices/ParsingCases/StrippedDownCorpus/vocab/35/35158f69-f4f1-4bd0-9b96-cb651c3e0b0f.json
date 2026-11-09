@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "てる",
-      "た"
+      {
+        "text": "てる",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -66,11 +72,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "してた",
-      "ていました"
+      {
+        "text": "してた",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていました",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

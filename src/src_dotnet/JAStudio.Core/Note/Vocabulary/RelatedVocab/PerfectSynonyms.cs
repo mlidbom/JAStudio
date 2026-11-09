@@ -1,107 +1,104 @@
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Internals.SystemCE.ReactiveCE;
+using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
+/// <summary>
+/// A vocab's perfect synonyms: words that mean exactly the same, so they share one answer. They form a web: each one is a perfect synonym of every other,<br/>
+/// and a synonym too (<see cref="Synonyms"/>), and a change to any one's answer is pushed to the others.
+/// </summary>
+/// <remarks>A perfect synonym is the vocab its word names exactly (<see cref="VocabCollection.NamedExactlyBy"/>), never one it would only match by a form.</remarks>
 public class PerfectSynonyms
 {
    readonly VocabNote _vocab;
-   readonly RelatedVocabData _data;
+   readonly HashSet<WordReference> _words;
    readonly NoteGuard _guard;
 
-   public PerfectSynonyms(VocabNote vocab, RelatedVocabData data, NoteGuard guard)
+   public PerfectSynonyms(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard)
    {
       _vocab = vocab;
-      _data = data;
+      _words = [.. words];
       _guard = guard;
       vocab.CorpusAnswer.Subscribe(_ => PushAnswerToOtherSynonyms());
    }
 
-   public List<VocabNote> Notes() => _vocab.Services.Collection.Vocab.WithAnyDisambiguationNameIn(_data.PerfectSynonyms).ToList();
+   VocabCollection Collection => _vocab.Services.Collection.Vocab;
+
+   /// <summary>The words of the vocab's perfect synonyms.</summary>
+   public IReadOnlySet<WordReference> Words => _words;
+
+   public bool Contains(WordReference word) => _words.Contains(word);
+
+   public List<VocabNote> Notes() => Collection.NamedExactlyByAny(_words);
 
    public void PushAnswerToOtherSynonyms()
    {
       foreach(var synonym in Notes())
-      {
          synonym.CorpusAnswer.Set(_vocab.GetAnswer());
-      }
    }
 
-   public HashSet<string> Get() => _data.PerfectSynonyms;
-
-   void RemoveInternal(string synonym) => _guard.Update(() =>
+   /// <summary>Adds <paramref name="added"/>, joining the two webs of perfect synonyms into one, and gives every vocab in it this vocab's answer.</summary>
+   public void AddOverwritingTheAnswerOfTheAddedSynonym(WordReference added)
    {
-      _data.PerfectSynonyms.Remove(synonym);
-      _vocab.RelatedNotes.Synonyms.Add(synonym);
-   });
-
-   void AddInternal(string synonym) => _guard.Update(() =>
-   {
-      if(synonym == _vocab.GetQuestion()) return;
-      _data.PerfectSynonyms.Add(synonym);
-      _vocab.RelatedNotes.Synonyms.Add(synonym);
-   });
-
-   HashSet<VocabNote> ResolveWholeWeb()
-   {
-      var found = new HashSet<VocabNote>();
-
-      void RecurseInto(VocabNote syn)
-      {
-         found.Add(syn);
-         foreach(var related in syn.RelatedNotes.PerfectSynonyms.Notes())
-         {
-            if(!found.Contains(related))
-            {
-               RecurseInto(related);
-            }
-         }
-      }
-
-      RecurseInto(_vocab);
-      foreach(var synonym in Notes())
-      {
-         RecurseInto(synonym);
-      }
-
-      return found;
-   }
-
-   void EnsureAllPerfectSynonymsAreConnected()
-   {
-      var wholeWeb = ResolveWholeWeb();
-      var allQuestions = wholeWeb.Select(syn => syn.GetQuestion()).ToHashSet();
-
-      foreach(var synonym in wholeWeb)
-      {
-         foreach(var question in allQuestions)
-         {
-            synonym.RelatedNotes.PerfectSynonyms.AddInternal(question);
-         }
-      }
-   }
-
-   public void AddOverwritingTheAnswerOfTheAddedSynonym(string addedQuestion)
-   {
-      if(addedQuestion == _vocab.GetQuestion()) return;
-      AddInternal(addedQuestion);
-      EnsureAllPerfectSynonymsAreConnected();
+      if(_vocab.Question.IsNamedBy(added)) return;
+      AddKeepingItAsASynonymToo(added);
+      ConnectTheWholeWeb();
       PushAnswerToOtherSynonyms();
    }
 
-   public void Remove(string synonymToRemove)
+   /// <summary>Removes <paramref name="removed"/> from the web: it's no perfect synonym of any of the others any more, but stays a synonym of each.</summary>
+   public void Remove(WordReference removed)
    {
-      foreach(var toRemove in _vocab.Services.Collection.Vocab.WithQuestion(synonymToRemove))
-      {
-         toRemove.RelatedNotes.PerfectSynonyms._data.PerfectSynonyms.Clear();
-      }
+      foreach(var removedVocab in Collection.NamedExactlyBy(removed))
+         removedVocab.RelatedNotes.PerfectSynonyms.LeaveTheWeb();
 
-      foreach(var syn in ResolveWholeWeb())
+      foreach(var synonym in TheWholeWeb())
+         synonym.RelatedNotes.PerfectSynonyms.RemoveKeepingItAsASynonym(removed);
+   }
+
+   void LeaveTheWeb() => _guard.Update(() => _words.Clear());
+
+   void RemoveKeepingItAsASynonym(WordReference synonym) => _guard.Update(() =>
+   {
+      _words.Remove(synonym);
+      _vocab.RelatedNotes.Synonyms.Add(synonym);
+   });
+
+   void AddKeepingItAsASynonymToo(WordReference synonym) => _guard.Update(() =>
+   {
+      if(_vocab.Question.IsNamedBy(synonym)) return;
+      _words.Add(synonym);
+      _vocab.RelatedNotes.Synonyms.Add(synonym);
+   });
+
+   /// <summary>This vocab and every vocab it's linked to through perfect synonyms, directly or through others.</summary>
+   HashSet<VocabNote> TheWholeWeb()
+   {
+      var found = new HashSet<VocabNote>();
+      RecurseInto(_vocab);
+      return found;
+
+      void RecurseInto(VocabNote synonym)
       {
-         syn.RelatedNotes.PerfectSynonyms.RemoveInternal(synonymToRemove);
+         if(!found.Add(synonym)) return;
+         foreach(var related in synonym.RelatedNotes.PerfectSynonyms.Notes())
+            RecurseInto(related);
       }
    }
 
-   public override string ToString() => string.Join(", ", _data.PerfectSynonyms);
+   void ConnectTheWholeWeb()
+   {
+      var wholeWeb = TheWholeWeb();
+      var everyName = wholeWeb.Select(it => it.Question.Reference).ToList();
+
+      foreach(var synonym in wholeWeb)
+      {
+         foreach(var name in everyName)
+            synonym.RelatedNotes.PerfectSynonyms.AddKeepingItAsASynonymToo(name);
+      }
+   }
+
+   public override string ToString() => string.Join(", ", _words.Select(it => it.DisambiguationName));
 }

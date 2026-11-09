@@ -58,13 +58,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "きれい",
-      "きれいな",
-      "奇麗",
-      "綺麗"
+      {
+        "text": "きれい",
+        "disambiguation": ""
+      },
+      {
+        "text": "きれいな",
+        "disambiguation": ""
+      },
+      {
+        "text": "奇麗",
+        "disambiguation": ""
+      },
+      {
+        "text": "綺麗",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

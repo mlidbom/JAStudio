@@ -50,7 +50,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                                          new List<SpecMenuItem>
                                                          {
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home1("Forms"), $"Vocab for the forms of {vocab.GetQuestion()}", vocab.Forms.VocabForQuestionAndEnteredForms),
-                                                            NoteListMenuItem.Showing(ShortcutFinger.Home2("Compound parts"), $"Compound parts of {vocab.GetQuestion()}", () => Collection.Vocab.WithAnyFormIn(vocab.CompoundParts.All())),
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Home2("Compound parts"), $"Compound parts of {vocab.GetQuestion()}", () => Collection.Vocab.ReferredToByAny(vocab.CompoundParts.All())),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("In compounds"), $"Compounds with {vocab.GetQuestion()}", vocab.RelatedNotes.InCompounds),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home4("Synonyms"), $"Synonyms of {vocab.GetQuestion()}", vocab.RelatedNotes.Synonyms.Notes),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home5("See also"), $"See also for {vocab.GetQuestion()}", vocab.RelatedNotes.SeeAlso.Notes),

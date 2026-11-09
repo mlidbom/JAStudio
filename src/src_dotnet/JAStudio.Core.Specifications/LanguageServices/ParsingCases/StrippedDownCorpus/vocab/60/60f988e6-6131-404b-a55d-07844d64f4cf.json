@@ -50,12 +50,15 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "元"
+      {
+        "text": "元",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

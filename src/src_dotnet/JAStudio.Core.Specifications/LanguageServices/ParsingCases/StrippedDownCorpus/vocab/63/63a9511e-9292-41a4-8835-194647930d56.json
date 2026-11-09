@@ -56,7 +56,10 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "話す",
+    "derivedFrom": {
+      "text": "話す",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

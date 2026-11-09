@@ -51,9 +51,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "決める"
+      {
+        "text": "決める",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

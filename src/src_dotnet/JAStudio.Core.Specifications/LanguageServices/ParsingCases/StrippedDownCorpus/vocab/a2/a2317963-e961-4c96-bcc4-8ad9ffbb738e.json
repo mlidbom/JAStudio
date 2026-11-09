@@ -49,11 +49,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "おう",
-      "ましょう"
+      {
+        "text": "おう",
+        "disambiguation": ""
+      },
+      {
+        "text": "ましょう",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

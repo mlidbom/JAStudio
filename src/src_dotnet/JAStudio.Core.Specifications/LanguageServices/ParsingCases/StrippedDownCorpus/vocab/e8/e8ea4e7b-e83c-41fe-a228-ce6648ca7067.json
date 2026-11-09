@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "って",
-      "聞く"
+      {
+        "text": "って",
+        "disambiguation": ""
+      },
+      {
+        "text": "聞く",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,7 +57,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

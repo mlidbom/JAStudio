@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "える",
-      "ません"
+      {
+        "text": "える",
+        "disambiguation": ""
+      },
+      {
+        "text": "ません",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -99,7 +105,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

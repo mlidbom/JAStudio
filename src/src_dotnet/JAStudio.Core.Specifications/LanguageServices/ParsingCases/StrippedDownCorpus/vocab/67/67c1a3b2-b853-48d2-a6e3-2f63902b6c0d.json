@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "嘘",
-      "つく"
+      {
+        "text": "嘘",
+        "disambiguation": ""
+      },
+      {
+        "text": "つく",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -93,7 +99,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

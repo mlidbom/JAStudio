@@ -6,12 +6,12 @@ namespace JAStudio.Core.Note.Collection;
 
 class VocabCache : NoteCache<VocabNote, VocabSnapshot>
 {
-   readonly Dictionary<string, HashSet<VocabNote>> _byDisambiguationName = new();
+   readonly Dictionary<WordReference, HashSet<VocabNote>> _byReference = new();
    readonly Dictionary<string, HashSet<VocabNote>> _byForm = new();
    readonly Dictionary<string, HashSet<VocabNote>> _byKanjiInMainForm = new();
    readonly Dictionary<string, HashSet<VocabNote>> _byKanjiInAnyForm = new();
-   readonly Dictionary<string, HashSet<VocabNote>> _byCompoundPart = new();
-   readonly Dictionary<string, HashSet<VocabNote>> _byDerivedFrom = new();
+   readonly Dictionary<WordReference, HashSet<VocabNote>> _byCompoundPart = new();
+   readonly Dictionary<WordReference, HashSet<VocabNote>> _byDerivedFrom = new();
    readonly Dictionary<string, HashSet<VocabNote>> _byReading = new();
    readonly Dictionary<string, HashSet<VocabNote>> _byStem = new();
 
@@ -19,7 +19,7 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
 
    protected override void ClearDerivedIndexes()
    {
-      _byDisambiguationName.Clear();
+      _byReference.Clear();
       _byForm.Clear();
       _byKanjiInMainForm.Clear();
       _byKanjiInAnyForm.Clear();
@@ -31,11 +31,14 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
 
    public List<VocabNote> WithForm(string form) => LookUp(_byForm, form);
 
-   public List<VocabNote> WithDisambiguationName(string form) => LookUp(_byDisambiguationName, form);
+   /// <summary>The vocab whose question <paramref name="reference"/> names exactly (<see cref="VocabNoteQuestion.Reference"/>).</summary>
+   public List<VocabNote> NamedExactlyBy(WordReference reference) => LookUp(_byReference, reference);
 
-   public List<VocabNote> WithCompoundPart(string compoundPart) => LookUp(_byCompoundPart, compoundPart);
+   /// <summary>The vocab with exactly <paramref name="compoundPart"/> among their compound parts.</summary>
+   public List<VocabNote> WithCompoundPart(WordReference compoundPart) => LookUp(_byCompoundPart, compoundPart);
 
-   public List<VocabNote> DerivedFrom(string form) => LookUp(_byDerivedFrom, form);
+   /// <summary>The vocab whose derived-from word is exactly <paramref name="word"/>.</summary>
+   public List<VocabNote> DerivedFrom(WordReference word) => LookUp(_byDerivedFrom, word);
 
    public List<VocabNote> WithKanjiInMainForm(string kanji) => LookUp(_byKanjiInMainForm, kanji);
 
@@ -52,8 +55,8 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
       _byForm.RemoveFromSets(snapshot.Forms, note);
       _byCompoundPart.RemoveFromSets(snapshot.CompoundParts, note);
 
-      _byDerivedFrom.RemoveFromSet(snapshot.DerivedFrom, note);
-      _byDisambiguationName.RemoveFromSet(snapshot.DisambiguationName, note);
+      _byDerivedFrom.RemoveFromSets(snapshot.DerivedFrom, note);
+      _byReference.RemoveFromSets(snapshot.ReferenceNamingIt, note);
 
       _byKanjiInMainForm.RemoveFromSets(snapshot.MainFormKanji, note);
       _byKanjiInAnyForm.RemoveFromSets(snapshot.AllKanji, note);
@@ -66,8 +69,8 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
       _byForm.AddToSets(snapshot.Forms, note);
       _byCompoundPart.AddToSets(snapshot.CompoundParts, note);
 
-      _byDerivedFrom.AddToSet(snapshot.DerivedFrom, note);
-      _byDisambiguationName.AddToSet(snapshot.DisambiguationName, note);
+      _byDerivedFrom.AddToSets(snapshot.DerivedFrom, note);
+      _byReference.AddToSets(snapshot.ReferenceNamingIt, note);
 
       _byKanjiInMainForm.AddToSets(snapshot.MainFormKanji, note);
       _byKanjiInAnyForm.AddToSets(snapshot.AllKanji, note);

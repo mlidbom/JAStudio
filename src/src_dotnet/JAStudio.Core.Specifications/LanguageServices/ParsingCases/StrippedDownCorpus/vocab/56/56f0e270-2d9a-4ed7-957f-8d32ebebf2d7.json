@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "た",
-      "んだ"
+      {
+        "text": "た",
+        "disambiguation": ""
+      },
+      {
+        "text": "んだ",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "たん"
+      {
+        "text": "たん",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -49,7 +58,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

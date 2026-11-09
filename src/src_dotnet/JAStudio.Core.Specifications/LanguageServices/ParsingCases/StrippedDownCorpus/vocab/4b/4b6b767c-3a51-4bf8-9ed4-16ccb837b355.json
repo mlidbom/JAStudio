@@ -55,10 +55,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "では",
+    "derivedFrom": {
+      "text": "では",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [
-      "では"
+      {
+        "text": "では",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

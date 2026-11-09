@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "清め",
-      "の"
+      {
+        "text": "清め",
+        "disambiguation": ""
+      },
+      {
+        "text": "の",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -50,7 +56,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

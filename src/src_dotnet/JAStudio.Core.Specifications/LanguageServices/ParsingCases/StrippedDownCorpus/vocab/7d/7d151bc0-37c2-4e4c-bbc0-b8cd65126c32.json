@@ -59,10 +59,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "着せる"
+      {
+        "text": "着せる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

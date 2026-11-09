@@ -62,10 +62,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "独り"
+      {
+        "text": "独り",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

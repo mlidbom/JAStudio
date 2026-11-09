@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "悪い",
-      "た"
+      {
+        "text": "悪い",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -57,7 +63,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -3,76 +3,31 @@ using System.Linq;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
-public class Synonyms
+/// <summary>A vocab's synonyms: words with about the same meaning, linked both ways (<see cref="MutualWordRelationship"/>).</summary>
+public class Synonyms : MutualWordRelationship
 {
-   readonly VocabNote _vocab;
-   readonly RelatedVocabData _data;
-   readonly NoteGuard _guard;
+   public Synonyms(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard) : base(vocab, words, guard, it => it.Synonyms) {}
 
-   public Synonyms(VocabNote vocab, RelatedVocabData data, NoteGuard guard)
+   /// <summary>
+   /// Adds <paramref name="synonym"/>, and links the two vocab's synonyms one level deep: the vocab <paramref name="synonym"/> refers to get this vocab's<br/>
+   /// synonyms, and this vocab gets theirs.
+   /// </summary>
+   public void AddTransitivelyOneLevel(WordReference synonym)
    {
-      _vocab = vocab;
-      _data = data;
-      _guard = guard;
-   }
-
-   public HashSet<string> Strings() => _data.Synonyms;
-
-   void Save() => _guard.Update(() => Strings().Remove(_vocab.GetQuestion()));
-
-   public List<VocabNote> Notes() => _vocab.Services.Collection.Vocab.WithAnyFormInPreferDisambiguationNameOrExactMatch(Strings().ToList());
-
-   public void Add(string synonym)
-   {
-      if(synonym == _vocab.GetQuestion()) return;
-      Strings().Add(synonym);
-
-      foreach(var similar in _vocab.Services.Collection.Vocab.WithQuestion(synonym).ToList())
-      {
-         if(!similar.RelatedNotes.Synonyms.Strings().Contains(_vocab.GetQuestion()))
-         {
-            similar.RelatedNotes.Synonyms.Add(_vocab.GetQuestion());
-         }
-      }
-
-      Save();
-   }
-
-   public void AddTransitivelyOneLevel(string synonym)
-   {
-      var newSynonymNotes = _vocab.Services.Collection.Vocab.WithAnyFormInPreferDisambiguationNameOrExactMatch([synonym]);
+      var newSynonymNotes = Collection.ReferredToBy(synonym);
 
       foreach(var synonymNote in newSynonymNotes)
       {
-         foreach(var mySynonym in Strings())
-         {
+         foreach(var mySynonym in Words.ToList())
             synonymNote.RelatedNotes.Synonyms.Add(mySynonym);
-         }
       }
 
-      var synonymsOfNewSynonymStrings = newSynonymNotes
-                                       .SelectMany<VocabNote, string>(newSynonymNote => newSynonymNote.RelatedNotes.Synonyms.Strings())
-                                       .Concat(newSynonymNotes.Select(newSynonymNote => newSynonymNote.GetQuestion()))
-                                       .ToHashSet();
+      var synonymsOfTheNewSynonyms = newSynonymNotes
+                                    .SelectMany(it => it.RelatedNotes.Synonyms.Words)
+                                    .Concat(newSynonymNotes.Select(it => it.Question.Reference))
+                                    .ToHashSet();
 
-      foreach(var newSynonym in synonymsOfNewSynonymStrings)
-      {
+      foreach(var newSynonym in synonymsOfTheNewSynonyms)
          Add(newSynonym);
-      }
-   }
-
-   public void Remove(string toRemove)
-   {
-      Strings().Remove(toRemove);
-
-      foreach(var similar in _vocab.Services.Collection.Vocab.WithQuestion(toRemove))
-      {
-         if(similar.RelatedNotes.Synonyms.Strings().Contains(_vocab.GetQuestion()))
-         {
-            similar.RelatedNotes.Synonyms.Remove(_vocab.GetQuestion());
-         }
-      }
-
-      Save();
    }
 }

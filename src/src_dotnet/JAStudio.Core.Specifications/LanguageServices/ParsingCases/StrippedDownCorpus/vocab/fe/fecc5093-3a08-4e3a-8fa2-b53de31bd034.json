@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "普通",
-      "に"
+      {
+        "text": "普通",
+        "disambiguation": ""
+      },
+      {
+        "text": "に",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,7 +50,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

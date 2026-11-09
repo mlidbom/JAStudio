@@ -47,7 +47,10 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "回る",
+    "derivedFrom": {
+      "text": "回る",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

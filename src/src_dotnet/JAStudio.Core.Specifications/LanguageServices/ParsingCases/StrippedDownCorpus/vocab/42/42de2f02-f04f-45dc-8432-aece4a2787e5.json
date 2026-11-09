@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "あれる",
-      "たら"
+      {
+        "text": "あれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "たら",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -54,13 +60,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "えたら"
+      {
+        "text": "えたら",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

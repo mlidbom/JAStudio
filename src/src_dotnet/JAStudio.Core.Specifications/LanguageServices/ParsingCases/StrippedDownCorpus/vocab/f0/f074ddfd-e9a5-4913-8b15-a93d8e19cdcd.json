@@ -47,10 +47,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "てく"
+      {
+        "text": "てく",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

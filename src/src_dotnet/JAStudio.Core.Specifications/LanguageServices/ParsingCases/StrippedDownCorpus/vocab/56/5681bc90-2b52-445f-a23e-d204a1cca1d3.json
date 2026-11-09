@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "に",
-      "思える"
+      {
+        "text": "に",
+        "disambiguation": ""
+      },
+      {
+        "text": "思える",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -40,7 +46,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

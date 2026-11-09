@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "外出",
-      "中"
+      {
+        "text": "外出",
+        "disambiguation": ""
+      },
+      {
+        "text": "中",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,7 +52,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

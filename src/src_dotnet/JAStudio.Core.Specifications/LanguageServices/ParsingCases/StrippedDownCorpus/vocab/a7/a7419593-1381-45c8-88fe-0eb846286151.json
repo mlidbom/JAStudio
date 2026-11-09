@@ -53,10 +53,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あります"
+      {
+        "text": "あります",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

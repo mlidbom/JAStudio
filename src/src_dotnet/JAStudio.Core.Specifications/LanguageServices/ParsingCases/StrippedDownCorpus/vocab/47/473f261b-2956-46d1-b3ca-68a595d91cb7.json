@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "出会う",
-      "える"
+      {
+        "text": "出会う",
+        "disambiguation": ""
+      },
+      {
+        "text": "える",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -61,7 +67,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

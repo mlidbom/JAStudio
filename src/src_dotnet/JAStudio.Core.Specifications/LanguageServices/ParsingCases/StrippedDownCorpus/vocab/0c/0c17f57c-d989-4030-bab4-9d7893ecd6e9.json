@@ -47,14 +47,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "逃す"
+      {
+        "text": "逃す",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "逃す"
+      {
+        "text": "逃す",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

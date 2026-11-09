@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "いただける",
-      "ない"
+      {
+        "text": "いただける",
+        "disambiguation": ""
+      },
+      {
+        "text": "ない",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -71,10 +77,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "頂けない"
+      {
+        "text": "頂けない",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

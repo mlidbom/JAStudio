@@ -59,9 +59,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "付ける"
+      {
+        "text": "付ける",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

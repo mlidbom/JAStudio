@@ -41,14 +41,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "強え"
+      {
+        "text": "強え",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "凄い"
+      {
+        "text": "凄い",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

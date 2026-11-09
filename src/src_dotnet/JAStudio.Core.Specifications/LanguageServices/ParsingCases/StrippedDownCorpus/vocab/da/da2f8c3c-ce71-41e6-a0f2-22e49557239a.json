@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "ください"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "ください",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,16 +57,34 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "て下さい",
-      "んでください"
+      {
+        "text": "て下さい",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでください",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "てちょうだい",
-      "て下さい",
-      "んでください",
-      "んでちょうだい"
+      {
+        "text": "てちょうだい",
+        "disambiguation": ""
+      },
+      {
+        "text": "て下さい",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでください",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでちょうだい",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

@@ -1,7 +1,7 @@
 @using JAStudio.Core.Note.Collection
 @using JAStudio.Core.Note.Vocabulary
 
-<RelatedVocabList Vocabs="_vocabs" Title="derived vocabulaty" CssClass="derived_vocabulary"/>
+<RelatedVocabList Vocabs="_vocabs" Title="derived vocabulary" CssClass="derived_vocabulary"/>
 
 @code {
     [Parameter, EditorRequired] public VocabNote Note { get; set; } = null!;
@@ -12,6 +12,6 @@
 
     protected override void OnParametersSet()
     {
-        _vocabs = VocabCollection.DerivedFrom(Note.GetQuestion());
+        _vocabs = VocabCollection.DerivedFrom(Note);
     }
 }

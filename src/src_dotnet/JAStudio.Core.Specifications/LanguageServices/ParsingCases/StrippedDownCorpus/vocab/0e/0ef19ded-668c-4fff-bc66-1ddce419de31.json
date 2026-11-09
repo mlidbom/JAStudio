@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "いらっしゃる",
-      "ます"
+      {
+        "text": "いらっしゃる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ます",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,7 +52,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "分かる",
-      "ている"
+      {
+        "text": "分かる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ている",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -81,7 +87,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -51,12 +51,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "代える",
-      "変える",
-      "換える"
+      {
+        "text": "代える",
+        "disambiguation": ""
+      },
+      {
+        "text": "変える",
+        "disambiguation": ""
+      },
+      {
+        "text": "換える",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

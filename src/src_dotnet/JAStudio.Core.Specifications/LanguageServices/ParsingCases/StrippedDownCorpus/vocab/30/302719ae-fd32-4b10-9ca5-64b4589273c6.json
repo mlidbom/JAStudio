@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "だ",
-      "から"
+      {
+        "text": "だ",
+        "disambiguation": ""
+      },
+      {
+        "text": "から",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,7 +51,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

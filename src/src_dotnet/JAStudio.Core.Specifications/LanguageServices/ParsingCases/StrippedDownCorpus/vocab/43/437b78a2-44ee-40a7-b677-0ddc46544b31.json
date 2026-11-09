@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "に",
-      "行く"
+      {
+        "text": "に",
+        "disambiguation": ""
+      },
+      {
+        "text": "行く",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -63,7 +69,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

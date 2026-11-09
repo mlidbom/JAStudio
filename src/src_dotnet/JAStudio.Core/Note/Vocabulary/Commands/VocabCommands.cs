@@ -24,7 +24,7 @@ public static class VocabCommands
 
    /// <summary>Adds the synonym, and the synonym's synonyms, to the vocab's synonyms, and the vocab's synonyms to the synonym's.</summary>
    public static readonly NoteChangingCommandTakingAText<VocabNote> AddSynonymsTransitivelyOneLevel =
-      new("addSynonymsTransitivelyOneLevel", "Synonyms transitively one level", "the synonym", (it, synonym) => it.RelatedNotes.Synonyms.AddTransitivelyOneLevel(synonym));
+      new("addSynonymsTransitivelyOneLevel", "Synonyms transitively one level", "the synonym", (it, synonym) => it.RelatedNotes.Synonyms.AddTransitivelyOneLevel(WordReference.FromDisambiguationName(synonym)));
 
    /// <summary>A copy of the vocab, with one of its forms as its question.</summary>
    public static readonly VocabCreatingCommandTakingAText CloneToForm = new("cloneToForm", "Clone to form", "the form to clone the vocab to", (it, form) => it.CloneToForm(form));

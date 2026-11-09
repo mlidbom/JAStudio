@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "付き",
-      "合う:masu"
+      {
+        "text": "付き",
+        "disambiguation": ""
+      },
+      {
+        "text": "合う",
+        "disambiguation": "masu"
+      }
     ],
     "alternative": []
   },
@@ -54,7 +60,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

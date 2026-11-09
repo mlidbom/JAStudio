@@ -41,17 +41,29 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あんな",
-      "こんな",
-      "どんな"
+      {
+        "text": "あんな",
+        "disambiguation": ""
+      },
+      {
+        "text": "こんな",
+        "disambiguation": ""
+      },
+      {
+        "text": "どんな",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "んな"
+      {
+        "text": "んな",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

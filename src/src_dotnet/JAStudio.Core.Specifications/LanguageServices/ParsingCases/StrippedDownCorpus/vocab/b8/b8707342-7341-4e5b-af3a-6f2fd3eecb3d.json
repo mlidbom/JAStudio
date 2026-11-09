@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "楽",
-      "書き"
+      {
+        "text": "楽",
+        "disambiguation": ""
+      },
+      {
+        "text": "書き",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -58,7 +64,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

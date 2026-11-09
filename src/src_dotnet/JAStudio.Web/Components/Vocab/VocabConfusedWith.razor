@@ -1,5 +1,4 @@
 @using JAStudio.Core.LanguageServices
-@using JAStudio.Core.Note.Collection
 @using JAStudio.Core.Note.Vocabulary
 
 <RelatedVocabList Vocabs="_vocabs" Title="confused with" CssClass="confused_with"/>
@@ -7,14 +6,10 @@
 @code {
     [Parameter, EditorRequired] public VocabNote Note { get; set; } = null!;
 
-    [Inject] public VocabCollection VocabCollection { get; set; } = null!;
-
     List<VocabNote> _vocabs = [];
 
     protected override void OnParametersSet()
     {
-        var confusedWith = Note.RelatedNotes.ConfusedWith.Get();
-        _vocabs = VocabNoteSorting.SortVocabListByStudyingStatus(
-            VocabCollection.WithAnyFormInPreferDisambiguationNameOrExactMatch(confusedWith.ToList()));
+        _vocabs = VocabNoteSorting.SortVocabListByStudyingStatus(Note.RelatedNotes.ConfusedWith.Notes());
     }
 }

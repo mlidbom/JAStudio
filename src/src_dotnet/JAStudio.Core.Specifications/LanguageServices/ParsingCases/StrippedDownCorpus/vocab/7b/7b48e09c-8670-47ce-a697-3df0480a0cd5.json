@@ -42,16 +42,28 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "割る"
+      {
+        "text": "割る",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "分かれる",
-      "分ける",
-      "別れる"
+      {
+        "text": "分かれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "分ける",
+        "disambiguation": ""
+      },
+      {
+        "text": "別れる",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

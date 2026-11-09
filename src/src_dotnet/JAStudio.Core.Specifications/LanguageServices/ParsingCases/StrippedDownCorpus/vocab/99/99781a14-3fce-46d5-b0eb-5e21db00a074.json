@@ -59,9 +59,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "点ける"
+      {
+        "text": "点ける",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ます",
-      "え:imperative"
+      {
+        "text": "ます",
+        "disambiguation": ""
+      },
+      {
+        "text": "え",
+        "disambiguation": "imperative"
+      }
     ],
     "alternative": []
   },
@@ -54,7 +60,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

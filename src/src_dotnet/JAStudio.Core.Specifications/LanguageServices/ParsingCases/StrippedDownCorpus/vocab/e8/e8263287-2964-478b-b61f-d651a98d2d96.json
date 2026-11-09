@@ -9,9 +9,18 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "風",
-      "の",
-      "強い"
+      {
+        "text": "風",
+        "disambiguation": ""
+      },
+      {
+        "text": "の",
+        "disambiguation": ""
+      },
+      {
+        "text": "強い",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -47,7 +56,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

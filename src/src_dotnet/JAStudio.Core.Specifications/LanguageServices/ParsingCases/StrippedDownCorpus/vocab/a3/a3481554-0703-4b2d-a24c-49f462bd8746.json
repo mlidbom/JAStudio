@@ -60,10 +60,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "煩い"
+      {
+        "text": "煩い",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "う:non-past",
-      "ことで"
+      {
+        "text": "う",
+        "disambiguation": "non-past"
+      },
+      {
+        "text": "ことで",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -50,7 +56,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

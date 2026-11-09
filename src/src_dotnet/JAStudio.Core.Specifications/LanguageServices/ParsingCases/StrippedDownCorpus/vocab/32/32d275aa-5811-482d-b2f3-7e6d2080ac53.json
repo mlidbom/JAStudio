@@ -47,13 +47,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "であります",
-      "である",
-      "でございます",
-      "でござる"
+      {
+        "text": "であります",
+        "disambiguation": ""
+      },
+      {
+        "text": "である",
+        "disambiguation": ""
+      },
+      {
+        "text": "でございます",
+        "disambiguation": ""
+      },
+      {
+        "text": "でござる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

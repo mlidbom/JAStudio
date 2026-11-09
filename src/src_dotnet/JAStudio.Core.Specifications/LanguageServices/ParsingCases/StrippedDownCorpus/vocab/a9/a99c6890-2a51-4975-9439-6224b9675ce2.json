@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "一",
-      "寸"
+      {
+        "text": "一",
+        "disambiguation": ""
+      },
+      {
+        "text": "寸",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -54,7 +60,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

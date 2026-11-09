@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ハート",
-      "形"
+      {
+        "text": "ハート",
+        "disambiguation": ""
+      },
+      {
+        "text": "形",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,7 +51,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -47,10 +47,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "おる"
+      {
+        "text": "おる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

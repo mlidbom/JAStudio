@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "様",
-      "に"
+      {
+        "text": "様",
+        "disambiguation": ""
+      },
+      {
+        "text": "に",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "よう"
+      {
+        "text": "よう",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -54,10 +63,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "みたいに"
+      {
+        "text": "みたいに",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

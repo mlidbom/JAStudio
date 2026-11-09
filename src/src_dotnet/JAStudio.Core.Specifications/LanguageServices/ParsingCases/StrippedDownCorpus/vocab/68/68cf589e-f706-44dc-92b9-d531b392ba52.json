@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "の",
-      "だ"
+      {
+        "text": "の",
+        "disambiguation": ""
+      },
+      {
+        "text": "だ",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -60,13 +66,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ので"
+      {
+        "text": "ので",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

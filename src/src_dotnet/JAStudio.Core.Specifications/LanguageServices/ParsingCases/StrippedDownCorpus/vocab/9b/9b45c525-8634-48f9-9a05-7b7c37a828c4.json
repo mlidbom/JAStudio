@@ -49,13 +49,22 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "する"
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "となる",
-      "になる"
+      {
+        "text": "となる",
+        "disambiguation": ""
+      },
+      {
+        "text": "になる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

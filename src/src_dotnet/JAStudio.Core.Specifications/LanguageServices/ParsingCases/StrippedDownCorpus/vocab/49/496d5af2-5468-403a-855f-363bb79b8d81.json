@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "だ",
-      "たら"
+      {
+        "text": "だ",
+        "disambiguation": ""
+      },
+      {
+        "text": "たら",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,10 +50,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "でしたら"
+      {
+        "text": "でしたら",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "落ち着く",
-      "える"
+      {
+        "text": "落ち着く",
+        "disambiguation": ""
+      },
+      {
+        "text": "える",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -64,7 +70,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "思い",
-      "出す:masu"
+      {
+        "text": "思い",
+        "disambiguation": ""
+      },
+      {
+        "text": "出す",
+        "disambiguation": "masu"
+      }
     ],
     "alternative": []
   },
@@ -58,7 +64,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

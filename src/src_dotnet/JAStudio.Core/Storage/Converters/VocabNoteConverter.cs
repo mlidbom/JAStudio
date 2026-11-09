@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Vocabulary;
@@ -18,7 +19,7 @@ static class VocabNoteConverter
                 Explanation = note.Explanation.Value,
                 ExplanationLong = note.ExplanationLong.Value,
                 Mnemonic = note.Mnemonic.Value,
-                CompoundParts = new VocabCompoundPartsDto { Primary = note.CompoundParts.Primary(), Alternative = note.CompoundParts.Alternative() },
+                CompoundParts = new VocabCompoundPartsDto { Primary = ToDtos(note.CompoundParts.Primary()), Alternative = ToDtos(note.CompoundParts.Alternative()) },
                 Readings = note.GetReadings(),
                 PartsOfSpeech = note.PartsOfSpeech.ToDto(),
                 Register = note.Register.ToDto(),
@@ -33,13 +34,13 @@ static class VocabNoteConverter
                 Matching = note.MatchingConfiguration.ToDto(),
                 RelatedVocab = new VocabRelatedDto
                                {
-                                  ErgativeTwins = [.. related.ErgativeTwins.Strings().OrderBy(s => s)],
-                                  DerivedFrom = related.DerivedFrom.Get(),
-                                  PerfectSynonyms = [.. related.PerfectSynonyms.Get().OrderBy(s => s)],
-                                  Synonyms = [.. related.Synonyms.Strings().OrderBy(s => s)],
-                                  Antonyms = [.. related.Antonyms.Strings().OrderBy(s => s)],
-                                  ConfusedWith = [.. related.ConfusedWith.Get().OrderBy(s => s)],
-                                  SeeAlso = [.. related.SeeAlso.Strings().OrderBy(s => s)],
+                                  ErgativeTwins = InAFixedOrder(related.ErgativeTwins.Words),
+                                  DerivedFrom = related.DerivedFrom.Word?.ToDto(),
+                                  PerfectSynonyms = InAFixedOrder(related.PerfectSynonyms.Words),
+                                  Synonyms = InAFixedOrder(related.Synonyms.Words),
+                                  Antonyms = InAFixedOrder(related.Antonyms.Words),
+                                  ConfusedWith = InAFixedOrder(related.ConfusedWith.Words),
+                                  SeeAlso = InAFixedOrder(related.SeeAlso.Words),
                                },
                 Image = note.Image.RawValue(),
                 UserImage = note.UserImage.RawValue(),
@@ -47,4 +48,9 @@ static class VocabNoteConverter
                 Tags = note.Tags.ToStringList(),
              };
    }
+
+   static List<WordReferenceDto> ToDtos(IEnumerable<WordReference> references) => [.. references.Select(it => it.ToDto())];
+
+   /// <summary>A set of references in a fixed order, by their names, so that the same set always writes the same file.</summary>
+   static List<WordReferenceDto> InAFixedOrder(IEnumerable<WordReference> references) => ToDtos(references.OrderBy(it => it.DisambiguationName));
 }

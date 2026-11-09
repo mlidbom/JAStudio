@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "中",
-      "に"
+      {
+        "text": "中",
+        "disambiguation": ""
+      },
+      {
+        "text": "に",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,7 +51,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "一人",
-      "で"
+      {
+        "text": "一人",
+        "disambiguation": ""
+      },
+      {
+        "text": "で",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -55,7 +61,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

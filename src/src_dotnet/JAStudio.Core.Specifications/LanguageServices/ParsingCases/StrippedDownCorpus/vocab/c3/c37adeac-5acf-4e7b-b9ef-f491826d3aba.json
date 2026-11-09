@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "気",
-      "する"
+      {
+        "text": "気",
+        "disambiguation": ""
+      },
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,10 +55,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "気が"
+      {
+        "text": "気が",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

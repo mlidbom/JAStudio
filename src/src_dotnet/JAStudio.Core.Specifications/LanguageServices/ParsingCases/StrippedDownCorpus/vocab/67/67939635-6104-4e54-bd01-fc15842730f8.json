@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "お",
-      "前"
+      {
+        "text": "お",
+        "disambiguation": ""
+      },
+      {
+        "text": "前",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,7 +59,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "無理",
-      "する"
+      {
+        "text": "無理",
+        "disambiguation": ""
+      },
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -50,13 +56,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "無茶する"
+      {
+        "text": "無茶する",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

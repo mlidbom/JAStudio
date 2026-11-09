@@ -42,13 +42,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "長い"
+      {
+        "text": "長い",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

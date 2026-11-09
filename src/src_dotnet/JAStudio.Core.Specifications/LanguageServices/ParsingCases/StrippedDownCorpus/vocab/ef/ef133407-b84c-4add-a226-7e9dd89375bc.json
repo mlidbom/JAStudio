@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "教科",
-      "書"
+      {
+        "text": "教科",
+        "disambiguation": ""
+      },
+      {
+        "text": "書",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,7 +50,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

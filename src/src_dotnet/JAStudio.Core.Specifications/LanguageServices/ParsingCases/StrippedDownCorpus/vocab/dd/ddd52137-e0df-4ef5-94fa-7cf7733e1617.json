@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "俺",
-      "の"
+      {
+        "text": "俺",
+        "disambiguation": ""
+      },
+      {
+        "text": "の",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -52,7 +58,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

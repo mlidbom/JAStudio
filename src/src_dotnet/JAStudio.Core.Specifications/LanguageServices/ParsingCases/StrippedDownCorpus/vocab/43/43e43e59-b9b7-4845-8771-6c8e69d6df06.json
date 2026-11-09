@@ -43,10 +43,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "目"
+      {
+        "text": "目",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

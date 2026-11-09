@@ -44,11 +44,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "よ",
-      "ろ"
+      {
+        "text": "よ",
+        "disambiguation": ""
+      },
+      {
+        "text": "ろ",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

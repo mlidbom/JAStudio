@@ -49,9 +49,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "する"
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

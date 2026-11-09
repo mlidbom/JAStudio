@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "落書き",
-      "する"
+      {
+        "text": "落書き",
+        "disambiguation": ""
+      },
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -73,7 +79,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

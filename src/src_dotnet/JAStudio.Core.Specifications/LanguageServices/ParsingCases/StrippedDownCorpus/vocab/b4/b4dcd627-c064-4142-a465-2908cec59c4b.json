@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "差す",
-      "込む"
+      {
+        "text": "差す",
+        "disambiguation": ""
+      },
+      {
+        "text": "込む",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,7 +59,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "何",
-      "だ"
+      {
+        "text": "何",
+        "disambiguation": ""
+      },
+      {
+        "text": "だ",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "なの"
+      {
+        "text": "なの",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -55,7 +64,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

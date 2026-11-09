@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "言う",
-      "とおり"
+      {
+        "text": "言う",
+        "disambiguation": ""
+      },
+      {
+        "text": "とおり",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,7 +59,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

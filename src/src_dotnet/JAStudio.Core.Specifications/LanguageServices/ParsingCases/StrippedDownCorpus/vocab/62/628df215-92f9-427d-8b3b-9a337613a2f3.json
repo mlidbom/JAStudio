@@ -47,14 +47,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "無くす"
+      {
+        "text": "無くす",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "居なくなる"
+      {
+        "text": "居なくなる",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

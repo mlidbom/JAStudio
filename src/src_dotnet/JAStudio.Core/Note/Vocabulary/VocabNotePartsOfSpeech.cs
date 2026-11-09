@@ -85,14 +85,14 @@ public class VocabNotePartsOfSpeech
    {
       var compounds = Vocab.CompoundParts.Primary();
       if(compounds.Count == 0) return false;
-      return AnalysisConstants.PassiveVerbEndings.Contains(compounds[^1]);
+      return compounds[^1].IsAPlainWordAmong(AnalysisConstants.PassiveVerbEndings);
    }
 
    public bool IsCausativeVerbCompound()
    {
       var compounds = Vocab.CompoundParts.Primary();
       if(compounds.Count == 0) return false;
-      return AnalysisConstants.CausativeVerbEndings.Contains(compounds[^1]);
+      return compounds[^1].IsAPlainWordAmong(AnalysisConstants.CausativeVerbEndings);
    }
 
    public bool IsCompleteNaAdjective() => Vocab.Question.Text.EndsWith("な") && Contains(PartOfSpeech.NaAdjective);

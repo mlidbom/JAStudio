@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "来る",
-      "い:imperative"
+      {
+        "text": "来る",
+        "disambiguation": ""
+      },
+      {
+        "text": "い",
+        "disambiguation": "imperative"
+      }
     ],
     "alternative": []
   },
@@ -53,7 +59,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

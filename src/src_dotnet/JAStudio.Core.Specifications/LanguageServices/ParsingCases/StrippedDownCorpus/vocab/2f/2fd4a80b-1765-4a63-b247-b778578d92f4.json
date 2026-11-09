@@ -50,12 +50,15 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "靴"
+      {
+        "text": "靴",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "私",
-      "は"
+      {
+        "text": "私",
+        "disambiguation": ""
+      },
+      {
+        "text": "は",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -40,7 +46,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

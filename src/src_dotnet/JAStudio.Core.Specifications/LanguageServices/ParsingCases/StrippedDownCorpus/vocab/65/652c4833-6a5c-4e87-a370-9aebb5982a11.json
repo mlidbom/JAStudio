@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "本当",
-      "当に"
+      {
+        "text": "本当",
+        "disambiguation": ""
+      },
+      {
+        "text": "当に",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,10 +55,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ホントに"
+      {
+        "text": "ホントに",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

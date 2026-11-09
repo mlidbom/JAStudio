@@ -44,13 +44,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "たら"
+      {
+        "text": "たら",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

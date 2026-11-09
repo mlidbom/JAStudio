@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "知る",
-      "える"
+      {
+        "text": "知る",
+        "disambiguation": ""
+      },
+      {
+        "text": "える",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,7 +51,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

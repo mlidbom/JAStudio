@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "です",
-      "おう"
+      {
+        "text": "です",
+        "disambiguation": ""
+      },
+      {
+        "text": "おう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,7 +55,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

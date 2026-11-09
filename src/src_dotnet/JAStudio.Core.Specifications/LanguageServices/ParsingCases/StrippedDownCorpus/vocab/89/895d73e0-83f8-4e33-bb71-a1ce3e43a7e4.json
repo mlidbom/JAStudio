@@ -59,9 +59,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "点く"
+      {
+        "text": "点く",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

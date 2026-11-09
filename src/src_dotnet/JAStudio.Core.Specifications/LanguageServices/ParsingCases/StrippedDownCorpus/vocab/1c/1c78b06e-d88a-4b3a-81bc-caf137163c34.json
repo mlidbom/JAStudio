@@ -41,10 +41,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "しか"
+      {
+        "text": "しか",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

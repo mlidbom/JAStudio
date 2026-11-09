@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "散",
-      "撒く"
+      {
+        "text": "散",
+        "disambiguation": ""
+      },
+      {
+        "text": "撒く",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -61,7 +67,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

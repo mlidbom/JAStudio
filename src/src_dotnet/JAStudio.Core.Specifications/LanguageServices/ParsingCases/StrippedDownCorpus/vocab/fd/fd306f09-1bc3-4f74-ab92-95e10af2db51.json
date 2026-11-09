@@ -58,15 +58,24 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "が",
-      "が:s.end",
-      "だけど"
+      {
+        "text": "が",
+        "disambiguation": ""
+      },
+      {
+        "text": "が",
+        "disambiguation": "s.end"
+      },
+      {
+        "text": "だけど",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

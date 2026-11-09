@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "えれる",
-      "て"
+      {
+        "text": "えれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "て",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,16 +57,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "れて"
+      {
+        "text": "れて",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "あれて",
-      "られて"
+      {
+        "text": "あれて",
+        "disambiguation": ""
+      },
+      {
+        "text": "られて",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

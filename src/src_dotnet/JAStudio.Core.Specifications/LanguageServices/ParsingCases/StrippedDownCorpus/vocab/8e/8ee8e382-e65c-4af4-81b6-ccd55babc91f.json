@@ -43,17 +43,29 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "んだ"
+      {
+        "text": "んだ",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "でした",
-      "る",
-      "んだ"
+      {
+        "text": "でした",
+        "disambiguation": ""
+      },
+      {
+        "text": "る",
+        "disambiguation": ""
+      },
+      {
+        "text": "んだ",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

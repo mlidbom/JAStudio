@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "える",
-      "そう"
+      {
+        "text": "える",
+        "disambiguation": ""
+      },
+      {
+        "text": "そう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -95,12 +101,18 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "えそう:imperative"
+      {
+        "text": "えそう",
+        "disambiguation": "imperative"
+      }
     ],
     "synonyms": [
-      "えそう:imperative"
+      {
+        "text": "えそう",
+        "disambiguation": "imperative"
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

@@ -56,13 +56,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あります",
-      "います",
-      "おります",
-      "おる"
+      {
+        "text": "あります",
+        "disambiguation": ""
+      },
+      {
+        "text": "います",
+        "disambiguation": ""
+      },
+      {
+        "text": "おります",
+        "disambiguation": ""
+      },
+      {
+        "text": "おる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

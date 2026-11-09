@@ -49,14 +49,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "逢う"
+      {
+        "text": "逢う",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "会う"
+      {
+        "text": "会う",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

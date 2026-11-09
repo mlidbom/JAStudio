@@ -47,10 +47,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "お清めする"
+      {
+        "text": "お清めする",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

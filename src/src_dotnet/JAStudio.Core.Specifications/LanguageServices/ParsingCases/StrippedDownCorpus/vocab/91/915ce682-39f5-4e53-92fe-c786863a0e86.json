@@ -96,13 +96,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "〜られる",
-      "〜れる",
-      "えれる",
-      "られる"
+      {
+        "text": "〜られる",
+        "disambiguation": ""
+      },
+      {
+        "text": "〜れる",
+        "disambiguation": ""
+      },
+      {
+        "text": "えれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "られる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

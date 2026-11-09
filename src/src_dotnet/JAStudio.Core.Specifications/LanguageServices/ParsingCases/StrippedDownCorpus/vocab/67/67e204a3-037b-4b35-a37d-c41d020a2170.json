@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "くれ",
-      "よ"
+      {
+        "text": "くれ",
+        "disambiguation": ""
+      },
+      {
+        "text": "よ",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "くれる"
+      {
+        "text": "くれる",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -46,7 +55,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

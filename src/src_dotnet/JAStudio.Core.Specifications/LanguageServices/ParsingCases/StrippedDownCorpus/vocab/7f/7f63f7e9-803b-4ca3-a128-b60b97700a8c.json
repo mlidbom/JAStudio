@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "見",
-      "付ける"
+      {
+        "text": "見",
+        "disambiguation": ""
+      },
+      {
+        "text": "付ける",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -58,9 +64,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "見つかる"
+      {
+        "text": "見つかる",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

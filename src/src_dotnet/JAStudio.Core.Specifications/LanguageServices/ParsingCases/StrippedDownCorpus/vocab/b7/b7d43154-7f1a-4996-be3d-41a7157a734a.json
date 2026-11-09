@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "と",
-      "いう"
+      {
+        "text": "と",
+        "disambiguation": ""
+      },
+      {
+        "text": "いう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -55,10 +61,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "っていう"
+      {
+        "text": "っていう",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

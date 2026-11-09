@@ -9,7 +9,10 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "くれる"
+      {
+        "text": "くれる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -41,7 +44,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

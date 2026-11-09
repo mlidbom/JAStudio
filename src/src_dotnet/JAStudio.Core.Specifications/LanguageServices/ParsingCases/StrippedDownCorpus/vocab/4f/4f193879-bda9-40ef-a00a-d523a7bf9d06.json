@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "したがる",
-      "て"
+      {
+        "text": "したがる",
+        "disambiguation": ""
+      },
+      {
+        "text": "て",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,13 +52,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "にしたがって"
+      {
+        "text": "にしたがって",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

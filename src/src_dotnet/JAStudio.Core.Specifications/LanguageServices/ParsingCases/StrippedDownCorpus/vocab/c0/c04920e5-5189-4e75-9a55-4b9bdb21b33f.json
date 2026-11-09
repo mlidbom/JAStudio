@@ -9,9 +9,18 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "厳密に",
-      "言う",
-      "えば"
+      {
+        "text": "厳密に",
+        "disambiguation": ""
+      },
+      {
+        "text": "言う",
+        "disambiguation": ""
+      },
+      {
+        "text": "えば",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -50,7 +59,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

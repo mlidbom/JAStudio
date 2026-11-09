@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "だ",
-      "けど"
+      {
+        "text": "だ",
+        "disambiguation": ""
+      },
+      {
+        "text": "けど",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,14 +50,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "が",
-      "けど"
+      {
+        "text": "が",
+        "disambiguation": ""
+      },
+      {
+        "text": "けど",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

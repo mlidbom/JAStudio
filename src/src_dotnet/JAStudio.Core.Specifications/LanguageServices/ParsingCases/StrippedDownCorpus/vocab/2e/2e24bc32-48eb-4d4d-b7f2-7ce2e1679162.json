@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ない",
-      "し"
+      {
+        "text": "ない",
+        "disambiguation": ""
+      },
+      {
+        "text": "し",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,7 +59,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

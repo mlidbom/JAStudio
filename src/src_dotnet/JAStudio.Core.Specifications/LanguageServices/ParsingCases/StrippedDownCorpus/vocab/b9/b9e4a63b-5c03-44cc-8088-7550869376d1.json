@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "いく",
-      "え:imperative"
+      {
+        "text": "いく",
+        "disambiguation": ""
+      },
+      {
+        "text": "え",
+        "disambiguation": "imperative"
+      }
     ],
     "alternative": []
   },
@@ -55,7 +61,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -70,10 +70,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "いい"
+      {
+        "text": "いい",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

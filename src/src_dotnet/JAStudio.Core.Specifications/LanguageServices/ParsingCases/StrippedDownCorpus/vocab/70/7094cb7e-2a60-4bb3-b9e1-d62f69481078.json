@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ところ",
-      "がある"
+      {
+        "text": "ところ",
+        "disambiguation": ""
+      },
+      {
+        "text": "がある",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,10 +55,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "とこある"
+      {
+        "text": "とこある",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

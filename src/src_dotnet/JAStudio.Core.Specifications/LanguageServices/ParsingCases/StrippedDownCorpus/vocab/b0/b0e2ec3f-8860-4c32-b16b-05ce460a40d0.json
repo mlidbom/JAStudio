@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "何",
-      "言っとん"
+      {
+        "text": "何",
+        "disambiguation": ""
+      },
+      {
+        "text": "言っとん",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -57,7 +63,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

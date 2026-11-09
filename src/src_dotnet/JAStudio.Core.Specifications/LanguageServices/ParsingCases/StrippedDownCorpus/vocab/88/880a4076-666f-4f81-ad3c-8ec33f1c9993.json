@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ん",
-      "だろう"
+      {
+        "text": "ん",
+        "disambiguation": ""
+      },
+      {
+        "text": "だろう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,7 +50,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

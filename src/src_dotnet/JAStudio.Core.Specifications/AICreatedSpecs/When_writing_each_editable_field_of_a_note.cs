@@ -85,6 +85,7 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
       _ when field.ValueType == typeof(IReadOnlyList<EnteredForm>)             => new List<EnteredForm> { new("another form", true) },
       _ when field.ValueType == typeof(IReadOnlyList<KanjiReading>)            => new List<KanjiReading> { new("あ", true) },
       _ when field.ValueType == typeof(IReadOnlyList<WordExclusion>)           => new List<WordExclusion> { WordExclusion.Global("another word") },
+      _ when field.ValueType == typeof(IReadOnlyList<WordReference>)           => new List<WordReference> { new("another word") },
       { ValueType.IsEnum: true }                                               => Enum.GetValues(field.ValueType).Cast<object>().First(it => !it.Equals(field.ReadValue(note))),
       _                                                                        => throw new ArgumentOutOfRangeException(nameof(field), field.ValueType, "No value for this type of field.")
    };

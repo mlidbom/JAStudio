@@ -50,10 +50,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "眼"
+      {
+        "text": "眼",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

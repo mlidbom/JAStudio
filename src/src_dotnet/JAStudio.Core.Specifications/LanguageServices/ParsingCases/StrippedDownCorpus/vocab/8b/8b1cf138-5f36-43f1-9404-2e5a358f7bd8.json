@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "う:non-past",
-      "な"
+      {
+        "text": "う",
+        "disambiguation": "non-past"
+      },
+      {
+        "text": "な",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -48,7 +54,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

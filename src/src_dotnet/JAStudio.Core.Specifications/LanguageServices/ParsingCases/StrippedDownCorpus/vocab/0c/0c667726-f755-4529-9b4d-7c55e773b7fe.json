@@ -42,12 +42,18 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "放れる"
+      {
+        "text": "放れる",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "離す"
+      {
+        "text": "離す",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

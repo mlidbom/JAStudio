@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "な",
-      "の"
+      {
+        "text": "な",
+        "disambiguation": ""
+      },
+      {
+        "text": "の",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,7 +55,10 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "なのだ",
+    "derivedFrom": {
+      "text": "なのだ",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

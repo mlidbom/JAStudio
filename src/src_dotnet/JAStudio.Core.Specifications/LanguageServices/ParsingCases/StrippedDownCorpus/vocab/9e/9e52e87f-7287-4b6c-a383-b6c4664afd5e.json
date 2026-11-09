@@ -44,15 +44,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "てん"
+      {
+        "text": "てん",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ておる"
+      {
+        "text": "ておる",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

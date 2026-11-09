@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "です",
-      "か"
+      {
+        "text": "です",
+        "disambiguation": ""
+      },
+      {
+        "text": "か",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,10 +50,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "か"
+      {
+        "text": "か",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

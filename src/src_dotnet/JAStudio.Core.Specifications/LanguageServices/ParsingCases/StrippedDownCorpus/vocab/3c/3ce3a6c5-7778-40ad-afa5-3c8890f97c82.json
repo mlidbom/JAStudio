@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "出",
-      "会う"
+      {
+        "text": "出",
+        "disambiguation": ""
+      },
+      {
+        "text": "会う",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -62,7 +68,10 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "出会う",
+    "derivedFrom": {
+      "text": "出会う",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

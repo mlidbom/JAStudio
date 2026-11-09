@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "する",
-      "たがる"
+      {
+        "text": "する",
+        "disambiguation": ""
+      },
+      {
+        "text": "たがる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,7 +50,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

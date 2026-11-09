@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "たい",
-      "がる"
+      {
+        "text": "たい",
+        "disambiguation": ""
+      },
+      {
+        "text": "がる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -50,7 +56,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

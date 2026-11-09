@@ -47,9 +47,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "降ろす"
+      {
+        "text": "降ろす",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

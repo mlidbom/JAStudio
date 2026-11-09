@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "する",
-      "ても"
+      {
+        "text": "する",
+        "disambiguation": ""
+      },
+      {
+        "text": "ても",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -42,7 +48,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

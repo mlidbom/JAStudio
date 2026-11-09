@@ -9,12 +9,24 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "の中",
-      "に"
+      {
+        "text": "の中",
+        "disambiguation": ""
+      },
+      {
+        "text": "に",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "の",
-      "中に"
+      {
+        "text": "の",
+        "disambiguation": ""
+      },
+      {
+        "text": "中に",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [],
@@ -45,7 +57,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

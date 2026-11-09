@@ -51,10 +51,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "撒く"
+      {
+        "text": "撒く",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

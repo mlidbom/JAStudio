@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "で",
-      "いく"
+      {
+        "text": "で",
+        "disambiguation": ""
+      },
+      {
+        "text": "いく",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -68,14 +74,26 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ていく",
-      "てく"
+      {
+        "text": "ていく",
+        "disambiguation": ""
+      },
+      {
+        "text": "てく",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ていく",
-      "てく"
+      {
+        "text": "ていく",
+        "disambiguation": ""
+      },
+      {
+        "text": "てく",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

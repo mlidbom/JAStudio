@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "解放",
-      "する"
+      {
+        "text": "解放",
+        "disambiguation": ""
+      },
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,7 +51,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

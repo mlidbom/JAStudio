@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "だ",
-      "と"
+      {
+        "text": "だ",
+        "disambiguation": ""
+      },
+      {
+        "text": "と",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,14 +55,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "だって",
-      "ですって"
+      {
+        "text": "だって",
+        "disambiguation": ""
+      },
+      {
+        "text": "ですって",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

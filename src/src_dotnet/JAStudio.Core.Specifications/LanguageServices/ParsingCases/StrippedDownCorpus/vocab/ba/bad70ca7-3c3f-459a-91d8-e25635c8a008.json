@@ -51,9 +51,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "焼ける"
+      {
+        "text": "焼ける",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

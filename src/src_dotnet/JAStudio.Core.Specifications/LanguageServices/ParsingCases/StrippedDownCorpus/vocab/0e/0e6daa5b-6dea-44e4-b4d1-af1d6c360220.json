@@ -79,10 +79,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "良ければ"
+      {
+        "text": "良ければ",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

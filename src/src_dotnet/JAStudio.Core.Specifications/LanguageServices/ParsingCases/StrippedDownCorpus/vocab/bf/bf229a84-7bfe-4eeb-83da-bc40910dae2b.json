@@ -59,9 +59,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "付く"
+      {
+        "text": "付く",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

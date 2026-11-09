@@ -59,12 +59,18 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "行きます"
+      {
+        "text": "行きます",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "行きます"
+      {
+        "text": "行きます",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

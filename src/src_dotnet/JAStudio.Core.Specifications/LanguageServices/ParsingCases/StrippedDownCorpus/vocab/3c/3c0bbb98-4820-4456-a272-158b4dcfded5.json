@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "なの",
-      "だ"
+      {
+        "text": "なの",
+        "disambiguation": ""
+      },
+      {
+        "text": "だ",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,11 +55,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "なのです",
-      "なんです"
+      {
+        "text": "なのです",
+        "disambiguation": ""
+      },
+      {
+        "text": "なんです",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

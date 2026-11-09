@@ -47,9 +47,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "借りる"
+      {
+        "text": "借りる",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

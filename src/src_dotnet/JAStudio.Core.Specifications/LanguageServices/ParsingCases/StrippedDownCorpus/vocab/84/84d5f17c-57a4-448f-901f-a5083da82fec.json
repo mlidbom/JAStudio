@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ちゃう",
-      "た"
+      {
+        "text": "ちゃう",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,23 +52,47 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ちまった",
-      "てしまいました",
-      "てしまった"
+      {
+        "text": "ちまった",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまいました",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまった",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ちまった",
-      "てしまいました",
-      "てしまった"
+      {
+        "text": "ちまった",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまいました",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまった",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "じゃった"
+      {
+        "text": "じゃった",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": [
-      "ちゃってた"
+      {
+        "text": "ちゃってた",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

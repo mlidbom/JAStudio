@@ -9,8 +9,8 @@ namespace JAStudio.Core.Storage.Dto;
 public partial class VocabCompoundPartsDto
 {
    /// <summary>The <see cref="VocabNoteCompoundParts.Primary"/> parts, in their order.</summary>
-   public List<string> Primary { get; init; } = [];
+   public List<WordReferenceDto> Primary { get; init; } = [];
 
    /// <summary>The <see cref="VocabNoteCompoundParts.Alternative"/> parts: a set, written in a fixed order so that the same set always writes the same file.</summary>
-   public List<string> Alternative { get; init; } = [];
+   public List<WordReferenceDto> Alternative { get; init; } = [];
 }

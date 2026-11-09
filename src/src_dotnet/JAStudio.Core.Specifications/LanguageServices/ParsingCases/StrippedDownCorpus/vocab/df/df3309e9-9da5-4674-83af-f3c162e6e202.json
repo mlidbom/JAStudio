@@ -42,10 +42,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "出かける"
+      {
+        "text": "出かける",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

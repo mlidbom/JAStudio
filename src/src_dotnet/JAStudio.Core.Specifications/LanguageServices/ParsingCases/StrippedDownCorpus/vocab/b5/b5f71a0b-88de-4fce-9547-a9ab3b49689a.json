@@ -53,13 +53,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "頂"
+      {
+        "text": "頂",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

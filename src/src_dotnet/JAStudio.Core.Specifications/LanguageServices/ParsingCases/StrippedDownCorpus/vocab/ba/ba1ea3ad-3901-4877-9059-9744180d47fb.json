@@ -47,15 +47,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "くれる"
+      {
+        "text": "くれる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ください"
+      {
+        "text": "ください",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

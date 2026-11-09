@@ -9,9 +9,18 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "どう",
-      "やる",
-      "て"
+      {
+        "text": "どう",
+        "disambiguation": ""
+      },
+      {
+        "text": "やる",
+        "disambiguation": ""
+      },
+      {
+        "text": "て",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,13 +54,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "どうやったら"
+      {
+        "text": "どうやったら",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

@@ -51,7 +51,7 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
    protected TNote? WithIdOrNoneCore(NoteId noteId) => _byId.GetValueOrDefault(noteId);
 
    /// <summary>The notes <paramref name="index"/> holds under <paramref name="key"/>: a lookup, recorded if a <see cref="LookupRecording{TNote}"/> runs.</summary>
-   protected List<TNote> LookUp(Dictionary<string, HashSet<TNote>> index, string key) =>
+   protected List<TNote> LookUp<TKey>(Dictionary<TKey, HashSet<TNote>> index, TKey key) where TKey : notnull =>
       _monitor.Locked(() => _lookupRecorder.LookedUp(index.TryGetValue(key, out var notes) ? [.. notes] : []));
 
    /// <summary>Look up a note by its external long ID (uses the shared ExternalNoteIdMap).</summary>

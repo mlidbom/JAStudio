@@ -45,13 +45,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "さあ"
+      {
+        "text": "さあ",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

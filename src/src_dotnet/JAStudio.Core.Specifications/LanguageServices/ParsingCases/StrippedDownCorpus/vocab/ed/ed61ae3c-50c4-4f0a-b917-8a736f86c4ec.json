@@ -43,24 +43,60 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "低い",
-      "古い",
-      "多い",
-      "幼い",
-      "早い",
-      "浅い",
-      "深い",
-      "若い",
-      "近い",
-      "遅い",
-      "遠い",
-      "高い"
+      {
+        "text": "低い",
+        "disambiguation": ""
+      },
+      {
+        "text": "古い",
+        "disambiguation": ""
+      },
+      {
+        "text": "多い",
+        "disambiguation": ""
+      },
+      {
+        "text": "幼い",
+        "disambiguation": ""
+      },
+      {
+        "text": "早い",
+        "disambiguation": ""
+      },
+      {
+        "text": "浅い",
+        "disambiguation": ""
+      },
+      {
+        "text": "深い",
+        "disambiguation": ""
+      },
+      {
+        "text": "若い",
+        "disambiguation": ""
+      },
+      {
+        "text": "近い",
+        "disambiguation": ""
+      },
+      {
+        "text": "遅い",
+        "disambiguation": ""
+      },
+      {
+        "text": "遠い",
+        "disambiguation": ""
+      },
+      {
+        "text": "高い",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

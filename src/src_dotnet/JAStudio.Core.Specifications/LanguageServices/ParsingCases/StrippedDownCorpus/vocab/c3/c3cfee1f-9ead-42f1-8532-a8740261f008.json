@@ -51,10 +51,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "なんか"
+      {
+        "text": "なんか",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

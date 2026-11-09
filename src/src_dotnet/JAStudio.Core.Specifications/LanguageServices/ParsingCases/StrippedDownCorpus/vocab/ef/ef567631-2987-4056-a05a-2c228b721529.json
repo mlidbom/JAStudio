@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "られる",
-      "ない"
+      {
+        "text": "られる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ない",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -62,10 +68,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "られない"
+      {
+        "text": "られない",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

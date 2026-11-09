@@ -51,14 +51,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "返る"
+      {
+        "text": "返る",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "寝る"
+      {
+        "text": "寝る",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

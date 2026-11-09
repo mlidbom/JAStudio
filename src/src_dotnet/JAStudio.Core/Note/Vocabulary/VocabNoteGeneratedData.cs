@@ -21,10 +21,16 @@ public class VocabNoteGeneratedData
          vocab.UsuallyWrittenInKana.DecideAsYesUnlessDecided();
       }
 
-      if(vocab.CompoundParts.All().Count == 0 && vocab.PartsOfSpeech.IsSuruVerbIncluded())
+      if(vocab.CompoundParts.All().Count == 0 && IsAWordFollowedBySuru(vocab))
       {
-         var compounds = new List<string> { question.Substring(0, question.Length - 2), "する" };
+         var compounds = new List<WordReference> { new(question.Substring(0, question.Length - 2)), new("する") };
          vocab.CompoundParts.SetPrimary(compounds);
       }
    }
+
+   /// <summary>
+   /// Whether <paramref name="vocab"/> is a word followed by する, such as 勉強する: its question ends in する, and it isn't a godan verb, such as こする,<br/>
+   /// whose する is part of the verb.
+   /// </summary>
+   static bool IsAWordFollowedBySuru(VocabNote vocab) => vocab.PartsOfSpeech.IsSuruVerbIncluded() && !vocab.PartsOfSpeech.IsGodan();
 }

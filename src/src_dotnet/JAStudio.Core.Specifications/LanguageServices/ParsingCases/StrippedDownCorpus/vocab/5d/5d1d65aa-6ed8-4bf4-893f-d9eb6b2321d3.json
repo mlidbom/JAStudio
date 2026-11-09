@@ -55,15 +55,33 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あらず",
-      "ざる",
-      "ず",
-      "せん",
-      "ぬ",
-      "ん"
+      {
+        "text": "あらず",
+        "disambiguation": ""
+      },
+      {
+        "text": "ざる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ず",
+        "disambiguation": ""
+      },
+      {
+        "text": "せん",
+        "disambiguation": ""
+      },
+      {
+        "text": "ぬ",
+        "disambiguation": ""
+      },
+      {
+        "text": "ん",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

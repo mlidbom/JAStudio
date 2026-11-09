@@ -73,8 +73,8 @@ public class CompoundPartViewModel
       {
          var godanBase = match.Word.StartLocation.Token.BaseForm;
          var godanPotentialPartBase = match.Word.EndLocation.Token.BaseForm;
-         var godan = vocab.WithFormPreferDisambiguationNameOrExactMatch(godanBase);
-         var godanPotential = vocab.WithFormPreferDisambiguationNameOrExactMatch(godanPotentialPartBase);
+         var godan = vocab.ReferredToBy(new WordReference(godanBase));
+         var godanPotential = vocab.ReferredToBy(new WordReference(godanPotentialPartBase));
          if(godan.Any() && godanPotential.Any())
          {
             return

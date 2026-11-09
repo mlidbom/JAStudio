@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "の",
-      "か"
+      {
+        "text": "の",
+        "disambiguation": ""
+      },
+      {
+        "text": "か",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,13 +55,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "かい"
+      {
+        "text": "かい",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

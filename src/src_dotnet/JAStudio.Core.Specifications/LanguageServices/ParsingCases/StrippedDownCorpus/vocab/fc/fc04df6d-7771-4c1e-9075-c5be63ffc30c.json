@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "っていう",
-      "か"
+      {
+        "text": "っていう",
+        "disambiguation": ""
+      },
+      {
+        "text": "か",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -86,15 +92,30 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ていうか",
-      "というか"
+      {
+        "text": "ていうか",
+        "disambiguation": ""
+      },
+      {
+        "text": "というか",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "つうか",
-      "ていうか",
-      "というか"
+      {
+        "text": "つうか",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていうか",
+        "disambiguation": ""
+      },
+      {
+        "text": "というか",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

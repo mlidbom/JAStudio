@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "に",
-      "する"
+      {
+        "text": "に",
+        "disambiguation": ""
+      },
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -45,13 +51,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "する"
+      {
+        "text": "する",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

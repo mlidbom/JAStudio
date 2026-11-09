@@ -45,19 +45,34 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "る",
-      "る:non-past"
+      {
+        "text": "る",
+        "disambiguation": ""
+      },
+      {
+        "text": "る",
+        "disambiguation": "non-past"
+      }
     ],
     "synonyms": [
-      "る",
-      "る:non-past"
+      {
+        "text": "る",
+        "disambiguation": ""
+      },
+      {
+        "text": "る",
+        "disambiguation": "non-past"
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ます"
+      {
+        "text": "ます",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

@@ -158,7 +158,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    SpecMenuItem BuildMatchingNotesSubmenuSpec(string title, string text)
    {
       // Find notes that exactly match the search text
-      var vocabs = _services.CoreApp.Collection.Vocab.WithQuestionPreferDisambiguationName(text).ToList();
+      var vocabs = _services.CoreApp.Collection.Vocab.WithQuestionOrNamedBy(text);
       var sentences = _services.CoreApp.Collection.Sentences.WithQuestion(text);
       var kanjis = text.Length == 1
                       ? _services.CoreApp.Collection.Kanji.WithAnyKanjiIn([text])

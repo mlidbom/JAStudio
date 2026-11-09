@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "てない",
-      "た"
+      {
+        "text": "てない",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,12 +50,18 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ていなかった"
+      {
+        "text": "ていなかった",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ていなかった"
+      {
+        "text": "ていなかった",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ところ",
-      "が"
+      {
+        "text": "ところ",
+        "disambiguation": ""
+      },
+      {
+        "text": "が",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,7 +57,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

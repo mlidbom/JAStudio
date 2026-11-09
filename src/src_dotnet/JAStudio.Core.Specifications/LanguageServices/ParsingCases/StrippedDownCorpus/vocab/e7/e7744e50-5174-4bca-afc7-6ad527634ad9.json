@@ -41,17 +41,32 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "っていう",
-      "て",
-      "と",
-      "と言う",
-      "は"
+      {
+        "text": "っていう",
+        "disambiguation": ""
+      },
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "と",
+        "disambiguation": ""
+      },
+      {
+        "text": "と言う",
+        "disambiguation": ""
+      },
+      {
+        "text": "は",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

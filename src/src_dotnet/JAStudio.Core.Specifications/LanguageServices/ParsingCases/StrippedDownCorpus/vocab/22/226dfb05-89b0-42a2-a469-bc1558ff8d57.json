@@ -55,19 +55,34 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "て",
-      "んで"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "んで",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "て",
-      "んで"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "んで",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "で"
+      {
+        "text": "で",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

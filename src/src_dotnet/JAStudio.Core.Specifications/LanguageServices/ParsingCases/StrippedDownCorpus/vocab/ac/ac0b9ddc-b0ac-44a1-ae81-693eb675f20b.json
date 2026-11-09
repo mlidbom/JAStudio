@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "なぜ",
-      "か"
+      {
+        "text": "なぜ",
+        "disambiguation": ""
+      },
+      {
+        "text": "か",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,13 +55,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "なぜだか"
+      {
+        "text": "なぜだか",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

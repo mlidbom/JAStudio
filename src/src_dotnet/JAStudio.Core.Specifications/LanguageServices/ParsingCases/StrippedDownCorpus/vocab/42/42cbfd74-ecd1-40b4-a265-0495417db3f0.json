@@ -73,16 +73,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ましょう",
-      "よう"
+      {
+        "text": "ましょう",
+        "disambiguation": ""
+      },
+      {
+        "text": "よう",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "おお"
+      {
+        "text": "おお",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

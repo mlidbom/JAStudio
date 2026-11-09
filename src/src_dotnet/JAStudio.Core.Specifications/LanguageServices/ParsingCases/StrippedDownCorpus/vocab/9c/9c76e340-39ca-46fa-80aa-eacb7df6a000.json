@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ている",
-      "た"
+      {
+        "text": "ている",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -61,22 +67,58 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ていました",
-      "ておった",
-      "ておりました",
-      "てた",
-      "てました",
-      "んでいた"
+      {
+        "text": "ていました",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておった",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておりました",
+        "disambiguation": ""
+      },
+      {
+        "text": "てた",
+        "disambiguation": ""
+      },
+      {
+        "text": "てました",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいた",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ていました",
-      "ておった",
-      "ておりました",
-      "てた",
-      "てました",
-      "んでいた"
+      {
+        "text": "ていました",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておった",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておりました",
+        "disambiguation": ""
+      },
+      {
+        "text": "てた",
+        "disambiguation": ""
+      },
+      {
+        "text": "てました",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいた",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

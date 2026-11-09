@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "買う",
-      "替える"
+      {
+        "text": "買う",
+        "disambiguation": ""
+      },
+      {
+        "text": "替える",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -56,7 +62,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

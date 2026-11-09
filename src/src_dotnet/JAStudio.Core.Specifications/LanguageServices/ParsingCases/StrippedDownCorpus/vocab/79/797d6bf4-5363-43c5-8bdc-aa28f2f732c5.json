@@ -9,7 +9,10 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "う"
+      {
+        "text": "う",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,13 +56,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ぶざまに"
+      {
+        "text": "ぶざまに",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

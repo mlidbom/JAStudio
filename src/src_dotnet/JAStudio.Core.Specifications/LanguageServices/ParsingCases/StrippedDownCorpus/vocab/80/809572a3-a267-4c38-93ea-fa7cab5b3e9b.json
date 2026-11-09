@@ -62,16 +62,28 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "あそこ",
-      "この",
-      "これ",
-      "そこ"
+      {
+        "text": "あそこ",
+        "disambiguation": ""
+      },
+      {
+        "text": "この",
+        "disambiguation": ""
+      },
+      {
+        "text": "これ",
+        "disambiguation": ""
+      },
+      {
+        "text": "そこ",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

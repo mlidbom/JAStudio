@@ -48,13 +48,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あれる",
-      "える",
-      "えれる",
-      "れる"
+      {
+        "text": "あれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "える",
+        "disambiguation": ""
+      },
+      {
+        "text": "えれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "れる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

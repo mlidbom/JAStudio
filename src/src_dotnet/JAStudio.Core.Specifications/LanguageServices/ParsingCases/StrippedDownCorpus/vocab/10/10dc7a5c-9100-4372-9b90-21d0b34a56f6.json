@@ -48,18 +48,33 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "のでは",
-      "のではないか",
-      "んじゃ",
-      "んじゃないか"
+      {
+        "text": "のでは",
+        "disambiguation": ""
+      },
+      {
+        "text": "のではないか",
+        "disambiguation": ""
+      },
+      {
+        "text": "んじゃ",
+        "disambiguation": ""
+      },
+      {
+        "text": "んじゃないか",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "じゃん"
+      {
+        "text": "じゃん",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

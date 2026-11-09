@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ている",
-      "ない"
+      {
+        "text": "ている",
+        "disambiguation": ""
+      },
+      {
+        "text": "ない",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,14 +57,26 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "てない",
-      "てません"
+      {
+        "text": "てない",
+        "disambiguation": ""
+      },
+      {
+        "text": "てません",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "てない",
-      "てません"
+      {
+        "text": "てない",
+        "disambiguation": ""
+      },
+      {
+        "text": "てません",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

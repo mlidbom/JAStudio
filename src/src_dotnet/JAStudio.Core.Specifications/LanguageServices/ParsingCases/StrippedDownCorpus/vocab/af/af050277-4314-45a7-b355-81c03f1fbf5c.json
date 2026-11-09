@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "おう",
-      "か"
+      {
+        "text": "おう",
+        "disambiguation": ""
+      },
+      {
+        "text": "か",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,10 +57,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "おっか"
+      {
+        "text": "おっか",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

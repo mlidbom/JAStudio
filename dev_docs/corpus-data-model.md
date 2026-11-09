@@ -283,7 +283,7 @@ Two cautions:
 |---|---|---|
 | ~~Owned form~~ | `VocabNoteForms.ComputeOwnedForms` | ~~`[form]` in the `forms` list~~ *Gone 2026-11-08 (slice 1): each form is `{ "text", "isOwned" }`.* |
 | ~~Alternative compound part~~ | `VocabNoteCompoundParts` | ~~`[part]` in `userCompounds`~~ *Gone 2026-11-08 (slice 1): `compoundParts` is `{ "primary", "alternative" }`.* |
-| Disambiguation | `VocabNoteQuestion` (`DisambiguationMarker`) | ~~`question:disambiguation` (32 vocab)~~ *Gone from the question 2026-11-08 (slice 2): it's `{ "text", "disambiguation" }`, 34 vocab with one. References to a vocab still name it `text:disambiguation` (`VocabNoteQuestion.DisambiguationName`), 115 of them in 111 vocab, until slice 8.* |
+| Disambiguation | `VocabNoteQuestion` (`DisambiguationMarker`) | ~~`question:disambiguation` (32 vocab)~~ *Gone from the question 2026-11-08 (slice 2): it's `{ "text", "disambiguation" }`, 34 vocab with one. ~~References to a vocab still name it `text:disambiguation`, 115 of them in 111 vocab, until slice 8.~~ *Gone from a vocab's related vocab and compound parts 2026-11-09 (slice 8a): they're word-references, `{ "text", "disambiguation" }`. A sentence's configuration still names a vocab `text:disambiguation`, in 22 of its entries, such as the incorrect match `ちょっと:int`: it's matching's, and goes with the matching configuration's redesign.* |
 | ~~Invalid / empty question~~ | `VocabNoteQuestion` | ~~Sentinel strings `InvalidQuestionMessage` and `"[EMPTY]"` stored as the question~~ *Gone 2026-11-08 (slice 2). None was stored in the corpus: the code made them up while it ran. A question can't be set empty, or to text containing `:`, now.* |
 | Prefix / suffix marker | `Mine.VocabPrefixSuffixMarker` | `〜` in the question and forms, stripped as a "noise character". This is also standard dictionary notation, so it may rightly stay text. |
 | ~~Parts of speech~~ | `VocabNotePartsOfSpeech` | ~~One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times)~~ *Gone 2026-11-08 (slice 7b): `partsOfSpeech` is a list of the names of `PartOfSpeech`s, a closed set.* |
@@ -441,7 +441,7 @@ should drive its JSON key, not the reverse.
   "forms": [
     { "text": "剝ぐ", "isOwned": true }
   ],
-  "compoundParts": { "primary": [], "alternative": [] },
+  "compoundParts": { "primary": [{ "text": "見", "disambiguation": "" }, { "text": "出す", "disambiguation": "masu" }], "alternative": [] },
   "partsOfSpeech": ["godan verb", "transitive verb"],
   "register": [],
   "usuallyWrittenInKana": null,
@@ -453,9 +453,9 @@ should drive its JSON key, not the reverse.
     "rules": { "prefixIsNot": [], "suffixIsNot": [], "surfaceIsNot": [], "yieldToSurface": [], "requiredPrefix": [] }
   },
   "relatedVocab": {
-    "ergativeTwins": ["剥がれる"],
+    "ergativeTwins": [{ "text": "剥がれる", "disambiguation": "" }],
     "derivedFrom": null,
-    "perfectSynonyms": [], "synonyms": ["剥ぐ"], "antonyms": [], "confusedWith": [], "seeAlso": []
+    "perfectSynonyms": [], "synonyms": [{ "text": "剥ぐ", "disambiguation": "" }], "antonyms": [], "confusedWith": [], "seeAlso": []
   },
   "technicalNotes": "",
   "references": "",
@@ -944,6 +944,9 @@ Progress on step 3:
       Also fix the sentences tagged with two different sources, most likely editing mistakes: 291 in both
       `source::jlab::booster::1` and `source::jlab::inter`, 233 in `source::anime::violet::07` and `::08`. (A parent
       tag together with its child, as `source::wani` with `source::wani::current` on 14,567 sentences, is one source.)
+      **How to resume it (Magnus, 2026-11-09):** first find out what the data looks like. Then recommend, from that data:
+      list what Claude considers the works and what the providers, say where each is stored now, and where it would be
+      stored after the change, with how each specific kind of data the corpus has would end up represented.
    5. Priority out of the corpus, as student-data (see [Tags](#tags)).
    6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags. *Done 2026-11-08: see
       [Persisted-derived-data](#persisted-derived-data). `sentenceCount` and the tags derived from corpus data stay, as
@@ -1016,7 +1019,38 @@ Progress on step 3:
             next generation of its data filled them again. "Repopulate parts of speech" refills them by hand. The two
             rebuilds' changes are kept as a one-time fill of the existing vocab.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
-      pickers to replace the related-vocab JSON text box.
+      pickers to replace the related-vocab JSON text box. **Planned by Claude, 2026-11-09, with Magnus asleep and the calls
+      left to Claude, in three parts:**
+      - **8a, word-references as a type.** *Built 2026-11-09:* a `WordReference` is a word's text and its disambiguation,
+        stored as `{ "text", "disambiguation" }`, like a vocab's question. A vocab's related vocab (ergative twins, synonyms,
+        perfect synonyms, antonyms, confused with, see also, derived from) and its compound parts are word-references. Calls made:
+        - **Compound parts are word-references too**, though [the rule below](#references-between-entities-word-references)
+          kept them text: 102 of them named a vocab by its disambiguation, such as `出す:masu` in `見出す`, so they're
+          references to words in the same way. They still don't propagate renames (see 8b).
+        - **Resolution is unchanged:** a reference refers to the vocab it names exactly, text and disambiguation; one without
+          a disambiguation that names none refers to the vocab with its text as a form, those with it as their question's
+          text if any (`VocabCollection.ReferredToBy`). Perfect synonyms still accept only the vocab named exactly.
+        - **The four relationships kept mutual (ergative twins, synonyms, antonyms, see also) are one `MutualWordRelationship`**,
+          and confused with is a one-way `WordRelationship`; they were four copies of the same code. The other side of a mutual
+          relationship is now every vocab the word refers to, the vocab its page shows, and the vocab is added there by its own
+          name, disambiguation included. It was the vocab with the word as its question's text, disambiguated or not, and the
+          vocab's text without its disambiguation, so a relationship with a disambiguated vocab didn't come out mutual.
+        - **A vocab is never related to itself:** adding its own name to any relationship does nothing. Only synonyms and perfect
+          synonyms refused it before.
+        - **The editors and the MCP server:** the compound parts are still edited as comma separated text, each part by its
+          name, such as `出す:masu`. The MCP server edits the relationships as lists of `{ "text", "disambiguation" }`, and
+          derived from as the name, empty for none. The menus on selected text name the word by the selected text, and are
+          disabled when it can't name one.
+        - **The migration** turned every reference string into a word-reference, `text:disambiguation` split at the colon, and
+          an empty derived-from into null. It dropped one reference, こする's empty alternative compound part, which had been
+          keeping the generated data from giving こする the compound parts こ + する: a vocab whose question ends in する
+          got the parts X + する when it had none, godan verbs such as こする included. That rule now leaves godan verbs out.
+          Five other godan verbs had already got such parts: see `corpus-data-issues.md`.
+        - **Checked:** a full rebuild after the migration changed no note, so parsing is unchanged, and JAStudio writes the
+          migrated files exactly as the migration wrote them. A part of `え:imperative` still doesn't count as an imperative
+          ending where the tokenizer looks for one (a `review:` comment in `IchidanGodanPotentialOrImperativeHybridSplitter`).
+      - **8b, rename propagation (option C).** Next.
+      - **8c, vocab pickers** in the vocab editor, for the related vocab. Then.
    9. Media, once the points under [Media](#media-open) are settled.
 
 ### Before the trim (2026-11-08)

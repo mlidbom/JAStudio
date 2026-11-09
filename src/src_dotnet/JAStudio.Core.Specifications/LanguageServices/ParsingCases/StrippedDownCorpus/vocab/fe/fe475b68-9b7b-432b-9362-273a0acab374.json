@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ダメ",
-      "だ"
+      {
+        "text": "ダメ",
+        "disambiguation": ""
+      },
+      {
+        "text": "だ",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -55,7 +61,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

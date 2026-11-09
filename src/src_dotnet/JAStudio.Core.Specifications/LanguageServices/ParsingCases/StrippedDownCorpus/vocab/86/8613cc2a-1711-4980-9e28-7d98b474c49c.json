@@ -46,14 +46,29 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ざる",
-      "ず",
-      "せん",
-      "ない",
-      "ん"
+      {
+        "text": "ざる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ず",
+        "disambiguation": ""
+      },
+      {
+        "text": "せん",
+        "disambiguation": ""
+      },
+      {
+        "text": "ない",
+        "disambiguation": ""
+      },
+      {
+        "text": "ん",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

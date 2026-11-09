@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "あれる",
-      "ても"
+      {
+        "text": "あれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ても",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -56,7 +62,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "あいつ",
-      "ら"
+      {
+        "text": "あいつ",
+        "disambiguation": ""
+      },
+      {
+        "text": "ら",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -57,7 +63,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

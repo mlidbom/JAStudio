@@ -46,12 +46,15 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "歩道"
+      {
+        "text": "歩道",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

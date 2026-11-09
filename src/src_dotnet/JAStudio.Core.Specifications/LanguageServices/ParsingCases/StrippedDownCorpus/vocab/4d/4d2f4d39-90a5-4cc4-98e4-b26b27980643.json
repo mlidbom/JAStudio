@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "えてる",
-      "ない"
+      {
+        "text": "えてる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ない",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "てない"
+      {
+        "text": "てない",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -100,12 +109,18 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "えていない"
+      {
+        "text": "えていない",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "えていない"
+      {
+        "text": "えていない",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

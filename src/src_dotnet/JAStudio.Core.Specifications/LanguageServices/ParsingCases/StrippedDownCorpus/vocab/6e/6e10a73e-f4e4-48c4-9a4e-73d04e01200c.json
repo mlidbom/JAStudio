@@ -54,14 +54,29 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "〜させる",
-      "あす",
-      "さす",
-      "させる",
-      "せる"
+      {
+        "text": "〜させる",
+        "disambiguation": ""
+      },
+      {
+        "text": "あす",
+        "disambiguation": ""
+      },
+      {
+        "text": "さす",
+        "disambiguation": ""
+      },
+      {
+        "text": "させる",
+        "disambiguation": ""
+      },
+      {
+        "text": "せる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

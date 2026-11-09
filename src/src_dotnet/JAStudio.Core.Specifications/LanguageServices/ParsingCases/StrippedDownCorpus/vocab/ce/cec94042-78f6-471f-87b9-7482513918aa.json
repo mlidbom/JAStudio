@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "大",
-      "丈夫"
+      {
+        "text": "大",
+        "disambiguation": ""
+      },
+      {
+        "text": "丈夫",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,7 +52,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

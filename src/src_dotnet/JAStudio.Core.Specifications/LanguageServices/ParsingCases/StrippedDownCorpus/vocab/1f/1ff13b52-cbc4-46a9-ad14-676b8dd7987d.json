@@ -9,7 +9,10 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "でも"
+      {
+        "text": "でも",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -58,11 +61,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ても",
-      "んでも"
+      {
+        "text": "ても",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでも",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

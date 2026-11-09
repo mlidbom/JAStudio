@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "気",
-      "遣う"
+      {
+        "text": "気",
+        "disambiguation": ""
+      },
+      {
+        "text": "遣う",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,10 +55,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "気を遣う"
+      {
+        "text": "気を遣う",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

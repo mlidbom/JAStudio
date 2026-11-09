@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "くる"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "くる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,21 +59,39 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "てきます",
-      "んでくる"
+      {
+        "text": "てきます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでくる",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "てきます",
-      "んでくる"
+      {
+        "text": "てきます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでくる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "てく"
+      {
+        "text": "てく",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": [
-      "てくん"
+      {
+        "text": "てくん",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

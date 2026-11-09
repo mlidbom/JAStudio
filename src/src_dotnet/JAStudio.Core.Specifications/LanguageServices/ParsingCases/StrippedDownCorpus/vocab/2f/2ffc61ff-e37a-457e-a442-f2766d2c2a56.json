@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ば",
-      "よかった"
+      {
+        "text": "ば",
+        "disambiguation": ""
+      },
+      {
+        "text": "よかった",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,11 +57,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "たらよかった",
-      "たらよかったのに"
+      {
+        "text": "たらよかった",
+        "disambiguation": ""
+      },
+      {
+        "text": "たらよかったのに",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

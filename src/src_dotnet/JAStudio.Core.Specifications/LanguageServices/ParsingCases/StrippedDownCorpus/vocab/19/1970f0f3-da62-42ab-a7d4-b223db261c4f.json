@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "お前",
-      "も"
+      {
+        "text": "お前",
+        "disambiguation": ""
+      },
+      {
+        "text": "も",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,7 +55,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

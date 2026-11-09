@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "っていう",
-      "のは"
+      {
+        "text": "っていう",
+        "disambiguation": ""
+      },
+      {
+        "text": "のは",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -54,10 +60,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "のは"
+      {
+        "text": "のは",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

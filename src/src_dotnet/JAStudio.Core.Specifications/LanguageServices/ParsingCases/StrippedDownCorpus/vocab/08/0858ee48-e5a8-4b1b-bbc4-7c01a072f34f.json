@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "きれる",
-      "ず"
+      {
+        "text": "きれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ず",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -51,10 +57,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "切れない"
+      {
+        "text": "切れない",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

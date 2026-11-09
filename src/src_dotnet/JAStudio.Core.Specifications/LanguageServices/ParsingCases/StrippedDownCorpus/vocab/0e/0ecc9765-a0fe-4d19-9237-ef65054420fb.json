@@ -48,20 +48,38 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "いで",
-      "んで"
+      {
+        "text": "いで",
+        "disambiguation": ""
+      },
+      {
+        "text": "んで",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "いで",
-      "んで"
+      {
+        "text": "いで",
+        "disambiguation": ""
+      },
+      {
+        "text": "んで",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "って",
-      "で"
+      {
+        "text": "って",
+        "disambiguation": ""
+      },
+      {
+        "text": "で",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

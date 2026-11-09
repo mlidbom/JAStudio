@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "に",
-      "決まってる"
+      {
+        "text": "に",
+        "disambiguation": ""
+      },
+      {
+        "text": "決まってる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -73,7 +79,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

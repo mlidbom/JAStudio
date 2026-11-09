@@ -58,13 +58,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "っていうか",
-      "ていうか",
-      "てか",
-      "というか"
+      {
+        "text": "っていうか",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていうか",
+        "disambiguation": ""
+      },
+      {
+        "text": "てか",
+        "disambiguation": ""
+      },
+      {
+        "text": "というか",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

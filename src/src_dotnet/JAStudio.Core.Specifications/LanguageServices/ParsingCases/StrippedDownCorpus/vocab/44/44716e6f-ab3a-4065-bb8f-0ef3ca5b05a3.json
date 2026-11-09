@@ -48,10 +48,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "らしい"
+      {
+        "text": "らしい",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

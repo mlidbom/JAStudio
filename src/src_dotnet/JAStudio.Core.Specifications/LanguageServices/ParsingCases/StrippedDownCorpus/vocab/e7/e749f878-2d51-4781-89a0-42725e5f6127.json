@@ -70,13 +70,19 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ちょっ"
+      {
+        "text": "ちょっ",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [
-      "いや ちょっとね"
+      {
+        "text": "いや ちょっとね",
+        "disambiguation": ""
+      }
     ],
     "confusedWith": [],
     "seeAlso": []

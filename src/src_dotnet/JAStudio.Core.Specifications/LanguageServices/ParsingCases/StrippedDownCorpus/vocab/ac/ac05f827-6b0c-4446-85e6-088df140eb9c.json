@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ます",
-      "おう"
+      {
+        "text": "ます",
+        "disambiguation": ""
+      },
+      {
+        "text": "おう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,10 +59,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "よう"
+      {
+        "text": "よう",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

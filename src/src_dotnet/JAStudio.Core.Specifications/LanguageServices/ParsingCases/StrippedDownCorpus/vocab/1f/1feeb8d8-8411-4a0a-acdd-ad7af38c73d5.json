@@ -47,9 +47,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "隠す"
+      {
+        "text": "隠す",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -54,15 +54,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "う:non-past"
+      {
+        "text": "う",
+        "disambiguation": "non-past"
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "う"
+      {
+        "text": "う",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

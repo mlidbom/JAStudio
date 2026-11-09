@@ -47,9 +47,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "赤ん坊の泣き声が静寂を破った。"
+      {
+        "text": "赤ん坊の泣き声が静寂を破った。",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

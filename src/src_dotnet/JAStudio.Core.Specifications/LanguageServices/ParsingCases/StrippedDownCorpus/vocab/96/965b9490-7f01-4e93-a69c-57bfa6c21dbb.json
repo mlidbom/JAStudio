@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ても",
-      "知らない"
+      {
+        "text": "ても",
+        "disambiguation": ""
+      },
+      {
+        "text": "知らない",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -67,13 +73,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "と知らない"
+      {
+        "text": "と知らない",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

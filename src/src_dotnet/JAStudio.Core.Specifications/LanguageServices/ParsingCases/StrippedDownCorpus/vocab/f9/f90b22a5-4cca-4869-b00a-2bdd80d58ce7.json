@@ -42,19 +42,37 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あります",
-      "います",
-      "いる",
-      "おります",
-      "居る"
+      {
+        "text": "あります",
+        "disambiguation": ""
+      },
+      {
+        "text": "います",
+        "disambiguation": ""
+      },
+      {
+        "text": "いる",
+        "disambiguation": ""
+      },
+      {
+        "text": "おります",
+        "disambiguation": ""
+      },
+      {
+        "text": "居る",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "よって"
+      {
+        "text": "よって",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

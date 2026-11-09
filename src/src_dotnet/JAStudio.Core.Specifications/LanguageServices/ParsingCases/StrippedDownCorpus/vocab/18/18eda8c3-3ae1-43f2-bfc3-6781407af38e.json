@@ -50,12 +50,15 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "触り"
+      {
+        "text": "触り",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

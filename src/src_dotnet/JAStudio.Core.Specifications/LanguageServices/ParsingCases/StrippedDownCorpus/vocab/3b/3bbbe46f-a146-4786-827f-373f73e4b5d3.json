@@ -67,10 +67,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ちょっ"
+      {
+        "text": "ちょっ",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

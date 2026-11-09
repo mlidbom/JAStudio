@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "って",
-      "思う"
+      {
+        "text": "って",
+        "disambiguation": ""
+      },
+      {
+        "text": "思う",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,7 +55,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -47,10 +47,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "まく"
+      {
+        "text": "まく",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

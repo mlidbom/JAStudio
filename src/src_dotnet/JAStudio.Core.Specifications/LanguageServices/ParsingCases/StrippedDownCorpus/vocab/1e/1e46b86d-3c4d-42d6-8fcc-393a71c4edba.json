@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "いる",
-      "ます"
+      {
+        "text": "いる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ます",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -42,13 +48,25 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "あります",
-      "いる",
-      "おります",
-      "おる"
+      {
+        "text": "あります",
+        "disambiguation": ""
+      },
+      {
+        "text": "いる",
+        "disambiguation": ""
+      },
+      {
+        "text": "おります",
+        "disambiguation": ""
+      },
+      {
+        "text": "おる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

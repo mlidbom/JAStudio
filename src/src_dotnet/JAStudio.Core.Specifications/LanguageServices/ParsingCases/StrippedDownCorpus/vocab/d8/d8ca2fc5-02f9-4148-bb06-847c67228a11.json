@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "何",
-      "なんです"
+      {
+        "text": "何",
+        "disambiguation": ""
+      },
+      {
+        "text": "なんです",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "何なん"
+      {
+        "text": "何なん",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -49,10 +58,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "<div>なんなんだ</div>"
+      {
+        "text": "<div>なんなんだ</div>",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

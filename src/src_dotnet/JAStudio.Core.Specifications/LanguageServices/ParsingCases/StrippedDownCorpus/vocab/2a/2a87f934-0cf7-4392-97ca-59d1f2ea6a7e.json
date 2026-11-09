@@ -9,9 +9,18 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "お",
-      "構う",
-      "なく"
+      {
+        "text": "お",
+        "disambiguation": ""
+      },
+      {
+        "text": "構う",
+        "disambiguation": ""
+      },
+      {
+        "text": "なく",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -58,7 +67,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

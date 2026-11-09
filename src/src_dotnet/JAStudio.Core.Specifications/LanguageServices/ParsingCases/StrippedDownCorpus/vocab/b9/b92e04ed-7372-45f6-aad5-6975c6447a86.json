@@ -49,13 +49,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ったら"
+      {
+        "text": "ったら",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

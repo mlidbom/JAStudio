@@ -9,10 +9,16 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "様"
+      {
+        "text": "様",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "母"
+      {
+        "text": "母",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -50,7 +56,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

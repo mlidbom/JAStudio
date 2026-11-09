@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "おる"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "おる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,56 +52,182 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "いでいる",
-      "いでる",
-      "いどる",
-      "ています",
-      "ていらっしゃいます",
-      "ている",
-      "ております",
-      "ておる",
-      "てます",
-      "てる",
-      "んでいます",
-      "んでいる",
-      "んでおります",
-      "んでおる",
-      "んでます",
-      "んでる",
-      "んどる"
+      {
+        "text": "いでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いどる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ています",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていらっしゃいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "ている",
+        "disambiguation": ""
+      },
+      {
+        "text": "ております",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てます",
+        "disambiguation": ""
+      },
+      {
+        "text": "てる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおります",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んどる",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "いでいる",
-      "いでおる",
-      "いでる",
-      "いどる",
-      "ています",
-      "ていらっしゃいます",
-      "ている",
-      "ております",
-      "でおります",
-      "ておる",
-      "でおる",
-      "てます",
-      "てる",
-      "でる",
-      "てん",
-      "どる",
-      "んでいます",
-      "んでいる",
-      "んでおります",
-      "んでおる",
-      "んでます",
-      "んでる",
-      "んどる"
+      {
+        "text": "いでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いでおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いどる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ています",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていらっしゃいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "ている",
+        "disambiguation": ""
+      },
+      {
+        "text": "ております",
+        "disambiguation": ""
+      },
+      {
+        "text": "でおります",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
+        "text": "でおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てます",
+        "disambiguation": ""
+      },
+      {
+        "text": "てる",
+        "disambiguation": ""
+      },
+      {
+        "text": "でる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てん",
+        "disambiguation": ""
+      },
+      {
+        "text": "どる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおります",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んどる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ておる",
-      "る"
+      {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
+        "text": "る",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

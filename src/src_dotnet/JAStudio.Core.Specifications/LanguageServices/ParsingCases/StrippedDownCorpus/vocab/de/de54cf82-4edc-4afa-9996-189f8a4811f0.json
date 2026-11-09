@@ -52,15 +52,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "られる"
+      {
+        "text": "られる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "えれる"
+      {
+        "text": "えれる",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

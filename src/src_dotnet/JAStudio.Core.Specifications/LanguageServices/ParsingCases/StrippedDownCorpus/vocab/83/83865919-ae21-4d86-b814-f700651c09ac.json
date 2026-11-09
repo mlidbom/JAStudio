@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ん",
-      "だ"
+      {
+        "text": "ん",
+        "disambiguation": ""
+      },
+      {
+        "text": "だ",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -61,17 +67,29 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "た"
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "た",
-      "だもん",
-      "る"
+      {
+        "text": "た",
+        "disambiguation": ""
+      },
+      {
+        "text": "だもん",
+        "disambiguation": ""
+      },
+      {
+        "text": "る",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

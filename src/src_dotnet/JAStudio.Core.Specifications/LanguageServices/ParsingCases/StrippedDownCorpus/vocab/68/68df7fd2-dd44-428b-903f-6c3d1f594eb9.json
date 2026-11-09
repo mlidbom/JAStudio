@@ -44,15 +44,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [
-      "たくない"
+      {
+        "text": "たくない",
+        "disambiguation": ""
+      }
     ],
     "confusedWith": [],
     "seeAlso": [
-      "ったい"
+      {
+        "text": "ったい",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

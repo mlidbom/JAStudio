@@ -1,4 +1,3 @@
-@using JAStudio.Core.Note.Collection
 @using JAStudio.Core.Note.Vocabulary
 
 <RelatedVocabList Vocabs="_vocabs" Title="derived from" CssClass="derived_from"/>
@@ -6,12 +5,10 @@
 @code {
     [Parameter, EditorRequired] public VocabNote Note { get; set; } = null!;
 
-    [Inject] public VocabCollection VocabCollection { get; set; } = null!;
-
     List<VocabNote> _vocabs = [];
 
     protected override void OnParametersSet()
     {
-        _vocabs = VocabCollection.WithFormPreferDisambiguationNameOrExactMatch(Note.RelatedNotes.DerivedFrom.Get());
+        _vocabs = Note.RelatedNotes.DerivedFrom.Notes();
     }
 }

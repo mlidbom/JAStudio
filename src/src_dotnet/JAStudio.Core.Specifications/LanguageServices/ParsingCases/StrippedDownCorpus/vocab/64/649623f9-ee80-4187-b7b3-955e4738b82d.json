@@ -55,14 +55,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "そこ",
-      "その"
+      {
+        "text": "そこ",
+        "disambiguation": ""
+      },
+      {
+        "text": "その",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

@@ -52,15 +52,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "た"
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "だもん"
+      {
+        "text": "だもん",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

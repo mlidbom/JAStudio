@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "から",
-      "ね"
+      {
+        "text": "から",
+        "disambiguation": ""
+      },
+      {
+        "text": "ね",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -46,13 +52,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "からな"
+      {
+        "text": "からな",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

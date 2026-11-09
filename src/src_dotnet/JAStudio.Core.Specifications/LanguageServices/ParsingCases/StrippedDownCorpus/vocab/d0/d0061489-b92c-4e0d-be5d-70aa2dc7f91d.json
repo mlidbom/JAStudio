@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ね",
-      "ば"
+      {
+        "text": "ね",
+        "disambiguation": ""
+      },
+      {
+        "text": "ば",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,21 +55,45 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ないと"
+      {
+        "text": "ないと",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "いかないと",
-      "せねば",
-      "ないと",
-      "なきゃ",
-      "なくちゃ",
-      "なくては",
-      "なければ"
+      {
+        "text": "いかないと",
+        "disambiguation": ""
+      },
+      {
+        "text": "せねば",
+        "disambiguation": ""
+      },
+      {
+        "text": "ないと",
+        "disambiguation": ""
+      },
+      {
+        "text": "なきゃ",
+        "disambiguation": ""
+      },
+      {
+        "text": "なくちゃ",
+        "disambiguation": ""
+      },
+      {
+        "text": "なくては",
+        "disambiguation": ""
+      },
+      {
+        "text": "なければ",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

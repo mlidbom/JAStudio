@@ -9,9 +9,18 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "かも",
-      "知れる",
-      "ません"
+      {
+        "text": "かも",
+        "disambiguation": ""
+      },
+      {
+        "text": "知れる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ません",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -50,13 +59,22 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "かもしれない"
+      {
+        "text": "かもしれない",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "かもしれない",
-      "かも知れない"
+      {
+        "text": "かもしれない",
+        "disambiguation": ""
+      },
+      {
+        "text": "かも知れない",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

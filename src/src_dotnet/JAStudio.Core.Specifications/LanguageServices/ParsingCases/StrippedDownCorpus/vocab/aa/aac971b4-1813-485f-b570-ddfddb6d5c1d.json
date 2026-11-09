@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "くださる"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "くださる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,11 +59,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "てくれる",
-      "でくれる"
+      {
+        "text": "てくれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "でくれる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

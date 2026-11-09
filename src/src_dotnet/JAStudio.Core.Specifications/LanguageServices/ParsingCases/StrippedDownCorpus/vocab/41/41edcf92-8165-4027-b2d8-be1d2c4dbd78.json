@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "います"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "います",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,44 +50,146 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "いでいる",
-      "いでる",
-      "いどる",
-      "ています",
-      "ていらっしゃいます",
-      "ている",
-      "ております",
-      "ておる",
-      "てる",
-      "とる",
-      "んでいます",
-      "んでいる",
-      "んでおります",
-      "んでおる",
-      "んでます",
-      "んでる",
-      "んどる"
+      {
+        "text": "いでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いどる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ています",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていらっしゃいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "ている",
+        "disambiguation": ""
+      },
+      {
+        "text": "ております",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てる",
+        "disambiguation": ""
+      },
+      {
+        "text": "とる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおります",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んどる",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "いでいる",
-      "いでる",
-      "いどる",
-      "ています",
-      "ていらっしゃいます",
-      "ている",
-      "ております",
-      "ておる",
-      "てる",
-      "とる",
-      "んでいます",
-      "んでいる",
-      "んでおります",
-      "んでおる",
-      "んでます",
-      "んでる",
-      "んどる"
+      {
+        "text": "いでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "いどる",
+        "disambiguation": ""
+      },
+      {
+        "text": "ています",
+        "disambiguation": ""
+      },
+      {
+        "text": "ていらっしゃいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "ている",
+        "disambiguation": ""
+      },
+      {
+        "text": "ております",
+        "disambiguation": ""
+      },
+      {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てる",
+        "disambiguation": ""
+      },
+      {
+        "text": "とる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでいる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおります",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでます",
+        "disambiguation": ""
+      },
+      {
+        "text": "んでる",
+        "disambiguation": ""
+      },
+      {
+        "text": "んどる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

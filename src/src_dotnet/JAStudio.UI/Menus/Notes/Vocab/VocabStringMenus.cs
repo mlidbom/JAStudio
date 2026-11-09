@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Commands;
@@ -29,66 +30,73 @@ class VocabStringMenus
          }
       );
 
+   /// <summary>The Add menu: the text as a word of one of the vocab's relationships, such as a synonym, or as one of its forms.</summary>
    static SpecMenuItem BuildAddMenuSpec(string text, VocabNote vocab)
    {
-      var synonyms = vocab.RelatedNotes.Synonyms.Strings();
-      var antonyms = vocab.RelatedNotes.Antonyms.Strings();
-      var seeAlso = vocab.RelatedNotes.SeeAlso.Strings();
-      var confusedWith = vocab.RelatedNotes.ConfusedWith.Get();
-      var perfectSynonyms = vocab.RelatedNotes.PerfectSynonyms.Get();
-      var ergativeTwins = vocab.RelatedNotes.ErgativeTwins.Strings();
+      var related = vocab.RelatedNotes;
+      var word = WordReference.FromDisambiguationNameOrNone(text);
       var matchedForms = vocab.Forms.MatchedFormsSet();
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Add(text), enabled: !synonyms.Contains(text)),
+                     Adding(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, related.Synonyms.Add),
                      NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.AddSynonymsTransitivelyOneLevel, vocab, text),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Add(text), enabled: !confusedWith.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Antonym"), () => vocab.RelatedNotes.Antonyms.Add(text), enabled: !antonyms.Contains(text)),
+                     Adding(ShortcutFinger.Home3("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Add),
+                     Adding(ShortcutFinger.Home4("Antonym"), related.Antonyms.Contains, related.Antonyms.Add),
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Add(text), enabled: !seeAlso.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Up2("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwins.Add(text), enabled: !ergativeTwins.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), () => vocab.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(text), enabled: !perfectSynonyms.Contains(text))
+                     Adding(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Add),
+                     Adding(ShortcutFinger.Up2("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Add),
+                     Adding(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), related.PerfectSynonyms.Contains, related.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym)
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Add"), items);
+
+      SpecMenuItem Adding(string name, Func<WordReference, bool> hasIt, Action<WordReference> add) => ForTheWord(word, name, it => !hasIt(it), add);
    }
 
    static SpecMenuItem BuildSetMenuSpec(string text, VocabNote vocab)
    {
+      var word = WordReference.FromDisambiguationNameOrNone(text);
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(text))
+                     ForTheWord(word, ShortcutFinger.Home2("Derived from"), it => it != vocab.RelatedNotes.DerivedFrom.Word, it => vocab.RelatedNotes.DerivedFrom.Set(it))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home2("Set"), items);
    }
 
+   /// <summary>The Remove menu: the text as a word of one of the vocab's relationships, or as one of its forms.</summary>
    static SpecMenuItem BuildRemoveMenuSpec(string text, VocabNote vocab)
    {
-      var synonyms = vocab.RelatedNotes.Synonyms.Strings();
-      var antonyms = vocab.RelatedNotes.Antonyms.Strings();
-      var seeAlso = vocab.RelatedNotes.SeeAlso.Strings();
-      var confusedWith = vocab.RelatedNotes.ConfusedWith.Get();
-      var perfectSynonyms = vocab.RelatedNotes.PerfectSynonyms.Get();
+      var related = vocab.RelatedNotes;
+      var word = WordReference.FromDisambiguationNameOrNone(text);
       var enteredForms = vocab.Forms.EnteredFormsSet();
-      var ergativeTwins = vocab.RelatedNotes.ErgativeTwins.Strings();
-      var derivedFrom = vocab.RelatedNotes.DerivedFrom.Get();
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Remove(text), enabled: synonyms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Remove(text), enabled: confusedWith.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Antonym"), () => vocab.RelatedNotes.Antonyms.Remove(text), enabled: antonyms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwins.Remove(text), enabled: ergativeTwins.Contains(text)),
+                     Removing(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, related.Synonyms.Remove),
+                     Removing(ShortcutFinger.Home2("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Remove),
+                     Removing(ShortcutFinger.Home3("Antonym"), related.Antonyms.Contains, related.Antonyms.Remove),
+                     Removing(ShortcutFinger.Home4("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Remove),
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: enteredForms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Remove(text), enabled: seeAlso.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym"), () => vocab.RelatedNotes.PerfectSynonyms.Remove(text), enabled: perfectSynonyms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Down2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(""), enabled: text == derivedFrom)
+                     Removing(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Remove),
+                     Removing(ShortcutFinger.Down1("Perfect synonym"), related.PerfectSynonyms.Contains, related.PerfectSynonyms.Remove),
+                     Removing(ShortcutFinger.Down2("Derived from"), it => it == related.DerivedFrom.Word, _ => related.DerivedFrom.Set(null))
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"), items);
+
+      SpecMenuItem Removing(string name, Func<WordReference, bool> hasIt, Action<WordReference> remove) => ForTheWord(word, name, hasIt, remove);
    }
+
+   /// <summary>
+   /// An item doing <paramref name="action"/> to <paramref name="word"/>, the word the selected text names, enabled when <paramref name="applies"/> to it.<br/>
+   /// Disabled when the selected text names no word (<see cref="WordReference.FromDisambiguationNameOrNone"/>).
+   /// </summary>
+   static SpecMenuItem ForTheWord(WordReference? word, string name, Func<WordReference, bool> applies, Action<WordReference> action) =>
+      word is {} it
+         ? SpecMenuItem.UICommand(name, () => action(it), enabled: applies(it))
+         : SpecMenuItem.UICommand(name, () => {}, enabled: false);
 
    SpecMenuItem BuildSentenceMenuSpec(string text, VocabNote vocab)
    {

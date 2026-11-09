@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "らっしゃる",
-      "い:imperative"
+      {
+        "text": "らっしゃる",
+        "disambiguation": ""
+      },
+      {
+        "text": "い",
+        "disambiguation": "imperative"
+      }
     ],
     "alternative": []
   },
@@ -42,7 +48,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

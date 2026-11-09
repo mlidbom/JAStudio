@@ -47,13 +47,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "聞こえる"
+      {
+        "text": "聞こえる",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

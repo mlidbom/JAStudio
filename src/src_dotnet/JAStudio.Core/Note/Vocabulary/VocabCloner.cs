@@ -47,8 +47,8 @@ public class VocabCloner
       if(setCompounds)
       {
          var compounds = isPrefix
-                            ? new List<string> { addendum, Note.Question.DisambiguationName }
-                            : new List<string> { Note.Question.DisambiguationName, addendum };
+                            ? new List<WordReference> { new(addendum), Note.Question.Reference }
+                            : new List<WordReference> { Note.Question.Reference, new(addendum) };
          newVocab.CompoundParts.SetPrimary(compounds);
       }
 
@@ -109,7 +109,7 @@ public class VocabCloner
 
       CopyVocabTagsTo(clone);
 
-      foreach(var related in clone.RelatedNotes.Synonyms.Strings())
+      foreach(var related in clone.RelatedNotes.Synonyms.Words.ToList())
       {
          clone.RelatedNotes.Synonyms.Add(related);
       }
@@ -171,7 +171,7 @@ public class VocabCloner
       var readings = Note.GetReadings().Select(CreateFullForm).ToList();
       clone.SetReadings(readings);
       clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
-      var compounds = new List<string> { Note.Question.DisambiguationName, formSuffix };
+      var compounds = new List<WordReference> { Note.Question.Reference, new(formSuffix) };
       clone.CompoundParts.SetPrimary(compounds);
       return clone;
    }
@@ -206,7 +206,7 @@ public class VocabCloner
    {
       var result = SuffixToAStem("れる");
       var compoundParts = result.CompoundParts.Primary();
-      compoundParts[^1] = "あれる";
+      compoundParts[^1] = new WordReference("あれる");
       result.CompoundParts.SetPrimary(compoundParts);
       return result;
    }
@@ -215,7 +215,7 @@ public class VocabCloner
    {
       var result = SuffixToAStem("せる");
       var compoundParts = result.CompoundParts.Primary();
-      compoundParts[^1] = "あせる";
+      compoundParts[^1] = new WordReference("あせる");
       result.CompoundParts.SetPrimary(compoundParts);
       return result;
    }
@@ -238,7 +238,7 @@ public class VocabCloner
    public VocabNote CreatePotentialGodan()
    {
       var clone = SuffixToEStem("る");
-      clone.CompoundParts.SetPrimary([Note.Question.DisambiguationName, "える"]);
+      clone.CompoundParts.SetPrimary([Note.Question.Reference, new WordReference("える")]);
       return clone;
    }
 }

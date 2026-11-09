@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "する",
-      "ろ:imperative"
+      {
+        "text": "する",
+        "disambiguation": ""
+      },
+      {
+        "text": "ろ",
+        "disambiguation": "imperative"
+      }
     ],
     "alternative": []
   },
@@ -44,7 +50,10 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "する",
+    "derivedFrom": {
+      "text": "する",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

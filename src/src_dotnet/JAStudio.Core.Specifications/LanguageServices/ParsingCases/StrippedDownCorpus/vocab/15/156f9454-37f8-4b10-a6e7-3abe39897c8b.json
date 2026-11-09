@@ -41,13 +41,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "もう"
+      {
+        "text": "もう",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
 namespace JAStudio.Core.Note.Vocabulary.EditableFields;
 
@@ -38,13 +40,13 @@ public static class VocabEditableFields
    public static readonly EditableTextField<VocabNote> LongExplanation = new("explanationLong", "Long explanation", TextFieldFormat.Paragraphs, it => it.ExplanationLong);
    public static readonly EditableTextField<VocabNote> Mnemonic = new("mnemonic", "Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic);
 
-   /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Primary"/> compound parts.</summary>
+   /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Primary"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>, as <c>出す:masu</c>.</summary>
    public static readonly EditableTextListField<VocabNote> CompoundParts =
-      new("compoundParts.primary", "Compound parts", it => it.CompoundParts.Primary(), (it, parts) => it.CompoundParts.SetPrimary(parts));
+      new("compoundParts.primary", "Compound parts", it => Names(it.CompoundParts.Primary()), (it, parts) => it.CompoundParts.SetPrimary(References(parts)));
 
-   /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Alternative"/> compound parts.</summary>
+   /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Alternative"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>.</summary>
    public static readonly EditableTextListField<VocabNote> AlternativeCompoundParts =
-      new("compoundParts.alternative", "Alternative compound parts", it => it.CompoundParts.Alternative(), (it, parts) => it.CompoundParts.SetAlternative(parts));
+      new("compoundParts.alternative", "Alternative compound parts", it => Names(it.CompoundParts.Alternative()), (it, parts) => it.CompoundParts.SetAlternative(References(parts)));
 
    /// <summary>The vocab's first audio, as Anki's <c>[sound:file]</c> reference.</summary>
    public static readonly EditableTextField<VocabNote> FirstAudio =
@@ -132,36 +134,35 @@ public static class VocabEditableFields
    public static readonly EditableTagsField<VocabNote> Tags = new();
 
    /// <summary>Synonyms are linked both ways: adding one to the vocab adds the vocab to the synonym's synonyms, and removing one removes it.</summary>
-   public static readonly EditableTextSetField<VocabNote> Synonyms =
-      new("relatedVocab.synonyms", "Synonyms", it => it.RelatedNotes.Synonyms.Strings(), (it, synonym) => it.RelatedNotes.Synonyms.Add(synonym), (it, synonym) => it.RelatedNotes.Synonyms.Remove(synonym));
+   public static readonly EditableSetField<VocabNote, WordReference> Synonyms = Relationship("relatedVocab.synonyms", "Synonyms", it => it.Synonyms);
 
    /// <summary>
    /// Perfect synonyms share one answer: adding one gives it the vocab's answer, and links every vocab of the two webs of perfect synonyms to every other,<br/>
    /// as perfect synonyms and as synonyms (<see cref="RelatedVocab.PerfectSynonyms"/>).
    /// </summary>
-   public static readonly EditableTextSetField<VocabNote> PerfectSynonyms =
+   public static readonly EditableSetField<VocabNote, WordReference> PerfectSynonyms =
       new("relatedVocab.perfectSynonyms",
           "Perfect synonyms, which share the answer",
-          it => it.RelatedNotes.PerfectSynonyms.Get(),
+          it => it.RelatedNotes.PerfectSynonyms.Words,
           (it, synonym) => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(synonym),
-          (it, synonym) => it.RelatedNotes.PerfectSynonyms.Remove(synonym));
+          (it, synonym) => it.RelatedNotes.PerfectSynonyms.Remove(synonym),
+          InAFixedOrder);
 
-   public static readonly EditableTextSetField<VocabNote> Antonyms =
-      new("relatedVocab.antonyms", "Antonyms", it => it.RelatedNotes.Antonyms.Strings(), (it, antonym) => it.RelatedNotes.Antonyms.Add(antonym), (it, antonym) => it.RelatedNotes.Antonyms.Remove(antonym));
+   public static readonly EditableSetField<VocabNote, WordReference> Antonyms = Relationship("relatedVocab.antonyms", "Antonyms", it => it.Antonyms);
+   public static readonly EditableSetField<VocabNote, WordReference> ConfusedWith = Relationship("relatedVocab.confusedWith", "Confused with", it => it.ConfusedWith);
+   public static readonly EditableSetField<VocabNote, WordReference> SeeAlso = Relationship("relatedVocab.seeAlso", "See also", it => it.SeeAlso);
 
-   public static readonly EditableTextSetField<VocabNote> ConfusedWith =
-      new("relatedVocab.confusedWith", "Confused with", it => it.RelatedNotes.ConfusedWith.Get(), (it, vocab) => it.RelatedNotes.ConfusedWith.Add(vocab), (it, vocab) => it.RelatedNotes.ConfusedWith.Remove(vocab));
-
-   public static readonly EditableTextSetField<VocabNote> SeeAlso =
-      new("relatedVocab.seeAlso", "See also", it => it.RelatedNotes.SeeAlso.Strings(), (it, vocab) => it.RelatedNotes.SeeAlso.Add(vocab), (it, vocab) => it.RelatedNotes.SeeAlso.Remove(vocab));
-
-   /// <summary>The vocab's transitive or intransitive counterparts (<see cref="Vocabulary.RelatedVocab.ErgativeTwins"/>), such as 開ける for 開く: adding or removing one<br/>
+   /// <summary>The vocab's transitive or intransitive counterparts (<see cref="Vocabulary.RelatedVocab.RelatedVocab.ErgativeTwins"/>), such as 開ける for 開く: adding or removing one<br/>
    /// adds or removes the vocab as the twin's twin too.</summary>
-   public static readonly EditableTextSetField<VocabNote> ErgativeTwins =
-      new("relatedVocab.ergativeTwins", "Ergative twins", it => it.RelatedNotes.ErgativeTwins.Strings(), (it, twin) => it.RelatedNotes.ErgativeTwins.Add(twin), (it, twin) => it.RelatedNotes.ErgativeTwins.Remove(twin));
+   public static readonly EditableSetField<VocabNote, WordReference> ErgativeTwins = Relationship("relatedVocab.ergativeTwins", "Ergative twins", it => it.ErgativeTwins);
 
+   /// <summary>The word the vocab is derived from, by its <see cref="WordReference.DisambiguationName"/>: empty for none.</summary>
    public static readonly EditableTextField<VocabNote> DerivedFrom =
-      new("relatedVocab.derivedFrom", "Derived from", TextFieldFormat.Line, it => it.RelatedNotes.DerivedFrom.Get(), (it, vocab) => it.RelatedNotes.DerivedFrom.Set(vocab));
+      new("relatedVocab.derivedFrom",
+          "Derived from",
+          TextFieldFormat.Line,
+          it => it.RelatedNotes.DerivedFrom.Word?.DisambiguationName ?? "",
+          (it, name) => it.RelatedNotes.DerivedFrom.Set(name.Trim() == "" ? null : WordReference.FromDisambiguationName(name.Trim())));
 
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<VocabNote>> All { get; } =
@@ -176,6 +177,16 @@ public static class VocabEditableFields
       Tags,
       Synonyms, PerfectSynonyms, Antonyms, ConfusedWith, SeeAlso, ErgativeTwins, DerivedFrom
    ];
+
+   /// <summary>One of the vocab's relationships to other words (<see cref="WordRelationship"/>), named <paramref name="name"/> in the corpus.</summary>
+   static EditableSetField<VocabNote, WordReference> Relationship(string name, string label, Func<RelatedVocab.RelatedVocab, WordRelationship> relationship) =>
+      new(name, label, it => relationship(it.RelatedNotes).Words, (it, word) => relationship(it.RelatedNotes).Add(word), (it, word) => relationship(it.RelatedNotes).Remove(word), InAFixedOrder);
+
+   static IEnumerable<WordReference> InAFixedOrder(IEnumerable<WordReference> words) => words.OrderBy(it => it.DisambiguationName, StringComparer.Ordinal);
+
+   static List<string> Names(IEnumerable<WordReference> words) => [.. words.Select(it => it.DisambiguationName)];
+
+   static IEnumerable<WordReference> References(IEnumerable<string> names) => names.Select(WordReference.FromDisambiguationName);
 
    /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableRequireForbidField RequireForbidRule(string name, string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>

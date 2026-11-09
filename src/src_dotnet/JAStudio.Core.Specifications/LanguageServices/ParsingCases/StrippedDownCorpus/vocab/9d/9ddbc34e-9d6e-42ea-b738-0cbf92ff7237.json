@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "する",
-      "な:masu"
+      {
+        "text": "する",
+        "disambiguation": ""
+      },
+      {
+        "text": "な",
+        "disambiguation": "masu"
+      }
     ],
     "alternative": []
   },
@@ -45,10 +51,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "しなさい",
+    "derivedFrom": {
+      "text": "しなさい",
+      "disambiguation": ""
+    },
     "perfectSynonyms": [],
     "synonyms": [
-      "しなさい"
+      {
+        "text": "しなさい",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

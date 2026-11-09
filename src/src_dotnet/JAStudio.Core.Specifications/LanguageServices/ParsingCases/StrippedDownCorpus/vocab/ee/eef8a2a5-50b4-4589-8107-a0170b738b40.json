@@ -52,10 +52,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "きれず"
+      {
+        "text": "きれず",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "える",
-      "てる"
+      {
+        "text": "える",
+        "disambiguation": ""
+      },
+      {
+        "text": "てる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -155,12 +161,18 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "えておる"
+      {
+        "text": "えておる",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "えておる"
+      {
+        "text": "えておる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

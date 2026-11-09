@@ -13,20 +13,21 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// The compound parts of a <see cref="VocabNote"/>: the words the vocab is built from.<br/>
 /// The <see cref="Primary"/> parts are the vocab split into words, in order, and are what's shown when showing what the vocab is built from.<br/>
 /// The <see cref="Alternative"/> parts are words from other ways of understanding the vocab, such as <c>くれる</c> for <c>くれよ</c>,<br/>
-/// which is also <c>くれ</c> followed by <c>よ</c>.
+/// which is also <c>くれ</c> followed by <c>よ</c>.<br/>
+/// Each part is a <see cref="WordReference"/>: the word, with a disambiguation when the vocab it's part of has to be told apart, as <c>出す:masu</c> in <c>見出す</c>.
 /// </summary>
 public class VocabNoteCompoundParts
 {
    readonly NoteGuard _guard;
-   List<string> _primary;
-   HashSet<string> _enteredAlternatives;
+   List<WordReference> _primary;
+   HashSet<WordReference> _enteredAlternatives;
 
    public VocabNoteCompoundParts(VocabNote vocab, VocabDto? data, NoteGuard guard)
    {
       Vocab = vocab;
       _guard = guard;
-      _primary = data != null ? [..data.CompoundParts.Primary] : [];
-      _enteredAlternatives = data != null ? [..data.CompoundParts.Alternative] : [];
+      _primary = data != null ? [.. data.CompoundParts.Primary.Select(WordReference.FromDto)] : [];
+      _enteredAlternatives = data != null ? [.. data.CompoundParts.Alternative.Select(WordReference.FromDto)] : [];
    }
 
    VocabNote Vocab { get; }
@@ -34,7 +35,7 @@ public class VocabNoteCompoundParts
    JPCollection Collection => Vocab.Collection;
 
    /// <summary>The vocab split into the words it's built from, in order. A word can occur more than once, as in <c>どいつもこいつも</c>.</summary>
-   public List<string> Primary() => [.. _primary];
+   public List<WordReference> Primary() => [.. _primary];
 
    /// <summary>
    /// The words from other ways of understanding the vocab: a set, in a fixed order.<br/>
@@ -44,21 +45,21 @@ public class VocabNoteCompoundParts
    /// That rule is applied here rather than when the alternatives are set, so that typing the primary parts in the editor can't drop an alternative<br/>
    /// part on the way: typing <c>よう</c> passes through <c>よ</c>.
    /// </remarks>
-   public List<string> Alternative() =>
+   public List<WordReference> Alternative() =>
    [
       .. _enteredAlternatives
         .Except(_primary)
-        .Order(StringComparer.Ordinal)
+        .OrderBy(it => it.DisambiguationName, StringComparer.Ordinal)
    ];
 
    /// <summary>Every compound part: the <see cref="Primary"/> parts, followed by the <see cref="Alternative"/> ones.</summary>
-   public List<string> All() => [.. _primary, .. Alternative()];
+   public List<WordReference> All() => [.. _primary, .. Alternative()];
 
    /// <summary>Replaces the <see cref="Primary"/> parts with <paramref name="parts"/>, in their order.</summary>
-   public void SetPrimary(IEnumerable<string> parts) => _guard.Update(() => _primary = [.. parts]);
+   public void SetPrimary(IEnumerable<WordReference> parts) => _guard.Update(() => _primary = [.. parts]);
 
    /// <summary>Replaces the <see cref="Alternative"/> parts with <paramref name="parts"/>.</summary>
-   public void SetAlternative(IEnumerable<string> parts) => _guard.Update(() => _enteredAlternatives = [.. parts]);
+   public void SetAlternative(IEnumerable<WordReference> parts) => _guard.Update(() => _enteredAlternatives = [.. parts]);
 
    /// <summary>The vocab notes the primary compound parts refer to, in the order of the parts.</summary>
    public List<VocabNote> PrimaryPartsNotes() =>
@@ -75,12 +76,12 @@ public class VocabNoteCompoundParts
    public bool AnyPartRefersTo(VocabNote vocab) => All().Any(part => NotesThePartRefersTo(part).Contains(vocab));
 
    /// <summary>
-   /// Whether any compound part, alternative ones included, is exactly the <see cref="VocabNoteQuestion.DisambiguationName"/> of <paramref name="vocab"/>,<br/>
+   /// Whether any compound part, alternative ones included, names <paramref name="vocab"/> exactly (<see cref="VocabNoteQuestion.Reference"/>),<br/>
    /// rather than referring to it through one of its other forms.
    /// </summary>
-   public bool AnyPartIsTheDisambiguationNameOf(VocabNote vocab) => All().Contains(vocab.Question.DisambiguationName);
+   public bool AnyPartNamesExactly(VocabNote vocab) => All().Any(vocab.Question.IsNamedBy);
 
-   List<VocabNote> NotesThePartRefersTo(string part) => Collection.Vocab.WithFormPreferDisambiguationNameOrExactMatch(part);
+   List<VocabNote> NotesThePartRefersTo(WordReference part) => Collection.Vocab.ReferredToBy(part);
 
    /// <summary>
    /// Replaces the <see cref="Primary"/> parts with the words the vocab's question splits into, creating a vocab from the dictionary for each word<br/>
@@ -89,7 +90,7 @@ public class VocabNoteCompoundParts
    public void AutoGenerate()
    {
       var exclusions = Vocab.Forms.MatchedFormsSet()
-                            .Select(form => WordExclusion.Global(form))
+                            .Select(WordExclusion.Global)
                             .ToList();
       var config = SentenceConfiguration.FromIncorrectMatches(exclusions);
       var analysisServices = new AnalysisServices(Vocab.Services.Collection.Vocab, Vocab.Services.DictLookup, Vocab.Services.Settings);
@@ -135,8 +136,8 @@ public class VocabNoteCompoundParts
          Vocab.Services.VocabNoteFactory.CreateWithDictionary(missing);
       }
 
-      SetPrimary(compoundParts);
+      SetPrimary(compoundParts.Select(it => new WordReference(it)));
    }
 
-   public override string ToString() => string.Join(", ", All());
+   public override string ToString() => string.Join(", ", All().Select(it => it.DisambiguationName));
 }

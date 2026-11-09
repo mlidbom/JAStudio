@@ -51,9 +51,12 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "驚かす"
+      {
+        "text": "驚かす",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "おう",
-      "と思う"
+      {
+        "text": "おう",
+        "disambiguation": ""
+      },
+      {
+        "text": "と思う",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -59,7 +65,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

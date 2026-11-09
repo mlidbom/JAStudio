@@ -92,11 +92,14 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
       foreach(var vocab in vocabs.WithQuestion(token.BaseForm))
       {
          var compoundParts = vocab.CompoundParts.Primary();
-         if(compoundParts.Count == 2 && PotentialOrImperativeGodanLastCompoundParts.Contains(compoundParts[1]))
+         //review: A last part of え:imperative, as in 引け (引く + え:imperative) and 11 other vocab, doesn't count here, since only the plain える and え
+         //   do. That's how it was when compound parts were strings, so typing them (slice 8) kept it, but え:imperative is the imperative this looks for.
+         //   Should it count? It would change how those 12 vocab's sentences parse.
+         if(compoundParts.Count == 2 && compoundParts[1].IsAPlainWordAmong(PotentialOrImperativeGodanLastCompoundParts))
          {
-            if(WordInfo.IsGodan(vocabs, dictLookup, compoundParts[0]))
+            if(WordInfo.IsGodan(vocabs, dictLookup, compoundParts[0].Text))
             {
-               return compoundParts[0];
+               return compoundParts[0].Text;
             }
          }
       }

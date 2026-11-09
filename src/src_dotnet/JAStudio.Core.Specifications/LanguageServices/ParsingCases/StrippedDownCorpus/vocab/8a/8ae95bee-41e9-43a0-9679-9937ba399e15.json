@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "って",
-      "いう"
+      {
+        "text": "って",
+        "disambiguation": ""
+      },
+      {
+        "text": "いう",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,15 +55,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "という"
+      {
+        "text": "という",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "って"
+      {
+        "text": "って",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

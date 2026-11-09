@@ -9,7 +9,10 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "こ"
+      {
+        "text": "こ",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -76,14 +79,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "ここ",
-      "この"
+      {
+        "text": "ここ",
+        "disambiguation": ""
+      },
+      {
+        "text": "この",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

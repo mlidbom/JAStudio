@@ -3,6 +3,7 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
+using static JAStudio.Core.Specifications.WordReferenceNames;
 
 // ReSharper disable InconsistentNaming
 
@@ -13,7 +14,7 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
    VocabNote CreateCompound(string question, params string[] primaryCompoundParts)
    {
       var compound = CreateVocab(question, "a compound");
-      compound.CompoundParts.SetPrimary(primaryCompoundParts);
+      compound.CompoundParts.SetPrimary(Words(primaryCompoundParts));
       return compound;
    }
 
@@ -41,7 +42,7 @@ public class When_listing_the_compounds_a_vocab_is_in : SpecificationStartingWit
 
       public class with_a_compound_that_has_its_other_form_only_as_an_alternative_part : given_a_vocab_with_another_form
       {
-         public with_a_compound_that_has_its_other_form_only_as_an_alternative_part() => CreateCompound("時間割", "割").CompoundParts.SetAlternative(["じかん"]);
+         public with_a_compound_that_has_its_other_form_only_as_an_alternative_part() => CreateCompound("時間割", "割").CompoundParts.SetAlternative(Words("じかん"));
 
          [XF] public void the_compound_is_listed() => QuestionsOfTheCompoundsListedFor(_vocab).Must().SequenceEqual(["時間割"]);
       }

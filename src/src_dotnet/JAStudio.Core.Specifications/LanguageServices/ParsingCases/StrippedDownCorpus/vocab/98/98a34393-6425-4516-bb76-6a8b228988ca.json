@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "あれる",
-      "た"
+      {
+        "text": "あれる",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -55,15 +61,24 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "られた",
-      "れた"
+      {
+        "text": "られた",
+        "disambiguation": ""
+      },
+      {
+        "text": "れた",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [
-      "えれた"
+      {
+        "text": "えれた",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

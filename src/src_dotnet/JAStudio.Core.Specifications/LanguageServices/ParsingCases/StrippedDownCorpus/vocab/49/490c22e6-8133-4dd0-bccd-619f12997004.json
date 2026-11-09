@@ -56,14 +56,26 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ちゃう"
+      {
+        "text": "ちゃう",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ちゃう",
-      "てしまいます",
-      "てしまう"
+      {
+        "text": "ちゃう",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまいます",
+        "disambiguation": ""
+      },
+      {
+        "text": "てしまう",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

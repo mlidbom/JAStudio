@@ -47,13 +47,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "も"
+      {
+        "text": "も",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

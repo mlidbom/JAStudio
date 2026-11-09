@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "が",
-      "ある"
+      {
+        "text": "が",
+        "disambiguation": ""
+      },
+      {
+        "text": "ある",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,15 +50,21 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "はある"
+      {
+        "text": "はある",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "のある"
+      {
+        "text": "のある",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

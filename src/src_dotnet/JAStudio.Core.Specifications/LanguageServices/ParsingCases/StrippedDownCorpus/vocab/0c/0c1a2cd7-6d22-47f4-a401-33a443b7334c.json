@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "なの",
-      "かな"
+      {
+        "text": "なの",
+        "disambiguation": ""
+      },
+      {
+        "text": "かな",
+        "disambiguation": ""
+      }
     ],
     "alternative": [
-      "のかな"
+      {
+        "text": "のかな",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -51,7 +60,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

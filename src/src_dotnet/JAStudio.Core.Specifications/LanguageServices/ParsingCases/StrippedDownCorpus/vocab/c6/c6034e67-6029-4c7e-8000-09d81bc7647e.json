@@ -42,14 +42,20 @@
   },
   "relatedVocab": {
     "ergativeTwins": [
-      "破れる"
+      {
+        "text": "破れる",
+        "disambiguation": ""
+      }
     ],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [
-      "被る"
+      {
+        "text": "被る",
+        "disambiguation": ""
+      }
     ],
     "seeAlso": []
   },

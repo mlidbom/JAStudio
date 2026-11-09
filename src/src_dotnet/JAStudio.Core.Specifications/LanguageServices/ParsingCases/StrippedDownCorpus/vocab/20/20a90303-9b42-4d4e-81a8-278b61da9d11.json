@@ -9,11 +9,20 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "くださる",
-      "い:imperative"
+      {
+        "text": "くださる",
+        "disambiguation": ""
+      },
+      {
+        "text": "い",
+        "disambiguation": "imperative"
+      }
     ],
     "alternative": [
-      "下さい"
+      {
+        "text": "下さい",
+        "disambiguation": ""
+      }
     ]
   },
   "readings": [
@@ -51,13 +60,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "くださる"
+      {
+        "text": "くださる",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "ない",
-      "た"
+      {
+        "text": "ない",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -53,10 +59,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "ませんでした"
+      {
+        "text": "ませんでした",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

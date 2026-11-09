@@ -139,12 +139,14 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_vocab_writing_its_synonyms()
       {
          _synonym = CreateVocab("行く", "to go", "いく");
-         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray("行く") }));
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray(new JsonObject { ["text"] = "行く" }) }));
       }
 
-      [XF] public void the_vocab_has_the_synonym() => Vocab.RelatedNotes.Synonyms.Strings().Must().SequenceEqual(["行く"]);
-      [XF] public void the_synonym_has_the_vocab_as_its_synonym_too_as_when_a_person_adds_it() => _synonym.RelatedNotes.Synonyms.Strings().Must().SequenceEqual(["行った"]);
-      [XF] public void the_edit_reports_the_synonyms_after() => JsonNode.DeepEquals(_edit.Changes.Single().After, new JsonArray("行く")).Must().BeTrue();
+      [XF] public void the_vocab_has_the_synonym() => Vocab.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("行く")]);
+      [XF] public void the_synonym_has_the_vocab_as_its_synonym_too_as_when_a_person_adds_it() => _synonym.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("行った")]);
+
+      [XF] public void the_edit_reports_the_synonyms_after_as_word_references_with_an_empty_disambiguation() =>
+         JsonNode.DeepEquals(_edit.Changes.Single().After, new JsonArray(new JsonObject { ["text"] = "行く", ["disambiguation"] = "" })).Must().BeTrue();
    }
 
    /// <summary>Another vocab, 往った, with the answer "gone".</summary>
@@ -156,7 +158,7 @@ public class When_editing_a_note : McpServerSpecification
       public of_a_vocab_writing_its_perfect_synonyms()
       {
          _perfectSynonym = CreateVocab("往った", "gone", "いった");
-         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.perfectSynonyms"] = new JsonArray("往った") }));
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.perfectSynonyms"] = new JsonArray(new JsonObject { ["text"] = "往った" }) }));
       }
 
       [XF] public void the_perfect_synonym_gets_the_vocabs_answer() => _perfectSynonym.GetAnswer().Must().Be("went");

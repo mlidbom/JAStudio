@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "いい",
-      "た"
+      {
+        "text": "いい",
+        "disambiguation": ""
+      },
+      {
+        "text": "た",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -44,10 +50,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "いい"
+      {
+        "text": "いい",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

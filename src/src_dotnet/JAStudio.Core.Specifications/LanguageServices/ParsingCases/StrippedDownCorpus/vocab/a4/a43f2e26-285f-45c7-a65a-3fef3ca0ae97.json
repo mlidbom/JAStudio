@@ -42,11 +42,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "よかった",
-      "良い"
+      {
+        "text": "よかった",
+        "disambiguation": ""
+      },
+      {
+        "text": "良い",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

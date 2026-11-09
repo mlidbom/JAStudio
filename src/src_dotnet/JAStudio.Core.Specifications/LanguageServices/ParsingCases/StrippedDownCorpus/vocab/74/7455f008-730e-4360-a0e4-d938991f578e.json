@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "に",
-      "したがって"
+      {
+        "text": "に",
+        "disambiguation": ""
+      },
+      {
+        "text": "したがって",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -42,13 +48,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "したがって"
+      {
+        "text": "したがって",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

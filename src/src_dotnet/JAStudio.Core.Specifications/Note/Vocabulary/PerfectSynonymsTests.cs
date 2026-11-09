@@ -1,5 +1,6 @@
 using JAStudio.Core.Note.Vocabulary;
 using Xunit;
+using static JAStudio.Core.Specifications.WordReferenceNames;
 
 namespace JAStudio.Core.Specifications.Note.Vocabulary;
 
@@ -14,7 +15,7 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       var first = GetService<VocabNoteFactory>().Create("first", "first_answer", []);
       var second = GetService<VocabNoteFactory>().Create("second", "second_answer", []);
 
-      first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.GetQuestion());
+      first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.Question.Reference);
       Assert.Equal("first_answer", second.GetAnswer());
    }
 
@@ -24,13 +25,13 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       var first = GetService<VocabNoteFactory>().Create("first", "first_answer", []);
       var second = GetService<VocabNoteFactory>().Create("second", "second_answer", []);
 
-      first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.GetQuestion());
+      first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.Question.Reference);
 
       first.CorpusAnswer.Set("new answer");
       Assert.Equal("new answer", second.GetAnswer());
 
       var third = GetService<VocabNoteFactory>().Create("third", "third_answer", []);
-      third.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(first.GetQuestion());
+      third.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(first.Question.Reference);
       Assert.Equal("third_answer", first.GetAnswer());
       Assert.Equal("third_answer", second.GetAnswer());
 
@@ -38,14 +39,14 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal("third_new", first.GetAnswer());
       Assert.Equal("third_new", second.GetAnswer());
 
-      Assert.Equal([second.GetQuestion(), third.GetQuestion()], first.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal([first.GetQuestion(), third.GetQuestion()], second.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal([first.GetQuestion(), second.GetQuestion()], third.RelatedNotes.PerfectSynonyms.Get());
+      Assert.Equal([second.GetQuestion(), third.GetQuestion()], SortedNamesOf(first.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal([first.GetQuestion(), third.GetQuestion()], SortedNamesOf(second.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal([first.GetQuestion(), second.GetQuestion()], SortedNamesOf(third.RelatedNotes.PerfectSynonyms.Words));
 
-      first.RelatedNotes.PerfectSynonyms.Remove(third.GetQuestion());
-      Assert.Equal([second.GetQuestion()], first.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal([first.GetQuestion()], second.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Empty(third.RelatedNotes.PerfectSynonyms.Get());
+      first.RelatedNotes.PerfectSynonyms.Remove(third.Question.Reference);
+      Assert.Equal([second.GetQuestion()], SortedNamesOf(first.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal([first.GetQuestion()], SortedNamesOf(second.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Empty(SortedNamesOf(third.RelatedNotes.PerfectSynonyms.Words));
 
       first.CorpusAnswer.Set("first_latest");
       Assert.Equal("first_latest", first.GetAnswer());
@@ -58,19 +59,19 @@ public class PerfectSynonymsTests : SpecificationStartingWithAnEmptyCollection
    {
       var first = GetService<VocabNoteFactory>().Create("first", "", []);
       var second = GetService<VocabNoteFactory>().Create("second", "", []);
-      first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.GetQuestion());
+      first.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(second.Question.Reference);
 
-      Assert.Equal(["second"], first.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal(["first"], second.RelatedNotes.PerfectSynonyms.Get());
+      Assert.Equal(["second"], SortedNamesOf(first.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal(["first"], SortedNamesOf(second.RelatedNotes.PerfectSynonyms.Words));
 
       var third = GetService<VocabNoteFactory>().Create("third", "", []);
       var fourth = GetService<VocabNoteFactory>().Create("fourth", "", []);
-      second.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(third.GetQuestion());
-      second.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(fourth.GetQuestion());
+      second.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(third.Question.Reference);
+      second.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(fourth.Question.Reference);
 
-      Assert.Equal(["second", "third", "fourth"], first.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal(["first", "third", "fourth"], second.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal(["first", "second", "fourth"], third.RelatedNotes.PerfectSynonyms.Get());
-      Assert.Equal(["first", "second", "third"], fourth.RelatedNotes.PerfectSynonyms.Get());
+      Assert.Equal(["fourth", "second", "third"], SortedNamesOf(first.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal(["first", "fourth", "third"], SortedNamesOf(second.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal(["first", "fourth", "second"], SortedNamesOf(third.RelatedNotes.PerfectSynonyms.Words));
+      Assert.Equal(["first", "second", "third"], SortedNamesOf(fourth.RelatedNotes.PerfectSynonyms.Words));
    }
 }

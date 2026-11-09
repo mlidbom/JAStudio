@@ -46,10 +46,13 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "くださる"
+      {
+        "text": "くださる",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

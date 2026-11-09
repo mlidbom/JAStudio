@@ -50,13 +50,16 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": [
-      "長居"
+      {
+        "text": "長居",
+        "disambiguation": ""
+      }
     ]
   },
   "sourceData": {

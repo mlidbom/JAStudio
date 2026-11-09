@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "の",
-      "は"
+      {
+        "text": "の",
+        "disambiguation": ""
+      },
+      {
+        "text": "は",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -42,11 +48,17 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      "っていうのは",
-      "というのは"
+      {
+        "text": "っていうのは",
+        "disambiguation": ""
+      },
+      {
+        "text": "というのは",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],

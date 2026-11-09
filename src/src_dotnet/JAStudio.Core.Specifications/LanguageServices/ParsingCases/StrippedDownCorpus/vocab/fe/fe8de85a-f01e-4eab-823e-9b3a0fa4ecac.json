@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "やる",
-      "過ぎる"
+      {
+        "text": "やる",
+        "disambiguation": ""
+      },
+      {
+        "text": "過ぎる",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -54,7 +60,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

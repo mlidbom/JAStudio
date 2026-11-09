@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "に",
-      "遭う"
+      {
+        "text": "に",
+        "disambiguation": ""
+      },
+      {
+        "text": "遭う",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -61,7 +67,7 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],

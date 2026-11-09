@@ -8,7 +8,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// a <see cref="Disambiguation"/> that tells them apart, such as <c>masu</c> for the <c>入る</c> that follows a masu stem.
 /// </summary>
 /// <remarks>
-/// Other notes refer to a vocab by its <see cref="DisambiguationName"/>, <c>入る:masu</c>, until references between notes get a type of their own.
+/// Other notes refer to a vocab by a <see cref="WordReference"/> that names it (<see cref="Reference"/>), such as a synonym or a compound part.
 /// </remarks>
 public class VocabNoteQuestion
 {
@@ -32,14 +32,23 @@ public class VocabNoteQuestion
    /// <summary>What tells this vocab apart from others with the same <see cref="Text"/>, as <c>masu</c> in <c>入る:masu</c>. Empty for most vocab.</summary>
    public string Disambiguation { get; private set; }
 
+   /// <summary>Whether the vocab has been given its question: false only while it's being created.</summary>
+   public bool HasText => Text != string.Empty;
+
    /// <summary>Whether the vocab has a <see cref="Disambiguation"/>.</summary>
    public bool IsDisambiguated => Disambiguation != string.Empty;
 
    /// <summary>
-   /// The name other notes refer to the vocab by: the <see cref="Text"/>, followed by the <see cref="DisambiguationMarker"/> and the <see cref="Disambiguation"/><br/>
-   /// if the vocab has one, as <c>入る:masu</c>.
+   /// The name the vocab is shown and typed by where it has to be told apart from others: the <see cref="Text"/>, followed by the <see cref="DisambiguationMarker"/><br/>
+   /// and the <see cref="Disambiguation"/> if the vocab has one, as <c>入る:masu</c>.
    /// </summary>
    public string DisambiguationName => IsDisambiguated ? Text + DisambiguationMarker + Disambiguation : Text;
+
+   /// <summary>The <see cref="WordReference"/> that names this vocab exactly: its <see cref="Text"/> and its <see cref="Disambiguation"/>. Other notes refer to it by it.</summary>
+   public WordReference Reference => new(Text, Disambiguation);
+
+   /// <summary>Whether <paramref name="reference"/> names this vocab exactly, its <see cref="Disambiguation"/> included.</summary>
+   public bool IsNamedBy(WordReference reference) => reference.Text == Text && reference.Disambiguation == Disambiguation;
 
    public string WithoutNoiseCharacters => Text.Replace(Mine.VocabPrefixSuffixMarker, "");
 

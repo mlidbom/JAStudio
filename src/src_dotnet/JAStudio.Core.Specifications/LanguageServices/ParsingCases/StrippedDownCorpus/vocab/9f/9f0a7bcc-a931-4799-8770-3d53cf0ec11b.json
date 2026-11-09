@@ -9,8 +9,14 @@
   "mnemonic": "",
   "compoundParts": {
     "primary": [
-      "て",
-      "いない"
+      {
+        "text": "て",
+        "disambiguation": ""
+      },
+      {
+        "text": "いない",
+        "disambiguation": ""
+      }
     ],
     "alternative": []
   },
@@ -49,14 +55,26 @@
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": "",
+    "derivedFrom": null,
     "perfectSynonyms": [
-      "ていない",
-      "てません"
+      {
+        "text": "ていない",
+        "disambiguation": ""
+      },
+      {
+        "text": "てません",
+        "disambiguation": ""
+      }
     ],
     "synonyms": [
-      "ていない",
-      "てません"
+      {
+        "text": "ていない",
+        "disambiguation": ""
+      },
+      {
+        "text": "てません",
+        "disambiguation": ""
+      }
     ],
     "antonyms": [],
     "confusedWith": [],
