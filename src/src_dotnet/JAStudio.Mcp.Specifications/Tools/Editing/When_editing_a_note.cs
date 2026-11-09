@@ -10,6 +10,7 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Storage;
 using JAStudio.Mcp.Tools.Editing;
+using JAStudio.Mcp.Tools.Editing.Fields;
 using ModelContextProtocol.Protocol;
 
 // ReSharper disable InconsistentNaming

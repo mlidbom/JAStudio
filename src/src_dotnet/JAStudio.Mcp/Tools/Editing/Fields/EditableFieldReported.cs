@@ -1,6 +1,6 @@
 using System.Text.Json.Nodes;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>One of a note's editable fields, as <see cref="NoteEditingTools.GetTheEditableFieldsOfANote"/> reports it.</summary>
 /// <param name="Name">The name <c>edit_a_note</c> takes: the field's path in the note as the corpus stores it.</param>

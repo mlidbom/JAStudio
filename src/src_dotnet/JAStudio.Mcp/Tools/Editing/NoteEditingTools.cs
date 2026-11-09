@@ -7,6 +7,7 @@ using JAStudio.Core.Batches;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Mcp.Tools.Editing.Fields;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Editing;
@@ -36,7 +37,7 @@ public class NoteEditingTools
                 shows; what value it takes; whether a change to it reparses the sentences that may contain the vocab; and its value now.
                 """)]
    public EditableFieldsReported GetTheEditableFieldsOfANote([Description("The note's id, as search_notes lists it.")] string noteId) =>
-      EditableFieldsReported.Of(EditableNoteWithTheId(noteId));
+      EditableFieldsReported.Of(EditableNote.WithTheId(noteId, _collection));
 
    [McpServerTool(Name = "edit_a_note", Destructive = true, Idempotent = true)]
    [Description("""
@@ -56,7 +57,7 @@ public class NoteEditingTools
       [Description("""The fields to write, by name, each with its new value, such as {"corpusAnswer": "went", "matching.requiredOrForbidden.surface": "required"}.""")]
       JsonObject changes)
    {
-      var note = EditableNoteWithTheId(noteId);
+      var note = EditableNote.WithTheId(noteId, _collection);
       var writes = FieldWrite.EachIn(changes, note);
       var valuesBefore = NoteFieldValues.Of(note);
 
@@ -78,7 +79,4 @@ public class NoteEditingTools
       _localNoteUpdater.ReparseSentencesForVocabWithoutProgressDialog(vocab);
       return true;
    }
-
-   EditableNote EditableNoteWithTheId(string noteId) =>
-      EditableNote.Of(_collection.NoteFromNoteId(NoteId.Parse(noteId)) ?? throw new ArgumentException($"No note has the id {noteId}.", nameof(noteId)));
 }

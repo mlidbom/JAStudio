@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>What <see cref="NoteEditingTools.EditANote"/> reports.</summary>
 /// <param name="Note">The note's question after the edit, to recognize it by.</param>

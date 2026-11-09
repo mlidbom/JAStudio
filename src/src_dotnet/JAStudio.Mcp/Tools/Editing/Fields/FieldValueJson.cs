@@ -8,7 +8,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Vocabulary;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>
 /// The values of <see cref="EditableFieldOfANote"/>s as the MCP server's tools take and report them, in JSON: texts, lists of texts, true or false,<br/>

@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>
 /// A <see cref="WordExclusion"/> in JSON as the corpus stores it: <c>{"word": "...", "index": ...}</c>, where the index is where in the sentence the<br/>

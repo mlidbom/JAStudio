@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>
 /// One of the writes <c>edit_a_note</c> makes: a field of the note (<see cref="EditableFieldOfANote"/>) and the value to write to it, read from the JSON<br/>

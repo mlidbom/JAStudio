@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Mcp.Tools.Editing.Fields;
 
 namespace JAStudio.Mcp.Tools.Editing;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>
 /// One of a note's <see cref="IEditableField{TNote}"/>s, together with the note: the field read and written on that note, whatever its type.<br/>

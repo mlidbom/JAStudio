@@ -199,8 +199,20 @@ the headless JAStudio.
          such as a vocab's synonyms when its perfect synonyms are written, `edit_a_note` reports every field whose value
          changed, not only those written. The editors don't show these fields: changing Magnus's editors isn't part of
          this.
-       - **Next:** the menus' commands, defined once in Core as the fields are, the menus built from them and the MCP
-         server running them: creating vocab from a vocab, accepting a meaning, generating an answer and the rest.
+       - **Done:** the menus' commands, defined once in Core as the fields are (`INoteCommand<TNote>`, such as
+         `VocabCommands`), each with its name, the label its menu shows, the text it takes, if any, and whether it
+         creates a vocab or changes the note. The menus are built from them, keeping their own structure and shortcuts,
+         and `get_the_commands_of_a_note` lists them and `run_a_command_on_a_note` runs them, reporting each field of the
+         note the command changed and every vocab it added to the collection, which includes those that
+         autogenerating a vocab's compound parts creates for parts that have none. Accepting a meaning moved from the menus into the notes
+         (`VocabNote.AcceptMeaning`, `KanjiNote.AcceptMeaning`), which refuse it while the note has an answer of its own,
+         as the menus only offer it then.
+       - **Left out:** the menu items that open notes, copy text to the clipboard or open a dialog, and reparsing a
+         vocab's sentences, which `edit_a_note` does itself when a field written changes how sentences parse.
+       - **Next:** the context menu's creating a vocab, a sentence or a kanji from a text, as a tool.
+       - **Open, for Magnus:** the context menu's universal note actions, suspending and unsuspending a note's cards
+         and deleting a note. Deleting deletes the note from Anki too, with its review history, which can't be undone,
+         so it isn't a tool until Magnus says it should be.
   - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. Writing an
     audio field's reference is an edit like any other.
   - A kanji's readings of each kind are one field, such as `readings.on`, a list of `{"kana", "isPrimary"}` in order,

@@ -7,6 +7,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
 using JAStudio.Mcp.Tools.Editing;
+using JAStudio.Mcp.Tools.Editing.Fields;
 using ModelContextProtocol.Protocol;
 
 // ReSharper disable InconsistentNaming

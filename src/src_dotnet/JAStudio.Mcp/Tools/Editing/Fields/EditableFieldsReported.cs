@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JAStudio.Mcp.Tools.Editing;
+namespace JAStudio.Mcp.Tools.Editing.Fields;
 
 /// <summary>What <see cref="NoteEditingTools.GetTheEditableFieldsOfANote"/> reports: each of a note's editable fields, in the order of its editor's tabs.</summary>
 /// <param name="Note">The note's question, to recognize it by.</param>
