@@ -29,8 +29,9 @@ public class NoteEditingTools
 
    [McpServerTool(Name = "get_the_editable_fields_of_a_note", ReadOnly = true, Idempotent = true)]
    [Description("""
-                Lists the fields of a note that edit_a_note edits: every field its editor in the workspace edits, in the order of the editor's
-                tabs. Each with its name, which is its path in the note as get_note shows it, such as "corpusAnswer",
+                Lists the fields of a note that edit_a_note edits: every field a person edits, first those of its editor in the workspace, in the
+                order of the editor's tabs, then those its menus edit, such as a vocab's related vocab and a sentence's highlighted vocab and
+                incorrect and hidden matches. Each with its name, which is its path in the note as get_note shows it, such as "corpusAnswer",
                 "matching.requiredOrForbidden.surface" or, for a flag in a list of flags, "matching.flags.isPoisonWord"; the label the editor
                 shows; what value it takes; whether a change to it reparses the sentences that may contain the vocab; and its value now.
                 """)]
@@ -44,8 +45,11 @@ public class NoteEditingTools
                 sentences that may contain the vocab are reparsed; then the note's generated data is updated. The note is saved to the corpus
                 checkout, and its Anki note updated, as any edit is. Fields are named, and their values given, as
                 get_the_editable_fields_of_a_note lists them. Every name and value is checked before anything is written; a value the note
-                refuses, such as an unknown part of speech, fails the edit at that field, after the fields before it were written. Reports
-                each field written, before and after.
+                refuses, such as an unknown part of speech, fails the edit at that field, after the fields before it were written. Related
+                vocab are linked both ways, as when a person edits them: writing a vocab's synonyms, perfect synonyms or ergative twin changes
+                the vocab they name too. A sentence's highlighted vocab and incorrect and hidden matches reparse the sentence. Reports each
+                field of the note that changed, before and after, in the order of its fields, those the edit didn't write included, such as a
+                vocab's synonyms when its perfect synonyms are written.
                 """)]
    public NoteEdit EditANote(
       [Description("The note's id, as search_notes lists it.")] string noteId,
@@ -54,12 +58,13 @@ public class NoteEditingTools
    {
       var note = EditableNoteWithTheId(noteId);
       var writes = FieldWrite.EachIn(changes, note);
+      var valuesBefore = NoteFieldValues.Of(note);
 
       foreach(var write in writes) write.Write();
       var sentencesReparsed = ReparseTheSentencesWhenAWriteChangesHowTheyParse(note.Note, writes);
       note.Note.UpdateGeneratedData();
 
-      return new NoteEdit(note.Note.GetQuestion(), [.. writes.Select(it => it.ChangeMade())], sentencesReparsed);
+      return new NoteEdit(note.Note.GetQuestion(), valuesBefore.ChangesTo(NoteFieldValues.Of(note)), sentencesReparsed);
    }
 
    /// <summary>

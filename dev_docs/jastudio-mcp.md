@@ -189,9 +189,18 @@ the headless JAStudio.
   - **The plan, in increments:**
     1. The vocab's fields, and its editor's tabs built from them. **Done.**
     2. The kanji's and the sentence's fields the same way, replacing the kanji's readings tools. **Done.**
-    3. The commands of the notes' menus, as tools of their own, such as creating vocab, accepting a meaning and
-       generating an answer, and the related vocab and the sentences' highlighted, hidden and incorrect matches, which
-       the menus edit.
+    3. What the notes' menus do:
+       - **Done:** the fields the menus edit, as editable fields like any other, after those of the editor: a vocab's
+         related vocab (`relatedVocab.synonyms` and the rest) and a sentence's configuration
+         (`configuration.highlightedWords`, `configuration.incorrectMatches`, `configuration.hiddenMatches`). A set of
+         them (`EditableSetField`) is written as the menus change it, one item at a time through the note's own
+         operations, so what those do besides happens too: a synonym added links back, a perfect synonym gets the
+         vocab's answer, an incorrect match reparses the sentence. Since a write can change other fields of the note,
+         such as a vocab's synonyms when its perfect synonyms are written, `edit_a_note` reports every field whose value
+         changed, not only those written. The editors don't show these fields: changing Magnus's editors isn't part of
+         this.
+       - **Next:** the menus' commands, defined once in Core as the fields are, the menus built from them and the MCP
+         server running them: creating vocab from a vocab, accepting a meaning, generating an answer and the rest.
   - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. Writing an
     audio field's reference is an edit like any other.
   - A kanji's readings of each kind are one field, such as `readings.on`, a list of `{"kana", "isPrimary"}` in order,

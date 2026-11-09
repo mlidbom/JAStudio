@@ -11,13 +11,11 @@ namespace JAStudio.Mcp.Tools.Editing;
 sealed class FieldWrite
 {
    readonly object _value;
-   readonly JsonNode? _before;
 
    FieldWrite(EditableFieldOfANote field, JsonNode? value)
    {
       Field = field;
       _value = FieldValueJson.ValueFor(field, value);
-      _before = FieldValueJson.JsonOf(field.Read());
    }
 
    /// <summary>
@@ -30,7 +28,4 @@ sealed class FieldWrite
 
    /// <summary>Writes the value to the field on the note, which saves the note.</summary>
    public void Write() => Field.Write(_value);
-
-   /// <summary>The change the write made: the field's value before it and now.</summary>
-   public FieldChange ChangeMade() => new(Field.Name, _before, FieldValueJson.JsonOf(Field.Read()));
 }

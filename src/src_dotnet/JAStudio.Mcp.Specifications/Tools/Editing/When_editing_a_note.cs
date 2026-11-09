@@ -50,7 +50,7 @@ public class When_editing_a_note : McpServerSpecification
          }));
 
       [XF] public void the_edit_names_the_vocab() => _edit.Note.Must().Be("行った");
-      [XF] public void the_edit_reports_each_field_written_in_the_order_given() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.requiredOrForbidden.surface"]);
+      [XF] public void the_edit_reports_each_field_that_changed_in_the_order_of_the_vocabs_fields() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.requiredOrForbidden.surface"]);
       [XF] public void the_edit_reports_the_readings_before() => JsonNode.DeepEquals(_edit.Changes[0].Before, new JsonArray("いいた")).Must().BeTrue();
       [XF] public void the_edit_reports_the_readings_after() => JsonNode.DeepEquals(_edit.Changes[0].After, new JsonArray("いった", "おこなった")).Must().BeTrue();
       [XF] public void the_edit_reports_the_surface_rule_before_as_unset() => JsonNode.DeepEquals(_edit.Changes[2].Before, JsonValue.Create("unset")).Must().BeTrue();
@@ -127,6 +127,56 @@ public class When_editing_a_note : McpServerSpecification
 
       [XF] public void the_edit_reports_the_answer_before_as_empty() => JsonNode.DeepEquals(_edit.Changes.Single().Before, JsonValue.Create("")).Must().BeTrue();
       [XF] public void the_sentence_has_the_answer() => Sentence.CorpusAnswer.Value.Must().Be("I went to meet them.");
+   }
+
+   /// <summary>Another vocab, 行く, with the answer "to go".</summary>
+   public class of_a_vocab_writing_its_synonyms : When_editing_a_note
+   {
+      readonly VocabNote _synonym;
+      readonly NoteEdit _edit;
+
+      public of_a_vocab_writing_its_synonyms()
+      {
+         _synonym = CreateVocab("行く", "to go", "いく");
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.synonyms"] = new JsonArray("行く") }));
+      }
+
+      [XF] public void the_vocab_has_the_synonym() => Vocab.RelatedNotes.Synonyms.Strings().Must().SequenceEqual(["行く"]);
+      [XF] public void the_synonym_has_the_vocab_as_its_synonym_too_as_when_a_person_adds_it() => _synonym.RelatedNotes.Synonyms.Strings().Must().SequenceEqual(["行った"]);
+      [XF] public void the_edit_reports_the_synonyms_after() => JsonNode.DeepEquals(_edit.Changes.Single().After, new JsonArray("行く")).Must().BeTrue();
+   }
+
+   /// <summary>Another vocab, 往った, with the answer "gone".</summary>
+   public class of_a_vocab_writing_its_perfect_synonyms : When_editing_a_note
+   {
+      readonly VocabNote _perfectSynonym;
+      readonly NoteEdit _edit;
+
+      public of_a_vocab_writing_its_perfect_synonyms()
+      {
+         _perfectSynonym = CreateVocab("往った", "gone", "いった");
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["relatedVocab.perfectSynonyms"] = new JsonArray("往った") }));
+      }
+
+      [XF] public void the_perfect_synonym_gets_the_vocabs_answer() => _perfectSynonym.GetAnswer().Must().Be("went");
+      [XF] public void the_edit_reports_the_synonyms_too_since_adding_a_perfect_synonym_adds_a_synonym() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["relatedVocab.synonyms", "relatedVocab.perfectSynonyms"]);
+   }
+
+   public class of_a_sentence_marking_the_vocab_an_incorrect_match : When_editing_a_note
+   {
+      readonly bool _theSentenceMatchedTheVocabBefore;
+      readonly NoteEdit _edit;
+
+      public of_a_sentence_marking_the_vocab_an_incorrect_match()
+      {
+         _theSentenceMatchedTheVocabBefore = TheSentenceMatchesTheVocab();
+         _edit = ResultOf<NoteEdit>(Edit(Sentence, new JsonObject { ["configuration.incorrectMatches"] = new JsonArray(new JsonObject { ["word"] = "行った" }) }));
+      }
+
+      [XF] public void the_sentence_matched_the_vocab_before() => _theSentenceMatchedTheVocabBefore.Must().BeTrue();
+      [XF] public void the_sentence_is_reparsed_and_no_longer_matches_the_vocab() => TheSentenceMatchesTheVocab().Must().BeFalse();
+      [XF] public void the_edit_reports_the_incorrect_match_wherever_it_is_as_at_the_index_minus_one() =>
+         JsonNode.DeepEquals(_edit.Changes.Single().After, new JsonArray(new JsonObject { ["word"] = "行った", ["index"] = -1 })).Must().BeTrue();
    }
 
    public class of_a_vocab_with_a_part_of_speech_JAStudio_does_not_know : When_editing_a_note

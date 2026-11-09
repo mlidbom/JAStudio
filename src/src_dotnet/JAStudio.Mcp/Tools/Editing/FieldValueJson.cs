@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -11,12 +12,12 @@ namespace JAStudio.Mcp.Tools.Editing;
 
 /// <summary>
 /// The values of <see cref="EditableFieldOfANote"/>s as the MCP server's tools take and report them, in JSON: texts, lists of texts, true or false,<br/>
-/// a choice by its name in camel case, such as <c>"required"</c>, a vocab's forms as <c>{"text": ..., "isOwned": ...}</c>, and a kanji's<br/>
-/// readings as <c>{"kana": ..., "isPrimary": ...}</c>.
+/// a choice by its name in camel case, such as <c>"required"</c>, a vocab's forms as <c>{"text": ..., "isOwned": ...}</c>, a kanji's<br/>
+/// readings as <c>{"kana": ..., "isPrimary": ...}</c>, and a sentence's word exclusions as <c>{"word": ..., "index": ...}</c>.
 /// </summary>
 static class FieldValueJson
 {
-   static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web) { Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false) } };
+   static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web) { Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false), new WordExclusionJsonConverter() } };
 
    /// <summary><paramref name="value"/>, a field's value, as JSON.</summary>
    public static JsonNode? JsonOf(object value) => JsonSerializer.SerializeToNode(value, value.GetType(), Options);
@@ -33,6 +34,7 @@ static class FieldValueJson
       _ when valueType == typeof(IReadOnlyList<string>)       => "a list of texts",
       _ when valueType == typeof(IReadOnlyList<EnteredForm>) => """a list of forms, each {"text": "...", "isOwned": true or false}""",
       _ when valueType == typeof(IReadOnlyList<KanjiReading>) => """a list of readings, each {"kana": "...", "isPrimary": true or false}""",
+      _ when valueType == typeof(IReadOnlyList<WordExclusion>) => """a list of word exclusions, each {"word": "...", "index": where in the sentence the word starts, or -1 for wherever it is}""",
       { IsEnum: true }                                        => $"one of {string.Join(", ", Enum.GetNames(valueType).Select(it => $"\"{JsonNamingPolicy.CamelCase.ConvertName(it)}\""))}",
       _                                                       => throw new ArgumentOutOfRangeException(nameof(valueType), valueType, "No editable field has values of this type.")
    };
