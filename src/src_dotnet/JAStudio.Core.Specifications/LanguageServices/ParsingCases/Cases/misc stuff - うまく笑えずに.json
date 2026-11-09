@@ -1,0 +1,33 @@
+{
+  "sentence": "うまく笑えずに",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: うまく | 笑える | ずに.",
+  "parsedWords": [
+    {"form":"うまい","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"うまい","vocabId":"569d292f-ec4a-42ea-a697-76ee3b5f1da3"},
+    {"form":"笑える","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"笑える","vocabId":"3a5a1829-1d74-40a5-aab0-6b912214029e"},
+    {"form":"笑う","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"笑う","vocabId":"909921d4-4d6c-4913-844a-162826170138"},
+    {"form":"えぬ","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"えぬ","vocabId":"ec98eeb0-3695-4fe6-8e87-b8a805ebebb9"},
+    {"form":"える","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ずに","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"ずに","vocabId":"6bec7d97-5e24-411a-9efa-4e127f563d22"},
+    {"form":"ず","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"},
+    {"form":"に","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"うまい","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"うまい","vocabId":"569d292f-ec4a-42ea-a697-76ee3b5f1da3"},
+        {"form":"笑える","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"笑える","vocabId":"3a5a1829-1d74-40a5-aab0-6b912214029e"},
+        {"form":"ずに","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ずに","vocabId":"6bec7d97-5e24-411a-9efa-4e127f563d22"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"うまい","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"うまい","vocabId":"569d292f-ec4a-42ea-a697-76ee3b5f1da3"},
+        {"form":"笑える","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"笑える","vocabId":"3a5a1829-1d74-40a5-aab0-6b912214029e"},
+        {"form":"ず","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"},
+        {"form":"に","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+      ]
+    }
+  ]
+}

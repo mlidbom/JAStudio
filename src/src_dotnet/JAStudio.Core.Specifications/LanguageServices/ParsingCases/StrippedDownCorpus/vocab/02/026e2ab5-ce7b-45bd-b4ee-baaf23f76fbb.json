@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "金",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>かね:</tag>money\n<tag>きん:</tag>gold | money | of-value/golden",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かね",
+    "きん"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-03-05-13-40-02-525.mp3][sound:金_b.mp3]",
+  "audioG": "[sound:金_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 62,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>かね</read>|<read>かな</read>:: money | metal\n<read>きん</read>:: gold-(Au)/golden-(color)/gold-(medal,-cup) | valuable/of-highest-value | money/gold-coin | Friday | metal-(fourth-of-the-five-elements) | Jin-dynasty-(China,-1115-1234)/Chin-dynasty/Jurchen-dynasty | gold-general | testicles | karat/carat",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "Since this word is made up of a single kanji you would normally think it uses the kun'yomi reading. Not this word, though. It still uses the on'yomi reading, which you learned with the kanji. Don't confuse this one with <ja>お金</ja>, though. That one uses kun'yomi which you know because it has a hiragana attached."
+  },
+  "id": "026e2ab5-ce7b-45bd-b4ee-baaf23f76fbb",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

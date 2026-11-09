@@ -1,0 +1,32 @@
+{
+  "sentence": "大声出すな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 大声出す | う | な:dict.",
+  "parsedWords": [
+    {"form":"大声出す","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"大声出す","vocabId":"d6c3a5c1-d296-48e9-86cf-8f98be6741ba"},
+    {"form":"大声出す","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"大声出す","vocabId":"d6c3a5c1-d296-48e9-86cf-8f98be6741ba"},
+    {"form":"大声","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"大声","vocabId":"e8f537dd-3426-4577-8708-4ab0c90fdf95"},
+    {"form":"出す","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"出す","vocabId":"a25b6c34-5492-4f69-8e91-7844309edb7e"},
+    {"form":"出す","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"出す","vocabId":"a25b6c34-5492-4f69-8e91-7844309edb7e"},
+    {"form":"うな","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"うな","vocabId":"8b1cf138-5f36-43f1-9404-2e5a358f7bd8"},
+    {"form":"う","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"な","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"a47ececb-300f-4763-a687-6a99463a8d8d"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"大声出す","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大声出す","vocabId":"d6c3a5c1-d296-48e9-86cf-8f98be6741ba"},
+        {"form":"うな","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うな","vocabId":"8b1cf138-5f36-43f1-9404-2e5a358f7bd8"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"大声","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大声","vocabId":"e8f537dd-3426-4577-8708-4ab0c90fdf95"},
+        {"form":"出す","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"出す","vocabId":"a25b6c34-5492-4f69-8e91-7844309edb7e"},
+        {"form":"う","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"な","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"a47ececb-300f-4763-a687-6a99463a8d8d"}
+      ]
+    }
+  ]
+}

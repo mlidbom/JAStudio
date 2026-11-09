@@ -1,0 +1,59 @@
+{
+  "question": {
+    "text": "一波",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "a-wave/the-first-wave/the-first-round",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いっぱ"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-1701325ac53d25390ff9a3641fe4a65aad603fdd12f1af17dafedd13.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Ippa",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "165d0ddf-f4d3-4b25-8510-a6ad468e8333",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

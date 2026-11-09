@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "澄む",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: become-{clear/transparent | serene/tranquil}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "すむ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:澄む_b.mp3]",
+  "audioG": "[sound:澄む_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "清む",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "澄ます",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: become-clear-(water,-air,-etc.)/become-transparent | resonate-clearly-(e.g.-voice) | become-serene/become-tranquil/be-free-of-worries | pronounce-as-an-unvoiced-sound",
+    "mnemonic": "Something with <kanji>lucidity</kanji> is clear. That's why this word is <vocabulary>to become clear</vocabulary> or <vocabulary>to become transparent</vocabulary>.",
+    "readingMnemonic": "You learned this reading when you learned the kanji."
+  },
+  "id": "421a3022-9063-4299-a0ec-6f0c0641b3ea",
+  "tags": [
+    "source::wani::level::45"
+  ]
+}

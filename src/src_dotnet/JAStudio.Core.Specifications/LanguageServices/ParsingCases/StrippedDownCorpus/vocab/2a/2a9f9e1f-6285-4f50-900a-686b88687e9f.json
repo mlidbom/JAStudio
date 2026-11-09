@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "ねぇ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "right? | hey! | you-know | will-you?| nonexistent | not ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ねぇ"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "expression",
+    "i-adjective",
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ねぇ_ねぇ_2023-08-24-16-24-00.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ねえ",
+      "isOwned": false
+    },
+    {
+      "text": "ねー",
+      "isOwned": false
+    },
+    {
+      "text": "ね",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 145,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "right?/don't-you-think | hey/come-on/listen\nnonexistent/not-being-(there)/not-having | not",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2a9f9e1f-6285-4f50-900a-686b88687e9f",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

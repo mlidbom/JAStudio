@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "でね",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag> you-{know/see} | right?/isn't-it? | please?/OK?\n<tag>s.start:</tag>and-so/so",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "で",
+      "ね"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "でね"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-5007346dbe8bfe33ddc3532fa56797565b2b70bd08bc45b40b160910.mp3]",
+  "forms": [],
+  "sentenceCount": 25,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [
+        "ない",
+        "ん"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "aa39d4bc-4228-462c-b24d-863a65b93955",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not"
+  ]
+}

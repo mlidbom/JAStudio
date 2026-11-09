@@ -1,0 +1,17 @@
+{
+  "sentence": "はしゃいでる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: はしゃぐ | でる.",
+  "parsedWords": [
+    {"form":"はしゃぐ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"はしゃぐ","vocabId":"809acaca-0917-4c44-8622-ccd47cc6f0fa"},
+    {"form":"いでる","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"いでる","vocabId":"81fa2832-6803-44e6-aed5-eef013848cf3"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"はしゃぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"はしゃぐ","vocabId":"809acaca-0917-4c44-8622-ccd47cc6f0fa"},
+        {"form":"いでる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いでる","vocabId":"81fa2832-6803-44e6-aed5-eef013848cf3"}
+      ]
+    }
+  ]
+}

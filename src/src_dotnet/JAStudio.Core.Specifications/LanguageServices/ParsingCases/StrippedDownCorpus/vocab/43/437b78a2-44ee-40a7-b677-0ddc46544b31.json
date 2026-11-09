@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "に行く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: go-{to | in-order-to/for-the-purpose-of}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "に",
+      "行く"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "にいく"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-7b995aff33715fa0638ffc6cb9baae918db9e7b9998e6ed88974fd44.mp3]",
+  "forms": [
+    {
+      "text": "にゆく",
+      "isOwned": false
+    },
+    {
+      "text": "に逝く",
+      "isOwned": false
+    },
+    {
+      "text": "に往く",
+      "isOwned": false
+    },
+    {
+      "text": "にいく",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 611,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "437b78a2-44ee-40a7-b677-0ddc46544b31",
+  "tags": []
+}

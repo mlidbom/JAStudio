@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "とどめ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "finishing-blow/coup-de-grâce",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とどめ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-08-07-12-18-57-527.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "止め",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "finishing-blow/coup-de-grâce",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "781c3ccb-8645-4eb4-9f9a-1ba26883081c",
+  "tags": [
+    "source::yomitan"
+  ]
+}

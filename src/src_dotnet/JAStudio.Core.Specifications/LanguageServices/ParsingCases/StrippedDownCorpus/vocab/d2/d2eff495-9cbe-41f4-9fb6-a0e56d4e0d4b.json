@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "強い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "strong/powerful/potent",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つよい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:強い_b.mp3]",
+  "audioG": "[sound:強い_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 155,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "強え"
+    ],
+    "antonyms": [],
+    "confusedWith": [
+      "凄い"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "strong/potent/competent/domineering/tough | strong/brawny/powerful/healthy/rugged | good-(at)/skilled/knowledgeable | being-able-to-handle/know-how-to-deal-(with)/durable-(against)/resistant-(to)/resilient | firm/rigid/solid | intense/strong/fierce/high | dependable/trustworthy",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>strong</kanji>? It's also <vocabulary>strong</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nSo you wanna be <vocabulary>strong</vocabulary> huh? Well, all you have to do is eat these <reading>two yo</reading>gurts (<ja>つよ</ja>). One is filled with horse steroids, the other is full of bull steroids. They will make you so strong."
+  },
+  "id": "d2eff495-9cbe-41f4-9fb6-a0e56d4e0d4b",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::wani::level::07"
+  ]
+}

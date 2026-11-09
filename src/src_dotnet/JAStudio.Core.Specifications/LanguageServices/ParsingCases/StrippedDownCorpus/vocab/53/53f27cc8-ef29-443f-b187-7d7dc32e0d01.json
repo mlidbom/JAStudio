@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "きり",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "end/place-to-stop | bound/limit | <tag>prt:</tag>only/just ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きり"
+  ],
+  "partsOfSpeech": [
+    "counter",
+    "noun",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_きり_切り_2023-08-21-21-28-07.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>切り</ja></tag>:: end/finish/stop | bounds/limits | delivery-date-(of-a-futures-contract) | finale-(of-a-noh-song)/end-of-an-act-(in-jōruri-or-kabuki)/final-performance-of-the-day-(in-vaudeville) | counter-for-slices-(esp.-thick-slices)/counter-for-cuts-(e.g.-fish,-meat) | only/just | since/after | remaining-(in-a-particular-state)\n<read>きめ</read>|<read>きり</read>:<tag><ja>木目</ja></tag>:: texture-(e.g.-skin,-fabric) | grain-(e.g.-wood) | detail",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "53f27cc8-ef29-443f-b187-7d7dc32e0d01",
+  "tags": [
+    "-::counting",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

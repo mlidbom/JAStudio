@@ -1,0 +1,59 @@
+{
+  "question": {
+    "text": "しても",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{even/no-matter}-if-_-{do/does}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "ても"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しても"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-e70b124c52c69ef0c6ee52d11bba53a5667600dc65979aefd2f9f780.mp3]",
+  "forms": [],
+  "sentenceCount": 43,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "bd36c37a-92bf-45ce-99df-2d1cfcdb59ff",
+  "tags": []
+}

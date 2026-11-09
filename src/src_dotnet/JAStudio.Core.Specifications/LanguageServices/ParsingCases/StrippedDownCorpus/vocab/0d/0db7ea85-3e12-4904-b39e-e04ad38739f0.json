@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "せん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>archaic:literary:ksb:</tag> <ja>せぬ</ja>/<ja>しない</ja>/{does/will}-not-do",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "せん"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-21-21-27-01-144.mp3]",
+  "audioG": "[sound:yomitan_audio_2024-06-21-21-27-12-324.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 18,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ず",
+      "ない",
+      "ぬ",
+      "ん"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>はなむけ</read>|<read>せん</read>:<tag><ja>餞</ja></tag>:: farewell-gift/parting-gift/viaticum\nwill-not-do/do-not/does-not",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0db7ea85-3e12-4904-b39e-e04ad38739f0",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

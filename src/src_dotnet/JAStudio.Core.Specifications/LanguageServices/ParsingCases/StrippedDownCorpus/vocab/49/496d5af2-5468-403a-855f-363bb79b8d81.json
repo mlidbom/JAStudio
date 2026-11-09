@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "だったら",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "if-so/in-that-case/if-that-was-the-case/if-thats-the-case/then",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "たら"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だったら"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_だったら_だったら_2023-08-29-15-30-26.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 116,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "でしたら"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "if-it's-the-case",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "496d5af2-5468-403a-855f-363bb79b8d81",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

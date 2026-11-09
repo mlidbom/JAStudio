@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "普通",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "normal/ordinary",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ふつう"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:普通_b.mp3]",
+  "audioG": "[sound:普通_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 48,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "normal/ordinary/regular/usual/common/average | normally/ordinarily/usually/generally/commonly | local-train/train-that-stops-at-every-station",
+    "mnemonic": "You <kanji>pass through</kanji> like completely <kanji>normal</kanji>. You are <vocabulary>normal</vocabulary>. You do things <vocabulary>normally</vocabulary>, normally.",
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own."
+  },
+  "id": "eefb9d8a-b80b-4f7b-a9d8-25a7bf3f7f1d",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::31"
+  ]
+}

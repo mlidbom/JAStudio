@@ -1,0 +1,85 @@
+{
+  "question": {
+    "text": "一人",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "alone | one-person",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ひとり"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:一人_b.mp3]",
+  "audioG": "[sound:一人_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いちにん",
+      "isOwned": false
+    },
+    {
+      "text": "１人",
+      "isOwned": false
+    },
+    {
+      "text": "独り",
+      "isOwned": false
+    },
+    {
+      "text": "ひとり",
+      "isOwned": false
+    },
+    {
+      "text": "1人",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 270,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "独り"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "one-person | being-alone/being-by-oneself | being-single/being-unmarried | by-oneself/alone | just/only/simply",
+    "mnemonic": "When there's <kanji>one</kanji> <kanji>person</kanji>, what are they? Well, they're either just going to be simply <vocabulary>one person</vocabulary> or <vocabulary>alone</vocabulary>.",
+    "readingMnemonic": "The reading for this vocab doesn't follow any rules you learned previously. It's an exception, which means you have to learn the reading separately too. Spend a few moments trying to remember this word, look away for 10 seconds, and then try to recall its reading. Could you do it? Try again, this time in thirty seconds. Did you do it again? Okay, go ahead and move on. You may know it now, though you'll need to recall it again in the next 5-10 minutes if you want to remember it for good.\n\nAlternatively, if you know the reading for the vocab word <ja>一つ</ja> (in the same level as this word), you can know that it uses the same reading!"
+  },
+  "id": "f2ac7ac3-8c88-4bd7-883a-daae4c610173",
+  "tags": [
+    "-::counting",
+    "legacy_scheduling",
+    "source::wani::level::01"
+  ]
+}

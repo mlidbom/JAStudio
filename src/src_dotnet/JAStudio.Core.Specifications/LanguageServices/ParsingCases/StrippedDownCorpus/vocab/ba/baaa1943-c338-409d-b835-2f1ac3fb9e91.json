@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "だめ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no-good/useless/broken | hopelesss/wasted/in-wain | must-not/cannot/not-allowed | no!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "だめ"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:駄目_b.mp3]",
+  "audioG": "[sound:駄目_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ダメ",
+      "isOwned": false
+    },
+    {
+      "text": "駄目",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 47,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "no-good/not-serving-its-purpose/useless/broken | hopeless/wasted/in-vain/purposeless | cannot/must-not/not-allowed | neutral-point-(in-go)/intersection-owned-by-neither-player-at-the-end-of-a-game",
+    "mnemonic": "If something is <kanji>burdensome</kanji> to the <kanji>eye</kanji> (when you look at it), you know that that thing is <vocabulary>not good</vocabulary> or <vocabulary>hopeless</vocabulary>. Just look at that burdensome thing with your eye. This can also mean <vocabulary>not allowed</vocabulary>. Parents say this to their kids all the time.",
+    "readingMnemonic": "The readings are the readings you learned with the kanji."
+  },
+  "id": "baaa1943-c338-409d-b835-2f1ac3fb9e91",
+  "tags": []
+}

@@ -1,0 +1,46 @@
+{
+  "sentence": "幼すぎて よく覚えていないけど",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 幼い | すぎる | て | よく | 覚える | ている | ない | けど.",
+  "parsedWords": [
+    {"form":"幼い","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"幼い","vocabId":"05600be9-b0cb-43eb-abdb-80f3707ded49"},
+    {"form":"すぎる","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"すぎる","vocabId":"25bda401-0dc0-4d15-801a-0a2240d7e67f"},
+    {"form":"て","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"よく","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"よく","vocabId":"ddfee03d-a535-452e-98d6-e9d7fa8e2954"},
+    {"form":"覚える","startIndex":7,"variant":"base","isDisplayed":true,"vocab":"覚える","vocabId":"fbefc73c-975f-450f-adf4-131235e8b806"},
+    {"form":"ていない","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"ていない","vocabId":"e15f35c4-0fb1-40f6-91ec-8bb97fef3f12"},
+    {"form":"ている","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+    {"form":"て","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"いない","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"いない","vocabId":"dc9dc716-6d7f-481d-b5fc-f0ce4571644c"},
+    {"form":"いる","startIndex":10,"variant":"base","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"ない","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"けど","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"幼い","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"幼い","vocabId":"05600be9-b0cb-43eb-abdb-80f3707ded49"},
+        {"form":"すぎる","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"すぎる","vocabId":"25bda401-0dc0-4d15-801a-0a2240d7e67f"},
+        {"form":"て","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"よく","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よく","vocabId":"ddfee03d-a535-452e-98d6-e9d7fa8e2954"},
+        {"form":"覚える","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"覚える","vocabId":"fbefc73c-975f-450f-adf4-131235e8b806"},
+        {"form":"ていない","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ていない","vocabId":"e15f35c4-0fb1-40f6-91ec-8bb97fef3f12"},
+        {"form":"けど","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"幼い","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"幼い","vocabId":"05600be9-b0cb-43eb-abdb-80f3707ded49"},
+        {"form":"すぎる","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"すぎる","vocabId":"25bda401-0dc0-4d15-801a-0a2240d7e67f"},
+        {"form":"て","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"よく","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よく","vocabId":"ddfee03d-a535-452e-98d6-e9d7fa8e2954"},
+        {"form":"覚える","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"覚える","vocabId":"fbefc73c-975f-450f-adf4-131235e8b806"},
+        {"form":"て","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":10,"variant":"base","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"ない","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"けど","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+      ]
+    }
+  ]
+}

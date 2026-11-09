@@ -1,0 +1,114 @@
+{
+  "question": {
+    "text": "嘘をつく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: tell-a-lie/fib",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うそをつく"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": " [sound:ATTS 嘘をつく (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "うそを付く",
+      "isOwned": true
+    },
+    {
+      "text": "うそを吐く",
+      "isOwned": true
+    },
+    {
+      "text": "ウソを吐く",
+      "isOwned": true
+    },
+    {
+      "text": "ウソを付く",
+      "isOwned": true
+    },
+    {
+      "text": "嘘を吐く",
+      "isOwned": true
+    },
+    {
+      "text": "嘘を付く",
+      "isOwned": true
+    },
+    {
+      "text": "うそ付く",
+      "isOwned": false
+    },
+    {
+      "text": "うそ吐く",
+      "isOwned": false
+    },
+    {
+      "text": "嘘つく",
+      "isOwned": false
+    },
+    {
+      "text": "ウソ吐く",
+      "isOwned": false
+    },
+    {
+      "text": "ウソ付く",
+      "isOwned": false
+    },
+    {
+      "text": "嘘吐く",
+      "isOwned": false
+    },
+    {
+      "text": "嘘付く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 14,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{tell-a-lie/fib}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "95ebec15-4387-4e60-b884-1124ed6f6a31",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "だった",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "was/were",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だった"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-06-09-16-49-234.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 923,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "でした"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "was",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d2fe8f85-7de7-457c-b8a6-5804e39b2ffc",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

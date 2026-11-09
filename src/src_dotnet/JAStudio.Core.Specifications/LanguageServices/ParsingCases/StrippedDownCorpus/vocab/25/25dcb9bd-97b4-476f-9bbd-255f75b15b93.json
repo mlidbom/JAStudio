@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "楽しむ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{}  enjoy/take-pleasure-in/have-fun",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たのしむ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:楽しむ_b.mp3]",
+  "audioG": "[sound:楽しむ_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "楽む",
+      "isOwned": false
+    },
+    {
+      "text": "愉しむ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 48,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}enjoy-(oneself)",
+    "mnemonic": "You've hopefully seen the word <ja>楽しい</ja>, which means \"fun.\" Now you're going to figure out the verb version (ends in an <ja>う</ja> sound, right?) of it. That would be <vocabulary>to enjoy</vocabulary>. Speaking of which, I hope you're enjoying WaniKani so far!",
+    "readingMnemonic": "The reading is the same as the word <ja>楽しい</ja>, so be sure to know that word and you'll be able to apply it over here."
+  },
+  "id": "25dcb9bd-97b4-476f-9bbd-255f75b15b93",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::10"
+  ]
+}

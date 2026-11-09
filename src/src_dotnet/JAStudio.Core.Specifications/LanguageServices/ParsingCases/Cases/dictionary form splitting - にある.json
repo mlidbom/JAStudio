@@ -1,0 +1,20 @@
+{
+  "sentence": "にある",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: に | ある | う.",
+  "parsedWords": [
+    {"form":"に","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"ある","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"ある","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"う","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"に","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"ある","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+        {"form":"う","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

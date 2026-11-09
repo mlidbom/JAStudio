@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "知れる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to-be: known/understood | revealed | evident/obvious",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "知る",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1fc282452d001d8e35740428f316db99a4bae790b28ff8e7b6f7c1b4.mp3]",
+  "forms": [],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {become-known/come-to-light/be-discovered} | be-{known/understood} | {obviously-not-amount-to-much/seem-trivial} | {be-evident/be-obvious/go-without-saying} | be-{very-intense-(worry,-hope,-etc.)/extremely-severe}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c0b8719b-ae3d-4964-8c46-0894a4f2b824",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "かも",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>かもしれない</ja> maybe/may/might/possibly",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かも"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_かも_かも_2023-07-20-15-35-41.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "鳧",
+      "isOwned": false
+    },
+    {
+      "text": "鴨",
+      "isOwned": false
+    },
+    {
+      "text": "カモ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 398,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>鴨</ja></tag>:: duck | easy-mark/sucker/sitting-duck\nmay/might/perhaps/may-be/possibly",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9790c834-1977-4a34-bc4a-b0af0e116db3",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

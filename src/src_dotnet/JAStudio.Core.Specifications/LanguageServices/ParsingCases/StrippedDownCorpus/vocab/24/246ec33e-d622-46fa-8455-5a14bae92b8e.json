@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "あれても",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "even-if-_-{gets/is}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "あれる",
+      "ても"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "あれても"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-ea351d7aec6b861721847062718e463822881c135bbddc010e8611b4.mp3]",
+  "forms": [
+    {
+      "text": "れても",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 28,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "forbidden",
+      "ichidan": "forbidden",
+      "irrealis": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "246ec33e-d622-46fa-8455-5a14bae92b8e",
+  "tags": []
+}

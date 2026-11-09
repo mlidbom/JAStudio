@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "はしゃぐ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: make-merry/frolic/{romp/play}-about/be-in-high-spirits",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はしゃぐ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-17-13-37-13-056.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "燥ぐ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: make-merry/frolic/be-in-high-spirits",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "809acaca-0917-4c44-8622-ccd47cc6f0fa",
+  "tags": [
+    "source::yomitan"
+  ]
+}

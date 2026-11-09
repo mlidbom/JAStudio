@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "大",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "large/big | important \n<tag><ja>おお</ja>:</tag> older | final/ultimate | rough/broad\n<tag><ja>だい</ja>:</tag> <tag>pre:</tag>great/prominent/eminent | <tag>suff:</tag> sized | university",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おお",
+    "だい"
+  ],
+  "partsOfSpeech": [
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-07-15-14-51-41-846.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 117,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>おお</read>:: large/big/great/major/important/serious/heavy/loud | older/senior | final/ultimate | rough/broad/general\n<read>だい</read>:: large/big/great/huge/vast/major/important/serious/severe | great/prominent/eminent/distinguished | -sized/as-big-as/the-size-of | university | large-(e.g.-serving-size)/large-option | long-month-(i.e.-having-31-days)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "873b9ede-3e44-497e-a415-43bbfc873451",
+  "tags": [
+    "source::yomitan"
+  ]
+}

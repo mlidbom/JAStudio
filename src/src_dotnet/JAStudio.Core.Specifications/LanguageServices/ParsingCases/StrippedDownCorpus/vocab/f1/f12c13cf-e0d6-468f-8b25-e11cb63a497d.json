@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "だし",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{since/because}-_-{is}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "し"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だし"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-bebe23838dbb8a0ba01516a5f1487185d5f04cb881b71a3f7221f7bd.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 95,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "dashi-(Japanese-soup-stock-made-from-fish-and-kelp) | pretext/excuse/pretense-(pretence)/dupe/front-man",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f12c13cf-e0d6-468f-8b25-e11cb63a497d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

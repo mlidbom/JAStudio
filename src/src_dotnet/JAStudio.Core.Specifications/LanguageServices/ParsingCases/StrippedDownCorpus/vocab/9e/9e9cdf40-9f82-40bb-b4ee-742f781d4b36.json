@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "留める",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} fix/fasten/tack/pin | detain/keep-in-custody ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とめる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-04-31-06-18-52-568.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "停める",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} stop/turn-off | park | prevent/suppress-(a-cough)/hold-back-(tears)/hold-(one's-breath)/relieve-(pain) | stop-(someone-from-doing-something)/dissuade/forbid/prohibit | notice/be-aware-of/concentrate-on/pay-attention-to/remember/bear-in-mind | fix-(in-place)/fasten/tack/pin/nail/button/staple | detain/keep-in-custody",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9e9cdf40-9f82-40bb-b4ee-742f781d4b36",
+  "tags": [
+    "source::yomitan"
+  ]
+}

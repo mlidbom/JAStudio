@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "しまう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} finish/stop/end | close-down | put:away/back | <tag>て:</tag>do-{unfortunately | accidentally}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "しまう"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:d3c1ab899ca7d8d206f2817aa1396c51.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "了う",
+      "isOwned": false
+    },
+    {
+      "text": "蔵う",
+      "isOwned": false
+    },
+    {
+      "text": "仕舞う",
+      "isOwned": false
+    },
+    {
+      "text": "終う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 702,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{}{finish/stop/end/put-an-end-to/bring-to-a-close} | to{}{close-(a-business,-etc.)/close-down/shut-down/shut-up} | to{}{put-away/put-back/keep/store} | to{?}{do-completely/finish} | to{?}{do-accidentally/do-without-meaning-to/happen-to-do}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "49a757e5-352c-4526-a118-c665361fea66",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step10"
+  ]
+}

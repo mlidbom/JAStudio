@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "出す",
+    "disambiguation": "masu"
+  },
+  "corpusAnswer": "<tag>masu-stem:</tag> {begin/start}-to-_ | _-out",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "だす"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:出す_b.mp3]",
+  "audioG": "[sound:出す_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 19,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "masuStem": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{}{take-out/get-out} | to{}{put-out/reveal/show} | to{}{submit-(e.g.-thesis)/turn-in} | to{}{publish/make-public} | to{}send-(e.g.-letter) | to{}{produce-(a-sound)/start-(fire)} | to{}serve-(food) | ...-out-(e.g.-to-jump-out,-to-carry-out) | to{?}{begin-.../start-to-.../burst-into-...}",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means \"<kanji>exit</kanji>\" and this is kind of a verb form of this. The word means <vocabulary>to take out</vocabulary> or <vocabulary>to hand out</vocabulary>, so it's like you're doing the action of causing something else to exit (rather than exiting yourself).\n\nIn other words, this verb is transitive, like most verbs ending in <ja>す</ja>. You can remember this because the hiragana <ja>す</ja> is like the word \"sue.\" You're taking out way too much of something, and someone's going to <reading>sue</reading> (<ja>す</ja>) you for it.",
+    "readingMnemonic": "The part of the word that you have to learn how to read is the <ja>だ</ja> portion. So, you already removed Sue from the box. Who else is in there that you have to remove? It's your <reading>Da</reading>d (<ja>だ</ja>) as well. Go ahead and remove him from the box as well."
+  },
+  "id": "5dbc72c7-198b-4382-a1d1-3ee0de6de50d",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::wani::level::05"
+  ]
+}

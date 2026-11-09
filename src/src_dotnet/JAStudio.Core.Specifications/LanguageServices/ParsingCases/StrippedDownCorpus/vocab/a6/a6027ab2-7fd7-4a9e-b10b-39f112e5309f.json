@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "いける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be-able-to | go-well | be-good-at | {look/taste}-good",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "行く",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_いける_いける_2024-03-29-11-16-28.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "イケる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 221,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: be-good-(at)/go-well | look-(taste,-etc.)-good | hold-one's-liquor/be-able-to-hold-one's-drink",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a6027ab2-7fd7-4a9e-b10b-39f112e5309f",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "頑張れ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "hang-in-there/keep-at-it/do-your-best",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "がんばれ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:頑張れ_b.mp3]",
+  "audioG": "[sound:頑張れ_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "がんばれ",
+      "isOwned": false
+    },
+    {
+      "text": "ガンバレ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 15,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "required",
+      "godanPotential": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "hang-in-there/go-for-it/keep-at-it/do-your-best",
+    "mnemonic": "Remember <ja>頑張る</ja>? This is just another form of that, this time you're telling someone to <ja>頑張る</ja>, making this word mean something along the lines of <vocabulary>good luck</vocabulary> or <vocabulary>do your best</vocabulary>! Speaking of which, <ja>頑張れ</ja>, you!",
+    "readingMnemonic": "The reading comes from <ja>頑張る</ja>."
+  },
+  "id": "ebb6fbf6-3eac-47dd-adc7-64dced402b41",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::27"
+  ]
+}

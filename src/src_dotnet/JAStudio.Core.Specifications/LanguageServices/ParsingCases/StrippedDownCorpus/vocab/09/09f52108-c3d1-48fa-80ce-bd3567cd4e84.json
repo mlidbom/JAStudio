@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "笑い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "laugh/laughter | smile | sneer | sex-aids",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "わらい"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:笑い_b.mp3]",
+  "audioG": "[sound:笑い_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "咲い",
+      "isOwned": false
+    },
+    {
+      "text": "笑",
+      "isOwned": false
+    },
+    {
+      "text": "嗤い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "laugh/laughter | smile | sneer | sex-aids-(e.g.-dildos,-pornographic-books,-erotic-woodblock-prints,-etc.)",
+    "mnemonic": "You know that <ja>笑う</ja> is \"to laugh.\" This is the noun version, because the <ja>う</ja> in <ja>笑う</ja> turns to <ja>い</ja> (so don't confuse this as an adjective). What is the noun version of \"to laugh\"? It's <vocabulary>a laugh</vocabulary>.",
+    "readingMnemonic": "The reading is the same as <ja>笑う</ja>, so just make sure you know that so you can know this as well."
+  },
+  "id": "09f52108-c3d1-48fa-80ce-bd3567cd4e84",
+  "tags": [
+    "source::wani::level::18"
+  ]
+}

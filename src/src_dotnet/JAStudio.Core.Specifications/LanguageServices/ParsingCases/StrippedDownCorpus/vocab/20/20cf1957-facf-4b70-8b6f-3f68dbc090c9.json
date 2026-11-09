@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "うん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "yeah/uh-huh/yes | hum/hmmm/well/erm/huh? | oof",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うん"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "noun",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_うん_うん_2023-08-26-13-44-10.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 200,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "yes/yeah/uh-huh | hum/hmmm/well/erm/huh? | oof\n<read>ん</read>|<read>うん</read>:: some-(at-the-start-of-a-number-in-place-of-a-digit)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "20cf1957-facf-4b70-8b6f-3f68dbc090c9",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "コーヒー",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "coffee",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "コーヒー"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:daa504b0d7f45e76983fd8b2bd311a1c.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "珈琲",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 55,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"d36de9d4312b1ec9e375e52749a572e8.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "coffee",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "de164f3a-a34e-478f-9e9f-f7401464e1ee",
+  "tags": [
+    "source::core2000::step06"
+  ]
+}

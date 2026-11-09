@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "あれて",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{get/is}-_-{and}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "あれる",
+      "て"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "あれて"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-ea9aa7f8f514ed8fcec71e15f37cb32bf3ea531a4d7f9ee18a068bbd.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "れて",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 459,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidan": "forbidden",
+      "irrealis": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "されて",
+      "られて"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "あせて",
+      "えれて"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "182b5f91-17e6-41ce-b062-bad3478d55a9",
+  "tags": []
+}

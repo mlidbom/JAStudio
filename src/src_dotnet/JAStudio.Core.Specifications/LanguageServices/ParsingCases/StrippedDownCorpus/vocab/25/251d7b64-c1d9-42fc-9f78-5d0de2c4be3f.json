@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "なんだろう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I-wonder?/what-could-it-be? | !right?/isn't-it?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "なん",
+      "だろう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なんだろう"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-c7d95542da191ef6ec88bb9f07346fc378e619b344c501f349b262d4.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "何だろう",
+      "isOwned": false
+    },
+    {
+      "text": "何だろ",
+      "isOwned": false
+    },
+    {
+      "text": "なんだろ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 74,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "251d7b64-c1d9-42fc-9f78-5d0de2c4be3f",
+  "tags": [
+    "source::yomitan"
+  ]
+}

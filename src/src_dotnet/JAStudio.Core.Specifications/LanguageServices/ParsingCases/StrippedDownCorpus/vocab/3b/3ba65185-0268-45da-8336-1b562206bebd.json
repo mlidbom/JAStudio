@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "んでない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{is}-not-{_-ing | _-ed}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "んで",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "んでない"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b7bf63398780c2e4e4afaebd341ef92f16f756a7d673d3023ee00df1.mp3]",
+  "forms": [
+    {
+      "text": "でない",
+      "isOwned": false
+    },
+    {
+      "text": "てない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "でない"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3ba65185-0268-45da-8336-1b562206bebd",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "sentence": "空を飛べる機械",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 空を飛ぶ | える | る:う | 機械.",
+  "parsedWords": [
+    {"form":"空を飛ぶ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"空を飛ぶ","vocabId":"e529a512-ed92-4c85-abbf-ecf20fb4e640"},
+    {"form":"空","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"空","vocabId":"62156d21-c2d9-4f21-9e81-53a7a9c92b7d"},
+    {"form":"を","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"飛ぶ","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"飛ぶ","vocabId":"f4f65055-a81d-4442-9007-fa454db900cc"},
+    {"form":"える","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"える","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"う","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"機械","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"機械","vocabId":"cdcdd019-3b74-48d2-90a7-ad4ad64d12c7"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"空を飛ぶ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"空を飛ぶ","vocabId":"e529a512-ed92-4c85-abbf-ecf20fb4e640"},
+        {"form":"える","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"う","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"機械","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"機械","vocabId":"cdcdd019-3b74-48d2-90a7-ad4ad64d12c7"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"空","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"空","vocabId":"62156d21-c2d9-4f21-9e81-53a7a9c92b7d"},
+        {"form":"を","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"飛ぶ","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"飛ぶ","vocabId":"f4f65055-a81d-4442-9007-fa454db900cc"},
+        {"form":"える","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"う","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"機械","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"機械","vocabId":"cdcdd019-3b74-48d2-90a7-ad4ad64d12c7"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "停める",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} park/land/stop-vehicle | turn-off ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とめる",
+    "とどめる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1df93bc45724b5a0d1fcf518ed18c612fcf02c9637075c034b6aecac.mp3]",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>とめる</read>:<tag><ja>止める</ja></tag>:: to{} stop/turn-off | park | prevent/suppress-(a-cough)/hold-back-(tears)/hold-(one's-breath)/relieve-(pain) | stop-(someone-from-doing-something)/dissuade/forbid/prohibit | notice/be-aware-of/concentrate-on/pay-attention-to/remember/bear-in-mind | fix-(in-place)/fasten/tack/pin/nail/button/staple | detain/keep-in-custody\n<read>とどめる</read>:<tag><ja>留める</ja></tag>:: to{} stop/stay-(e.g.-the-night)/cease/put-an-end-to | contain/keep-(in-position,-in-place)/limit | record-(e.g.-a-fact)/retain",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9ccda26b-6a66-4a11-a7d6-c49af5a05803",
+  "tags": [
+    "source::jamdict"
+  ]
+}

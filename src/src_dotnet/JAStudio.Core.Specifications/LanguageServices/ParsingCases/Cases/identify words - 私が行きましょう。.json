@@ -1,0 +1,22 @@
+{
+  "sentence": "私が行きましょう。",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 私 | が | 行く | 行き | ましょう | ます | ましょ | う.",
+  "parsedWords": [
+    {"form":"私","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+    {"form":"が","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"行く","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"行く","vocabId":"2043af67-882f-4b7f-9e91-5d0daa10eaf0"},
+    {"form":"ましょう","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"ましょう","vocabId":"ac05f827-6b0c-4446-85e6-088df140eb9c"},
+    {"form":"ます","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"私","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+        {"form":"が","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"行く","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"行く","vocabId":"2043af67-882f-4b7f-9e91-5d0daa10eaf0"},
+        {"form":"ましょう","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ましょう","vocabId":"ac05f827-6b0c-4446-85e6-088df140eb9c"}
+      ]
+    }
+  ]
+}

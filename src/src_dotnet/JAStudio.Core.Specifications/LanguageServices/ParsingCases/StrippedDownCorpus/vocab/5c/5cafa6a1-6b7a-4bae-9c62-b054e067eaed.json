@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "せい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "cause/fault/reason/impetus",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "せい"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-07-01-48-16-035.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "所為",
+      "isOwned": false
+    },
+    {
+      "text": "せえ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 166,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "consequence/outcome/result/blame",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5cafa6a1-6b7a-4bae-9c62-b054e067eaed",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

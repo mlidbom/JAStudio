@@ -1,0 +1,17 @@
+{
+  "sentence": "言わず",
+  "why": "Converted from TextAnalysisWithSelectDataTests.ExcludedSurfaces, against vocab copied by hand, expected the forms of the parsing result, in that order: 言う | ず.",
+  "parsedWords": [
+    {"form":"言う","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"ず","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"言う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"ず","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"}
+      ]
+    }
+  ]
+}

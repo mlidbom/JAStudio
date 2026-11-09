@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "決まる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to-be: decided | unchanging | a-fixed-rule/convention",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きまる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:決まる_b.mp3]",
+  "audioG": "[sound:決まる_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "極る",
+      "isOwned": false
+    },
+    {
+      "text": "決る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 42,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"東京オリンピック・パラリンピック 招致からこれまで【経緯】｜オリンピック・パラリンピック【ＮＨＫ】五輪・パラ特集｜ＮＨＫニュース\" src=\"article_20200420_02_03.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "決める",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: be-{decided/settled/fixed/arranged} | be-{unchanging/the-same-(as-always)/fixed/set} | be-{a-fixed-rule/destined/a-convention/a-custom/common-knowledge} | {be-well-executed-(of-a-manoeuvre-in-a-sport,-game,-etc.)/go-well/succeed/connect-(of-a-punch)} | {look-good-(of-clothing)/look-sharp/be-stylish/suit-one/be-held-in-place-(of-a-hairdo)} | be-struck-and-held-(of-a-pose-in-kabuki)",
+    "mnemonic": "You've seen the word <ja>決める</ja> before, hopefully. This is similar, except for instead of doing the action of deciding, something has just been decided (by something or someone else). You are not the decision maker, here. That's why this word is <vocabulary>to be decided</vocabulary>.",
+    "readingMnemonic": "The reading is the same as <ja>決める</ja>, so make sure you know that word so you can apply that knowledge over here."
+  },
+  "id": "9345178b-bc14-4a3f-b4bc-bd481f36fa3d",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::10"
+  ]
+}

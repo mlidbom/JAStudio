@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "を",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{direct-object}</tag>/that/which | <tag>{domain-of-{physical/time}-movement}</tag>/on/through/from/while/during",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "を"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:katakana_45_wo.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 10514,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.japanesewithanime.com/2019/05/wo-particle.html\">を Particle | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "に"
+    ]
+  },
+  "sourceData": {
+    "answer": "indicates-direct-object-of-action | indicates-subject-of-causative-expression | indicates-an-area-traversed | indicates-time-(period)-over-which-action-takes-place | indicates-point-of-departure-or-separation-of-action | indicates-object-of-desire,-like,-hate,-etc.",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0b5bd909-4c0e-4f1c-bde3-c91719eb579a",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

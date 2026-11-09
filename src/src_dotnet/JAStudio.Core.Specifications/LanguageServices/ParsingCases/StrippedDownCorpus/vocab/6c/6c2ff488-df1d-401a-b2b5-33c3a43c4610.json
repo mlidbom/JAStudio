@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "ので",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "given-that/that-being-the-case/therefore/so/because",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "の",
+      "で"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ので"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ので_ので_2023-07-22-22-19-54.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "んで",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 489,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "のだ"
+    ]
+  },
+  "sourceData": {
+    "answer": "that-being-the-case/because-of-.../the-reason-is-.../given-that-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6c2ff488-df1d-401a-b2b5-33c3a43c4610",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

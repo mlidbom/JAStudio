@@ -1,0 +1,54 @@
+{
+  "sentence": "服を引き出しの中に入れてください",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 服 | を | 引き出し | の中 | に入る | える | て | ください.",
+  "parsedWords": [
+    {"form":"服","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"服","vocabId":"2ac8a8a9-07e9-49be-bab6-5916e98bc375"},
+    {"form":"を","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"引き出し","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"引き出し","vocabId":"019a8c4f-b7d4-4bc7-bcc9-d0bba5edac6a"},
+    {"form":"引き出す","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"引き出す","vocabId":"86294570-d055-4b92-8094-adb19d631cc9"},
+    {"form":"の中に","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"の中に","vocabId":"0363c0cf-b056-4202-bf23-23f04594ba35"},
+    {"form":"の中","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"の中","vocabId":"ab8c0cde-ac49-417e-84cc-ace68d1ce16a"},
+    {"form":"の","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"中に","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"中に","vocabId":"be04c134-6966-4837-b85d-a9c10a27f141"},
+    {"form":"中","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"中","vocabId":"ee161b46-dab9-4220-96d2-6350c661aed7"},
+    {"form":"に","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"入れる","startIndex":9,"variant":"base","isDisplayed":true,"vocab":"入れる","vocabId":"b1146b6a-aba5-4edb-80e0-2b6922129310"},
+    {"form":"入る","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"入る","vocabId":"550a7bf3-49b1-4c1e-bf28-df957562d75d"},
+    {"form":"えれて","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"えれて","vocabId":"4ff87e39-8186-4984-bcf7-d5b39b0f1ed7"},
+    {"form":"える","startIndex":10,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"てください","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"てください","vocabId":"da2f8c3c-ce71-41e6-a0f2-22e49557239a"},
+    {"form":"てくださる","startIndex":11,"variant":"base","isDisplayed":false,"vocab":"てくださる","vocabId":"aac971b4-1813-485f-b570-ddfddb6d5c1d"},
+    {"form":"て","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"ください","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"ください","vocabId":"20a90303-9b42-4d4e-81a8-278b61da9d11"},
+    {"form":"くださる","startIndex":12,"variant":"base","isDisplayed":false,"vocab":"くださる","vocabId":"ba1ea3ad-3901-4877-9059-9744180d47fb"},
+    {"form":"い","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"服","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"服","vocabId":"2ac8a8a9-07e9-49be-bab6-5916e98bc375"},
+        {"form":"を","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"引き出し","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"引き出し","vocabId":"019a8c4f-b7d4-4bc7-bcc9-d0bba5edac6a"},
+        {"form":"の中に","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の中に","vocabId":"0363c0cf-b056-4202-bf23-23f04594ba35"},
+        {"form":"入れる","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"入れる","vocabId":"b1146b6a-aba5-4edb-80e0-2b6922129310"},
+        {"form":"てください","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てください","vocabId":"da2f8c3c-ce71-41e6-a0f2-22e49557239a"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"服","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"服","vocabId":"2ac8a8a9-07e9-49be-bab6-5916e98bc375"},
+        {"form":"を","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"引き出し","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"引き出し","vocabId":"019a8c4f-b7d4-4bc7-bcc9-d0bba5edac6a"},
+        {"form":"の","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"中","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"中","vocabId":"ee161b46-dab9-4220-96d2-6350c661aed7"},
+        {"form":"に","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"入れる","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"入れる","vocabId":"b1146b6a-aba5-4edb-80e0-2b6922129310"},
+        {"form":"て","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"くださる","startIndex":12,"variant":"base","isEmergencyDisplayed":false,"vocab":"くださる","vocabId":"ba1ea3ad-3901-4877-9059-9744180d47fb"},
+        {"form":"い","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+      ]
+    }
+  ]
+}

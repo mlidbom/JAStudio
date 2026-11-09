@@ -1,6 +1,6 @@
 # Parsing cases: specifications of how sentences parse, against the real corpus, expecting the exact result
 
-**Status: first increment built (2026-11-09).** Items 3 and 4 of `speeding-up-development.md`, which has the plan and its
+**Status: built, and the old parsing specifications converted (2026-11-09).** Items 3 and 4 of `speeding-up-development.md`, which has the plan and its
 open points. The code is in `src/src_dotnet/JAStudio.Core.Specifications/LanguageServices/ParsingCases/`.
 
 ## A case
@@ -78,13 +78,13 @@ looks up, such as those of a compound's parts.
 
 ## Where it stands
 
-- **7 cases,** converted from `SentenceAnalysisViewModelWithSelectDataTests` and `TextAnalysisWithSelectDataTests`, each
-  with the old expectation in its `why`. Their stripped-down corpus is 67 vocab, 276 KB.
-- **4 parse as their old cases expected** (食べれる, 何て言うか<wbr>さ, 私が頼んだの, 書きなさい). **3 don't, because the real
-  corpus has vocab the copies made by hand lack:** いらっしゃいません, with いらっしゃいませ an incorrect match, displays the
-  vocab いらっしゃいません rather than いらっしゃいます and ん; 食べるな displays 食べる and うな rather than 食べる, る as う,
-  and な; 座っているのはいただけない displays のは and いただけない rather than の, は, いただける and ない.
-- **The old cases stay, for now,** since most check something else: the sentence breakdown's displayed words
-  (`SentenceViewModel.DisplayedMatches`), not the stored parsing result. The breakdown also shows words displayed in an
-  emergency, which a stored result doesn't hold, and applies the compound-hiding settings and yielding to an overlapping
-  compound. Whether a case holds the breakdown too is open (`speeding-up-development.md`).
+- **169 cases,** every case of `SentenceAnalysisViewModelWithSelectDataTests` and `TextAnalysisWithSelectDataTests`,
+  converted (2026-11-09) by a script from their `InlineData`, each with its old expectation in its `why`. The old classes
+  are gone, but for one case, `AllWordsEqual`, which checks every match of the analysis, valid or not.
+- **Each records what the corpus parses its sentence to now,** as a regression test, even where its old case expected
+  otherwise (Magnus, 2026-11-09). 102 comparisons with old expectations differ: `parsing-cases-to-inspect.md` lists them,
+  for Claude and Magnus to inspect.
+- **The everyday mode runs the 169 in 4.6 seconds,** each under all 32 combinations of the breakdown's options, and the
+  full mode in 11. Their stripped-down corpus is 811 vocab, 3.9 MB.
+- **Still against vocab copied by hand:** `TextAnalysisWithPerTestDataTests`, and the specifications of single matching
+  mechanisms, which create the few vocab they need and are meant to.

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "一寸",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "one-sun/3.03-cm | little-bit-of-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "一",
+      "寸"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いっすん"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2026-00-28-05-27-33-295.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "1寸",
+      "isOwned": false
+    },
+    {
+      "text": "１寸",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "one-sun-(approx.-3.03-cm) | little-bit-(of-time,-distance,-etc.)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a99c6890-2a51-4975-9439-6224b9675ce2",
+  "tags": [
+    "source::yomitan"
+  ]
+}

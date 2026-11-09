@@ -1,0 +1,17 @@
+{
+  "sentence": "見つけよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 見つける | よ.",
+  "parsedWords": [
+    {"form":"見つける","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"見つける","vocabId":"7f63f7e9-803b-4ca3-a128-b60b97700a8c"},
+    {"form":"よ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"見つける","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"見つける","vocabId":"7f63f7e9-803b-4ca3-a128-b60b97700a8c"},
+        {"form":"よ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

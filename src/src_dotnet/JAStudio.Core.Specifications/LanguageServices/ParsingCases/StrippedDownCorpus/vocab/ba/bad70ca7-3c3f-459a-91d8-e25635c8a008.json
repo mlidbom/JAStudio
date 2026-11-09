@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "焼く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} cook/fry/grill | bake/make | burn",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "やく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:焼く_b.mp3]",
+  "audioG": "[sound:焼く_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "燬く",
+      "isOwned": false
+    },
+    {
+      "text": "焚く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 74,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"シンプルでおいしい「焼き野菜」の作り方4つ＆おすすめソース3選\" src=\"ellndO6ucz3slCR0z4yQa8RBORjWfnEWahhUNdVB.jpg\"><img alt=\"料理の基本「加熱調理」を知ろう！?“焼く”を極める? 最新情報 パーソナル 管理栄養士 三城 円の公式ホームページ ｜San-CuBic -  サンキュービック -\" src=\"20180228コラム画像②.jpg\" style=\"height:500px;\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "焼ける",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} burn | roast/broil/grill/bake/toast/barbecue | heat/heat-up | make-(charcoal,-pottery,-bricks,-etc.)/bake/fire/burn | tan-(i.e.-suntan)/burn | print-(a-photo)/burn-(an-optical-disc) | be-jealous-of/be-envious-of/envy",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>bake</kanji> or <kanji>cook</kanji>. So, the verb vocab version is <vocabulary>to bake</vocabulary> or <vocabulary>to cook</vocabulary>.",
+    "readingMnemonic": "The reading comes from the reading you learned with the kanji."
+  },
+  "id": "bad70ca7-3c3f-459a-91d8-e25635c8a008",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::18"
+  ]
+}

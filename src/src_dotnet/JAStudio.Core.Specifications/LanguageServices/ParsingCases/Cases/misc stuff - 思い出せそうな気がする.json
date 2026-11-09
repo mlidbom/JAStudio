@@ -1,0 +1,46 @@
+{
+  "sentence": "思い出せそうな気がする",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 思い出す | える | そうだ | 気がする | る:う.",
+  "parsedWords": [
+    {"form":"思い出す","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+    {"form":"えそう","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"えそう","vocabId":"3a0a7c64-cf41-44d2-a17e-2f1b5abf3ba9"},
+    {"form":"える","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"そうな","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"そうな","vocabId":"90dcd3c6-c66d-4224-8b5f-ce8dcf69cd4c"},
+    {"form":"そう","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"そう","vocabId":"44716e6f-ab3a-4065-bb8f-0ef3ca5b05a3"},
+    {"form":"な","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"気がする","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"気がする","vocabId":"c37adeac-5acf-4e7b-b9ef-f491826d3aba"},
+    {"form":"気がする","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"気がする","vocabId":"c37adeac-5acf-4e7b-b9ef-f491826d3aba"},
+    {"form":"気","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"気","vocabId":"da628d09-0c31-4ba3-92bb-f085e5c784a3"},
+    {"form":"がする","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"がする","vocabId":"fc25db31-fec4-49c4-9dde-23371b90efb2"},
+    {"form":"がする","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"がする","vocabId":"fc25db31-fec4-49c4-9dde-23371b90efb2"},
+    {"form":"が","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"する","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"する","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"う","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"思い出す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+        {"form":"えそう","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えそう","vocabId":"3a0a7c64-cf41-44d2-a17e-2f1b5abf3ba9"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"気がする","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"気がする","vocabId":"c37adeac-5acf-4e7b-b9ef-f491826d3aba"},
+        {"form":"う","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"思い出す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+        {"form":"える","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"そう","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そう","vocabId":"44716e6f-ab3a-4065-bb8f-0ef3ca5b05a3"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"気","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"気","vocabId":"da628d09-0c31-4ba3-92bb-f085e5c784a3"},
+        {"form":"が","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"する","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"う","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

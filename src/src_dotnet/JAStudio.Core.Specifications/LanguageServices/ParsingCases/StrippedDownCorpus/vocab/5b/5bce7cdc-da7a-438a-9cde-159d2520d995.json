@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "たん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{diminutive-adjective-ending}</tag> | <ja>ちゃん</ja> | <tag><ja>痰</ja>:</tag>phlegm/sputum | {was/did}-{you-know/is-the-thing} <b title=\"When entountered, split using word break tag function since this adds no value and confuses tenses such as てたん\">split</b>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "た",
+      "ん"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "たん"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2b9721a8ad50ee6a3b1036cc0662f72e2ed9f95a82ec5710ce31d5ac.mp3]",
+  "forms": [
+    {
+      "text": "たの",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "When encountering the was/did meaning, split using word break tag function since this adds no value and confuses tenses such as てたん",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "たの",
+      "ちゃん"
+    ]
+  },
+  "sourceData": {
+    "answer": "<tag><ja>痰</ja></tag>:: phlegm/sputum\n(cute)-suffix-for-familiar-person | cute-adjective-form",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5bce7cdc-da7a-438a-9cde-159d2520d995",
+  "tags": []
+}

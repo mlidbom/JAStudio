@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "見付ける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{}  find/locate | discover/come-across/find",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "見",
+      "付ける"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "みつける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:見付ける_b.mp3]",
+  "audioG": "[sound:見付ける_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "見附ける",
+      "isOwned": false
+    },
+    {
+      "text": "見つける",
+      "isOwned": false
+    },
+    {
+      "text": "見附る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} discover/find-(e.g.-an-error-in-a-book)/come-across/detect/spot | locate/find-(e.g.-something-missing)/find-fault | to-be:used-to-seeing/familiar-with",
+    "mnemonic": "You know that <ja>付ける</ja> means \"to attach\" and that <ja>見</ja> means \"see.\" So, when you attach your seeing to something, it's like you're looking around trying <vocabulary>to find</vocabulary> something. When you find what you're looking for, imagine your eyeballs flying out and attaching to that item, then yelling \"I FOUND IT!\"\n\nYou'll usually see this word with the <ja>付</ja> in kana, so <ja>見つける</ja>.",
+    "readingMnemonic": "The readings come from <ja>見る</ja> and <ja>付ける</ja>. If you use those readings, you'll be able to read this word too."
+  },
+  "id": "7e65e313-3c82-43ad-8a08-4e5dde521457",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::09"
+  ]
+}

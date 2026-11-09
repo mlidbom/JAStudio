@@ -1,0 +1,24 @@
+{
+  "sentence": "ハート形",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: ハート形 | ハート | 形.",
+  "parsedWords": [
+    {"form":"ハート形","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"ハート形","vocabId":"e5b30b60-ce7c-415e-9474-e620f6a59f61"},
+    {"form":"ハート","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"ハート","vocabId":"94b37785-1dd5-4dd8-91b9-c40719c534d1"},
+    {"form":"形","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"形","vocabId":"c44c26ca-4554-43d2-9ec1-bceb541349dc"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"ハート形","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ハート形","vocabId":"e5b30b60-ce7c-415e-9474-e620f6a59f61"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"ハート","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ハート","vocabId":"94b37785-1dd5-4dd8-91b9-c40719c534d1"},
+        {"form":"形","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"形","vocabId":"c44c26ca-4554-43d2-9ec1-bceb541349dc"}
+      ]
+    }
+  ]
+}

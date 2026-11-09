@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "いない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "isn't/doesn't-reside <tag>(for animate beings)</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いる",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いない"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-4a95815235655ecb7ff2d2af601dfbb5a07f124b1bb223b66ab276af.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いねぇ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 294,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "dc9dc716-6d7f-481d-b5fc-f0ce4571644c",
+  "tags": []
+}

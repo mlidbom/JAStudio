@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "強引な",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "pushy/forceful/aggressive/coercive",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "強引",
+      "な"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ごういんな"
+  ],
+  "partsOfSpeech": [
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-fdb48c20bf71ca4b4ae028bd81508eb2577480b3508bd156c67971a8.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4b540466-5ee6-4a7c-a193-11fdce04e707",
+  "tags": []
+}

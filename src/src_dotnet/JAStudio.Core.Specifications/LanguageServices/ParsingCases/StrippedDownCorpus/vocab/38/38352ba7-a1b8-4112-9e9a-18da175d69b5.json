@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "又",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "again/once-more/another-time/some-other-time | also/too/as-well/likewise | on-the-other-hand/while",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "また"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "conjunction",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-10-06-19-55-48-901.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "亦",
+      "isOwned": false
+    },
+    {
+      "text": "復",
+      "isOwned": false
+    },
+    {
+      "text": "また",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "again/once-more/once-again/another-time/some-other-time | also/too/as-well/likewise | on-the-other-hand/while | and/in-addition/besides/moreover/furthermore | or/otherwise | really/how/(what,-why)-on-earth | indirect",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "38352ba7-a1b8-4112-9e9a-18da175d69b5",
+  "tags": [
+    "source::yomitan"
+  ]
+}

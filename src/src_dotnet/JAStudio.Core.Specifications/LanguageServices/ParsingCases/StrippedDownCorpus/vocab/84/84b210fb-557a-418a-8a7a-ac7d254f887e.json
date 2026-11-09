@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "したがる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "for-sb-not-the-speaker-to: wish/desire/want | be-{ready/eager}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "たがる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "したがる"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-233963708ee4a50938800cd99b8625e35cacf24f20ac25c04ec5f7e2.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{wish-(to-do)/desire/want} | to-be:{ready/eager}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "84b210fb-557a-418a-8a7a-ac7d254f887e",
+  "tags": [
+    "source::yomitan"
+  ]
+}

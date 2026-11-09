@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "死んでも",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "even-if-it-kills-{me/him/them...} | at-all-costs/no-matter-what/as-long-as-I-live",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "死ぬ",
+      "でも"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しんでも"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-b41d8e7ad117e647133fe1d26b234a66a7368857477e159618f0b61a.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "at-the-risk-of-one's-life/even-if-(I)-die/even-if-it-kills-one-(me,-him,-etc.) | at-all-costs/no-matter-what/as-long-as-I-live/definitely",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "74bfd14e-dd22-4676-8fb4-a93d9ad894ef",
+  "tags": [
+    "source::yomitan"
+  ]
+}

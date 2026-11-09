@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "拗ねる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: sulk/be-peevish/pout",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "すねる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-06-03-09-30-28-425.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "すねる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: be-peevish/sulk/pout",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "721c20bf-0645-45db-928c-fccae47283b4",
+  "tags": [
+    "source::yomitan"
+  ]
+}

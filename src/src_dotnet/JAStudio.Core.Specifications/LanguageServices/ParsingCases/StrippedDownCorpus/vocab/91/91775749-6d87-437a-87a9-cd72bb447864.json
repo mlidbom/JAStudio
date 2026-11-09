@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "ばら撒く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} hand-out/pass-around | spread/scatter/disseminate/broadcast | spend-recklessly",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "散",
+      "撒く"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ばらまく"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-5ebf257917b142c99acbd9ee7e24aad25daac8fa4a26156de3f81dc9.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "散播く",
+      "isOwned": false
+    },
+    {
+      "text": "散蒔く",
+      "isOwned": false
+    },
+    {
+      "text": "ばらまく",
+      "isOwned": false
+    },
+    {
+      "text": "ばら蒔く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} scatter/disseminate-(e.g.-a-rumor)/spread-(e.g.-germs)/broadcast | distribute-widely-(e.g.-leaflets)/hand-out-freely/spend-recklessly",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "91775749-6d87-437a-87a9-cd72bb447864",
+  "tags": [
+    "source::yomitan"
+  ]
+}

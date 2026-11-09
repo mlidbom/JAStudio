@@ -1,0 +1,46 @@
+{
+  "sentence": "逆に大丈夫に思えてくる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 逆に | 大丈夫 | に | 思える | て | くる | る:う.",
+  "parsedWords": [
+    {"form":"逆に","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"逆に","vocabId":"142baa5b-870b-4f0c-82e5-8200e2f41b38"},
+    {"form":"逆","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"逆","vocabId":"5c4e35d4-953f-4e9f-833e-078aa8358d80"},
+    {"form":"に","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"大丈夫","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"大丈夫","vocabId":"cec94042-78f6-471f-87b9-7482513918aa"},
+    {"form":"に思える","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"に思える","vocabId":"5681bc90-2b52-445f-a23e-d204a1cca1d3"},
+    {"form":"に","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"思える","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"思える","vocabId":"ee0bdc2c-7610-4152-b196-b647074b98e0"},
+    {"form":"思う","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"える","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"てくる","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"てくる","vocabId":"5b3c1912-cb85-4252-b3bb-062b0be745bc"},
+    {"form":"てくる","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"てくる","vocabId":"5b3c1912-cb85-4252-b3bb-062b0be745bc"},
+    {"form":"て","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"くる","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"くる","vocabId":"d4e15e58-9e91-4b57-8b27-36a2254af928"},
+    {"form":"くる","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"くる","vocabId":"d4e15e58-9e91-4b57-8b27-36a2254af928"},
+    {"form":"う","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"逆に","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"逆に","vocabId":"142baa5b-870b-4f0c-82e5-8200e2f41b38"},
+        {"form":"大丈夫","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大丈夫","vocabId":"cec94042-78f6-471f-87b9-7482513918aa"},
+        {"form":"に思える","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"に思える","vocabId":"5681bc90-2b52-445f-a23e-d204a1cca1d3"},
+        {"form":"てくる","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てくる","vocabId":"5b3c1912-cb85-4252-b3bb-062b0be745bc"},
+        {"form":"う","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"逆","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"逆","vocabId":"5c4e35d4-953f-4e9f-833e-078aa8358d80"},
+        {"form":"に","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"大丈夫","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大丈夫","vocabId":"cec94042-78f6-471f-87b9-7482513918aa"},
+        {"form":"に","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"思える","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"思える","vocabId":"ee0bdc2c-7610-4152-b196-b647074b98e0"},
+        {"form":"て","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"くる","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"くる","vocabId":"d4e15e58-9e91-4b57-8b27-36a2254af928"},
+        {"form":"う","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

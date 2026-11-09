@@ -1,0 +1,36 @@
+{
+  "sentence": "慣れているんでね",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 慣れる | ている | んで | ね.",
+  "parsedWords": [
+    {"form":"慣れる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"慣れる","vocabId":"c2ed7f0b-0292-445d-94e6-44497bb9d987"},
+    {"form":"ている","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+    {"form":"て","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"いる","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"んで","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"んで","vocabId":"1f5c4663-752f-4115-8543-16b025f0a383"},
+    {"form":"ん","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"で","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+    {"form":"ね","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"慣れる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"慣れる","vocabId":"c2ed7f0b-0292-445d-94e6-44497bb9d987"},
+        {"form":"ている","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+        {"form":"んで","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んで","vocabId":"1f5c4663-752f-4115-8543-16b025f0a383"},
+        {"form":"ね","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"慣れる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"慣れる","vocabId":"c2ed7f0b-0292-445d-94e6-44497bb9d987"},
+        {"form":"て","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"ん","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"で","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+        {"form":"ね","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    }
+  ]
+}

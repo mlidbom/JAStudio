@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "音がする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {make/give-off}-a-sound | hear-a-sound",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "音",
+      "がする"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おとがする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-b3e3c82677a0809ee23d8f663ea567d12b16865e8c13190be3bb7047.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 26,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{make-a-sound/give-off-a-sound} | to{?}hear-a-sound",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "95b8fe8f-3b4b-4865-a475-57d10b2bcaf7",
+  "tags": [
+    "source::yomitan"
+  ]
+}

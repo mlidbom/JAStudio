@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "風",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>かぜ:</tag> wind/breeze | draft | <ja>風邪</ja>\n<tag>ふう:</tag> manner/way/style | appearance/air",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かぜ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:風_b.mp3][sound:yomichan_audio_ふう_風_2023-07-30-10-48-17.mp3]",
+  "audioG": "[sound:風_g.mp3][sound:yomichan_audio_ふう_風_2023-07-30-10-48-17.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 69,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"風」はいったいどこから来るの？／誰かに話したくなる地球の雑学 - レタスクラブ\" src=\"10339110.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "wind/breeze/draught/draft | manner/behaviour/behavior | cold/influenza",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "Do you know the word \"kamikaze\" from WWII history? Well, it means \"divine wind.\" The \"kaze\" part is the wind part, and this word uses the same reading, making it <ja><reading>かぜ</reading></ja> as well."
+  },
+  "id": "5ebf5020-567f-468c-bfd1-498fabe95963",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::07"
+  ]
+}

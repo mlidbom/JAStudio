@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "様に",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><read>さまに</read>:</tag>{to/for}-{lord/lady}-_ | <tag><read>ように</read>:</tag> like/as ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "様",
+      "に"
+    ],
+    "alternative": [
+      "よう"
+    ]
+  },
+  "readings": [
+    "さまに",
+    "ように"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2aa55e2235f8d6147f81cf852588528f0f824332daa85426cf485cc5.mp3][sound:hypertts-4af8bca40fcd47ea64e09549bafa98e255b64f2c52c4330855275607.mp3]",
+  "forms": [
+    {
+      "text": "ように",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 39,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=IE7WgIOOGbM&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=31\">Cure Dolly Lesson 28: You ni- one key to all the main uses!</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "みたいに"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "in-order-to-(e.g.-meet-goal)/so-that/take-care-(so-as) | hoping-or-wishing-for-something",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0bbdd2f2-1c97-4138-85ce-80b365582a29",
+  "tags": []
+}

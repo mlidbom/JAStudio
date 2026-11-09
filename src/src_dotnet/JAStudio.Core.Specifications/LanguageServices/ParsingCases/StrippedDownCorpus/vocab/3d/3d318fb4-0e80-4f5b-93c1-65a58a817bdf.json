@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "何なんだろう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I-wonder-what-{in-the-world/the-heck}-{is}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "何なん",
+      "だろう"
+    ],
+    "alternative": [
+      "なんだ"
+    ]
+  },
+  "readings": [
+    "なんなんだろう"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-e7869f37d49e1b8554b98cadab70d4e9a21d5b3ae24a427a61c6fcdb.mp3]",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3d318fb4-0e80-4f5b-93c1-65a58a817bdf",
+  "tags": []
+}

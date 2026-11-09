@@ -1,0 +1,59 @@
+{
+  "question": {
+    "text": "しちゃう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: end-up-{doing/happening}/unfortunately-{do/happen}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "ちゃう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しちゃった"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-3197ee4b224ee1a6b98537cd2264ab12082c1f9929632d3edbc28d4d.mp3]",
+  "forms": [],
+  "sentenceCount": 55,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "18b7d8aa-8462-453b-94b9-25bd4bdf1cb9",
+  "tags": []
+}

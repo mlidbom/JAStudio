@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "込む",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag title=\"after masu stem\">suff:</tag>{go-into | become-completely | do-thoroughly}\nto-be: {complex/intricate | crowded/packed<tag>(usu:<ja>混む</ja>)</tag>} ",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "こむ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:込む_b.mp3]",
+  "audioG": "[sound:込む_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "籠む",
+      "isOwned": false
+    },
+    {
+      "text": "混む",
+      "isOwned": false
+    },
+    {
+      "text": "篭む",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "込める",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be:{crowded/packed} | to-be:complex | to-go-into/to-put-into/to-remain-(seated)/to-be-plunged-into-(silence)/to-do-thoroughly | to-do-intently | to-continue-in-the-same-state",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>crowded</kanji> and the verb vocab version is <vocabulary>to be crowded</vocabulary>.",
+    "readingMnemonic": "Lucky for you, the reading you learned with the kanji is the one you use here."
+  },
+  "id": "6b38472b-ffec-4e14-a824-3fa8d585668e",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::32"
+  ]
+}

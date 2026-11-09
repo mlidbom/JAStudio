@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "馴染み",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "intimacy/friendship/familiarity",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なじみ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-316d340548c770753977dfd503f409c64677dfeb410a146b0c1baad1.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "馴染",
+      "isOwned": false
+    },
+    {
+      "text": "馴じみ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "intimacy/friendship/familiarity",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "56852233-72dd-42a9-9430-7a1905d624b8",
+  "tags": []
+}

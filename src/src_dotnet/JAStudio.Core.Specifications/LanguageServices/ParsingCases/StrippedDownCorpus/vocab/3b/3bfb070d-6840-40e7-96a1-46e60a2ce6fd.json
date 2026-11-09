@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "有名",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "famous/well-known",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ゆうめい"
+  ],
+  "partsOfSpeech": [
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:有名_b.mp3]",
+  "audioG": "[sound:有名_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 84,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"蒙娜丽莎》为什么那么有名？_手机搜狐网\" src=\"e61720abdf554ecb989d479a6416ecf2.jpeg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "famous | fame",
+    "mnemonic": "When you <kanji>have</kanji> a <kanji>name</kanji> (that is known to people) or you <kanji>have</kanji> <kanji>famous</kanji>ness, you are probably someone who is <vocabulary>famous</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "3bfb070d-6840-40e7-96a1-46e60a2ce6fd",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "無理",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "unreasonable/unjustifiable | impossible | excessive/immoderate | to-work-to-hard/try-to-hard | <tag>col:</tag>no-way/not-a-chance",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "むり"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:無理_b.mp3]",
+  "audioG": "[sound:無理_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 112,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "unreasonable/unnatural/unjustifiable | impossible | forcible/forced/compulsory | excessive-(work,-etc.)/immoderate | to{?}{work-too-hard/try-too-hard} | no-way/not-a-chance/never/dream-on | irrational",
+    "mnemonic": "If you can do <kanji>nothing</kanji> within <kanji>reason</kanji>, then what you're trying to do is <vocabulary>unreasonable</vocabulary> and probably downright <vocabulary>impossible</vocabulary>. If you still try, you're probably just <vocabulary>overdoing</vocabulary> it.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. As long as you know the readings for these kanji, you should be able to read this word just fine."
+  },
+  "id": "2bbe4ef8-2693-4a23-ac96-7e31ce47bce6",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::17"
+  ]
+}

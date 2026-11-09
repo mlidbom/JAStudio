@@ -1,0 +1,122 @@
+{
+  "question": {
+    "text": "えぬ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "can't/cannot/unable-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "える",
+      "ぬ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えぬ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-bab1f22858f959e5a535d16ba5216d97724bec1e299b350127a5071d.mp3]",
+  "forms": [
+    {
+      "text": "べぬ",
+      "isOwned": false
+    },
+    {
+      "text": "けぬ",
+      "isOwned": false
+    },
+    {
+      "text": "せぬ",
+      "isOwned": false
+    },
+    {
+      "text": "てぬ",
+      "isOwned": false
+    },
+    {
+      "text": "ねぬ",
+      "isOwned": false
+    },
+    {
+      "text": "へぬ",
+      "isOwned": false
+    },
+    {
+      "text": "めぬ",
+      "isOwned": false
+    },
+    {
+      "text": "れぬ",
+      "isOwned": false
+    },
+    {
+      "text": "げぬ",
+      "isOwned": false
+    },
+    {
+      "text": "ぜぬ",
+      "isOwned": false
+    },
+    {
+      "text": "でぬ",
+      "isOwned": false
+    },
+    {
+      "text": "ぺぬ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 53,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required",
+      "sentenceStart": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "えない",
+      "えん"
+    ],
+    "synonyms": [
+      "えない",
+      "えん"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ec98eeb0-3695-4fe6-8e87-b8a805ebebb9",
+  "tags": []
+}

@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "待つ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{:} wait | await/anticipate",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まつ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:待つ_b.mp3]",
+  "audioG": "[sound:待つ_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "俟つ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 359,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} to:wait | to:await/look-forward-to/anticipate | to:depend-on/need",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>wait</kanji> so the verb version is <vocabulary>to wait</vocabulary>.",
+    "readingMnemonic": "You need <vocabulary>to wait</vocabulary> for your <reading>ma</reading>ma (<ja>ま</ja>) all the time. You want to go out? You have to wait for mama to drive you. Want to eat dinner? You have to wait for mama to make you food. Hmm. Maybe all this waiting is really a you problem."
+  },
+  "id": "1e034403-a528-4d70-9f8b-c0d9bf08f691",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::12"
+  ]
+}

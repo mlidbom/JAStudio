@@ -1,0 +1,59 @@
+{
+  "question": {
+    "text": "だもの",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-the-thing/that's-why <tag>{indicate-reason/infers-some-protest}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "だもの"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-046fbf87fc81fbc1cc2f2a9165b2a224e4906eb981102b643080cc69.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "indicate-reason/infers-some-protest",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f46c1720-eb97-4172-bffc-21c5cd34c320",
+  "tags": []
+}

@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "まく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><ja>播く</ja>:</tag>to{} sow/plant | sow-seeds-of-X | scatter/sprinkle\n<tag><ja>撒く</ja>:</tag>to{} scatter/sprinkle/strew | distribute/spread | give-the-slip/lose\n<tag><ja>巻く</ja>:</tag>to: wind/coil/wrap | envelop/shroud ...\n",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:b6a0b3133ad8260d8b09077168bc23ac.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "蒔く",
+      "isOwned": false
+    },
+    {
+      "text": "播く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"68700e50c8dda3f70104ce50fc295284.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "撒く"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>撒く</ja></tag>:: to{} scatter/sprinkle/strew | distribute-(handbills,-etc.)/spread-(rumours,-etc.) | give-the-slip/throw-off/shake-off/lose\n<tag><ja>蒔く</ja></tag>:: to{} sow/plant/seed | sow-(the-seeds-of;-e.g.-conflict) | sprinkle-(gold-or-silver-powder-on-lacquerware)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a7f2a1fb-d633-4a81-b440-515b4068b85a",
+  "tags": [
+    "source::core2000::step10"
+  ]
+}

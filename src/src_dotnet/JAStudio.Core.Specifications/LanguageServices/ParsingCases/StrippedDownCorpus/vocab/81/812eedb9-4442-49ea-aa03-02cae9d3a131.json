@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "すげ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "すげ",
+    "すが",
+    "スゲ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2623d98c200d7fb2cbb82b35a1fbd8cb59b504b2213e5e959a036202.mp3]",
+  "forms": [],
+  "sentenceCount": 22,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "sedge-(Cyperaceae-spp.,-esp.-members-of-genus-Carex)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "812eedb9-4442-49ea-aa03-02cae9d3a131",
+  "tags": [
+    "source::jamdict"
+  ]
+}

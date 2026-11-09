@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "いや",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no | well/er | no!/stop! | no!/oh!/oh-my!/oh-dear! | no/not-wanting/not-liking/unpleasant/nasty",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いや"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-28-02-14-44-545.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "イヤ",
+      "isOwned": false
+    },
+    {
+      "text": "いやー",
+      "isOwned": false
+    },
+    {
+      "text": "イヤー",
+      "isOwned": false
+    },
+    {
+      "text": "いやあ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 379,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>いいえ</read>|<read>いいや</read>|<read>いえ</read>|<read>いな</read>|<read>いや</read>:<tag><ja>否</ja></tag>:: no/nay | well/er/why | you're-welcome/not-at-all/don't-mention-it\nwhy/oh | no!/quit-it!/stop!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6f444c56-d8ed-4440-80b4-315e12f524fe",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

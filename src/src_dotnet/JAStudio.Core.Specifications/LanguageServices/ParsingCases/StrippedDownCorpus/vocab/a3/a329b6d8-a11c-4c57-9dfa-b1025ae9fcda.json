@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "レベル",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "level/standard/grade | level(amount|quantity) | level(plane) ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "レベル"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-14-08-16-46-260.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "レヴェル",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 25,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "level/standard/amount/degree/grade/rank/class | level-(plane)/floor/storey-(story)/layer/stratum | spirit-level/(surveyor's)-level | minor-release-sequence-number-(software-versioning) | rebel",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a329b6d8-a11c-4c57-9dfa-b1025ae9fcda",
+  "tags": [
+    "source::yomitan"
+  ]
+}

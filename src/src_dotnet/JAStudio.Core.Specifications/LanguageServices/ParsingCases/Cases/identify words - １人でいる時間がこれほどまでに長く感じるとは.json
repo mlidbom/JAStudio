@@ -1,0 +1,71 @@
+{
+  "sentence": "１人でいる時間がこれほどまでに長く感じるとは",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: １人で | １人 | １ | 人 | でいる | で | いる | 時間 | が | これほど | これ | ほど | までに | まで | に | 長い | 感じる | とは | と | は | る.",
+  "parsedWords": [
+    {"form":"１人で","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"一人で","vocabId":"ce29cc68-c5ee-48e3-8a15-8fba75c6fe48"},
+    {"form":"１人","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"一人","vocabId":"f2ac7ac3-8c88-4bd7-883a-daae4c610173"},
+    {"form":"１","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"一","vocabId":"1986c655-ab32-49f8-907a-8a1948671dab"},
+    {"form":"人","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"人","vocabId":"7489fcaf-31a9-4fba-adf2-a9e76e46d803"},
+    {"form":"でいる","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"でいる","vocabId":"a27d59bc-54d3-4391-9c61-b1d669ec81d1"},
+    {"form":"でいる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"でいる","vocabId":"a27d59bc-54d3-4391-9c61-b1d669ec81d1"},
+    {"form":"で","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+    {"form":"いる","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"いる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"う","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"時間","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"時間","vocabId":"bbe361b5-9c6a-4fa7-bc49-82927fc5e0d3"},
+    {"form":"が","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"これほど","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"これほど","vocabId":"fb3dfbd6-6a7b-4c7e-951d-7f164b1f10eb"},
+    {"form":"これ","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"これ","vocabId":"e9f9b41a-6a88-489e-8528-a119fe90f003"},
+    {"form":"ほど","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"ほど","vocabId":"55a98f35-5c60-4d82-b7a4-f88dd5d05601"},
+    {"form":"までに","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"までに","vocabId":"88fcda10-0370-4aa8-abb9-ef6a614c52c0"},
+    {"form":"まで","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"まで","vocabId":"26028f99-eb3d-43f9-981f-d70539403c08"},
+    {"form":"に","startIndex":14,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"長い","startIndex":15,"variant":"base","isDisplayed":true,"vocab":"長い","vocabId":"c4c1ec80-c2ae-4a94-9bdf-647433041c9a"},
+    {"form":"感じる","startIndex":17,"variant":"surface","isDisplayed":true,"vocab":"感じる","vocabId":"7726ca8e-62d8-4c50-a29e-a42b75d03171"},
+    {"form":"感じる","startIndex":17,"variant":"base","isDisplayed":false,"vocab":"感じる","vocabId":"7726ca8e-62d8-4c50-a29e-a42b75d03171"},
+    {"form":"うとは","startIndex":19,"variant":"surface","isDisplayed":true,"vocab":"うとは","vocabId":"2eab38a6-dfda-4a81-a391-f1b7df88b1f1"},
+    {"form":"うと","startIndex":19,"variant":"surface","isDisplayed":false,"vocab":"うと","vocabId":"4efad35c-59e7-4cfc-b493-1c9d1bd9279c"},
+    {"form":"う","startIndex":19,"variant":"surface","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"とは","startIndex":20,"variant":"surface","isDisplayed":false,"vocab":"とは","vocabId":"cf7e9c66-ebda-4d37-8f7f-ae32bad802ee"},
+    {"form":"と","startIndex":20,"variant":"surface","isDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+    {"form":"は","startIndex":21,"variant":"surface","isDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"１人","startIndex":0,"variant":"surface","shownAs":"一人","isEmergencyDisplayed":false,"vocab":"一人","vocabId":"f2ac7ac3-8c88-4bd7-883a-daae4c610173"},
+        {"form":"でいる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"でいる","vocabId":"a27d59bc-54d3-4391-9c61-b1d669ec81d1"},
+        {"form":"う","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"時間","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"時間","vocabId":"bbe361b5-9c6a-4fa7-bc49-82927fc5e0d3"},
+        {"form":"が","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"これほど","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"これほど","vocabId":"fb3dfbd6-6a7b-4c7e-951d-7f164b1f10eb"},
+        {"form":"までに","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"までに","vocabId":"88fcda10-0370-4aa8-abb9-ef6a614c52c0"},
+        {"form":"長い","startIndex":15,"variant":"base","isEmergencyDisplayed":false,"vocab":"長い","vocabId":"c4c1ec80-c2ae-4a94-9bdf-647433041c9a"},
+        {"form":"感じる","startIndex":17,"variant":"surface","isEmergencyDisplayed":false,"vocab":"感じる","vocabId":"7726ca8e-62d8-4c50-a29e-a42b75d03171"},
+        {"form":"うとは","startIndex":19,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うとは","vocabId":"2eab38a6-dfda-4a81-a391-f1b7df88b1f1"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"１","startIndex":0,"variant":"surface","shownAs":"一","isEmergencyDisplayed":false,"vocab":"一","vocabId":"1986c655-ab32-49f8-907a-8a1948671dab"},
+        {"form":"人","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"人","vocabId":"7489fcaf-31a9-4fba-adf2-a9e76e46d803"},
+        {"form":"で","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+        {"form":"いる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"う","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"時間","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"時間","vocabId":"bbe361b5-9c6a-4fa7-bc49-82927fc5e0d3"},
+        {"form":"が","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"これ","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"これ","vocabId":"e9f9b41a-6a88-489e-8528-a119fe90f003"},
+        {"form":"ほど","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ほど","vocabId":"55a98f35-5c60-4d82-b7a4-f88dd5d05601"},
+        {"form":"まで","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"まで","vocabId":"26028f99-eb3d-43f9-981f-d70539403c08"},
+        {"form":"に","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"長い","startIndex":15,"variant":"base","isEmergencyDisplayed":false,"vocab":"長い","vocabId":"c4c1ec80-c2ae-4a94-9bdf-647433041c9a"},
+        {"form":"感じる","startIndex":17,"variant":"surface","isEmergencyDisplayed":false,"vocab":"感じる","vocabId":"7726ca8e-62d8-4c50-a29e-a42b75d03171"},
+        {"form":"う","startIndex":19,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"と","startIndex":20,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+        {"form":"は","startIndex":21,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "sentence": "「コーヒーはいかがですか？」「いえ、結構です。お構いなく。」",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: コーヒー | は | いかが | ですか | です | か | いえ | 結構 | です | お構いなく.",
+  "parsedWords": [
+    {"form":"コーヒー","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"コーヒー","vocabId":"de164f3a-a34e-478f-9e9f-f7401464e1ee"},
+    {"form":"は","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+    {"form":"いかがですか","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"いかがですか","vocabId":"fea1ae01-018f-43d1-a035-69a01f69a569"},
+    {"form":"いかが","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"いかが","vocabId":"8a7d740e-7fdd-4bfe-91da-b6ae0aaa5e17"},
+    {"form":"ですか","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"ですか","vocabId":"74b32e30-6cca-4e42-8fda-f165f0307634"},
+    {"form":"です","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"です","vocabId":"01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a"},
+    {"form":"か","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"いえ","startIndex":15,"variant":"surface","isDisplayed":true,"vocab":"いいえ","vocabId":"bb8cf765-1f37-4854-9bc3-06f01792b526"},
+    {"form":"いう","startIndex":15,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"え","startIndex":16,"variant":"surface","isDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"結構です","startIndex":18,"variant":"surface","isDisplayed":true,"vocab":"結構です","vocabId":"fe1eef60-90af-4e1e-87ad-c71fd7e848b1"},
+    {"form":"結構","startIndex":18,"variant":"surface","isDisplayed":false,"vocab":"結構","vocabId":"457ceac5-6a78-4e1c-baf7-6d92647ca3d2"},
+    {"form":"です","startIndex":20,"variant":"surface","isDisplayed":false,"vocab":"です","vocabId":"01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a"},
+    {"form":"お構いなく","startIndex":23,"variant":"surface","isDisplayed":true,"vocab":"お構いなく","vocabId":"2a87f934-0cf7-4392-97ca-59d1f2ea6a7e"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"コーヒー","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"コーヒー","vocabId":"de164f3a-a34e-478f-9e9f-f7401464e1ee"},
+        {"form":"は","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"いかがですか","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いかがですか","vocabId":"fea1ae01-018f-43d1-a035-69a01f69a569"},
+        {"form":"いえ","startIndex":15,"variant":"surface","shownAs":"いいえ","isEmergencyDisplayed":false,"vocab":"いいえ","vocabId":"bb8cf765-1f37-4854-9bc3-06f01792b526"},
+        {"form":"結構です","startIndex":18,"variant":"surface","isEmergencyDisplayed":false,"vocab":"結構です","vocabId":"fe1eef60-90af-4e1e-87ad-c71fd7e848b1"},
+        {"form":"お構いなく","startIndex":23,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お構いなく","vocabId":"2a87f934-0cf7-4392-97ca-59d1f2ea6a7e"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"コーヒー","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"コーヒー","vocabId":"de164f3a-a34e-478f-9e9f-f7401464e1ee"},
+        {"form":"は","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"いかが","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いかが","vocabId":"8a7d740e-7fdd-4bfe-91da-b6ae0aaa5e17"},
+        {"form":"です","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"です","vocabId":"01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a"},
+        {"form":"か","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"いう","startIndex":15,"variant":"base","shownAs":"言う","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"え","startIndex":16,"variant":"surface","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"結構","startIndex":18,"variant":"surface","isEmergencyDisplayed":false,"vocab":"結構","vocabId":"457ceac5-6a78-4e1c-baf7-6d92647ca3d2"},
+        {"form":"です","startIndex":20,"variant":"surface","isEmergencyDisplayed":false,"vocab":"です","vocabId":"01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a"},
+        {"form":"お構いなく","startIndex":23,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お構いなく","vocabId":"2a87f934-0cf7-4392-97ca-59d1f2ea6a7e"}
+      ]
+    }
+  ]
+}

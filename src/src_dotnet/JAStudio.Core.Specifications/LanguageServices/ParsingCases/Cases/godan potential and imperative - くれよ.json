@@ -1,0 +1,27 @@
+{
+  "sentence": "くれよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: くれる | え | よ.",
+  "parsedWords": [
+    {"form":"くれよ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"くれよ","vocabId":"67e204a3-037b-4b35-a37d-c41d020a2170"},
+    {"form":"くれ","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"くれ","vocabId":"84379720-347d-44c3-a9c9-35c30a7f2082"},
+    {"form":"くれる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"くれる","vocabId":"10773e41-fea7-4ac4-a318-d72b6f3043f7"},
+    {"form":"え","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"よ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"くれよ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"くれよ","vocabId":"67e204a3-037b-4b35-a37d-c41d020a2170"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"くれる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"くれる","vocabId":"10773e41-fea7-4ac4-a318-d72b6f3043f7"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

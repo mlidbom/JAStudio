@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "たまらん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たまらん"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-a5a66218a63f13f412b7445a547fdd9373c04d6c4f3ff249029878ea.mp3]",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "intolerable/unbearable/unendurable | irresistible/tremendous/out-of-this-world | cannot-help-(doing)/cannot-but-do/anxious-to-do",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7acbdaaa-a455-4499-8fe0-dbc3fa070b46",
+  "tags": [
+    "source::jamdict"
+  ]
+}

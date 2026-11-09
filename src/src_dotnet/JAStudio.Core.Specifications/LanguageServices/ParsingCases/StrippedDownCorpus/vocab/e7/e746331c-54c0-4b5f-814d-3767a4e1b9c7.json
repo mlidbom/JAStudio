@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "ように",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "like/as | {so/in-order}-{that/to} | <tag>s.end:</tag>make-sure-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "よう",
+      "に"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ように"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-4af8bca40fcd47ea64e09549bafa98e255b64f2c52c4330855275607.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "様に",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 374,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=IE7WgIOOGbM&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=31\">Cure Dolly Lesson 28: You ni- one key to all the main uses!</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "みたいに"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "in-order-to-(e.g.-meet-goal)/so-that/take-care-(so-as) | hoping-or-wishing-for-something",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e746331c-54c0-4b5f-814d-3767a4e1b9c7",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

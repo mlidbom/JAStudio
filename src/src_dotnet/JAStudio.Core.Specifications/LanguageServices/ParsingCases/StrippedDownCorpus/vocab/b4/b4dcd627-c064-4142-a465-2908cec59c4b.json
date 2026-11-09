@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "差し込む",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{:}  :shine-in-through/pierce/flow-in | {}insert/put-in/thrust-in/plug-in | :have-a-griping-pain",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "差す",
+      "込む"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "さしこむ"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-07-26-00-46-35-022.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "差しこむ",
+      "isOwned": false
+    },
+    {
+      "text": "差込む",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{}{insert/put-in/thrust-in/plug-in} | to:have-a-griping-pain | to:{flow-in/shine-in}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b4dcd627-c064-4142-a465-2908cec59c4b",
+  "tags": [
+    "source::yomitan"
+  ]
+}

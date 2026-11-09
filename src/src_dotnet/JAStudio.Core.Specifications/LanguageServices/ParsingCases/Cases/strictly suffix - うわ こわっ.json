@@ -1,0 +1,27 @@
+{
+  "sentence": "うわ こわっ",
+  "why": "Converted from TextAnalysisWithSelectDataTests.StrictlySuffix, against vocab copied by hand, expected the forms of the parsing result, in that order: うわ | こい | わっ.",
+  "parsedWords": [
+    {"form":"うわ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"うわ","vocabId":"8e5d7005-0538-4131-a09b-7f8317fb09f6"},
+    {"form":"こわっ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"こわっ","vocabId":"0d0c3131-1f48-4328-b064-49c10476fd2d"},
+    {"form":"こ","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"こ","vocabId":"cbf017bf-77c4-45c4-a854-eec32a2e226d"},
+    {"form":"わっ","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"わあ","vocabId":"9e000110-a4cb-434b-93f2-86704077c6e8"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"うわ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うわ","vocabId":"8e5d7005-0538-4131-a09b-7f8317fb09f6"},
+        {"form":"こわっ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"こわっ","vocabId":"0d0c3131-1f48-4328-b064-49c10476fd2d"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"うわ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うわ","vocabId":"8e5d7005-0538-4131-a09b-7f8317fb09f6"},
+        {"form":"こ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"こ","vocabId":"cbf017bf-77c4-45c4-a854-eec32a2e226d"},
+        {"form":"わっ","startIndex":4,"variant":"surface","shownAs":"わあ","isEmergencyDisplayed":false,"vocab":"わあ","vocabId":"9e000110-a4cb-434b-93f2-86704077c6e8"}
+      ]
+    }
+  ]
+}

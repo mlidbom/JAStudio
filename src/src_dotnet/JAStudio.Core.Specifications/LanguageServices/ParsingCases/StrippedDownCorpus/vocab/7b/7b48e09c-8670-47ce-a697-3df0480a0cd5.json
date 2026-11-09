@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "割れる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: split/crack/shatter | be-divided",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "われる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:割れる_b.mp3]",
+  "audioG": "[sound:割れる_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 14,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"割れた皿 - その他\" src=\"5d41e1d5f351babd587cdb9f8f392bb9.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "割る",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [
+      "分かれる",
+      "分ける",
+      "別れる"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {break/be-smashed} | {split/crack/fissure/be-torn} | {be-divided-(opinion,-vote,-etc.)/split-(e.g.-of-a-party)} | {come-to-light/become-clear/be-identified/be-revealed} | be-distorted-(of-a-sound) | be-divisible-(without-a-remainder) | go-below-a-minimum",
+    "mnemonic": "Remember how <ja>割る</ja> is \"to divide\"? Now you're learning the intransitive version. Instead of you doing the dividing, something just gets divided or split up. So this is <vocabulary>to be divided</vocabulary> or <vocabulary>to be split</vocabulary>.\n\nIt can also mean <vocabulary>to break</vocabulary>, as in <ja>ワイングラスが割れる</ja> (the wine glass breaks). After all, when an object breaks, it’s divided into parts, right?",
+    "readingMnemonic": "The reading is shared with <ja>割る</ja>."
+  },
+  "id": "7b48e09c-8670-47ce-a697-3df0480a0cd5",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::25"
+  ]
+}

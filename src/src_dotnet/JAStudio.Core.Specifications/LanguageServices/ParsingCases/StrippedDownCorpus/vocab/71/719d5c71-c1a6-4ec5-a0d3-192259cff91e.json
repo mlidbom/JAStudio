@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "たとえ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "even-if/no-matter-(what)/if/though/although/supposing/supposing-that/-ever",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たとえ"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-14-21-31-32-782.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "縦令",
+      "isOwned": false
+    },
+    {
+      "text": "縦え",
+      "isOwned": false
+    },
+    {
+      "text": "たとい",
+      "isOwned": false
+    },
+    {
+      "text": "仮令",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "even-if/no-matter-(what)/if/though/although/supposing/supposing-that/-ever",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "719d5c71-c1a6-4ec5-a0d3-192259cff91e",
+  "tags": [
+    "source::yomitan"
+  ]
+}

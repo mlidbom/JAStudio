@@ -1,0 +1,17 @@
+{
+  "sentence": "捕まえよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 捕まえる | よ.",
+  "parsedWords": [
+    {"form":"捕まえる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"捕まえる","vocabId":"5157eb3e-99e5-4a97-b81b-4ed123749241"},
+    {"form":"よ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"捕まえる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"捕まえる","vocabId":"5157eb3e-99e5-4a97-b81b-4ed123749241"},
+        {"form":"よ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

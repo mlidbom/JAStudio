@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "空",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>そら:</ja>sky/air/heavens | weather | far-off-place | state-of-mind | by-heart | falsehood | vaguely | fake\n<ja>から:</ja>emptiness/being-empty | <tag>pre:</tag>not-carrying-anything/unburdened/empty-handed",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "から"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:空_b.mp3][sound:yomitan_audio_2024-07-25-19-56-37-210.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 65,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "emptiness/vacuum/blank",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "62156d21-c2d9-4f21-9e81-53a7a9c92b7d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

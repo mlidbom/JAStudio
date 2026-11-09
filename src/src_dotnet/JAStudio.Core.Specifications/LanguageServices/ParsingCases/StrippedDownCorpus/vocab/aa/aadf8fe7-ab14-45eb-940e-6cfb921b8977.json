@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "された",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{was/got}-_-{ed} | <tag>hon:</tag>did",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "される",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "された"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1cc0850c2ad4acd70e9656ec0730479a702b09a8b98f88c3d9111671.mp3]",
+  "forms": [
+    {
+      "text": "為れた",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 104,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "aadf8fe7-ab14-45eb-940e-6cfb921b8977",
+  "tags": []
+}

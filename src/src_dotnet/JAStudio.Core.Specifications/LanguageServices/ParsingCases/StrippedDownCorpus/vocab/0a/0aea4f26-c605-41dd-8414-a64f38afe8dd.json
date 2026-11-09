@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "からね",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag> after-all/that's-{how-it-is/why} | you-know/just-so-you-know",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "から",
+      "ね"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "からね"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-7d2ccc8c90c701b747f4340ae47b1afe39cac518bf4d35442f07d3df.mp3]",
+  "forms": [],
+  "sentenceCount": 76,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "からな"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0aea4f26-c605-41dd-8414-a64f38afe8dd",
+  "tags": []
+}

@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "焼き",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "cooking/baking/heating/roasting | burning | tempering | -ware",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "やき"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": " [sound:ATTS 焼き (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "焼",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 24,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "cooking,-esp.-frying-or-stir-frying/heating | tempering | -ware",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6c22252e-f377-40ce-9e8c-cb5f8443a4ec",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "だと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "\"{it}-{is}\" | if-{it}-{is} |  <tag>s.end:</tag>{you}-say!?",
+  "explanation": "excluded from auto matches because there are hundreds of false positives and very few correct ones.",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "と"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だと"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-08-12-11-19-15-740.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "だとu",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 474,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "だって",
+      "ですって"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f4c28fe9-3946-492c-ab3c-29673cad4b23",
+  "tags": [
+    "source::yomitan"
+  ]
+}

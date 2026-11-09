@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "感じ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "feeling/sensation | impression/sentiment/feeling",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かんじ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:感じ_b.mp3]",
+  "audioG": "[sound:感じ_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 102,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "feeling/sense/impression",
+    "mnemonic": "This is a noun version of the kanji <kanji>feeling</kanji>. What is that? It's a <vocabulary>feeling</vocabulary> as well.",
+    "readingMnemonic": "The reading for both on'yomi and kun'yomi of this kanji are the same, actually. So long as you learned the reading that was with the kanji, you can't go wrong. Feel good?"
+  },
+  "id": "d3207fd9-561e-4c56-a097-d8d432aec063",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::13"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "sentence": "待ってました",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 待つ | て | ます | た.",
+  "parsedWords": [
+    {"form":"待つ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"待つ","vocabId":"1e034403-a528-4d70-9f8b-c0d9bf08f691"},
+    {"form":"てました","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"てました","vocabId":"4fab3c6e-f6c9-4a83-8f11-af2923b8cce3"},
+    {"form":"てます","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"てます","vocabId":"41edcf92-8165-4027-b2d8-be1d2c4dbd78"},
+    {"form":"て","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"ました","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"ました","vocabId":"2fc554c4-3ab8-4755-91a9-5ec2a38a5dde"},
+    {"form":"ます","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"た","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"待つ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"待つ","vocabId":"1e034403-a528-4d70-9f8b-c0d9bf08f691"},
+        {"form":"てました","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てました","vocabId":"4fab3c6e-f6c9-4a83-8f11-af2923b8cce3"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"待つ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"待つ","vocabId":"1e034403-a528-4d70-9f8b-c0d9bf08f691"},
+        {"form":"て","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"ます","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+        {"form":"た","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

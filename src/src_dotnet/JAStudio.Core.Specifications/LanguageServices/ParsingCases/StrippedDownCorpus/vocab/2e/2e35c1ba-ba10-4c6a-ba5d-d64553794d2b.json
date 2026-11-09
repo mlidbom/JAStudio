@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "差す",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><ja>刺す</ja>,<ja>指す</ja></tag> to{:} :{ shine/come-out/fall-on | be-visible | rise/flow-in} | {}{ hold-up/raise | insert/put-in | pour}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "さす"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:差す_b.mp3]",
+  "audioG": "[sound:差す_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to:shine | to-be:visible | to-be:tinged-with | to:{rise-(of-water-levels)/flow-in} | to:{be-felt-(i.e.-as-an-emotion)/come-over-one} | to{}{hold-up-(an-umbrella,-etc.)/put-up/raise} | to{}extend-one's-arm-straight-ahead-(in-dance) | to{}{insert/put-in} | to{}{wear-(a-sword)-in-one's-belt/wear-at-one's-side/carry-under-one's-arm} | to{}insert-one's-arm-under-an-opponent's-arm | to{}pole-(a-boat) | to{}{pour/add-(liquid)/serve-(drinks)} | to{}{put-on-(lipstick,-etc.)/apply/colour/dye} | to{}{light-(a-fire)/burn} | to{}{shut/close/lock/fasten} | to{?}{stop-in-the-midst-of/leave-undone}",
+    "mnemonic": "The kanji is <kanji>distinction</kanji>. To distinct something would be nice, but this is used more like <vocabulary>to shine at</vocabulary> or <vocabulary>to shine on</vocabulary>, like when a light shines on someone on a stage, distinguishing them from everyone else.",
+    "readingMnemonic": "The reading of the kanji is actually the same as the reading for this word, making things easy (both on'yomi and kun'yomi are <ja>さ</ja>)."
+  },
+  "id": "2e35c1ba-ba10-4c6a-ba5d-d64553794d2b",
+  "tags": [
+    "source::wani::level::24"
+  ]
+}

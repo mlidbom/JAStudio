@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "胸",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "chest/breast | breasts/bosom | heart | lungs | stomach | heart-mind",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "むね"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:胸_b.mp3]",
+  "audioG": "[sound:胸_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 32,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"Chest pain: Causes other than the heart - Harvard Health\" src=\"b9050fc9-aed4-4fce-aa50-69208a0daff9.jpg\"><img alt=\"Male Chest Enlargement, Pectoral Shaping for Men\" src=\"iStock_000015641412Small-2.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "chest/breast | breasts/bosom/bust | heart | lungs | stomach | heart/mind/feelings",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "This vocab word uses the same reading as the one you learned with the kanji. At least I won't have to bring up the image of you <reading>moon</reading>ing (<ja>むね</ja>) people with your breasts or whatnot. Oh dang, I just went and did it."
+  },
+  "id": "af13f810-cd27-4391-b562-8439f86040eb",
+  "tags": [
+    "source::wani::level::18"
+  ]
+}

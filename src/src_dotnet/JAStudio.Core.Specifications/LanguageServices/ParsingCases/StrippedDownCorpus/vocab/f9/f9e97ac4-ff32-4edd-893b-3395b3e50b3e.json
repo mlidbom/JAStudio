@@ -1,0 +1,90 @@
+{
+  "question": {
+    "text": "に決まってる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "obviously/of-course/duh",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "に",
+      "決まってる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "にきまってる"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-707ca182ba5f4b9bd3d493c666c454e36dd7de9dc0d9f6abc91d3e64.mp3]",
+  "forms": [
+    {
+      "text": "に決っている",
+      "isOwned": false
+    },
+    {
+      "text": "に決まっている",
+      "isOwned": false
+    },
+    {
+      "text": "に極っている",
+      "isOwned": false
+    },
+    {
+      "text": "に決ってる",
+      "isOwned": false
+    },
+    {
+      "text": "に極ってる",
+      "isOwned": false
+    },
+    {
+      "text": "に決まってん",
+      "isOwned": false
+    },
+    {
+      "text": "に決まっておる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 11,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f9e97ac4-ff32-4edd-893b-3395b3e50b3e",
+  "tags": []
+}

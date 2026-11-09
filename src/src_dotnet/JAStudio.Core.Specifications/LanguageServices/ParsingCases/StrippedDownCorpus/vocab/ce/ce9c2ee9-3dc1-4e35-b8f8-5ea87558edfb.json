@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "見える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to-be: visible/seen | able-to-see | look/seem | hon:come/call",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "みえる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:見える_b.mp3]",
+  "audioG": "[sound:見える_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "みえる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 452,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "聞こえる"
+    ]
+  },
+  "sourceData": {
+    "answer": "to: be-{seen/in-sight} | {look/seem/appear} | come",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>see</kanji>, and <ja>見える</ja> is <vocabulary>to be visible</vocabulary>, or <vocabulary>to be in sight</vocabulary>, though it's often more naturally translated into English as <vocabulary>can see</vocabulary>. It's used when you don't actively intend to see something, it just happens.\n\nThis verb can also mean <vocabulary>to seem</vocabulary>, when talking about how you perceive something you can see. ",
+    "readingMnemonic": "The reading for this word is the same as the one you learned with the kanji (the kun'yomi reading). So as long as you know that you should be able to read this word as well."
+  },
+  "id": "ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

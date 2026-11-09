@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "考えすぎる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: think-too-much/be-over-concerned",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "考える",
+      "すぎる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かんがえすぎる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-ca479b9bd61812de1991eba8ef7773a75dab23e3cfc76421dac74805.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "考え過ぎる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "We forbid preceding adverbs because when preceded by an adverb it has a different meaning.  {verb}-too-{adverb} is an important pattern to learn that we do not want to obscure.",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "adverbHead": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{think-too-much/be-over-concerned}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a20bc790-5c28-4157-8baa-83559ee3b2bd",
+  "tags": []
+}

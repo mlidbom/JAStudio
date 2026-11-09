@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "横取り",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "snatching/stealing/seizure/usurpation",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "よこどり"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-05-26-18-47-33-292.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "snatching/stealing/seizure/usurpation",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "07f87c54-c393-4566-9492-4a3cefc3188a",
+  "tags": [
+    "source::yomitan"
+  ]
+}

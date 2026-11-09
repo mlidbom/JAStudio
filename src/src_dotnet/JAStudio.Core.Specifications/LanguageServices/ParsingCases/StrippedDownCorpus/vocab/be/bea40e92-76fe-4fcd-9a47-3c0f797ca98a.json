@@ -1,0 +1,84 @@
+{
+  "question": {
+    "text": "落ち着ける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} quiet/calm-down/compose-oneself/settle-down",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "落ち着く",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おちつける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-03-11-09-13-45-333.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "落付ける",
+      "isOwned": false
+    },
+    {
+      "text": "落ちつける",
+      "isOwned": false
+    },
+    {
+      "text": "落ち付ける",
+      "isOwned": false
+    },
+    {
+      "text": "落着ける",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} quiet/calm-down/compose-oneself/settle-down",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "bea40e92-76fe-4fcd-9a47-3c0f797ca98a",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "source::yomitan"
+  ]
+}

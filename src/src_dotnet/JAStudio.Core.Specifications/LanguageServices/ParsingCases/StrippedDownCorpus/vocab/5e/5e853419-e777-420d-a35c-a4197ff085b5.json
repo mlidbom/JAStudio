@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "てこ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "lever | agent-(causing-something-to-happen)/instrument/force | assistant/helper",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "テコ",
+    "てこ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "テコ",
+      "isOwned": false
+    },
+    {
+      "text": "梃子",
+      "isOwned": false
+    },
+    {
+      "text": "梃",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isPoisonWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "lever | agent-(causing-something-to-happen)/instrument/force | assistant/helper",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5e853419-e777-420d-a35c-a4197ff085b5",
+  "tags": []
+}

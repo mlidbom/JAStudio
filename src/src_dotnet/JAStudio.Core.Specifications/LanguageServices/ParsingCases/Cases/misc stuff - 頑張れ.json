@@ -1,0 +1,24 @@
+{
+  "sentence": "頑張れ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 頑張れ.",
+  "parsedWords": [
+    {"form":"頑張れ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"頑張れ","vocabId":"ebb6fbf6-3eac-47dd-adc7-64dced402b41"},
+    {"form":"頑張る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"頑張る","vocabId":"5212db74-683a-4741-9142-0a31a89aa8c9"},
+    {"form":"え","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"頑張れ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"頑張れ","vocabId":"ebb6fbf6-3eac-47dd-adc7-64dced402b41"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"頑張る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"頑張る","vocabId":"5212db74-683a-4741-9142-0a31a89aa8c9"},
+        {"form":"え","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "返",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "へん"
+  ],
+  "partsOfSpeech": [
+    "counter",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-638c60ddc1cb90408f87edaff07da3563a7dabd84cf32000d886296b.mp3]",
+  "forms": [],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>遍</ja></tag>:: number-of-times\nreply/answer",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3b566df4-ebf5-406f-84e2-ba451fbd4179",
+  "tags": [
+    "source::jamdict"
+  ]
+}

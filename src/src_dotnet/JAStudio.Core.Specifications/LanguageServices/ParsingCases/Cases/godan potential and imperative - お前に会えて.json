@@ -1,0 +1,33 @@
+{
+  "sentence": "お前に会えて",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: お前 | に会う | える | て.",
+  "parsedWords": [
+    {"form":"お前","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"お前","vocabId":"67939635-6104-4e54-bd01-fc15842730f8"},
+    {"form":"に会う","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"に会う","vocabId":"762f0846-d783-4982-83fa-2e0b0c411dd9"},
+    {"form":"に","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"会う","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+    {"form":"える","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"て","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"お前","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お前","vocabId":"67939635-6104-4e54-bd01-fc15842730f8"},
+        {"form":"に会う","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"に会う","vocabId":"762f0846-d783-4982-83fa-2e0b0c411dd9"},
+        {"form":"える","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"て","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"お前","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お前","vocabId":"67939635-6104-4e54-bd01-fc15842730f8"},
+        {"form":"に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"会う","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"える","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"て","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "sentence": "行ったって話",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 行く | たって:emergency | 話.",
+  "parsedWords": [
+    {"form":"行く","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"行く","vocabId":"2043af67-882f-4b7f-9e91-5d0daa10eaf0"},
+    {"form":"たって","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"たって","vocabId":"8648ac0e-7968-4ef9-9283-9dd15a5b5f98"},
+    {"form":"話","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"話","vocabId":"63a9511e-9292-41a4-8835-194647930d56"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"行く","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"行く","vocabId":"2043af67-882f-4b7f-9e91-5d0daa10eaf0"},
+        {"form":"たって","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たって","vocabId":"8648ac0e-7968-4ef9-9283-9dd15a5b5f98"},
+        {"form":"話","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"話","vocabId":"63a9511e-9292-41a4-8835-194647930d56"}
+      ]
+    }
+  ]
+}

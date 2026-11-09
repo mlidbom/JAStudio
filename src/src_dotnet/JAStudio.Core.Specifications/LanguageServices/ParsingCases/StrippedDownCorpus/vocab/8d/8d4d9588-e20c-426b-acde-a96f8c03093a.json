@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "こい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "come!/come-on!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "来る",
+      "い:imperative"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "こい"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-bd6067708e45c193ba7e1fed7277bf050f6f9362401d099811024d97.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "来い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 20,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required",
+      "surface": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "rich-in-.../high-in-.../full-of-.../very-.../quite-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8d4d9588-e20c-426b-acde-a96f8c03093a",
+  "tags": []
+}

@@ -1,0 +1,43 @@
+{
+  "sentence": "何なんだろうな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 何だ | ん | だろう | な:s.end.",
+  "parsedWords": [
+    {"form":"何なんだろう","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"何なんだろう","vocabId":"3d318fb4-0e80-4f5b-93c1-65a58a817bdf"},
+    {"form":"何なんだ","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"何なんだ","vocabId":"0a4c6e20-f5fe-44f4-b00a-6b27befa84b8"},
+    {"form":"何なん","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"何なん","vocabId":"b99183bd-967a-4dab-9087-3125a4bc775f"},
+    {"form":"何だ","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"何だ","vocabId":"7e519b5b-dd71-4d58-9c03-5d070a98ef9e"},
+    {"form":"何","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"},
+    {"form":"なんだろう","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"なんだろう","vocabId":"251d7b64-c1d9-42fc-9f78-5d0de2c4be3f"},
+    {"form":"なんだろ","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"なんだろう","vocabId":"251d7b64-c1d9-42fc-9f78-5d0de2c4be3f"},
+    {"form":"なんだ","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"なんだ","vocabId":"5029b6ff-ebe3-48b9-8842-1c6c676f887f"},
+    {"form":"なん","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"なの","vocabId":"32ba637c-7d49-41bf-b978-54532d4d4299"},
+    {"form":"なん","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"},
+    {"form":"な","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"ん","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だろう","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+    {"form":"だろ","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+    {"form":"だ","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"おう","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+    {"form":"な","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"何なんだろう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"何なんだろう","vocabId":"3d318fb4-0e80-4f5b-93c1-65a58a817bdf"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"何","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"},
+        {"form":"な","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"ん","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だろ","startIndex":3,"variant":"surface","shownAs":"だろう","isEmergencyDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+        {"form":"おう","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

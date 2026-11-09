@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "ていける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to-be-able-to-{go-on/continue}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "いける"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ていける"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-8c1083cb075a92b7fa3f499726238a859cef81c0b903cb3a7a251398.mp3]",
+  "forms": [
+    {
+      "text": "て行ける",
+      "isOwned": false
+    },
+    {
+      "text": "てイケる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 22,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "05eb5538-b97e-4e23-b57d-34b4870d564f",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential"
+  ]
+}

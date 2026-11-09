@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "俺の",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "my/mine",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "俺",
+      "の"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おれの"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "no-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-e8ac59bf9e712eddc6b174dfcab74858904ad18be365ecaf58268a14.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "オレの",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 216,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ddd52137-e0df-4ef5-94fa-7cf7733e1617",
+  "tags": []
+}

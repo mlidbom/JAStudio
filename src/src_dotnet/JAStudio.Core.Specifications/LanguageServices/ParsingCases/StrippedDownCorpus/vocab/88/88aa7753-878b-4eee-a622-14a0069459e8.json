@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "ていたら",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{if | when}-{_-ing | _-ed}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ている",
+      "たら"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ていたら"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b3c540643b159ddb922bc32135eaa7c1d4b4403a4770d19132650966.mp3]",
+  "forms": [
+    {
+      "text": "てたら",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 32,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "88aa7753-878b-4eee-a622-14a0069459e8",
+  "tags": []
+}

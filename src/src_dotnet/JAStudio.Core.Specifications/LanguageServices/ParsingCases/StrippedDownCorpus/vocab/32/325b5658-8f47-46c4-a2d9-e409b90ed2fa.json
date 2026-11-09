@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "悪かった",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I'm-sorry/my-bad | was-{wrong/at-fault}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "悪い",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "わるかった"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-43c1365508998c10e5b8d926d088a648c6e18efc544c890bf7c718fa.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "惡かった",
+      "isOwned": false
+    },
+    {
+      "text": "惡るかった",
+      "isOwned": false
+    },
+    {
+      "text": "わるかった",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 46,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "325b5658-8f47-46c4-a2d9-e409b90ed2fa",
+  "tags": [
+    "source::yomitan"
+  ]
+}

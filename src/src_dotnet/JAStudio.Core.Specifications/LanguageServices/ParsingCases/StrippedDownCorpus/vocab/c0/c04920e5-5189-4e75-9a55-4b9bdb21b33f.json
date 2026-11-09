@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "厳密に言えば",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "strictly-speaking",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "厳密に",
+      "言う",
+      "えば"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "げんみつにいえば"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-59508422391a460c3c4c9a5ff8e2c33c32e7234250e16bf1c55a650e.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "厳密にいえば",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "strictly-speaking",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c04920e5-5189-4e75-9a55-4b9bdb21b33f",
+  "tags": [
+    "source::yomitan"
+  ]
+}

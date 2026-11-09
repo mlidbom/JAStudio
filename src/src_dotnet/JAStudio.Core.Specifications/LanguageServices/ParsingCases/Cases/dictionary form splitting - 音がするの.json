@@ -1,0 +1,36 @@
+{
+  "sentence": "音がするの",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 音がする | うの.",
+  "parsedWords": [
+    {"form":"音がする","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"音がする","vocabId":"95b8fe8f-3b4b-4865-a475-57d10b2bcaf7"},
+    {"form":"音がする","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"音がする","vocabId":"95b8fe8f-3b4b-4865-a475-57d10b2bcaf7"},
+    {"form":"音","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"音","vocabId":"11679057-43a0-4e6e-980e-d523577508f0"},
+    {"form":"がする","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"がする","vocabId":"fc25db31-fec4-49c4-9dde-23371b90efb2"},
+    {"form":"がする","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"がする","vocabId":"fc25db31-fec4-49c4-9dde-23371b90efb2"},
+    {"form":"が","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"する","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"する","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"う","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"の","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"音がする","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"音がする","vocabId":"95b8fe8f-3b4b-4865-a475-57d10b2bcaf7"},
+        {"form":"う","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"の","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"音","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"音","vocabId":"11679057-43a0-4e6e-980e-d523577508f0"},
+        {"form":"が","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"する","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"う","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"の","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+      ]
+    }
+  ]
+}

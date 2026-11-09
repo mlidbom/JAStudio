@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "嫌",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "disliking/not-wanting/unwilling | unpleasant/nasty/disgusting | no!/stop!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いや"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:嫌_b.mp3]",
+  "audioG": "[sound:嫌_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "厭や",
+      "isOwned": false
+    },
+    {
+      "text": "厭",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 81,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "disagreeable/detestable/unpleasant/reluctant",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. The vocab has the added meanings of <vocabulary>eww</vocabulary>, <vocabulary>gross</vocabulary>, and even <vocabulary>reluctant</vocabulary>.",
+    "readingMnemonic": "The reading for this word is pretty weird. It's different than the <ja>嫌い</ja> word you will see in this level too. It is <ja><reading>いや</reading></ja>, so when you think of something you dislike, just think \"<reading>iyah</reading>, I dislike it.\" Also, think about that <vocabulary>eww</vocabulary> feeling it gives you when you think of the thing you dislike most."
+  },
+  "id": "94c49b11-742a-4d6d-ba1d-f20b96ff0b50",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::20"
+  ]
+}

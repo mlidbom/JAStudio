@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "もの",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "thing | person | <tag>{reason-or-excuse}</tag>/is-the-thing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "もの"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "particle",
+    "prefix",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_もの_もの_2023-08-14-04-47-07.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "もん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 834,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>物</ja></tag>:: thing/object/article/stuff/substance | one's-things/possessions/property/belongings | things/something/anything/everything/nothing | quality | reason/the-way-of-things | used-to-emphasize-emotion,-judgment,-etc./used-to-indicate-a-common-occurrence-in-the-past-(after-a-verb-in-past-tense)/used-to-indicate-a-general-tendency/used-to-indicate-something-that-should-happen | item-classified-as-.../item-related-to-.../work-in-the-genre-of-... | cause-of-.../cause-for-... | somehow/somewhat/for-some-reason | really/truly\nindicates-reason-or-excuse | indicates-dissatisfaction/indicates-desire-to-be-pampered-or-indulged",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9b13f5d7-5d34-4c43-985a-7b64b48c767b",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

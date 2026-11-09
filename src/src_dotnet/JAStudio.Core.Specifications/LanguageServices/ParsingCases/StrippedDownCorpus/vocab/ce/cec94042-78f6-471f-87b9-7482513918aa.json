@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "大丈夫",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "safe-and-sound | alright/okay | no-thanks/I'm-good",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "大",
+      "丈夫"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だいじょうぶ"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:大丈夫_b.mp3]",
+  "audioG": "[sound:大丈夫_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 328,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "safe/secure/sound/problem-free/without-fear/all-right/alright/OK/okay | certainly/surely/undoubtedly | no-thanks/I'm-good/that's-alright | great-man/fine-figure-of-a-man",
+    "mnemonic": "The <kanji>big</kanji> <kanji>height</kanji> of your <kanji>husband</kanji> makes everything <vocabulary>safe</vocabulary> and <vocabulary>all right</vocabulary>. Nothing you need to worry about when you have your super giant husband around to protect you. This is a really useful word, and it is used all the time. If someone asks: \"Are you alright?\" you could say in response \"<ja>大丈夫</ja>\" to mean you're doing all right.",
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own. Watch out for the rendaku."
+  },
+  "id": "cec94042-78f6-471f-87b9-7482513918aa",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::18"
+  ]
+}

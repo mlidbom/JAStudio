@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "見す",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "めす"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [
+    "archaic",
+    "honorific"
+  ],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-ed171ef43f2e37c422b124f7c40430992f3a51331d900127fbe2bf82.mp3]",
+  "forms": [],
+  "sentenceCount": 75,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} see/look/watch | rule/govern",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9f8a1926-a29d-42e0-b3a1-6fad5268b97d",
+  "tags": [
+    "source::jamdict"
+  ]
+}

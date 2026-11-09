@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "成る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: come-to-be | be:complete/formed | be:accomplished/be-attained | result-in/turn-out/end-up-as ",
+  "explanation": "",
+  "explanationLong": "<div>If we say \"it will become cold,\" that entails it isn't cold right now, and it will CHANGE to cold in the future. Consequently, we can't use \"become\" in cases where it's cold right now and will be cold in the future, too, because then there is no change happening.</div><div>However, we can use&nbsp;<i>naru</i>&nbsp;なる in those situations, so&nbsp;<i>naru</i>&nbsp;is closer to \"will be\" than \"will become\"<sup>[<a href=\"https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q13115566493\">be とbecome の違いって何ですか？？ - detail.chiebukuro.yahoo.co.jp</a>, accessed 2019-01-24]</sup>.</div>",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:成る_b.mp3]",
+  "audioG": "[sound:成る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.japanesewithanime.com/2020/09/eventivizers.html?m=1\">Eventivizers | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [
+        "く"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "する",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to:{become/get/grow/be/reach/attain} | to:{result-in/prove-to-be} | to:{consist-of/be-composed-of} | to:{succeed/be-complete} | to:{change-into/be-exchanged-for} | to:play-a-role | to-be:promoted | to{?}do-...",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>become</kanji> so the vocab verb version would be <vocabulary>to become</vocabulary>.\n\nWhile the kanji version is worth knowing, be aware that you'll usually see this verb written in hiragana.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: You are starting <vocabulary>to become</vocabulary> something else. You're transforming, but you're not sure what it is. First, you get fins... uh oh, something in the water. Then, you gain a tail and rubbery skin... hmm, something sea mammal-like. Oh, and then a huge horn flies out of your nose. You are going to become a <vocabulary>na</vocabulary>rwhal (<ja>な</ja>)."
+  },
+  "id": "94200b74-1e0d-47d7-b586-95125be92eed",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "legacy_scheduling",
+    "source::wani::level::11"
+  ]
+}

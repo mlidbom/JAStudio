@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "代筆",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "writing-on-someone's-behalf",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "だいひつ"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-10-12-09-26-20-380.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 37,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "writing-on-someone's-behalf",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "56da8bd4-6f2b-459a-8b47-c8c95758c54c",
+  "tags": [
+    "source::yomitan"
+  ]
+}

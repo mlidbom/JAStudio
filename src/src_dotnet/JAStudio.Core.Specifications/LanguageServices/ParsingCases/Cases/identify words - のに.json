@@ -1,0 +1,15 @@
+{
+  "sentence": "のに",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: のに.",
+  "parsedWords": [
+    {"form":"のに","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"のに","vocabId":"6e603b14-fa17-4d0a-8ddb-ed04644d57a3"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"のに","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のに","vocabId":"6e603b14-fa17-4d0a-8ddb-ed04644d57a3"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "清める",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} purify/cleanse/exorcise/purge/ward-off",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きよめる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-08-06-22-40-09-164.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "浄める",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "お清めする"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} purify/cleanse/exorcise/purge/ward-off",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cc66a4da-93e9-47e9-8876-2d508116c1ea",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "source::yomitan"
+  ]
+}

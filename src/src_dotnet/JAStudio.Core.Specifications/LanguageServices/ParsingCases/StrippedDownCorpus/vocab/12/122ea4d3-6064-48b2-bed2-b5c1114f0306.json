@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "止む",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: cease/stop/be-over / subside/die-down",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "やむ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:02a1c1d02bbb109a57a7e246f4006ce3.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "已む",
+      "isOwned": false
+    },
+    {
+      "text": "罷む",
+      "isOwned": false
+    },
+    {
+      "text": "やむ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 125,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"04ef8847586f68ba6c16a19e45de75d9.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "止める",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: cease/stop/be-over",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "122ea4d3-6064-48b2-bed2-b5c1114f0306",
+  "tags": [
+    "source::core2000::step09"
+  ]
+}

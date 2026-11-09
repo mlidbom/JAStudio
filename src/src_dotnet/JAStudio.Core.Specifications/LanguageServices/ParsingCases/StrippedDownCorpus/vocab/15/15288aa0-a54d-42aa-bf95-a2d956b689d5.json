@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "巧い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うまい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": false,
+  "audioB": "[sound:巧い_b.mp3]",
+  "audioG": "[sound:巧い_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "skillful/skilful/clever/expert/wise/successful | delicious/appetizing/appetising/tasty | fortunate/splendid/promising",
+    "mnemonic": "You're so <kanji>adept</kanji>! That makes you <vocabulary>adept</vocabulary> at that thing. <vocabulary>Skillful</vocabulary> and <vocabulary>clever</vocabulary> are other ways to do it too.",
+    "readingMnemonic": "Remember <ja>旨い</ja>, which means \"delicious\"? Remember how it also means \"skillful\" and \"clever\"? It's the same with this word, and the reading is the same as well."
+  },
+  "id": "15288aa0-a54d-42aa-bf95-a2d956b689d5",
+  "tags": [
+    "source::wani::level::50"
+  ]
+}

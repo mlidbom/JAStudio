@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "長い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "long | far | protracted/prolonged",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ながい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:長い_b.mp3]",
+  "audioG": "[sound:長い_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "永い",
+      "isOwned": false
+    },
+    {
+      "text": "長え",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 100,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "長居"
+    ]
+  },
+  "sourceData": {
+    "answer": "long-(distance,-length) | long-(time)/protracted/prolonged",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>long</kanji>? It's also <vocabulary>long</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have something that's really long. It's this crazy hair growing out of the tip of your nose. You don't really care either way if it stays or goes, but you're too lazy to cut it off. Your parents, though, keep trying to <reading>nag</reading> (<ja>なが</ja>) you to trim it. Imagine this process happening and be irritated about it. What naggers."
+  },
+  "id": "c4c1ec80-c2ae-4a94-9bdf-647433041c9a",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

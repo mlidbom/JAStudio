@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "だが",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "but/however/and-yet/yet/still/for-all-of-that",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "が"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だが"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-04-14-58-08-673.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ですが",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 185,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "but/however/(and)-yet/nevertheless/still/for-all-that",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "bb408822-07c1-4d03-9816-1b4b3277324c",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

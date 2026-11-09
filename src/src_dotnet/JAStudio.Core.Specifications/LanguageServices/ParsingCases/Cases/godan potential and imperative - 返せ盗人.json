@@ -1,0 +1,19 @@
+{
+  "sentence": "返せ盗人",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 返す | え | 盗人.",
+  "parsedWords": [
+    {"form":"返す","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"返す","vocabId":"6aa51efa-95a2-4d34-8c16-7debb4ceeec5"},
+    {"form":"え","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"盗人","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"盗人","vocabId":"1c9a6df5-abc9-4433-a1f4-bca7ca5157ca"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"返す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"返す","vocabId":"6aa51efa-95a2-4d34-8c16-7debb4ceeec5"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"盗人","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"盗人","vocabId":"1c9a6df5-abc9-4433-a1f4-bca7ca5157ca"}
+      ]
+    }
+  ]
+}

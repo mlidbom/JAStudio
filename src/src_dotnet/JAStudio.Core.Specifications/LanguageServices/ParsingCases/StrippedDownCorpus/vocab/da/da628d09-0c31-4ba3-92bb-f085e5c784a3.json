@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "気",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "spirit/mind/consciousness/fluid-life-energy | disposition | intent | mood | care...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "き"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:気_b.mp3]",
+  "audioG": "[sound:気_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "氣",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 561,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=ZHHd3nHkFb0&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=76\">Cure Dolly Secrets of 気 Ki - ki ni naru, ki ni suru, ki ga suru, ki ni iru etc.</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "spirit/mind/heart | nature/disposition | motivation/intention | mood/feelings | ambience/atmosphere/mood",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is the same as the kanji that makes up this word. Lucky you!"
+  },
+  "id": "da628d09-0c31-4ba3-92bb-f085e5c784a3",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::04"
+  ]
+}

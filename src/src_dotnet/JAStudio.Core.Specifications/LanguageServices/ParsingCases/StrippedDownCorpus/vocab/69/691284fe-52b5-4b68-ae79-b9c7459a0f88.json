@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "陰",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "shadow/shade | behind{something | someone's-back} | gloom/darkness",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かげ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:陰_b.mp3]",
+  "audioG": "[sound:陰_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "翳",
+      "isOwned": false
+    },
+    {
+      "text": "蔭",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "shade/shadow | behind-(something)/other-side/back | background/behind-the-scenes/behind-someone's-back | gloom-(in-someone's-expression,-nature,-etc.)/darkness",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. Also means <vocabulary>shadow</vocabulary>.",
+    "readingMnemonic": "Look at a <vocabulary>shadow</vocabulary>. It's long, surprisingly long. It's in the shape of a <reading>cage</reading> (<ja>かげ</ja>), because that's what is producing the long shadow. Check out each bar of the cage. Maybe you're inside the cage? Whatever is going on, a long shadow is being created by the cage and shade."
+  },
+  "id": "691284fe-52b5-4b68-ae79-b9c7459a0f88",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::45"
+  ]
+}

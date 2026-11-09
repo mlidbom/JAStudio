@@ -1,0 +1,110 @@
+{
+  "question": {
+    "text": "とる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag>{is}-_-ing | _-s-{habitually/recurringly}\n<tag>state-change-verb:</tag> {is/has}-_-{ed} | _-s-{habitually/recurringly}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "おる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "とる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-c355d203a282ec0b296740007cc20cb6be698807a0cc72172e74cb4c.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 65,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "いでいる",
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "ておる",
+      "てます",
+      "てる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる",
+      "んどる"
+    ],
+    "synonyms": [
+      "いでいる",
+      "いでおる",
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "でおります",
+      "ておる",
+      "でおる",
+      "てます",
+      "てる",
+      "でる",
+      "てん",
+      "どる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる",
+      "んどる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "ておる",
+      "る"
+    ]
+  },
+  "sourceData": {
+    "answer": "<tag><ja>摂る</ja></tag>:: to{} have-(e.g.-lunch)/take-(e.g.-vitamins)\nto-be: ...-ing",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7bfb304d-1362-4fc1-8c94-3619f7187f10",
+  "tags": [
+    "source::yomitan"
+  ]
+}

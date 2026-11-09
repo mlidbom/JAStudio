@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "てしまう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: end-up-doing/do-unfortunately | finish/do-completely",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "しまう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てしまう"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-0a024b6b6d4b7c32953987aa7598720eae4aca8bf5a231dea1d41196.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 635,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "んでしまう"
+    ],
+    "synonyms": [
+      "ちまう",
+      "ちゃう",
+      "てしまいます",
+      "んでしまう"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c4365a2e-df48-46b5-a1ec-72607e5b0d1b",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step10"
+  ]
+}

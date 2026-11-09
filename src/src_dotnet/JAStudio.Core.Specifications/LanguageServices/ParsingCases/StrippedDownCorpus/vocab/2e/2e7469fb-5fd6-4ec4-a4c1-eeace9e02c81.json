@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "下さい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "please-(give-me/do-for-me)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ください"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_2496_ください_male.mp3]",
+  "audioG": "[sound:Wani_2496_ください_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ください",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 182,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "please-(give-me) | please-(do-for-me)",
+    "mnemonic": "You know that the kanji 下 means <kanji>down</kanji>, and さい sounds like the word \"sigh.\" You need to ask someone for something, so you look down, sigh, and say <vocabulary>please give me</vocabulary> that thing. You're ashamed that you have to ask. But you still need it. <vocabulary>Please</vocabulary>, please give it to me!\n\nYou only use this kanji version of ください when asking for something, which is why this is \"please give me.\" If you're just saying \"please,\" you don't need the kanji at all!",
+    "readingMnemonic": "The reading for 下 here is one you haven't learned. Just think about how it kind of sounds like you're saying <vocabulary>please</vocabulary>, <reading>could I</reading> (くだ) have this thing? Pretty please, could I have it? \n\nAlternatively, if you already knew the word ください beforehand, this shouldn't be too hard!"
+  },
+  "id": "2e7469fb-5fd6-4ec4-a4c1-eeace9e02c81",
+  "tags": [
+    "source::wani",
+    "source::wani::level::01"
+  ]
+}

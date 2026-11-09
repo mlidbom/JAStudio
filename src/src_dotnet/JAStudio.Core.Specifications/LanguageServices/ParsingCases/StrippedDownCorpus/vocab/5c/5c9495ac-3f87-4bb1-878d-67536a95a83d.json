@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "また",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "again/once-more | another | {another/some-other}-time | also/as-well | on-the-other-hand/while",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "また"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:又_b.mp3]",
+  "audioG": "[sound:又_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "亦",
+      "isOwned": false
+    },
+    {
+      "text": "復",
+      "isOwned": false
+    },
+    {
+      "text": "又",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 400,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "again/once-more/once-again/another-time/some-other-time | also/too/as-well/likewise | on-the-other-hand/while | and/in-addition/besides/moreover/furthermore | or/otherwise | really/how/(what,-why)-on-earth | indirect",
+    "mnemonic": "The meaning of this word and the meaning of the kanji are the same: <vocabulary>Again</vocabulary>!\n\nThis is a very common word, but it's almost always written in kana in casual situations. However, it's often written in kanji in formal contexts, such as official paperwork and legal documents. You'll also see it in some literature, particularly stuff that was written around the time of Miyazawa Kenji and Natsume Soseki.",
+    "readingMnemonic": "The reading you learned for the kanji is the same as the reading for this word. You hopefully won't have to learn it... again."
+  },
+  "id": "5c9495ac-3f87-4bb1-878d-67536a95a83d",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::51"
+  ]
+}

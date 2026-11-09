@@ -1,0 +1,58 @@
+{
+  "question": {
+    "text": "覚え",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "memory/recollection/sense/experience",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おぼえ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-637104320874c3d796810d3a9db4e3ae5de4c7db5520583b9173905c.mp3]",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "memory/sense/experience",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0ee0daff-7e00-4a9b-af5a-aa1eb0ec08c9",
+  "tags": []
+}

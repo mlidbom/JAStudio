@@ -1,0 +1,24 @@
+{
+  "sentence": "考えすぎ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.ForbidAdverbStem, against vocab copied by hand, expected the breakdown to display: 考えすぎ.",
+  "parsedWords": [
+    {"form":"考えすぎ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"考えすぎ","vocabId":"c86c1cbe-946a-4f65-a4de-9f013a7040a2"},
+    {"form":"考え","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"考え","vocabId":"20c3e5fb-f923-4aad-9b52-bdcb7c314d68"},
+    {"form":"すぎ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"すぎ","vocabId":"64e14f15-60c7-4836-b50c-a5c719348a38"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"考えすぎ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"考えすぎ","vocabId":"c86c1cbe-946a-4f65-a4de-9f013a7040a2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"考え","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"考え","vocabId":"20c3e5fb-f923-4aad-9b52-bdcb7c314d68"},
+        {"form":"すぎ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"すぎ","vocabId":"64e14f15-60c7-4836-b50c-a5c719348a38"}
+      ]
+    }
+  ]
+}

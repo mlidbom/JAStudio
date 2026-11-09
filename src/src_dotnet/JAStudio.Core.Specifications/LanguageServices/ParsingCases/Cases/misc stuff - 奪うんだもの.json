@@ -1,0 +1,35 @@
+{
+  "sentence": "奪うんだもの",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 奪う | う | ん | だもの.",
+  "parsedWords": [
+    {"form":"奪う","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"奪う","vocabId":"eedd2471-07c1-4b6a-a640-428bbee82486"},
+    {"form":"奪う","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"奪う","vocabId":"eedd2471-07c1-4b6a-a640-428bbee82486"},
+    {"form":"う","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"んだ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+    {"form":"ん","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だもの","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"だもの","vocabId":"f46c1720-eb97-4172-bffc-21c5cd34c320"},
+    {"form":"だ","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"もの","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"奪う","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"奪う","vocabId":"eedd2471-07c1-4b6a-a640-428bbee82486"},
+        {"form":"う","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"ん","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だもの","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だもの","vocabId":"f46c1720-eb97-4172-bffc-21c5cd34c320"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"奪う","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"奪う","vocabId":"eedd2471-07c1-4b6a-a640-428bbee82486"},
+        {"form":"う","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"ん","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"もの","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"}
+      ]
+    }
+  ]
+}

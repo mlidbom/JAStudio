@@ -1,0 +1,57 @@
+{
+  "question": {
+    "text": "に思える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: seem/feel",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "に",
+      "思える"
+    ],
+    "alternative": []
+  },
+  "readings": [],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-dc0fd66617b3213efe9e592a286024afdd923c7c9eb12a693c834396.mp3]",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5681bc90-2b52-445f-a23e-d204a1cca1d3",
+  "tags": []
+}

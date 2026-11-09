@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "わあ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "wow!/oh!/eek!/gee! | yeah!/alright!/hurray! | waah!/boohoo!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "わあ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-05-19-16-03-05-626.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "わあっ",
+      "isOwned": false
+    },
+    {
+      "text": "わっ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 25,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "wow!/oh!/eek!/gee! | yeah!/alright!/hurray! | waah!/boohoo!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9e000110-a4cb-434b-93f2-86704077c6e8",
+  "tags": [
+    "source::yomitan"
+  ]
+}

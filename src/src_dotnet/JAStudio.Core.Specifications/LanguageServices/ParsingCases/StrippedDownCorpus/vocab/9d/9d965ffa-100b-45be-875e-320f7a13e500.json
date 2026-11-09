@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "遣う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>使う</ja> to{} use {thing|person|resource} <tag>(may imply being considerate | careful)</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つかう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:遣う_b.mp3]",
+  "audioG": "[sound:遣う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "使う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} use-(a-thing,-method,-etc.)/make-use-of/put-to-use | use-(a-person,-animal,-puppet,-etc.)/employ/handle/manage/manipulate | use-(time,-money,-etc.)/spend/consume | use-(language)/speak",
+    "mnemonic": "The kanji means <kanji>dispatch</kanji> but this word is <vocabulary>to consider</vocabulary> or <vocabulary>to make use of</vocabulary>. Just think about how if you have people that are on dispatch for you, you can send them information <vocabulary>to consider</vocabulary> and <vocabulary>to make use of</vocabulary>.",
+    "readingMnemonic": "This has a similar meaning to <ja>使う</ja>, and has the same reading too. If you remember that, you can remember this word's reading."
+  },
+  "id": "9d965ffa-100b-45be-875e-320f7a13e500",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::37"
+  ]
+}

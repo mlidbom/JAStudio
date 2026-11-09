@@ -1,0 +1,17 @@
+{
+  "sentence": "沈んで",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 沈む | んで.",
+  "parsedWords": [
+    {"form":"沈む","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"沈む","vocabId":"3be74102-6f92-4116-b724-c844c5da801a"},
+    {"form":"んで","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"んで","vocabId":"4a33fc3b-50b9-47c7-8d6a-7d6296652719"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"沈む","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"沈む","vocabId":"3be74102-6f92-4116-b724-c844c5da801a"},
+        {"form":"んで","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んで","vocabId":"4a33fc3b-50b9-47c7-8d6a-7d6296652719"}
+      ]
+    }
+  ]
+}

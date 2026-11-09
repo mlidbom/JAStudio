@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "けれど",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "but/however/although/though | <tag>s.end:</tag>though/you-know/FYI/you-figure-out-what-I'm-implying",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "けれど"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_けれど_けれど_2023-05-03-21-43-20.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "けど",
+      "isOwned": false
+    },
+    {
+      "text": "けんど",
+      "isOwned": false
+    },
+    {
+      "text": "けれども",
+      "isOwned": false
+    },
+    {
+      "text": "けども",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 61,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "が"
+    ]
+  },
+  "sourceData": {
+    "answer": "but/however/although",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ee1bcf84-6d07-452d-abe7-a3c7c964cdfb",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

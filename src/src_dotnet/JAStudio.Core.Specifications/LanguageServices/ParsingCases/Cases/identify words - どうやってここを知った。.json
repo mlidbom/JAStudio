@@ -1,0 +1,38 @@
+{
+  "sentence": "どうやってここを知った。",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: どうやって | どう | やる | て | ここ | を | 知る | た.",
+  "parsedWords": [
+    {"form":"どうやって","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"どうやって","vocabId":"e0e49108-b129-469c-bcc5-a3bbe4c9035a"},
+    {"form":"どう","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"どう","vocabId":"e3274bb8-33f1-4d90-bd9d-21363bbdd0fa"},
+    {"form":"やる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"やる","vocabId":"c55ce9c1-95a9-45de-b8e4-c89204c918f8"},
+    {"form":"て","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"ここ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"ここ","vocabId":"809572a3-a267-4c38-93ea-fa7cab5b3e9b"},
+    {"form":"を","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"知った","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"知った","vocabId":"3b8f69d0-69ad-4792-b601-841fe365a8ad"},
+    {"form":"知る","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+    {"form":"た","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"どうやって","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"どうやって","vocabId":"e0e49108-b129-469c-bcc5-a3bbe4c9035a"},
+        {"form":"ここ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ここ","vocabId":"809572a3-a267-4c38-93ea-fa7cab5b3e9b"},
+        {"form":"を","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"知った","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"知った","vocabId":"3b8f69d0-69ad-4792-b601-841fe365a8ad"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"どう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"どう","vocabId":"e3274bb8-33f1-4d90-bd9d-21363bbdd0fa"},
+        {"form":"やる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"やる","vocabId":"c55ce9c1-95a9-45de-b8e4-c89204c918f8"},
+        {"form":"て","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"ここ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ここ","vocabId":"809572a3-a267-4c38-93ea-fa7cab5b3e9b"},
+        {"form":"を","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"知る","startIndex":8,"variant":"base","isEmergencyDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+        {"form":"た","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "sentence": "お腹空かしてない",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: お腹 | 空かす | てない.",
+  "parsedWords": [
+    {"form":"お腹空かす","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"お腹空かす","vocabId":"a5fd85a2-6eaa-4c56-893d-d8d32f132988"},
+    {"form":"お腹","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"お腹","vocabId":"ea038c95-621d-4764-804c-c2a491ab56a7"},
+    {"form":"空かす","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"空かす","vocabId":"bd0aaef2-fcd7-4b3d-a4f7-63116a7782e6"},
+    {"form":"てない","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"てない","vocabId":"9f0a7bcc-a931-4799-8770-3d53cf0ec11b"},
+    {"form":"てる","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"ない","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"お腹空かす","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"お腹空かす","vocabId":"a5fd85a2-6eaa-4c56-893d-d8d32f132988"},
+        {"form":"てない","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てない","vocabId":"9f0a7bcc-a931-4799-8770-3d53cf0ec11b"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"お腹","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お腹","vocabId":"ea038c95-621d-4764-804c-c2a491ab56a7"},
+        {"form":"空かす","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"空かす","vocabId":"bd0aaef2-fcd7-4b3d-a4f7-63116a7782e6"},
+        {"form":"てる","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"ない","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    }
+  ]
+}

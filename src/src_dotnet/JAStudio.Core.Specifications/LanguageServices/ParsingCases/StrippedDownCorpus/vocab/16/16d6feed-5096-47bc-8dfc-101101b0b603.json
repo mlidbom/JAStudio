@@ -1,0 +1,79 @@
+{
+  "question": {
+    "text": "会う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: meet/encounter",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:会う_b.mp3]",
+  "audioG": "[sound:会う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "遭う",
+      "isOwned": false
+    },
+    {
+      "text": "遇う",
+      "isOwned": false
+    },
+    {
+      "text": "あう",
+      "isOwned": false
+    },
+    {
+      "text": "逢う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 316,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: meet/encounter/see | have-an-accident/have-a-bad-experience",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>meet</kanji> so the verb form of that is <vocabulary>to meet</vocabulary> or <vocabulary>to encounter</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have to remember the <ja>あ</ja> part but let's include the <ja>う</ja> as well for this one. Who do you want <vocabulary>to meet</vocabulary> more than anyone? Think about it. Then, imagine meeting them. The first thing they do is grab your arm and pinch it. You yell out \"<reading>OW</reading>!\" (<ja>あう</ja>) and they laugh and run away."
+  },
+  "id": "16d6feed-5096-47bc-8dfc-101101b0b603",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

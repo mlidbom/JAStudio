@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "いった",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "said | went",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "言う",
+      "行く",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いった"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c1fcdcd7488754db6c351129047060162fc75cec2ee342e947407af7.mp3]",
+  "forms": [],
+  "sentenceCount": 56,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9e9b4fae-dc75-449f-a429-93e96824952f",
+  "tags": []
+}

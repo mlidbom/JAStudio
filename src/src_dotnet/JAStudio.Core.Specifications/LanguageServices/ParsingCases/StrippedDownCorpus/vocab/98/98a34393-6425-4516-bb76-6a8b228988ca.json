@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "あれた",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{got/was}-_-{ed}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "あれる",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "あれた"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-480a75378bd7c907a282b51097436f337c9e3ef3c4e53c2eb1953002.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "れた",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 392,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "forbidden",
+      "ichidan": "forbidden",
+      "irrealis": "required",
+      "surface": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "られた",
+      "れた"
+    ],
+    "antonyms": [],
+    "confusedWith": [
+      "えれた"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "98a34393-6425-4516-bb76-6a8b228988ca",
+  "tags": [
+    "-::TODO::studio::vocab::matching",
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "sentence": "そうよ　あんたの言うとおりよ！",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: そう | よ | あんた | の | 言うとおり | 言う | う | とおり | よ.",
+  "parsedWords": [
+    {"form":"そう","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"そう","vocabId":"f0e7c698-344e-4ae0-926e-377fad737b69"},
+    {"form":"よ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"},
+    {"form":"あんた","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"あんた","vocabId":"3325ce5d-575e-4a3e-9997-f47e0d75960e"},
+    {"form":"の","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"言うとおり","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"言うとおり","vocabId":"7519057c-28a7-4716-bf73-4a35b3550fa0"},
+    {"form":"言う","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"言う","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"う","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"とおり","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"とおり","vocabId":"141bc6ca-af56-4b13-912d-d6ef7b1ed90b"},
+    {"form":"よ","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"そう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そう","vocabId":"f0e7c698-344e-4ae0-926e-377fad737b69"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"},
+        {"form":"あんた","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あんた","vocabId":"3325ce5d-575e-4a3e-9997-f47e0d75960e"},
+        {"form":"の","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"言うとおり","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"言うとおり","vocabId":"7519057c-28a7-4716-bf73-4a35b3550fa0"},
+        {"form":"よ","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"そう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そう","vocabId":"f0e7c698-344e-4ae0-926e-377fad737b69"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"},
+        {"form":"あんた","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あんた","vocabId":"3325ce5d-575e-4a3e-9997-f47e0d75960e"},
+        {"form":"の","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"言う","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"う","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"とおり","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"とおり","vocabId":"141bc6ca-af56-4b13-912d-d6ef7b1ed90b"},
+        {"form":"よ","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

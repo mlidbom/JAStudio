@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "言える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be-{able/possible}-to-say\n<tag>arch:</tag>said/have-said",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "言う",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いえる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [
+    "archaic"
+  ],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-02-28-17-05-31-922.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "云える",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 63,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be:{possible-to-say/able-to-say} | said/have-said",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5a9b1749-a89f-4db2-bf52-b3a32751e906",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "source::yomitan",
+    "tmp::godan-potential"
+  ]
+}

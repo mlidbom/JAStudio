@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "付き合う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: associate-with/keep-company-with | go-out-with/date | go-along-with/follow-sb's-lead",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "付き",
+      "合う:masu"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "つきあう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_つきあう_付き合う_2023-08-21-12-22-46.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "付合う",
+      "isOwned": false
+    },
+    {
+      "text": "つき合う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 62,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: associate-with/keep-company-with/go-out-with/go-steady-with/get-on-with | go-along-with/follow-someone's-lead/accompany-someone/compromise",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7a2446dd-71cf-414d-9f50-4741b83049d2",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

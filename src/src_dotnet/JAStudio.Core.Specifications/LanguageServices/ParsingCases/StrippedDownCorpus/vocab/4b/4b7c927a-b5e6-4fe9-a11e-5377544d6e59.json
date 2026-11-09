@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "俺は",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I/me/as-for-me",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "俺",
+      "は"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おれは"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-33ef895d2bf6e118617478c47b6108bb469f461fae86cdee71fb88b3.mp3]",
+  "forms": [
+    {
+      "text": "オレは",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 271,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4b7c927a-b5e6-4fe9-a11e-5377544d6e59",
+  "tags": []
+}

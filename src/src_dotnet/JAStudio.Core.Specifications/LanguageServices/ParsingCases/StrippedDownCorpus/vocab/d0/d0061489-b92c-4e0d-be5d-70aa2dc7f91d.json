@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "ねば",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "if-not/unless | <tag>s.end:</tag>must/have-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ね",
+      "ば"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ねば"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-12-14-45-09-943.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "〜ねば",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 28,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ないと"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "いかないと",
+      "せねば",
+      "ないと",
+      "なきゃ",
+      "なくちゃ",
+      "なくては",
+      "なければ"
+    ]
+  },
+  "sourceData": {
+    "answer": "if-not-.../unless-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d0061489-b92c-4e0d-be5d-70aa2dc7f91d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

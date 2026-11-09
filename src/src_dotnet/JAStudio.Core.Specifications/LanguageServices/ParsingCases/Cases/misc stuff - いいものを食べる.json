@@ -1,0 +1,24 @@
+{
+  "sentence": "いいものを食べる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: いい | もの | を | 食べる | る:う.",
+  "parsedWords": [
+    {"form":"いい","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"いい","vocabId":"a43f2e26-285f-45c7-a65a-3fef3ca0ae97"},
+    {"form":"もの","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"},
+    {"form":"を","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"食べる","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"食べる","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"う","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"いい","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いい","vocabId":"a43f2e26-285f-45c7-a65a-3fef3ca0ae97"},
+        {"form":"もの","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"},
+        {"form":"を","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"食べる","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

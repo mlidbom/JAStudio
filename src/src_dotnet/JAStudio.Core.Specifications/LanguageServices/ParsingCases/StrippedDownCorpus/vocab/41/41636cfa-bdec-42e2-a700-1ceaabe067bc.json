@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "位",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><read>くらい</read>:</tag> throne/crown/(nobleman's)-seat | position/rank (government/court/social)\n<tag><read>い</read>:counter/suffix:</tag> rank/place",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "くらい"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_くらい_位_2023-07-24-00-26-54.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 19,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "throne/crown/(nobleman's)-seat | government-position/court-rank | social-standing/rank/class/echelon/rung | grade-(of-quality,-etc.)/level/tier/rank | position-of-a-figure-(e.g.-tens,-thousands)/digit/(decimal)-place | degree/extent/amount",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "41636cfa-bdec-42e2-a700-1ceaabe067bc",
+  "tags": [
+    "source::yomitan"
+  ]
+}

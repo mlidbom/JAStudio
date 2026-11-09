@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "って思う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{I/you}-think",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "って",
+      "思う"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "っておもう"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-9661233943a2dd309d6ccb4bf8aabb111e2872b22b7e82bd66d74b40.mp3]",
+  "forms": [
+    {
+      "text": "と思う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 48,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "be4dd653-1a61-42bd-b6ad-d1c937078fb7",
+  "tags": []
+}

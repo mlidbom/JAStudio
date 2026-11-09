@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "頼み",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "request/favor | reliance/trust",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たのみ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:頼み_b.mp3]",
+  "audioG": "[sound:頼み_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "憑み",
+      "isOwned": false
+    },
+    {
+      "text": "恃み",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 16,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "request/favor/favour | reliance/dependence/trust/hope",
+    "mnemonic": "To <ja>頼む</ja> is \"to ask for\" or \"to request.\" The noun version of that is <vocabulary>a favor</vocabulary> or <vocabulary>a request</vocabulary>.",
+    "readingMnemonic": "The reading comes from <ja>頼む</ja>."
+  },
+  "id": "7d2269e4-afa5-4a04-9578-ed28e7a7ba66",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::38"
+  ]
+}

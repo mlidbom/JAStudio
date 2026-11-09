@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "風の強い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "windy/windswept/blowy",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "風",
+      "の",
+      "強い"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かぜのつよい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-65ac444eef8d8787d3e23ab8b3bb16f1f865544d7fa30775430236cb.mp3]",
+  "forms": [],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "windy/windswept/blowy",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e8263287-2964-478b-b61f-d651a98d2d96",
+  "tags": [
+    "source::yomitan"
+  ]
+}

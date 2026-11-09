@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "こ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>pre:</tag> this/this-here\n<tag>suff</tag>: <tag>{familiarizing}</tag>/small | doing-{together/to-each-other} | doing/in-such-a-state",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "っこ"
+  ],
+  "partsOfSpeech": [
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-2149b82eaad944718fc16421050feefc430f0aa5a85d3f6c1f7183d1.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "っこ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 63,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "doing/in-such-a-state | doing-together/doing-to-each-other/contest/match | familiarizing-suffix-(sometimes-meaning-\"small\")",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cbf017bf-77c4-45c4-a854-eec32a2e226d",
+  "tags": []
+}

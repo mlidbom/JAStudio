@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "たりする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{do/did}-_-{or-something/and-such}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "たり",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "たりする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-bfbb036909587652baa0666ba33e7cde07b5bc8e7316f7f64b6d3a2e.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "だりする",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 118,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f7c0cad2-e393-4e59-866a-850604a08b1a",
+  "tags": []
+}

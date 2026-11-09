@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "とこ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "place | part/spot | aspect/side | time/moment/situation \n<tag>uk:</tag> <tag>dict:</tag>just-about-to-_/almost-_ | <tag>た:</tag>just-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とこ"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-0881e206875b79810021eb9b038edf1d5705159ddae7a53736fe8a17.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "處",
+      "isOwned": false
+    },
+    {
+      "text": "ところ",
+      "isOwned": false
+    },
+    {
+      "text": "処",
+      "isOwned": false
+    },
+    {
+      "text": "所",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 43,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=z2cgY9o-cO0&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=38\">Cure Dolly</a> # <a href=\"https://www.japanesewithanime.com/2019/03/formal-nouns.html\">Formal Nouns | Japanese with Anime</a>&nbsp;#&nbsp;<a href=\"https://www.japanesewithanime.com/2019/03/light-nouns.html\">Light Nouns | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "place/spot/scene/site | address | district/area/locality | one's-house | point/aspect/side/facet | passage-(in-text)/part | space/room | thing/matter | whereupon/as-a-result | about-to/on-the-verge-of | was-just-doing/was-in-the-process-of-doing/have-just-done/just-finished-doing",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.\n\nWondering about how <ja>所</ja> differs from <ja>場所</ja>? While <ja>場所</ja> only refers to a physical location, <ja>所</ja> can also refer to an abstract place, such as a point in time, a situation, or a condition. Hence, <ja>所</ja> usually needs some context to clarify what kind of place you are talking about.",
+    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading. When learning the kanji, you didn't learn that reading, so here's a mnemonic to help you with this word: \n\nHere's the <vocabulary>place</vocabulary>! Either you have to <reading>talk or row</reading> (<ja>ところ</ja>). If you talk, maybe you can talk your way out of this problem you're in. If you row, you may be able to escape. Either way, this is the place for it."
+  },
+  "id": "af90923e-61df-416c-bf21-4bd57328a338",
+  "tags": []
+}

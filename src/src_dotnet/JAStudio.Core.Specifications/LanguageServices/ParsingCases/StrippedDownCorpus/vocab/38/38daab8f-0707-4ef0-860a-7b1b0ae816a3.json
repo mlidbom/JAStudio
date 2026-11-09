@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "母様",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "mother",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "様"
+    ],
+    "alternative": [
+      "母"
+    ]
+  },
+  "readings": [
+    "かあさま"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:larcjdprocgpudb.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "母さま",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "mother",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "38daab8f-0707-4ef0-860a-7b1b0ae816a3",
+  "tags": []
+}

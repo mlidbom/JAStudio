@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "よ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "prt: <tag>s.end</tag>:<tag>{emphasis}</tag>/! | you-know | hey(!)/hold-on(!)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "よ"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_よ_よ_2023-07-16-04-16-17.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 4641,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">CD:Sentence ender particles: ne, yo. na, kana, yone</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "え",
+      "ろ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "hey/you | hey | hey/hold-on | yo/hey",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8d071a9e-11b0-4f59-82d7-c95c096b924b",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

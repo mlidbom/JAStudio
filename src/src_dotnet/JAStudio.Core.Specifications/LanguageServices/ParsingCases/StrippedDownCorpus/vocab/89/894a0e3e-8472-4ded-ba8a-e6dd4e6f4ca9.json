@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "長居",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "overstaying/stay-long/long-visit",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ながい"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-10-11-17-31-51-263.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "長い"
+    ]
+  },
+  "sourceData": {
+    "answer": "long-visit/overstaying",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "894a0e3e-8472-4ded-ba8a-e6dd4e6f4ca9",
+  "tags": [
+    "source::yomitan"
+  ]
+}

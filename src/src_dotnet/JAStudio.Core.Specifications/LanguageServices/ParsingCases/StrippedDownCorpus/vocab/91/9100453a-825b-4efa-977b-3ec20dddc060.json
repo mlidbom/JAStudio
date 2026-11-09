@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "幼",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "young-child-(esp.-a-young-girl) | young",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "よう",
+    "いと"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "よう",
+      "isOwned": false
+    },
+    {
+      "text": "いと",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>いと</read>:: young-child-(esp.-a-young-girl) | young\n<read>よう</read>:: infancy/childhood/infant/child",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9100453a-825b-4efa-977b-3ec20dddc060",
+  "tags": []
+}

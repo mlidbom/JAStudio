@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "寝れる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "寝る",
+      "れる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ねれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-3c3be3e51a767293b9d754ef39dc1f8f69326b9ddd7df41008dd5133.mp3]",
+  "forms": [],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isCompositionallyTransparentCompound"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be: able-to-sleep",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6f5a80c4-c822-429a-852b-d86138507410",
+  "tags": [
+    "source::jamdict"
+  ]
+}

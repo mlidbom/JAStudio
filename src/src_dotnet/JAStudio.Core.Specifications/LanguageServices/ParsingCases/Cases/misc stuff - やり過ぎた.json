@@ -1,0 +1,27 @@
+{
+  "sentence": "やり過ぎた",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: やり過ぎる | た.",
+  "parsedWords": [
+    {"form":"やり過ぎる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"やり過ぎる","vocabId":"fe8de85a-f01e-4eab-823e-9b3a0fa4ecac"},
+    {"form":"やる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"やる","vocabId":"c55ce9c1-95a9-45de-b8e4-c89204c918f8"},
+    {"form":"過ぎる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"過ぎる","vocabId":"6b7a1a1c-58ea-4196-8cd5-cc70ac6ba4da"},
+    {"form":"た","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"やり過ぎる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"やり過ぎる","vocabId":"fe8de85a-f01e-4eab-823e-9b3a0fa4ecac"},
+        {"form":"た","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"やる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"やる","vocabId":"c55ce9c1-95a9-45de-b8e4-c89204c918f8"},
+        {"form":"過ぎる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"過ぎる","vocabId":"6b7a1a1c-58ea-4196-8cd5-cc70ac6ba4da"},
+        {"form":"た","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "気遣う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} {worry/care/be-concerned}-about | be-{considerate/caring}-towards",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "気",
+      "遣う"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "きづかう"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-03-09-04-36-56-683.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "気づかう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "気を遣う"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} worry-about-(someone's-welfare-or-comfort)/feel-anxious-about/have-apprehensions-of",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ed4fc461-6283-447a-ad4a-5e4d711dbff6",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "question": {
+    "text": "之",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "this/this-one",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "これ"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_8177_これ_male.mp3]",
+  "audioG": "[sound:Wani_8177_これ_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "惟",
+      "isOwned": false
+    },
+    {
+      "text": "是れ",
+      "isOwned": false
+    },
+    {
+      "text": "此れ",
+      "isOwned": false
+    },
+    {
+      "text": "之れ",
+      "isOwned": false
+    },
+    {
+      "text": "維",
+      "isOwned": false
+    },
+    {
+      "text": "是",
+      "isOwned": false
+    },
+    {
+      "text": "これ",
+      "isOwned": false
+    },
+    {
+      "text": "此",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "this/this-one | this-person | now/this-point-(in-time) | here | used-to-stress-the-subject-of-a-sentence | I/me",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.\n\nNote that this is almost always written in kana in modern Japanese.",
+    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!"
+  },
+  "id": "e9a767e6-3b41-4037-aee4-23acf8108394",
+  "tags": [
+    "source::wani",
+    "source::wani::level::55"
+  ]
+}

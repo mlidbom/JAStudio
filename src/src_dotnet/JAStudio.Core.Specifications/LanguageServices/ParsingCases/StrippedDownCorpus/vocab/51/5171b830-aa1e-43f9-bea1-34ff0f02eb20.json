@@ -1,0 +1,92 @@
+{
+  "question": {
+    "text": "良い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "good/excellent/fine | sufficient/enough | profitable/beneficial | OK/all-right",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "よい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-02-27-20-41-01-407.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "好い",
+      "isOwned": false
+    },
+    {
+      "text": "宜い",
+      "isOwned": false
+    },
+    {
+      "text": "吉い",
+      "isOwned": false
+    },
+    {
+      "text": "佳い",
+      "isOwned": false
+    },
+    {
+      "text": "善い",
+      "isOwned": false
+    },
+    {
+      "text": "よい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 196,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [
+        "よし"
+      ],
+      "yieldToSurface": [
+        "よく"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "いい"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "good/excellent/fine/nice/pleasant/agreeable | sufficient/enough/ready/prepared | profitable-(deal,-business-offer,-etc.)/beneficial | OK/all-right/fine/no-problem",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5171b830-aa1e-43f9-bea1-34ff0f02eb20",
+  "tags": [
+    "-::vocab::matching::uses::surface-is-not",
+    "source::yomitan"
+  ]
+}

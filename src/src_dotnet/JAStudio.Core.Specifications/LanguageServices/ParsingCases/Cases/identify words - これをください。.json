@@ -1,0 +1,30 @@
+{
+  "sentence": "これをください。",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: これ | を | ください | くださる | い.",
+  "parsedWords": [
+    {"form":"これ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"これ","vocabId":"e9f9b41a-6a88-489e-8528-a119fe90f003"},
+    {"form":"を","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"ください","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"ください","vocabId":"20a90303-9b42-4d4e-81a8-278b61da9d11"},
+    {"form":"くださる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"くださる","vocabId":"ba1ea3ad-3901-4877-9059-9744180d47fb"},
+    {"form":"い","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"これ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"これ","vocabId":"e9f9b41a-6a88-489e-8528-a119fe90f003"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"ください","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ください","vocabId":"20a90303-9b42-4d4e-81a8-278b61da9d11"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"これ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"これ","vocabId":"e9f9b41a-6a88-489e-8528-a119fe90f003"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"くださる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"くださる","vocabId":"ba1ea3ad-3901-4877-9059-9744180d47fb"},
+        {"form":"い","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+      ]
+    }
+  ]
+}

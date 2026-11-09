@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "です",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>formal:<ja>だ:</ja></tag> <tag>{copula}</tag>/_-{is/are}-_ | <tag>adjective-:{formality-marker}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "です"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_です_です_2023-08-19-13-19-16.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 6048,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [
+        "でしょう"
+      ],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "be/is",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a",
+  "tags": [
+    "-::vocab::matching::uses::surface-is-not",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

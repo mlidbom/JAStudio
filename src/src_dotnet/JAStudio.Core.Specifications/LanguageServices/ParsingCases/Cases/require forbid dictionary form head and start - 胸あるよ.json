@@ -1,0 +1,22 @@
+{
+  "sentence": "胸あるよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: 胸 | ある | う | よ.",
+  "parsedWords": [
+    {"form":"胸","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"胸","vocabId":"af13f810-cd27-4391-b562-8439f86040eb"},
+    {"form":"ある","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"ある","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"う","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"よ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"胸","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"胸","vocabId":"af13f810-cd27-4391-b562-8439f86040eb"},
+        {"form":"ある","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+        {"form":"う","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"よ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "構う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: mind/be-concerned | be-{an-issue/a-problem} | interfere/meddle",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かまう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:構う_b.mp3]",
+  "audioG": "[sound:構う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かまう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 62,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{mind/care-about/be-concerned-about/have-a-regard-for} | to:{be-an-issue/matter/create-inconvenience} | to{?}{keep-company/care-for/look-after/entertain/pay-attention-to/spend-time-with} | to:{interfere-with/meddle-in} | to{}tease | to{}{banish/prohibit}",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>care</kanji> so the verb vocab version is <vocabulary>to care about</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: Do you care a lot about grammar? I don't care, unless it has to do with <reading>comma</reading>s (<ja>かま</ja>). Then I do flip out."
+  },
+  "id": "7c2ed934-3d92-4c84-8fa5-78ae6b59c37e",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::25"
+  ]
+}

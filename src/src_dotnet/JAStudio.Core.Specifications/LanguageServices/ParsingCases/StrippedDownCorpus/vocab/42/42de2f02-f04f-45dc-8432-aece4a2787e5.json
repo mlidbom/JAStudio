@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "あれたら",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{if/when}-_-{gets-_/is-_} | <tag>hon:</tag>if/when",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "あれる",
+      "たら"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "あれたら"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b66a2268cb871209f8c64c7b03cf33c168cd4e1c098373f4a3e1e6aa.mp3]",
+  "forms": [
+    {
+      "text": "れたら",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 21,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidan": "forbidden",
+      "irrealis": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "えたら"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "42de2f02-f04f-45dc-8432-aece4a2787e5",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+  ]
+}

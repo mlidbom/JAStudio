@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "おうと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "if/whether | !{even/no-matter}-if | \"I'll/let's\" | trying-to  | ....",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "おう",
+      "と"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おうと"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1362823e398723764628c9bf91e93f88a49de365cc005c137603352c.mp3]",
+  "forms": [
+    {
+      "text": "ようと",
+      "isOwned": false
+    },
+    {
+      "text": "うと",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 265,
+  "technicalNotes": "",
+  "references": "<a href=\"https://youtu.be/IE7WgIOOGbM?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=129\">Cure dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "way, like, kind SOURCE",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e3ccb231-ba95-4a18-b693-85b2fe7593bc",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+  ]
+}

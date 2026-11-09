@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "母",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "mother",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はは"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:母_b.mp3]",
+  "audioG": "[sound:母_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 155,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "mother",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. This is the polite and humble form of <vocabulary>mother</vocabulary>. You use this when you're talking about your own mother to other people, especially if you aren't very close to them.",
+    "readingMnemonic": "The reading is the kun'yomi reading, but this is the reading you learned with the kanji. Just remember, your <vocabulary>mother</vocabulary> is a terrible person and won't stop laughing at you: \"<reading>HA HA</reading> HA HA HA!\""
+  },
+  "id": "eda0ad0b-a495-412e-9040-b92f9c176086",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::03"
+  ]
+}

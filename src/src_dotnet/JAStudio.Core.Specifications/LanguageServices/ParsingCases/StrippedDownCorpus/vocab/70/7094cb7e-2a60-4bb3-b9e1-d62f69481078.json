@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "ところがある",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{there's}-{a}-{place/moment/situation} | {has}-{a}-{part/aspect/side}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ところ",
+      "がある"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ところがある"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c6a09cef37146ddd0a41fe53617c4f95379dc97b3296a8b8ca4bf8fd.mp3]",
+  "forms": [
+    {
+      "text": "所がある",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 19,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "とこある"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7094cb7e-2a60-4bb3-b9e1-d62f69481078",
+  "tags": []
+}

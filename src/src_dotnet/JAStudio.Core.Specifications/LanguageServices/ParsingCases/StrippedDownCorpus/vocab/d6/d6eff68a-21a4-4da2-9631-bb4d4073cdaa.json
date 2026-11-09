@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "あいつ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>derog:</tag>he/she/that-guy | that/that-one/that-thing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あいつ"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:KoenoKatachi_1_0.22.28.163-0.22.29.539.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "彼奴",
+      "isOwned": false
+    },
+    {
+      "text": "きゃつ",
+      "isOwned": false
+    },
+    {
+      "text": "あやつ",
+      "isOwned": true
+    },
+    {
+      "text": "かやつ",
+      "isOwned": false
+    },
+    {
+      "text": "アイツ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 226,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "he/she/that-guy",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d6eff68a-21a4-4da2-9631-bb4d4073cdaa",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

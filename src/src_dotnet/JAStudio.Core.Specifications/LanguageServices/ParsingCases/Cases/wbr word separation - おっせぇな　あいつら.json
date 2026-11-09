@@ -1,0 +1,32 @@
+{
+  "sentence": "おっせぇ<wbr>な　あいつら",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.WbrWordSeparation, against vocab copied by hand, expected the breakdown to display: おる | せ | ぇ:[MISSING]:emergency | な:s.end | あいつら.",
+  "parsedWords": [
+    {"form":"おっせぇ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"おっせぇ","vocabId":"29a62cb1-f1db-49f8-b8f1-248a021b361d"},
+    {"form":"おる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"おる","vocabId":"f90b22a5-4cca-4869-b00a-2bdd80d58ce7"},
+    {"form":"せ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"せ","vocabId":"5d3f6d0f-9991-47ec-a38d-08b046b6a221"},
+    {"form":"な","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"あいつら","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"あいつら","vocabId":"c7f635cb-83e0-4f82-8cd0-58f29f12974c"},
+    {"form":"あいつ","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"あいつ","vocabId":"d6eff68a-21a4-4da2-9631-bb4d4073cdaa"},
+    {"form":"ら","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"ら","vocabId":"81c03bc3-becb-4608-b45a-6524e94e19d5"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"おっせぇ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おっせぇ","vocabId":"29a62cb1-f1db-49f8-b8f1-248a021b361d"},
+        {"form":"な","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"あいつら","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あいつら","vocabId":"c7f635cb-83e0-4f82-8cd0-58f29f12974c"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"おっせぇ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おっせぇ","vocabId":"29a62cb1-f1db-49f8-b8f1-248a021b361d"},
+        {"form":"な","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"あいつ","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あいつ","vocabId":"d6eff68a-21a4-4da2-9631-bb4d4073cdaa"},
+        {"form":"ら","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ら","vocabId":"81c03bc3-becb-4608-b45a-6524e94e19d5"}
+      ]
+    }
+  ]
+}

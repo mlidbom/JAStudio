@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "こもる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: seclude-oneself/hide-away | be-{filled-with | heavy-with} ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "こもる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-594766d578ddc98e8f5af3dbbf118040c17d0b5e3817f792703536d1.mp3]",
+  "forms": [
+    {
+      "text": "籠る",
+      "isOwned": false
+    },
+    {
+      "text": "篭もる",
+      "isOwned": false
+    },
+    {
+      "text": "隠る",
+      "isOwned": false
+    },
+    {
+      "text": "篭る",
+      "isOwned": false
+    },
+    {
+      "text": "籠もる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 45,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {shut-oneself-in-(e.g.-one's-room)/be-confined-in/seclude-oneself/hide-away/stay-inside-(one's-shell)} | be-filled-with-(emotion,-enthusiasm,-etc.) | {fill-the-room-(of-a-gas,-smell,-etc.)/be-heavy-with-(e.g.-smoke)/be-stuffy/be-dense} | be-muffled-(e.g.-voice) | hold-(a-castle,-fortress,-etc.) | confine-oneself-in-a-temple-to-pray",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "452a142e-7896-4089-8846-3feebd0b9912",
+  "tags": []
+}

@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "んでも",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no-matter-_/even-if/no-matter-if",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "んでも"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-83ef285a6f2c432bba7d0663b6c482a002cd3832aa47a406be0a6b29.mp3]",
+  "forms": [
+    {
+      "text": "でも",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 17,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ても"
+    ],
+    "synonyms": [
+      "いでも",
+      "ても"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "fe802244-8ff4-492d-ae4e-e00e566101b9",
+  "tags": []
+}

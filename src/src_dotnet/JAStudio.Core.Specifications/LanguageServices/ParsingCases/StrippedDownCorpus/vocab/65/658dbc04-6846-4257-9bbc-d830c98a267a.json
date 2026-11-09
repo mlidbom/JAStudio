@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "ろ",
+    "disambiguation": "imperative"
+  },
+  "corpusAnswer": "_!/do-_!/<tag>{ichidan-imperative}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ろ"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [
+    "roughMasculine"
+  ],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-b5ae3cf2d2e6c97c99bc36cca8aaf433d0c8a8be8259ed4b90079d4a.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 366,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidanImperative": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "え:imperative",
+      "よ:imperative"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "いろ"
+    ]
+  },
+  "sourceData": {
+    "answer": "six | right?/isn't-it?",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "658dbc04-6846-4257-9bbc-d830c98a267a",
+  "tags": []
+}

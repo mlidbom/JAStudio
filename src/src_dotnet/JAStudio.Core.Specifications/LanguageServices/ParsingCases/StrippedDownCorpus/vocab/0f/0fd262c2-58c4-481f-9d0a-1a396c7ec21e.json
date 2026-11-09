@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "ても",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no-matter-_/even-if/no-matter-if",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "も"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ても"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ても_ても_2023-08-20-19-14-16.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "っても",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 504,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "んでも"
+    ],
+    "synonyms": [
+      "いでも",
+      "でも",
+      "んでも"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "even-if/even-though | wow",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0fd262c2-58c4-481f-9d0a-1a396c7ec21e",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

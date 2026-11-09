@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "までに",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{by/before}-the-{start|end}-of",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "までに"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-15-20-46-45-998.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "迄に",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 66,
+  "technicalNotes": "",
+  "references": "<a href=\"https://hinative.com/questions/26047185\">HiNative</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "by/not-later-than/before",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "88fcda10-0370-4aa8-abb9-ef6a614c52c0",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

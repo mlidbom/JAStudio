@@ -1,0 +1,18 @@
+{
+  "sentence": "する",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: する | る:う.",
+  "parsedWords": [
+    {"form":"する","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"する","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"う","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"する","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"う","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

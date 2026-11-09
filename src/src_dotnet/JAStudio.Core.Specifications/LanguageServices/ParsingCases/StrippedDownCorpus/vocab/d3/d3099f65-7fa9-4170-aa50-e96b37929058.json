@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "大い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "greater-(of-equal-court-ranks)/upper/senior | a-great-deal/very-much",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おおい"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "大",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "greater-(of-equal-court-ranks)/upper/senior | a-great-deal/very-much",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d3099f65-7fa9-4170-aa50-e96b37929058",
+  "tags": []
+}

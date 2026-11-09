@@ -1,0 +1,20 @@
+{
+  "sentence": "和むし",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: 和む | う | し.",
+  "parsedWords": [
+    {"form":"和む","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"和む","vocabId":"cb0fc41e-b0aa-4150-82e1-db4f7e65292d"},
+    {"form":"和む","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"和む","vocabId":"cb0fc41e-b0aa-4150-82e1-db4f7e65292d"},
+    {"form":"う","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"し","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"し","vocabId":"76937626-91c7-461e-b1f2-db3e4b100285"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"和む","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"和む","vocabId":"cb0fc41e-b0aa-4150-82e1-db4f7e65292d"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"し","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"し","vocabId":"76937626-91c7-461e-b1f2-db3e4b100285"}
+      ]
+    }
+  ]
+}

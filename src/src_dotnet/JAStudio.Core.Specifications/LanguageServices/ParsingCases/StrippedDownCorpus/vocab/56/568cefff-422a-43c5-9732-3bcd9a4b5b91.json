@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "行った",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "went/left | turned-out/went",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "行く",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いいた"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-83f8a8df565c70e18b8da1ae53fabe0bc04dcf8174a2ddd7ff044a17.mp3]",
+  "forms": [
+    {
+      "text": "いった",
+      "isOwned": false
+    },
+    {
+      "text": "往った",
+      "isOwned": false
+    },
+    {
+      "text": "逝った",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 137,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "568cefff-422a-43c5-9732-3bcd9a4b5b91",
+  "tags": []
+}

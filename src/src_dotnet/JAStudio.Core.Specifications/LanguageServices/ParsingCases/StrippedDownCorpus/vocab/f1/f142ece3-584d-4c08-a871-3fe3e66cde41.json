@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "着く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "arrive-at | sit-on/sit-at | to: <tag>(<ja>付く</ja>: to-be:attached/connected)</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:着く_b.mp3]",
+  "audioG": "[sound:着く_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つく",
+      "isOwned": false
+    },
+    {
+      "text": "付く",
+      "isOwned": false
+    },
+    {
+      "text": "点く",
+      "isOwned": false
+    },
+    {
+      "text": "就く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 44,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"海外旅行で国際線は何時間前に空港に着くべき？空港での過ごし方や注意点も紹介｜みんなでつくる！暮らしのマネーメディア みんなのマネ活\" src=\"ogp.webp\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [
+      "書く"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: arrive-at/reach | sit-on/sit-at-(e.g.-the-table)",
+    "mnemonic": "This word is tough, because there's another word in this level (<ja>着る</ja>) that means \"to wear\" that is so similar. This word, however, means <vocabulary>to arrive</vocabulary>. You should have seen that meaning with the kanji <ja>着</ja> as well, so I hope that helps. To differentiate between this and <ja>着る</ja>, though, zoom in on the <ja>く</ja>. You want to be <reading>coo</reading>l (<ja>く</ja>) so you arrive to the party late.",
+    "readingMnemonic": "This uses a different kun'yomi reading than the one you just learned (sorry). To help you, think about this:\n\nYou wanted <vocabulary>to arrive</vocabulary> on time but you showed up late. How late were you? <reading>Two</reading> (<ja>つ</ja>) hours and two minutes late, to be exact."
+  },
+  "id": "f142ece3-584d-4c08-a871-3fe3e66cde41",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::13"
+  ]
+}

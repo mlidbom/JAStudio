@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "ください",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "please",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "くださる",
+      "い:imperative"
+    ],
+    "alternative": [
+      "下さい"
+    ]
+  },
+  "readings": [
+    "ください"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:下さい_b.mp3]",
+  "audioG": "[sound:下さい_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "下さい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 599,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "くださる"
+    ]
+  },
+  "sourceData": {
+    "answer": "please-(give-me) | please-(do-for-me)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "20a90303-9b42-4d4e-81a8-278b61da9d11",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::01"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "sentence": "返せ俺の",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 返す | え | 俺 | の.",
+  "parsedWords": [
+    {"form":"返す","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"返す","vocabId":"6aa51efa-95a2-4d34-8c16-7debb4ceeec5"},
+    {"form":"え","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"俺の","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"俺の","vocabId":"ddd52137-e0df-4ef5-94fa-7cf7733e1617"},
+    {"form":"俺","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+    {"form":"の","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"返す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"返す","vocabId":"6aa51efa-95a2-4d34-8c16-7debb4ceeec5"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"俺の","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺の","vocabId":"ddd52137-e0df-4ef5-94fa-7cf7733e1617"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"返す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"返す","vocabId":"6aa51efa-95a2-4d34-8c16-7debb4ceeec5"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"俺","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"の","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+      ]
+    }
+  ]
+}

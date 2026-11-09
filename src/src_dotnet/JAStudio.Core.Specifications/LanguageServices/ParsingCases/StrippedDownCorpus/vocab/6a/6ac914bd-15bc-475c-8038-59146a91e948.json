@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "その",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>near-listener:</tag>that/the | um/er/uh | <ja>それの</ja>/its/your/their | part-{one|two..}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "その"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_その_その_2023-07-19-03-58-06.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "そん",
+      "isOwned": false
+    },
+    {
+      "text": "其の",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1248,
+  "technicalNotes": "",
+  "references": "\nCure Dolly: <a href=\"https://youtu.be/UCmnwgCc54A?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=475\">その for possesion etc</a> |&nbsp;<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "そこ",
+      "それ"
+    ]
+  },
+  "sourceData": {
+    "answer": "that/the | part-(as-in-\"part-two\") | um-.../er-.../uh-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6ac914bd-15bc-475c-8038-59146a91e948",
+  "tags": [
+    "-::directional",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "なくなる",
+    "disambiguation": "irrealis"
+  },
+  "corpusAnswer": "<tag>{activity/state-change}-verb: </tag> to: stop-_-ing\n<tag>state-verb: </tag> to: stop-being-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない:irrealis",
+      "くなる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なくなる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-5ab83ddceb4d87de0711924b766f2591bf53cc0612f7c69efdc43860.mp3]",
+  "forms": [],
+  "sentenceCount": 135,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "irrealis": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: be-{lost-(e.g.-luggage)/missing} | {be-used-up/be-run-out/be-exhausted/be-consumed/be-reduced-to-zero/not-occur-any-more} | {disappear-(e.g.-pain)/be-lost-(e.g.-a-dream,-confidence)}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "50a74d8f-cfa8-4311-a586-238e3c6a717d",
+  "tags": []
+}

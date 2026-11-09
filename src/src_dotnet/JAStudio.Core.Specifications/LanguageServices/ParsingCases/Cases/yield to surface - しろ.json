@@ -1,0 +1,24 @@
+{
+  "sentence": "しろ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.YieldToSurface, against vocab copied by hand, expected the breakdown to display: しろ.",
+  "parsedWords": [
+    {"form":"しろ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"しろ","vocabId":"870193f8-24ff-475f-ac5a-c9e54cc60e05"},
+    {"form":"する","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"ろ","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"ろ","vocabId":"658dbc04-6846-4257-9bbc-d830c98a267a"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"しろ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"しろ","vocabId":"870193f8-24ff-475f-ac5a-c9e54cc60e05"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"する","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"ろ","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ろ","vocabId":"658dbc04-6846-4257-9bbc-d830c98a267a"}
+      ]
+    }
+  ]
+}

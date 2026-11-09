@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "お前も",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>fam:masc:</tag>you-{also/too}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "お前",
+      "も"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おまえも"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-4ef6f138351fb8c67761bb1a0d07df7bc56df2fd901144b585776827.mp3]",
+  "forms": [
+    {
+      "text": "御前も",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 56,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1970f0f3-da62-42ab-a7d4-b223db261c4f",
+  "tags": []
+}

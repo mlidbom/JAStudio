@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "無理する",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {force/push/overwork}-oneself/try-to-hard/be-reckless/overdo-it",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "無理",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "むりする"
+  ],
+  "partsOfSpeech": [
+    "intransitive",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-a958dcd604bf7dfe53465f78b6e37a022a486c67b0a97393c49c420c.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "無理をする",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 16,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "無茶する"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "If you can do <kanji>nothing</kanji> within <kanji>reason</kanji>, then what you're trying to do is <vocabulary>unreasonable</vocabulary> and probably downright <vocabulary>impossible</vocabulary>. If you still try, you're probably just <vocabulary>overdoing</vocabulary> it.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. As long as you know the readings for these kanji, you should be able to read this word just fine."
+  },
+  "id": "cbccc3fa-4b73-4899-8823-cf3ce6e8bd96",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::17"
+  ]
+}

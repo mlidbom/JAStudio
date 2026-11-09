@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "甘い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "sweet/sugary(food/smell/music) | not-spicy | naive/soft-on | half-hearted | insufficient | mild | tempting",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あまい"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:甘い_b.mp3]",
+  "audioG": "[sound:甘い_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 58,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "sweet-tasting/sweet/sugary/sugared | fragrant-(smelling)/sweet-(music) | lightly-salted/light-in-salt/not-spicy | naive/overly-optimistic/soft-on/generous/indulgent/easy-going/lenient | half-hearted/not-finished-properly | insufficient/not-satisfactory/inadequate/loose | mild | tempting/enticing/luring",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>sweet</kanji>? It's <vocabulary>sweet</vocabulary>.",
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+  },
+  "id": "1bb9641b-d218-454c-832c-38e6a91b7af7",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::36"
+  ]
+}

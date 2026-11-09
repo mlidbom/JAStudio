@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "かと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag> {I}: thought/think | {was/am}-{thinking/considering | wondering/worrying}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "か",
+      "と"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かと"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-e1df04ad3fed0807bb5f9b6a27dd94d56ddb6985ee97f0d291da61c3.mp3]",
+  "forms": [],
+  "sentenceCount": 20,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5478c9a5-1754-483b-a07c-70cd710b2ccf",
+  "tags": []
+}

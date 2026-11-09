@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "焼ける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be-{roasted/thoroughly-cooked | sunburnt} | burn-(down) | glow-red(sky) ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "やける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:焼ける_b.mp3]",
+  "audioG": "[sound:焼ける_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "妬ける",
+      "isOwned": false
+    },
+    {
+      "text": "灼ける",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 22,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"🆚What is the difference between &quot;焦げる&quot; and &quot;焼ける&quot; ? &quot;焦げる&quot; vs &quot;焼ける&quot; ? |  HiNative\" src=\"large._\"><img src=\"paste-cf0d3101ae7e28d5c794677a27b6d14aed0ee3e6.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "焼く",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {burn/be-roasted/be-heated/be-sunburnt/fade-(in-the-sun)/glow-red-(i.e.-of-the-sky-at-sunset)} | be-{jealous/envious}",
+    "mnemonic": "You know how <ja>焼く</ja> is <vocabulary>to cook</vocabulary>? Well, <ja>焼ける</ja> is <vocabulary>to be cooked</vocabulary>. This is when you're not doing the actual cooking, and the cooking is just happening. Can also refer to when something burns, making it <vocabulary>to burn</vocabulary> as well.",
+    "readingMnemonic": "The reading is the same as <ja>焼く</ja>, so just use that knowledge and apply it here to be able to read this too."
+  },
+  "id": "bd284189-f904-418e-8698-3d8e0775d05d",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::20"
+  ]
+}

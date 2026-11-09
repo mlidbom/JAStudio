@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "買い替える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} buy-a-replacement/replace-by-buying-something-new",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "買う",
+      "替える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かいかえる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-928afe61a45b171358067ca756a1545d3f7f5b2ca653c3fe7b509dd7.mp3]",
+  "forms": [
+    {
+      "text": "買いかえる",
+      "isOwned": false
+    },
+    {
+      "text": "買い換える",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isCompositionallyTransparentCompound"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} buy-a-replacement/replace-by-buying-something-new",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9fdb8682-52eb-4bc6-a705-f557dcab16dc",
+  "tags": [
+    "source::jamdict"
+  ]
+}

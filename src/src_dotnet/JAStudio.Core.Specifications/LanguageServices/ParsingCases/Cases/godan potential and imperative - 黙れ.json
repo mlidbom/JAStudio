@@ -1,0 +1,24 @@
+{
+  "sentence": "黙れ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 黙る | え.",
+  "parsedWords": [
+    {"form":"黙れ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"黙れ","vocabId":"f162db2e-13e3-4e22-9994-7ad5be6df7e7"},
+    {"form":"黙る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"黙る","vocabId":"145c71b8-b3fe-4128-a9b0-f024b3d83711"},
+    {"form":"え","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"黙れ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"黙れ","vocabId":"f162db2e-13e3-4e22-9994-7ad5be6df7e7"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"黙る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"黙る","vocabId":"145c71b8-b3fe-4128-a9b0-f024b3d83711"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+      ]
+    }
+  ]
+}

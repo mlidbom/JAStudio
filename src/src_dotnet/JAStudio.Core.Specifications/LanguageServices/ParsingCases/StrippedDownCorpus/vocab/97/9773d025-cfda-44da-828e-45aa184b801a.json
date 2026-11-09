@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "うことで",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{by/by-means-of/through | because-of/as-a-result-of}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "う:non-past",
+      "ことで"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "うことで"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-7425637b2d04b67a4a47dec6d27e9f5551ce12f58bc2ae1d45bdf185.mp3]",
+  "forms": [],
+  "sentenceCount": 30,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [
+        "は"
+      ],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9773d025-cfda-44da-828e-45aa184b801a",
+  "tags": [
+    "-::vocab::matching::uses::suffix-is-not"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "見えない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "can't-see | not-visible | doesn't-seem | can't-{come/see}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "見える",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "みえない"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-e439c9bc451365f061ddba432fd99c96212a6d67cb4b1d075b8f745f.mp3]",
+  "forms": [
+    {
+      "text": "みえない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 107,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "74503724-c033-4378-b939-30894c81688a",
+  "tags": []
+}

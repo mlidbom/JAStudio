@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "想う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} think/reckon/believe/consider <tag>(heartfelt)</tag>  | consider-doing | feel ...",
+  "explanation": "more literary and poetic than <ja>思う</ja>, often used to express deeper or more emotional thoughts, dreams, or imaginations. \ncan carry a more romantic or idealized connotation.",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おもう"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_おもう_想う_2023-05-23-06-45-38.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "惟う",
+      "isOwned": false
+    },
+    {
+      "text": "念う",
+      "isOwned": false
+    },
+    {
+      "text": "懐う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} think/consider/believe/reckon | think-(of-doing)/plan-(to-do) | judge/assess/regard | imagine/suppose/dream | expect/look-forward-to | feel/be-(in-a-state-of-mind)/desire/want | recall/remember",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "56ea6cb4-ad0c-4d7f-9f5f-28d05f59d4e6",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

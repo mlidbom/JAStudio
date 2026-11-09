@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "鈍い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "dull/blunt | thickheaded/obtuse/stupid | dull/dim | slow/sluggish | insensitive/dull/unperceptive",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "にぶい",
+    "のろい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_6972_にぶい_male.mp3][sound:Wani_6972_のろい_male.mp3]",
+  "audioG": "[sound:Wani_6972_にぶい_female.mp3][sound:Wani_6972_のろい_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "にぶい",
+      "isOwned": false
+    },
+    {
+      "text": "のろい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>にぶい</read>:: dull-(e.g.-a-knife)/blunt | thickheaded/obtuse/stupid | dull-(sound,-color,-etc.)/dim-(light) | slow/sluggish/inert/lethargic | insensitive/dull-(e.g.-reflexes)/unperceptive/unfeeling\n<read>のろい</read>:: thickheaded/obtuse/stupid | slow/sluggish/inert/lethargic | indulgent-(esp.-to-the-opposite-sex)/doting",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>dull</kanji>? It's <vocabulary>dull</vocabulary>.",
+    "readingMnemonic": "To remember the reading, think about how when you're i<reading>neb</reading>riated (<ja>にぶ</ja>) you need to use a <vocabulary>dull</vocabulary> knife. The <ja>にぶい</ja> reading talks about a thing that is dull. For <ja>のろい</ja>, which refers to a dull mind (someone who's <vocabulary>thickheaded</vocabulary>). Think about a <reading>Nor</reading>se (<ja>のろ</ja>) God, the God of dullbrains."
+  },
+  "id": "a0ae23b5-c5ce-4140-afb2-f831d128cf55",
+  "tags": [
+    "source::wani::level::46"
+  ]
+}

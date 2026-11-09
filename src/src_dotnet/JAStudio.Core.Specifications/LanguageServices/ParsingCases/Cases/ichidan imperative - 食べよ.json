@@ -1,0 +1,17 @@
+{
+  "sentence": "食べよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 食べる | よ.",
+  "parsedWords": [
+    {"form":"食べる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"よ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"e268ce3b-95c7-4860-ae31-9693be3dc7ab"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"食べる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"e268ce3b-95c7-4860-ae31-9693be3dc7ab"}
+      ]
+    }
+  ]
+}

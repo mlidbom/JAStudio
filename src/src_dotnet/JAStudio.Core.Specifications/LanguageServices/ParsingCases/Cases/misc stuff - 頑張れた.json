@@ -1,0 +1,27 @@
+{
+  "sentence": "頑張れた",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 頑張る | える | た.",
+  "parsedWords": [
+    {"form":"頑張る","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"頑張る","vocabId":"5212db74-683a-4741-9142-0a31a89aa8c9"},
+    {"form":"えた","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"えた","vocabId":"c9623937-08d2-4d66-ac36-75c158d83958"},
+    {"form":"える","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"た","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"頑張る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"頑張る","vocabId":"5212db74-683a-4741-9142-0a31a89aa8c9"},
+        {"form":"えた","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えた","vocabId":"c9623937-08d2-4d66-ac36-75c158d83958"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"頑張る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"頑張る","vocabId":"5212db74-683a-4741-9142-0a31a89aa8c9"},
+        {"form":"える","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"た","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

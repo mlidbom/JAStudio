@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "買う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} buy",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:買う_b.mp3]",
+  "audioG": "[sound:買う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 332,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} buy/purchase | value/have-a-high-opinion | stir/provoke/draw-upon-oneself",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>buy</kanji> so the verb form is <vocabulary>to buy</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. If you remember your kanji readings, you'll be just fine."
+  },
+  "id": "85720a95-cbec-4e39-86b7-4d1a11b1c002",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

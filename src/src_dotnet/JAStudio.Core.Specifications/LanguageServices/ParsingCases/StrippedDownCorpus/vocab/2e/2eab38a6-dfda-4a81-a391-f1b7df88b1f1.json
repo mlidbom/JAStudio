@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "うとは",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>usu:incredulity/questioning</tag> {to-think-that}-_-{did/would-do}-_ | {about/regarding}-{when/if}-_-s",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "うと",
+      "は",
+      "う:non-past",
+      "とは"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "うとは"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-7fdb647b4c1f38ccc09c6be42254e619f4111ec3efc9c2b46f66b65e.mp3]",
+  "forms": [],
+  "sentenceCount": 89,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2eab38a6-dfda-4a81-a391-f1b7df88b1f1",
+  "tags": []
+}

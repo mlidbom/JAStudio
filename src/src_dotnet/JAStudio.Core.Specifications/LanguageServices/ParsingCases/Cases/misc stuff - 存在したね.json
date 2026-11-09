@@ -1,0 +1,48 @@
+{
+  "sentence": "存在したね",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 存在 | する | た | ね.",
+  "parsedWords": [
+    {"form":"存在する","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"存在する","vocabId":"c71a1e79-2136-485d-8cba-ee928d456065"},
+    {"form":"存在","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"存在","vocabId":"b400316c-0370-43a6-92eb-bb94670845fc"},
+    {"form":"した","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"した","vocabId":"06654a9a-6a26-498f-968a-a4d7d254cfea"},
+    {"form":"する","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"た","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"ね","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"存在する","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"存在する","vocabId":"c71a1e79-2136-485d-8cba-ee928d456065"},
+        {"form":"た","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"ね","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"存在","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"存在","vocabId":"b400316c-0370-43a6-92eb-bb94670845fc"},
+        {"form":"した","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"した","vocabId":"06654a9a-6a26-498f-968a-a4d7d254cfea"},
+        {"form":"ね","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"存在","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"存在","vocabId":"b400316c-0370-43a6-92eb-bb94670845fc"},
+        {"form":"する","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"た","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"ね","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"存在","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"存在","vocabId":"b400316c-0370-43a6-92eb-bb94670845fc"},
+        {"form":"する","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"た","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"ね","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    }
+  ]
+}

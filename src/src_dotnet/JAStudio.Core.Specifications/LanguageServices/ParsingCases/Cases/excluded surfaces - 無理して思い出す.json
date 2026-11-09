@@ -1,0 +1,54 @@
+{
+  "sentence": "無理して思い出す",
+  "why": "Converted from TextAnalysisWithSelectDataTests.ExcludedSurfaces, against vocab copied by hand, expected the forms of the parsing result, in that order: 無理 | して | する | て | 思い出す | 思い出す | う.",
+  "parsedWords": [
+    {"form":"無理する","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"無理する","vocabId":"cbccc3fa-4b73-4899-8823-cf3ce6e8bd96"},
+    {"form":"無理","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"無理","vocabId":"2bbe4ef8-2693-4a23-ac96-7e31ce47bce6"},
+    {"form":"して","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"して","vocabId":"50c8f12a-9c6a-456b-b8c0-306887458d32"},
+    {"form":"する","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"て","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"思い出す","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+    {"form":"思い出す","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+    {"form":"う","startIndex":7,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"無理する","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"無理する","vocabId":"cbccc3fa-4b73-4899-8823-cf3ce6e8bd96"},
+        {"form":"て","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"思い出す","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+        {"form":"う","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"無理","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"無理","vocabId":"2bbe4ef8-2693-4a23-ac96-7e31ce47bce6"},
+        {"form":"して","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"して","vocabId":"50c8f12a-9c6a-456b-b8c0-306887458d32"},
+        {"form":"思い出す","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+        {"form":"う","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"無理","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"無理","vocabId":"2bbe4ef8-2693-4a23-ac96-7e31ce47bce6"},
+        {"form":"する","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"て","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"思い出す","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+        {"form":"う","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"無理","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"無理","vocabId":"2bbe4ef8-2693-4a23-ac96-7e31ce47bce6"},
+        {"form":"する","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"て","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"思い出す","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思い出す","vocabId":"e3ca5ec2-1a33-4a05-9cb6-2d589690271f"},
+        {"form":"う","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

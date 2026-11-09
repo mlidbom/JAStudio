@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "一人で",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "alone/by-oneself/on-one's-own",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "一人",
+      "で"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ひとりで"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:ef06f6c5f5a6d947dde0767f4bc8e0fa.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "独りで",
+      "isOwned": false
+    },
+    {
+      "text": "１人で",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 116,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"2b40ae17acbfc70c862c8427cc84aa4c.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "alone/by-oneself/on-one's-own",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ce29cc68-c5ee-48e3-8a15-8fba75c6fe48",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step10"
+  ]
+}

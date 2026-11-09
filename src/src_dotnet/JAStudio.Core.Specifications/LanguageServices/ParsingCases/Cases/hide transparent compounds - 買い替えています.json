@@ -1,0 +1,31 @@
+{
+  "sentence": "買い替えています",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HideTransparentCompounds, against vocab copied by hand, expected the breakdown to display: 買い替える | ている | ます.",
+  "parsedWords": [
+    {"form":"買い替える","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"買い替える","vocabId":"9fdb8682-52eb-4bc6-a705-f557dcab16dc"},
+    {"form":"ています","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"ています","vocabId":"cdeffc4d-c37f-46b9-bc76-98853c1b7fed"},
+    {"form":"ている","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+    {"form":"て","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"います","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"います","vocabId":"1e46b86d-3c4d-42d6-8fcc-393a71c4edba"},
+    {"form":"いる","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"ます","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"買い替える","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"買い替える","vocabId":"9fdb8682-52eb-4bc6-a705-f557dcab16dc"},
+        {"form":"ています","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ています","vocabId":"cdeffc4d-c37f-46b9-bc76-98853c1b7fed"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"買い替える","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"買い替える","vocabId":"9fdb8682-52eb-4bc6-a705-f557dcab16dc"},
+        {"form":"て","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"ます","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+      ]
+    }
+  ]
+}

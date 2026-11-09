@@ -1,0 +1,125 @@
+{
+  "question": {
+    "text": "いでいる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag>{is}-_-ing | _-s-{habitually/recurringly}\n<tag>state-change-verb:</tag> {is/has}-_-{ed} | _-s-{habitually/recurringly}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いで",
+      "いる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いでいる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-720374edffd414d6aa1772b32d13a81831865e311d856a4608f6857f.mp3]",
+  "forms": [
+    {
+      "text": "でいる",
+      "isOwned": false
+    },
+    {
+      "text": "あいでいる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 18,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [
+        "ない"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "い"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "ておる",
+      "てます",
+      "てる",
+      "とる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる",
+      "んどる"
+    ],
+    "synonyms": [
+      "いでおる",
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "でおります",
+      "ておる",
+      "でおる",
+      "てます",
+      "てる",
+      "でる",
+      "てん",
+      "とる",
+      "どる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる",
+      "んどる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "る"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a7c08407-8f16-4254-b6fe-44b905ace170",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

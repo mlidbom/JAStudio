@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "隠れる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: hide/conceal-oneself/take-cover | be-hidden/go-out-of-sight",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かくれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:隠れる_b.mp3]",
+  "audioG": "[sound:隠れる_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "匿れる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 37,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"Are you Hiding or Hidden?. …and how to tell the difference | by Comfort  Kehinde Egbanubi | Medium\" src=\"1KjU8faHITH19vgpaLO2C0Q.jpeg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "隠す",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: hide/be-hidden/conceal-oneself/disappear",
+    "mnemonic": "<ja>隠す</ja> is \"to hide.\" <ja>隠れる</ja> is <vocabulary>to be hidden</vocabulary>. You know that this is the version where something is hidden (and you're not doing the hiding) because it is <reading>rare</reading> (<ja>れる</ja>) that you ever find something that has been hidden (not by you).",
+    "readingMnemonic": "The reading is the same as <ja>隠す</ja>. So as long as you know that you know this as well."
+  },
+  "id": "1feeb8d8-8411-4a0a-acdd-ad7af38c73d5",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::27"
+  ]
+}

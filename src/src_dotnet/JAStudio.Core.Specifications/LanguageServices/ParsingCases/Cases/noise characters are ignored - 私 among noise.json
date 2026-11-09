@@ -1,0 +1,15 @@
+{
+  "sentence": "私　. , : ; / | 。 、 ? ! ( ) ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.NoiseCharactersAreIgnored, against vocab copied by hand, expected the breakdown to display: 私.",
+  "parsedWords": [
+    {"form":"私","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"私","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "割る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} crack/break | divide(number) | split/cut",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "わる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:割る_b.mp3]",
+  "audioG": "[sound:割る_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 35,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "割れる",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} divide | cut/halve/separate/split/rip | break/crack/smash | dilute | fall-below | discount | step-over-(a-line,-etc.)",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>divide</kanji> so the verb vocab version is <vocabulary>to divide</vocabulary> or <vocabulary>to split something</vocabulary>.\n\nIt can also mean <vocabulary>to break something</vocabulary>, as in <ja>ワイングラスを割る</ja> (to break a wine glass). After all, you’re technically dividing the object into parts if you break it, right?",
+    "readingMnemonic": "The reading you learned with the kanji is the one you'll use here. It's the <ja>わ</ja> one, though, making it <ja>わる</ja>."
+  },
+  "id": "d444304b-3bea-457e-9434-e19b46f3d686",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::23"
+  ]
+}

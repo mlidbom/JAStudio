@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "お前",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>fam:masc:</tag>you",
+  "explanation": "has lost its sense of politeness\na good way to show anger\nsome use it in very casual situations to show affection",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "お",
+      "前"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おまえ"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:お前_b.mp3]",
+  "audioG": "[sound:お前_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "御前",
+      "isOwned": false
+    },
+    {
+      "text": "おまえ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1030,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "you | presence-(of-a-god,-nobleman,-etc.)",
+    "mnemonic": "The <ja>お</ja> is added to elevate someone in <kanji>front</kanji> of you. What do you call someone in front of you? That's right, <vocabulary>you</vocabulary>. Over time, this word has lost its sense of politeness, and nowadays it sounds very rough and often rude. This \"you\" is a good way to show anger, and some people also use it in very casual situations to show affection.",
+    "readingMnemonic": "The reading for <ja>前</ja> is the kun'yomi, like the reading for the vocabulary word <ja>前</ja>. So long as you know that word, you'll be able to read this one too. "
+  },
+  "id": "67939635-6104-4e54-bd01-fc15842730f8",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

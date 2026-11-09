@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "いいえ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no | you're-welcome/not-at-all/don't-mention-it",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いいえ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_5624_いいえ_male.mp3]<br>[sound:Wani_5624_いえ_male.mp3]",
+  "audioG": "[sound:Wani_5624_いいえ_female.mp3]<br>[sound:Wani_5624_いえ_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いえ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 161,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "no/nay | well/er/why | you're-welcome/not-at-all/don't-mention-it",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "bb8cf765-1f37-4854-9bc3-06f01792b526",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

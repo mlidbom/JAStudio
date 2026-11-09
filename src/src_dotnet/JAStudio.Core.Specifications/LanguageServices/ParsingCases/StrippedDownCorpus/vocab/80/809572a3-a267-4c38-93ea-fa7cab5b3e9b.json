@@ -1,0 +1,88 @@
+{
+  "question": {
+    "text": "ここ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "here/this-place | now/this-point | these-past/these-last | the-next/these-next",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ここ"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:cfb892a6d4515154c264d0d5c77b5f63-99718a4fc7b34626cb594fdcd424b62ca7a0d0a8.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "此所",
+      "isOwned": false
+    },
+    {
+      "text": "此処",
+      "isOwned": false
+    },
+    {
+      "text": "是",
+      "isOwned": false
+    },
+    {
+      "text": "茲",
+      "isOwned": false
+    },
+    {
+      "text": "爰",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 642,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "あそこ",
+      "この",
+      "これ",
+      "そこ"
+    ]
+  },
+  "sourceData": {
+    "answer": "here/this-place | this-point/here/now | these-past-...-(e.g.-three-years)/these-last-... | the-next-...-(e.g.-few-days)/these-next-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "809572a3-a267-4c38-93ea-fa7cab5b3e9b",
+  "tags": [
+    "-::directional",
+    "legacy_scheduling",
+    "source::core2000::step01"
+  ]
+}

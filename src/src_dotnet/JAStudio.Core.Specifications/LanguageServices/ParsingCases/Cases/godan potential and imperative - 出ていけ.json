@@ -1,0 +1,33 @@
+{
+  "sentence": "出ていけ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 出ていく | え.",
+  "parsedWords": [
+    {"form":"出ていく","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"出ていく","vocabId":"ca969fa9-98b6-4bc9-b932-f881397504b4"},
+    {"form":"出る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"出る","vocabId":"df3309e9-9da5-4674-83af-f3c162e6e202"},
+    {"form":"ていけ","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"てけ","vocabId":"22cf0e52-10e9-4f24-9e66-957ff2471397"},
+    {"form":"ていく","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"ていく","vocabId":"c623432f-ed9c-4274-a91a-7fd1e299bcbf"},
+    {"form":"て","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"いけ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"いけ","vocabId":"b9e4a63b-5c03-44cc-8088-7550869376d1"},
+    {"form":"いえ","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"いいえ","vocabId":"bb8cf765-1f37-4854-9bc3-06f01792b526"},
+    {"form":"いく","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"いく","vocabId":"f074ddfd-e9a5-4913-8b15-a93d8e19cdcd"},
+    {"form":"え","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"出ていく","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"出ていく","vocabId":"ca969fa9-98b6-4bc9-b932-f881397504b4"},
+        {"form":"え","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"出る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"出る","vocabId":"df3309e9-9da5-4674-83af-f3c162e6e202"},
+        {"form":"て","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いく","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"いく","vocabId":"f074ddfd-e9a5-4913-8b15-a93d8e19cdcd"},
+        {"form":"え","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+      ]
+    }
+  ]
+}

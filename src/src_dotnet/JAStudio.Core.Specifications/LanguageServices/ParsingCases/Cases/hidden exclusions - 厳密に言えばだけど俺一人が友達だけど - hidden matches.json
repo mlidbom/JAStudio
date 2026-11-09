@@ -1,0 +1,61 @@
+{
+  "sentence": "厳密に言えばだけど俺一人が友達だけど",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HiddenExclusions, against vocab copied by hand, with だけど:6 marked as hidden matches, expected the breakdown to display: 厳密に言えば | 俺 | 一人 | が | 友達 | だけど.",
+  "configuration": {
+    "highlightedWords": [],
+    "incorrectMatches": [],
+    "hiddenMatches": [
+      {
+        "word": "だけど",
+        "index": 6
+      }
+    ]
+  },
+  "parsedWords": [
+    {"form":"厳密に言えば","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"厳密に言えば","vocabId":"c04920e5-5189-4e75-9a55-4b9bdb21b33f"},
+    {"form":"厳密に","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"厳密に","vocabId":"0354930c-ee61-4a36-b98f-7d35d5ddea85"},
+    {"form":"厳密","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"厳密","vocabId":"7e0c7912-321a-481e-86c4-1163f604450e"},
+    {"form":"に","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"言う","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"えば","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"えば","vocabId":"0e6daa5b-6dea-44e4-b4d1-af1d6c360220"},
+    {"form":"だけど","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"だけど","vocabId":"efb594c0-b6dd-46a0-9a3b-265e53b1cfdc"},
+    {"form":"俺","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+    {"form":"一人","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"一人","vocabId":"f2ac7ac3-8c88-4bd7-883a-daae4c610173"},
+    {"form":"一","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"一","vocabId":"1986c655-ab32-49f8-907a-8a1948671dab"},
+    {"form":"人","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"人","vocabId":"7489fcaf-31a9-4fba-adf2-a9e76e46d803"},
+    {"form":"が","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"友達","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+    {"form":"だけど","startIndex":15,"variant":"surface","isDisplayed":true,"vocab":"だけど","vocabId":"efb594c0-b6dd-46a0-9a3b-265e53b1cfdc"},
+    {"form":"だ","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"けど","startIndex":16,"variant":"surface","isDisplayed":false,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"厳密に言えば","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"厳密に言えば","vocabId":"c04920e5-5189-4e75-9a55-4b9bdb21b33f"},
+        {"form":"俺","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"一人","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"一人","vocabId":"f2ac7ac3-8c88-4bd7-883a-daae4c610173"},
+        {"form":"が","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"友達","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+        {"form":"だけど","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だけど","vocabId":"efb594c0-b6dd-46a0-9a3b-265e53b1cfdc"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"厳密","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"厳密","vocabId":"7e0c7912-321a-481e-86c4-1163f604450e"},
+        {"form":"に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"言う","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"えば","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えば","vocabId":"0e6daa5b-6dea-44e4-b4d1-af1d6c360220"},
+        {"form":"俺","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"一","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"一","vocabId":"1986c655-ab32-49f8-907a-8a1948671dab"},
+        {"form":"人","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"人","vocabId":"7489fcaf-31a9-4fba-adf2-a9e76e46d803"},
+        {"form":"が","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"友達","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+        {"form":"だ","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"けど","startIndex":16,"variant":"surface","isEmergencyDisplayed":false,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "来い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "come!/come-on!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "来る",
+      "い:imperative"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "こい"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-bd6067708e45c193ba7e1fed7277bf050f6f9362401d099811024d97.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "こい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 47,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "come!/come-on!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "99f2e6f2-050a-4aac-925f-cd61826524e7",
+  "tags": [
+    "source::yomitan"
+  ]
+}

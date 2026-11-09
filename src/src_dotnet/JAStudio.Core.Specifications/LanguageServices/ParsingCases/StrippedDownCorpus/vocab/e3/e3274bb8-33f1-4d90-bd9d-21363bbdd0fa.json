@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "どう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "how/in-what-way | how-is-it/how-about",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "どう"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "interjection",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_どう_どう_2023-07-20-06-20-29.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ド",
+      "isOwned": false
+    },
+    {
+      "text": "ど",
+      "isOwned": false
+    },
+    {
+      "text": "如何",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 863,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>&nbsp;#&nbsp;<a href=\"https://www.youtube.com/watch?v=uSJukXcyccw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=26\">Like/Hearsay :Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>如何</ja></tag>:: how/in-what-way/how-about\n<read>ど</read>|<read>どう</read>:: precisely/exactly/plumb/totally/very-much | damn/stupid/cursed\nwhoa-(command-used-to-stop-a-horse,-etc.)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e3274bb8-33f1-4d90-bd9d-21363bbdd0fa",
+  "tags": [
+    "-::directional",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

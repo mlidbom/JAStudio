@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "思う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} think/reckon | judge/assess | imagine/suppose | plan-to  | expect ..",
+  "explanation": "the everyday variation of the word, not fancy or poetic etc",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おもう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:思う_b.mp3]",
+  "audioG": "[sound:思う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "惟う",
+      "isOwned": false
+    },
+    {
+      "text": "念う",
+      "isOwned": false
+    },
+    {
+      "text": "懐う",
+      "isOwned": false
+    },
+    {
+      "text": "想う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1121,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} think/consider/believe/reckon | think-(of-doing)/plan-(to-do) | judge/assess/regard | imagine/suppose/dream | expect/look-forward-to | feel/be-(in-a-state-of-mind)/desire/want | recall/remember",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>think</kanji> so the verb version is <vocabulary>to think</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You learned that reading with this kanji, but here's a reminder of the mnemonic just in case: \n\nYou have to remember the <ja>おも</ja> part to read this word. To do this, though, you'll have <vocabulary>to think</vocabulary> about that guy... hmm... what was his name? He's on The Simpsons... he's the bartender? I think? <reading>Oh! Moe</reading> (<ja>おも</ja>) is his name! Thank you. Now I remember.\n\nIf you don't know Moe from the Simpsons use a different Moe, perhaps the one from the Three Stooges? You should be able to come up with one."
+  },
+  "id": "c00ee19c-29d7-446a-80c8-729a9847d23a",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::wani::level::06"
+  ]
+}

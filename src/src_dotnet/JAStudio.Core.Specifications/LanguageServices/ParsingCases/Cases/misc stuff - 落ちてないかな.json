@@ -1,0 +1,34 @@
+{
+  "sentence": "落ちてないかな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 落ちる | てない | かな.",
+  "parsedWords": [
+    {"form":"落ちる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"落ちる","vocabId":"01cf8b65-2def-42df-8c9f-f68959bf539e"},
+    {"form":"てない","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"てない","vocabId":"9f0a7bcc-a931-4799-8770-3d53cf0ec11b"},
+    {"form":"てる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"ないか","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"ないか","vocabId":"0cfc4d3f-b8a6-46bb-93a6-740474c140aa"},
+    {"form":"ない","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"かな","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"},
+    {"form":"か","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"な","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"落ちる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"落ちる","vocabId":"01cf8b65-2def-42df-8c9f-f68959bf539e"},
+        {"form":"てない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てない","vocabId":"9f0a7bcc-a931-4799-8770-3d53cf0ec11b"},
+        {"form":"かな","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"落ちる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"落ちる","vocabId":"01cf8b65-2def-42df-8c9f-f68959bf539e"},
+        {"form":"てる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"ない","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"か","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

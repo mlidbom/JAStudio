@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "化け物",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "monster/goblin/apparition/ghost/phantom/spectre/specter",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ばけもの"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_ばけもの_化け物_2024-04-08-23-37-44.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "化物",
+      "isOwned": false
+    },
+    {
+      "text": "化けもの",
+      "isOwned": false
+    },
+    {
+      "text": "化けもん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "goblin/apparition/monster/ghost/phantom/spectre/specter",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7e071f09-93a1-4169-aabb-5be351d92d2d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

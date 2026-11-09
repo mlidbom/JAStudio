@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "ものを",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:{predicate}-ものを</tag>: <tag>dismay/regret/criticism</tag>: even-though/in-spite-of",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "もの",
+      "を"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ものを"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-41bc4dbcfb51e16ea0d97f8fc5837f7f2b28760be04be0344a3ed93f.mp3]",
+  "forms": [],
+  "sentenceCount": 13,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "although/but/even-though/I-wish-that",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7d850624-109a-430d-9656-27187cdee521",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-forbids::predicate-adjective-verb-copula-prefix"
+  ]
+}

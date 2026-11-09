@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "笑う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{:} laugh | smile | sneer/ridicule",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "わらう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:笑う_b.mp3]",
+  "audioG": "[sound:笑う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "嗤う",
+      "isOwned": false
+    },
+    {
+      "text": "咲う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 105,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"営業パーソンは商談で笑顔をつくれ。笑う気分でなくても口角をあげよ\" src=\"shutterstock_67651108.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: laugh | smile | {sneer/ridicule} | be-{dumbfounded/flabbergasted}",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>laugh</kanji> so the verb vocab version is <vocabulary>to laugh</vocabulary>.",
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji. You can laugh freely, now!"
+  },
+  "id": "909921d4-4d6c-4913-844a-162826170138",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::wani::level::16"
+  ]
+}

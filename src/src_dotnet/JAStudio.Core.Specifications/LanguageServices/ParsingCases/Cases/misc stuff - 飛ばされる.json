@@ -1,0 +1,20 @@
+{
+  "sentence": "飛ばされる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 飛ばす | あれる | る:う.",
+  "parsedWords": [
+    {"form":"飛ばす","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"飛ばす","vocabId":"69255270-30f6-46e7-8882-d5a4d7bb8355"},
+    {"form":"あれる","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"あれる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"う","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"飛ばす","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"飛ばす","vocabId":"69255270-30f6-46e7-8882-d5a4d7bb8355"},
+        {"form":"あれる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"う","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

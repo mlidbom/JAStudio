@@ -1,0 +1,86 @@
+{
+  "question": {
+    "text": "バラ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "rose",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "バラ"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-22-06-07-59-728.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "薔薇",
+      "isOwned": false
+    },
+    {
+      "text": "しょうび",
+      "isOwned": false
+    },
+    {
+      "text": "そうび",
+      "isOwned": false
+    },
+    {
+      "text": "肋",
+      "isOwned": false
+    },
+    {
+      "text": "ばら",
+      "isOwned": false
+    },
+    {
+      "text": "散",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 16,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>ばら</read>|<read>しょうび</read>|<read>そうび</read>:<tag><ja>薔薇</ja></tag>:: rose\n<read>ばら</read>:<tag><ja>散</ja></tag>:: loose-articles-(not-packaged-with-other-things)/bulk-items/individual-items | coins/small-change\n<read>ばら</read>:<tag><ja>肋</ja></tag>:: boneless-rib-(esp.-of-pork-or-beef)/boned-rib",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "67427176-f299-4a5f-a1a6-22c6ecac4413",
+  "tags": [
+    "source::yomitan"
+  ]
+}

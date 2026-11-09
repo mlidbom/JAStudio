@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "突き",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "stab | lunge | thrust/push ",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つき"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-06-30-20-20-22-829.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "thrust/stab/lunge/pass-(in-fencing) | tsuki/thrust-to-the-throat-(in-kendo) | tsuki/thrust-to-the-chest",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4deb99f4-800a-42f4-8eae-86b611bae9cb",
+  "tags": [
+    "source::yomitan"
+  ]
+}

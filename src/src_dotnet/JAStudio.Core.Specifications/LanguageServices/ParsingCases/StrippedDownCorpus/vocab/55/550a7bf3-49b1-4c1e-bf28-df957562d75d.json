@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "入る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<read>はいる:</read> to: enter/{go/come}-in | join/enter | be-{contained-in | scored | received | introduced} ...\n<read>いる:</read><tag>literary:</tag> to: enter/{go/come}-in",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はいる",
+    "いる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:入る_b.mp3][sound:居る_b.mp3]",
+  "audioG": "[sound:入る_g.mp3][sound:居る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "這入る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 494,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "masuStem": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>いる</read>:: to: get-in/go-in/come-in/flow-into/set/set-in\n<read>はいる</read>:: to: enter/go-into | break-into | join/enroll | contain/hold/accommodate | have-(an-income-of) | get-turned-on/start-functioning/start-working | get/obtain/receive/score",
+    "mnemonic": "This vocab word has okurigana, which is the hiragana part that comes after the kanji. When a vocab's okurigana makes an \"<ja>う</ja>/oo\" sound (in this case, we have a <ja>る</ja>), it's often going to be a verb. So in this case, the kanji <ja>入</ja> is <kanji>enter</kanji>. The vocab <ja>入る</ja> is <vocabulary>to enter</vocabulary>. We're just taking the kanji and using it in a verb! ",
+    "readingMnemonic": "When a vocab is a single kanji with okurigana, chances are it's going to be the kun'yomi reading, which you don't usually learn in the kanji (you usually learn the on'yomi reading). So, let's learn the kun'yomi reading for this word using its meaning.\n\nWhen you <vocabulary>enter</vocabulary> the room, what do you do? You say \"<reading>Hi</reading>\" (<ja>はい</ja>) to everyone to the point of absurdity. \"Hi there. Oh hi Frank. Oh hi there Susan. Oh hi there lamp.\""
+  },
+  "id": "550a7bf3-49b1-4c1e-bf28-df957562d75d",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::01"
+  ]
+}

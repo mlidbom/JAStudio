@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "中に",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>なかに:</ja>inside | to-the-inside\n<ja>ちゅうに:</ja>while | during | in-the-middle-of",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "中",
+      "に"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なかに",
+    "ちゅうに"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-951ebfce1a9fcec7b112ef5ebb644c93f4b68a5b1629c8d773b44b9f.mp3]",
+  "forms": [],
+  "sentenceCount": 176,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "be04c134-6966-4837-b85d-a9c10a27f141",
+  "tags": []
+}

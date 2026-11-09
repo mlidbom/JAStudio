@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "落ち着く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to:　calm-down | settle-in ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "落ちる",
+      "着く"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おちつく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:落ち着く_b.mp3]",
+  "audioG": "[sound:落ち着く_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "落付く",
+      "isOwned": false
+    },
+    {
+      "text": "落着く",
+      "isOwned": false
+    },
+    {
+      "text": "落ち付く",
+      "isOwned": false
+    },
+    {
+      "text": "落ちつく",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 49,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {calm-down/compose-oneself/regain-presence-of-mind} | {calm-down/settle-down/die-down/become-stable/abate} | {settle-down-(in-a-location,-job,-etc.)/settle-in} | {be-settled/be-fixed/have-been-reached} | {harmonize-with/harmonise-with/match/suit/fit} | be-{unobtrusive/quiet/subdued}",
+    "mnemonic": "Hey. <kanji>Drop</kanji> yourself down and <kanji>arrive</kanji> back to me. You're going nuts over there. Lower down. Come back. Arrive. You need to do these things <vocabulary>to calm down</vocabulary>.",
+    "readingMnemonic": "The readings come from <ja>落ちる</ja> and <ja>着く</ja>. Hopefully you know these words so you can read this word as well! If you don't, just <ja>落ち着く</ja> and everything will be okay."
+  },
+  "id": "ca11b8da-0d8f-4a2b-91c7-9e6d03ed91ed",
+  "tags": [
+    "legacy_scheduling"
+  ]
+}

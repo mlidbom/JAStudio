@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "くする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {make/turn/cause-to-become}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "く",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "くする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-35a35e93f525adfaa9f8492e15fa5d001cf26598302db2e32dacabcd.mp3]",
+  "forms": [
+    {
+      "text": "する",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 61,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "adverbHead": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "く"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "する"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "99737909-91a3-4ba0-a0db-f7b062e1b265",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

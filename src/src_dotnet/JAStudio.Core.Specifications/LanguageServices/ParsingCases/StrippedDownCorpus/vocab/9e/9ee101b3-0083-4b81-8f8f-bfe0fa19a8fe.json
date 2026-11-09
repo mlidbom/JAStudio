@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "横取りする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} snatch/seize/steal/usurp",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "横取り",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "よこどりする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-4bf9c4dbd9121fd6c1f113b507ebf2810bdf80ba79542e8f582d0055.mp3]",
+  "forms": [
+    {
+      "text": "横取りをする",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9ee101b3-0083-4b81-8f8f-bfe0fa19a8fe",
+  "tags": []
+}

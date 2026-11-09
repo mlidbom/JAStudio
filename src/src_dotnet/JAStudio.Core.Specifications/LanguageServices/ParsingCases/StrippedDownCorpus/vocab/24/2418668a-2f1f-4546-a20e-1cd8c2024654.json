@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "彼",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "he/him | boyfriend",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かれ"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:彼_b.mp3]",
+  "audioG": "[sound:彼_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 581,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "he/him | boyfriend",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+  },
+  "id": "2418668a-2f1f-4546-a20e-1cd8c2024654",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::35"
+  ]
+}

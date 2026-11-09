@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "引き出し",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "drawer | withdrawal",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ひきだし"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:4669d708df69b52424d71068b7d8dac9.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "抽匣",
+      "isOwned": false
+    },
+    {
+      "text": "抽斗",
+      "isOwned": false
+    },
+    {
+      "text": "引出し",
+      "isOwned": false
+    },
+    {
+      "text": "抽き出し",
+      "isOwned": false
+    },
+    {
+      "text": "抽出し",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 11,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"20f7a8fa330c8819e79b039dda990e20.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "drawer | withdrawal-(of-money-from-an-account) | variety-of-knowledge-and-experience-useful-for-handling-things-impromptu",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "019a8c4f-b7d4-4bc7-bcc9-d0bba5edac6a",
+  "tags": [
+    "source::core2000::step08"
+  ]
+}

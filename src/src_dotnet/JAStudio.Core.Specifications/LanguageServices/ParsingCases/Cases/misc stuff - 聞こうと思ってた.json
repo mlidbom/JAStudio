@@ -1,0 +1,38 @@
+{
+  "sentence": "聞こうと思ってた",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 聞く | う | と思う | てた.",
+  "parsedWords": [
+    {"form":"聞く","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"聞く","vocabId":"ee02c08a-d068-40ff-b882-ffc586af7186"},
+    {"form":"おうと思う","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"おうと思う","vocabId":"7584aec6-a266-4af7-aa48-b8035c47f426"},
+    {"form":"おうと","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"おうと","vocabId":"e3ccb231-ba95-4a18-b693-85b2fe7593bc"},
+    {"form":"おう","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+    {"form":"と思って","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"と思って","vocabId":"7d8faf77-9d3b-4292-ae56-ffe280f320b4"},
+    {"form":"と思う","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"と思う","vocabId":"a033d6b2-90c1-4eff-84d3-04864b980fb8"},
+    {"form":"と","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+    {"form":"思う","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"てた","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"てた","vocabId":"4a72e0c9-ff33-4ec6-931f-980fdc414788"},
+    {"form":"てる","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"た","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"聞く","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"聞く","vocabId":"ee02c08a-d068-40ff-b882-ffc586af7186"},
+        {"form":"おうと思う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"おうと思う","vocabId":"7584aec6-a266-4af7-aa48-b8035c47f426"},
+        {"form":"てた","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てた","vocabId":"4a72e0c9-ff33-4ec6-931f-980fdc414788"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"聞く","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"聞く","vocabId":"ee02c08a-d068-40ff-b882-ffc586af7186"},
+        {"form":"おう","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+        {"form":"と","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+        {"form":"思う","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+        {"form":"てる","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"た","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

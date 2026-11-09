@@ -1,0 +1,33 @@
+{
+  "sentence": "頭突き以外でな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: 頭突き | 以外 | で | な:s.end.",
+  "parsedWords": [
+    {"form":"頭突き","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"頭突き","vocabId":"18aa8af3-aacb-4cd7-8141-a4a54e612db1"},
+    {"form":"頭","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"頭","vocabId":"3aec26df-9ad4-4842-8956-d7858959f0e7"},
+    {"form":"突き","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"突き","vocabId":"4deb99f4-800a-42f4-8eae-86b611bae9cb"},
+    {"form":"以外","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"以外","vocabId":"1c78b06e-d88a-4b3a-81bc-caf137163c34"},
+    {"form":"で","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+    {"form":"な","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"頭突き","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"頭突き","vocabId":"18aa8af3-aacb-4cd7-8141-a4a54e612db1"},
+        {"form":"以外","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"以外","vocabId":"1c78b06e-d88a-4b3a-81bc-caf137163c34"},
+        {"form":"で","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"頭","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"頭","vocabId":"3aec26df-9ad4-4842-8956-d7858959f0e7"},
+        {"form":"突き","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"突き","vocabId":"4deb99f4-800a-42f4-8eae-86b611bae9cb"},
+        {"form":"以外","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"以外","vocabId":"1c78b06e-d88a-4b3a-81bc-caf137163c34"},
+        {"form":"で","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

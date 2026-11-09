@@ -1,0 +1,92 @@
+{
+  "question": {
+    "text": "ていた",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag>{was}-_-ing | used-to-_\n<tag>state-change-verb:</tag> had-_/was-in-the-state-of-having-_ | used-to-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ている",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ていた"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-0b84aad8d94761f3136db7eb3b0e84164c111fb367a5878e0af9edfd.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "てた",
+      "isOwned": false
+    },
+    {
+      "text": "でいた",
+      "isOwned": false
+    },
+    {
+      "text": "でた",
+      "isOwned": false
+    },
+    {
+      "text": "んでいた",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 588,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ていました",
+      "ておった",
+      "ておりました",
+      "てた",
+      "てました",
+      "んでいた"
+    ],
+    "synonyms": [
+      "ていました",
+      "ておった",
+      "ておりました",
+      "てた",
+      "てました",
+      "んでいた"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9c76e340-39ca-46fa-80aa-eacb7df6a000",
+  "tags": []
+}

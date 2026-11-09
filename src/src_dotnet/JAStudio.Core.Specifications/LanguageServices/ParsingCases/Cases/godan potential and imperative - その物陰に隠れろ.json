@@ -1,0 +1,23 @@
+{
+  "sentence": "その物陰に隠れろ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: その | 物陰 | に | 隠れる | ろ.",
+  "parsedWords": [
+    {"form":"その","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"その","vocabId":"6ac914bd-15bc-475c-8038-59146a91e948"},
+    {"form":"物陰","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"物陰","vocabId":"4b480d8b-2483-4915-8b41-2cfc95482b6f"},
+    {"form":"に","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"隠れる","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"隠れる","vocabId":"1feeb8d8-8411-4a0a-acdd-ad7af38c73d5"},
+    {"form":"ろ","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"ろ","vocabId":"658dbc04-6846-4257-9bbc-d830c98a267a"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"その","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"その","vocabId":"6ac914bd-15bc-475c-8038-59146a91e948"},
+        {"form":"物陰","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"物陰","vocabId":"4b480d8b-2483-4915-8b41-2cfc95482b6f"},
+        {"form":"に","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"隠れる","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"隠れる","vocabId":"1feeb8d8-8411-4a0a-acdd-ad7af38c73d5"},
+        {"form":"ろ","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ろ","vocabId":"658dbc04-6846-4257-9bbc-d830c98a267a"}
+      ]
+    }
+  ]
+}

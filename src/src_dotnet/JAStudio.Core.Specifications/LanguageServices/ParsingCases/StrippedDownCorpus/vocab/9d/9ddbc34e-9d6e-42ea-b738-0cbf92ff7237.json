@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "しな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><ja>しなさい</ja>:</tag>!/do! | <tag>suff:masu-stem:</tag>having-just-started",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "な:masu"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しな"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-18-21-12-13-998.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "しなさい",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "しなさい"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>品</ja></tag>:: article/item/thing/goods/stock | quality | flirtatiousness/coquetry\n<tag><ja>支那</ja></tag>:: China\nhaving-just-started...\n<tag><ja>科</ja></tag>:: Japanese-linden-(Tilia-japonica)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9ddbc34e-9d6e-42ea-b738-0cbf92ff7237",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "sentence": "放せよ　俺は…",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 放す | え | よ | 俺 | は.",
+  "parsedWords": [
+    {"form":"放す","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"放す","vocabId":"0c667726-f755-4529-9b4d-7c55e773b7fe"},
+    {"form":"え","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"よ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"},
+    {"form":"俺は","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"俺は","vocabId":"4b7c927a-b5e6-4fe9-a11e-5377544d6e59"},
+    {"form":"俺","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+    {"form":"は","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"放す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"放す","vocabId":"0c667726-f755-4529-9b4d-7c55e773b7fe"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"},
+        {"form":"俺は","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺は","vocabId":"4b7c927a-b5e6-4fe9-a11e-5377544d6e59"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"放す","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"放す","vocabId":"0c667726-f755-4529-9b4d-7c55e773b7fe"},
+        {"form":"え","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"},
+        {"form":"俺","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"は","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"}
+      ]
+    }
+  ]
+}

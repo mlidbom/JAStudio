@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "あっ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>surprise/recollection/realization:</tag> ah/oh/dang/right! | hey!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あっ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_あっ_あっ_2023-09-20-10-36-51.mp3]",
+  "audioG": "[sound:yomitan_audio_2024-06-23-08-24-07-994.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "アっ",
+      "isOwned": false
+    },
+    {
+      "text": "あ",
+      "isOwned": false
+    },
+    {
+      "text": "アッ",
+      "isOwned": false
+    },
+    {
+      "text": "ア",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 525,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "ah/oh | hey!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "63171e6f-01fd-4676-b79b-0d6559859857",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

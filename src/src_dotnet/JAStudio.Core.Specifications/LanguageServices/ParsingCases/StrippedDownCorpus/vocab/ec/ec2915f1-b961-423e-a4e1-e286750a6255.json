@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "限り",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "limit/bounds | degree/extent | <tag title=\"after dictionary form verb\">suff:dict:</tag> as-long-as | !unless | the-{end/last} ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かぎり"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-07-09-12-16-09-440.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かぎり",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 21,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "limit/limits/bounds | degree/extent/scope | the-end/the-last | as-long-as-.../as-far-as-.../as-much-as-.../to-the-limits-of-.../all-of-... | unless-... | (not)-included-in-.../(not)-part-of-... | ...-only-(e.g.-\"one-time-only\",-\"today-only\") | end-of-one's-life/final-moments/death | funeral/burial",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ec2915f1-b961-423e-a4e1-e286750a6255",
+  "tags": [
+    "source::yomitan"
+  ]
+}

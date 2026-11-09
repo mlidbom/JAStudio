@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "もう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "already/by-now/now/soon | also/too/in-addition/more | !anymore/again | <tag>s.start:</tag>jeez!/enough-already!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "もう"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_もう_もう_2023-08-18-12-14-33.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "もー",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 657,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=sBhD_Z5_pHw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=70\">Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "も"
+    ]
+  },
+  "sourceData": {
+    "answer": "now/soon/shortly/before-long/presently | already/yet/by-now/(not)-anymore | further/more/again/another/the-other | tsk/dammit/jeez/come-on/what-the-hell",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "602c325d-6084-4c80-9fdc-632f13cf3468",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

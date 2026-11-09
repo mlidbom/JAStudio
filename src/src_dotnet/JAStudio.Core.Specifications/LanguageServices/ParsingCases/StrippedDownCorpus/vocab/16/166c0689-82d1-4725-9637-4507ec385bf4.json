@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "何故",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "why/how-come/for-what-reason/how",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なぜ"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:何故_b.mp3]",
+  "audioG": "[sound:何故_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なぜ",
+      "isOwned": false
+    },
+    {
+      "text": "何ゆえ",
+      "isOwned": false
+    },
+    {
+      "text": "なにゆえ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 24,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "why/how",
+    "mnemonic": "When you want to know <kanji>what</kanji> the <kanji>circumstances</kanji> are around you, you have to ask <vocabulary>why</vocabulary>. Why do things happen around you? Asking why is very important if you want to understand the world.",
+    "readingMnemonic": "The reading for this is an exception. The reading for <ja>何</ja> is just the first <ja>な</ja> from <ja>なに</ja>. You can remember the second part this way:\n\nNo one knows quite <vocabulary>how</vocabulary> or <vocabulary>why</vocabulary> that big <reading>ze</reading>ppelin (<ja>ぜ</ja>) crashed in the 1930s. People are still asking today and no one has any answers. We have to keep asking until we get some."
+  },
+  "id": "166c0689-82d1-4725-9637-4507ec385bf4",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::wani::level::26"
+  ]
+}

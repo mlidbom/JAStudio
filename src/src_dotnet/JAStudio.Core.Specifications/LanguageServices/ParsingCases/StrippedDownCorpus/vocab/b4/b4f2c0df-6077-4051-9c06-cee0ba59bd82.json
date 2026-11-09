@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "いいの",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "it's-ok/it's-fine | is-{enough/good} | it's-OK?/you-sure?/really?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いい",
+      "の"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いいの"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-4f211b5203899776babc8d6663a8878d024aaae9dad7ff21774c23b4.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いいん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 130,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b4f2c0df-6077-4051-9c06-cee0ba59bd82",
+  "tags": [
+    "source::yomitan"
+  ]
+}

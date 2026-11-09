@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "それなのに",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "and-yet/but-even-so/despite-this/however",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "それ",
+      "なのに"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "それなのに"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_それなのに_それなのに_2023-08-21-16-45-35.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "and-yet/despite-this/but-even-so/but-even-then/however/nevertheless/for-all-that/notwithstanding-that",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cbe5ae61-aa62-409b-ae9c-ec96f5f83abf",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

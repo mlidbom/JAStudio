@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "ねん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>ksb:s.end:</tag> <tag>{emphasis}</tag>/!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ねん"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-11-25-18-26-05-900.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "indicates-emphasis",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "326c1aa6-fe3e-44f6-a52c-9b058ee2707d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

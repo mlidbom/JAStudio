@@ -1,0 +1,123 @@
+{
+  "question": {
+    "text": "えそう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "seems-able-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "える",
+      "そう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えそう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c5c9686daf0285348021bb560eee03834fa67508c433855e0b07eb3c.mp3]",
+  "forms": [
+    {
+      "text": "げそう",
+      "isOwned": false
+    },
+    {
+      "text": "れそう",
+      "isOwned": false
+    },
+    {
+      "text": "でそう",
+      "isOwned": false
+    },
+    {
+      "text": "えそう:",
+      "isOwned": false
+    },
+    {
+      "text": "へそう",
+      "isOwned": false
+    },
+    {
+      "text": "めそう",
+      "isOwned": false
+    },
+    {
+      "text": "せそう",
+      "isOwned": false
+    },
+    {
+      "text": "べそう",
+      "isOwned": false
+    },
+    {
+      "text": "えそう=",
+      "isOwned": false
+    },
+    {
+      "text": "てそう",
+      "isOwned": false
+    },
+    {
+      "text": "ぺそう",
+      "isOwned": false
+    },
+    {
+      "text": "けそう",
+      "isOwned": false
+    },
+    {
+      "text": "ねそう",
+      "isOwned": false
+    },
+    {
+      "text": "ぜそう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 29,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3a0a7c64-cf41-44d2-a17e-2f1b5abf3ba9",
+  "tags": []
+}

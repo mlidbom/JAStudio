@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "いけ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "go! | <tag>pre:</tag> <tag>{strengthen-derogatory-adjective}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いく",
+      "え:imperative"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いけ"
+  ],
+  "partsOfSpeech": [
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-16-18-19-50-694.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いっけ",
+      "isOwned": false
+    },
+    {
+      "text": "いけ〜",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "prefix-used-to-strengthen-a-derogatory-adjective",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b9e4a63b-5c03-44cc-8088-7550869376d1",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "きれない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>masu-stem-suff:</tag>unable-to-{complete/do-completely}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きれない"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-06-23-22-37-05-802.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "切れ無い",
+      "isOwned": true
+    },
+    {
+      "text": "切れない",
+      "isOwned": true
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "masuStem": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "きれず"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "cannot-completely-...-(because-it-is-excessive)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "eef8a2a5-50b4-4589-8107-a0170b738b40",
+  "tags": [
+    "source::yomitan"
+  ]
+}

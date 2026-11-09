@@ -1,0 +1,58 @@
+{
+  "question": {
+    "text": "気が",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:abbr:</tag><tag> <ja>気がする</ja>:</tag> to: have-a-feeling-that | feel-like-doing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-85f6a6ee13f10ea05b590b57b47a7adaae61018dbd377c0a2c45b065.mp3]",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "気がする"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f2f7f7ef-6db0-4c2b-ab20-e7c879f9128c",
+  "tags": []
+}

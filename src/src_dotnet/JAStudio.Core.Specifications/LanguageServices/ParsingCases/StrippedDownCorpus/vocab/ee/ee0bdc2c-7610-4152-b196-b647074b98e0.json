@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "思える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} seem/appear-likely/feel | be-able-to-think",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "思う",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おもえる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_おもえる_思える_2023-04-26-18-58-46.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 26,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{seem/appear-likely}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ee0bdc2c-7610-4152-b196-b647074b98e0",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::yomitan"
+  ]
+}

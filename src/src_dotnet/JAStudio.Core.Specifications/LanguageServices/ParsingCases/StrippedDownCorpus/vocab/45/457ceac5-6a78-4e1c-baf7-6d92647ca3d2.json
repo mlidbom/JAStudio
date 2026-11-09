@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "結構",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "rather/quite | sufficient/no-thank-you",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "けっこう"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:結構_b.mp3]",
+  "audioG": "[sound:結構_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "けっこう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 70,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"Câu nói vừa đồng ý vừa từ chối - Lý do người Nhật thích dùng - Nhật Ngữ  Hướng Minh\" src=\"kekko-desu-nhung-cau-noi-vua-co-nghia-tu-choi-vua-co-nghia-dong-y-trong-tieng-nhat.png\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "splendid/nice/wonderful/delicious/sweet | sufficient/fine-(in-the-sense-of-\"I'm-fine\")/(by-implication)-no-thank-you | well-enough/OK/tolerable | quite/reasonably/fairly/tolerably | construction/architecture",
+    "mnemonic": "<kanji>Bind</kanji> and <kanji>set up</kanji> everything so it is <vocabulary>fairly</vocabulary> <vocabulary>fine</vocabulary> and <vocabulary>alright</vocabulary>. This word is used like this:\n\n\"That's fine, no more\" <ja>結構です</ja>\n\"It's fairly big\" <ja>結構大きい</ja>\n\"It's alright\" <ja>結構です</ja>\n\netc.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well. The <ja>けつ</ja> shortens to <ja>けっ</ja>."
+  },
+  "id": "457ceac5-6a78-4e1c-baf7-6d92647ca3d2",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::25"
+  ]
+}

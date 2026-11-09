@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "焼け",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "やけ",
+    "じき",
+    "ヤケ"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-8be6944ea93d2729b8838085907c30a54d12d9d121af7ed44398337f.mp3]",
+  "forms": [],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "desperation/despair/self-abandonment",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c8465d6b-186f-4169-b4e1-ad051a51be0b",
+  "tags": [
+    "source::jamdict"
+  ]
+}

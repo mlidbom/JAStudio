@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "聞き",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "hearing/audible-sound | rumour/rumor/hearsay/reputation | tasting-(alcohol,-tea,-etc.)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きき"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": " [sound:ATTS 聞き (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "聴き",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "hearing/audible-sound | rumour/rumor/hearsay/reputation | tasting-(alcohol,-tea,-etc.)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "98bd142a-6e03-42dd-aaba-6547db904b99",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

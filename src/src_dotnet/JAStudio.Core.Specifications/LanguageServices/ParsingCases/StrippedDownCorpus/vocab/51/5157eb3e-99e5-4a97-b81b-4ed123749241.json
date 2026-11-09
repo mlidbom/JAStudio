@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "捕まえる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} catch/capture/arrest | grab/grasp/clutch | catch-hold-of/stop/hail",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つかまえる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_つかまえる_捕まえる_2023-09-19-15-41-00.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "掴まえる",
+      "isOwned": false
+    },
+    {
+      "text": "捉まえる",
+      "isOwned": false
+    },
+    {
+      "text": "つかまえる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 40,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"好きな人を捕まえる方法とは。 (@rio_319_) / X\" src=\"8u9Ewfly_400x400.jpeg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "捕まる",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} catch/capture/arrest/seize/restrain | grab/clutch/grasp/seize/hold-on-to | catch-hold-of-(someone)/stop-(e.g.-a-stranger-in-the-street)/hail-(a-taxi,-waiter,-etc.)/hold-(someone)-back/detain | towards-(someone)/at-(someone)/in-(someone's)-face",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5157eb3e-99e5-4a97-b81b-4ed123749241",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

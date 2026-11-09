@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "何故か",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "somehow/for-some-reason/without-knowing-why/I-wonder-why",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なぜか"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_なぜか_何故か_2023-08-28-12-59-23.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なぜか",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "somehow/for-some-reason/without-knowing-why",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ba626f7b-b5ad-4a59-ad75-38a54f6bb655",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

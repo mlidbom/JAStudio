@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "っぱなし",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "leave-smt-{open|on|unfinished} | <tag>masu:</tag>{continuously/constantly}-do",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "っぱなし"
+  ],
+  "partsOfSpeech": [
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:rec1717853012.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "っ放し",
+      "isOwned": false
+    },
+    {
+      "text": "っはなし",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "keep-...-ing/have-been-...-ing/leaving-(something)-on/leaving-(something)-still-in-use",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "39e43c48-ded9-4b95-94bd-4b8c425e5a3f",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

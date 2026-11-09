@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "鞄",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "bag | satchel | briefcase | basket",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かばん"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_かばん_鞄_2023-05-08-23-55-45.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かばん",
+      "isOwned": false
+    },
+    {
+      "text": "カバン",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 23,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [
+      "靴"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "bag/satchel/briefcase/basket",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2fd4a80b-1765-4a63-b247-b778578d92f4",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

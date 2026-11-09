@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "うる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} acquire/gain/obtain | <tag>suff:nidan:</tag>be-{able-to/possible}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c5294117858180edcc306e9a1bd7df2fbabcb009ac0ed54b3746dc78.mp3]",
+  "forms": [
+    {
+      "text": "得る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "To Acquire, To Gain, To Obtain",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>acquire</kanji> so the verb vocab version is <vocabulary>to acquire</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: You need <vocabulary>to acquire</vocabulary> an <reading>e</reading>lephant (<ja>え</ja>) for your elephant collection. If you don't acquire an elephant, you'll look like an idiot in front of your elephant collecting friends."
+  },
+  "id": "6b751596-6377-486f-82d5-57e6a984629f",
+  "tags": []
+}

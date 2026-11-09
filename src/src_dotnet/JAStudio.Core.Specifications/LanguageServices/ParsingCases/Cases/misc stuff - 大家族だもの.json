@@ -1,0 +1,30 @@
+{
+  "sentence": "大家族だもの",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 大家族 | だもの.",
+  "parsedWords": [
+    {"form":"大家族","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"大家族","vocabId":"64086408-7dfa-42aa-b0d4-e511f02b95b1"},
+    {"form":"大","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"大","vocabId":"873b9ede-3e44-497e-a415-43bbfc873451"},
+    {"form":"家族","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"家族","vocabId":"fd4d14b6-14fc-444d-82ee-0b6518e84898"},
+    {"form":"だもの","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"だもの","vocabId":"f46c1720-eb97-4172-bffc-21c5cd34c320"},
+    {"form":"だ","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"もの","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"大家族","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大家族","vocabId":"64086408-7dfa-42aa-b0d4-e511f02b95b1"},
+        {"form":"だもの","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だもの","vocabId":"f46c1720-eb97-4172-bffc-21c5cd34c320"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"大","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大","vocabId":"873b9ede-3e44-497e-a415-43bbfc873451"},
+        {"form":"家族","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"家族","vocabId":"fd4d14b6-14fc-444d-82ee-0b6518e84898"},
+        {"form":"だ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"もの","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"}
+      ]
+    }
+  ]
+}

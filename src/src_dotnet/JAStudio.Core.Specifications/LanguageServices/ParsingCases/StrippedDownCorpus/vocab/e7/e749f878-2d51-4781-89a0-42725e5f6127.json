@@ -1,0 +1,94 @@
+{
+  "question": {
+    "text": "ちょっと",
+    "disambiguation": "int"
+  },
+  "corpusAnswer": "<tag>interjection:</tag> hey!/hold-on!/wait!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ちょっと"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:1b2aa4c4ed3f3d9beaefcfafe230ba6b.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "チョッと",
+      "isOwned": false
+    },
+    {
+      "text": "鳥渡",
+      "isOwned": false
+    },
+    {
+      "text": "チョット",
+      "isOwned": false
+    },
+    {
+      "text": "ちょいと",
+      "isOwned": false
+    },
+    {
+      "text": "一寸",
+      "isOwned": false
+    },
+    {
+      "text": "ちょと",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 49,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required",
+      "sentenceStart": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ちょっ"
+    ],
+    "antonyms": [
+      "いや ちょっとね"
+    ],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "a-little/a-bit/slightly | just-a-minute/for-a-moment/briefly | somewhat/rather/fairly/pretty/quite | (not)-easily/(not)-readily | hey!/come-on/excuse-me",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e749f878-2d51-4781-89a0-42725e5f6127",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step10"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "してる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{is}-doing | <tag>activity-verb:</tag> |　{is}-_-ing | _-s-{habitually/recurringly}\n<tag>state-change-verb:</tag> is-in-the-state-of-having-_{ed} | _-s-{habitually/recurringly}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "てる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "してる"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-a4bb7b25aa835526c27fd7ece4a75458e8cb71b87b2a30356630a7dc.mp3]",
+  "forms": [
+    {
+      "text": "している",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1129,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "しとる"
+    ],
+    "synonyms": [
+      "しとる",
+      "しとん"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "095f2b7b-b8ec-47f5-96b2-308b7b34d41b",
+  "tags": []
+}

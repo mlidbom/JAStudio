@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "あせる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} {let/make/cause}-_-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あせる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-c56c484e76dc96f2064af76ff8ac745eff1dbd0d080753b99bce924e.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "せる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 419,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidan": "forbidden",
+      "irrealis": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "〜させる",
+      "あす",
+      "さす",
+      "させる",
+      "せる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6e10a73e-f4e4-48c4-9a4e-73d04e01200c",
+  "tags": []
+}

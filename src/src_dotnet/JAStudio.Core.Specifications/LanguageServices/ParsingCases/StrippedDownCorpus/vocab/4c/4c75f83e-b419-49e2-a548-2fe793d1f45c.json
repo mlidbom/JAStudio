@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "ず",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>suff:</tag> without-doing | pluralizing | possessive",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ず"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-09-10-59-34-075.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ズ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 215,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "せん",
+      "ない",
+      "ないで",
+      "ぬ",
+      "ん"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "s-(pluralizing-suffix)/es | 's-(possessive-suffix)/s'/es'\nnot-doing",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4c75f83e-b419-49e2-a548-2fe793d1f45c",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

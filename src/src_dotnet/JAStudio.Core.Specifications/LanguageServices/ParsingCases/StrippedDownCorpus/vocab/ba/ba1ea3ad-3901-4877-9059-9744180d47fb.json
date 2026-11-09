@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "くださる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} {give/bestow-on}-one | kindly-do-for-one/oblige-one-with/do-one-a-favor",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "くださる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "special-class-aru"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-16-22-32-45-213.mp3]",
+  "audioG": "[sound:yomitan_audio_2024-06-16-22-33-07-944.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "下さる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 823,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "くれる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "ください"
+    ]
+  },
+  "sourceData": {
+    "answer": "to{?}{give/confer/bestow} | to{?}{kindly-do-for-one/oblige/favour/favor}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ba1ea3ad-3901-4877-9059-9744180d47fb",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

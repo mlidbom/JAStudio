@@ -1,0 +1,18 @@
+{
+  "sentence": "なる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: なる | う.",
+  "parsedWords": [
+    {"form":"なる","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+    {"form":"なる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+    {"form":"う","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"なる","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

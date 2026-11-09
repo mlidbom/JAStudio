@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "見つける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} find/locate | discover/come-across | be-{used-to/familiar-with}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "見",
+      "付ける"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "みつける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:276ee3db8ec2b1127ee0df756dead80d-0bbc8a208a2feae14a92e031c6f9b989ab37bfb9.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "見附ける",
+      "isOwned": false
+    },
+    {
+      "text": "見附る",
+      "isOwned": false
+    },
+    {
+      "text": "見付ける",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 173,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "見つかる",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} discover/find-(e.g.-an-error-in-a-book)/come-across/detect/spot | locate/find-(e.g.-something-missing)/find-fault | to-be:used-to-seeing/familiar-with",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7f63f7e9-803b-4ca3-a128-b60b97700a8c",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step01"
+  ]
+}

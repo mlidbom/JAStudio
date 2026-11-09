@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "落し",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "dropping/losing | missing-item | trap ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おとし"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "落とし",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "dropping/losing | missing-item/something-one-forgot-to-write-down | trap | wooden-protrusion-from-a-Japanese-door-frame-that-fits-a-hole-in-the-threshold,-acting-as-a-lock-when-closed | conclusion-(of-a-speech,-etc.) | metallic-bowl-used-to-hold-the-charcoal-in-a-wooden-hibachi",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ca3e5b8f-a2e9-4ea6-896a-27ee2e2c010c",
+  "tags": []
+}

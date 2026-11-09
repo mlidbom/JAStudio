@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "下り",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "くだり"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:ca3b06260eaa54b89075645a3fdafa45.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"b952177c36833f009afe93ced0749d22.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "down-train/train-heading-toward-the-ending-point-of-its-route | down-slope/downward-going | downbound-(esp.-away-from-Tokyo) | downstream/downhill",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0d9bb3e7-98de-44fb-8520-71a26501f456",
+  "tags": [
+    "source::core2000::step08"
+  ]
+}

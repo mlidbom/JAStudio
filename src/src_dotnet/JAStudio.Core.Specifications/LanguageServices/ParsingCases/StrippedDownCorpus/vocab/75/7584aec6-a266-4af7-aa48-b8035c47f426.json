@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "おうと思う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: think-{\"I-will\"/\"I'm-going-to\"}/{intend/decide}-to/think-about-doing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "おう",
+      "と思う"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おうとおもう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-f636786b312de9fe97648b57fae6a0e30b20461e946483b1eba14282.mp3]",
+  "forms": [
+    {
+      "text": "ようと思う",
+      "isOwned": false
+    },
+    {
+      "text": "うと思う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 82,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7584aec6-a266-4af7-aa48-b8035c47f426",
+  "tags": []
+}

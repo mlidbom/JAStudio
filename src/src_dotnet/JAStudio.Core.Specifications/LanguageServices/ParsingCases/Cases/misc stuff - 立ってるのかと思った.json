@@ -1,0 +1,39 @@
+{
+  "sentence": "立ってるのかと思った",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 立つ | てる | のか | と思う | た.",
+  "parsedWords": [
+    {"form":"立つ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"立つ","vocabId":"6ab826bf-f136-4139-8c52-5a41350d1b78"},
+    {"form":"てる","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"のか","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"},
+    {"form":"の","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"か","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"と思った","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"と思った","vocabId":"36f627b7-3746-49aa-8f84-d096c1088633"},
+    {"form":"と思う","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"と思う","vocabId":"a033d6b2-90c1-4eff-84d3-04864b980fb8"},
+    {"form":"と","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+    {"form":"思う","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"た","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"立つ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"立つ","vocabId":"6ab826bf-f136-4139-8c52-5a41350d1b78"},
+        {"form":"てる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"のか","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"},
+        {"form":"と思った","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と思った","vocabId":"36f627b7-3746-49aa-8f84-d096c1088633"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"立つ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"立つ","vocabId":"6ab826bf-f136-4139-8c52-5a41350d1b78"},
+        {"form":"てる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"の","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"か","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"と","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+        {"form":"思う","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+        {"form":"た","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

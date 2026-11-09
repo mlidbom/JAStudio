@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "ていただく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} have-_-do-_-for-one",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "いただく"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ていただく"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-ef50c24b392672fc15a57353facb4018202aa3499298ddfd4522667b.mp3]",
+  "forms": [
+    {
+      "text": "て戴く",
+      "isOwned": false
+    },
+    {
+      "text": "て頂く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 75,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b5e3ff6c-efbf-475c-94a1-e9823ee11360",
+  "tags": []
+}

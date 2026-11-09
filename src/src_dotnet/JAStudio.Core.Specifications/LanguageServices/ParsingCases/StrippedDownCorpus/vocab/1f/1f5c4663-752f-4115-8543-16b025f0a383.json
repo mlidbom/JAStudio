@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "んで",
+    "disambiguation": "ので"
+  },
+  "corpusAnswer": "<tag><ja>ので</ja>:</tag>given-that/that-being-the-case/therefore/so/because",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "んで"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-21-19-48-23-086.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 54,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=lYvIOi8Q3I8\">N-desu no-desu na no desu - complex endings made easy!　んです、のです、なのです、なんです (youtube.com)</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>ので</read>|<read>んで</read>:: that-being-the-case/because-of-.../the-reason-is-.../given-that-...\nand-then/and-so/and/so-then",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1f5c4663-752f-4115-8543-16b025f0a383",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

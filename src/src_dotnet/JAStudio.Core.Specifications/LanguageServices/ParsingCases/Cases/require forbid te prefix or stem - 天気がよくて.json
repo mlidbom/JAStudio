@@ -1,0 +1,21 @@
+{
+  "sentence": "天気がよくて",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 天気 | が | よい | て.",
+  "parsedWords": [
+    {"form":"天気","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"天気","vocabId":"9aebb021-d01f-47cd-83f5-75e0e275fd2d"},
+    {"form":"が","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"よい","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"よい","vocabId":"ac40246b-9ddc-475b-880d-f3b97bd10964"},
+    {"form":"くて","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"くて","vocabId":"27a385c5-ed87-4a81-baa0-96a23e739951"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"天気","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"天気","vocabId":"9aebb021-d01f-47cd-83f5-75e0e275fd2d"},
+        {"form":"が","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"よい","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"よい","vocabId":"ac40246b-9ddc-475b-880d-f3b97bd10964"},
+        {"form":"くて","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"くて","vocabId":"27a385c5-ed87-4a81-baa0-96a23e739951"}
+      ]
+    }
+  ]
+}

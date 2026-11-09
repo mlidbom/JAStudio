@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "大声出す",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: raise-one's-voice/shout",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おおごえだす"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_おおごえだす_大声出す_2024-04-09-21-58-45.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{raise-one's-voice/shout}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d6c3a5c1-d296-48e9-86cf-8f98be6741ba",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "盗人",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ぬすびと",
+    "ぬすっと",
+    "ぬすと",
+    "とうじん"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-008b50e9c1d92bac83871dde6afb8122af734419a48f87305a8d761f.mp3]",
+  "forms": [],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "thief/robber",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1c9a6df5-abc9-4433-a1f4-bca7ca5157ca",
+  "tags": [
+    "source::jamdict"
+  ]
+}

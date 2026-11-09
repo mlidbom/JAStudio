@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "たかな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "leaf-mustard/mustard-greens",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たかな",
+    "タカナ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b4e40f6f6a2243f2af0aa13d03e956f1033fe6416a303576fe6501ae.mp3]",
+  "forms": [
+    {
+      "text": "高菜",
+      "isOwned": false
+    },
+    {
+      "text": "タカナ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "leaf-mustard-(Brassica-juncea-var.-integrifolia)/mustard-greens",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7a8a7516-318f-45af-b23e-f6b38186d8b1",
+  "tags": []
+}

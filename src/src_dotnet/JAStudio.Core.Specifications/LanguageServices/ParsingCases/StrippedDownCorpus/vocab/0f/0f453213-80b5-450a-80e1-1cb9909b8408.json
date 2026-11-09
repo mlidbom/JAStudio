@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "たり",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "and-such/etc | or-something | !or-anything",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たり"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_たり_たり_2023-07-22-13-08-28.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "だり",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 220,
+  "technicalNotes": "",
+  "references": "<a href=\"https://japanese.stackexchange.com/questions/52637/what-does-%e8%89%af%e3%81%84%e3%81%a8%e3%81%93%e3%82%8d%e3%81%a0%e3%81%a3%e3%81%9f%e3%82%8a%e3%81%99%e3%82%8b-mean-in-this-sentence\">grammar ... だったりする</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "-ing-and--ing-(e.g.-\"coming-and-going\") | doing-such-things-as... | expresses-a-command | to-be | indicates-completion-or-continuation-of-an-action",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0f453213-80b5-450a-80e1-1cb9909b8408",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

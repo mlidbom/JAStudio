@@ -1,0 +1,45 @@
+{
+  "sentence": "ちょっと強引なところがあるから",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ちょっと | 強引 | な | ところ | がある | う | から.",
+  "parsedWords": [
+    {"form":"ちょっと","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"ちょっと","vocabId":"3bbbe46f-a146-4786-827f-373f73e4b5d3"},
+    {"form":"強引な","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"強引な","vocabId":"4b540466-5ee6-4a7c-a193-11fdce04e707"},
+    {"form":"強引","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"強引","vocabId":"e5f94ba2-9c62-43b4-b007-c7ee97ebec2e"},
+    {"form":"な","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"ところがある","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"ところがある","vocabId":"7094cb7e-2a60-4bb3-b9e1-d62f69481078"},
+    {"form":"ところがある","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"ところがある","vocabId":"7094cb7e-2a60-4bb3-b9e1-d62f69481078"},
+    {"form":"ところ","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"ところ","vocabId":"3c8e7e51-3080-4fd9-8f71-1cc4de505b0d"},
+    {"form":"がある","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"がある","vocabId":"6d2ff318-7d70-4d0e-9f14-338b0fa53105"},
+    {"form":"がある","startIndex":10,"variant":"base","isDisplayed":false,"vocab":"がある","vocabId":"6d2ff318-7d70-4d0e-9f14-338b0fa53105"},
+    {"form":"が","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"ある","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"ある","startIndex":11,"variant":"base","isDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"う","startIndex":12,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"から","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"ちょっと","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ちょっと","vocabId":"3bbbe46f-a146-4786-827f-373f73e4b5d3"},
+        {"form":"強引な","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"強引な","vocabId":"4b540466-5ee6-4a7c-a193-11fdce04e707"},
+        {"form":"ところがある","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ところがある","vocabId":"7094cb7e-2a60-4bb3-b9e1-d62f69481078"},
+        {"form":"う","startIndex":12,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"から","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"ちょっと","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ちょっと","vocabId":"3bbbe46f-a146-4786-827f-373f73e4b5d3"},
+        {"form":"強引","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"強引","vocabId":"e5f94ba2-9c62-43b4-b007-c7ee97ebec2e"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"ところ","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ところ","vocabId":"3c8e7e51-3080-4fd9-8f71-1cc4de505b0d"},
+        {"form":"が","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"ある","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+        {"form":"う","startIndex":12,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"から","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"}
+      ]
+    }
+  ]
+}

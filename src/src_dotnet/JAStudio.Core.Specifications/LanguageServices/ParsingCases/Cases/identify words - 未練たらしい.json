@@ -1,0 +1,24 @@
+{
+  "sentence": "未練たらしい",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 未練たらしい | 未練 | たらしい.",
+  "parsedWords": [
+    {"form":"未練たらしい","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"未練たらしい","vocabId":"dd282984-0f4b-480c-bf7c-05541b86b968"},
+    {"form":"未練","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"未練","vocabId":"d29a9041-6456-410b-9941-fb3f4cb27f31"},
+    {"form":"たらしい","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"たらしい","vocabId":"21f95042-c8d2-4848-8e8c-2becec4458e2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"未練たらしい","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"未練たらしい","vocabId":"dd282984-0f4b-480c-bf7c-05541b86b968"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"未練","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"未練","vocabId":"d29a9041-6456-410b-9941-fb3f4cb27f31"},
+        {"form":"たらしい","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たらしい","vocabId":"21f95042-c8d2-4848-8e8c-2becec4458e2"}
+      ]
+    }
+  ]
+}

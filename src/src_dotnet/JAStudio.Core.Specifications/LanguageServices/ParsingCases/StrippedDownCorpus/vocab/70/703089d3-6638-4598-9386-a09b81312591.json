@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "見え",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "seeing | appearance/airs/pretensions/show/ostentation/display/vanity/charm",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "みえ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-05-15-07-28-21-924.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "見栄",
+      "isOwned": false
+    },
+    {
+      "text": "見栄え",
+      "isOwned": false
+    },
+    {
+      "text": "見映",
+      "isOwned": false
+    },
+    {
+      "text": "見映え",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "airs/pretensions/show/ostentation/display/appearance/vanity/charm",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "703089d3-6638-4598-9386-a09b81312591",
+  "tags": [
+    "source::yomitan"
+  ]
+}

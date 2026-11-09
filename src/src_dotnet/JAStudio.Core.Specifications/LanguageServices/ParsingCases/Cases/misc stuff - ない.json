@@ -1,0 +1,15 @@
+{
+  "sentence": "ない",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ない.",
+  "parsedWords": [
+    {"form":"ない","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"ない","vocabId":"5d1d65aa-6ed8-4bf4-893f-d9eb6b2321d3"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"ない","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"5d1d65aa-6ed8-4bf4-893f-d9eb6b2321d3"}
+      ]
+    }
+  ]
+}

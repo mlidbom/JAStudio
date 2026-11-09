@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "ガチ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "serious/earnest/honest | real/legit",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ガチ"
+  ],
+  "partsOfSpeech": [
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-30c4030133dd23f0dfb9fcc65917d71aeb9b162ff91171b231200de4.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "がち",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "がちる"
+    ]
+  },
+  "sourceData": {
+    "answer": "serious/earnest/honest/real/legit",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5042c2a3-32fb-4742-9cc9-3881658988f5",
+  "tags": [
+    "source::yomitan"
+  ]
+}

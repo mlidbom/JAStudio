@@ -1,0 +1,37 @@
+{
+  "sentence": "俺に謝られても",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 俺 | に | 謝る | あれても.",
+  "parsedWords": [
+    {"form":"俺","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+    {"form":"に謝る","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"に謝る","vocabId":"63c09e16-eaad-476f-8eb4-674f6ed94dee"},
+    {"form":"に","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"謝る","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"謝る","vocabId":"a2a28a55-baf3-4780-ad77-ff71ed1e1c81"},
+    {"form":"あれても","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"あれても","vocabId":"246ec33e-d622-46fa-8455-5a14bae92b8e"},
+    {"form":"あれて","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"あれて","vocabId":"182b5f91-17e6-41ce-b062-bad3478d55a9"},
+    {"form":"あれる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"ても","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"ても","vocabId":"0fd262c2-58c4-481f-9d0a-1a396c7ec21e"},
+    {"form":"て","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"も","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"俺","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"に謝る","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"に謝る","vocabId":"63c09e16-eaad-476f-8eb4-674f6ed94dee"},
+        {"form":"あれても","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれても","vocabId":"246ec33e-d622-46fa-8455-5a14bae92b8e"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"俺","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"に","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"謝る","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"謝る","vocabId":"a2a28a55-baf3-4780-ad77-ff71ed1e1c81"},
+        {"form":"あれる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"て","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"も","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"}
+      ]
+    }
+  ]
+}

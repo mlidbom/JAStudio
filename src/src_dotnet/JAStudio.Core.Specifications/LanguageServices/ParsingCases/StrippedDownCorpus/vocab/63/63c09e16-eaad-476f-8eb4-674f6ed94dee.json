@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "に謝る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: apologize-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "に",
+      "謝る"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "にあやまる"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-61de6cd75c0bca376b5a81686a478e899cc770dddeb598062ca8716d.mp3]",
+  "forms": [],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "63c09e16-eaad-476f-8eb4-674f6ed94dee",
+  "tags": []
+}

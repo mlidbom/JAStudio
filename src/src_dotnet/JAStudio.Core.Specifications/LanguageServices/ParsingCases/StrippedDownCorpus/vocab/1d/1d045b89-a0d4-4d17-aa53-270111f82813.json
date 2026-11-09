@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "私たち",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "we/us",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "私",
+      "たち"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "わたしたち"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:628dff75d2c6e5073a715fd94e18967b.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "わたし達",
+      "isOwned": false
+    },
+    {
+      "text": "私達",
+      "isOwned": false
+    },
+    {
+      "text": "わたくし達",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 216,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "we/us",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1d045b89-a0d4-4d17-aa53-270111f82813",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step05"
+  ]
+}

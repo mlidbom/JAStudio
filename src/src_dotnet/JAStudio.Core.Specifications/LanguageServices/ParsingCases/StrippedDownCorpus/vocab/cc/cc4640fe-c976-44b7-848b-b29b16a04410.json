@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "なのに",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "and-yet/despite-this/but-even-so　| whereas/while | if-only/I-wish | in-order-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "な",
+      "のに"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なのに"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_なのに_なのに_2023-08-21-12-00-20.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 85,
+  "technicalNotes": "",
+  "references": "Cure Dolly <a href=\"https://www.youtube.com/watch?v=Au5JOtcwE7A&amp;t=53s\">のに、なのに</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "and-yet/despite-this/but-even-so/but-even-then/however/nevertheless/for-all-that/notwithstanding-that",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cc4640fe-c976-44b7-848b-b29b16a04410",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

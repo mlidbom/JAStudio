@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "うるせえ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "shut-up!/be-quiet!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うるせえ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": " [sound:ATTS うるせえ (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "うるせー",
+      "isOwned": false
+    },
+    {
+      "text": "うるせぇ",
+      "isOwned": false
+    },
+    {
+      "text": "うっせえ",
+      "isOwned": false
+    },
+    {
+      "text": "うっせー",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "煩い"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "shut-up!/be-quiet!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a3481554-0703-4b2d-a24c-49f462bd8746",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "どやす",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} scold/tell-off/{yell/shout}-at | drub/beat/thrash/hit",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "どやす"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-06-30-21-09-30-196.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} hit/beat | shout-at/yell-at",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9b52a926-5642-49e8-b025-4b4976e95bf6",
+  "tags": [
+    "source::yomitan"
+  ]
+}

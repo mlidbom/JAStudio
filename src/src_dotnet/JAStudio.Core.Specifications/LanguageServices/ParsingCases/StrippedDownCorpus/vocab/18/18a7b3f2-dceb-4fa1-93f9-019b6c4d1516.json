@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "同じ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>な:</tag>the-same/identical/equal/equivalent/alike",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おなじ"
+  ],
+  "partsOfSpeech": [
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:同じ_b.mp3]",
+  "audioG": "[sound:同じ_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 194,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "same/identical/equal/uniform/equivalent/similar/common-(origin)/changeless/alike | anyway/anyhow/in-either-case",
+    "mnemonic": "This word is the kanji <kanji>same</kanji> with hiragana attached, and it also means <vocabulary>same</vocabulary>.\n\nIt's a bit of an oddball among Japanese adjectives, because you don't need な or い to attach it to a noun. So it's usually considered to be a \"special\" な-adjective. Have a look at the context sentences to see it in action!",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nWhen you think of the word \"same\" think <vocabulary>same</vocabulary> <reading>owner</reading> (<ja>おな</ja>). You're looking at a restaurant that has a sign that says, \"New owners!\" However, when you walk in you see it's the same terrible owner you remember from before. What a liar."
+  },
+  "id": "18a7b3f2-dceb-4fa1-93f9-019b6c4d1516",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "知らない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "unknown/strange | {I}-don't-know | I-don't-care/whatever | don't-{come-crying-to/blame}-me",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "知る",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しらない"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_しらない_知らない_2023-07-22-12-54-40.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "知らん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 122,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [
+        "た"
+      ],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "unknown/strange | I-don't-care/that's-irrelevant/whatever",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2584ac22-9ddc-40f0-9ae4-ab7e26943089",
+  "tags": [
+    "-::vocab::matching::uses::suffix-is-not",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

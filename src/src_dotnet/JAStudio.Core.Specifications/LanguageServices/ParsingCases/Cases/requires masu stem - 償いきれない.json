@@ -1,0 +1,30 @@
+{
+  "sentence": "償いきれない",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresMasuStem, against vocab copied by hand, expected the breakdown to display: 償い | きれない.",
+  "parsedWords": [
+    {"form":"償う","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"償う","vocabId":"04eb94ca-200c-480b-ba83-bc3079bcb71c"},
+    {"form":"きれない","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"きれない","vocabId":"eef8a2a5-50b4-4589-8107-a0170b738b40"},
+    {"form":"きれる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"きれる","vocabId":"e0670597-33d8-44c3-bd76-6b420cad995e"},
+    {"form":"きる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"きる","vocabId":"e8f59088-66ef-441d-a107-50ec758941a8"},
+    {"form":"えない","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
+    {"form":"える","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ない","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"償う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"償う","vocabId":"04eb94ca-200c-480b-ba83-bc3079bcb71c"},
+        {"form":"きれない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"きれない","vocabId":"eef8a2a5-50b4-4589-8107-a0170b738b40"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"償う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"償う","vocabId":"04eb94ca-200c-480b-ba83-bc3079bcb71c"},
+        {"form":"きれる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"きれる","vocabId":"e0670597-33d8-44c3-bd76-6b420cad995e"},
+        {"form":"ない","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    }
+  ]
+}

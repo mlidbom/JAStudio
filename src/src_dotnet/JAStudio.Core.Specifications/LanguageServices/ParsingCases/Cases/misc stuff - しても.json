@@ -1,0 +1,28 @@
+{
+  "sentence": "しても",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: する | ても.",
+  "parsedWords": [
+    {"form":"しても","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"しても","vocabId":"bd36c37a-92bf-45ce-99df-2d1cfcdb59ff"},
+    {"form":"して","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"して","vocabId":"50c8f12a-9c6a-456b-b8c0-306887458d32"},
+    {"form":"する","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"ても","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"ても","vocabId":"0fd262c2-58c4-481f-9d0a-1a396c7ec21e"},
+    {"form":"て","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"も","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"しても","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"しても","vocabId":"bd36c37a-92bf-45ce-99df-2d1cfcdb59ff"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"する","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"て","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"も","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"}
+      ]
+    }
+  ]
+}

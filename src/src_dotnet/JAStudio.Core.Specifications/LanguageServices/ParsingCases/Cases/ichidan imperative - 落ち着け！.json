@@ -1,0 +1,17 @@
+{
+  "sentence": "落ち着け！",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 落ち着く | え.",
+  "parsedWords": [
+    {"form":"落ち着く","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"落ち着く","vocabId":"ca11b8da-0d8f-4a2b-91c7-9e6d03ed91ed"},
+    {"form":"え","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"落ち着く","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"落ち着く","vocabId":"ca11b8da-0d8f-4a2b-91c7-9e6d03ed91ed"},
+        {"form":"え","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"}
+      ]
+    }
+  ]
+}

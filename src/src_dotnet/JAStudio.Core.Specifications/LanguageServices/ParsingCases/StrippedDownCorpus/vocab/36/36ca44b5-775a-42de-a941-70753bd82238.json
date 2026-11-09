@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "オレ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I/me",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おれ"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:俺_b.mp3]",
+  "audioG": "[sound:俺_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "俺",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 31,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "olé",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+  },
+  "id": "36ca44b5-775a-42de-a941-70753bd82238",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::13"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "sentence": "いいのかよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: いい | のか | よ.",
+  "parsedWords": [
+    {"form":"いいの","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"いいの","vocabId":"b4f2c0df-6077-4051-9c06-cee0ba59bd82"},
+    {"form":"いい","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"いい","vocabId":"a43f2e26-285f-45c7-a65a-3fef3ca0ae97"},
+    {"form":"のか","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"},
+    {"form":"の","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"かよ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"かよ","vocabId":"63dd30c5-4474-4b3a-9bc1-3c3b063b0003"},
+    {"form":"か","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"よ","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"いいの","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いいの","vocabId":"b4f2c0df-6077-4051-9c06-cee0ba59bd82"},
+        {"form":"かよ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かよ","vocabId":"63dd30c5-4474-4b3a-9bc1-3c3b063b0003"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"いい","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いい","vocabId":"a43f2e26-285f-45c7-a65a-3fef3ca0ae97"},
+        {"form":"の","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"か","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"よ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "question": {
+    "text": "ちょいと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>=<ja>ちょっと</ja>:</tag> a-little/slightly | for-a-{minute/moment} | somewhat/rather | not-{easily/readily} | hey!/hold-on!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ちょっと"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-218b8503dc2d14ad16f93999ca34382baf20a720b18747caa4ad0cdc.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "チョッと",
+      "isOwned": false
+    },
+    {
+      "text": "鳥渡",
+      "isOwned": false
+    },
+    {
+      "text": "チョット",
+      "isOwned": false
+    },
+    {
+      "text": "ちょっと",
+      "isOwned": false
+    },
+    {
+      "text": "一寸",
+      "isOwned": false
+    },
+    {
+      "text": "ちょと",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "a-little/a-bit/slightly | just-a-minute/for-a-moment/briefly | somewhat/rather/fairly/pretty/quite | (not)-easily/(not)-readily | hey!/come-on/excuse-me",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "774d18bb-e73a-4335-988d-961d118565dc",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step10"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "sentence": "そうだな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: そうだ | な:s.end.",
+  "parsedWords": [
+    {"form":"そうだな","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"そうだな","vocabId":"40270ee4-9b5c-4b22-ae9d-52aaeb60083a"},
+    {"form":"そうだ","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"そうだ","vocabId":"ab9096c0-d91c-4874-935b-905aff7fab89"},
+    {"form":"そう","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"そう","vocabId":"44716e6f-ab3a-4065-bb8f-0ef3ca5b05a3"},
+    {"form":"だな","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"だな","vocabId":"0b569302-ce46-4122-9abe-b2aa8468876d"},
+    {"form":"だ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"な","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"そうだな","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そうだな","vocabId":"40270ee4-9b5c-4b22-ae9d-52aaeb60083a"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"そう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そう","vocabId":"44716e6f-ab3a-4065-bb8f-0ef3ca5b05a3"},
+        {"form":"だ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"な","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

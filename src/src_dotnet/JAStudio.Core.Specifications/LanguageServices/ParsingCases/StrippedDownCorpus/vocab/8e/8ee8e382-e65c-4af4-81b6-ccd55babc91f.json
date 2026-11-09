@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "た",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>past-tense:</tag> _-{ed} | was-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "た"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_た_た_2023-07-20-12-04-32.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 13591,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "んだ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "でした",
+      "る",
+      "んだ"
+    ]
+  },
+  "sourceData": {
+    "answer": "did/(have)-done | (please)-do",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8ee8e382-e65c-4af4-81b6-ccd55babc91f",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

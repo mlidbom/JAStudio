@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "吐く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: vomit | breathe-out | tell | confess | <tag><ja>つく</ja>:</tag>lie | use-foul-language",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はく",
+    "つく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:吐く_b.mp3][sound:yomitan_audio_2024-04-23-03-31-12-959.mp3]",
+  "audioG": "[sound:吐く_g.mp3][sound:yomitan_audio_2024-04-23-03-31-12-959.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つく",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img src=\"paste-858080a327ea7979521d8329b342ca54b377daef.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>つく</read>:: to{} breathe-out/breathe | tell-(a-lie)/use-(foul-language) | vomit/throw-up/spit-up\n<read>はく</read>:: to{} vomit/throw-up/spit-up | emit/send-forth/breathe-out | give-(an-opinion)/make-(a-comment)/express/tell | confess",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>throw up</kanji> so the verb version is <vocabulary>to throw up</vocabulary> or <vocabulary>to puke</vocabulary> or <vocabulary>to spit</vocabulary>.",
+    "readingMnemonic": "The reading is from the reading you learned with the kanji. HA HA HA! Barf."
+  },
+  "id": "a8ce4fca-4277-4463-b930-f4e3dc099e0c",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::34"
+  ]
+}

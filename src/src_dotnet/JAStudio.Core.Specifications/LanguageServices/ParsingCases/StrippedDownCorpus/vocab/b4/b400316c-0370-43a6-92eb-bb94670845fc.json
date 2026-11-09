@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "存在",
+    "disambiguation": ""
+  },
+  "corpusAnswer": " existence/being/presence",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "そんざい"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:存在_b.mp3]",
+  "audioG": "[sound:存在_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 50,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "existence/being",
+    "mnemonic": "I <kanji>exist</kanji>, I <kanji>suppose</kanji>... this is the kind of <vocabulary>existence</vocabulary> I have. I'm not really sure either way, and I don't care. Existence is futile, I suppose.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "b400316c-0370-43a6-92eb-bb94670845fc",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::20"
+  ]
+}

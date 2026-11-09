@@ -1,0 +1,96 @@
+{
+  "sentence": "横取りされたらたまらん",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 横取り | される | たら | たまらん.",
+  "parsedWords": [
+    {"form":"横取りする","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"横取りする","vocabId":"9ee101b3-0083-4b81-8f8f-bfe0fa19a8fe"},
+    {"form":"横取り","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"横取り","vocabId":"07f87c54-c393-4566-9492-4a3cefc3188a"},
+    {"form":"される","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"される","vocabId":"3897ccf9-0454-4a4e-89bf-93414efa1db9"},
+    {"form":"する","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"あれたら","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"あれたら","vocabId":"42de2f02-f04f-45dc-8432-aece4a2787e5"},
+    {"form":"あれる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"たら","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+    {"form":"た","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"たまらん","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"たまらん","vocabId":"7acbdaaa-a455-4499-8fe0-dbc3fa070b46"},
+    {"form":"たまる","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"たまる","vocabId":"aaa48d89-9a39-42ec-8714-1545e4957320"},
+    {"form":"ん","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"横取りする","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"横取りする","vocabId":"9ee101b3-0083-4b81-8f8f-bfe0fa19a8fe"},
+        {"form":"あれたら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれたら","vocabId":"42de2f02-f04f-45dc-8432-aece4a2787e5"},
+        {"form":"たまらん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たまらん","vocabId":"7acbdaaa-a455-4499-8fe0-dbc3fa070b46"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"横取りする","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"横取りする","vocabId":"9ee101b3-0083-4b81-8f8f-bfe0fa19a8fe"},
+        {"form":"あれたら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれたら","vocabId":"42de2f02-f04f-45dc-8432-aece4a2787e5"},
+        {"form":"たまらん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たまらん","vocabId":"7acbdaaa-a455-4499-8fe0-dbc3fa070b46"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"横取り","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"横取り","vocabId":"07f87c54-c393-4566-9492-4a3cefc3188a"},
+        {"form":"される","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"される","vocabId":"3897ccf9-0454-4a4e-89bf-93414efa1db9"},
+        {"form":"たら","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"たまらん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たまらん","vocabId":"7acbdaaa-a455-4499-8fe0-dbc3fa070b46"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"横取りする","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"横取りする","vocabId":"9ee101b3-0083-4b81-8f8f-bfe0fa19a8fe"},
+        {"form":"あれたら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれたら","vocabId":"42de2f02-f04f-45dc-8432-aece4a2787e5"},
+        {"form":"たまらん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たまらん","vocabId":"7acbdaaa-a455-4499-8fe0-dbc3fa070b46"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"横取り","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"横取り","vocabId":"07f87c54-c393-4566-9492-4a3cefc3188a"},
+        {"form":"する","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"あれる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"たら","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"たまる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"たまる","vocabId":"aaa48d89-9a39-42ec-8714-1545e4957320"},
+        {"form":"ん","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"横取り","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"横取り","vocabId":"07f87c54-c393-4566-9492-4a3cefc3188a"},
+        {"form":"する","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"あれる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"たら","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"たまる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"たまる","vocabId":"aaa48d89-9a39-42ec-8714-1545e4957320"},
+        {"form":"ん","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"横取り","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"横取り","vocabId":"07f87c54-c393-4566-9492-4a3cefc3188a"},
+        {"form":"する","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"あれる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"たら","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"たまる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"たまる","vocabId":"aaa48d89-9a39-42ec-8714-1545e4957320"},
+        {"form":"ん","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true,"automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"横取り","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"横取り","vocabId":"07f87c54-c393-4566-9492-4a3cefc3188a"},
+        {"form":"する","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"あれる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"たら","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"たまる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"たまる","vocabId":"aaa48d89-9a39-42ec-8714-1545e4957320"},
+        {"form":"ん","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+      ]
+    }
+  ]
+}

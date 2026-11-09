@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "何なんです",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "what-in-the-world-is |/ what's-with/what's-up-with |/ what-the-hell/what-was-that-all-about",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "何",
+      "なんです"
+    ],
+    "alternative": [
+      "何なん"
+    ]
+  },
+  "readings": [
+    "なんなんです"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1d597755f2178846e75f40a75a5752545d13f51d623596e422482ebb.mp3]",
+  "forms": [
+    {
+      "text": "なんなんです",
+      "isOwned": true
+    }
+  ],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "<div>なんなんだ</div>"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d8ca2fc5-02f9-4148-bb06-847c67228a11",
+  "tags": [
+    "source::yomitan"
+  ]
+}

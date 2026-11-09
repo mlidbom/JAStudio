@@ -1,0 +1,24 @@
+{
+  "sentence": "すげえ",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: すげえ | すげ.",
+  "parsedWords": [
+    {"form":"すげえ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"すげー","vocabId":"c464b617-b963-4df6-a1f1-49489b3401c1"},
+    {"form":"すげ","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"すげ","vocabId":"812eedb9-4442-49ea-aa03-02cae9d3a131"},
+    {"form":"え","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"え","vocabId":"7a58356a-0ec3-4fd5-9c4d-e44e69f0167e"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"すげえ","startIndex":0,"variant":"surface","shownAs":"すげー","isEmergencyDisplayed":false,"vocab":"すげー","vocabId":"c464b617-b963-4df6-a1f1-49489b3401c1"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"すげ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"すげ","vocabId":"812eedb9-4442-49ea-aa03-02cae9d3a131"},
+        {"form":"え","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"え","vocabId":"7a58356a-0ec3-4fd5-9c4d-e44e69f0167e"}
+      ]
+    }
+  ]
+}

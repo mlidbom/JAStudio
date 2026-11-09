@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "たら",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "if/when/should-there-be | when-it-comes-to | _-{would/could}-{be/have}?\n<tag>s.end:</tag>why-not/how-about | <tag>ったら:</tag>I-tell-you!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たら"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_たら_たら_2023-07-20-12-02-12.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "だら",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1030,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "ったら"
+    ]
+  },
+  "sourceData": {
+    "answer": "indicates-supposition/if-...-then/when/after | (typically-after-someone's-name)-indicates-exasperation",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b92e04ed-7372-45f6-aad5-6975c6447a86",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

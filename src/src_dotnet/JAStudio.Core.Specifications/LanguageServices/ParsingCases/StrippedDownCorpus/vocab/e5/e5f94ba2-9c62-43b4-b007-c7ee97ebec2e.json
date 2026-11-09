@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "強引",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>な:</tag>pushy/forceful/aggressive/coercive",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ごういん"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-03-02-10-32-31-995.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "overbearing/coercive/pushy/forcible/high-handed",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e5f94ba2-9c62-43b4-b007-c7ee97ebec2e",
+  "tags": [
+    "source::yomitan"
+  ]
+}

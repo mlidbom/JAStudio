@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "き",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "Welsh-onion-(Allium-fistulosum)/green-onion/spring-onion",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "き",
+    "ねぎ",
+    "ネギ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ねぎ",
+      "isOwned": false
+    },
+    {
+      "text": "葱",
+      "isOwned": false
+    },
+    {
+      "text": "ネギ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 50,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Welsh-onion-(Allium-fistulosum)/green-onion/spring-onion",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f3bf29cb-d64d-45c5-b8a8-c8cb20297b1a",
+  "tags": []
+}

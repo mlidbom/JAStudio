@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "壱",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>legal/documents:</tag>one",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いち"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun",
+    "numeric",
+    "prefix",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-07-13-15-45-34-745.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "一",
+      "isOwned": false
+    },
+    {
+      "text": "１",
+      "isOwned": false
+    },
+    {
+      "text": "壹",
+      "isOwned": false
+    },
+    {
+      "text": "弌",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "one | best | first/foremost | beginning/start | a-(single)/one-(of-many) | ace-(playing-card) | bottom-string-(on-a-shamisen,-etc.)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4981bf13-bf86-46f5-8393-4180cbad41d5",
+  "tags": [
+    "source::yomitan"
+  ]
+}

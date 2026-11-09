@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "あいつら",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>derog/fam:</tag> those-{guys/fellows}/that-guy-and-company",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "あいつ",
+      "ら"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "あいつら"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-08-07-01-56-13-753.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "あいつ等",
+      "isOwned": false
+    },
+    {
+      "text": "彼奴ら",
+      "isOwned": false
+    },
+    {
+      "text": "彼奴等",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 33,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "they",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c7f635cb-83e0-4f82-8cd0-58f29f12974c",
+  "tags": [
+    "source::yomitan"
+  ]
+}

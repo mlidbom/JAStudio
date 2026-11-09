@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "てらっしゃい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "please-{come/go/stay | do-_}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "らっしゃい"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てらっしゃい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-96f90858f2d6caa76eff6b50e13494b128bf2c824bef099a38698f42.mp3]",
+  "forms": [],
+  "sentenceCount": 15,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1555d14f-7576-4b6e-8757-1ec0fc7d2dde",
+  "tags": [
+    "source::yomitan"
+  ]
+}

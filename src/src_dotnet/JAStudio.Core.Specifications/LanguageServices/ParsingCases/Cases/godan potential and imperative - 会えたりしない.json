@@ -1,0 +1,53 @@
+{
+  "sentence": "会えたりしない",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 会う | える | たり | する | ない.",
+  "parsedWords": [
+    {"form":"会う","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"たりする","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"たりする","vocabId":"f7c0cad2-e393-4e59-866a-850604a08b1a"},
+    {"form":"たり","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"たり","vocabId":"0f453213-80b5-450a-80e1-1cb9909b8408"},
+    {"form":"しない","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"しない","vocabId":"15a01624-db54-4e52-b57a-75c09339a957"},
+    {"form":"する","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"ない","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"会う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"たりする","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"たりする","vocabId":"f7c0cad2-e393-4e59-866a-850604a08b1a"},
+        {"form":"ない","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"会う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"たり","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たり","vocabId":"0f453213-80b5-450a-80e1-1cb9909b8408"},
+        {"form":"しない","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"しない","vocabId":"15a01624-db54-4e52-b57a-75c09339a957"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"会う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"たり","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たり","vocabId":"0f453213-80b5-450a-80e1-1cb9909b8408"},
+        {"form":"する","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"ない","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"会う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"たり","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たり","vocabId":"0f453213-80b5-450a-80e1-1cb9909b8408"},
+        {"form":"する","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"ない","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    }
+  ]
+}

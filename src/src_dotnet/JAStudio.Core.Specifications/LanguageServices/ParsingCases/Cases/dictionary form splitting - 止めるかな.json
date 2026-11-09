@@ -1,0 +1,34 @@
+{
+  "sentence": "止めるかな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 止める | る:う | かな.",
+  "parsedWords": [
+    {"form":"止める","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"止める","vocabId":"e5de34e0-ad94-4a63-aac6-ed79b969f62a"},
+    {"form":"止める","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"止める","vocabId":"e5de34e0-ad94-4a63-aac6-ed79b969f62a"},
+    {"form":"止む","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"止む","vocabId":"122ea4d3-6064-48b2-bed2-b5c1114f0306"},
+    {"form":"える","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"う","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"かな","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"},
+    {"form":"か","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"な","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"止める","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"止める","vocabId":"e5de34e0-ad94-4a63-aac6-ed79b969f62a"},
+        {"form":"う","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"かな","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"止める","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"止める","vocabId":"e5de34e0-ad94-4a63-aac6-ed79b969f62a"},
+        {"form":"う","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"か","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"な","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

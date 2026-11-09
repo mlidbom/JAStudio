@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "散",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "loose-articles/bulk-items/individual-items | coins/small-change",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ばら"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ばら",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "loose-articles-(not-packaged-with-other-things)/bulk-items/individual-items | coins/small-change",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7c151888-1ba7-4623-a857-143878ad9835",
+  "tags": [
+    "source::yomitan"
+  ]
+}

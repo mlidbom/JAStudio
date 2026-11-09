@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "日本語",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "japanese-language",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "にほんご"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:日本語_b.mp3]",
+  "audioG": "[sound:日本語_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 131,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Japanese-(language)",
+    "mnemonic": "You know <ja>日本</ja> is \"Japan.\" So, when you add <kanji>language</kanji> onto the end of that you have <vocabulary>Japanese language</vocabulary>.",
+    "readingMnemonic": "The reading is just the vocab word <ja>日本</ja> (<ja>にほん</ja>) plus the reading that you learned for <ja>語</ja>. Combine them together to get the reading for this word."
+  },
+  "id": "9d96db17-33fa-4f2e-b0eb-d91789687f31",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::10"
+  ]
+}

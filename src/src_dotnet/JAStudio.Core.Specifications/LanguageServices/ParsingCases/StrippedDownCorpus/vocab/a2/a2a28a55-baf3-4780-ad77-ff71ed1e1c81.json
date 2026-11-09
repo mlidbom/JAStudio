@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "謝る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} apologize",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あやまる"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:謝る_b.mp3]",
+  "audioG": "[sound:謝る_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 38,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{apologize/apologise}",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>apologize</kanji> so the verb vocab version is <vocabulary>to apologize</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: When you say you're sorry <vocabulary>to apologize</vocabulary>, you'd probably start with: \"<reading>I am</reading> (<ja>あやま</ja>) sorry!\""
+  },
+  "id": "a2a28a55-baf3-4780-ad77-ff71ed1e1c81",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::13"
+  ]
+}

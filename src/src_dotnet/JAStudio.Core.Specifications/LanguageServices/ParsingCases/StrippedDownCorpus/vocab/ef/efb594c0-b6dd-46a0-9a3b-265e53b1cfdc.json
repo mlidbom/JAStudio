@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "だけど",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>=<ja>だが</ja></tag> but/yet/however | <tag>s.end:</tag>though/you-know/FYI/you-figure-out-what-I'm-implying",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "けど"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だけど"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_だけど_だけど_2023-07-20-13-50-38.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 494,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "が",
+      "けど"
+    ]
+  },
+  "sourceData": {
+    "answer": "however",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "efb594c0-b6dd-46a0-9a3b-265e53b1cfdc",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "くれる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: give-one/let-one-have | do-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "くれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_くれる_くれる_2023-07-22-11-18-54.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "呉れる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1035,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "くださる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{}{give/let-(one)-have} | to{}give | to{?}{do-for-one/take-the-trouble-to-do} | to{?}do-to-someone's-disadvantage",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "10773e41-fea7-4ac4-a318-d72b6f3043f7",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

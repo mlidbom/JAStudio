@@ -1,0 +1,59 @@
+{
+  "sentence": "それなのに 周りは化け物が出ることで有名だと聞き",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: それなのに | 周り | は | 化け物 | が | 出る | こと | で | 有名 | だ | と | 聞く | 聞き | る.",
+  "parsedWords": [
+    {"form":"それなのに","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"それなのに","vocabId":"cbe5ae61-aa62-409b-ae9c-ec96f5f83abf"},
+    {"form":"周り","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"周り","vocabId":"25bcea4a-4994-4da9-947a-bcd6d3b314b3"},
+    {"form":"は","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+    {"form":"化け物","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"化け物","vocabId":"7e071f09-93a1-4169-aabb-5be351d92d2d"},
+    {"form":"が","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+    {"form":"出る","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"出る","vocabId":"df3309e9-9da5-4674-83af-f3c162e6e202"},
+    {"form":"出る","startIndex":13,"variant":"base","isDisplayed":false,"vocab":"出る","vocabId":"df3309e9-9da5-4674-83af-f3c162e6e202"},
+    {"form":"うことで","startIndex":14,"variant":"surface","isDisplayed":true,"vocab":"うことで","vocabId":"9773d025-cfda-44da-828e-45aa184b801a"},
+    {"form":"う","startIndex":14,"variant":"surface","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"こと","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"こと","vocabId":"84239620-4846-43bd-92c3-a14e405883ab"},
+    {"form":"で","startIndex":17,"variant":"surface","isDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+    {"form":"有名","startIndex":18,"variant":"surface","isDisplayed":true,"vocab":"有名","vocabId":"3bfb070d-6840-40e7-96a1-46e60a2ce6fd"},
+    {"form":"だと","startIndex":20,"variant":"surface","isDisplayed":false,"vocab":"だと","vocabId":"f4c28fe9-3946-492c-ab3c-29673cad4b23"},
+    {"form":"だ","startIndex":20,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"と聞く","startIndex":21,"variant":"base","isDisplayed":true,"vocab":"って聞く","vocabId":"e8ea4e7b-e83c-41fe-a228-ce6648ca7067"},
+    {"form":"と","startIndex":21,"variant":"surface","isDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+    {"form":"聞き","startIndex":22,"variant":"surface","isDisplayed":false,"vocab":"聞き","vocabId":"98bd142a-6e03-42dd-aaba-6547db904b99"},
+    {"form":"聞く","startIndex":22,"variant":"base","isDisplayed":false,"vocab":"聞く","vocabId":"ee02c08a-d068-40ff-b882-ffc586af7186"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"それなのに","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"それなのに","vocabId":"cbe5ae61-aa62-409b-ae9c-ec96f5f83abf"},
+        {"form":"周り","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"周り","vocabId":"25bcea4a-4994-4da9-947a-bcd6d3b314b3"},
+        {"form":"は","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"化け物","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"化け物","vocabId":"7e071f09-93a1-4169-aabb-5be351d92d2d"},
+        {"form":"が","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"出る","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"出る","vocabId":"df3309e9-9da5-4674-83af-f3c162e6e202"},
+        {"form":"うことで","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うことで","vocabId":"9773d025-cfda-44da-828e-45aa184b801a"},
+        {"form":"有名","startIndex":18,"variant":"surface","isEmergencyDisplayed":false,"vocab":"有名","vocabId":"3bfb070d-6840-40e7-96a1-46e60a2ce6fd"},
+        {"form":"だ","startIndex":20,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"と聞く","startIndex":21,"variant":"base","shownAs":"って聞く","isEmergencyDisplayed":false,"vocab":"って聞く","vocabId":"e8ea4e7b-e83c-41fe-a228-ce6648ca7067"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"それなのに","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"それなのに","vocabId":"cbe5ae61-aa62-409b-ae9c-ec96f5f83abf"},
+        {"form":"周り","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"周り","vocabId":"25bcea4a-4994-4da9-947a-bcd6d3b314b3"},
+        {"form":"は","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"化け物","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"化け物","vocabId":"7e071f09-93a1-4169-aabb-5be351d92d2d"},
+        {"form":"が","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"出る","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"出る","vocabId":"df3309e9-9da5-4674-83af-f3c162e6e202"},
+        {"form":"う","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"こと","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"こと","vocabId":"84239620-4846-43bd-92c3-a14e405883ab"},
+        {"form":"で","startIndex":17,"variant":"surface","isEmergencyDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+        {"form":"有名","startIndex":18,"variant":"surface","isEmergencyDisplayed":false,"vocab":"有名","vocabId":"3bfb070d-6840-40e7-96a1-46e60a2ce6fd"},
+        {"form":"だ","startIndex":20,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"と","startIndex":21,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+        {"form":"聞き","startIndex":22,"variant":"surface","isEmergencyDisplayed":false,"vocab":"聞き","vocabId":"98bd142a-6e03-42dd-aaba-6547db904b99"}
+      ]
+    }
+  ]
+}

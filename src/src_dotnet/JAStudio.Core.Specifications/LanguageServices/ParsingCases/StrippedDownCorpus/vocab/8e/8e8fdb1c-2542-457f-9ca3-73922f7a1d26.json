@@ -1,0 +1,119 @@
+{
+  "question": {
+    "text": "んどる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag>{is}-_-ing | _-s-{habitually/recurringly}\n<tag>state-change-verb:</tag> {is/has}-_-{ed} | _-s-{habitually/recurringly}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "んどる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-cd1e885372e40548310b97deb2ebe265d547ac2b66c88e7246edc2b5.mp3]",
+  "forms": [
+    {
+      "text": "どる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [
+        "い"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "いでいる",
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "ておる",
+      "てます",
+      "てる",
+      "とる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる"
+    ],
+    "synonyms": [
+      "いでいる",
+      "いでおる",
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "でおります",
+      "ておる",
+      "でおる",
+      "てます",
+      "てる",
+      "でる",
+      "てん",
+      "とる",
+      "どる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "る"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8e8fdb1c-2542-457f-9ca3-73922f7a1d26",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

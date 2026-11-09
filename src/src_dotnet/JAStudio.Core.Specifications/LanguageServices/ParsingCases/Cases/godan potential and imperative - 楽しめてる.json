@@ -1,0 +1,27 @@
+{
+  "sentence": "楽しめてる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 楽しむ | える | てる.",
+  "parsedWords": [
+    {"form":"楽しむ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"楽しむ","vocabId":"25dcb9bd-97b4-476f-9bbd-255f75b15b93"},
+    {"form":"えてる","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"えてる","vocabId":"d0f99b6d-835b-4fa2-b693-6a10ea34c1fb"},
+    {"form":"える","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"てる","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"楽しむ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"楽しむ","vocabId":"25dcb9bd-97b4-476f-9bbd-255f75b15b93"},
+        {"form":"えてる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えてる","vocabId":"d0f99b6d-835b-4fa2-b693-6a10ea34c1fb"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"楽しむ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"楽しむ","vocabId":"25dcb9bd-97b4-476f-9bbd-255f75b15b93"},
+        {"form":"える","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"てる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+      ]
+    }
+  ]
+}

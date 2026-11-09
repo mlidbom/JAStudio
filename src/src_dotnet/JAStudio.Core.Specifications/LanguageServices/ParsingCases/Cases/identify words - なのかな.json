@@ -1,0 +1,32 @@
+{
+  "sentence": "なのかな",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: か | かな | な | なの | の | のか.",
+  "parsedWords": [
+    {"form":"なのかな","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"なのかな","vocabId":"0c1a2cd7-6d22-47f4-a401-33a443b7334c"},
+    {"form":"なのか","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"なのか","vocabId":"f1a297cd-288a-42b1-98fa-2c9dae819cad"},
+    {"form":"なの","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"なの","vocabId":"32ba637c-7d49-41bf-b978-54532d4d4299"},
+    {"form":"な","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"のかな","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"のかな","vocabId":"e58c04eb-f227-40c2-bf6f-62481e1ad556"},
+    {"form":"の","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"かな","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"},
+    {"form":"か","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"な","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"なのかな","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なのかな","vocabId":"0c1a2cd7-6d22-47f4-a401-33a443b7334c"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"な","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"の","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"か","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"な","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

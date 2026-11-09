@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "いかが",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "how/how-is/in-what-way/how-about | questionable",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いかが"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:9413fc7459e50669c9b0745e38c41e32.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "如何",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 17,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"e41587844aaa37256e33e3dc420eedda.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "how/in-what-way/how-about | questionable",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8a7d740e-7fdd-4bfe-91da-b6ae0aaa5e17",
+  "tags": [
+    "source::core2000::step08"
+  ]
+}

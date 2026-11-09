@@ -1,0 +1,30 @@
+{
+  "sentence": "何言っとんだ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 何 | 言う | とん | んだ:past.",
+  "parsedWords": [
+    {"form":"何言っとん","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"何言っとん","vocabId":"b0e2ec3f-8860-4c32-b16b-05ce460a40d0"},
+    {"form":"何","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"},
+    {"form":"言っとん","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"言っとん","vocabId":"0f4f0056-519f-4379-a39a-e871a135f1a1"},
+    {"form":"言う","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"とん","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"とん","vocabId":"9e52e87f-7287-4b6c-a383-b6c4664afd5e"},
+    {"form":"んだ","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"何言っとん","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"何言っとん","vocabId":"b0e2ec3f-8860-4c32-b16b-05ce460a40d0"},
+        {"form":"んだ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"何","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"},
+        {"form":"言う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"とん","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"とん","vocabId":"9e52e87f-7287-4b6c-a383-b6c4664afd5e"},
+        {"form":"んだ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"}
+      ]
+    }
+  ]
+}

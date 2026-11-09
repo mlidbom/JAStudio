@@ -1,0 +1,21 @@
+{
+  "sentence": "ここは清められ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: ここ | は | 清める | られる.",
+  "parsedWords": [
+    {"form":"ここ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"ここ","vocabId":"809572a3-a267-4c38-93ea-fa7cab5b3e9b"},
+    {"form":"は","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+    {"form":"清める","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"清める","vocabId":"cc66a4da-93e9-47e9-8876-2d508116c1ea"},
+    {"form":"られる","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"られる","vocabId":"71ebf1ac-c158-4c74-9405-500b747c5d62"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"ここ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ここ","vocabId":"809572a3-a267-4c38-93ea-fa7cab5b3e9b"},
+        {"form":"は","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"清める","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"清める","vocabId":"cc66a4da-93e9-47e9-8876-2d508116c1ea"},
+        {"form":"られる","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"られる","vocabId":"71ebf1ac-c158-4c74-9405-500b747c5d62"}
+      ]
+    }
+  ]
+}

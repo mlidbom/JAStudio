@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "色々",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "various/all-sorts-of/variety-of | <tag>と:</tag>in-various-ways/variously <tag>arch:</tag>various-colors",
+  "explanation": "-",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いろいろ"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "na-adjective",
+    "no-adjective",
+    "noun",
+    "to-adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:色々_b.mp3]",
+  "audioG": "[sound:色々_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いろいろ",
+      "isOwned": false
+    },
+    {
+      "text": "色色",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 132,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "various/all-sorts-of/variety-of | various-colors-(colours)",
+    "mnemonic": "This is the kanji <kanji>color</kanji> repeated twice (the <ja>々</ja> character just repeats the kanji before it). When you have colors and colors and colors, you have a lot of variety. That's why this word means <vocabulary>various</vocabulary>.",
+    "readingMnemonic": "The reading for this kanji is just the kun'yomi reading twice. Since you've learned the kun'yomi reading already, you should be able to read this word as well. Nothing tricky about it."
+  },
+  "id": "383187db-2cfd-4c9d-bf61-d50195e6d325",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

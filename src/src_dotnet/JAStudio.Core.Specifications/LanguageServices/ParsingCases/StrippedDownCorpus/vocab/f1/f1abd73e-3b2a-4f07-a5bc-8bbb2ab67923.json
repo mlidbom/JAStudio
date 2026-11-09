@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "をする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: do | {serve/work}-as/be | wear",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "を",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "をする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": " [sound:ATTS をする (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "〜をする",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 923,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "する"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f1abd73e-3b2a-4f07-a5bc-8bbb2ab67923",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "しろ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>imperative:rough:</tag> !/do!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "ろ:imperative"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しろ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-10680c025c4e7efe5f513d25d9ad306dcd16b07c72ac90f52ce5d66a.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 67,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "する",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "870193f8-24ff-475f-ac5a-c9e54cc60e05",
+  "tags": [
+    "source::yomitan"
+  ]
+}

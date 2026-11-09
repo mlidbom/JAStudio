@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "アイツ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>derog:</tag>he/she/that-guy | that/that-one/that-thing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あいつ"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:KoenoKatachi_1_0.22.28.163-0.22.29.539.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "彼奴",
+      "isOwned": false
+    },
+    {
+      "text": "きゃつ",
+      "isOwned": false
+    },
+    {
+      "text": "あいつ",
+      "isOwned": false
+    },
+    {
+      "text": "あやつ",
+      "isOwned": false
+    },
+    {
+      "text": "かやつ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 38,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Eitz",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9c140426-2dbc-4222-bcd9-7f5ef666cc89",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "会",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "meeting/party/conference/athletic-meet | society/association/club",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かい"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:会_b.mp3]",
+  "audioG": "[sound:会_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 88,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [
+      "今"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "meeting/assembly/party/gathering/conference/athletic-meet | society/association/club",
+    "mnemonic": "This is the noun version of the kanji <kanji>meet</kanji>. So it means <vocabulary>meeting</vocabulary>.",
+    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!"
+  },
+  "id": "e4097402-ac2f-4e42-9b79-1b6c1d74b7f5",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

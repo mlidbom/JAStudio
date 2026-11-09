@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "いな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いいえ",
+    "いいや",
+    "いえ",
+    "いな",
+    "いや"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1c22ce6115e09c0cdc9024719a58139a2a87d8f37a55c16cfc42341b.mp3]",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "no/nay | well/er/why | you're-welcome/not-at-all/don't-mention-it",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "04048360-e23d-4b4d-b830-522c8d52d03d",
+  "tags": [
+    "source::jamdict"
+  ]
+}

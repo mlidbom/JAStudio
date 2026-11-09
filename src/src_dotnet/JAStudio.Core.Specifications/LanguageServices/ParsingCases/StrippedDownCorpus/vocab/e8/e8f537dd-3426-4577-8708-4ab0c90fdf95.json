@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "大声",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "loud-voice",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おおごえ"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:大声_b.mp3]",
+  "audioG": "[sound:大声_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 17,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "loud-voice",
+    "mnemonic": "A <kanji>large</kanji> <kanji>voice</kanji> is probably pretty large. Maybe even annoying, too. That's why this is a <vocabulary>large voice</vocabulary> or a <vocabulary>loud voice</vocabulary>.",
+    "readingMnemonic": "The reading for <ja>声</ja> is <ja>ごえ</ja> (rendaku'd version of the reading you know: <ja>こえ</ja>). The reading for <ja>大</ja> is the kun'yomi reading, like with the word <ja>大きい</ja> (<ja>おおきい</ja>). Just imagine a loud voice saying \"<ja>おお！</ja>.\""
+  },
+  "id": "e8f537dd-3426-4577-8708-4ab0c90fdf95",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

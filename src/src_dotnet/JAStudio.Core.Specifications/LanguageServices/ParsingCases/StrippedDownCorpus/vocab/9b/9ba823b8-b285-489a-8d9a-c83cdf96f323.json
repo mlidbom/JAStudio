@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "なあ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.start:</tag>hey/say/look <tag>s.end:</tag>right!?/{isn't/aren-t}-_?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なあ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:ny1-nodup_13_0.19.16.890-0.19.17.250.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なー",
+      "isOwned": false
+    },
+    {
+      "text": "なぁ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 416,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "な"
+    ]
+  },
+  "sourceData": {
+    "answer": "hey/say/look",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9ba823b8-b285-489a-8d9a-c83cdf96f323",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

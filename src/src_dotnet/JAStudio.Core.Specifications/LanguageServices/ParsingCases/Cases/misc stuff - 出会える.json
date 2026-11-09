@@ -1,0 +1,28 @@
+{
+  "sentence": "出会える",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 出会える | る:う.",
+  "parsedWords": [
+    {"form":"出会える","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"出会える","vocabId":"473f261b-2956-46d1-b3ca-68a595d91cb7"},
+    {"form":"出会える","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"出会える","vocabId":"473f261b-2956-46d1-b3ca-68a595d91cb7"},
+    {"form":"出会う","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"出会う","vocabId":"3ce3a6c5-7778-40ad-afa5-3c8890f97c82"},
+    {"form":"える","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"える","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"う","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"出会える","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"出会える","vocabId":"473f261b-2956-46d1-b3ca-68a595d91cb7"},
+        {"form":"う","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"出会える","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"出会える","vocabId":"473f261b-2956-46d1-b3ca-68a595d91cb7"},
+        {"form":"う","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

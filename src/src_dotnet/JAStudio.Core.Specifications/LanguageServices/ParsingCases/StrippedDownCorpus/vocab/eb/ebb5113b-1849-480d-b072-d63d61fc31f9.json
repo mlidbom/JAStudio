@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "出会い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "encounter/meeting | first-meeting | confluence",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "であい"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-04-22-04-42-56-973.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "出合",
+      "isOwned": false
+    },
+    {
+      "text": "出遭い",
+      "isOwned": false
+    },
+    {
+      "text": "出合い",
+      "isOwned": false
+    },
+    {
+      "text": "出逢い",
+      "isOwned": false
+    },
+    {
+      "text": "出会",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 14,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "meeting/rendezvous/encounter | confluence",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ebb5113b-1849-480d-b072-d63d61fc31f9",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

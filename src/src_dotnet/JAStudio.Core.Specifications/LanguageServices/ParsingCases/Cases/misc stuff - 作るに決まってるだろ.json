@@ -1,0 +1,38 @@
+{
+  "sentence": "作るに決まってるだろ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 作る | う | に決まってる | だろ; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 作る | う | に決まってる | に決まる | に | 決まる | てる | だ | だろ.",
+  "parsedWords": [
+    {"form":"作る","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"作る","vocabId":"862779f6-21f8-4fd7-b9f9-a0873688f0c5"},
+    {"form":"作る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"作る","vocabId":"862779f6-21f8-4fd7-b9f9-a0873688f0c5"},
+    {"form":"う","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"に決まってる","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"に決まってる","vocabId":"f9e97ac4-ff32-4edd-893b-3395b3e50b3e"},
+    {"form":"に","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"決まってる","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"決まってる","vocabId":"b22d97c7-e594-4544-a026-9f331a17b814"},
+    {"form":"決まる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"決まる","vocabId":"9345178b-bc14-4a3f-b4bc-bd481f36fa3d"},
+    {"form":"てる","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"だろ","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+    {"form":"だ","startIndex":8,"variant":"base","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"作る","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"作る","vocabId":"862779f6-21f8-4fd7-b9f9-a0873688f0c5"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"に決まってる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に決まってる","vocabId":"f9e97ac4-ff32-4edd-893b-3395b3e50b3e"},
+        {"form":"だろ","startIndex":8,"variant":"surface","shownAs":"だろう","isEmergencyDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"作る","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"作る","vocabId":"862779f6-21f8-4fd7-b9f9-a0873688f0c5"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"決まる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"決まる","vocabId":"9345178b-bc14-4a3f-b4bc-bd481f36fa3d"},
+        {"form":"てる","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"だろ","startIndex":8,"variant":"surface","shownAs":"だろう","isEmergencyDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"}
+      ]
+    }
+  ]
+}

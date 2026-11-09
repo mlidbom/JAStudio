@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "おる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>hum:</tag> to: be/exist/live | reside/stay",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-31-04-56-43-191.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 157,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "あります",
+      "います",
+      "いる",
+      "おります",
+      "居る"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "よって"
+    ]
+  },
+  "sourceData": {
+    "answer": "to:{be-(animate)/be/exist} | to-be:..ing | to{?}(have-the-audacity-to)-do",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f90b22a5-4cca-4869-b00a-2bdd80d58ce7",
+  "tags": [
+    "source::yomitan"
+  ]
+}

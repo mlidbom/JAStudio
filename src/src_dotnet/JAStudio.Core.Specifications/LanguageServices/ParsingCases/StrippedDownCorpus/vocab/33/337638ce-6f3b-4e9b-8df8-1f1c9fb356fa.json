@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "かもしれない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "may/might/perhaps/may-be/possibly",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "かも",
+      "知れない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かもしれない"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_かもしれない_かも知れない_2023-07-20-15-39-07.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かも知れない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 196,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "かもしれません"
+    ],
+    "synonyms": [
+      "かもしれません",
+      "かも知れません"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "may/might/perhaps/may-be/possibly",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "337638ce-6f3b-4e9b-8df8-1f1c9fb356fa",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

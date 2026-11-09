@@ -1,0 +1,17 @@
+{
+  "sentence": "死んどる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 死ぬ | んどる; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 死ぬ | んどる.",
+  "parsedWords": [
+    {"form":"死ぬ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"死ぬ","vocabId":"10594388-4413-4301-b971-af1744248e0e"},
+    {"form":"んどる","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"んどる","vocabId":"8e8fdb1c-2542-457f-9ca3-73922f7a1d26"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"死ぬ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"死ぬ","vocabId":"10594388-4413-4301-b971-af1744248e0e"},
+        {"form":"んどる","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んどる","vocabId":"8e8fdb1c-2542-457f-9ca3-73922f7a1d26"}
+      ]
+    }
+  ]
+}

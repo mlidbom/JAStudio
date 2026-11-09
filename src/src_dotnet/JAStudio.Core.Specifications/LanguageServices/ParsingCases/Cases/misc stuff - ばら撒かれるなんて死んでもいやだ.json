@@ -1,0 +1,51 @@
+{
+  "sentence": "ばら撒かれるなんて死んでもいやだ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ばら撒く | あれる | る:う | なんて | 死んでも | いや | だ.",
+  "parsedWords": [
+    {"form":"ばら撒く","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"ばら撒く","vocabId":"91775749-6d87-437a-87a9-cd72bb447864"},
+    {"form":"ばら","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"バラ","vocabId":"67427176-f299-4a5f-a1a6-22c6ecac4413"},
+    {"form":"ばら","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"散","vocabId":"7c151888-1ba7-4623-a857-143878ad9835"},
+    {"form":"撒く","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"撒く","vocabId":"81020a41-d636-4ee9-a158-2443d8750482"},
+    {"form":"あれる","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"あれる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"う","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"なんて","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"なんて","vocabId":"c3cfee1f-9ead-42f1-8532-a8740261f008"},
+    {"form":"死んでも","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"死んでも","vocabId":"74bfd14e-dd22-4676-8fb4-a93d9ad894ef"},
+    {"form":"死ぬ","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"死ぬ","vocabId":"10594388-4413-4301-b971-af1744248e0e"},
+    {"form":"んでも","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"んでも","vocabId":"fe802244-8ff4-492d-ae4e-e00e566101b9"},
+    {"form":"んで","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"んで","vocabId":"4a33fc3b-50b9-47c7-8d6a-7d6296652719"},
+    {"form":"も","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"},
+    {"form":"いやだ","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"いやだ","vocabId":"812b2a2f-79c8-4bca-834d-da60335393db"},
+    {"form":"いや","startIndex":13,"variant":"surface","isDisplayed":false,"vocab":"いや","vocabId":"6f444c56-d8ed-4440-80b4-315e12f524fe"},
+    {"form":"だ","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"ばら撒く","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"ばら撒く","vocabId":"91775749-6d87-437a-87a9-cd72bb447864"},
+        {"form":"あれる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"う","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"なんて","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なんて","vocabId":"c3cfee1f-9ead-42f1-8532-a8740261f008"},
+        {"form":"死んでも","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"死んでも","vocabId":"74bfd14e-dd22-4676-8fb4-a93d9ad894ef"},
+        {"form":"いやだ","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いやだ","vocabId":"812b2a2f-79c8-4bca-834d-da60335393db"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"ばら","startIndex":0,"variant":"surface","shownAs":"バラ","isEmergencyDisplayed":false,"vocab":"バラ","vocabId":"67427176-f299-4a5f-a1a6-22c6ecac4413"},
+        {"form":"ばら","startIndex":0,"variant":"surface","shownAs":"散","isEmergencyDisplayed":false,"vocab":"散","vocabId":"7c151888-1ba7-4623-a857-143878ad9835"},
+        {"form":"撒く","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"撒く","vocabId":"81020a41-d636-4ee9-a158-2443d8750482"},
+        {"form":"あれる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"う","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"なんて","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なんて","vocabId":"c3cfee1f-9ead-42f1-8532-a8740261f008"},
+        {"form":"死ぬ","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"死ぬ","vocabId":"10594388-4413-4301-b971-af1744248e0e"},
+        {"form":"んで","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んで","vocabId":"4a33fc3b-50b9-47c7-8d6a-7d6296652719"},
+        {"form":"も","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"},
+        {"form":"いや","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いや","vocabId":"6f444c56-d8ed-4440-80b4-315e12f524fe"},
+        {"form":"だ","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+      ]
+    }
+  ]
+}

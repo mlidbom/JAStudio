@@ -1,0 +1,93 @@
+{
+  "question": {
+    "text": "んでいく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag> will-{_-and-go | {go-on/keep}-_-ing | go-_-ing }\n<tag>state-change-verb:</tag> {is}-_-ing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "で",
+      "いく"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "んでいく"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-cabc077bd64f86d8e0dbee7cfffb2f18a3749f96b3bed34703dd928c.mp3]",
+  "forms": [
+    {
+      "text": "でく",
+      "isOwned": false
+    },
+    {
+      "text": "てく",
+      "isOwned": false
+    },
+    {
+      "text": "ていく",
+      "isOwned": false
+    },
+    {
+      "text": "でいく",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 17,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ていく",
+      "てく"
+    ],
+    "synonyms": [
+      "ていく",
+      "てく"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to continue",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f29708aa-a51d-4ac5-a740-6d29664c2d01",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

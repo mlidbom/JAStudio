@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "覚える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{:} memorize/remember | learn/pick-up | feel | think/regard",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おぼえる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:覚える_b.mp3]",
+  "audioG": "[sound:覚える_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 148,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} memorize/memorise/commit-to-memory/learn-by-heart/bear-in-mind/remember | learn/pick-up/acquire | feel | think/regard",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>memorize</kanji> so the verb version is <vocabulary>to memorize</vocabulary>. That shouldn't be too hard <vocabulary>to remember</vocabulary>, right?",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use one of the kun'yomi readings. You didn't learn that reading with this kanji, so here's a mnemonic to help you:\n\nThe best way <vocabulary>to memorize</vocabulary> and <vocabulary>to remember</vocabulary> something is to make up a song and play it on your <reading>oboe</reading> (<ja>おぼ</ja>). Something about playing it makes it so you can memorize anything. You're so talented."
+  },
+  "id": "fbefc73c-975f-450f-adf4-131235e8b806",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::wani::level::19"
+  ]
+}

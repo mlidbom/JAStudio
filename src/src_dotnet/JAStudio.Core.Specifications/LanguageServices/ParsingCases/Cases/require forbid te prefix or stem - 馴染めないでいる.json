@@ -1,0 +1,34 @@
+{
+  "sentence": "馴染めないでいる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 馴染む | える | ない | でいる.",
+  "parsedWords": [
+    {"form":"馴染む","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"馴染む","vocabId":"3c068fa3-a7ac-4466-a0a0-6dd1a71b3b4a"},
+    {"form":"えない","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
+    {"form":"える","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ないで","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"ないで","vocabId":"90912abf-86f2-4515-a96c-dc9f57a37aae"},
+    {"form":"ない","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"でいる","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"でいる","vocabId":"a27d59bc-54d3-4391-9c61-b1d669ec81d1"},
+    {"form":"で","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+    {"form":"いる","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"馴染む","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"馴染む","vocabId":"3c068fa3-a7ac-4466-a0a0-6dd1a71b3b4a"},
+        {"form":"えない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
+        {"form":"でいる","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"でいる","vocabId":"a27d59bc-54d3-4391-9c61-b1d669ec81d1"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"馴染む","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"馴染む","vocabId":"3c068fa3-a7ac-4466-a0a0-6dd1a71b3b4a"},
+        {"form":"える","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"ない","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"で","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"で","vocabId":"67a62904-bc8a-4b97-8ea5-69364da19acd"},
+        {"form":"いる","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"}
+      ]
+    }
+  ]
+}

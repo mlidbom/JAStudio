@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "だろう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag> {I}-wonder | seems/I-{think} | right?/don't-you-agree? | <tag>s.start:</tag>right!/I-thought you'd-say-that!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "ろう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だろう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_だろう_だろう_2023-05-15-08-01-13.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "だろ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1026,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "seems/I-think/I-guess/I-wonder/I-hope | don't-you-agree?/I-thought-you'd-say-that!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b31d7035-09bb-43c2-9f23-9ddac44356f8",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

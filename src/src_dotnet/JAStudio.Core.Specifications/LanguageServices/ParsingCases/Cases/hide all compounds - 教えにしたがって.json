@@ -1,0 +1,19 @@
+{
+  "sentence": "教えにしたがって",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HideAllCompounds, against vocab copied by hand, with hiding all compounds on, expected the breakdown to display: 教え | に | したがって.",
+  "parsedWords": [
+    {"form":"教え","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"教え","vocabId":"ae6fa8c4-deb7-4e5c-86df-0e4bb0ae351b"},
+    {"form":"にしたがって","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"にしたがって","vocabId":"7455f008-730e-4360-a0e4-d938991f578e"},
+    {"form":"に","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"て","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"教え","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"教え","vocabId":"ae6fa8c4-deb7-4e5c-86df-0e4bb0ae351b"},
+        {"form":"にしたがって","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"にしたがって","vocabId":"7455f008-730e-4360-a0e4-d938991f578e"}
+      ]
+    }
+  ]
+}

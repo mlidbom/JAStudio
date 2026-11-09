@@ -1,0 +1,98 @@
+{
+  "question": {
+    "text": "分かっている",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "knows/understands/has-realized | has-{come-clear/become-apparent/been-discovered}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "分かる",
+      "ている"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "わかっている"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-22ae56ecf743b9265883532e5615259c47281cb3aefea26eb761a7d8.mp3]",
+  "forms": [
+    {
+      "text": "わかっている",
+      "isOwned": false
+    },
+    {
+      "text": "分っている",
+      "isOwned": false
+    },
+    {
+      "text": "判っている",
+      "isOwned": false
+    },
+    {
+      "text": "解っている",
+      "isOwned": false
+    },
+    {
+      "text": "わかってる",
+      "isOwned": false
+    },
+    {
+      "text": "分ってる",
+      "isOwned": false
+    },
+    {
+      "text": "判ってる",
+      "isOwned": false
+    },
+    {
+      "text": "分かってる",
+      "isOwned": false
+    },
+    {
+      "text": "解ってる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 73,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9caea479-9894-44a3-b5b9-d0cea35c77a1",
+  "tags": []
+}

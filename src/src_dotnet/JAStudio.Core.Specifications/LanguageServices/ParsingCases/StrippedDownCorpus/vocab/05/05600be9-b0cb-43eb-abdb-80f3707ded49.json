@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "幼い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "very-young/little/juvenile | childish/immature/inexperienced",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おさない"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:幼い_b.mp3]",
+  "audioG": "[sound:幼い_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "稚い",
+      "isOwned": false
+    },
+    {
+      "text": "稚けない",
+      "isOwned": false
+    },
+    {
+      "text": "幼けない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "く"
+    ]
+  },
+  "sourceData": {
+    "answer": "very-young/little | childish/immature",
+    "mnemonic": "The kanji means <kanji>infancy</kanji>. The adjective version refers more to your entire child-times, including baby times. But, if you're described as being like a child from child times, what are you called? <vocabulary>Childish</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you:\n\nWhen you were <vocabulary>childish</vocabulary> and <vocabulary>immature</vocabulary> you were sent off to do prayers to ask for forgiveness. One of the things you had to do was sing \"<reading>hosanna</reading> (<ja>おさな</ja>) in the highest.\""
+  },
+  "id": "05600be9-b0cb-43eb-abdb-80f3707ded49",
+  "tags": [
+    "source::wani::level::28"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "思い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "thought | feeling(s) | reminiscence | love/affection | desire",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おもい"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_おもい_想い_2023-04-26-21-53-05.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "念い",
+      "isOwned": false
+    },
+    {
+      "text": "想い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 52,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "thought | imagination/mind/heart | desire/wish/hope/expectation | love/affection | feelings/emotion/sentiment/experience",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2efeb0c4-ef49-4d61-ab77-d8f69bbc470c",
+  "tags": [
+    "legacy_scheduling",
+    "source::lyrics::未来のひとへ",
+    "source::yomitan"
+  ]
+}

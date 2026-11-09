@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "すんな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "don't",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "すん",
+      "な:dict"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "すんな"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-b143d0e8bfbffa488584012ef698104628d64f32fb8100761572cd53.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "すな",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "don't",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4f185175-9295-474e-b1ff-e6a072f0799c",
+  "tags": [
+    "source::yomitan"
+  ]
+}

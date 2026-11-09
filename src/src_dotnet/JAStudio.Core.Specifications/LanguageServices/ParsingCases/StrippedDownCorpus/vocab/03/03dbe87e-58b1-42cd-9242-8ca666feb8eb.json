@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "嘘",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "lie/fib/falsehood/untruth | <tag>col:</tag>no-way!/unbelievable! | mistake/error | unwise-move/bad-decision",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うそ"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:嘘_b.mp3]",
+  "audioG": "[sound:嘘_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "噓",
+      "isOwned": false
+    },
+    {
+      "text": "うそ",
+      "isOwned": false
+    },
+    {
+      "text": "ウソ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 105,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "lie/fib/falsehood/untruth | mistake/error | unwise-move/bad-decision | no-way!/unbelievable!/really?!",
+    "mnemonic": "The kanji and the word are exactly the same. A <kanji>lie</kanji> is a <vocabulary>lie</vocabulary>!",
+    "readingMnemonic": "Since this word is made up of a single kanji, it probably uses the kun'yomi reading. You learned with reading with the kanji, so you should be able to read it already!"
+  },
+  "id": "03dbe87e-58b1-42cd-9242-8ca666feb8eb",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::41"
+  ]
+}

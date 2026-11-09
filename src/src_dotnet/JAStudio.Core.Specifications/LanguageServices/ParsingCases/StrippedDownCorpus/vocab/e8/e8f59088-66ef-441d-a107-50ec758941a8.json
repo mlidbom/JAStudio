@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "きる",
+    "disambiguation": "masu"
+  },
+  "corpusAnswer": "<tag>masu:</tag> complete/finish | be-completely | do-{fully/decisively}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:切る_b.mp3]",
+  "audioG": "[sound:切る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "きる切る",
+      "isOwned": false
+    },
+    {
+      "text": "切る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 28,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "masuStem": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{}{cut/cut-through/perform-(surgery)} | to{}sever-(connections,-ties) | to{}turn-off-(e.g.-the-light) | to{}{terminate-(e.g.-a-conversation)/hang-up-(the-phone)/disconnect} | to{}{punch-(a-ticket)/tear-off-(a-stub)} | to{}open-(something-sealed) | to{}start | to{}{set-(a-limit)/do-(something)-in-less-or-within-a-certain-time/issue-(cheques,-vouchers,-etc.)} | to{}{reduce/decrease/discount} | to{}{shake-off-(water,-etc.)/let-drip-dry/let-drain} | to{}{cross/traverse} | to{}criticize-sharply | to{}{act-decisively/do-(something-noticeable)/go-first/make-(certain-facial-expressions,-in-kabuki)} | to{}turn-(vehicle,-steering-wheel,-etc.) | to{}{curl-(a-ball)/bend/cut} | to{}shuffle-(cards) | to{}discard-a-tile | to{}{dismiss/sack/let-go/expulse/excommunicate} | to{}{dig-(a-groove)/cut-(a-stencil,-on-a-mimeograph)} | to{}trump | to{}cut-(the-connection-between-two-groups)-(in-go) | to{}start-a-fire-(with-wood-wood-friction-or-by-striking-a-metal-against-stone) | to{}draw-(a-shape)-in-the-air-(with-a-sword,-etc.) | to{?}{finish/complete}",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>cut</kanji>, and the verb form of that is <vocabulary>to cut</vocabulary>.",
+    "readingMnemonic": "When you think <vocabulary>to cut</vocabulary> something, what do you think about cutting? One thing is cutting down a tree, which is also known as <ja>木</ja>, or <ja><reading>き</reading></ja>. You <ja>きる</ja> a <ja>き</ja>."
+  },
+  "id": "e8f59088-66ef-441d-a107-50ec758941a8",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::03"
+  ]
+}

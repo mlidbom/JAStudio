@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "くれよ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "give-me!",
+  "explanation": "this one is a bit interesting because it can be understood as\nくれ＋よ where よ is the emphasis adding particle\nor \nくれる with the older よ imperative ending.",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "くれ",
+      "よ"
+    ],
+    "alternative": [
+      "くれる"
+    ]
+  },
+  "readings": [
+    "くれよ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2642e9f1a574b7ff81e9b5725628c379cbdb01723cffed4c582bf02b.mp3]",
+  "forms": [],
+  "sentenceCount": 40,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "67e204a3-037b-4b35-a37d-c41d020a2170",
+  "tags": []
+}

@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "いい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "good/excellent | sufficient/no-thanks | beneficial | OK/no-problem | <tag>s.start:</tag>look-here/listen-up",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_3311_いい_male.mp3]",
+  "audioG": "[sound:Wani_3311_いい_female.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 1500,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "よかった",
+      "良い"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>謂</ja></tag>:: what-was-said/what-it-means/origin-of-a-story-(or-tradition,-etc.)\ngood/excellent/fine/nice/pleasant/agreeable | sufficient/enough/ready/prepared | profitable-(deal,-business-offer,-etc.)/beneficial | OK/all-right/fine/no-problem",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a43f2e26-285f-45c7-a65a-3fef3ca0ae97",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

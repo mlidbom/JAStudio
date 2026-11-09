@@ -1,0 +1,83 @@
+{
+  "question": {
+    "text": "んで",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "and | then\n<tag>s.end</tag>: did-and-.../<tag>{you-figure-out-the-rest}</tag> | please-_/_!/<tag>{imperative}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "んで"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-21-19-48-23-086.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "で",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 632,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [
+        "なん"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "いで",
+      "て"
+    ],
+    "synonyms": [
+      "いで",
+      "て"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "で"
+    ]
+  },
+  "sourceData": {
+    "answer": "<read>ので</read>|<read>んで</read>:: that-being-the-case/because-of-.../the-reason-is-.../given-that-...\nand-then/and-so/and/so-then",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4a33fc3b-50b9-47c7-8d6a-7d6296652719",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

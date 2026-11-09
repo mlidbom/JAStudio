@@ -1,0 +1,28 @@
+{
+  "sentence": "デカいな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: デカい | な:masu.",
+  "parsedWords": [
+    {"form":"デカい","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"でかい","vocabId":"0de5ca3b-aadf-4d6c-b65b-de72e6747450"},
+    {"form":"デカ","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"デカ","vocabId":"01364598-06e6-497f-86e7-22fb364ad5ec"},
+    {"form":"いな","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"いな","vocabId":"04048360-e23d-4b4d-b830-522c8d52d03d"},
+    {"form":"いる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"な","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"c873703d-9d57-4fe6-a318-86e5338a63db"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"デカい","startIndex":0,"variant":"surface","shownAs":"でかい","isEmergencyDisplayed":false,"vocab":"でかい","vocabId":"0de5ca3b-aadf-4d6c-b65b-de72e6747450"},
+        {"form":"な","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"c873703d-9d57-4fe6-a318-86e5338a63db"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"デカ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"デカ","vocabId":"01364598-06e6-497f-86e7-22fb364ad5ec"},
+        {"form":"いる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"な","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"c873703d-9d57-4fe6-a318-86e5338a63db"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "question": {
+    "text": "これほど",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "so/so-much/to-this-extent",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "これほど"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-04-18-23-06-47-213.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "此れほど",
+      "isOwned": false
+    },
+    {
+      "text": "是ほど",
+      "isOwned": false
+    },
+    {
+      "text": "是程",
+      "isOwned": false
+    },
+    {
+      "text": "これ程",
+      "isOwned": false
+    },
+    {
+      "text": "此れ程",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "so/so-much/this-much",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "fb3dfbd6-6a7b-4c7e-951d-7f164b1f10eb",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

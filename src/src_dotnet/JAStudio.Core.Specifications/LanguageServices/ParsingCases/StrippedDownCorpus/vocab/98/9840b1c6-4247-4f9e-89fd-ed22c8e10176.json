@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "寝",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ね",
+    "しん",
+    "い",
+    "ぬ"
+  ],
+  "partsOfSpeech": [
+    "intransitive",
+    "nidan verb",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-9c235231d7cd390d3e039142d937fa2b1ea586094ad59ca069dc0c8a.mp3]",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>ね</read>|<read>しん</read>|<read>い</read>:: sleep\n<read>ぬ</read>:: to: to-lie-down/to-go-to-bed/to-go-to-sleep",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9840b1c6-4247-4f9e-89fd-ed22c8e10176",
+  "tags": [
+    "source::jamdict"
+  ]
+}

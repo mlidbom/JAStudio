@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "悪い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "bad/poor | at-fault/to-blame | evil/sinful | bad-at | sorry/my-bad",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "わるい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:悪い_b.mp3]",
+  "audioG": "[sound:悪い_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "惡い",
+      "isOwned": false
+    },
+    {
+      "text": "惡るい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 352,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "bad/poor/undesirable | poor-(quality)/inferior/insufficient | evil/sinful | ugly/not-beautiful | at-fault/to-blame/in-the-wrong | bad-(at-doing-something) | unprofitable/unbeneficial | sorry/(my)-bad/unforgivable",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>bad</kanji>? It's also <vocabulary>bad</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nDo you know how in the Mario universe all the <vocabulary>bad</vocabulary> versions are called \"<reading>WARU</reading>\" (<ja>わる</ja>)? For example: \"WARUIJI\" and \"WARIO.\" That's because they are bad. They come from this kanji. So, if you ever need to remember this reading, just think back to Wario and Waruigi."
+  },
+  "id": "9ef4d0b9-09d2-4ddf-b97e-ca79d9b64260",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::12"
+  ]
+}

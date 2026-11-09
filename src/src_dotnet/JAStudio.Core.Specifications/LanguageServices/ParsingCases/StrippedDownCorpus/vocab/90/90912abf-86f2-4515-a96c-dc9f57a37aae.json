@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "ないで",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag>don't/please-don't | <ja>ず</ja>/without-doing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない",
+      "で"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "あないで"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-9c2cafca6435caa92d732b7fff909879e2abda69dd633e6561cc3e86.mp3]",
+  "forms": [],
+  "sentenceCount": 237,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ず"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "90912abf-86f2-4515-a96c-dc9f57a37aae",
+  "tags": [
+    "source::yomitan"
+  ]
+}

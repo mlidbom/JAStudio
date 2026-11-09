@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "ジョギング",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "jogging",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ジョギング"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-10-12-18-22-19-045.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ジョッギング",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 13,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "jogging",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5efc2223-82c6-4ee5-ab17-e80313168520",
+  "tags": [
+    "source::yomitan"
+  ]
+}

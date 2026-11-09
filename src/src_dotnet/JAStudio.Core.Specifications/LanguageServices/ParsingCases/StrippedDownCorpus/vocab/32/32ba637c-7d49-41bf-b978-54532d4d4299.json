@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "なの",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>fem:s.end:col:</tag> is-the-thing/that's-the-way-it-is/yes | is-_-so?/is-{it}?/is-that-how-it-is?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "な",
+      "の"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なの"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_なの_なの_2023-08-01-18-31-56.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1480,
+  "technicalNotes": "",
+  "references": "\nCure Dolly: {<a href=\"https://www.youtube.com/watch?v=oayY4kBHGlM&amp;list=TLPQMDcwODIwMjQmA4jJ2UHXoA&amp;index=10\">Japanese NA NO ending. Completely different from NA NO DESU</a> |<br>&nbsp;&nbsp;<a href=\"https://youtu.be/lYvIOi8Q3I8?t=258\">んです、のです、なのです、なんです</a> \n}",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "なのだ",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "that's-the-way-it-is/yes | is-that-so?/is-it?",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "32ba637c-7d49-41bf-b978-54532d4d4299",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "気がする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: have-a-feeling-that | feel-like-doing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "気",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "きがする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_きがする_気がする_2023-08-25-09-43-42.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "気がすん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 128,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=ZHHd3nHkFb0&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=76\">Cure Dolly Secrets of 気 Ki - ki ni naru, ki ni suru, ki ga suru, ki ni iru etc.</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "気が"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{feel-(as-if)/have-a-feeling-(that)/have-a-hunch-(that)/get-a-sense-(that)} | to{?}{feel-like-doing/want-to-do}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c37adeac-5acf-4e7b-b9ef-f491826d3aba",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

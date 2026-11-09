@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "に",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{adverb}</tag>/to/from/by/at/in/on/for/with/as/while | and | <tag>class:</tag>is/as",
+  "explanation": "<tag>{adverbializer}</tag>\n<tag>{target}:</tag> to/towards/into | for(purpose) | because-of(reason)/for/with\n<tag>{location}</tag> at/in/on | during/while | per(month)/in/for/a\n<tag>{source/receiving-verbs}:</tag> by/from\n<tag>{comparison-standard}</tag>: to/than\nas/in-the-role-of\nand/in-addition-to",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "に"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:katakana_22_ni.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 12570,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.japanesewithanime.com/2019/05/ni-particle.html\">に Particle | Japanese with Anime</a>&nbsp;#&nbsp;<a href=\"https://www.japanesewithanime.com/2019/10/ni-copula.html\">に Adverbial Copula | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "を"
+    ]
+  },
+  "sourceData": {
+    "answer": "at-(place,-time)/in/on/during | to-(direction,-state)/toward/into | for-(purpose) | because-of-(reason)/for/with | by/from | as-(i.e.-in-the-role-of) | per/in/for/a-(e.g.-\"once-a-month\") | and/in-addition-to | if/although",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7391aab7-d24e-4260-8395-e7b757406ef6",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

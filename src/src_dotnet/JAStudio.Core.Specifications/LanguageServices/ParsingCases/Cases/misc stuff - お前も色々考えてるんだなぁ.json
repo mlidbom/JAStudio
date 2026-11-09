@@ -1,0 +1,42 @@
+{
+  "sentence": "お前も色々考えてるんだなぁ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: お前 | も | 色々 | 考える | てる | んだ:のだ | なぁ.",
+  "parsedWords": [
+    {"form":"お前も","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"お前も","vocabId":"1970f0f3-da62-42ab-a7d4-b223db261c4f"},
+    {"form":"お前","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"お前","vocabId":"67939635-6104-4e54-bd01-fc15842730f8"},
+    {"form":"も","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"},
+    {"form":"色々","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"色々","vocabId":"383187db-2cfd-4c9d-bf61-d50195e6d325"},
+    {"form":"考える","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"考える","vocabId":"4815e9ee-f991-4fb7-a00c-52afce17ecec"},
+    {"form":"てる","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"んだ","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+    {"form":"ん","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だ","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"なぁ","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"なあ","vocabId":"9ba823b8-b285-489a-8d9a-c83cdf96f323"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"お前も","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お前も","vocabId":"1970f0f3-da62-42ab-a7d4-b223db261c4f"},
+        {"form":"色々","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"色々","vocabId":"383187db-2cfd-4c9d-bf61-d50195e6d325"},
+        {"form":"考える","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"考える","vocabId":"4815e9ee-f991-4fb7-a00c-52afce17ecec"},
+        {"form":"てる","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"んだ","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+        {"form":"なぁ","startIndex":11,"variant":"surface","shownAs":"なあ","isEmergencyDisplayed":false,"vocab":"なあ","vocabId":"9ba823b8-b285-489a-8d9a-c83cdf96f323"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"お前","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お前","vocabId":"67939635-6104-4e54-bd01-fc15842730f8"},
+        {"form":"も","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"},
+        {"form":"色々","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"色々","vocabId":"383187db-2cfd-4c9d-bf61-d50195e6d325"},
+        {"form":"考える","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"考える","vocabId":"4815e9ee-f991-4fb7-a00c-52afce17ecec"},
+        {"form":"てる","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"ん","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だ","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"なぁ","startIndex":11,"variant":"surface","shownAs":"なあ","isEmergencyDisplayed":false,"vocab":"なあ","vocabId":"9ba823b8-b285-489a-8d9a-c83cdf96f323"}
+      ]
+    }
+  ]
+}

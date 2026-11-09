@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "考え",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "thinking/view/opinion | idea | intention | judgement/reflection | wish/hope",
+  "explanation": "masu stem",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かんがえ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:考え_b.mp3]",
+  "audioG": "[sound:考え_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 36,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "thinking/thought/view/opinion/concept | idea/notion/imagination | intention/plan/design | consideration/judgement/deliberation/reflection | wish/hope/expectation",
+    "mnemonic": "This is a noun version of <kanji>think</kanji>. What is \"a think\"? It's a <vocabulary>thought</vocabulary>.",
+    "readingMnemonic": "You learned this reading with <ja>考える</ja>, just cut off the <ja>る</ja>!"
+  },
+  "id": "20c3e5fb-f923-4aad-9b52-bdcb7c314d68",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::07"
+  ]
+}

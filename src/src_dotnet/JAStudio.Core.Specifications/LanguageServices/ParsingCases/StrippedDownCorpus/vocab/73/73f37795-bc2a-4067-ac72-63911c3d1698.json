@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "所が",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.start:</tag>but/however/even-so/still",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ところ",
+      "が"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ところが"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-d0b81f0d311e69f5a39085669fc740139df00153ed4925a71b5b7124.mp3]",
+  "forms": [
+    {
+      "text": "ところが",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceStart": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "even-so/however/still/whereupon/even-though/nevertheless/on-the-contrary/as-a-matter-of-fact/despite",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "73f37795-bc2a-4067-ac72-63911c3d1698",
+  "tags": []
+}

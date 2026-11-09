@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "うんだ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end</tag>{will/must}-_-! | _!/<tag>{imperative}</tag> | _-{you-see/is-the-thing}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "う:non-past",
+      "んだ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "うんだ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-f8173f31b2fbe75072cd7edeb20aca077ac1799af2b9afe068a34a0b.mp3]",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "The meanings that are not just the combination of the particles are rare and can usually be intuited without the vocab. 441 hits most of which won't be relevant.... Poison word it is. Highlight in sentences where it actually helps.",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "required",
+      "sentenceEnd": "required"
+    },
+    "flags": [
+      "isPoisonWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3abc2197-331e-49cf-ac45-d8eb57d64e61",
+  "tags": []
+}

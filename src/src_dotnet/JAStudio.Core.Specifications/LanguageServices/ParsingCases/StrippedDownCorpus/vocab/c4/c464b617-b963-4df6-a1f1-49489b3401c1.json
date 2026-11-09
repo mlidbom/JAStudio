@@ -1,0 +1,135 @@
+{
+  "question": {
+    "text": "すげー",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "incredible/unbelievable/terrific/impressive",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "すげー"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Angel_Beats!_7_0.09.35.060-0.09.36.800.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "すっげー",
+      "isOwned": false
+    },
+    {
+      "text": "すげぇ",
+      "isOwned": false
+    },
+    {
+      "text": "すげえ",
+      "isOwned": false
+    },
+    {
+      "text": "スッゲェ",
+      "isOwned": false
+    },
+    {
+      "text": "スンゲー",
+      "isOwned": false
+    },
+    {
+      "text": "すんげぇ",
+      "isOwned": false
+    },
+    {
+      "text": "スッゲー",
+      "isOwned": false
+    },
+    {
+      "text": "すんげー",
+      "isOwned": false
+    },
+    {
+      "text": "スゲイ",
+      "isOwned": false
+    },
+    {
+      "text": "すっげぇ",
+      "isOwned": false
+    },
+    {
+      "text": "スゲエ",
+      "isOwned": false
+    },
+    {
+      "text": "すんげえ",
+      "isOwned": false
+    },
+    {
+      "text": "すげい",
+      "isOwned": false
+    },
+    {
+      "text": "スゲー",
+      "isOwned": false
+    },
+    {
+      "text": "すっげえ",
+      "isOwned": false
+    },
+    {
+      "text": "スッゲエ",
+      "isOwned": false
+    },
+    {
+      "text": "スンゲェ",
+      "isOwned": false
+    },
+    {
+      "text": "スゲェ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 27,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "incredible/unbelievable/terrific/impressive",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c464b617-b963-4df6-a1f1-49489b3401c1",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

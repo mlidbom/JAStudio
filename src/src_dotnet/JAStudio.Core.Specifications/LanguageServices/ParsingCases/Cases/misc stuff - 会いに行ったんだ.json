@@ -1,0 +1,37 @@
+{
+  "sentence": "会いに行ったんだ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 会う | に行く | たんだ.",
+  "parsedWords": [
+    {"form":"会う","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+    {"form":"に行く","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"に行く","vocabId":"437b78a2-44ee-40a7-b677-0ddc46544b31"},
+    {"form":"に","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"行った","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"行った","vocabId":"568cefff-422a-43c5-9732-3bcd9a4b5b91"},
+    {"form":"行く","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"行く","vocabId":"2043af67-882f-4b7f-9e91-5d0daa10eaf0"},
+    {"form":"た","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"んだ","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+    {"form":"ん","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だ","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"会う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"行った","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"行った","vocabId":"568cefff-422a-43c5-9732-3bcd9a4b5b91"},
+        {"form":"んだ","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"会う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"会う","vocabId":"16d6feed-5096-47bc-8dfc-101101b0b603"},
+        {"form":"に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"行く","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"行く","vocabId":"2043af67-882f-4b7f-9e91-5d0daa10eaf0"},
+        {"form":"た","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"ん","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だ","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+      ]
+    }
+  ]
+}

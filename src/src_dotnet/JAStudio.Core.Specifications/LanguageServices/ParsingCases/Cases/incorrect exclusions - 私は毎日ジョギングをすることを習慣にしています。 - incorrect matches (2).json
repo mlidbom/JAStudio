@@ -1,0 +1,93 @@
+{
+  "sentence": "私は毎日ジョギングをすることを習慣にしています。",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IncorrectExclusions, against vocab copied by hand, with にして:17, にし:17, して:18, し:18, してい:18 marked as incorrect matches, expected the breakdown to display: 私 | は | 毎日 | ジョギング | を | する | る:う | こと | を | 習慣 | にする | ている | ます.",
+  "configuration": {
+    "highlightedWords": [],
+    "incorrectMatches": [
+      {
+        "word": "にして",
+        "index": 17
+      },
+      {
+        "word": "にし",
+        "index": 17
+      },
+      {
+        "word": "して",
+        "index": 18
+      },
+      {
+        "word": "し",
+        "index": 18
+      },
+      {
+        "word": "してい",
+        "index": 18
+      }
+    ],
+    "hiddenMatches": []
+  },
+  "parsedWords": [
+    {"form":"私は","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"私は","vocabId":"bfe7f521-43ad-4588-97a1-7cf5f3dc062c"},
+    {"form":"私","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+    {"form":"は","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+    {"form":"毎日","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"毎日","vocabId":"b3b2c379-fab6-4ef1-b7b4-8facbcb0f0fc"},
+    {"form":"ジョギング","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"ジョギング","vocabId":"5efc2223-82c6-4ee5-ab17-e80313168520"},
+    {"form":"をする","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"をする","vocabId":"f1abd73e-3b2a-4f07-a5bc-8bbb2ab67923"},
+    {"form":"をする","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"をする","vocabId":"f1abd73e-3b2a-4f07-a5bc-8bbb2ab67923"},
+    {"form":"を","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"する","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"する","startIndex":10,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"う","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"こと","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"こと","vocabId":"84239620-4846-43bd-92c3-a14e405883ab"},
+    {"form":"を","startIndex":14,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"習慣","startIndex":15,"variant":"surface","isDisplayed":true,"vocab":"習慣","vocabId":"8e481027-1925-4734-a9e1-d741ea5d0856"},
+    {"form":"にする","startIndex":17,"variant":"base","isDisplayed":true,"vocab":"にする","vocabId":"0e8ba330-6db7-4dd1-98f4-d0be7dd109a0"},
+    {"form":"に","startIndex":17,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"している","startIndex":18,"variant":"base","isDisplayed":false,"vocab":"してる","vocabId":"095f2b7b-b8ec-47f5-96b2-308b7b34d41b"},
+    {"form":"する","startIndex":18,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"ています","startIndex":19,"variant":"surface","isDisplayed":true,"vocab":"ています","vocabId":"cdeffc4d-c37f-46b9-bc76-98853c1b7fed"},
+    {"form":"ている","startIndex":19,"variant":"base","isDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+    {"form":"て","startIndex":19,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"います","startIndex":20,"variant":"surface","isDisplayed":false,"vocab":"います","vocabId":"1e46b86d-3c4d-42d6-8fcc-393a71c4edba"},
+    {"form":"いる","startIndex":20,"variant":"base","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"ます","startIndex":21,"variant":"surface","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"私は","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私は","vocabId":"bfe7f521-43ad-4588-97a1-7cf5f3dc062c"},
+        {"form":"毎日","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"毎日","vocabId":"b3b2c379-fab6-4ef1-b7b4-8facbcb0f0fc"},
+        {"form":"ジョギング","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ジョギング","vocabId":"5efc2223-82c6-4ee5-ab17-e80313168520"},
+        {"form":"をする","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"をする","vocabId":"f1abd73e-3b2a-4f07-a5bc-8bbb2ab67923"},
+        {"form":"う","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"こと","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"こと","vocabId":"84239620-4846-43bd-92c3-a14e405883ab"},
+        {"form":"を","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"習慣","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"習慣","vocabId":"8e481027-1925-4734-a9e1-d741ea5d0856"},
+        {"form":"にする","startIndex":17,"variant":"base","isEmergencyDisplayed":false,"vocab":"にする","vocabId":"0e8ba330-6db7-4dd1-98f4-d0be7dd109a0"},
+        {"form":"ています","startIndex":19,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ています","vocabId":"cdeffc4d-c37f-46b9-bc76-98853c1b7fed"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"私","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+        {"form":"は","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"毎日","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"毎日","vocabId":"b3b2c379-fab6-4ef1-b7b4-8facbcb0f0fc"},
+        {"form":"ジョギング","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ジョギング","vocabId":"5efc2223-82c6-4ee5-ab17-e80313168520"},
+        {"form":"を","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"する","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"う","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"こと","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"こと","vocabId":"84239620-4846-43bd-92c3-a14e405883ab"},
+        {"form":"を","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"習慣","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"習慣","vocabId":"8e481027-1925-4734-a9e1-d741ea5d0856"},
+        {"form":"に","startIndex":17,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"する","startIndex":18,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"て","startIndex":19,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":20,"variant":"base","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"ます","startIndex":21,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+      ]
+    }
+  ]
+}

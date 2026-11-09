@@ -1,0 +1,19 @@
+{
+  "sentence": "あ な なに",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: あ | な:s.start | なに.",
+  "parsedWords": [
+    {"form":"あ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"あっ","vocabId":"63171e6f-01fd-4676-b79b-0d6559859857"},
+    {"form":"な","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"なに","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"あ","startIndex":0,"variant":"surface","shownAs":"あっ","isEmergencyDisplayed":false,"vocab":"あっ","vocabId":"63171e6f-01fd-4676-b79b-0d6559859857"},
+        {"form":"な","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"なに","startIndex":4,"variant":"surface","shownAs":"何","isEmergencyDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"}
+      ]
+    }
+  ]
+}

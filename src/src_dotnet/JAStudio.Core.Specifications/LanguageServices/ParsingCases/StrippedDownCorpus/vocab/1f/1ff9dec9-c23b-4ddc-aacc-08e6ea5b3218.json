@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "丈夫",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "healthy/robust/strong",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "じょうぶ"
+  ],
+  "partsOfSpeech": [
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:丈夫_b.mp3]",
+  "audioG": "[sound:丈夫_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 11,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"Is it healthy to be stocky in physique? - Quora\" src=\"main-qimg-8c52e24e6431e9e418c23d8af59adcd8-pjlq.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "healthy/robust/strong/solid/durable",
+    "mnemonic": "With the <kanji>height</kanji> of my <kanji>husband</kanji>, he's very <vocabulary>firm</vocabulary>. Try to push him over. Impossible. He's so tall and <vocabulary>sturdy</vocabulary> due to his height.",
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own. Watch out for the rendaku."
+  },
+  "id": "1ff9dec9-c23b-4ddc-aacc-08e6ea5b3218",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::15"
+  ]
+}

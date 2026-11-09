@@ -1,0 +1,17 @@
+{
+  "sentence": "走って",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 走る | て.",
+  "parsedWords": [
+    {"form":"走る","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"走る","vocabId":"e1483d2e-5b58-4a2b-b3ce-6db68b34f259"},
+    {"form":"て","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"走る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"走る","vocabId":"e1483d2e-5b58-4a2b-b3ce-6db68b34f259"},
+        {"form":"て","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "逆に",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "conversely/on-the-contrary",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ぎゃくに"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomichan_audio_ぎゃくに_逆に_2023-09-14-04-02-19.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"逆」は英語で何て言う？反対、逆さま、逆に等、意味ごとに詳しく解説| Kimini英会話\" src=\"rhinoceros-782278_1280-1200x675.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "conversely/on-the-contrary",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "142baa5b-870b-4f0c-82e5-8200e2f41b38",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

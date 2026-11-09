@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "無理をする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: work-too-hard/try-too-hard/overdo-it",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "無理を",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "むりをする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-7a670ce58b7f688de926f934841de326bd683cb982838c19f725626e.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "無理する",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{work-too-hard/try-too-hard/force-oneself}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "bcfb4746-d8fb-4902-8cd2-fc1899b7b02d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

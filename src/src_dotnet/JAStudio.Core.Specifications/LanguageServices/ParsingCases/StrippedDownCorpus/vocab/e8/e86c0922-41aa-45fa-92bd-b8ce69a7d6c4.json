@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "出",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{coming/going}-out | attending/appearing | start/beginning | origins",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "で"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-05-13-21-35-14-154.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "coming-out/going-out/outflow/efflux/rising-(of-the-Sun-or-the-Moon) | attending-(work)/appearing-(on-stage)/one's-turn-to-go-on | start/beginning | origins/background/person-(or-item)-originating-from-.../graduate-of-.../native-of-.../member-of-...-(lineage) | architectural-member-that-projects-outward | highest-point-of-the-stern-of-a-ship | amount-(comprising-something)/amount-of-time-or-effort-required-to-do-something",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e86c0922-41aa-45fa-92bd-b8ce69a7d6c4",
+  "tags": [
+    "source::yomitan"
+  ]
+}

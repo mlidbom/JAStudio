@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "そうだ",
+    "disambiguation": "interjection"
+  },
+  "corpusAnswer": "<tag>int:</tag> that's-right/yeah | oh-right!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "そう:interjection",
+      "だ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "そうだ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-3b76fe9ef3a039e0ec09eb7eea91e4373a19a7555cc583676726f318.mp3]",
+  "forms": [],
+  "sentenceCount": 217,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required",
+      "sentenceStart": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ab9096c0-d91c-4874-935b-905aff7fab89",
+  "tags": []
+}

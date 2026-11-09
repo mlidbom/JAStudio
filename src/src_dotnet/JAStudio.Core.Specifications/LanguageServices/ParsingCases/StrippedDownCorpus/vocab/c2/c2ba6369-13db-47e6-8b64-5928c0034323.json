@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "ないと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag> have-to/must | is-{indispensable/absolutely-necessary}\nunless/if-not | \"isn't/aren't\" | \"doesn't/won't\"",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない",
+      "と"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ないと"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-438cbf69be69e2ae9da667538e4fbb48fcc16e8c8a86ca8f31695e44.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "無いと",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 326,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ねば"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "いかないと",
+      "しなければ",
+      "せねば",
+      "ないと",
+      "なきゃ",
+      "なくちゃ",
+      "なくては",
+      "なければ",
+      "ねば"
+    ]
+  },
+  "sourceData": {
+    "answer": "have-to-(verb)/must-(verb) | is-indispensable/absolutely-necessary",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c2ba6369-13db-47e6-8b64-5928c0034323",
+  "tags": [
+    "source::yomitan"
+  ]
+}

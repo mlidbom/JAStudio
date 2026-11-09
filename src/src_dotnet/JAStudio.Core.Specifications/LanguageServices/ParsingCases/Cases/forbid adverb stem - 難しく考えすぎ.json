@@ -1,0 +1,20 @@
+{
+  "sentence": "難しく考えすぎ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.ForbidAdverbStem, against vocab copied by hand, expected the breakdown to display: 難しい | 考える | すぎ.",
+  "parsedWords": [
+    {"form":"難しい","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"難しい","vocabId":"4728aa36-16cc-4fbb-8db5-31080eca32dc"},
+    {"form":"考える","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"考える","vocabId":"4815e9ee-f991-4fb7-a00c-52afce17ecec"},
+    {"form":"すぎ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"すぎ","vocabId":"64e14f15-60c7-4836-b50c-a5c719348a38"},
+    {"form":"すぎる","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"すぎる","vocabId":"25bda401-0dc0-4d15-801a-0a2240d7e67f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"難しい","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"難しい","vocabId":"4728aa36-16cc-4fbb-8db5-31080eca32dc"},
+        {"form":"考える","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"考える","vocabId":"4815e9ee-f991-4fb7-a00c-52afce17ecec"},
+        {"form":"すぎ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"すぎ","vocabId":"64e14f15-60c7-4836-b50c-a5c719348a38"}
+      ]
+    }
+  ]
+}

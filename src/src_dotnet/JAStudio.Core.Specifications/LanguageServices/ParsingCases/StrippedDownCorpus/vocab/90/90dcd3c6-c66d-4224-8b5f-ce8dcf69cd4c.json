@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "そうな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "seems-to-be/seems-like/appears-like",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "そう",
+      "な"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "そうな"
+  ],
+  "partsOfSpeech": [
+    "na-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-33e44fc740edd74a6913277bf6a862acef7602680917e5900c6dcaf6.mp3]",
+  "forms": [
+    {
+      "text": "然うな",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 143,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "90dcd3c6-c66d-4224-8b5f-ce8dcf69cd4c",
+  "tags": []
+}

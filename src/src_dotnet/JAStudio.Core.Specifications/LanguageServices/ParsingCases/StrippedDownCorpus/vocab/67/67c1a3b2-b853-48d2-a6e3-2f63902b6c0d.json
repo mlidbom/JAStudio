@@ -1,0 +1,110 @@
+{
+  "question": {
+    "text": "嘘つく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: lie",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "嘘",
+      "つく"
+    ],
+    "alternative": []
+  },
+  "readings": [],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-34f9bbd589141949de59c775f159dcaaa23bd743740d4f326997f7d9.mp3]",
+  "forms": [
+    {
+      "text": "うそ付く",
+      "isOwned": true
+    },
+    {
+      "text": "うそ吐く",
+      "isOwned": true
+    },
+    {
+      "text": "ウソ吐く",
+      "isOwned": true
+    },
+    {
+      "text": "ウソ付く",
+      "isOwned": true
+    },
+    {
+      "text": "嘘吐く",
+      "isOwned": true
+    },
+    {
+      "text": "嘘付く",
+      "isOwned": true
+    },
+    {
+      "text": "うそを付く",
+      "isOwned": false
+    },
+    {
+      "text": "うそを吐く",
+      "isOwned": false
+    },
+    {
+      "text": "嘘をつく",
+      "isOwned": false
+    },
+    {
+      "text": "ウソを吐く",
+      "isOwned": false
+    },
+    {
+      "text": "ウソを付く",
+      "isOwned": false
+    },
+    {
+      "text": "嘘を吐く",
+      "isOwned": false
+    },
+    {
+      "text": "嘘を付く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "67c1a3b2-b853-48d2-a6e3-2f63902b6c0d",
+  "tags": []
+}

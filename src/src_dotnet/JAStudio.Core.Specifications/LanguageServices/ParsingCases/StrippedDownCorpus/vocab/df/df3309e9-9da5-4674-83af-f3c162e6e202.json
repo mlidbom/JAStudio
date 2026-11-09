@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "出る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: leave/exit/depart | appear/emerge | attend | come-up | exceed | protrude | occur | answer/get ....",
+  "explanation": "simply  the act of exiting or leaving\nunlike <ja>出かける</ja> which is setting out for a purpose",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "でる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:出る_b.mp3]",
+  "audioG": "[sound:出る_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 427,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "出かける"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {leave/exit/go-out/come-out/get-out} | {leave-(on-a-journey)/depart/start-out/set-out} | move-forward | {come-to/get-to/lead-to/reach} | {appear/come-out/emerge/surface/come-forth/turn-up/be-found/be-detected/be-discovered/be-exposed/show/be-exhibited/be-on-display} | {appear-(in-print)/be-published/be-announced/be-issued/be-listed/come-out} | {attend/participate/take-part/enter-(an-event)/play-in/perform} | {be-stated/be-expressed/come-up/be-brought-up/be-raised} | sell | {exceed/go-over} | {stick-out/protrude} | {break-out/occur/start/originate} | be-produced | {come-from/be-derived-from} | {be-given/get/receive/be-offered/be-provided/be-presented/be-submitted/be-handed-in/be-turned-in/be-paid} | {answer-(phone,-door,-etc.)/get} | {assume-(an-attitude)/act/behave} | {pick-up-(speed,-etc.)/gain} | {flow-(e.g.-tears)/run/bleed} | graduate | {ejaculate/cum}",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means \"exit\" so what is the verb form of this? It is <vocabulary>to exit</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou want to exit the room you're in. Why? Because it has a <reading>de</reading>ad (<ja>で</ja>) body in it. Seriously. You should exit now. It's a <reading>de</reading>ad (<ja>で</ja>) <reading>roo</reading>m (<ja>る</ja>)!"
+  },
+  "id": "df3309e9-9da5-4674-83af-f3c162e6e202",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::02"
+  ]
+}

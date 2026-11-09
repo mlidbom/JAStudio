@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "引き出す",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ひきだす"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-6d92f001f180187ae474dc30d639e0ff544cdd5089d0d321b04e39fe.mp3]",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} pull-out/take-out/draw-out | lead-out-(e.g.-a-horse-from-a-stable)/summon-(e.g.-to-court)/bring-(e.g.-someone-to-the-negotiating-table)/drag | withdraw-(money)/draw | bring-out-(talent,-potential,-beauty,-flavour,-etc.)/extract-(information,-the-truth,-etc.)/get-(e.g.-an-answer-out-of-someone)/obtain-(e.g.-a-result)/elicit/draw-(a-conclusion)/derive-(e.g.-pleasure) | get-(money)-out-of-someone/coax-out-of-someone/get-someone-to-pay/make-someone-produce-(funds)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "86294570-d055-4b92-8094-adb19d631cc9",
+  "tags": [
+    "source::jamdict"
+  ]
+}

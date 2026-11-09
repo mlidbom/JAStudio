@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "外出",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "going-out/outing/leaving-one's-{home/office}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "がいしゅつ",
+    "そとで"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-8efc63f41141f8a6d26c01653c36d0496504d1b4e01e5377da858958.mp3]",
+  "forms": [],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "going-out/outing/leaving-(one's-home,-office,-etc.)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "96839c04-be2b-4781-9303-8067fadb146c",
+  "tags": [
+    "source::jamdict"
+  ]
+}

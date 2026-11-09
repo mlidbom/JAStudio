@@ -1,0 +1,37 @@
+{
+  "sentence": "綺麗 母様に見せよう",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 綺麗 | 母様 | に | 見せる | う.",
+  "parsedWords": [
+    {"form":"綺麗","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"綺麗","vocabId":"6a6d4d26-e5dc-4387-8a54-da39ec8c575b"},
+    {"form":"母様","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"母様","vocabId":"38daab8f-0707-4ef0-860a-7b1b0ae816a3"},
+    {"form":"母","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"母","vocabId":"eda0ad0b-a495-412e-9040-b92f9c176086"},
+    {"form":"様に","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"様に","vocabId":"0bbdd2f2-1c97-4138-85ce-80b365582a29"},
+    {"form":"様","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"様","vocabId":"0adae2c5-6cd4-4587-ac7b-517b864b5ce5"},
+    {"form":"に","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"見せる","startIndex":6,"variant":"base","isDisplayed":true,"vocab":"見せる","vocabId":"9232a26f-ea27-4f6a-87fb-ae0980b66e27"},
+    {"form":"おう","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"綺麗","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"綺麗","vocabId":"6a6d4d26-e5dc-4387-8a54-da39ec8c575b"},
+        {"form":"母様","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"母様","vocabId":"38daab8f-0707-4ef0-860a-7b1b0ae816a3"},
+        {"form":"に","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"見せる","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"見せる","vocabId":"9232a26f-ea27-4f6a-87fb-ae0980b66e27"},
+        {"form":"おう","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"綺麗","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"綺麗","vocabId":"6a6d4d26-e5dc-4387-8a54-da39ec8c575b"},
+        {"form":"母","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"母","vocabId":"eda0ad0b-a495-412e-9040-b92f9c176086"},
+        {"form":"様","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"様","vocabId":"0adae2c5-6cd4-4587-ac7b-517b864b5ce5"},
+        {"form":"に","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"見せる","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"見せる","vocabId":"9232a26f-ea27-4f6a-87fb-ae0980b66e27"},
+        {"form":"おう","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"}
+      ]
+    }
+  ]
+}

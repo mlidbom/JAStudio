@@ -1,0 +1,33 @@
+{
+  "sentence": "前だったのか",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 前 | だった | だ | たの | た | のか | の | か.",
+  "parsedWords": [
+    {"form":"前","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"前","vocabId":"48f3b11c-995c-4116-aa60-754f9d0f9cbd"},
+    {"form":"だった","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"だった","vocabId":"d2fe8f85-7de7-457c-b8a6-5804e39b2ffc"},
+    {"form":"だ","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"た","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"のか","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"},
+    {"form":"の","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"か","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"前","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"前","vocabId":"48f3b11c-995c-4116-aa60-754f9d0f9cbd"},
+        {"form":"だった","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だった","vocabId":"d2fe8f85-7de7-457c-b8a6-5804e39b2ffc"},
+        {"form":"のか","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"前","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"前","vocabId":"48f3b11c-995c-4116-aa60-754f9d0f9cbd"},
+        {"form":"だ","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"た","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"の","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"か","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+      ]
+    }
+  ]
+}

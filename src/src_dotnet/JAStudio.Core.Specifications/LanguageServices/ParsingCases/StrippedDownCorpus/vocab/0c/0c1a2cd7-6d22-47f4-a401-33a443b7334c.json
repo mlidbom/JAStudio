@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "なのかな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag>might-_-be_?/maybe-_-{is}-_?/{is}-_-_-I-wonder | <tag>s.start:</tag>is-that-so-I-wonder",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "なの",
+      "かな"
+    ],
+    "alternative": [
+      "のかな"
+    ]
+  },
+  "readings": [
+    "なのかな"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-d734cb97b2618b332fab8c1177dad2aee5bd0bc17ecbcc5d91ef3930.mp3]",
+  "forms": [
+    {
+      "text": "何のかな",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 22,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0c1a2cd7-6d22-47f4-a401-33a443b7334c",
+  "tags": []
+}

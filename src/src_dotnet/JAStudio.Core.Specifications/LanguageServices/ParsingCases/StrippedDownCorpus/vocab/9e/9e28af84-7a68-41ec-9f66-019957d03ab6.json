@@ -1,0 +1,176 @@
+{
+  "question": {
+    "text": "えている",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-{continuously/over-time}-able-to | {came-out/ended-up/is}-_-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "える",
+      "てる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えている"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b5559f5eb38c16576cee22b1fa5bd4eb590f3edb242036150705c213.mp3]",
+  "forms": [
+    {
+      "text": "べてる",
+      "isOwned": false
+    },
+    {
+      "text": "えてる",
+      "isOwned": false
+    },
+    {
+      "text": "けてる",
+      "isOwned": false
+    },
+    {
+      "text": "せてる",
+      "isOwned": false
+    },
+    {
+      "text": "ててる",
+      "isOwned": false
+    },
+    {
+      "text": "ねてる",
+      "isOwned": false
+    },
+    {
+      "text": "へてる",
+      "isOwned": false
+    },
+    {
+      "text": "めてる",
+      "isOwned": false
+    },
+    {
+      "text": "れてる",
+      "isOwned": false
+    },
+    {
+      "text": "げてる",
+      "isOwned": false
+    },
+    {
+      "text": "ぜてる",
+      "isOwned": false
+    },
+    {
+      "text": "でてる",
+      "isOwned": false
+    },
+    {
+      "text": "ぺてる",
+      "isOwned": false
+    },
+    {
+      "text": "べている",
+      "isOwned": true
+    },
+    {
+      "text": "けている",
+      "isOwned": true
+    },
+    {
+      "text": "せている",
+      "isOwned": true
+    },
+    {
+      "text": "てている",
+      "isOwned": true
+    },
+    {
+      "text": "ねている",
+      "isOwned": true
+    },
+    {
+      "text": "へている",
+      "isOwned": true
+    },
+    {
+      "text": "めている",
+      "isOwned": true
+    },
+    {
+      "text": "れている",
+      "isOwned": true
+    },
+    {
+      "text": "げている",
+      "isOwned": true
+    },
+    {
+      "text": "ぜている",
+      "isOwned": true
+    },
+    {
+      "text": "でている",
+      "isOwned": true
+    },
+    {
+      "text": "ぺている",
+      "isOwned": true
+    },
+    {
+      "text": "ておる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 112,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "えておる"
+    ],
+    "synonyms": [
+      "えておる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9e28af84-7a68-41ec-9f66-019957d03ab6",
+  "tags": []
+}

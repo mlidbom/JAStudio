@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "殴る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} strike/hit/beat/punch",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なぐる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:殴る_b.mp3]",
+  "audioG": "[sound:殴る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "擲る",
+      "isOwned": false
+    },
+    {
+      "text": "撲る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} strike/hit/beat/punch",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>assault</kanji>. What are some ways to assault a person? How about <vocabulary>to punch</vocabulary>, <vocabulary>to strike</vocabulary>, or <vocabulary>to hit</vocabulary>, to name a few?",
+    "readingMnemonic": "Someone is <reading>nag</reading>ging (<ja>なぐ</ja>) you and nagging you about something. You can't take it any more, so you turn around <vocabulary>to punch</vocabulary> them in the face."
+  },
+  "id": "5ffcdf93-350b-496d-8341-3bb3bbc2e678",
+  "tags": [
+    "source::wani::level::48"
+  ]
+}

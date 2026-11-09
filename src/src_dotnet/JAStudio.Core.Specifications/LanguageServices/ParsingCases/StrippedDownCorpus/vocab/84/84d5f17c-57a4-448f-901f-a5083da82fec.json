@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "ちゃった",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "ended-up-_ing/unfortunately-_-{ed}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ちゃう",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ちゃった"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-02-21-19-07-27-977.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 226,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ちまった",
+      "てしまいました",
+      "てしまった"
+    ],
+    "synonyms": [
+      "ちまった",
+      "てしまいました",
+      "てしまった"
+    ],
+    "antonyms": [],
+    "confusedWith": [
+      "じゃった"
+    ],
+    "seeAlso": [
+      "ちゃってた"
+    ]
+  },
+  "sourceData": {
+    "answer": "finished-doing/did-completely",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "84d5f17c-57a4-448f-901f-a5083da82fec",
+  "tags": [
+    "source::yomitan"
+  ]
+}

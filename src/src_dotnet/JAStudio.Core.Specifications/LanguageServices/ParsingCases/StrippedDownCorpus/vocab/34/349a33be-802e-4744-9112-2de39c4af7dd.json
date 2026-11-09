@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "物",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "thing/object | way-of-things | <tag>pre:</tag>really/very ....",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "もの"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": false,
+  "audioB": "[sound:物_b.mp3]",
+  "audioG": "[sound:物_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "もの",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 100,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.japanesewithanime.com/2019/03/formal-nouns.html\">Formal Nouns | Japanese with Anime</a><br><a href=\"https://www.japanesewithanime.com/2019/03/light-nouns.html\">Light Nouns | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "thing/object/article/stuff/substance | one's-things/possessions/property/belongings | things/something/anything/everything/nothing | quality | reason/the-way-of-things | used-to-emphasize-emotion,-judgment,-etc./used-to-indicate-a-common-occurrence-in-the-past-(after-a-verb-in-past-tense)/used-to-indicate-a-general-tendency/used-to-indicate-something-that-should-happen | item-classified-as-.../item-related-to-.../work-in-the-genre-of-... | cause-of-.../cause-for-... | somehow/somewhat/for-some-reason | really/truly",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. Besides <vocabulary>thing</vocabulary>, it has the related meanings of <vocabulary>object</vocabulary> and <vocabulary>item</vocabulary>.",
+    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading, but you haven't learned it yet. Here's a mnemonic to help you:\n\nWhat game has the most <vocabulary>thing</vocabulary>s in it? <reading>Mono</reading>poly (<ja>もの</ja>). You can choose from a bunch of random things to play as, you know? And no one actually knows what those things are. What's a thimble anyway? Just call it a thing."
+  },
+  "id": "349a33be-802e-4744-9112-2de39c4af7dd",
+  "tags": [
+    "-::formal-noun",
+    "legacy_scheduling",
+    "source::wani::level::09"
+  ]
+}

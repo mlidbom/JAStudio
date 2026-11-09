@@ -1,0 +1,79 @@
+{
+  "question": {
+    "text": "んだら",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "if/when/should-there-be | when-it-comes-to | why-not/how-about  | I-tell-you! | _-{would/could}-{be/have}?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "んだら"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-cb0da90327dfbcf9d6cc9a7a64da3f03031051c6b2d86bda3703d3f4.mp3]",
+  "forms": [
+    {
+      "text": "たら",
+      "isOwned": false
+    },
+    {
+      "text": "ったら",
+      "isOwned": false
+    },
+    {
+      "text": "だら",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 16,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2e0d3e84-af7f-4524-9723-cda5e428165a",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

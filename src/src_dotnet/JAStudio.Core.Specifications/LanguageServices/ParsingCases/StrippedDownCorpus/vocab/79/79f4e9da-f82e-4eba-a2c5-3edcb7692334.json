@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "ぶと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ぶと",
+    "ぶゆ",
+    "ぶよ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-571ebef71469b9cfcc4a37d9b8f772260252f88dd8cb55c3a47f648c.mp3]",
+  "forms": [
+    {
+      "text": "ぶゆ",
+      "isOwned": false
+    },
+    {
+      "text": "ぶよ",
+      "isOwned": false
+    },
+    {
+      "text": "ブユ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "black-fly-(any-insect-of-family-Simuliidae)/gnat",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "79f4e9da-f82e-4eba-a2c5-3edcb7692334",
+  "tags": [
+    "source::jamdict"
+  ]
+}

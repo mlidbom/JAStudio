@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "すぐ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "right-away/immediately | soon/shortly | easily/readily | /nearby/just- | frank",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "すぐ"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:4cf9ed1073a1b50e7da433256510d28c-951e29df42fde2a9e2e168d12f0b2661f54d1c69.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "直ぐ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 197,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "immediately/at-once/right-away/directly | soon/before-long/shortly | easily/readily/without-difficulty | right-(near)/nearby/just-(handy) | honest/upright/frank/straightforward",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ab6e2efc-283b-4d85-9310-411d5062fa9f",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step01"
+  ]
+}

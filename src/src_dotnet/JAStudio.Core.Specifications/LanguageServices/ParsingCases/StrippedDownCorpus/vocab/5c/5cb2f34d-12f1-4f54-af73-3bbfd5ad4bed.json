@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "憑く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: possess/haunt",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つく"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-05-10-21-17-44-105.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つく",
+      "isOwned": false
+    },
+    {
+      "text": "付く",
+      "isOwned": false
+    },
+    {
+      "text": "着く",
+      "isOwned": false
+    },
+    {
+      "text": "点く",
+      "isOwned": false
+    },
+    {
+      "text": "就く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: possess/haunt",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5cb2f34d-12f1-4f54-af73-3bbfd5ad4bed",
+  "tags": [
+    "source::yomitan"
+  ]
+}

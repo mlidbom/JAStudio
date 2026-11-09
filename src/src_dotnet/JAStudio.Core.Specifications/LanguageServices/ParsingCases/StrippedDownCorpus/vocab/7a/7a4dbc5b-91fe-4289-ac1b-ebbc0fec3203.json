@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "出し",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "dashi/soup-stock | pretext/excuse | <tag><ja>出す</ja>:</tag>{taking/getting}-out | revealing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "だし"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-14-20-53-40-245.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ダシ",
+      "isOwned": false
+    },
+    {
+      "text": "出汁",
+      "isOwned": false
+    },
+    {
+      "text": "だし",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "dashi-(Japanese-soup-stock-made-from-fish-and-kelp) | pretext/excuse/pretense-(pretence)/dupe/front-man",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7a4dbc5b-91fe-4289-ac1b-ebbc0fec3203",
+  "tags": [
+    "source::yomitan"
+  ]
+}

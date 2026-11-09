@@ -1,0 +1,91 @@
+{
+  "question": {
+    "text": "上手い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "good-at/skillful/skilled",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うまい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_9238_うまい_male.mp3]",
+  "audioG": "[sound:Wani_9238_うまい_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "うまい",
+      "isOwned": false
+    },
+    {
+      "text": "旨い",
+      "isOwned": false
+    },
+    {
+      "text": "美味い",
+      "isOwned": false
+    },
+    {
+      "text": "美い",
+      "isOwned": false
+    },
+    {
+      "text": "甘い",
+      "isOwned": false
+    },
+    {
+      "text": "巧い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 46,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [
+        "うまく",
+        "上手く"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "skillful/skilful/clever/expert/wise/successful | delicious/appetizing/appetising/tasty | fortunate/splendid/promising",
+    "mnemonic": "Remember how 上手 means that you're <vocabulary>good at</vocabulary> something? Well, this word uses the exact same kanji, and means the exact same thing!",
+    "readingMnemonic": "That い on the end is your clue that the reading is different, and you can forget about the readings you learned for each kanji. This is a native Japanese word, and the kanji were assigned to it based on the meaning alone. That means you just have to memorize the reading, so here's a mnemonic to help you:\n\nWhen you see that someone's <vocabulary>good at</vocabulary> something, you say, \"<reading>Ooh</reading>, <reading>my</reading> (うまい)!\" at the top of your lungs. Try it! Think of something that impresses you and say \"ooh my!\" out loud."
+  },
+  "id": "fd19d3c2-b245-450f-b3f8-72846f7816d4",
+  "tags": [
+    "source::wani",
+    "source::wani::level::05"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "独り",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>一人:</ja> alone | one-person",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ひとり"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:独り_b.mp3]",
+  "audioG": "[sound:独り_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "一人"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "one-person | being-alone/being-by-oneself | being-single/being-unmarried | by-oneself/alone | just/only/simply",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is different from the one you learned (this is kun'yomi). There's an easy way to remember it, though. <ja>一人</ja> and <ja>独り</ja> share the same readings and mean almost the same thing. Just try to remember that this <ja>ひとり</ja> is used to emphasize solitude and independence."
+  },
+  "id": "34910e20-1ab4-4822-825b-9cd5d331996a",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::26"
+  ]
+}

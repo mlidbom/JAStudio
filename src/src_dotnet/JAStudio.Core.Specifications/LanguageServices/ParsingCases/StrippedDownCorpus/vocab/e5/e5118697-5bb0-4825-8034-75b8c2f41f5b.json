@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "さっき",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "earlier/a-little-while-ago/just-now",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "さっき"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:9be146c0cf68304fdc9816be243fa7ad.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "先",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 121,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "a-short-while-ago/a-moment-ago/just-now/some-time-ago",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e5118697-5bb0-4825-8034-75b8c2f41f5b",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step07"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "死ぬ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: die",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "しぬ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:死ぬ_b.mp3]",
+  "audioG": "[sound:死ぬ_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 116,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: die/pass-away | lose-spirit/lose-vigor/look-dead | cease/stop",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>death</kanji>, so the verb version is <vocabulary>to die</vocabulary>.",
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+  },
+  "id": "10594388-4413-4301-b971-af1744248e0e",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

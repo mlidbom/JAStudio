@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "どうやって",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "how/in-what-way | by-what-means",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "どう",
+      "やる",
+      "て"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "どうやって"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_どうやって_どうやって_2023-07-20-06-20-26.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 63,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "どうやったら"
+    ]
+  },
+  "sourceData": {
+    "answer": "how/in-what-way/by-what-means",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e0e49108-b129-469c-bcc5-a3bbe4c9035a",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

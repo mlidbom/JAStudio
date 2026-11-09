@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "のです",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-the-{thing/reason/fact}/see",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "の",
+      "です"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "んだ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-bfe6acffd9948e1eb6f531cad6d2f3fe0078648f6662367c57339a37.mp3]",
+  "forms": [
+    {
+      "text": "んだ",
+      "isOwned": false
+    },
+    {
+      "text": "のだ",
+      "isOwned": false
+    },
+    {
+      "text": "んです",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 277,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=lYvIOi8Q3I8\">Cure Dolly:complex endings made easy!　んです、のです、なのです、なんです</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "the-expectation-is-that-.../the-reason-is-that-.../the-fact-is-that-.../the-explanation-is-that-.../it-is-that-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "424c00ef-5209-49c5-a130-2671c40b4002",
+  "tags": []
+}

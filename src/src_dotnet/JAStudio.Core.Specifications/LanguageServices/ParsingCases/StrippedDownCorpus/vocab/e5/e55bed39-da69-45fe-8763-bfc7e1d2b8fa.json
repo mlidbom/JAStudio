@@ -1,0 +1,116 @@
+{
+  "question": {
+    "text": "えそう",
+    "disambiguation": "imperative"
+  },
+  "corpusAnswer": "seems-able-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "える",
+      "そう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えそう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [
+    "roughMasculine"
+  ],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c5c9686daf0285348021bb560eee03834fa67508c433855e0b07eb3c.mp3]",
+  "forms": [
+    {
+      "text": "せそう",
+      "isOwned": false
+    },
+    {
+      "text": "けそう",
+      "isOwned": false
+    },
+    {
+      "text": "べそう",
+      "isOwned": false
+    },
+    {
+      "text": "ぜそう",
+      "isOwned": false
+    },
+    {
+      "text": "れそう",
+      "isOwned": false
+    },
+    {
+      "text": "めそう",
+      "isOwned": false
+    },
+    {
+      "text": "ぺそう",
+      "isOwned": false
+    },
+    {
+      "text": "へそう",
+      "isOwned": false
+    },
+    {
+      "text": "ねそう",
+      "isOwned": false
+    },
+    {
+      "text": "げそう",
+      "isOwned": false
+    },
+    {
+      "text": "でそう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "This works around a glitch in janome where it detects けそう etc as an imperative form when it is actually a potential",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "えそう:imperative"
+    ],
+    "synonyms": [
+      "えそう:imperative"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e55bed39-da69-45fe-8763-bfc7e1d2b8fa",
+  "tags": []
+}

@@ -1,0 +1,22 @@
+{
+  "sentence": "があるの",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: がある | うの.",
+  "parsedWords": [
+    {"form":"がある","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"がある","vocabId":"6d2ff318-7d70-4d0e-9f14-338b0fa53105"},
+    {"form":"がある","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"がある","vocabId":"6d2ff318-7d70-4d0e-9f14-338b0fa53105"},
+    {"form":"ある","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"ある","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"ある","vocabId":"a7419593-1381-45c8-88fe-0eb846286151"},
+    {"form":"う","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"の","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"がある","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"がある","vocabId":"6d2ff318-7d70-4d0e-9f14-338b0fa53105"},
+        {"form":"う","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"の","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+      ]
+    }
+  ]
+}

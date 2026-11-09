@@ -1,0 +1,15 @@
+{
+  "sentence": ". , : ; / | 。 、ー ? !",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IgnoresNoiseCharacters, against vocab copied by hand, expected the forms of the parsing result: ー.",
+  "parsedWords": [
+    {"form":"ー","startIndex":15,"variant":"surface","isDisplayed":true,"vocab":"ー","vocabId":"18c350c5-f140-4726-b84b-ec82bcb01382"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"ー","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ー","vocabId":"18c350c5-f140-4726-b84b-ec82bcb01382"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "とは",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "as-for/speaking-of | with | compared-to/in-relation-to | \"_\"/<tag>{quote}</tag>\n<tag>s.end:</tag>{to-think/imagine/I'can't-believe}-that",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "と",
+      "は"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "とは"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_とは_とは_2023-09-19-08-05-09.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 365,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "indicates-word-or-phrase-being-defined | used-for-quoting-(thoughts,-speech,-etc.) | with | (not)-as-much-as/(not)-so-much-as | the-fact-that/to-think-that/such-a-thing-as",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cf7e9c66-ebda-4d37-8f7f-ae32bad802ee",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

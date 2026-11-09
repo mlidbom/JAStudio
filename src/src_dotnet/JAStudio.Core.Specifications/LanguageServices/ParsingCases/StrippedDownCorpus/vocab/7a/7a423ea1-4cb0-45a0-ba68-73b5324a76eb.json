@@ -1,0 +1,59 @@
+{
+  "question": {
+    "text": "離れ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "detached-building/solitary-house/room-detached-from-main-house | separation-from/loss-of-interest-in/independence-of/distancing-(of-oneself)-from/disillusionment-with/alienation-from-(something)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はなれ"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "detached-building/solitary-house/room-detached-from-main-house | separation-from/loss-of-interest-in/independence-of/distancing-(of-oneself)-from/disillusionment-with/alienation-from-(something)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7a423ea1-4cb0-45a0-ba68-73b5324a76eb",
+  "tags": []
+}

@@ -1,0 +1,44 @@
+{
+  "sentence": "落書きしたろ",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 落書き | する | た.",
+  "parsedWords": [
+    {"form":"落書きする","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"落書きする","vocabId":"b3d0201b-7597-4e91-b0cd-08c05b10dfe5"},
+    {"form":"落書き","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"落書き","vocabId":"b8707342-7341-4e5b-af3a-6f2fd3eecb3d"},
+    {"form":"した","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"した","vocabId":"06654a9a-6a26-498f-968a-a4d7d254cfea"},
+    {"form":"する","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"たろ","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"たろ","vocabId":"3a0248f4-fc12-49f0-84c9-ac60a212c223"},
+    {"form":"た","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"落書きする","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"落書きする","vocabId":"b3d0201b-7597-4e91-b0cd-08c05b10dfe5"},
+        {"form":"たろ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たろ","vocabId":"3a0248f4-fc12-49f0-84c9-ac60a212c223"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"落書き","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"落書き","vocabId":"b8707342-7341-4e5b-af3a-6f2fd3eecb3d"},
+        {"form":"した","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"した","vocabId":"06654a9a-6a26-498f-968a-a4d7d254cfea"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":false},
+      "displayedWords": [
+        {"form":"落書き","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"落書き","vocabId":"b8707342-7341-4e5b-af3a-6f2fd3eecb3d"},
+        {"form":"する","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"たろ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たろ","vocabId":"3a0248f4-fc12-49f0-84c9-ac60a212c223"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound":true},
+      "displayedWords": [
+        {"form":"落書き","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"落書き","vocabId":"b8707342-7341-4e5b-af3a-6f2fd3eecb3d"},
+        {"form":"する","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"たろ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たろ","vocabId":"3a0248f4-fc12-49f0-84c9-ac60a212c223"}
+      ]
+    }
+  ]
+}

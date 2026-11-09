@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "御前",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "presence | outrider | <tag>suff:</tag>My-Lord/My-Lady",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ごぜん"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-05-19-14-15-31-745.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "presence-(of-a-nobleman,-the-emperor,-etc.) | outrider-(person-riding-horseback-in-the-lead-position-of-a-cavalcade) | My-Lord/My-Lady",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f55e6488-7dc6-4716-bf30-884c052b4e85",
+  "tags": [
+    "source::yomitan"
+  ]
+}

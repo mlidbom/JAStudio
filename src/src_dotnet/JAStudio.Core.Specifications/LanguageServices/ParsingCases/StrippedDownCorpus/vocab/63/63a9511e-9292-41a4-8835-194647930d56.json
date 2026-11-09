@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "話",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "conversation | topic/subject | account/report | circumstances/the-facts | matter/case | tale/story | consultation",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はなし"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:話_b.mp3]",
+  "audioG": "[sound:話_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "話し",
+      "isOwned": false
+    },
+    {
+      "text": "咄",
+      "isOwned": false
+    },
+    {
+      "text": "噺",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 310,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "話す",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "talk/speech/chat/conversation | topic/subject | discussions/negotiation/argument | rumor/talk/hearsay | tale/story/fable | circumstances/particulars",
+    "mnemonic": "The kanji version of <ja>話</ja> means <kanji>talk</kanji>. This word also means <vocabulary>talk</vocabulary>, but it means a few other things as well. This can refer to a <vocabulary>speech</vocabulary> or <vocabulary>story</vocabulary> as well. Basically anything that involves a talking session. So, before you go, I hope you stay awhile and listen to my <ja>話</ja>.",
+    "readingMnemonic": "Who tells a great <vocabulary>story</vocabulary>? <reading>Hana, she</reading> (<ja>はなし</ja>) tells a great story! If you know someone named Hana or Hanna you can use that person to help you to remember this one better too. \n\nYou can also use <ja>話す</ja>'s reading to help you to remember this one, as well."
+  },
+  "id": "63a9511e-9292-41a4-8835-194647930d56",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::10"
+  ]
+}

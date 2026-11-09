@@ -1,0 +1,87 @@
+{
+  "question": {
+    "text": "てく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag> will-{_-and-go | {go-on/keep}-_-ing | go-_-ing }\n<tag>state-change-verb:</tag> {is}-_-ing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "いく"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てく"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_てく_てく_2023-08-25-07-51-47.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "でく",
+      "isOwned": false
+    },
+    {
+      "text": "ていく",
+      "isOwned": false
+    },
+    {
+      "text": "でいく",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 56,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ていく",
+      "んでいく"
+    ],
+    "synonyms": [
+      "いく",
+      "ていく",
+      "んでいく"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "てくん"
+    ]
+  },
+  "sourceData": {
+    "answer": "to{?}continue",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ced29516-91e0-4838-9c8e-fe0c0768858a",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "した",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "did | happened/occurred | manifested",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "した"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-0cbdbe0353ad147e5cc44bac674081b7e5fcfae9806eec784af1e8fa.mp3]",
+  "forms": [
+    {
+      "text": "為った",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1289,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "06654a9a-6a26-498f-968a-a4d7d254cfea",
+  "tags": []
+}

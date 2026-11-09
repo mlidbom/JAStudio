@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "跳ぶ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とぶ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:跳ぶ_b.mp3]",
+  "audioG": "[sound:跳ぶ_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "翔ぶ",
+      "isOwned": false
+    },
+    {
+      "text": "飛ぶ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: fly/soar | jump/leap/spring/bound/hop | spatter/scatter/splash/fly-(e.g.-of-sparks) | hurry/rush | flee/run-off/escape | disappear/vanish/fade/thin-out | break-off/come-off/fall-off/blow-(of-a-fuse) | be-sent-out-(of-an-order)/fly-(of-false-rumours,-catcalls,-etc.) | come-flying-(of-a-punch,-kick,-etc.) | be-missing-(of-a-page,-stitch,-etc.)/skip/jump-(e.g.-of-a-conversation)",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>hop</kanji> and the verb vocab version is <vocabulary>to hop</vocabulary> or <vocabulary>to jump</vocabulary> or <vocabulary>to leap</vocabulary>. Basically anything that gets both feet off the ground via your own foot propulsion.",
+    "readingMnemonic": "Know how <ja>飛ぶ</ja> means \"to fly\"? This is a similar idea, though this time you're not flying nearly as much, because you're just hopping or jumping. Anyways, the readings are the same."
+  },
+  "id": "bcee3ba4-79e5-4cca-8673-6cd08feb6c47",
+  "tags": [
+    "source::wani::level::37"
+  ]
+}

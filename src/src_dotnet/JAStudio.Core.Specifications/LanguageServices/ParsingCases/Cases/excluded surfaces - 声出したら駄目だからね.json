@@ -1,0 +1,41 @@
+{
+  "sentence": "声出したら駄目だからね",
+  "why": "Converted from TextAnalysisWithSelectDataTests.ExcludedSurfaces, against vocab copied by hand, expected the forms of the parsing result, in that order: 声 | 出す | たら | 駄目 | だから | だ | から | ね.",
+  "parsedWords": [
+    {"form":"声","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"声","vocabId":"ed0fc961-024e-4b37-a0ab-419e96d5c175"},
+    {"form":"出す","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"出す","vocabId":"a25b6c34-5492-4f69-8e91-7844309edb7e"},
+    {"form":"たら","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+    {"form":"た","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"駄目だ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"ダメだ","vocabId":"fe475b68-9b7b-432b-9362-273a0acab374"},
+    {"form":"駄目","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"駄目","vocabId":"e27d806c-7510-4ffc-ad9a-0ed94c64825b"},
+    {"form":"だから","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"だから","vocabId":"302719ae-fd32-4b10-9ca5-64b4589273c6"},
+    {"form":"だ","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"からね","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"からね","vocabId":"0aea4f26-c605-41dd-8414-a64f38afe8dd"},
+    {"form":"から","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"},
+    {"form":"ね","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"声","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"声","vocabId":"ed0fc961-024e-4b37-a0ab-419e96d5c175"},
+        {"form":"出す","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"出す","vocabId":"a25b6c34-5492-4f69-8e91-7844309edb7e"},
+        {"form":"たら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"駄目だ","startIndex":5,"variant":"surface","shownAs":"ダメだ","isEmergencyDisplayed":false,"vocab":"ダメだ","vocabId":"fe475b68-9b7b-432b-9362-273a0acab374"},
+        {"form":"からね","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"からね","vocabId":"0aea4f26-c605-41dd-8414-a64f38afe8dd"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"声","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"声","vocabId":"ed0fc961-024e-4b37-a0ab-419e96d5c175"},
+        {"form":"出す","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"出す","vocabId":"a25b6c34-5492-4f69-8e91-7844309edb7e"},
+        {"form":"たら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+        {"form":"駄目","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"駄目","vocabId":"e27d806c-7510-4ffc-ad9a-0ed94c64825b"},
+        {"form":"だ","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"から","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"},
+        {"form":"ね","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    }
+  ]
+}

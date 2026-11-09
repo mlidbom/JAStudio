@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "長居する",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: stay-(too)-long/overstay",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "長居",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ながいする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c8dc8447cc3d30991f258d102a39a40c8581c4df03d0b0bf4718ab57.mp3]",
+  "forms": [
+    {
+      "text": "長居をする",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "30ce847e-a3ae-42e9-965e-7b5d95d3d872",
+  "tags": []
+}

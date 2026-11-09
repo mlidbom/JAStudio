@@ -1,0 +1,38 @@
+{
+  "sentence": "外出中",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HideTransparentCompounds, against vocab copied by hand, expected the breakdown to display: 外出 | 中.",
+  "parsedWords": [
+    {"form":"外出中","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"外出中","vocabId":"8b11d9a4-3fcb-4c27-bf44-940a0c34a3c5"},
+    {"form":"外出","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"外出","vocabId":"96839c04-be2b-4781-9303-8067fadb146c"},
+    {"form":"中","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"中","vocabId":"ee161b46-dab9-4220-96d2-6350c661aed7"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"外出中","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"外出中","vocabId":"8b11d9a4-3fcb-4c27-bf44-940a0c34a3c5"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"外出","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"外出","vocabId":"96839c04-be2b-4781-9303-8067fadb146c"},
+        {"form":"中","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"中","vocabId":"ee161b46-dab9-4220-96d2-6350c661aed7"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"外出","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"外出","vocabId":"96839c04-be2b-4781-9303-8067fadb146c"},
+        {"form":"中","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"中","vocabId":"ee161b46-dab9-4220-96d2-6350c661aed7"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"外出","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"外出","vocabId":"96839c04-be2b-4781-9303-8067fadb146c"},
+        {"form":"中","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"中","vocabId":"ee161b46-dab9-4220-96d2-6350c661aed7"}
+      ]
+    }
+  ]
+}

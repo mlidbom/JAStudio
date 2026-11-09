@@ -1,0 +1,167 @@
+{
+  "question": {
+    "text": "えてる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-{continuously/over-time}-able-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "える",
+      "てる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えてる"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2dc803262f865d859225e1a6784c572f197f0017b01e96b0a754a8f6.mp3]",
+  "forms": [
+    {
+      "text": "べてる",
+      "isOwned": true
+    },
+    {
+      "text": "けてる",
+      "isOwned": true
+    },
+    {
+      "text": "せてる",
+      "isOwned": true
+    },
+    {
+      "text": "ててる",
+      "isOwned": true
+    },
+    {
+      "text": "ねてる",
+      "isOwned": true
+    },
+    {
+      "text": "へてる",
+      "isOwned": true
+    },
+    {
+      "text": "めてる",
+      "isOwned": true
+    },
+    {
+      "text": "れてる",
+      "isOwned": true
+    },
+    {
+      "text": "げてる",
+      "isOwned": true
+    },
+    {
+      "text": "ぜてる",
+      "isOwned": true
+    },
+    {
+      "text": "でてる",
+      "isOwned": true
+    },
+    {
+      "text": "ぺてる",
+      "isOwned": true
+    },
+    {
+      "text": "べている",
+      "isOwned": false
+    },
+    {
+      "text": "えている",
+      "isOwned": false
+    },
+    {
+      "text": "けている",
+      "isOwned": false
+    },
+    {
+      "text": "せている",
+      "isOwned": false
+    },
+    {
+      "text": "てている",
+      "isOwned": false
+    },
+    {
+      "text": "ねている",
+      "isOwned": false
+    },
+    {
+      "text": "へている",
+      "isOwned": false
+    },
+    {
+      "text": "めている",
+      "isOwned": false
+    },
+    {
+      "text": "れている",
+      "isOwned": false
+    },
+    {
+      "text": "げている",
+      "isOwned": false
+    },
+    {
+      "text": "ぜている",
+      "isOwned": false
+    },
+    {
+      "text": "でている",
+      "isOwned": false
+    },
+    {
+      "text": "ぺている",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 95,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d0f99b6d-835b-4fa2-b693-6a10ea34c1fb",
+  "tags": []
+}

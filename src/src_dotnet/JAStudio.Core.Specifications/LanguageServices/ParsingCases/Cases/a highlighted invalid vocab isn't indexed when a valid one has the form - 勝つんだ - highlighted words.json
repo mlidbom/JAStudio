@@ -1,0 +1,40 @@
+{
+  "sentence": "勝つんだ",
+  "why": "Converted from TextAnalysisWithSelectDataTests.ThatVocabIsNotIndexedEvenIfFormIsHighlightedIfInvalidAndThereIsAnotherValidVocabWithTheForm, against vocab copied by hand, with んだ highlighted, expected the forms of the parsing result, in that order: 勝つ | う | んだ | ん | だ.",
+  "configuration": {
+    "highlightedWords": [
+      "んだ"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
+  "parsedWords": [
+    {"form":"勝つ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"勝つ","vocabId":"65874b27-93f7-491b-8dee-64dd081f3f0b"},
+    {"form":"勝つ","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"勝つ","vocabId":"65874b27-93f7-491b-8dee-64dd081f3f0b"},
+    {"form":"う","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"んだ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+    {"form":"ん","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だ","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"んだ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"勝つ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"勝つ","vocabId":"65874b27-93f7-491b-8dee-64dd081f3f0b"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"んだ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"勝つ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"勝つ","vocabId":"65874b27-93f7-491b-8dee-64dd081f3f0b"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"ん","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"んだ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"}
+      ]
+    }
+  ]
+}

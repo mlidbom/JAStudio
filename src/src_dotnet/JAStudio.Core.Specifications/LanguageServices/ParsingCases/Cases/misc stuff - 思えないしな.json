@@ -1,0 +1,33 @@
+{
+  "sentence": "思えないしな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 思える | ない | しな.",
+  "parsedWords": [
+    {"form":"思える","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"思える","vocabId":"ee0bdc2c-7610-4152-b196-b647074b98e0"},
+    {"form":"思う","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"えない","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ない","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"しな","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"しな","vocabId":"9ddbc34e-9d6e-42ea-b738-0cbf92ff7237"},
+    {"form":"し","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"し","vocabId":"76937626-91c7-461e-b1f2-db3e4b100285"},
+    {"form":"な","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"思える","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"思える","vocabId":"ee0bdc2c-7610-4152-b196-b647074b98e0"},
+        {"form":"ない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"しな","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"しな","vocabId":"9ddbc34e-9d6e-42ea-b738-0cbf92ff7237"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"思える","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"思える","vocabId":"ee0bdc2c-7610-4152-b196-b647074b98e0"},
+        {"form":"ない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"し","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"し","vocabId":"76937626-91c7-461e-b1f2-db3e4b100285"},
+        {"form":"な","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

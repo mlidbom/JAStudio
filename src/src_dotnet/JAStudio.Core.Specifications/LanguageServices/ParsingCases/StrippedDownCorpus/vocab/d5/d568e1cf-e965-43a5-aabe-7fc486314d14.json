@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "なう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ナウ",
+    "なう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "na-adjective",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-dd8d56a1180d82455eece46a7e49b3d64ddbbb34db75eaee6d453cf7.mp3]",
+  "forms": [],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "trendy/in/now | currently-at-.../now-doing-.../in-the-middle-of-...\nto{?}do-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d568e1cf-e965-43a5-aabe-7fc486314d14",
+  "tags": [
+    "source::jamdict"
+  ]
+}

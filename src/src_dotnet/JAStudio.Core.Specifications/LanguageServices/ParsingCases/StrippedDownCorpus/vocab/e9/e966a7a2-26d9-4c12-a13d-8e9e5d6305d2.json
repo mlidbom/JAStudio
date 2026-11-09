@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "に遭う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: unfortunately-{meet-with/encounter}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "に",
+      "遭う"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "にあう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-c24eb86af8d4f72df90ab2395622624d10ca2d307f688a68cc0ea83e.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "に遇う",
+      "isOwned": false
+    },
+    {
+      "text": "に逢う",
+      "isOwned": false
+    },
+    {
+      "text": "にあう",
+      "isOwned": false
+    },
+    {
+      "text": "に会う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 17,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e966a7a2-26d9-4c12-a13d-8e9e5d6305d2",
+  "tags": []
+}

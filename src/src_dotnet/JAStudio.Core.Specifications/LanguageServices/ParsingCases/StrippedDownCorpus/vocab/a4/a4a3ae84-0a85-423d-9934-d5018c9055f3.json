@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "せよ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>arch:</tag>do!/make-it-so! | granted-that/even-if/even-though",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "せよ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-a44214ef1ca67dd38643379b94810a43133cd8a8b39ed19950054987.mp3]",
+  "forms": [
+    {
+      "text": "にせよ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "granted-that/even-if/even-though",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a4a3ae84-0a85-423d-9934-d5018c9055f3",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "ていく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag> will-{_-and-go | {go-on/keep}-_-ing | go-_-ing }\n<tag>state-change-verb:</tag> {is}-_-ing",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "いく"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ていく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-76cf216a04fdcad68acfb5ac17f041c2267d5feba10f60308d89c817.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "てく",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 223,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "てく",
+      "んでいく"
+    ],
+    "synonyms": [
+      "てく",
+      "んでいく"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "To Go",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>go</kanji> so the verb form of this is <vocabulary>to go</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have to remember the <ja>い</ja> portion. To remember <ja>い</ja> we use the word \"eagle.\" \n\nYou want <vocabulary>to go</vocabulary> somewhere (anywhere!) but you can't. An <reading>ea</reading>gle (<ja>い</ja>) blocks your path. You try to go forward and it opens its wings and bites at you. You try to go back and it jumps at you. There's nowhere for you to go with this eagle standing there."
+  },
+  "id": "c623432f-ed9c-4274-a91a-7fd1e299bcbf",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

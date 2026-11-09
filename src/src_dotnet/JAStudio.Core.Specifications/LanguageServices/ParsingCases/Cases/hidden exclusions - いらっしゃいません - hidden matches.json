@@ -1,0 +1,38 @@
+{
+  "sentence": "いらっしゃいません",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HiddenExclusions, against vocab copied by hand, with いらっしゃいませ marked as hidden matches, expected the breakdown to display: いらっしゃいます | ん.",
+  "configuration": {
+    "highlightedWords": [],
+    "incorrectMatches": [],
+    "hiddenMatches": [
+      {
+        "word": "いらっしゃいませ",
+        "index": -1
+      }
+    ]
+  },
+  "parsedWords": [
+    {"form":"いらっしゃいません","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"いらっしゃいません","vocabId":"a5fef016-26bc-4b5b-a2ed-a4fc6ce7d086"},
+    {"form":"いらっしゃいます","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"いらっしゃいます","vocabId":"0ef19ded-668c-4fff-bc66-1ddce419de31"},
+    {"form":"いらっしゃる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"いらっしゃる","vocabId":"a1ad7b91-622e-43f3-a0d9-44eb080b1694"},
+    {"form":"ません","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"ません","vocabId":"87a1d61e-2ec6-4d98-9b75-1ff2ca9a7bd0"},
+    {"form":"ます","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"ん","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"いらっしゃいません","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いらっしゃいません","vocabId":"a5fef016-26bc-4b5b-a2ed-a4fc6ce7d086"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"いらっしゃる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"いらっしゃる","vocabId":"a1ad7b91-622e-43f3-a0d9-44eb080b1694"},
+        {"form":"ます","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+        {"form":"ん","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+      ]
+    }
+  ]
+}

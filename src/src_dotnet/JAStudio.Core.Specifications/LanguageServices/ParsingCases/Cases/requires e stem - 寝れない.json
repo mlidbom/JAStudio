@@ -1,0 +1,43 @@
+{
+  "sentence": "寝れない",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresEStem, against vocab copied by hand, expected the breakdown to display: 寝る | れない.",
+  "parsedWords": [
+    {"form":"寝れる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"寝れる","vocabId":"6f5a80c4-c822-429a-852b-d86138507410"},
+    {"form":"寝る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"寝る","vocabId":"9c10be1a-cf8a-48f4-9780-c48d02464acd"},
+    {"form":"れない","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"れない","vocabId":"97b56105-44a3-44e4-a891-564defae3e41"},
+    {"form":"れる","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"れる","vocabId":"29e1ed49-f117-4cdd-b63c-320212b0c560"},
+    {"form":"ない","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"寝れる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"寝れる","vocabId":"6f5a80c4-c822-429a-852b-d86138507410"},
+        {"form":"ない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"寝る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"寝る","vocabId":"9c10be1a-cf8a-48f4-9780-c48d02464acd"},
+        {"form":"れない","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"れない","vocabId":"97b56105-44a3-44e4-a891-564defae3e41"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"寝る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"寝る","vocabId":"9c10be1a-cf8a-48f4-9780-c48d02464acd"},
+        {"form":"れる","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"れる","vocabId":"29e1ed49-f117-4cdd-b63c-320212b0c560"},
+        {"form":"ない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"寝る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"寝る","vocabId":"9c10be1a-cf8a-48f4-9780-c48d02464acd"},
+        {"form":"れる","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"れる","vocabId":"29e1ed49-f117-4cdd-b63c-320212b0c560"},
+        {"form":"ない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "しまい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "end/close/finish/termination | noh-dance-in-plain-clothes",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "しまい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-05-17-11-02-26-192.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "仕舞い",
+      "isOwned": false
+    },
+    {
+      "text": "終い",
+      "isOwned": false
+    },
+    {
+      "text": "仕舞",
+      "isOwned": false
+    },
+    {
+      "text": "了い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 24,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1fa88d88-796b-457c-bedf-4750efb3cefe",
+  "tags": [
+    "source::yomitan"
+  ]
+}

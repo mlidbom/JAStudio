@@ -1,0 +1,90 @@
+{
+  "question": {
+    "text": "決まってる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is: decided/unchanging/a-fixed-{rule/convention} | obvious",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "決まる",
+      "てる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "きまってる"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b933095c038e1285d3b459fd93b5dd64bc59cdfc5f09a8fb9f34d51a.mp3]",
+  "forms": [
+    {
+      "text": "決っている",
+      "isOwned": false
+    },
+    {
+      "text": "決まっている",
+      "isOwned": false
+    },
+    {
+      "text": "極っている",
+      "isOwned": false
+    },
+    {
+      "text": "決ってる",
+      "isOwned": false
+    },
+    {
+      "text": "極ってる",
+      "isOwned": false
+    },
+    {
+      "text": "決まってん",
+      "isOwned": false
+    },
+    {
+      "text": "決まっておる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 24,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b22d97c7-e594-4544-a026-9f331a17b814",
+  "tags": []
+}

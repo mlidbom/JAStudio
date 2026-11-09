@@ -1,0 +1,79 @@
+{
+  "question": {
+    "text": "おっせぇ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "late/behind/overdue | too-late　|　late-in-the-{day/night} | slow/sluggish",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おそい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-15a9b6fa4c64aa98edced6119eb66061aa9f6e0d66ae503af3b6d9ae.mp3]",
+  "forms": [
+    {
+      "text": "遲い",
+      "isOwned": false
+    },
+    {
+      "text": "晩い",
+      "isOwned": false
+    },
+    {
+      "text": "鈍い",
+      "isOwned": false
+    },
+    {
+      "text": "遅い",
+      "isOwned": false
+    },
+    {
+      "text": "おっせえ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Slow, Late",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>slow</kanji>? It's <vocabulary>slow</vocabulary> (or, if you're slow, you're probably <vocabulary>late</vocabulary>, too).",
+    "readingMnemonic": "How <vocabulary>slow</vocabulary> are you? You are <reading>oh so</reading> slow (<ja>おそ</ja>)."
+  },
+  "id": "29a62cb1-f1db-49f8-b8f1-248a021b361d",
+  "tags": []
+}

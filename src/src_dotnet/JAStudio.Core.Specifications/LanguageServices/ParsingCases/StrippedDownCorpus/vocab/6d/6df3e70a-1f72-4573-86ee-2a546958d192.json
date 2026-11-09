@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "どうする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "what-{are}-{you/we/I}-going-to-do?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "どう",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "どうする"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-ea1829bb69c3ba27c575f6ac9497611a72c18a0a048f87fa174fe315.mp3]",
+  "forms": [
+    {
+      "text": "ドする",
+      "isOwned": false
+    },
+    {
+      "text": "如何する",
+      "isOwned": false
+    },
+    {
+      "text": "どする",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 82,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6df3e70a-1f72-4573-86ee-2a546958d192",
+  "tags": []
+}

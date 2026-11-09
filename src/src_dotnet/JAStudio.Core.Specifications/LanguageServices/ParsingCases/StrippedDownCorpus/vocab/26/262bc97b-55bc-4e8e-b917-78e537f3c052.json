@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "切り",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "end/place-to-stop | bound/limit | cutting | <tag>ctr:</tag>slices",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きり"
+  ],
+  "partsOfSpeech": [
+    "counter",
+    "noun",
+    "particle",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-af57080ed304270f2a8fe38bbe25f67ebd3d96976c8823bd96cc5711.mp3]",
+  "forms": [
+    {
+      "text": "切",
+      "isOwned": false
+    },
+    {
+      "text": "限り",
+      "isOwned": false
+    },
+    {
+      "text": "きり",
+      "isOwned": false
+    },
+    {
+      "text": "限",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "end/finish/stop | bounds/limits | delivery-date-(of-a-futures-contract) | finale-(of-a-noh-song)/end-of-an-act-(in-jōruri-or-kabuki)/final-performance-of-the-day-(in-vaudeville) | counter-for-slices-(esp.-thick-slices)/counter-for-cuts-(e.g.-fish,-meat) | only/just | since/after | remaining-(in-a-particular-state)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "262bc97b-55bc-4e8e-b917-78e537f3c052",
+  "tags": []
+}

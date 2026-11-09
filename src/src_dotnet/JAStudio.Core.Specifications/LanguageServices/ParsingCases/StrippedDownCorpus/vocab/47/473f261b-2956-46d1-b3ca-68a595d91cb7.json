@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "出会える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be-{able/fortunate-enough}-to-{meet/come-across}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "出会う",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "であう"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-cdb7c47eb7f8f655e5e73e11bfc1987d9d0d75cb5c4592791a147ff7.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "出あえる",
+      "isOwned": false
+    },
+    {
+      "text": "出合える",
+      "isOwned": false
+    },
+    {
+      "text": "出遭える",
+      "isOwned": false
+    },
+    {
+      "text": "出逢える",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 11,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "473f261b-2956-46d1-b3ca-68a595d91cb7",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "source::yomitan"
+  ]
+}

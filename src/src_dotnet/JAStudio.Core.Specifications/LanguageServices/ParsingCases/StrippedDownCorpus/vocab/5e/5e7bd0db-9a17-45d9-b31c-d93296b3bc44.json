@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "他人",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "another-person/other-people | outsider/stranger",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たにん"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:他人_b.mp3]",
+  "audioG": "[sound:他人_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 50,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [
+      "担任"
+    ],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "another-person/other-people/others | unrelated-person-(i.e.-not-related-by-blood) | outsider/stranger",
+    "mnemonic": "When you have an <kanji>other</kanji> <kanji>person</kanji>, you really have <vocabulary>another person</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>人</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\n<vocabulary>Another person</vocabulary> just stole your <reading>ta</reading>co and your <reading>Nin</reading>tendo (<ja>たにん</ja>). This complete <vocabulary>stranger</vocabulary> just walked up and took your taco and your Nintendo console straight out of your hands. Yoink."
+  },
+  "id": "5e7bd0db-9a17-45d9-b31c-d93296b3bc44",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::04"
+  ]
+}

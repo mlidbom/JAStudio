@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "頑張る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: persevere/keep-at-it/do-one's-best",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "がんばる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:頑張る_b.mp3]",
+  "audioG": "[sound:頑張る_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 83,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: persevere/persist/keep-at-it/hang-on/hold-out/do-one's-best | insist-that/stick-to-(one's-opinion) | remain-in-a-place/stick-to-one's-post/refuse-to-budge",
+    "mnemonic": "<ja>張る</ja> is <kanji>to stretch</kanji>. You're <kanji>stubborn</kanji> and want to stretch out what you're doing right now. Although you're stubborn, you keep doing it. You persevere. That's why this word is <vocabulary>to persevere</vocabulary> or <vocabulary>to do one's best</vocabulary>.",
+    "readingMnemonic": "The reading for this word is the reading for <ja>頑</ja> and <ja>張る</ja> put together but the <ja>張る</ja> part gets rendaku'd so keep that in mind."
+  },
+  "id": "5212db74-683a-4741-9142-0a31a89aa8c9",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::25"
+  ]
+}

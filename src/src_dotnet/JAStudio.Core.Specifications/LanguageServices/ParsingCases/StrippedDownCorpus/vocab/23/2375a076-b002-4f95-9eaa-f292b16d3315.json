@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "にし",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "small-spiral-shelled-snail/spiral-shellfish",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "にし"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b9a2cf34cb0b0b2ce84214e5caef3dea469743632ce922b89e298736.mp3]",
+  "forms": [
+    {
+      "text": "螺",
+      "isOwned": false
+    },
+    {
+      "text": "辛螺",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "small-spiral-shelled-snail/spiral-shellfish",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2375a076-b002-4f95-9eaa-f292b16d3315",
+  "tags": [
+    "source::yomitan"
+  ]
+}

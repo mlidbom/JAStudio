@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "寒い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "cold-(weather) | uninteresting/lame",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "さむい",
+    "さぶい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:寒い_b.mp3]",
+  "audioG": "[sound:寒い_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 67,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "cold-(e.g.-weather) | uninteresting-(esp.-joke)/lame/dull/weak/corny",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>cold</kanji>? It's <vocabulary>cold</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading which you learned with the kanji (<reading>Sam</reading>urai (<ja>さむ</ja>)). Remember?"
+  },
+  "id": "9dd3fab9-e649-4377-ad02-882e90f3cd22",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::12"
+  ]
+}

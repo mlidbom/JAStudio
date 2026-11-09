@@ -1,0 +1,59 @@
+{
+  "question": {
+    "text": "未練",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "lingering-{attachment/affection}/regret/reluctance/ruefulness",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "みれん"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c2097d0f9041c46224627bdeb0e9b26522050eaae309d39e498f5152.mp3]",
+  "forms": [],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "lingering-attachment/lingering-affection/regret/reluctance/ruefulness",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d29a9041-6456-410b-9941-fb3f4cb27f31",
+  "tags": []
+}

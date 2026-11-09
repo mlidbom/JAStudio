@@ -1,0 +1,79 @@
+{
+  "question": {
+    "text": "やめる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} stop-ongoing-action-or-state/quit(job|smoking) | cancel(exam)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とめる",
+    "やめる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-a625352e278e4e82922a1c33e44ccf981dc11147246f3e70aeafaee4.mp3]",
+  "forms": [
+    {
+      "text": "止める",
+      "isOwned": false
+    },
+    {
+      "text": "停める",
+      "isOwned": false
+    },
+    {
+      "text": "留める",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 149,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [
+        "やめろ"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "止まる",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} stop-(an-activity)/cease/discontinue/end/quit | cancel/abandon/give-up/abolish/abstain/refrain",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>stop</kanji> and the verb vocab version of that is <vocabulary>to stop something</vocabulary>.\n\nThis particular word is when you're stopping something (i.e. doing the action of stopping it).",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou need <vocabulary>to stop something</vocabulary> from moving. Maybe a car... or a door... or a person... whatever you want. To stop this thing, you throw out your <reading>toe</reading> (<ja>と</ja>), getting it smashed in the process. Imagine it bleeding and swelling up. How much it hurts! You put your toe out to stop this big thing, what a mistake!"
+  },
+  "id": "b836bbfc-9b49-4773-8d83-ce1d711f907c",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::03"
+  ]
+}

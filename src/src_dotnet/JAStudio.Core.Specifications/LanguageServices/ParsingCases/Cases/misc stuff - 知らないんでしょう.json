@@ -1,0 +1,32 @@
+{
+  "sentence": "知らないんでしょう",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 知らない | ん | でしょう.",
+  "parsedWords": [
+    {"form":"知らない","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"知らない","vocabId":"2584ac22-9ddc-40f0-9ae4-ab7e26943089"},
+    {"form":"知る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+    {"form":"ない","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"ん","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"でしょう","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"},
+    {"form":"でしょ","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"},
+    {"form":"です","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"です","vocabId":"01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"知らない","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"知らない","vocabId":"2584ac22-9ddc-40f0-9ae4-ab7e26943089"},
+        {"form":"ん","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"でしょう","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"知る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+        {"form":"ない","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"ん","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"でしょう","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "後で",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "later-on/afterwards",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あとで"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:後で_b.mp3]",
+  "audioG": "[sound:後で_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "あとで",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 53,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "afterwards",
+    "mnemonic": "This shares one of the meanings you learned for the kanji: <vocabulary>after</vocabulary>. You can differentiate this one from <ja>後ろ</ja> (which you may or may not have seen yet) thanks to the <ja>で</ja> on the end. Some people believe that after something's dead (<ja>で</ja>), it goes to an afterlife.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\n<vocabulary>After</vocabulary>. Everything happens after. It's a cause and effect chain. One thing happens, and then another thing happens after. This is life. This is the universe. Everything is after. It's an <reading>auto</reading>matic (<ja>あと</ja>) cycle that just keeps going and going and going."
+  },
+  "id": "21cd8627-aa40-4dc2-968d-428391bb4bc8",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

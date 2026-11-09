@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "デカ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "でか",
+    "デカ"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-071c1ded83adf59e91b964a8a26e356a309e7a7d6bb3f60df3e19288.mp3]",
+  "forms": [],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "detective\ndeca-/10^1",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "01364598-06e6-497f-86e7-22fb364ad5ec",
+  "tags": [
+    "source::jamdict"
+  ]
+}

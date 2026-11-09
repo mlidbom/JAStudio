@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "何だ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "what-is? | what-the!? | oh!/well-now!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "何",
+      "だ"
+    ],
+    "alternative": [
+      "なの"
+    ]
+  },
+  "readings": [
+    "なんだ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_なんだ_何だ_2023-08-19-15-22-54.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なんだ",
+      "isOwned": false
+    },
+    {
+      "text": "なあんだ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 272,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "what!/oh | what-the-heck/what-the/damn",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7e519b5b-dd71-4d58-9c03-5d070a98ef9e",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

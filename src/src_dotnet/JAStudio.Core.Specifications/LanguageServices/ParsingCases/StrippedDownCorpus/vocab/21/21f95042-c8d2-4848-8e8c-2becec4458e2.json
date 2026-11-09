@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "たらしい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "seeming-very | did-_-it-seems",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たらしい",
+    "ったらしい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-69b9efcb9d79fbd9eff647c13a24b304004d9b14f0897a40d29cbe7b.mp3]",
+  "forms": [
+    {
+      "text": "ったらしい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "seeming-very",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "21f95042-c8d2-4848-8e8c-2becec4458e2",
+  "tags": []
+}

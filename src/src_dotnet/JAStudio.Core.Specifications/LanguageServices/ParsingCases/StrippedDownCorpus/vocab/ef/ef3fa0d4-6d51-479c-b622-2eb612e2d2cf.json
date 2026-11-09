@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "がる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>suff:</tag>for-sb-not-the-speaker-to-{feel/think/be}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "がる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-05-17-22-30-52-633.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 49,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [
+        "や"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{show-signs-of-being/feel/think} | to{?}{behave-as-if-one-were/pretend/act-as-if}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ef3fa0d4-6d51-479c-b622-2eb612e2d2cf",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

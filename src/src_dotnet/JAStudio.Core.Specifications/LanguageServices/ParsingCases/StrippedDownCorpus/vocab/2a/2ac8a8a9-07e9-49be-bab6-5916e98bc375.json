@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "服",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "clothes/dress/outfit",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ふく"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:服_b.mp3]",
+  "audioG": "[sound:服_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 49,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "clothes-(esp.-Western-clothes) | counter-for-doses-of-medicine,-gulps-of-tea,-drags-of-a-cigarette,-etc.",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is the reading you learned with the kanji and uses the on'yomi even though it's a single word. Very strange, but convenient for you so long as you remember this exception reading word."
+  },
+  "id": "2ac8a8a9-07e9-49be-bab6-5916e98bc375",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::09"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "カモ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "duck | easy-mark/sucker/sitting-duck",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "カモ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-11-17-08-40-48-046.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かも",
+      "isOwned": false
+    },
+    {
+      "text": "鴨",
+      "isOwned": false
+    },
+    {
+      "text": "鳧",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "duck | easy-mark/sucker/sitting-duck",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "df838e13-b69e-463e-b951-28a1ae6e1474",
+  "tags": [
+    "source::yomitan"
+  ]
+}

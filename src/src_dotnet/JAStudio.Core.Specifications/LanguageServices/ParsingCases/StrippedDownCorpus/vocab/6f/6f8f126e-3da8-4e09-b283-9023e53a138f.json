@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "にして",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{turn-into/decide-on/be}-and | as-_ | (even)-{as/turned-into/at-_-stage}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "にする",
+      "て"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "にして"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-04-01-29-11-935.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 230,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "only/just-because | although/even | at-(place,-time)/in-(time-span) | and-then/moreover/furthermore",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6f8f126e-3da8-4e09-b283-9023e53a138f",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "question": {
+    "text": "ハート",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "heart",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ハート"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-bfcdc8e63715e61e3caa8b6f3e3f47e1dca9c94f1689ca4d3aeee0bb.mp3]",
+  "forms": [],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "heart",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "94b37785-1dd5-4dd8-91b9-c40719c534d1",
+  "tags": []
+}

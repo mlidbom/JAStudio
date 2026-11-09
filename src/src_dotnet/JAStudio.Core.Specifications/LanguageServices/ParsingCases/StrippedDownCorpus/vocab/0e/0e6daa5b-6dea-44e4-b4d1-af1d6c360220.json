@@ -1,0 +1,102 @@
+{
+  "question": {
+    "text": "えば",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "if/when/as | <tag>past-tense:</tag>would-have-been | <tag>literary/archaic:</tag><tag>{emphasis}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "えば"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-80d3ce3010fd0a86c185c608e360e720f79363eb639a1074abf434a4.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ば",
+      "isOwned": false
+    },
+    {
+      "text": "けば",
+      "isOwned": false
+    },
+    {
+      "text": "げば",
+      "isOwned": false
+    },
+    {
+      "text": "せば",
+      "isOwned": false
+    },
+    {
+      "text": "てば",
+      "isOwned": false
+    },
+    {
+      "text": "めば",
+      "isOwned": false
+    },
+    {
+      "text": "ねば",
+      "isOwned": false
+    },
+    {
+      "text": "れば",
+      "isOwned": false
+    },
+    {
+      "text": "りゃ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 950,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "良ければ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Eba",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0e6daa5b-6dea-44e4-b4d1-af1d6c360220",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "sentence": "清めの一波",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 清め | の | 一波:[MISSING]:emergency; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 清める | 清め | の.",
+  "parsedWords": [
+    {"form":"清めの","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"清めの","vocabId":"dbde8894-c619-46b1-af7d-4f14779fef0a"},
+    {"form":"清め","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"清め","vocabId":"eb0be3c0-f14e-44d8-8cd1-2242c9a095f7"},
+    {"form":"清める","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"清める","vocabId":"cc66a4da-93e9-47e9-8876-2d508116c1ea"},
+    {"form":"の","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"一波","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"一波","vocabId":"165d0ddf-f4d3-4b25-8510-a6ad468e8333"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"清めの","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"清めの","vocabId":"dbde8894-c619-46b1-af7d-4f14779fef0a"},
+        {"form":"一波","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"一波","vocabId":"165d0ddf-f4d3-4b25-8510-a6ad468e8333"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"清め","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"清め","vocabId":"eb0be3c0-f14e-44d8-8cd1-2242c9a095f7"},
+        {"form":"の","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"一波","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"一波","vocabId":"165d0ddf-f4d3-4b25-8510-a6ad468e8333"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "sentence": "破られたか",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 破る | あれる | た | か.",
+  "parsedWords": [
+    {"form":"破る","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"破る","vocabId":"c6034e67-6029-4c7e-8000-09d81bc7647e"},
+    {"form":"あれた","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"あれた","vocabId":"98a34393-6425-4516-bb76-6a8b228988ca"},
+    {"form":"あれる","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"た","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"か","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"破る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"破る","vocabId":"c6034e67-6029-4c7e-8000-09d81bc7647e"},
+        {"form":"あれた","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"あれた","vocabId":"98a34393-6425-4516-bb76-6a8b228988ca"},
+        {"form":"か","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"破る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"破る","vocabId":"c6034e67-6029-4c7e-8000-09d81bc7647e"},
+        {"form":"あれる","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"た","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"か","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+      ]
+    }
+  ]
+}

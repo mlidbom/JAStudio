@@ -1,0 +1,79 @@
+{
+  "question": {
+    "text": "点く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be:lit/turned-on | ignite/light-up | <tag>(<ja>付く</ja>: to-be:attached/connected)</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_8938_male.mp3]",
+  "audioG": "[sound:Wani_8938_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つく",
+      "isOwned": false
+    },
+    {
+      "text": "付く",
+      "isOwned": false
+    },
+    {
+      "text": "着く",
+      "isOwned": false
+    },
+    {
+      "text": "就く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "点ける",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: be-{lit-(e.g.-electricity-comes-on)/lighted} | catch-fire",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb.\n\nThe kanji <ja>点</ja> means <kanji>point</kanji>, but this verb actually means <vocabulary>to be lit</vocabulary> or <vocabulary>to be ignited</vocabulary>. Think of it this way, when a flashlight turns on, it points a beam, of light.\n\nYou already learned <ja>点ける</ja>, which is for when you turn something on. <ja>点く</ja>, on the other hand, is an intransitive verb. That means it happens by itself. Like, \"Oh look! The lights came on! That's cool (<ja>く</ja>)!\"",
+    "readingMnemonic": "You already learned this reading when you learned <ja>点ける</ja> but here's a mnemonic just in case:\n\nEvery time you count to <reading>two</reading> (<ja>つ</ja>) a light comes on. How <reading>cool</reading> (<ja>く</ja>) that it does it all by itself!!"
+  },
+  "id": "75bbcda5-9d76-4985-877b-92ae0fd3008f",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

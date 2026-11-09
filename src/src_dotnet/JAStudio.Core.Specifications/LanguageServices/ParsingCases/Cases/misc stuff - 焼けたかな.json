@@ -1,0 +1,33 @@
+{
+  "sentence": "焼けたかな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 焼ける | た | かな.",
+  "parsedWords": [
+    {"form":"焼ける","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"焼ける","vocabId":"bd284189-f904-418e-8698-3d8e0775d05d"},
+    {"form":"焼く","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"焼く","vocabId":"bad70ca7-3c3f-459a-91d8-e25635c8a008"},
+    {"form":"えた","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"えた","vocabId":"c9623937-08d2-4d66-ac36-75c158d83958"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"た","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"かな","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"},
+    {"form":"か","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+    {"form":"な","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"焼ける","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"焼ける","vocabId":"bd284189-f904-418e-8698-3d8e0775d05d"},
+        {"form":"た","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"かな","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かな","vocabId":"d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"焼ける","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"焼ける","vocabId":"bd284189-f904-418e-8698-3d8e0775d05d"},
+        {"form":"た","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"か","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
+        {"form":"な","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

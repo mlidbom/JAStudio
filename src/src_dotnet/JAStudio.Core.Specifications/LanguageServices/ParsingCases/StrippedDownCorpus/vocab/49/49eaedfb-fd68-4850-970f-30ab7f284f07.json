@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "就く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: take-a-{seat/position} | settle-in | <tag>(<ja>付く</ja>: to-be:attached/connected)</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つく"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:就く_b.mp3]",
+  "audioG": "[sound:就く_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つく",
+      "isOwned": false
+    },
+    {
+      "text": "付く",
+      "isOwned": false
+    },
+    {
+      "text": "着く",
+      "isOwned": false
+    },
+    {
+      "text": "点く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: take-(seat,-position,-course,-office,-etc.)/assume/be-hired/be-employed | ascend-(the-throne)/accede | start-(on-a-journey)/commence/depart | study-(under-teacher)/be-an-apprentice",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>settle in</kanji>. The verb vocab version is <vocabulary>to settle in</vocabulary>.",
+    "readingMnemonic": "Try <vocabulary>to settle in</vocabulary> to this life. Wow, you are <reading>too</reading> (<ja>つ</ja>) settled in now, don't get too comfortable."
+  },
+  "id": "49eaedfb-fd68-4850-970f-30ab7f284f07",
+  "tags": [
+    "source::wani::level::27"
+  ]
+}

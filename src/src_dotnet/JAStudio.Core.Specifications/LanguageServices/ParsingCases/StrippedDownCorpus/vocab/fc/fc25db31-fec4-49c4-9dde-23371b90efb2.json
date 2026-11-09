@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "がする",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: manifest/be/occur/arise | sense/hear/smell | feel",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "が",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "がする"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": " [sound:ATTS がする (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 262,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "する",
+      "のする"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "fc25db31-fec4-49c4-9dde-23371b90efb2",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

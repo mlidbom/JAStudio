@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "きれる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>aux:</tag>to-be-able-to: do-completely/complete",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "きる",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "きれる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-05-27-18-06-18-398.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 18,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to:{break/snap/be-cut/split/crack} | to-be:injured | to:{wear-out/be-worn-out} | to:{break/burst/collapse} | to:{wear-off/stop-working/go-dead} | to:{expire-(time-limit,-etc.)/run-out/become-due} | to:{run-out-(of-stock,-etc.)/be-exhausted/be-used-up/be-sold-out/be-out-of} | to:{be-broken-off-(e.g.-of-a-relationship)/break-up/have-severed-ties/be-cut-off/be-disconnected} | to:{cut-well/be-sharp} | to-be:{sharp-minded/keen/shrewd/quick-witted/able} | to:{be-short-of/drop-under-(a-certain-figure)/beat-(e.g.-a-record-time)} | to:dry-off | to:{curve/veer} | to:shuffle-(cards) | to:{get-angry/snap/blow-one's-top/lose-one's-temper/flip} | to-be:able-to-do-completely",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e0670597-33d8-44c3-bd76-6b420cad995e",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "source::yomitan"
+  ]
+}

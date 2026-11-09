@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "んじゃう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: end-up-_-ing/unfortunately-_ | <tag>ksb:</tag> no/that's-wrong/it's-not-like-that | isn't-it?/wasn't-it?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ちゃう"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-4cd482143804587e9ac2d3d5c532dce99a516d185a8b3a5dac77adca.mp3]",
+  "forms": [
+    {
+      "text": "じゃう",
+      "isOwned": false
+    },
+    {
+      "text": "ちゃう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 19,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ちゃう"
+    ],
+    "synonyms": [
+      "ちゃう",
+      "てしまいます",
+      "てしまう"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to do: completely | accidentally",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "490c22e6-8133-4dd0-bccd-619f12997004",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

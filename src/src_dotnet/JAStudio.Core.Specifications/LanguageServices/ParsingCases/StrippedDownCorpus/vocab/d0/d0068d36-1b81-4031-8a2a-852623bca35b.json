@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "切れ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><read>きれ</read>:</tag> piece/slice/strip/scrap | cloth | sharpness | agility | <tag>ctr:</tag>scraps/pieces\n<tag><read>ぎれ</read>:</tag> running-out-of/exhausting/completely-using-up",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きれ",
+    "ぎれ"
+  ],
+  "partsOfSpeech": [
+    "counter",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2024-07-25-20-06-45-590.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "きれ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>きれ</read>:: piece/slice/strip/scrap | cloth | sharpness | agility | counter-for-scraps,-pieces,-etc.\n<read>ぎれ</read>:: completely-using-up-.../running-out-of-.../exhausting-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d0068d36-1b81-4031-8a2a-852623bca35b",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "question": {
+    "text": "ても知らない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "don't-{blame/come-crying-to}-me-if/I-don't-care-if",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ても",
+      "知らない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てもしらない"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-a410400afa45c857862a5aa6862a528d073b7624c6f64aaa2eaba23d.mp3]",
+  "forms": [
+    {
+      "text": "ても知らん",
+      "isOwned": false
+    },
+    {
+      "text": "でも知らん",
+      "isOwned": false
+    },
+    {
+      "text": "でても知らない",
+      "isOwned": false
+    },
+    {
+      "text": "ても知らねぇ",
+      "isOwned": false
+    },
+    {
+      "text": "でも知らねぇ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "と知らない"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "965b9490-7f01-4e93-a69c-57bfa6c21dbb",
+  "tags": []
+}

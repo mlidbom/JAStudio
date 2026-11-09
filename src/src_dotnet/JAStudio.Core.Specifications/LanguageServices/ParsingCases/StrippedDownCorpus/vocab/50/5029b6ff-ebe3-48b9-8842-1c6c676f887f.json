@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "なんだ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-the-{thing/case}/is-so-for-sure | <tag>ksb:</tag>did-not | <tag>s.end:</tag> what-is? | is-it?\n<tag>s.start:</tag> what-the-hell!/what-the! | oh!/well-now! ",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "なの",
+      "だ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なんだ"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": " [sound:ATTS なんだ (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なのだ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 585,
+  "technicalNotes": "",
+  "references": "Cure Dolly: {&nbsp;<a href=\"https://youtu.be/lYvIOi8Q3I8?t=258\">んです、のです、なのです、なんです</a>}",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "なのです",
+      "なんです"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>何だ</ja></tag>:: what!/oh | what-the-heck/what-the/damn\n<read>なのだ</read>|<read>なんだ</read>:: it-is-assuredly-that-.../can-say-with-confidence-that-... | did-not-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5029b6ff-ebe3-48b9-8842-1c6c676f887f",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

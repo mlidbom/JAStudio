@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "がある",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "there's/there-are | has/have | {is/brings}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "が",
+      "ある"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "がある"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-91bde3bac721be08960db36ca99b048145612e6fb3750bf52db8ba14.mp3]",
+  "forms": [],
+  "sentenceCount": 1127,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "はある"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "のある"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6d2ff318-7d70-4d0e-9f14-338b0fa53105",
+  "tags": []
+}

@@ -1,0 +1,21 @@
+{
+  "sentence": "お金貸せって",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: お金 | 貸す | え | って; and from TextAnalysisWithSelectDataTests.RequiresAStem, against vocab copied by hand, expected the forms of the parsing result, in that order: お金 | 貸す | え | って.",
+  "parsedWords": [
+    {"form":"お金","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"お金","vocabId":"a49d59c1-de62-45f0-be13-68e6f41ba355"},
+    {"form":"貸す","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"貸す","vocabId":"e5c4b48d-f2ac-4f65-a349-c7f5d513f901"},
+    {"form":"え","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"って","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"お金","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"お金","vocabId":"a49d59c1-de62-45f0-be13-68e6f41ba355"},
+        {"form":"貸す","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"貸す","vocabId":"e5c4b48d-f2ac-4f65-a349-c7f5d513f901"},
+        {"form":"え","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"って","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "おっ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "oh/oops",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おっ"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": " [sound:ATTS おっ (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "押っ",
+      "isOwned": false
+    },
+    {
+      "text": "追っ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 28,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "oh/oops\n<tag><ja>押っ</ja></tag>:: vigorously-.../suddenly-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5e13242f-7005-43d6-b739-85d431cde16d",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

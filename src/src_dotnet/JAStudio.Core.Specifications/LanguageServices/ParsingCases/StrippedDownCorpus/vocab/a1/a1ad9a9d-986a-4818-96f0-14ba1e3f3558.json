@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "入れ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "container/receptacle/case/bag/pouch/box/holder | inserting/putting-in",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いれ"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-06-28-17-36-45-593.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "container/receptacle/case/bag/pouch/box/holder | inserting/putting-in",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a1ad9a9d-986a-4818-96f0-14ba1e3f3558",
+  "tags": [
+    "source::yomitan"
+  ]
+}

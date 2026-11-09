@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "撒く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} scatter/sprinkle/strew | distribute/spread | give-the-slip/lose",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:b6a0b3133ad8260d8b09077168bc23ac.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "蒔く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 10,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"68700e50c8dda3f70104ce50fc295284.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "まく"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} scatter/sprinkle/strew | distribute-(handbills,-etc.)/spread-(rumours,-etc.) | give-the-slip/throw-off/shake-off/lose",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "81020a41-d636-4ee9-a158-2443d8750482",
+  "tags": []
+}

@@ -250,19 +250,22 @@ better designed once the tooling shows how specifications like these work in pra
    cases converted; the full mode runs in about 6 seconds, the everyday mode's 7 cases in 1.3. Their stripped-down corpus is
    67 vocab, 276 KB, so the about 174 cases might make 1 to 2 MB, not the 5 to 10 MB guessed. Of the 7, 4 parse as their old
    cases expected, and 3 don't, all because the real corpus has vocab the copies lack.
-2. **Open, before converting the rest: the sentence breakdown.** Most old cases, those of
+2. **Done (2026-11-09): cases hold the breakdown too,** under every combination of the options that change it, storing
+   only what differs (Magnus: "In principle, to have full coverage, we would want see what the breakdown looks like with
+   all possible combinations of settings"). Was open: the sentence breakdown. Most old cases, those of
    `SentenceAnalysisViewModelWithSelectDataTests`, check the sentence breakdown's displayed words, which isn't the stored
    parsing result: the breakdown also shows words displayed in an emergency, and applies the compound-hiding settings and
    yielding to an overlapping compound. A case holding only the stored result would check less than they do there.
    Claude's recommendation: a case holds the breakdown's displayed words too, exactly, with the settings it assumes, by
    default JAStudio's defaults. It's also what Magnus sees.
-3. **Then** the rest of the cases converted, and the old cases removed. **A converted case records what the corpus parses
+3. **Done (2026-11-09): the rest converted, 169 cases, and the old cases removed,** but for `AllWordsEqual`, which checks
+   every match of the analysis, valid or not. **A converted case records what the corpus parses
    the sentence to now, even where its old case expected otherwise** (Magnus, 2026-11-09): nothing in the code changed, so
    that's how it has worked all along, and the old expectation was an artifact of the copies made by hand. Regression
    tests come first; whether the results are right is judged after.
 4. **Todo: Claude and Magnus each inspect how the converted cases whose result differs from their old expectation are
-   displayed.** So far いらっしゃいません (with いらっしゃいませ an incorrect match), 食べるな and 座っているのはいただけない; more
-   as the rest are converted. Claude from the case files. Magnus in JAStudio, once it has a way of dealing with the cases'
+   displayed.** 102 comparisons, listed in `parsing-cases-to-inspect.md`, with Claude's first pass. Claude from the case
+   files. Magnus in JAStudio, once it has a way of dealing with the cases'
    sentences there, since reading the files is hard for him.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)

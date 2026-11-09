@@ -1,0 +1,40 @@
+{
+  "sentence": "代筆を頼みたいんだが",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 代筆 | を | 頼む | たい | ん | だが.",
+  "parsedWords": [
+    {"form":"代筆","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"代筆","vocabId":"56da8bd4-6f2b-459a-8b47-c8c95758c54c"},
+    {"form":"を","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"頼む","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"頼む","vocabId":"33cf7d57-ac3b-4b05-80ad-d808a0bf0fd1"},
+    {"form":"たい","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"たい","vocabId":"68df7fd2-dd44-428b-903f-6c3d1f594eb9"},
+    {"form":"んだ","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+    {"form":"ん","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だが","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"だが","vocabId":"bb408822-07c1-4d03-9816-1b4b3277324c"},
+    {"form":"だ","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"が","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"代筆","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"代筆","vocabId":"56da8bd4-6f2b-459a-8b47-c8c95758c54c"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"頼む","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"頼む","vocabId":"33cf7d57-ac3b-4b05-80ad-d808a0bf0fd1"},
+        {"form":"たい","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たい","vocabId":"68df7fd2-dd44-428b-903f-6c3d1f594eb9"},
+        {"form":"ん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だが","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だが","vocabId":"bb408822-07c1-4d03-9816-1b4b3277324c"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"代筆","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"代筆","vocabId":"56da8bd4-6f2b-459a-8b47-c8c95758c54c"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"頼む","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"頼む","vocabId":"33cf7d57-ac3b-4b05-80ad-d808a0bf0fd1"},
+        {"form":"たい","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たい","vocabId":"68df7fd2-dd44-428b-903f-6c3d1f594eb9"},
+        {"form":"ん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だ","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"が","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"}
+      ]
+    }
+  ]
+}

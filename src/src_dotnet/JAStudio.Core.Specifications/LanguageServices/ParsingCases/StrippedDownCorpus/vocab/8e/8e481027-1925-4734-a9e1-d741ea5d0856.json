@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "習慣",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "しゅうかん"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:習慣_b.mp3]",
+  "audioG": "[sound:習慣_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "habit | (social)-custom/practice/convention",
+    "mnemonic": "I've <kanji>learn</kanji>ed to be <kanji>accustomed</kanji> to this. It has become my <vocabulary>custom</vocabulary> and <vocabulary>habit</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "8e481027-1925-4734-a9e1-d741ea5d0856",
+  "tags": [
+    "source::wani::level::25"
+  ]
+}

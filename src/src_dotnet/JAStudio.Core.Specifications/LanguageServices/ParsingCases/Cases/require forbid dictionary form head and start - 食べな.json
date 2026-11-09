@@ -1,0 +1,17 @@
+{
+  "sentence": "食べな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: 食べる | な:masu.",
+  "parsedWords": [
+    {"form":"食べる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"な","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"c873703d-9d57-4fe6-a318-86e5338a63db"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"食べる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+        {"form":"な","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"c873703d-9d57-4fe6-a318-86e5338a63db"}
+      ]
+    }
+  ]
+}

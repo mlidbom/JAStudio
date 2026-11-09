@@ -1,0 +1,43 @@
+{
+  "sentence": "さっき殴ったから拗ねてんのか",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: さっき | 殴る | た | から | 拗ねる | てん | のか.",
+  "parsedWords": [
+    {"form":"さっき","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"さっき","vocabId":"e5118697-5bb0-4825-8034-75b8c2f41f5b"},
+    {"form":"殴る","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"殴る","vocabId":"5ffcdf93-350b-496d-8341-3bb3bbc2e678"},
+    {"form":"た","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"から","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"},
+    {"form":"拗ねる","startIndex":8,"variant":"base","isDisplayed":true,"vocab":"拗ねる","vocabId":"721c20bf-0645-45db-928c-fccae47283b4"},
+    {"form":"てん","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"てん","vocabId":"c062cce3-d0ca-4270-8571-05ae25579060"},
+    {"form":"てる","startIndex":10,"variant":"base","isDisplayed":true,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"のか","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"},
+    {"form":"の","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"か","startIndex":13,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"さっき","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"さっき","vocabId":"e5118697-5bb0-4825-8034-75b8c2f41f5b"},
+        {"form":"殴る","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"殴る","vocabId":"5ffcdf93-350b-496d-8341-3bb3bbc2e678"},
+        {"form":"た","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"から","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"},
+        {"form":"拗ねる","startIndex":8,"variant":"base","isEmergencyDisplayed":false,"vocab":"拗ねる","vocabId":"721c20bf-0645-45db-928c-fccae47283b4"},
+        {"form":"てん","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てん","vocabId":"c062cce3-d0ca-4270-8571-05ae25579060"},
+        {"form":"のか","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"さっき","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"さっき","vocabId":"e5118697-5bb0-4825-8034-75b8c2f41f5b"},
+        {"form":"殴る","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"殴る","vocabId":"5ffcdf93-350b-496d-8341-3bb3bbc2e678"},
+        {"form":"た","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"から","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"},
+        {"form":"拗ねる","startIndex":8,"variant":"base","isEmergencyDisplayed":false,"vocab":"拗ねる","vocabId":"721c20bf-0645-45db-928c-fccae47283b4"},
+        {"form":"てん","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てん","vocabId":"c062cce3-d0ca-4270-8571-05ae25579060"},
+        {"form":"の","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"か","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "奪う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} rob/take-by-force/steal/snatch | fascinate/captivate/charm",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うばう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:奪う_b.mp3]",
+  "audioG": "[sound:奪う_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 45,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} snatch-away/dispossess/steal",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>rob</kanji> so the verb vocab version is <vocabulary>to rob</vocabulary>.",
+    "readingMnemonic": "This reading is the same as the one you learned with the kanji."
+  },
+  "id": "eedd2471-07c1-4b6a-a640-428bbee82486",
+  "tags": [
+    "source::wani::level::39"
+  ]
+}

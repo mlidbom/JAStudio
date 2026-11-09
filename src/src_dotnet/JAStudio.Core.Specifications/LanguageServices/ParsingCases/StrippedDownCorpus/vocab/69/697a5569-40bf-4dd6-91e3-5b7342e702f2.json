@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "とんだ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "what-a/such-a | terrible/awful/serious | unthinkable/unimaginable/inconceivable | very",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "とんだ"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "pre-noun-adjectival"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-05-14-22-07-00-758.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "unthinkable/unimaginable/inconceivable/unexpected | terrible/awful/serious | very",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "697a5569-40bf-4dd6-91e3-5b7342e702f2",
+  "tags": [
+    "source::yomitan"
+  ]
+}

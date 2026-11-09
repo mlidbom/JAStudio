@@ -1,0 +1,41 @@
+{
+  "sentence": "どやされても知らんぞ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: どやす | あれる | ても知らん:ても知らない | ぞ.",
+  "parsedWords": [
+    {"form":"どやす","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"どやす","vocabId":"9b52a926-5642-49e8-b025-4b4976e95bf6"},
+    {"form":"あれても","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"あれても","vocabId":"246ec33e-d622-46fa-8455-5a14bae92b8e"},
+    {"form":"あれて","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"あれて","vocabId":"182b5f91-17e6-41ce-b062-bad3478d55a9"},
+    {"form":"あれる","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"ても知らん","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"ても知らない","vocabId":"965b9490-7f01-4e93-a69c-57bfa6c21dbb"},
+    {"form":"ても","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"ても","vocabId":"0fd262c2-58c4-481f-9d0a-1a396c7ec21e"},
+    {"form":"て","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"も","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"},
+    {"form":"知らん","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"知らん","vocabId":"fc8e304a-6a77-4286-b8b5-e2de0db56c1a"},
+    {"form":"知る","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+    {"form":"ん","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"ぞ","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"ぞ","vocabId":"9d5f55c2-44a8-48f4-b781-2e59bd6a6881"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"どやす","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"どやす","vocabId":"9b52a926-5642-49e8-b025-4b4976e95bf6"},
+        {"form":"あれる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"ても知らん","startIndex":4,"variant":"surface","shownAs":"ても知らない","isEmergencyDisplayed":false,"vocab":"ても知らない","vocabId":"965b9490-7f01-4e93-a69c-57bfa6c21dbb"},
+        {"form":"ぞ","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ぞ","vocabId":"9d5f55c2-44a8-48f4-b781-2e59bd6a6881"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"どやす","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"どやす","vocabId":"9b52a926-5642-49e8-b025-4b4976e95bf6"},
+        {"form":"あれる","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"て","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"も","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"も","vocabId":"156f9454-37f8-4b10-a6e7-3abe39897c8b"},
+        {"form":"知る","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+        {"form":"ん","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"ぞ","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ぞ","vocabId":"9d5f55c2-44a8-48f4-b781-2e59bd6a6881"}
+      ]
+    }
+  ]
+}

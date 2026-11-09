@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "たまる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>溜まる:</tag>to: collect/accumulate/pile-up\n<tag>堪る:</tag>to: bear/endure/put-up-with",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たまる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-10-14-34-00-144.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "溜まる",
+      "isOwned": false
+    },
+    {
+      "text": "溜る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 20,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>溜まる</ja></tag>:: to: collect/gather/save/accumulate/pile-up\n<tag><ja>堪る</ja></tag>:: to: bear/endure",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "aaa48d89-9a39-42ec-8714-1545e4957320",
+  "tags": [
+    "source::yomitan"
+  ]
+}

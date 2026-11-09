@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "たって",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "even-if/even-though | however/no-matter-how",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たって"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "no-adjective",
+    "noun",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-d66615aea2668743b071bbfed127535e312ca2ea56d3aa853e244d9a.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "達て",
+      "isOwned": false
+    },
+    {
+      "text": "強って",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>達て</ja></tag>:: strongly-hoping-or-requesting-(of-something-that-is-difficult-to-be-brought-to-fruition)\neven-if/even-though | however/no-matter-how",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8648ac0e-7968-4ef9-9283-9dd15a5b5f98",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

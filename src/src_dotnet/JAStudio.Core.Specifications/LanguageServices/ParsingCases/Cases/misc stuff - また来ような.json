@@ -1,0 +1,21 @@
+{
+  "sentence": "また来ような",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: また | 来る | う | な:s.end.",
+  "parsedWords": [
+    {"form":"また","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"また","vocabId":"5c9495ac-3f87-4bb1-878d-67536a95a83d"},
+    {"form":"来る","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"来る","vocabId":"3cb7e3ef-aadf-447d-872b-d0ef86f44c25"},
+    {"form":"おう","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+    {"form":"な","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"また","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"また","vocabId":"5c9495ac-3f87-4bb1-878d-67536a95a83d"},
+        {"form":"来る","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"来る","vocabId":"3cb7e3ef-aadf-447d-872b-d0ef86f44c25"},
+        {"form":"おう","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+        {"form":"な","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

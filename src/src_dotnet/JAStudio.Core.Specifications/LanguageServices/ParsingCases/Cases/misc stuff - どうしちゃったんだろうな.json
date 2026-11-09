@@ -1,0 +1,44 @@
+{
+  "sentence": "どうしちゃったんだろうな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: どう | しちゃう | たん:たの | だろう | な:s.end.",
+  "parsedWords": [
+    {"form":"どう","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"どう","vocabId":"e3274bb8-33f1-4d90-bd9d-21363bbdd0fa"},
+    {"form":"しちゃう","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"しちゃう","vocabId":"18b7d8aa-8462-453b-94b9-25bd4bdf1cb9"},
+    {"form":"する","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"ちゃった","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"ちゃった","vocabId":"84d5f17c-57a4-448f-901f-a5083da82fec"},
+    {"form":"ちゃう","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"ちゃう","vocabId":"9992954d-cb2d-4651-a838-a55edf1c0dc7"},
+    {"form":"た","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"ん","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だろう","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+    {"form":"だろ","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+    {"form":"だ","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"おう","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+    {"form":"な","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"どう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"どう","vocabId":"e3274bb8-33f1-4d90-bd9d-21363bbdd0fa"},
+        {"form":"しちゃう","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"しちゃう","vocabId":"18b7d8aa-8462-453b-94b9-25bd4bdf1cb9"},
+        {"form":"た","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"ん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だろう","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+        {"form":"な","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"どう","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"どう","vocabId":"e3274bb8-33f1-4d90-bd9d-21363bbdd0fa"},
+        {"form":"する","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"ちゃう","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"ちゃう","vocabId":"9992954d-cb2d-4651-a838-a55edf1c0dc7"},
+        {"form":"た","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"ん","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だろ","startIndex":8,"variant":"surface","shownAs":"だろう","isEmergencyDisplayed":false,"vocab":"だろう","vocabId":"b31d7035-09bb-43c2-9f23-9ddac44356f8"},
+        {"form":"おう","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"},
+        {"form":"な","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"}
+      ]
+    }
+  ]
+}

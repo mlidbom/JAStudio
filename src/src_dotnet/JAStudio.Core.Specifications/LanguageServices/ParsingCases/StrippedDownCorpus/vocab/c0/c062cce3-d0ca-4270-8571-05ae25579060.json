@@ -1,0 +1,95 @@
+{
+  "question": {
+    "text": "てん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>questioning:activity-verb:</tag>{is}-_-ing | _-s-{habitually/recurringly}\n<tag>questioning:state-change-verb:</tag> is-in-the-state-of-having-_{ed} | _-s-{habitually/recurringly} ",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ている",
+      "ん"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てん"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-cd4e0aeb6b3a1c9105f2037816809b4d01d396f7dd88c1b7ba232fa0.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "でん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 124,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "〜ておる |&nbsp;〜とる",
+      "いでいる",
+      "いでおる",
+      "いでる",
+      "いでん",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "でおります",
+      "ておる",
+      "でおる",
+      "てる",
+      "でる",
+      "とる",
+      "どる",
+      "とん",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "る"
+    ]
+  },
+  "sourceData": {
+    "answer": "Japanese-marten-(Martes-melampus) | marten-(any-arboreal-weasel-like-mammal-of-genus-Martes)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "c062cce3-d0ca-4270-8571-05ae25579060",
+  "tags": [
+    "source::yomitan"
+  ]
+}

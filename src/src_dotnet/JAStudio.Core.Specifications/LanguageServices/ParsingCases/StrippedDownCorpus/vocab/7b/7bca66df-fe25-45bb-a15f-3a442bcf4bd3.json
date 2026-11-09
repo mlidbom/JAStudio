@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "同じくらい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "approximately-the-same",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "同じ",
+      "くらい"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おなじくらい"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-06-03-00-37-45-914.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "同じ位",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "approximately-the-same",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7bca66df-fe25-45bb-a15f-3a442bcf4bd3",
+  "tags": [
+    "source::yomitan"
+  ]
+}

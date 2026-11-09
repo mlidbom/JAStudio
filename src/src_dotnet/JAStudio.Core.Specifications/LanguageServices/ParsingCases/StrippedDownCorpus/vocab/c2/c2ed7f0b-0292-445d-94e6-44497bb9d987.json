@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "慣れる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: get-used-to | become-skilled-in | become-tame",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:慣れる_b.mp3]",
+  "audioG": "[sound:慣れる_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "馴れる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 27,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"慣れるイラスト｜無料イラスト・フリー素材なら「イラストAC」\" src=\"ee403518aa5f00d045d99bbf3084b2ba_t.jpeg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to:{get-used-to/grow-accustomed-to/become-familiar-with} | to:{become-skilled-in/become-experienced-at} | to:{become-tame/become-domesticated} | to{?}get-used-to-doing",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>accustomed</kanji> so the verb vocab version is <vocabulary>to become accustomed</vocabulary>.",
+    "readingMnemonic": "What have you <vocabulary>become accustomed to</vocabulary>? All the <reading>Na</reading>rwhals (<ja>な</ja>) you hang out with. They take some getting used to."
+  },
+  "id": "c2ed7f0b-0292-445d-94e6-44497bb9d987",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::25"
+  ]
+}

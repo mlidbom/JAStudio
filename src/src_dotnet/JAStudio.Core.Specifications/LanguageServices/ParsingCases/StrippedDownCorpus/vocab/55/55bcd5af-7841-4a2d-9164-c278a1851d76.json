@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "ろう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "right?/isn't-it? | <tag>abbr:</tag>six",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ろう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-08-11-13-52-914.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ろー",
+      "isOwned": false
+    },
+    {
+      "text": "ろ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidanImperative": "forbidden",
+      "teFormStemHead": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>蝋</ja></tag>:: wax\n<read>ろ</read>|<read>ろ゜</read>|<read>ろう</read>:: six | right?/isn't-it?",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "55bcd5af-7841-4a2d-9164-c278a1851d76",
+  "tags": [
+    "source::yomitan"
+  ]
+}

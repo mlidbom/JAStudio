@@ -1,0 +1,99 @@
+{
+  "question": {
+    "text": "これ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "this/this-one | this-situation/now",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "こ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "これ"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:之_b.mp3]",
+  "audioG": "[sound:之_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "之",
+      "isOwned": false
+    },
+    {
+      "text": "惟",
+      "isOwned": false
+    },
+    {
+      "text": "是",
+      "isOwned": false
+    },
+    {
+      "text": "是れ",
+      "isOwned": false
+    },
+    {
+      "text": "維",
+      "isOwned": false
+    },
+    {
+      "text": "此れ",
+      "isOwned": false
+    },
+    {
+      "text": "此",
+      "isOwned": false
+    },
+    {
+      "text": "之れ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 896,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "ここ",
+      "この"
+    ]
+  },
+  "sourceData": {
+    "answer": "<tag><ja>此れ</ja></tag>:: this/this-one | this-person | now/this-point-(in-time) | here | used-to-stress-the-subject-of-a-sentence | I/me\nhey/oi/come-on/look/listen",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!"
+  },
+  "id": "e9f9b41a-6a88-489e-8528-a119fe90f003",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::55"
+  ]
+}

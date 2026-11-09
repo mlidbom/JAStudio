@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "いやだ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no!/no-way! | sucks/I-hate | don't | Oh-no/oops",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いや",
+      "だ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いやだ"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-26cf831aa163720718828e75cc4ae7aa1a892f7b827d7e2696114ad7.mp3]",
+  "forms": [
+    {
+      "text": "嫌だ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 9,
+  "technicalNotes": "TODO: the exact match requirement does not seem to be working unless both forms have it set",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "812b2a2f-79c8-4bca-834d-da60335393db",
+  "tags": [
+    "-::TODO::studio::vocab::matching"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "しまいます",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} finish/stop/end | close-down | put:away/back",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "しまう",
+      "ます"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しまいます"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-1974a97e6dfc474dd764dbb1d64014cfc00c61d2836e6754469405f6.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "仕舞います",
+      "isOwned": false
+    },
+    {
+      "text": "蔵います",
+      "isOwned": false
+    },
+    {
+      "text": "了います",
+      "isOwned": false
+    },
+    {
+      "text": "終います",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 111,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "put away SOURCE",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "787a4f19-a5e9-4c0c-9905-f03bcb34f440",
+  "tags": []
+}

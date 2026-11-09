@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "言う通り",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "as-{you}-say/{you're}-right",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "言う",
+      "通り"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いうとおり"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-dd6d6c50e6ab663d1e6e05f2cbfd6beca655a183ea84988fe180c212.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "言うとおり",
+      "isOwned": false
+    },
+    {
+      "text": "いう通り",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "as-(somebody)-says",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a87b4d53-e0f2-47d7-bfe9-25d134883071",
+  "tags": [
+    "source::yomitan"
+  ]
+}

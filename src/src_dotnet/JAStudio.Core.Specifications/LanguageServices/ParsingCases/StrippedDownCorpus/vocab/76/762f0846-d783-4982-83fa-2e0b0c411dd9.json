@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "に会う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: meet-with/encounter",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "に",
+      "会う"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "にあう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-de7aeae9726ad302b1e56a9356bca4017d3708e62c156eac2d56d15d.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "に遇う",
+      "isOwned": false
+    },
+    {
+      "text": "に逢う",
+      "isOwned": false
+    },
+    {
+      "text": "に遭う",
+      "isOwned": false
+    },
+    {
+      "text": "にあう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 105,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "と会う"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "762f0846-d783-4982-83fa-2e0b0c411dd9",
+  "tags": []
+}

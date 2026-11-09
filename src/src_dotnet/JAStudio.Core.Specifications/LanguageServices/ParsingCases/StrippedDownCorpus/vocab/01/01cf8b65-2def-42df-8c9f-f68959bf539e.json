@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "落ちる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: fall/drop | drop-lower | fall-into-one's-hands | be-inferior-to | come-off | fail ",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おちる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:落ちる_b.mp3]",
+  "audioG": "[sound:落ちる_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "墜ちる",
+      "isOwned": false
+    },
+    {
+      "text": "落る",
+      "isOwned": false
+    },
+    {
+      "text": "堕ちる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 103,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {fall-down/drop/fall-(e.g.-rain)/sink-(e.g.-sun-or-moon)/fall-onto-(e.g.-light-or-one's-gaze)/be-used-in-a-certain-place-(e.g.-money)} | be-{omitted/missing} | {decrease/sink} | {fail-(e.g.-exam-or-class)/lose-(contest,-election,-etc.)} | {crash/degenerate/degrade/fall-behind} | become-indecent-(of-a-conversation) | {be-ruined/go-under} | {fade/come-out-(e.g.-a-stain)/come-off-(e.g.-makeup)/be-removed-(e.g.-illness,-possessing-spirit,-name-on-a-list)} | {fall-(into-someone's-hands)/become-someone's-possession} | {fall-(into-a-trap)/fall-(for-a-trick)} | {give-in/give-up/confess/flee} | {fall/be-defeated/surrender} | {come-to-(in-the-end)/end-in} | fall-(in-love,-asleep,-etc.) | swoon-(judo) | {consent/understand} | {go-down-(of-a-website,-server,-etc.)/crash} | {log-out-(of-an-online-game,-chat-room,-etc.)/drop-out/leave/go-offline} | die | move-to-the-depths | go-down-(of-a-website,-server,-etc.)",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>fall</kanji> and the vocab verb version means <vocabulary>to fall down</vocabulary>, <vocabulary>to fall</vocabulary>, and <vocabulary>to drop</vocabulary>. It can also mean <vocabulary>to fail</vocabulary>, in the sense of failing an exam.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nIf you start <vocabulary>to fall down</vocabulary>, what do you yell? \"OHHHH (<ja>お</ja>)!\""
+  },
+  "id": "01cf8b65-2def-42df-8c9f-f68959bf539e",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::10"
+  ]
+}

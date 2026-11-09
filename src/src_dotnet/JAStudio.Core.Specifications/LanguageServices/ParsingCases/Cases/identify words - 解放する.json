@@ -1,0 +1,29 @@
+{
+  "sentence": "解放する",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 解放する | 解放 | する | る.",
+  "parsedWords": [
+    {"form":"解放する","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"解放する","vocabId":"13cd2d60-3960-4049-a062-ac934f340165"},
+    {"form":"解放する","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"解放する","vocabId":"13cd2d60-3960-4049-a062-ac934f340165"},
+    {"form":"解放","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"解放","vocabId":"f68e7799-31a9-4aeb-a8dc-87c8a58c113d"},
+    {"form":"する","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"する","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"う","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"解放する","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"解放する","vocabId":"13cd2d60-3960-4049-a062-ac934f340165"},
+        {"form":"う","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"解放","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"解放","vocabId":"f68e7799-31a9-4aeb-a8dc-87c8a58c113d"},
+        {"form":"する","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"う","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

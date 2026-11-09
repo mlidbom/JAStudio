@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "付き",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "attached-to | including/furnished-with ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つき"
+  ],
+  "partsOfSpeech": [
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:〜付き_b.mp3]",
+  "audioG": "[sound:〜付き_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つき",
+      "isOwned": false
+    },
+    {
+      "text": "付",
+      "isOwned": false
+    },
+    {
+      "text": "ツキ",
+      "isOwned": false
+    },
+    {
+      "text": "&nbsp; づき",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 25,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "furnished-with/including | attached-to | impression/appearance | luck | sociality | under/assistant-(e.g.-to-a-manager) | soup-base",
+    "mnemonic": "You know that the kanji <ja>付</ja> means <kanji>attach</kanji> and words like <ja>付く</ja> mean \"to be attached.\" This has the same idea. When you see this attached to another word, for example, you might know that something is attached to something else, or perhaps <vocabulary>included</vocabulary> with it. For example, if you stay at a hotel room, maybe it is a breakfast<ja>付き</ja>, i.e. \"<vocabulary>including</vocabulary> breakfast.\"",
+    "readingMnemonic": "The reading comes from the reading of the kanji as well as from words like <ja>付く</ja> and <ja>付ける</ja>."
+  },
+  "id": "55853a83-3823-4aa1-bbf2-edd10e05a12b",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::11"
+  ]
+}

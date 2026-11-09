@@ -1,0 +1,84 @@
+{
+  "question": {
+    "text": "うわ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "yikes/oops/eep/wow",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うわ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_うわ_うわ_2023-09-16-02-52-56.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "うわあ",
+      "isOwned": false
+    },
+    {
+      "text": "うわっ",
+      "isOwned": false
+    },
+    {
+      "text": "うわー",
+      "isOwned": false
+    },
+    {
+      "text": "わぁ",
+      "isOwned": false
+    },
+    {
+      "text": "うぁ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 65,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "yikes/oops/eep/wow",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8e5d7005-0538-4131-a09b-7f8317fb09f6",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

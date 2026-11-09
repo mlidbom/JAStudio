@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "うまく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "skillfully/well | successfully/smoothly",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "上手い",
+      "く"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "うまく"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_うまく_旨く_2023-04-26-19-03-21.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "巧く",
+      "isOwned": false
+    },
+    {
+      "text": "上手く",
+      "isOwned": false
+    },
+    {
+      "text": "甘く",
+      "isOwned": false
+    },
+    {
+      "text": "旨く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 19,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "skilfully/skillfully/well/aptly/cleverly | successfully/smoothly | deliciously",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a5cc413e-1e98-4256-8d60-43c4334b16c7",
+  "tags": []
+}

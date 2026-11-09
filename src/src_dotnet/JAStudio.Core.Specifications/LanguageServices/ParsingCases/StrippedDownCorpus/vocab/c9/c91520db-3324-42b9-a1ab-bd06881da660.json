@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "静寂",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "silence/stillness",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "せいじゃく"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:静寂_b.mp3]",
+  "audioG": "[sound:静寂_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "黙",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "赤ん坊の泣き声が静寂を破った。",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "silence/stillness/quietness",
+    "mnemonic": "If you're <kanji>lonely</kanji> and <kanji>quiet</kanji> you'll be surrounded in <vocabulary>silence</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own."
+  },
+  "id": "c91520db-3324-42b9-a1ab-bd06881da660",
+  "tags": [
+    "source::wani::level::56"
+  ]
+}

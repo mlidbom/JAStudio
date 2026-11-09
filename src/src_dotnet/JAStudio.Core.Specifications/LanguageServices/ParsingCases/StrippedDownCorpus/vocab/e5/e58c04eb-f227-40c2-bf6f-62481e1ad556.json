@@ -1,0 +1,56 @@
+{
+  "question": {
+    "text": "のかな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I-wonder?/might-it-be-that?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "のかな"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-fc39985493ec098f9394b171c264cc0409d9d507a1db8881cd3dd25b.mp3]",
+  "forms": [],
+  "sentenceCount": 114,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Nokana",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e58c04eb-f227-40c2-bf6f-62481e1ad556",
+  "tags": []
+}

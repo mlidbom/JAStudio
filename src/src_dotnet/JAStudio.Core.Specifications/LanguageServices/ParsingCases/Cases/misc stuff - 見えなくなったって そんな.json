@@ -1,0 +1,35 @@
+{
+  "sentence": "見えなくなったって そんな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 見える | なくなる | たって:emergency | そんな.",
+  "parsedWords": [
+    {"form":"見えない","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"見えない","vocabId":"74503724-c033-4378-b939-30894c81688a"},
+    {"form":"見える","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"見える","vocabId":"ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb"},
+    {"form":"なくなる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"なくなる","vocabId":"50a74d8f-cfa8-4311-a586-238e3c6a717d"},
+    {"form":"なく","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"なく","vocabId":"7e6a66f8-fa48-4ec2-b7ed-89f9ee3eaa20"},
+    {"form":"ない","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"なる","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+    {"form":"たって","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"たって","vocabId":"8648ac0e-7968-4ef9-9283-9dd15a5b5f98"},
+    {"form":"そんな","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"そんな","vocabId":"77f856e1-d5af-4607-9f2d-88dde70cdb30"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"見えない","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"見えない","vocabId":"74503724-c033-4378-b939-30894c81688a"},
+        {"form":"なる","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+        {"form":"たって","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たって","vocabId":"8648ac0e-7968-4ef9-9283-9dd15a5b5f98"},
+        {"form":"そんな","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そんな","vocabId":"77f856e1-d5af-4607-9f2d-88dde70cdb30"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"見える","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"見える","vocabId":"ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb"},
+        {"form":"なく","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なく","vocabId":"7e6a66f8-fa48-4ec2-b7ed-89f9ee3eaa20"},
+        {"form":"なる","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+        {"form":"たって","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たって","vocabId":"8648ac0e-7968-4ef9-9283-9dd15a5b5f98"},
+        {"form":"そんな","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"そんな","vocabId":"77f856e1-d5af-4607-9f2d-88dde70cdb30"}
+      ]
+    }
+  ]
+}

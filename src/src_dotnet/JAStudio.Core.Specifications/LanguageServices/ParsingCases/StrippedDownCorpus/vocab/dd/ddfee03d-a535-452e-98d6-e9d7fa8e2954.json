@@ -1,0 +1,79 @@
+{
+  "question": {
+    "text": "よく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "well/properly | frequently | a-lot | I'm-glad-that | _-have-quite-the-nerve",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "よく"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_よく_良く_2023-04-24-20-05-45.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "良く",
+      "isOwned": false
+    },
+    {
+      "text": "能く",
+      "isOwned": false
+    },
+    {
+      "text": "克く",
+      "isOwned": false
+    },
+    {
+      "text": "善く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 394,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img alt=\"Young Female Chef Cooking In Kitchen Stock Photo Adobe, 51% OFF\" src=\"1000_F_167649923_mkcth5DzMwGguyu56vPdp7hga39WzAjc.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [
+        "て"
+      ],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "nicely/properly/well/skillfully/skilfully | frequently/often | I'm-glad-that-you-.../thank-you-for-... | (you-have)-quite-the-nerve-to/I-don't-know-how-you-can-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ddfee03d-a535-452e-98d6-e9d7fa8e2954",
+  "tags": [
+    "-::vocab::matching::uses::suffix-is-not"
+  ]
+}

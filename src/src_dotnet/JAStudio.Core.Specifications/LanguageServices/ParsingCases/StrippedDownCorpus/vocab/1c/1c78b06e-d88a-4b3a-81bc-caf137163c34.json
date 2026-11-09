@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "以外",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "other-than/except-for",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いがい"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:以外_b.mp3]",
+  "audioG": "[sound:以外_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 37,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "しか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "with-the-exception-of/excepting",
+    "mnemonic": "<kanji>Compared with</kanji> this, it's <kanji>outside</kanji> what you wanted. You'll have anything <vocabulary>other than</vocabulary> that.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "1c78b06e-d88a-4b3a-81bc-caf137163c34",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::07"
+  ]
+}

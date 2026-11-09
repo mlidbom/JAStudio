@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "って言う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>の</ja> | saying/to-say | called/named | the-fact | {they/you}-say",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "って",
+      "いう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "っていう"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-04-14-49-00-993.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "っていう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 214,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "という"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "って"
+    ]
+  },
+  "sourceData": {
+    "answer": "meaning/called/said",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8ae95bee-41e9-43a0-9679-9937ba399e15",
+  "tags": []
+}

@@ -1,0 +1,26 @@
+{
+  "sentence": "平日に切れないよう",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresMasuStem, against vocab copied by hand, expected the breakdown to display: 平日 | に | 切れる | ない | よう.",
+  "parsedWords": [
+    {"form":"平日","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"平日","vocabId":"879056e1-5283-4ead-a059-7d394b3d3d9d"},
+    {"form":"に","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"切れる","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"切れる","vocabId":"435eede3-9fde-4d91-8765-223a5991fb87"},
+    {"form":"切る","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"切る","vocabId":"2f902fd2-f36c-4533-a450-ee2615c59c6f"},
+    {"form":"えない","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
+    {"form":"える","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ない","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"よう","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"よう","vocabId":"a2317963-e961-4c96-bcc4-8ad9ffbb738e"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"平日","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"平日","vocabId":"879056e1-5283-4ead-a059-7d394b3d3d9d"},
+        {"form":"に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"切れる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"切れる","vocabId":"435eede3-9fde-4d91-8765-223a5991fb87"},
+        {"form":"ない","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"よう","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よう","vocabId":"a2317963-e961-4c96-bcc4-8ad9ffbb738e"}
+      ]
+    }
+  ]
+}

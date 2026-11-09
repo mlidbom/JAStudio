@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "勝つ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: win",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かつ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:勝つ_b.mp3]",
+  "audioG": "[sound:勝つ_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "贏つ",
+      "isOwned": false
+    },
+    {
+      "text": "克つ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 65,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "<img src=\"paste-5923e848ec5be2388fe8e7508c85aec186cbd349.jpg\">",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: win/gain-victory",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>win</kanji> so the verb version is <vocabulary>to win</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nWhat did you just <vocabulary>win</vocabulary>? You won a new <reading>ca</reading>r (<ja>か</ja>)!"
+  },
+  "id": "65874b27-93f7-491b-8dee-64dd081f3f0b",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::09"
+  ]
+}

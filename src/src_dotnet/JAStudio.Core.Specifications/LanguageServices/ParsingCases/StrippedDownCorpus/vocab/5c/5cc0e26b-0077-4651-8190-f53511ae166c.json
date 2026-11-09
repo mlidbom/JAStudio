@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "腹",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "abdomen/belly | womb | one's-real-intentions | courage | generosity | feelings",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はら"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:腹_b.mp3]",
+  "audioG": "[sound:腹_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "肚",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 34,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "abdomen/belly/stomach | womb | one's-mind/one's-real-intentions/one's-true-motive | courage/nerve/willpower | generosity/magnanimity | feelings/emotions | wide-middle-part/bulging-part | inside/interior/inner-part | anti-node | counter-for-hard-roe | counter-for-containers-with-bulging-middles-(pots,-vases,-etc.)",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "If anyone ever tries to touch your <kanji>belly</kanji> make sure you yell \"Seku<reading>hara</reading> (<ja>はら</ja>)! Sekuhara!” Sekuhara is short for sexual harassment in Japan. And if you don't want someone to touch your belly, but they're trying to, then that's sekuhara!"
+  },
+  "id": "5cc0e26b-0077-4651-8190-f53511ae166c",
+  "tags": [
+    "source::wani::level::27"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "question": {
+    "text": "えました",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{was}-able-to-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "えます",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えました"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-6ca0f53416066e7f17abf79499489aa7dacfd170d4d8fca6b6cd3581.mp3]",
+  "forms": [
+    {
+      "text": "べました",
+      "isOwned": false
+    },
+    {
+      "text": "けました",
+      "isOwned": false
+    },
+    {
+      "text": "せました",
+      "isOwned": false
+    },
+    {
+      "text": "てました",
+      "isOwned": false
+    },
+    {
+      "text": "ねました",
+      "isOwned": false
+    },
+    {
+      "text": "へました",
+      "isOwned": false
+    },
+    {
+      "text": "めました",
+      "isOwned": false
+    },
+    {
+      "text": "れました",
+      "isOwned": false
+    },
+    {
+      "text": "げました",
+      "isOwned": false
+    },
+    {
+      "text": "ぜました",
+      "isOwned": false
+    },
+    {
+      "text": "でました",
+      "isOwned": false
+    },
+    {
+      "text": "ぺました",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 65,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required",
+      "sentenceStart": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {be-able/possible}-to-_",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "47c84303-8258-4db2-9d24-9f0bf710dcb8",
+  "tags": []
+}

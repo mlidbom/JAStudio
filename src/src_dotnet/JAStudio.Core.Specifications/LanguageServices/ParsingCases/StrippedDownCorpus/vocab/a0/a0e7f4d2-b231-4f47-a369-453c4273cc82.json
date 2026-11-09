@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "見",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "looking/viewing | (please)-try-(to)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "み"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-15-14-20-58-341.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "み",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 39,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "looking/viewing | (please)-try-(to)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a0e7f4d2-b231-4f47-a369-453c4273cc82",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "でかい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "huge/big/gargantuan",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "でかい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_でかい_でかい_2023-09-07-07-58-41.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "デッカい",
+      "isOwned": false
+    },
+    {
+      "text": "デカい",
+      "isOwned": false
+    },
+    {
+      "text": "でっかい",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 46,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "huge/big/gargantuan",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0de5ca3b-aadf-4d6c-b65b-de72e6747450",
+  "tags": [
+    "source::yomitan"
+  ]
+}

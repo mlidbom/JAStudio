@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "出し",
+    "disambiguation": "masu"
+  },
+  "corpusAnswer": "<tag>masu-stem:</tag>{taking/getting}-out | starting/beginning",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "だし"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-14-20-53-40-245.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ダシ",
+      "isOwned": false
+    },
+    {
+      "text": "出汁",
+      "isOwned": false
+    },
+    {
+      "text": "だし",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "masuStem": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "dashi-(Japanese-soup-stock-made-from-fish-and-kelp) | pretext/excuse/pretense-(pretence)/dupe/front-man",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8d61cda2-9c34-423d-962a-288eef5caf1d",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "そうだ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "that's-right/that's-how-it-seems-to-me | <tag>suff:dict:</tag>people-say",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "そう",
+      "だ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "そうだ"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "interjection",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-06-09-05-53-605.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ソーダ",
+      "isOwned": false
+    },
+    {
+      "text": "曹達",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 159,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=uSJukXcyccw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=26\">Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "that-is-so/that-is-right/it-looks-to-me/that's-my-impression | people-say-that/it-is-said-that/I-hear-that\n<tag><ja>曹達</ja></tag>:: soda",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "fe4dd6a4-d47d-466a-98c6-a996ac0d58d7",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

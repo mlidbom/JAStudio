@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "来る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: come/approach/arrive | come-from/be-caused-by",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "くる"
+  ],
+  "partsOfSpeech": [
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:来る_b.mp3]",
+  "audioG": "[sound:来る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "くる",
+      "isOwned": false
+    },
+    {
+      "text": "來る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 802,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [
+        "こい"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: come-(spatially-or-temporally)/approach/arrive | come-back/do-...-and-come-back | come-to-be/become/get/grow/continue | come-from/be-caused-by/derive-from | come-to-(i.e.-\"when-it-comes-to-spinach-...\")",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>come</kanji> so you know this word means <vocabulary>to come</vocabulary>.",
+    "readingMnemonic": "The reading for this word is pretty strange. It changes depending on the type of verb form you use (it's a pesky exception verb). To remember the reading of this word, here's a mnemonic: \n\n\"I want you <vocabulary>to come</vocabulary> to the <reading>coo</reading>l (<ja>く</ja>) side, Luke,\" says Darth Vader.\n\"What?\" replies Luke.\n\nJust replace this line into the famous line from Star Wars. Say it out loud. Do the Vader voice. It'll help you to remember."
+  },
+  "id": "3cb7e3ef-aadf-447d-872b-d0ef86f44c25",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

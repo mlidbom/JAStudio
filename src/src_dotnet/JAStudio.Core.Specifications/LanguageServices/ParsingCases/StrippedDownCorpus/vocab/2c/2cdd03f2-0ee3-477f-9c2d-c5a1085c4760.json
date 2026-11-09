@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "落ち",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "fall/decline | loss | slip/omission | upshot/outcome | punchline",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おち"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:落ち_b.mp3]",
+  "audioG": "[sound:落ち_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "落",
+      "isOwned": false
+    },
+    {
+      "text": "オチ",
+      "isOwned": false
+    },
+    {
+      "text": "おち",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "slip/omission | outcome/final-result/the-end | punch-line-(of-a-joke)",
+    "mnemonic": "When you're talking or writing a paper, the part that <kanji>falls</kanji> at the end is the <vocabulary>conclusion</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You learned this reading already so you should be able to read it!"
+  },
+  "id": "2cdd03f2-0ee3-477f-9c2d-c5a1085c4760",
+  "tags": [
+    "source::wani::level::12"
+  ]
+}

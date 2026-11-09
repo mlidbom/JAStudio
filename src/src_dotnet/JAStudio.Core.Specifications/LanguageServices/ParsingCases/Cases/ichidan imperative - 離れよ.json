@@ -1,0 +1,17 @@
+{
+  "sentence": "離れよ",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 離れる | よ.",
+  "parsedWords": [
+    {"form":"離れる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"離れる","vocabId":"4fcb1777-1e38-421b-b039-2b350e44509b"},
+    {"form":"よ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"離れる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"離れる","vocabId":"4fcb1777-1e38-421b-b039-2b350e44509b"},
+        {"form":"よ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よ","vocabId":"8d071a9e-11b0-4f59-82d7-c95c096b924b"}
+      ]
+    }
+  ]
+}

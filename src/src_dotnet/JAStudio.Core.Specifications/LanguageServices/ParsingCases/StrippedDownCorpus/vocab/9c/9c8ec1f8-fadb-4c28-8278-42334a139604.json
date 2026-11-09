@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "ては",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{emphatic}:</tag> if-_/as-for-doing-_ | given-that-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "は"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ては"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-30ab5fd87400bba908f4d797cd58993b999757ddfab46afc555f084c.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ちゃあ",
+      "isOwned": false
+    },
+    {
+      "text": "ちゃ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 187,
+  "technicalNotes": "Not to sure about this one. Is it really helpful?",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "if-(an-action,-etc.) | since-.../if-you-are-going-to-... | one-after-another/indicates-repeated-action | adds-emphasis",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9c8ec1f8-fadb-4c28-8278-42334a139604",
+  "tags": [
+    "source::yomitan"
+  ]
+}

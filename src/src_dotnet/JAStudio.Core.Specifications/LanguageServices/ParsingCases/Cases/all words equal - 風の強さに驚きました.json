@@ -1,0 +1,42 @@
+{
+  "sentence": "風の強さに驚きました",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.AllWordsEqual, against vocab copied by hand, expected every match of the analysis, valid or not: 風の強い | 風 | の | 強さ | 強 | 強い | さ | に | 驚き | 驚く | まし:ませ | まし | ます | た.",
+  "parsedWords": [
+    {"form":"風","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"風","vocabId":"5ebf5020-567f-468c-bfd1-498fabe95963"},
+    {"form":"の","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"強さ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"強さ","vocabId":"02ebf027-42fd-41d3-a876-d3aada511af4"},
+    {"form":"強い","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"強い","vocabId":"d2eff495-9cbe-41f4-9fb6-a0e56d4e0d4b"},
+    {"form":"さ","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"さ","vocabId":"10abfe8f-b536-47d9-b129-bfa04813dfae"},
+    {"form":"に","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"驚く","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"驚く","vocabId":"1440f1ff-94e5-49fd-a09c-72b656395552"},
+    {"form":"ました","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"ました","vocabId":"2fc554c4-3ab8-4755-91a9-5ec2a38a5dde"},
+    {"form":"ます","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"た","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"風","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"風","vocabId":"5ebf5020-567f-468c-bfd1-498fabe95963"},
+        {"form":"の","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"強さ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"強さ","vocabId":"02ebf027-42fd-41d3-a876-d3aada511af4"},
+        {"form":"に","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"驚く","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"驚く","vocabId":"1440f1ff-94e5-49fd-a09c-72b656395552"},
+        {"form":"ました","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ました","vocabId":"2fc554c4-3ab8-4755-91a9-5ec2a38a5dde"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"風","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"風","vocabId":"5ebf5020-567f-468c-bfd1-498fabe95963"},
+        {"form":"の","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"強い","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"強い","vocabId":"d2eff495-9cbe-41f4-9fb6-a0e56d4e0d4b"},
+        {"form":"さ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"さ","vocabId":"10abfe8f-b536-47d9-b129-bfa04813dfae"},
+        {"form":"に","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"驚く","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"驚く","vocabId":"1440f1ff-94e5-49fd-a09c-72b656395552"},
+        {"form":"ます","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+        {"form":"た","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

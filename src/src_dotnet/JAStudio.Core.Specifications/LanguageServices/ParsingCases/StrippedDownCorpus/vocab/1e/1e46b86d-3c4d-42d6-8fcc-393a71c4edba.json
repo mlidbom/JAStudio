@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "います",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be/exist/live | reside/stay | <tag>て-{progressive | perfect}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いる",
+      "ます"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "います"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-17e2f0a51d0f9ccf24caee3b2073b5bb6c882b1845252e8c052ffc24.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 1434,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "あります",
+      "いる",
+      "おります",
+      "おる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1e46b86d-3c4d-42d6-8fcc-393a71c4edba",
+  "tags": []
+}

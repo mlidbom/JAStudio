@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "ぞ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "!!!/<tag>{assertion}</tag>/<tag>{emphasis}</tag> | <tag>arch:suff:</tag>か/some",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ぞ"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [
+    "roughMasculine"
+  ],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ぞ_ぞ_2023-07-25-15-01-03.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ゾ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 847,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "adds-force-or-indicates-command",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9d5f55c2-44a8-48f4-b781-2e59bd6a6881",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

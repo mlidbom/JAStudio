@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "楽",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><ja>らく</ja>:</tag> comfort/ease/relief | easy/without-hardship\n<tag><ja>がく</ja>:</tag> music | old-Japanese-court-music/gagaku",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "らく",
+    "がく"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:楽_b.mp3]",
+  "audioG": "[sound:楽_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 26,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>らく</read>:: comfort/ease/relief/(at)-peace/relaxation | easy/simple/without-trouble/without-hardships | (economically)-comfortable | raku-pottery | sukha-(happiness)\n<read>がく</read>:: music | old-Japanese-court-music/gagaku",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is the same as the kanji you learned, too, making this one an <vocabulary>ease</vocabulary> to learn!"
+  },
+  "id": "d045f9f6-2b00-45dd-9047-f106ede443e2",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

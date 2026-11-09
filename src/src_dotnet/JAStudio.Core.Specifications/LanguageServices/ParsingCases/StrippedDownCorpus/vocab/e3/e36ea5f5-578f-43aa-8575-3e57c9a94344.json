@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "知れない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "unknowable/impossible-to-tell",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "知れる",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-4b1e48877b3caaa3c4f167f56a11324f5d6240c0374c86a9afde0166.mp3]",
+  "forms": [
+    {
+      "text": "しれない",
+      "isOwned": false
+    },
+    {
+      "text": "知れません",
+      "isOwned": false
+    },
+    {
+      "text": "しれません",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 50,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e36ea5f5-578f-43aa-8575-3e57c9a94344",
+  "tags": []
+}

@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "教え",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "teaching/teachings/an-instruction/a-lesson/the-moral",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おしえ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:教え_b.mp3]",
+  "audioG": "[sound:教え_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "訓",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 12,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "teaching/instruction/teachings/precept/lesson/doctrine",
+    "mnemonic": "This is the noun version of the kanji <kanji>teach</kanji>. So it means <vocabulary>teaching</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You already learned this reading when you learned <ja>教える</ja>, so you should be able to read this word as well."
+  },
+  "id": "ae6fa8c4-deb7-4e5c-86df-0e4bb0ae351b",
+  "tags": [
+    "source::wani::level::09"
+  ]
+}

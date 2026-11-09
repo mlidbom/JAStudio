@@ -1,0 +1,21 @@
+{
+  "sentence": "カバンに入れっぱなし",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: カバン | に | 入れる | っぱなし:っ放し.",
+  "parsedWords": [
+    {"form":"カバン","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"鞄","vocabId":"2fd4a80b-1765-4a63-b247-b778578d92f4"},
+    {"form":"に","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"入れる","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"入れる","vocabId":"b1146b6a-aba5-4edb-80e0-2b6922129310"},
+    {"form":"っぱなし","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"っぱなし","vocabId":"39e43c48-ded9-4b95-94bd-4b8c425e5a3f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"カバン","startIndex":0,"variant":"surface","shownAs":"鞄","isEmergencyDisplayed":false,"vocab":"鞄","vocabId":"2fd4a80b-1765-4a63-b247-b778578d92f4"},
+        {"form":"に","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"入れる","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"入れる","vocabId":"b1146b6a-aba5-4edb-80e0-2b6922129310"},
+        {"form":"っぱなし","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"っぱなし","vocabId":"39e43c48-ded9-4b95-94bd-4b8c425e5a3f"}
+      ]
+    }
+  ]
+}

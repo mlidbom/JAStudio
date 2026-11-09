@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "前",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><read>まえ</read>:</tag>before/earlier | previous | in-front-(of) | forward/ahead\n<tag><read>ぜん</read>: pre:</tag> last/previous/former/-ex | pre- | <tag>suff:</tag>before",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まえ",
+    "ぜん"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:前_b.mp3][sound:yomitan_audio_2025-06-16-03-36-47-501.mp3]",
+  "audioG": "[sound:前_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 397,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>ぜん</read>:: last-(i.e.-immediately-preceding)/previous/ex-/former | pre--(e.g.-premodern) | before | before/earlier\n<read>まえ</read>:: in-front-(of)/before-(e.g.-a-building) | before/earlier/previously/prior/ago/(minutes)-to-(the-hour) | (the)-front/frontal-part/fore/head-(e.g.-of-a-line) | forward/ahead | (in-the)-presence-(of)/in-front-(of-someone) | previous-(e.g.-page)/prior-(e.g.-engagement)/first-(e.g.-half)/former-(e.g.-example) | portion/helping | front-(of-one's-body-or-clothing)/breast-(of-a-coat,-kimono,-etc.) | privates/private-parts | criminal-record/previous-conviction/(a)-prior",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading. When learning the kanji, you didn't learn that reading, so here's a mnemonic to help you with this word: \n\nWhat's in <vocabulary>front</vocabulary> of you? Think about it. Make it something ridiculous. Now look at a tag that's on it. Who does this thing belong to? Oh, wait, it's <reading>my</reading> (<ja>まえ</ja>) thing there in front of me. Say that out loud for better memory."
+  },
+  "id": "48f3b11c-995c-4116-aa60-754f9d0f9cbd",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

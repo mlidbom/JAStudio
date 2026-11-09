@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "ですか",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{is/are}-_-_?/?/<tag>{question}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "です",
+      "か"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ですか"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-8a887b5a7bf9193fb3dd6b15da04a8153cecdd8477716b5724d2620b.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 873,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "か"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "indicates-question",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "74b32e30-6cca-4e42-8fda-f165f0307634",
+  "tags": [
+    "source::yomitan"
+  ]
+}

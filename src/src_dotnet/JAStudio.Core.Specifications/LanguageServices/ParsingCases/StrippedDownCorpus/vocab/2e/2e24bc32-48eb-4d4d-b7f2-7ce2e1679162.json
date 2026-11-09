@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "ないし",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>X-ないし-Y:</tag> to/or/from-X-to-Y/between-X-and-Y/X-or-Y",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない",
+      "し"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ないし"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-d72588f7df045ea2639d12d23dfa8db2a97928bb21d1cc894d8b6c12.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "乃至",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "adverbHead": "forbidden",
+      "irrealis": "forbidden",
+      "sentenceEnd": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "from-...-to/between-...-and | or",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2e24bc32-48eb-4d4d-b7f2-7ce2e1679162",
+  "tags": []
+}

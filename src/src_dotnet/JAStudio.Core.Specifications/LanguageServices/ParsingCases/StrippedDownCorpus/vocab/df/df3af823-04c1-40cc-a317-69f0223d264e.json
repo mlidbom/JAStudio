@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "でしょう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "it-seems/I-think/I-guess/I-wonder | right?/don't-you-agree?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "です",
+      "おう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "でしょう"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_でしょう_でしょう_2023-08-19-17-22-49.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "でしょ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 420,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "it-seems/I-think/I-guess/I-wonder | right?/don't-you-agree?",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "df3af823-04c1-40cc-a317-69f0223d264e",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

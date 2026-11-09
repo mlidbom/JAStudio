@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "解放する",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} release/set-free",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "解放",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かいほうする"
+  ],
+  "partsOfSpeech": [
+    "suru verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-340d59d2d6b3d0bcc8fed0a45f9d26eeefcaad9a564093a55ee69569.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 18,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "13cd2d60-3960-4049-a062-ac934f340165",
+  "tags": []
+}

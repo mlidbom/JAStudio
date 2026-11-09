@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "の中",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "the-inside-of-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "の",
+      "中"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "のなか"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-0f009ad6d93addf6116f38eb1947bc2e3f9490bc93e4e714db3b4e58.mp3]",
+  "forms": [],
+  "sentenceCount": 232,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ab8c0cde-ac49-417e-84cc-ace68d1ce16a",
+  "tags": []
+}

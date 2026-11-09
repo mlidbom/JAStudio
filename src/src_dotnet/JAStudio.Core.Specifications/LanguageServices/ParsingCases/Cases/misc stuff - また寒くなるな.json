@@ -1,0 +1,34 @@
+{
+  "sentence": "また寒くなるな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: また | 寒い | くなる | う | な:dict.",
+  "parsedWords": [
+    {"form":"また","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"また","vocabId":"5c9495ac-3f87-4bb1-878d-67536a95a83d"},
+    {"form":"寒い","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"寒い","vocabId":"9dd3fab9-e649-4377-ad02-882e90f3cd22"},
+    {"form":"なる","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+    {"form":"なる","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+    {"form":"うな","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"うな","vocabId":"8b1cf138-5f36-43f1-9404-2e5a358f7bd8"},
+    {"form":"う","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"な","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"a47ececb-300f-4763-a687-6a99463a8d8d"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"また","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"また","vocabId":"5c9495ac-3f87-4bb1-878d-67536a95a83d"},
+        {"form":"寒い","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"寒い","vocabId":"9dd3fab9-e649-4377-ad02-882e90f3cd22"},
+        {"form":"なる","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+        {"form":"うな","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うな","vocabId":"8b1cf138-5f36-43f1-9404-2e5a358f7bd8"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"また","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"また","vocabId":"5c9495ac-3f87-4bb1-878d-67536a95a83d"},
+        {"form":"寒い","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"寒い","vocabId":"9dd3fab9-e649-4377-ad02-882e90f3cd22"},
+        {"form":"なる","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なる","vocabId":"9b45c525-8634-48f9-9a05-7b7c37a828c4"},
+        {"form":"う","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"な","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"a47ececb-300f-4763-a687-6a99463a8d8d"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "なぜかというと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "because/the-reason-why-is/If-you-ask-why",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "なぜか",
+      "というと"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なぜかというと"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-05-18-09-32-36-561.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "何故かと言うと",
+      "isOwned": false
+    },
+    {
+      "text": "なぜかと言うと",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "because/the-reason-why-is",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "09ef99b5-9072-4895-b867-23c36a6f7642",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "存在する",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: exist",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "存在",
+      "する"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "そんざいする"
+  ],
+  "partsOfSpeech": [
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:存在する_b.mp3]",
+  "audioG": "[sound:存在する_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 18,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "To Exist",
+    "mnemonic": "Know how <ja>存在</ja> is existence? Well, make it a verb and then you have <vocabulary>to exist</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "c71a1e79-2136-485d-8cba-ee928d456065",
+  "tags": [
+    "source::wani::level::22"
+  ]
+}

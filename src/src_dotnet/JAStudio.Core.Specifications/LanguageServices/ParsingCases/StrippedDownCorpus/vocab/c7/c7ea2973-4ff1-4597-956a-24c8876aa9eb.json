@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "未だ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "still/as-yet | !yet | <read>まだ:</read> more/(more)-still | at-least/comparatively | unfinished/incomplete",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いまだ",
+    "まだ"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:Wani_2945_いまだ_male.mp3]",
+  "audioG": "[sound:Wani_2945_いまだ_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "まだ",
+      "isOwned": false
+    },
+    {
+      "text": "いまだ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "still/as-yet/only | (not)-yet | more/(more)-still | at-least/comparatively/relatively | unfinished/incomplete/not-yet-done",
+    "mnemonic": "This is the adverb version of <kanji>未</kanji>, so it means the same thing: <vocabulary>not yet</vocabulary>, or <vocabulary>still</vocabulary>, depending on the context.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn it with this kanji, so here a mnemonic to help you:\n\nSomeone's telling you \"<vocabulary>not yet</vocabulary>... not yet.... not yet...\". You have some food on your nose, but you're not allowed to eat it <reading>今</reading> (いま).\n\nNote that this word can also be read まだ. However, いまだ is often written in kanji, while まだ is almost always written in kana. So when you see 未だ, it's a safe bet to read it as いまだ!"
+  },
+  "id": "c7ea2973-4ff1-4597-956a-24c8876aa9eb",
+  "tags": [
+    "source::wani",
+    "source::wani::level::28"
+  ]
+}

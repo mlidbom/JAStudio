@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "未練たらしい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "not-knowing-when-to-{let-go/give-up}/having-lingering-attachment",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "未練",
+      "たらしい"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "みれんたらしい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-7d708300d62d56365d3b33ebf493d976eb1e8547ca14de9ca86fc67d.mp3]",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "not-knowing-when-to-let-go-(give-up,-etc.)/unwilling-to-resign/having-lingering-attachment/regretful",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "dd282984-0f4b-480c-bf7c-05541b86b968",
+  "tags": []
+}

@@ -1,0 +1,24 @@
+{
+  "sentence": "教科書落ちちゃうから",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 教科書 | 落ちる | ちゃう | う | から.",
+  "parsedWords": [
+    {"form":"教科書","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"教科書","vocabId":"ef133407-b84c-4add-a226-7e9dd89375bc"},
+    {"form":"落ちる","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"落ちる","vocabId":"01cf8b65-2def-42df-8c9f-f68959bf539e"},
+    {"form":"ちゃう","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"ちゃう","vocabId":"9992954d-cb2d-4651-a838-a55edf1c0dc7"},
+    {"form":"ちゃう","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"ちゃう","vocabId":"9992954d-cb2d-4651-a838-a55edf1c0dc7"},
+    {"form":"う","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"から","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"教科書","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"教科書","vocabId":"ef133407-b84c-4add-a226-7e9dd89375bc"},
+        {"form":"落ちる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"落ちる","vocabId":"01cf8b65-2def-42df-8c9f-f68959bf539e"},
+        {"form":"ちゃう","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ちゃう","vocabId":"9992954d-cb2d-4651-a838-a55edf1c0dc7"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"から","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"から","vocabId":"77e1176a-5b4a-446a-b814-35a53ab5fb71"}
+      ]
+    }
+  ]
+}

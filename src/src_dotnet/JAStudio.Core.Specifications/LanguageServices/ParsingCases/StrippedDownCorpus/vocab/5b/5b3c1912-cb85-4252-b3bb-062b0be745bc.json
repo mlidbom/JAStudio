@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "てくる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: _-and-come | _-come/come-_-ing | come-to-be-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "くる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てくる"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-bf3f2d02185e4ac005f62f216dce3212e27b828c3534dcf29b2a81a1.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "でくる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 866,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [
+        "ん"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "てきます",
+      "んでくる"
+    ],
+    "synonyms": [
+      "てきます",
+      "んでくる"
+    ],
+    "antonyms": [],
+    "confusedWith": [
+      "てく"
+    ],
+    "seeAlso": [
+      "てくん"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5b3c1912-cb85-4252-b3bb-062b0be745bc",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not"
+  ]
+}

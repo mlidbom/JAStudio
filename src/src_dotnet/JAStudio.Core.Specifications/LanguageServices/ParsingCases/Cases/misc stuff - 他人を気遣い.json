@@ -1,0 +1,19 @@
+{
+  "sentence": "他人を気遣い",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 他人 | を | 気遣う.",
+  "parsedWords": [
+    {"form":"他人","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"他人","vocabId":"5e7bd0db-9a17-45d9-b31c-d93296b3bc44"},
+    {"form":"を","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"気遣う","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"気遣う","vocabId":"ed4fc461-6283-447a-ad4a-5e4d711dbff6"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"他人","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"他人","vocabId":"5e7bd0db-9a17-45d9-b31c-d93296b3bc44"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"気遣う","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"気遣う","vocabId":"ed4fc461-6283-447a-ad4a-5e4d711dbff6"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "かな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I-wonder |/ I-guess/I-suppose | should-I?/is-it? | !{I-wish/I-hope}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "か",
+      "な"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "かな"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_かな_かな_2023-08-21-14-12-20.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "かなー",
+      "isOwned": false
+    },
+    {
+      "text": "かなぁ",
+      "isOwned": false
+    },
+    {
+      "text": "かなあ",
+      "isOwned": false
+    },
+    {
+      "text": "哉",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 538,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">CD:Sentence ender particles: ne, yo. na, kana, yone</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "I-wonder | should-I?/is-it? | I-wish-that/I-hope-that\n<tag><ja>哉</ja></tag>:: how!/what!/alas!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

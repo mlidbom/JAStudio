@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "お",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>pre:</tag> <tag>{honorific}</tag>/<tag>{humble}</tag>/honorable/honored\n<tag>interjection:</tag>oh!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "お"
+  ],
+  "partsOfSpeech": [
+    "prefix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:katakana_5_o.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "御",
+      "isOwned": false
+    },
+    {
+      "text": "ご",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1156,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidanImperative": "forbidden",
+      "sentenceEnd": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "oh!-(expression-of-slight-surprise)\n<tag><ja>御</ja></tag>:: honorific/polite/humble-prefix",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "25afbecf-5751-4f2b-a02a-ab0a5bf739d8",
+  "tags": []
+}

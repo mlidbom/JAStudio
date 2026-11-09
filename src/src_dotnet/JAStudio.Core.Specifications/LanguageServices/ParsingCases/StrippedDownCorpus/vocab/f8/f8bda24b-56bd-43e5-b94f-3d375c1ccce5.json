@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "下りる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {go/come}-down/descend | be-{granted/issued} | step-down/retire ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おりる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:0f6866384a7a51d7c90ea032770addd8.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 22,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"9c65e93c70e83aff0eed9ef622e28b67.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "下ろす",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: {descend-(e.g.-a-mountain)/go-down/come-down} | {alight-(e.g.-from-bus)/get-off/disembark/dismount} | {step-down/retire/give-up/quit/fold} | be-{granted/issued/given} | form-(of-frost,-dew,-mist,-etc.) | be-passed-(from-the-body;-e.g.-of-a-roundworm)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f8bda24b-56bd-43e5-b94f-3d375c1ccce5",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step07"
+  ]
+}

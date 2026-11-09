@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "のに",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "even-though/and-yet | whereas/while | in-order-to | you-see",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "の",
+      "に"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "のに"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_のに_のに_2023-07-16-04-08-52.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 526,
+  "technicalNotes": "",
+  "references": "Cure Dolly <a href=\"https://www.youtube.com/watch?v=Au5JOtcwE7A&amp;t=53s\">のに、なのに</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "although/despite/even-though/and-yet | whereas/while | if-only/I-wish | in-order-to",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6e603b14-fa17-4d0a-8ddb-ed04644d57a3",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "sentence": "後で下に下りてらっしゃいね",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.YieldToSurface, against vocab copied by hand, expected the breakdown to display: 後で | 下に | 下りる | て | らっしゃい | ね.",
+  "parsedWords": [
+    {"form":"後で","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"後で","vocabId":"21cd8627-aa40-4dc2-968d-428391bb4bc8"},
+    {"form":"下に","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"下に","vocabId":"b2ffee99-75af-446c-8a16-8f41b69f2ba8"},
+    {"form":"下","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"下","vocabId":"4502654c-05e8-4784-9904-a8cd16d47251"},
+    {"form":"に","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"下りる","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"下りる","vocabId":"f8bda24b-56bd-43e5-b94f-3d375c1ccce5"},
+    {"form":"てらっしゃい","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"てらっしゃい","vocabId":"1555d14f-7576-4b6e-8757-1ec0fc7d2dde"},
+    {"form":"て","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"らっしゃい","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"らっしゃい","vocabId":"76f4c74d-3947-44c9-8efb-6d25b9a8577c"},
+    {"form":"らっしゃる","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"らっしゃる","vocabId":"2fd63ae7-f322-406c-bcb8-83045b5653a4"},
+    {"form":"い","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"},
+    {"form":"ね","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"後で","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"後で","vocabId":"21cd8627-aa40-4dc2-968d-428391bb4bc8"},
+        {"form":"下に","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"下に","vocabId":"b2ffee99-75af-446c-8a16-8f41b69f2ba8"},
+        {"form":"下りる","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"下りる","vocabId":"f8bda24b-56bd-43e5-b94f-3d375c1ccce5"},
+        {"form":"てらっしゃい","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てらっしゃい","vocabId":"1555d14f-7576-4b6e-8757-1ec0fc7d2dde"},
+        {"form":"ね","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"後で","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"後で","vocabId":"21cd8627-aa40-4dc2-968d-428391bb4bc8"},
+        {"form":"下","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"下","vocabId":"4502654c-05e8-4784-9904-a8cd16d47251"},
+        {"form":"に","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"下りる","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"下りる","vocabId":"f8bda24b-56bd-43e5-b94f-3d375c1ccce5"},
+        {"form":"て","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"らっしゃる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"らっしゃる","vocabId":"2fd63ae7-f322-406c-bcb8-83045b5653a4"},
+        {"form":"い","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"},
+        {"form":"ね","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    }
+  ]
+}

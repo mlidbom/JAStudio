@@ -1,0 +1,344 @@
+# Parsing cases to inspect: those whose result differs from what their old case expected
+
+**The todo (Magnus, 2026-11-09):** Claude and Magnus each inspect how these cases' sentences are displayed. Claude from the
+case files; Magnus in JAStudio, once it has a way of dealing with the cases' sentences there. The cases record what the
+corpus parses each sentence to now, as regression tests: nothing in the code changed, so that's how it has worked all
+along, and the old expectations were made against vocab copied by hand. Whether the results are right is judged here.
+
+Of the 169 converted cases, 73 parse as their old cases expected, 102 comparisons differ (a case converted from two old
+cases is compared with each), and one isn't compared: `all words equal - 風の強さに驚きました` checked every match of the
+analysis, valid or not, and its old case stays (`SentenceAnalysisViewModelWithSelectDataTests`).
+
+**How to read an entry:** the old case's expectation, then what the case records now: for an old breakdown case, the
+breakdown under JAStudio's default options; for an old text-analysis case, the forms of the stored parsing result. A
+word is written as the old cases wrote it: `form:shown as` for a form shown beside it, `:emergency` for one displayed in an
+emergency, and `[vocab …]` for a vocab whose question isn't the form. The old notation also wrote a vocab's
+disambiguation name, such as `な:s.end`, which says nothing about the parse.
+
+## Claude's first pass (2026-11-09)
+
+Most differences are the real corpus having a vocab the copies lack, mostly compounds (くれよ, 俺は, しない, てくる, に思える,
+のは, いただけない, いらっしゃいません), or naming a vocab otherwise: the vocab う, which the copies showed as る shown as
+う, now displays as う. These look like what the corpus means them to be.
+
+**Worth a closer look, as possible misparses:**
+- **はしゃいでる** displays いでる, where the old case expected でる.
+- **うわ こわっ** parses こ, where the old case expected こい (こわっ from こわい).
+- **横取りされたらたまらん** displays 横取りする and あれたら, where the old case expected 横取り, される and たら.
+- **見えなくなったって そんな** displays 見えない and なる, where the old case expected 見える and なくなる.
+- **うまく笑えずに** displays うまい, where the old case expected うまく.
+- **償いきれない** displays 償う, where the old case expected 償い.
+- **天気がよくて** displays くて, where the old case expected て.
+- **お金を貸していただけないでしょうか** displays ていただく and えない, where the old case expected て, いただける and ない.
+- **私が行きましょう。** no longer parses 行き, ましょ or う.
+- **前だったのか** no longer parses たの.
+- **うるせえ** parses うる twice, う, せ and え, where the old case expected う, せえ and せる.
+
+## Every case that differs
+
+- **dictionary form splitting - があるの** (DictionaryFormSplitting)
+  - old: がある | うの
+  - now: がある | う | の
+- **dictionary form splitting - する** (DictionaryFormSplitting)
+  - old: する | る:う
+  - now: する | う
+- **dictionary form splitting - はしゃいでる** (DictionaryFormSplitting)
+  - old: はしゃぐ | でる
+  - now: はしゃぐ | いでる
+- **dictionary form splitting - 大声出すな** (DictionaryFormSplitting)
+  - old: 大声出す | う | な:dict
+  - now: 大声出す | うな
+- **dictionary form splitting - 止めるかな** (DictionaryFormSplitting)
+  - old: 止める | る:う | かな
+  - now: 止める | う | かな
+- **dictionary form splitting - 音がするの** (DictionaryFormSplitting)
+  - old: 音がする | うの
+  - now: 音がする | う | の
+- **dictionary form splitting - 食べる** (DictionaryFormSplitting)
+  - old: 食べる | る:う
+  - now: 食べる | う
+- **excluded surfaces - 声出したら駄目だからね** (ExcludedSurfaces)
+  - old: 声 | 出す | たら | 駄目 | だから | だ | から | ね
+  - now: 声 | 出す | たら | た | 駄目だ | 駄目 | だから | だ | からね | から | ね
+- **excluded surfaces - 無理して思い出す** (ExcludedSurfaces)
+  - old: 無理 | して | する | て | 思い出す | 思い出す | う
+  - now: 無理する | 無理 | して | する | て | 思い出す | 思い出す | う
+- **godan potential and imperative - くれよ** (GodanPotentialAndImperative)
+  - old: くれる | え | よ
+  - now: くれよ
+- **godan potential and imperative - さっさと傷を清めてこい** (GodanPotentialAndImperative)
+  - old: さっさと | 傷 | を | 清める | てこ | い
+  - now: さっさと | 傷 | を | 清める | てくる | い
+- **godan potential and imperative - さっさと傷を清めてこい** (IdentifyWords)
+  - old: さっさと | 傷 | を | 清める | てこ | て | こい | くる | い
+  - now: さっさと | 傷 | を | 清める | てくる | て | こい | くる | い
+- **godan potential and imperative - カバンに入れっぱなし** (GodanPotentialAndImperative)
+  - old: カバン | に | 入れる | っぱなし:っ放し
+  - now: カバン:鞄 [vocab 鞄] | に | 入れる | っぱなし
+- **godan potential and imperative - 会えたりしない** (GodanPotentialAndImperative)
+  - old: 会う | える | たり | する | ない
+  - now: 会う | える | たり | しない
+- **godan potential and imperative - 放せよ　俺は…** (GodanPotentialAndImperative)
+  - old: 放す | え | よ | 俺 | は
+  - now: 放す | え | よ | 俺は
+- **godan potential and imperative - 楽しめてる** (GodanPotentialAndImperative)
+  - old: 楽しむ | える | てる
+  - now: 楽しむ | えてる
+- **godan potential and imperative - 清めの一波** (GodanPotentialAndImperative)
+  - old: 清め | の | 一波:[MISSING]:emergency
+  - now: 清めの | 一波
+- **godan potential and imperative - 清めの一波** (IdentifyWords)
+  - old: 清める | 清め | の
+  - now: 清めの | 清め | 清める | の | 一波
+- **godan potential and imperative - 綺麗 母様に見せよう** (GodanPotentialAndImperative)
+  - old: 綺麗 | 母様 | に | 見せる | う
+  - now: 綺麗 | 母様 | に | 見せる | おう
+- **godan potential and imperative - 聞けよ** (GodanPotentialAndImperative)
+  - old: 聞え | よ
+  - now: 聞く | え | よ
+- **godan potential and imperative - 返せ俺の** (GodanPotentialAndImperative)
+  - old: 返す | え | 俺 | の
+  - now: 返す | え | 俺の
+- **godan potential and imperative - 逆に大丈夫に思えてくる** (GodanPotentialAndImperative)
+  - old: 逆に | 大丈夫 | に | 思える | て | くる | る:う
+  - now: 逆に | 大丈夫 | に思える | てくる | う
+- **godan potential and imperative - 黙れ** (GodanPotentialAndImperative)
+  - old: 黙る | え
+  - now: 黙れ
+- **hidden exclusions - いらっしゃいません - hidden matches** (HiddenExclusions)
+  - old: いらっしゃいます | ん
+  - now: いらっしゃいません
+- **hidden exclusions - 厳密に言えば　俺一人が友達だけど - hidden matches** (HiddenExclusions)
+  - old: 厳密 | に | 言う | ば | 俺 | 一人 | が | 友達 | だ | けど
+  - now: 厳密に | 言う | えば | 俺 | 一人 | が | 友達 | だ | けど
+- **hidden exclusions - 私は毎日ジョギングをすることを習慣にしています。 - hidden matches (2)** (HiddenExclusions)
+  - old: 私 | は | 毎日 | ジョギング | を | する | る:う | こと | を | 習慣 | にする | ている | ます
+  - now: 私は | 毎日 | ジョギング | をする | う | こと | を | 習慣 | にする | ています
+- **hidden exclusions - 私は毎日ジョギングをすることを習慣にしています。 - hidden matches** (HiddenExclusions)
+  - old: 私 | は | 毎日 | ジョギング | を | する | る:う | こと | を | 習慣 | に | する | ている | ます
+  - now: 私は | 毎日 | ジョギング | をする | う | こと | を | 習慣 | に | する | ています
+- **hidden exclusions - 頑張れたというか - hidden matches** (HiddenExclusions)
+  - old: える | た | というか
+  - now: えた | というか
+- **hidden exclusions - 風の強さに驚きました - hidden matches** (HiddenExclusions)
+  - old: 風 | の | 強さ | に | 驚き | ます | た
+  - now: 風 | の | 強さ | に | 驚く | ました
+- **hide all compounds - 教えにしたがって** (HideAllCompounds)
+  - old: 教え | に | したがって
+  - now: 教え | にしたがって
+- **hide transparent compounds - 買い替えています** (HideTransparentCompounds)
+  - old: 買い替える | ている | ます
+  - now: 買い替える | ています
+- **ichidan imperative - 食べよう** (IchidanImperative)
+  - old: 食べる | う
+  - now: 食べる | おう
+- **identify words - 「コーヒーはいかがですか？」「いえ、結構です。お構いなく。」** (IdentifyWords)
+  - old: コーヒー | は | いかが | ですか | です | か | いえ | 結構 | です | お構いなく
+  - now: コーヒー | は | いかがですか | いかが | ですか | です | か | いえ | いう | え | 結構です | 結構 | です | お構いなく
+- **identify words - すげえ** (IdentifyWords)
+  - old: すげえ | すげ
+  - now: すげえ | すげ | え
+- **identify words - それなのに 周りは化け物が出ることで有名だと聞き** (IdentifyWords)
+  - old: それなのに | 周り | は | 化け物 | が | 出る | こと | で | 有名 | だ | と | 聞く | 聞き | る
+  - now: それなのに | 周り | は | 化け物 | が | 出る | 出る | うことで | う | こと | で | 有名 | だと | だ | と聞く | と | 聞き | 聞く
+- **identify words - どうやってここを知った。** (IdentifyWords)
+  - old: どうやって | どう | やる | て | ここ | を | 知る | た
+  - now: どうやって | どう | やる | て | ここ | を | 知った | 知る | た
+- **identify words - なのかな** (IdentifyWords)
+  - old: か | かな | な | なの | の | のか
+  - now: なのかな | なのか | なの | な | のかな | の | かな | か | な
+- **identify words - 前だったのか** (IdentifyWords)
+  - old: 前 | だった | だ | たの | た | のか | の | か
+  - now: 前 | だった | だ | た | のか | の | か
+- **identify words - 私が行きましょう。** (IdentifyWords)
+  - old: 私 | が | 行く | 行き | ましょう | ます | ましょ | う
+  - now: 私 | が | 行く | ましょう | ます
+- **identify words - 落書きしたろ** (IdentifyWords)
+  - old: 落書き | する | た
+  - now: 落書きする | 落書き | した | する | たろ | た
+- **identify words - 解放する** (IdentifyWords)
+  - old: 解放する | 解放 | する | る
+  - now: 解放する | 解放する | 解放 | する | する | う
+- **identify words - １人でいる時間がこれほどまでに長く感じるとは** (IdentifyWords)
+  - old: １人で | １人 | １ | 人 | でいる | で | いる | 時間 | が | これほど | これ | ほど | までに | まで | に | 長い | 感じる | とは | と | は | る
+  - now: １人で | １人 | １ | 人 | でいる | でいる | で | いる | いる | う | 時間 | が | これほど | これ | ほど | までに | まで | に | 長い | 感じる | 感じる | うとは | うと | う | とは | と | は
+- **incorrect exclusions - いらっしゃいません - incorrect matches** (IncorrectExclusions)
+  - old: いらっしゃいます | ん
+  - now: いらっしゃいません
+- **incorrect exclusions - 厳密に言えば　俺一人が友達だけど - incorrect matches** (IncorrectExclusions)
+  - old: 厳密 | に | 言う | ば | 俺 | 一人 | が | 友達 | だ | けど
+  - now: 厳密に | 言う | えば | 俺 | 一人 | が | 友達 | だ | けど
+- **incorrect exclusions - 私は毎日ジョギングをすることを習慣にしています。 - incorrect matches (2)** (IncorrectExclusions)
+  - old: 私 | は | 毎日 | ジョギング | を | する | る:う | こと | を | 習慣 | にする | ている | ます
+  - now: 私は | 毎日 | ジョギング | をする | う | こと | を | 習慣 | にする | ています
+- **incorrect exclusions - 私は毎日ジョギングをすることを習慣にしています。 - incorrect matches** (IncorrectExclusions)
+  - old: 私 | は | 毎日 | ジョギング | を | する | る:う | こと | を | 習慣 | に | する | ている | ます
+  - now: 私は | 毎日 | ジョギング | をする | う | こと | を | 習慣 | に | する | ています
+- **incorrect exclusions - 頑張れたというか - incorrect matches** (IncorrectExclusions)
+  - old: 頑張:[MISSING]:emergency | える | た | というか
+  - now: 頑張:[MISSING]:emergency | えた | というか
+- **incorrect exclusions - 風の強さに驚きました - incorrect matches** (IncorrectExclusions)
+  - old: 風 | の | 強さ | に | 驚き | ます | た
+  - now: 風 | の | 強さ | に | 驚く | ました
+- **misc stuff - あ な なに** (MiscStuff)
+  - old: あ | な:s.start | なに
+  - now: あ:あっ [vocab あっ] | な | なに:何 [vocab 何]
+- **misc stuff - いいのかよ** (MiscStuff)
+  - old: いい | のか | よ
+  - now: いいの | かよ
+- **misc stuff - いいものを食べる** (MiscStuff)
+  - old: いい | もの | を | 食べる | る:う
+  - now: いい | もの | を | 食べる | う
+- **misc stuff - うまく笑えずに** (MiscStuff)
+  - old: うまく | 笑える | ずに
+  - now: うまい | 笑える | ずに
+- **misc stuff - お前も色々考えてるんだなぁ** (MiscStuff)
+  - old: お前 | も | 色々 | 考える | てる | んだ:のだ | なぁ
+  - now: お前も | 色々 | 考える | てる | んだ | なぁ:なあ [vocab なあ]
+- **misc stuff - しても** (MiscStuff)
+  - old: する | ても
+  - now: しても
+- **misc stuff - ちょっと強引なところがあるから** (MiscStuff)
+  - old: ちょっと | 強引 | な | ところ | がある | う | から
+  - now: ちょっと | 強引な | ところがある | う | から
+- **misc stuff - どうしちゃったんだろうな** (MiscStuff)
+  - old: どう | しちゃう | たん:たの | だろう | な:s.end
+  - now: どう | しちゃう | た | ん | だろう | な
+- **misc stuff - ばら撒かれるなんて死んでもいやだ** (MiscStuff)
+  - old: ばら撒く | あれる | る:う | なんて | 死んでも | いや | だ
+  - now: ばら撒く | あれる | う | なんて | 死んでも | いやだ
+- **misc stuff - また寒くなるな** (MiscStuff)
+  - old: また | 寒い | くなる | う | な:dict
+  - now: また | 寒い | なる | うな
+- **misc stuff - また来ような** (MiscStuff)
+  - old: また | 来る | う | な:s.end
+  - now: また | 来る | おう | な
+- **misc stuff - ガチだったんでしょ** (MiscStuff)
+  - old: ガチ | だった | ん | でしょ
+  - now: ガチ | だった | ん | でしょ:でしょう [vocab でしょう]
+- **misc stuff - 会いに行ったんだ** (MiscStuff)
+  - old: 会う | に行く | たんだ
+  - now: 会う | に | 行った | んだ
+- **misc stuff - 何なんだろうな** (MiscStuff)
+  - old: 何だ | ん | だろう | な:s.end
+  - now: 何なんだろう | な
+- **misc stuff - 作るに決まってるだろ** (MiscStuff)
+  - old: 作る | う | に決まってる | だろ
+  - now: 作る | う | に決まってる | だろ:だろう [vocab だろう]
+- **misc stuff - 作るに決まってるだろ** (IdentifyWords)
+  - old: 作る | う | に決まってる | に決まる | に | 決まる | てる | だ | だろ
+  - now: 作る | 作る | う | に決まってる | に | 決まってる | 決まる | てる | だろ | だ
+- **misc stuff - 俺に謝られても** (MiscStuff)
+  - old: 俺 | に | 謝る | あれても
+  - now: 俺 | に謝る | あれても
+- **misc stuff - 出会える** (MiscStuff)
+  - old: 出会える | る:う
+  - now: 出会える | う
+- **misc stuff - 分かってたら** (MiscStuff)
+  - old: 分かる | てたら
+  - now: 分かってる:分かっている [vocab 分かっている] | たら
+- **misc stuff - 存在したね** (MiscStuff)
+  - old: 存在 | する | た | ね
+  - now: 存在 | した | ね
+- **misc stuff - 幼すぎて よく覚えていないけど** (MiscStuff)
+  - old: 幼い | すぎる | て | よく | 覚える | ている | ない | けど
+  - now: 幼い | すぎる | て | よく | 覚える | ていない | けど
+- **misc stuff - 待ってました** (MiscStuff)
+  - old: 待つ | て | ます | た
+  - now: 待つ | てました
+- **misc stuff - 思い出せそうな気がする** (MiscStuff)
+  - old: 思い出す | える | そうだ | 気がする | る:う
+  - now: 思い出す | えそう | な | 気がする | う
+- **misc stuff - 悪かったって** (MiscStuff)
+  - old: 悪い | た | って
+  - now: 悪かった | って
+- **misc stuff - 月光が差し込んでるんだ** (MiscStuff)
+  - old: 月光 | が | 差し込む | んでる | んだ:のだ
+  - now: 月光 | が | 差し込む | でる:てる [vocab てる] | んだ
+- **misc stuff - 服を引き出しの中に入れてください** (MiscStuff)
+  - old: 服 | を | 引き出し | の中 | に入る | える | て | ください
+  - now: 服 | を | 引き出し | の中に | 入れる | てください
+- **misc stuff - 横取りされたらたまらん** (MiscStuff)
+  - old: 横取り | される | たら | たまらん
+  - now: 横取りする | あれたら | たまらん
+- **misc stuff - 破られたか** (MiscStuff)
+  - old: 破る | あれる | た | か
+  - now: 破る | あれた | か
+- **misc stuff - 私たちなら嘘をつかずに付き合っていけるかもしれないね** (MiscStuff)
+  - old: 私たち | なら | 嘘をつく | ずに | 付き合う | ていける | る:う | かもしれない | ね
+  - now: 私たち | なら | 嘘をつく | ずに | 付き合う | ていける | う | かもしれない | ね
+- **misc stuff - 空を飛べる機械** (MiscStuff)
+  - old: 空を飛ぶ | える | る:う | 機械
+  - now: 空を飛ぶ | える | う | 機械
+- **misc stuff - 立ってるのかと思った** (MiscStuff)
+  - old: 立つ | てる | のか | と思う | た
+  - now: 立つ | てる | のか | と思った
+- **misc stuff - 聞こうと思ってた** (MiscStuff)
+  - old: 聞く | う | と思う | てた
+  - now: 聞く | おうと思う | てた
+- **misc stuff - 良いものを食べる** (MiscStuff)
+  - old: 良い | もの | を | 食べる | る:う
+  - now: 良い | もの | を | 食べる | う
+- **misc stuff - 良いものを食べる** (IdentifyWords)
+  - old: 良い | もの | を | 食べる | る
+  - now: 良い | もの | を | 食べる | 食べる | う
+- **misc stuff - 行ったって話** (MiscStuff)
+  - old: 行く | たって:emergency | 話
+  - now: 行く | たって | 話
+- **misc stuff - 見えなくなったって そんな** (MiscStuff)
+  - old: 見える | なくなる | たって:emergency | そんな
+  - now: 見えない | なる | たって | そんな
+- **misc stuff - 頑張れた** (MiscStuff)
+  - old: 頑張る | える | た
+  - now: 頑張る | えた
+- **misc stuff - 飛ばされる** (MiscStuff)
+  - old: 飛ばす | あれる | る:う
+  - now: 飛ばす | あれる | う
+- **require forbid dictionary form head and start - そうだな** (RequireForbidDictionaryFormHeadAndStart)
+  - old: そうだ | な:s.end
+  - now: そうだな
+- **require forbid dictionary form head and start - デカいな** (RequireForbidDictionaryFormHeadAndStart)
+  - old: デカい | な:masu
+  - now: デカい:でかい [vocab でかい] | な
+- **require forbid dictionary form head and start - 食べるな** (RequireForbidDictionaryFormHeadAndStart)
+  - old: 食べる | る:う | な:dict
+  - now: 食べる | うな
+- **require forbid te prefix or stem - お腹空かしてない** (RequireForbidTePrefixOrStem)
+  - old: お腹 | 空かす | てない
+  - now: お腹空かす | てない
+- **require forbid te prefix or stem - お金を貸していただけないでしょうか** (RequireForbidTePrefixOrStem)
+  - old: お金 | を | 貸す | て | いただける:able-to | ない | でしょうか
+  - now: お金 | を | 貸す | ていただく | えない | でしょうか
+- **require forbid te prefix or stem - 何言っとんだ** (RequireForbidTePrefixOrStem)
+  - old: 何 | 言う | とん | んだ:past
+  - now: 何言っとん | んだ
+- **require forbid te prefix or stem - 天気がよくて** (RequireForbidTePrefixOrStem)
+  - old: 天気 | が | よい | て
+  - now: 天気 | が | よい | くて
+- **require forbid te prefix or stem - 座っているのはいただけない** (RequireForbidTePrefixOrStem)
+  - old: 座る | ている | の | は | いただける:acceptable | ない
+  - now: 座る | ている | のは | いただけない
+- **require forbid te prefix or stem - 長居してしまいまして** (RequireForbidTePrefixOrStem)
+  - old: 長居 | する | てしまいます | て
+  - now: 長居する | てしまいます | て
+- **require forbid te prefix or stem - 馴染めないでいる** (RequireForbidTePrefixOrStem)
+  - old: 馴染む | える | ない | でいる
+  - now: 馴染む | えない | でいる
+- **requires a stem - うるせえ** (RequiresAStem)
+  - old: うるせえ | う | せえ | せる
+  - now: うるせえ | うる | うる | う | せえ | せ | え
+- **requires e stem - 食べれる** (RequiresEStem)
+  - old: 食べる | れる:ichidan | る:う
+  - now: 食べる | れる | う
+- **requires masu stem - 償いきれない** (RequiresMasuStem)
+  - old: 償い | きれない
+  - now: 償う | きれない
+- **strictly suffix - うわ こわっ** (StrictlySuffix)
+  - old: うわ | こい | わっ
+  - now: うわ | こわっ | こ | わっ
+- **wbr word separation - おっせぇな　あいつら** (WbrWordSeparation)
+  - old: おる | せ | ぇ:[MISSING]:emergency | な:s.end | あいつら
+  - now: おっせぇ | な | あいつら
+- **yield to surface - 後で下に下りてらっしゃいね** (YieldToSurface)
+  - old: 後で | 下に | 下りる | て | らっしゃい | ね
+  - now: 後で | 下に | 下りる | てらっしゃい | ね

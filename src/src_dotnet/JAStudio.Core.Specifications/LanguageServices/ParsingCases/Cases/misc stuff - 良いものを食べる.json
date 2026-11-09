@@ -1,0 +1,24 @@
+{
+  "sentence": "良いものを食べる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 良い | もの | を | 食べる | る:う; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 良い | もの | を | 食べる | る.",
+  "parsedWords": [
+    {"form":"良い","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"良い","vocabId":"5171b830-aa1e-43f9-bea1-34ff0f02eb20"},
+    {"form":"もの","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"},
+    {"form":"を","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"食べる","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"食べる","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"う","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"良い","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"良い","vocabId":"5171b830-aa1e-43f9-bea1-34ff0f02eb20"},
+        {"form":"もの","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"もの","vocabId":"9b13f5d7-5d34-4c43-985a-7b64b48c767b"},
+        {"form":"を","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"食べる","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+      ]
+    }
+  ]
+}

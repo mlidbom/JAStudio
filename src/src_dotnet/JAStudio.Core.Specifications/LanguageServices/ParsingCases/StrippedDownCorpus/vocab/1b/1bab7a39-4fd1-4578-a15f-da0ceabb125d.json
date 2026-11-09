@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "聞え",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><tag>rare:</tag>　being-able-to-hear-something-(clearly)/clearness-of-{a-sound/reception}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "きこえ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-ac8620aeb23f11177924527c2c044056146a766e3a1ead0ae604de3f.mp3]",
+  "forms": [],
+  "sentenceCount": 0,
+  "technicalNotes": "We need to keep this because without it the rare word is shown directly from the dictionary instead...",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [
+        "聞け"
+      ],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "being-able-to-hear-something-(clearly)/clearness-of-a-sound/reception-(e.g.-of-a-radio-station) | reputation/renown/fame/hearsay | impression-(that-something-gives-off)/respectability | sonority",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1bab7a39-4fd1-4578-a15f-da0ceabb125d",
+  "tags": [
+    "-::vocab::matching::uses::surface-is-not",
+    "source::jamdict"
+  ]
+}

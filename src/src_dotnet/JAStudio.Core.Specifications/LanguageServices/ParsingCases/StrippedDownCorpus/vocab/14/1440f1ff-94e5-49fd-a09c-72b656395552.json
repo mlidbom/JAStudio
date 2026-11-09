@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "驚く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to-be: surprised/astonished/taken-aback/startled",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おどろく"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:驚く_b.mp3]",
+  "audioG": "[sound:驚く_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "愕く",
+      "isOwned": false
+    },
+    {
+      "text": "駭く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 32,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "驚かす",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be: surprised/astonished",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>surprised</kanji>, so the verb vocab version is <vocabulary>to be surprised</vocabulary>.",
+    "readingMnemonic": "What are you so surprised by? Your friend's <reading>odor</reading> (<ja>おどろ</ja>). Think of a friend that you wouldn't expect to be so smelly. Then, be surprised by the odor. Eww, bro, you have to take a shower."
+  },
+  "id": "1440f1ff-94e5-49fd-a09c-72b656395552",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::31"
+  ]
+}

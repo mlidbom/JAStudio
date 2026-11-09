@@ -1,0 +1,39 @@
+{
+  "sentence": "長居してしまいまして",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 長居 | する | てしまいます | て.",
+  "parsedWords": [
+    {"form":"長居する","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"長居する","vocabId":"30ce847e-a3ae-42e9-965e-7b5d95d3d872"},
+    {"form":"長居","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"長居","vocabId":"894a0e3e-8472-4ded-ba8a-e6dd4e6f4ca9"},
+    {"form":"して","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"して","vocabId":"50c8f12a-9c6a-456b-b8c0-306887458d32"},
+    {"form":"する","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+    {"form":"てしまいます","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"てしまいます","vocabId":"ec92beab-d0e6-4a35-8fee-ecb08143cab7"},
+    {"form":"てしまう","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"てしまう","vocabId":"c4365a2e-df48-46b5-a1ec-72607e5b0d1b"},
+    {"form":"て","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"しまいます","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"しまいます","vocabId":"787a4f19-a5e9-4c0c-9905-f03bcb34f440"},
+    {"form":"しまう","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"しまう","vocabId":"49a757e5-352c-4526-a118-c665361fea66"},
+    {"form":"まして","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"まして","vocabId":"4cc6ab1e-18e2-45ac-abe8-955dfdefee9c"},
+    {"form":"ます","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"て","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"長居する","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"長居する","vocabId":"30ce847e-a3ae-42e9-965e-7b5d95d3d872"},
+        {"form":"てしまいます","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"てしまいます","vocabId":"ec92beab-d0e6-4a35-8fee-ecb08143cab7"},
+        {"form":"て","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"長居","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"長居","vocabId":"894a0e3e-8472-4ded-ba8a-e6dd4e6f4ca9"},
+        {"form":"する","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"する","vocabId":"2ae61cd0-5be8-4599-b48d-a78f97423ddb"},
+        {"form":"て","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"しまう","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"しまう","vocabId":"49a757e5-352c-4526-a118-c665361fea66"},
+        {"form":"ます","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+        {"form":"て","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"}
+      ]
+    }
+  ]
+}

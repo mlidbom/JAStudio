@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "でいる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {be/remain/stay}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "で",
+      "いる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "でいる"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-365d5f2c6133bf30fb513393997a51eb538166ed0796a4425634c4cf.mp3]",
+  "forms": [],
+  "sentenceCount": 39,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [
+        "一人で"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "ている"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a27d59bc-54d3-4391-9c61-b1d669ec81d1",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not"
+  ]
+}

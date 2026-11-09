@@ -1,0 +1,51 @@
+{
+  "sentence": "彼の日本語のレベルは私と同じ位だ。",
+  "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 彼の | 彼 | の | 日本語 | の | レベル | は | 私 | と | 同じ位 | 同じ | 位 | だ.",
+  "parsedWords": [
+    {"form":"彼の","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"彼の","vocabId":"d7264ca2-9ce9-4a18-9234-bfc21f56492c"},
+    {"form":"彼","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"彼","vocabId":"2418668a-2f1f-4546-a20e-1cd8c2024654"},
+    {"form":"の","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"日本語","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"日本語","vocabId":"9d96db17-33fa-4f2e-b0eb-d91789687f31"},
+    {"form":"の","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"レベル","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"レベル","vocabId":"a329b6d8-a11c-4c57-9dfa-b1025ae9fcda"},
+    {"form":"は","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+    {"form":"私","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+    {"form":"と","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+    {"form":"同じ位","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"同じくらい","vocabId":"7bca66df-fe25-45bb-a15f-3a442bcf4bd3"},
+    {"form":"同じ","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"同じ","vocabId":"18a7b3f2-dceb-4fa1-93f9-019b6c4d1516"},
+    {"form":"位","startIndex":14,"variant":"surface","isDisplayed":false,"vocab":"位","vocabId":"41636cfa-bdec-42e2-a700-1ceaabe067bc"},
+    {"form":"だ","startIndex":15,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"彼の","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"彼の","vocabId":"d7264ca2-9ce9-4a18-9234-bfc21f56492c"},
+        {"form":"日本語","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"日本語","vocabId":"9d96db17-33fa-4f2e-b0eb-d91789687f31"},
+        {"form":"の","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"レベル","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"レベル","vocabId":"a329b6d8-a11c-4c57-9dfa-b1025ae9fcda"},
+        {"form":"は","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"私","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+        {"form":"と","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+        {"form":"同じ位","startIndex":12,"variant":"surface","shownAs":"同じくらい","isEmergencyDisplayed":false,"vocab":"同じくらい","vocabId":"7bca66df-fe25-45bb-a15f-3a442bcf4bd3"},
+        {"form":"だ","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"彼","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"彼","vocabId":"2418668a-2f1f-4546-a20e-1cd8c2024654"},
+        {"form":"の","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"日本語","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"日本語","vocabId":"9d96db17-33fa-4f2e-b0eb-d91789687f31"},
+        {"form":"の","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"レベル","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"レベル","vocabId":"a329b6d8-a11c-4c57-9dfa-b1025ae9fcda"},
+        {"form":"は","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"私","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+        {"form":"と","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"と","vocabId":"56979285-581f-4cba-b839-889bc5ce98aa"},
+        {"form":"同じ","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"同じ","vocabId":"18a7b3f2-dceb-4fa1-93f9-019b6c4d1516"},
+        {"form":"位","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"位","vocabId":"41636cfa-bdec-42e2-a700-1ceaabe067bc"},
+        {"form":"だ","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"}
+      ]
+    }
+  ]
+}

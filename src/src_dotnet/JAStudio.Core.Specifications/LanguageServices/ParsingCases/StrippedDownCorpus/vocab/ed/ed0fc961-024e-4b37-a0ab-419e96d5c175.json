@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "声",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<read>こえ:</read> voice | (animal)singing/chirping/hooting | opinion-expressed-in-words/view/attitude\n<read>せい:</read> voice/sound/tone | musical-sound/scale/tune | vocalization",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "こえ",
+    "せい"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:声_b.mp3]",
+  "audioG": "[sound:声_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "聲",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 171,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "voice | singing-(of-a-bird)/chirping-(of-an-insect)/hoot | voice/opinion-(as-expressed-in-words)/view/wish/attitude/will | sound | sense-(of-something's-arrival)/feeling | voice/voiced-sound",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading for this word is the same as the one you learned with the kanji making it easy to remember!"
+  },
+  "id": "ed0fc961-024e-4b37-a0ab-419e96d5c175",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

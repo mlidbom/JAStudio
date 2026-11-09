@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "される",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {be/get}-_ | <tag>hon:</tag>do",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "する",
+      "あれる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "される"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_される_為れる_2024-04-10-17-39-14.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "為れる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 422,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be:done-(to-someone) | to{?}{do/be-doing}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3897ccf9-0454-4a4e-89bf-93414efa1db9",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

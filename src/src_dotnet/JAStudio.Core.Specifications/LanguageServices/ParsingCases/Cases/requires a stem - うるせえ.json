@@ -1,0 +1,30 @@
+{
+  "sentence": "うるせえ",
+  "why": "Converted from TextAnalysisWithSelectDataTests.RequiresAStem, against vocab copied by hand, expected the forms of the parsing result, in that order: うるせえ | う | せえ | せる.",
+  "parsedWords": [
+    {"form":"うるせえ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"うるせえ","vocabId":"a3481554-0703-4b2d-a24c-49f462bd8746"},
+    {"form":"うる","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"うる","vocabId":"6b751596-6377-486f-82d5-57e6a984629f"},
+    {"form":"うる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"うる","vocabId":"6b751596-6377-486f-82d5-57e6a984629f"},
+    {"form":"う","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"せえ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"せい","vocabId":"5cafa6a1-6b7a-4bae-9c62-b054e067eaed"},
+    {"form":"せ","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"せ","vocabId":"5d3f6d0f-9991-47ec-a38d-08b046b6a221"},
+    {"form":"え","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"え","vocabId":"7a58356a-0ec3-4fd5-9c4d-e44e69f0167e"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"うるせえ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うるせえ","vocabId":"a3481554-0703-4b2d-a24c-49f462bd8746"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"うる","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"うる","vocabId":"6b751596-6377-486f-82d5-57e6a984629f"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"せ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"せ","vocabId":"5d3f6d0f-9991-47ec-a38d-08b046b6a221"},
+        {"form":"え","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"え","vocabId":"7a58356a-0ec3-4fd5-9c4d-e44e69f0167e"}
+      ]
+    }
+  ]
+}

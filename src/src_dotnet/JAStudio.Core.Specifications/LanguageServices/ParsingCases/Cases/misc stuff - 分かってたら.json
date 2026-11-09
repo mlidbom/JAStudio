@@ -1,0 +1,29 @@
+{
+  "sentence": "分かってたら",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 分かる | てたら.",
+  "parsedWords": [
+    {"form":"分かってる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"分かっている","vocabId":"9caea479-9894-44a3-b5b9-d0cea35c77a1"},
+    {"form":"分かる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"分かる","vocabId":"e471ef62-507f-4c57-97c8-90247173ace0"},
+    {"form":"てたら","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"てたら","vocabId":"f83804d8-ad09-4300-97c9-244a49b90b33"},
+    {"form":"てる","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"たら","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"},
+    {"form":"た","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"分かってる","startIndex":0,"variant":"base","shownAs":"分かっている","isEmergencyDisplayed":false,"vocab":"分かっている","vocabId":"9caea479-9894-44a3-b5b9-d0cea35c77a1"},
+        {"form":"たら","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"分かる","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"分かる","vocabId":"e471ef62-507f-4c57-97c8-90247173ace0"},
+        {"form":"てる","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"たら","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たら","vocabId":"b92e04ed-7372-45f6-aad5-6975c6447a86"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "も",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "also/too/and | even/as-{much-/long}-as/no-less-than",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "も"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_も_も_2023-07-18-19-14-09.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 3617,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "もう"
+    ]
+  },
+  "sourceData": {
+    "answer": "too/also/in-addition/as-well/(not)-either-(in-a-negative-sentence) | both-A-and-B/A-as-well-as-B/neither-A-nor-B-(in-a-negative-sentence) | even/as-much-as/as-many-as/as-far-as/as-long-as/no-less-than/no-fewer-than | even-if/even-though/although/in-spite-of | further/more/again/another/the-other",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "156f9454-37f8-4b10-a6e7-3abe39897c8b",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

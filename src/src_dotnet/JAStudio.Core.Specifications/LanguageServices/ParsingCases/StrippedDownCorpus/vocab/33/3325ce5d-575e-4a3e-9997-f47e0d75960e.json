@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "あんた",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "you (familiar form of <tag>あなた</tag>; oft. considered rude)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あんた"
+  ],
+  "partsOfSpeech": [
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_あんた_貴方_2023-09-13-04-09-27.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "アンタ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 127,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "you",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3325ce5d-575e-4a3e-9997-f47e0d75960e",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

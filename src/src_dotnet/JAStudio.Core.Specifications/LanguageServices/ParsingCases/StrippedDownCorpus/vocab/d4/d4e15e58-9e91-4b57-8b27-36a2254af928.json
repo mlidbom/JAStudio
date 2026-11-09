@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "くる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: come/approach/arrive | come-from/be-caused-by | <tag>て:</tag>{come-to-be/become | and-come-back}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "くる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:来る_b.mp3]",
+  "audioG": "[sound:来る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "来る",
+      "isOwned": false
+    },
+    {
+      "text": "來る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1026,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>来る</ja></tag>:: to: come-(spatially-or-temporally)/approach/arrive | come-back/do-...-and-come-back | come-to-be/become/get/grow/continue | come-from/be-caused-by/derive-from | come-to-(i.e.-\"when-it-comes-to-spinach-...\")\n<tag><ja>佝僂</ja></tag>:: rickets | someone-suffering-from-rickets\n<read>えぐる</read>|<read>くる</read>:<tag><ja>抉る</ja></tag>:: to{} gouge/hollow-out/bore/excavate/scoop-out | greatly-perturb/cause-emotional-pain | get-to-the-bottom-of-things/relentlessly-bring-the-truth-to-light",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>come</kanji> so you know this word means <vocabulary>to come</vocabulary>.",
+    "readingMnemonic": "The reading for this word is pretty strange. It changes depending on the type of verb form you use (it's a pesky exception verb). To remember the reading of this word, here's a mnemonic: \n\n\"I want you <vocabulary>to come</vocabulary> to the <reading>coo</reading>l (<ja>く</ja>) side, Luke,\" says Darth Vader.\n\"What?\" replies Luke.\n\nJust replace this line into the famous line from Star Wars. Say it out loud. Do the Vader voice. It'll help you to remember."
+  },
+  "id": "d4e15e58-9e91-4b57-8b27-36a2254af928",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "ないか",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{isn't}-{there/it}?/{doesn't}-{it/he}? | {isn't/doesn't/not}-huh | won't-{you}?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない",
+      "か"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ないか"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-02-22-18-55-58-079.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 432,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "won't/hasn't/isn't/doesn't | won't-you",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0cfc4d3f-b8a6-46bb-93a6-740474c140aa",
+  "tags": [
+    "source::yomitan"
+  ]
+}

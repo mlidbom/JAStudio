@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "うまい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "good-{taste | skill-level | deal | idea | luck}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "うまい",
+    "うま"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:旨い_b.mp3]",
+  "audioG": "[sound:旨い_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "旨い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 154,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden",
+      "singleToken": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [
+        "うまく"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "skillful/skilful/clever/expert/wise/successful | delicious/appetizing/appetising/tasty | fortunate/splendid/promising",
+    "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>delicious</kanji>? It's <vocabulary>delicious</vocabulary>. It also means \"<vocabulary>skillful</vocabulary>\" and \"<vocabulary>clever</vocabulary>\" as well, because delicious things are skillfully delicious, right?",
+    "readingMnemonic": "What's especially delicious? <reading>Horse</reading> (<ja>うま</ja>) is delicious. Mmm, that delicious horse."
+  },
+  "id": "569d292f-ec4a-42ea-a697-76ee3b5f1da3",
+  "tags": []
+}

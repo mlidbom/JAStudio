@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "いでも",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "no-matter-_/even-if/no-matter-if",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "でも"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いでも"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-348c9de602cbd994a0f80237d522f9dcc1eae7e224220b221fc4358a.mp3]",
+  "forms": [
+    {
+      "text": "でも",
+      "isOwned": false
+    },
+    {
+      "text": "あいでも",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "い"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ても",
+      "んでも"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1ff13b52-cbc4-46a9-ad14-676b8dd7987d",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

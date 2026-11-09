@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "空を飛ぶ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "そらをとぶ"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2234d0466cab9f9e768b23a64a9e93c07397ecb285876ee5a283a57e.mp3]",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}fly-in-the-air",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e529a512-ed92-4c85-abbf-ecf20fb4e640",
+  "tags": [
+    "source::jamdict"
+  ]
+}

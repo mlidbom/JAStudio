@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "放す",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} let-go-(of)/release/turn-loose ",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はなす"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:放す_b.mp3]",
+  "audioG": "[sound:放す_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 55,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "放れる",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "離す"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} release/let-go/free/set-free/let-loose/turn-loose | add-(pieces-of-eggplant,-potato,-etc.)-to-water,-broth,-etc.",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>release</kanji> so the verb vocab version is <vocabulary>to release</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: Imagine you are going <vocabulary>to release</vocabulary> something. It is a <ja><reading>花</reading></ja> (<ja>はな</ja>). You release it from your hand and it falls, hitting the ground in slow motion. You have the power to release and you are doing the releasing (versus <ja>放れる</ja> where something is just released). You can remember this because even though you did the releasing of the flower, you're going to sue the pavement company for breaking your flower. It's all a big scam you're running."
+  },
+  "id": "0c667726-f755-4529-9b4d-7c55e773b7fe",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::11"
+  ]
+}

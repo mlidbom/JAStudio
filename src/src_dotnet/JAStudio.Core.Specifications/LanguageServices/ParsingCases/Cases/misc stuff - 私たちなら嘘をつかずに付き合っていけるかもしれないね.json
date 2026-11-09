@@ -1,0 +1,68 @@
+{
+  "sentence": "私たちなら嘘をつかずに付き合っていけるかもしれないね",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 私たち | なら | 嘘をつく | ずに | 付き合う | ていける | る:う | かもしれない | ね.",
+  "parsedWords": [
+    {"form":"私たち","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"私たち","vocabId":"1d045b89-a0d4-4d17-aa53-270111f82813"},
+    {"form":"私","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+    {"form":"たち","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"たち","vocabId":"da73c6b8-6273-4c3a-ab2c-edb4ea8063b9"},
+    {"form":"なら","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"なら","vocabId":"4d337ff1-89c9-464c-8826-a1729078f401"},
+    {"form":"嘘をつく","startIndex":5,"variant":"base","isDisplayed":true,"vocab":"嘘をつく","vocabId":"95ebec15-4387-4e60-b884-1124ed6f6a31"},
+    {"form":"嘘","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"嘘","vocabId":"03dbe87e-58b1-42cd-9242-8ca666feb8eb"},
+    {"form":"を","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"つく","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"つく","vocabId":"99781a14-3fce-46d5-b0eb-5e21db00a074"},
+    {"form":"ずに","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"ずに","vocabId":"6bec7d97-5e24-411a-9efa-4e127f563d22"},
+    {"form":"ず","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"},
+    {"form":"に","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+    {"form":"付き合う","startIndex":11,"variant":"base","isDisplayed":true,"vocab":"付き合う","vocabId":"7a2446dd-71cf-414d-9f50-4741b83049d2"},
+    {"form":"ていける","startIndex":15,"variant":"surface","isDisplayed":true,"vocab":"ていける","vocabId":"05eb5538-b97e-4e23-b57d-34b4870d564f"},
+    {"form":"ていける","startIndex":15,"variant":"base","isDisplayed":false,"vocab":"ていける","vocabId":"05eb5538-b97e-4e23-b57d-34b4870d564f"},
+    {"form":"ていく","startIndex":15,"variant":"base","isDisplayed":false,"vocab":"ていく","vocabId":"c623432f-ed9c-4274-a91a-7fd1e299bcbf"},
+    {"form":"て","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"いける","startIndex":16,"variant":"surface","isDisplayed":false,"vocab":"いける","vocabId":"a6027ab2-7fd7-4a9e-b10b-39f112e5309f"},
+    {"form":"いける","startIndex":16,"variant":"base","isDisplayed":false,"vocab":"いける","vocabId":"a6027ab2-7fd7-4a9e-b10b-39f112e5309f"},
+    {"form":"いく","startIndex":16,"variant":"base","isDisplayed":false,"vocab":"いく","vocabId":"f074ddfd-e9a5-4913-8b15-a93d8e19cdcd"},
+    {"form":"える","startIndex":17,"variant":"surface","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"える","startIndex":17,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"う","startIndex":18,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"かもしれない","startIndex":19,"variant":"surface","isDisplayed":true,"vocab":"かもしれない","vocabId":"337638ce-6f3b-4e9b-8df8-1f1c9fb356fa"},
+    {"form":"かも","startIndex":19,"variant":"surface","isDisplayed":false,"vocab":"かも","vocabId":"9790c834-1977-4a34-bc4a-b0af0e116db3"},
+    {"form":"しれない","startIndex":21,"variant":"surface","isDisplayed":false,"vocab":"しれない","vocabId":"b34428aa-24d0-4e81-ad1f-3d993f43d2b1"},
+    {"form":"ない","startIndex":23,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"ね","startIndex":25,"variant":"surface","isDisplayed":true,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"私たち","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私たち","vocabId":"1d045b89-a0d4-4d17-aa53-270111f82813"},
+        {"form":"なら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なら","vocabId":"4d337ff1-89c9-464c-8826-a1729078f401"},
+        {"form":"嘘をつく","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"嘘をつく","vocabId":"95ebec15-4387-4e60-b884-1124ed6f6a31"},
+        {"form":"ずに","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ずに","vocabId":"6bec7d97-5e24-411a-9efa-4e127f563d22"},
+        {"form":"付き合う","startIndex":11,"variant":"base","isEmergencyDisplayed":false,"vocab":"付き合う","vocabId":"7a2446dd-71cf-414d-9f50-4741b83049d2"},
+        {"form":"ていける","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ていける","vocabId":"05eb5538-b97e-4e23-b57d-34b4870d564f"},
+        {"form":"う","startIndex":18,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"かもしれない","startIndex":19,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かもしれない","vocabId":"337638ce-6f3b-4e9b-8df8-1f1c9fb356fa"},
+        {"form":"ね","startIndex":25,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"私","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+        {"form":"たち","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たち","vocabId":"da73c6b8-6273-4c3a-ab2c-edb4ea8063b9"},
+        {"form":"なら","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"なら","vocabId":"4d337ff1-89c9-464c-8826-a1729078f401"},
+        {"form":"嘘","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"嘘","vocabId":"03dbe87e-58b1-42cd-9242-8ca666feb8eb"},
+        {"form":"を","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"つく","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"つく","vocabId":"99781a14-3fce-46d5-b0eb-5e21db00a074"},
+        {"form":"ず","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"},
+        {"form":"に","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"},
+        {"form":"付き合う","startIndex":11,"variant":"base","isEmergencyDisplayed":false,"vocab":"付き合う","vocabId":"7a2446dd-71cf-414d-9f50-4741b83049d2"},
+        {"form":"て","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いける","startIndex":16,"variant":"base","isEmergencyDisplayed":false,"vocab":"いける","vocabId":"a6027ab2-7fd7-4a9e-b10b-39f112e5309f"},
+        {"form":"う","startIndex":18,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"かもしれない","startIndex":19,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かもしれない","vocabId":"337638ce-6f3b-4e9b-8df8-1f1c9fb356fa"},
+        {"form":"ね","startIndex":25,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ね","vocabId":"b85b71b0-b473-4af5-bfa2-f0d824577845"}
+      ]
+    }
+  ]
+}

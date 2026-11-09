@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "時間",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "time | hour | period/class/lesson",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "じかん"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:時間_b.mp3]",
+  "audioG": "[sound:時間_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 260,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "time | hour | period/class/lesson",
+    "mnemonic": "The <kanji>time</kanji> <kanji>interval of time</kanji> is just the <vocabulary>time</vocabulary>. As is often the case, if two similar meaning kanji are combined into one word, they tend to produce a word with a similar meaning. Excuse me, friend, what's the <ja>時間</ja>?",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "bbe361b5-9c6a-4fa7-bc49-82927fc5e0d3",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

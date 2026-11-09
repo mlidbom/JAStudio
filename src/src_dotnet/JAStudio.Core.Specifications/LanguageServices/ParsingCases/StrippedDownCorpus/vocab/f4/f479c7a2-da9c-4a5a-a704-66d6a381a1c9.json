@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "入",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いり",
+    "しお"
+  ],
+  "partsOfSpeech": [
+    "counter",
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b8ef71490237d859453781c5e44449e70a5d889d1246d3d93a16bbb2.mp3]",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>いり</read>:<tag><ja>入り</ja></tag>:: entering | setting-(of-the-Sun) | containing/content/audience | income | beginning\n<read>しお</read>:: counter-for-soakings-(of-fabric-in-a-dye)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f479c7a2-da9c-4a5a-a704-66d6a381a1c9",
+  "tags": [
+    "source::jamdict"
+  ]
+}

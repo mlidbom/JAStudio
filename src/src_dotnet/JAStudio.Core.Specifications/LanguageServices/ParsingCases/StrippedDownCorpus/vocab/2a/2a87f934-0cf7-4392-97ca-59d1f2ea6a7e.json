@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "お構いなく",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "don't-worry-about-{me/us}/don't-go-to-any-trouble | without-worrying-about/regardless-of",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "お",
+      "構う",
+      "なく"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おかまいなく"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:お構いなく_b.mp3]",
+  "audioG": "[sound:お構いなく_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "お構い無く",
+      "isOwned": false
+    },
+    {
+      "text": "御構いなく",
+      "isOwned": false
+    },
+    {
+      "text": "御構い無く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "please-don't-fuss-over-me/don't-go-to-any-trouble/don't-bother",
+    "mnemonic": "Remember how <ja>構う</ja> is \"to care about\"? This is when you tell someone to not care about something, aka <vocabulary>don't worry about it</vocabulary>.",
+    "readingMnemonic": "The reading comes from <ja>構う</ja>, so if you know that you know this!"
+  },
+  "id": "2a87f934-0cf7-4392-97ca-59d1f2ea6a7e",
+  "tags": [
+    "source::wani::level::27"
+  ]
+}
