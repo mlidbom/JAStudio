@@ -1,5 +1,6 @@
 import typing, abc
 from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
+from System.IO import FileInfo
 from JAStudio.Core.TaskRunners import TaskRunner
 from JAStudio.Core.Note import ICardOperations, ExternalNoteIdMap, NoteId, JPNote
 from System.Collections.Generic import IReadOnlyList_1, Dictionary_2, List_1, IEnumerable_1
@@ -8,7 +9,10 @@ from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Note.Collection import CardStudyingStatus
 
 class AnkiBackendDataLoader(IBackendDataLoader):
-    def __init__(self) -> None: ...
+    @staticmethod
+    def ForTheCollectionAnkiHasOpen() -> AnkiBackendDataLoader: ...
+    @staticmethod
+    def ForTheCollectionIn(collectionDatabaseFile: FileInfo) -> AnkiBackendDataLoader: ...
     def Load(self, taskRunner: TaskRunner) -> BackendData: ...
 
 

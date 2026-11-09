@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+   <PropertyGroup>
+      <TargetFramework>net10.0</TargetFramework>
+      <ImplicitUsings>disable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <FrameworkReference Include="Microsoft.AspNetCore.App" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <ProjectReference Include="..\JAStudio.Core\JAStudio.Core.csproj" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.4.0" />
+      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.4.0-alpha" />
+   </ItemGroup>
+
+</Project>

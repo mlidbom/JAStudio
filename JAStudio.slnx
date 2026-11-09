@@ -6,6 +6,10 @@
    <Project Path="src/src_dotnet/JAStudio.Core.Specifications/JAStudio.Core.Specifications.csproj" />
    <Project Path="src/src_dotnet/JAStudio.Core/JAStudio.Core.csproj" />
    <Project Path="src/src_dotnet/JAStudio.Dictionary/JAStudio.Dictionary.csproj" />
+   <Project Path="src/src_dotnet/JAStudio.HeadlessHost/JAStudio.HeadlessHost.csproj" />
+   <Project Path="src/src_dotnet/JAStudio.Mcp/JAStudio.Mcp.csproj" />
+   <Project Path="src/src_dotnet/JAStudio.Mcp.Gateway/JAStudio.Mcp.Gateway.csproj" />
+   <Project Path="src/src_dotnet/JAStudio.Mcp.Specifications/JAStudio.Mcp.Specifications.csproj" />
    <Project Path="src/src_dotnet/JAStudio.PythonInterop/JAStudio.PythonInterop.csproj" />
    <Project Path="src/src_dotnet/JAStudio.TextToSpeech.Specifications/JAStudio.TextToSpeech.Specifications.csproj" />
    <Project Path="src/src_dotnet/JAStudio.TextToSpeech/JAStudio.TextToSpeech.csproj" />

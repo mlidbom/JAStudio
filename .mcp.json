@@ -7,6 +7,11 @@
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       }
     },
+    "jastudio-headless": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": ["src/src_dotnet/JAStudio.Mcp.Gateway/bin/Debug/net10.0/JAStudio.Mcp.Gateway.dll"]
+    },
     "jetbrains-rider": {
       "type": "streamable-http",
       "url": "http://127.0.0.1:64482/stream"

@@ -1,6 +1,6 @@
 import typing, abc
 from System.Collections.Generic import List_1
-from JAStudio.Core.Note import KanjiNote, NoteId, NoteServices
+from JAStudio.Core.Note import KanjiNote, NoteId, NoteServices, JPNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core import IEnvironmentPaths
@@ -117,5 +117,7 @@ class NoteSerializer:
         def __call__(self, note: SentenceNote) -> str:...
         @typing.overload
         def __call__(self, data: AllNotesData) -> str:...
+        @typing.overload
+        def __call__(self, note: JPNote) -> str:...
 
 

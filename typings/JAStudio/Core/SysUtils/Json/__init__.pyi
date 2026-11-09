@@ -1,7 +1,17 @@
-import typing
+import typing, clr
+from System.Text.Encodings.Web import JavaScriptEncoder
 from System.Text.Json import JsonElement
 from System.Collections.Generic import IEnumerable_1, List_1, HashSet_1
 from System import Func_2, Func_1
+
+class FullUnicodeJsonEncoder(JavaScriptEncoder):
+    Instance : FullUnicodeJsonEncoder
+    @property
+    def MaxOutputCharactersPerInputCharacter(self) -> int: ...
+    def FindFirstCharacterToEncode(self, text: clr.Reference[str], textLength: int) -> int: ...
+    def TryEncodeUnicodeScalar(self, unicodeScalar: int, buffer: clr.Reference[str], bufferLength: int, numberOfCharactersWritten: clr.Reference[int]) -> bool: ...
+    def WillEncode(self, unicodeScalar: int) -> bool: ...
+
 
 class JsonReader:
     def __init__(self, element: JsonElement) -> None: ...

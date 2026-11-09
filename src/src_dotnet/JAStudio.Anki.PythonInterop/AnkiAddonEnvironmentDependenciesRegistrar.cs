@@ -23,7 +23,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar(string configJson, Action<string
          Singleton.For<IEnvironmentPaths>().Instance(new AnkiEnvironmentPaths()),
          Singleton.For<INoteRepository>().CreatedBy((NoteSerializer serializer, IEnvironmentPaths paths) => (INoteRepository)new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<IBackendNoteCreator>().Instance(new AnkiBackendNoteCreator()),
-         Singleton.For<IBackendDataLoader>().Instance(new AnkiBackendDataLoader()),
+         Singleton.For<IBackendDataLoader>().Instance(AnkiBackendDataLoader.ForTheCollectionAnkiHasOpen()),
          Singleton.For<IAnkiRawNotes>().Instance(new AnkiRawNotes()),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),

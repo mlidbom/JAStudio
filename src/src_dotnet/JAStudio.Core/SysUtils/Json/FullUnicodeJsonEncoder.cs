@@ -17,9 +17,9 @@ namespace JAStudio.Core.SysUtils.Json;
 /// so surrogates pass through WillEncode as false and are written directly as 4-byte UTF-8
 /// by the underlying writer — which is the correct behavior for UTF-8 JSON files.
 /// </summary>
-sealed class FullUnicodeJsonEncoder : JavaScriptEncoder
+public sealed class FullUnicodeJsonEncoder : JavaScriptEncoder
 {
-   internal static readonly FullUnicodeJsonEncoder Instance = new();
+   public static readonly FullUnicodeJsonEncoder Instance = new();
 
    FullUnicodeJsonEncoder() {}
 

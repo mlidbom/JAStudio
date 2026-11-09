@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+   <PropertyGroup>
+      <OutputType>Exe</OutputType>
+      <TargetFramework>net10.0</TargetFramework>
+      <ImplicitUsings>disable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+      <!-- The MCP gateway copies this build output each time it starts the headless JAStudio: keep it small. -->
+      <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+      <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
+      <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
+      <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
+      <SelfContained>false</SelfContained>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <ProjectReference Include="..\JAStudio.Anki\JAStudio.Anki.csproj" />
+      <ProjectReference Include="..\JAStudio.Mcp\JAStudio.Mcp.csproj" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <PackageReference Include="Compze.DependencyInjection" Version="0.8.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.4.0-alpha" />
+   </ItemGroup>
+
+</Project>

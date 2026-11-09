@@ -74,7 +74,8 @@ public static class NoteConditionJson
       throw new FormatException($"A text condition without a match: {json.ToJsonString()}");
    }
 
-   static string NoteTypeNameOf(Type noteType) =>
+   /// <summary>The name a search's JSON gives the note type <paramref name="noteType"/>: <c>vocab</c>, <c>kanji</c> or <c>sentence</c>.</summary>
+   public static string NoteTypeNameOf(Type noteType) =>
       noteType == typeof(VocabNote) ? "vocab"
       : noteType == typeof(KanjiNote) ? "kanji"
       : noteType == typeof(SentenceNote) ? "sentence"

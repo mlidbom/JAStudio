@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.Json;
 using JAStudio.Core.Note;
@@ -32,6 +33,15 @@ public class NoteSerializer
    public string Serialize(KanjiNote note) => JsonSerializer.Serialize(KanjiNoteConverter.ToDto(note), JsonOptions);
    public string Serialize(VocabNote note) => JsonSerializer.Serialize(VocabNoteConverter.ToDto(note), JsonOptions);
    public string Serialize(SentenceNote note) => JsonSerializer.Serialize(SentenceNoteConverter.ToDto(note), JsonOptions);
+
+   /// <summary>Serializes <paramref name="note"/> as the corpus stores a note of its type, whichever of the three it is.</summary>
+   public string Serialize(JPNote note) => note switch
+   {
+      KanjiNote kanji => Serialize(kanji),
+      VocabNote vocab => Serialize(vocab),
+      SentenceNote sentence => Serialize(sentence),
+      _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "A kind of note the corpus doesn't store.")
+   };
 
    public string Serialize(AllNotesData data)
    {
