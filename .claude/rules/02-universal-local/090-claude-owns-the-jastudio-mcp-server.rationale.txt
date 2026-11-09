@@ -8,6 +8,9 @@ it in any way that helps you without asking for permission. Just notify me that 
 commit it in a separate commit." He asked for it to go into the project instructions, saying Claude should be proactive
 about improving the server, adding whatever it needs as it needs it.
 
+Later the same day, while the first increment was being built: "FYI: You do not need to wait for my go-ahead to commit
+MCP code. Feel free to commit whenever it suits your work."
+
 ## Why
 
 The server exists because developing JAStudio's parsing and data model is mostly tweaking and running again on the real

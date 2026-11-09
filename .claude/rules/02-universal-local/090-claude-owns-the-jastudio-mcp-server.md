@@ -9,8 +9,10 @@
   unhelpful is just as much part of owning it.
 - **No permission needed.** Don't ask before adding to or changing the server. Tell Magnus afterwards, in a line or two,
   what you added or changed and why you needed it.
-- **Commit it separately.** Changes to the server go in commits of their own, apart from the work that needed them, so
-  each kind of change is easy to follow. Committing still follows Magnus's usual word on when to commit.
+- **Commit it separately, whenever it suits the work.** Changes to the server go in commits of their own, apart from the
+  work that needed them, so each kind of change is easy to follow. Unlike other work, they need no go-ahead from Magnus
+  to be committed (Magnus, 2026-11-09). The usual checks still come first: the Definition of Done passes, and a commit
+  that touches the corpus repository follows the rule for committing with it.
 
 **What the ownership covers:** the server itself, meaning its tools, how they report, and the query and diagnostic code
 behind them, wherever that code has to live. **What it doesn't cover:** changing how JAStudio behaves for Magnus, in its
