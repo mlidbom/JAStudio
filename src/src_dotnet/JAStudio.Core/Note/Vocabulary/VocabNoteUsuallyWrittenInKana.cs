@@ -7,8 +7,9 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// A yes is shown as "uk" on the vocab page and in the sentence breakdown.
 /// </summary>
 /// <remarks>
-/// While it's undecided, generating the vocab's data (<see cref="VocabNoteGeneratedData"/>) may decide it as yes: when the vocab's question is all kana<br/>
-/// and it has no readings yet.<br/>
+/// While it's undecided, JAStudio may decide it as yes: when it generates the vocab's data (<see cref="VocabNoteGeneratedData"/>) and the vocab's question<br/>
+/// is all kana and it has no readings yet, or when it creates a vocab without parts of speech (<see cref="VocabNoteFactory"/>) and the dictionary says<br/>
+/// the word is usually written in kana.<br/>
 /// Once decided, by hand or by JAStudio, it's never changed automatically, so a no keeps JAStudio from marking the vocab when it gets it wrong.
 /// </remarks>
 public class VocabNoteUsuallyWrittenInKana

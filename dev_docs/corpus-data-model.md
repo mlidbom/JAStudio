@@ -487,7 +487,8 @@ Yes and No, and true shows as "uk" on the vocab page and in the sentence breakdo
 dictionary half of the automatic decision never runs. Its condition is that the vocab has no parts of speech, but an
 empty parts of speech parses as `{""}`, never an empty set, so only a kana-only question without readings sets it. That's
 been so since before the slice, which kept it as it was. *Slice 7b removed that never-running branch, which also filled
-the vocab's parts of speech from the dictionary, to keep behaviour as it is now that parts of speech can be empty: see 7b.*
+the vocab's parts of speech from the dictionary, to keep behaviour as it is now that parts of speech can be empty: see 7b.
+It came back on 2026-11-09 (Magnus), but only when JAStudio creates a vocab: see 7b.*
 
 **`register` and `matching` are as above since 2026-11-08 (slice 4a).** `register` is placed after `partsOfSpeech`.
 `requiredOrForbidden` holds only the require/forbid rules that are set, each under its name (`RequireForbidFlagField.Name`),
@@ -997,8 +998,14 @@ Progress on step 3:
             verbgodan verb`: as an ichidan verb it no longer also parses as 止む plus える (and えた, えない, えます, えました),
             matches that were never displayed. Nothing displayed changed. Data problems noticed on the way are in
             `corpus-data-issues.md`.
-          - *Next (Magnus, 2026-11-09):* turn on filling a vocab's parts of speech from the dictionary when it has none,
-            as its own change and rebuild, and judge from what it creates whether it's worth keeping.
+          - *Filling parts of speech from the dictionary, 2026-11-09 (Magnus):* tried first as part of generating a vocab's
+            data, whenever the vocab had readings but no parts of speech. Two full rebuilds filled 268 vocab, 39 of them with
+            godan verb, ichidan verb or na-adjective, and decided 71 as usually written in kana, each one the dictionary's
+            own call. Parsing changed in 4 sentences, only one of them visibly. Kept, but done only once, when JAStudio
+            creates a vocab (`VocabNoteFactory`), rather than an `Unknown` part of speech meaning "none on purpose". Done
+            whenever the data is generated, a vocab the dictionary knows could never be left without parts of speech: the
+            next generation of its data filled them again. "Repopulate parts of speech" refills them by hand. The two
+            rebuilds' changes are kept as a one-time fill of the existing vocab.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
       pickers to replace the related-vocab JSON text box.
    9. Media, once the points under [Media](#media-open) are settled.
@@ -1108,6 +1115,11 @@ question 4.
     speech, and its answer joins the senses with ` | `. So a vocab can't say that 悠々 is a taru-adjective in one sense
     and something else in another. Real support for senses could fix that, but needs significant design work, and has
     complexities of its own.
+14. **A full rebuild that reaches a stable result in one run.** *TODO (Magnus, 2026-11-09): design a way to ensure it.*
+    Running it twice can change more the second time. Turning on filling parts of speech from the dictionary showed
+    it: the first run filled 268 vocab's parts of speech, and only the second run reparsed the sentences with them,
+    since a full rebuild reparses the sentences before it regenerates the vocab's data. Until this is designed, a change
+    whose effect on the vocab's data feeds back into parsing needs two runs before its result is analyzed.
 
 ### For me to verify (not questions for Magnus)
 

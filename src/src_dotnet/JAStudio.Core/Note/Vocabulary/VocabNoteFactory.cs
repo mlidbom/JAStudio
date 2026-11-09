@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Tagging;
@@ -46,8 +47,21 @@ public class VocabNoteFactory
          initializer(note);
       }
 
+      FillFromTheDictionaryIfItHasNoPartsOfSpeech(note);
       _collection.Vocab.Add(note);
       return note;
+   }
+
+   /// <summary>
+   /// Gives a new vocab that has no parts of speech the dictionary's, and decides it as usually written in kana where the dictionary says so.<br/>
+   /// Only when the vocab is created, so a vocab whose parts of speech are later removed keeps none: "Repopulate parts of speech" fills them again by hand.
+   /// </summary>
+   void FillFromTheDictionaryIfItHasNoPartsOfSpeech(VocabNote note)
+   {
+      if(note.PartsOfSpeech.All().Any()) return;
+
+      if(_dictLookup.LookupVocabWordOrName(note).IsUk()) note.UsuallyWrittenInKana.DecideAsYesUnlessDecided();
+      note.PartsOfSpeech.SetAutomaticallyFromDictionary();
    }
 
    /// <summary>Creates a vocab whose answer, <paramref name="corpusAnswer"/>, is the corpus's own: a vocab that came from no source.</summary>
