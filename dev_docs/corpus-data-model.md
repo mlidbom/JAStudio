@@ -1191,6 +1191,16 @@ question 4.
     it: the first run filled 268 vocab's parts of speech, and only the second run reparsed the sentences with them,
     since a full rebuild reparses the sentences before it regenerates the vocab's data. Until this is designed, a change
     whose effect on the vocab's data feeds back into parsing needs two runs before its result is analyzed.
+    *Claude's proposal (2026-11-09), not built:* regenerate the vocab's data before reparsing too, so the full rebuild
+    (`LocalNoteUpdater.FullRebuild`) becomes: the vocab's data, then every sentence reparsed, then everything's data
+    (`UpdateAll`) as now. A vocab's generated data mixes what parsing reads, such as readings filled for a kana-only vocab
+    or the compound parts X + する, with what parsing decides, such as its sentence count: the first pass gets the one
+    right before parsing, the last the other after it. It's stable in one run as long as nothing parsing reads is derived
+    from what parsing decides, which holds now: the matching configuration hasn't been tags since slice 4a, and the
+    sentence count feeds no matching. Its cost is one more pass over the vocab, about a second. The alternative, running
+    the rebuild until a run changes nothing, needs no such reasoning but doubles the time of every rebuild. Simplest
+    first, so the first. To check it once built: a spec with a vocab whose generated data changes how a sentence parses,
+    such as the compound parts X + する feeding the splitter, and a full rebuild run once.
 
 ### For me to verify (not questions for Magnus)
 
