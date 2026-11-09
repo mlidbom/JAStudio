@@ -1,0 +1,48 @@
+{
+  "sentence": "子供だって知ってる",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_that_is_not_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 子供 | だって | 知る | てる.",
+  "parsedWords": [
+    {"form":"子供","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"子供","vocabId":"68b40e62-a412-490e-a14a-b361e454260e"},
+    {"form":"だって","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+    {"form":"知ってる","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"知っている","vocabId":"93cc7ef1-75fe-41e1-a1f1-df8aaf67cc07"},
+    {"form":"知る","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+    {"form":"てる","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"子供","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"子供","vocabId":"68b40e62-a412-490e-a14a-b361e454260e"},
+        {"form":"だって","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"知ってる","startIndex":5,"variant":"surface","shownAs":"知っている","isEmergencyDisplayed":false,"vocab":"知っている","vocabId":"93cc7ef1-75fe-41e1-a1f1-df8aaf67cc07"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"子供","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"子供","vocabId":"68b40e62-a412-490e-a14a-b361e454260e"},
+        {"form":"だって","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"知る","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+        {"form":"てる","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"子供","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"子供","vocabId":"68b40e62-a412-490e-a14a-b361e454260e"},
+        {"form":"だって","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"知る","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+        {"form":"てる","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"子供","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"子供","vocabId":"68b40e62-a412-490e-a14a-b361e454260e"},
+        {"form":"だって","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"知る","startIndex":5,"variant":"base","isEmergencyDisplayed":false,"vocab":"知る","vocabId":"fb0e3a15-2614-4c07-b054-37288fe37f9e"},
+        {"form":"てる","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+      ]
+    }
+  ]
+}

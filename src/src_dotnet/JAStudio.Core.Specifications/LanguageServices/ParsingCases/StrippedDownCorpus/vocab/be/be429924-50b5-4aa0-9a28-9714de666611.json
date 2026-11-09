@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "ゲ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "ugh!/eeew!/yuck! | crap!/shoot!/damn!/oh-no!/geez!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ゲ"
+  ],
+  "partsOfSpeech": [
+    "interjection"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-11-02-13-05-37-350.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ゲッ",
+      "isOwned": false
+    },
+    {
+      "text": "げ",
+      "isOwned": false
+    },
+    {
+      "text": "げっ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 5,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceStart": "required",
+      "surface": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "exclamation-of-surprised-disappointment,-disgust,-or-worry-(yuck,-ick,-ack,-eeew,-crap!,-blech,-gross)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "be429924-50b5-4aa0-9a28-9714de666611",
+  "tags": [
+    "source::yomitan"
+  ]
+}

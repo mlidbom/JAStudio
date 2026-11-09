@@ -1,0 +1,45 @@
+{
+  "sentence": "易しいテストだって聞いてたんだけど",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 易しい | テスト | だ | って | 聞く | て | たん | だけど.",
+  "parsedWords": [
+    {"form":"易しい","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"易しい","vocabId":"5f6c6e0f-be7c-4ec4-a9eb-af2ad8dc0ae1"},
+    {"form":"テスト","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"テスト","vocabId":"8cc52159-1342-4194-a0a9-d78501d06141"},
+    {"form":"だ","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"って聞く","startIndex":7,"variant":"base","isDisplayed":true,"vocab":"って聞く","vocabId":"e8ea4e7b-e83c-41fe-a228-ce6648ca7067"},
+    {"form":"って","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+    {"form":"聞く","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"聞く","vocabId":"ee02c08a-d068-40ff-b882-ffc586af7186"},
+    {"form":"て","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"たん","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"たん","vocabId":"5bce7cdc-da7a-438a-9cde-159d2520d995"},
+    {"form":"だけど","startIndex":14,"variant":"surface","isDisplayed":true,"vocab":"だけど","vocabId":"efb594c0-b6dd-46a0-9a3b-265e53b1cfdc"},
+    {"form":"だ","startIndex":14,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"けど","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"易しい","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"易しい","vocabId":"5f6c6e0f-be7c-4ec4-a9eb-af2ad8dc0ae1"},
+        {"form":"テスト","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"テスト","vocabId":"8cc52159-1342-4194-a0a9-d78501d06141"},
+        {"form":"だ","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って聞く","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"って聞く","vocabId":"e8ea4e7b-e83c-41fe-a228-ce6648ca7067"},
+        {"form":"て","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"たん","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たん","vocabId":"5bce7cdc-da7a-438a-9cde-159d2520d995"},
+        {"form":"だけど","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だけど","vocabId":"efb594c0-b6dd-46a0-9a3b-265e53b1cfdc"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"易しい","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"易しい","vocabId":"5f6c6e0f-be7c-4ec4-a9eb-af2ad8dc0ae1"},
+        {"form":"テスト","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"テスト","vocabId":"8cc52159-1342-4194-a0a9-d78501d06141"},
+        {"form":"だ","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"聞く","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"聞く","vocabId":"ee02c08a-d068-40ff-b882-ffc586af7186"},
+        {"form":"て","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"たん","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たん","vocabId":"5bce7cdc-da7a-438a-9cde-159d2520d995"},
+        {"form":"だ","startIndex":14,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"けど","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"けど","vocabId":"fd306f09-1bc3-4f74-ab92-95e10af2db51"}
+      ]
+    }
+  ]
+}

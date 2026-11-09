@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "られない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "can't/cannot | doesn't-get/isn't",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "られる",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "られない"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-a43e57abcc1f062e144bcf49db5111705c8ea27fb0847b9ea918fe7a.mp3]",
+  "forms": [
+    {
+      "text": "られん",
+      "isOwned": false
+    },
+    {
+      "text": "られぬ",
+      "isOwned": false
+    },
+    {
+      "text": "られず",
+      "isOwned": false
+    },
+    {
+      "text": "られません",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 158,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "られない"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ef567631-2987-4056-a05a-2c228b721529",
+  "tags": []
+}

@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "言った",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "said/told",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "言う",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-99de29912994ba8aa7e77f988baf76308d53b99ebb1dd0db7a9c7ba9.mp3]",
+  "forms": [],
+  "sentenceCount": 170,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [
+        "言ったろ"
+      ],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "530f874b-6db6-4626-bd45-67c0fabe2e96",
+  "tags": [
+    "-::vocab::matching::uses::surface-is-not"
+  ]
+}

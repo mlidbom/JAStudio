@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "場違い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ばちがい"
+  ],
+  "partsOfSpeech": [
+    "expression",
+    "na-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-c2512ca9881f8981806a759867e0b5a2ed80397c9de40cbc78bb5c96.mp3]",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "out-of-place/inappropriate/sticking-out-like-a-sore-thumb",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b42ac323-9489-4b12-b6d9-2c3d818ea8f9",
+  "tags": [
+    "source::jamdict"
+  ]
+}

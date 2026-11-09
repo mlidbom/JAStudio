@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "話す",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} talk/speak | tell/explain",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はなす"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:話す_b.mp3]",
+  "audioG": "[sound:話す_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "咄す",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 280,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} talk/speak/converse/chat | tell/explain/narrate/mention/describe/discuss | speak-(a-language)",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>talk</kanji> so the verb version of this is <vocabulary>to talk</vocabulary> or <vocabulary>to speak</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nEvery time you try <vocabulary>to speak</vocabulary>, <ja>花</ja>s (<ja>はな</ja>) just sprout out of your mouth preventing you. Imagine your mouth full of flowers. Taste them, spit them out, and try to speak again. Same problem."
+  },
+  "id": "67382f08-7530-40b5-bead-9992d27e988f",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

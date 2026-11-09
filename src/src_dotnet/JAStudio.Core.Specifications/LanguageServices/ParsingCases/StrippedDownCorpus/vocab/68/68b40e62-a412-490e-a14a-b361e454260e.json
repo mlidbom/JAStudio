@@ -1,0 +1,70 @@
+{
+  "question": {
+    "text": "子供",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "child/kid",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "こども"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:子供_b.mp3]",
+  "audioG": "[sound:子供_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "小供",
+      "isOwned": false
+    },
+    {
+      "text": "子ども",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 187,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "child",
+    "mnemonic": "A <kanji>child</kanji> <kanji>servant</kanji> is a <vocabulary>child</vocabulary>. Children are basically like little servants anyways, what else are they good for?",
+    "readingMnemonic": "The readings for this one are the kun'yomi readings of each kanji. <ja>子</ja> is just <ja>こ</ja>, like the individual vocab word. <ja>供</ja> is <ja><reading>ども</reading></ja>, however. Remember this by thinking how much <vocabulary>children</vocabulary> love <reading>domo</reading>-kun.\n\nAlso, <ja>子ども</ja> is kind of more \"politically correct\" with the kana hanging off there. <ja>子供</ja> is still used in a lot of situations, usually stiff ones. The second kanji means servant, and some people don't like that. The second version pops up a decent amount, so it's good to be familiar with that as well."
+  },
+  "id": "68b40e62-a412-490e-a14a-b361e454260e",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::24"
+  ]
+}

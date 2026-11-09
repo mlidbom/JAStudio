@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "知っている",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "knows/is-aware-of | understands/appreciates | is-acquainted-with",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "知る",
+      "ている"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "しっている"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1ee0d429568aba4f4020a7ac71a71ad730d654f63bf0b9e383455d71.mp3]",
+  "forms": [
+    {
+      "text": "識っている",
+      "isOwned": false
+    },
+    {
+      "text": "知ってる",
+      "isOwned": false
+    },
+    {
+      "text": "識ってる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 168,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [
+      "isCompositionallyTransparentCompound"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "93cc7ef1-75fe-41e1-a1f1-df8aaf67cc07",
+  "tags": []
+}

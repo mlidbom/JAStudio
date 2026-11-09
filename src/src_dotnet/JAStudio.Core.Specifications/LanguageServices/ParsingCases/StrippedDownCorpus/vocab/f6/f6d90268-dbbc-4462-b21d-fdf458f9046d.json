@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "テレビ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "TV | TV-program",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "テレビ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:2363d051a10ad47be705ab211b6c7e2a.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 55,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"b4a48a76b79829fd26b6c12534fb62f0.jpg\" />",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "television/TV | TV-program/TV-programme/TV-broadcast",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "f6d90268-dbbc-4462-b21d-fdf458f9046d",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step03"
+  ]
+}

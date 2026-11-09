@@ -1,0 +1,30 @@
+{
+  "sentence": "だって言ったじゃん",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_starts_the_sentence_and_is_followed_by_a_verb_of_saying, against vocab copied by hand, which expected the breakdown to display: だって | 言う | た | じゃん.",
+  "parsedWords": [
+    {"form":"だって","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+    {"form":"言った","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"言った","vocabId":"530f874b-6db6-4626-bd45-67c0fabe2e96"},
+    {"form":"言う","startIndex":3,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"た","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"じゃん","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"じゃん","vocabId":"77cd4e6c-7472-4afb-94e7-b665a6566623"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"だって","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"言った","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"言った","vocabId":"530f874b-6db6-4626-bd45-67c0fabe2e96"},
+        {"form":"じゃん","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"じゃん","vocabId":"77cd4e6c-7472-4afb-94e7-b665a6566623"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"だって","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"言う","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"た","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+        {"form":"じゃん","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"じゃん","vocabId":"77cd4e6c-7472-4afb-94e7-b665a6566623"}
+      ]
+    }
+  ]
+}

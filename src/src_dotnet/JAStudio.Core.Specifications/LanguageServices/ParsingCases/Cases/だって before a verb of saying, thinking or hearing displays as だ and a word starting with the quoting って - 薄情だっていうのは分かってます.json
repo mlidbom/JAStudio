@@ -1,0 +1,42 @@
+{
+  "sentence": "薄情だっていうのは分かってます",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 薄情 | だ | っていう | の | は | 分かる | て | ます.",
+  "parsedWords": [
+    {"form":"薄情","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"薄情","vocabId":"a958a75e-4e99-4c6d-87d7-a910d039ab1a"},
+    {"form":"だ","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"っていうのは","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"っていうのは","vocabId":"851d2d02-ee4a-4430-8dc2-77fbc1cf92db"},
+    {"form":"っていう","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"っていう","vocabId":"41f04a91-ad57-4613-91c9-8f5a64452486"},
+    {"form":"のは","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"のは","vocabId":"3a3536a7-aeed-4c6b-85e2-819ddcf03699"},
+    {"form":"の","startIndex":7,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"は","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+    {"form":"分かる","startIndex":9,"variant":"base","isDisplayed":true,"vocab":"分かる","vocabId":"e471ef62-507f-4c57-97c8-90247173ace0"},
+    {"form":"てます","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"てます","vocabId":"41edcf92-8165-4027-b2d8-be1d2c4dbd78"},
+    {"form":"て","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"ます","startIndex":13,"variant":"surface","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"薄情","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"薄情","vocabId":"a958a75e-4e99-4c6d-87d7-a910d039ab1a"},
+        {"form":"だ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"っていうのは","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"っていうのは","vocabId":"851d2d02-ee4a-4430-8dc2-77fbc1cf92db"},
+        {"form":"分かる","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"分かる","vocabId":"e471ef62-507f-4c57-97c8-90247173ace0"},
+        {"form":"てます","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てます","vocabId":"41edcf92-8165-4027-b2d8-be1d2c4dbd78"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"薄情","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"薄情","vocabId":"a958a75e-4e99-4c6d-87d7-a910d039ab1a"},
+        {"form":"だ","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"っていう","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"っていう","vocabId":"41f04a91-ad57-4613-91c9-8f5a64452486"},
+        {"form":"の","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"は","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"分かる","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"分かる","vocabId":"e471ef62-507f-4c57-97c8-90247173ace0"},
+        {"form":"て","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"ます","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"}
+      ]
+    }
+  ]
+}

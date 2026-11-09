@@ -1,0 +1,27 @@
+{
+  "sentence": "泳げてる",
+  "why": "Converted from When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer: the known potential form its pair, the case of 磨げてる, is expected to display as, with 磨 for 泳.",
+  "parsedWords": [
+    {"form":"泳ぐ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"泳ぐ","vocabId":"df868684-e142-41a8-9adc-4382e8789549"},
+    {"form":"えてる","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"えてる","vocabId":"d0f99b6d-835b-4fa2-b693-6a10ea34c1fb"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"てる","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"泳ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"泳ぐ","vocabId":"df868684-e142-41a8-9adc-4382e8789549"},
+        {"form":"えてる","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えてる","vocabId":"d0f99b6d-835b-4fa2-b693-6a10ea34c1fb"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"泳ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"泳ぐ","vocabId":"df868684-e142-41a8-9adc-4382e8789549"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"てる","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"}
+      ]
+    }
+  ]
+}

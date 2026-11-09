@@ -1,0 +1,43 @@
+{
+  "sentence": "見える俺だって信じられないのに",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_that_is_not_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 見える | る:う | 俺 | だって | 信じられない | のに.",
+  "parsedWords": [
+    {"form":"見える","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"見える","vocabId":"ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb"},
+    {"form":"見える","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"見える","vocabId":"ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb"},
+    {"form":"う","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"俺","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+    {"form":"だって","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+    {"form":"信じられない","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"信じられない","vocabId":"c1bec66c-f859-4922-a49e-057ca893a163"},
+    {"form":"信じる","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"信じる","vocabId":"e2648167-654c-43ff-ae84-f3b747bc88fd"},
+    {"form":"られない","startIndex":9,"variant":"surface","isDisplayed":false,"vocab":"られない","vocabId":"ef567631-2987-4056-a05a-2c228b721529"},
+    {"form":"られる","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"られる","vocabId":"71ebf1ac-c158-4c74-9405-500b747c5d62"},
+    {"form":"ない","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"のに","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"のに","vocabId":"6e603b14-fa17-4d0a-8ddb-ed04644d57a3"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"見える","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"見える","vocabId":"ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb"},
+        {"form":"う","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"俺","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"だって","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"信じられない","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"信じられない","vocabId":"c1bec66c-f859-4922-a49e-057ca893a163"},
+        {"form":"のに","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のに","vocabId":"6e603b14-fa17-4d0a-8ddb-ed04644d57a3"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"見える","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"見える","vocabId":"ce9c2ee9-3dc1-4e35-b8f8-5ea87558edfb"},
+        {"form":"う","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"俺","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"俺","vocabId":"de4dede8-f208-498f-9dca-d9d5c2bff7e5"},
+        {"form":"だって","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"信じる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"信じる","vocabId":"e2648167-654c-43ff-ae84-f3b747bc88fd"},
+        {"form":"られる","startIndex":9,"variant":"base","isEmergencyDisplayed":false,"vocab":"られる","vocabId":"71ebf1ac-c158-4c74-9405-500b747c5d62"},
+        {"form":"ない","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"のに","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のに","vocabId":"6e603b14-fa17-4d0a-8ddb-ed04644d57a3"}
+      ]
+    }
+  ]
+}

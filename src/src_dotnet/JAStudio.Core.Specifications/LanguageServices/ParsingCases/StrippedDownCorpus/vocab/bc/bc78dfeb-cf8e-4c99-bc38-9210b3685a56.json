@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "女",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>おんな</tag> woman/female | girlfriend/lover/mistress\n<tag><ja>じょ</ja>:suff/pre:</tag> woman/girl/daughter | feminine-noun",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おんな"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:女_b.mp3]",
+  "audioG": "[sound:女_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 142,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "female/woman/female-sex | female-lover/girlfriend/mistress/(someone's)-woman",
+    "mnemonic": "When a kanji is alone and doesn't have any okurigana (hiragana attached to the kanji) it's usually going to take the same meaning as the kanji it comes from. So in this case, you know that this word means <vocabulary>woman</vocabulary>.\n\nBut watch out! Using <ja>女</ja> on its own can often come off as blunt and disrespectful, especially in casual chats. We’ll introduce you to neutral equivalents soon!",
+    "readingMnemonic": "When a word is a single kanji with no okurigana (hiragana attached to the kanji) it tends to use a kun'yomi reading. You didn't learn the kun'yomi reading when you learned the kanji itself, so let's use a mnemonic to remember the vocab word.\n\nThere's a woman in front of you. Who is she? She's the woman who lives <reading>on Ni</reading>nth (<ja>おんな</ja>) Street! "
+  },
+  "id": "bc78dfeb-cf8e-4c99-bc38-9210b3685a56",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::01"
+  ]
+}

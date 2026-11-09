@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "泳ぐ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: swim | struggle-through(crowd) | make-ones-way(in-life)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "およぐ"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:泳ぐ_b.mp3]",
+  "audioG": "[sound:泳ぐ_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "游ぐ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 32,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: swim",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>swim</kanji> so the verb vocab version is <vocabulary>to swim</vocabulary>.",
+    "readingMnemonic": "The reading is kun'yomi (see that hiragana sticking out?) but that's the reading you learned with the kanji."
+  },
+  "id": "df868684-e142-41a8-9adc-4382e8789549",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::09"
+  ]
+}

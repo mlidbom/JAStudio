@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "だって",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "because/after-all | but | even/too/as-well/also\r\n\"is/are\" | I-hear/they-say | {you}-{say/mean} | <tag>s.end:</tag>_-said",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "って"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だって"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_だって_だって_2023-08-18-11-43-05.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 346,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=kO89HzRQygQ&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=26\">Cure Dolly: Lesson 23: だって、から、それから</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "singleToken": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "だと"
+    ]
+  },
+  "sourceData": {
+    "answer": "after-all/because | but | even | too/as-well/also | they-say/I-hear/you-mean",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5cc160fc-9a00-42d0-9931-786832956d0e",
+  "tags": [
+    "-::TODO::studio::vocab::matching::auto-split-so-proper-matching-for-compounds-can-work",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

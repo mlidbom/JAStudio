@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "死",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "death",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "し"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:死_b.mp3]",
+  "audioG": "[sound:死_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 20,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "death/decease | death-penalty-(by-strangulation-or-decapitation) | (an)-out",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!"
+  },
+  "id": "12337ea9-19de-4df0-8d57-855e57d33e56",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

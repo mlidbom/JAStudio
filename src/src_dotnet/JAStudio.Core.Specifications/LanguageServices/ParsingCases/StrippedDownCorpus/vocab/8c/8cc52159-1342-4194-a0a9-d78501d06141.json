@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "テスト",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "test/exam | trial/performance-test",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "テスト"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suru verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:09f9839d87c4f93b3ac04d08efb1f414.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 63,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img src=\"039b3b5b58761e2a6d981249e9a3860b.jpg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "examination/quiz/test | test/tryout/trial | rehearsal-(in-filming)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8cc52159-1342-4194-a0a9-d78501d06141",
+  "tags": [
+    "source::core2000::step05"
+  ]
+}

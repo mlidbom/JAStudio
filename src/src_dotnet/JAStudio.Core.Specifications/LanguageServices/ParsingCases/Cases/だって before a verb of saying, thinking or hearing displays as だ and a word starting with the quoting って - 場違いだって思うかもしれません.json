@@ -1,0 +1,43 @@
+{
+  "sentence": "場違いだって思うかもしれません",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 場違い | だ | って | 思う | う | かもしれません.",
+  "parsedWords": [
+    {"form":"場違い","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"場違い","vocabId":"b42ac323-9489-4b12-b6d9-2c3d818ea8f9"},
+    {"form":"だ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"って思う","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"って思う","vocabId":"be4dd653-1a61-42bd-b6ad-d1c937078fb7"},
+    {"form":"って思う","startIndex":4,"variant":"base","isDisplayed":false,"vocab":"って思う","vocabId":"be4dd653-1a61-42bd-b6ad-d1c937078fb7"},
+    {"form":"って","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+    {"form":"思う","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"思う","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"う","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"かもしれません","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"かもしれません","vocabId":"38af5aac-edbb-44b1-bf88-895992df22e2"},
+    {"form":"かも","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"かも","vocabId":"9790c834-1977-4a34-bc4a-b0af0e116db3"},
+    {"form":"しれません","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"知れない","vocabId":"e36ea5f5-578f-43aa-8575-3e57c9a94344"},
+    {"form":"ません","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"ません","vocabId":"87a1d61e-2ec6-4d98-9b75-1ff2ca9a7bd0"},
+    {"form":"ます","startIndex":12,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"ん","startIndex":14,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"場違い","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"場違い","vocabId":"b42ac323-9489-4b12-b6d9-2c3d818ea8f9"},
+        {"form":"だ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って思う","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って思う","vocabId":"be4dd653-1a61-42bd-b6ad-d1c937078fb7"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"かもしれません","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かもしれません","vocabId":"38af5aac-edbb-44b1-bf88-895992df22e2"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"場違い","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"場違い","vocabId":"b42ac323-9489-4b12-b6d9-2c3d818ea8f9"},
+        {"form":"だ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"思う","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"かもしれません","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"かもしれません","vocabId":"38af5aac-edbb-44b1-bf88-895992df22e2"}
+      ]
+    }
+  ]
+}

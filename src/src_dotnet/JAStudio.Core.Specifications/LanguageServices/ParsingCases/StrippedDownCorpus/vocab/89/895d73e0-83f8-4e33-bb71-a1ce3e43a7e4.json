@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "点ける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} turn-on/switch-on/ignite/light | <tag><ja>付ける</ja>{}attach/connect</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:点ける_b.mp3]",
+  "audioG": "[sound:点ける_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つける",
+      "isOwned": false
+    },
+    {
+      "text": "付ける",
+      "isOwned": false
+    },
+    {
+      "text": "附ける",
+      "isOwned": false
+    },
+    {
+      "text": "着ける",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "<img alt=\"スイッチを押して電気を点けるイラスト - No: 22914048｜無料イラスト・フリー素材なら「イラストAC」\" src=\"d7012e4093a69cfbfa74d78c58b42c47_t.jpeg\">",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "点く",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} turn-on/switch-on/light-up",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. \n\nThe kanji itself means <kanji>point</kanji> so the verb version is something you need to point your finger to do. Picture pointing your finger and pushing a lightswitch <vocabulary>to turn something on</vocabulary>, in this case the light. You won't be able <vocabulary>to switch something on</vocabulary> if you can't point your finger.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou aren't able <vocabulary>to turn</vocabulary> the light on with just one finger though, you need to use <reading>two</reading> (<ja>つ</ja>). Either you have really weak fingers, or that's a really strong lightswitch. Either way, you need two fingers to switch on the light."
+  },
+  "id": "895d73e0-83f8-4e33-bb71-a1ce3e43a7e4",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

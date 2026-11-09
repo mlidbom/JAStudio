@@ -1,0 +1,47 @@
+{
+  "sentence": "本当に友達だって言えるのか",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 本当に | 友達 | だ | って言う | える | うの | か.",
+  "parsedWords": [
+    {"form":"本当に","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"本当に","vocabId":"652c4833-6a5c-4e87-a370-9aebb5982a11"},
+    {"form":"友達","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+    {"form":"だ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"って言う","startIndex":6,"variant":"base","isDisplayed":true,"vocab":"って言う","vocabId":"8ae95bee-41e9-43a0-9679-9937ba399e15"},
+    {"form":"って","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+    {"form":"言える","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"言える","vocabId":"5a9b1749-a89f-4db2-bf52-b3a32751e906"},
+    {"form":"言える","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"言える","vocabId":"5a9b1749-a89f-4db2-bf52-b3a32751e906"},
+    {"form":"言う","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"える","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"える","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"う","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"のか","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"},
+    {"form":"の","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+    {"form":"か","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"本当に","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"本当に","vocabId":"652c4833-6a5c-4e87-a370-9aebb5982a11"},
+        {"form":"友達","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+        {"form":"だ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って言う","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"って言う","vocabId":"8ae95bee-41e9-43a0-9679-9937ba399e15"},
+        {"form":"える","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"う","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"のか","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のか","vocabId":"136243f5-581e-44e5-8643-c12039fd3e49"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"本当に","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"本当に","vocabId":"652c4833-6a5c-4e87-a370-9aebb5982a11"},
+        {"form":"友達","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+        {"form":"だ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"言える","startIndex":8,"variant":"base","isEmergencyDisplayed":false,"vocab":"言える","vocabId":"5a9b1749-a89f-4db2-bf52-b3a32751e906"},
+        {"form":"う","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"の","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"か","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"}
+      ]
+    }
+  ]
+}

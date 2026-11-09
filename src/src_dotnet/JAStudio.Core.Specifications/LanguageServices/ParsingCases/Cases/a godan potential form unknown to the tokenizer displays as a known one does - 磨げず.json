@@ -1,0 +1,27 @@
+{
+  "sentence": "磨げず",
+  "why": "Converted from When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer, against vocab copied by hand, which expected 磨げず to display the words 泳げず does, with 磨 for 泳: 磨げる, the potential form of 磨ぐ, is missing from the tokenizer's dictionary, 泳げる isn't. Its pair is the case of 泳げず.",
+  "parsedWords": [
+    {"form":"磨ぐ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"磨ぐ","vocabId":"42ccda04-b6a2-4ec0-8592-14ba4b5e42f2"},
+    {"form":"えぬ","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"えぬ","vocabId":"ec98eeb0-3695-4fe6-8e87-b8a805ebebb9"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ず","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"磨ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"磨ぐ","vocabId":"42ccda04-b6a2-4ec0-8592-14ba4b5e42f2"},
+        {"form":"えぬ","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"えぬ","vocabId":"ec98eeb0-3695-4fe6-8e87-b8a805ebebb9"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"磨ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"磨ぐ","vocabId":"42ccda04-b6a2-4ec0-8592-14ba4b5e42f2"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"ず","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ず","vocabId":"4c75f83e-b419-49e2-a548-2fe793d1f45c"}
+      ]
+    }
+  ]
+}

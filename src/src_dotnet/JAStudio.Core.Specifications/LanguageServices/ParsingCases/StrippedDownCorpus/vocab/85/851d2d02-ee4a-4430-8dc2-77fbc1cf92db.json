@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "っていうのは",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "speaking-of/about/regarding/as-for | the-reason-being/because",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "っていう",
+      "のは"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "っていうのは"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-ee9f95e4d5d925e3b3688fa9e65c5994cfabc13da5dd72ca1e7b556c.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "と言うのは",
+      "isOwned": false
+    },
+    {
+      "text": "というのは",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 21,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "のは"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "851d2d02-ee4a-4430-8dc2-77fbc1cf92db",
+  "tags": []
+}

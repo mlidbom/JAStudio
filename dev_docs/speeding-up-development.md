@@ -258,14 +258,21 @@ better designed once the tooling shows how specifications like these work in pra
    yielding to an overlapping compound. A case holding only the stored result would check less than they do there.
    Claude's recommendation: a case holds the breakdown's displayed words too, exactly, with the settings it assumes, by
    default JAStudio's defaults. It's also what Magnus sees.
-3. **Done (2026-11-09): the rest converted, 169 cases, and the old cases removed,** but for `AllWordsEqual`, which checks
-   every match of the analysis, valid or not. **A converted case records what the corpus parses
+3. **Done (2026-11-09): every parsing specification converted, 230 cases, and the old ones removed,** `AllWordsEqual`'s
+   check of every match of the analysis included (Magnus: "unless old style parsing tests add something of significant
+   value, I'm inclined to migrate the sentences to this way of testing and then … get rid a significant amount of test
+   machinery"). **A converted case records what the corpus parses
    the sentence to now, even where its old case expected otherwise** (Magnus, 2026-11-09): nothing in the code changed, so
    that's how it has worked all along, and the old expectation was an artifact of the copies made by hand. Regression
    tests come first; whether the results are right is judged after.
 4. **Todo: Claude and Magnus each inspect how the converted cases whose result differs from their old expectation are
-   displayed.** 102 comparisons, listed in `parsing-cases-to-inspect.md`, with Claude's first pass. Claude from the case
-   files. Magnus in JAStudio, once it has a way of dealing with the cases'
+   displayed.** 112 comparisons, listed in `parsing-cases-to-inspect.md`, with Claude's first pass. Claude from the case
+   files.
+5. **Next: faster JMdict lookups** (agreed, Magnus, 2026-11-09). Profiled with dotTrace: 2 of the everyday mode's 4.7
+   seconds are lookups, each building its SQL anew through LinqToDB. The real corpus has vocab for nearly every word, so
+   it hardly meets this outside the specifications.
+6. **Then the vocab copied by hand (`VocabLists`)**, still sample data for eight specifications that aren't about parsing:
+   replaced, and deleted. Magnus in JAStudio, once it has a way of dealing with the cases'
    sentences there, since reading the files is hard for him.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)

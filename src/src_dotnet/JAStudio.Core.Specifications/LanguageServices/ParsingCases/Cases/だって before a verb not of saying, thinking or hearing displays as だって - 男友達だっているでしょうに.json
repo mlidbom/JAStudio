@@ -1,0 +1,43 @@
+{
+  "sentence": "男友達だっているでしょうに",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_that_is_not_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 男友達 | だって | いる | る:う | でしょう | に.",
+  "parsedWords": [
+    {"form":"男友達","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"男友達","vocabId":"509174e7-4b48-4042-bca7-1d7653298ad4"},
+    {"form":"男","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"男","vocabId":"80868bf9-0a8a-4d12-9451-db3a06b0122f"},
+    {"form":"友達","startIndex":1,"variant":"surface","isDisplayed":false,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+    {"form":"だって","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+    {"form":"いる","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"いる","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"う","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"でしょう","startIndex":8,"variant":"surface","isDisplayed":true,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"},
+    {"form":"でしょ","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"},
+    {"form":"です","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"です","vocabId":"01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a"},
+    {"form":"うに","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"うに","vocabId":"0ce0095b-538a-485c-becc-168ddc5b1177"},
+    {"form":"に","startIndex":12,"variant":"surface","isDisplayed":true,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"男友達","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"男友達","vocabId":"509174e7-4b48-4042-bca7-1d7653298ad4"},
+        {"form":"だって","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"いる","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"でしょう","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"},
+        {"form":"に","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"男","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"男","vocabId":"80868bf9-0a8a-4d12-9451-db3a06b0122f"},
+        {"form":"友達","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"友達","vocabId":"0e27fc9a-cf14-4782-be62-d7172e38816e"},
+        {"form":"だって","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だって","vocabId":"5cc160fc-9a00-42d0-9931-786832956d0e"},
+        {"form":"いる","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"う","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"でしょう","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"でしょう","vocabId":"df3af823-04c1-40cc-a317-69f0223d264e"},
+        {"form":"に","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+      ]
+    }
+  ]
+}

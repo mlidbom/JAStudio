@@ -78,13 +78,19 @@ looks up, such as those of a compound's parts.
 
 ## Where it stands
 
-- **169 cases,** every case of `SentenceAnalysisViewModelWithSelectDataTests` and `TextAnalysisWithSelectDataTests`,
-  converted (2026-11-09) by a script from their `InlineData`, each with its old expectation in its `why`. The old classes
-  are gone, but for one case, `AllWordsEqual`, which checks every match of the analysis, valid or not.
+- **230 cases: every specification of how a sentence parses or displays is one now (2026-11-09).** Converted from
+  `SentenceAnalysisViewModelWithSelectDataTests`, `TextAnalysisWithSelectDataTests` and `TextAnalysisWithPerTestDataTests`
+  by a script from their `InlineData` (169 cases), and from the AI-created specifications of だって, of a vocab entered with
+  the dictionary form ending placeholder (う以上), and of ichidan verbs unknown to the tokenizer (61 cases). Each has its old
+  expectation in its `why`; a case converted from a specification of a rule says the rule in its name, and the rule held
+  in every one of them against the real corpus. The old specifications are gone, `AllWordsEqual`'s check of every match of
+  the analysis, valid or not, with them (Magnus agreed). What stays are the specifications of how the tokenizer splits such
+  text, which involve no vocab.
 - **Each records what the corpus parses its sentence to now,** as a regression test, even where its old case expected
   otherwise (Magnus, 2026-11-09). 102 comparisons with old expectations differ: `parsing-cases-to-inspect.md` lists them,
   for Claude and Magnus to inspect.
-- **The everyday mode runs the 169 in 4.6 seconds,** each under all 32 combinations of the breakdown's options, and the
-  full mode in 11. Their stripped-down corpus is 811 vocab, 3.9 MB.
-- **Still against vocab copied by hand:** `TextAnalysisWithPerTestDataTests`, and the specifications of single matching
-  mechanisms, which create the few vocab they need and are meant to.
+- **The everyday mode runs the 230 in 4.7 seconds,** each under all 32 combinations of the breakdown's options, and the
+  full mode in about 10. Profiled (2026-11-09): 2 of the seconds are lookups in JMdict, each building its SQL anew through
+  LinqToDB, and 1 is loading JMdict's forms; the parsing itself is cheap. Speeding up the lookups is next.
+- **Still using the vocab copied by hand (`VocabLists`):** eight specifications that aren't about parsing, using them as
+  sample data, such as the card server's and the serializer's. To replace, and then delete the copies.

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "まさに",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "truly/surely/really/exactly/just | right-when/just-as | on-the-verge-of | duly/naturally",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まさに"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-21-18-48-53-796.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "正に",
+      "isOwned": false
+    },
+    {
+      "text": "将に",
+      "isOwned": false
+    },
+    {
+      "text": "当に",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 13,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "exactly/surely/certainly/just | right-then/just-then/at-that-moment | just-(about-to)/on-the-verge-(of-doing-or-happening) | duly/naturally",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ec74fcdf-cb2b-4d8c-a58a-00763f7d18fe",
+  "tags": [
+    "source::yomitan"
+  ]
+}

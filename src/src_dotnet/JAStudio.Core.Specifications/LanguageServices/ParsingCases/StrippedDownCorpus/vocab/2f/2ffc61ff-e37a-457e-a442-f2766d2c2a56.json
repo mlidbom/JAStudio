@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "えばよかった",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "should-have/would-have-been-{better/good}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ば",
+      "よかった"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えばよかった"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-46cd1bbb6be3623003364fca5fc6121ba6f490a97308ba89a85a34d1.mp3]",
+  "forms": [
+    {
+      "text": "ばよかった",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 34,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "たらよかった",
+      "たらよかったのに"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2ffc61ff-e37a-457e-a442-f2766d2c2a56",
+  "tags": []
+}

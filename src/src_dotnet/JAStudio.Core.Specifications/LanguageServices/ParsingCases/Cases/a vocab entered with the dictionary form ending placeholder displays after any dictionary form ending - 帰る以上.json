@@ -1,0 +1,28 @@
+{
+  "sentence": "帰る以上",
+  "why": "Converted from When_analyzing_a_sentence_where_a_dictionary_form_verb_is_followed_by_a_vocab_entered_with_the_dictionary_form_ending_placeholder, against vocab copied by hand, which expected the breakdown to display the vocab う以上, which requires the dictionary form start and has no forms but its question.",
+  "parsedWords": [
+    {"form":"帰る","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"帰る","vocabId":"6c01918c-63f5-4438-913b-2c79d907b59b"},
+    {"form":"帰る","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"帰る","vocabId":"6c01918c-63f5-4438-913b-2c79d907b59b"},
+    {"form":"う以上","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"う以上","vocabId":"d1ee9958-29fd-496e-9047-ac60d8396340"},
+    {"form":"う","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"以上","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"以上","vocabId":"046f27a6-1aaa-4372-b424-3540b7d2b975"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"帰る","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"帰る","vocabId":"6c01918c-63f5-4438-913b-2c79d907b59b"},
+        {"form":"う以上","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"う以上","vocabId":"d1ee9958-29fd-496e-9047-ac60d8396340"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"帰る","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"帰る","vocabId":"6c01918c-63f5-4438-913b-2c79d907b59b"},
+        {"form":"う","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"以上","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"以上","vocabId":"046f27a6-1aaa-4372-b424-3540b7d2b975"}
+      ]
+    }
+  ]
+}

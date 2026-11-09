@@ -1,0 +1,88 @@
+{
+  "question": {
+    "text": "じゃん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>じゃないか</ja> isn't-it?/right?/don't-you-think? | <tag><ja>じゃーん</ja>:</tag>ta-dah!/voilà!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "じゃ",
+      "ん"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "じゃん"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle",
+    "to-adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_じゃん_じゃん_2023-08-24-04-02-18.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ジャン",
+      "isOwned": false
+    },
+    {
+      "text": "ジャーン",
+      "isOwned": false
+    },
+    {
+      "text": "じゃーん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 94,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "のでは",
+      "のではないか",
+      "んじゃ",
+      "んじゃないか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "じゃーん",
+      "じゃない",
+      "じゃないか"
+    ]
+  },
+  "sourceData": {
+    "answer": "<read>じゃ゜ん</read>|<read>じゃん</read>:: ta-dah!/ta-da!/voilà! | clash/crash/bang\nisn't-it?/don't-you-think?/right?/surely/come-on",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "77cd4e6c-7472-4afb-94e7-b665a6566623",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "無敵",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "invincibility | <tag>な/の:</tag>invincible/unrivaled/matchless/unbeatable/undefeatable",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "むてき"
+  ],
+  "partsOfSpeech": [
+    "na-adjective",
+    "no-adjective",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:無敵_b.mp3]",
+  "audioG": "[sound:無敵_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "invincible/unrivaled/unrivalled/matchless/unbeatable/undefeatable",
+    "mnemonic": "You have <kanji>nothing</kanji> when it comes to <kanji>enemies</kanji>. Why? It's not because you're super kind and everyone likes you. No, it's that you've defeated anyone who's tried. You are <vocabulary>unrivaled</vocabulary> and <vocabulary>invincible</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "f85ac23c-5041-4d8e-a119-9ae7af2444ef",
+  "tags": [
+    "source::wani::level::21"
+  ]
+}

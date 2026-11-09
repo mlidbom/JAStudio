@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "まい",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{surely/probably}-{isn't/doesn't/won't} | <tag>negative-volitional:</tag>/doesn't-intend-to/intends-not-to | must-not/don't",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まい"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-07-04-23-56-29-357.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 44,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=f4A9DK7Rtcw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=87\">まい the negative helper that never gets explained properly | Lesson 85 - YouTube</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "probably-isn't-(doesn't,-won't,-etc.) | don't-(doesn't)-intend-to/intend-not-to | must-not/(when-used-in-an-imperative-sentence)-don't",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3e54280c-bd9e-4963-8138-9606813631c0",
+  "tags": [
+    "source::yomitan"
+  ]
+}

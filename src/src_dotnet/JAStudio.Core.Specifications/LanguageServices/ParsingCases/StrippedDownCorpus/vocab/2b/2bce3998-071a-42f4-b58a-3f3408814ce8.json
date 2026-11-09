@@ -1,0 +1,64 @@
+{
+  "question": {
+    "text": "なかった",
+    "disambiguation": "verb"
+  },
+  "corpusAnswer": "<tag>{activity/state-change}-verb:</tag>didn't-_\n<tag>state-verb:</tag>{wasn't/weren't}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない:irrealis",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ないた"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-8362cd4cc5e05292448166b5dd7c90d704bd802a94341cfe9e6fd909.mp3]",
+  "forms": [],
+  "sentenceCount": 462,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "irrealis": "required",
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2bce3998-071a-42f4-b58a-3f3408814ce8",
+  "tags": []
+}

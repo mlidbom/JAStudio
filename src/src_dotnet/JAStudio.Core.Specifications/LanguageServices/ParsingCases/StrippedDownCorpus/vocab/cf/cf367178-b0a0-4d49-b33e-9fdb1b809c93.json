@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "電気",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "electricity | electric-light",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "でんき"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:電気_b.mp3]",
+  "audioG": "[sound:電気_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 39,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "electricity | (electric)-light",
+    "mnemonic": "<kanji>Electricity</kanji> <kanji>energy</kanji> is just a fancy way to say <vocabulary>electricity</vocabulary>.",
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+  },
+  "id": "cf367178-b0a0-4d49-b33e-9fdb1b809c93",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::08"
+  ]
+}

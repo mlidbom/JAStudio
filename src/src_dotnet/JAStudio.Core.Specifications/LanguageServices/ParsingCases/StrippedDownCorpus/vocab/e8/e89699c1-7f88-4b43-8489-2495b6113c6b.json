@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "舞う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: dance(ori.whirling) | whirl(in-wind)/flutter/swirl",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:舞う_b.mp3]",
+  "audioG": "[sound:舞う_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: dance-(orig.-a-whirling-dance) | flutter-about/revolve",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>dance</kanji> and the verb vocab version means <vocabulary>to dance</vocabulary>, as well as <vocabulary>to flutter</vocabulary>.",
+    "readingMnemonic": "Who is the greatest dancer of them all? China's previous ruler, <reading>Mao</reading> (<ja>まう</ja>)."
+  },
+  "id": "e89699c1-7f88-4b43-8489-2495b6113c6b",
+  "tags": [
+    "source::wani::level::36"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "ものだ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "_-is-(such)-a-_-thing TODO: see if you can figure out just what the communicated nuance could be described as...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "もの",
+      "だ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ものだ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-d290ebe9c4d959aca16ecb51751a8c709b44ee068d78b55b8f0e12b2.mp3]",
+  "forms": [
+    {
+      "text": "もんだ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceEnd": "required",
+      "surface": "required"
+    },
+    "flags": [
+      "isPoisonWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4afe9a68-ea87-48a0-8adb-a97dcd43dffd",
+  "tags": [
+    "-::TODO"
+  ]
+}

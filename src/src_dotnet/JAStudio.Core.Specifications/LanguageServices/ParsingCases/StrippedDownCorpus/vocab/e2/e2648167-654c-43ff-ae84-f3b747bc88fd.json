@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "信じる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} believe/credit | trust/have-faith-in",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "しんじる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:信じる_b.mp3]",
+  "audioG": "[sound:信じる_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 86,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} believe/believe-in/place-trust-in/confide-in/have-faith-in",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>believe</kanji> so the verb vocab version is <vocabulary>to believe</vocabulary>.",
+    "readingMnemonic": "The reading for <ja>信</ja> is <ja>しん</ja> no matter what! See, if you believe, good things will happen. You should be able to read this."
+  },
+  "id": "e2648167-654c-43ff-ae84-f3b747bc88fd",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::15"
+  ]
+}

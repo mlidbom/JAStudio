@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "着ける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} wear/put-on | join/add | keep-a-diary/make-an-entry | <tag><ja>付ける</ja>{}attach/connect</tag> ...\n<tag><ja>着く</ja>:<ja>える</ja>:</tag> to-be-able-to: arrive/reach/get-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:着ける_b.mp3]",
+  "audioG": "[sound:着ける_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つける",
+      "isOwned": false
+    },
+    {
+      "text": "付ける",
+      "isOwned": false
+    },
+    {
+      "text": "点ける",
+      "isOwned": false
+    },
+    {
+      "text": "附ける",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "着せる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} attach/join/add/append/affix/stick/glue/fasten/sew-on/apply-(ointment) | furnish-(a-house-with) | wear/put-on | keep-a-diary/make-an-entry | appraise/set-(a-price) | allot/budget/assign | bring-alongside | place-(under-guard-or-doctor) | follow/shadow | load/give-(courage-to) | keep-(an-eye-on) | establish-(relations-or-understanding) | turn-on-(light) | produce-flowers/produce-fruit",
+    "mnemonic": "Another verb for this kanji! Crazy! I know, I'm sorry. The previous ones were: <ja>着る</ja> (to wear), <ja>着く</ja> (to arrive), and now <ja>着ける</ja> (to put on / to wear). At least it's similar to <ja>着る</ja>, right? In this case, this word is like <ja>付ける</ja>, which means \"to attach.\" It's used for things you \"attach\" to your body to wear, like accessories, or a face mask. That's why this is <vocabulary>to put on</vocabulary> or <vocabulary>to wear</vocabulary>. Same sound, different kanji, similar ideas.",
+    "readingMnemonic": "The reading is the same as <ja>着く</ja>'s reading, but it might be easier to think it shares a reading with <ja>付ける</ja>, which has a similar meaning. Put on clothes, attach on clothes, etc!"
+  },
+  "id": "7d151bc0-37c2-4e4c-bbc0-b8cd65126c32",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::14"
+  ]
+}

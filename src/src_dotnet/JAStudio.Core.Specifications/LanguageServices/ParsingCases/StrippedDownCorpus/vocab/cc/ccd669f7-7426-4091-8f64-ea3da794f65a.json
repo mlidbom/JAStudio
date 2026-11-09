@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "って言ってた",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{was}-saying | {has/have}-been-saying",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "って言って",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "っていってた"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-8afdbb60041f3e5576fcd6f4f0a1dcb9e373ba8caadcee83c9285f34.mp3]",
+  "forms": [
+    {
+      "text": "っていってた",
+      "isOwned": false
+    },
+    {
+      "text": "と言ってた",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 38,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ccd669f7-7426-4091-8f64-ea3da794f65a",
+  "tags": []
+}

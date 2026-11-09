@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "じゃーん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "ta-dah!/voilà! | <ja>じゃないか</ja> isn't-it?/right?/don't-you-think?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "じゃーん"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle",
+    "to-adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-08-05-12-03-08-579.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ジャーン",
+      "isOwned": true
+    }
+  ],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "のでは",
+      "のではないか",
+      "んじゃ",
+      "んじゃないか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "じゃん"
+    ]
+  },
+  "sourceData": {
+    "answer": "ta-dah!/ta-da!/voilà! | clash/crash/bang",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "10dc7a5c-9100-4372-9b90-21d0b34a56f6",
+  "tags": []
+}

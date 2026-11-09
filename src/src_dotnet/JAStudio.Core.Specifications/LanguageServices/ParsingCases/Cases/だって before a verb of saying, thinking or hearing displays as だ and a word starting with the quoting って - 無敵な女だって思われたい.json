@@ -1,0 +1,43 @@
+{
+  "sentence": "無敵な女だって思われたい",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 無敵 | な | 女 | だ | って | 思われる | たい.",
+  "parsedWords": [
+    {"form":"無敵","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"無敵","vocabId":"f85ac23c-5041-4d8e-a119-9ae7af2444ef"},
+    {"form":"な","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"女","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"女","vocabId":"bc78dfeb-cf8e-4c99-bc38-9210b3685a56"},
+    {"form":"だ","startIndex":4,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"って思う","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"って思う","vocabId":"be4dd653-1a61-42bd-b6ad-d1c937078fb7"},
+    {"form":"って","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+    {"form":"思われる","startIndex":7,"variant":"base","isDisplayed":true,"vocab":"思われる","vocabId":"ff775d34-d828-4f78-a08f-371cd782f498"},
+    {"form":"思う","startIndex":7,"variant":"base","isDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+    {"form":"あれる","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+    {"form":"たい","startIndex":10,"variant":"surface","isDisplayed":true,"vocab":"たい","vocabId":"68df7fd2-dd44-428b-903f-6c3d1f594eb9"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"無敵","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"無敵","vocabId":"f85ac23c-5041-4d8e-a119-9ae7af2444ef"},
+        {"form":"な","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"女","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"女","vocabId":"bc78dfeb-cf8e-4c99-bc38-9210b3685a56"},
+        {"form":"だ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"思われる","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"思われる","vocabId":"ff775d34-d828-4f78-a08f-371cd782f498"},
+        {"form":"たい","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たい","vocabId":"68df7fd2-dd44-428b-903f-6c3d1f594eb9"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"無敵","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"無敵","vocabId":"f85ac23c-5041-4d8e-a119-9ae7af2444ef"},
+        {"form":"な","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"女","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"女","vocabId":"bc78dfeb-cf8e-4c99-bc38-9210b3685a56"},
+        {"form":"だ","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"思う","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"思う","vocabId":"c00ee19c-29d7-446a-80c8-729a9847d23a"},
+        {"form":"あれる","startIndex":8,"variant":"base","isEmergencyDisplayed":false,"vocab":"あれる","vocabId":"de54cf82-4edc-4afa-9996-189f8a4811f0"},
+        {"form":"たい","startIndex":10,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たい","vocabId":"68df7fd2-dd44-428b-903f-6c3d1f594eb9"}
+      ]
+    }
+  ]
+}

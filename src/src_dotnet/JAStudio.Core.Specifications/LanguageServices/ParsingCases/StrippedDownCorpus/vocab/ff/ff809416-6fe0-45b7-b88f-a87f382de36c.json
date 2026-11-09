@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "つける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} attach/connect | add | wear | arrive | mark | make-an-entry",
+  "explanation": "to to attach/affix/add/apply/connect\ninterpreted very broadly and abstractly",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:付ける_b.mp3]",
+  "audioG": "[sound:付ける_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "付ける",
+      "isOwned": false
+    },
+    {
+      "text": "点ける",
+      "isOwned": false
+    },
+    {
+      "text": "附ける",
+      "isOwned": false
+    },
+    {
+      "text": "着ける",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 164,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "付く",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>付ける</ja></tag>:: to{} attach/join/add/append/affix/stick/glue/fasten/sew-on/apply-(ointment) | furnish-(a-house-with) | wear/put-on | keep-a-diary/make-an-entry | appraise/set-(a-price) | allot/budget/assign | bring-alongside | place-(under-guard-or-doctor) | follow/shadow | load/give-(courage-to) | keep-(an-eye-on) | establish-(relations-or-understanding) | turn-on-(light) | produce-flowers/produce-fruit\n<tag><ja>点ける</ja></tag>:: to{} turn-on/switch-on/light-up",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>attach</kanji> so the verb version is <vocabulary>to attach something</vocabulary>.",
+    "readingMnemonic": "The reading is actually the same as the one you learned with the kanji, meaning you should be able to read this one just fine."
+  },
+  "id": "ff809416-6fe0-45b7-b88f-a87f382de36c",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "legacy_scheduling",
+    "source::wani::level::07"
+  ]
+}

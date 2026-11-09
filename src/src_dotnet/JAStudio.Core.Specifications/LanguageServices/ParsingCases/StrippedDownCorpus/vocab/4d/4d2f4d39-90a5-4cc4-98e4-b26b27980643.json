@@ -1,0 +1,121 @@
+{
+  "question": {
+    "text": "えてない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-{continuously/over-time}-unable-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "えてる",
+      "ない"
+    ],
+    "alternative": [
+      "てない"
+    ]
+  },
+  "readings": [
+    "えてない"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-564f73c538940aba228de55f964f627350a5aad4669bd4d29b599749.mp3]",
+  "forms": [
+    {
+      "text": "べてない",
+      "isOwned": false
+    },
+    {
+      "text": "けてない",
+      "isOwned": false
+    },
+    {
+      "text": "せてない",
+      "isOwned": false
+    },
+    {
+      "text": "ててない",
+      "isOwned": false
+    },
+    {
+      "text": "ねてない",
+      "isOwned": false
+    },
+    {
+      "text": "へてない",
+      "isOwned": false
+    },
+    {
+      "text": "めてない",
+      "isOwned": false
+    },
+    {
+      "text": "れてない",
+      "isOwned": false
+    },
+    {
+      "text": "げてない",
+      "isOwned": false
+    },
+    {
+      "text": "ぜてない",
+      "isOwned": false
+    },
+    {
+      "text": "でてない",
+      "isOwned": false
+    },
+    {
+      "text": "ぺてない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 16,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "えていない"
+    ],
+    "synonyms": [
+      "えていない"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4d2f4d39-90a5-4cc4-98e4-b26b27980643",
+  "tags": []
+}

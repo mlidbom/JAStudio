@@ -1,0 +1,33 @@
+{
+  "sentence": "ラジオを点けました。",
+  "why": "Converted from When_analyzing_a_genuine_ichidan_verb_unknown_to_the_tokenizer_after_wo, against vocab copied by hand, which expected the breakdown to display 点ける. 点ける is missing from the tokenizer's dictionary, and 点け is also the e-stem of the intransitive godan verb 点く, but an intransitive verb doesn't take を.",
+  "parsedWords": [
+    {"form":"ラジオ","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"ラジオ","vocabId":"6987fccb-3ce4-44d1-8b63-ff3a111848e8"},
+    {"form":"を","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"点ける","startIndex":4,"variant":"base","isDisplayed":true,"vocab":"点ける","vocabId":"895d73e0-83f8-4e33-bb71-a1ce3e43a7e4"},
+    {"form":"ました","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"ました","vocabId":"2fc554c4-3ab8-4755-91a9-5ec2a38a5dde"},
+    {"form":"ます","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"た","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"ラジオ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ラジオ","vocabId":"6987fccb-3ce4-44d1-8b63-ff3a111848e8"},
+        {"form":"を","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"点ける","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"点ける","vocabId":"895d73e0-83f8-4e33-bb71-a1ce3e43a7e4"},
+        {"form":"ました","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ました","vocabId":"2fc554c4-3ab8-4755-91a9-5ec2a38a5dde"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"ラジオ","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ラジオ","vocabId":"6987fccb-3ce4-44d1-8b63-ff3a111848e8"},
+        {"form":"を","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"点ける","startIndex":4,"variant":"base","isEmergencyDisplayed":false,"vocab":"点ける","vocabId":"895d73e0-83f8-4e33-bb71-a1ce3e43a7e4"},
+        {"form":"ます","startIndex":6,"variant":"base","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+        {"form":"た","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

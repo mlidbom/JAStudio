@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "って言って",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "say-{and}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "って言う",
+      "って"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "っていって"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-1905ed8ea23708a5d768be5bc95287c16846b26978b5e11549fb8419.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "っていって",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 64,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5d4b6fce-239c-4273-93c0-2057d7020f0a",
+  "tags": []
+}

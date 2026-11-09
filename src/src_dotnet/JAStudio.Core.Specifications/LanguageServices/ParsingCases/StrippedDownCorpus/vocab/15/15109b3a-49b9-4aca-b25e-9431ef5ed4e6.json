@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "なかった",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "wasn't/weren't",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ない",
+      "た"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なかった"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:hypertts-8362cd4cc5e05292448166b5dd7c90d704bd802a94341cfe9e6fd909.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "無かった",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 153,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "irrealis": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ませんでした"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "15109b3a-49b9-4aca-b25e-9431ef5ed4e6",
+  "tags": [
+    "source::yomitan"
+  ]
+}

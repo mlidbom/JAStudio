@@ -1,0 +1,21 @@
+{
+  "sentence": "金<wbr>貸せって",
+  "why": "Converted from TextAnalysisWithPerTestDataTests.InvisibleSpaceBreakup, against vocab copied by hand, which expected the forms of the parsing result, in that order: 金 | 貸す | え | って.",
+  "parsedWords": [
+    {"form":"金","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"金","vocabId":"026e2ab5-ce7b-45bd-b4ee-baaf23f76fbb"},
+    {"form":"貸す","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"貸す","vocabId":"e5c4b48d-f2ac-4f65-a349-c7f5d513f901"},
+    {"form":"え","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+    {"form":"って","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"金","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"金","vocabId":"026e2ab5-ce7b-45bd-b4ee-baaf23f76fbb"},
+        {"form":"貸す","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"貸す","vocabId":"e5c4b48d-f2ac-4f65-a349-c7f5d513f901"},
+        {"form":"え","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"え","vocabId":"602a5d49-874c-4f77-a5de-9ddbd99ee156"},
+        {"form":"って","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"}
+      ]
+    }
+  ]
+}

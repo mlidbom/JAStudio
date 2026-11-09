@@ -5,9 +5,9 @@ case files; Magnus in JAStudio, once it has a way of dealing with the cases' sen
 corpus parses each sentence to now, as regression tests: nothing in the code changed, so that's how it has worked all
 along, and the old expectations were made against vocab copied by hand. Whether the results are right is judged here.
 
-Of the 169 converted cases, 73 parse as their old cases expected, 102 comparisons differ (a case converted from two old
-cases is compared with each), and one isn't compared: `all words equal - 風の強さに驚きました` checked every match of the
-analysis, valid or not, and its old case stays (`SentenceAnalysisViewModelWithSelectDataTests`).
+Of the first 169 converted cases, 73 parse as their old cases expected, 102 comparisons differ (a case converted from two old
+cases is compared with each), and one isn't compared: `a sentence with many overlapping candidates - 風の強さに驚きました`, whose
+old case checked every match of the analysis, valid or not. Of the 13 だって cases converted after, 10 differ: listed last.
 
 **How to read an entry:** the old case's expectation, then what the case records now: for an old breakdown case, the
 breakdown under JAStudio's default options; for an old text-analysis case, the forms of the stored parsing result. A
@@ -342,3 +342,38 @@ Most differences are the real corpus having a vocab the copies lack, mostly comp
 - **yield to surface - 後で下に下りてらっしゃいね** (YieldToSurface)
   - old: 後で | 下に | 下りる | て | らっしゃい | ね
   - now: 後で | 下に | 下りる | てらっしゃい | ね
+
+## The だって cases that differ
+
+The rule each name states holds in all of them; what differs is mostly compounds the real corpus has.
+
+- **だって before a verb not of saying, thinking or hearing displays as だって - 男友達だっているでしょうに**
+  - old: 男友達 | だって | いる | る:う | でしょう | に
+  - now: 男友達 | だって | いる | う | でしょう | に
+- **だって before a verb not of saying, thinking or hearing displays as だって - 見える俺だって信じられないのに**
+  - old: 見える | る:う | 俺 | だって | 信じられない | のに
+  - now: 見える | う | 俺 | だって | 信じられない | のに
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 俺も友達だって言えばよかったじゃん**
+  - old: 俺 | も | 友達 | だ | って言う | ば | よい | た | じゃん
+  - now: 俺 | も | 友達 | だ | って言う | えばよかった | じゃん
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 場違いだって思うかもしれません**
+  - old: 場違い | だ | って | 思う | う | かもしれません
+  - now: 場違い | だ | って思う | う | かもしれません
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 大事なもんだって言ってたろう**
+  - old: 大事 | な | もん | だ | って言う | てた | う
+  - now: 大事な | もん | だ | って言って | たろう
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 易しいテストだって聞いてたんだけど**
+  - old: 易しい | テスト | だ | って | 聞く | て | たん | だけど
+  - now: 易しい | テスト | だ | って聞く | て | たん | だけど
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 本当に友達だって言えるのか**
+  - old: 本当に | 友達 | だ | って言う | える | うの | か
+  - now: 本当に | 友達 | だ | って言う | える | う | のか
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 舞っているんだって思い込むように**
+  - old: 舞う | ている | んだ:のだ | って | 思い込む | う | ように
+  - now: 舞う | ている | んだ | って | 思い込む | う | ように
+- **だって before a verb of saying, thinking or hearing displays as だ and a word starting with the quoting って - 薄情だっていうのは分かってます**
+  - old: 薄情 | だ | っていう | の | は | 分かる | て | ます
+  - now: 薄情 | だ | っていうのは | 分かる | てます
+- **だって starting the sentence before a verb of saying displays as だって - だって言ったじゃん**
+  - old: だって | 言う | た | じゃん
+  - now: だって | 言った | じゃん

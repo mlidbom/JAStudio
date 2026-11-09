@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "男",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "man/male | fellow/guy | boyfriend/lover | manliness/manly-{honor/reputation}",
+  "explanation": "be aware that this word used alone can sound a bit rude",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おとこ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:男_b.mp3]",
+  "audioG": "[sound:男_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 235,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "man/male | fellow/guy/chap/bloke | male-lover/boyfriend/man | manliness/manly-honor/manly-honour/manly-reputation",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.\n\nJust be aware that this word used alone can sound a bit rude. You'll learn a more neutral option very soon.",
+    "readingMnemonic": "Since this word is made up of a single kanji, it uses the kun'yomi reading. Here's a mnemonic to help you to remember it: \n\nThere is a <vocabulary>man</vocabulary>. Think of the manliest man you can. He works in an auto shop. As a child, he was an <reading>auto <ja>子</ja></reading> (<ja>おとこ</ja>), working at the auto shop from an early age. This turned him into a man very quickly. \n\nLike other mnemonics that aren't lined up quite perfectly, your goal here is to get close enough to remember the true reading. Step, step, step, jump!"
+  },
+  "id": "80868bf9-0a8a-4d12-9451-db3a06b0122f",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::04"
+  ]
+}

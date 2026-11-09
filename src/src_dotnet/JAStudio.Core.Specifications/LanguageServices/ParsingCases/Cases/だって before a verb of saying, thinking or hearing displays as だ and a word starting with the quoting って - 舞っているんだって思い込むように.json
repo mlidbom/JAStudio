@@ -1,0 +1,49 @@
+{
+  "sentence": "舞っているんだって思い込むように",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 舞う | ている | んだ:のだ | って | 思い込む | う | ように.",
+  "parsedWords": [
+    {"form":"舞う","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"舞う","vocabId":"e89699c1-7f88-4b43-8489-2495b6113c6b"},
+    {"form":"ている","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+    {"form":"て","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"いる","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+    {"form":"んだ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+    {"form":"ん","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+    {"form":"だ","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"って","startIndex":7,"variant":"surface","isDisplayed":true,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+    {"form":"思い込む","startIndex":9,"variant":"surface","isDisplayed":true,"vocab":"思い込む","vocabId":"ada66296-7a15-4d95-a211-61ae0ca12357"},
+    {"form":"思い込む","startIndex":9,"variant":"base","isDisplayed":false,"vocab":"思い込む","vocabId":"ada66296-7a15-4d95-a211-61ae0ca12357"},
+    {"form":"う","startIndex":12,"variant":"base","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"ように","startIndex":13,"variant":"surface","isDisplayed":true,"vocab":"ように","vocabId":"e746331c-54c0-4b5f-814d-3767a4e1b9c7"},
+    {"form":"よう","startIndex":13,"variant":"surface","isDisplayed":false,"vocab":"よう","vocabId":"a2317963-e961-4c96-bcc4-8ad9ffbb738e"},
+    {"form":"に","startIndex":15,"variant":"surface","isDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"舞う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"舞う","vocabId":"e89699c1-7f88-4b43-8489-2495b6113c6b"},
+        {"form":"ている","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+        {"form":"んだ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"83865919-ae21-4d86-b814-f700651c09ac"},
+        {"form":"って","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"思い込む","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思い込む","vocabId":"ada66296-7a15-4d95-a211-61ae0ca12357"},
+        {"form":"う","startIndex":12,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"ように","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ように","vocabId":"e746331c-54c0-4b5f-814d-3767a4e1b9c7"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"舞う","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"舞う","vocabId":"e89699c1-7f88-4b43-8489-2495b6113c6b"},
+        {"form":"て","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"ん","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"},
+        {"form":"だ","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"思い込む","startIndex":9,"variant":"surface","isEmergencyDisplayed":false,"vocab":"思い込む","vocabId":"ada66296-7a15-4d95-a211-61ae0ca12357"},
+        {"form":"う","startIndex":12,"variant":"base","isEmergencyDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+        {"form":"よう","startIndex":13,"variant":"surface","isEmergencyDisplayed":false,"vocab":"よう","vocabId":"a2317963-e961-4c96-bcc4-8ad9ffbb738e"},
+        {"form":"に","startIndex":15,"variant":"surface","isEmergencyDisplayed":false,"vocab":"に","vocabId":"7391aab7-d24e-4260-8395-e7b757406ef6"}
+      ]
+    }
+  ]
+}

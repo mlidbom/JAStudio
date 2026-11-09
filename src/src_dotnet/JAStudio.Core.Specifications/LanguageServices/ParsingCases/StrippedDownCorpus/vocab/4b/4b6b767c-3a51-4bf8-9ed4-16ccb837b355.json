@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "じゃ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.start:</tag> well-then/then/well/so | bye-then | <tag>s.end:</tag>what-about/how-about\nat/in/by | by-means-of/using/with | as-for | given/considering",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "じゃ"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "copula"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_じゃ_じゃ_2023-08-20-04-11-10.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "じゃあ",
+      "isOwned": false
+    },
+    {
+      "text": "じゃぁ",
+      "isOwned": false
+    },
+    {
+      "text": "じゃー",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1247,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "では",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "では"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "then/well/so/well-then | be/is",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4b6b767c-3a51-4bf8-9ed4-16ccb837b355",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

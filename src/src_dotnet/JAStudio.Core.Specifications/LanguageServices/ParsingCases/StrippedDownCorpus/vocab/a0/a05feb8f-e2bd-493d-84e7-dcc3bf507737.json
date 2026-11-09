@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "と言って",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{say/said}-and | however/because/as",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "と言う",
+      "て"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "といって"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-155843cd6732f541cfbe7e7c22b2c9c958decab397235942a96bc1de.mp3]",
+  "forms": [
+    {
+      "text": "って言って",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 77,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "however/because/as",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a05feb8f-e2bd-493d-84e7-dcc3bf507737",
+  "tags": []
+}

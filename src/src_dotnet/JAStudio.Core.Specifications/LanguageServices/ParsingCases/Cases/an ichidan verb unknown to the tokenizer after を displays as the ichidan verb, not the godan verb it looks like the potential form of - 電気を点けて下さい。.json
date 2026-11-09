@@ -1,0 +1,37 @@
+{
+  "sentence": "電気を点けて下さい。",
+  "why": "Converted from When_analyzing_a_genuine_ichidan_verb_unknown_to_the_tokenizer_after_wo, against vocab copied by hand, which expected the breakdown to display 点ける. 点ける is missing from the tokenizer's dictionary, and 点け is also the e-stem of the intransitive godan verb 点く, but an intransitive verb doesn't take を.",
+  "parsedWords": [
+    {"form":"電気","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"電気","vocabId":"cf367178-b0a0-4d49-b33e-9fdb1b809c93"},
+    {"form":"を","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+    {"form":"点ける","startIndex":3,"variant":"base","isDisplayed":true,"vocab":"点ける","vocabId":"895d73e0-83f8-4e33-bb71-a1ce3e43a7e4"},
+    {"form":"て下さい","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"て下さい","vocabId":"3480ddaf-87c5-40fa-93c9-3a4cd2a17b29"},
+    {"form":"て下さる","startIndex":5,"variant":"base","isDisplayed":false,"vocab":"てくださる","vocabId":"aac971b4-1813-485f-b570-ddfddb6d5c1d"},
+    {"form":"て","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+    {"form":"下さい","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"下さい","vocabId":"2e7469fb-5fd6-4ec4-a4c1-eeace9e02c81"},
+    {"form":"下さる","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"くださる","vocabId":"ba1ea3ad-3901-4877-9059-9744180d47fb"},
+    {"form":"い","startIndex":8,"variant":"surface","isDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"電気","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"電気","vocabId":"cf367178-b0a0-4d49-b33e-9fdb1b809c93"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"点ける","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"点ける","vocabId":"895d73e0-83f8-4e33-bb71-a1ce3e43a7e4"},
+        {"form":"て下さい","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て下さい","vocabId":"3480ddaf-87c5-40fa-93c9-3a4cd2a17b29"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"電気","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"電気","vocabId":"cf367178-b0a0-4d49-b33e-9fdb1b809c93"},
+        {"form":"を","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},
+        {"form":"点ける","startIndex":3,"variant":"base","isEmergencyDisplayed":false,"vocab":"点ける","vocabId":"895d73e0-83f8-4e33-bb71-a1ce3e43a7e4"},
+        {"form":"て","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"下さる","startIndex":6,"variant":"base","shownAs":"くださる","isEmergencyDisplayed":false,"vocab":"くださる","vocabId":"ba1ea3ad-3901-4877-9059-9744180d47fb"},
+        {"form":"い","startIndex":8,"variant":"surface","isEmergencyDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+      ]
+    }
+  ]
+}

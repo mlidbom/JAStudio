@@ -1,0 +1,48 @@
+{
+  "sentence": "大事なもんだって言ってたろう",
+  "why": "Converted from When_analyzing_a_sentence_containing_datte.where_datte_is_directly_followed_by_a_verb_of_saying_thinking_or_hearing, against vocab copied by hand, which expected the breakdown to display: 大事 | な | もん | だ | って言う | てた | う.",
+  "parsedWords": [
+    {"form":"大事な","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"大事な","vocabId":"461d3b07-b00c-47d4-b3fd-ca97bad2dcba"},
+    {"form":"大事","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"大事","vocabId":"33555a47-0781-4763-83cf-6e7a9521eb29"},
+    {"form":"な","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+    {"form":"もん","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"もん","vocabId":"3adc975a-91b3-4c0b-afa6-d160d70ee6b6"},
+    {"form":"だ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+    {"form":"って言ってた","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"って言ってた","vocabId":"ccd669f7-7426-4091-8f64-ea3da794f65a"},
+    {"form":"って言って","startIndex":6,"variant":"surface","isDisplayed":true,"vocab":"って言って","vocabId":"5d4b6fce-239c-4273-93c0-2057d7020f0a"},
+    {"form":"って言う","startIndex":6,"variant":"base","isDisplayed":false,"vocab":"って言う","vocabId":"8ae95bee-41e9-43a0-9679-9937ba399e15"},
+    {"form":"って","startIndex":6,"variant":"surface","isDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+    {"form":"言ってた","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"言ってた","vocabId":"b07bd674-9cac-46b7-be6f-2bc7f6f8d361"},
+    {"form":"言う","startIndex":8,"variant":"base","isDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+    {"form":"てる","startIndex":10,"variant":"base","isDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+    {"form":"たろう","startIndex":11,"variant":"surface","isDisplayed":true,"vocab":"たろう","vocabId":"fb9edf7f-436c-46b0-9be6-37f53f95641c"},
+    {"form":"たろ","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"たろ","vocabId":"3a0248f4-fc12-49f0-84c9-ac60a212c223"},
+    {"form":"た","startIndex":11,"variant":"base","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"},
+    {"form":"おう","startIndex":12,"variant":"surface","isDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"大事な","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大事な","vocabId":"461d3b07-b00c-47d4-b3fd-ca97bad2dcba"},
+        {"form":"もん","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"もん","vocabId":"3adc975a-91b3-4c0b-afa6-d160d70ee6b6"},
+        {"form":"だ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って言って","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って言って","vocabId":"5d4b6fce-239c-4273-93c0-2057d7020f0a"},
+        {"form":"たろう","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たろう","vocabId":"fb9edf7f-436c-46b0-9be6-37f53f95641c"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"大事","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"大事","vocabId":"33555a47-0781-4763-83cf-6e7a9521eb29"},
+        {"form":"な","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"な","vocabId":"89b0d902-b2dd-4f1f-a0dc-4f6565616c64"},
+        {"form":"もん","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"もん","vocabId":"3adc975a-91b3-4c0b-afa6-d160d70ee6b6"},
+        {"form":"だ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"だ","vocabId":"32d275aa-5811-482d-b2f3-7e6d2080ac53"},
+        {"form":"って","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"って","vocabId":"e7744e50-5174-4bca-afc7-6ad527634ad9"},
+        {"form":"言う","startIndex":8,"variant":"base","isEmergencyDisplayed":false,"vocab":"言う","vocabId":"b7cefd46-499a-4c9c-9f06-3eed04e1d410"},
+        {"form":"てる","startIndex":10,"variant":"base","isEmergencyDisplayed":false,"vocab":"てる","vocabId":"4c8d7119-0464-426c-88b7-ee97c1554eb5"},
+        {"form":"たろ","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"たろ","vocabId":"3a0248f4-fc12-49f0-84c9-ac60a212c223"},
+        {"form":"おう","startIndex":12,"variant":"surface","isEmergencyDisplayed":false,"vocab":"おう","vocabId":"42cbfd74-ecd1-40b4-a265-0495417db3f0"}
+      ]
+    }
+  ]
+}

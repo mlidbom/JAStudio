@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "思われる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: seem/appear | be-thought-of-as",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "思う",
+      "あれる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おもわれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-03-02-08-49-24-952.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 25,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{seem/appear}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ff775d34-d828-4f78-a08f-371cd782f498",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "sentence": "泳げなかった",
+  "why": "Converted from When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer: the known potential form its pair, the case of 磨げなかった, is expected to display as, with 磨 for 泳.",
+  "parsedWords": [
+    {"form":"泳ぐ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"泳ぐ","vocabId":"df868684-e142-41a8-9adc-4382e8789549"},
+    {"form":"えなかった","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"えなかった","vocabId":"be857380-04a1-49de-8ec5-e5999e471394"},
+    {"form":"えない","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"なかった","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"なかった","vocabId":"2bce3998-071a-42f4-b58a-3f3408814ce8"},
+    {"form":"ない","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+    {"form":"た","startIndex":5,"variant":"surface","isDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"泳ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"泳ぐ","vocabId":"df868684-e142-41a8-9adc-4382e8789549"},
+        {"form":"えなかった","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えなかった","vocabId":"be857380-04a1-49de-8ec5-e5999e471394"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"泳ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"泳ぐ","vocabId":"df868684-e142-41a8-9adc-4382e8789549"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"ない","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"},
+        {"form":"た","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"た","vocabId":"8ee8e382-e65c-4af4-81b6-ccd55babc91f"}
+      ]
+    }
+  ]
+}

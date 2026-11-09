@@ -1,0 +1,31 @@
+{
+  "sentence": "磨げません",
+  "why": "Converted from When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer, against vocab copied by hand, which expected 磨げません to display the words 泳げません does, with 磨 for 泳: 磨げる, the potential form of 磨ぐ, is missing from the tokenizer's dictionary, 泳げる isn't. Its pair is the case of 泳げません.",
+  "parsedWords": [
+    {"form":"磨ぐ","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"磨ぐ","vocabId":"42ccda04-b6a2-4ec0-8592-14ba4b5e42f2"},
+    {"form":"えません","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"えません","vocabId":"cc66b0e7-a673-4e42-b010-c6823bcfe00e"},
+    {"form":"えます","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"えます","vocabId":"94faadf2-2525-4549-b628-3279f5ff2b8b"},
+    {"form":"える","startIndex":1,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+    {"form":"ません","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"ません","vocabId":"87a1d61e-2ec6-4d98-9b75-1ff2ca9a7bd0"},
+    {"form":"ます","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+    {"form":"ん","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false},
+      "displayedWords": [
+        {"form":"磨ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"磨ぐ","vocabId":"42ccda04-b6a2-4ec0-8592-14ba4b5e42f2"},
+        {"form":"えません","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"えません","vocabId":"cc66b0e7-a673-4e42-b010-c6823bcfe00e"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true},
+      "displayedWords": [
+        {"form":"磨ぐ","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"磨ぐ","vocabId":"42ccda04-b6a2-4ec0-8592-14ba4b5e42f2"},
+        {"form":"える","startIndex":1,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"ます","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"ます","vocabId":"d3765dc0-d7b5-439a-81ab-84ba2f89b7b7"},
+        {"form":"ん","startIndex":4,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ん","vocabId":"cc6433c2-80a1-498d-8f0d-9da2a46c2885"}
+      ]
+    }
+  ]
+}
