@@ -202,8 +202,9 @@ naming vocab). And specifications against the real vocab are worth most when the
 - **So the stripped-down corpus parses each case exactly as the whole corpus does, by construction:** every lookup returns
   the same vocab, since all it returned is in the stripped-down corpus. The full mode's self-check, every case parsing the
   same against both, then only catches a way of reaching vocab that bypasses the lookups.
-- **The stored parsing result doesn't depend on the options.** The two settings parsing reads, hiding all compounds and
-  hiding transparent compounds, apply only to the sentence breakdown (`TextAnalysis.ForUI`). So a case's exact result
+- **The stored parsing result doesn't depend on the options.** The five parsing reads apply only to the sentence breakdown
+  (`TextAnalysis.ForUI`): hiding all compounds, hiding compositionally transparent compounds, and automatically yielding
+  the last part of a suru verb, passive verb or causative verb compound to an overlapping compound. So a case's exact result
   holds whatever Magnus's options are. The breakdown's displayed words do depend on them: a case about those would hold
   the settings it assumes.
 - **The dictionary is the code's, not the corpus's:** parsing looks words with no vocab up in JMdict, the same on every
@@ -255,7 +256,14 @@ better designed once the tooling shows how specifications like these work in pra
    yielding to an overlapping compound. A case holding only the stored result would check less than they do there.
    Claude's recommendation: a case holds the breakdown's displayed words too, exactly, with the settings it assumes, by
    default JAStudio's defaults. It's also what Magnus sees.
-3. **Then** the rest of the cases converted, reviewing each difference with Magnus, and the old cases removed.
+3. **Then** the rest of the cases converted, and the old cases removed. **A converted case records what the corpus parses
+   the sentence to now, even where its old case expected otherwise** (Magnus, 2026-11-09): nothing in the code changed, so
+   that's how it has worked all along, and the old expectation was an artifact of the copies made by hand. Regression
+   tests come first; whether the results are right is judged after.
+4. **Todo: Claude and Magnus each inspect how the converted cases whose result differs from their old expectation are
+   displayed.** So far いらっしゃいません (with いらっしゃいませ an incorrect match), 食べるな and 座っているのはいただけない; more
+   as the rest are converted. Claude from the case files. Magnus in JAStudio, once it has a way of dealing with the cases'
+   sentences there, since reading the files is hard for him.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 

@@ -52,8 +52,9 @@ returns is recorded: "every vocab the parsing machinery loads". A corpus holding
 parsing of the cases makes with the same vocab as the whole corpus, so each case parses the same against both. The full
 mode checks it anyway, which would catch a way of reaching vocab that bypasses the lookups.
 
-The parsing result doesn't depend on the options: the two settings parsing reads, hiding all compounds and hiding
-transparent compounds, apply only to the sentence breakdown (`TextAnalysis.ForUI`).
+The parsing result doesn't depend on the options. The five parsing reads apply only to the sentence breakdown
+(`TextAnalysis.ForUI`): hiding all compounds, hiding compositionally transparent compounds, and automatically yielding
+the last part of a suru verb, passive verb or causative verb compound to an overlapping compound.
 
 ## Where it stands
 
