@@ -37,7 +37,16 @@ public class CardServer
    }
 
    public int Port { get; private set; }
-   public string BaseUrl => $"http://localhost:{Port}";
+
+   /// <summary>
+   /// The address the card pages are asked for at: the IPv4 loopback address, which the server listens on, not <c>localhost</c>.
+   /// </summary>
+   /// <remarks>
+   /// On Windows, <c>localhost</c> resolves to the IPv6 loopback address first, which the server doesn't listen on, and a client such as<br/>
+   /// <see cref="System.Net.Http.HttpClient"/> waits about 2 seconds for that connection to be refused before trying the IPv4 one: 2 seconds<br/>
+   /// for every connection, which the CardServer's specifications spent in each of them.
+   /// </remarks>
+   public string BaseUrl => $"http://127.0.0.1:{Port}";
 
    /// <summary>
    /// Starts the Kestrel web server, reusing the previously saved port if available.
