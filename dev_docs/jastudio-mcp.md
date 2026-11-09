@@ -131,8 +131,9 @@ Answered:
 
 1. **Done:** the headless JAStudio on the real corpus, behind the MCP gateway, with three reading tools. It reads the
    corpus as the live JAStudio does: `get_note` gives a note exactly as its file has it, and the counts of notes and of
-   notes studied match the corpus and Anki's profile. Whether Claude Code follows the gateway's tool list as it
-   changes is verified with the SDK's client, and is to be confirmed in Claude Code itself.
+   notes studied match the corpus and Anki's profile. Claude Code follows the gateway's tool list as it changes:
+   after `start_headless_jastudio`, the headless JAStudio's tools are there to call in the same session (confirmed
+   2026-11-09).
 2. The full rebuild as a tool. A headless full rebuild of a clean corpus checkout must change nothing, which shows it
    does what the rebuild inside Anki does. Running it twice and checking that the second run changes nothing is also the
    test for a full rebuild that reaches a stable result in one run (`corpus-data-model.md`, open question 14).
