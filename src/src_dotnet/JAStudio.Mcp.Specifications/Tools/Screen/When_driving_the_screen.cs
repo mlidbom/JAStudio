@@ -99,7 +99,7 @@ public class When_driving_the_screen : McpServerSpecification
    {
       public clicking_the_text_box_and_typing_Japanese()
       {
-         Click("TextBox empty");
+         Click("TextBox empty at");
          TypeText("要する");
       }
 
@@ -149,6 +149,24 @@ public class When_driving_the_screen : McpServerSpecification
          [XF] public void the_combo_box_has_it_selected() => FromTheWindow(it => it.ComboBox.SelectedItem).Must().Be("Second");
          [XF] public void the_drop_down_is_closed() => TextOf(_itemClicked).Must().NotContain(" Popup at ");
       }
+   }
+
+   public class clicking_the_auto_complete_box_and_typing_the_start_of_two_of_its_suggestions : When_driving_the_screen
+   {
+      readonly CallToolResult _result;
+
+      public clicking_the_auto_complete_box_and_typing_the_start_of_two_of_its_suggestions()
+      {
+         Click("TextBox empty, placeholder \"Type a fruit\"");
+         _result = TypeText("ap");
+      }
+
+      [XF] public void the_screen_shows_the_suggestions_as_a_popup() => TextOf(_result).Must().Contain(" Popup at ");
+      [XF] public void the_suggestions_stay_open() => FromTheWindow(it => it.AutoCompleteBox.IsDropDownOpen).Must().BeTrue();
+      [XF] public void the_description_lists_the_suggestions() => DescribeTheScreen().Must().Contain("\"apricot\"");
+
+      [XF] public void its_text_box_keeps_the_keyboard_since_a_desktop_shows_a_popup_without_activating_it() =>
+         DescribeTheScreen().Must().Contain("TextBox value \"ap\", has the keyboard");
    }
 
    public class with_a_second_window_opened_over_it : When_driving_the_screen

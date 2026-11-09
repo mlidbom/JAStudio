@@ -80,7 +80,9 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
     is in front, so the screen does:
     - **Popups are top levels of their own,** as on a real screen, not drawn in their window's overlay layer as the
       headless platform draws them by default: JAStudio's menus open from a window of one pixel (`PopupMenuWindow`),
-      which would clip them.
+      which would clip them. And they're shown without being activated, as a desktop shows them: the headless platform
+      activates every window it shows, which took the keyboard from the control that opened a popup, and so closed an
+      `AutoCompleteBox`'s suggestions as they opened (fixed 2026-11-09, found trying the vocab pickers).
     - **It activates windows as a desktop's window manager does** (`HeadlessWindowManager`), which the headless platform
       has none of: one window is active at a time, a click in an inactive window activates it, and when the active
       window closes or hides, the one in front is activated. JAStudio depends on it: its menus close as their window is

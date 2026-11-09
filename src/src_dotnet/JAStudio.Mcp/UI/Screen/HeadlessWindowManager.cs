@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Platform;
 
 namespace JAStudio.Mcp.UI.Screen;
@@ -108,6 +109,24 @@ public sealed class HeadlessWindowManager
       var deactivated = typeof(IWindowBaseImpl).GetProperty("Deactivated")
                      ?? throw new InvalidOperationException($"Avalonia's {nameof(IWindowBaseImpl)} has no Deactivated any more: deactivating windows needs another way.");
       (deactivated.GetValue(platformWindow) as Action)?.Invoke();
+   }
+
+   /// <summary>
+   /// Keeps the window of <paramref name="popup"/>, which just opened, from being activated, as a desktop shows a popup: without activating it.<br/>
+   /// The headless platform activates every window it shows, popups too, which takes the keyboard from the control that opened the popup, and so<br/>
+   /// closes a popup that closes as its control loses the keyboard, such as the suggestions of an <see cref="AutoCompleteBox"/>.
+   /// </summary>
+   /// <remarks>
+   /// The platform posts the activation as it shows the popup's window, and the job reads the platform window's <c>Activated</c> when it runs, so<br/>
+   /// clearing it before then keeps the activation from happening. It's done through reflection, as <see cref="Deactivate"/> is, for the same reason.
+   /// </remarks>
+   internal static void KeepFromBeingActivated(Popup popup)
+   {
+      var popupWindow = TopLevel.GetTopLevel(popup.Child) as PopupRoot ?? throw new InvalidOperationException("A popup on the headless screen is shown in a window of its own, since the screen doesn't draw popups in their window's overlay layer.");
+      var platformWindow = popupWindow.PlatformImpl ?? throw new InvalidOperationException("An open popup's window has no platform window.");
+      var activated = typeof(IWindowBaseImpl).GetProperty("Activated")
+                   ?? throw new InvalidOperationException($"Avalonia's {nameof(IWindowBaseImpl)} has no Activated any more: showing popups without activating them needs another way.");
+      activated.SetValue(platformWindow, null);
    }
 
    /// <summary>Activates the window in front when no window shown is active, as a window manager does when the active window closes or hides.</summary>

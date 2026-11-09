@@ -54,7 +54,10 @@ public sealed class HeadlessScreen
       Popup.IsOpenProperty.Changed.AddClassHandler<Popup>((popup, change) =>
       {
          screen._openPopups.Remove(popup);
-         if(change.GetNewValue<bool>()) screen._openPopups.Add(popup);
+         if(!change.GetNewValue<bool>()) return;
+
+         screen._openPopups.Add(popup);
+         HeadlessWindowManager.KeepFromBeingActivated(popup);
       });
       return screen;
    }

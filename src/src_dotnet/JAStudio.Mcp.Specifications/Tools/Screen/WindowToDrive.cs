@@ -3,8 +3,9 @@ using Avalonia.Controls;
 namespace JAStudio.Mcp.Specifications.Tools.Screen;
 
 /// <summary>
-/// A window the specifications of the screen-tools drive: a check box, a text box, a button that counts its clicks, and a combo box, whose<br/>
-/// drop-down list is a popup. Made and used on the UI thread.
+/// A window the specifications of the screen-tools drive: a check box, a text box, a button that counts its clicks, a combo box, whose<br/>
+/// drop-down list is a popup, and an auto-complete box, whose suggestions are a popup that closes when the box loses the keyboard.<br/>
+/// Made and used on the UI thread.
 /// </summary>
 public sealed class WindowToDrive : Window
 {
@@ -14,15 +15,17 @@ public sealed class WindowToDrive : Window
    {
       Title = title;
       Width = 400;
-      Height = 300;
+      Height = 360;
       Button.Click += (_, _) => Clicks++;
-      Content = new StackPanel { Children = { CheckBox, TextBox, Button, ComboBox } };
+      Content = new StackPanel { Children = { CheckBox, TextBox, Button, ComboBox, AutoCompleteBox } };
    }
 
    public CheckBox CheckBox { get; } = new() { Content = "A check box" };
    public TextBox TextBox { get; } = new() { Width = 200 };
    public Button Button { get; } = new() { Content = "Count the clicks" };
    public ComboBox ComboBox { get; } = new() { ItemsSource = new[] { "First", "Second" }, Width = 200 };
+
+   public AutoCompleteBox AutoCompleteBox { get; } = new() { ItemsSource = new[] { "apple", "apricot", "banana" }, MinimumPrefixLength = 1, Width = 200, PlaceholderText = "Type a fruit" };
 
    /// <summary>How many times <see cref="Button"/> has been clicked.</summary>
    public int Clicks { get; private set; }
