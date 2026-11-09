@@ -179,6 +179,9 @@ the headless JAStudio.
     the three edits the kanji's readings editor makes, each reporting the kanji's readings before and after.
   - **Built:** `set_the_readings_of_a_vocab` replaces a vocab's readings, as editing them in its editor does, and reports
     them before and after (2026-11-09, to fix 行った's reading いいた).
+  - **Built:** `set_a_matching_flag_of_a_vocab` sets or clears one of a vocab's matching flags, named as the corpus stores
+    it, as ticking it in its editor does, and reports the set flags before and after (2026-11-09, to flag 行った as a
+    compositionally transparent compound).
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.

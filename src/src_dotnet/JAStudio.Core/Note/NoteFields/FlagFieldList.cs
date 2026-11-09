@@ -30,6 +30,9 @@ class FlagFieldList
       }
    }
 
+   /// <summary>Every flag of the kind, set or not.</summary>
+   public IReadOnlyList<FlagField> All => _flags;
+
    /// <summary>The flags as the corpus stores them: the names of those that are set, in ordinal order, so that the same flags always write the same file.</summary>
    public List<string> NamesOfTheSetFlags() => [.. _flags.Where(it => it.IsSet()).Select(it => it.Name).Order(StringComparer.Ordinal)];
 
