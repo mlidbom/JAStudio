@@ -101,7 +101,7 @@ public sealed class JAStudioMcpServer
              .WithTools<ReloadTools>(ToolResultJsonOptions)
              .WithTools<AnalysisTools>(ToolResultJsonOptions)
              .WithTools<DictionaryTools>(ToolResultJsonOptions)
-             .WithTools<VocabEditingTools>(ToolResultJsonOptions)
+             .WithTools<NoteEditingTools>(ToolResultJsonOptions)
              .WithTools<KanjiEditingTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
 

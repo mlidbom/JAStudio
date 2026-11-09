@@ -41,9 +41,6 @@ public class VocabMatchingFlags
    /// </summary>
    public FlagField IsCompositionallyTransparentCompound { get; }
 
-   /// <summary>Every flag, set or not, in the order above.</summary>
-   public IReadOnlyList<FlagField> All => _all.All;
-
    /// <summary>The flags as the corpus stores them: see <see cref="FlagFieldList.NamesOfTheSetFlags"/>.</summary>
    internal List<string> ToDto() => _all.NamesOfTheSetFlags();
 

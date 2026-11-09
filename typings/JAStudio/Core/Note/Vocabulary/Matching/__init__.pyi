@@ -1,6 +1,6 @@
 import typing
 from JAStudio.Core.Note.NoteFields import FlagField
-from System.Collections.Generic import IReadOnlyList_1, HashSet_1
+from System.Collections.Generic import HashSet_1
 
 class IsInflectingWord(FlagField):
     @property
@@ -47,8 +47,6 @@ class RequireForbidFlagField:
 
 
 class VocabMatchingFlags:
-    @property
-    def All(self) -> IReadOnlyList_1[FlagField]: ...
     @property
     def IsCompositionallyTransparentCompound(self) -> FlagField: ...
     @property

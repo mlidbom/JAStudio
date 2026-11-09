@@ -172,16 +172,30 @@ the headless JAStudio.
   It replaces the throwaway tokenizer programs, and answers questions such as why a word doesn't match a vocab: it
   showed at once why まかれる parses as まかる + える + う (MeCab reads まかれる as one ichidan verb, and the preprocessing
   splits it as a godan potential).
-- **Writing:** the edits the workspace's editors make, through the same domain operations, added as the work needs them.
-  - **Built:** `set_the_parts_of_speech_of_a_vocab` replaces a vocab's parts of speech, as adding and removing them in its
-    editor does, and reports them before and after. It doesn't reparse sentences: `full_rebuild` shows what the change does.
-  - **Built:** `add_a_reading_to_a_kanji`, `remove_a_reading_from_a_kanji` and `set_whether_a_kanji_reading_is_primary`,
-    the three edits the kanji's readings editor makes, each reporting the kanji's readings before and after.
-  - **Built:** `set_the_readings_of_a_vocab` replaces a vocab's readings, as editing them in its editor does, and reports
-    them before and after (2026-11-09, to fix 行った's reading いいた).
-  - **Built:** `set_a_matching_flag_of_a_vocab` sets or clears one of a vocab's matching flags, named as the corpus stores
-    it, as ticking it in its editor does, and reports the set flags before and after (2026-11-09, to flag 行った as a
-    compositionally transparent compound).
+- **Writing: parity with the workspace's editors (Magnus, 2026-11-09).** Whatever Magnus can edit in JAStudio, Claude can
+  edit through the MCP server, rather than one edit at a time as work needs it. Parity holds by construction: each note
+  type's editable fields are defined once, in Core (`IEditableField<TNote>`, such as `VocabEditableFields`), each with its
+  name, its label, the kind of value it takes and how it's read and written through the note's own operations. The
+  note's editors in the workspace are built from them, and the MCP server edits all of them. Not yet built from them: the
+  editors of a vocab's forms, parts of speech, whether it's usually written in kana and tags, which write through the
+  same operations of the vocab, and show labels of their own.
+  - **Built:** `get_the_editable_fields_of_a_note` lists a note's editable fields, with their values, and `edit_a_note`
+    writes any of them, then does what the editor does after a change: reparses the sentences that may contain a vocab
+    when a field written changes how sentences parse, then updates the note's generated data. A field is named by its
+    path in the note as the corpus stores it, as `get_note` and the note diff show it: `corpusAnswer`,
+    `matching.requiredOrForbidden.surface`, or, for a flag in a list of flags, `matching.flags.isPoisonWord`. They
+    replaced the single-edit tools for a vocab's readings, parts of speech and matching flags.
+  - **The plan, in increments:**
+    1. The vocab's fields, and its editor's tabs built from them. **Done.**
+    2. The kanji's and the sentence's fields the same way, replacing the kanji's readings tools.
+    3. The commands of the notes' menus, as tools of their own, such as creating vocab, accepting a meaning and
+       generating an answer, and the related vocab and the sentences' highlighted, hidden and incorrect matches, which
+       the menus edit.
+  - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. Writing an
+    audio field's reference is an edit like any other.
+  - **Built, to be replaced in increment 2:** `add_a_reading_to_a_kanji`, `remove_a_reading_from_a_kanji` and
+    `set_whether_a_kanji_reading_is_primary`, the three edits the kanji's readings editor makes, each reporting the
+    kanji's readings before and after.
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.

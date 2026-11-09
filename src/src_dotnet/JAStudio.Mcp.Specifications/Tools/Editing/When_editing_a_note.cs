@@ -1,0 +1,131 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Nodes;
+using Compze.Must;
+using Compze.xUnitBDD;
+using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Storage;
+using JAStudio.Mcp.Tools.Editing;
+using ModelContextProtocol.Protocol;
+
+// ReSharper disable InconsistentNaming
+
+namespace JAStudio.Mcp.Specifications.Tools.Editing;
+
+/// <summary>The vocab 行った, with the reading いいた and the answer "went", and the sentence 会いに行った, which contains it.</summary>
+public class When_editing_a_note : McpServerSpecification
+{
+   protected readonly VocabNote Vocab;
+   protected readonly SentenceNote Sentence;
+
+   public When_editing_a_note()
+   {
+      Vocab = CreateVocab("行った", "went", "いいた");
+      Sentence = CreateSentence("会いに行った");
+   }
+
+   protected CallToolResult Edit(JsonObject changes) =>
+      CallTool("edit_a_note", new Dictionary<string, object?> { ["noteId"] = Vocab.GetId().ToString(), ["changes"] = changes });
+
+   protected VocabNote VocabStored() => GetService<INoteRepository>().LoadAll().Vocab.Single(it => it.GetId() == Vocab.GetId());
+
+   protected bool TheSentenceMatchesTheVocab() => Sentence.GetParsingResult().ParsedWords.Any(it => it.VocabId == Vocab.GetId());
+
+   public class of_a_vocab_writing_its_readings_its_answer_and_its_surface_rule : When_editing_a_note
+   {
+      readonly NoteEdit _edit;
+
+      public of_a_vocab_writing_its_readings_its_answer_and_its_surface_rule() =>
+         _edit = ResultOf<NoteEdit>(Edit(new JsonObject
+         {
+            ["readings"] = new JsonArray("いった", "おこなった"),
+            ["corpusAnswer"] = "went/left",
+            ["matching.requiredOrForbidden.surface"] = "required"
+         }));
+
+      [XF] public void the_edit_names_the_vocab() => _edit.Note.Must().Be("行った");
+      [XF] public void the_edit_reports_each_field_written_in_the_order_given() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.requiredOrForbidden.surface"]);
+      [XF] public void the_edit_reports_the_readings_before() => JsonNode.DeepEquals(_edit.Changes[0].Before, new JsonArray("いいた")).Must().BeTrue();
+      [XF] public void the_edit_reports_the_readings_after() => JsonNode.DeepEquals(_edit.Changes[0].After, new JsonArray("いった", "おこなった")).Must().BeTrue();
+      [XF] public void the_edit_reports_the_surface_rule_before_as_unset() => JsonNode.DeepEquals(_edit.Changes[2].Before, JsonValue.Create("unset")).Must().BeTrue();
+      [XF] public void the_vocab_has_the_readings() => Vocab.GetReadings().Must().SequenceEqual(["いった", "おこなった"]);
+      [XF] public void the_vocab_has_the_answer() => Vocab.CorpusAnswer.Value.Must().Be("went/left");
+      [XF] public void the_vocab_requires_the_surface() => Vocab.MatchingConfiguration.RequiresForbids.Surface.Choice.Must().Be(RequireForbidChoice.Required);
+      [XF] public void the_vocab_is_saved_with_the_answer() => VocabStored().CorpusAnswer.Value.Must().Be("went/left");
+      [XF] public void the_sentences_that_may_contain_the_vocab_are_reparsed_since_the_surface_rule_changes_how_sentences_parse() => _edit.SentencesReparsed.Must().BeTrue();
+   }
+
+   public class of_a_vocab_writing_only_its_answer : When_editing_a_note
+   {
+      readonly NoteEdit _edit;
+
+      public of_a_vocab_writing_only_its_answer() => _edit = ResultOf<NoteEdit>(Edit(new JsonObject { ["corpusAnswer"] = "went/left" }));
+
+      [XF] public void no_sentences_are_reparsed() => _edit.SentencesReparsed.Must().BeFalse();
+   }
+
+   public class of_a_vocab_making_it_a_poison_word : When_editing_a_note
+   {
+      readonly bool _theSentenceMatchedTheVocabBefore;
+
+      public of_a_vocab_making_it_a_poison_word()
+      {
+         _theSentenceMatchedTheVocabBefore = TheSentenceMatchesTheVocab();
+         ResultOf<NoteEdit>(Edit(new JsonObject { ["matching.flags.isPoisonWord"] = true }));
+      }
+
+      [XF] public void the_sentence_matched_the_vocab_before() => _theSentenceMatchedTheVocabBefore.Must().BeTrue();
+      [XF] public void the_sentence_is_reparsed_and_no_longer_matches_the_vocab() => TheSentenceMatchesTheVocab().Must().BeFalse();
+   }
+
+   public class of_a_vocab_writing_its_forms : When_editing_a_note
+   {
+      public of_a_vocab_writing_its_forms() =>
+         ResultOf<NoteEdit>(Edit(new JsonObject { ["forms"] = new JsonArray(new JsonObject { ["text"] = "いった", ["isOwned"] = true }, new JsonObject { ["text"] = "往った", ["isOwned"] = false }) }));
+
+      [XF] public void the_vocab_has_the_forms_with_their_ownership() => Vocab.Forms.EnteredForms().OrderBy(it => it.Text).Must().SequenceEqual([new EnteredForm("いった", true), new EnteredForm("往った", false)]);
+   }
+
+   public class of_a_vocab_writing_its_forms_with_its_question_among_them : When_editing_a_note
+   {
+      public of_a_vocab_writing_its_forms_with_its_question_among_them() =>
+         ResultOf<NoteEdit>(Edit(new JsonObject { ["forms"] = new JsonArray(new JsonObject { ["text"] = "行った", ["isOwned"] = true }, new JsonObject { ["text"] = "いった", ["isOwned"] = false }) }));
+
+      [XF] public void the_question_is_left_out_of_the_entered_forms_since_it_is_always_a_form() => Vocab.Forms.EnteredForms().Must().SequenceEqual([new EnteredForm("いった", false)]);
+   }
+
+   public class of_a_vocab_with_a_part_of_speech_JAStudio_does_not_know : When_editing_a_note
+   {
+      readonly CallToolResult _result;
+
+      public of_a_vocab_with_a_part_of_speech_JAStudio_does_not_know() => _result = Edit(new JsonObject { ["partsOfSpeech"] = new JsonArray("expression", "suru verb - special class") });
+
+      [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void the_error_names_the_unknown_part_of_speech() => TextOf(_result).Must().Contain("There is no part of speech named 'suru verb - special class'");
+      [XF] public void the_error_lists_the_parts_of_speech_JAStudio_knows() => TextOf(_result).Must().Contain("\"godan verb\"");
+   }
+
+   public class of_a_vocab_naming_a_field_a_vocab_does_not_have : When_editing_a_note
+   {
+      readonly CallToolResult _result;
+
+      public of_a_vocab_naming_a_field_a_vocab_does_not_have() => _result = Edit(new JsonObject { ["corpusAnswer"] = "went/left", ["answer"] = "went/left" });
+
+      [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void the_error_names_the_unknown_field() => TextOf(_result).Must().Contain("A vocab has no editable field named 'answer'");
+      [XF] public void the_error_lists_the_editable_fields_of_a_vocab() => TextOf(_result).Must().Contain("\"corpusAnswer\"");
+      [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Value.Must().Be("went");
+   }
+
+   public class of_a_vocab_giving_a_flag_a_text : When_editing_a_note
+   {
+      readonly CallToolResult _result;
+
+      public of_a_vocab_giving_a_flag_a_text() => _result = Edit(new JsonObject { ["corpusAnswer"] = "went/left", ["matching.flags.isPoisonWord"] = "yes" });
+
+      [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
+      [XF] public void no_field_is_written() => Vocab.CorpusAnswer.Value.Must().Be("went");
+   }
+}
