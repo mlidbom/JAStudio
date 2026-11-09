@@ -197,7 +197,10 @@ the headless JAStudio.
     pick their items by; a key, and each press and release of a mouse button, goes to whatever has the keyboard, or is
     in front at the click's point, at that moment, since the one before may have closed a window.
   - **Found with it at once (2026-11-09):** picking an item from the search results' menu puts the keyboard back on the
-    results, after a dialog the item opened gave it to its input. A `bug:` comment in `PopupMenuWindow` says why.
+    results, after a dialog the item opened gave it to its input. `PopupMenuWindow` learned of a pick from the click's
+    routed event, which Avalonia's `MenuItem` marks handled, and only after the item's action had run. Fixed the same
+    day: the pick is recorded as the item is picked, before its action (`SpecMenuRenderer.BuildMenuItems`), and the
+    screen-tools showed the dialog's filter box keeping the keyboard.
 - **The dictionary, built:** `look_up_in_the_dictionary` looks up a word, or a vocab as JAStudio looks it up, and shows each
   entry's forms and senses, with the dictionary's own parts of speech and the ones JAStudio maps them to.
 - **Analysis, built:** `analyze_sentence` analyzes a sentence, given as text or by its note, with the note's

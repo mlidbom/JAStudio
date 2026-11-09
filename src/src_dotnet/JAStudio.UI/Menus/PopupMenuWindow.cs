@@ -33,7 +33,10 @@ sealed class PopupMenuWindow : Window
    /// <summary>The item whose submenu is opened along with the menu, as if its key had been typed. Null to open just the menu.</summary>
    readonly SpecMenuItem? _submenuToOpen;
 
-   /// <summary>Whether an item without a submenu was clicked or picked by its key, rather than the menu being closed without a pick.</summary>
+   /// <summary>
+   /// Whether an item without a submenu was clicked or picked by its key, rather than the menu being closed without a pick.<br/>
+   /// Set before the item's action runs, which may close the menu (<see cref="SpecMenuRenderer.BuildMenuItems(IReadOnlyList{SpecMenuItem}, Action)"/>).
+   /// </summary>
    bool _anItemWasPicked;
 
    PopupMenuWindow(IReadOnlyList<SpecMenuItem> menuSpec, PixelPoint menuTopLeft, SpecMenuItem? submenuToOpen = null)
@@ -41,7 +44,7 @@ sealed class PopupMenuWindow : Window
       _submenuToOpen = submenuToOpen;
       _hiddenMenuBarItem = new MenuItem
                            {
-                              ItemsSource = SpecMenuRenderer.BuildMenuItems(menuSpec).ToList(),
+                              ItemsSource = SpecMenuRenderer.BuildMenuItems(menuSpec, whenAnItemIsPicked: () => _anItemWasPicked = true).ToList(),
                               Height = 0,
                               MinHeight = 0,
                               Padding = new Thickness(0),
@@ -69,11 +72,6 @@ sealed class PopupMenuWindow : Window
 
       Opened += (_, _) => OpenTheMenu();
       Deactivated += (_, _) => _hiddenMenuBarItem.IsSubMenuOpen = false;
-      _hiddenMenuBarItem.AddHandler(MenuItem.ClickEvent, (_, e) =>
-      {
-         if(e.Source is MenuItem { ItemCount: 0 })
-            _anItemWasPicked = true;
-      });
       _hiddenMenuBarItem.PropertyChanged += (_, e) =>
       {
          if(e.Property == MenuItem.IsSubMenuOpenProperty && !_hiddenMenuBarItem.IsSubMenuOpen)
