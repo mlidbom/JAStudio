@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "よう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>よう:</tag> <tag>{volitional}</tag>/I'll/let's | might-it-be/maybe | way/method | in-order-to/so-that | <tag>abbr:<ja>ように</ja>:</tag>\n<tag><ja>様</ja>:</tag> appearing/looking | form/style | like/similar-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "よう"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:c28ab5782d772a77a787d7b6771efaaf-dfc387899599bd070747c1aa98cdcf46493c9163.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "様",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 972,
+  "technicalNotes": "",
+  "references": "<a href=\"https://youtu.be/IE7WgIOOGbM?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=129\">Cure dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "おう",
+      "ましょう"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>様</ja></tag>:: appearing-.../looking-... | way-to-.../method-of-...ing | form/style/design | like/similar-to | thing-(thought-or-spoken)\n<tag><ja>良う</ja></tag>:: well/properly/skillfully | often | how-(could-you)/why-(would-you)\n<tag><ja>癰</ja></tag>:: carbuncle\n(I)-will/(I)-shall | let's | (I)-wonder-(if)/might-it-be-(that)/maybe/perhaps/perchance | hey/yo/hi | come-on/hey",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a2317963-e961-4c96-bcc4-8ad9ffbb738e",
+  "tags": [
+    "legacy_scheduling",
+    "source::core2000::step02"
+  ]
+}

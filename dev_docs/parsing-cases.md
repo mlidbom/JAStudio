@@ -14,9 +14,31 @@ the test explorer. It holds:
 - `parsedWords`: the exact parsing result expected, as the corpus stores a sentence's: every valid match, one per line,
   with its form, where it starts, whether it's matched by its surface or its base form, whether it's displayed, and its
   vocab's id. The vocab's question is beside the id, to read; it isn't compared.
+- `breakdowns`: the exact sentence breakdown expected, the words JAStudio shows for the sentence, under every combination
+  of the options that change it (below). Each breakdown names the options it's under, then lists its displayed words, one
+  per line, in order: each with its form, where it starts, surface or base, the form shown beside it if any (such as う
+  for る, or `[MISSING]`), whether it's displayed in an emergency, and its vocab.
 
-It's parsed as a sentence note of the corpus is (`SentenceNote.CreateAnalysis`), so the stored parsing result, not the
-sentence breakdown: see the open point below.
+A case is parsed as a sentence note of the corpus is: its stored parsing result as `SentenceNote.CreateAnalysis` makes
+it, and its breakdowns as the sentence breakdown shows them (`SentenceNote.CreateBreakdownAnalysis`,
+`TextAnalysisViewModel.DisplayedMatches`).
+
+## The breakdown and its options
+
+Five options change how a sentence parses for its breakdown, and only there (`BreakdownParsingOptions`): hiding all
+compounds, hiding compositionally transparent compounds, and automatically yielding the last part of a suru verb,
+passive verb or causative verb compound to an overlapping compound. The stored parsing result is the same under any of
+them.
+
+A case covers every one of their 32 combinations, but stores only what differs: the options that change its breakdown,
+and the breakdown under each combination of those. An option it doesn't name changes nothing for its sentence. Most
+sentences have one breakdown, under any options; 食べるな has two, since hiding all compounds hides its うな. Which options
+change a breakdown is found by making it under all 32 combinations, which costs next to nothing. A case also fails when
+an option starts or stops changing its breakdown.
+
+Not covered: the breakdown in edit mode, which shows every match, valid or not, to edit a sentence's configuration with.
+That's the whole analysis, which a case doesn't hold, since it changes with changes inside the parser that change
+nothing anyone sees.
 
 ## The two modes
 
@@ -50,11 +72,9 @@ Parsing reaches the corpus only through the vocab collection's lookups, by form,
 `VocabCache`. While a `LookupRecording` runs (`VocabCollection.StartRecordingTheVocabLookedUp`), every vocab a lookup
 returns is recorded: "every vocab the parsing machinery loads". A corpus holding all of those answers every lookup the
 parsing of the cases makes with the same vocab as the whole corpus, so each case parses the same against both. The full
-mode checks it anyway, which would catch a way of reaching vocab that bypasses the lookups.
-
-The parsing result doesn't depend on the options. The five parsing reads apply only to the sentence breakdown
-(`TextAnalysis.ForUI`): hiding all compounds, hiding compositionally transparent compounds, and automatically yielding
-the last part of a suru verb, passive verb or causative verb compound to an overlapping compound.
+mode checks it anyway, which would catch a way of reaching vocab that bypasses the lookups. The recording runs through
+the whole of a case's parsing, its breakdowns included, so the stripped-down corpus also holds the vocab the breakdown
+looks up, such as those of a compound's parts.
 
 ## Where it stands
 

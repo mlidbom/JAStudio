@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "む",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>arch, aux:</tag> probably/must-be/will | I'll/let's/shall | should/ought-to/why-not",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "む"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-27e02240c7059c49f5a26fc2809f1261845195e7ea5377438ee7c4c7.mp3]",
+  "forms": [],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "unh/oof | wow/whoa | yes/yeah/uh-huh\n<read>ん</read>|<read>む</read>:: probably | will/intend-to | would-like-to-have-done-(for-me)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "912b58a9-7824-4742-9970-6912ca49b451",
+  "tags": [
+    "source::jamdict"
+  ]
+}

@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Configuration;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Specifications.Fixtures;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
 using JAStudio.Core.Storage.Dto;
+using JAStudio.Core.UI.Web.Sentence;
 
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
@@ -27,8 +31,11 @@ public class JAStudioWithTheVocabOf : IDisposable
 
    public NoteSerializer Serializer => _app.CoreApp.Services.Resolve<NoteSerializer>();
 
-   /// <summary>The parsed words <paramref name="parsingCase"/>'s sentence parses to: its valid matches, as the corpus stores a sentence's parsing result.</summary>
-   public IReadOnlyList<ParsedMatch> Parse(ParsingCase parsingCase)
+   /// <summary>
+   /// What <paramref name="parsingCase"/>'s sentence parses to: its parsing result as the corpus stores it, and its sentence breakdown under each<br/>
+   /// combination of the options that change it. Which options change it is found by making the breakdown under every combination of all of them.
+   /// </summary>
+   public ParsingCaseResult Parse(ParsingCase parsingCase)
    {
       var sentence = new SentenceNote(_app.CoreApp.Services.NoteServices,
                                       new SentenceDto
@@ -37,11 +44,26 @@ public class JAStudioWithTheVocabOf : IDisposable
                                          SourceData = new SentenceSourceDataDto { Question = parsingCase.Sentence },
                                          Configuration = parsingCase.Configuration
                                       });
-      return [.. sentence.CreateAnalysis().ValidMatches.Select(ParsedMatch.FromMatch)];
+
+      return new ParsingCaseResult([.. sentence.CreateAnalysis().ValidMatches.Select(it => ParsedWordReported.Of(ParsedMatch.FromMatch(it), Collection))],
+                                   BreakdownsUnderEachCombinationOfTheOptionsChangingThem(sentence));
    }
 
-   /// <summary><paramref name="parsedWords"/> written out to read, each with the question of its vocab in this collection.</summary>
-   public IReadOnlyList<ParsedWordReported> Reported(IReadOnlyList<ParsedMatch> parsedWords) => [.. parsedWords.Select(it => ParsedWordReported.Of(it, Collection))];
+   IReadOnlyList<BreakdownUnderOptions> BreakdownsUnderEachCombinationOfTheOptionsChangingThem(SentenceNote sentence)
+   {
+      var breakdownUnder = BreakdownParsingOption.EveryCombinationOf(BreakdownParsingOption.All).ToDictionary(it => it, it => BreakdownOf(sentence, it));
+      var optionsChangingTheBreakdown = BreakdownParsingOption.All.Where(ChangesTheBreakdown).ToList();
+
+      return [.. BreakdownParsingOption.EveryCombinationOf(optionsChangingTheBreakdown)
+                                       .Select(options => new BreakdownUnderOptions(optionsChangingTheBreakdown.ToDictionary(it => it.Name, it => it.IsOnIn(options)), breakdownUnder[options]))];
+
+      bool ChangesTheBreakdown(BreakdownParsingOption option) => breakdownUnder.Keys.Any(options => !breakdownUnder[options].SequenceEqual(breakdownUnder[option.SwitchedIn(options)]));
+   }
+
+   IReadOnlyList<BreakdownWord> BreakdownOf(SentenceNote sentence, BreakdownParsingOptions options) =>
+      [.. new TextAnalysisViewModel(sentence.CreateBreakdownAnalysis(options), Resolve<Settings>(), Collection.Vocab).DisplayedMatches.Select(BreakdownWord.Of)];
+
+   TService Resolve<TService>() where TService : class => _app.CoreApp.Services.Resolve<TService>();
 
    public void Dispose()
    {

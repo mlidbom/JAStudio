@@ -9,9 +9,8 @@ static class ForbidsConfiguredToHideAllCompounds
 
    public static FailedMatchRequirement? ApplyTo(MatchInspector inspector)
    {
-      if(inspector.Settings.HideAllCompounds() &&
+      if(inspector.BreakdownParsingOptions is { HideAllCompounds: true } &&
          inspector.Word.IsCompound &&
-         inspector.Word.Analysis.ForUI &&
          inspector.CompoundLocationsAllHaveValidNonCompoundMatches &&
          !inspector.IsVerbDictionaryFormCompound &&
          !inspector.IsIchidanCoveringGodanPotential)

@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "める",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>suff:i-adjective-stem/noun-:</tag>to{} make/cause-to-be",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "める"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "suffix",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-6749ed44d20ec25904fc61950521d14a0fecb898929d890da95a64af.mp3]",
+  "forms": [],
+  "sentenceCount": 0,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "まる",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Meru",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "73e17f7d-13a0-467d-a76a-1d072e3fc953",
+  "tags": []
+}

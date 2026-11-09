@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "ね",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag>right?/see?/please?/<primary>no?</primary> | <tag>int:</tag>hey!/say! | no",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ね"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "expression",
+    "i-adjective",
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ね_ね_2023-08-19-03-33-49.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ねえ",
+      "isOwned": false
+    },
+    {
+      "text": "ねー",
+      "isOwned": false
+    },
+    {
+      "text": "ねぇ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2672,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">CD:Sentence ender particles: ne, yo. na, kana, yone</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "right?/don't-you-think | hey/come-on/listen\nnonexistent/not-being-(there)/not-having | not",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b85b71b0-b473-4af5-bfa2-f0d824577845",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

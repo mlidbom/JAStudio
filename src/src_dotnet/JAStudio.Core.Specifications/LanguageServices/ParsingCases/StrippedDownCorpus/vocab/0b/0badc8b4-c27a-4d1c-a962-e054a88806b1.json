@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "計",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "measuring-device/meter | plan | (in)-total/total-(of)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "けい"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "prefix",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:yomitan_audio_2025-02-20-11-17-56-724.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 3,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "plan | meter/measuring-device | (in)-total/total-(of)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0badc8b4-c27a-4d1c-a962-e054a88806b1",
+  "tags": [
+    "source::yomitan"
+  ]
+}

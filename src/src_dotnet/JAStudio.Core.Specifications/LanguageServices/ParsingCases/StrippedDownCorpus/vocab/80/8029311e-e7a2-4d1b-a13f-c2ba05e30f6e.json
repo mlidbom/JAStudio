@@ -1,0 +1,82 @@
+{
+  "question": {
+    "text": "つうか",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag title=\"sentence start\">s.start:</tag>rather/more-like/actually",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つーか"
+  ],
+  "partsOfSpeech": [
+    "conjunction"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:2024-09-28-17-44-10.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "つか",
+      "isOwned": false
+    },
+    {
+      "text": "つーか",
+      "isOwned": false
+    },
+    {
+      "text": "っつーか",
+      "isOwned": false
+    },
+    {
+      "text": "っつうか",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 11,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "っていうか",
+      "ていうか",
+      "てか",
+      "というか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "or-rather-(say)/or-better-(say)/or-perhaps-I-should-say/or,-how-should-I-put-it,.../I-mean",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8029311e-e7a2-4d1b-a13f-c2ba05e30f6e",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "という",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>の</ja> | {saying/to-say | called/named | the-fact | they-say/it's-said}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "と",
+      "いう"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "という"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_という_と言う_2023-08-28-13-02-35.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "と言う",
+      "isOwned": false
+    },
+    {
+      "text": "とゆう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 854,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "っていう"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "called/named/that-says/that | as-many-as/as-much-as | all-.../every-single-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b7d43154-7f1a-4996-be3d-41a7157a734a",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

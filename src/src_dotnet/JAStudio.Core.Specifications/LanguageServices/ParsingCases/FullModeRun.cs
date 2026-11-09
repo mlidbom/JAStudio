@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
@@ -15,23 +14,23 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 sealed class FullModeRun
 {
    readonly IReadOnlyList<ParsingCase> _cases = ParsingCasesFolder.AllCases();
-   readonly Dictionary<ParsingCase, IReadOnlyList<ParsedWordReported>> _parsedWordsAgainstTheCorpusCheckout;
+   readonly Dictionary<ParsingCase, ParsingCaseResult> _resultAgainstTheCorpusCheckout;
 
    public FullModeRun()
    {
       using(var corpusCheckout = new JAStudioWithTheVocabOf(SourceCheckout.CorpusCheckout))
       {
-         var (parsedWords, vocabLookedUp) = ParseEveryCaseRecordingTheVocabLookedUp(corpusCheckout);
+         var (results, vocabLookedUp) = ParseEveryCaseRecordingTheVocabLookedUp(corpusCheckout);
          ParsingCasesFolder.StrippedDownCorpus.ReplaceTheVocabWith(vocabLookedUp, corpusCheckout.Serializer);
-         _parsedWordsAgainstTheCorpusCheckout = ReportedIn(corpusCheckout, parsedWords);
-         HowTheCasesDifferFromTheExpected = HowEachCaseDiffersFromTheExpected(parsedWords, corpusCheckout);
+         _resultAgainstTheCorpusCheckout = results;
+         HowTheCasesDifferFromTheExpected = HowEachCaseDiffersFromTheExpected(corpusCheckout);
       }
 
       using var strippedDownCorpus = new JAStudioWithTheVocabOf(ParsingCasesFolder.StrippedDownCorpus);
       CasesParsingOtherwiseAgainstTheStrippedDownCorpus = CasesParsingOtherwiseThanAgainstTheCorpusCheckoutIn(strippedDownCorpus);
    }
 
-   /// <summary>How each case's parsed words against the corpus checkout differ from the expected ones: a line per word that differs, after the case's name.</summary>
+   /// <summary>How each case's result against the corpus checkout differs from the expected one: a line per difference, after the case's name.</summary>
    public IReadOnlyList<string> HowTheCasesDifferFromTheExpected { get; }
 
    /// <summary>
@@ -40,29 +39,25 @@ sealed class FullModeRun
    /// </summary>
    public IReadOnlyList<string> CasesParsingOtherwiseAgainstTheStrippedDownCorpus { get; }
 
-   /// <summary>Makes what each case parses to against the corpus checkout the parsed words it expects, in its file.</summary>
+   /// <summary>Makes what each case parses to against the corpus checkout the result it expects, in its file.</summary>
    public void AcceptWhatEachCaseParsesTo()
    {
-      foreach(var theCase in _cases) theCase.Accept(_parsedWordsAgainstTheCorpusCheckout[theCase]);
+      foreach(var theCase in _cases) theCase.Accept(_resultAgainstTheCorpusCheckout[theCase]);
    }
 
-   (Dictionary<ParsingCase, IReadOnlyList<ParsedMatch>> ParsedWords, IReadOnlyCollection<VocabNote> VocabLookedUp) ParseEveryCaseRecordingTheVocabLookedUp(JAStudioWithTheVocabOf corpusCheckout)
+   (Dictionary<ParsingCase, ParsingCaseResult> Results, IReadOnlyCollection<VocabNote> VocabLookedUp) ParseEveryCaseRecordingTheVocabLookedUp(JAStudioWithTheVocabOf corpusCheckout)
    {
       var recording = corpusCheckout.Collection.Vocab.StartRecordingTheVocabLookedUp();
-      Dictionary<ParsingCase, IReadOnlyList<ParsedMatch>> parsedWords;
-      using(recording) parsedWords = _cases.ToDictionary(it => it, corpusCheckout.Parse);
+      Dictionary<ParsingCase, ParsingCaseResult> results;
+      using(recording) results = _cases.ToDictionary(it => it, corpusCheckout.Parse);
 
-      return (parsedWords, recording.NotesLookedUp);
+      return (results, recording.NotesLookedUp);
    }
 
-   static Dictionary<ParsingCase, IReadOnlyList<ParsedWordReported>> ReportedIn(JAStudioWithTheVocabOf jastudio, Dictionary<ParsingCase, IReadOnlyList<ParsedMatch>> parsedWords) =>
-      parsedWords.ToDictionary(it => it.Key, it => jastudio.Reported(it.Value));
-
-   IReadOnlyList<string> HowEachCaseDiffersFromTheExpected(Dictionary<ParsingCase, IReadOnlyList<ParsedMatch>> parsedWords, JAStudioWithTheVocabOf jastudio) =>
-      [.. _cases.SelectMany(theCase => theCase.HowTheParsedWordsDifferFromTheExpected(parsedWords[theCase], jastudio.Collection)
+   IReadOnlyList<string> HowEachCaseDiffersFromTheExpected(JAStudioWithTheVocabOf corpusCheckout) =>
+      [.. _cases.SelectMany(theCase => theCase.HowTheResultDiffersFromTheExpected(_resultAgainstTheCorpusCheckout[theCase], corpusCheckout.Collection)
                                               .Select(difference => $"{theCase.Name}: {difference}"))];
 
    IReadOnlyList<string> CasesParsingOtherwiseThanAgainstTheCorpusCheckoutIn(JAStudioWithTheVocabOf jastudio) =>
-      [.. _cases.Where(theCase => !jastudio.Reported(jastudio.Parse(theCase)).SequenceEqual(_parsedWordsAgainstTheCorpusCheckout[theCase]))
-                .Select(it => it.Name)];
+      [.. _cases.Where(theCase => !jastudio.Parse(theCase).IsTheSameAs(_resultAgainstTheCorpusCheckout[theCase])).Select(it => it.Name)];
 }

@@ -1,5 +1,4 @@
 using System.Linq;
-using JAStudio.Core.Configuration;
 using JAStudio.Core.Note.Sentences;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements;
@@ -17,7 +16,8 @@ public class MatchInspector
 
    public CandidateWordVariant Variant => Match.Variant;
    public CandidateWord Word => Variant.Word;
-   public Settings Settings => Word.Analysis.Services.Settings;
+   /// <summary>The options of the sentence breakdown the analysis is made for; null when it's made as a stored parsing result is.</summary>
+   public BreakdownParsingOptions? BreakdownParsingOptions => Word.Analysis.BreakdownParsingOptions;
    public CandidateWordVariant SurfaceVariant => Word.SurfaceVariant;
    public bool IsBase => !Variant.IsSurface;
    public TextAnalysisLocation StartLocation => Word.StartLocation;

@@ -1,0 +1,62 @@
+{
+  "question": {
+    "text": "量",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "quantity/amount | generosity ...",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "りょう"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:量_b.mp3]",
+  "audioG": "[sound:量_g.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 20,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "quantity/amount/volume/capacity/portion-(of-food) | generosity/magnanimity/tolerance | pramana/(in-Indian-philosophy)-means-by-which-one-gains-accurate-and-valid-knowledge",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+  },
+  "id": "9e33b6e2-5594-481a-b1fd-90ca609f6e65",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::24"
+  ]
+}

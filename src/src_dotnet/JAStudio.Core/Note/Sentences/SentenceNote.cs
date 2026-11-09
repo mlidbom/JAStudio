@@ -95,10 +95,12 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
 
    public AnalysisServices AnalysisServices => new(Services.Collection.Vocab, Services.DictLookup, Services.Settings);
 
-   public TextAnalysis CreateAnalysis(bool forUI = false)
-   {
-      return new TextAnalysis(AnalysisServices, Question.WithInvisibleSpace(), Configuration.Configuration, forUI);
-   }
+   /// <summary>The analysis the sentence's stored parsing result is made from.</summary>
+   public TextAnalysis CreateAnalysis() => new(AnalysisServices, Question.WithInvisibleSpace(), Configuration.Configuration);
+
+   /// <summary>The analysis the sentence breakdown shows under <paramref name="breakdownParsingOptions"/>.</summary>
+   public TextAnalysis CreateBreakdownAnalysis(BreakdownParsingOptions breakdownParsingOptions) =>
+      new(AnalysisServices, Question.WithInvisibleSpace(), Configuration.Configuration, breakdownParsingOptions);
 
    public ParsingResult GetParsingResult() => _parsingResult;
 

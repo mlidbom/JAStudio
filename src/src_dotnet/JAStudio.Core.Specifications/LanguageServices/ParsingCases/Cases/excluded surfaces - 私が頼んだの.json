@@ -7,5 +7,17 @@
     {"form":"頼む","startIndex":2,"variant":"base","isDisplayed":true,"vocab":"頼む","vocabId":"33cf7d57-ac3b-4b05-80ad-d808a0bf0fd1"},
     {"form":"んだ","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"},
     {"form":"の","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"私","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"},
+        {"form":"が","startIndex":1,"variant":"surface","isEmergencyDisplayed":false,"vocab":"が","vocabId":"2abe98f2-ebd9-4aae-9562-451647960317"},
+        {"form":"頼む","startIndex":2,"variant":"base","isEmergencyDisplayed":false,"vocab":"頼む","vocabId":"33cf7d57-ac3b-4b05-80ad-d808a0bf0fd1"},
+        {"form":"んだ","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"んだ","vocabId":"b4ea9553-0c0b-491e-ae0b-95c025484070"},
+        {"form":"の","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"}
+      ]
+    }
   ]
 }

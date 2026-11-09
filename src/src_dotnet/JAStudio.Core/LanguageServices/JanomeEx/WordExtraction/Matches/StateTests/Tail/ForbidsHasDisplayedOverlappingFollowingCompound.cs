@@ -21,17 +21,16 @@ public sealed class ForbidsHasDisplayedOverlappingFollowingCompound : CustomForb
       var yieldLastToken = inspector.RequiresForbids.YieldLastToken;
       if(yieldLastToken.IsRequired) return true;
 
-      if(!inspector.Word.Analysis.ForUI || yieldLastToken.IsForbidden)
+      if(inspector.BreakdownParsingOptions is not {} options || yieldLastToken.IsForbidden)
          return false;
 
       var pos = inspector.Match.Vocab.PartsOfSpeech;
-      var settings = inspector.Settings;
 
-      if(settings.AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound() && pos.IsSuruVerbIncluded() && !pos.IsNiSuruGaSuruKuSuruCompound())
+      if(options.AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound && pos.IsSuruVerbIncluded() && !pos.IsNiSuruGaSuruKuSuruCompound())
          return true;
-      if(settings.AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound() && pos.IsPassiveVerbCompound())
+      if(options.AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound && pos.IsPassiveVerbCompound())
          return true;
-      if(settings.AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound() && pos.IsCausativeVerbCompound())
+      if(options.AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound && pos.IsCausativeVerbCompound())
          return true;
 
       return false;

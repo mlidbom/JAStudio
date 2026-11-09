@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "く",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "て/<tag>{connector}</tag> | <tag>{target-of-{perception|becoming}}</tag> | <tag><ja>くて</ja></tag>=て/and | <tag>{adverb}</tag>/-ly | <tag>{noun}</tag>",
+  "explanation": "い-Adjectives that Can Behave like Nouns\nTime:　<ja>早い</ja>, <ja>遅い</ja>, <ja>古い</ja>, <ja>若い</ja>, <ja>幼い</ja>\nPlace: <ja>深い</ja>, <ja>浅い</ja>, <ja>高い</ja>, <ja>低い</ja>, <ja>遠い</ja>, <ja>近い</ja>\nMisc: <ja>多い</ja>",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "く"
+  ],
+  "partsOfSpeech": [
+    "godan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": " [sound:ATTS く (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 37,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.tofugu.com/japanese-grammar/i-adjective-ku-form/\">Japanese い-Adjective く Form (tofugu.com)</a><br><a href=\"https://www.tofugu.com/japanese-grammar/i-adjective-ku-form-noun/\">Japanese い-Adjective く Form as a Noun (tofugu.com)</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [
+        "っ"
+      ],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "低い",
+      "古い",
+      "多い",
+      "幼い",
+      "早い",
+      "浅い",
+      "深い",
+      "若い",
+      "近い",
+      "遅い",
+      "遠い",
+      "高い"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ed61ae3c-50c4-4f0a-b917-8a736f86c4ec",
+  "tags": [
+    "_tts_audio",
+    "-::vocab::matching::uses::surface-is-not",
+    "source::yomitan"
+  ]
+}

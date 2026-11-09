@@ -14,7 +14,7 @@ public class SentenceViewModel
    public SentenceViewModel(SentenceNote sentence, Settings settings, VocabCollection vocab)
    {
       Sentence = sentence;
-      Analysis = new TextAnalysisViewModel(sentence.CreateAnalysis(forUI: true), settings, vocab);
+      Analysis = new TextAnalysisViewModel(sentence.CreateBreakdownAnalysis(settings.BreakdownParsingOptions()), settings, vocab);
       DisplayedMatches = Analysis.DisplayedMatches;
    }
 }

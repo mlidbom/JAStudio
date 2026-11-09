@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "極",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "very/extremely/exceedingly | 10^48/quindecillion",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ごく"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "numeric"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-04-22-21-27-49-870.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ごく",
+      "isOwned": false
+    },
+    {
+      "text": "極く",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "quite/very | 10^48/quindecillion",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "57893583-4ba7-4bdd-837a-20a0a047ce5a",
+  "tags": []
+}

@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "ある",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be/exist | have | happen/occur/come-about | located | equipped-with\n<tag>pre:</tag>a-certain/some",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ある"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:有る_b.mp3]",
+  "audioG": "[sound:有る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "在る",
+      "isOwned": false
+    },
+    {
+      "text": "有る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2649,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "あります"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>有る</ja></tag>:: to: {be/exist/live} | have | be-located | be-equipped-with | {happen/come-about}\n<tag><ja>或る</ja></tag>:: a-certain-.../some-...",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>have</kanji> and so the verb version means <vocabulary>to have</vocabulary>. An alternative meaning is <vocabulary>to exist</vocabulary> though this refers only to non-living inanimate things, not moving and living things. So really, this is similar to \"to have\" as well.\n\nThe kanji isn't used too often for this word, so when you're writing just use the kana. But you'll see the kanji used sometimes so it's important to be able to recognize it!",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\n<vocabulary>To have</vocabulary> something is very nice. But now, the only thing you possess are screams. Imagine this. You are in a totally empty room with no possessions. You open a little box and look inside. It contains screams that yell: \"<reading>AAAAHHHH</reading>\" (<ja>あ</ja>)."
+  },
+  "id": "a7419593-1381-45c8-88fe-0eb846286151",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

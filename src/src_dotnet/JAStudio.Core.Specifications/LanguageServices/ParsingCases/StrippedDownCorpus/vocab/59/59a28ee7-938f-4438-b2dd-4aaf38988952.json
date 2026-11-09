@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "つ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>ctr:</tag>general-purpose-counter <tag>(usu.only-1-10, 10=とお)</tag>",
+  "explanation": "",
+  "explanationLong": "JLAB: <div style=\"padding-left: 40px;\">-tsu/つ: This is a generic counter that can be used to count general \"things\". However, it applies only to the first ten items and can't be used beyond that. Moreover, all number readings are irregular (omg), therefore some textbooks refer to this as a separate counting system.&nbsp;</div><div style=\"padding-left: 40px;\">&nbsp;</div><div style=\"padding-left: 40px;\">This counter is used most often when you are describing medium sized things that don’t really have a distinct shape, like toys, ice cream, drinks or meals at a restaurant, and because of this they use it a lot in shops and when you eat out.</div><div style=\"padding-left: 40px;\">&nbsp;</div><div>GPT-o:</div><div style=\"padding-left: 40px;\">Below ten, use if no other counter you know suits. Above ten, use <ja>個</ja> instead in those situations.</div>",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "つ"
+  ],
+  "partsOfSpeech": [
+    "counter"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-15-09-45-37-448.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 65,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>箇</ja></tag>:: counter-for-the-hito-futa-mi-counting-system-(forming-hitotsu,-futatsu,-mitsu,-and-misoji,-yasoji,-etc.)\nindicates-two-contrasting-actions | indicates-possessive-(often-found-in-place-names-and-compound-words)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "59a28ee7-938f-4438-b2dd-4aaf38988952",
+  "tags": [
+    "-::counting",
+    "source::yomitan"
+  ]
+}

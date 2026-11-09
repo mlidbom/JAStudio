@@ -15,5 +15,50 @@
     {"form":"えない","startIndex":10,"variant":"surface","isDisplayed":false,"vocab":"えない","vocabId":"efce9e5a-170d-4164-9308-3b7eeec0d090"},
     {"form":"える","startIndex":10,"variant":"base","isDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
     {"form":"ない","startIndex":11,"variant":"surface","isDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+  ],
+  "breakdowns": [
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"座る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"座る","vocabId":"ba71f948-bcd3-4fc1-b4b3-da9d0a3579a4"},
+        {"form":"ている","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+        {"form":"のは","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のは","vocabId":"3a3536a7-aeed-4c6b-85e2-819ddcf03699"},
+        {"form":"いただけない","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いただけない","vocabId":"460bb083-0019-4dc6-8591-0bdfcaec4ce8"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":false,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"座る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"座る","vocabId":"ba71f948-bcd3-4fc1-b4b3-da9d0a3579a4"},
+        {"form":"ている","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},
+        {"form":"のは","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"のは","vocabId":"3a3536a7-aeed-4c6b-85e2-819ddcf03699"},
+        {"form":"いただけない","startIndex":7,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いただけない","vocabId":"460bb083-0019-4dc6-8591-0bdfcaec4ce8"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":false},
+      "displayedWords": [
+        {"form":"座る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"座る","vocabId":"ba71f948-bcd3-4fc1-b4b3-da9d0a3579a4"},
+        {"form":"て","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"の","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"は","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"いただける","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"いただける","vocabId":"2858642f-cd0e-4a3d-8f0f-d7a47fec495a"},
+        {"form":"ない","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    },
+    {
+      "options": {"hideAllCompounds":true,"hideCompositionallyTransparentCompounds":true},
+      "displayedWords": [
+        {"form":"座る","startIndex":0,"variant":"base","isEmergencyDisplayed":false,"vocab":"座る","vocabId":"ba71f948-bcd3-4fc1-b4b3-da9d0a3579a4"},
+        {"form":"て","startIndex":2,"variant":"surface","isEmergencyDisplayed":false,"vocab":"て","vocabId":"0ecc9765-a0fe-4d19-9237-ef65054420fb"},
+        {"form":"いる","startIndex":3,"variant":"surface","isEmergencyDisplayed":false,"vocab":"いる","vocabId":"8211800d-5642-41a5-b7e6-184e6d052d66"},
+        {"form":"の","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"の","vocabId":"33bf9bc1-0744-4973-8d45-5776bc54eac1"},
+        {"form":"は","startIndex":6,"variant":"surface","isEmergencyDisplayed":false,"vocab":"は","vocabId":"825f4f56-9e9b-4eb9-92e2-099dc6d0c677"},
+        {"form":"いただく","startIndex":7,"variant":"base","isEmergencyDisplayed":false,"vocab":"いただく","vocabId":"b5f71a0b-88de-4fce-9547-a9ab3b49689a"},
+        {"form":"える","startIndex":10,"variant":"base","isEmergencyDisplayed":false,"vocab":"える","vocabId":"915ce682-39f5-4e53-92fe-c786863a0e86"},
+        {"form":"ない","startIndex":11,"variant":"surface","isEmergencyDisplayed":false,"vocab":"ない","vocabId":"1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f"}
+      ]
+    }
   ]
 }

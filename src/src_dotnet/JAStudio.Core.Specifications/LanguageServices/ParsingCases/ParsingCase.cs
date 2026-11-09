@@ -8,8 +8,8 @@ using JAStudio.Core.Storage.Dto;
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
 /// <summary>
-/// A sentence with the exact parsing result it's expected to have: every valid match of its parsing, as a sentence of the corpus stores it,<br/>
-/// with whether it's displayed and the vocab it's matched to. Any change to the result fails the case (<see cref="Each_parsing_case"/>).<br/>
+/// A sentence with the exact result it's expected to parse to (<see cref="ParsingCaseResult"/>): its parsing result as the corpus stores it, and<br/>
+/// its sentence breakdown under every combination of the options that change it. Any change to either fails the case (<see cref="Each_parsing_case"/>).<br/>
 /// One JSON file of <see cref="ParsingCasesFolder"/>, named for what the case is about, which is its name in the test explorer.
 /// </summary>
 /// <remarks>
@@ -41,21 +41,38 @@ public sealed partial class ParsingCase
    /// <summary>The sentence's configuration, its highlighted words and its incorrect and hidden matches, as the corpus stores a sentence's.</summary>
    public SentenceConfigDto Configuration => _content.Configuration ?? new SentenceConfigDto();
 
-   /// <summary>The parsed words the sentence is expected to parse to.</summary>
-   public IReadOnlyList<ParsedMatch> ExpectedParsedWords => [.. _content.ParsedWords.Select(it => it.ToParsedMatch())];
+   /// <summary>The result the sentence is expected to parse to.</summary>
+   public ParsingCaseResult Expected => new(_content.ParsedWords, _content.Breakdowns);
 
-   /// <summary>How <paramref name="parsedWords"/> differ from the <see cref="ExpectedParsedWords"/>, a line per word that differs. Empty when they don't.</summary>
-   public IReadOnlyList<string> HowTheParsedWordsDifferFromTheExpected(IReadOnlyList<ParsedMatch> parsedWords, JPCollection collection)
+   /// <summary>How <paramref name="actual"/> differs from the <see cref="Expected"/> result, a line per difference. Empty when it doesn't.</summary>
+   public IReadOnlyList<string> HowTheResultDiffersFromTheExpected(ParsingCaseResult actual, JPCollection collection)
    {
-      var change = ParsedWordsChange.Between(ExpectedParsedWords, parsedWords, collection);
-      return [.. change.Added.Select(it => $"parsed, but not expected: {it}"),
-              .. change.Removed.Select(it => $"expected, but not parsed: {it}"),
-              .. change.NowDisplayed.Select(it => $"displayed, but expected not displayed: {it}"),
-              .. change.NoLongerDisplayed.Select(it => $"not displayed, but expected displayed: {it}")];
+      return [.. HowTheParsedWordsDiffer(), .. HowTheBreakdownsDiffer()];
+
+      IEnumerable<string> HowTheParsedWordsDiffer()
+      {
+         var change = ParsedWordsChange.Between([.. Expected.ParsedWords.Select(it => it.ToParsedMatch())], [.. actual.ParsedWords.Select(it => it.ToParsedMatch())], collection);
+         return [.. change.Added.Select(it => $"parsed, but not expected: {it}"),
+                 .. change.Removed.Select(it => $"expected, but not parsed: {it}"),
+                 .. change.NowDisplayed.Select(it => $"displayed, but expected not displayed: {it}"),
+                 .. change.NoLongerDisplayed.Select(it => $"not displayed, but expected displayed: {it}")];
+      }
+
+      IEnumerable<string> HowTheBreakdownsDiffer()
+      {
+         if(!actual.OptionsChangingTheBreakdown.SequenceEqual(Expected.OptionsChangingTheBreakdown))
+            return [$"the options that change the breakdown are {NamesOf(actual.OptionsChangingTheBreakdown)}, not the expected {NamesOf(Expected.OptionsChangingTheBreakdown)}"];
+
+         return actual.Breakdowns.SelectMany(breakdown => Expected.Breakdowns.SingleOrDefault(it => it.OptionsDescription == breakdown.OptionsDescription) is {} expectedBreakdown
+                                                             ? expectedBreakdown.HowTheDisplayedWordsDiffer(breakdown)
+                                                             : [$"the breakdown {breakdown.OptionsDescription} isn't in the case: {string.Join("; ", breakdown.DisplayedWords)}"]);
+      }
+
+      static string NamesOf(IReadOnlyList<string> options) => options.Count == 0 ? "none" : string.Join(", ", options);
    }
 
-   /// <summary>Makes <paramref name="parsedWords"/> the parsed words the sentence is expected to parse to, in the case's file.</summary>
-   public void Accept(IReadOnlyList<ParsedWordReported> parsedWords) => (_content with { ParsedWords = [.. parsedWords] }).WriteTo(_file);
+   /// <summary>Makes <paramref name="result"/> the result the sentence is expected to parse to, in the case's file.</summary>
+   public void Accept(ParsingCaseResult result) => (_content with { ParsedWords = [.. result.ParsedWords], Breakdowns = [.. result.Breakdowns] }).WriteTo(_file);
 
    public override string ToString() => Name;
 }

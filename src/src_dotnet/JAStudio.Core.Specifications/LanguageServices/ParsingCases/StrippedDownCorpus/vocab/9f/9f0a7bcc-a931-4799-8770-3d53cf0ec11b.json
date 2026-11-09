@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "てない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag>{is}-not-_-ing\n<tag>state-change-verb:</tag>{is/has}-not-_ | <tag>stative-verb:</tag>is-not-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "いない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てない"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-ca7260bb4758a87699348e2747b431f2dfdfa145200b5afe5490ce49.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "てねぇ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 299,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "ていない",
+      "てません"
+    ],
+    "synonyms": [
+      "ていない",
+      "てません"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "9f0a7bcc-a931-4799-8770-3d53cf0ec11b",
+  "tags": []
+}

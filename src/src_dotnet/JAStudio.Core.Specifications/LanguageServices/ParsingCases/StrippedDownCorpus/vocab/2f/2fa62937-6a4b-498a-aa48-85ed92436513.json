@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "げ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>suff:</tag>seeming/giving-the-appearance-of/giving-one-the-feeling-of",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "げ"
+  ],
+  "partsOfSpeech": [
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-08-02-04-49-44-551.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 24,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>気</ja></tag>:: seeming/giving-the-appearance-of/giving-one-the-feeling-of\n<read>げっ</read>|<read>げ</read>:: exclamation-of-surprised-disappointment,-disgust,-or-worry-(yuck,-ick,-ack,-eeew,-crap!,-blech,-gross)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2fa62937-6a4b-498a-aa48-85ed92436513",
+  "tags": [
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "question": {
+    "text": "てる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>activity-verb:</tag>{is}-_-ing | _-s-{habitually/recurringly}\n<tag>state-change-verb:</tag> {is/has}-_-{ed} | _-s-{habitually/recurringly}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "て",
+      "いる"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "てる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-620b6505a060080cf817d81588868cb9237c9e8143153e4c1bcf52e9.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "でる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2323,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "いでいる",
+      "いでる",
+      "いどる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "ておる",
+      "てます",
+      "とる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる",
+      "んどる"
+    ],
+    "synonyms": [
+      "いでいる",
+      "いでおる",
+      "いでる",
+      "いどる",
+      "してる",
+      "ています",
+      "ていらっしゃいます",
+      "ている",
+      "ております",
+      "でおります",
+      "ておる",
+      "でおる",
+      "てます",
+      "でる",
+      "てん",
+      "とる",
+      "どる",
+      "んでいます",
+      "んでいる",
+      "んでおります",
+      "んでおる",
+      "んでます",
+      "んでる",
+      "んどる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "る"
+    ]
+  },
+  "sourceData": {
+    "answer": "to{?}{be-...-ing/have-been-...-ing}",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4c8d7119-0464-426c-88b7-ee97c1554eb5",
+  "tags": []
+}

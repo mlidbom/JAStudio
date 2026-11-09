@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "でない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "{is/am/are}-not",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "で",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "でない"
+  ],
+  "partsOfSpeech": [
+    "i-adjective"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-82d5086ef60f0b71be241dae68080f901d7a55e22853c77234be1617.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "で無い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 39,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [
+        "ん"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "んでない"
+    ]
+  },
+  "sourceData": {
+    "answer": "is-not/am-not/are-not",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b642ce5d-2123-46bf-8275-68a457375156",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not"
+  ]
+}

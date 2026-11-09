@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "ぜ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>male:sent.end:</tag> I-can-tell-you<tag> (light-force/emphasis)</tag> |  heh <tag>(ironic|threatening)</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ぜ"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ぜ_ぜ_2023-09-17-14-22-09.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 127,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "I-can-tell-you | heh",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b488aa62-cb2a-42ad-b190-118e7d88ef44",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

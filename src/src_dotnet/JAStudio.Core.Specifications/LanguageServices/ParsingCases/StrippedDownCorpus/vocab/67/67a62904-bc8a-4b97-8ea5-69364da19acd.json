@@ -1,0 +1,71 @@
+{
+  "question": {
+    "text": "で",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "given/by-means-of | at/in/by/on | due-to/because-of | _-is-_-and/<tag>{<ja>だ</ja>-in-<ja>て</ja>-form}</tag>\n<tag>s.end:ksb:</tag>よ/let-me-tell-you/you-know",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "で"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_で_で_2023-07-22-22-46-05.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 5496,
+  "technicalNotes": "",
+  "references": "Cure Dolly: {\n   <a href=\"https://youtu.be/OiKgudW9xB8?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=505\">Secrets of the で particle. Why do we say みんなで行く? and 世界で一番? | Lesson 55</a> \n}\n<br><a href=\"https://www.japanesewithanime.com/2019/07/de-particle.html\">で Particle | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "いで",
+      "て",
+      "んで"
+    ]
+  },
+  "sourceData": {
+    "answer": "<tag><ja>出</ja></tag>:: coming-out/going-out/outflow/efflux/rising-(of-the-Sun-or-the-Moon) | attending-(work)/appearing-(on-stage)/one's-turn-to-go-on | start/beginning | origins/background/person-(or-item)-originating-from-.../graduate-of-.../native-of-.../member-of-...-(lineage) | architectural-member-that-projects-outward | highest-point-of-the-stern-of-a-ship | amount-(comprising-something)/amount-of-time-or-effort-required-to-do-something\nat/in | at/when | by/with | and-then/so | and/then | let-me-tell-you/don't-you-know\nwithout-doing-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "67a62904-bc8a-4b97-8ea5-69364da19acd",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

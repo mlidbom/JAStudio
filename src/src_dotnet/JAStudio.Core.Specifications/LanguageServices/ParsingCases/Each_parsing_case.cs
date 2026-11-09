@@ -22,6 +22,6 @@ public class Each_parsing_case(JAStudioWithTheStrippedDownCorpus jastudio) : ICl
    public void parses_against_the_stripped_down_corpus_exactly_as_the_case_expects(string caseName)
    {
       var parsingCase = ParsingCasesFolder.CaseNamed(caseName);
-      parsingCase.HowTheParsedWordsDifferFromTheExpected(_jastudio.Parse(parsingCase), _jastudio.Collection).Must().BeEmpty();
+      parsingCase.HowTheResultDiffersFromTheExpected(_jastudio.Parse(parsingCase), _jastudio.Collection).Must().BeEmpty();
    }
 }

@@ -13,7 +13,13 @@ public sealed class TextAnalysis
    static readonly JNTokenizer Tokenizer = JNTokenizer.GetInstance();
 
    public AnalysisServices Services { get; }
-   public bool ForUI { get; }
+
+   /// <summary>
+   /// The options of the sentence breakdown this analysis is made for. Null for an analysis made as a sentence's stored parsing result is, which<br/>
+   /// no option changes.
+   /// </summary>
+   public BreakdownParsingOptions? BreakdownParsingOptions { get; }
+
    public string Text { get; }
    public SentenceConfiguration Configuration { get; }
    public JNTokenizedText TokenizedText { get; }
@@ -25,10 +31,14 @@ public sealed class TextAnalysis
    public List<Match> ValidMatches { get; }
    public List<Match> DisplayMatches { get; }
 
-   public TextAnalysis(AnalysisServices services, string sentence, SentenceConfiguration sentenceConfiguration, bool forUI = false)
+   /// <summary>
+   /// Analyzes <paramref name="sentence"/>: for the sentence breakdown under <paramref name="breakdownParsingOptions"/>, or, without them, as a<br/>
+   /// sentence's stored parsing result is made.
+   /// </summary>
+   public TextAnalysis(AnalysisServices services, string sentence, SentenceConfiguration sentenceConfiguration, BreakdownParsingOptions? breakdownParsingOptions = null)
    {
       Services = services;
-      ForUI = forUI;
+      BreakdownParsingOptions = breakdownParsingOptions;
       Text = sentence;
       Configuration = sentenceConfiguration;
       TokenizedText = Tokenizer.Tokenize(sentence);
@@ -54,29 +64,15 @@ public sealed class TextAnalysis
          AnalysisStep5CalculatePreferenceBetweenOverlappingDisplayCandidates();
       }
 
-      IndexingWordVariants = Locations
-                            .SelectMany(location => location.IndexingVariants)
-                            .ToList();
-
-      DisplayWordVariants = Locations
-                           .SelectMany(location => location.DisplayVariants)
-                           .ToList();
-
-      ValidMatches = IndexingWordVariants
-                    .SelectMany(variant => variant.ValidMatches)
-                    .ToList();
-
-      DisplayMatches = DisplayWordVariants
-                      .SelectMany(variant => variant.DisplayMatches)
-                      .ToList();
+      IndexingWordVariants = [.. Locations.SelectMany(location => location.IndexingVariants)];
+      DisplayWordVariants = [.. Locations.SelectMany(location => location.DisplayVariants)];
+      ValidMatches = [.. IndexingWordVariants.SelectMany(variant => variant.ValidMatches)];
+      DisplayMatches = [.. DisplayWordVariants.SelectMany(variant => variant.DisplayMatches)];
    }
 
    public static TextAnalysis FromText(AnalysisServices services, string text) => new(services, text, SentenceConfiguration.Empty());
 
-   public List<string> AllWordsStrings()
-   {
-      return ValidMatches.Select(w => w.ParsedForm).ToList();
-   }
+   public List<string> AllWordsStrings() => [.. ValidMatches.Select(w => w.ParsedForm)];
 
    public override string ToString() => Text;
 

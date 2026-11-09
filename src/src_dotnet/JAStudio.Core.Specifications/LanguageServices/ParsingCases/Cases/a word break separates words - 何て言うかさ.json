@@ -11,5 +11,15 @@
     {"form":"かさ","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"かさ","vocabId":"d16ca16c-dc39-4120-808c-70825ee59ddc"},
     {"form":"か","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"か","vocabId":"fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533"},
     {"form":"さ","startIndex":5,"variant":"surface","isDisplayed":true,"vocab":"さ","vocabId":"10abfe8f-b536-47d9-b129-bfa04813dfae"}
+  ],
+  "breakdowns": [
+    {
+      "options": {},
+      "displayedWords": [
+        {"form":"何","startIndex":0,"variant":"surface","isEmergencyDisplayed":false,"vocab":"何","vocabId":"de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d"},
+        {"form":"て言うか","startIndex":1,"variant":"surface","shownAs":"ていうか","isEmergencyDisplayed":false,"vocab":"ていうか","vocabId":"d6432e4a-91e0-4aa3-a000-b4e6c0194391"},
+        {"form":"さ","startIndex":5,"variant":"surface","isEmergencyDisplayed":false,"vocab":"さ","vocabId":"10abfe8f-b536-47d9-b129-bfa04813dfae"}
+      ]
+    }
   ]
 }

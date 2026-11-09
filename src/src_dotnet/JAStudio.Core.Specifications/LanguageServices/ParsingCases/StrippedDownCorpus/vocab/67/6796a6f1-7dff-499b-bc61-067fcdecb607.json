@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "め",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>奴:suff:derog:</tag> {you}-{damn}-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "め"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-21-20-23-19-170.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "メッ めっ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 113,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>目</ja></tag>:: eye/eyeball | eyesight/sight/vision | look/stare/gaze/glance | notice/attention/observation/eyes-(of-the-world,-public,-etc.) | an-experience | viewpoint | discrimination/discernment/judgement/eye-(e.g.-for-quality) | appearance | chance-to-succeed/possibility | spacing-(between-crossed-strands-of-a-net,-mesh,-etc.)/opening/stitch/texture/weave | grain-(of-wood) | eye-(of-a-storm,-needle,-etc.) | intersection-(on-a-go-board)/square-(on-a-chess-board) | dot-(on-a-dice)/pip/rolled-number | graduation/division-(of-a-scale) | tooth-(of-a-saw,-comb,-etc.) | ordinal-number-suffix | somewhat/-ish | point-(e.g.-of-change)\n<tag><ja>奴</ja></tag>:: damn/bastard | humble\n<read>めっ</read>|<read>め</read>:: no!/don't!/tsk!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "6796a6f1-7dff-499b-bc61-067fcdecb607",
+  "tags": [
+    "source::yomitan"
+  ]
+}

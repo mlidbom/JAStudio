@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "れない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "cannot-_",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "れる",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "れない"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-00348a613829a9bb25d741e05e48fd06cce781418808daff31debe14.mp3]",
+  "forms": [
+    {
+      "text": "えれない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 6,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidan": "required",
+      "irrealis": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "あれない",
+      "えれない",
+      "れない"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "97b56105-44a3-44e4-a891-564defae3e41",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+  ]
+}

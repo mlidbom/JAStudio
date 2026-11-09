@@ -1,0 +1,60 @@
+{
+  "question": {
+    "text": "せ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "so/really/seeming",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "せ"
+  ],
+  "partsOfSpeech": [
+    "adverb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-8398d65042d8f51057e89e602f4a75c6839e29cf5adae2cf6340eba3.mp3]",
+  "forms": [],
+  "sentenceCount": 33,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "so/really/seeming",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5d3f6d0f-9991-47ec-a38d-08b046b6a221",
+  "tags": []
+}

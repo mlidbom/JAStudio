@@ -40,10 +40,12 @@ public class AnalysisTools
                    """)] bool asTheSentenceBreakdownShowsIt = true) =>
       AnalyzedSentence.Of(AnalysisOf(text, sentenceNoteId, asTheSentenceBreakdownShowsIt));
 
-   TextAnalysis AnalysisOf(string? text, string? sentenceNoteId, bool forTheSentenceBreakdown) => (text, sentenceNoteId) switch
+   TextAnalysis AnalysisOf(string? text, string? sentenceNoteId, bool forTheSentenceBreakdown) => (text, sentenceNoteId, forTheSentenceBreakdown) switch
    {
-      ({} sentenceText, null) => new TextAnalysis(_analysisServices, sentenceText, SentenceConfiguration.Empty(), forTheSentenceBreakdown),
-      (null, {} noteId) => SentenceNoteWithTheId(noteId).CreateAnalysis(forTheSentenceBreakdown),
+      ({} sentenceText, null, true) => new TextAnalysis(_analysisServices, sentenceText, SentenceConfiguration.Empty(), _analysisServices.Settings.BreakdownParsingOptions()),
+      ({} sentenceText, null, false) => new TextAnalysis(_analysisServices, sentenceText, SentenceConfiguration.Empty()),
+      (null, {} noteId, true) => SentenceNoteWithTheId(noteId).CreateBreakdownAnalysis(_analysisServices.Settings.BreakdownParsingOptions()),
+      (null, {} noteId, false) => SentenceNoteWithTheId(noteId).CreateAnalysis(),
       _ => throw new ArgumentException("Give either text or sentenceNoteId, not both, and not neither.")
    };
 

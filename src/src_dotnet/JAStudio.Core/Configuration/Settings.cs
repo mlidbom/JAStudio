@@ -1,4 +1,5 @@
 using Compze.Internals.SystemCE.ReactiveCE;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
 namespace JAStudio.Core.Configuration;
 
@@ -42,12 +43,6 @@ public class Settings
       _automaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound = _config.AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound.Value;
    }
 
-   public bool HideTransparentCompounds()
-   {
-      EnsureInitialized();
-      return _hideTransparentCompounds;
-   }
-
    public bool HideAllCompounds()
    {
       EnsureInitialized();
@@ -84,21 +79,14 @@ public class Settings
       return _showKanjiMnemonicsInSentenceBreakdown;
    }
 
-   public bool AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound()
+   /// <summary>The options that change how a sentence parses for its sentence breakdown, as configured now.</summary>
+   public BreakdownParsingOptions BreakdownParsingOptions()
    {
       EnsureInitialized();
-      return _automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound;
-   }
-
-   public bool AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound()
-   {
-      EnsureInitialized();
-      return _automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound;
-   }
-
-   public bool AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound()
-   {
-      EnsureInitialized();
-      return _automaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound;
+      return new BreakdownParsingOptions(_hideAllCompounds,
+                                         _hideTransparentCompounds,
+                                         _automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound,
+                                         _automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound,
+                                         _automaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound);
    }
 }

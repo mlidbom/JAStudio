@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "え",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "eh?/what?/huh? | yes | <tag>arch:</tag>{ strengthens-{question|assertion} | hey}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "え"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-04-22-12-00-33-915.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 270,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "よ",
+      "ろ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "eh?/what?/oh? | yes/that's-correct | strengthens-a-question,-assertion,-etc. | hey",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "7a58356a-0ec3-4fd5-9c4d-e44e69f0167e",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}
