@@ -177,6 +177,8 @@ the headless JAStudio.
     editor does, and reports them before and after. It doesn't reparse sentences: `full_rebuild` shows what the change does.
   - **Built:** `add_a_reading_to_a_kanji`, `remove_a_reading_from_a_kanji` and `set_whether_a_kanji_reading_is_primary`,
     the three edits the kanji's readings editor makes, each reporting the kanji's readings before and after.
+  - **Built:** `set_the_readings_of_a_vocab` replaces a vocab's readings, as editing them in its editor does, and reports
+    them before and after (2026-11-09, to fix 行った's reading いいた).
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.

@@ -40,6 +40,23 @@ public class VocabEditingTools
       return new PartsOfSpeechChange(vocab.GetQuestion(), NamesOf(before), NamesOf(vocab.PartsOfSpeech.All()));
    }
 
+   [McpServerTool(Name = "set_the_readings_of_a_vocab", Destructive = true, Idempotent = true)]
+   [Description("""
+                Sets a vocab's readings, in kana, replacing the ones it has, as editing its readings in its editor in the workspace does. The vocab
+                is saved to the corpus checkout, and its Anki note updated, as any edit is. Sentences aren't reparsed: run full_rebuild to see
+                whether the change changes how sentences parse. Reports the readings before and after.
+                """)]
+   public ReadingsChange SetTheReadingsOfAVocab(
+      [Description("The id of the vocab, as search_notes lists it.")] string vocabNoteId,
+      [Description("All the readings the vocab is to have, in kana, first the primary one.")] string[] readings)
+   {
+      var vocab = VocabWithTheId(vocabNoteId);
+
+      var before = vocab.GetReadings();
+      vocab.SetReadings([.. readings]);
+      return new ReadingsChange(vocab.GetQuestion(), before, vocab.GetReadings());
+   }
+
    static PartOfSpeech PartOfSpeechNamed(string name) =>
       PartOfSpeech.Exists(name)
          ? PartOfSpeech.Named(name)
