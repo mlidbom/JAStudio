@@ -127,7 +127,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Accept meaning"), () => vocab.CorpusAnswer.Set(FormatVocabMeaning(vocab.GetAnswer())), enabled: !vocab.CorpusAnswer.HasValue()),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Generate answer"), vocab.GenerateAndSetAnswer),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Repopulate TOS"), () => vocab.PartsOfSpeech.SetAutomaticallyFromDictionary()),
+                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Repopulate parts of speech"), () => vocab.PartsOfSpeech.SetAutomaticallyFromDictionary()),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Autogenerate compounds"), () => vocab.CompoundParts.AutoGenerate())
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),

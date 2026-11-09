@@ -14,17 +14,17 @@ public class VocabCloner
 
    VocabNote Note { get; }
 
-   public VocabNote PrefixToDictionaryForm(string prefix, string speechType = POS.Expression) => CreatePostfixPrefixVersion(prefix, speechType, isPrefix: true);
+   public VocabNote PrefixToDictionaryForm(string prefix) => CreatePostfixPrefixVersion(prefix, [PartOfSpeech.Expression], isPrefix: true);
 
-   public VocabNote PrefixToChopped(string prefix, int chopCharacters) => CreatePostfixPrefixVersion(prefix, POS.Expression, isPrefix: true, chopOffCharacters: chopCharacters);
+   public VocabNote PrefixToChopped(string prefix, int chopCharacters) => CreatePostfixPrefixVersion(prefix, [PartOfSpeech.Expression], isPrefix: true, chopOffCharacters: chopCharacters);
 
    public string PrefixToChoppedPreview(string formPrefix, int chopCharacters) => Note.GetQuestion().Length > chopCharacters
                                                                                      ? formPrefix + Note.GetQuestion().Substring(chopCharacters)
                                                                                      : "Vocab to short";
 
-   public VocabNote CreateSuffixVersion(string suffix, string speechType = POS.Expression, bool setCompounds = true, int truncateCharacters = 0) => CreatePostfixPrefixVersion(suffix, speechType, setCompounds: setCompounds, chopOffCharacters: truncateCharacters);
+   public VocabNote CreateSuffixVersion(string suffix) => CreatePostfixPrefixVersion(suffix, [PartOfSpeech.Expression]);
 
-   VocabNote CreatePostfixPrefixVersion(string addendum, string speechType, bool isPrefix = false, bool setCompounds = true, int chopOffCharacters = 0)
+   VocabNote CreatePostfixPrefixVersion(string addendum, IEnumerable<PartOfSpeech> partsOfSpeech, bool isPrefix = false, bool setCompounds = true, int chopOffCharacters = 0)
    {
       string AppendPrependAddendum(string baseStr)
       {
@@ -52,7 +52,7 @@ public class VocabCloner
          newVocab.CompoundParts.SetPrimary(compounds);
       }
 
-      newVocab.PartsOfSpeech.SetRawStringValue(speechType);
+      newVocab.PartsOfSpeech.Set(partsOfSpeech);
       newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
 
       return newVocab;
@@ -125,51 +125,42 @@ public class VocabCloner
       return clone;
    }
 
-   public VocabNote CreateNaAdjective() => CreatePostfixPrefixVersion("な", "na-adjective");
+   public VocabNote CreateNaAdjective() => CreatePostfixPrefixVersion("な", [PartOfSpeech.NaAdjective]);
 
-   public VocabNote CreateNoAdjective() => CreatePostfixPrefixVersion("の", "expression, no-adjective");
+   public VocabNote CreateNoAdjective() => CreatePostfixPrefixVersion("の", [PartOfSpeech.Expression, PartOfSpeech.NoAdjective]);
 
-   public VocabNote CreateNiAdverb() => CreatePostfixPrefixVersion("に", "adverb");
+   public VocabNote CreateNiAdverb() => CreatePostfixPrefixVersion("に", [PartOfSpeech.Adverb]);
 
-   public VocabNote CreateToAdverb() => CreatePostfixPrefixVersion("と", "to-adverb");
+   public VocabNote CreateToAdverb() => CreatePostfixPrefixVersion("と", [PartOfSpeech.ToAdverb]);
 
-   public VocabNote CreateTePrefixedWord() => CreatePostfixPrefixVersion("て", "auxiliary", isPrefix: true);
+   public VocabNote CreateTePrefixedWord() => CreatePostfixPrefixVersion("て", [PartOfSpeech.Auxiliary], isPrefix: true);
 
-   public VocabNote CreateOPrefixedWord() => CreatePostfixPrefixVersion("お", Note.PartsOfSpeech.RawStringValue(), isPrefix: true);
+   public VocabNote CreateOPrefixedWord() => CreatePostfixPrefixVersion("お", Note.PartsOfSpeech.All(), isPrefix: true);
 
-   public VocabNote CreateNSuffixedWord() => CreatePostfixPrefixVersion("ん", POS.Expression);
+   public VocabNote CreateNSuffixedWord() => CreatePostfixPrefixVersion("ん", [PartOfSpeech.Expression]);
 
-   public VocabNote CreateKaSuffixedWord() => CreatePostfixPrefixVersion("か", POS.Expression);
+   public VocabNote CreateKaSuffixedWord() => CreatePostfixPrefixVersion("か", [PartOfSpeech.Expression]);
 
    public VocabNote CreateSuruVerb(bool shimasu = false)
    {
-      var suruVerb = CreatePostfixPrefixVersion(shimasu ? "します" : "する", POS.SuruVerb);
+      var suruVerb = CreatePostfixPrefixVersion(shimasu ? "します" : "する", [PartOfSpeech.SuruVerb]);
 
       var forms = suruVerb.Forms.QuestionAndEnteredFormsList()
                           .Concat(suruVerb.Forms.QuestionAndEnteredFormsList().Select(form => form.Replace("する", "をする")))
                           .ToList();
       suruVerb.Forms.SetEnteredForms(forms.Select(EnteredForm.NotOwned));
 
-      if(Note.PartsOfSpeech.IsTransitive())
-      {
-         var value = suruVerb.PartsOfSpeech.RawStringValue() + ", " + POS.Transitive;
-         suruVerb.PartsOfSpeech.SetRawStringValue(value);
-      }
-
-      if(Note.PartsOfSpeech.IsIntransitive())
-      {
-         var value = suruVerb.PartsOfSpeech.RawStringValue() + ", " + POS.Intransitive;
-         suruVerb.PartsOfSpeech.SetRawStringValue(value);
-      }
+      if(Note.PartsOfSpeech.IsTransitive()) suruVerb.PartsOfSpeech.Add(PartOfSpeech.Transitive);
+      if(Note.PartsOfSpeech.IsIntransitive()) suruVerb.PartsOfSpeech.Add(PartOfSpeech.Intransitive);
 
       return suruVerb;
    }
 
    public VocabNote CreateShimasuVerb() => CreateSuruVerb(shimasu: true);
 
-   public VocabNote CreateKuForm() => CreatePostfixPrefixVersion("く", "adverb", setCompounds: true, chopOffCharacters: 1);
+   public VocabNote CreateKuForm() => CreatePostfixPrefixVersion("く", [PartOfSpeech.Adverb], setCompounds: true, chopOffCharacters: 1);
 
-   public VocabNote CreateSaForm() => CreatePostfixPrefixVersion("さ", POS.Noun, setCompounds: true, chopOffCharacters: 1);
+   public VocabNote CreateSaForm() => CreatePostfixPrefixVersion("さ", [PartOfSpeech.Noun], setCompounds: true, chopOffCharacters: 1);
 
    public VocabNote CloneToDerivedForm(string formSuffix, Func<VocabNote, string, string> createFormRoot)
    {
@@ -179,7 +170,7 @@ public class VocabCloner
       clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
       var readings = Note.GetReadings().Select(CreateFullForm).ToList();
       clone.SetReadings(readings);
-      clone.PartsOfSpeech.SetRawStringValue(POS.Expression);
+      clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
       var compounds = new List<string> { Note.Question.DisambiguationName, formSuffix };
       clone.CompoundParts.SetPrimary(compounds);
       return clone;
@@ -240,7 +231,7 @@ public class VocabCloner
       clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
       var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
       clone.SetReadings(readings);
-      clone.PartsOfSpeech.SetRawStringValue(POS.Expression);
+      clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
       return clone;
    }
 

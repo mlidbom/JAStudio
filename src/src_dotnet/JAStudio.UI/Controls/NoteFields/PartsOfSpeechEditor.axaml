@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             x:Class="JAStudio.UI.Controls.NoteFields.PartsOfSpeechEditor"
+             x:DataType="noteFields:PartsOfSpeechEditorViewModel">
+    <StackPanel Spacing="4">
+        <TextBlock Text="Parts of speech" FontWeight="SemiBold" />
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Content="Add" Command="{Binding AddCommand}" Margin="6,0,0,0" />
+            <AutoCompleteBox ItemsSource="{Binding Addable}" Text="{Binding NewPartOfSpeech, Mode=TwoWay}"
+                             FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="300"
+                             PlaceholderText="Type to find a part of speech to add">
+                <AutoCompleteBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding AddCommand}" />
+                </AutoCompleteBox.KeyBindings>
+            </AutoCompleteBox>
+        </DockPanel>
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="noteFields:PartOfSpeechChipViewModel">
+                    <Border Background="#e0e0e0" CornerRadius="3" Padding="6,3" Margin="2">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                            <Button Content="×" Command="{Binding RemoveCommand}" ToolTip.Tip="Remove"
+                                    Width="16" Height="16" Padding="0" FontSize="14" FontWeight="Bold" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Vocabulary;
 using Xunit;
@@ -115,8 +116,8 @@ public class DictLookupTests : SpecificationStartingWithAnEmptyCollection
       Assert.Equal(1, dictEntry.FoundWordsCount());
 
       var expectedPosSet = new HashSet<string>(expectedPos);
-      Assert.Equal(expectedPosSet, dictEntry.Entries[0].PartsOfSpeech());
-      Assert.Equal(expectedPosSet, dictEntry.PartsOfSpeech());
+      Assert.Equal(expectedPosSet, dictEntry.Entries[0].PartsOfSpeech().Select(it => it.Name).ToHashSet());
+      Assert.Equal(expectedPosSet, dictEntry.PartsOfSpeech().Select(it => it.Name).ToHashSet());
    }
 
    DictLookupResult GetDictEntry(string word, string[] readings)

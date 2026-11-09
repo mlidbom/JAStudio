@@ -8,8 +8,7 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// </summary>
 /// <remarks>
 /// While it's undecided, generating the vocab's data (<see cref="VocabNoteGeneratedData"/>) may decide it as yes: when the vocab's question is all kana<br/>
-/// and it has no readings yet, or when the dictionary says the word is usually written in kana and the vocab has no parts of speech yet.<br/>
-/// The dictionary's half never runs today, a known bug: an empty parts of speech parses as one empty part of speech, never as none.<br/>
+/// and it has no readings yet.<br/>
 /// Once decided, by hand or by JAStudio, it's never changed automatically, so a no keeps JAStudio from marking the vocab when it gets it wrong.
 /// </remarks>
 public class VocabNoteUsuallyWrittenInKana

@@ -1,6 +1,6 @@
 import typing, clr, abc
-from System import IEquatable_1, Func_1, Func_3, Array_1, Action_1
-from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1, IEnumerable_1
+from System import IEquatable_1, IComparable_1, Func_1, Func_3, Array_1, Action_1
+from System.Collections.Generic import IReadOnlyList_1, List_1, IEnumerable_1, HashSet_1
 from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard, NoteFlushGuard
 from JAStudio.Core.Storage.Dto import VocabDto, CorpusNoteDto, VocabSourceDataDto
 from JAStudio.Core.Note.Collection import JPCollection
@@ -41,50 +41,68 @@ class EnteredForm(IEquatable_1[EnteredForm]):
 
 
 
-class POS(abc.ABC):
-    Abbreviation : str
-    Adverb : str
-    Adverbial : str
-    AdverbialNoun : str
-    AllVerbPoses : HashSet_1[str]
-    Auxiliary : str
-    Conjunction : str
-    Copula : str
-    Counter : str
-    Expression : str
-    GodanVerb : str
-    IAdjective : str
-    IchidanVerb : str
-    IndependentNoun : str
-    Interjection : str
-    Intransitive : str
-    Irregular : str
-    KuruVerb : str
-    MasuSuffix : str
-    NaAdjective : str
-    NidanVerb : str
-    NoAdjective : str
-    Noun : str
-    Numeral : str
-    Numeric : str
-    NuVerb : str
-    Particle : str
-    Prefix : str
-    Prenominal : str
-    PreNounAdjectival : str
-    Pronoun : str
-    ProperNoun : str
-    SpecialClass : str
-    SpecialClassAru : str
-    Suffix : str
-    SuruVerb : str
-    SuVerb : str
-    TaruAdjective : str
-    ToAdverb : str
-    Transitive : str
-    Unknown : str
-    YodanVerb : str
-    ZuruVerb : str
+class PartOfSpeech(IComparable_1[PartOfSpeech]):
+    Abbreviation : PartOfSpeech
+    Adverb : PartOfSpeech
+    Adverbial : PartOfSpeech
+    AdverbialNoun : PartOfSpeech
+    Auxiliary : PartOfSpeech
+    Conjunction : PartOfSpeech
+    Copula : PartOfSpeech
+    Counter : PartOfSpeech
+    Expression : PartOfSpeech
+    GodanVerb : PartOfSpeech
+    IAdjective : PartOfSpeech
+    IchidanVerb : PartOfSpeech
+    InCompounds : PartOfSpeech
+    IndependentNoun : PartOfSpeech
+    Interjection : PartOfSpeech
+    Intransitive : PartOfSpeech
+    Irregular : PartOfSpeech
+    KuAdjective : PartOfSpeech
+    KuruVerb : PartOfSpeech
+    MasuSuffix : PartOfSpeech
+    Mimetic : PartOfSpeech
+    NaAdjective : PartOfSpeech
+    NariAdjective : PartOfSpeech
+    NidanVerb : PartOfSpeech
+    NoAdjective : PartOfSpeech
+    Noun : PartOfSpeech
+    Numeral : PartOfSpeech
+    Numeric : PartOfSpeech
+    NuVerb : PartOfSpeech
+    Particle : PartOfSpeech
+    Prefix : PartOfSpeech
+    Prenominal : PartOfSpeech
+    PreNounAdjectival : PartOfSpeech
+    Pronoun : PartOfSpeech
+    ProperNoun : PartOfSpeech
+    RiVerb : PartOfSpeech
+    ShikuAdjective : PartOfSpeech
+    SpecialClass : PartOfSpeech
+    SpecialClassAru : PartOfSpeech
+    Suffix : PartOfSpeech
+    SuruVerb : PartOfSpeech
+    SuVerb : PartOfSpeech
+    TaruAdjective : PartOfSpeech
+    ToAdverb : PartOfSpeech
+    Transitive : PartOfSpeech
+    Verb : PartOfSpeech
+    YodanVerb : PartOfSpeech
+    ZuruVerb : PartOfSpeech
+    @classmethod
+    @property
+    def All(cls) -> IReadOnlyList_1[PartOfSpeech]: ...
+    @property
+    def IsAKindOfVerb(self) -> bool: ...
+    @property
+    def Name(self) -> str: ...
+    def CompareTo(self, other: PartOfSpeech) -> int: ...
+    @staticmethod
+    def Exists(name: str) -> bool: ...
+    @staticmethod
+    def Named(name: str) -> PartOfSpeech: ...
+    def ToString(self) -> str: ...
 
 
 class SentenceCounts:
@@ -131,7 +149,7 @@ class VocabCloner:
     def CreateReceptiveForm(self) -> VocabNote: ...
     def CreateSaForm(self) -> VocabNote: ...
     def CreateShimasuVerb(self) -> VocabNote: ...
-    def CreateSuffixVersion(self, suffix: str, speechType: str = ..., setCompounds: bool = ..., truncateCharacters: int = ...) -> VocabNote: ...
+    def CreateSuffixVersion(self, suffix: str) -> VocabNote: ...
     def CreateSuruVerb(self, shimasu: bool = ...) -> VocabNote: ...
     def CreateTaForm(self) -> VocabNote: ...
     def CreateTeForm(self) -> VocabNote: ...
@@ -139,7 +157,7 @@ class VocabCloner:
     def CreateToAdverb(self) -> VocabNote: ...
     def PrefixToChopped(self, prefix: str, chopCharacters: int) -> VocabNote: ...
     def PrefixToChoppedPreview(self, formPrefix: str, chopCharacters: int) -> str: ...
-    def PrefixToDictionaryForm(self, prefix: str, speechType: str = ...) -> VocabNote: ...
+    def PrefixToDictionaryForm(self, prefix: str) -> VocabNote: ...
     def SuffixToAStem(self, formSuffix: str) -> VocabNote: ...
     def SuffixToAStemPreview(self, formSuffix: str) -> str: ...
     def SuffixToChopped(self, formSuffix: str, chopCharacters: int) -> VocabNote: ...
@@ -338,7 +356,9 @@ class VocabNoteMetaData:
 
 class VocabNotePartsOfSpeech:
     def __init__(self, vocab: VocabNote, data: VocabDto, guard: NoteGuard) -> None: ...
-    def Get(self) -> HashSet_1[str]: ...
+    def Add(self, partOfSpeech: PartOfSpeech) -> None: ...
+    def All(self) -> IReadOnlyList_1[PartOfSpeech]: ...
+    def Contains(self, partOfSpeech: PartOfSpeech) -> bool: ...
     def IsCausativeVerbCompound(self) -> bool: ...
     def IsCompleteNaAdjective(self) -> bool: ...
     def IsGodan(self) -> bool: ...
@@ -349,10 +369,9 @@ class VocabNotePartsOfSpeech:
     def IsPassiveVerbCompound(self) -> bool: ...
     def IsSuruVerbIncluded(self) -> bool: ...
     def IsTransitive(self) -> bool: ...
-    def RawStringValue(self) -> str: ...
-    def Set(self, value: IEnumerable_1[str]) -> None: ...
+    def Remove(self, partOfSpeech: PartOfSpeech) -> None: ...
+    def Set(self, partsOfSpeech: IEnumerable_1[PartOfSpeech]) -> None: ...
     def SetAutomaticallyFromDictionary(self) -> None: ...
-    def SetRawStringValue(self, value: str) -> None: ...
     def ToString(self) -> str: ...
 
 

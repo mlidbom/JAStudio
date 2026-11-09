@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
 using JAStudio.Core.Note.Tagging;
@@ -26,10 +25,7 @@ static class VocabNoteMetaTagFormatter
    {
       var tags = vocab.Tags;
       var meta = new List<VocabMetaTag>();
-      var tos = vocab.PartsOfSpeech.RawStringValue()
-                     .Split(',')
-                     .Select(t => t.ToLower().Trim())
-                     .ToHashSet();
+      var partsOfSpeech = vocab.PartsOfSpeech;
 
       if(!noSentenceStatistics)
       {
@@ -70,46 +66,44 @@ static class VocabNoteMetaTagFormatter
 
       // Overarching info
       if(vocab.UsuallyWrittenInKana.IsYes) meta.Add(new VocabMetaTag("uk", "uk", "usually written using kana only"));
-      if(tos.Contains(POS.Expression)) meta.Add(new VocabMetaTag(POS.Expression, "x", "expression"));
-      if(tos.Contains(POS.Abbreviation)) meta.Add(new VocabMetaTag("abbreviation", "abbr", "abbreviation"));
-      if(tos.Contains(POS.Auxiliary)) meta.Add(new VocabMetaTag("auxiliary", "aux", "auxiliary"));
-      if(tos.Contains(POS.Prefix)) meta.Add(new VocabMetaTag("prefix", "頭", "prefix"));
-      if(tos.Contains(POS.Suffix)) meta.Add(new VocabMetaTag("suffix", "尾", "suffix"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Expression)) meta.Add(new VocabMetaTag("expression", "x", "expression"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Abbreviation)) meta.Add(new VocabMetaTag("abbreviation", "abbr", "abbreviation"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Auxiliary)) meta.Add(new VocabMetaTag("auxiliary", "aux", "auxiliary"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Prefix)) meta.Add(new VocabMetaTag("prefix", "頭", "prefix"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Suffix)) meta.Add(new VocabMetaTag("suffix", "尾", "suffix"));
 
       // Nouns
-      if(tos.Contains(POS.ProperNoun)) meta.Add(new VocabMetaTag("proper-noun", "p-名", "proper noun"));
-      if(tos.Contains(POS.Pronoun)) meta.Add(new VocabMetaTag("pronoun", "pr-名", "pronoun"));
-      if(tos.Contains(POS.Noun)) meta.Add(new VocabMetaTag(POS.Noun, "名", "noun"));
-      if(tos.Contains(POS.AdverbialNoun)) meta.Add(new VocabMetaTag("adverbial-noun", "副-名", "adverbial noun"));
-      if(tos.Contains(POS.IndependentNoun)) meta.Add(new VocabMetaTag("independent-noun", "i-名", "independent noun"));
+      if(partsOfSpeech.Contains(PartOfSpeech.ProperNoun)) meta.Add(new VocabMetaTag("proper-noun", "p-名", "proper noun"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Pronoun)) meta.Add(new VocabMetaTag("pronoun", "pr-名", "pronoun"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Noun)) meta.Add(new VocabMetaTag("noun", "名", "noun"));
+      if(partsOfSpeech.Contains(PartOfSpeech.AdverbialNoun)) meta.Add(new VocabMetaTag("adverbial-noun", "副-名", "adverbial noun"));
+      if(partsOfSpeech.Contains(PartOfSpeech.IndependentNoun)) meta.Add(new VocabMetaTag("independent-noun", "i-名", "independent noun"));
 
       // Verbs
-      if(tos.Contains(POS.IchidanVerb)) meta.Add(CreateVerbMetaTag("ichidan", "1", POS.IchidanVerb, tos));
-      if(tos.Contains(POS.GodanVerb)) meta.Add(CreateVerbMetaTag("godan", "5", POS.GodanVerb, tos));
-      if(tos.Contains(POS.SuruVerb) || tos.Contains("verbal noun") || tos.Contains("する verb")) meta.Add(CreateVerbMetaTag("suru-verb", "為", POS.SuruVerb, tos));
-      if(tos.Contains(POS.KuruVerb)) meta.Add(CreateVerbMetaTag("kuru-verb", "k-v", "kuru verb", tos));
-      if(tos.Contains("auxiliary verb")) meta.Add(CreateVerbMetaTag("auxiliary-verb", "aux-v", "auxiliary verb", tos));
+      if(partsOfSpeech.Contains(PartOfSpeech.IchidanVerb)) meta.Add(CreateVerbMetaTag("ichidan", "1", "ichidan verb", partsOfSpeech));
+      if(partsOfSpeech.Contains(PartOfSpeech.GodanVerb)) meta.Add(CreateVerbMetaTag("godan", "5", "godan verb", partsOfSpeech));
+      if(partsOfSpeech.Contains(PartOfSpeech.SuruVerb)) meta.Add(CreateVerbMetaTag("suru-verb", "為", "suru verb", partsOfSpeech));
+      if(partsOfSpeech.Contains(PartOfSpeech.KuruVerb)) meta.Add(CreateVerbMetaTag("kuru-verb", "k-v", "kuru verb", partsOfSpeech));
 
       // Adverbs
-      if(tos.Contains(POS.ToAdverb)) meta.Add(new VocabMetaTag("to-adverb", "と", "adverbial noun taking the と particle to act as adverb"));
-      else if(tos.Contains(POS.Adverb)) meta.Add(new VocabMetaTag("adverb", "副", "adverb"));
-      else if(tos.Contains(POS.Adverbial)) meta.Add(new VocabMetaTag("adverbial", "副", "adverbial"));
+      if(partsOfSpeech.Contains(PartOfSpeech.ToAdverb)) meta.Add(new VocabMetaTag("to-adverb", "と", "adverbial noun taking the と particle to act as adverb"));
+      else if(partsOfSpeech.Contains(PartOfSpeech.Adverb)) meta.Add(new VocabMetaTag("adverb", "副", "adverb"));
+      else if(partsOfSpeech.Contains(PartOfSpeech.Adverbial)) meta.Add(new VocabMetaTag("adverbial", "副", "adverbial"));
 
       // Adjectives
-      if(tos.Contains(POS.IAdjective)) meta.Add(new VocabMetaTag("i-adjective", "い", "true adjective ending on the い copula"));
-      if(tos.Contains(POS.NaAdjective)) meta.Add(new VocabMetaTag("na-adjective", "な", "adjectival noun taking the な particle to act as adjective"));
-      if(tos.Contains(POS.NoAdjective)) meta.Add(new VocabMetaTag("no-adjective", "の", "adjectival noun taking the の particle to act as adjective"));
-      if(tos.Contains("auxiliary adjective")) meta.Add(new VocabMetaTag("auxiliary-adjective", "a-い", "auxiliary adjective"));
+      if(partsOfSpeech.Contains(PartOfSpeech.IAdjective)) meta.Add(new VocabMetaTag("i-adjective", "い", "true adjective ending on the い copula"));
+      if(partsOfSpeech.Contains(PartOfSpeech.NaAdjective)) meta.Add(new VocabMetaTag("na-adjective", "な", "adjectival noun taking the な particle to act as adjective"));
+      if(partsOfSpeech.Contains(PartOfSpeech.NoAdjective)) meta.Add(new VocabMetaTag("no-adjective", "の", "adjectival noun taking the の particle to act as adjective"));
 
       // Misc
-      if(tos.Contains(POS.Counter)) meta.Add(new VocabMetaTag("counter", "ctr", "counter"));
-      if(tos.Contains(POS.Numeral)) meta.Add(new VocabMetaTag("numeral", "num", "numeral"));
-      if(tos.Contains(POS.Interjection)) meta.Add(new VocabMetaTag("interjection", "int", "interjection"));
-      if(tos.Contains(POS.Conjunction)) meta.Add(new VocabMetaTag("conjunction", "conj", "conjunction"));
-      if(tos.Contains(POS.Particle)) meta.Add(new VocabMetaTag("particle", "prt", "particle"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Counter)) meta.Add(new VocabMetaTag("counter", "ctr", "counter"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Numeral)) meta.Add(new VocabMetaTag("numeral", "num", "numeral"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Interjection)) meta.Add(new VocabMetaTag("interjection", "int", "interjection"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Conjunction)) meta.Add(new VocabMetaTag("conjunction", "conj", "conjunction"));
+      if(partsOfSpeech.Contains(PartOfSpeech.Particle)) meta.Add(new VocabMetaTag("particle", "prt", "particle"));
 
       // My own inventions
-      if(tos.Contains(POS.MasuSuffix)) meta.Add(new VocabMetaTag("masu-suffix", "連", "follows the 連用形/masu-stem form of a verb"));
+      if(partsOfSpeech.Contains(PartOfSpeech.MasuSuffix)) meta.Add(new VocabMetaTag("masu-suffix", "連", "follows the 連用形/masu-stem form of a verb"));
 
       // Register
       var register = vocab.Register;
@@ -150,17 +144,17 @@ static class VocabNoteMetaTagFormatter
       return sb.ToString();
    }
 
-   static VocabMetaTag CreateVerbMetaTag(string name, string display, string tooltip, HashSet<string> tos)
+   static VocabMetaTag CreateVerbMetaTag(string name, string display, string tooltip, VocabNotePartsOfSpeech partsOfSpeech)
    {
       var tag = new VocabMetaTag(name, display, tooltip);
 
-      if(tos.Contains(POS.Intransitive))
+      if(partsOfSpeech.IsIntransitive())
       {
          tag.Display += "i";
          tag.Tooltip = "intransitive " + tag.Tooltip;
       }
 
-      if(tos.Contains(POS.Transitive))
+      if(partsOfSpeech.IsTransitive())
       {
          tag.Display += "t";
          tag.Tooltip = "transitive " + tag.Tooltip;

@@ -1,7 +1,8 @@
 # Corpus validity — Design
 
 > **Status: draft (2026-11-08), almost empty.** Magnus wants JAStudio to be able to inspect the validity of the whole
-> corpus, in various ways. Until the design is worked out, this holds the checks known to be needed.
+> corpus, in various ways. Until the design is worked out, this holds the checks known to be needed. Problems already
+> found in the corpus's data, to be fixed by hand, are listed in `corpus-data-issues.md`.
 
 ## Why
 

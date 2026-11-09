@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.LanguageServices.JamdictEx;
 
@@ -33,7 +34,7 @@ public class DictLookupResult
       return Entries.SelectMany(entry => entry.KanaFormsText()).Distinct().ToList();
    }
 
-   public HashSet<string> PartsOfSpeech()
+   public HashSet<PartOfSpeech> PartsOfSpeech()
    {
       return Entries.SelectMany(entry => entry.PartsOfSpeech()).ToHashSet();
    }

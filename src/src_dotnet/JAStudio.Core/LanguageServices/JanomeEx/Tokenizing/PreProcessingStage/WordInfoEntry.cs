@@ -7,17 +7,17 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
 abstract class WordInfoEntry
 {
    public string Word { get; }
-   public FrozenSet<string> PartsOfSpeech { get; }
+   public FrozenSet<PartOfSpeech> PartsOfSpeech { get; }
 
-   protected WordInfoEntry(string word, FrozenSet<string> partsOfSpeech)
+   protected WordInfoEntry(string word, FrozenSet<PartOfSpeech> partsOfSpeech)
    {
       Word = word;
       PartsOfSpeech = partsOfSpeech;
    }
 
-   public bool IsIchidan => PartsOfSpeech.Contains(POS.IchidanVerb);
-   public bool IsGodan => PartsOfSpeech.Contains(POS.GodanVerb);
-   public bool IsIntransitive => PartsOfSpeech.Contains(POS.Intransitive);
+   public bool IsIchidan => PartsOfSpeech.Contains(PartOfSpeech.IchidanVerb);
+   public bool IsGodan => PartsOfSpeech.Contains(PartOfSpeech.GodanVerb);
+   public bool IsIntransitive => PartsOfSpeech.Contains(PartOfSpeech.Intransitive);
 
    public abstract string Answer { get; }
 }
@@ -27,7 +27,7 @@ class VocabWordInfoEntry : WordInfoEntry
    readonly VocabNote _vocab;
 
    public VocabWordInfoEntry(string word, VocabNote vocab)
-      : base(word, vocab.PartsOfSpeech.Get().ToFrozenSet()) =>
+      : base(word, vocab.PartsOfSpeech.All().ToFrozenSet()) =>
       _vocab = vocab;
 
    public override string Answer => _vocab.GetAnswer();

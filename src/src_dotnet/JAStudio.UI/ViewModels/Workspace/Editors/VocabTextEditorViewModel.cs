@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JAStudio.Core;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
@@ -42,11 +41,7 @@ class VocabTextEditorViewModel
                        it => string.Join(", ", it.GetReadings()),
                        (it, readings) => it.SetReadings(StringExtensions.ExtractCommaSeparatedValues(readings)));
       Forms = new EnteredFormsEditorViewModel(_currentVocab, _sentencesReparser.ReparseSentences);
-      PartsOfSpeech = new StringSetEditorViewModel("Parts of speech",
-                                                    () => _currentVocab().PartsOfSpeech.Get(),
-                                                    partOfSpeech => ChangeThePartsOfSpeech(it => it.Append(partOfSpeech)),
-                                                    partOfSpeech => ChangeThePartsOfSpeech(it => it.Where(other => other != partOfSpeech)),
-                                                    _sentencesReparser.ReparseSentences);
+      PartsOfSpeech = new PartsOfSpeechEditorViewModel(() => _currentVocab().PartsOfSpeech, _sentencesReparser.ReparseSentences);
       CorpusFields =
       [
          Field("Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer),
@@ -90,7 +85,8 @@ class VocabTextEditorViewModel
    /// <summary>The forms besides the question, which is always a form, each owned by the vocab or not.</summary>
    public EnteredFormsEditorViewModel Forms { get; }
 
-   public StringSetEditorViewModel PartsOfSpeech { get; }
+   /// <summary>The vocab's parts of speech, of which only those JAStudio knows can be added.</summary>
+   public PartsOfSpeechEditorViewModel PartsOfSpeech { get; }
 
    /// <summary>
    /// The corpus's own answer, which takes the place of the source's, its explanations and mnemonic,<br/>
@@ -131,12 +127,6 @@ class VocabTextEditorViewModel
    {
       _currentVocab().Question.SetDisambiguation(disambiguation.Trim());
       _sentencesReparser.ReparseSentences();
-   }
-
-   void ChangeThePartsOfSpeech(Func<IEnumerable<string>, IEnumerable<string>> change)
-   {
-      var partsOfSpeech = _currentVocab().PartsOfSpeech;
-      partsOfSpeech.Set(change(partsOfSpeech.Get()));
    }
 
    TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<VocabNote, WritableStringValue> field) =>

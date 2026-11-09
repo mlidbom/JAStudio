@@ -14,7 +14,7 @@ public partial class VocabDto : CorpusNoteDto
    public string Mnemonic { get; init; } = string.Empty;
    public VocabCompoundPartsDto CompoundParts { get; init; } = new();
    public List<string> Readings { get; init; } = [];
-   public string PartsOfSpeech { get; init; } = string.Empty;
+   public List<string> PartsOfSpeech { get; init; } = [];
    /// <summary>The names of the vocab's <see cref="Note.Vocabulary.VocabNoteRegister"/> flags that are set.</summary>
    public List<string> Register { get; init; } = [];
    /// <summary>The vocab's <see cref="Note.Vocabulary.VocabNoteUsuallyWrittenInKana.Decision"/>: true for yes, false for no, and null while it's undecided.</summary>

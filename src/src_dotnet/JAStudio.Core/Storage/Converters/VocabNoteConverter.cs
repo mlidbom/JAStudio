@@ -20,7 +20,7 @@ static class VocabNoteConverter
                 Mnemonic = note.Mnemonic.Value,
                 CompoundParts = new VocabCompoundPartsDto { Primary = note.CompoundParts.Primary(), Alternative = note.CompoundParts.Alternative() },
                 Readings = note.GetReadings(),
-                PartsOfSpeech = note.PartsOfSpeech.RawStringValue(),
+                PartsOfSpeech = note.PartsOfSpeech.ToDto(),
                 Register = note.Register.ToDto(),
                 UsuallyWrittenInKana = note.UsuallyWrittenInKana.ToDto(),
                 AudioB = note.Audio.First.RawValue(),

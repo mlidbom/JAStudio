@@ -11,14 +11,14 @@ public sealed class DictEntry
    public IReadOnlyList<WordReading> KanaForms { get; }
    public IReadOnlyList<WordKanji> KanjiForms { get; }
    public IReadOnlyList<WordSense> Senses { get; }
-   readonly IReadOnlyList<FrozenSet<string>> _harmonizedPos;
+   readonly IReadOnlyList<FrozenSet<PartOfSpeech>> _partsOfSpeechBySense;
 
    DictEntry(IReadOnlyList<WordReading> kanaForms, IReadOnlyList<WordKanji> kanjiForms, IReadOnlyList<WordSense> senses)
    {
       KanaForms = kanaForms;
       KanjiForms = kanjiForms;
       Senses = senses;
-      _harmonizedPos = senses.Select(s => POSSetManager.InternAndHarmonizeFromList(s.PartsOfSpeech.ToList())).ToList();
+      _partsOfSpeechBySense = [.. senses.Select(sense => DictionaryPartsOfSpeech.Of(sense.PartsOfSpeech))];
    }
 
    internal static DictEntry FromWord(WordEntry source) =>
@@ -61,31 +61,26 @@ public sealed class DictEntry
       return kanjiSet;
    }
 
-   public bool IsTransitiveVerb() => _harmonizedPos.All(pos => POSSetManager.IsTransitiveVerb(pos));
-   public bool IsIntransitiveVerb() => _harmonizedPos.All(pos => POSSetManager.IsIntransitiveVerb(pos));
+   public bool IsTransitiveVerb() => _partsOfSpeechBySense.All(it => it.Contains(PartOfSpeech.Transitive));
+   public bool IsIntransitiveVerb() => _partsOfSpeechBySense.All(it => it.Contains(PartOfSpeech.Intransitive));
    public bool IsToBeVerb() => Senses.All(s => s.Glosses.All(g => g.StartsWith("to be ")));
 
-   public HashSet<string> PartsOfSpeech()
-   {
-      var result = new HashSet<string>();
-      foreach(var posSet in _harmonizedPos)
-         result.UnionWith(posSet);
-      return result;
-   }
+   /// <summary>The <see cref="PartOfSpeech"/>s of all the entry's senses.</summary>
+   public HashSet<PartOfSpeech> PartsOfSpeech() => [.. _partsOfSpeechBySense.SelectMany(it => it)];
 
    public string FormatAnswer()
    {
       string FormatSenseGlosses(int senseIndex)
       {
          var sense = Senses[senseIndex];
-         var pos = _harmonizedPos[senseIndex];
+         var partsOfSpeech = _partsOfSpeechBySense[senseIndex];
          var glosses = sense.Glosses.Select(g => g.Replace(" ", "-")).ToList();
 
-         if(POSSetManager.IsVerb(pos))
+         if(partsOfSpeech.Any(it => it.IsAKindOfVerb))
          {
             var typeMarker = "{?}";
-            if(POSSetManager.IsTransitiveVerb(pos)) typeMarker = "{}";
-            if(POSSetManager.IsIntransitiveVerb(pos)) typeMarker = ":";
+            if(partsOfSpeech.Contains(PartOfSpeech.Transitive)) typeMarker = "{}";
+            if(partsOfSpeech.Contains(PartOfSpeech.Intransitive)) typeMarker = ":";
 
             var startGroup = "{";
             var endGroup = "}";

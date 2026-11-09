@@ -286,7 +286,7 @@ Two cautions:
 | Disambiguation | `VocabNoteQuestion` (`DisambiguationMarker`) | ~~`question:disambiguation` (32 vocab)~~ *Gone from the question 2026-11-08 (slice 2): it's `{ "text", "disambiguation" }`, 34 vocab with one. References to a vocab still name it `text:disambiguation` (`VocabNoteQuestion.DisambiguationName`), 115 of them in 111 vocab, until slice 8.* |
 | ~~Invalid / empty question~~ | `VocabNoteQuestion` | ~~Sentinel strings `InvalidQuestionMessage` and `"[EMPTY]"` stored as the question~~ *Gone 2026-11-08 (slice 2). None was stored in the corpus: the code made them up while it ran. A question can't be set empty, or to text containing `:`, now.* |
 | Prefix / suffix marker | `Mine.VocabPrefixSuffixMarker` | `〜` in the question and forms, stripped as a "noise character". This is also standard dictionary notation, so it may rightly stay text. |
-| Parts of speech | `VocabNotePartsOfSpeech`, `POSSetManager.InternAndHarmonize` | One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times) |
+| ~~Parts of speech~~ | `VocabNotePartsOfSpeech` | ~~One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times)~~ *Gone 2026-11-08 (slice 7b): `partsOfSpeech` is a list of the names of `PartOfSpeech`s, a closed set.* |
 | ~~Primary kanji readings~~ | `KanjiNoteReadings` | ~~Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml`~~ *Gone 2026-11-08 (slice 7a): `readings` is `{ "on", "kun", "nanori" }`, each a list of `{ "kana", "isPrimary" }`. The cards still show a primary reading inside `<primary>`, made from the model (`KanjiReadingsHtml`).* |
 | Primary kanji meaning | kanji `sourceAnswer` | `<primary>Stab</primary>, Thrust` |
 | Media references | `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue` | Anki's `[sound:x.mp3]` and `<img src="…">` |
@@ -486,7 +486,8 @@ to true, and once it's decided it's never changed automatically (Magnus, 2026-11
 Yes and No, and true shows as "uk" on the vocab page and in the sentence breakdown. **Found while doing it:** the
 dictionary half of the automatic decision never runs. Its condition is that the vocab has no parts of speech, but an
 empty parts of speech parses as `{""}`, never an empty set, so only a kana-only question without readings sets it. That's
-been so since before the slice, which kept it as it was.
+been so since before the slice, which kept it as it was. *Slice 7b removed that never-running branch, which also filled
+the vocab's parts of speech from the dictionary, to keep behaviour as it is now that parts of speech can be empty: see 7b.*
 
 **`register` and `matching` are as above since 2026-11-08 (slice 4a).** `register` is placed after `partsOfSpeech`.
 `requiredOrForbidden` holds only the require/forbid rules that are set, each under its name (`RequireForbidFlagField.Name`),
@@ -976,6 +977,28 @@ Progress on step 3:
           part of speech, and `masculine` (飯) becomes the register `roughMasculine`.
         - **Matching changes** where godan, ichidan or na-adjective change, about 20 vocab, so the full rebuild's diff gets
           analyzed. Mostly the vocab page's markers change (の- and い-adjectives start showing).
+        - *Built 2026-11-08:* `PartOfSpeech` is the closed set (replacing the `POS` string constants), `DictionaryPartsOfSpeech`
+          maps all 83 of the dictionary's parts of speech (replacing `POSSetManager`), and the vocab editor's
+          `PartsOfSpeechEditor` adds only from the valid ones. Calls made while building it:
+          - The valid set also keeps the six JAStudio constants the dictionary no longer produces: `proper noun` (166 vocab),
+            `numeral` (38), `independent noun` (21), `abbreviation` (3), `adverbial noun` (2) and `adverbial` (1). The meta tags
+            show them, and Magnus counted the constants as valid. `Unknown` went: it never matched anything.
+          - `archaic` (誘く) becomes the register `archaic`, as `masculine` becomes `roughMasculine`; `kana` (めくる) is dropped.
+          - A value checked against the dictionary gets every part of speech of each of the word's senses that has one the
+            value stands for, so `adjective` on 悠々 brings `to-adverb` along with `taru-adjective`.
+          - **Behaviour kept:** `VocabNoteGeneratedData` filled a vocab's parts of speech from the dictionary, and decided
+            `usuallyWrittenInKana`, when the vocab had none, but that never ran, since `""` parsed as `{""}`. With a real
+            list it would have started running for the 1,085 vocab without parts of speech, so it was removed.
+            Turning it on is a separate decision, for Magnus.
+          - The migration: 1,085 vocab end with no parts of speech (1,066 had none; 16 `unknown` and 2 run-togethers the
+            dictionary doesn't confirm; 々's `unclassified`). 79 values were checked against the dictionary. 18 vocab change
+            godan verb, ichidan verb, na-adjective or intransitive, which matching and the tokenizer's preprocessing read.
+          - The full rebuild changed only the 31 sentences with 止める, which had been stored as the run-together `ichidan
+            verbgodan verb`: as an ichidan verb it no longer also parses as 止む plus える (and えた, えない, えます, えました),
+            matches that were never displayed. Nothing displayed changed. Data problems noticed on the way are in
+            `corpus-data-issues.md`.
+          - *Next (Magnus, 2026-11-09):* turn on filling a vocab's parts of speech from the dictionary when it has none,
+            as its own change and rebuild, and judge from what it creates whether it's worth keeping.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
       pickers to replace the related-vocab JSON text box.
    9. Media, once the points under [Media](#media-open) are settled.
@@ -1080,6 +1103,11 @@ question 4.
     [Import and organization](#import-and-organization-needs-its-own-design).
 12. **Which of these tags are student-tags:** `active_kanji`, `preparing-cards`, `tmp` and `-::TODO…`? See
     [Student-tags and corpus-tags](#student-tags-and-corpus-tags).
+13. **The dictionary's senses.** *TODO (Magnus, 2026-11-09): consider whether it's worth it, carefully, before any
+    work.* JAStudio flattens a dictionary entry: a word's parts of speech are the union of all its senses' parts of
+    speech, and its answer joins the senses with ` | `. So a vocab can't say that 悠々 is a taru-adjective in one sense
+    and something else in another. Real support for senses could fix that, but needs significant design work, and has
+    complexities of its own.
 
 ### For me to verify (not questions for Magnus)
 

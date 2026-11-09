@@ -19,7 +19,7 @@ public class VocabSpec : IEquatable<VocabSpec>
       IEnumerable<string>? prefixIn = null,
       IEnumerable<string>? prefixNot = null,
       IEnumerable<string>? suffixNot = null,
-      IEnumerable<string>? tos = null,
+      IEnumerable<PartOfSpeech>? partsOfSpeech = null,
       List<string>? ownedForms = null)
    {
       DisambiguationName = question;
@@ -36,7 +36,7 @@ public class VocabSpec : IEquatable<VocabSpec>
       YieldToSurface = yieldToSurface != null ? [..yieldToSurface] : [];
       PrefixIsNot = prefixNot != null ? [..prefixNot] : [];
       SuffixIsNot = suffixNot != null ? [..suffixNot] : [];
-      Tos = tos != null ? [..tos] : [];
+      PartsOfSpeech = partsOfSpeech != null ? [..partsOfSpeech] : [];
       RequiredPrefix = prefixIn != null ? [..prefixIn] : [];
    }
 
@@ -53,7 +53,7 @@ public class VocabSpec : IEquatable<VocabSpec>
    public HashSet<string> YieldToSurface { get; }
    public HashSet<string> PrefixIsNot { get; }
    public HashSet<string> SuffixIsNot { get; }
-   public HashSet<string> Tos { get; }
+   public HashSet<PartOfSpeech> PartsOfSpeech { get; }
    public HashSet<string> RequiredPrefix { get; }
 
    public override string ToString() => $"""VocabSpec("{Question}", "{Answer}", [{string.Join(", ", Readings.Select(r => $"\"{r}\""))}])""";
@@ -110,9 +110,9 @@ public class VocabSpec : IEquatable<VocabSpec>
 
       vocabNote.MatchingConfiguration.ConfigurableRules.Save();
 
-      if(Tos.Count > 0)
+      if(PartsOfSpeech.Count > 0)
       {
-         vocabNote.PartsOfSpeech.Set(Tos);
+         vocabNote.PartsOfSpeech.Set(PartsOfSpeech);
       }
    }
 }

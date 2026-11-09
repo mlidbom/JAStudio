@@ -120,7 +120,7 @@ static class VocabLists
       new("無い", "not", forms: ["ない"], matching: [IsInflectingWord]),
       new("うまい", yieldToSurface: ["うまく"]),
       new("うまく"),
-      new("笑える", tos: [POS.IchidanVerb]),
+      new("笑える", partsOfSpeech: [PartOfSpeech.IchidanVerb]),
 
       new("にする", "to: turn-into"),
       new("のか", matching: [Requires.SentenceEnd]),
@@ -174,7 +174,7 @@ static class VocabLists
 
       new("とおり"),
       new("られる", matching: [IsInflectingWord]),
-      new("返せる", tos: [POS.IchidanVerb]), // exposes a bug in godan imperative detection
+      new("返せる", partsOfSpeech: [PartOfSpeech.IchidanVerb]), // exposes a bug in godan imperative detection
       new("外出中", matching: [IsCompositionallyTransparentCompound]),
       new("買い替える", matching: [IsCompositionallyTransparentCompound]),
 

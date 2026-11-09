@@ -131,7 +131,7 @@ public class JPCollection
       _mediaStorage = mediaStorage;
       _backendDataLoader = backendDataLoader;
       DictLookup = new DictLookup(this);
-      VocabNoteGeneratedData = new VocabNoteGeneratedData(DictLookup);
+      VocabNoteGeneratedData = new VocabNoteGeneratedData();
       VocabNoteFactory = new VocabNoteFactory(DictLookup, this, noteServices);
 
       Vocab = new VocabCollection(backendNoteCreator, NoteServices);
