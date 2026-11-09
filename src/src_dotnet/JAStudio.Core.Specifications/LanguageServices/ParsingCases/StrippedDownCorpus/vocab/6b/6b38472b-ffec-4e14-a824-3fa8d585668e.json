@@ -54,7 +54,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "込める",
+    "ergativeTwins": [
+      "込める"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

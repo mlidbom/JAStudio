@@ -47,7 +47,7 @@ public class NoteEditingTools
                 checkout, and its Anki note updated, as any edit is. Fields are named, and their values given, as
                 get_the_editable_fields_of_a_note lists them. Every name and value is checked before anything is written; a value the note
                 refuses, such as an unknown part of speech, fails the edit at that field, after the fields before it were written. Related
-                vocab are linked both ways, as when a person edits them: writing a vocab's synonyms, perfect synonyms or ergative twin changes
+                vocab are linked both ways, as when a person edits them: writing a vocab's synonyms, perfect synonyms or ergative twins changes
                 the vocab they name too. A sentence's highlighted vocab and incorrect and hidden matches reparse the sentence. Reports each
                 field of the note that changed, before and after, in the order of its fields, those the edit didn't write included, such as a
                 vocab's synonyms when its perfect synonyms are written.

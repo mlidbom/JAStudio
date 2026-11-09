@@ -41,7 +41,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "破れる",
+    "ergativeTwins": [
+      "破れる"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

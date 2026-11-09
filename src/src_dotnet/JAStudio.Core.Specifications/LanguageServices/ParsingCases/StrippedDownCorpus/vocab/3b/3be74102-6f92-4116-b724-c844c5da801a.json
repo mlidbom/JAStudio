@@ -41,7 +41,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "沈める",
+    "ergativeTwins": [
+      "沈める"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

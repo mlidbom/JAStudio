@@ -155,9 +155,10 @@ public static class VocabEditableFields
    public static readonly EditableTextSetField<VocabNote> SeeAlso =
       new("relatedVocab.seeAlso", "See also", it => it.RelatedNotes.SeeAlso.Strings(), (it, vocab) => it.RelatedNotes.SeeAlso.Add(vocab), (it, vocab) => it.RelatedNotes.SeeAlso.Remove(vocab));
 
-   /// <summary>The vocab's transitive or intransitive counterpart, such as 開ける for 開く. Setting it sets the twin's ergative twin to the vocab too.</summary>
-   public static readonly EditableTextField<VocabNote> ErgativeTwin =
-      new("relatedVocab.ergativeTwin", "Ergative twin", TextFieldFormat.Line, it => it.RelatedNotes.ErgativeTwin.Get(), (it, twin) => it.RelatedNotes.ErgativeTwin.Set(twin));
+   /// <summary>The vocab's transitive or intransitive counterparts (<see cref="Vocabulary.RelatedVocab.ErgativeTwins"/>), such as 開ける for 開く: adding or removing one<br/>
+   /// adds or removes the vocab as the twin's twin too.</summary>
+   public static readonly EditableTextSetField<VocabNote> ErgativeTwins =
+      new("relatedVocab.ergativeTwins", "Ergative twins", it => it.RelatedNotes.ErgativeTwins.Strings(), (it, twin) => it.RelatedNotes.ErgativeTwins.Add(twin), (it, twin) => it.RelatedNotes.ErgativeTwins.Remove(twin));
 
    public static readonly EditableTextField<VocabNote> DerivedFrom =
       new("relatedVocab.derivedFrom", "Derived from", TextFieldFormat.Line, it => it.RelatedNotes.DerivedFrom.Get(), (it, vocab) => it.RelatedNotes.DerivedFrom.Set(vocab));
@@ -173,7 +174,7 @@ public static class VocabEditableFields
       UsuallyWrittenInKana, IsCompositionallyTransparentCompound,
       Archaic, Childish, Derogatory, Formal, Honorific, Humble, Informal, Literary, Polite, RoughMasculine, Sensitive, Slang, SoftFeminine, Vulgar,
       Tags,
-      Synonyms, PerfectSynonyms, Antonyms, ConfusedWith, SeeAlso, ErgativeTwin, DerivedFrom
+      Synonyms, PerfectSynonyms, Antonyms, ConfusedWith, SeeAlso, ErgativeTwins, DerivedFrom
    ];
 
    /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>

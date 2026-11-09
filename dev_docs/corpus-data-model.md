@@ -388,8 +388,8 @@ instead is gone.
 - `KanjiNote` joins the JSON lists `radicals`, `primaryVocab`, `similarMeaning` and `confusedWith` back into
   comma strings in memory, then re-parses them on every read.
 - `VocabNotePartsOfSpeech` holds one raw string.
-- `RelatedVocabDataSerializer`, `VocabNoteMatchingRulesSerializer` (*deleted 2026-11-08: nothing used it*),
-  `ISentenceConfigurationSerializer` and `ParsingResultSerializer` exist only to produce Anki field strings and feed editor text boxes.
+- `RelatedVocabDataSerializer` (*deleted 2026-11-09: nothing used it*), `VocabNoteMatchingRulesSerializer` (*deleted
+  2026-11-08: nothing used it*), `ISentenceConfigurationSerializer` and `ParsingResultSerializer` exist only to produce Anki field strings and feed editor text boxes.
 - There are two tables of Anki field names: `AnkiFieldNames` in `JAStudio.Anki`, and
   `NoteFieldsConstants` / `SentenceNoteFields` / `MyNoteFields` in `JAStudio.Core.Note`.
 - `AnkiNoteData` is declared in `Note/JPNoteData.cs`, where the file name and the type name disagree.
@@ -453,7 +453,7 @@ should drive its JSON key, not the reverse.
     "rules": { "prefixIsNot": [], "suffixIsNot": [], "surfaceIsNot": [], "yieldToSurface": [], "requiredPrefix": [] }
   },
   "relatedVocab": {
-    "ergativeTwin": "剥がれる",
+    "ergativeTwins": ["剥がれる"],
     "derivedFrom": null,
     "perfectSynonyms": [], "synonyms": ["剥ぐ"], "antonyms": [], "confusedWith": [], "seeAlso": []
   },
@@ -466,6 +466,11 @@ should drive its JSON key, not the reverse.
 
 `forms` holds only the forms besides the question. The question is always a form, and always owned, so it isn't
 repeated there. *(Already so in today's files, since 2026-11-06.)*
+
+`ergativeTwins` is a list, kept mutual as `synonyms` and `antonyms` are: adding or removing a vocab's twin adds or removes
+the vocab as the twin's twin too. *(Since 2026-11-09, agreed with Magnus. It was one text, `ergativeTwin`, which couldn't
+hold a verb with two counterparts, such as 起こす for both 起きる and 起こる, nor a verb whose kana and kanji spellings are
+vocab of their own, such as かける and 掛ける for 掛かる: 24 of its 242 links went one way only.)*
 
 **`forms` and `compoundParts` are as above since 2026-11-08 (slice 1).** A form's text is unique within a vocab. The
 primary compound parts are the vocab split into words, in order, and a word may repeat (`どいつもこいつも`). The

@@ -51,7 +51,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "無くす",
+    "ergativeTwins": [
+      "無くす"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

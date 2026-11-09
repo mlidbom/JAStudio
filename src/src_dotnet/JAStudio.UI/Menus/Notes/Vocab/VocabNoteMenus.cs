@@ -68,7 +68,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                                             NoteListMenuItem.Showing(ShortcutFinger.Up1("Marked invalid in sentences"), $"Sentences where {vocab.GetQuestion()} is marked invalid", vocab.Sentences.InvalidIn)
                                                          }),
                                     NoteListMenuItem.Showing(ShortcutFinger.Home3("Kanji"), $"Kanji in {vocab.GetQuestion()}", () => KanjiIn(vocab.GetQuestion())),
-                                    BuildOpenErgativeTwinMenuSpec(ShortcutFinger.Home4("Ergative twin"), vocab)
+                                    BuildOpenErgativeTwinsMenuSpec(ShortcutFinger.Home4("Ergative twins"), vocab)
                                  }.Where(it => it != null).ToList()!
             ),
             SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(vocab)),
@@ -157,17 +157,13 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       return SpecMenuItem.Submenu(title, items);
    }
 
-   SpecMenuItem? BuildOpenErgativeTwinMenuSpec(string title, VocabNote vocab)
+   static SpecMenuItem? BuildOpenErgativeTwinsMenuSpec(string title, VocabNote vocab)
    {
-      var ergativeTwinQuestion = vocab.RelatedNotes.ErgativeTwin.Get();
-      if(string.IsNullOrEmpty(ergativeTwinQuestion))
+      var ergativeTwinNotes = vocab.RelatedNotes.ErgativeTwins.Notes();
+      if(ergativeTwinNotes.Count == 0)
          return null;
 
-      var ergativeTwinNotes = _services.CoreApp.Collection.Vocab.WithQuestion(ergativeTwinQuestion);
-      if(!ergativeTwinNotes.Any())
-         return null;
-
-      return NoteListMenuItem.Showing(title, $"Ergative twin of {vocab.GetQuestion()}", () => ergativeTwinNotes);
+      return NoteListMenuItem.Showing(title, $"Ergative twins of {vocab.GetQuestion()}", () => ergativeTwinNotes);
    }
 
    SpecMenuItem BuildCreateCloneToFormMenuSpec(string title, VocabNote vocab)

@@ -41,7 +41,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "離す",
+    "ergativeTwins": [
+      "離す"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [

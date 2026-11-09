@@ -33,7 +33,7 @@ static class VocabNoteConverter
                 Matching = note.MatchingConfiguration.ToDto(),
                 RelatedVocab = new VocabRelatedDto
                                {
-                                  ErgativeTwin = related.ErgativeTwin.Get(),
+                                  ErgativeTwins = [.. related.ErgativeTwins.Strings().OrderBy(s => s)],
                                   DerivedFrom = related.DerivedFrom.Get(),
                                   PerfectSynonyms = [.. related.PerfectSynonyms.Get().OrderBy(s => s)],
                                   Synonyms = [.. related.Synonyms.Strings().OrderBy(s => s)],

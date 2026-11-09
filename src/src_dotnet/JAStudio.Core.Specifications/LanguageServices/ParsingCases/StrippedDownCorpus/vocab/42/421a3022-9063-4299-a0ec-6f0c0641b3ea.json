@@ -46,7 +46,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "澄ます",
+    "ergativeTwins": [
+      "澄ます"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

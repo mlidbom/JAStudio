@@ -57,7 +57,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "止まる",
+    "ergativeTwins": [
+      "止まる"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

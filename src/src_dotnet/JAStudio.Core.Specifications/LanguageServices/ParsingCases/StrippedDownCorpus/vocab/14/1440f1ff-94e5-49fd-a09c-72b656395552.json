@@ -50,7 +50,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "驚かす",
+    "ergativeTwins": [
+      "驚かす"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

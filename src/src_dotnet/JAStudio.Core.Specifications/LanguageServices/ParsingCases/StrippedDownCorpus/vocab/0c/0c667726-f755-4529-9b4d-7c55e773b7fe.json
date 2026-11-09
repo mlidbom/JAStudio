@@ -41,7 +41,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "放れる",
+    "ergativeTwins": [
+      "放れる"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [

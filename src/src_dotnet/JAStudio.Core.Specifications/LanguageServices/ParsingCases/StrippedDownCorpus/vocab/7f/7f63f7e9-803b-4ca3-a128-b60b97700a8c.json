@@ -57,7 +57,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "見つかる",
+    "ergativeTwins": [
+      "見つかる"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

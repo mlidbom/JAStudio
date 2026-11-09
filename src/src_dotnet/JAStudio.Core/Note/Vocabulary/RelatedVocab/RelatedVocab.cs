@@ -22,7 +22,7 @@ public class RelatedVocab
 
       _data = subData != null
                  ? new RelatedVocabData(
-                    subData.ErgativeTwin,
+                    subData.ErgativeTwins.ToHashSet(),
                     new ValueWrapper<string>(subData.DerivedFrom),
                     subData.PerfectSynonyms.ToHashSet(),
                     subData.Synonyms.ToHashSet(),
@@ -30,7 +30,7 @@ public class RelatedVocab
                     subData.ConfusedWith.ToHashSet(),
                     subData.SeeAlso.ToHashSet())
                  : new RelatedVocabData(
-                    string.Empty,
+                    [],
                     new ValueWrapper<string>(string.Empty),
                     [],
                     [],
@@ -38,7 +38,7 @@ public class RelatedVocab
                     [],
                     []);
 
-      ErgativeTwin = new ErgativeTwin(vocab, _data, guard);
+      ErgativeTwins = new ErgativeTwins(vocab, _data, guard);
       Synonyms = new Synonyms(vocab, _data, guard);
       PerfectSynonyms = new PerfectSynonyms(vocab, _data, guard);
       Antonyms = new Antonyms(vocab, _data, guard);
@@ -49,32 +49,13 @@ public class RelatedVocab
       _inCompoundIds = new Lazy<HashSet<NoteId>>(() => InCompounds().Select(voc => voc.GetId()).ToHashSet());
    }
 
-   public ErgativeTwin ErgativeTwin { get; }
+   public ErgativeTwins ErgativeTwins { get; }
    public Synonyms Synonyms { get; }
    public PerfectSynonyms PerfectSynonyms { get; }
    public Antonyms Antonyms { get; }
    public SeeAlso SeeAlso { get; }
    public DerivedFromField DerivedFrom { get; }
    public ConfusedWithField ConfusedWith { get; }
-
-   public string RawJson
-   {
-      get => RelatedVocabData.Serializer().Serialize(_data);
-      set
-      {
-         var deserialized = RelatedVocabData.Serializer().Deserialize(value);
-         _guard.Update(() =>
-         {
-            _data.ErgativeTwin = deserialized.ErgativeTwin;
-            _data.DerivedFrom = deserialized.DerivedFrom;
-            _data.PerfectSynonyms = deserialized.PerfectSynonyms;
-            _data.Synonyms = deserialized.Synonyms;
-            _data.Antonyms = deserialized.Antonyms;
-            _data.ConfusedWith = deserialized.ConfusedWith;
-            _data.SeeAlso = deserialized.SeeAlso;
-         });
-      }
-   }
 
    public HashSet<NoteId> InCompoundIds => _inCompoundIds.Value;
 

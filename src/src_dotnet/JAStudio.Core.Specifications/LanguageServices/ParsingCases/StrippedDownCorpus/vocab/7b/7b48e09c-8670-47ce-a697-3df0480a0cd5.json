@@ -41,7 +41,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "割る",
+    "ergativeTwins": [
+      "割る"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

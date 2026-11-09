@@ -50,7 +50,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "焼く",
+    "ergativeTwins": [
+      "焼く"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

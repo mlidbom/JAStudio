@@ -36,6 +36,7 @@ class VocabStringMenus
       var seeAlso = vocab.RelatedNotes.SeeAlso.Strings();
       var confusedWith = vocab.RelatedNotes.ConfusedWith.Get();
       var perfectSynonyms = vocab.RelatedNotes.PerfectSynonyms.Get();
+      var ergativeTwins = vocab.RelatedNotes.ErgativeTwins.Strings();
       var matchedForms = vocab.Forms.MatchedFormsSet();
 
       var items = new List<SpecMenuItem>
@@ -46,6 +47,7 @@ class VocabStringMenus
                      SpecMenuItem.UICommand(ShortcutFinger.Home4("Antonym"), () => vocab.RelatedNotes.Antonyms.Add(text), enabled: !antonyms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Add(text), enabled: !seeAlso.Contains(text)),
+                     SpecMenuItem.UICommand(ShortcutFinger.Up2("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwins.Add(text), enabled: !ergativeTwins.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), () => vocab.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(text), enabled: !perfectSynonyms.Contains(text))
                   };
 
@@ -56,7 +58,6 @@ class VocabStringMenus
    {
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Set(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home2("Derived from"), () => vocab.RelatedNotes.DerivedFrom.Set(text))
                   };
 
@@ -71,7 +72,7 @@ class VocabStringMenus
       var confusedWith = vocab.RelatedNotes.ConfusedWith.Get();
       var perfectSynonyms = vocab.RelatedNotes.PerfectSynonyms.Get();
       var enteredForms = vocab.Forms.EnteredFormsSet();
-      var ergativeTwin = vocab.RelatedNotes.ErgativeTwin.Get();
+      var ergativeTwins = vocab.RelatedNotes.ErgativeTwins.Strings();
       var derivedFrom = vocab.RelatedNotes.DerivedFrom.Get();
 
       var items = new List<SpecMenuItem>
@@ -79,7 +80,7 @@ class VocabStringMenus
                      SpecMenuItem.UICommand(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Remove(text), enabled: synonyms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Remove(text), enabled: confusedWith.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Antonym"), () => vocab.RelatedNotes.Antonyms.Remove(text), enabled: antonyms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwin.Remove(), enabled: text == ergativeTwin),
+                     SpecMenuItem.UICommand(ShortcutFinger.Home4("Ergative twin"), () => vocab.RelatedNotes.ErgativeTwins.Remove(text), enabled: ergativeTwins.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: enteredForms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Up1("See also"), () => vocab.RelatedNotes.SeeAlso.Remove(text), enabled: seeAlso.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Down1("Perfect synonym"), () => vocab.RelatedNotes.PerfectSynonyms.Remove(text), enabled: perfectSynonyms.Contains(text)),

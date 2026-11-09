@@ -7,7 +7,7 @@ namespace JAStudio.Core.Storage.Dto;
 [MemoryPackable]
 public partial class VocabRelatedDto
 {
-   public string ErgativeTwin { get; init; } = string.Empty;
+   public List<string> ErgativeTwins { get; init; } = [];
    public string DerivedFrom { get; init; } = string.Empty;
    public List<string> PerfectSynonyms { get; init; } = [];
    public List<string> Synonyms { get; init; } = [];

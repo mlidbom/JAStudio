@@ -50,7 +50,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "焼ける",
+    "ergativeTwins": [
+      "焼ける"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

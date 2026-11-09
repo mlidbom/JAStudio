@@ -44,7 +44,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "まる",
+    "ergativeTwins": [
+      "まる"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

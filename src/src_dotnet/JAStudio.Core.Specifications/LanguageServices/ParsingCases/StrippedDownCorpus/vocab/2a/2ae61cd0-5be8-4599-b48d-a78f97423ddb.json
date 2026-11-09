@@ -49,7 +49,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "成る",
+    "ergativeTwins": [
+      "成る"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [

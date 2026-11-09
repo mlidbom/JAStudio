@@ -54,7 +54,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "止める",
+    "ergativeTwins": [
+      "止める"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

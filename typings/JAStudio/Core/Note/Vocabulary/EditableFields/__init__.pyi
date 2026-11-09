@@ -77,7 +77,7 @@ class VocabEditableFields(abc.ABC):
     DictionaryFormHead : EditableRequireForbidField
     DictionaryFormStart : EditableRequireForbidField
     Disambiguation : EditableTextField_1[VocabNote]
-    ErgativeTwin : EditableTextField_1[VocabNote]
+    ErgativeTwins : EditableTextSetField_1[VocabNote]
     Explanation : EditableTextField_1[VocabNote]
     FirstAudio : EditableTextField_1[VocabNote]
     Formal : EditableFlagField_1[VocabNote]

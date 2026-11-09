@@ -54,7 +54,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "捕まる",
+    "ergativeTwins": [
+      "捕まる"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],

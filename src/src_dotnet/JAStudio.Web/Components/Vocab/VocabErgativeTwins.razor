@@ -1,0 +1,15 @@
+@using JAStudio.Core.LanguageServices
+@using JAStudio.Core.Note.Vocabulary
+
+<RelatedVocabList Vocabs="_vocabs" Title="ergative twins" CssClass="ergative_twin"/>
+
+@code {
+    [Parameter, EditorRequired] public VocabNote Note { get; set; } = null!;
+
+    List<VocabNote> _vocabs = [];
+
+    protected override void OnParametersSet()
+    {
+        _vocabs = VocabNoteSorting.SortVocabListByStudyingStatus(Note.RelatedNotes.ErgativeTwins.Notes());
+    }
+}

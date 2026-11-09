@@ -41,7 +41,9 @@
     }
   },
   "relatedVocab": {
-    "ergativeTwin": "下ろす",
+    "ergativeTwins": [
+      "下ろす"
+    ],
     "derivedFrom": "",
     "perfectSynonyms": [],
     "synonyms": [],
