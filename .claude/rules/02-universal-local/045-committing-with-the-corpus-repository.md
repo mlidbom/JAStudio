@@ -50,14 +50,29 @@ Use the same commit message in each repository (Magnus, 2026-11-08), so the comm
 ## Only the work's own changes
 
 Magnus's use of JAStudio changes the corpus repository all the time: every note edited is a changed file there. He
-commits those himself, and the source repository's pointer to them is his "db updates" commit.
+commits those himself, and the source repository's pointer to them goes in a "db updates" commit (below).
 
 - **In the corpus repository, commit by path only the files the work changed.** Check `git status` there first. If a
   file the work changed also holds changes of Magnus's, ask before committing it.
 - **Before recording the pointer, look at what it covers:** `git log <recorded commit>..HEAD` in the corpus repository,
   where `git ls-tree HEAD src/jas_database` in the source repository gives the recorded commit. If it covers commits
-  of Magnus's besides the work's, say so when reporting the commit: they'll be recorded with it.
-- **Without such work, leave `src/jas_database` out of source commits.** A changed pointer that the work didn't cause
-  is Magnus's to commit.
+  of Magnus's, record his pushed ones first, in a "db updates" commit. If it still covers some of his, unpushed ones,
+  say so when reporting the commit: they'll be recorded with it.
+- **Other than that, leave `src/jas_database` out of source commits.**
 
-Committing at all still needs Magnus's word, as always.
+## Magnus's own corpus commits: a "db updates" commit
+
+Whenever the source repository's `git status` shows `src/jas_database` changed because of corpus commits of Magnus's
+on `main` that are pushed, commit the pointer in a source commit of its own, with the message `db updates` and nothing
+else (Magnus, 2026-11-09). That commit needs no go-ahead.
+
+- **Only when the corpus checkout is on `main`, and `main` is pushed:** `git -C src/jas_database status -sb` starts with
+  `## main...origin/main` and shows no `[ahead`. On a detached `HEAD` or another branch, leave the pointer alone: how
+  branching the corpus plays out isn't worked out yet (Magnus: "I'm not confident on the effects or logic if we start
+  branching the db"). Unpushed commits may still change, so leave those alone too.
+- **The pointer records the corpus repository's `HEAD` commit, not its working tree:** Magnus's uncommitted edits there
+  don't matter, and stay his.
+- **Commit only the pointer:** `git commit -m "db updates" -- src/jas_database`, so nothing else staged goes with it.
+
+Committing anything else still needs Magnus's word, as always, apart from the MCP server (see
+`090-claude-owns-the-jastudio-mcp-server.md`).
