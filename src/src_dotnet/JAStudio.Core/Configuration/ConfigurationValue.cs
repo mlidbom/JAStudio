@@ -24,11 +24,18 @@ public class ConfigurationValue<T>
                   : defaultValue;
    }
 
+   /// <summary>The value. Setting it to the value it already has changes nothing: nothing is saved, and <see cref="Changed"/> notifies nothing.</summary>
+   /// <remarks>
+   /// The options dialog sets every value as it opens, to show them. Until 2026-11-09 each set was a change, so opening it saved the configuration<br/>
+   /// once for each value, and every page open in the workspace reloaded as many times, since pages reload when the configuration changes.
+   /// </remarks>
    public T Value
    {
       get => _value;
       set
       {
+         if(EqualityComparer<T>.Default.Equals(_value, value)) return;
+
          _value = value;
 
          _configDict[Name] = value!;
@@ -37,6 +44,6 @@ public class ConfigurationValue<T>
       }
    }
 
-   /// <summary>Notifies the new <see cref="Value"/> every time it is set, on the thread that set it.</summary>
+   /// <summary>Notifies the new <see cref="Value"/> every time it changes, on the thread that changed it.</summary>
    public IObservable<T> Changed => _changed;
 }
