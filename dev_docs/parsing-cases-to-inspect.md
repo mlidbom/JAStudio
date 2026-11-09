@@ -41,7 +41,9 @@ The eleven possible misparses of the first pass are all of these kinds, but for 
   one word. A todo in `code-issues.md` (Magnus: "an excellent question"), not to change as part of the refactoring.
 - **会いに行ったんだ displays に and 行った, rather than に行く and た.** The corpus's 行った (went) wins over に行く (to go
   to do), which is valid but not displayed. Accepted for now (Magnus): not unreasonable, and the vocab's configuration
-  can change it.
+  can change it. 行った is now flagged compositionally transparent, so with "Hide compositionally transparent compounds"
+  on, it displays 会う | に行く | た | んだ. A todo in `code-issues.md` designs the fix with the option off: a
+  compositionally transparent compound losing to any compound overlapping it.
 - **また寒くなるな displays うな, the prohibitive: "don't get cold".** It's likely the sentence-final な: "it's getting
   cold again". JAStudio can't tell the two apart from the words alone; the old case expected the prohibitive too.
   Accepted for now (Magnus): not unreasonable, and configuration can change it.

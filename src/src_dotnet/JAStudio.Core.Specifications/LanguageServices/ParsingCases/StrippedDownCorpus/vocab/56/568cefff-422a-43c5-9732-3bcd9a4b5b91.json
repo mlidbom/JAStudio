@@ -49,7 +49,9 @@
       "surface": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
-    "flags": [],
+    "flags": [
+      "isCompositionallyTransparentCompound"
+    ],
     "rules": {
       "prefixIsNot": [],
       "suffixIsNot": [],
