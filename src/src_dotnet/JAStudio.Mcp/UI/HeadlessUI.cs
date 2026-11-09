@@ -40,9 +40,17 @@ public sealed class HeadlessUI
    public IWebPageImages WebPageImages { get; }
 
    /// <summary>Opens a window with <paramref name="open"/>, on the UI thread, renders it as it is once it has handled what opening it started, and closes it.</summary>
-   public PngImage Render(Func<Window> open) => _uiThread.Invoke(() =>
+   public PngImage Render(Func<Window> open) => Render(open, _ => {});
+
+   /// <summary>
+   /// Opens a window with <paramref name="open"/>, on the UI thread, lets <paramref name="prepare"/> change it once it has handled what opening it started,<br/>
+   /// such as choose one of its tabs, renders it as it then is, and closes it.
+   /// </summary>
+   public PngImage Render(Func<Window> open, Action<Window> prepare) => _uiThread.Invoke(() =>
    {
       var window = open();
+      _uiThread.RunJobs();
+      prepare(window);
       _uiThread.RunJobs();
       var image = PngImageOf(window.CaptureRenderedFrame() ?? throw new InvalidOperationException($"The window {window.Title} drew no frame."));
       window.Close();

@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Mcp.UI;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Views.Workspace;
+using JAStudio.UI.Views.Workspace.Editors;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -56,17 +59,21 @@ public class WindowTools
                 Renders the headless JAStudio's workspace window as it is: its navigation, its editor and its tabs, the shown tab's page rendered by a
                 headless browser. Given a note, it shows the note first, in a tab of its own as a click on a note link does, or in the editor. The
                 workspace keeps its tabs from one call to the next, as the workspace does, and starts as Magnus last left his, from a copy of his
-                workspace's saved state.
+                workspace's saved state. The editor shows its first tab, such as a vocab's "Text", unless told which.
                 """)]
    public IEnumerable<ContentBlock> RenderTheWorkspace(
       [Description("The id of a note to show first, a GUID, as search_notes lists it. None to render the workspace as it is.")] string? noteId = null,
-      [Description("Whether to show the note in the editor, as editing it does, rather than its page in a tab.")] bool inTheEditor = false)
+      [Description("Whether to show the note in the editor, as editing it does, rather than its page in a tab.")] bool inTheEditor = false,
+      [Description("The tab of the editor to show, by its header, such as \"Matching\" or \"Metadata\" for a vocab. The editor's first tab if none.")] string? editorTab = null)
    {
       var note = noteId == null ? null : NoteWithTheId(noteId);
       return ImageResult.Of(note == null ? "The workspace" : $"The workspace showing {note.GetQuestion()}", _headlessUI.Render(() =>
       {
          if(note != null) ShowTheNote(note);
          return WorkspaceWindow.Shown();
+      }, workspace =>
+      {
+         if(editorTab != null) ShowTheEditorsTab(workspace, editorTab);
       }));
 
       void ShowTheNote(JPNote noteToShow)
@@ -76,5 +83,16 @@ public class WindowTools
       }
 
       JPNote NoteWithTheId(string id) => _collection.NoteFromNoteId(NoteId.Parse(id)) ?? throw new ArgumentException($"No note has the id {id}.", nameof(noteId));
+   }
+
+   /// <summary>Selects the tab of the <paramref name="workspace"/>'s editor whose header is <paramref name="header"/>, or, when the editor has none, fails with those it has.</summary>
+   static void ShowTheEditorsTab(Window workspace, string header)
+   {
+      var editor = workspace.GetLogicalDescendants().OfType<EditorSection>().SingleOrDefault()
+                ?? throw new ArgumentException("The workspace shows no editor: give a note to show in it.", nameof(header));
+      var tabs = editor.GetLogicalDescendants().OfType<TabItem>().ToList();
+      var tab = tabs.SingleOrDefault(it => it.Header as string == header)
+             ?? throw new ArgumentException($"The editor has no tab \"{header}\". Its tabs are: {string.Join(", ", tabs.Select(it => $"\"{it.Header}\""))}.", nameof(header));
+      tab.IsSelected = true;
    }
 }
