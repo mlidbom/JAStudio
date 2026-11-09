@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
@@ -34,31 +34,31 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
 
       CoreFields =
       [
-         Field("Question", TextFieldFormat.Line, it => it.GetQuestion(), (it, question) => it.SetQuestion(question)),
-         Field("Answer", TextFieldFormat.Line, it => it.CorpusAnswer),
-         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic)
+         Field(KanjiEditableFields.Question),
+         Field(KanjiEditableFields.Answer),
+         Field(KanjiEditableFields.Mnemonic)
       ];
       Readings =
       [
-         new KanjiReadingListEditorViewModel(_fatalErrorHandler, () => CurrentKanji().Readings.On),
-         new KanjiReadingListEditorViewModel(_fatalErrorHandler, () => CurrentKanji().Readings.Kun),
-         new KanjiReadingListEditorViewModel(_fatalErrorHandler, () => CurrentKanji().Readings.Nanori)
+         ReadingList(KanjiEditableFields.OnReadings),
+         ReadingList(KanjiEditableFields.KunReadings),
+         ReadingList(KanjiEditableFields.NanoriReadings)
       ];
       RelatedFields =
       [
-         Field("Radicals", TextFieldFormat.CommaSeparated, it => it.RadicalsRaw, (it, radicals) => it.RadicalsRaw = radicals),
-         Field("Primary vocab", TextFieldFormat.CommaSeparated, it => it.PrimaryVocabRaw, (it, primaryVocab) => it.PrimaryVocabRaw = primaryVocab),
-         Field("Similar meaning", TextFieldFormat.CommaSeparated, it => it.SimilarMeaningRaw, (it, similarMeaning) => it.SimilarMeaningRaw = similarMeaning),
-         Field("Confused with", TextFieldFormat.CommaSeparated, it => it.RelatedConfusedWithRaw, (it, confusedWith) => it.RelatedConfusedWithRaw = confusedWith)
+         Field(KanjiEditableFields.Radicals),
+         Field(KanjiEditableFields.PrimaryVocab),
+         Field(KanjiEditableFields.SimilarMeaning),
+         Field(KanjiEditableFields.ConfusedWith)
       ];
       SourceFields =
       [
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer),
-         Field("Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.MeaningMnemonic)
+         Field(KanjiEditableFields.SourceAnswer),
+         Field(KanjiEditableFields.SourceMeaningMnemonic)
       ];
       OtherFields =
       [
-         Field("Image", TextFieldFormat.Line, it => it.Image.RawValue(), (it, image) => it.Image.SetRawValue(image))
+         Field(KanjiEditableFields.Image)
       ];
       Tags = new NoteTagsEditorViewModel(services, CurrentKanji);
    }
@@ -92,20 +92,27 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
 
    IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..RelatedFields, ..SourceFields, ..OtherFields];
 
-   TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<KanjiNote, WritableStringValue> field) =>
-      Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));
+   TextFieldEditorViewModel Field(EditableTextField<KanjiNote> field) =>
+      new(_fatalErrorHandler, field.Label, field.Format, () => field.Read(CurrentKanji()), WritingToTheCurrentKanji(field.Write));
 
-   TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<KanjiNote, string> read, Action<KanjiNote, string> write) =>
+   /// <summary>A list of texts, edited as the texts separated by commas.</summary>
+   TextFieldEditorViewModel Field(EditableTextListField<KanjiNote> field) =>
       new(_fatalErrorHandler,
-          label,
-          format,
-          () => read(CurrentKanji()),
-          text =>
-          {
-             var kanji = CurrentKanji();
-             write(kanji, text);
-             kanji.UpdateGeneratedData();
-          });
+          field.Label,
+          TextFieldFormat.CommaSeparated,
+          () => string.Join(", ", field.Read(CurrentKanji())),
+          WritingToTheCurrentKanji((it, text) => field.Write(it, StringExtensions.ExtractCommaSeparatedValues(text))));
+
+   KanjiReadingListEditorViewModel ReadingList(EditableKanjiReadingsField field) => new(_fatalErrorHandler, () => field.ReadingsOn(CurrentKanji()));
+
+   /// <summary>Writes a field's text with <paramref name="write"/> to the kanji as the collection holds it now, and updates the kanji's generated data.</summary>
+   Action<string> WritingToTheCurrentKanji(Action<KanjiNote, string> write) =>
+      text =>
+      {
+         var kanji = CurrentKanji();
+         write(kanji, text);
+         kanji.UpdateGeneratedData();
+      };
 
    /// <summary>The kanji being edited, as the collection holds it now.</summary>
    KanjiNote CurrentKanji() => _services.CoreApp.Collection.Kanji.WithIdOrNone(_kanjiId)

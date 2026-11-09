@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
-using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
@@ -37,27 +36,23 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
 
       CorpusFields =
       [
-         Field("Question", TextFieldFormat.Paragraphs, it => it.CorpusQuestion),
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer),
-         Field("Comments", TextFieldFormat.Paragraphs, it => it.Comments),
-         Field("Reading", TextFieldFormat.Line, it => it.Reading)
+         Field(SentenceEditableFields.Question),
+         Field(SentenceEditableFields.Answer),
+         Field(SentenceEditableFields.Comments),
+         Field(SentenceEditableFields.Reading)
       ];
       SourceFields =
       [
-         Field("Question", TextFieldFormat.Paragraphs, it => it.SourceData.Question),
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer),
-         Field("Comments", TextFieldFormat.Paragraphs, it => it.SourceData.Comments),
-         Field("External id", TextFieldFormat.Line, it => it.SourceData.ExternalId)
+         Field(SentenceEditableFields.SourceQuestion),
+         Field(SentenceEditableFields.SourceAnswer),
+         Field(SentenceEditableFields.SourceComments),
+         Field(SentenceEditableFields.SourceExternalId)
       ];
       OtherFields =
       [
-         new TextToSpeechAudioFieldEditorViewModel(_fatalErrorHandler,
-                                                   "Audio",
-                                                   () => CurrentSentence().TextToSpeechAudio.RawValue(),
-                                                   WritingToTheCurrentSentence((it, audio) => it.TextToSpeechAudio.SetRawValue(audio)),
-                                                   () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
-         Field("Screenshot", TextFieldFormat.Line, it => it.Screenshot.RawValue(), (it, screenshot) => it.Screenshot.SetRawValue(screenshot)),
-         Field("Source name", TextFieldFormat.Line, it => it.SourceName)
+         TextToSpeechAudioField(SentenceEditableFields.Audio),
+         Field(SentenceEditableFields.Screenshot),
+         Field(SentenceEditableFields.SourceName)
       ];
       Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
    }
@@ -87,11 +82,16 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
 
    IEnumerable<TextFieldEditorViewModel> AllFields() => [..CorpusFields, ..SourceFields, ..OtherFields];
 
-   TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<SentenceNote, WritableStringValue> field) =>
-      Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));
+   TextFieldEditorViewModel Field(EditableTextField<SentenceNote> field) =>
+      new(_fatalErrorHandler, field.Label, field.Format, () => field.Read(CurrentSentence()), WritingToTheCurrentSentence(field.Write));
 
-   TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<SentenceNote, string> read, Action<SentenceNote, string> write) =>
-      new(_fatalErrorHandler, label, format, () => read(CurrentSentence()), WritingToTheCurrentSentence(write));
+   /// <summary>The sentence's text-to-speech audio, with a button for generating new in the <see cref="TextToSpeechDialog"/>.</summary>
+   TextToSpeechAudioFieldEditorViewModel TextToSpeechAudioField(EditableTextField<SentenceNote> field) =>
+      new(_fatalErrorHandler,
+          field.Label,
+          () => field.Read(CurrentSentence()),
+          WritingToTheCurrentSentence(field.Write),
+          () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services));
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the sentence as the collection holds it now, and updates the sentence's generated data.</summary>
    Action<string> WritingToTheCurrentSentence(Action<SentenceNote, string> write) =>

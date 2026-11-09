@@ -1,4 +1,4 @@
-import typing, clr
+import typing, clr, abc
 from JAStudio.Core.Storage.Dto import SentenceConfigDto, SentenceDto, CorpusNoteDto, SentenceSourceDataDto
 from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, IHasTextToSpeechAudio, NoteServices, NoteFlushGuard
 from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
@@ -6,6 +6,7 @@ from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from System import IEquatable_1, Action
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
+from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.NoteFields import StripHtmlOnReadFallbackStringField, WritableStringValue, MediaReference, SentenceQuestionField, WritableImageValue
 from JAStudio.Core.Note.Vocabulary import WritableAudioValue
@@ -174,6 +175,24 @@ class SentenceConfiguration:
     @staticmethod
     def FromValues(highlighted: List_1[str], incorrectMatches: List_1[WordExclusion], hiddenMatches: List_1[WordExclusion]) -> SentenceConfiguration: ...
     def ToString(self) -> str: ...
+
+
+class SentenceEditableFields(abc.ABC):
+    Answer : EditableTextField_1[SentenceNote]
+    Audio : EditableTextField_1[SentenceNote]
+    Comments : EditableTextField_1[SentenceNote]
+    Question : EditableTextField_1[SentenceNote]
+    Reading : EditableTextField_1[SentenceNote]
+    Screenshot : EditableTextField_1[SentenceNote]
+    SourceAnswer : EditableTextField_1[SentenceNote]
+    SourceComments : EditableTextField_1[SentenceNote]
+    SourceExternalId : EditableTextField_1[SentenceNote]
+    SourceName : EditableTextField_1[SentenceNote]
+    SourceQuestion : EditableTextField_1[SentenceNote]
+    Tags : EditableTagsField_1[SentenceNote]
+    @classmethod
+    @property
+    def All(cls) -> IReadOnlyList_1[IEditableField_1[SentenceNote]]: ...
 
 
 class SentenceNote(JPNote, IHasTextToSpeechAudio):

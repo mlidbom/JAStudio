@@ -64,6 +64,23 @@ public class KanjiReadingList
    /// <summary>Makes the reading <paramref name="kana"/> secondary, that is no longer primary.</summary>
    public void MakeSecondary(string kana) => SetWhetherPrimary(kana, isPrimary: false);
 
+   /// <summary>
+   /// Makes <paramref name="readings"/> the readings, in their order, each primary or secondary as it says, an on reading kept in hiragana however it's typed.<br/>
+   /// Each must have kana, and no two the same.
+   /// </summary>
+   public void ReplaceWith(IReadOnlyList<KanjiReading> readings)
+   {
+      var kept = readings.Select(it => it with { Kana = AsKept(it.Kana) }).ToList();
+      Contract.Argument.Assert(kept.All(it => !string.IsNullOrWhiteSpace(it.Kana)), () => $"A {Kind} reading must have kana.");
+      Contract.Argument.Assert(kept.DistinctBy(it => it.Kana).Count() == kept.Count, () => $"The {Kind} readings {string.Join(", ", kept.Select(it => it.Kana))} have the same kana more than once.");
+
+      _guard.Update(() =>
+      {
+         _readings.Clear();
+         _readings.AddRange(kept);
+      });
+   }
+
    internal List<KanjiReadingDto> ToDto() => [.. _readings.Select(it => new KanjiReadingDto { Kana = it.Kana, IsPrimary = it.IsPrimary })];
 
    void SetWhetherPrimary(string kana, bool isPrimary) => _guard.Update(() =>

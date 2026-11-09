@@ -8,7 +8,8 @@ from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue, W
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Note.Tagging import NoteTags
 from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
-from JAStudio.Core.Note.KanjiReadings import KanjiNoteReadings
+from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableTextListField_1, EditableTagsField_1, IEditableField_1
+from JAStudio.Core.Note.KanjiReadings import EditableKanjiReadingsField, KanjiNoteReadings
 from Compze.Abstractions import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
@@ -129,6 +130,26 @@ class JPNote(abc.ABC):
     def UpdateGeneratedData(self) -> None: ...
     @abc.abstractmethod
     def UpdateInCache(self) -> None: ...
+
+
+class KanjiEditableFields(abc.ABC):
+    Answer : EditableTextField_1[KanjiNote]
+    ConfusedWith : EditableTextListField_1[KanjiNote]
+    Image : EditableTextField_1[KanjiNote]
+    KunReadings : EditableKanjiReadingsField
+    Mnemonic : EditableTextField_1[KanjiNote]
+    NanoriReadings : EditableKanjiReadingsField
+    OnReadings : EditableKanjiReadingsField
+    PrimaryVocab : EditableTextListField_1[KanjiNote]
+    Question : EditableTextField_1[KanjiNote]
+    Radicals : EditableTextListField_1[KanjiNote]
+    SimilarMeaning : EditableTextListField_1[KanjiNote]
+    SourceAnswer : EditableTextField_1[KanjiNote]
+    SourceMeaningMnemonic : EditableTextField_1[KanjiNote]
+    Tags : EditableTagsField_1[KanjiNote]
+    @classmethod
+    @property
+    def All(cls) -> IReadOnlyList_1[IEditableField_1[KanjiNote]]: ...
 
 
 class KanjiId(NoteId):
