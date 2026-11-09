@@ -33,7 +33,6 @@ public class NoteEditingTools
                 tabs. Each with its name, which is its path in the note as get_note shows it, such as "corpusAnswer",
                 "matching.requiredOrForbidden.surface" or, for a flag in a list of flags, "matching.flags.isPoisonWord"; the label the editor
                 shows; what value it takes; whether a change to it reparses the sentences that may contain the vocab; and its value now.
-                Only vocab have editable fields so far.
                 """)]
    public EditableFieldsReported GetTheEditableFieldsOfANote([Description("The note's id, as search_notes lists it.")] string noteId) =>
       EditableFieldsReported.Of(EditableNoteWithTheId(noteId));

@@ -158,7 +158,8 @@ the headless JAStudio.
   - `render_window` renders one of the main menu's windows, the options, the readings mappings or the import profiles,
     opened as the menu opens it.
   - `render_the_workspace` renders the workspace window as it is, after showing a note in a tab or in the editor, if
-    given one. It keeps its tabs from one call to the next, and starts as Magnus last left his workspace.
+    given one, and on the editor's tab asked for, such as a vocab's Matching tab. It keeps its tabs from one call to the
+    next, and starts as Magnus last left his workspace.
   - `render_card` renders a side of a note's card as Anki's reviewer shows it, the whole card however tall.
 - **The dictionary, built:** `look_up_in_the_dictionary` looks up a word, or a vocab as JAStudio looks it up, and shows each
   entry's forms and senses, with the dictionary's own parts of speech and the ones JAStudio maps them to.
@@ -187,15 +188,14 @@ the headless JAStudio.
     replaced the single-edit tools for a vocab's readings, parts of speech and matching flags.
   - **The plan, in increments:**
     1. The vocab's fields, and its editor's tabs built from them. **Done.**
-    2. The kanji's and the sentence's fields the same way, replacing the kanji's readings tools.
+    2. The kanji's and the sentence's fields the same way, replacing the kanji's readings tools. **Done.**
     3. The commands of the notes' menus, as tools of their own, such as creating vocab, accepting a meaning and
        generating an answer, and the related vocab and the sentences' highlighted, hidden and incorrect matches, which
        the menus edit.
   - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. Writing an
     audio field's reference is an edit like any other.
-  - **Built, to be replaced in increment 2:** `add_a_reading_to_a_kanji`, `remove_a_reading_from_a_kanji` and
-    `set_whether_a_kanji_reading_is_primary`, the three edits the kanji's readings editor makes, each reporting the
-    kanji's readings before and after.
+  - A kanji's readings of each kind are one field, such as `readings.on`, a list of `{"kana", "isPrimary"}` in order,
+    which replaced the three tools that added, removed and made primary one reading at a time.
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.

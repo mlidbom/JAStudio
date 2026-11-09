@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
 
@@ -17,11 +18,13 @@ public sealed class EditableNote
       Fields = fields;
    }
 
-   /// <summary><paramref name="note"/>, with its editable fields, or, for a type of note whose fields can't be edited here yet, a failure saying so.</summary>
+   /// <summary><paramref name="note"/>, with its editable fields: those of its type, such as <see cref="VocabEditableFields"/>.</summary>
    public static EditableNote Of(JPNote note) => note switch
    {
       VocabNote vocab => new EditableNote(vocab, EditableFieldOfANote.EachOf(VocabEditableFields.All, vocab)),
-      _ => throw new ArgumentException($"Only vocab have editable fields here so far, and this is a {TypeName(note)}.")
+      KanjiNote kanji => new EditableNote(kanji, EditableFieldOfANote.EachOf(KanjiEditableFields.All, kanji)),
+      SentenceNote sentence => new EditableNote(sentence, EditableFieldOfANote.EachOf(SentenceEditableFields.All, sentence)),
+      _ => throw new ArgumentOutOfRangeException(nameof(note), note.GetType(), "JAStudio has no notes of this type.")
    };
 
    public JPNote Note { get; }

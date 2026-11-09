@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
 using JAStudio.Mcp.Tools.Editing;
 using ModelContextProtocol.Protocol;
@@ -35,12 +37,27 @@ public class When_getting_the_editable_fields_of_a_note : McpServerSpecification
       [XF] public void the_answer_does_not_change_how_sentences_parse() => Field("corpusAnswer").ChangesHowSentencesParse.Must().BeFalse();
    }
 
+   /// <summary>The kanji 行, with the on reading コウ and the kun reading い.</summary>
    public class of_a_kanji : When_getting_the_editable_fields_of_a_note
    {
-      readonly CallToolResult _result;
+      readonly EditableFieldsReported _fields;
 
-      public of_a_kanji() => _result = GetTheEditableFieldsOf(CreateKanji("行", "go", "コウ", "い").GetId().ToString());
+      public of_a_kanji() => _fields = ResultOf<EditableFieldsReported>(GetTheEditableFieldsOf(CreateKanji("行", "go", "コウ", "い").GetId().ToString()));
 
-      [XF] public void the_tool_call_fails_since_only_vocab_have_editable_fields_so_far() => TextOf(_result).Must().Contain("Only vocab have editable fields here so far");
+      EditableFieldReported Field(string name) => _fields.Fields.Single(it => it.Name == name);
+
+      [XF] public void every_field_the_kanjis_editor_edits_is_listed_by_its_name_in_order() => _fields.Fields.Select(it => it.Name).Must().SequenceEqual(KanjiEditableFields.All.Select(it => it.Name));
+      [XF] public void the_on_readings_take_a_list_of_readings() => Field("readings.on").Takes.Must().Be("a list of readings, each {\"kana\": \"...\", \"isPrimary\": true or false}");
+      [XF] public void the_on_reading_is_listed_in_hiragana() => JsonNode.DeepEquals(Field("readings.on").Value?[0]?["kana"], JsonValue.Create("こう")).Must().BeTrue();
+   }
+
+   /// <summary>The sentence 行った.</summary>
+   public class of_a_sentence : When_getting_the_editable_fields_of_a_note
+   {
+      readonly EditableFieldsReported _fields;
+
+      public of_a_sentence() => _fields = ResultOf<EditableFieldsReported>(GetTheEditableFieldsOf(CreateSentence("行った").GetId().ToString()));
+
+      [XF] public void every_field_the_sentences_editor_edits_is_listed_by_its_name_in_order() => _fields.Fields.Select(it => it.Name).Must().SequenceEqual(SentenceEditableFields.All.Select(it => it.Name));
    }
 }

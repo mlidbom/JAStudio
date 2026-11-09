@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
+using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
@@ -14,7 +16,7 @@ using ModelContextProtocol.Protocol;
 
 namespace JAStudio.Mcp.Specifications.Tools.Editing;
 
-/// <summary>The vocab 行った, with the reading いいた and the answer "went", and the sentence 会いに行った, which contains it.</summary>
+/// <summary>The vocab 行った, with the reading いいた and the answer "went", and the sentence 会いに行った, which contains it, with no answer.</summary>
 public class When_editing_a_note : McpServerSpecification
 {
    protected readonly VocabNote Vocab;
@@ -26,8 +28,10 @@ public class When_editing_a_note : McpServerSpecification
       Sentence = CreateSentence("会いに行った");
    }
 
-   protected CallToolResult Edit(JsonObject changes) =>
-      CallTool("edit_a_note", new Dictionary<string, object?> { ["noteId"] = Vocab.GetId().ToString(), ["changes"] = changes });
+   protected CallToolResult Edit(JsonObject changes) => Edit(Vocab, changes);
+
+   protected CallToolResult Edit(JPNote note, JsonObject changes) =>
+      CallTool("edit_a_note", new Dictionary<string, object?> { ["noteId"] = note.GetId().ToString(), ["changes"] = changes });
 
    protected VocabNote VocabStored() => GetService<INoteRepository>().LoadAll().Vocab.Single(it => it.GetId() == Vocab.GetId());
 
@@ -94,6 +98,35 @@ public class When_editing_a_note : McpServerSpecification
          ResultOf<NoteEdit>(Edit(new JsonObject { ["forms"] = new JsonArray(new JsonObject { ["text"] = "行った", ["isOwned"] = true }, new JsonObject { ["text"] = "いった", ["isOwned"] = false }) }));
 
       [XF] public void the_question_is_left_out_of_the_entered_forms_since_it_is_always_a_form() => Vocab.Forms.EnteredForms().Must().SequenceEqual([new EnteredForm("いった", false)]);
+   }
+
+   public class of_a_kanji_writing_its_on_readings_in_katakana : When_editing_a_note
+   {
+      readonly KanjiNote _kanji;
+      readonly NoteEdit _edit;
+
+      public of_a_kanji_writing_its_on_readings_in_katakana()
+      {
+         _kanji = CreateKanji("行", "go", "コウ", "い");
+         _edit = ResultOf<NoteEdit>(Edit(_kanji, new JsonObject
+         {
+            ["readings.on"] = new JsonArray(new JsonObject { ["kana"] = "ギョウ", ["isPrimary"] = true }, new JsonObject { ["kana"] = "コウ", ["isPrimary"] = false })
+         }));
+      }
+
+      [XF] public void the_edit_names_the_kanji() => _edit.Note.Must().Be("行");
+      [XF] public void the_kanji_has_the_on_readings_in_hiragana_in_the_order_given_each_primary_or_not() => _kanji.Readings.On.All().Must().SequenceEqual([new KanjiReading("ぎょう", true), new KanjiReading("こう", false)]);
+      [XF] public void no_sentences_are_reparsed() => _edit.SentencesReparsed.Must().BeFalse();
+   }
+
+   public class of_a_sentence_writing_its_answer : When_editing_a_note
+   {
+      readonly NoteEdit _edit;
+
+      public of_a_sentence_writing_its_answer() => _edit = ResultOf<NoteEdit>(Edit(Sentence, new JsonObject { ["corpusAnswer"] = "I went to meet them." }));
+
+      [XF] public void the_edit_reports_the_answer_before_as_empty() => JsonNode.DeepEquals(_edit.Changes.Single().Before, JsonValue.Create("")).Must().BeTrue();
+      [XF] public void the_sentence_has_the_answer() => Sentence.CorpusAnswer.Value.Must().Be("I went to meet them.");
    }
 
    public class of_a_vocab_with_a_part_of_speech_JAStudio_does_not_know : When_editing_a_note
