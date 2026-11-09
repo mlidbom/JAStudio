@@ -840,6 +840,10 @@ most of what folders, tags and decks do in other programs. The source tree is th
 
 ## Order of work (tentative)
 
+> **Paused (Magnus, 2026-11-09) until JAStudio has its MCP server:** see [jastudio-mcp.md](jastudio-mcp.md). The
+> remaining slices (4c, 5, 8 and 9) are mostly migrate, rebuild, analyze and rebuild again, which the MCP server lets
+> Claude do without a round trip through Magnus. Slices 1 to 4b, 6 and 7 are done.
+
 The order follows the overall approach in [Settled so far](#settled-so-far-magnus-2026-11-05): build
 JAStudio's own UI until Anki's role is minimal, and only then change the model.
 
