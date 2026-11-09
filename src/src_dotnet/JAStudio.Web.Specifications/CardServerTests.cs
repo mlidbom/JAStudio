@@ -1,6 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using JAStudio.Core;
+using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core.Specifications.Fixtures;
 using Xunit;
 
@@ -10,8 +10,10 @@ namespace JAStudio.Web.Specifications;
 public class CardServerTests : IAsyncLifetime
 {
    readonly CollectionFactory.AppScope _appScope = CollectionFactory.InjectCollectionWithSelectData(DataNeeded.Kanji | DataNeeded.Vocabulary);
-   readonly CardServer _server = new(TemporaryServiceCollection.Instance.Services, new NoteLinkOpenerThatRecordsRequests());
+   readonly CardServer _server;
    readonly HttpClient _http = new();
+
+   public CardServerTests() => _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), new NoteLinkOpenerThatRecordsRequests());
 
    public ValueTask InitializeAsync()
    {
@@ -58,7 +60,7 @@ public class CardServerTests : IAsyncLifetime
       var collection = _appScope.CoreApp.Collection;
       var kanjiNote = collection.Kanji.WithKanji("病")!;
       var noteId = kanjiNote.GetId();
-      
+
       var response = await _http.GetAsync($"{_server.BaseUrl}/card/kanji/front?NoteId={noteId}");
       response.EnsureSuccessStatusCode();
 

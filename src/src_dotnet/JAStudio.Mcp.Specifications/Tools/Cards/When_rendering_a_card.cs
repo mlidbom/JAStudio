@@ -5,6 +5,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.UI.Web;
 using ModelContextProtocol.Protocol;
+using Xunit;
 
 // ReSharper disable InconsistentNaming
 
@@ -14,6 +15,7 @@ namespace JAStudio.Mcp.Specifications.Tools.Cards;
 /// The server of a JAStudio with a headless UI rendering a card of the vocab 行く: the card server's card page, rendered by the headless UI's<br/>
 /// browser, which here records the pages asked for. The card server's address is one that isn't running.
 /// </summary>
+[Collection<SpecificationsUsingTheSharedHeadlessUI>]
 public class When_rendering_a_card : McpServerSpecification
 {
    const string AddressOfACardServerThatIsNotRunning = "http://localhost";

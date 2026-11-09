@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace JAStudio.Core.Specifications.Fixtures;
 
+[Flags]
 public enum DataNeeded
 {
    None = 0,
@@ -34,7 +35,6 @@ public static class CollectionFactory
       host.StartAsync().GetAwaiter().GetResult();
 
       var resolver = host.Services.GetRequiredService<IRootResolver>();
-      TemporaryServiceCollection.Instance = resolver.Resolve<TemporaryServiceCollection>();
       var app = resolver.Resolve<CoreApp>();
 
       if(data == DataNeeded.None)

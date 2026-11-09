@@ -300,9 +300,10 @@ better designed once the tooling shows how specifications like these work in pra
      Testing Platform by default, which the .NET 10 SDK's `dotnet test` then refuses to run through VSTest, so the
      projects use `xunit.v3.mtp-off`: `dotnet test`, Rider, NCrunch and CI run the tests as they did. Moving to Microsoft
      Testing Platform is a decision of its own.
-   - **Each project's mode,** with why in its `AssemblyInfo.cs`: Core's and the UI's specifications run all in parallel;
-     the windows' specifications by class, since they share one UI thread and gained nothing; the MCP server's and the
-     CardServer's one after another, as before, since they set process-wide state.
+   - **Each project's mode,** with why in its `AssemblyInfo.cs`: Core's, the UI's and the MCP server's specifications run
+     all in parallel; the windows' specifications by class, since they share one UI thread and gained nothing; the
+     CardServer's one after another, as before, since each CardServer sets its address for the whole process
+     (`CardServerUrl.BaseUrl`), and its 9 take 2 seconds.
    - **Measured,** in runs of each project alone: Core's 973 from 11.1 seconds to 6.2, the UI's 205 from 2.0 to 1.8.
      Nine runs of Core and six of the UI in the parallel mode all passed. What sets Core's 6.2 now is its longest
      specifications, about 4 seconds each while everything else runs: reloading the collection, and
@@ -311,9 +312,14 @@ better designed once the tooling shows how specifications like these work in pra
      resolves to the IPv6 loopback address first, where the server doesn't listen, and a client waits about 2 seconds for
      that connection to be refused. The address is `127.0.0.1` now (`CardServer.BaseUrl`), and the CardServer's 9
      specifications went from 20 seconds to 2.
-   - **The whole suite** went from 25.9 seconds to 19.7, and is now as long as the MCP server's specifications, 189 run one
-     after another in about 15 to 17 seconds. They're serial because each starts a server whose collection publishes
-     process-wide state (`TemporaryServiceCollection.Instance`): removing that is the next gain.
+   - **The MCP server's specifications in parallel too** (Magnus, 2026-11-09): they ran one after another in 15 to 17
+     seconds, for a reason that no longer held: the static `TemporaryServiceCollection.Instance` each specification's
+     collection set, which only two of the CardServer's specifications still read. It's deleted. What they do share is the
+     one headless UI a process can start, and the last page it was asked for, so the specifications using it
+     (`SpecificationsUsingTheSharedHeadlessUI`) run one at a time and never alongside another. In runs of the project alone:
+     about 5 seconds.
+   - **The whole suite,** `dotnet test` of the solution, went from 25.9 seconds to 12.0. The projects run at once and
+     compete for the cores, so Core's and the MCP server's specifications take about 7 seconds each there.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 

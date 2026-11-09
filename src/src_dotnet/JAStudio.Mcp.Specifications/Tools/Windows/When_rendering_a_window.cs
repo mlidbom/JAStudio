@@ -4,12 +4,14 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using ModelContextProtocol.Protocol;
+using Xunit;
 
 // ReSharper disable InconsistentNaming
 
 namespace JAStudio.Mcp.Specifications.Tools.Windows;
 
 /// <summary>The server of a JAStudio with a headless UI, as the headless JAStudio's is, rendering the windows the workspace's main menu opens.</summary>
+[Collection<SpecificationsUsingTheSharedHeadlessUI>]
 public class When_rendering_a_window : McpServerSpecification
 {
    /// <summary>The bytes every PNG file starts with.</summary>

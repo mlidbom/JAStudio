@@ -1,10 +1,7 @@
 using System;
 using Avalonia;
-using Compze.DependencyInjection;
-using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using JAStudio.Core;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace JAStudio.UI.DesktopHost;
@@ -28,8 +25,9 @@ class Program
                            .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
                            .Build();
       host.StartAsync().GetAwaiter().GetResult();
-      var resolver = host.Services.GetRequiredService<IRootResolver>();
-      TemporaryServiceCollection.Instance = resolver.Resolve<TemporaryServiceCollection>();
+      //review: Nothing gives the host's services to the UI: UIApp opens no window until UIApp.InitializeWorkspaceWindow is called with them,
+      //   and nothing here calls it, so this starts an Avalonia application with no window. Is the desktop host still used, now that the
+      //   headless JAStudio exists?
       return BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
    }

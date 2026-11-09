@@ -67,7 +67,6 @@ static class Program
    {
       host.StartAsync().GetAwaiter().GetResult();
       var jastudio = host.Services.GetRequiredService<IRootResolver>();
-      TemporaryServiceCollection.Instance = jastudio.Resolve<TemporaryServiceCollection>();
       jastudio.Resolve<CoreApp>().Collection.ReloadFromBackend();
       return jastudio;
    }

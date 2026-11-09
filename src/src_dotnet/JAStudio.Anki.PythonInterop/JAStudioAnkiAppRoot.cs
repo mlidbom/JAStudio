@@ -91,7 +91,6 @@ public class JAStudioAnkiAppRoot
       Console.OutputEncoding = System.Text.Encoding.UTF8;
 
       var resolver = host.Services.GetRequiredService<IRootResolver>();
-      TemporaryServiceCollection.Instance = resolver.Resolve<TemporaryServiceCollection>();
       var coreApp = resolver.Resolve<CoreApp>();
 
       var uiThread = new Thread(() =>
