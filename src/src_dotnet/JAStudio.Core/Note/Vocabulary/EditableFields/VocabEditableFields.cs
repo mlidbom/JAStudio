@@ -7,8 +7,9 @@ using JAStudio.Core.Note.Vocabulary.Matching;
 namespace JAStudio.Core.Note.Vocabulary.EditableFields;
 
 /// <summary>
-/// Every field of a vocab that a person edits in the vocab's editor in the workspace (<see cref="IEditableField{TNote}"/>), in the order of its tabs:<br/>
-/// the text fields, forms and parts of speech; the matching rules and flags; whether it's usually written in kana, its register and its tags.
+/// Every field of a vocab that a person edits (<see cref="IEditableField{TNote}"/>): first those of the vocab's editor in the workspace, in the order of<br/>
+/// its tabs, the text fields, forms and parts of speech, the matching rules and flags, whether it's usually written in kana, its register and its tags;<br/>
+/// then its related vocab, which the vocab's menus edit.
 /// </summary>
 /// <remarks>
 /// The vocab's editors are built from these fields, and JAStudio's MCP server edits <see cref="All"/> of them, so the two edit the same fields.<br/>
@@ -130,6 +131,37 @@ public static class VocabEditableFields
 
    public static readonly EditableTagsField<VocabNote> Tags = new();
 
+   /// <summary>Synonyms are linked both ways: adding one to the vocab adds the vocab to the synonym's synonyms, and removing one removes it.</summary>
+   public static readonly EditableTextSetField<VocabNote> Synonyms =
+      new("relatedVocab.synonyms", "Synonyms", it => it.RelatedNotes.Synonyms.Strings(), (it, synonym) => it.RelatedNotes.Synonyms.Add(synonym), (it, synonym) => it.RelatedNotes.Synonyms.Remove(synonym));
+
+   /// <summary>
+   /// Perfect synonyms share one answer: adding one gives it the vocab's answer, and links every vocab of the two webs of perfect synonyms to every other,<br/>
+   /// as perfect synonyms and as synonyms (<see cref="RelatedVocab.PerfectSynonyms"/>).
+   /// </summary>
+   public static readonly EditableTextSetField<VocabNote> PerfectSynonyms =
+      new("relatedVocab.perfectSynonyms",
+          "Perfect synonyms, which share the answer",
+          it => it.RelatedNotes.PerfectSynonyms.Get(),
+          (it, synonym) => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(synonym),
+          (it, synonym) => it.RelatedNotes.PerfectSynonyms.Remove(synonym));
+
+   public static readonly EditableTextSetField<VocabNote> Antonyms =
+      new("relatedVocab.antonyms", "Antonyms", it => it.RelatedNotes.Antonyms.Strings(), (it, antonym) => it.RelatedNotes.Antonyms.Add(antonym), (it, antonym) => it.RelatedNotes.Antonyms.Remove(antonym));
+
+   public static readonly EditableTextSetField<VocabNote> ConfusedWith =
+      new("relatedVocab.confusedWith", "Confused with", it => it.RelatedNotes.ConfusedWith.Get(), (it, vocab) => it.RelatedNotes.ConfusedWith.Add(vocab), (it, vocab) => it.RelatedNotes.ConfusedWith.Remove(vocab));
+
+   public static readonly EditableTextSetField<VocabNote> SeeAlso =
+      new("relatedVocab.seeAlso", "See also", it => it.RelatedNotes.SeeAlso.Strings(), (it, vocab) => it.RelatedNotes.SeeAlso.Add(vocab), (it, vocab) => it.RelatedNotes.SeeAlso.Remove(vocab));
+
+   /// <summary>The vocab's transitive or intransitive counterpart, such as 開ける for 開く. Setting it sets the twin's ergative twin to the vocab too.</summary>
+   public static readonly EditableTextField<VocabNote> ErgativeTwin =
+      new("relatedVocab.ergativeTwin", "Ergative twin", TextFieldFormat.Line, it => it.RelatedNotes.ErgativeTwin.Get(), (it, twin) => it.RelatedNotes.ErgativeTwin.Set(twin));
+
+   public static readonly EditableTextField<VocabNote> DerivedFrom =
+      new("relatedVocab.derivedFrom", "Derived from", TextFieldFormat.Line, it => it.RelatedNotes.DerivedFrom.Get(), (it, vocab) => it.RelatedNotes.DerivedFrom.Set(vocab));
+
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<VocabNote>> All { get; } =
    [
@@ -140,7 +172,8 @@ public static class VocabEditableFields
       IsInflectingWord, IsPoisonWord, MatchWithPrecedingVowel, QuestionOverridesForm, PrefixIsNot, RequiredPrefix, SuffixIsNot, SurfaceIsNot, YieldToSurface,
       UsuallyWrittenInKana, IsCompositionallyTransparentCompound,
       Archaic, Childish, Derogatory, Formal, Honorific, Humble, Informal, Literary, Polite, RoughMasculine, Sensitive, Slang, SoftFeminine, Vulgar,
-      Tags
+      Tags,
+      Synonyms, PerfectSynonyms, Antonyms, ConfusedWith, SeeAlso, ErgativeTwin, DerivedFrom
    ];
 
    /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>

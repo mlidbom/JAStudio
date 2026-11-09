@@ -3,12 +3,13 @@ using System;
 namespace JAStudio.Core.Note.EditableFields;
 
 /// <summary>
-/// One field of a note type that a person edits in the note's editor in the workspace, such as a vocab's answer or one of its matching flags:<br/>
-/// its <see cref="Name"/>, the <see cref="Label"/> its editor shows, and how its value is read from and written to a note of the type.
+/// One field of a note type that a person edits, in the note's editor in the workspace or through the note's menus, such as a vocab's answer, one of<br/>
+/// its matching flags or its synonyms: its <see cref="Name"/>, the <see cref="Label"/> its editor shows, and how its value is read from and written<br/>
+/// to a note of the type.
 /// </summary>
 /// <remarks>
 /// The note's editors are built from these, and so is JAStudio's MCP server's <c>edit_a_note</c>, so that the MCP server can edit whatever<br/>
-/// a person can. A field is written through the note's own operations, as the editors write it, never into the note's stored form.
+/// a person can. A field is written through the note's own operations, as the editors and menus write it, never into the note's stored form.
 /// </remarks>
 /// <remarks>
 /// This is the field as a value of a single <see cref="ValueType"/>, read and written as an <see cref="object"/>, for code that edits any field,<br/>

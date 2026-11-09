@@ -6,7 +6,7 @@ from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from System import IEquatable_1, Action
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
-from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableTagsField_1, IEditableField_1
+from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.NoteFields import StripHtmlOnReadFallbackStringField, WritableStringValue, MediaReference, SentenceQuestionField, WritableImageValue
 from JAStudio.Core.Note.Vocabulary import WritableAudioValue
@@ -181,6 +181,9 @@ class SentenceEditableFields(abc.ABC):
     Answer : EditableTextField_1[SentenceNote]
     Audio : EditableTextField_1[SentenceNote]
     Comments : EditableTextField_1[SentenceNote]
+    HiddenMatches : EditableSetField_2[SentenceNote, WordExclusion]
+    HighlightedVocab : EditableTextSetField_1[SentenceNote]
+    IncorrectMatches : EditableSetField_2[SentenceNote, WordExclusion]
     Question : EditableTextField_1[SentenceNote]
     Reading : EditableTextField_1[SentenceNote]
     Screenshot : EditableTextField_1[SentenceNote]

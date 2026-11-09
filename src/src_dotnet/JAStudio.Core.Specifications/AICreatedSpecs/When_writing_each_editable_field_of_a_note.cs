@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.KanjiReadings;
@@ -83,6 +84,7 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
       _ when field.ValueType == typeof(IReadOnlyList<string>)                  => new List<string> { "another text" },
       _ when field.ValueType == typeof(IReadOnlyList<EnteredForm>)             => new List<EnteredForm> { new("another form", true) },
       _ when field.ValueType == typeof(IReadOnlyList<KanjiReading>)            => new List<KanjiReading> { new("あ", true) },
+      _ when field.ValueType == typeof(IReadOnlyList<WordExclusion>)           => new List<WordExclusion> { WordExclusion.Global("another word") },
       { ValueType.IsEnum: true }                                               => Enum.GetValues(field.ValueType).Cast<object>().First(it => !it.Equals(field.ReadValue(note))),
       _                                                                        => throw new ArgumentOutOfRangeException(nameof(field), field.ValueType, "No value for this type of field.")
    };

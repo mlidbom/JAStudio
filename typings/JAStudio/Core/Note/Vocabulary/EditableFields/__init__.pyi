@@ -1,5 +1,5 @@
 import typing, abc
-from JAStudio.Core.Note.EditableFields import EditableField_2, EditableTextListField_1, EditableTextField_1, EditableFlagField_1, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
+from JAStudio.Core.Note.EditableFields import EditableField_2, EditableTextListField_1, EditableTextField_1, EditableTextSetField_1, EditableFlagField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.Vocabulary import VocabNote, EnteredForm, UsuallyWrittenInKanaDecision
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice, RequireForbidFlagField
@@ -67,13 +67,17 @@ class VocabEditableFields(abc.ABC):
     AdverbHead : EditableRequireForbidField
     AlternativeCompoundParts : EditableTextListField_1[VocabNote]
     Answer : EditableTextField_1[VocabNote]
+    Antonyms : EditableTextSetField_1[VocabNote]
     Archaic : EditableFlagField_1[VocabNote]
     Childish : EditableFlagField_1[VocabNote]
     CompoundParts : EditableTextListField_1[VocabNote]
+    ConfusedWith : EditableTextSetField_1[VocabNote]
+    DerivedFrom : EditableTextField_1[VocabNote]
     Derogatory : EditableFlagField_1[VocabNote]
     DictionaryFormHead : EditableRequireForbidField
     DictionaryFormStart : EditableRequireForbidField
     Disambiguation : EditableTextField_1[VocabNote]
+    ErgativeTwin : EditableTextField_1[VocabNote]
     Explanation : EditableTextField_1[VocabNote]
     FirstAudio : EditableTextField_1[VocabNote]
     Formal : EditableFlagField_1[VocabNote]
@@ -98,6 +102,7 @@ class VocabEditableFields(abc.ABC):
     Mnemonic : EditableTextField_1[VocabNote]
     PartsOfSpeech : EditablePartsOfSpeechField
     PastTenseStem : EditableRequireForbidField
+    PerfectSynonyms : EditableTextSetField_1[VocabNote]
     Polite : EditableFlagField_1[VocabNote]
     PrefixIsNot : EditableTextSetField_1[VocabNote]
     Question : EditableTextField_1[VocabNote]
@@ -106,6 +111,7 @@ class VocabEditableFields(abc.ABC):
     RequiredPrefix : EditableTextSetField_1[VocabNote]
     RoughMasculine : EditableFlagField_1[VocabNote]
     SecondAudio : EditableTextField_1[VocabNote]
+    SeeAlso : EditableTextSetField_1[VocabNote]
     Sensitive : EditableFlagField_1[VocabNote]
     SentenceEnd : EditableRequireForbidField
     SentenceStart : EditableRequireForbidField
@@ -118,6 +124,7 @@ class VocabEditableFields(abc.ABC):
     SuffixIsNot : EditableTextSetField_1[VocabNote]
     Surface : EditableRequireForbidField
     SurfaceIsNot : EditableTextSetField_1[VocabNote]
+    Synonyms : EditableTextSetField_1[VocabNote]
     Tags : EditableTagsField_1[VocabNote]
     TechnicalNotes : EditableTextField_1[VocabNote]
     TeFormStemHead : EditableRequireForbidField
