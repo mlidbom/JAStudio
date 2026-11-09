@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JAStudio.Core.Storage.Dto;
 
@@ -21,6 +22,15 @@ public class KanjiNoteReadings
 
    /// <summary>The nanori readings: see <see cref="KanjiReadingKind.Nanori"/>.</summary>
    public KanjiReadingList Nanori { get; }
+
+   /// <summary>The readings of the kind <paramref name="kind"/>: <see cref="On"/>, <see cref="Kun"/> or <see cref="Nanori"/>.</summary>
+   public KanjiReadingList OfKind(KanjiReadingKind kind) => kind switch
+   {
+      KanjiReadingKind.On => On,
+      KanjiReadingKind.Kun => Kun,
+      KanjiReadingKind.Nanori => Nanori,
+      _ => throw new ArgumentOutOfRangeException(nameof(kind), kind, "There is no such kind of kanji reading.")
+   };
 
    /// <summary>The kana of every reading: the on readings, then the kun readings, then the nanori readings.</summary>
    public List<string> AllKana() => [.. On.AllKana(), .. Kun.AllKana(), .. Nanori.AllKana()];

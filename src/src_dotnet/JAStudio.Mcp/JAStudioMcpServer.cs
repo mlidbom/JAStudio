@@ -89,7 +89,8 @@ public sealed class JAStudioMcpServer
              .WithTools<ReloadTools>(ToolResultJsonOptions)
              .WithTools<AnalysisTools>(ToolResultJsonOptions)
              .WithTools<DictionaryTools>(ToolResultJsonOptions)
-             .WithTools<VocabEditingTools>(ToolResultJsonOptions);
+             .WithTools<VocabEditingTools>(ToolResultJsonOptions)
+             .WithTools<KanjiEditingTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
 
       jastudio.Resolve<IChildContainerHostIntegration>().UseChildContainerAsServiceProviderFor(builder.Host);

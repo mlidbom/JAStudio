@@ -156,6 +156,8 @@ the headless JAStudio.
 - **Writing:** the edits the workspace's editors make, through the same domain operations, added as the work needs them.
   - **Built:** `set_the_parts_of_speech_of_a_vocab` replaces a vocab's parts of speech, as adding and removing them in its
     editor does, and reports them before and after. It doesn't reparse sentences: `full_rebuild` shows what the change does.
+  - **Built:** `add_a_reading_to_a_kanji`, `remove_a_reading_from_a_kanji` and `set_whether_a_kanji_reading_is_primary`,
+    the three edits the kanji's readings editor makes, each reporting the kanji's readings before and after.
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.
@@ -215,4 +217,5 @@ Answered:
    with no console window. That waits for Anki's next restart to be checked.
 5. **Under way:** the writing tools, built for the data fixes they're needed for. The first, for the suru verbs stored as
    godan verbs (`corpus-data-issues.md`): looking the six up in the dictionary, setting their parts of speech in the headless
-   JAStudio, and a full rebuild, which changed only those six vocab. A second run changed nothing more.
+   JAStudio, and a full rebuild, which changed only those six vocab. A second run changed nothing more. The second, for
+   the kanji readings that looked wrong: the three reading edits, and a full rebuild that changed only the two kanji.
