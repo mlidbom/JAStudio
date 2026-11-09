@@ -30,6 +30,7 @@ public class ErgativeTwin
 
    public void Remove()
    {
+      //bug: This finds the vocab with this vocab's own question, not its twin's (Get()), so the twin keeps this vocab as its ergative twin.
       foreach(var twin in _vocab.Services.Collection.Vocab.WithQuestion(_vocab.GetQuestion()))
       {
          if(twin.RelatedNotes.ErgativeTwin.Get() == _vocab.GetQuestion())

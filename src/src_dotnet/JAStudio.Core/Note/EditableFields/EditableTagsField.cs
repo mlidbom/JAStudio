@@ -24,6 +24,7 @@ public sealed class EditableTagsField<TNote> : EditableField<TNote, IReadOnlyLis
 
    static void ThrowIfItCannotBeATagAPersonManages(string name)
    {
+      //refactor: TagPickerViewModel.CanBeANewTag checks the same two rules. One method in Core, such as Tags.WhyItCannotBeATagAPersonManages, should say why for both.
       if(Tag.WhyItCannotBeTheNameOfATag(name) is {} why) throw new ArgumentException($"'{name}': {why}");
       if(Tags.IsDefinedByJAStudio(name)) throw new ArgumentException($"'{name}' is a jastudio-defined-tag, which JAStudio generates, or which has an editor of its own.");
    }

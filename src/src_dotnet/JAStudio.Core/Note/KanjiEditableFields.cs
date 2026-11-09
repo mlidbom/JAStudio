@@ -34,6 +34,9 @@ public static class KanjiEditableFields
 
    /// <summary>Other kanji with a similar meaning.</summary>
    public static readonly EditableTextListField<KanjiNote> SimilarMeaning =
+      //todo: Harmonize with the menu (Magnus, 2026-11-09): the editor writes this list as free text, one way only, while the menu's "Similar meaning"
+      //   (KanjiCommands.AddSimilarMeaning) adds a kanji both ways. The free-text field should go, the editor should add and remove kanji as the menu does,
+      //   and the menu item should then probably go.
       new("similarMeaning", "Similar meaning", it => StringExtensions.ExtractCommaSeparatedValues(it.SimilarMeaningRaw), (it, kanji) => it.SimilarMeaningRaw = string.Join(", ", kanji));
 
    /// <summary>Other kanji the kanji is confused with.</summary>

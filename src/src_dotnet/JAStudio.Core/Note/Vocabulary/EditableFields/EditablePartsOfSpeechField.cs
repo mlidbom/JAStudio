@@ -19,6 +19,7 @@ public sealed class EditablePartsOfSpeechField : EditableField<VocabNote, IReadO
    public override void Write(VocabNote note, IReadOnlyList<string> value) => note.PartsOfSpeech.Set([.. value.Select(PartOfSpeechNamed)]);
 
    static PartOfSpeech PartOfSpeechNamed(string name) =>
+      //refactor: This repeats PartOfSpeech.Named's lookup only for a better error. PartOfSpeech.Named should list the known parts of speech itself, and be used here.
       PartOfSpeech.Exists(name)
          ? PartOfSpeech.Named(name)
          : throw new ArgumentException($"There is no part of speech named '{name}'. The parts of speech JAStudio knows are: {string.Join(", ", PartOfSpeech.All.Select(it => $"\"{it.Name}\""))}.");
