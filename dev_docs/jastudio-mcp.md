@@ -203,6 +203,8 @@ Answered:
    UI, and fast-forwarding the corpus checkout. Checked with the headless JAStudio on the real corpus: a fast-forward to
    a test commit changing one vocab reported that vocab and left the checkout clean, and a git reset back and a reload
    found it changed back. The `jastudio-live` gateway was checked against the headless JAStudio standing in for the live
-   one: it connected, forwarded calls, and withdrew the tools when the announced process exited. Still to check in Anki
-   itself, on its next restart.
+   one: it connected, forwarded calls, and withdrew the tools when the announced process exited. Inside Anki
+   (2026-11-09): `connect_to_live_jastudio` connected, the counts of notes matched the corpus checkout's files, studying
+   statuses came from Anki, and a reload took 3.1 seconds and found nothing changed on Magnus's clean checkout. The
+   live fast-forward waits for its first real use, which lands on Magnus's checkout.
 5. The writing tools.
