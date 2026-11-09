@@ -26,6 +26,9 @@ static class Program
    /// </summary>
    const string McpServerListensAt = "JAStudio's MCP server listens at ";
 
+   /// <summary>How long an action on the headless UI, such as a click, gives the work it started in the background, such as a search.</summary>
+   static readonly TimeSpan HowLongBackgroundWorkIsWaitedFor = TimeSpan.FromMilliseconds(250);
+
    public static int Main(string[] args)
    {
       Console.OutputEncoding = Encoding.UTF8;
@@ -41,7 +44,7 @@ static class Program
       cardServer.StartOnAPortTheSystemPicks();
 
       using var webPageImages = new PlaywrightWebPageImages();
-      var headlessUI = HeadlessUI.Start(webPageImages);
+      var headlessUI = HeadlessUI.Start(webPageImages, HowLongBackgroundWorkIsWaitedFor);
       headlessUI.CreateTheWorkspaceWindow(services);
 
       var mcpServer = JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, arguments.McpServerPort, headlessUI);

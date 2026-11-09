@@ -75,6 +75,20 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
     inside Anki runs on one: windows open and are drawn as on a screen, but on none, for `render_window`. It has a
     workspace window, created as inside Anki, whose tabs show their pages as images (`NoteTabImageView`), since a native
     web view needs a real window.
+  - **Its screen** (`HeadlessScreen`) is what a person would see of that UI: the windows open and their popups, where
+    they are, one over another. The headless platform draws each window and popup on its own and keeps no track of which
+    is in front, so the screen does:
+    - **Popups are top levels of their own,** as on a real screen, not drawn in their window's overlay layer as the
+      headless platform draws them by default: JAStudio's menus open from a window of one pixel (`PopupMenuWindow`),
+      which would clip them.
+    - **It activates windows as a desktop's window manager does** (`HeadlessWindowManager`), which the headless platform
+      has none of: one window is active at a time, a click in an inactive window activates it, and when the active
+      window closes or hides, the one in front is activated. JAStudio depends on it: its menus close as their window is
+      deactivated. Avalonia offers no public way to deactivate a window, so it's done through reflection on the platform
+      window's `Deactivated`, which fails loudly should Avalonia rename it.
+  - **A failure in work the UI does on its own** (`FailuresNoCallWaitedFor`), such as an event handler for an activation
+    the platform posted, is kept and fails the next call to the UI. Unhandled, it would end the UI thread's loop, and
+    every call after it would wait forever.
   - **Web pages are rendered by a headless browser** (`PlaywrightWebPageImages`): the installed Edge on Windows, Chrome
     elsewhere, driven by Playwright, muted, since card pages play their note's audio. Only the headless JAStudio
     references Playwright, so its driver stays out of what Anki loads.
@@ -156,11 +170,34 @@ the headless JAStudio.
 - **The UI, built, in the headless JAStudio only** (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a
   window opened would open on Magnus's screen, and it has no browser to render pages with. Each tool gives an image.
   - `render_window` renders one of the main menu's windows, the options, the readings mappings or the import profiles,
-    opened as the menu opens it.
+    opened as the menu opens it, and closes it again. To drive one, open it from the workspace's main menu.
   - `render_the_workspace` renders the workspace window as it is, after showing a note in a tab or in the editor, if
     given one, and on the editor's tab asked for, such as a vocab's Matching tab. It keeps its tabs from one call to the
     next, and starts as Magnus last left his workspace.
   - `render_card` renders a side of a note's card as Anki's reviewer shows it, the whole card however tall.
+- **Driving the UI, built (2026-11-09), in the headless JAStudio only:** the screen-tools (`ScreenTools`) show the
+  headless JAStudio's screen and act on it as a person does, so Claude can use JAStudio's UI on the real corpus:
+  reproduce a bug, check a fix, or try a window being built.
+  - `render_the_screen` renders every window and popup open, each where it is, and lists them with their refs and the
+    control that has the keyboard. `render_the_workspace` leaves the workspace open on the screen, to drive.
+  - `describe_the_screen` describes the screen as text: each window and popup, with the controls a person reads or acts
+    on, from Avalonia's automation tree, the tree screen readers read. Each control has a ref, such as `c12`, then its
+    kind, its text, its state, such as checked, selected, expanded, out of sight or has the keyboard, and where it is.
+    A control keeps its ref (`ControlRef`) as long as it exists (`ControlRefs`). A control's line is its
+    `ControlDescription`.
+  - `click_a_control`, `type_text`, `press_keys`, `scroll_a_control` and `close_a_window` act on it through the headless
+    platform's own mouse and keyboard, so the input goes where a person's would and does what a person's does, and each
+    gives the screen afterwards, as an image unless told not to. Each waits until the UI has handled what it started,
+    and a quarter of a second more for work in the background, such as a search.
+  - **A control is named by its ref, not by where it is in an image:** a ref names the control exactly however the image
+    is scaled to be shown, and the description gives its text and state exactly too. A click at a control's middle that
+    would reach something else, such as a window in front of it, or the edge of the list it's scrolled out of, fails and
+    says what.
+  - **Input as a real desktop gives it:** a key without Ctrl, Alt or Meta held types its text too, which JAStudio's menus
+    pick their items by; a key, and each press and release of a mouse button, goes to whatever has the keyboard, or is
+    in front at the click's point, at that moment, since the one before may have closed a window.
+  - **Found with it at once (2026-11-09):** picking an item from the search results' menu puts the keyboard back on the
+    results, after a dialog the item opened gave it to its input. A `bug:` comment in `PopupMenuWindow` says why.
 - **The dictionary, built:** `look_up_in_the_dictionary` looks up a word, or a vocab as JAStudio looks it up, and shows each
   entry's forms and senses, with the dictionary's own parts of speech and the ones JAStudio maps them to.
 - **Analysis, built:** `analyze_sentence` analyzes a sentence, given as text or by its note, with the note's

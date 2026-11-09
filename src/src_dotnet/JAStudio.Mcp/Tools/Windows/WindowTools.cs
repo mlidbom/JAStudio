@@ -51,7 +51,7 @@ public class WindowTools
       var windowToRender = WindowsRendered.SingleOrDefault(it => string.Equals(it.Name, window, StringComparison.OrdinalIgnoreCase))
                         ?? throw new ArgumentException($"There is no window named '{window}' to render. The windows are: {string.Join(", ", WindowsRendered.Select(it => $"\"{it.Name}\""))}.", nameof(window));
 
-      return ImageResult.Of(windowToRender.Name, _headlessUI.Render(() => windowToRender.Open(_services)));
+      return ImageResult.Of(windowToRender.Name, _headlessUI.RenderAndClose(() => windowToRender.Open(_services)));
    }
 
    [McpServerTool(Name = "render_the_workspace", ReadOnly = true)]

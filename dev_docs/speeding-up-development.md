@@ -38,8 +38,9 @@ reads: the loop of changing the UI and looking at it, without Magnus.
   Each needs a way to be opened by name, a small list in the MCP server.
 - **Live too, later:** in the live JAStudio, the same tool could render the windows Magnus has open, as he sees them, with
   Avalonia's `RenderTargetBitmap` (`CaptureRenderedFrame` is the headless platform's).
-- **Driving the windows, later:** the headless platform simulates the keyboard and the mouse, so a tool could also type
-  in a search or press a button: reproducing a bug in the UI on the real corpus, and checking the fix.
+- **Driving the windows:** the headless platform simulates the keyboard and the mouse, so a tool could also type
+  in a search or press a button: reproducing a bug in the UI on the real corpus, and checking the fix. *Built 2026-11-09:
+  see Progress.*
 
 ### Cards
 
@@ -89,7 +90,13 @@ reads: the loop of changing the UI and looking at it, without Magnus.
      place is on a screen the headless platform doesn't have. Narrow tabs clip a page as his wouldn't.
    - **The build output the gateway copies at every start grew to 458 MB:** Playwright's driver is 104 MB, and SkiaSharp's
      native debug symbols, which nothing reads at runtime, 101 MB. Starting took 7.8 seconds rather than 7.
-3. **Then** the live versions, then driving the windows.
+3. **Done (2026-11-09): driving the windows,** before the live versions: the screen-tools (`jastudio-mcp.md`, "Driving
+   the UI") show the headless JAStudio's screen, every window and popup, and act on it with the headless platform's own
+   mouse and keyboard, naming controls by refs from a description of the screen. Checked on the real corpus: JAStudio's
+   note menu opened from the search results, picked an item by its key, and closed when the workspace was clicked; the
+   tag picker it opened took text. Its first find was a bug: picking a menu's item puts the keyboard back where the menu
+   came from, after a dialog the item opened gave it to its input.
+4. **Then** the live versions.
 
 ## 2. New builds reaching the live JAStudio without restarting Anki
 
@@ -366,7 +373,7 @@ Not decided. Each starts with scoping, and the scoping decides the order.
    of one is a full rebuild and a review of its diff. Exact specifications against the real vocab would make most of
    that check a test run, in CI too.
 2. **Driving the headless windows** (item 1's step 3): small, and the server is Claude's to change. It makes a UI bug
-   reproducible, and its fix checkable, without Magnus.
+   reproducible, and its fix checkable, without Magnus. *Done 2026-11-09.*
 3. **Scoping 2.** Its biggest gain, Claude seeing the UI without Anki, item 1 now gives. What remains is a new build
    reaching Magnus without a restart, and checking code that only runs inside Anki: worth it, but the biggest change of
    the four.

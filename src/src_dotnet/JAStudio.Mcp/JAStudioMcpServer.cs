@@ -18,6 +18,7 @@ using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reloading;
+using JAStudio.Mcp.Tools.Screen;
 using JAStudio.Mcp.Tools.Windows;
 using JAStudio.Mcp.UI;
 using Microsoft.AspNetCore.Builder;
@@ -110,6 +111,7 @@ public sealed class JAStudioMcpServer
       if(headlessUI != null)
       {
          mcpServer.WithTools<WindowTools>(ToolResultJsonOptions)
+                  .WithTools<ScreenTools>(ToolResultJsonOptions)
                   .WithTools<CardTools>(ToolResultJsonOptions);
          builder.Services.AddSingleton(headlessUI);
       }
