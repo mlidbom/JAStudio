@@ -10,6 +10,7 @@ from Avalonia.Controls.Templates import DataTemplates
 from Avalonia.Threading import Dispatcher
 from Avalonia.Platform import IPlatformSettings
 from Avalonia.Controls import IResourceDictionary
+from JAStudio.Core.UI.Web import IWebPageImages
 from System import TimeSpan
 from Avalonia.Data import IndexerDescriptor, BindingBase
 
@@ -62,6 +63,8 @@ class UIApp(Application):
     def Initialize(self) -> None: ...
     @staticmethod
     def InitializeWorkspaceWindow(services: TemporaryServiceCollection) -> None: ...
+    @staticmethod
+    def InitializeWorkspaceWindowShowingPagesAsImages(services: TemporaryServiceCollection, webPageImages: IWebPageImages) -> None: ...
     def OnFrameworkInitializationCompleted(self) -> None: ...
     @staticmethod
     def WaitForInitialization(timeout: TimeSpan) -> None: ...

@@ -50,6 +50,18 @@ public class CardServer
       // Prevent ASP.NET from scanning for hosting startup assemblies (we're hosted in Anki's process)
       Environment.SetEnvironmentVariable("ASPNETCORE_PREVENTHOSTINGSTARTUP", "true");
 
+      StartOnThePortItHadLastOrAnother();
+      SavePort(Port);
+   }
+
+   /// <summary>
+   /// Starts the Kestrel web server on a port the system picks, leaving alone the port the server inside Anki remembers, which <see cref="Start"/><br/>
+   /// reads and saves: how the headless JAStudio starts its own, while Anki's may be running.
+   /// </summary>
+   public void StartOnAPortTheSystemPicks() => StartOnPort(0);
+
+   void StartOnThePortItHadLastOrAnother()
+   {
       var preferredPort = LoadSavedPort();
       if(preferredPort > 0)
       {
@@ -138,7 +150,6 @@ public class CardServer
       var address = _app.Urls.First();
       Port = new Uri(address).Port;
       CardServerUrl.BaseUrl = BaseUrl;
-      SavePort(Port);
       Console.WriteLine($"[CardServer] Listening on {BaseUrl}");
    }
 

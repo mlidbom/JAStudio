@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Mcp.UI;
 using ModelContextProtocol.Protocol;
 
 // ReSharper disable InconsistentNaming
@@ -16,7 +15,7 @@ public class When_rendering_a_window : McpServerSpecification
    /// <summary>The bytes every PNG file starts with.</summary>
    static readonly byte[] PngSignature = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
 
-   protected When_rendering_a_window() : base(HeadlessUI.OfThisProcess()) {}
+   protected When_rendering_a_window() : base(HeadlessUIOfTheSpecifications.Started) {}
 
    protected CallToolResult RenderWindow(string window) => CallTool("render_window", new Dictionary<string, object?> { ["window"] = window });
 

@@ -10,6 +10,7 @@ using Compze.DependencyInjection.Extensions.Hosting;
 using JAStudio.Core.SysUtils.Json;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Analysis;
+using JAStudio.Mcp.Tools.Cards;
 using JAStudio.Mcp.Tools.Collection;
 using JAStudio.Mcp.Tools.Corpus;
 using JAStudio.Mcp.Tools.Dictionary;
@@ -62,7 +63,7 @@ public sealed class JAStudioMcpServer
 
    /// <summary>
    /// Starts serving the tools, as <see cref="Start(IRootResolver,int)"/> does, and the tools of a JAStudio whose UI is <paramref name="headlessUI"/>,<br/>
-   /// such as <see cref="WindowTools.RenderWindow"/>: the headless JAStudio's.
+   /// such as <see cref="WindowTools.RenderWindow"/> and <see cref="CardTools.RenderCard"/>: the headless JAStudio's.
    /// </summary>
    public static JAStudioMcpServer StartWithTheHeadlessUI(IRootResolver jastudio, int port, HeadlessUI headlessUI) => Start(jastudio, port, headlessUI);
 
@@ -106,7 +107,8 @@ public sealed class JAStudioMcpServer
 
       if(headlessUI != null)
       {
-         mcpServer.WithTools<WindowTools>(ToolResultJsonOptions);
+         mcpServer.WithTools<WindowTools>(ToolResultJsonOptions)
+                  .WithTools<CardTools>(ToolResultJsonOptions);
          builder.Services.AddSingleton(headlessUI);
       }
 

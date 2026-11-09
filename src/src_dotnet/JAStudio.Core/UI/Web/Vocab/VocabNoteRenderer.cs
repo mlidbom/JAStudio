@@ -14,7 +14,6 @@ public class VocabNoteRenderer
    {
       var baseUrl = CardServerUrl.BaseUrl;
       if(baseUrl == null) return "<!-- CardServer not running -->";
-      var noteId = note.GetId();
-      return $"""<iframe src="{baseUrl}/card/vocab/{side}?NoteId={noteId}&CardType={cardTemplateName}&DisplayContext={displayContext}" style="position:fixed;inset:0;width:100%;height:100%;border:none;" frameborder="0"></iframe>""";
+      return $"""<iframe src="{baseUrl}{CardServerUrl.CardPagePath(note, cardTemplateName, side, displayContext)}" style="position:fixed;inset:0;width:100%;height:100%;border:none;" frameborder="0"></iframe>""";
    }
 }

@@ -7,13 +7,14 @@ using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.Mcp;
 using JAStudio.Mcp.UI;
+using JAStudio.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace JAStudio.HeadlessHost;
 
 /// <summary>
-/// The headless JAStudio: JAStudio without Anki or a UI, which loads a corpus checkout and serves JAStudio's MCP server, for Claude to work<br/>
+/// The headless JAStudio: JAStudio without Anki or a screen, which loads a corpus checkout and serves JAStudio's MCP server, for Claude to work<br/>
 /// with JAStudio on its own. The MCP gateway (<c>JAStudio.Mcp.Gateway</c>) starts it, from a copy of this build output, and restarts it to<br/>
 /// take in a new build. See <c>dev_docs/jastudio-mcp.md</c>.
 /// </summary>
@@ -34,13 +35,22 @@ static class Program
 
       using var host = BuildJAStudio(arguments);
       var jastudio = StartJAStudioAndLoadTheCollection(host);
+      var services = jastudio.Resolve<TemporaryServiceCollection>();
 
-      var mcpServer = JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, arguments.McpServerPort, HeadlessUI.OfThisProcess());
+      var cardServer = new CardServer(jastudio, new HeadlessNoteLinkOpener(services));
+      cardServer.StartOnAPortTheSystemPicks();
+
+      using var webPageImages = new PlaywrightWebPageImages();
+      var headlessUI = HeadlessUI.Start(webPageImages);
+      headlessUI.CreateTheWorkspaceWindow(services);
+
+      var mcpServer = JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, arguments.McpServerPort, headlessUI);
       Console.WriteLine($"{McpServerListensAt}{mcpServer.Url}");
 
       arguments.ProcessToExitWith.WaitForExit();
 
       mcpServer.StopAsync().GetAwaiter().GetResult();
+      cardServer.StopAsync().GetAwaiter().GetResult();
       host.StopAsync().GetAwaiter().GetResult();
       return 0;
    }

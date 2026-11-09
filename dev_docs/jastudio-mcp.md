@@ -72,7 +72,14 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
   - **The user files are a copy of its own** (`HeadlessUserFiles`), of the add-on's, made as it starts: the add-on's are
     the live JAStudio's, where the window places and the workspace's state are saved.
   - **Its UI runs on Avalonia's headless platform** (`HeadlessUI`, in `JAStudio.Mcp`), on a thread of its own, as the UI
-    inside Anki runs on one: windows open and are drawn as on a screen, but on none, for `render_window`.
+    inside Anki runs on one: windows open and are drawn as on a screen, but on none, for `render_window`. It has a
+    workspace window, created as inside Anki, whose tabs show their pages as images (`NoteTabImageView`), since a native
+    web view needs a real window.
+  - **Web pages are rendered by a headless browser** (`PlaywrightWebPageImages`): the installed Edge on Windows, Chrome
+    elsewhere, driven by Playwright, muted, since card pages play their note's audio. Only the headless JAStudio
+    references Playwright, so its driver stays out of what Anki loads.
+  - **Its card server is its own** (`CardServer.StartOnAPortTheSystemPicks`), on a port the system picks, leaving alone
+    the port the card server inside Anki remembers.
   - **What needs Anki itself refuses with an exception:** creating a new note's Anki note, changing a note's cards, and
     importing. The note types for raw notes, which the import profiles window lists, it reads from the collection, as
     JAStudio inside Anki does.
@@ -146,10 +153,13 @@ the headless JAStudio.
     `note-search.md`). It counts the notes found, and lists up to 50 of them, or as many as asked for.
   - `get_note` gets a note as the corpus stores it.
   - `describe_collection` gives the corpus folder and the notes of each type, studied or not.
-- **The UI, built, in the headless JAStudio only:** `render_window` renders one of the main menu's windows, the options, the
-  readings mappings or the import profiles: opened as the menu opens it, drawn as on a screen, and given as an image.
-  Only the headless JAStudio offers it (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a window
-  opened would open on Magnus's screen. The workspace window and cards are next (`speeding-up-development.md`).
+- **The UI, built, in the headless JAStudio only** (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a
+  window opened would open on Magnus's screen, and it has no browser to render pages with. Each tool gives an image.
+  - `render_window` renders one of the main menu's windows, the options, the readings mappings or the import profiles,
+    opened as the menu opens it.
+  - `render_the_workspace` renders the workspace window as it is, after showing a note in a tab or in the editor, if
+    given one. It keeps its tabs from one call to the next, and starts as Magnus last left his workspace.
+  - `render_card` renders a side of a note's card as Anki's reviewer shows it, the whole card however tall.
 - **The dictionary, built:** `look_up_in_the_dictionary` looks up a word, or a vocab as JAStudio looks it up, and shows each
   entry's forms and senses, with the dictionary's own parts of speech and the ones JAStudio maps them to.
 - **Analysis, built:** `analyze_sentence` analyzes a sentence, given as text or by its note, with the note's

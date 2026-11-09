@@ -28,8 +28,22 @@ public static class CardServerUrl
    public static string NotePagePath(JPNote note) => $"/card/{CardPageNoteType(note)}/back?{NoteIdQueryParameter}={note.GetId()}";
 
    /// <summary>The absolute URL of <see cref="NotePagePath"/> on the running CardServer.</summary>
-   public static Uri NotePageUrl(JPNote note) =>
-      new($"{BaseUrl ?? throw new InvalidOperationException("The CardServer has not been started.")}{NotePagePath(note)}");
+   public static Uri NotePageUrl(JPNote note) => new($"{RunningServersBaseUrl}{NotePagePath(note)}");
+
+   /// <summary>
+   /// The server-relative path of the page that shows a side of one of <paramref name="note"/>'s cards, as Anki shows it in an iframe.
+   /// </summary>
+   /// <param name="cardType">The card's type, the name of its card template in Anki, such as <see cref="CardTypes.Reading"/>.</param>
+   /// <param name="side"><c>front</c> or <c>back</c>.</param>
+   /// <param name="displayContext"><c>review</c> when Anki's reviewer shows the card, <c>preview</c> when its previewer does.</param>
+   public static string CardPagePath(JPNote note, string cardType, string side, string displayContext) =>
+      $"/card/{CardPageNoteType(note)}/{side}?{NoteIdQueryParameter}={note.GetId()}&CardType={cardType}&DisplayContext={displayContext}";
+
+   /// <summary>The absolute URL of <see cref="CardPagePath"/> on the running CardServer.</summary>
+   public static Uri CardPageUrl(JPNote note, string cardType, string side, string displayContext) =>
+      new($"{RunningServersBaseUrl}{CardPagePath(note, cardType, side, displayContext)}");
+
+   static string RunningServersBaseUrl => BaseUrl ?? throw new InvalidOperationException("The CardServer has not been started.");
 
    /// <summary>
    /// The id of the note a card page shows, read from the page's URL.<br/>

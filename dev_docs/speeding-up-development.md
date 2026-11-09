@@ -78,12 +78,18 @@ reads: the loop of changing the UI and looking at it, without Magnus.
      opens an audio player.
    - It found that opening the options dialog saved the configuration once for each option, and reloaded every open
      workspace page as many times: setting a configuration value to the value it had counted as a change.
-2. **Next: the workspace window, with `render_card`.** The workspace shows a note's page in a `NativeWebView`, WebView2 on
-   Windows, which needs a real window: on the headless platform it fails as it's created. Since Magnus's saved workspace
-   opens his tabs, even the workspace window as it opens needs the page drawn another way. The proposal: a `CardServer`
-   of the headless JAStudio's own, and a headless browser rendering its pages, which `render_card` needs anyway, with the
-   note tab showing that image in the web view's place on the headless platform. That's a seam in `NoteTabView`, which
-   Magnus doesn't see.
+2. **Done (2026-11-09): `render_the_workspace` and `render_card`.** The workspace shows a note's page in a
+   `NativeWebView`, WebView2 on Windows, which needs a real window: on the headless platform it failed as it was created,
+   and since Magnus's saved workspace opens his tabs, the workspace window with it. So the headless JAStudio has a
+   `CardServer` of its own, and a headless browser renders its pages (`PlaywrightWebPageImages`: the installed Edge,
+   driven by Playwright, muted). The headless workspace's tabs show their page as that image (`NoteTabImageView`), in
+   place of the web view (`NoteTabView`): the workspace window is created with one or the other. Checked on the real
+   corpus: the workspace as Magnus left it, his search, his tabs and the editor, and a sentence opened in a new tab; and
+   要する's card, as Anki's reviewer shows it. Follow-ups:
+   - **The window's size:** the headless workspace opens at 1600×900, not at Magnus's 2374×1696, since his remembered
+     place is on a screen the headless platform doesn't have. Narrow tabs clip a page as his wouldn't.
+   - **The build output the gateway copies at every start grew to 458 MB:** Playwright's driver is 104 MB, and SkiaSharp's
+     native debug symbols, which nothing reads at runtime, 101 MB. Starting took 7.8 seconds rather than 7.
 3. **Then** the live versions, then driving the windows.
 
 ## 2. New builds reaching the live JAStudio without restarting Anki

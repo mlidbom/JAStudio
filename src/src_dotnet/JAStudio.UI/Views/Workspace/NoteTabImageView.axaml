@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
+             x:Class="JAStudio.UI.Views.Workspace.NoteTabImageView"
+             x:DataType="vm:NoteTabViewModel"
+             IsVisible="{Binding IsSelected}">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="4" Margin="4">
+            <Button Content="◀" ToolTip.Tip="Back" IsEnabled="False" />
+            <Button Content="▶" ToolTip.Tip="Forward" IsEnabled="False" />
+        </StackPanel>
+
+        <Border x:Name="PageArea">
+            <Image x:Name="Page" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </Border>
+    </DockPanel>
+
+</UserControl>

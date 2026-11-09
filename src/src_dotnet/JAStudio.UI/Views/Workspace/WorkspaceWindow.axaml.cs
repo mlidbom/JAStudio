@@ -55,12 +55,13 @@ public partial class WorkspaceWindow : Window
    public WorkspaceWindow() => InitializeComponent();
 #pragma warning restore CS8618
 
-   WorkspaceWindow(TemporaryServiceCollection services)
+   /// <param name="viewOfATab">Creates the view of a tab: <see cref="NoteTabView"/>, or <see cref="NoteTabImageView"/> where there is no screen.</param>
+   WorkspaceWindow(TemporaryServiceCollection services, Func<NoteTabViewModel, Control> viewOfATab)
    {
       InitializeComponent();
       _placeKeeper = WindowPlaceKeeper.KeepThePlaceOf(this, services);
       DataContext = _viewModel = new WorkspaceViewModel(services);
-      TabViews.ItemTemplate = new FuncDataTemplate<NoteTabViewModel>((tab, _) => new NoteTabView(tab));
+      TabViews.ItemTemplate = new FuncDataTemplate<NoteTabViewModel>((tab, _) => viewOfATab(tab));
 
       var mainMenuSpec = new WorkspaceMainMenu(services).BuildMenuSpec(GetClipboardText);
       foreach(var item in SpecMenuRenderer.BuildMenuItems(mainMenuSpec))
@@ -113,11 +114,19 @@ public partial class WorkspaceWindow : Window
 
    static WorkspaceWindow Instance => _instance ?? throw new InvalidOperationException("The workspace window has not been created yet.");
 
-   internal static void CreateAndRegister(TemporaryServiceCollection services)
+   /// <summary>Creates the workspace window, with <paramref name="viewOfATab"/> creating its tabs' views, as JAStudio's one workspace.</summary>
+   internal static void CreateAndRegister(TemporaryServiceCollection services, Func<NoteTabViewModel, Control> viewOfATab)
    {
-      _instance = new WorkspaceWindow(services);
+      _instance = new WorkspaceWindow(services, viewOfATab);
       if(Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
          desktop.MainWindow = _instance;
+   }
+
+   /// <summary>Shows the workspace window, and returns it. Called on the UI thread.</summary>
+   public static WorkspaceWindow Shown()
+   {
+      Instance.Show();
+      return Instance;
    }
 
    public static void ToggleVisibility()
