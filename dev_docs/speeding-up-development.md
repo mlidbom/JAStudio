@@ -294,9 +294,10 @@ better designed once the tooling shows how specifications like these work in pra
    one after another, a theory's rows included, so the 230 cases run serially, on one of 32 cores. xUnit v3 4.0 (August
    2026) can run every test in parallel, within a class and across a theory's rows, with opt-outs per collection, class,
    method, data source and row. Parsing already runs on several threads against one collection in the full rebuild, so the
-   cases can share their fixture. **Blocked on Compze:** Compze.xUnit and Compze.xUnitBDD don't work with xUnit 4 yet;
-   Magnus is getting a version that does released. Then: upgrade, check how the parallel mode is switched on and whether
-   any class relies on its tests running one after another, and measure.
+   cases can share their fixture. **Unblocked (2026-11-09):** Compze.xUnit 0.2.0-alpha and Compze.xUnitBDD 0.6.0-beta,
+   on nuget.org, work with xUnit 4 (they depend on xunit.v3.extensibility.core 4.0.3 or later, below 5); JAStudio is on
+   0.1.1-alpha and 0.5.1-beta. Next: upgrade, check how the parallel mode is switched on and whether any class relies on
+   its tests running one after another, and measure.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 
