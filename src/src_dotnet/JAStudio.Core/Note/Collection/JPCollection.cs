@@ -27,7 +27,7 @@ public class JPCollection
    readonly SimpleObservable<JPCollection> _reloadedFromBackend = new();
 
    /// <summary>
-   /// Notifies this collection every time <see cref="ReloadFromBackend"/> completes: at startup, and after every Anki sync.<br/>
+   /// Notifies this collection every time it has loaded again (<see cref="ReloadFromBackend"/>): at startup, after every Anki sync, and when asked to.<br/>
    /// The reload replaces every note object, so anything holding on to one must look it up again by its <see cref="NoteId"/>.
    /// </summary>
    public IObservable<JPCollection> ReloadedFromBackend => _reloadedFromBackend;
@@ -198,12 +198,48 @@ public class JPCollection
       Sentences.Cache.Clear();
    });
 
-   /// <summary>Clear and reload all caches. Called after sync or collection reload.</summary>
-   public void ReloadFromBackend()
+   /// <summary>
+   /// Clears this collection and loads it again: the notes from the corpus checkout, and the studying statuses and Anki note ids from Anki. It runs<br/>
+   /// at startup, after every Anki sync, and when asked to, by the workspace's Local Actions > "Reload the collection from disk" or JAStudio's MCP<br/>
+   /// server, to take in changes made to the corpus checkout outside JAStudio.
+   /// </summary>
+   /// <returns>The notes whose files changed on disk while this collection held them, as <see cref="ReloadFromBackendAfter"/> describes.</returns>
+   public IReadOnlyList<JPNote> ReloadFromBackend() => ReloadFromBackendAfter(() => {});
+
+   /// <summary>
+   /// Makes <paramref name="changeToTheCorpusCheckout"/>, such as a git fast-forward of the corpus checkout, while this collection holds no notes, so that<br/>
+   /// nothing JAStudio does meanwhile saves a note over the change, then loads this collection again, as <see cref="ReloadFromBackend"/> does. It loads<br/>
+   /// again even when the change fails.
+   /// </summary>
+   /// <returns>
+   /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before. Each<br/>
+   /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as its Anki note. Notes this collection<br/>
+   /// didn't hold before aren't among them: none at startup, nor after a sync, which clears the collection when it starts.
+   /// </returns>
+   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout)
+   {
+      var notesHeldBefore = AllNotes().ToDictionary(it => it.GetId());
+      ClearCaches();
+      try
+      {
+         changeToTheCorpusCheckout();
+      }
+      finally
+      {
+         LoadFromBackend();
+      }
+
+      List<JPNote> notesChangedOnDisk = [.. AllNotes().Where(ChangedOnDisk)];
+      notesChangedOnDisk.ForEach(it => it.UpdateInCache());
+      return notesChangedOnDisk;
+
+      bool ChangedOnDisk(JPNote note) => notesHeldBefore.TryGetValue(note.GetId(), out var theNoteAsHeldBefore) && !note.HasTheSameStoredDataAs(theNoteAsHeldBefore);
+   }
+
+   void LoadFromBackend()
    {
       using var runner = NoteServices.TaskRunner.Current("=== Populating JAStudio data from file system ===");
 
-      ClearCaches();
       var repoLoad = TaskCE.Run(LoadFromRepository);
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
 

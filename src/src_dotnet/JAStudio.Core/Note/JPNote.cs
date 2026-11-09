@@ -152,6 +152,13 @@ public abstract class JPNote
       _lastPersistedSnapshot = TakeSnapshot();
    }
 
+   /// <summary>
+   /// Whether this note's data, as last saved or loaded, is the same as <paramref name="theNoteAsHeldBefore"/>'s, the same note as the collection held<br/>
+   /// it before reloading: not the same when the note's file changed on disk in between (<see cref="Collection.JPCollection.ReloadFromBackendAfter"/>).
+   /// </summary>
+   internal bool HasTheSameStoredDataAs(JPNote theNoteAsHeldBefore) =>
+      _lastPersistedSnapshot.AsSpan().SequenceEqual(theNoteAsHeldBefore._lastPersistedSnapshot);
+
    public void Flush()
    {
       if(!_persisted) return;

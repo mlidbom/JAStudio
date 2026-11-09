@@ -62,6 +62,7 @@ public class WorkspaceMainMenu
                               BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
                               BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),
                               BatchCommand(ShortcutFinger.Up1("Force flush all cached notes"), _services.LocalNoteUpdater.ForceFlushAllNotes),
+                              BatchCommand(ShortcutFinger.Up2("Reload the collection from disk"), () => _services.CoreApp.Collection.ReloadFromBackend()),
                               BatchCommand(ShortcutFinger.Up3("Write file system repository"), _services.LocalNoteUpdater.WriteFileSystemRepository)
                            }
       )
