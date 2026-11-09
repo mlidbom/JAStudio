@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.EditableFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.Workspace.Editors;
@@ -12,7 +12,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// <summary>
 /// The "Matching" tab of a vocab's <see cref="VocabEditorSectionViewModel"/> (<see cref="VocabMatchingConfigEditor"/>):<br/>
 /// the vocab's matching config, everything that decides how sentences are parsed into words and which words match this vocab.<br/>
-/// Every change is written to the note at once, and the vocab's sentences are then reparsed to reflect it.
+/// Every change is written to the note at once, and the vocab's sentences are then reparsed to reflect it. Each rule and flag is one of the<br/>
+/// <see cref="VocabEditableFields"/>.
 /// </summary>
 class VocabMatchingConfigEditorViewModel
 {
@@ -29,48 +30,48 @@ class VocabMatchingConfigEditorViewModel
       _currentVocab = currentVocab;
       _sentencesReparser = sentencesReparser;
 
-      YieldLastToken = RequireForbidRule("Yield to overlapping following compound", it => it.YieldLastToken);
+      YieldLastToken = RequireForbidRule(VocabEditableFields.YieldLastToken);
       MiscMatchingRules =
       [
-         RequireForbidRule("Surface", it => it.Surface),
-         RequireForbidRule("Sentence end", it => it.SentenceEnd),
-         RequireForbidRule("Sentence start", it => it.SentenceStart),
-         RequireForbidRule("Single token", it => it.SingleToken)
+         RequireForbidRule(VocabEditableFields.Surface),
+         RequireForbidRule(VocabEditableFields.SentenceEnd),
+         RequireForbidRule(VocabEditableFields.SentenceStart),
+         RequireForbidRule(VocabEditableFields.SingleToken)
       ];
       StemMatchingRules =
       [
-         RequireForbidRule("Godan imperative", it => it.GodanImperative),
-         RequireForbidRule("Godan imperative (head)", it => it.GodanImperativeHead),
-         RequireForbidRule("Godan potential", it => it.GodanPotential),
-         RequireForbidRule("Ichidan imperative", it => it.IchidanImperative),
-         RequireForbidRule("Masu stem", it => it.MasuStem),
-         RequireForbidRule("Godan", it => it.Godan),
-         RequireForbidRule("Ichidan", it => it.Ichidan),
-         RequireForbidRule("Irrealis", it => it.Irrealis),
-         RequireForbidRule("Past tense stem", it => it.PastTenseStem),
-         RequireForbidRule("Dictionary form (start)", it => it.DictionaryFormStart),
-         RequireForbidRule("Dictionary form (head)", it => it.DictionaryFormHead),
-         RequireForbidRule("Adverb (head)", it => it.AdverbHead),
-         RequireForbidRule("て-form stem (start)", it => it.TeFormStemStart),
-         RequireForbidRule("て-form stem (head)", it => it.TeFormStemHead)
+         RequireForbidRule(VocabEditableFields.GodanImperative),
+         RequireForbidRule(VocabEditableFields.GodanImperativeHead),
+         RequireForbidRule(VocabEditableFields.GodanPotential),
+         RequireForbidRule(VocabEditableFields.IchidanImperative),
+         RequireForbidRule(VocabEditableFields.MasuStem),
+         RequireForbidRule(VocabEditableFields.Godan),
+         RequireForbidRule(VocabEditableFields.Ichidan),
+         RequireForbidRule(VocabEditableFields.Irrealis),
+         RequireForbidRule(VocabEditableFields.PastTenseStem),
+         RequireForbidRule(VocabEditableFields.DictionaryFormStart),
+         RequireForbidRule(VocabEditableFields.DictionaryFormHead),
+         RequireForbidRule(VocabEditableFields.AdverbHead),
+         RequireForbidRule(VocabEditableFields.TeFormStemStart),
+         RequireForbidRule(VocabEditableFields.TeFormStemHead)
       ];
       IsFlags =
       [
-         Flag("Inflecting word", it => it.IsInflectingWord),
-         Flag("Poison word", it => it.IsPoisonWord)
+         Flag(VocabEditableFields.IsInflectingWord),
+         Flag(VocabEditableFields.IsPoisonWord)
       ];
       MiscFlags =
       [
-         Flag("Match with preceding vowel", it => it.MatchWithPrecedingVowel),
-         Flag("Question overrides form: Show the question in results even if the match was another form", it => it.QuestionOverridesForm)
+         Flag(VocabEditableFields.MatchWithPrecedingVowel),
+         Flag(VocabEditableFields.QuestionOverridesForm)
       ];
-      StringRules =
+      TextSetRules =
       [
-         StringRule("Prefix is not", it => it.PrefixIsNot),
-         StringRule("Required prefix", it => it.RequiredPrefix),
-         StringRule("Suffix is not", it => it.SuffixIsNot),
-         StringRule("Surface is not", it => it.SurfaceIsNot),
-         StringRule("Yield to surface", it => it.YieldToSurface)
+         TextSetRule(VocabEditableFields.PrefixIsNot),
+         TextSetRule(VocabEditableFields.RequiredPrefix),
+         TextSetRule(VocabEditableFields.SuffixIsNot),
+         TextSetRule(VocabEditableFields.SurfaceIsNot),
+         TextSetRule(VocabEditableFields.YieldToSurface)
       ];
    }
 
@@ -79,40 +80,30 @@ class VocabMatchingConfigEditorViewModel
    public IReadOnlyList<RequireForbidFlagEditorViewModel> StemMatchingRules { get; }
    public IReadOnlyList<FlagEditorViewModel> IsFlags { get; }
    public IReadOnlyList<FlagEditorViewModel> MiscFlags { get; }
-   public IReadOnlyList<StringSetEditorViewModel> StringRules { get; }
+   public IReadOnlyList<TextSetEditorViewModel> TextSetRules { get; }
 
    /// <summary>Shows every rule as the note has it now, after a change made elsewhere.</summary>
    public void Refresh()
    {
       foreach(var rule in AllRequireForbidRules) rule.Refresh();
       foreach(var flag in AllFlags) flag.Refresh();
-      foreach(var rule in StringRules) rule.Refresh();
+      foreach(var rule in TextSetRules) rule.Refresh();
    }
 
    IEnumerable<RequireForbidFlagEditorViewModel> AllRequireForbidRules => [YieldLastToken, ..MiscMatchingRules, ..StemMatchingRules];
 
    IEnumerable<FlagEditorViewModel> AllFlags => [..IsFlags, ..MiscFlags];
 
-   RequireForbidFlagEditorViewModel RequireForbidRule(string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>
-      new(_fatalErrorHandler, label, () => rule(_currentVocab().MatchingConfiguration.RequiresForbids), _sentencesReparser.ReparseSentences);
+   RequireForbidFlagEditorViewModel RequireForbidRule(EditableRequireForbidField field) =>
+      new(_fatalErrorHandler, field.Label, () => field.RuleOn(_currentVocab()), _sentencesReparser.ReparseSentences);
 
-   FlagEditorViewModel Flag(string label, Func<VocabMatchingFlags, FlagField> flag) =>
-      new(_fatalErrorHandler, label, () => flag(_currentVocab().MatchingConfiguration.Flags), _sentencesReparser.ReparseSentences);
+   FlagEditorViewModel Flag(EditableFlagField<VocabNote> field) =>
+      new(_fatalErrorHandler, field.Label, () => field.FlagOn(_currentVocab()), _sentencesReparser.ReparseSentences);
 
-   StringSetEditorViewModel StringRule(string title, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
-      new(title,
-          () => rule(CurrentRules()),
-          value => ChangeAndSave(rules => rule(rules).Add(value)),
-          value => ChangeAndSave(rules => rule(rules).Remove(value)),
+   TextSetEditorViewModel TextSetRule(EditableTextSetField<VocabNote> field) =>
+      new(field.Label,
+          () => field.Read(_currentVocab()),
+          text => field.Add(_currentVocab(), text),
+          text => field.Remove(_currentVocab(), text),
           _sentencesReparser.ReparseSentences);
-
-   VocabNoteMatchingRules CurrentRules() => _currentVocab().MatchingConfiguration.ConfigurableRules;
-
-   /// <summary>Changes the vocab's configurable rules, then saves the note: changing a rule's set itself saves nothing.</summary>
-   void ChangeAndSave(Action<VocabNoteMatchingRules> change)
-   {
-      var rules = CurrentRules();
-      change(rules);
-      rules.Save();
-   }
 }

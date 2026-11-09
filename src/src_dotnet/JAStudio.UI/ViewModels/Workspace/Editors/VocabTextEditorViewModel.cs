@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.EditableFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.TextToSpeech;
@@ -11,7 +12,8 @@ using JAStudio.UI.Views.Workspace.Editors;
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
 
 /// <summary>
-/// The "Text" tab of a vocab's <see cref="VocabEditorSectionViewModel"/> (<see cref="VocabTextEditor"/>): its text fields, its forms and its parts of speech.<br/>
+/// The "Text" tab of a vocab's <see cref="VocabEditorSectionViewModel"/> (<see cref="VocabTextEditor"/>): its text fields, its forms and its parts of speech,<br/>
+/// each one of the <see cref="VocabEditableFields"/>.<br/>
 /// Most fields are written to the note on every keystroke, and the vocab's generated data, such as its active answer, is updated with them.
 /// </summary>
 /// <remarks>
@@ -35,42 +37,32 @@ class VocabTextEditorViewModel
       _currentVocab = currentVocab;
       _sentencesReparser = sentencesReparser;
 
-      Question = new CommittingTextFieldEditorViewModel(fatalErrorHandler, "Question", () => _currentVocab().Question.Text, CommitTheQuestion);
-      Disambiguation = new CommittingTextFieldEditorViewModel(fatalErrorHandler, "Disambiguation", () => _currentVocab().Question.Disambiguation, CommitTheDisambiguation);
-      Readings = Field("Readings", TextFieldFormat.CommaSeparated,
-                       it => string.Join(", ", it.GetReadings()),
-                       (it, readings) => it.SetReadings(StringExtensions.ExtractCommaSeparatedValues(readings)));
+      Question = CommittingField(VocabEditableFields.Question);
+      Disambiguation = CommittingField(VocabEditableFields.Disambiguation);
+      Readings = Field(VocabEditableFields.Readings);
       Forms = new EnteredFormsEditorViewModel(_currentVocab, _sentencesReparser.ReparseSentences);
       PartsOfSpeech = new PartsOfSpeechEditorViewModel(() => _currentVocab().PartsOfSpeech, _sentencesReparser.ReparseSentences);
       CorpusFields =
       [
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.CorpusAnswer),
-         Field("Explanation", TextFieldFormat.Paragraphs, it => it.Explanation),
-         Field("Long explanation", TextFieldFormat.Paragraphs, it => it.ExplanationLong),
-         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.Mnemonic),
-         Field("Compound parts", TextFieldFormat.CommaSeparated,
-               it => string.Join(", ", it.CompoundParts.Primary()),
-               (it, compoundParts) => it.CompoundParts.SetPrimary(StringExtensions.ExtractCommaSeparatedValues(compoundParts))),
-         Field("Alternative compound parts", TextFieldFormat.CommaSeparated,
-               it => string.Join(", ", it.CompoundParts.Alternative()),
-               (it, compoundParts) => it.CompoundParts.SetAlternative(StringExtensions.ExtractCommaSeparatedValues(compoundParts)))
+         Field(VocabEditableFields.Answer),
+         Field(VocabEditableFields.Explanation),
+         Field(VocabEditableFields.LongExplanation),
+         Field(VocabEditableFields.Mnemonic),
+         Field(VocabEditableFields.CompoundParts),
+         Field(VocabEditableFields.AlternativeCompoundParts)
       ];
       AudioFields =
       [
-         Field("First", TextFieldFormat.Line, it => it.Audio.First.RawValue(), (it, audio) => it.Audio.First.SetRawValue(audio)),
-         Field("Second", TextFieldFormat.Line, it => it.Audio.Second.RawValue(), (it, audio) => it.Audio.Second.SetRawValue(audio)),
-         new TextToSpeechAudioFieldEditorViewModel(fatalErrorHandler,
-                                                   "Text to speech",
-                                                   () => _currentVocab().TextToSpeechAudio.RawValue(),
-                                                   WritingToTheCurrentVocab((it, audio) => it.TextToSpeechAudio.SetRawValue(audio)),
-                                                   openTheTextToSpeechDialog)
+         Field(VocabEditableFields.FirstAudio),
+         Field(VocabEditableFields.SecondAudio),
+         TextToSpeechAudioField(VocabEditableFields.TextToSpeechAudio, openTheTextToSpeechDialog)
       ];
-      TechnicalNotes = Field("Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes);
+      TechnicalNotes = Field(VocabEditableFields.TechnicalNotes);
       SourceFields =
       [
-         Field("Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer),
-         Field("Mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.Mnemonic),
-         Field("Reading mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.ReadingMnemonic)
+         Field(VocabEditableFields.SourceAnswer),
+         Field(VocabEditableFields.SourceMnemonic),
+         Field(VocabEditableFields.SourceReadingMnemonic)
       ];
    }
 
@@ -117,23 +109,28 @@ class VocabTextEditorViewModel
 
    IEnumerable<TextFieldEditorViewModel> LiveTextFields() => [Readings, TechnicalNotes, ..CorpusFields, ..AudioFields, ..SourceFields];
 
-   void CommitTheQuestion(string question)
-   {
-      _currentVocab().Question.SetText(question.Trim());
-      _sentencesReparser.ReparseSentences();
-   }
+   /// <summary>A text field that changes how sentences parse, written when it's committed, after which the vocab's sentences are reparsed.</summary>
+   CommittingTextFieldEditorViewModel CommittingField(EditableTextField<VocabNote> field) =>
+      new(_fatalErrorHandler, field.Label, () => field.Read(_currentVocab()), text =>
+      {
+         field.Write(_currentVocab(), text);
+         _sentencesReparser.ReparseSentences();
+      });
 
-   void CommitTheDisambiguation(string disambiguation)
-   {
-      _currentVocab().Question.SetDisambiguation(disambiguation.Trim());
-      _sentencesReparser.ReparseSentences();
-   }
+   TextFieldEditorViewModel Field(EditableTextField<VocabNote> field) =>
+      new(_fatalErrorHandler, field.Label, field.Format, () => field.Read(_currentVocab()), WritingToTheCurrentVocab(field.Write));
 
-   TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<VocabNote, WritableStringValue> field) =>
-      Field(label, format, it => field(it).Value, (it, text) => field(it).Set(text));
+   /// <summary>A list of texts, edited as the texts separated by commas.</summary>
+   TextFieldEditorViewModel Field(EditableTextListField<VocabNote> field) =>
+      new(_fatalErrorHandler,
+          field.Label,
+          TextFieldFormat.CommaSeparated,
+          () => string.Join(", ", field.Read(_currentVocab())),
+          WritingToTheCurrentVocab((it, text) => field.Write(it, StringExtensions.ExtractCommaSeparatedValues(text))));
 
-   TextFieldEditorViewModel Field(string label, TextFieldFormat format, Func<VocabNote, string> read, Action<VocabNote, string> write) =>
-      new(_fatalErrorHandler, label, format, () => read(_currentVocab()), WritingToTheCurrentVocab(write));
+   /// <summary>The text-to-speech audio's field, with a button for generating new audio in the <see cref="TextToSpeechDialog"/>, which <paramref name="openTheTextToSpeechDialog"/> opens.</summary>
+   TextToSpeechAudioFieldEditorViewModel TextToSpeechAudioField(EditableTextField<VocabNote> field, Action openTheTextToSpeechDialog) =>
+      new(_fatalErrorHandler, field.Label, () => field.Read(_currentVocab()), WritingToTheCurrentVocab(field.Write), openTheTextToSpeechDialog);
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the vocab as the collection holds it now, and updates the vocab's generated data.</summary>
    Action<string> WritingToTheCurrentVocab(Action<VocabNote, string> write) =>

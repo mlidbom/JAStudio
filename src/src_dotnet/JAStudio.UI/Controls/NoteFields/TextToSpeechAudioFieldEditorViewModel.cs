@@ -1,5 +1,6 @@
 using System;
 using CommunityToolkit.Mvvm.Input;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Views.TextToSpeech;
 

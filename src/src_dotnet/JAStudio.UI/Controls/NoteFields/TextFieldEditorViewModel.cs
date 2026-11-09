@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.UI.Controls.NoteFields;

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.EditableFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
@@ -28,23 +29,23 @@ class VocabMetadataEditorViewModel
       Tags = new NoteTagsEditorViewModel(services, currentVocab);
 
       UsuallyWrittenInKana = new UsuallyWrittenInKanaEditorViewModel(_fatalErrorHandler, () => _currentVocab().UsuallyWrittenInKana);
-      MiscFlags = [Flag("Compositionally transparent compound", it => it.MatchingConfiguration.Flags.IsCompositionallyTransparentCompound)];
+      MiscFlags = [Flag(VocabEditableFields.IsCompositionallyTransparentCompound)];
       RegisterFlags =
       [
-         Flag("Archaic", it => it.Register.Archaic),
-         Flag("Childish", it => it.Register.Childish),
-         Flag("Derogatory", it => it.Register.Derogatory),
-         Flag("Formal", it => it.Register.Formal),
-         Flag("Honorific", it => it.Register.Honorific),
-         Flag("Humble", it => it.Register.Humble),
-         Flag("Informal", it => it.Register.Informal),
-         Flag("Literary", it => it.Register.Literary),
-         Flag("Polite", it => it.Register.Polite),
-         Flag("Rough, traditionally considered male", it => it.Register.RoughMasculine),
-         Flag("Sensitive", it => it.Register.Sensitive),
-         Flag("Slang", it => it.Register.Slang),
-         Flag("Soft, traditionally considered feminine", it => it.Register.SoftFeminine),
-         Flag("Vulgar, usually offensive", it => it.Register.Vulgar)
+         Flag(VocabEditableFields.Archaic),
+         Flag(VocabEditableFields.Childish),
+         Flag(VocabEditableFields.Derogatory),
+         Flag(VocabEditableFields.Formal),
+         Flag(VocabEditableFields.Honorific),
+         Flag(VocabEditableFields.Humble),
+         Flag(VocabEditableFields.Informal),
+         Flag(VocabEditableFields.Literary),
+         Flag(VocabEditableFields.Polite),
+         Flag(VocabEditableFields.RoughMasculine),
+         Flag(VocabEditableFields.Sensitive),
+         Flag(VocabEditableFields.Slang),
+         Flag(VocabEditableFields.SoftFeminine),
+         Flag(VocabEditableFields.Vulgar)
       ];
    }
 
@@ -63,5 +64,5 @@ class VocabMetadataEditorViewModel
       Tags.Refresh();
    }
 
-   FlagEditorViewModel Flag(string label, Func<VocabNote, FlagField> flag) => new(_fatalErrorHandler, label, () => flag(_currentVocab()), () => {});
+   FlagEditorViewModel Flag(EditableFlagField<VocabNote> field) => new(_fatalErrorHandler, field.Label, () => field.FlagOn(_currentVocab()), () => {});
 }

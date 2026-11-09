@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;

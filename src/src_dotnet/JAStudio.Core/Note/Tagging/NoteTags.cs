@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Contracts;
 
 namespace JAStudio.Core.Note.Tagging;
 
@@ -13,34 +14,19 @@ public class NoteTags : IEnumerable<Tag>
    public NoteTags(JPNote note, List<string>? tags = null)
    {
       _note = note;
-
-      if(tags != null)
-      {
-         foreach(var tagName in tags)
-         {
-            _tags.Add(Tag.FromName(tagName));
-         }
-      }
+      foreach(var tagName in tags ?? []) _tags.Add(Tag.FromName(tagName));
    }
 
    public bool Contains(Tag value) => _tags.Contains(value);
 
    public void Set(Tag tag)
    {
-      if(!Contains(tag))
-      {
-         _tags.Add(tag);
-         _note.Flush();
-      }
+      if(_tags.Add(tag)) _note.Flush();
    }
 
    public void Unset(Tag tag)
    {
-      if(Contains(tag))
-      {
-         _tags.Remove(tag);
-         _note.Flush();
-      }
+      if(_tags.Remove(tag)) _note.Flush();
    }
 
    public void Toggle(Tag tag, bool on)
@@ -90,4 +76,16 @@ public class NoteTags : IEnumerable<Tag>
    /// </summary>
    public IReadOnlyList<Tag> NotDefinedByJAStudio() =>
       [..this.Where(it => !Tags.IsDefinedByJAStudio(it.Name)).OrderBy(it => it.Name, StringComparer.OrdinalIgnoreCase)];
+
+   /// <summary>
+   /// Makes <paramref name="tags"/>, none of which is a jastudio-defined-tag, the note's tags that a person manages (<see cref="NotDefinedByJAStudio"/>):<br/>
+   /// unsets the others a person manages and sets these, leaving the jastudio-defined-tags as they are.
+   /// </summary>
+   public void ReplaceTheTagsNotDefinedByJAStudio(IReadOnlyList<Tag> tags)
+   {
+      Contract.Argument.Assert(!tags.Any(it => Tags.IsDefinedByJAStudio(it.Name)), () => $"{string.Join(", ", tags.Select(it => it.Name))} includes a jastudio-defined-tag.");
+
+      foreach(var removed in NotDefinedByJAStudio().Except(tags)) Unset(removed);
+      foreach(var tag in tags) Set(tag);
+   }
 }
