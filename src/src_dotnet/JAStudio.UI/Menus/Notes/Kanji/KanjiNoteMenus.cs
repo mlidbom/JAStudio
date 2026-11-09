@@ -34,36 +34,15 @@ class KanjiNoteMenus
 
       if(!kanji.CorpusAnswer.HasValue())
       {
-         items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up1("Accept meaning"), () => kanji.CorpusAnswer.Set(FormatKanjiMeaning(kanji.GetAnswer()))));
+         items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up1, KanjiCommands.AcceptMeaning, kanji));
       }
 
-      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up2("Populate radicals from mnemonic tags"), kanji.PopulateRadicalsFromMnemonicTags));
-      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up3("Bootstrap mnemonic from radicals"), kanji.BootstrapMnemonicFromRadicals));
+      items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up2, KanjiCommands.PopulateRadicalsFromMnemonicTags, kanji));
+      items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up3, KanjiCommands.BootstrapMnemonicFromRadicals, kanji));
       items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Mnemonic.Empty()));
 
       return SpecMenuItem.Submenu(title, items);
    }
 
    public static SpecMenuItem BuildViewMenuSpec(string title) => SpecMenuItem.Submenu(title, new List<SpecMenuItem>());
-
-   static string FormatKanjiMeaning(string meaning)
-   {
-      // Replace HTML and bracket markup with pipe separator
-      var result = meaning
-                  .Replace("<", "|")
-                  .Replace(">", "|")
-                  .Replace("[", "|")
-                  .Replace("]", "|")
-                  .ToLower()
-                  .Replace("||", "|")
-                  .Replace("||", "|")
-                  .Replace("||", "|")
-                  .Replace(", ", "|")
-                  .Replace(" ", "-")
-                  .Replace("-|-", " | ");
-
-      // Remove leading/trailing pipes
-      result = result.TrimEnd('|').TrimStart('|');
-      return result;
-   }
 }

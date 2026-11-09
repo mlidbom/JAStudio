@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Compze.Contracts;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
@@ -69,6 +70,31 @@ public class KanjiNote : JPNote
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
    public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
+
+   /// <summary>
+   /// Makes the source's answer the corpus's own (<see cref="CorpusAnswer"/>), written as the corpus writes a kanji's answers: in lower case, the<br/>
+   /// meanings separated by " | " where the source had markup or commas, and the words of each joined by dashes. Only while the kanji has no answer<br/>
+   /// of its own.
+   /// </summary>
+   public void AcceptMeaning()
+   {
+      Contract.State.Assert(!CorpusAnswer.HasValue(), () => $"The kanji {GetQuestion()} has an answer of its own already: {CorpusAnswer.Value}");
+      CorpusAnswer.Set(WrittenAsTheCorpusWritesAKanjisAnswers(SourceData.Answer.Value));
+
+      static string WrittenAsTheCorpusWritesAKanjisAnswers(string sourceAnswer) =>
+         sourceAnswer.Replace("<", "|")
+                     .Replace(">", "|")
+                     .Replace("[", "|")
+                     .Replace("]", "|")
+                     .ToLower()
+                     .Replace("||", "|")
+                     .Replace("||", "|")
+                     .Replace("||", "|")
+                     .Replace(", ", "|")
+                     .Replace(" ", "-")
+                     .Replace("-|-", " | ")
+                     .Trim('|');
+   }
 
    public string AnswerText => StringExtensions.StripHtmlMarkup(GetAnswer());
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -19,7 +20,7 @@ static class SentenceStringMenus
                            {
                               BuildAddMenuSpec(ShortcutFinger.Home1("Add"), sentence, menuString),
                               BuildRemoveMenuSpec(ShortcutFinger.Home2("Remove"), sentence, menuString),
-                              BuildSplitWithWordBreakTagSpec(ShortcutFinger.Home3("Split with word-break tag in question"), sentence, menuString)
+                              BuildSplitWithWordBreakTagSpec(ShortcutFinger.Home3, sentence, menuString)
                            }
       );
 
@@ -115,6 +116,6 @@ static class SentenceStringMenus
       return SpecMenuItem.Submenu(title, items);
    }
 
-   static SpecMenuItem BuildSplitWithWordBreakTagSpec(string title, SentenceNote sentence, string menuString) =>
-      SpecMenuItem.UICommand(title, () => sentence.Question.SplitTokenWithWordBreakTag(menuString), enabled: sentence.Question.WithInvisibleSpace().Contains(menuString));
+   static SpecMenuItem BuildSplitWithWordBreakTagSpec(Func<string, string> shortcutFinger, SentenceNote sentence, string menuString) =>
+      NoteCommandMenuItem.Running(shortcutFinger, SentenceCommands.SplitWithAWordBreakTag, sentence, menuString, enabled: sentence.Question.WithInvisibleSpace().Contains(menuString));
 }

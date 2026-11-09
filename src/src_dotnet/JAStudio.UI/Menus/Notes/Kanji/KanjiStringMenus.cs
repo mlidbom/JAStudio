@@ -73,7 +73,7 @@ static class KanjiStringMenus
       {
          var items = new List<SpecMenuItem>
                      {
-                        SpecMenuItem.UICommand(ShortcutFinger.Home1("Similar meaning"), () => kanji.AddSimilarMeaning(text)),
+                        NoteCommandMenuItem.Running(ShortcutFinger.Home1, KanjiCommands.AddSimilarMeaning, kanji, text),
                         SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => kanji.AddRelatedConfusedWith(text))
                      };
 

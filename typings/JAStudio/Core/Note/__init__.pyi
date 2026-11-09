@@ -8,6 +8,7 @@ from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue, W
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Note.Tagging import NoteTags
 from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
+from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableTextListField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.KanjiReadings import EditableKanjiReadingsField, KanjiNoteReadings
 from Compze.Abstractions import EntityId
@@ -132,6 +133,16 @@ class JPNote(abc.ABC):
     def UpdateInCache(self) -> None: ...
 
 
+class KanjiCommands(abc.ABC):
+    AcceptMeaning : NoteChangingCommand_1[KanjiNote]
+    AddSimilarMeaning : NoteChangingCommandTakingAText_1[KanjiNote]
+    BootstrapMnemonicFromRadicals : NoteChangingCommand_1[KanjiNote]
+    PopulateRadicalsFromMnemonicTags : NoteChangingCommand_1[KanjiNote]
+    @classmethod
+    @property
+    def All(cls) -> IReadOnlyList_1[INoteCommand_1[KanjiNote]]: ...
+
+
 class KanjiEditableFields(abc.ABC):
     Answer : EditableTextField_1[KanjiNote]
     ConfusedWith : EditableTextListField_1[KanjiNote]
@@ -226,6 +237,7 @@ class KanjiNote(JPNote):
     def SourceTag(self) -> SourceTag: ...
     @property
     def Tags(self) -> NoteTags: ...
+    def AcceptMeaning(self) -> None: ...
     def AddRelatedConfusedWith(self, newConfusedWith: str) -> None: ...
     def AddSimilarMeaning(self, newSynonymQuestion: str, isRecursiveCall: bool = ...) -> None: ...
     def BootstrapMnemonicFromRadicals(self) -> None: ...

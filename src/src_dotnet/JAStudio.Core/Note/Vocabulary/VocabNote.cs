@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Contracts;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
@@ -7,6 +8,7 @@ using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
@@ -124,6 +126,23 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
    public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
+
+   /// <summary>
+   /// Makes the source's answer the corpus's own (<see cref="CorpusAnswer"/>), written as the corpus writes a vocab's answers: in lower case, without<br/>
+   /// markup, the meanings separated by slashes and the words of each joined by dashes. Only while the vocab has no answer of its own.
+   /// </summary>
+   public void AcceptMeaning()
+   {
+      Contract.State.Assert(!CorpusAnswer.HasValue(), () => $"The vocab {GetQuestion()} has an answer of its own already: {CorpusAnswer.Value}");
+      CorpusAnswer.Set(WrittenAsTheCorpusWritesAVocabsAnswers(SourceData.Answer.Value));
+
+      static string WrittenAsTheCorpusWritesAVocabsAnswers(string sourceAnswer) =>
+         sourceAnswer.Replace(" SOURCE", "")
+                     .Replace(", ", "/")
+                     .Replace(" ", "-")
+                     .ToLower()
+                     .StripHtmlAndBracketMarkupAndNoiseCharacters();
+   }
 
    /// <summary>The question and answer, the readings in kana and in romaji, and the forms.</summary>
    public override IEnumerable<string> SearchableTexts() =>

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
@@ -9,7 +8,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.SysUtils;
+using JAStudio.Core.Note.Vocabulary.Commands;
 using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -77,40 +76,40 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Home4("Create"),
                                  new List<SpecMenuItem>
                                  {
-                                    BuildCreateCloneToFormMenuSpec(ShortcutFinger.Home1("Clone to form"), vocab),
+                                    BuildCreateCloneToFormMenuSpec(ShortcutFinger.Home1(VocabCommands.CloneToForm.Label), vocab),
                                     SpecMenuItem.Submenu(ShortcutFinger.Home2("Noun variations"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            CreateNoteCommand(ShortcutFinger.Home1("する-verb"), () => vocab.Cloner.CreateSuruVerb()),
-                                                            CreateNoteCommand(ShortcutFinger.Home2("します-verb"), () => vocab.Cloner.CreateShimasuVerb()),
-                                                            CreateNoteCommand(ShortcutFinger.Home3("な-adjective"), () => vocab.Cloner.CreateNaAdjective()),
-                                                            CreateNoteCommand(ShortcutFinger.Home4("の-adjective"), () => vocab.Cloner.CreateNoAdjective()),
-                                                            CreateNoteCommand(ShortcutFinger.Up1("に-adverb"), () => vocab.Cloner.CreateNiAdverb()),
-                                                            CreateNoteCommand(ShortcutFinger.Up2("と-adverb"), () => vocab.Cloner.CreateToAdverb())
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home1, VocabCommands.CreateSuruVerb, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home2, VocabCommands.CreateShimasuVerb, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home3, VocabCommands.CreateNaAdjective, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home4, VocabCommands.CreateNoAdjective, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up1, VocabCommands.CreateNiAdverb, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up2, VocabCommands.CreateToAdverb, vocab)
                                                          }),
                                     SpecMenuItem.Submenu(ShortcutFinger.Home3("Verb variations"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            CreateNoteCommand(ShortcutFinger.Home1("ます-form"), () => vocab.Cloner.CreateMasuForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Home2("て-form"), () => vocab.Cloner.CreateTeForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Home3("た-form"), () => vocab.Cloner.CreateTaForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Home4("ない-form"), () => vocab.Cloner.CreateNaiForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Home5($"え-stem/godan-imperative {vocab.Cloner.SuffixToEStemPreview("")}"), () => vocab.Cloner.SuffixToEStem("")),
-                                                            CreateNoteCommand(ShortcutFinger.Up1("ば-form"), () => vocab.Cloner.CreateBaForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Up2("{receptive/passive}-form"), () => vocab.Cloner.CreateReceptiveForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Up3("causative"), () => vocab.Cloner.CreateCausativeForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Up4("imperative"), () => vocab.Cloner.CreateImperative()),
-                                                            CreateNoteCommand(ShortcutFinger.Down1("Potential-godan"), () => vocab.Cloner.CreatePotentialGodan())
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home1, VocabCommands.CreateMasuForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home2, VocabCommands.CreateTeForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home3, VocabCommands.CreateTaForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home4, VocabCommands.CreateNaiForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home5($"{VocabCommands.CreateEStem.Label} {vocab.Cloner.SuffixToEStemPreview("")}"), VocabCommands.CreateEStem, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up1, VocabCommands.CreateBaForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up2, VocabCommands.CreateReceptiveForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up3, VocabCommands.CreateCausativeForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up4, VocabCommands.CreateImperative, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Down1, VocabCommands.CreatePotentialGodan, vocab)
                                                          }),
                                     SpecMenuItem.Submenu(ShortcutFinger.Home4("Misc"),
                                                          new List<SpecMenuItem>
                                                          {
-                                                            CreateNoteCommand(ShortcutFinger.Home1("く-form-of-い-adjective"), () => vocab.Cloner.CreateKuForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Home2("さ-form-of-い-adjective"), () => vocab.Cloner.CreateSaForm()),
-                                                            CreateNoteCommand(ShortcutFinger.Home3("て-prefixed"), () => vocab.Cloner.CreateTePrefixedWord()),
-                                                            CreateNoteCommand(ShortcutFinger.Home4("お-prefixed"), () => vocab.Cloner.CreateOPrefixedWord()),
-                                                            CreateNoteCommand(ShortcutFinger.Home5("ん-suffixed"), () => vocab.Cloner.CreateNSuffixedWord()),
-                                                            CreateNoteCommand(ShortcutFinger.Up1("か-suffixed"), () => vocab.Cloner.CreateKaSuffixedWord())
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home1, VocabCommands.CreateKuForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home2, VocabCommands.CreateSaForm, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home3, VocabCommands.CreateTePrefixed, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home4, VocabCommands.CreateOPrefixed, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Home5, VocabCommands.CreateNSuffixed, vocab),
+                                                            NoteCommandMenuItem.Creating(ShortcutFinger.Up1, VocabCommands.CreateKaSuffixed, vocab)
                                                          })
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Home5("Copy"),
@@ -124,11 +123,11 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Up1("Misc"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Accept meaning"), () => vocab.CorpusAnswer.Set(FormatVocabMeaning(vocab.GetAnswer())), enabled: !vocab.CorpusAnswer.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("Generate answer"), vocab.GenerateAndSetAnswer),
+                                    NoteCommandMenuItem.Running(ShortcutFinger.Home1, VocabCommands.AcceptMeaning, vocab, enabled: !vocab.CorpusAnswer.HasValue()),
+                                    NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.GenerateAnswer, vocab),
                                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Repopulate parts of speech"), () => vocab.PartsOfSpeech.SetAutomaticallyFromDictionary()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home5("Autogenerate compounds"), () => vocab.CompoundParts.AutoGenerate())
+                                    NoteCommandMenuItem.Running(ShortcutFinger.Home4, VocabCommands.RepopulatePartsOfSpeech, vocab),
+                                    NoteCommandMenuItem.Running(ShortcutFinger.Home5, VocabCommands.AutogenerateCompoundParts, vocab)
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),
                                  new List<SpecMenuItem>
@@ -141,13 +140,6 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
          }
       );
    }
-
-   public SpecMenuItem CreateNoteCommand(string name, Func<JPNote> createNote, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
-      => SpecMenuItem.Command(name,
-                              () => WorkspaceWindow.OpenNote(createNote()),
-                              acceleratorKey,
-                              shortcut,
-                              enabled: enabled);
 
    SpecMenuItem BuildOpenHomonymsMenuSpec(VocabNote vocab, string title)
    {
@@ -191,15 +183,11 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
          var form = formsWithNoVocab[i];
          items.Add(SpecMenuItem.UICommand(
                       ShortcutFinger.FingerByPriorityOrder(i, form),
-                      () => vocab.Cloner.CloneToForm(form)));
+                      () => VocabCommands.CloneToForm.CreateFrom(vocab, form)));
       }
 
       return SpecMenuItem.Submenu(title, items);
    }
-
-   // Action handlers
-
-   static string FormatVocabMeaning(string meaning) => meaning.Replace(" SOURCE", "").Replace(", ", "/").Replace(" ", "-").ToLower().StripHtmlAndBracketMarkupAndNoiseCharacters();
 
    static void CopyToClipboard(string text) => Dispatcher.UIThread.Invoke(() => new Window().Clipboard?.SetTextAsync(text).Wait());
 }

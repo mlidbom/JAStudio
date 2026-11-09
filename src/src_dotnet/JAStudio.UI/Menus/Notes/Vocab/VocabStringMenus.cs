@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
-using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Commands;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus.Notes.Vocab;
 
@@ -43,7 +41,7 @@ class VocabStringMenus
       var items = new List<SpecMenuItem>
                   {
                      SpecMenuItem.UICommand(ShortcutFinger.Home1("Synonym"), () => vocab.RelatedNotes.Synonyms.Add(text), enabled: !synonyms.Contains(text)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Synonyms transitively one level"), () => vocab.RelatedNotes.Synonyms.AddTransitivelyOneLevel(text)),
+                     NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.AddSynonymsTransitivelyOneLevel, vocab, text),
                      SpecMenuItem.UICommand(ShortcutFinger.Home3("Confused with"), () => vocab.RelatedNotes.ConfusedWith.Add(text), enabled: !confusedWith.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home4("Antonym"), () => vocab.RelatedNotes.Antonyms.Add(text), enabled: !antonyms.Contains(text)),
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
@@ -127,37 +125,8 @@ class VocabStringMenus
       return SpecMenuItem.Submenu(ShortcutFinger.Home4("Sentence"), items);
    }
 
-   SpecMenuItem BuildCreateCombinedMenuSpec(string text, VocabNote vocab)
+   static SpecMenuItem BuildCreateCombinedMenuSpec(string text, VocabNote vocab)
    {
-      // Nested local function for suffix operations (mirroring Python structure)
-      List<SpecMenuItem> BuildSuffixMenuItems()
-      {
-         return
-         [
-            CreateNoteCommand(ShortcutFinger.Home1("dictionary-form"), () => vocab.Cloner.CreateSuffixVersion(text)),
-            CreateNoteCommand(ShortcutFinger.Home2($"い-stem {vocab.Cloner.SuffixToIStemPreview(text)}"), () => vocab.Cloner.SuffixToIStem(text)),
-            CreateNoteCommand(ShortcutFinger.Home3($"て-stem  {vocab.Cloner.SuffixToTeStemPreview(text)}"), () => vocab.Cloner.SuffixToTeStem(text)),
-            CreateNoteCommand(ShortcutFinger.Home4($"え-stem  {vocab.Cloner.SuffixToEStemPreview(text)}"), () => vocab.Cloner.SuffixToEStem(text)),
-            CreateNoteCommand(ShortcutFinger.Home5($"あ-stem  {vocab.Cloner.SuffixToAStemPreview(text)}"), () => vocab.Cloner.SuffixToAStem(text)),
-            CreateNoteCommand(ShortcutFinger.Up1($"chop-1  {vocab.Cloner.SuffixToChoppedPreview(text, 1)}"), () => vocab.Cloner.SuffixToChopped(text, 1)),
-            CreateNoteCommand(ShortcutFinger.Up2($"chop-2  {vocab.Cloner.SuffixToChoppedPreview(text, 2)}"), () => vocab.Cloner.SuffixToChopped(text, 2)),
-            CreateNoteCommand(ShortcutFinger.Up3($"chop-3  {vocab.Cloner.SuffixToChoppedPreview(text, 3)}"), () => vocab.Cloner.SuffixToChopped(text, 3)),
-            CreateNoteCommand(ShortcutFinger.Up4($"chop-4  {vocab.Cloner.SuffixToChoppedPreview(text, 4)}"), () => vocab.Cloner.SuffixToChopped(text, 4))
-         ];
-      }
-
-      // Nested local function for prefix operations (mirroring Python structure)
-      List<SpecMenuItem> BuildPrefixMenuItems()
-      {
-         return
-         [
-            CreateNoteCommand(ShortcutFinger.Home1($"Dictionary form: {text}{vocab.GetQuestion()}"), () => vocab.Cloner.PrefixToDictionaryForm(text)),
-            CreateNoteCommand(ShortcutFinger.Home2($"chop-1  {vocab.Cloner.PrefixToChoppedPreview(text, 1)}"), () => vocab.Cloner.PrefixToChopped(text, 1)),
-            CreateNoteCommand(ShortcutFinger.Home3($"chop-2  {vocab.Cloner.PrefixToChoppedPreview(text, 2)}"), () => vocab.Cloner.PrefixToChopped(text, 2)),
-            CreateNoteCommand(ShortcutFinger.Home4($"chop-3  {vocab.Cloner.PrefixToChoppedPreview(text, 3)}"), () => vocab.Cloner.PrefixToChopped(text, 3))
-         ];
-      }
-
       return SpecMenuItem.Submenu(
          ShortcutFinger.Up1("Create combined"),
          new List<SpecMenuItem>
@@ -166,12 +135,28 @@ class VocabStringMenus
             SpecMenuItem.Submenu(ShortcutFinger.Home2("Suffix-onto"), BuildSuffixMenuItems())
          }
       );
-   }
 
-   public SpecMenuItem CreateNoteCommand(string name, Func<JPNote> createNote, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
-      => SpecMenuItem.Command(name,
-                              () => WorkspaceWindow.OpenNote(createNote()),
-                              acceleratorKey,
-                              shortcut,
-                              enabled: enabled);
+      List<SpecMenuItem> BuildPrefixMenuItems() =>
+      [
+         Creating(ShortcutFinger.Home1($"{VocabCommands.PrefixOntoDictionaryForm.Label}: {text}{vocab.GetQuestion()}"), VocabCommands.PrefixOntoDictionaryForm),
+         Creating(ShortcutFinger.Home2($"{VocabCommands.PrefixOntoChopping1.Label}  {vocab.Cloner.PrefixToChoppedPreview(text, 1)}"), VocabCommands.PrefixOntoChopping1),
+         Creating(ShortcutFinger.Home3($"{VocabCommands.PrefixOntoChopping2.Label}  {vocab.Cloner.PrefixToChoppedPreview(text, 2)}"), VocabCommands.PrefixOntoChopping2),
+         Creating(ShortcutFinger.Home4($"{VocabCommands.PrefixOntoChopping3.Label}  {vocab.Cloner.PrefixToChoppedPreview(text, 3)}"), VocabCommands.PrefixOntoChopping3)
+      ];
+
+      List<SpecMenuItem> BuildSuffixMenuItems() =>
+      [
+         Creating(ShortcutFinger.Home1(VocabCommands.SuffixOntoDictionaryForm.Label), VocabCommands.SuffixOntoDictionaryForm),
+         Creating(ShortcutFinger.Home2($"{VocabCommands.SuffixOntoIStem.Label} {vocab.Cloner.SuffixToIStemPreview(text)}"), VocabCommands.SuffixOntoIStem),
+         Creating(ShortcutFinger.Home3($"{VocabCommands.SuffixOntoTeStem.Label}  {vocab.Cloner.SuffixToTeStemPreview(text)}"), VocabCommands.SuffixOntoTeStem),
+         Creating(ShortcutFinger.Home4($"{VocabCommands.SuffixOntoEStem.Label}  {vocab.Cloner.SuffixToEStemPreview(text)}"), VocabCommands.SuffixOntoEStem),
+         Creating(ShortcutFinger.Home5($"{VocabCommands.SuffixOntoAStem.Label}  {vocab.Cloner.SuffixToAStemPreview(text)}"), VocabCommands.SuffixOntoAStem),
+         Creating(ShortcutFinger.Up1($"{VocabCommands.SuffixOntoChopping1.Label}  {vocab.Cloner.SuffixToChoppedPreview(text, 1)}"), VocabCommands.SuffixOntoChopping1),
+         Creating(ShortcutFinger.Up2($"{VocabCommands.SuffixOntoChopping2.Label}  {vocab.Cloner.SuffixToChoppedPreview(text, 2)}"), VocabCommands.SuffixOntoChopping2),
+         Creating(ShortcutFinger.Up3($"{VocabCommands.SuffixOntoChopping3.Label}  {vocab.Cloner.SuffixToChoppedPreview(text, 3)}"), VocabCommands.SuffixOntoChopping3),
+         Creating(ShortcutFinger.Up4($"{VocabCommands.SuffixOntoChopping4.Label}  {vocab.Cloner.SuffixToChoppedPreview(text, 4)}"), VocabCommands.SuffixOntoChopping4)
+      ];
+
+      SpecMenuItem Creating(string label, VocabCreatingCommandTakingAText command) => NoteCommandMenuItem.Creating(label, command, vocab, text);
+   }
 }

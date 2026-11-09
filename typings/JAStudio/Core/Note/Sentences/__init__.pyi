@@ -5,6 +5,7 @@ from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, H
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
 from System import IEquatable_1, Action
 from JAStudio.Core.Note.Collection import JPCollection
+from JAStudio.Core.Note.Commands import NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
@@ -158,6 +159,13 @@ class ParsingResult:
     def ParserVersion(self) -> str: ...
     @property
     def Sentence(self) -> str: ...
+
+
+class SentenceCommands(abc.ABC):
+    SplitWithAWordBreakTag : NoteChangingCommandTakingAText_1[SentenceNote]
+    @classmethod
+    @property
+    def All(cls) -> IReadOnlyList_1[INoteCommand_1[SentenceNote]]: ...
 
 
 class SentenceConfiguration:
