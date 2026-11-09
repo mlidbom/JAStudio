@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.VocabRelatedEditor"
+             x:DataType="editors:VocabRelatedEditorViewModel">
+
+    <!-- The rows' look comes from the EditorSection this tab is shown in. -->
+    <ScrollViewer>
+        <StackPanel Spacing="8" Margin="6">
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Related words" />
+                    <ItemsControl ItemsSource="{Binding Relationships}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Derivation" />
+                    <ContentControl Content="{Binding DerivedFrom}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

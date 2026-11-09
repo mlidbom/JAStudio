@@ -29,6 +29,11 @@
                     <editorViews:VocabMetadataEditor DataContext="{Binding Metadata}" />
                 </Panel>
             </TabItem>
+            <TabItem Header="Related">
+                <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                    <editorViews:VocabRelatedEditor DataContext="{Binding Related}" />
+                </Panel>
+            </TabItem>
         </TabControl>
     </DockPanel>
 

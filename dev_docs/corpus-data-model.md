@@ -848,7 +848,8 @@ most of what folders, tags and decks do in other programs. The source tree is th
 
 > **Paused (Magnus, 2026-11-09) until JAStudio has its MCP server:** see [jastudio-mcp.md](jastudio-mcp.md). The
 > remaining slices (4c, 5, 8 and 9) are mostly migrate, rebuild, analyze and rebuild again, which the MCP server lets
-> Claude do without a round trip through Magnus. Slices 1 to 4b, 6 and 7 are done.
+> Claude do without a round trip through Magnus. Slices 1 to 4b, 6 and 7 are done, and 8 since 2026-11-09, with the MCP
+> server.
 
 The order follows the overall approach in [Settled so far](#settled-so-far-magnus-2026-11-05): build
 JAStudio's own UI until Anki's role is minimal, and only then change the model.
@@ -1020,7 +1021,7 @@ Progress on step 3:
             next generation of its data filled them again. "Repopulate parts of speech" refills them by hand. The two
             rebuilds' changes are kept as a one-time fill of the existing vocab.
    8. References between entities as typed word-references (with or without rename propagation), plus vocab
-      pickers to replace the related-vocab JSON text box. **Planned by Claude, 2026-11-09, with Magnus asleep and the calls
+      pickers to replace the related-vocab JSON text box. *Done 2026-11-09.* **Planned by Claude, 2026-11-09, with Magnus asleep and the calls
       left to Claude, in three parts:**
       - **8a, word-references as a type.** *Built 2026-11-09:* a `WordReference` is a word's text and its disambiguation,
         stored as `{ "text", "disambiguation" }`, like a vocab's question. A vocab's related vocab (ergative twins, synonyms,
@@ -1063,7 +1064,20 @@ Progress on step 3:
           no kanji has. Nor are the sentences of the vocab whose compound parts were renamed reparsed, though compound parts
           feed parsing in one place (`IchidanGodanPotentialOrImperativeHybridSplitter`): renaming is rare, and the renamed
           vocab's own sentences are reparsed, as for any change to its question.
-      - **8c, vocab pickers** in the vocab editor, for the related vocab. Then.
+      - **8c, vocab pickers** in the vocab editor, for the related vocab. *Built 2026-11-09:* the vocab editor has a "Related"
+        tab, with each relationship (synonyms, perfect synonyms, antonyms, ergative twins, see also, confused with) as its words'
+        chips and a box that adds one (`WordSetEditor`), and derived from as a text field. Calls made:
+        - **The box offers the corpus's vocab** by name, each with its answer, found by any part of its name, of one of its forms
+          or of one of its readings, so typing めざま finds 目覚まし. Picking one with the arrow keys and Enter adds it at once.
+        - **A word no vocab has can be added too,** by typing it and pressing Enter, since a word-reference names a word. Its chip
+          is dimmed, with a tooltip saying no vocab has the word, which also shows the mistakes already in the corpus (see
+          `corpus-data-issues.md`).
+        - **Derived from stays a text field**, the name typed, as the compound parts are: it holds at most one word.
+        - **Checked with the screen-tools** on the real corpus: adding 目覚まし to 起こす's synonyms through the picker added 起こす to
+          目覚まし's too. Trying it first found that the headless screen activated popups, which closed an `AutoCompleteBox`'s
+          suggestions as they opened, the parts of speech' box's too: fixed in the MCP server (`jastudio-mcp.md`).
+        - **Not done:** the menus on selected text still add to and remove from the relationships as before; the kanji editor's
+          related fields are still text.
    9. Media, once the points under [Media](#media-open) are settled.
 
 ### Before the trim (2026-11-08)

@@ -11,7 +11,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// <summary>
 /// What the workspace's editor section shows for a vocab (<see cref="VocabEditorSection"/>): its editors, as tabs.<br/>
 /// <see cref="Text"/> for its text fields, forms and parts of speech, <see cref="MatchingConfig"/> for the rest of what affects parsing,<br/>
-/// <see cref="Metadata"/> for what doesn't.
+/// <see cref="Metadata"/> for what doesn't, and <see cref="Related"/> for its relationships to other words.
 /// </summary>
 /// <remarks>
 /// It holds the vocab's id, not the note object, because the collection replaces a note's object when Anki edits the note<br/>
@@ -36,6 +36,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
       Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser, () => TextToSpeechDialog.OpenFor(CurrentVocab(), services));
       MatchingConfig = new VocabMatchingConfigEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
       Metadata = new VocabMetadataEditorViewModel(services, CurrentVocab);
+      Related = new VocabRelatedEditorViewModel(services, CurrentVocab);
    }
 
    /// <summary>Reparses the vocab's sentences after a change to what it matches. No editor can be changed while it runs.</summary>
@@ -44,6 +45,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
    public VocabTextEditorViewModel Text { get; }
    public VocabMatchingConfigEditorViewModel MatchingConfig { get; }
    public VocabMetadataEditorViewModel Metadata { get; }
+   public VocabRelatedEditorViewModel Related { get; }
 
    /// <summary>Shows everything as the note has it now. Called by the tab showing the vocab whenever the note is updated.</summary>
    public void Refresh()
@@ -51,6 +53,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
       Text.Refresh();
       MatchingConfig.Refresh();
       Metadata.Refresh();
+      Related.Refresh();
    }
 
    /// <summary>The vocab being edited, as the collection holds it now.</summary>

@@ -4,6 +4,7 @@
              xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
              xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
              xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             xmlns:relatedWords="clr-namespace:JAStudio.UI.Controls.NoteFields.RelatedWords"
              x:Class="JAStudio.UI.Views.Workspace.Editors.EditorSection"
              x:DataType="vm:WorkspaceViewModel">
 
@@ -17,6 +18,9 @@
         </DataTemplate>
         <DataTemplate DataType="noteFields:TextSetEditorViewModel">
             <noteFields:TextSetEditor Margin="0,0,0,6" />
+        </DataTemplate>
+        <DataTemplate DataType="relatedWords:WordSetEditorViewModel">
+            <relatedWords:WordSetEditor Margin="0,0,0,6" />
         </DataTemplate>
         <DataTemplate DataType="noteFields:PartsOfSpeechEditorViewModel">
             <noteFields:PartsOfSpeechEditor Margin="0,0,0,6" />

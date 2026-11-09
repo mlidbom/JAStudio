@@ -156,13 +156,16 @@ public static class VocabEditableFields
    /// adds or removes the vocab as the twin's twin too.</summary>
    public static readonly EditableSetField<VocabNote, WordReference> ErgativeTwins = Relationship("relatedVocab.ergativeTwins", "Ergative twins", it => it.ErgativeTwins);
 
-   /// <summary>The word the vocab is derived from, by its <see cref="WordReference.DisambiguationName"/>: empty for none.</summary>
+   /// <summary>
+   /// The word the vocab is derived from, by its <see cref="WordReference.DisambiguationName"/>: empty for none. Text that names no word, as <c>:</c> typed<br/>
+   /// alone does, is none too, since the editor writes every keystroke.
+   /// </summary>
    public static readonly EditableTextField<VocabNote> DerivedFrom =
       new("relatedVocab.derivedFrom",
           "Derived from",
           TextFieldFormat.Line,
           it => it.RelatedNotes.DerivedFrom.Word?.DisambiguationName ?? "",
-          (it, name) => it.RelatedNotes.DerivedFrom.Set(name.Trim() == "" ? null : WordReference.FromDisambiguationName(name.Trim())));
+          (it, name) => it.RelatedNotes.DerivedFrom.Set(WordReference.FromDisambiguationNameOrNone(name.Trim())));
 
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<VocabNote>> All { get; } =
@@ -186,7 +189,8 @@ public static class VocabEditableFields
 
    static List<string> Names(IEnumerable<WordReference> words) => [.. words.Select(it => it.DisambiguationName)];
 
-   static IEnumerable<WordReference> References(IEnumerable<string> names) => names.Select(WordReference.FromDisambiguationName);
+   /// <summary>The words <paramref name="names"/> name, leaving out text that names none, as <c>:</c> typed alone does, since the editor writes every keystroke.</summary>
+   static IEnumerable<WordReference> References(IEnumerable<string> names) => names.Select(WordReference.FromDisambiguationNameOrNone).OfType<WordReference>();
 
    /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableRequireForbidField RequireForbidRule(string name, string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>

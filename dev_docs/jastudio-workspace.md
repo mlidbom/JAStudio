@@ -176,7 +176,8 @@ apply here.
      followed and tabs are switched. Each tab keeps its own editors, for the note it shows.
    - **A vocab's editors are tabs:** "Text" is its text fields, forms and parts of speech (`VocabTextEditorViewModel`);
      "Matching" is the rest of the matching config, everything else that affects parsing; "Metadata" is what doesn't,
-     such as the register.
+     such as the register; "Related" is its relationships to other words, such as its synonyms, each added with a picker
+     of the corpus's vocab (`VocabRelatedEditorViewModel`, since 2026-11-09).
    - **Every change is written to the note at once.** A change to what the vocab matches, on the "Matching" tab or to
      its question, forms or parts of speech, reparses the vocab's sentences in the background
      (`VocabSentencesReparserViewModel`), and the vocab's page then reloads to show the sentences it now matches. The
