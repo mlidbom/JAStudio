@@ -67,6 +67,12 @@ Three projects, plus the specifications of the tools (`JAStudio.Mcp.Specificatio
     standard output, and exits when the process it was told to live with, the gateway, exits.
 - **`JAStudio.Mcp.Gateway`, the MCP gateway:** the stdio MCP server Claude Code starts, `jastudio-headless` in
   `.mcp.json`.
+  - **Claude Code starts it through `start-the-gateway.ps1`,** which builds it into a folder of its own for that start,
+    `%LOCALAPPDATA%\JAStudio\mcp-gateway\build-for-process-<process id>`, and runs it from there. Run from its build
+    output instead, it would lock that output for the whole session, and every build of the solution that recompiled
+    it, in Rider or for the Definition of Done, would fail on the locked file. That happened (2026-11-09) even though
+    the gateway hadn't changed: Magnus's rebuild in Rider recompiled it to identical bytes, and the next build failed
+    to copy them over the locked file, since MSBuild copies by timestamp, not content.
   - **Its own tools** are `start_headless_jastudio` and `stop_headless_jastudio`. Starting builds the headless JAStudio
     from the source checkout the gateway runs in, so it always runs the checkout's code as it is. It copies the build
     output to `%LOCALAPPDATA%\JAStudio\headless\runtime-of-gateway-<process id>` and runs it from there, so building
@@ -92,10 +98,10 @@ A server Claude restarts to take in a new build would need Magnus every time, so
 never restarts: the gateway runs for the whole session, and the headless JAStudio behind it restarts at will. Claude
 Code does follow a server's tool list as it changes, which is how the headless JAStudio's tools come and go.
 
-**The gateway is the one part that can't change without Magnus.** Claude Code runs it from its build output for the
-whole session, so a changed gateway needs `/mcp` to reconnect it, and on Windows building it while it runs fails on its
-locked files. So it references no JAStudio assembly and knows nothing of JAStudio's tools. Everything that changes
-belongs in the headless JAStudio.
+**The gateway is the one part that can't change without Magnus.** It runs for the whole session, so a changed gateway
+is taken in only when Claude Code reconnects to it, with `/mcp` or a new session, when the start script builds it
+again. So it references no JAStudio assembly and knows nothing of JAStudio's tools. Everything that changes belongs in
+the headless JAStudio.
 
 ## The tools
 

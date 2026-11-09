@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace JAStudio.Mcp.Gateway;
 
 /// <summary>
-/// The checkout of JAStudio's source repository the gateway was built in, the folder with <c>JAStudio.slnx</c>: the headless JAStudio is built<br/>
+/// The checkout of JAStudio's source repository the gateway was started for, the folder with <c>JAStudio.slnx</c>: the headless JAStudio is built<br/>
 /// from it and runs with its add-on folder, so a code change in the checkout reaches the headless JAStudio the next time it's started.
 /// </summary>
 class SourceCheckout
@@ -16,15 +16,16 @@ class SourceCheckout
 
    public DirectoryInfo Folder { get; }
 
-   /// <summary>The checkout the gateway runs from, found by going up from the gateway's build output to the folder with <c>JAStudio.slnx</c>.</summary>
-   public static SourceCheckout TheGatewaysOwn()
+   /// <summary>
+   /// The checkout in <paramref name="folder"/>, which the script that starts the gateway, <c>start-the-gateway.ps1</c>, passes as <c>--source-checkout</c>:<br/>
+   /// the checkout whose <c>.mcp.json</c> Claude Code started the gateway from.
+   /// </summary>
+   public static SourceCheckout In(string? folder)
    {
-      for(var folder = new DirectoryInfo(AppContext.BaseDirectory); folder != null; folder = folder.Parent)
-      {
-         if(folder.EnumerateFiles("JAStudio.slnx").Any()) return new SourceCheckout(folder);
-      }
-
-      throw new InvalidOperationException($"The gateway doesn't run from a build output inside a JAStudio source checkout: {AppContext.BaseDirectory}");
+      var checkout = new DirectoryInfo(folder ?? throw new ArgumentException("The gateway needs --source-checkout <folder>: the JAStudio source checkout to work with."));
+      return checkout.EnumerateFiles("JAStudio.slnx").Any()
+                ? new SourceCheckout(checkout)
+                : throw new ArgumentException($"--source-checkout {checkout.FullName} is no JAStudio source checkout: it has no JAStudio.slnx.");
    }
 
    /// <summary>The <c>src</c> folder, which Anki loads JAStudio from, with JAStudio's configuration (<c>meta.json</c>) and the user files.</summary>

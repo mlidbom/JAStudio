@@ -9,8 +9,8 @@
     },
     "jastudio-headless": {
       "type": "stdio",
-      "command": "dotnet",
-      "args": ["src/src_dotnet/JAStudio.Mcp.Gateway/bin/Debug/net10.0/JAStudio.Mcp.Gateway.dll"]
+      "command": "pwsh",
+      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1"]
     },
     "jetbrains-rider": {
       "type": "streamable-http",

@@ -15,8 +15,9 @@ namespace JAStudio.Mcp.Gateway;
 /// restarted, needs Magnus to reconnect it. The gateway runs for the whole session, so the headless JAStudio behind it can be restarted at will, to<br/>
 /// take in a new build, and Claude Code learns of its tools through the gateway's tool list changing. The design is in <c>dev_docs/jastudio-mcp.md</c>.
 /// <br/><br/>
-/// It references no JAStudio assembly: it runs from its own build output, and building JAStudio while it runs must never need to replace a file it<br/>
-/// has loaded.
+/// Claude Code starts it through <c>start-the-gateway.ps1</c>, which builds it into a folder of its own for each start and runs it from there, so that<br/>
+/// building JAStudio, in Rider or for the Definition of Done, never needs to replace a file a running gateway has loaded. It references no JAStudio<br/>
+/// assembly, so that what changes with JAStudio lives in the headless JAStudio, which the gateway restarts at will, not in the gateway.
 /// </remarks>
 static class Program
 {
@@ -25,7 +26,7 @@ static class Program
       var builder = Host.CreateApplicationBuilder(args);
       builder.Logging.AddConsole(options => options.LogToStandardErrorThreshold = LogLevel.Trace); // standard output is the stdio connection to Claude Code
 
-      builder.Services.AddSingleton(SourceCheckout.TheGatewaysOwn());
+      builder.Services.AddSingleton(SourceCheckout.In(builder.Configuration["source-checkout"]));
       builder.Services.AddSingleton<HeadlessJAStudio>();
       builder.Services.AddMcpServer(options => options.ServerInfo = new Implementation { Name = "JAStudio MCP gateway", Version = "1" })
              .WithStdioServerTransport()
