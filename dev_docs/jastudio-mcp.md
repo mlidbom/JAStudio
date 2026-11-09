@@ -212,9 +212,17 @@ the headless JAStudio.
        - **Done:** `create_a_note` creates a vocab, a sentence or a kanji from a text, as the context menu's "Create"
          does: a vocab from the dictionary, then the sentences that may contain it reparsed; a kanji with the menu's
          answer, "TODO".
-       - **Open, for Magnus:** the context menu's universal note actions, suspending and unsuspending a note's cards
-         and deleting a note. Deleting deletes the note from Anki too, with its review history, which can't be undone,
-         so it isn't a tool until Magnus says it should be.
+       - **Done (Magnus, 2026-11-09):** the context menu's universal note actions, `suspend_all_cards_of_a_note`,
+         `unsuspend_all_cards_of_a_note` and `delete_a_note`. Suspending works only in the live JAStudio, which has an
+         Anki to suspend cards in.
+       - **Deleting a note, as decided with Magnus:** JAStudio is the master of the notes, and Anki only of a student's
+         studying, so Anki never prevents a deletion, and JAStudio deletes notes outside Anki too. What happens to a
+         note's Anki note, which holds its cards and their review history, is a choice (`ItsAnkiNote`): kept as it is,
+         or deleted with the history, which can't be undone. The menu's delete dialog asks for the choice when the note
+         has an Anki note, keeping it by default; `delete_a_note` takes it as `ankiNote`, and fails without it for such a
+         note, as the dialog's question would stop a person. A kept Anki note is left alone, not suspended, which
+         changes only whether its cards come up for review: dealing with it in Anki is Magnus's to do. Its cards show
+         that the note no longer exists in JAStudio. The headless JAStudio can only keep an Anki note.
   - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. Writing an
     audio field's reference is an edit like any other.
   - A kanji's readings of each kind are one field, such as `readings.on`, a list of `{"kana", "isPrimary"}` in order,
