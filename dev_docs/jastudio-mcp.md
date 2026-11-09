@@ -214,7 +214,8 @@ Answered:
    first real live fast-forward (2026-11-09, the suru-verb fix) moved Magnus's checkout and reloaded the six vocab, but
    its report failed: the last git command, listing the changed notes, was ended with `STATUS_CONTROL_C_EXIT`, the exit
    code of a process whose console closed. Anki has no console, so each git command got one of its own; git now runs
-   with no console window. That waits for Anki's next restart to be checked.
+   with no console window. The next live fast-forward, after Anki restarted on that build (the kanji readings fix), ran
+   through and reported the two kanji it changed, in 4.3 seconds.
 5. **Under way:** the writing tools, built for the data fixes they're needed for. The first, for the suru verbs stored as
    godan verbs (`corpus-data-issues.md`): looking the six up in the dictionary, setting their parts of speech in the headless
    JAStudio, and a full rebuild, which changed only those six vocab. A second run changed nothing more. The second, for
