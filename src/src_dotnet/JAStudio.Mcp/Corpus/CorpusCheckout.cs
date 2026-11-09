@@ -70,12 +70,19 @@ public class CorpusCheckout
       }
    }
 
+   /// <summary>Runs git with <paramref name="arguments"/> in the corpus checkout, and returns what it writes to its standard output.</summary>
+   /// <remarks>
+   /// Git runs with no console window. Inside Anki, which has no console, git would otherwise get a console of its own, which Windows can show<br/>
+   /// as a terminal window for every git command. In the first fast-forward from inside Anki (2026-11-09), one git command was ended with<br/>
+   /// <c>STATUS_CONTROL_C_EXIT</c>, the exit code of a process whose console closed, though the same command run by hand succeeded.
+   /// </remarks>
    string Git(IReadOnlyList<string> arguments)
    {
       var startInfo = new ProcessStartInfo("git")
       {
          WorkingDirectory = _folder.FullName,
          UseShellExecute = false,
+         CreateNoWindow = true,
          RedirectStandardInput = true,
          RedirectStandardOutput = true,
          RedirectStandardError = true,

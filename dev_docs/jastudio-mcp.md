@@ -209,7 +209,10 @@ Answered:
    one: it connected, forwarded calls, and withdrew the tools when the announced process exited. Inside Anki
    (2026-11-09): `connect_to_live_jastudio` connected, the counts of notes matched the corpus checkout's files, studying
    statuses came from Anki, and a reload took 3.1 seconds and found nothing changed on Magnus's clean checkout. The
-   live fast-forward waits for its first real use, which lands on Magnus's checkout.
+   first real live fast-forward (2026-11-09, the suru-verb fix) moved Magnus's checkout and reloaded the six vocab, but
+   its report failed: the last git command, listing the changed notes, was ended with `STATUS_CONTROL_C_EXIT`, the exit
+   code of a process whose console closed. Anki has no console, so each git command got one of its own; git now runs
+   with no console window. That waits for Anki's next restart to be checked.
 5. **Under way:** the writing tools, built for the data fixes they're needed for. The first, for the suru verbs stored as
    godan verbs (`corpus-data-issues.md`): looking the six up in the dictionary, setting their parts of speech in the headless
    JAStudio, and a full rebuild, which changed only those six vocab. A second run changed nothing more.
