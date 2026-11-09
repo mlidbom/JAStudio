@@ -6,7 +6,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 
-namespace JAStudio.Mcp.Specifications.Corpus;
+namespace JAStudio.Mcp.Specifications;
 
 /// <summary>
 /// An <see cref="McpServerSpecification"/> whose corpus folder is a git repository, as the corpus checkout a real JAStudio works on is.<br/>

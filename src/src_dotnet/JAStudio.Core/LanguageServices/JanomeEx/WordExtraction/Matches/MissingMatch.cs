@@ -2,9 +2,10 @@ using System.Collections.Generic;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 
-sealed class MissingMatch : Match
+/// <summary>A single token no vocab and no dictionary entry has: never valid, but displayed when nothing valid covers it, so that no part of the sentence goes missing from the breakdown.</summary>
+public sealed class MissingMatch : Match
 {
-   public MissingMatch(CandidateWordVariant wordVariant) : base(wordVariant) {}
+   internal MissingMatch(CandidateWordVariant wordVariant) : base(wordVariant) {}
 
    public override string Answer => "---";
    public override string MatchForm => "[MISSING]"; // Change this so the tests can distinguish that this is a missing match

@@ -3,7 +3,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Mcp.Corpus;
 using ModelContextProtocol.Server;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Corpus;
 
 /// <summary>The tools about the corpus checkout a JAStudio works on, as git sees it.</summary>
 [McpServerToolType]

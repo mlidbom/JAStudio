@@ -3,9 +3,10 @@ using System.Diagnostics;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Mcp.Corpus;
+using JAStudio.Mcp.Tools.Corpus;
 using ModelContextProtocol.Server;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Rebuilding;
 
 /// <summary>The tools that regenerate what JAStudio computes from the notes, such as sentences' parsing results.</summary>
 [McpServerToolType]

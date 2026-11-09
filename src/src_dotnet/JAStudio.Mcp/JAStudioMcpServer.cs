@@ -9,7 +9,11 @@ using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Extensions.Hosting;
 using JAStudio.Core.SysUtils.Json;
 using JAStudio.Mcp.Corpus;
-using JAStudio.Mcp.Tools;
+using JAStudio.Mcp.Tools.Analysis;
+using JAStudio.Mcp.Tools.Collection;
+using JAStudio.Mcp.Tools.Corpus;
+using JAStudio.Mcp.Tools.Notes;
+using JAStudio.Mcp.Tools.Rebuilding;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,7 +82,8 @@ public sealed class JAStudioMcpServer
              .WithTools<NoteTools>(ToolResultJsonOptions)
              .WithTools<CollectionTools>(ToolResultJsonOptions)
              .WithTools<CorpusTools>(ToolResultJsonOptions)
-             .WithTools<RebuildTools>(ToolResultJsonOptions);
+             .WithTools<RebuildTools>(ToolResultJsonOptions)
+             .WithTools<AnalysisTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
 
       jastudio.Resolve<IChildContainerHostIntegration>().UseChildContainerAsServiceProviderFor(builder.Host);

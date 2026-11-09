@@ -1,4 +1,4 @@
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Collection;
 
 /// <summary>What <see cref="CollectionTools.DescribeCollection"/> reports about the collection a JAStudio has loaded.</summary>
 /// <param name="CorpusFolder">The folder the notes were loaded from: the corpus repository's checkout.</param>

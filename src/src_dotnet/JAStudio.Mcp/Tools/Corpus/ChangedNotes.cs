@@ -6,7 +6,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Corpus;
 
 /// <summary>The notes whose files in the corpus checkout differ from its git <c>HEAD</c>, by note type, as <see cref="CorpusTools.ListChangedNotes"/> reports them.</summary>
 /// <param name="IdsOfNotesNotInTheCollection">The ids of changed note files whose notes the collection doesn't have, such as deleted notes.</param>

@@ -3,7 +3,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note.Collection;
 using ModelContextProtocol.Server;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Collection;
 
 /// <summary>The tools about the collection as a whole.</summary>
 [McpServerToolType]

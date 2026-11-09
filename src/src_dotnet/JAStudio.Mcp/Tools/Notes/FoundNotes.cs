@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Notes;
 
 /// <summary>What <see cref="NoteTools.SearchNotes"/> found: how many notes, and the first of them.</summary>
 /// <param name="NotesFound">How many notes the search found, listed or not.</param>

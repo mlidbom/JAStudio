@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note;
+using JAStudio.Mcp.Tools.Notes;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Corpus;
 
 /// <summary>Some notes of one type: how many, and the first of them by question.</summary>
 /// <param name="Count">How many notes there are, listed or not.</param>

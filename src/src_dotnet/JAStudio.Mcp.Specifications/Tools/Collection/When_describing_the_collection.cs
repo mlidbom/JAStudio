@@ -4,11 +4,11 @@ using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Mcp.Tools;
+using JAStudio.Mcp.Tools.Collection;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Mcp.Specifications.Tools;
+namespace JAStudio.Mcp.Specifications.Tools.Collection;
 
 /// <summary>Describes a collection of two vocab, 行く with its reading studied and 来る, one kanji, 行, and one sentence, 明日学校に行く.</summary>
 public class When_describing_the_collection : McpServerSpecification

@@ -1,6 +1,6 @@
 # JAStudio's MCP server — Design
 
-> **Status: agreed direction (Magnus, 2026-11-09); steps 1 and 2 are built: the headless JAStudio behind the MCP gateway, and the full rebuild as a tool.** Details
+> **Status: agreed direction (Magnus, 2026-11-09); steps 1 to 3 are built: the headless JAStudio behind the MCP gateway, the full rebuild and analyzing a sentence as tools.** Details
 > are settled as each increment needs them. [How it's built](#how-its-built) describes what exists.
 > The corpus data-model work (`corpus-data-model.md`, "Order of work") waits for this: its remaining slices are mostly
 > migrate, rebuild, analyze, tweak and rebuild again, which this makes Claude's own loop instead of a round trip through
@@ -111,9 +111,16 @@ the headless JAStudio.
   - `get_note` gets a note as the corpus stores it.
   - `describe_collection` gives the corpus folder and the notes of each type, studied or not.
 - **Reading, proposed:** look a word up in the dictionary (its entries, senses and parts of speech, raw and mapped).
-- **Analysis:** analyze a sentence, given as text or by its note: the tokens, every match with whether it's displayed,
-  and why a candidate was rejected. This replaces the throwaway tokenizer programs, and answers questions such as why
-  a word doesn't match a vocab.
+- **Analysis, built:** `analyze_sentence` analyzes a sentence, given as text or by its note, with the note's
+  configuration. It reports:
+  - the tokens, after JAStudio's preprocessing, each with the token it was split from;
+  - every candidate word that got a match, at its place in the sentence;
+  - each match, to a vocab, a dictionary entry, or missing, with whether it's valid and displayed, and the reasons it
+    isn't (`Match.FailureReasons`, `Match.HidingReasons`).
+
+  It replaces the throwaway tokenizer programs, and answers questions such as why a word doesn't match a vocab: it
+  showed at once why まかれる parses as まかる + える + う (MeCab reads まかれる as one ichidan verb, and the preprocessing
+  splits it as a godan potential).
 - **Writing:** the edits the workspace's editors make, through the same domain operations.
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
@@ -150,6 +157,6 @@ Answered:
    - **A second run changed nothing either,** in 5.9 seconds. That checkout had already settled, after Magnus's two
      runs, so it doesn't yet show that a full rebuild reaches a stable result in one run (`corpus-data-model.md`, open
      question 14). The test for that is the same two runs, after a change whose effect on vocab feeds back into parsing.
-3. Analyzing a sentence.
+3. **Done:** analyzing a sentence.
 4. The same server in the live JAStudio, inside Anki, and reloading the collection from disk, as a tool and in the UI.
 5. The writing tools.

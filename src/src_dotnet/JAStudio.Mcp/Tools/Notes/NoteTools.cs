@@ -8,7 +8,7 @@ using JAStudio.Core.Note.Search;
 using JAStudio.Core.Storage;
 using ModelContextProtocol.Server;
 
-namespace JAStudio.Mcp.Tools;
+namespace JAStudio.Mcp.Tools.Notes;
 
 /// <summary>The tools that find notes and show them.</summary>
 [McpServerToolType]

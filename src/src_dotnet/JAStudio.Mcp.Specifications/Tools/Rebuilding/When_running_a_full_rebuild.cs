@@ -3,11 +3,11 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
-using JAStudio.Mcp.Tools;
+using JAStudio.Mcp.Tools.Rebuilding;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Mcp.Specifications.Corpus;
+namespace JAStudio.Mcp.Specifications.Tools.Rebuilding;
 
 /// <summary>
 /// A collection of the kanji 行 and the vocab 行く, which has 行 in its main form. Tagging the kanji with what the corpus says about it is part of<br/>

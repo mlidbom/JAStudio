@@ -6,7 +6,8 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 
-sealed class DictionaryMatch : Match
+/// <summary>A match of a candidate word to an entry in the dictionary, when no vocab decides whether the word matches.</summary>
+public sealed class DictionaryMatch : Match
 {
    static readonly List<System.Func<MatchInspector, FailedMatchRequirement?>> RequirementsList =
    [
@@ -29,7 +30,7 @@ sealed class DictionaryMatch : Match
 
    public DictEntry DictionaryEntry { get; }
 
-   public DictionaryMatch(CandidateWordVariant wordVariant, DictEntry dictionaryEntry) : base(wordVariant) => DictionaryEntry = dictionaryEntry;
+   internal DictionaryMatch(CandidateWordVariant wordVariant, DictEntry dictionaryEntry) : base(wordVariant) => DictionaryEntry = dictionaryEntry;
 
    public override string Answer => DictionaryEntry.FormatAnswer();
    public override List<string> Readings => DictionaryEntry.KanaFormsText();

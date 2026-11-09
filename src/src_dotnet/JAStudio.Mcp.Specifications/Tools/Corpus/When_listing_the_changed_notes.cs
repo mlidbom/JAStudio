@@ -4,11 +4,11 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
-using JAStudio.Mcp.Tools;
+using JAStudio.Mcp.Tools.Corpus;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Mcp.Specifications.Corpus;
+namespace JAStudio.Mcp.Specifications.Tools.Corpus;
 
 /// <summary>
 /// The corpus repository has committed files for the vocab 行く and 来る, the kanji 行 and the sentence 明日学校に行く. Since then, 行く's file has<br/>

@@ -9,7 +9,7 @@ using ModelContextProtocol.Protocol;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Mcp.Specifications.Tools;
+namespace JAStudio.Mcp.Specifications.Tools.Notes;
 
 public class When_getting_a_note : McpServerSpecification
 {

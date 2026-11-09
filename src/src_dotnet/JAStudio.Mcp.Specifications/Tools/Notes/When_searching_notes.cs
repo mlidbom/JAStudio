@@ -6,12 +6,12 @@ using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Mcp.Tools;
+using JAStudio.Mcp.Tools.Notes;
 using ModelContextProtocol.Protocol;
 
 // ReSharper disable InconsistentNaming
 
-namespace JAStudio.Mcp.Specifications.Tools;
+namespace JAStudio.Mcp.Specifications.Tools.Notes;
 
 /// <summary>Searches a collection of the kanji 行, the vocab 行く, and the sentences 明日学校に行く and 家に帰る.</summary>
 public class When_searching_notes : McpServerSpecification
