@@ -25,20 +25,23 @@ class VocabRelatedEditorViewModel
       var pickable = new Lazy<IReadOnlyList<PickableVocab>>(() => PickableVocab.AllIn(services.CoreApp.Collection.Vocab));
       Relationships =
       [
-         new WordSetEditorViewModel(VocabEditableFields.Synonyms, currentVocab, pickable),
-         new WordSetEditorViewModel(VocabEditableFields.PerfectSynonyms, currentVocab, pickable),
-         new WordSetEditorViewModel(VocabEditableFields.Antonyms, currentVocab, pickable),
-         new WordSetEditorViewModel(VocabEditableFields.ErgativeTwins, currentVocab, pickable),
-         new WordSetEditorViewModel(VocabEditableFields.SeeAlso, currentVocab, pickable),
-         new WordSetEditorViewModel(VocabEditableFields.ConfusedWith, currentVocab, pickable)
+         EditorOf(VocabEditableFields.Synonyms),
+         EditorOf(VocabEditableFields.PerfectSynonyms),
+         EditorOf(VocabEditableFields.Antonyms),
+         EditorOf(VocabEditableFields.ErgativeTwins),
+         EditorOf(VocabEditableFields.SeeAlso),
+         EditorOf(VocabEditableFields.ConfusedWith)
       ];
 
       var derivedFrom = VocabEditableFields.DerivedFrom;
       DerivedFrom = new TextFieldEditorViewModel(services.Resolve<IFatalErrorHandler>(),
                                                  derivedFrom.Label,
-                                                 TextFieldFormat.Line,
+                                                 derivedFrom.Format,
                                                  () => derivedFrom.Read(currentVocab()),
                                                  name => derivedFrom.Write(currentVocab(), name));
+      return;
+
+      WordSetEditorViewModel EditorOf(EditableSetField<VocabNote, WordReference> relationship) => new(relationship, currentVocab, pickable);
    }
 
    /// <summary>The vocab's relationships to sets of words: synonyms, perfect synonyms, antonyms, ergative twins, see also and confused with.</summary>

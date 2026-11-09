@@ -42,11 +42,14 @@ public static class VocabEditableFields
 
    /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Primary"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>, as <c>出す:masu</c>.</summary>
    public static readonly EditableTextListField<VocabNote> CompoundParts =
-      new("compoundParts.primary", "Compound parts", it => Names(it.CompoundParts.Primary()), (it, parts) => it.CompoundParts.SetPrimary(References(parts)));
+      new("compoundParts.primary", "Compound parts", it => DisambiguationNamesOf(it.CompoundParts.Primary()), (it, parts) => it.CompoundParts.SetPrimary(WordsNamedBy(parts)));
 
    /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Alternative"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>.</summary>
    public static readonly EditableTextListField<VocabNote> AlternativeCompoundParts =
-      new("compoundParts.alternative", "Alternative compound parts", it => Names(it.CompoundParts.Alternative()), (it, parts) => it.CompoundParts.SetAlternative(References(parts)));
+      new("compoundParts.alternative",
+          "Alternative compound parts",
+          it => DisambiguationNamesOf(it.CompoundParts.Alternative()),
+          (it, parts) => it.CompoundParts.SetAlternative(WordsNamedBy(parts)));
 
    /// <summary>The vocab's first audio, as Anki's <c>[sound:file]</c> reference.</summary>
    public static readonly EditableTextField<VocabNote> FirstAudio =
@@ -146,10 +149,15 @@ public static class VocabEditableFields
           it => it.RelatedNotes.PerfectSynonyms.Words,
           (it, synonym) => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(synonym),
           (it, synonym) => it.RelatedNotes.PerfectSynonyms.Remove(synonym),
-          InAFixedOrder);
+          WordReference.InAFixedOrder);
 
+   /// <summary>The vocab's <see cref="Vocabulary.RelatedVocab.RelatedVocab.Antonyms"/>, linked both ways as synonyms are.</summary>
    public static readonly EditableSetField<VocabNote, WordReference> Antonyms = Relationship("relatedVocab.antonyms", "Antonyms", it => it.Antonyms);
+
+   /// <summary>The words the vocab is easily confused with (<see cref="Vocabulary.RelatedVocab.RelatedVocab.ConfusedWith"/>): only this vocab knows of them.</summary>
    public static readonly EditableSetField<VocabNote, WordReference> ConfusedWith = Relationship("relatedVocab.confusedWith", "Confused with", it => it.ConfusedWith);
+
+   /// <summary>The words worth looking at alongside the vocab (<see cref="Vocabulary.RelatedVocab.RelatedVocab.SeeAlso"/>), linked both ways as synonyms are.</summary>
    public static readonly EditableSetField<VocabNote, WordReference> SeeAlso = Relationship("relatedVocab.seeAlso", "See also", it => it.SeeAlso);
 
    /// <summary>The vocab's transitive or intransitive counterparts (<see cref="Vocabulary.RelatedVocab.RelatedVocab.ErgativeTwins"/>), such as 開ける for 開く: adding or removing one<br/>
@@ -183,14 +191,21 @@ public static class VocabEditableFields
 
    /// <summary>One of the vocab's relationships to other words (<see cref="WordRelationship"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableSetField<VocabNote, WordReference> Relationship(string name, string label, Func<RelatedVocab.RelatedVocab, WordRelationship> relationship) =>
-      new(name, label, it => relationship(it.RelatedNotes).Words, (it, word) => relationship(it.RelatedNotes).Add(word), (it, word) => relationship(it.RelatedNotes).Remove(word), InAFixedOrder);
+      new(name,
+          label,
+          it => relationship(it.RelatedNotes).Words,
+          (it, word) => relationship(it.RelatedNotes).Add(word),
+          (it, word) => relationship(it.RelatedNotes).Remove(word),
+          WordReference.InAFixedOrder);
 
-   static IEnumerable<WordReference> InAFixedOrder(IEnumerable<WordReference> words) => words.OrderBy(it => it.DisambiguationName, StringComparer.Ordinal);
+   static List<string> DisambiguationNamesOf(IEnumerable<WordReference> words) => [.. words.Select(it => it.DisambiguationName)];
 
-   static List<string> Names(IEnumerable<WordReference> words) => [.. words.Select(it => it.DisambiguationName)];
-
-   /// <summary>The words <paramref name="names"/> name, leaving out text that names none, as <c>:</c> typed alone does, since the editor writes every keystroke.</summary>
-   static IEnumerable<WordReference> References(IEnumerable<string> names) => names.Select(WordReference.FromDisambiguationNameOrNone).OfType<WordReference>();
+   /// <summary>
+   /// The words <paramref name="disambiguationNames"/> name (<see cref="WordReference.FromDisambiguationNameOrNone"/>), leaving out text that names none,<br/>
+   /// as <c>:</c> typed alone does, since the editor writes every keystroke.
+   /// </summary>
+   static IEnumerable<WordReference> WordsNamedBy(IEnumerable<string> disambiguationNames) =>
+      disambiguationNames.Select(WordReference.FromDisambiguationNameOrNone).OfType<WordReference>();
 
    /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableRequireForbidField RequireForbidRule(string name, string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>

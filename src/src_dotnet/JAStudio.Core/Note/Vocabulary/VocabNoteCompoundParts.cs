@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx;
@@ -45,15 +44,16 @@ public class VocabNoteCompoundParts
    /// That rule is applied here rather than when the alternatives are set, so that typing the primary parts in the editor can't drop an alternative<br/>
    /// part on the way: typing <c>よう</c> passes through <c>よ</c>.
    /// </remarks>
-   public List<WordReference> Alternative() =>
-   [
-      .. _enteredAlternatives
-        .Except(_primary)
-        .OrderBy(it => it.DisambiguationName, StringComparer.Ordinal)
-   ];
+   public List<WordReference> Alternative() => [.. WordReference.InAFixedOrder(_enteredAlternatives.Except(_primary))];
 
    /// <summary>Every compound part: the <see cref="Primary"/> parts, followed by the <see cref="Alternative"/> ones.</summary>
    public List<WordReference> All() => [.. _primary, .. Alternative()];
+
+   /// <summary>
+   /// Whether the last of the <see cref="Primary"/> parts is one of <paramref name="words"/>, without a disambiguation (<see cref="WordReference.IsAPlainWordAmong"/>),<br/>
+   /// as <c>られる</c> ends a passive verb.
+   /// </summary>
+   public bool LastPrimaryPartIsAPlainWordAmong(IReadOnlySet<string> words) => _primary.Count > 0 && _primary[^1].IsAPlainWordAmong(words);
 
    /// <summary>Replaces the <see cref="Primary"/> parts with <paramref name="parts"/>, in their order.</summary>
    public void SetPrimary(IEnumerable<WordReference> parts) => _guard.Update(() => _primary = [.. parts]);
@@ -64,14 +64,23 @@ public class VocabNoteCompoundParts
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, wherever it's a part.</summary>
    internal void Rename(WordReference oldName, WordReference newName)
    {
-      if(!_primary.Contains(oldName) && !_enteredAlternatives.Contains(oldName)) return;
+      if(!HasEnteredThePart(oldName)) return;
 
       _guard.Update(() =>
       {
-         _primary = [.. _primary.Select(it => it == oldName ? newName : it)];
-         _enteredAlternatives = [.. _enteredAlternatives.Select(it => it == oldName ? newName : it)];
+         _primary = [.. _primary.Select(Renamed)];
+         _enteredAlternatives = [.. _enteredAlternatives.Select(Renamed)];
       });
+      return;
+
+      WordReference Renamed(WordReference part) => part == oldName ? newName : part;
    }
+
+   /// <summary>
+   /// Whether <paramref name="part"/> is one of the parts entered, primary or alternative, counting an alternative part that's also a primary one,<br/>
+   /// which <see cref="Alternative"/> leaves out.
+   /// </summary>
+   bool HasEnteredThePart(WordReference part) => _primary.Contains(part) || _enteredAlternatives.Contains(part);
 
    /// <summary>The vocab notes the primary compound parts refer to, in the order of the parts.</summary>
    public List<VocabNote> PrimaryPartsNotes() =>
@@ -101,54 +110,40 @@ public class VocabNoteCompoundParts
    /// </summary>
    public void AutoGenerate()
    {
-      var exclusions = Vocab.Forms.MatchedFormsSet()
-                            .Select(WordExclusion.Global)
-                            .ToList();
-      var config = SentenceConfiguration.FromIncorrectMatches(exclusions);
+      var words = TheWordsParsingTheQuestionFinds();
+      if(words.Count <= 1)
+         words = TheLongestWordsWithinTheQuestion();
+
+      foreach(var wordWithoutAVocab in words.Where(it => !Collection.Vocab.IsWord(it)).ToList())
+         Vocab.Services.VocabNoteFactory.CreateWithDictionary(wordWithoutAVocab);
+
+      SetPrimary(words.Select(it => new WordReference(it)));
+   }
+
+   /// <summary>The words parsing the vocab's question as a sentence finds, in order: the vocab itself, by any of its forms, is excluded from the matches.</summary>
+   List<string> TheWordsParsingTheQuestionFinds()
+   {
+      var theVocabsForms = Vocab.Forms.MatchedFormsSet();
+      var excludingTheVocabItself = SentenceConfiguration.FromIncorrectMatches([.. theVocabsForms.Select(WordExclusion.Global)]);
       var analysisServices = new AnalysisServices(Vocab.Services.Collection.Vocab, Vocab.Services.DictLookup, Vocab.Services.Settings);
-      var analysis = new TextAnalysis(analysisServices, Vocab.GetQuestion(), config);
-      var compoundParts = analysis.DisplayWordVariants
-                                  .Where(a => !Vocab.Forms.MatchedFormsSet().Contains(a.Form))
-                                  .Select(a => a.Form)
-                                  .ToList();
+      var analysis = new TextAnalysis(analysisServices, Vocab.GetQuestion(), excludingTheVocabItself);
+      return [.. analysis.DisplayWordVariants.Select(it => it.Form).Where(it => !theVocabsForms.Contains(it))];
+   }
 
-      if(compoundParts.Count <= 1) // time to brute force it
-      {
-         var word = Vocab.GetQuestion();
-         var allSubstrings = new List<string>();
-         for(var i = 0; i < word.Length; i++)
-         {
-            for(var j = i + 1; j <= word.Length; j++)
-            {
-               var substring = word.Substring(i, j - i);
-               if(substring != word)
-               {
-                  allSubstrings.Add(substring);
-               }
-            }
-         }
+   /// <summary>
+   /// The words of the dictionary or the corpus within the vocab's question, other than the whole question, leaving out each one that's part of another:<br/>
+   /// what's left when parsing the question finds no more than one word.
+   /// </summary>
+   List<string> TheLongestWordsWithinTheQuestion()
+   {
+      var question = Vocab.GetQuestion();
+      var wordsWithin = EveryPartOf(question).Where(it => Vocab.Services.DictLookup.IsDictionaryOrCollectionWord(it)).ToList();
+      return [.. wordsWithin.Where(word => !wordsWithin.Any(longer => longer != word && longer.Contains(word)))];
 
-         var allWordSubstrings = allSubstrings
-                                .Where(w => Vocab.Services.DictLookup.IsDictionaryOrCollectionWord(w))
-                                .ToList();
-
-         compoundParts =
-         [
-            .. allWordSubstrings
-              .Where(segment => !allWordSubstrings.Any(parent => parent.Contains(segment) && parent != segment))
-         ];
-      }
-
-      var segmentsMissingVocab = compoundParts
-                                .Where(segment => !Collection.Vocab.IsWord(segment))
-                                .ToList();
-
-      foreach(var missing in segmentsMissingVocab)
-      {
-         Vocab.Services.VocabNoteFactory.CreateWithDictionary(missing);
-      }
-
-      SetPrimary(compoundParts.Select(it => new WordReference(it)));
+      static IEnumerable<string> EveryPartOf(string text) =>
+         Enumerable.Range(0, text.Length)
+                   .SelectMany(start => Enumerable.Range(start + 1, text.Length - start).Select(end => text[start..end]))
+                   .Where(it => it != text);
    }
 
    public override string ToString() => string.Join(", ", All().Select(it => it.DisambiguationName));

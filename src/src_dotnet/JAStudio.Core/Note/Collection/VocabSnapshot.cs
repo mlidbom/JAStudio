@@ -1,4 +1,3 @@
-using System.Linq;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note.Collection;
@@ -20,12 +19,12 @@ class VocabSnapshot : CachedNote
    public VocabSnapshot(VocabNote note) : base(note)
    {
       ReferenceNamingIt = note.Question.HasText ? [note.Question.Reference] : [];
-      Forms = note.Forms.MatchedFormsList().ToArray();
-      CompoundParts = note.CompoundParts.All().ToArray();
-      MainFormKanji = note.Kanji.ExtractMainFormKanji().ToArray();
-      AllKanji = note.Kanji.ExtractAllKanji().ToArray();
-      Readings = note.GetReadings().ToArray();
+      Forms = [.. note.Forms.MatchedFormsList()];
+      CompoundParts = [.. note.CompoundParts.All()];
+      MainFormKanji = [.. note.Kanji.ExtractMainFormKanji()];
+      AllKanji = [.. note.Kanji.ExtractAllKanji()];
+      Readings = [.. note.GetReadings()];
       DerivedFrom = note.RelatedNotes.DerivedFrom.Word is {} word ? [word] : [];
-      Stems = note.Conjugator.GetStemsForPrimaryForm().ToArray();
+      Stems = [.. note.Conjugator.GetStemsForPrimaryForm()];
    }
 }

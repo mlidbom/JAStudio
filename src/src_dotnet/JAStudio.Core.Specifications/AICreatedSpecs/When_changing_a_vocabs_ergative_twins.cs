@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
@@ -23,7 +21,7 @@ public class When_changing_a_vocabs_ergative_twins : SpecificationStartingWithAn
       ToHappen = VocabNote.Create(NoteServices, "起こる", "to happen", "おこる");
    }
 
-   protected static string[] ErgativeTwinsOf(VocabNote vocab) => [.. NamesOf(vocab.RelatedNotes.ErgativeTwins.Words).Order(StringComparer.Ordinal)];
+   protected static string[] ErgativeTwinsOf(VocabNote vocab) => SortedNamesOf(vocab.RelatedNotes.ErgativeTwins.Words);
 
    public class adding_起きる_and_起こる_as_ergative_twins_of_起こす : When_changing_a_vocabs_ergative_twins
    {

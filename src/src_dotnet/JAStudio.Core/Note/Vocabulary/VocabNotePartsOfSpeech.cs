@@ -57,7 +57,7 @@ public class VocabNotePartsOfSpeech
       if(question.Length <= 3)
          return false;
 
-      var ending = question.Substring(question.Length - 3);
+      var ending = question[^3..];
       return GaSuruNiSuruEndings.Contains(ending);
    }
 
@@ -74,26 +74,16 @@ public class VocabNotePartsOfSpeech
       } else if(IsSuruVerbIncluded())
       {
          var question = Vocab.Question.WithoutNoiseCharacters;
-         question = question.Substring(0, question.Length - 2);
-         var readings = Vocab.GetReadings().Select(r => r.Substring(0, r.Length - 2)).ToList();
+         question = question[..^2];
+         var readings = Vocab.GetReadings().Select(it => it[..^2]).ToList();
          lookup = Vocab.Services.DictLookup.LookupWordOrNameWithMatchingReading(question, readings);
          Set([PartOfSpeech.SuruVerb, .. lookup.PartsOfSpeech().Intersect([PartOfSpeech.Transitive, PartOfSpeech.Intransitive])]);
       }
    }
 
-   public bool IsPassiveVerbCompound()
-   {
-      var compounds = Vocab.CompoundParts.Primary();
-      if(compounds.Count == 0) return false;
-      return compounds[^1].IsAPlainWordAmong(AnalysisConstants.PassiveVerbEndings);
-   }
+   public bool IsPassiveVerbCompound() => Vocab.CompoundParts.LastPrimaryPartIsAPlainWordAmong(AnalysisConstants.PassiveVerbEndings);
 
-   public bool IsCausativeVerbCompound()
-   {
-      var compounds = Vocab.CompoundParts.Primary();
-      if(compounds.Count == 0) return false;
-      return compounds[^1].IsAPlainWordAmong(AnalysisConstants.CausativeVerbEndings);
-   }
+   public bool IsCausativeVerbCompound() => Vocab.CompoundParts.LastPrimaryPartIsAPlainWordAmong(AnalysisConstants.CausativeVerbEndings);
 
    public bool IsCompleteNaAdjective() => Vocab.Question.Text.EndsWith("な") && Contains(PartOfSpeech.NaAdjective);
 

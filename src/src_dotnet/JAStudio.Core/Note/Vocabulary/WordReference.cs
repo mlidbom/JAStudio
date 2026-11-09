@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Compze.Contracts;
 using JAStudio.Core.Storage.Dto;
 
@@ -54,17 +56,30 @@ public sealed record WordReference
 
    /// <summary>
    /// The reference <paramref name="text"/> is the <see cref="DisambiguationName"/> of, as <see cref="FromDisambiguationName"/> gives it, or null when <paramref name="text"/><br/>
-   /// can't be one, as text a person selected in a note can be: empty, starting with the marker, or holding it more than once.
+   /// can't be one, as text a person selected in a note can be: empty, starting with the <see cref="VocabNoteQuestion.DisambiguationMarker"/>,<br/>
+   /// or holding it more than once.
    /// </summary>
-   public static WordReference? FromDisambiguationNameOrNone(string text)
-   {
-      var parts = text.Split(VocabNoteQuestion.DisambiguationMarker);
-      return parts.Length <= 2 && parts[0] != string.Empty ? FromDisambiguationName(text) : null;
-   }
+   public static WordReference? FromDisambiguationNameOrNone(string text) => CanBeADisambiguationName(text) ? FromDisambiguationName(text) : null;
+
+   /// <summary>
+   /// <paramref name="words"/> in a fixed order, by their <see cref="DisambiguationName"/>s compared ordinally, so that the same set of words is always<br/>
+   /// listed the same way.
+   /// </summary>
+   public static IEnumerable<WordReference> InAFixedOrder(IEnumerable<WordReference> words) => words.OrderBy(it => it.DisambiguationName, StringComparer.Ordinal);
 
    internal static WordReference FromDto(WordReferenceDto dto) => new(dto.Text, dto.Disambiguation);
 
    internal WordReferenceDto ToDto() => new() { Text = Text, Disambiguation = Disambiguation };
+
+   /// <summary>
+   /// Whether <paramref name="text"/> can be a <see cref="DisambiguationName"/>: it starts with a word's text, and holds the<br/>
+   /// <see cref="VocabNoteQuestion.DisambiguationMarker"/> at most once.
+   /// </summary>
+   static bool CanBeADisambiguationName(string text)
+   {
+      var parts = text.Split(VocabNoteQuestion.DisambiguationMarker);
+      return parts.Length <= 2 && parts[0] != string.Empty;
+   }
 
    static void AssertHasNoDisambiguationMarker(string text) =>
       Contract.Argument.Assert(!text.Contains(VocabNoteQuestion.DisambiguationMarker),

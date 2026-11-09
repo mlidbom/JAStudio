@@ -13,26 +13,26 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 public class PerfectSynonyms
 {
    readonly VocabNote _vocab;
-   readonly HashSet<WordReference> _words;
-   readonly NoteGuard _guard;
+   readonly WordSet _words;
 
    public PerfectSynonyms(VocabNote vocab, IEnumerable<WordReference> words, NoteGuard guard)
    {
       _vocab = vocab;
-      _words = [.. words];
-      _guard = guard;
+      _words = new WordSet(words, guard);
       vocab.CorpusAnswer.Subscribe(_ => PushAnswerToOtherSynonyms());
    }
 
    VocabCollection Collection => _vocab.Services.Collection.Vocab;
 
    /// <summary>The words of the vocab's perfect synonyms.</summary>
-   public IReadOnlySet<WordReference> Words => _words;
+   public IReadOnlySet<WordReference> Words => _words.Words;
 
    public bool Contains(WordReference word) => _words.Contains(word);
 
-   public List<VocabNote> Notes() => Collection.NamedExactlyByAny(_words);
+   /// <summary>The vocab notes the <see cref="Words"/> name exactly: the vocab's perfect synonyms.</summary>
+   public List<VocabNote> Notes() => Collection.NamedExactlyByAny(Words);
 
+   /// <summary>Gives every perfect synonym this vocab's answer.</summary>
    public void PushAnswerToOtherSynonyms()
    {
       foreach(var synonym in Notes())
@@ -59,31 +59,22 @@ public class PerfectSynonyms
    }
 
    /// <summary>Replaces <paramref name="oldName"/>, the old name of a vocab that was renamed, with its new name, <paramref name="newName"/>, if it's a perfect synonym.</summary>
-   internal void Rename(WordReference oldName, WordReference newName)
-   {
-      if(!Contains(oldName)) return;
+   internal void Rename(WordReference oldName, WordReference newName) => _words.Rename(oldName, newName);
 
-      _guard.Update(() =>
-      {
-         _words.Remove(oldName);
-         _words.Add(newName);
-      });
-   }
+   void LeaveTheWeb() => _words.Clear();
 
-   void LeaveTheWeb() => _guard.Update(() => _words.Clear());
-
-   void RemoveKeepingItAsASynonym(WordReference synonym) => _guard.Update(() =>
+   void RemoveKeepingItAsASynonym(WordReference synonym)
    {
       _words.Remove(synonym);
       _vocab.RelatedNotes.Synonyms.Add(synonym);
-   });
+   }
 
-   void AddKeepingItAsASynonymToo(WordReference synonym) => _guard.Update(() =>
+   void AddKeepingItAsASynonymToo(WordReference synonym)
    {
       if(_vocab.Question.IsNamedBy(synonym)) return;
       _words.Add(synonym);
       _vocab.RelatedNotes.Synonyms.Add(synonym);
-   });
+   }
 
    /// <summary>This vocab and every vocab it's linked to through perfect synonyms, directly or through others.</summary>
    HashSet<VocabNote> TheWholeWeb()
@@ -100,6 +91,7 @@ public class PerfectSynonyms
       }
    }
 
+   /// <summary>Makes every vocab in <see cref="TheWholeWeb"/> a perfect synonym, and a synonym, of every other.</summary>
    void ConnectTheWholeWeb()
    {
       var wholeWeb = TheWholeWeb();
@@ -112,5 +104,5 @@ public class PerfectSynonyms
       }
    }
 
-   public override string ToString() => string.Join(", ", _words.Select(it => it.DisambiguationName));
+   public override string ToString() => _words.ToString();
 }

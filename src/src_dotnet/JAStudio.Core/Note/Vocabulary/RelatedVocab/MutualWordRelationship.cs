@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
@@ -29,15 +30,18 @@ public class MutualWordRelationship : WordRelationship
       if(Vocab.Question.IsNamedBy(word)) return;
 
       AddTheWord(word);
-      foreach(var other in Collection.ReferredToBy(word))
-         _theSameRelationshipIn(other.RelatedNotes).AddTheWord(Vocab.Question.Reference);
+      foreach(var otherSide in OtherSidesOf(word))
+         otherSide.AddTheWord(Vocab.Question.Reference);
    }
 
    /// <summary>Removes <paramref name="word"/>, and this vocab from the same relationship of the vocab <paramref name="word"/> refers to.</summary>
    public override void Remove(WordReference word)
    {
       RemoveTheWord(word);
-      foreach(var other in Collection.ReferredToBy(word))
-         _theSameRelationshipIn(other.RelatedNotes).RemoveTheWord(Vocab.Question.Reference);
+      foreach(var otherSide in OtherSidesOf(word))
+         otherSide.RemoveTheWord(Vocab.Question.Reference);
    }
+
+   /// <summary>The same relationship in each vocab <paramref name="word"/> refers to: the other side of the relationship, for that word.</summary>
+   IEnumerable<MutualWordRelationship> OtherSidesOf(WordReference word) => Collection.ReferredToBy(word).Select(it => _theSameRelationshipIn(it.RelatedNotes));
 }

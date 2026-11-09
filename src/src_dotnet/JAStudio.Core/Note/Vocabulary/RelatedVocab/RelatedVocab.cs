@@ -20,18 +20,18 @@ public class RelatedVocab
    {
       _vocab = vocab;
 
-      ErgativeTwins = new MutualWordRelationship(vocab, References(data?.ErgativeTwins), guard, it => it.ErgativeTwins);
-      Synonyms = new Synonyms(vocab, References(data?.Synonyms), guard);
-      PerfectSynonyms = new PerfectSynonyms(vocab, References(data?.PerfectSynonyms), guard);
-      Antonyms = new MutualWordRelationship(vocab, References(data?.Antonyms), guard, it => it.Antonyms);
-      SeeAlso = new MutualWordRelationship(vocab, References(data?.SeeAlso), guard, it => it.SeeAlso);
+      ErgativeTwins = new MutualWordRelationship(vocab, WordsIn(data?.ErgativeTwins), guard, it => it.ErgativeTwins);
+      Synonyms = new Synonyms(vocab, WordsIn(data?.Synonyms), guard);
+      PerfectSynonyms = new PerfectSynonyms(vocab, WordsIn(data?.PerfectSynonyms), guard);
+      Antonyms = new MutualWordRelationship(vocab, WordsIn(data?.Antonyms), guard, it => it.Antonyms);
+      SeeAlso = new MutualWordRelationship(vocab, WordsIn(data?.SeeAlso), guard, it => it.SeeAlso);
       DerivedFrom = new DerivedFrom(vocab, data?.DerivedFrom is {} derivedFrom ? WordReference.FromDto(derivedFrom) : null, guard);
-      ConfusedWith = new WordRelationship(vocab, References(data?.ConfusedWith), guard);
+      ConfusedWith = new WordRelationship(vocab, WordsIn(data?.ConfusedWith), guard);
 
-      _inCompoundIds = new Lazy<HashSet<NoteId>>(() => [.. InCompounds().Select(voc => voc.GetId())]);
+      _inCompoundIds = new Lazy<HashSet<NoteId>>(() => [.. InCompounds().Select(it => it.GetId())]);
       return;
 
-      static IEnumerable<WordReference> References(List<WordReferenceDto>? dtos) => dtos?.Select(WordReference.FromDto) ?? [];
+      static IEnumerable<WordReference> WordsIn(List<WordReferenceDto>? stored) => stored?.Select(WordReference.FromDto) ?? [];
    }
 
    /// <summary>
@@ -43,8 +43,13 @@ public class RelatedVocab
 
    public Synonyms Synonyms { get; }
    public PerfectSynonyms PerfectSynonyms { get; }
+
+   /// <summary>Words with the opposite meaning, such as 開ける for 閉める. Linked both ways (<see cref="MutualWordRelationship"/>).</summary>
    public MutualWordRelationship Antonyms { get; }
+
+   /// <summary>Words worth looking at alongside the vocab, related in a way none of the other relationships says. Linked both ways (<see cref="MutualWordRelationship"/>).</summary>
    public MutualWordRelationship SeeAlso { get; }
+
    public DerivedFrom DerivedFrom { get; }
 
    /// <summary>Words the vocab is easily confused with, such as 礼 for 札. Only this vocab knows of it.</summary>

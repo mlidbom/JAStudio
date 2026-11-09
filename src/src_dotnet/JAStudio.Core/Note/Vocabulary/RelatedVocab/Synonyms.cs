@@ -14,20 +14,27 @@ public class Synonyms : MutualWordRelationship
    /// </summary>
    public void AddTransitivelyOneLevel(WordReference synonym)
    {
-      var newSynonymNotes = Collection.ReferredToBy(synonym);
+      var theSynonymsVocab = Collection.ReferredToBy(synonym);
+      GiveEachThisVocabsSynonyms();
+      AddEachWithItsSynonyms();
+      return;
 
-      foreach(var synonymNote in newSynonymNotes)
+      void GiveEachThisVocabsSynonyms()
       {
-         foreach(var mySynonym in Words.ToList())
-            synonymNote.RelatedNotes.Synonyms.Add(mySynonym);
+         foreach(var synonymVocab in theSynonymsVocab)
+         {
+            foreach(var mySynonym in Words.ToList())
+               synonymVocab.RelatedNotes.Synonyms.Add(mySynonym);
+         }
       }
 
-      var synonymsOfTheNewSynonyms = newSynonymNotes
-                                    .SelectMany(it => it.RelatedNotes.Synonyms.Words)
-                                    .Concat(newSynonymNotes.Select(it => it.Question.Reference))
-                                    .ToHashSet();
-
-      foreach(var newSynonym in synonymsOfTheNewSynonyms)
-         Add(newSynonym);
+      void AddEachWithItsSynonyms()
+      {
+         var theirNamesAndSynonyms = theSynonymsVocab.SelectMany(it => it.RelatedNotes.Synonyms.Words)
+                                                     .Concat(theSynonymsVocab.Select(it => it.Question.Reference))
+                                                     .ToHashSet();
+         foreach(var newSynonym in theirNamesAndSynonyms)
+            Add(newSynonym);
+      }
    }
 }

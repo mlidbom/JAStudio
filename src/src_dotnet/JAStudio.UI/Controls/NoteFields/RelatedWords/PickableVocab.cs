@@ -30,6 +30,6 @@ sealed class PickableVocab
    /// <summary>Whether <paramref name="typed"/> is part of the vocab's name, of one of its forms, or of one of its readings.</summary>
    public bool IsFoundBy(string typed) => _textsItIsFoundBy.Any(it => it.Contains(typed, StringComparison.Ordinal));
 
-   /// <summary>Every vocab of <paramref name="vocab"/>, in the order of their names.</summary>
-   public static IReadOnlyList<PickableVocab> AllIn(VocabCollection vocab) => [.. vocab.All().Select(it => new PickableVocab(it)).OrderBy(it => it.Name, StringComparer.Ordinal)];
+   /// <summary>Every vocab of <paramref name="collection"/>, in the order of their names.</summary>
+   public static IReadOnlyList<PickableVocab> AllIn(VocabCollection collection) => [.. collection.All().Select(it => new PickableVocab(it)).OrderBy(it => it.Name, StringComparer.Ordinal)];
 }

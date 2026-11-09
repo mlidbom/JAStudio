@@ -4,6 +4,10 @@ using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note.Collection;
 
+/// <summary>
+/// Every vocab of the corpus, and the ways to look them up: by form, by reading, by what a <see cref="WordReference"/> refers to, by the compounds a vocab<br/>
+/// is part of, and so on.
+/// </summary>
 public class VocabCollection
 {
    readonly IBackendNoteCreator _backendNoteCreator;
@@ -40,13 +44,13 @@ public class VocabCollection
    public List<VocabNote> ReferredToBy(WordReference reference)
    {
       var namedExactly = NamedExactlyBy(reference);
-      if(namedExactly.Count > 0 || reference.IsDisambiguated)
-         return namedExactly;
-
-      var withTheForm = WithForm(reference.Text);
-      var withTheQuestion = withTheForm.Where(it => it.Question.Text == reference.Text).ToList();
-      return withTheQuestion.Count > 0 ? withTheQuestion : withTheForm;
+      return namedExactly.Count > 0 || reference.IsDisambiguated
+                ? namedExactly
+                : WithTheFormPreferringItsQuestion(reference.Text);
    }
+
+   /// <summary>The vocab any of <paramref name="references"/> refers to (<see cref="ReferredToBy"/>).</summary>
+   public List<VocabNote> ReferredToByAny(IEnumerable<WordReference> references) => [.. references.SelectMany(ReferredToBy).Distinct()];
 
    /// <summary>
    /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, in every vocab's related vocab and compound<br/>
@@ -57,14 +61,14 @@ public class VocabCollection
    /// </remarks>
    internal void RenameTheReferences(WordReference oldName, WordReference newName)
    {
-      if(NamedExactlyBy(oldName).Count > 0) return;
+      if(ADuplicateStillHasTheOldName()) return;
 
       foreach(var vocab in All())
          vocab.RenameTheReferences(oldName, newName);
-   }
+      return;
 
-   /// <summary>The vocab any of <paramref name="references"/> refers to (<see cref="ReferredToBy"/>).</summary>
-   public List<VocabNote> ReferredToByAny(IEnumerable<WordReference> references) => [.. references.SelectMany(ReferredToBy).Distinct()];
+      bool ADuplicateStillHasTheOldName() => NamedExactlyBy(oldName).Count > 0;
+   }
 
    /// <summary>
    /// The vocab notes <paramref name="vocab"/> is part of: every vocab with a compound part that refers to it,<br/>
@@ -139,6 +143,17 @@ public class VocabCollection
             Include(compoundItIsPartOf);
          }
       }
+   }
+
+   /// <summary>
+   /// The vocab with <paramref name="form"/> as a form, only those with it as their question's text if there are any: <c>掛ける</c> finds かける, which has it<br/>
+   /// as a form, only while no vocab has <c>掛ける</c> as its question.
+   /// </summary>
+   List<VocabNote> WithTheFormPreferringItsQuestion(string form)
+   {
+      var withTheForm = WithForm(form);
+      var withItAsTheirQuestion = withTheForm.Where(it => it.Question.Text == form).ToList();
+      return withItAsTheirQuestion.Count > 0 ? withItAsTheirQuestion : withTheForm;
    }
 
    /// <summary>The vocab notes with a compound part that refers to <paramref name="vocab"/>, not following compounds of compounds.</summary>

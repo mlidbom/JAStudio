@@ -88,8 +88,8 @@ public class VocabNoteQuestion
    {
       var oldName = HasText ? Reference : null;
       rename();
-      if(oldName is {} named && !IsNamedBy(named))
-         _vocab.Services.Collection.Vocab.RenameTheReferences(named, Reference);
+      if(oldName is not null && !IsNamedBy(oldName))
+         _vocab.Services.Collection.Vocab.RenameTheReferences(oldName, Reference);
    }
 
    internal VocabQuestionDto ToDto() => new() { Text = Text, Disambiguation = Disambiguation };

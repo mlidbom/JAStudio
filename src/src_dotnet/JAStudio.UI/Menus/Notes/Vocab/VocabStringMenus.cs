@@ -40,7 +40,7 @@ class VocabStringMenus
       var items = new List<SpecMenuItem>
                   {
                      Adding(ShortcutFinger.Home1("Synonym"), related.Synonyms.Contains, related.Synonyms.Add),
-                     NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.AddSynonymsTransitivelyOneLevel, vocab, text),
+                     NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.AddSynonymsTransitivelyOneLevel, vocab, text, enabled: word is not null),
                      Adding(ShortcutFinger.Home3("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Add),
                      Adding(ShortcutFinger.Home4("Antonym"), related.Antonyms.Contains, related.Antonyms.Add),
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
@@ -54,6 +54,7 @@ class VocabStringMenus
       SpecMenuItem Adding(string name, Func<WordReference, bool> hasIt, Action<WordReference> add) => ForTheWord(word, name, it => !hasIt(it), add);
    }
 
+   /// <summary>The Set menu: the text as the word the vocab is derived from (<see cref="Core.Note.Vocabulary.RelatedVocab.RelatedVocab.DerivedFrom"/>).</summary>
    static SpecMenuItem BuildSetMenuSpec(string text, VocabNote vocab)
    {
       var word = WordReference.FromDisambiguationNameOrNone(text);

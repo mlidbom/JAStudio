@@ -40,17 +40,23 @@ static class VocabNoteConverter
                                   Synonyms = InAFixedOrder(related.Synonyms.Words),
                                   Antonyms = InAFixedOrder(related.Antonyms.Words),
                                   ConfusedWith = InAFixedOrder(related.ConfusedWith.Words),
-                                  SeeAlso = InAFixedOrder(related.SeeAlso.Words),
+                                  SeeAlso = InAFixedOrder(related.SeeAlso.Words)
                                },
                 Image = note.Image.RawValue(),
                 UserImage = note.UserImage.RawValue(),
                 SourceData = note.SourceData.ToDto(),
-                Tags = note.Tags.ToStringList(),
+                Tags = note.Tags.ToStringList()
              };
    }
 
    static List<WordReferenceDto> ToDtos(IEnumerable<WordReference> references) => [.. references.Select(it => it.ToDto())];
 
    /// <summary>A set of references in a fixed order, by their names, so that the same set always writes the same file.</summary>
-   static List<WordReferenceDto> InAFixedOrder(IEnumerable<WordReference> references) => ToDtos(references.OrderBy(it => it.DisambiguationName));
+   static List<WordReferenceDto> InAFixedOrder(IEnumerable<WordReference> references)
+   {
+      //review: This orders by the current culture's comparison, as the related vocab's strings were before they were word-references, while
+      //   WordReference.InAFixedOrder, which the alternative compound parts are stored in, orders ordinally. Should the corpus store both ordinally? Since the
+      //   current culture is the machine's, the stored order could differ between machines. Switching reorders the sets whose orders differ, once.
+      return ToDtos(references.OrderBy(it => it.DisambiguationName));
+   }
 }

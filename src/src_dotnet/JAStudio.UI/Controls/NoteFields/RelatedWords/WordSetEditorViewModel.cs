@@ -57,7 +57,10 @@ partial class WordSetEditorViewModel : ObservableObject
       var vocab = _currentVocab();
       Items.Clear();
       foreach(var word in _field.Read(vocab))
-         Items.Add(new WordChipViewModel(word, vocab.Services.Collection.Vocab.ReferredToBy(word).Count > 0, Remove));
+         Items.Add(new WordChipViewModel(word, RefersToAVocab(word), Remove));
+      return;
+
+      bool RefersToAVocab(WordReference word) => vocab.Services.Collection.Vocab.ReferredToBy(word).Count > 0;
    }
 
    /// <summary>Adds the word named in <see cref="NewWord"/>.</summary>
@@ -70,7 +73,11 @@ partial class WordSetEditorViewModel : ObservableObject
    }
 
    /// <summary>Whether <see cref="NewWord"/> names a word that isn't in the set yet, and isn't the vocab itself.</summary>
-   bool CanAdd() => TheWordTyped is {} word && !_field.Read(_currentVocab()).Contains(word) && !_currentVocab().Question.IsNamedBy(word);
+   bool CanAdd() => TheWordTyped is {} word && !IsInTheSet(word) && !IsTheVocabItself(word);
+
+   bool IsInTheSet(WordReference word) => _field.Read(_currentVocab()).Contains(word);
+
+   bool IsTheVocabItself(WordReference word) => _currentVocab().Question.IsNamedBy(word);
 
    /// <summary>The word <see cref="NewWord"/> names, or null while it names none, such as while nothing is typed.</summary>
    WordReference? TheWordTyped => WordReference.FromDisambiguationNameOrNone(NewWord.Trim());
