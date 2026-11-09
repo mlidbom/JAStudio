@@ -102,7 +102,8 @@ public sealed class JAStudioMcpServer
              .WithTools<AnalysisTools>(ToolResultJsonOptions)
              .WithTools<DictionaryTools>(ToolResultJsonOptions)
              .WithTools<NoteEditingTools>(ToolResultJsonOptions)
-             .WithTools<NoteCommandTools>(ToolResultJsonOptions);
+             .WithTools<NoteCommandTools>(ToolResultJsonOptions)
+             .WithTools<NoteCreationTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
 
       if(headlessUI != null)

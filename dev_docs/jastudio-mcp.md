@@ -209,7 +209,9 @@ the headless JAStudio.
          as the menus only offer it then.
        - **Left out:** the menu items that open notes, copy text to the clipboard or open a dialog, and reparsing a
          vocab's sentences, which `edit_a_note` does itself when a field written changes how sentences parse.
-       - **Next:** the context menu's creating a vocab, a sentence or a kanji from a text, as a tool.
+       - **Done:** `create_a_note` creates a vocab, a sentence or a kanji from a text, as the context menu's "Create"
+         does: a vocab from the dictionary, then the sentences that may contain it reparsed; a kanji with the menu's
+         answer, "TODO".
        - **Open, for Magnus:** the context menu's universal note actions, suspending and unsuspending a note's cards
          and deleting a note. Deleting deletes the note from Anki too, with its review history, which can't be undone,
          so it isn't a tool until Magnus says it should be.
