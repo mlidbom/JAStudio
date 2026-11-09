@@ -1,0 +1,113 @@
+{
+  "question": {
+    "text": "というか",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "how-should-I-put-it | I-mean/like/or-something | <tag title=\"sentence start\">s.st:</tag>rather/more-like/actually",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "という",
+      "か"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "というか"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_というか_と言うか_2023-09-14-06-32-45.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "と言うか",
+      "isOwned": false
+    },
+    {
+      "text": "っていうか",
+      "isOwned": false
+    },
+    {
+      "text": "って言うか",
+      "isOwned": false
+    },
+    {
+      "text": "ってゆーか",
+      "isOwned": false
+    },
+    {
+      "text": "ってゆうか",
+      "isOwned": false
+    },
+    {
+      "text": "ていうか",
+      "isOwned": false
+    },
+    {
+      "text": "てゆーか",
+      "isOwned": false
+    },
+    {
+      "text": "てゆうか",
+      "isOwned": false
+    },
+    {
+      "text": "て言うか",
+      "isOwned": false
+    },
+    {
+      "text": "つうか",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 35,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "っていうか",
+      "ていうか"
+    ],
+    "synonyms": [
+      "つうか",
+      "っていうか",
+      "ていうか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "or-rather-(say)/or-better-(say)/or-perhaps-I-should-say/or,-how-should-I-put-it/I-mean",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "4a489750-0c54-4dba-99bf-d3f51beeaae9",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

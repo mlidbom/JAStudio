@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "さ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>int:</tag>come-{on/now}! | <tag>s.end:</tag><tag>{assertion}</tag>/you-know | <tag>{nominalizer}</tag>/-ness",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "さ"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_さ_さ_2023-07-24-01-14-43.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 583,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "さあ"
+    ]
+  },
+  "sourceData": {
+    "answer": "-ness | indicates-assertion | come/come-now",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "10abfe8f-b536-47d9-b129-bfa04813dfae",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

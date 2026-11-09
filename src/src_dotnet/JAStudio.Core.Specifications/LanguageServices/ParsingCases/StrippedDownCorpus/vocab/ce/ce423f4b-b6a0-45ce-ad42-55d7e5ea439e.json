@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "なさる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>honorific:</tag> to{} do",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "なさる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "special-class-aru",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-08-07-10-53-10-142.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "為さる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 169,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [
+        "なさい"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} do",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "ce423f4b-b6a0-45ce-ad42-55d7e5ea439e",
+  "tags": [
+    "source::yomitan"
+  ]
+}

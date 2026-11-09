@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "の言うこと",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "what-_-says",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-f6b38eaae0b2cb12c72d94cca1709f4be402c659fc8b41e73493fe06.mp3]",
+  "forms": [
+    {
+      "text": "こと",
+      "isOwned": false
+    },
+    {
+      "text": "言う",
+      "isOwned": false
+    },
+    {
+      "text": "の",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 8,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cbf13e98-0dc4-454c-9c88-198dcc156656",
+  "tags": []
+}

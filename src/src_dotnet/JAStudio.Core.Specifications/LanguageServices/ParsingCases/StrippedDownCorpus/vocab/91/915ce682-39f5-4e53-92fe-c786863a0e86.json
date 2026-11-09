@@ -1,0 +1,118 @@
+{
+  "question": {
+    "text": "える",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {be-able/possible}-to-_/<tag>{godan-potential}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "える"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:得る_b.mp3]",
+  "audioG": "[sound:得る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "べる",
+      "isOwned": true
+    },
+    {
+      "text": "ける",
+      "isOwned": true
+    },
+    {
+      "text": "せる",
+      "isOwned": true
+    },
+    {
+      "text": "てる",
+      "isOwned": true
+    },
+    {
+      "text": "ねる",
+      "isOwned": true
+    },
+    {
+      "text": "へる",
+      "isOwned": true
+    },
+    {
+      "text": "める",
+      "isOwned": true
+    },
+    {
+      "text": "れる",
+      "isOwned": true
+    },
+    {
+      "text": "げる",
+      "isOwned": true
+    },
+    {
+      "text": "ぜる",
+      "isOwned": true
+    },
+    {
+      "text": "でる",
+      "isOwned": true
+    },
+    {
+      "text": "ぺる",
+      "isOwned": true
+    }
+  ],
+  "sentenceCount": 3024,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "〜られる",
+      "〜れる",
+      "えれる",
+      "られる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "Eru",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>acquire</kanji> so the verb vocab version is <vocabulary>to acquire</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: You need <vocabulary>to acquire</vocabulary> an <reading>e</reading>lephant (<ja>え</ja>) for your elephant collection. If you don't acquire an elephant, you'll look like an idiot in front of your elephant collecting friends."
+  },
+  "id": "915ce682-39f5-4e53-92fe-c786863a0e86",
+  "tags": []
+}

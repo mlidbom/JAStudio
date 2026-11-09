@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "言う",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: say　| call/name | make-a-noise/go",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いう"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:言う_b.mp3]",
+  "audioG": "[sound:言う_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "云う",
+      "isOwned": false
+    },
+    {
+      "text": "謂う",
+      "isOwned": false
+    },
+    {
+      "text": "いう",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1619,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{?}{say/utter/declare} | to{?}{name/call} | to{?}{go-(e.g.-\"the-alarm-went-ping\")/make-a-noise}",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>say</kanji>, so the verb version of that is <vocabulary>to say</vocabulary>.",
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nTo remember the reading <ja>い</ja> we use the word \"eagle.\" \n\nYou're trying <vocabulary>to say</vocabulary> something, but every time you try to say anything an <reading>ea</reading>gle (<ja>い</ja>) swoops down and pecks at your face then flies away. Just imagine yourself saying tiny bits of words, then an eagle crashing down on your face. Then, you wait in silence. Nothing happens. You try to say something again, and the eagle swoops down on you again."
+  },
+  "id": "b7cefd46-499a-4c9c-9f06-3eed04e1d410",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::05"
+  ]
+}

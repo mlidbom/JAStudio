@@ -1,0 +1,110 @@
+{
+  "question": {
+    "text": "ていうか",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "how-should-I-put-it | I-mean/like/or-something | <tag title=\"sentence start\">s.st:</tag>rather/more-like/actually",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "っていう",
+      "か"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ていうか"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-67b23d4d5848f4446271a71bf50e8699ead24f5122e400770952a89e.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "て言うか",
+      "isOwned": true
+    },
+    {
+      "text": "と言うか",
+      "isOwned": false
+    },
+    {
+      "text": "というか",
+      "isOwned": false
+    },
+    {
+      "text": "っていうか",
+      "isOwned": false
+    },
+    {
+      "text": "って言うか",
+      "isOwned": false
+    },
+    {
+      "text": "ってゆーか",
+      "isOwned": false
+    },
+    {
+      "text": "ってゆうか",
+      "isOwned": false
+    },
+    {
+      "text": "てゆーか",
+      "isOwned": false
+    },
+    {
+      "text": "てゆうか",
+      "isOwned": false
+    },
+    {
+      "text": "つうか",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "っていうか",
+      "というか"
+    ],
+    "synonyms": [
+      "つうか",
+      "っていうか",
+      "というか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "or-rather-(say)/or-better-(say)/or-perhaps-I-should-say/or,-how-should-I-put-it/I-mean",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d6432e4a-91e0-4aa3-a000-b4e6c0194391",
+  "tags": []
+}

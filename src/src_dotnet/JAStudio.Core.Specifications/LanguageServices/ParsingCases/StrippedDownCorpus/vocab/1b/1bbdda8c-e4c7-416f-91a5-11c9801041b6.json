@@ -1,0 +1,98 @@
+{
+  "question": {
+    "text": "果",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "phala-(attained-state,-result) | enlightenment-(as-the-fruits-of-one's-Buddhist-practice) | fruit | counter-for-pieces-of-fruit",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "はか",
+    "か",
+    "はたて"
+  ],
+  "partsOfSpeech": [
+    "counter",
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "か",
+      "isOwned": false
+    },
+    {
+      "text": "はたて",
+      "isOwned": false
+    },
+    {
+      "text": "尽",
+      "isOwned": false
+    },
+    {
+      "text": "捗",
+      "isOwned": false
+    },
+    {
+      "text": "果たて",
+      "isOwned": false
+    },
+    {
+      "text": "計",
+      "isOwned": false
+    },
+    {
+      "text": "極",
+      "isOwned": false
+    },
+    {
+      "text": "はか",
+      "isOwned": false
+    },
+    {
+      "text": "量",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>か</read>:: phala-(attained-state,-result) | enlightenment-(as-the-fruits-of-one's-Buddhist-practice) | fruit | counter-for-pieces-of-fruit\n<read>はたて</read>:<tag><ja>果たて</ja></tag>:: end/limit/extremity\n<read>はか</read>:<tag><ja>捗</ja></tag>:: progress",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "1bbdda8c-e4c7-416f-91a5-11c9801041b6",
+  "tags": []
+}

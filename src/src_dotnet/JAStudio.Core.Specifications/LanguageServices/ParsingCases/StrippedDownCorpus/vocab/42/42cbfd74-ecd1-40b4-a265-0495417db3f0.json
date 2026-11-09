@@ -1,0 +1,98 @@
+{
+  "question": {
+    "text": "おう",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{volitional}</tag>/I'll/let's | might-it-be/maybe | right?/isn't-it",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "おう"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-aa1c0e0e2761b388270e07646fb73814ff9e644e35a090ecf6e7afe9.mp3]",
+  "forms": [
+    {
+      "text": "よう",
+      "isOwned": false
+    },
+    {
+      "text": "う",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1767,
+  "technicalNotes": "",
+  "references": "<a href=\"https://youtu.be/IE7WgIOOGbM?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=129\">Cure dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden",
+      "sentenceStart": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "お",
+        "こ",
+        "ご",
+        "しよ",
+        "そ",
+        "ぞ",
+        "と",
+        "ど",
+        "の",
+        "ほ",
+        "ぼ",
+        "ぽ",
+        "も",
+        "よ",
+        "ろ"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ましょう",
+      "よう"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "おお"
+    ]
+  },
+  "sourceData": {
+    "answer": "oh!/good-heavens! | ugh!/oh-no! | ah!/the-penny-drops! | yes!/okay!",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "42cbfd74-ecd1-40b4-a265-0495417db3f0",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "sentence": "書きなさい",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IImperativeForms, which, against vocab copied by hand, expected the displayed words 書く and なさい.",
+  "parsedWords": [
+    {"form":"書く","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"書く","vocabId":"5da7bccb-b189-48b9-bc2d-30557427541d"},
+    {"form":"なさい","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"なさい","vocabId":"dd47f910-a119-4b32-8a48-3a9fb7c78eeb"},
+    {"form":"なさる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"なさる","vocabId":"ce423f4b-b6a0-45ce-ad42-55d7e5ea439e"},
+    {"form":"い","startIndex":4,"variant":"surface","isDisplayed":false,"vocab":"い","vocabId":"504d1590-9cb5-4f67-bdaf-1f174a93c67b"}
+  ]
+}

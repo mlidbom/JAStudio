@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "ん",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>の</ja>/_-{is-the-thing | 's/of} | <ja>ぬ</ja>/not | <ja>うん</ja>/yeah/yes | huh? | <ja>に</ja>/at/in",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ん"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "interjection",
+    "noun",
+    "particle",
+    "prefix",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-08-19-11-03-00-415.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 5970,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ず",
+      "せん",
+      "ない",
+      "ぬ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "yes/yeah/uh-huh | huh?/what? | not | 's/of/belonging-to | at-(place,-time)/in/on/during\n<read>ん</read>|<read>うん</read>:: some-(at-the-start-of-a-number-in-place-of-a-digit)\nprobably | will/intend-to | would-like-to-have-done-(for-me)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "cc6433c2-80a1-498d-8f0d-9da2a46c2885",
+  "tags": [
+    "source::yomitan"
+  ]
+}

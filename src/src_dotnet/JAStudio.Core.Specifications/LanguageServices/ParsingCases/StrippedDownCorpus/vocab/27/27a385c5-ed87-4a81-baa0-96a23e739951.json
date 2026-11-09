@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "くて",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "is-_-and",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "く",
+      "て"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "くて"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-1dfb5d7a94d61dd1de31934f7d028369307f53d890b8b49471372801.mp3]",
+  "forms": [
+    {
+      "text": "て",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 596,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "surface": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "く"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "27a385c5-ed87-4a81-baa0-96a23e739951",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

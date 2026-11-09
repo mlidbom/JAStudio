@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "う",
+    "disambiguation": "non-past"
+  },
+  "corpusAnswer": "<tag>{activity/state-change}-verb:</tag> will-_ | {generally/habitually/recurringly}-_-s　| to-_ | <tag>{non-past-verb-tense}</tag>\n<tag>stative-verb:</tag> is-_/is-in-state-_ | is-the-case/is-a-general-truth | <tag>{non-past-verb-tense}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "う"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-4f9e0988324835102c15a6f8c4dfe123bc0226ca394ab3ec36764997.mp3]",
+  "forms": [],
+  "sentenceCount": 11948,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "る",
+      "る:non-past"
+    ],
+    "synonyms": [
+      "る",
+      "る:non-past"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "ます"
+    ]
+  },
+  "sourceData": {
+    "answer": "<read>うさぎ</read>|<read>う</read>:<tag><ja>兎</ja></tag>:: rabbit/hare/coney/cony/lagomorph-(esp.-leporids)\nindicates-speculation | indicates-will | indicates-invitation\n<read>うな</read>|<read>う</read>:<tag><ja>鰻</ja></tag>:: eel-(esp.-the-Japanese-eel,-Anguilla-japonica)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "dcca0586-d8a4-4281-9f5f-a50f58a75fb2",
+  "tags": [
+    "source::jamdict"
+  ]
+}

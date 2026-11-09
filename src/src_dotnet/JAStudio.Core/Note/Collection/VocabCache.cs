@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.SysUtils.Collections.Generic;
 
@@ -30,30 +29,21 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
       _byStem.Clear();
    }
 
+   public List<VocabNote> WithForm(string form) => LookUp(_byForm, form);
 
-   public List<VocabNote> WithForm(string form) =>
-      _monitor.Locked(() => _byForm.TryGetValue(form, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> WithDisambiguationName(string form) => LookUp(_byDisambiguationName, form);
 
-   public List<VocabNote> WithDisambiguationName(string form) =>
-      _monitor.Locked(() => _byDisambiguationName.TryGetValue(form, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> WithCompoundPart(string compoundPart) => LookUp(_byCompoundPart, compoundPart);
 
-   public List<VocabNote> WithCompoundPart(string compoundPart) =>
-      _monitor.Locked(() => _byCompoundPart.TryGetValue(compoundPart, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> DerivedFrom(string form) => LookUp(_byDerivedFrom, form);
 
-   public List<VocabNote> DerivedFrom(string form) =>
-      _monitor.Locked(() => _byDerivedFrom.TryGetValue(form, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> WithKanjiInMainForm(string kanji) => LookUp(_byKanjiInMainForm, kanji);
 
-   public List<VocabNote> WithKanjiInMainForm(string kanji) =>
-      _monitor.Locked(() => _byKanjiInMainForm.TryGetValue(kanji, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> WithKanjiInAnyForm(string kanji) => LookUp(_byKanjiInAnyForm, kanji);
 
-   public List<VocabNote> WithKanjiInAnyForm(string kanji) =>
-      _monitor.Locked(() => _byKanjiInAnyForm.TryGetValue(kanji, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> WithReading(string reading) => LookUp(_byReading, reading);
 
-   public List<VocabNote> WithReading(string reading) =>
-      _monitor.Locked(() => _byReading.TryGetValue(reading, out var notes) ? notes.ToList() : []);
-
-   public List<VocabNote> WithStem(string stem) =>
-      _monitor.Locked(() => _byStem.TryGetValue(stem, out var notes) ? notes.ToList() : []);
+   public List<VocabNote> WithStem(string stem) => LookUp(_byStem, stem);
 
    protected override VocabSnapshot CreateSnapshot(VocabNote note) => new(note);
 

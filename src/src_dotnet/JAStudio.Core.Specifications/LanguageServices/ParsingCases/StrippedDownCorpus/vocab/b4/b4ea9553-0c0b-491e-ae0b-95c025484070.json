@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "んだ",
+    "disambiguation": "た"
+  },
+  "corpusAnswer": "_-{ed}/<tag>{past-tense}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "んだ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-4c60d55cfeb46f85d1acf202cf2dc583d6469322ff6f8f7fe6024a05.mp3]",
+  "forms": [
+    {
+      "text": "だ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 268,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "pastTenseStem": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": [
+        "ん"
+      ]
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "た"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "だもん"
+    ]
+  },
+  "sourceData": {
+    "answer": "the-expectation-is-that-.../the-reason-is-that-.../the-fact-is-that-.../the-explanation-is-that-.../it-is-that-...",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "b4ea9553-0c0b-491e-ae0b-95c025484070",
+  "tags": [
+    "-::vocab::matching::uses::required-prefix"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "いただける",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: be-able-to-{receive/take/accept | eat/drink}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "頂く",
+      "える"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いただける"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-07-27-17-54-04-846.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "戴ける",
+      "isOwned": true
+    },
+    {
+      "text": "頂ける",
+      "isOwned": true
+    }
+  ],
+  "sentenceCount": 38,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isCompositionallyTransparentCompound"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be: able-to-receive/able-to-take/able-to-accept | able-to-eat/able-to-drink | acceptable/satisfactory",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2858642f-cd0e-4a3d-8f0f-d7a47fec495a",
+  "tags": [
+    "-::vocab::is-ichidan-hiding-godan-potential",
+    "source::yomitan",
+    "tmp::godan-potential"
+  ]
+}

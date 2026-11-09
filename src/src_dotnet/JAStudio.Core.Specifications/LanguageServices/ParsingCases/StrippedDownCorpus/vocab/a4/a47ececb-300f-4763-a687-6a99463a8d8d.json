@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "な",
+    "disambiguation": "dict"
+  },
+  "corpusAnswer": " <tag>dictionary-form-verb-[]:</tag>don't-_!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "な"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "[sound:yomichan_audio_な_な_2023-07-22-11-23-07.mp3]",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 357,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormHead": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "なあ"
+    ]
+  },
+  "sourceData": {
+    "answer": "don't | do | hey/listen/you | now,-.../well,-.../I-tell-you!/you-know | wow/ooh",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a47ececb-300f-4763-a687-6a99463a8d8d",
+  "tags": [
+    "source::jamdict"
+  ]
+}

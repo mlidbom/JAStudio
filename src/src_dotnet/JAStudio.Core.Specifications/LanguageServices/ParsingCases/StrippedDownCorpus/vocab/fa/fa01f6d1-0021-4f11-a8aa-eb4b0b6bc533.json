@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "か",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>s.end:</tag> huh/I-guess | \"_?\"/<tag>{question}</tag>\n<tag>suff:</tag> <tag>{option-marker}</tag>/or/if/maybe | some-_ | <ja>ヶ</ja> | <tag>{adverb}</tag> | <tag>{adjective}</tag>/_-{al/ic/ical} | <tag>pre:</tag> <tag>{emphatic}</tag>/very",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "か"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_か_か_2023-07-16-00-12-26.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 5774,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=TOv3voBcEv8&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=41\">Cure Dolly: Lesson 39: The か Ka-particle's Secret Life!</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ですか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "yes?/no?/isn't-it?/is-it? | or/whether-or-not | some--(e.g.-something,-someone) | hmm/huh | very | -al/-ial/-ic/-ical/-ish/-y | in-that-way",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

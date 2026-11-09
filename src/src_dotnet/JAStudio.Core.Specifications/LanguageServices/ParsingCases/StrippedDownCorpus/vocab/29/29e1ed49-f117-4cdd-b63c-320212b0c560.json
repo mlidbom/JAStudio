@@ -1,0 +1,77 @@
+{
+  "question": {
+    "text": "れる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "can-_/possible-to-_",
+  "explanation": "attaches to the masu stem of ichidan verbs to form the short potential form",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "れる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-03592742e9a3435928d003df87eb0d4be893b8a4f1b2af881b54f657.mp3]",
+  "forms": [],
+  "sentenceCount": 22,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "ichidan": "required",
+      "irrealis": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "〜られる",
+      "える",
+      "えれる",
+      "られる",
+      "れる",
+      "得る"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "あれる",
+      "による"
+    ]
+  },
+  "sourceData": {
+    "answer": "indicates-passive-voice-(incl.-the-\"suffering-passive\") | indicates-the-potential-form | indicates-spontaneous-occurrence | used-as-an-honorific-for-others'-actions",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "29e1ed49-f117-4cdd-b63c-320212b0c560",
+  "tags": [
+    "_tts_audio",
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "source::yomitan"
+  ]
+}

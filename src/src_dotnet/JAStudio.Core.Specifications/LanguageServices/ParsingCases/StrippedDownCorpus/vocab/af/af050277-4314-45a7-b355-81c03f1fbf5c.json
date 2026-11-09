@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "おうか",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "shall-{I/we}?/let's/how-about? | I-wonder",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "おう",
+      "か"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "おうか"
+  ],
+  "partsOfSpeech": [],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-2db9b8b24471ee985f5bfac04be9f9cb767fb00afc7a9fc36f554dd8.mp3]",
+  "forms": [
+    {
+      "text": "うか",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 355,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "forbidden"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "おっか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "af050277-4314-45a7-b355-81c03f1fbf5c",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "-::TODO::studio::vocab::matching::requires-forbids::o-stem"
+  ]
+}

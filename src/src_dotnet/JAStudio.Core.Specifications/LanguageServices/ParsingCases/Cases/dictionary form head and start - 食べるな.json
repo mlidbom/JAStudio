@@ -1,0 +1,11 @@
+{
+  "sentence": "食べるな",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, which, against vocab copied by hand, expected the displayed words 食べる, る as う, and な (dict).",
+  "parsedWords": [
+    {"form":"食べる","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"食べる","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"うな","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"うな","vocabId":"8b1cf138-5f36-43f1-9404-2e5a358f7bd8"},
+    {"form":"う","startIndex":2,"variant":"surface","isDisplayed":false,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"},
+    {"form":"な","startIndex":3,"variant":"surface","isDisplayed":false,"vocab":"な","vocabId":"a47ececb-300f-4763-a687-6a99463a8d8d"}
+  ]
+}

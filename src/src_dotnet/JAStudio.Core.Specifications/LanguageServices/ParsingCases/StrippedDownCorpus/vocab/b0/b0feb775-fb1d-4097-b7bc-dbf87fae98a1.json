@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "私",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "I/me",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "わたし",
+    "わたくし"
+  ],
+  "partsOfSpeech": [
+    "no-adjective",
+    "pronoun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:Wani_3714_わたし_male.mp3][sound:Wani_3714_わたくし_male.mp3]",
+  "audioG": "[sound:Wani_3714_わたし_female.mp3][sound:Wani_3714_わたくし_female.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "わたし",
+      "isOwned": false
+    },
+    {
+      "text": "あたし",
+      "isOwned": false
+    },
+    {
+      "text": "わたくし",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2873,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<read>わたし</read>:: I/me\n<read>わたくし</read>:: I/me | personal-(affairs,-etc.)/private | selfishness/partiality | secrecy/confidentiality",
+    "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
+    "readingMnemonic": "If you're lucky, you already know this (very) common word's reading. It's the word for \"I,\" probably one of the first things you'd learn in Japanese. The reading for this is <ja><reading>わたし</reading></ja>. If you don't know that already, just think: \"<reading>What, a <ja>し</ja></reading>?\" referring to the reading of the kanji, which is <ja>し</ja>."
+  },
+  "id": "b0feb775-fb1d-4097-b7bc-dbf87fae98a1",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

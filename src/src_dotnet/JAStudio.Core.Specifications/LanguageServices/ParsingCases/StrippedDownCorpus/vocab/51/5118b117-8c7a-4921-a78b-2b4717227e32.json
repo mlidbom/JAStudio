@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "食べる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to{} eat | {live-on/live-off/subsist-on}(salary..)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "たべる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb",
+    "transitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:食べる_b.mp3]",
+  "audioG": "[sound:食べる_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "喰べる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 560,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to{} eat | live-on-(e.g.-a-salary)/live-off/subsist-on",
+    "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>eat</kanji> so the verb version is <vocabulary>to eat</vocabulary>.",
+    "readingMnemonic": "You have to remember the <ja>た</ja> portion if you want to be able to read this word, which uses the kun'yomi reading. Think about yourself <vocabulary>eat</vocabulary>ing some <reading>ta</reading>cos (<ja>た</ja>). Imagine yourself eating it, that raw beef taste in your mouth (either like it or hate it)."
+  },
+  "id": "5118b117-8c7a-4921-a78b-2b4717227e32",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::06"
+  ]
+}

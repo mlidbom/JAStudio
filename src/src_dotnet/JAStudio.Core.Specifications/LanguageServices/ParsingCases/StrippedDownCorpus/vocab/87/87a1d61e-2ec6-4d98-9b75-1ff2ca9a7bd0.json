@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "ません",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "doesn't/don't/isn't",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ます",
+      "ん"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ません"
+  ],
+  "partsOfSpeech": [
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ません_ません_2023-08-21-22-19-05.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 982,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "ませぬ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "not",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "87a1d61e-2ec6-4d98-9b75-1ff2ca9a7bd0",
+  "tags": [
+    "source::yomitan"
+  ]
+}

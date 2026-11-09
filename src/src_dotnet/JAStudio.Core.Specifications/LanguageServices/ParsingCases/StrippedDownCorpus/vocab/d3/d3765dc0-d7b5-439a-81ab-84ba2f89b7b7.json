@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "ます",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{activity/state-change}-verb:</tag> will-_ | {generally/habitually/recurringly}-_-s | to-_\n<tag>stative-verb:</tag> is-_/is-in-state-_ | is-the-case/is-a-general-truth",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ます"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [
+    "polite"
+  ],
+  "usuallyWrittenInKana": true,
+  "audioB": " [sound:ATTS ます (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "マス",
+      "isOwned": false
+    },
+    {
+      "text": "鱒",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7324,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "う:non-past"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "う"
+    ]
+  },
+  "sourceData": {
+    "answer": "<tag><ja>鱒</ja></tag>:: trout/sea-trout\nused-to-indicate-respect-for-the-listener-(or-reader) | used-to-indicate-respect-for-those-affected-by-the-action",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d3765dc0-d7b5-439a-81ab-84ba2f89b7b7",
+  "tags": [
+    "_tts_audio",
+    "source::yomitan"
+  ]
+}

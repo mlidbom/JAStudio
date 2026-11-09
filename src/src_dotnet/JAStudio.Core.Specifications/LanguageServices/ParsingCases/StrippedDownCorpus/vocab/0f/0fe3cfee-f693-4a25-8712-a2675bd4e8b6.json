@@ -1,0 +1,72 @@
+{
+  "question": {
+    "text": "頂けない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "unable-to-{receive/accept} | <tag>s.end:</tag>might-{I}-{have/receive}?\nis-{unacceptable/unsatisfactory}/{I}-cannot-accept",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "頂ける",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いただけない"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-0db407fc6330d4e4b236e80a988b09417cef9c0548729005a798318f.mp3]",
+  "forms": [
+    {
+      "text": "いただけない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemHead": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "いただけない"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "unacceptable/unsatisfactory",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0fe3cfee-f693-4a25-8712-a2675bd4e8b6",
+  "tags": [
+    "source::jamdict"
+  ]
+}

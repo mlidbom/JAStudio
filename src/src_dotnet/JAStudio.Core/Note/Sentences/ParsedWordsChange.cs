@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.Sentences;
 
-namespace JAStudio.Mcp.Tools.Corpus.NoteDiffs.ParsedWords;
+namespace JAStudio.Core.Note.Sentences;
 
 /// <summary>
 /// How a sentence's parsed words changed between two versions of it, compared as words: a word is the same word when it's the same form, at the<br/>
@@ -24,10 +23,14 @@ public record ParsedWordsChange(
    public bool IsNoChange() => Added.Count == 0 && Removed.Count == 0 && NowDisplayed.Count == 0 && NoLongerDisplayed.Count == 0;
 
    /// <summary>Compares the parsed words of <paramref name="before"/> with those of <paramref name="after"/>, naming each vocab by its question in <paramref name="collection"/>.</summary>
-   public static ParsedWordsChange Between(ParsingResult before, ParsingResult after, JPCollection collection)
+   public static ParsedWordsChange Between(ParsingResult before, ParsingResult after, JPCollection collection) =>
+      Between(before.ParsedWords, after.ParsedWords, collection);
+
+   /// <summary>Compares the parsed words <paramref name="before"/> with those <paramref name="after"/>, naming each vocab by its question in <paramref name="collection"/>.</summary>
+   public static ParsedWordsChange Between(IReadOnlyList<ParsedMatch> before, IReadOnlyList<ParsedMatch> after, JPCollection collection)
    {
-      var wordsOnlyAfter = WordsWithoutAnEqualWordIn(after.ParsedWords, before.ParsedWords);
-      var wordsOnlyBefore = WordsWithoutAnEqualWordIn(before.ParsedWords, after.ParsedWords);
+      var wordsOnlyAfter = WordsWithoutAnEqualWordIn(after, before);
+      var wordsOnlyBefore = WordsWithoutAnEqualWordIn(before, after);
 
       var displayChanges = new List<ParsedMatch>();
       foreach(var word in wordsOnlyAfter.ToList())

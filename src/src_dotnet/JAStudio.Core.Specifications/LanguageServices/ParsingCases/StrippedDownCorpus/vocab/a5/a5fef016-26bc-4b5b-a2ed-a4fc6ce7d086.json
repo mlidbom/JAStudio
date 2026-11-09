@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "いらっしゃいません",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "isn't/aren't/doesn't-reside",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いらっしゃる",
+      "ません"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いらっしゃいません"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-b34ed740b2e23625fd43cac2ffeb8daf5ecc4191f9b2edbe936c337e.mp3]",
+  "forms": [],
+  "sentenceCount": 2,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a5fef016-26bc-4b5b-a2ed-a4fc6ce7d086",
+  "tags": []
+}

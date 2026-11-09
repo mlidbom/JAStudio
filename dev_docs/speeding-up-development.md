@@ -1,7 +1,7 @@
 # Speeding up development: the next big pieces
 
 **Status: all four pieces of work agreed (Magnus, 2026-11-09: "We will do them both", and the other two the same day).
-1, 3 and 4 are scoped; 2 not yet.** Each starts by scoping it: what it takes, and whether it's feasible, before any code.
+1, 3 and 4 are scoped, and under way; 2 not yet.** Each starts by scoping it: what it takes, and whether it's feasible, before any code.
 
 These are the changes the collaboration rule "Build the tools the work will need again now, not later — and propose the
 big ones" asks for: changes to how JAStudio is developed, rather than to what it does.
@@ -242,6 +242,20 @@ better designed once the tooling shows how specifications like these work in pra
   the specifications should match, and the committed stripped-down corpus records what a run used.
 - The full mode is a mode of the specifications, run from the IDE or the command line, so Magnus can run it as easily as
   Claude. A tool of the MCP server that makes a case from a corpus sentence comes later.
+
+### Progress
+
+1. **Done (2026-11-09): the first increment,** as above: `parsing-cases.md` describes what was built and how to use it. 7
+   cases converted; the full mode runs in about 6 seconds, the everyday mode's 7 cases in 1.3. Their stripped-down corpus is
+   67 vocab, 276 KB, so the about 174 cases might make 1 to 2 MB, not the 5 to 10 MB guessed. Of the 7, 4 parse as their old
+   cases expected, and 3 don't, all because the real corpus has vocab the copies lack.
+2. **Open, before converting the rest: the sentence breakdown.** Most old cases, those of
+   `SentenceAnalysisViewModelWithSelectDataTests`, check the sentence breakdown's displayed words, which isn't the stored
+   parsing result: the breakdown also shows words displayed in an emergency, and applies the compound-hiding settings and
+   yielding to an overlapping compound. A case holding only the stored result would check less than they do there.
+   Claude's recommendation: a case holds the breakdown's displayed words too, exactly, with the settings it assumes, by
+   default JAStudio's defaults. It's also what Magnus sees.
+3. **Then** the rest of the cases converted, reviewing each difference with Magnus, and the old cases removed.
 
 ## 3 and 4 in the corpus itself: sentences that specify how they parse (Magnus's idea, 2026-11-09)
 

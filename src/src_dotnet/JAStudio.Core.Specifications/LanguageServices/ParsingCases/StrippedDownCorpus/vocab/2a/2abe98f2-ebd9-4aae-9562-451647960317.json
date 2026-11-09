@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "が",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{subject}</tag> | but/and-yet/although/though | and | <tag>literary:</tag><tag>{possession}</tag>/<ja>ヶ</ja>\n<tag>s.end:</tag> <tag>ellipsis:</tag>_-(is/are/was/did)-... | though/you-know/FYI/you-figure-out-what-I-mean | <tag>{irritation}</tag>/<tag>{scorn}</tag>/for-crying-out-loud!/dang-it!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "が"
+  ],
+  "partsOfSpeech": [
+    "conjunction",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:katakana_d1_ga.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 11027,
+  "technicalNotes": "Adding a sentence end version does not work because hundreds of sentences place spaces after が for formatting purposes creating tons of false positives.",
+  "references": "Cure Dolly: {\n<a href=\"https://www.youtube.com/watch?v=eIoyAZwPqz0\">Receiving form</a> | \n<a href=\"https://www.youtube.com/watch?v=DHH_e0q8b7A&amp;list=TLPQMDUwODIwMjQTYToXRlMchw&amp;index=9\">が and I/He/She</a>\n}\n#<br>&nbsp;&nbsp;<a href=\"https://en.wikibooks.org/wiki/Japanese/Grammar/Basic_Particles#The_topic_and_subject_markers_%E3%81%AF_and_%E3%81%8C\">Wikibooks</a>&nbsp;#&nbsp;<a href=\"https://www.japanesewithanime.com/2019/05/ga-particle.html?m=1\">Japanese with Anime</a>&nbsp;#&nbsp;<a href=\"https://www.tofugu.com/japanese-grammar/particle-ga/\">tofugu</a>&nbsp;#&nbsp;<a href=\"https://japanese.stackexchange.com/questions/60953/verbs-using-%e3%81%8c-to-mark-the-direct-object-subject\">が direct object/subject</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "sentenceStart": "forbidden"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "が:s.end",
+      "けど",
+      "けれど",
+      "だけど"
+    ]
+  },
+  "sourceData": {
+    "answer": "indicates-sentence-subject-(occasionally-object) | indicates-possessive-(esp.-in-literary-expressions) | but/however/still/and | regardless-of/whether-(or-not)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "2abe98f2-ebd9-4aae-9562-451647960317",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

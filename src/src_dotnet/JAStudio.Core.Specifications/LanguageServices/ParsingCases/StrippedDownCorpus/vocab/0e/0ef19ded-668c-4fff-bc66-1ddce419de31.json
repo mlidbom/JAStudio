@@ -1,0 +1,63 @@
+{
+  "question": {
+    "text": "いらっしゃいます",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>hon:</tag> to: be/reside | ??come/go??",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いらっしゃる",
+      "ます"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いらっしゃいます"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-a09b289a198b91426783a88c8e08bf6af4ba67d7a24d8824969233da.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 16,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [
+        "いらっしゃいませ"
+      ],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0ef19ded-668c-4fff-bc66-1ddce419de31",
+  "tags": []
+}

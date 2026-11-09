@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Mcp.Tools.Corpus.NoteDiffs.ParsedWords;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Mcp.Tools.Corpus.NoteDiffs.Properties;
 
 namespace JAStudio.Mcp.Tools.Corpus.NoteDiffs;

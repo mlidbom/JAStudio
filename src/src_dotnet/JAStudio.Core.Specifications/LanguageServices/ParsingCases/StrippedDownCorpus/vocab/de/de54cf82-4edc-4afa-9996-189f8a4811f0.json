@@ -1,0 +1,76 @@
+{
+  "question": {
+    "text": "あれる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: {get/be}-_ | <tag>{{honorific/formality}-marker}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "あれる"
+  ],
+  "partsOfSpeech": [
+    "ichidan verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-bf819c22d6cc23b1a5127e6b114954327ac5f41c5a407c94da585fa6.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "れる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 1548,
+  "technicalNotes": "We forbid ichidan rather than require godan since this works with suru etc as well as godan",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "forbidden",
+      "ichidan": "forbidden",
+      "irrealis": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "られる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "えれる"
+    ]
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "de54cf82-4edc-4afa-9996-189f8a4811f0",
+  "tags": [
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "-::vocab::is-ichidan-hiding-godan-potential"
+  ]
+}

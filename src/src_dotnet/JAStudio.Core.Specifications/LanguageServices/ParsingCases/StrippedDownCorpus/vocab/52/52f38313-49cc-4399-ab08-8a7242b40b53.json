@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "だの",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "and-{the-like/what-not}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "だ",
+      "の"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "だの"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-13-13-59-11-645.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 4,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [
+        "ん"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "and/or/and-the-like/and-so-forth/and-what-not",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "52f38313-49cc-4399-ab08-8a7242b40b53",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "source::yomitan"
+  ]
+}

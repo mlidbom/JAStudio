@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "いらっしゃる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>hon:</tag> to: be/reside | come/go | <tag>aux:て-:</tag>be-(doing)",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いらっしゃる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "godan verb",
+    "intransitive",
+    "special-class-aru"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-03-16-08-05-56-276.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 34,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "いらした"
+    ]
+  },
+  "sourceData": {
+    "answer": "to:{come/go/be-(somewhere)} | to-be:(doing)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "a1ad7b91-622e-43f3-a0d9-44eb080b1694",
+  "tags": [
+    "source::yomitan"
+  ]
+}

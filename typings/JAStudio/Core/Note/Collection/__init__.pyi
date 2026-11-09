@@ -1,12 +1,12 @@
 import typing, abc
-from System import IObservable_1, Action
+from System import IObservable_1, Action, IDisposable
 from JAStudio.Core.Note import JPNote, NoteId, IBackendNoteCreator, NoteServices, KanjiNote
 from JAStudio.Core.Storage import INoteRepository
 from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
 from JAStudio.Core import IBackendDataLoader
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedData, VocabNote
-from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1, IEnumerable_1
+from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Note.Search import NoteCondition
 from JAStudio.Core.Note.Tagging import TagBranch, Tag, TagTree
 from JAStudio.Core.Note.Search.TagProperties import TagPathsInUse
@@ -90,6 +90,19 @@ class KanjiCollection:
     def WithReading(self, reading: str) -> HashSet_1[KanjiNote]: ...
 
 
+class LookupRecording_GenericClasses(abc.ABCMeta):
+    Generic_LookupRecording_GenericClasses_LookupRecording_1_TNote = typing.TypeVar('Generic_LookupRecording_GenericClasses_LookupRecording_1_TNote')
+    def __getitem__(self, types : typing.Type[Generic_LookupRecording_GenericClasses_LookupRecording_1_TNote]) -> typing.Type[LookupRecording_1[Generic_LookupRecording_GenericClasses_LookupRecording_1_TNote]]: ...
+
+LookupRecording : LookupRecording_GenericClasses
+
+LookupRecording_1_TNote = typing.TypeVar('LookupRecording_1_TNote')
+class LookupRecording_1(typing.Generic[LookupRecording_1_TNote], IDisposable):
+    @property
+    def NotesLookedUp(self) -> IReadOnlyCollection_1[LookupRecording_1_TNote]: ...
+    def Dispose(self) -> None: ...
+
+
 class SentenceCollection:
     def __init__(self, backendNoteCreator: IBackendNoteCreator, noteServices: NoteServices) -> None: ...
     @property
@@ -119,6 +132,7 @@ class VocabCollection:
     def CompoundsContainingCompoundPart(self, compoundPart: str) -> List_1[VocabNote]: ...
     def DerivedFrom(self, derivedFrom: str) -> List_1[VocabNote]: ...
     def IsWord(self, form: str) -> bool: ...
+    def StartRecordingTheVocabLookedUp(self) -> LookupRecording_1[VocabNote]: ...
     def WithAnyDisambiguationNameIn(self, questions: IEnumerable_1[str]) -> List_1[VocabNote]: ...
     def WithAnyFormIn(self, forms: List_1[str]) -> List_1[VocabNote]: ...
     def WithAnyFormInPreferDisambiguationNameOrExactMatch(self, forms: List_1[str]) -> List_1[VocabNote]: ...

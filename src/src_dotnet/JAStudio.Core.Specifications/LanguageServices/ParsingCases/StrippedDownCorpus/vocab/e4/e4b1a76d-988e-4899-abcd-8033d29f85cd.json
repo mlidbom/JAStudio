@@ -1,0 +1,73 @@
+{
+  "question": {
+    "text": "何て",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "what |　something-like/such-a-thing | to-think-that/can-you-believe",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "何",
+      "って"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "なんて"
+  ],
+  "partsOfSpeech": [
+    "adverb",
+    "interjection",
+    "particle",
+    "prenominal"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-04-22-06-39-59-213.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "なんて",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 20,
+  "technicalNotes": "",
+  "references": "Cure Dolly: <a href=\"https://youtu.be/OlUG9ym-b4Y?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=520\">なんて、なんか、など</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "yieldLastTokenToOverlappingCompound": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "なんか"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "how-...!/what-...! | what?/what's-that?",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "e4b1a76d-988e-4899-abcd-8033d29f85cd",
+  "tags": []
+}

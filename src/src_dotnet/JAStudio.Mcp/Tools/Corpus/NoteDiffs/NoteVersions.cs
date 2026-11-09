@@ -7,7 +7,6 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage;
 using JAStudio.Mcp.Corpus;
-using JAStudio.Mcp.Tools.Corpus.NoteDiffs.ParsedWords;
 using JAStudio.Mcp.Tools.Corpus.NoteDiffs.Properties;
 
 namespace JAStudio.Mcp.Tools.Corpus.NoteDiffs;

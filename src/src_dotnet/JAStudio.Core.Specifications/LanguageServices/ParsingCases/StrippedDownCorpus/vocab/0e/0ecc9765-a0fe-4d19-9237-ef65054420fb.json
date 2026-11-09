@@ -1,0 +1,78 @@
+{
+  "question": {
+    "text": "て",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "and | then\n<tag>s.end</tag>: did-and-.../<tag>{you-figure-out-the-rest}</tag> | please-_/_!/<tag>{imperative}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "て"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_て_て_2023-07-16-00-53-44.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 11626,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.youtube.com/watch?v=uoj5l8-Ppws&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=83\">Cure Dolly</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "teFormStemStart": "required"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [
+        "く"
+      ],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "いで",
+      "んで"
+    ],
+    "synonyms": [
+      "いで",
+      "んで"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "って",
+      "で"
+    ]
+  },
+  "sourceData": {
+    "answer": "<read>って</read>|<read>て</read>:: you-said/he-said/she-said/they-said | if-...-then | do-you-seriously-think-that | I-already-told-you/you-should-know-by-now-that/of-course | the-said-.../said-... | says-that-... | I-hear-that-... | as-for-the-term-... | as-for-...\nindicates-continuing-action",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0ecc9765-a0fe-4d19-9237-ef65054420fb",
+  "tags": [
+    "-::vocab::matching::uses::prefix-is-not",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

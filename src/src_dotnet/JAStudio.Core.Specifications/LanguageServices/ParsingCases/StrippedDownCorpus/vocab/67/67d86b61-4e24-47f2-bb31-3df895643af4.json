@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "っけ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "remind-me/i-forget/was-it?/was-that-what-happened?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "っけ"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2024-06-14-12-25-01-553.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "け",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 120,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "particle-indicating-that-the-speaker-is-trying-to-recall-some-information",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "67d86b61-4e24-47f2-bb31-3df895643af4",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

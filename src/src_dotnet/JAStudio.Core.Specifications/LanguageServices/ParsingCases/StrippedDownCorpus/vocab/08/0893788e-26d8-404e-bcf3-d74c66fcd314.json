@@ -1,0 +1,74 @@
+{
+  "question": {
+    "text": "ませ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{polite-imperative}</tag>/please | <tag>{increased-politeness-marker}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "ます",
+      "え:imperative"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "ませ"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "na-adjective",
+    "noun",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-475448d420c68863e2758e3f3e951c5ebbdf54b5e42ea5a2f5a59825.mp3]",
+  "forms": [
+    {
+      "text": "まし",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 21,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [
+        "ん"
+      ],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "please | used-to-increase-the-politeness-of-a-greeting",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "0893788e-26d8-404e-bcf3-d74c66fcd314",
+  "tags": [
+    "-::vocab::matching::uses::suffix-is-not",
+    "source::yomitan"
+  ]
+}

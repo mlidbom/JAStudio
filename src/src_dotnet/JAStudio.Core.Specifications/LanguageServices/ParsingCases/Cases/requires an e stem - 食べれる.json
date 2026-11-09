@@ -1,0 +1,10 @@
+{
+  "sentence": "食べれる",
+  "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresEStem, which, against vocab copied by hand, expected the displayed words 食べる, れる (ichidan) and る as う.",
+  "parsedWords": [
+    {"form":"食べる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"食べる","vocabId":"5118b117-8c7a-4921-a78b-2b4717227e32"},
+    {"form":"れる","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"れる","vocabId":"29e1ed49-f117-4cdd-b63c-320212b0c560"},
+    {"form":"れる","startIndex":2,"variant":"base","isDisplayed":false,"vocab":"れる","vocabId":"29e1ed49-f117-4cdd-b63c-320212b0c560"},
+    {"form":"う","startIndex":3,"variant":"surface","isDisplayed":true,"vocab":"う","vocabId":"dcca0586-d8a4-4281-9f5f-a50f58a75fb2"}
+  ]
+}

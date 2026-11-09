@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "の",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "of-the-{category}-_ | _-'s/<tag>{possesive}</tag>/of-_ | the-_-thing/<tag>{nominalizing}</tag> | having/being\n<tag>s.end:</tag> is-the-thing/you-know | <tag>{yes-no-question}</tag>: {do}-{you}?/{is}-{it}? | !{aren't/don't/isn't}-{you/it}!?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "の"
+  ],
+  "partsOfSpeech": [
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_の_の_2023-07-18-18-47-39.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "ん",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 16332,
+  "technicalNotes": "",
+  "references": "Cure Dolly{\n<a href=\"https://www.youtube.com/watch?v=5IzL2Q5xgGQ\">の１</a> |\n<a href=\"https://www.youtube.com/watch?v=Bq3GO63D9bw\">CD:の2</a> | \n<a href=\"https://www.youtube.com/watch?v=GB8fWjQuz9A&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=40\">na vs no, naru &amp; taru adjectives</a> \n}\n<a href=\"https://www.japanesewithanime.com/2019/05/no-particle.html\">の Particle | Japanese with Anime</a><br><a href=\"https://www.japanesewithanime.com/2019/03/formal-nouns.html\">Formal Nouns | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "かい"
+    ]
+  },
+  "sourceData": {
+    "answer": "indicates-possessive | nominalizes-verbs-and-adjectives | substitutes-for-\"ga\"-in-subordinate-phrases | (at-sentence-end,-falling-tone)-indicates-a-confident-conclusion | (at-sentence-end)-indicates-emotional-emphasis | (at-sentence-end,-rising-tone)-indicates-question",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "33bf9bc1-0744-4973-8d45-5776bc54eac1",
+  "tags": [
+    "-::formal-noun",
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

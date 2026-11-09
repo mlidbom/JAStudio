@@ -17,6 +17,9 @@ public class VocabCollection
       Cache = new VocabCache(noteServices);
    }
 
+   /// <summary>Starts recording every vocab this collection's lookups return, such as the vocab parsing a sentence looks at, until the recording is disposed.</summary>
+   public LookupRecording<VocabNote> StartRecordingTheVocabLookedUp() => Cache.StartRecordingTheNotesLookedUp();
+
    public bool IsWord(string form) => Cache.WithForm(form).Any();
    public List<VocabNote> All() => Cache.All();
    public VocabNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);

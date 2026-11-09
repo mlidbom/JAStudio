@@ -1,0 +1,75 @@
+{
+  "question": {
+    "text": "座る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to: sit",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "すわる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "[sound:座る_b.mp3]",
+  "audioG": "[sound:座る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "据わる",
+      "isOwned": false
+    },
+    {
+      "text": "坐る",
+      "isOwned": false
+    },
+    {
+      "text": "据る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 44,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to: sit/squat | assume-(a-position) | hold-steady/hold-still",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>sit</kanji> so the verb vocab version is <vocabulary>to sit</vocabulary>.",
+    "readingMnemonic": "The reading is unlike the kanji reading, so let's use a separate mnemonic to remember this. Just imagine yourself going <vocabulary>to sit</vocabulary> down. You sit down, and the ground collapses below you and you fall. When you land, you find yourself in a nasty, stinking <reading>sewer</reading> (<ja>すわ</ja>). It is so gross. Taste the sewage in your mouth. Smell it. Feel gross. You shouldn't have sat down on that spot, it was looking awfully dangerous, now that you think about it."
+  },
+  "id": "ba71f948-bcd3-4fc1-b4b3-da9d0a3579a4",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::18"
+  ]
+}

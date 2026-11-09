@@ -1,0 +1,122 @@
+{
+  "question": {
+    "text": "えない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "can't/cannot/unable-to",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "える",
+      "ない"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "えない"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": null,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-d9efb2629acc06147878f837d0a19c33c4487f418841f44f7f66445a.mp3]",
+  "forms": [
+    {
+      "text": "べない",
+      "isOwned": false
+    },
+    {
+      "text": "けない",
+      "isOwned": false
+    },
+    {
+      "text": "せない",
+      "isOwned": false
+    },
+    {
+      "text": "てない",
+      "isOwned": false
+    },
+    {
+      "text": "ねない",
+      "isOwned": false
+    },
+    {
+      "text": "へない",
+      "isOwned": false
+    },
+    {
+      "text": "めない",
+      "isOwned": false
+    },
+    {
+      "text": "れない",
+      "isOwned": false
+    },
+    {
+      "text": "げない",
+      "isOwned": false
+    },
+    {
+      "text": "ぜない",
+      "isOwned": false
+    },
+    {
+      "text": "でない",
+      "isOwned": false
+    },
+    {
+      "text": "ぺない",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 564,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanPotential": "required",
+      "sentenceStart": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord",
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [
+      "えぬ",
+      "えん"
+    ],
+    "synonyms": [
+      "えぬ",
+      "えん"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "efce9e5a-170d-4164-9308-3b7eeec0d090",
+  "tags": []
+}

@@ -1,0 +1,65 @@
+{
+  "question": {
+    "text": "うな",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "don't-_!",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "う:non-past",
+      "な"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "うな"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-d6f9d167a694ded910bf3200f3014a8994d99ad22e4736c2c63bac03.mp3]",
+  "forms": [],
+  "sentenceCount": 356,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "dictionaryFormStart": "required"
+    },
+    "flags": [
+      "questionOverridesForm"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "eel-(esp.-the-Japanese-eel,-Anguilla-japonica)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8b1cf138-5f36-43f1-9404-2e5a358f7bd8",
+  "tags": []
+}

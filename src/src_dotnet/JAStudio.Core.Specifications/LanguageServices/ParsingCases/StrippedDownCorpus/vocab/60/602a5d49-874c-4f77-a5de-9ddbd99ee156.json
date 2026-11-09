@@ -1,0 +1,110 @@
+{
+  "question": {
+    "text": "え",
+    "disambiguation": "imperative"
+  },
+  "corpusAnswer": "_!/do!/<tag>{godan imperative}</tag>",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "え"
+  ],
+  "partsOfSpeech": [
+    "auxiliary"
+  ],
+  "register": [
+    "roughMasculine"
+  ],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-5bf20240643dbc1d6c5cab3b9e986189f78d174a0bdd72b78c83194d.mp3]",
+  "forms": [
+    {
+      "text": "で",
+      "isOwned": false
+    },
+    {
+      "text": "せ",
+      "isOwned": false
+    },
+    {
+      "text": "へ",
+      "isOwned": false
+    },
+    {
+      "text": "け",
+      "isOwned": false
+    },
+    {
+      "text": "べ",
+      "isOwned": false
+    },
+    {
+      "text": "ぺ",
+      "isOwned": false
+    },
+    {
+      "text": "げ",
+      "isOwned": false
+    },
+    {
+      "text": "れ",
+      "isOwned": false
+    },
+    {
+      "text": "ぜ",
+      "isOwned": false
+    },
+    {
+      "text": "め",
+      "isOwned": false
+    },
+    {
+      "text": "ね",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 628,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "godanImperative": "required"
+    },
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "よ",
+      "ろ"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "eh?/what?/oh? | yes/that's-correct | strengthens-a-question,-assertion,-etc. | hey",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "602a5d49-874c-4f77-a5de-9ddbd99ee156",
+  "tags": []
+}

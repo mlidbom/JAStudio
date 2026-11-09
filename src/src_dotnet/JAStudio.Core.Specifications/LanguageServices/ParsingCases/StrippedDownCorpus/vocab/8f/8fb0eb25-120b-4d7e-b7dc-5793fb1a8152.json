@@ -1,0 +1,61 @@
+{
+  "question": {
+    "text": "い",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<a href=\"https://www.japanesewithanime.com/2022/04/i-copula.html\">い-copula</a>/to-be-_\n<a href=\"https://www.japanesewithanime.com/2023/07/i-particle.html\">い-particle</a>/strengthens-{question/assertion}",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "い",
+    "イ"
+  ],
+  "partsOfSpeech": [
+    "copula",
+    "noun",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:hypertts-2646fe1d49f154b25af789456cc0da94fffd81d0e804d97aacd50cd4.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 127,
+  "technicalNotes": "",
+  "references": "<a href=\"https://www.japanesewithanime.com/2022/04/i-copula.html\">～い Copula</a>&nbsp;|&nbsp;<a href=\"https://www.japanesewithanime.com/2023/07/i-particle.html\">い Particle</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>藺</ja></tag>:: soft-rush-(Juncus-effusus-var.-decipiens)/common-rush\nstrengthens-a-question,-assertion,-etc.",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8fb0eb25-120b-4d7e-b7dc-5793fb1a8152",
+  "tags": []
+}

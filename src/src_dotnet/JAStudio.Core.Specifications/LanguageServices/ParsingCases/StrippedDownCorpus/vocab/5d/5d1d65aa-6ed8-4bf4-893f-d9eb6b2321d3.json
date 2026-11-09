@@ -1,0 +1,81 @@
+{
+  "question": {
+    "text": "ない",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "isn't/aren't/doesn't-exist | impossible/won't-happen\n<tag>s.end:</tag> how-about?/why-not? | {isn't}-{it/there}?",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "ない"
+  ],
+  "partsOfSpeech": [
+    "i-adjective",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_ない_ない_2023-07-20-04-41-08.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "無い",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 2578,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {
+      "irrealis": "forbidden"
+    },
+    "flags": [
+      "isInflectingWord"
+    ],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [
+        "なきゃ",
+        "なし",
+        "ねえ"
+      ],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "あらず",
+      "ざる",
+      "ず",
+      "せん",
+      "ぬ",
+      "ん"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>無い</ja></tag>:: nonexistent/not-being-(there) | unowned/not-had/unpossessed | unique | not/impossible/won't-happen | not | to-not-be/to-have-not\nnot | emphatic-suffix",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "5d1d65aa-6ed8-4bf4-893f-d9eb6b2321d3",
+  "tags": [
+    "-::vocab::matching::uses::surface-is-not"
+  ]
+}

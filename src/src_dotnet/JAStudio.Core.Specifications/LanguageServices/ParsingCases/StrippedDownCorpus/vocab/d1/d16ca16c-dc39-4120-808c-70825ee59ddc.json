@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "かさ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag><ja>毬</ja>/<ja>梂</ja>:</tag>cone-(e.g.-pine,-hemlock) | <tag><ja>傘</ja>:</tag>umbrella",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "かさ"
+  ],
+  "partsOfSpeech": [
+    "noun"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-be79b8469ef29204618faf37566749b56bc7d8d6c2e82f0169f7ed79.mp3]",
+  "forms": [
+    {
+      "text": "毬",
+      "isOwned": false
+    },
+    {
+      "text": "梂",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "cone-(e.g.-pine,-hemlock)",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "d16ca16c-dc39-4120-808c-70825ee59ddc",
+  "tags": []
+}

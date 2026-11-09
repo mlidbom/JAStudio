@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Compze.Internals.SystemCE.LinqCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Threading;
@@ -20,13 +19,20 @@ class CachedNote
    }
 }
 
-abstract class NoteCacheBase<TNote>(NoteServices noteServices) : IExternalNoteUpdateHandler
+abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
    where TNote : JPNote
 {
    protected readonly Dictionary<NoteId, TNote> _byId = new();
    readonly SimpleObservable<TNote> _noteUpdated = new();
-   readonly NoteServices _noteServices = noteServices;
+   readonly NoteServices _noteServices;
    protected readonly IMonitor _monitor = IMonitor.New();
+   readonly LookupRecorder<TNote> _lookupRecorder;
+
+   protected NoteCacheBase(NoteServices noteServices)
+   {
+      _noteServices = noteServices;
+      _lookupRecorder = new LookupRecorder<TNote>(_monitor);
+   }
 
    /// <summary>
    /// Notifies every note in this cache that JAStudio updates (<see cref="JpNoteUpdated"/>), after the cache holds the updated note.<br/>
@@ -36,8 +42,17 @@ abstract class NoteCacheBase<TNote>(NoteServices noteServices) : IExternalNoteUp
 
    IObservable<JPNote> IExternalNoteUpdateHandler.NoteUpdated => _noteUpdated;
 
-   public TNote? WithIdOrNone(NoteId noteId) => _monitor.Locked(() => WithIdOrNoneCore(noteId));
+   /// <summary>Starts recording the notes this cache's lookups return, until the recording is disposed. One recording at a time.</summary>
+   public LookupRecording<TNote> StartRecordingTheNotesLookedUp() => _lookupRecorder.StartRecording();
+
+   public List<TNote> All() => _monitor.Locked(() => _lookupRecorder.LookedUp([.. _byId.Values]));
+
+   public TNote? WithIdOrNone(NoteId noteId) => _monitor.Locked(() => _lookupRecorder.LookedUp(WithIdOrNoneCore(noteId)));
    protected TNote? WithIdOrNoneCore(NoteId noteId) => _byId.GetValueOrDefault(noteId);
+
+   /// <summary>The notes <paramref name="index"/> holds under <paramref name="key"/>: a lookup, recorded if a <see cref="LookupRecording{TNote}"/> runs.</summary>
+   protected List<TNote> LookUp(Dictionary<string, HashSet<TNote>> index, string key) =>
+      _monitor.Locked(() => _lookupRecorder.LookedUp(index.TryGetValue(key, out var notes) ? [.. notes] : []));
 
    /// <summary>Look up a note by its external long ID (uses the shared ExternalNoteIdMap).</summary>
    public TNote? WithExternalIdOrNone(long externalNoteId) =>
@@ -112,11 +127,10 @@ abstract class NoteCacheBase<TNote>(NoteServices noteServices) : IExternalNoteUp
          foreach(var (externalId, statuses) in statusesByExternalId)
          {
             var note = WithExternalIdOrNoneCore(externalId);
-            if(note != null)
-            {
-               foreach(var status in statuses)
-                  note.SetStudyingStatus(status);
-            }
+            if(note == null) continue;
+
+            foreach(var status in statuses)
+               note.SetStudyingStatus(status);
          }
       });
    }
@@ -129,9 +143,7 @@ abstract class NoteCache<TNote, TSnapshot>(NoteServices noteServices) : NoteCach
    readonly Dictionary<string, HashSet<TNote>> _byQuestion = new();
    readonly Dictionary<NoteId, TSnapshot> _snapshotById = new();
 
-   public List<TNote> All() => _monitor.Locked(() => _byId.Values.ToList());
-
-   public List<TNote> WithQuestion(string question) => _monitor.Locked(() => _byQuestion.TryGetValue(question, out var notes) ? notes.ToList() : []);
+   public List<TNote> WithQuestion(string question) => LookUp(_byQuestion, question);
 
    protected abstract TSnapshot CreateSnapshot(TNote note);
    protected abstract void InheritorRemoveFromCache(TNote note, TSnapshot snapshot);

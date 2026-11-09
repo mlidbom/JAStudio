@@ -1,0 +1,80 @@
+{
+  "question": {
+    "text": "いる",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<ja>居る</ja> to: be/exist/live | reside/stay\n<ja>要る</ja> to-be: needed/necessary/wanted",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いる"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "intransitive",
+    "verb"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomitan_audio_2025-02-21-17-46-52-720.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "要る",
+      "isOwned": false
+    },
+    {
+      "text": "居る",
+      "isOwned": false
+    },
+    {
+      "text": "癒る",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 4870,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "あります",
+      "います",
+      "おります",
+      "おる"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>要る</ja></tag>:: to-be: needed/wanted\n<tag><ja>居る</ja></tag>:: to:{be-(of-animate-objects)/exist} | to:stay | to{?}{be-...-ing/have-been-...-ing}\n<tag><ja>癒る</ja></tag>:: to: calm-down",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "8211800d-5642-41a5-b7e6-184e6d052d66",
+  "tags": [
+    "source::yomitan"
+  ]
+}

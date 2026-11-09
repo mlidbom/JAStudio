@@ -1,0 +1,66 @@
+{
+  "question": {
+    "text": "な",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{connective-<ja>だ</ja>}</tag>/<tag>{adjective}</tag>/<tag>{attributive-copula}</tag>\n<tag>int:</tag>listen!/hey!　... | <tag>s.end:</tag>right?/no? | you-know/see  | <tag>dictionary-form-verb-[]:</tag>don't-_! | <tag>masu-stem:</tag>_-!/do-_!",
+  "explanation": "",
+  "explanationLong": "The&nbsp;<i>na</i>&nbsp;な particle which creates&nbsp;<i>na</i>-adjectives is actually an&nbsp;<b>attributive copula</b>. The counterpart is&nbsp;<i>da</i>&nbsp;だ, which is the&nbsp;<b>predicative copula</b>.",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "な"
+  ],
+  "partsOfSpeech": [
+    "interjection",
+    "particle"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:yomichan_audio_な_な_2023-07-22-11-23-07.mp3]",
+  "audioG": "",
+  "audioTTS": "",
+  "forms": [],
+  "sentenceCount": 5526,
+  "technicalNotes": "",
+  "references": "Cure Dolly {&nbsp;<a href=\"https://youtu.be/lYvIOi8Q3I8?t=334\">な is connective だ</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=zayeW4AQ0Is&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=85\">Commands: て, なさい, な</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=iyVZlaEqU24\">Japanese \"Adjectives\"</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">Sentence ender particles</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=GB8fWjQuz9A&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=40\">na vs no, naru &amp; taru adjectives</a>&nbsp;}&nbsp;<a href=\"https://www.japanesewithanime.com/2019/05/na-particle.html?m=1\">な Particle | Japanese with Anime</a>",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "だ",
+    "perfectSynonyms": [],
+    "synonyms": [
+      "な:s.start"
+    ],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": [
+      "なあ"
+    ]
+  },
+  "sourceData": {
+    "answer": "don't | do | hey/listen/you | now,-.../well,-.../I-tell-you!/you-know | wow/ooh",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "89b0d902-b2dd-4f1f-a0dc-4f6565616c64",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "question": {
+    "text": "要る",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "to-be: needed/necessary/wanted",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "いる"
+  ],
+  "partsOfSpeech": [
+    "godan verb",
+    "intransitive"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:要る_b.mp3]",
+  "audioG": "[sound:要る_g.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いる",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 24,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "to-be: needed/wanted",
+    "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>need</kanji> and the verb vocab version is <vocabulary>to need</vocabulary>.\n\nThis one's a little tricky, because although it's usually translated as \"to need\" in English, it's used more like <vocabulary>to be needed</vocabulary> or <vocabulary>to be necessary</vocabulary>. That is, it's an intransitive verb in Japanese, so it doesn't take a direct object.",
+    "readingMnemonic": "Since the reading isn't like the one you learned, think about what you are going <vocabulary>to need</vocabulary>... like, what you're really going to need, more than anything. Then, think of an <reading>ea</reading>gle, because you really need an eagle. You'll need to come up with the reason why you need an eagle though, so hopefully it's a good one."
+  },
+  "id": "e8c67c58-f1e1-4503-9f68-a85dd2687aa7",
+  "tags": [
+    "legacy_scheduling",
+    "source::wani::level::09"
+  ]
+}

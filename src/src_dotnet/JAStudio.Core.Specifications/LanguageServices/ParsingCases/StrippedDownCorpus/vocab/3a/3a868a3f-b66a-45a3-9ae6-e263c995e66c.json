@@ -1,0 +1,68 @@
+{
+  "question": {
+    "text": "まし",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "<tag>{polite-imperative}</tag>/please | <tag>{increased-politeness-marker}</tag>\n<tag><ja>マシ</ja>:</tag> better/preferable | <tag>suff:</tag>more/extra | <tag>arch:</tag>increase/growth",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [],
+    "alternative": []
+  },
+  "readings": [
+    "まし"
+  ],
+  "partsOfSpeech": [
+    "auxiliary",
+    "suffix"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "",
+  "audioG": "",
+  "audioTTS": "[sound:hypertts-66fdb03c410fadf0f8e230f0b8be97c3e915b42e03dc892480300fdc.mp3]",
+  "forms": [
+    {
+      "text": "ませ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 11,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [
+        "ん"
+      ],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "<tag><ja>増し</ja></tag>:: better/preferable/less-objectionable/least-worst | more/increase/extra | increase/growth\n<read>ませ</read>|<read>まし</read>:: please | used-to-increase-the-politeness-of-a-greeting",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "3a868a3f-b66a-45a3-9ae6-e263c995e66c",
+  "tags": [
+    "-::vocab::matching::uses::suffix-is-not"
+  ]
+}

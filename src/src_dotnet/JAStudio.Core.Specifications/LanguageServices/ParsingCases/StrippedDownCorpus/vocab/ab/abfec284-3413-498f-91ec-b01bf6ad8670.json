@@ -1,0 +1,69 @@
+{
+  "question": {
+    "text": "いらっしゃいませ",
+    "disambiguation": ""
+  },
+  "corpusAnswer": "welcome/come-on-in",
+  "explanation": "",
+  "explanationLong": "",
+  "mnemonic": "",
+  "compoundParts": {
+    "primary": [
+      "いらっしゃる",
+      "ませ"
+    ],
+    "alternative": []
+  },
+  "readings": [
+    "いらっしゃいませ"
+  ],
+  "partsOfSpeech": [
+    "expression"
+  ],
+  "register": [],
+  "usuallyWrittenInKana": true,
+  "audioB": "[sound:1600442010000.mp3]",
+  "audioG": "[sound:ny3-nodup_09_0.17.10.600-0.17.12.790.mp3]",
+  "audioTTS": "",
+  "forms": [
+    {
+      "text": "いらしゃいませ",
+      "isOwned": false
+    }
+  ],
+  "sentenceCount": 7,
+  "technicalNotes": "",
+  "references": "",
+  "image": "",
+  "userImage": "",
+  "matching": {
+    "requiredOrForbidden": {},
+    "flags": [],
+    "rules": {
+      "prefixIsNot": [],
+      "suffixIsNot": [],
+      "surfaceIsNot": [],
+      "yieldToSurface": [],
+      "requiredPrefix": []
+    }
+  },
+  "relatedVocab": {
+    "ergativeTwin": "",
+    "derivedFrom": "",
+    "perfectSynonyms": [],
+    "synonyms": [],
+    "antonyms": [],
+    "confusedWith": [],
+    "seeAlso": []
+  },
+  "sourceData": {
+    "answer": "welcome",
+    "mnemonic": "",
+    "readingMnemonic": ""
+  },
+  "id": "abfec284-3413-498f-91ec-b01bf6ad8670",
+  "tags": [
+    "legacy_scheduling",
+    "source::yomitan"
+  ]
+}
