@@ -10,12 +10,12 @@
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
   },
-  "_comment_hooks": "Fail loudly if the .claude-shared symlinks degraded to plain text files (a checkout without core.symlinks / Windows Developer Mode). The verifier lives in the shared catalog; see .claude-shared/README.md.",
+  "_comment_hooks": "Fail loudly if the .claude-shared submodule is not initialized, or the .claude/ symlinks into it are broken (e.g. a checkout without core.symlinks / Windows Developer Mode). The hook is this repo's copy of the catalog's copy-into-consuming-repository hook; see .claude-shared/README.md.",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude-shared/git-scripts/verify-claude-symlinks.sessionstart-hook.sh\"" }
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/verify-shared-claude-config.sessionstart-hook.sh\"" }
         ]
       }
     ]
