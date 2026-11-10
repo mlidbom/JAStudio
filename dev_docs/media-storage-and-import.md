@@ -95,6 +95,11 @@ files is to become a corpus-validity check (`corpus-validity.md`, "Missing media
 - **Access gating:** offering a commercial source's media only to someone entitled to it.
 - **Source-revealing tags:** a sentence's `source::…` tags reveal where it comes from. Moving them out of the corpus
   is deferred.
+- **The corpus repository's history still holds media that isn't ours.** The repository is public, and the files that
+  left `free/` on 2026-11-10 because they aren't proven ours (`corpus-data-model.md`, "Whether a file is ours") are in
+  its history, as are the Forvo files moved on 2026-11-10. Considered for later (Magnus, 2026-11-10): once JAStudio can
+  commit, which makes working with separate media submodules easier, all media in submodules and the corpus
+  repository's history rewritten. Far off: no one but Magnus knows the corpus exists, let alone uses it.
 
 ## Specifications
 
