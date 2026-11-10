@@ -101,8 +101,12 @@ def tags_add_to_notes(note_ids: list[int], tag: str) -> None:
 
 # noinspection PyUnusedFunction
 def tags_remove_from_notes(note_ids: list[int], tag: str) -> None:
+    """Removes exactly the tag from the notes, ignoring case as Anki does, and leaves the tags below it, as JAStudio removes a note's own tag.
+    Anki's bulk_remove would remove those too, so this is Anki's find and replace of the whole tag with nothing."""
+    import re
+
     from jastudio.ankiutils import app
-    _tell_anki_of_jastudios_own_operation(app.anki_collection().tags.bulk_remove([NoteId(note_id) for note_id in note_ids], tag))
+    _tell_anki_of_jastudios_own_operation(app.anki_collection().tags.find_and_replace([NoteId(note_id) for note_id in note_ids], f"^{re.escape(tag)}$", "", regex=True, match_case=False))
 
 # noinspection PyUnusedFunction
 def tags_rename(path: str, renamed_path: str) -> None:

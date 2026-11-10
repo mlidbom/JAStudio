@@ -79,7 +79,9 @@ not necessarily in how:
     on JAStudio's study-notes (Magnus, 2026-11-10). So the rename dialog and the delete confirmation count Anki notes,
     as Anki's search for the tag finds them, and say that Anki's undo undoes it.
   - **Adding and removing work on the selected notes' study-notes.** A note with no study-note can't have an Anki tag, so
-    adding one leaves it out.
+    adding one leaves it out. Removing takes exactly the tag, as for a note's own tags, and leaves the tags below it,
+    unlike Anki's own Remove Tags (Magnus, 2026-11-10: "definitely safest", to revisit if removing the tags below one by
+    one becomes cumbersome).
   - **`anki` itself is never a tag, nor renamed or deleted** (`Tags.Anki.WhyTheBranchItselfIsNeverChanged`), and **no tag
     moves into or out of the branch** (`Tags.Anki.WhyNoTagMovesIntoOrOutOfIt`): the two sets are stored apart.
   - **The priority tags' branch, `anki::-::priority`, keeps its name,** as does the branch above it: JAStudio finds the

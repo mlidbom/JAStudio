@@ -12,7 +12,10 @@ public interface IAnkiTagOperations
    /// <summary>Adds the tag <paramref name="tagInAnki"/> to the study-note of each of <paramref name="notes"/>, each of which has one.</summary>
    void AddTheTagToTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki);
 
-   /// <summary>Removes the tag <paramref name="tagInAnki"/> from the study-note of each of <paramref name="notes"/>, each of which has one.</summary>
+   /// <summary>
+   /// Removes exactly the tag <paramref name="tagInAnki"/> from the study-note of each of <paramref name="notes"/>, each of which has one: the tags<br/>
+   /// below it stay, unlike with Anki's own Remove Tags, which removes them too.
+   /// </summary>
    void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki);
 
    /// <summary>Renames the tag <paramref name="pathInAnki"/>, and every tag below it, to <paramref name="renamedPathInAnki"/> on every Anki note, as Anki's own rename does.</summary>

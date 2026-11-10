@@ -727,16 +727,18 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     the most intuitive and simple for me. If in doubt, I have to check in anki, but I don't end up with strange
     in-between results and having to do the work twice". Anki's `col.tags.rename(old, new)` and `col.tags.remove(tags)`
     do it, children included, each one call to Anki's backend; adding and removing a tag on given notes are
-    `bulk_add` and `bulk_remove`. They run as Anki operations, so Anki's undo covers them, and the headless JAStudio
-    refuses them. The `anki` branch itself is still never renamed or deleted.
+    `bulk_add` and `bulk_remove`, though `bulk_remove` takes the tags below the tag too (see "Built" below). They run as
+    Anki operations, so Anki's undo covers them, and the headless JAStudio refuses them. The `anki` branch itself is still never renamed or deleted.
   - **What that means for the cleanup drive:** 793 Anki notes of other note types, such as Jo Mako's grammar notes, have
     tags too (counted 2026-11-10 on a copy of the collection): `source::jo-mako-grammar` (370), `legacy_scheduling`
     (202), `source::grammar` (181), `-::priority` (2) and `source::jlab` (2). Deleting `anki::source` would strip theirs,
     so the cleanup deletes the branches below `source` that are JAStudio's, unless Magnus decides otherwise then. Anki
     keeps a tag in its tag list until `clear_unused_tags` (what Check Database does) drops it: run it after the cleanup.
   - *Built 2026-11-10:* `AnkiTagChanges` makes each change through `IAnkiTagOperations`, which `AnkiTagOperations`
-    implements with Anki's `bulk_add`, `bulk_remove`, `rename` and `remove`, each announced to Anki's windows as Anki
-    announces an operation (`on_op_finished`), so its undo menu and browser follow it. Then JAStudio reads the
+    implements with Anki's `bulk_add`, `find_and_replace` (removing exactly the tag: Anki's `bulk_remove` removes the tags
+    below it too, and Magnus chose on 2026-11-10 that removing a tag works as for a note's own tags, "definitely safest"),
+    `rename` and `remove`, each announced to Anki's windows as Anki announces an operation (`on_op_finished`), so its undo
+    menu and browser follow it. Then JAStudio reads the
     study-notes again itself, and the hook leaves out that operation (`JASTUDIOS_OWN_OPERATION`). Every place that
     edits tags handles both kinds: the note's tags editor, Ctrl+T and Ctrl+Shift+T on a tab, the tag picker, the
     selection's Add and Remove a tag (`BulkNoteChanges`), the tag tree's Rename and Delete, and the MCP server's

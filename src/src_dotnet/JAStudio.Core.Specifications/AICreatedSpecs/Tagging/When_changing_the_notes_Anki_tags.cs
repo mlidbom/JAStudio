@@ -62,6 +62,15 @@ public class When_changing_the_notes_Anki_tags : SpecificationStartingWithAnEmpt
       [XF] public void it_shows_only_its_other_Anki_tags() => NamesOf(GoingHome.AnkiTags).Must().SequenceEqual(["anki::tmp::a", "anki::tmp::a::b"]);
    }
 
+   /// <summary>Removing a tag removes exactly that tag, as for a note's own tags, not the branch, as Anki's own Remove Tags would (Magnus, 2026-11-10).</summary>
+   public class removing_anki_tmp_a_from_the_sentence_going_home : When_changing_the_notes_Anki_tags
+   {
+      public removing_anki_tmp_a_from_the_sentence_going_home() => AnkiTagChanges.RemoveFrom([GoingHome], Tags.Anki.For("tmp::a"));
+
+      [XF] public void its_study_note_keeps_the_tag_below_it_in_Anki() => Anki.TagsOf(GoingHome).Must().SequenceEqual(["marked", "tmp::a::b"]);
+      [XF] public void it_shows_the_tag_below_it() => NamesOf(GoingHome.AnkiTags).Must().SequenceEqual(["anki::marked", "anki::tmp::a::b"]);
+   }
+
    public class renaming_anki_tmp_to_anki_scratch : When_changing_the_notes_Anki_tags
    {
       public renaming_anki_tmp_to_anki_scratch()
