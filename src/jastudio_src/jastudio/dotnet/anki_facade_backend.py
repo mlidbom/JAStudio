@@ -1,8 +1,8 @@
 """
-Backend for JAStudio.Core.Anki.AnkiFacade - handles Qt thread marshaling.
+Backend for JAStudio.Anki.AnkiFacade: the Python side of each call .NET makes into Anki.
 
-All functions in this module ensure they execute on the Qt main thread,
-making them safe to call from any .NET thread (including the Avalonia UI thread).
+The functions that drive Anki's windows, such as its browser, run their work on the Qt main thread themselves, so they're safe to call from any .NET
+thread, the Avalonia UI thread included. The others call Anki's collection on the calling thread, which Anki's backend allows from any thread.
 """
 from __future__ import annotations
 
