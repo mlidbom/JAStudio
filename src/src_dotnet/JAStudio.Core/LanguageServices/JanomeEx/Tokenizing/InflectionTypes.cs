@@ -1,6 +1,7 @@
 #pragma warning disable IDE0051 //unused members
 
 using System.Collections.Generic;
+using System.Linq;
 using Compze.Internals.Logging;
 
 // ReSharper disable UnusedMember.Global
@@ -11,15 +12,16 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 public class InflectionType
 {
-   public string Base { get; }
+   /// <summary>The family the type is in, the part of its name before ・, such as 五段 for 五段・ラ行, or its whole name when it has no ・.</summary>
+   public string Family { get; }
    public string Name { get; }
    public string Description { get; }
 
-   public InflectionType(string name, string description, string baseValue)
+   public InflectionType(string name, string description, string family)
    {
       Name = name;
       Description = description;
-      Base = baseValue;
+      Family = family;
    }
 
    public override string ToString() => $"{Name} - {Description}";
@@ -53,19 +55,25 @@ public static class InflectionTypes
    static InflectionType AddForm(string name, string description)
    {
       var parts = name.Split('・');
-      var baseValue = parts[0];
-      var form = new InflectionType(name, description, baseValue);
+      var family = parts[0];
+      var form = new InflectionType(name, description, family);
       AllDict[name] = form;
       return form;
    }
 
    public static InflectionType GetByName(string name) => AllDict[name];
 
+   /// <summary>Whether <paramref name="name"/> is the name of an inflection type the tokenizer gives, such as 五段・ラ行.</summary>
+   public static bool IsKnown(string name) => AllDict.ContainsKey(name);
+
+   /// <summary>Whether <paramref name="family"/> is the family of one or more inflection types, the part of their names before ・, such as 五段 for 五段・ラ行.</summary>
+   public static bool IsKnownFamily(string family) => AllDict.Values.Any(it => it.Family == family);
+
    public static readonly InflectionType Unknown = AddForm("*", "Unknown");
 
    public static class Godan
    {
-      public const string Base = "五段";
+      public const string Family = "五段";
       public static readonly InflectionType Su = AddForm("五段・サ行", "Godan verb with 'su' ending");
       public static readonly InflectionType Mu = AddForm("五段・マ行", "Godan verb with 'mu' ending");
       public static readonly InflectionType Bu = AddForm("五段・バ行", "Godan verb with 'bu' ending");
@@ -96,7 +104,7 @@ public static class InflectionTypes
 
    public static class Ichidan
    {
-      public const string Base = "一段";
+      public const string Family = "一段";
       public static readonly InflectionType Regular = AddForm("一段", "Ichidan verb");
       public static readonly InflectionType Eru = AddForm("一段・得ル", "Ichidan verb 'eru'");
       public static readonly InflectionType Kureru = AddForm("一段・クレル", "Ichidan verb 'kureru'");
@@ -104,7 +112,7 @@ public static class InflectionTypes
 
    public static class Adjective
    {
-      public const string Base = "形容詞";
+      public const string Family = "形容詞";
       public static readonly InflectionType IEnding = AddForm("形容詞・イ段", "I-adjective");
       public static readonly InflectionType AuoEnding = AddForm("形容詞・アウオ段", "Adjective with 'a', 'u', 'o' row");
       public static readonly InflectionType Ii = AddForm("形容詞・イイ", "Adjective 'いい'");
@@ -112,7 +120,7 @@ public static class InflectionTypes
 
    public static class Sahen
    {
-      public const string Base = "サ変";
+      public const string Family = "サ変";
       public static readonly InflectionType Suru = AddForm("サ変・スル", "Suru verb");
       public static readonly InflectionType SuruCompound = AddForm("サ変・－スル", "Suru compound verb");
       public static readonly InflectionType Zuru = AddForm("サ変・－ズル", "Zuru verb - Classical variation of suru");
@@ -120,14 +128,14 @@ public static class InflectionTypes
 
    public static class Kahen
    {
-      public const string Base = "カ変";
+      public const string Family = "カ変";
       public static readonly InflectionType KuruKanji = AddForm("カ変・来ル", "Kuru verb in kanji");
       public static readonly InflectionType KuruKana = AddForm("カ変・クル", "Kuru verb in kana");
    }
 
    public static class Bungo
    {
-      public const string Base = "文語";
+      public const string Family = "文語";
       public static readonly InflectionType Nari = AddForm("文語・ナリ", "Classical 'nari' - Classical Japanese copula");
       public static readonly InflectionType Ru = AddForm("文語・ル", "Classical 'ru' ending - Classical verb ending");
 
@@ -148,7 +156,7 @@ public static class InflectionTypes
 
    public static class Special
    {
-      public const string Base = "特殊";
+      public const string Family = "特殊";
       public static readonly InflectionType Masu = AddForm("特殊・マス", "Special 'masu'");
       public static readonly InflectionType Ya = AddForm("特殊・ヤ", "Special 'ya' - Dialectal copula/question marker");
       public static readonly InflectionType Ja = AddForm("特殊・ジャ", "Special 'ja' - Dialectal copula");
@@ -162,20 +170,20 @@ public static class InflectionTypes
 
    public static class Yodan
    {
-      public const string Base = "四段";
+      public const string Family = "四段";
       public static readonly InflectionType HaEnding = AddForm("四段・ハ行", "Classical yodan verb with 'ha' ending");
       public static readonly InflectionType BaEnding = AddForm("四段・バ行", "Classical yodan verb with 'ba' ending");
    }
 
    public static class Ruhen
    {
-      public const string Base = "ラ変";
+      public const string Family = "ラ変";
       public static readonly InflectionType RaHen = AddForm("ラ変", "Classical ra-hen irregular verb");
    }
 
    public static class Nidan
    {
-      public const string Base = "下二";
+      public const string Family = "下二";
       public static readonly InflectionType LowerDa = AddForm("下二・ダ行", "Lower bigrade with 'da' ending");
       public static readonly InflectionType LowerTa = AddForm("下二・タ行", "Lower bigrade with 'ta' ending");
    }

@@ -116,18 +116,18 @@ public class JNToken : IAnalysisToken
 
    public bool IsAdjective => JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech);
 
-   public override bool IsIchidanVerb => InflectionType.Base == InflectionTypes.Ichidan.Base;
+   public override bool IsIchidanVerb => InflectionType.Family == InflectionTypes.Ichidan.Family;
 
    static readonly HashSet<string> ActuallySuruVerbsNotGodan = ["する", "為る"];
 
    public override bool IsGodanVerb =>
-      InflectionType.Base == InflectionTypes.Godan.Base &&
+      InflectionType.Family == InflectionTypes.Godan.Family &&
       !ActuallySuruVerbsNotGodan.Contains(BaseForm);
 
-   public bool IsKuruVerb => InflectionType.Base == InflectionTypes.Kahen.Base;
+   public bool IsKuruVerb => InflectionType.Family == InflectionTypes.Kahen.Family;
 
    public bool IsSuruVerb =>
-      InflectionType.Base == InflectionTypes.Sahen.Base ||
+      InflectionType.Family == InflectionTypes.Sahen.Family ||
       ActuallySuruVerbsNotGodan.Contains(BaseForm);
 
    public bool IsDictionaryForm() => Equals(InflectedForm, InflectionForms.Basic.DictionaryForm);

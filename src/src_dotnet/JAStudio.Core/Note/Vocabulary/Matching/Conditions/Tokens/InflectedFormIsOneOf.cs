@@ -1,0 +1,50 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Nodes;
+using Compze.Contracts;
+using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
+
+namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
+
+/// <summary>
+/// A condition that a token's inflected form, as the tokenizer gives it, is one of <see cref="Names"/>, such as 連用タ接続, the continuative form before<br/>
+/// た. Made by <see cref="TokenConditions.InflectedFormIsOneOf"/>.
+/// </summary>
+/// <remarks>
+/// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the inflected form of the token it was split from<br/>
+/// (<see cref="IAnalysisToken.SourceToken"/>).
+/// </remarks>
+public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
+{
+   //review:matching: "inflected form", after JNToken.InflectedForm, whose type is InflectionForm: two names for one concept. The value,
+   //   such as 連用タ接続, is a kind of form, not the inflected word itself, so "inflection form" tells the truth better. Not renamed yet,
+   //   since the question beside InflectionTypeIsOneOf, inflection or conjugation, may rename it again: one rename for both, across the
+   //   tokenizer, the MCP's AnalyzedToken and this model.
+
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When a name isn't one of the tokenizer's inflected forms.</exception>
+   internal InflectedFormIsOneOf(TextSet names)
+   {
+      Names = names;
+      var unknownNames = names.Texts.Where(it => !InflectionForms.IsKnown(it)).ToList();
+      Contract.Argument.Assert(unknownNames.Count == 0, () => $"The tokenizer has no inflected forms named {string.Join(", ", unknownNames)}.");
+   }
+
+   /// <summary>The inflected forms' names, in Japanese, as the tokenizer gives them, such as 連用タ接続.</summary>
+   public TextSet Names { get; }
+
+   public override bool IsMetBy(IAnalysisToken subject) => Names.Texts.Contains(subject.SourceToken.InflectedForm.Name);
+
+   /// <summary>The condition with each form's description, such as "inflected form is one of 連用タ接続 (Continuative ta-connection)".</summary>
+   public override IEnumerable<string> DescriptionLines()
+   {
+      return [$"inflected form is one of {string.Join(", ", Names.Texts.Select(Described))}"];
+
+      static string Described(string name) => $"{name} ({InflectionForms.GetByName(name).Description})";
+   }
+
+   /// <summary>The key this condition is stored under in the corpus.</summary>
+   internal const string JsonKey = "inflectedFormIsOneOf";
+
+   internal override JsonObject ToJson() => new() { [JsonKey] = Names.ToJson() };
+}

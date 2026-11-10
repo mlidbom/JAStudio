@@ -648,6 +648,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
 ### Increments
 
 1. **The model:** the three levels, the condition-subject nodes, JSON and descriptions, with specs. Nothing uses it yet.
+   *Built 2026-11-10, waiting for Magnus's pass over its names and design.* See
+   [Increment 1, as built](#increment-1-as-built).
 2. **Testing matches with it, from today's storage:**
    - the match-condition built in memory from today's rules;
    - `VocabMatch` testing it;
@@ -664,6 +666,63 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
 
 After the core: the yardstick, rules-for-many-vocab, conditions on display, and vocab given conditions that use the new
 power.
+
+### Increment 1, as built
+
+The code is in `JAStudio.Core/Note/Vocabulary/Matching/Conditions/`, with specs in
+`JAStudio.Core.Specifications/AICreatedSpecs/Matching/`. The specs test the conditions on words of real sentences, as
+JAStudio's analysis finds them. The names are mine until Magnus's pass at the end of the work (see
+[Naming and design questions: `review:matching:` comments](#naming-and-design-questions-reviewmatching-comments)).
+
+**The model:**
+- **One tree for three subjects.** `Condition<TSubject>` is a condition on a word (`CandidateWordVariant`), a token
+  (`IAnalysisToken`) or a text (`string`). `ConditionGroup` makes "all of", "any of" and "not" on any of them.
+- **A `Fact<TSubject>`** is a yes-or-no condition defined once, such as `TokenConditions.IsAGodanVerb`.
+- **A `ConditionSubject<TFrom, TSubject>`** is a subject found from another, such as `WordConditions.PrecedingToken` or
+  `TokenConditions.Surface`. Its `Meets` makes a `SubjectCondition`.
+- **`ConditionLevel<TSubject>`** knows a level's conditions and reads them back from JSON. `MatchConditionJson` reads and
+  writes a whole match-condition.
+- **`WordConditions`, `TokenConditions` and `TextConditions`** hold each level's facts, subjects and factory methods. In
+  code, a match-condition reads like the tree:
+
+  ```csharp
+  ConditionGroup.AllOf(
+     PrecedingToken.Meets(TokenConditions.IsInAnIrrealisForm),
+     ConditionGroup.Not(PrecedingToken.Meets(TokenConditions.IsAnIchidanVerb)),
+     FollowingText.Meets(TextConditions.StartsWithOneOf("湧", "わ")))
+  ```
+
+**Decisions made while building it:**
+- **A split piece's tokenizer facts are those of the token it was split from:** its part of speech, inflection type,
+  inflected form and reading (open question 4). So the ending る of 食べる is a verb, in its dictionary form, read タベル.
+  JAStudio's own facts about it, such as being a dictionary-form verb's ending, are its own.
+- **An inflection type condition takes a type or a family.** 五段 is met by every godan type, 特殊 by every special one.
+  Most families aren't types themselves: of them, only 一段 and ラ変 are.
+- **A part of speech condition takes the levels from the top.** 名詞 is met by every noun, and 名詞・接尾 by every suffix
+  noun.
+- **Text comparisons take a set of texts, and compare ordinally.** The kinds are "is one of", "starts with one of",
+  "ends with one of" and "contains one of". A regular expression is case-sensitive.
+- **An empty group adds nothing, as in the note search.** So a group just added doesn't change what matches.
+- **What can't be made, can't be created.** That covers a part of speech, inflection type or inflected form the
+  tokenizer never gives, a comparison with no text or with an empty text, and an invalid regular expression.
+- **The texts around a word are as its tokens have them** (`CandidateWord.PrecedingText` and `FollowingText`): without a
+  `<wbr>` hint, and with the characters that confuse the tokenizer, such as `!`, as full-width spaces.
+- **No code is shared with the note search.** The tree is generic over its subject within matching. Whether the note
+  search's tree becomes `Condition<JPNote>` is still to be found out.
+
+**A name the model leaves behind: head and tail.** Today's rules and state tests use these for the token before and after a word, as in "Adverb (head)"
+and the `Head` and `Tail` folders. In linguistics a phrase's head is something else entirely. The model says preceding
+and following, and the old names go with today's rule types in increment 3.
+
+### Naming and design questions: `review:matching:` comments
+
+Magnus polishes the names and design at the end of the work, into a language that's intuitive to him and to everyone
+working on the corpus (Magnus, 2026-11-10). Waiting for him at each step would stall the work, so until then:
+- **I make the calls.** Where I'm confident a name is clearly better, I rename.
+- **Each question for that pass is a `//review:matching:` comment at the code it concerns:** a rename I made, a name I
+  doubt, a design call he may not share. The IDE lists them among the `review:` comments, and
+  `grep -rn "review:matching:" src` lists exactly this work's.
+- **What isn't tied to any code goes in this document,** as the open questions below.
 
 ## Open questions
 

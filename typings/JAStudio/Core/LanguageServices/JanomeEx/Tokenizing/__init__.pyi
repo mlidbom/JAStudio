@@ -1,5 +1,5 @@
 import typing, abc
-from System.Collections.Generic import HashSet_1, List_1
+from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1
 from JAStudio.Core.Note.Collection import VocabCollection
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 
@@ -65,6 +65,8 @@ class InflectionForms(abc.ABC):
     Unknown : InflectionForm
     @staticmethod
     def GetByName(name: str) -> InflectionForm: ...
+    @staticmethod
+    def IsKnown(name: str) -> bool: ...
 
     class Basic(abc.ABC):
         Classical : InflectionForm
@@ -119,11 +121,11 @@ class InflectionForms(abc.ABC):
 
 
 class InflectionType:
-    def __init__(self, name: str, description: str, baseValue: str) -> None: ...
-    @property
-    def Base(self) -> str: ...
+    def __init__(self, name: str, description: str, family: str) -> None: ...
     @property
     def Description(self) -> str: ...
+    @property
+    def Family(self) -> str: ...
     @property
     def Name(self) -> str: ...
     def Equals(self, obj: typing.Any) -> bool: ...
@@ -135,17 +137,21 @@ class InflectionTypes(abc.ABC):
     Unknown : InflectionType
     @staticmethod
     def GetByName(name: str) -> InflectionType: ...
+    @staticmethod
+    def IsKnown(name: str) -> bool: ...
+    @staticmethod
+    def IsKnownFamily(family: str) -> bool: ...
 
     class Adjective(abc.ABC):
         AuoEnding : InflectionType
-        Base : str
+        Family : str
         IEnding : InflectionType
         Ii : InflectionType
 
 
     class Bungo(abc.ABC):
-        Base : str
         Beshi : InflectionType
+        Family : str
         Gotoshi : InflectionType
         Keri : InflectionType
         Ki : InflectionType
@@ -155,8 +161,8 @@ class InflectionTypes(abc.ABC):
 
 
     class Godan(abc.ABC):
-        Base : str
         Bu : InflectionType
+        Family : str
         GuEnding : InflectionType
         KuGemination : InflectionType
         KuGeminationYuku : InflectionType
@@ -173,20 +179,20 @@ class InflectionTypes(abc.ABC):
 
 
     class Ichidan(abc.ABC):
-        Base : str
         Eru : InflectionType
+        Family : str
         Kureru : InflectionType
         Regular : InflectionType
 
 
     class Kahen(abc.ABC):
-        Base : str
+        Family : str
         KuruKana : InflectionType
         KuruKanji : InflectionType
 
 
     class Nidan(abc.ABC):
-        Base : str
+        Family : str
         LowerDa : InflectionType
         LowerTa : InflectionType
 
@@ -196,21 +202,21 @@ class InflectionTypes(abc.ABC):
 
 
     class Ruhen(abc.ABC):
-        Base : str
+        Family : str
         RaHen : InflectionType
 
 
     class Sahen(abc.ABC):
-        Base : str
+        Family : str
         Suru : InflectionType
         SuruCompound : InflectionType
         Zuru : InflectionType
 
 
     class Special(abc.ABC):
-        Base : str
         Da : InflectionType
         Desu : InflectionType
+        Family : str
         Ja : InflectionType
         Masu : InflectionType
         Nai : InflectionType
@@ -222,7 +228,7 @@ class InflectionTypes(abc.ABC):
 
     class Yodan(abc.ABC):
         BaEnding : InflectionType
-        Base : str
+        Family : str
         HaEnding : InflectionType
 
 
@@ -236,10 +242,17 @@ class JNPartsOfSpeech:
     def Level3(self) -> PartOfSpeechDescription: ...
     @property
     def Level4(self) -> PartOfSpeechDescription: ...
+    @property
+    def Levels(self) -> IReadOnlyList_1[PartOfSpeechDescription]: ...
+    @staticmethod
+    def AnyIsWithin(japaneseLevels: IReadOnlyList_1[str]) -> bool: ...
+    @staticmethod
+    def EnglishNameOf(japaneseLevel: str) -> str: ...
     @staticmethod
     def Fetch(unparsed: str) -> JNPartsOfSpeech: ...
     def IsNonWordCharacter(self) -> bool: ...
     def IsNoun(self) -> bool: ...
+    def IsWithin(self, japaneseLevels: IReadOnlyList_1[str]) -> bool: ...
     def ToString(self) -> str: ...
 
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 // ReSharper disable MemberHidesStaticFromOuterClass
 // ReSharper disable UnusedMember.Global
@@ -54,9 +55,25 @@ public class JNPartsOfSpeech
       Level2 = JapaneseToPartOfSpeech[level2];
       Level3 = JapaneseToPartOfSpeech[level3];
       Level4 = JapaneseToPartOfSpeech[level4];
+      Levels = [.. new[] { Level1, Level2, Level3, Level4 }.Where(it => it.Japanese != "*")];
    }
 
    public static JNPartsOfSpeech Fetch(string unparsed) => FullPartsOfSpeechDictionary[unparsed];
+
+   /// <summary>The levels this part of speech has, from the top, such as 名詞, 接尾 and 人名 for a suffix to a person's name: four at most, without the unused ones.</summary>
+   public IReadOnlyList<PartOfSpeechDescription> Levels { get; }
+
+   /// <summary>
+   /// Whether this part of speech is <paramref name="japaneseLevels"/>, or a kind of it: its first levels are those, from the top. 名詞 and 接尾 are every<br/>
+   /// kind of suffix noun, 名詞 alone every kind of noun.
+   /// </summary>
+   public bool IsWithin(IReadOnlyList<string> japaneseLevels) => Levels.Take(japaneseLevels.Count).Select(it => it.Japanese).SequenceEqual(japaneseLevels);
+
+   /// <summary>Whether any part of speech the tokenizer gives is <paramref name="japaneseLevels"/>, or a kind of it (<see cref="IsWithin"/>).</summary>
+   public static bool AnyIsWithin(IReadOnlyList<string> japaneseLevels) => FullPartsOfSpeechDictionary.Values.Any(it => it.IsWithin(japaneseLevels));
+
+   /// <summary>The English name of the part-of-speech level <paramref name="japaneseLevel"/>, such as "suffix" for 接尾.</summary>
+   public static string EnglishNameOf(string japaneseLevel) => JapaneseToPartOfSpeech[japaneseLevel].English;
 
    public bool IsNonWordCharacter() => Level1.Japanese == "記号";
    public bool IsNoun() => Level1.Japanese == "名詞";

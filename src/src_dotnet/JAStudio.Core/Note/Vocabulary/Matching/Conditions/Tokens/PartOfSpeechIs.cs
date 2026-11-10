@@ -1,0 +1,58 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Nodes;
+using Compze.Contracts;
+using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+
+namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
+
+/// <summary>
+/// A condition that a token's part of speech is <see cref="JapaneseLevels"/>, or a kind of it: the tokenizer's part of speech, IPADIC's, which has up<br/>
+/// to four levels, such as 名詞・接尾・人名 for a suffix to a person's name. 名詞・接尾 is met by every kind of suffix noun, 名詞 by every kind of noun.<br/>
+/// Made by <see cref="TokenConditions.PartOfSpeechIs"/>.
+/// </summary>
+/// <remarks>
+/// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the part of speech of the token it was split from<br/>
+/// (<see cref="IAnalysisToken.SourceToken"/>).
+/// </remarks>
+public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
+{
+   const string LevelSeparator = "・";
+   readonly IReadOnlyList<string> _levels;
+
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When no part of speech the tokenizer gives is, or is a kind of, <paramref name="japaneseLevels"/>.</exception>
+   internal PartOfSpeechIs(IReadOnlyList<string> japaneseLevels)
+   {
+      _levels = japaneseLevels;
+      JapaneseLevels = string.Join(LevelSeparator, japaneseLevels);
+      Contract.Argument.Assert(japaneseLevels.Count > 0 && JNPartsOfSpeech.AnyIsWithin(japaneseLevels),
+                               () => $"The tokenizer gives no part of speech that is, or is a kind of, {JapaneseLevels}.");
+   }
+
+   /// <param name="japaneseLevels">The levels joined by ・, as <see cref="JapaneseLevels"/> has them.</param>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">As the other constructor.</exception>
+   internal PartOfSpeechIs(string japaneseLevels) : this(japaneseLevels.Split(LevelSeparator)) {}
+
+   /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・接尾・人名.</summary>
+   public string JapaneseLevels { get; }
+
+   /// <summary>The part of speech's levels, from the top, in English, joined by ›, such as noun › suffix › person-name.</summary>
+   string EnglishLevels => string.Join(" › ", _levels.Select(JNPartsOfSpeech.EnglishNameOf));
+
+   public override bool IsMetBy(IAnalysisToken subject) =>
+      //review:matching: a piece JAStudio split off a token reads the token's part of speech, as it reads its inflection type, inflected form
+      //   and reading: so the ending る of 食べる is a verb. My call on the design document's open question 4.
+      subject.SourceToken.PartsOfSpeech.IsWithin(_levels);
+
+   /// <summary>The condition with the levels' English names, such as "part of speech is noun › suffix › person-name (名詞・接尾・人名)".</summary>
+   public override IEnumerable<string> DescriptionLines() => [$"part of speech is {EnglishLevels} ({JapaneseLevels})"];
+
+   /// <summary>The key this condition is stored under in the corpus.</summary>
+   internal const string JsonKey = "partOfSpeech";
+
+   internal override JsonObject ToJson() => new() { [JsonKey] = JapaneseLevels };
+
+   public bool Equals(PartOfSpeechIs? other) => other is not null && JapaneseLevels == other.JapaneseLevels;
+
+   public override int GetHashCode() => JapaneseLevels.GetHashCode();
+}

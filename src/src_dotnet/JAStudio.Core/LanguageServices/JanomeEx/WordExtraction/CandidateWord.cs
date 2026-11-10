@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
@@ -112,6 +113,15 @@ public sealed class CandidateWord
    public bool NextTokenIsInflectingWord => EndLocation.IsNextLocationInflectingWord();
    public bool IsInflectedWord => IsInflectableWord && NextTokenIsInflectingWord;
    public bool StartsWithNonWordCharacter => StartsWithNonWordToken || (SurfaceForm != "" && AnalysisConstants.NoiseCharacters.Contains(SurfaceForm[0]));
+
+   /// <summary>
+   /// The sentence's text before this word, from the sentence's start, as its tokens have it: without a <c>&lt;wbr&gt;</c> word-break hint, and with<br/>
+   /// the characters that confuse the tokenizer, such as <c>!</c>, as full-width spaces (<see cref="JNTokenizer"/>).
+   /// </summary>
+   public string PrecedingText => string.Concat(Analysis.Locations.Take(StartLocation.TokenIndex).Select(it => it.Token.Surface));
+
+   /// <summary>The sentence's text after this word, to the sentence's end, as its tokens have it, as <see cref="PrecedingText"/> is.</summary>
+   public string FollowingText => string.Concat(Analysis.Locations.Skip(EndLocation.TokenIndex + 1).Select(it => it.Token.Surface));
 
    public bool IsShadowed => ShadowedBy != "";
 

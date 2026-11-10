@@ -22,7 +22,7 @@ static class GodanImperativeSplitter
          return true;
       }
 
-      if(token.InflectionType.Base == InflectionTypes.Godan.Base &&
+      if(token.InflectionType.Family == InflectionTypes.Godan.Family &&
          Equals(token.InflectedForm, InflectionForms.Hypothetical.GeneralHypotheticalKateikei) &&
          token.IsEndOfStatement)
       {

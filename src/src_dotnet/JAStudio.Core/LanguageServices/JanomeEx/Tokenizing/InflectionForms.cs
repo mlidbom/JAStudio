@@ -47,6 +47,9 @@ public static class InflectionForms
 
    public static InflectionForm GetByName(string name) => AllDict[name];
 
+   /// <summary>Whether <paramref name="name"/> is the name of an inflected form the tokenizer gives, such as 連用タ接続.</summary>
+   public static bool IsKnown(string name) => AllDict.ContainsKey(name);
+
    public static readonly InflectionForm Unknown = AddForm("*", "Unknown");
 
    public static class Basic
