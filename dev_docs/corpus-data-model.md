@@ -1312,7 +1312,8 @@ most of what folders, tags and decks do in other programs. The source tree is th
 
 > **Where it stands (2026-11-10):** the slices of step 5 are done, but for 4c, source, which Magnus deferred, undecided
 > whether to do it at all. Steps 1 and 2 are deferred too. What's left of the model waits for the matching configuration's
-> redesign, as a tree like the note search's: the sentences' configuration naming a vocab `text:disambiguation`, the
+> redesign, as a tree like the note search's ([matching-configuration.md](matching-configuration.md), surveyed and
+> proposed 2026-11-10): the sentences' configuration naming a vocab `text:disambiguation`, the
 > `<wbr>` hints, and the parsing result named as a cache (see [Sentence](#sentence)). *(From 2026-11-09 the work was paused
 > until JAStudio had its MCP server ([jastudio-mcp.md](jastudio-mcp.md)), and slices 5, 8, 9 and 10 were done with it.)*
 
