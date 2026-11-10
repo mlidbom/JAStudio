@@ -23,6 +23,9 @@ public class Tag
 
    public string Name { get; }
 
+   /// <summary>Whether it's an Anki tag, below <c>anki::</c> (<see cref="Tags.Anki"/>): a tag of a note's study-note in Anki, not one of the note's own.</summary>
+   public bool IsAnAnkiTag => Tags.Anki.Branch.Contains(Name);
+
    /// <summary>
    /// The paths of the branches this tag is in, from the top level down, its own last: <c>source</c> and <c>source::anime</c> for <c>source::anime</c>.<br/>
    /// A note with this tag is in each of these branches.
@@ -46,12 +49,12 @@ public class Tag
    });
 
    /// <summary>
-   /// Why <paramref name="typedName"/>, typed by a person, can't be the name of a note's own tag, or null when it can: it isn't well formed<br/>
-   /// (<see cref="WhyItIsNotWellFormed"/>), or it's in the anki branch (<see cref="Tags.Anki"/>), which holds the notes' tags in Anki.
+   /// Why <paramref name="typedName"/>, typed by a person, can't be the name of a tag, of a note's own or, below <c>anki::</c>, of its study-note in Anki<br/>
+   /// (<see cref="Tags.Anki"/>), or null when it can: it isn't well formed (<see cref="WhyItIsNotWellFormed"/>), or it's <c>anki</c> itself.
    /// </summary>
    public static string? WhyItCannotBeTheNameOfATag(string typedName) =>
       WhyItIsNotWellFormed(typedName)
-      ?? (Tags.Anki.Branch.Contains(typedName) ? Tags.Anki.WhyItIsReadOnly : null);
+      ?? (new TagBranch(typedName).IsTheAnkiBranch ? Tags.Anki.WhyTheBranchItselfIsNeverChanged : null);
 
    /// <summary>
    /// Why <paramref name="typedText"/>, typed by a person as a tag's name or a level of one, isn't well formed, or null when it is:<br/>

@@ -699,7 +699,8 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   (priority, `legacy_scheduling`, `_only_studying_listening`, `active_kanji`, `preparing-cards`), and any tag of Anki's,
   such as `marked`: which tags are JAStudio's can't be told from whether the corpus still has them.
 - **Done (2026-11-10): JAStudio reads Anki's tags, below `anki::`** (Magnus's idea: "putting all the anki tags under
-  anki:: and otherwise treating them the same as other tags except them being readonly and in-memory only"). A note's
+  anki:: and otherwise treating them the same as other tags except them being readonly and in-memory only"; no longer
+  read only since 2026-11-10, see the next item). A note's
   Anki tags (`JPNote.AnkiTags`) are read with the studying statuses as the collection loads, held in memory, never stored
   and never changed in JAStudio; a change made in Anki shows at the next load. A person browses and searches them with
   the note's own tags (`JPNote.AllTags`): the search, the tag tree, the paths a search condition offers, the search
@@ -708,7 +709,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   until then the branch also mirrors the corpus-tags JAStudio wrote into Anki, such as `anki::source::…`, but the noise
   stays in one branch, and shows what the cleanup has to do. *Done 2026-11-10: a change to them in Anki during a session
   shows at once, see `tags.md`.*
-- **Decided, not built (Magnus, 2026-11-10): JAStudio changes Anki's tags too,** with the same features as for a note's
+- **Decided (Magnus, 2026-11-10), built 2026-11-10: JAStudio changes Anki's tags too,** with the same features as for a note's
   own tags (Magnus: "jastudio is the only place I have all the information to work effectively with them. So feature
   parity for working with anki tags would be quite nice"). They stay the student's, stored only in Anki: JAStudio writes
   a change to the study-note's tags in Anki.
@@ -724,6 +725,14 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     (202), `source::grammar` (181), `-::priority` (2) and `source::jlab` (2). Deleting `anki::source` would strip theirs,
     so the cleanup deletes the branches below `source` that are JAStudio's, unless Magnus decides otherwise then. Anki
     keeps a tag in its tag list until `clear_unused_tags` (what Check Database does) drops it: run it after the cleanup.
+  - *Built 2026-11-10:* `AnkiTagChanges` makes each change through `IAnkiTagOperations`, which `AnkiTagOperations`
+    implements with Anki's `bulk_add`, `bulk_remove`, `rename` and `remove`, each announced to Anki's windows as Anki
+    announces an operation (`on_op_finished`), so its undo menu and browser follow it. Then JAStudio reads the
+    study-notes again itself, and the hook leaves out that operation (`JASTUDIOS_OWN_OPERATION`). Every place that
+    edits tags handles both kinds: the note's tags editor, Ctrl+T and Ctrl+Shift+T on a tab, the tag picker, the
+    selection's Add and Remove a tag (`BulkNoteChanges`), the tag tree's Rename and Delete, and the MCP server's
+    `add_a_tag_to_the_notes_found` and `remove_a_tag_from_the_notes_found`. The rules are in `tags.md`, "Rules". The
+    priority tags' branch keeps its name, since JAStudio finds the priorities by it (`Tags.PriorityBranch`).
 - **Decided, not built (Magnus, 2026-11-10): JAStudio re-reads the Anki state, and only it, whenever Anki's may have
   changed.** The Anki state is all JAStudio takes from Anki, through `AnkiBackendDataLoader`: which Anki note is each
   note's study-note (the id mappings), the studying statuses of the study-notes' cards, and the study-notes' tags.
@@ -783,7 +792,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   2. A note's tab shows a change to its study-note (`StudyNoteChanged`) at once, as it does an update of the note: today
      it shows only when the tab opens again. *Done 2026-11-10: `NoteTabViewModel` follows `StudyNoteChanged`.*
   3. The re-read of the Anki state, above. *Done 2026-11-10.*
-  4. Changing Anki's tags in JAStudio, above.
+  4. Changing Anki's tags in JAStudio, above. *Done 2026-11-10.*
   5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`.
   6. The orphaned study-note of the deleted jamdict ましょうか: deleted in Anki's browser, or by a live MCP tool that deletes
      the study-notes whose note is gone.

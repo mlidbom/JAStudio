@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
@@ -18,7 +19,8 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs.Tagging;
 
 /// <summary>
 /// A note's Tags editor in the workspace's editor section shows every tag the note has, each a person manages with a button that removes it,<br/>
-/// asking first for a source tag, and adds a tag picked in a dialog. Ctrl+T and Ctrl+Shift+T do the same for the note on the shown tab.<br/>
+/// asking first for a source tag, and adds a tag picked in a dialog. Ctrl+T and Ctrl+Shift+T do the same for the note on the shown tab. An Anki tag,<br/>
+/// below <c>anki::</c>, is added to and removed from the note's study-note in Anki, here the pretend Anki of the specifications, in the background.<br/>
 /// The sentence is tagged <c>source::anime::natsume</c>, <c>-::counting</c> and the tag JAStudio maintains for its hidden matches, <c>-::sentence::uses::hidden-matches</c>.
 /// </summary>
 public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
@@ -130,5 +132,33 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       }
 
       [XF] public void the_editor_shows_the_tag_below_anki() => TagsShownInTheEditor().Must().Contain("anki::leech");
+      [XF] public void the_tag_below_anki_can_be_removed_by_hand() => TheTagShown("anki::leech").CanBeRemovedByHand.Must().BeTrue();
+
+      public class and_then_removing_it_with_its_button : after_its_study_note_is_tagged_in_Anki_and_the_study_notes_are_read_again
+      {
+         public and_then_removing_it_with_its_button()
+         {
+            _tagsEditor.Remove(TheTagShown("anki::leech"), _ => Task.FromResult(true));
+            WaitUntil(() => !TagsShownInTheEditor().Contains("anki::leech"));
+         }
+
+         [XF] public void its_study_note_no_longer_has_it_in_Anki() => GetService<PretendAnki>().TagsOf(_sentence).Must().BeEmpty();
+         [XF] public void the_editor_no_longer_shows_it() => TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, SourceTag]);
+      }
    }
+
+   public class after_adding_anki_flagged_to_the_note_on_the_shown_tab_as_ctrl_t_does : When_editing_a_notes_tags_in_the_workspace
+   {
+      public after_adding_anki_flagged_to_the_note_on_the_shown_tab_as_ctrl_t_does()
+      {
+         ShownTab().AddATagToTheShownNote(Picking("anki::flagged"));
+         WaitUntil(() => TagsShownInTheEditor().Contains("anki::flagged"));
+      }
+
+      [XF] public void its_study_note_has_it_in_Anki() => GetService<PretendAnki>().TagsOf(_sentence).Must().SequenceEqual(["flagged"]);
+      [XF] public void it_is_not_one_of_the_notes_own_tags() => _sentence.Tags.Any(it => it.IsAnAnkiTag).Must().BeFalse();
+   }
+
+   /// <summary>A change to an Anki tag is made in the background: waits until <paramref name="itIsMade"/> says it's shown.</summary>
+   static void WaitUntil(Func<bool> itIsMade) => SpinWait.SpinUntil(itIsMade, TimeSpan.FromSeconds(10)).Must().BeTrue();
 }

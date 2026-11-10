@@ -11,6 +11,7 @@ using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
@@ -52,6 +53,7 @@ public static class AppBootstrapper
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
          Singleton.For<JPCollection>().CreatedBy((IBackendNoteCreator backendNoteCreator, NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, IBackendDataLoader backendDataLoader) =>
                                                     new JPCollection(backendNoteCreator, noteServices, noteRepository, mediaFileIndex, mediaStorage, backendDataLoader)),
+         Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, IAnkiTagOperations anki) => new AnkiTagChanges(collection, anki)),
          Singleton.For<VocabCollection>().CreatedBy((JPCollection col) => col.Vocab),
          Singleton.For<KanjiCollection>().CreatedBy((JPCollection col) => col.Kanji),
          Singleton.For<SentenceCollection>().CreatedBy((JPCollection col) => col.Sentences),

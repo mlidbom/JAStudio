@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Compze.Contracts;
 
 namespace JAStudio.Core.Note.Tagging;
 
@@ -63,8 +64,9 @@ public static class Tags
 
    /// <summary>
    /// The anki branch, <c>anki::…</c>: a note's Anki tags (<see cref="AnkiTags"/>), the tags its study-note has in Anki, each below <c>anki::</c>,<br/>
-   /// such as <c>anki::marked</c>. They're the student's: read from Anki as the collection loads, held in memory only, and never changed in JAStudio.<br/>
-   /// So no tag of the note's own can be in the branch, and the branch is never renamed or deleted. See <c>dev_docs/tags.md</c>.
+   /// such as <c>anki::marked</c>. They're the student's, stored only in Anki: read from Anki as the collection loads and whenever Anki may have<br/>
+   /// changed them, and changed in Anki when a person changes them in JAStudio (<see cref="AnkiTagChanges"/>). So no tag of a note's own can be in<br/>
+   /// the branch, no tag moves into or out of it, and the branch itself is never renamed or deleted, nor a tag. See <c>dev_docs/tags.md</c>.
    /// </summary>
    public static class Anki
    {
@@ -76,12 +78,25 @@ public static class Tags
       /// <summary>The tag a note shows for the tag <paramref name="nameInAnki"/> of its study-note in Anki: <c>anki::marked</c> for <c>marked</c>.</summary>
       public static Tag For(string nameInAnki) => Tag.FromName(Folder + nameInAnki);
 
-      /// <summary>Why nothing in the anki branch can be added, removed, renamed or deleted in JAStudio.</summary>
-      public const string WhyItIsReadOnly = "The tags below anki:: are the notes' tags in Anki, which JAStudio only reads: change them in Anki.";
+      /// <summary>The name Anki has for <paramref name="path"/>, a tag or a tag path below <c>anki::</c>: <c>marked</c> for <c>anki::marked</c>. The reverse of <see cref="For"/>.</summary>
+      public static string NameInAnkiOf(string path)
+      {
+         Contract.Argument.Assert(new TagBranch(path) is { IsInTheAnkiBranch: true, IsTheAnkiBranch: false }, () => $"{path} isn't below {Folder}.");
+         return path[Folder.Length..];
+      }
+
+      /// <summary>Why the anki branch itself, <c>anki</c>, is never renamed or deleted, nor a tag.</summary>
+      public const string WhyTheBranchItselfIsNeverChanged = "anki holds the notes' tags in Anki, so it's never renamed or deleted, nor a tag itself.";
+
+      /// <summary>Why no tag is renamed into the anki branch, or out of it.</summary>
+      public const string WhyNoTagMovesIntoOrOutOfIt = "The tags below anki:: are the notes' tags in Anki, kept apart from the notes' own tags, so no tag moves between the two.";
    }
 
    /// <summary>The priority tags, which order a vocab's sentences (<see cref="JPNote.PriorityTagValue"/>): the student's, set in Anki, so they're Anki tags.</summary>
    public const string PriorityFolder = Anki.Folder + FRoot + "priority::"; // Keep as string for startswith() checks
+
+   /// <summary>The branch of the priority tags (<see cref="PriorityFolder"/>), <c>anki::-::priority</c>, whose name JAStudio finds them by, so it isn't renamed by hand.</summary>
+   public static TagBranch PriorityBranch => new(PriorityFolder[..^Tag.LevelSeparator.Length]);
 
    /// <summary>
    /// The source branch, <c>source::…</c>: where each note's content comes from, such as <c>source::wani::level::19</c> or <c>source::anime::natsume::s4::11</c>.<br/>

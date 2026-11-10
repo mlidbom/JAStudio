@@ -69,10 +69,13 @@ public class JPCollection
    public TagPathsInUse TagPathsInUse() => new(AllNotes());
 
    /// <summary>Every tag some note in the collection has, each once. Unlike <see cref="TagPathsInUse"/>, it has no parent paths that aren't tags themselves.</summary>
-   public IReadOnlyList<Tag> TagsInUse() => [..AllNotes().SelectMany(it => it.Tags).Distinct()];
+   public IReadOnlyList<Tag> TagsInUse() => [..AllNotes().SelectMany(it => it.AllTags).Distinct()];
 
-   /// <summary>The notes, of every type, with a tag in <paramref name="branch"/>, which renaming or deleting the branch changes.</summary>
-   public List<JPNote> NotesWithATagIn(TagBranch branch) => [..AllNotes().Where(note => note.Tags.Any(branch.Contains))];
+   /// <summary>
+   /// The notes, of every type, with a tag in <paramref name="branch"/>, which renaming or deleting the branch changes: of their own, or below <c>anki::</c>,<br/>
+   /// of their study-notes in Anki, where renaming or deleting changes every Anki note with one (<see cref="AnkiTagChanges"/>).
+   /// </summary>
+   public List<JPNote> NotesWithATagIn(TagBranch branch) => [..AllNotes().Where(note => note.AllTags.Any(branch.Contains))];
 
    /// <summary>The tag tree of the tags in the collection right now, with the number of notes in each branch, for browsing the tags.</summary>
    public TagTree TagTree() => new(AllNotes());

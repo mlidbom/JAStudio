@@ -38,8 +38,8 @@ public sealed class TagBranchRename
             return "Only the case differs, and tags ignore case, so the tag can't be renamed this way.";
          if(branch.Contains(renamedPath))
             return "A tag can't be moved below itself.";
-         if(Renamed.IsInTheAnkiBranch)
-            return Tags.Anki.WhyItIsReadOnly;
+         if(Renamed.IsInTheAnkiBranch != branch.IsInTheAnkiBranch)
+            return Tags.Anki.WhyNoTagMovesIntoOrOutOfIt;
          return tagNamesInTheBranch.Where(it => Tags.IsDefinedByJAStudio(RenamedName(it)))
                                    .Select(it => $"{it} would become {RenamedName(it)}, which JAStudio defines.")
                                    .FirstOrDefault();
@@ -75,10 +75,14 @@ public sealed class TagBranchRename
    /// </summary>
    public IReadOnlyList<string> TagsInUseItMergesWith { get; }
 
-   /// <summary>Renames the tags in <see cref="Branch"/> on <paramref name="note"/>, writing it once. Only when <see cref="WhyItCannotBeDone"/> is null.</summary>
+   /// <summary>
+   /// Renames the tags in <see cref="Branch"/>, a branch of the notes' own tags, on <paramref name="note"/>, writing it once. Only when <see cref="WhyItCannotBeDone"/><br/>
+   /// is null. A branch below <c>anki::</c> is renamed in Anki instead (<see cref="AnkiTagChanges.Rename"/>).
+   /// </summary>
    public void ApplyTo(JPNote note)
    {
       Contract.State.Assert(WhyItCannotBeDone is null, () => $"The rename of {Branch.Path} to {Renamed.Path} can't be done: {WhyItCannotBeDone}");
+      Contract.State.Assert(!Branch.IsInTheAnkiBranch, () => $"{Branch.Path} is a branch of Anki tags, renamed in Anki.");
       note.Tags.RenameTheBranch(Branch, Renamed);
    }
 

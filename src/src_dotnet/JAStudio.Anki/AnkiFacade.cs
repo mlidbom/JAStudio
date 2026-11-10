@@ -69,6 +69,28 @@ public static class AnkiFacade
    }
 
    /// <summary>The study-notes: the Anki notes of JAStudio's note types, which JAStudio writes from the corpus.</summary>
+   /// <summary>
+   /// Anki's tags, changed as Anki operations: Anki's Edit > Undo undoes each, and Anki is told of each as of any operation, so its windows show it.<br/>
+   /// The tags and paths are as Anki names them. Each call returns once Anki has made the change.
+   /// </summary>
+   internal static class Tags
+   {
+      /// <summary>Adds the tag <paramref name="tag"/> to the Anki notes <paramref name="ankiNoteIds"/>.</summary>
+      public static void AddToNotes(IReadOnlyList<long> ankiNoteIds, string tag) => Backend.Use(it => it.tags_add_to_notes(PythonDotNetShim.LongList.ToPython(ankiNoteIds), tag));
+
+      /// <summary>Removes the tag <paramref name="tag"/> from the Anki notes <paramref name="ankiNoteIds"/>.</summary>
+      public static void RemoveFromNotes(IReadOnlyList<long> ankiNoteIds, string tag) => Backend.Use(it => it.tags_remove_from_notes(PythonDotNetShim.LongList.ToPython(ankiNoteIds), tag));
+
+      /// <summary>Renames the tag <paramref name="path"/>, and every tag below it, to <paramref name="renamedPath"/> on every Anki note.</summary>
+      public static void Rename(string path, string renamedPath) => Backend.Use(it => it.tags_rename(path, renamedPath));
+
+      /// <summary>Removes the tag <paramref name="path"/>, and every tag below it, from every Anki note.</summary>
+      public static void Delete(string path) => Backend.Use(it => it.tags_delete(path));
+
+      /// <summary>How many Anki notes have the tag <paramref name="path"/> or a tag below it, as Anki's search for the tag finds them.</summary>
+      public static int NumberOfNotesWithATagIn(string path) => Backend.Use(it => (int)it.tags_number_of_notes_with_a_tag_in(path));
+   }
+
    internal static class StudyNotes
    {
       /// <summary>Writes <paramref name="note"/>'s study-note into the Anki note with the id <paramref name="ankiNoteId"/>, as JAStudio writes it whenever it updates the note.</summary>

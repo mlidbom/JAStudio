@@ -5,6 +5,7 @@ using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Storage;
 using JAStudio.Core.TestUtils;
@@ -27,6 +28,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<PretendAnki>().Instance(pretendAnki),
          Singleton.For<IBackendNoteCreator>().Instance(pretendAnki),
          Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
+         Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
          Singleton.For<IFatalErrorHandler>().Instance(new RethrowingFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new TestConfigDictSource()),

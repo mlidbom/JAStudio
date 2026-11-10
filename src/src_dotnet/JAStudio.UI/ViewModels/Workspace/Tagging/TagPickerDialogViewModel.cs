@@ -15,7 +15,10 @@ namespace JAStudio.UI.ViewModels.Workspace.Tagging;
 /// The small modal dialog that picks a tag to add to some notes, or to remove from them (<see cref="TagPickerDialog"/>), with a <see cref="TagPickerViewModel"/> inside.<br/>
 /// Its title says what will happen, such as "Add a tag to 312 notes". When the tag picked is a source tag, it warns that the notes' source changes.
 /// </summary>
-/// <remarks>Neither offers a tag JAStudio maintains, since such tags aren't added or removed by hand (<see cref="Tags.IsMaintainedByJAStudio"/>).</remarks>
+/// <remarks>
+/// Both offer the notes' Anki tags too (<see cref="Tags.Anki"/>), which go to their study-notes in Anki. Neither offers a tag JAStudio maintains, since<br/>
+/// such tags aren't added or removed by hand (<see cref="Tags.IsMaintainedByJAStudio"/>).
+/// </remarks>
 sealed class TagPickerDialogViewModel : ObservableObject
 {
    readonly Func<Tag, int> _numberOfNotesTheTagChanges;
@@ -35,14 +38,14 @@ sealed class TagPickerDialogViewModel : ObservableObject
       new($"Add a tag to {NotesCounted(notes.Count)}",
           new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(collection.TagsInUse()), "", offersTheTypedTextAsANewTag: true),
           "adding",
-          tag => notes.Count(it => !it.Tags.Contains(tag)));
+          tag => notes.Count(it => !it.AllTags.Contains(tag)));
 
-   /// <summary>A dialog for picking a tag to remove from <paramref name="notes"/>: any tag one of them has.</summary>
+   /// <summary>A dialog for picking a tag to remove from <paramref name="notes"/>: any tag one of them has, of its own or in Anki.</summary>
    public static TagPickerDialogViewModel ForRemovingATagFrom(IReadOnlyCollection<JPNote> notes) =>
       new($"Remove a tag from {NotesCounted(notes.Count)}",
-          new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(notes.SelectMany(it => it.Tags).Distinct()), "", offersTheTypedTextAsANewTag: false),
+          new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(notes.SelectMany(it => it.AllTags).Distinct()), "", offersTheTypedTextAsANewTag: false),
           "removing",
-          tag => notes.Count(it => it.Tags.Contains(tag)));
+          tag => notes.Count(it => it.AllTags.Contains(tag)));
 
    public string Title { get; }
 

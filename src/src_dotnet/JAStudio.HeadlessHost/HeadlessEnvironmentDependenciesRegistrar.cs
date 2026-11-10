@@ -6,6 +6,7 @@ using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
 using JAStudio.Core.TaskRunners;
 
@@ -33,6 +34,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IConfigDictSource>().Instance(new AddonConfigFile(_arguments.AddonFolder)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ICardOperations>().Instance(new HeadlessCardOperations()),
+         Singleton.For<IAnkiTagOperations>().Instance(new HeadlessAnkiTagOperations()),
          Singleton.For<IAnkiStudyNotes>().Instance(new HeadlessAnkiStudyNotes(_arguments.AnkiCollectionFile))
       );
 }

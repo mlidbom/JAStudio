@@ -69,7 +69,22 @@ not necessarily in how:
   tag in a note's Tags editor asks first. Editing tags is much of how Magnus imports and organizes, so it warns rather
   than forbids.
 - **Every tag change writes the note** to its corpus file, as any other edit does. *Until 2026-11-10 it also wrote the
-  note's tags into its Anki note: see [Tags and Anki](#tags-and-anki).*
+  note's tags into its Anki note: see [Tags and Anki](#tags-and-anki).* A change to an Anki tag, below `anki::`, goes to
+  Anki instead: see the next rule.
+- **The Anki tags, below `anki::`, are changed in Anki, as Anki operations** (Magnus, 2026-11-10: "feature parity for
+  working with anki tags would be quite nice"). Everything above works on them too, and each change is one Anki
+  operation, which Anki's Edit > Undo undoes (`AnkiTagChanges`, through `IAnkiTagOperations`). Then JAStudio reads the
+  study-notes from Anki again, so the notes show the change.
+  - **Renaming and deleting work as in Anki, on every Anki note with a tag in the branch,** of whatever note type, not only
+    on JAStudio's study-notes (Magnus, 2026-11-10). So the rename dialog and the delete confirmation count Anki notes,
+    as Anki's search for the tag finds them, and say that Anki's undo undoes it.
+  - **Adding and removing work on the selected notes' study-notes.** A note with no study-note can't have an Anki tag, so
+    adding one leaves it out.
+  - **`anki` itself is never a tag, nor renamed or deleted** (`Tags.Anki.WhyTheBranchItselfIsNeverChanged`), and **no tag
+    moves into or out of the branch** (`Tags.Anki.WhyNoTagMovesIntoOrOutOfIt`): the two sets are stored apart.
+  - **The priority tags' branch, `anki::-::priority`, keeps its name,** as does the branch above it: JAStudio finds the
+    sentences' priorities by it (`Tags.PriorityBranch`). The priority tags below it are renamed and deleted as any other.
+  - **The headless JAStudio refuses them:** it has no Anki to change them in (`HeadlessAnkiTagOperations`).
 
 ## Tag management: browsing the tag tree
 
@@ -124,11 +139,12 @@ many notes change.
   Importing a note still takes all its tags along: an imported raw note's tags are its source's, not a student's.
 - **A note's tags in Anki are shown below `anki::`** (Magnus, 2026-11-10), such as `anki::marked` and
   `anki::-::priority::high::011_Natsume_01`: the student's tags, read from Anki as the collection loads, held in memory,
-  never stored and never changed in JAStudio (`Tags.Anki`, `JPNote.AnkiTags`). Otherwise they're tags like any other:
-  the search, the tag tree, the paths a search condition offers and the search results show them, and the note's tags
-  editor shows them dimmed, without a remove button. A note's own tag can't be in the branch: adding one, renaming a
-  branch into it, and renaming or deleting the branch are refused, with why. A level named `anki` lower down, such as
-  `tmp::anki`, is a tag like any other. A change made in Anki during a session shows at once: after every Anki operation
+  never stored in the corpus (`Tags.Anki`, `JPNote.AnkiTags`). Otherwise they're tags like any other: the search, the
+  tag tree, the paths a search condition offers, the search results and the note's tags editor show them, and they're
+  added, removed, renamed and deleted as any other, in Anki (see Rules). *Until 2026-11-10 JAStudio only read them: the
+  editor showed them dimmed, without a remove button, and every change to the branch was refused.* A note's own tag
+  can't be in the branch: adding one, and renaming a branch into it or out of it, are refused, with why. A level named
+  `anki` lower down, such as `tmp::anki`, is a tag like any other. A change made in Anki during a session shows at once: after every Anki operation
   that changed notes, such as marking a note, editing tags in Anki's browser or a review that made a card a leech, undo and
   redo included, JAStudio reads the study-notes from Anki again, in the background (`follow_the_study_notes_in_anki.py`,
   `JPCollection.ReadTheStudyNotesFromAnkiAgain`). A sync is such an operation too, and a profile opening has JAStudio read them again as well (`CatchingUpWithAnki`). The student-tags left the corpus, priority last; JAStudio reads priority from Anki.

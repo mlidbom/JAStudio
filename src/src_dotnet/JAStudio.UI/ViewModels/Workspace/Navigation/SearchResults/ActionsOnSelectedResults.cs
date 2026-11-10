@@ -52,7 +52,7 @@ class ActionsOnSelectedResults
       [
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', $"Add a tag... ({AddATagKey})"), () => AddATagTo(selected, pickATagInADialog)),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', $"Remove a tag... ({RemoveATagKey})"), () => RemoveATagFrom(selected, pickATagInADialog),
-                              enabled: notes.Any(it => it.Tags.NotMaintainedByJAStudio().Count > 0)),
+                              enabled: notes.Any(it => it.Tags.NotMaintainedByJAStudio().Count > 0 || it.AnkiTags.Any())),
          SpecMenuItem.Separator(),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Unsuspend all cards"),
                               () => StartChangingEachOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),
@@ -71,8 +71,7 @@ class ActionsOnSelectedResults
       {
          if(await pickATagInADialog(TagPickerDialogViewModel.ForAddingATagTo(notes, _collection)) is not {} tagPath) return;
 
-         var tag = Tag.FromName(tagPath);
-         await _bulkNoteChanges.ChangeEachOf([..notes.Where(it => !it.Tags.Contains(tag))], $"Adding the tag {tag.Name}", it => it.Tags.Set(tag));
+         await _bulkNoteChanges.AddTheTagTo(notes, Tag.FromName(tagPath));
       });
    }
 
@@ -84,8 +83,7 @@ class ActionsOnSelectedResults
       {
          if(await pickATagInADialog(TagPickerDialogViewModel.ForRemovingATagFrom(notes)) is not {} tagPath) return;
 
-         var tag = Tag.FromName(tagPath);
-         await _bulkNoteChanges.ChangeEachOf([..notes.Where(it => it.Tags.Contains(tag))], $"Removing the tag {tag.Name}", it => it.Tags.Unset(tag));
+         await _bulkNoteChanges.RemoveTheTagFrom(notes, Tag.FromName(tagPath));
       });
    }
 

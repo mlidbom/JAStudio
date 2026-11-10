@@ -11,7 +11,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement;
 /// <summary>
 /// The small modal dialog that renames a branch of the tag tree (<see cref="TagRenameDialog"/>): only the last level of its path, as Rename does,<br/>
 /// or its whole path, as Rename with parents does. It says how many notes change, why the typed name can't be used,<br/>
-/// and warns when the rename merges tags, which can't be undone by renaming back.
+/// and warns when the rename merges tags, which can't be undone by renaming back. A branch below <c>anki::</c> is renamed in Anki, on every Anki note<br/>
+/// with a tag in it, so it says how many Anki notes change.
 /// </summary>
 sealed partial class TagRenameDialogViewModel : ObservableObject
 {
@@ -32,7 +33,7 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
 
    /// <summary>A dialog for Rename: only the last level of <paramref name="branch"/>'s path is typed, so the branch stays where it is.</summary>
    /// <param name="branch">The branch to rename.</param>
-   /// <param name="numberOfNotesThatChange">How many notes have a tag in <paramref name="branch"/>.</param>
+   /// <param name="numberOfNotesThatChange">How many notes have a tag in <paramref name="branch"/>: Anki notes, for a branch below <c>anki::</c>.</param>
    /// <param name="tagsInUse">Every tag some note has, to find what the rename would merge with.</param>
    public static TagRenameDialogViewModel ForRenamingTheLastLevelOf(TagBranch branch, int numberOfNotesThatChange, IReadOnlyCollection<Tag> tagsInUse) =>
       new($"Rename {branch.Path}",
@@ -43,7 +44,7 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
 
    /// <summary>A dialog for Rename with parents: the whole path of <paramref name="branch"/> is typed, which can move it below other tags.</summary>
    /// <param name="branch">The branch to rename.</param>
-   /// <param name="numberOfNotesThatChange">How many notes have a tag in <paramref name="branch"/>.</param>
+   /// <param name="numberOfNotesThatChange">How many notes have a tag in <paramref name="branch"/>: Anki notes, for a branch below <c>anki::</c>.</param>
    /// <param name="tagsInUse">Every tag some note has, to find what the rename would merge with.</param>
    public static TagRenameDialogViewModel ForRenamingWithItsParents(TagBranch branch, int numberOfNotesThatChange, IReadOnlyCollection<Tag> tagsInUse) =>
       new($"Rename {branch.Path} with its parents", "", branch.Path, numberOfNotesThatChange, typed => TagBranchRename.WithItsParents(branch, typed, tagsInUse));
@@ -65,8 +66,13 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
 
    partial void OnTypedNameChanged(string value) => Rename = _renamingTo(value);
 
-   /// <summary>What the rename changes, such as "source::anime and every tag below it change on 3 notes."</summary>
-   public string WhatChanges => $"{Rename.Branch.Path} and every tag below it change on {(NumberOfNotesThatChange == 1 ? "1 note" : $"{NumberOfNotesThatChange} notes")}.";
+   /// <summary>
+   /// What the rename changes, such as "source::anime and every tag below it change on 3 notes.", or, for a branch below <c>anki::</c>,<br/>
+   /// "anki::tmp and every tag below it change on 3 Anki notes, in Anki: Anki's Edit > Undo undoes it."
+   /// </summary>
+   public string WhatChanges => Rename.Branch.IsInTheAnkiBranch
+                                   ? $"{Rename.Branch.Path} and every tag below it change on {Counted("Anki note")}, in Anki: Anki's Edit > Undo undoes it."
+                                   : $"{Rename.Branch.Path} and every tag below it change on {Counted("note")}.";
 
    /// <inheritdoc cref="TagBranchRename.WhyItCannotBeDone"/>
    public string? WhyItCannotBeDone => Rename.WhyItCannotBeDone;
@@ -84,8 +90,10 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
    /// the notes' sources, or null when it doesn't.
    /// </summary>
    public string? SourceWarning => Rename.Branch.IsInTheSourceBranch || Rename.Renamed.IsInTheSourceBranch
-                                      ? $"This changes the source of {(NumberOfNotesThatChange == 1 ? "1 note" : $"{NumberOfNotesThatChange} notes")}."
+                                      ? $"This changes the source of {Counted("note")}."
                                       : null;
+
+   string Counted(string whatChanges) => NumberOfNotesThatChange == 1 ? $"1 {whatChanges}" : $"{NumberOfNotesThatChange} {whatChanges}s";
 
    /// <summary>The accept button's text: Merge when the rename <see cref="Merges"/>, as a last reminder, and Rename otherwise.</summary>
    public string AcceptText => Merges ? "Merge" : "Rename";

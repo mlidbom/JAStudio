@@ -19,8 +19,10 @@ public class NoteTags : IEnumerable<Tag>
 
    public bool Contains(Tag value) => _tags.Contains(value);
 
+   /// <summary>Gives the note <paramref name="tag"/>, one of its own, never an Anki tag (<see cref="Tag.IsAnAnkiTag"/>), which goes to its study-note in Anki instead (<see cref="AnkiTagChanges"/>).</summary>
    public void Set(Tag tag)
    {
+      Contract.Argument.Assert(!tag.IsAnAnkiTag, () => $"{tag.Name} is an Anki tag, which goes to the note's study-note in Anki.");
       if(_tags.Add(tag)) _note.Flush();
    }
 

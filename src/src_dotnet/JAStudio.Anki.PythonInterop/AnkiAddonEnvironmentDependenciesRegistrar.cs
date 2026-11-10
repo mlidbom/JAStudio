@@ -7,6 +7,7 @@ using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
@@ -31,6 +32,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar(string configJson, Action<string
          Singleton.For<IConfigDictSource>().Instance(new AnkiConfigDictSource(_configJson, _configUpdateCallback)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ICardOperations>().CreatedBy((ExternalNoteIdMap idMap) => (ICardOperations)new AnkiCardOperationsImpl(idMap)),
+         Singleton.For<IAnkiTagOperations>().CreatedBy((ExternalNoteIdMap ankiNoteIds) => (IAnkiTagOperations)new AnkiTagOperations(ankiNoteIds)),
          Singleton.For<IAnkiStudyNotes>().CreatedBy((ExternalNoteIdMap ankiNoteIds) => (IAnkiStudyNotes)new AnkiStudyNotes(ankiNoteIds))
       );
    }

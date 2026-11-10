@@ -5,6 +5,7 @@ using Compze.Threading;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
 
@@ -12,10 +13,11 @@ namespace JAStudio.Core.TestUtils;
 
 /// <summary>
 /// The student's Anki in specifications, where there's no Anki: it gives each note created a pretend study-note, and loading the collection<br/>
-/// reads from it as from Anki (<see cref="IBackendDataLoader"/>): each study-note's corpus note, the tags specifications gave it, and the cards they<br/>
-/// suspended. It has no other cards.
+/// reads from it as from Anki (<see cref="IBackendDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
+/// cards specifications suspended. It has no other cards, and no Anki notes but the study-notes. JAStudio changes its tags as it changes Anki's<br/>
+/// (<see cref="IAnkiTagOperations"/>).
 /// </summary>
-public class PretendAnki : IBackendNoteCreator, IBackendDataLoader
+public class PretendAnki : IBackendNoteCreator, IBackendDataLoader, IAnkiTagOperations
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, NoteId> _noteOfEachStudyNote = [];
@@ -60,7 +62,37 @@ public class PretendAnki : IBackendNoteCreator, IBackendDataLoader
       _suspendedCardsOfEachStudyNote.Remove(ankiNoteId);
    });
 
-   long AnkiNoteIdOf(JPNote note) => _noteOfEachStudyNote.Single(it => it.Value.Equals(note.GetId())).Key;
+   /// <summary>The tags <paramref name="note"/>'s study-note has, as Anki names them, such as <c>marked</c>, in alphabetical order.</summary>
+   public IReadOnlyList<string> TagsOf(JPNote note) => _monitor.Locked(() => _tagsOfEachStudyNote.GetValueOrDefault(AnkiNoteIdOf(note), []).Order(StringComparer.OrdinalIgnoreCase).ToList());
+
+   public void AddTheTagToTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) =>
+      ChangeTheTagsOf(notes.Select(AnkiNoteIdOf), tags => tags.Contains(tagInAnki, StringComparer.OrdinalIgnoreCase) ? tags : [..tags, tagInAnki]);
+
+   public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) =>
+      ChangeTheTagsOf(notes.Select(AnkiNoteIdOf), tags => [..tags.Where(it => !it.Equals(tagInAnki, StringComparison.OrdinalIgnoreCase))]);
+
+   public void RenameTheBranchOnEveryAnkiNote(string pathInAnki, string renamedPathInAnki)
+   {
+      var branch = new TagBranch(pathInAnki);
+      var renamed = new TagBranch(renamedPathInAnki);
+      ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Select(it => branch.Contains(it) ? branch.TheNameRenamedTo(renamed, it) : it).Distinct(StringComparer.OrdinalIgnoreCase)]);
+   }
+
+   public void DeleteTheBranchFromEveryAnkiNote(string pathInAnki) => ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Where(it => !new TagBranch(pathInAnki).Contains(it))]);
+
+   public int NumberOfAnkiNotesWithATagIn(string pathInAnki) => _monitor.Locked(() => _tagsOfEachStudyNote.Values.Count(tags => tags.Any(new TagBranch(pathInAnki).Contains)));
+
+   void ChangeTheTagsOf(IEnumerable<long> ankiNoteIds, Func<IReadOnlyList<string>, IReadOnlyList<string>> change) => _monitor.Locked(() =>
+   {
+      foreach(var ankiNoteId in ankiNoteIds.ToList())
+         _tagsOfEachStudyNote[ankiNoteId] = change(_tagsOfEachStudyNote.TryGetValue(ankiNoteId, out var tags) ? tags : []);
+   });
+
+   List<long> EveryStudyNote() => _monitor.Locked(() => _noteOfEachStudyNote.Keys.ToList());
+
+   long AnkiNoteIdOf(JPNote note) => AnkiNoteIdOf(note.GetId());
+
+   long AnkiNoteIdOf(NoteId note) => _noteOfEachStudyNote.Single(it => it.Value.Equals(note)).Key;
 
    static string NoteTypeNameOf(JPNote note) => note switch
    {

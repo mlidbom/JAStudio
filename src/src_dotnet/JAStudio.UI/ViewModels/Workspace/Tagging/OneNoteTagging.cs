@@ -15,17 +15,21 @@ namespace JAStudio.UI.ViewModels.Workspace.Tagging;
 /// what Ctrl+T and Ctrl+Shift+T do on a note's tab, and what the note's Tags editor does.
 /// </summary>
 /// <remarks>
-/// The note is changed at once, on the UI thread, as the other editors change it. Tagging the notes of a selection of search results<br/>
-/// goes through <see cref="ActionsOnSelectedResults"/> instead, which changes them in the background with a progress dialog.
+/// A tag of the note's own is changed at once, on the UI thread, as the other editors change the note. An Anki tag is changed on its study-note in<br/>
+/// Anki, in the background, with no progress dialog, which would only flash (<see cref="AnkiTagChanges"/>); the note's tab shows it once it's read back.<br/>
+/// Tagging the notes of a selection of search results goes through <see cref="ActionsOnSelectedResults"/> instead, which changes them in the background<br/>
+/// with a progress dialog.
 /// </remarks>
 class OneNoteTagging
 {
    readonly JPCollection _collection;
+   readonly AnkiTagChanges _ankiTagChanges;
    readonly IFatalErrorHandler _fatalErrorHandler;
 
    public OneNoteTagging(TemporaryServiceCollection services)
    {
       _collection = services.CoreApp.Collection;
+      _ankiTagChanges = services.Resolve<AnkiTagChanges>();
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
    }
 
@@ -36,7 +40,7 @@ class OneNoteTagging
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
          if(await pickATagInADialog(TagPickerDialogViewModel.ForAddingATagTo([currentNote()], _collection)) is {} tagPath)
-            currentNote().Tags.Set(Tag.FromName(tagPath));
+            await AddTheTagTo(currentNote(), Tag.FromName(tagPath));
       });
 
    /// <summary>Picks one of the tags of the note <paramref name="currentNote"/> finds through <paramref name="pickATagInADialog"/>, and removes it.</summary>
@@ -46,6 +50,23 @@ class OneNoteTagging
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
          if(await pickATagInADialog(TagPickerDialogViewModel.ForRemovingATagFrom([currentNote()])) is {} tagPath)
-            currentNote().Tags.Unset(Tag.FromName(tagPath));
+            await RemoveTheTagFrom(currentNote(), Tag.FromName(tagPath));
       });
+
+   /// <summary>Removes <paramref name="tag"/> from <paramref name="note"/>: one of its own at once, or an Anki tag from its study-note in Anki, in the background.</summary>
+   public Task RemoveTheTagFrom(JPNote note, Tag tag)
+   {
+      if(tag.IsAnAnkiTag) return Task.Run(() => _ankiTagChanges.RemoveFrom([note], tag));
+
+      note.Tags.Unset(tag);
+      return Task.CompletedTask;
+   }
+
+   Task AddTheTagTo(JPNote note, Tag tag)
+   {
+      if(tag.IsAnAnkiTag) return Task.Run(() => _ankiTagChanges.AddTo([note], tag));
+
+      note.Tags.Set(tag);
+      return Task.CompletedTask;
+   }
 }

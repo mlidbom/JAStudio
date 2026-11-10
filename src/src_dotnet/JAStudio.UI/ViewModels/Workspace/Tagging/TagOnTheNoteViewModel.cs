@@ -3,8 +3,9 @@ using JAStudio.Core.Note.Tagging;
 namespace JAStudio.UI.ViewModels.Workspace.Tagging;
 
 /// <summary>
-/// One of a note's tags, as its <see cref="NoteTagsEditorViewModel"/> shows it: the tag's name, with a button that removes it from the note,<br/>
-/// or, for a tag JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>), dimmed and without the button, since it isn't removed by hand.
+/// One of a note's tags, as its <see cref="NoteTagsEditorViewModel"/> shows it: the tag's name, with a button that removes it from the note, or, for an<br/>
+/// Anki tag, from its study-note in Anki. A tag JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>) is dimmed and without the button, since<br/>
+/// it isn't removed by hand.
 /// </summary>
 sealed class TagOnTheNoteViewModel
 {
@@ -24,11 +25,11 @@ sealed class TagOnTheNoteViewModel
    /// <summary>Whether JAStudio maintains the tag (<see cref="Tags.IsMaintainedByJAStudio"/>).</summary>
    public bool IsMaintainedByJAStudio { get; }
 
-   /// <summary>Whether it's one of the note's Anki tags (<see cref="Tags.Anki"/>), the tags of its study-note in Anki, which JAStudio only reads.</summary>
+   /// <summary>Whether it's one of the note's Anki tags (<see cref="Tags.Anki"/>), the tags of its study-note in Anki, which are removed there.</summary>
    public bool IsAnAnkiTag { get; }
 
-   /// <summary>Whether it can't be removed by hand, since it <see cref="IsMaintainedByJAStudio"/> or <see cref="IsAnAnkiTag"/>: it's shown dimmed, with no button that removes it.</summary>
-   public bool IsReadOnly => IsMaintainedByJAStudio || IsAnAnkiTag;
+   /// <summary>Whether it can't be removed by hand, since it <see cref="IsMaintainedByJAStudio"/>: it's shown dimmed, with no button that removes it.</summary>
+   public bool IsReadOnly => IsMaintainedByJAStudio;
 
    /// <summary>Whether it can be removed by hand: it isn't <see cref="IsReadOnly"/>.</summary>
    public bool CanBeRemovedByHand => !IsReadOnly;
@@ -36,9 +37,9 @@ sealed class TagOnTheNoteViewModel
    /// <summary>Whether it's a source tag (<see cref="Tags.Source"/>), whose removal changes the note's source, so it's confirmed first.</summary>
    public bool IsASourceTag { get; }
 
-   /// <summary>What hovering the tag shows: why it can't be removed, for one that <see cref="IsReadOnly"/>.</summary>
+   /// <summary>What hovering the tag shows: why it can't be removed, for one that <see cref="IsReadOnly"/>, and where it's removed, for an Anki tag.</summary>
    public string? ToolTip =>
-      IsAnAnkiTag              ? Tags.Anki.WhyItIsReadOnly
+      IsAnAnkiTag              ? "A tag of the note's study-note in Anki: removing it removes it there, and Anki's Edit > Undo brings it back."
       : IsMaintainedByJAStudio ? "JAStudio maintains this tag: it generates it."
                                : null;
 }

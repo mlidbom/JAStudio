@@ -16,6 +16,7 @@ from jastudio.sysutils.app_thread_pool import run_on_ui_thread_fire_and_forget
 from typed_linq_collections.q_iterable import query
 
 if TYPE_CHECKING:
+    from anki.collection import OpChangesWithCount
     from JAStudio.Core.Note import JPNote
 
 
@@ -90,6 +91,45 @@ def notes_add_tag(note_ids: list[int], tag: str) -> None:
 def notes_remove(note_ids: list[int]) -> None:
     from jastudio.ankiutils import app
     app.anki_collection().remove_notes([NoteId(note_id) for note_id in note_ids])
+
+# ── Tags ──
+# Each change runs as an Anki operation, as the browser runs its own: Anki's Edit > Undo undoes it, and Anki's windows are told of it.
+# noinspection PyUnusedFunction
+def tags_add_to_notes(note_ids: list[int], tag: str) -> None:
+    from jastudio.ankiutils import app
+    _tell_anki_of_jastudios_own_operation(app.anki_collection().tags.bulk_add([NoteId(note_id) for note_id in note_ids], tag))
+
+# noinspection PyUnusedFunction
+def tags_remove_from_notes(note_ids: list[int], tag: str) -> None:
+    from jastudio.ankiutils import app
+    _tell_anki_of_jastudios_own_operation(app.anki_collection().tags.bulk_remove([NoteId(note_id) for note_id in note_ids], tag))
+
+# noinspection PyUnusedFunction
+def tags_rename(path: str, renamed_path: str) -> None:
+    """Renames the tag and every tag below it, on every note, as the browser's sidebar does."""
+    from jastudio.ankiutils import app
+    _tell_anki_of_jastudios_own_operation(app.anki_collection().tags.rename(path, renamed_path))
+
+# noinspection PyUnusedFunction
+def tags_delete(path: str) -> None:
+    """Removes the tag and every tag below it from every note, as the browser's sidebar does."""
+    from jastudio.ankiutils import app
+    _tell_anki_of_jastudios_own_operation(app.anki_collection().tags.remove(path))
+
+# noinspection PyUnusedFunction
+def tags_number_of_notes_with_a_tag_in(path: str) -> int:
+    """The number of notes with the tag or a tag below it, as clicking the tag in the browser's sidebar finds them."""
+    from anki.collection import SearchNode
+    from jastudio.ankiutils import app
+    collection = app.anki_collection()
+    return len(collection.find_notes(collection.build_search_string(SearchNode(tag=path))))
+
+def _tell_anki_of_jastudios_own_operation(changes: OpChangesWithCount) -> None:
+    """Tells Anki's windows of the change, as Anki does after each operation, on its main thread: its undo menu, its browser and its reviewer
+    follow it. As JAStudio's own operation, which JAStudio reads the study-notes again after itself."""
+    from aqt.operations import on_op_finished
+    from jastudio.ui.hooks.follow_the_study_notes_in_anki import JASTUDIOS_OWN_OPERATION
+    mw.taskman.run_on_main(lambda: on_op_finished(mw, changes, JASTUDIOS_OWN_OPERATION))
 
 # ── Study-notes ──
 # noinspection PyUnusedFunction

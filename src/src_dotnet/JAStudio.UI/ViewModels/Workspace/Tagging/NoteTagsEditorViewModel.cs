@@ -15,7 +15,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Tagging;
 /// The "Tags" part of a note's editors in the workspace's editor section (<see cref="NoteTagsEditor"/>): every tag the note has (<see cref="JPNote.AllTags"/>),<br/>
 /// each with a button that removes it, and a button that adds a tag picked in a <see cref="TagPickerDialog"/>, as Ctrl+T does.<br/>
 /// The tags JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>) are shown dimmed, without the button: they're generated.<br/>
-/// So are the note's Anki tags (<see cref="Tags.Anki"/>), which JAStudio only reads.<br/>
+/// The note's Anki tags (<see cref="Tags.Anki"/>) are added to and removed from its study-note in Anki (<see cref="OneNoteTagging"/>).<br/>
 /// Removing a source tag (<see cref="Tags.Source"/>) asks first, since it changes the note's source.
 /// </summary>
 /// <remarks>
@@ -58,6 +58,6 @@ partial class NoteTagsEditorViewModel : ObservableObject
       {
          if(tag.IsASourceTag && !await confirmInADialog($"{tag.Name} is a source tag: removing it changes the note's source. Remove it?")) return;
 
-         _currentNote().Tags.Unset(tag.Tag);
+         await _tagging.RemoveTheTagFrom(_currentNote(), tag.Tag);
       });
 }

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
-using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Tagging;
@@ -26,9 +25,10 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement;
 /// It isn't kept up to date while it's shown, except after its own renames and deletions. The expanded lines and the selected line stay through that.
 /// </remarks>
 /// <remarks>
-/// Renaming and deleting change each note in the background, with a progress dialog (<see cref="BulkNoteChanges"/>).<br/>
+/// Renaming and deleting change each note in the background, with a progress dialog (<see cref="BulkNoteChanges"/>). A branch below <c>anki::</c>,<br/>
+/// of the notes' Anki tags, is renamed or deleted in Anki instead, on every Anki note with a tag in it, as in Anki, and Anki's Edit > Undo undoes it.<br/>
 /// The source branch itself, and a branch holding a tag whose name JAStudio uses, can't be renamed by hand (<see cref="TagBranch.WhyItCannotBeRenamedByHand"/>),<br/>
-/// nor can they, or a branch holding a tag JAStudio maintains, be deleted (<see cref="TagBranch.WhyItCannotBeDeletedByHand"/>).<br/>
+/// nor can they, or a branch holding a tag JAStudio maintains, be deleted (<see cref="TagBranch.WhyItCannotBeDeletedByHand"/>); nor can <c>anki</c> itself.<br/>
 /// Renaming or deleting a branch in the source branch warns that the notes' sources change.
 /// </remarks>
 partial class TagManagementViewModel : ObservableObject
@@ -36,6 +36,7 @@ partial class TagManagementViewModel : ObservableObject
    readonly NavigationPaneViewModel _navigationPane;
    readonly JPCollection _collection;
    readonly BulkNoteChanges _bulkNoteChanges;
+   readonly AnkiTagChanges _ankiTagChanges;
    readonly IFatalErrorHandler _fatalErrorHandler;
 
    /// <summary>The paths of the lines expanded while there's no filter. They stay expanded when the tree is computed again, and when a filter is cleared.</summary>
@@ -49,6 +50,7 @@ partial class TagManagementViewModel : ObservableObject
       _navigationPane = navigationPane;
       _collection = services.CoreApp.Collection;
       _bulkNoteChanges = new BulkNoteChanges(services);
+      _ankiTagChanges = services.Resolve<AnkiTagChanges>();
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
    }
 
@@ -107,12 +109,14 @@ partial class TagManagementViewModel : ObservableObject
       if(SelectedBranchThatCanBeDeletedByHand() is not {} branch) return;
 
       var notes = _collection.NotesWithATagIn(branch);
-      var sourceWarning = branch.IsInTheSourceBranch ? $" This changes the source of {NotesCounted(notes)}." : "";
+      var question = branch.IsInTheAnkiBranch
+                        ? $"Delete {branch.Path} and every tag below it from {AnkiNotesCounted(_ankiTagChanges.NumberOfAnkiNotesWithATagIn(branch))} in Anki? Anki's Edit > Undo undoes it."
+                        : $"Delete {branch.Path} and every tag below it from {NotesCounted(notes.Count)}?{(branch.IsInTheSourceBranch ? $" This changes the source of {NotesCounted(notes.Count)}." : "")} This can't be undone.";
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
-         if(!await confirmInADialog($"Delete {branch.Path} and every tag below it from {NotesCounted(notes)}?{sourceWarning} This can't be undone.")) return;
+         if(!await confirmInADialog(question)) return;
 
-         await _bulkNoteChanges.ChangeEachOf(notes, $"Deleting {branch.Path}", it => it.Tags.RemoveTheBranch(branch));
+         await _bulkNoteChanges.DeleteTheBranch(branch, notes);
          ShowTheTagsAsTheyAreNowWithSelected(TheNearestPathAboveThatIsStillInUse(branch));
       });
    }
@@ -155,12 +159,12 @@ partial class TagManagementViewModel : ObservableObject
       if(SelectedBranchThatCanBeRenamedByHand() is not {} branch) return;
 
       var notes = _collection.NotesWithATagIn(branch);
-      var dialog = dialogFor(branch, notes.Count, [.._collection.TagsInUse()]);
+      var dialog = dialogFor(branch, branch.IsInTheAnkiBranch ? _ankiTagChanges.NumberOfAnkiNotesWithATagIn(branch) : notes.Count, [.._collection.TagsInUse()]);
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
          if(await renameInADialog(dialog) is not {} rename) return;
 
-         await _bulkNoteChanges.ChangeEachOf(notes, $"Renaming {branch.Path} to {rename.Renamed.Path}", rename.ApplyTo);
+         await _bulkNoteChanges.RenameTheBranch(rename, notes);
          ShowTheTagsAsTheyAreNowWithSelected(rename.Renamed.Path);
       });
    }
@@ -219,5 +223,7 @@ partial class TagManagementViewModel : ObservableObject
 
    IEnumerable<TagTreeNodeViewModel> AllLines() => TopLevelLines.SelectMany(it => it.ThisAndAllBelow());
 
-   static string NotesCounted(IReadOnlyCollection<JPNote> notes) => notes.Count == 1 ? "1 note" : $"{notes.Count} notes";
+   static string NotesCounted(int numberOfNotes) => numberOfNotes == 1 ? "1 note" : $"{numberOfNotes} notes";
+
+   static string AnkiNotesCounted(int numberOfAnkiNotes) => numberOfAnkiNotes == 1 ? "1 Anki note" : $"{numberOfAnkiNotes} Anki notes";
 }
