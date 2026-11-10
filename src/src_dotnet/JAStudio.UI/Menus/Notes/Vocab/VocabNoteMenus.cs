@@ -169,6 +169,9 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
    SpecMenuItem BuildCreateCloneToFormMenuSpec(string title, VocabNote vocab)
    {
       var col = _services.CoreApp.Collection;
+      //review: unlike every other command that creates a vocab (NoteCommandMenuItem.Creating), these items don't open the clone in the workspace.
+      //   And they offer only the forms no vocab has as its text, though CloneToForm keeps the vocab's disambiguation, so 其れなり:x can't be
+      //   created while 其れなり exists. Should they open the clone, and offer every form whose question, disambiguation included, no vocab has?
       var formsWithNoVocab = vocab.Forms.EnteredFormsSet()
                                   .Where(form => !col.Vocab.WithQuestion(form).Any())
                                   .ToList();
