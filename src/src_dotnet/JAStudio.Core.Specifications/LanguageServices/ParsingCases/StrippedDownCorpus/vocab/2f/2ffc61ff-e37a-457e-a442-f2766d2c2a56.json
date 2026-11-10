@@ -52,13 +52,7 @@
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -86,5 +80,7 @@
     "images": []
   },
   "id": "2ffc61ff-e37a-457e-a442-f2766d2c2a56",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

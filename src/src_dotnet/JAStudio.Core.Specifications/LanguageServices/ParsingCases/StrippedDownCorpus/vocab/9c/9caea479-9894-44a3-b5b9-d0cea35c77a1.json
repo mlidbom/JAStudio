@@ -82,13 +82,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -107,5 +101,7 @@
     "images": []
   },
   "id": "9caea479-9894-44a3-b5b9-d0cea35c77a1",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

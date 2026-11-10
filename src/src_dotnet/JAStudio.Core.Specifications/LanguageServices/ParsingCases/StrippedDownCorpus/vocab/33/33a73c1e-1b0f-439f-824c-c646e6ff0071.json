@@ -53,13 +53,7 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [
@@ -98,7 +92,6 @@
   },
   "id": "33a73c1e-1b0f-439f-824c-c646e6ff0071",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::20"
   ]
 }

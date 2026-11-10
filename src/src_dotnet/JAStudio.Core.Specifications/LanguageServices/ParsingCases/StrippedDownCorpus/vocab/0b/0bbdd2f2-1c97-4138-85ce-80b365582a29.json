@@ -65,13 +65,7 @@
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -95,5 +89,7 @@
     "images": []
   },
   "id": "0bbdd2f2-1c97-4138-85ce-80b365582a29",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

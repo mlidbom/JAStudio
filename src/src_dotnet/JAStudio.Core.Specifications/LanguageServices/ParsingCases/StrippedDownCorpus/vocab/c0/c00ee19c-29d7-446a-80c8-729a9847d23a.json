@@ -46,13 +46,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -81,7 +75,6 @@
   },
   "id": "c00ee19c-29d7-446a-80c8-729a9847d23a",
   "tags": [
-    "legacy_scheduling",
     "source::lyrics::未来のひとへ",
     "source::wani::level::06"
   ]

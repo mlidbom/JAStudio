@@ -61,13 +61,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -96,7 +90,6 @@
   },
   "id": "e9a767e6-3b41-4037-aee4-23acf8108394",
   "tags": [
-    "source::wani",
     "source::wani::level::55"
   ]
 }

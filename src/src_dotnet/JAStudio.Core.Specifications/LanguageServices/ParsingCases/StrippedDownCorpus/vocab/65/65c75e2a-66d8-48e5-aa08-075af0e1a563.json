@@ -34,13 +34,7 @@
     "flags": [
       "isPoisonWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -60,6 +54,7 @@
   },
   "id": "65c75e2a-66d8-48e5-aa08-075af0e1a563",
   "tags": [
+    "source::jastudio",
     "tmp::godan_imperative"
   ]
 }

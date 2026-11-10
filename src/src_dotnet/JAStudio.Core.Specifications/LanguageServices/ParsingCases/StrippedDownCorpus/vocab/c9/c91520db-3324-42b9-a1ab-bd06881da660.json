@@ -34,21 +34,10 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
-    "ergativeTwins": [
-      {
-        "text": "赤ん坊の泣き声が静寂を破った。",
-        "disambiguation": ""
-      }
-    ],
+    "ergativeTwins": [],
     "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],

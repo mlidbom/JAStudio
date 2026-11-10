@@ -41,15 +41,20 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [
-        "言ったろ"
-      ],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "surface": {
+              "isOneOf": [
+                "言ったろ"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -69,6 +74,7 @@
   },
   "id": "530f874b-6db6-4626-bd45-67c0fabe2e96",
   "tags": [
-    "-::vocab::matching::uses::surface-is-not"
+    "-::vocab::matching::uses::surface-is-not",
+    "source::jastudio"
   ]
 }

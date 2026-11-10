@@ -52,13 +52,7 @@
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -84,6 +78,7 @@
   "id": "af050277-4314-45a7-b355-81c03f1fbf5c",
   "tags": [
     "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
-    "-::TODO::studio::vocab::matching::requires-forbids::o-stem"
+    "-::TODO::studio::vocab::matching::requires-forbids::o-stem",
+    "source::jastudio"
   ]
 }

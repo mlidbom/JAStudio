@@ -10,25 +10,27 @@ namespace JAStudio.UI.Controls.NoteFields;
 /// A choice is written to the note at once.
 /// </summary>
 /// <remarks>
-/// It reads and writes the rule through <c>currentField</c>, which finds it on the note the collection holds now, since the collection<br/>
-/// replaces a note's object when it reloads the note (see <see cref="ViewModels.Workspace.Editors.VocabEditorSectionViewModel"/>).
+/// It reads and writes the rule on the note the collection holds now, since the collection replaces a note's object when it reloads the note (see <see cref="ViewModels.Workspace.Editors.VocabEditorSectionViewModel"/>).
 /// </remarks>
 class RequireForbidFlagEditorViewModel : ObservableObject
 {
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly Func<RequireForbidFlagField> _currentField;
+   readonly Func<RequireForbidChoice> _readTheChoiceOnTheNote;
+   readonly Action<RequireForbidChoice> _writeAChoiceToTheNote;
    readonly Action _choiceMade;
    RequireForbidChoice _choice;
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a choice, which the radio buttons' bindings would swallow.</param>
    /// <param name="label">What the rule is about, shown beside its choices.</param>
-   /// <param name="currentField">Finds the rule on the note as the collection holds it now.</param>
+   /// <param name="readTheChoiceOnTheNote">Reads the rule's choice on the note as the collection holds it now.</param>
+   /// <param name="writeAChoiceToTheNote">Writes a choice for the rule to the note as the collection holds it now, and saves the note.</param>
    /// <param name="choiceMade">Called after a choice is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
-   public RequireForbidFlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<RequireForbidFlagField> currentField, Action choiceMade)
+   public RequireForbidFlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<RequireForbidChoice> readTheChoiceOnTheNote, Action<RequireForbidChoice> writeAChoiceToTheNote, Action choiceMade)
    {
       _fatalErrorHandler = fatalErrorHandler;
       Label = label;
-      _currentField = currentField;
+      _readTheChoiceOnTheNote = readTheChoiceOnTheNote;
+      _writeAChoiceToTheNote = writeAChoiceToTheNote;
       _choiceMade = choiceMade;
       _choice = ChoiceOnTheNote();
    }
@@ -63,7 +65,7 @@ class RequireForbidFlagEditorViewModel : ObservableObject
 
       _fatalErrorHandler.HandleExceptionsFrom(() =>
       {
-         _currentField().Choose(choice);
+         _writeAChoiceToTheNote(choice);
          Show(choice);
          _choiceMade();
       });
@@ -77,5 +79,5 @@ class RequireForbidFlagEditorViewModel : ObservableObject
       OnPropertyChanged(nameof(IsForbidden));
    }
 
-   RequireForbidChoice ChoiceOnTheNote() => _currentField().Choice;
+   RequireForbidChoice ChoiceOnTheNote() => _readTheChoiceOnTheNote();
 }

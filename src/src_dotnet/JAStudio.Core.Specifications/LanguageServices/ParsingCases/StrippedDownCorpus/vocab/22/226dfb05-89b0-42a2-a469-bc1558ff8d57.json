@@ -40,23 +40,40 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [
-        "ない"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": [
-        "い"
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "ない"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "precedingToken": {
+            "surface": {
+              "endsWithOneOf": [
+                "い"
+              ]
+            }
+          }
+        },
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        }
       ]
-    }
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -100,6 +117,7 @@
   "id": "226dfb05-89b0-42a2-a469-bc1558ff8d57",
   "tags": [
     "-::vocab::matching::uses::prefix-is-not",
-    "-::vocab::matching::uses::required-prefix"
+    "-::vocab::matching::uses::required-prefix",
+    "source::jastudio"
   ]
 }

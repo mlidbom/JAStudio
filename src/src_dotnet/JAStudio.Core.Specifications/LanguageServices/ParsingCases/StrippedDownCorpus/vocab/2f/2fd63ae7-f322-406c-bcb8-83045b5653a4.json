@@ -38,15 +38,9 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "らっしゃい"
-      ],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": [
+      "らっしゃい"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -65,5 +59,7 @@
     "images": []
   },
   "id": "2fd63ae7-f322-406c-bcb8-83045b5653a4",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

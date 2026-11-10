@@ -47,17 +47,17 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "surface": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -81,7 +81,6 @@
   },
   "id": "fe4dd6a4-d47d-466a-98c6-a996ac0d58d7",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

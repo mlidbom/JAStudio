@@ -92,22 +92,58 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "godanPotential": "required",
-      "sentenceStart": "forbidden",
-      "surface": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingText": {
+              "anyOf": [
+                {
+                  "fact": "empty"
+                },
+                {
+                  "endsWithOneOf": [
+                    "\t",
+                    " ",
+                    "\"",
+                    ".",
+                    "?",
+                    "​",
+                    "　",
+                    "。",
+                    "「",
+                    "」",
+                    "？",
+                    "｡"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "firstToken": {
+            "anyOf": [
+              {
+                "fact": "godanPotentialStem"
+              },
+              {
+                "fact": "godanPotentialInflection"
+              }
+            ]
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -126,5 +162,7 @@
     "images": []
   },
   "id": "c9623937-08d2-4d66-ac36-75c158d83958",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

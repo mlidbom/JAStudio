@@ -43,19 +43,31 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [
-        "一人で"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "一人で"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "not": {
+            "firstToken": {
+              "fact": "teFormStem"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -80,6 +92,7 @@
   },
   "id": "a27d59bc-54d3-4391-9c61-b1d669ec81d1",
   "tags": [
-    "-::vocab::matching::uses::prefix-is-not"
+    "-::vocab::matching::uses::prefix-is-not",
+    "source::jastudio"
   ]
 }

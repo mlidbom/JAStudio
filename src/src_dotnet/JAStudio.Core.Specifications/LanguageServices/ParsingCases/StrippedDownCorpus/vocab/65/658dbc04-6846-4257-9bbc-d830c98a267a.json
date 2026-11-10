@@ -36,19 +36,27 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "ichidanImperative": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "anyOf": [
+              {
+                "fact": "ichidanImperativeStem"
+              },
+              {
+                "fact": "ichidanImperativeInflection"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -81,5 +89,7 @@
     "images": []
   },
   "id": "658dbc04-6846-4257-9bbc-d830c98a267a",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

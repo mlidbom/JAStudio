@@ -44,20 +44,22 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "dictionaryFormStart": "required",
-      "sentenceEnd": "required"
+      "dictionaryFormStart": "required"
     },
     "flags": [
       "isPoisonWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "lastToken": {
+            "fact": "endOfStatement"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -76,5 +78,7 @@
     "images": []
   },
   "id": "3abc2197-331e-49cf-ac45-d8eb57d64e61",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

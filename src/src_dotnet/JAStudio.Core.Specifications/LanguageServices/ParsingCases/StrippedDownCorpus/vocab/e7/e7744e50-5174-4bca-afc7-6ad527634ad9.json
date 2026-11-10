@@ -25,20 +25,14 @@
     }
   ],
   "forms": [],
-  "sentenceCount": 1742,
+  "sentenceCount": 1743,
   "technicalNotes": "",
   "references": "",
   "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],

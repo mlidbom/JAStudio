@@ -41,21 +41,28 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "ichidan": "forbidden",
-      "irrealis": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "ichidanVerb"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -95,5 +102,7 @@
     "images": []
   },
   "id": "6e10a73e-f4e4-48c4-9a4e-73d04e01200c",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

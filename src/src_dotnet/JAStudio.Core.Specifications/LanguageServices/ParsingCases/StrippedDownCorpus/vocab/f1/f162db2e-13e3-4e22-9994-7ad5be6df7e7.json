@@ -35,17 +35,25 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "godanImperative": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "anyOf": [
+              {
+                "fact": "godanImperativeStem"
+              },
+              {
+                "fact": "godanImperativeInflection"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -65,6 +73,7 @@
   },
   "id": "f162db2e-13e3-4e22-9994-7ad5be6df7e7",
   "tags": [
+    "source::jastudio",
     "tmp::godan_imperative"
   ]
 }

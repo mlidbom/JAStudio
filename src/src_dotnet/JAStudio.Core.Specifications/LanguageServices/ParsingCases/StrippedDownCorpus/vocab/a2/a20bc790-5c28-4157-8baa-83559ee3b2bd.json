@@ -48,17 +48,20 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "adverbHead": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "adverb"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -77,5 +80,7 @@
     "images": []
   },
   "id": "a20bc790-5c28-4157-8baa-83559ee3b2bd",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

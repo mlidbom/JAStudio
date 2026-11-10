@@ -54,20 +54,23 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "surface": "required",
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -136,5 +139,7 @@
     "images": []
   },
   "id": "4a72e0c9-ff33-4ec6-931f-980fdc414788",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

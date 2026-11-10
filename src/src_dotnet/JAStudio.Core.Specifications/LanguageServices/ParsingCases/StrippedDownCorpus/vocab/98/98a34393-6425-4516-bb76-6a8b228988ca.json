@@ -47,22 +47,45 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "godanPotential": "forbidden",
-      "ichidan": "forbidden",
-      "irrealis": "required",
-      "surface": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "ichidanVerb"
+            }
+          }
+        },
+        {
+          "not": {
+            "firstToken": {
+              "anyOf": [
+                {
+                  "fact": "godanPotentialStem"
+                },
+                {
+                  "fact": "godanPotentialInflection"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -96,7 +119,7 @@
   },
   "id": "98a34393-6425-4516-bb76-6a8b228988ca",
   "tags": [
-    "-::TODO::studio::vocab::matching",
-    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "source::jastudio"
   ]
 }

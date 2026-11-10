@@ -35,18 +35,29 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [
-        "く"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "く"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [
+      {
+        "text": "なる",
+        "disambiguation": ""
+      },
       {
         "text": "成る",
         "disambiguation": ""
@@ -107,7 +118,6 @@
   "id": "2ae61cd0-5be8-4599-b48d-a78f97423ddb",
   "tags": [
     "-::vocab::matching::uses::prefix-is-not",
-    "legacy_scheduling",
     "source::core2000::step01"
   ]
 }

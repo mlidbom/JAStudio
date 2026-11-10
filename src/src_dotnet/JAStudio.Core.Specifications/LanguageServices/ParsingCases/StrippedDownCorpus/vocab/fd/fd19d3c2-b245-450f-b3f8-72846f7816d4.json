@@ -55,16 +55,10 @@
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "うまく",
-        "上手く"
-      ],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": [
+      "うまく",
+      "上手く"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -93,7 +87,6 @@
   },
   "id": "fd19d3c2-b245-450f-b3f8-72846f7816d4",
   "tags": [
-    "source::wani",
     "source::wani::level::05"
   ]
 }

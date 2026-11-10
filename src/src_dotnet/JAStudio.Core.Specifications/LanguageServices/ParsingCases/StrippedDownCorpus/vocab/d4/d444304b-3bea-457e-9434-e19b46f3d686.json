@@ -29,13 +29,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [
@@ -69,7 +63,6 @@
   },
   "id": "d444304b-3bea-457e-9434-e19b46f3d686",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::23"
   ]
 }

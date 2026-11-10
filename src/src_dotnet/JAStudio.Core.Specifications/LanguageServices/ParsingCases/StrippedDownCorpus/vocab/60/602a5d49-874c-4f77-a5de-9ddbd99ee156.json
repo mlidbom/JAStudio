@@ -81,17 +81,25 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "godanImperative": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "anyOf": [
+              {
+                "fact": "godanImperativeStem"
+              },
+              {
+                "fact": "godanImperativeInflection"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -119,5 +127,7 @@
     "images": []
   },
   "id": "602a5d49-874c-4f77-a5de-9ddbd99ee156",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

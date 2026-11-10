@@ -48,20 +48,27 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "ichidan": "forbidden",
-      "irrealis": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "ichidanVerb"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -86,6 +93,7 @@
   },
   "id": "42de2f02-f04f-45dc-8432-aece4a2787e5",
   "tags": [
-    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "source::jastudio"
   ]
 }

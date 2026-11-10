@@ -90,35 +90,33 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "godanImperative": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "anyOf": [
+              {
+                "fact": "godanImperativeStem"
+              },
+              {
+                "fact": "godanImperativeInflection"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
-    "perfectSynonyms": [
-      {
-        "text": "えそう",
-        "disambiguation": "imperative"
-      }
-    ],
-    "synonyms": [
-      {
-        "text": "えそう",
-        "disambiguation": "imperative"
-      }
-    ],
+    "perfectSynonyms": [],
+    "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": []
@@ -131,5 +129,7 @@
     "images": []
   },
   "id": "e55bed39-da69-45fe-8763-bfc7e1d2b8fa",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

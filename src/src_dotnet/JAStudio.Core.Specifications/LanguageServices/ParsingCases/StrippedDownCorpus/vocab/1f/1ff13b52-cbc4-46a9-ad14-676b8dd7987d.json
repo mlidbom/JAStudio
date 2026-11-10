@@ -48,21 +48,29 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": [
-        "い"
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "surface": {
+              "endsWithOneOf": [
+                "い"
+              ]
+            }
+          }
+        },
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        }
       ]
-    }
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -91,6 +99,7 @@
   },
   "id": "1ff13b52-cbc4-46a9-ad14-676b8dd7987d",
   "tags": [
-    "-::vocab::matching::uses::required-prefix"
+    "-::vocab::matching::uses::required-prefix",
+    "source::jastudio"
   ]
 }

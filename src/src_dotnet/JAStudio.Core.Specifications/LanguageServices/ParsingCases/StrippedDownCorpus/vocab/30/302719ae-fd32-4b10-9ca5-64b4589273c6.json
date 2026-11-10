@@ -38,13 +38,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -68,7 +62,6 @@
   },
   "id": "302719ae-fd32-4b10-9ca5-64b4589273c6",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

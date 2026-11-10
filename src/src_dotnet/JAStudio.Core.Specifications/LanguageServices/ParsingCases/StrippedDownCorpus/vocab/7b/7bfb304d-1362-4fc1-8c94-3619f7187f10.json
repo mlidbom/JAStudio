@@ -47,13 +47,7 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -146,6 +140,10 @@
         "disambiguation": ""
       },
       {
+        "text": "ていました",
+        "disambiguation": ""
+      },
+      {
         "text": "ています",
         "disambiguation": ""
       },
@@ -171,6 +169,10 @@
       },
       {
         "text": "でおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てました",
         "disambiguation": ""
       },
       {

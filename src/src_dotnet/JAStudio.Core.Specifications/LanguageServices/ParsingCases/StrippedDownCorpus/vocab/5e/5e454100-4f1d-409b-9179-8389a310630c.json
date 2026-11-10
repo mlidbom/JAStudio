@@ -42,15 +42,20 @@
       "isInflectingWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": [
-        "く"
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "surface": {
+              "endsWithOneOf": [
+                "く"
+              ]
+            }
+          }
+        }
       ]
-    }
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -75,6 +80,7 @@
   },
   "id": "5e454100-4f1d-409b-9179-8389a310630c",
   "tags": [
-    "-::vocab::matching::uses::required-prefix"
+    "-::vocab::matching::uses::required-prefix",
+    "source::jastudio"
   ]
 }

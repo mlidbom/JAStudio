@@ -49,21 +49,42 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "godanPotential": "forbidden",
-      "ichidan": "forbidden",
-      "irrealis": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "ichidanVerb"
+            }
+          }
+        },
+        {
+          "not": {
+            "firstToken": {
+              "anyOf": [
+                {
+                  "fact": "godanPotentialStem"
+                },
+                {
+                  "fact": "godanPotentialInflection"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -82,5 +103,7 @@
     "images": []
   },
   "id": "246ec33e-d622-46fa-8455-5a14bae92b8e",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

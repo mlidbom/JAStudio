@@ -8,7 +8,6 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Migration;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 
@@ -38,20 +37,15 @@ public sealed class VocabMatch : Match
 
    public VocabMatchInspector VocabInspector { get; }
    public VocabMatchingRequireForbidFlags RequiresForbids { get; }
-   public VocabNoteMatchingRules Rules { get; }
    public VocabNote Vocab { get; }
 
    bool? _anotherMatchOwnsTheFormCache = null;
-   readonly Lazy<AllOfGroup<CandidateWordVariant>> _matchCondition;
 
    public VocabMatch(CandidateWordVariant wordVariant, VocabNote vocab) : base(wordVariant)
    {
       VocabInspector = new VocabMatchInspector(this);
       RequiresForbids = vocab.MatchingConfiguration.RequiresForbids;
-      Rules = vocab.MatchingConfiguration.ConfigurableRules;
       Vocab = vocab;
-      //wip: built from today's rules until the corpus stores match-conditions (increment 3 in dev_docs/matching-configuration.md).
-      _matchCondition = new Lazy<AllOfGroup<CandidateWordVariant>>(() => TodaysMatchingRules.MatchConditionOf(vocab.MatchingConfiguration));
    }
 
    protected override List<FailedMatchRequirement> CreateStaticDisplayRequirementFailures() =>
@@ -72,11 +66,8 @@ public sealed class VocabMatch : Match
       CombinedRequirements.Select(requirement => requirement(VocabInspector)).All(failure => failure == null) &&
       MatchCondition.IsMetBy(Variant);
 
-   /// <summary>
-   /// The vocab's match-condition: a word matches the vocab only when it meets it. Built from the matching rules the corpus stores today<br/>
-   /// (<see cref="TodaysMatchingRules"/>), once for this match, since an analysis doesn't outlive a change to the vocab.
-   /// </summary>
-   public AllOfGroup<CandidateWordVariant> MatchCondition => _matchCondition.Value;
+   /// <summary>The vocab's match-condition (<see cref="VocabNoteMatchingConfiguration.MatchCondition"/>): a word matches the vocab only when it meets it.</summary>
+   public AllOfGroup<CandidateWordVariant> MatchCondition => Vocab.MatchingConfiguration.MatchCondition;
 
    protected override List<FailedMatchRequirement> CreateInterdependentValidityFailures()
    {

@@ -35,15 +35,9 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "なさい"
-      ],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": [
+      "なさい"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],

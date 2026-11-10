@@ -27,17 +27,18 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "masuStem": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "masuStem"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -66,7 +67,6 @@
   },
   "id": "5dbc72c7-198b-4382-a1d1-3ee0de6de50d",
   "tags": [
-    "legacy_scheduling",
     "source::lyrics::未来のひとへ",
     "source::wani::level::05"
   ]

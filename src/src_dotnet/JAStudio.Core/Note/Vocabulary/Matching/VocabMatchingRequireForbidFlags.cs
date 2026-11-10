@@ -7,8 +7,9 @@ using JAStudio.Core.Storage.Dto;
 namespace JAStudio.Core.Note.Vocabulary.Matching;
 
 /// <summary>
-/// A vocab's require/forbid rules (<see cref="RequireForbidFlagField"/>): one for each thing about a word that a vocab can require<br/>
-/// of the words that match it, or forbid, such as following a godan verb's stem (<see cref="Godan"/>) or ending the sentence (<see cref="SentenceEnd"/>).
+/// A vocab's require/forbid rules (<see cref="RequireForbidFlagField"/>) that aren't conditions in its match-condition: whether a word may start<br/>
+/// with a dictionary-form verb's ending (<see cref="DictionaryFormStart"/>), which every vocab forbids unless it requires it, and whether the vocab yields<br/>
+/// its last token to an overlapping compound (<see cref="YieldLastToken"/>), a rule on display.
 /// </summary>
 /// <remarks>The corpus stores only the rules that are set, each under its <see cref="RequireForbidFlagField.Name"/>.</remarks>
 public class VocabMatchingRequireForbidFlags
@@ -20,24 +21,7 @@ public class VocabMatchingRequireForbidFlags
    /// <param name="guard">Saves the vocab after a change.</param>
    internal VocabMatchingRequireForbidFlags(VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules, NoteGuard guard)
    {
-      MasuStem = Rule("masuStem", 50, 1);
-      Godan = Rule("godan", 50, 1);
-      Ichidan = Rule("ichidan", 50, 1);
-      Irrealis = Rule("irrealis", 50, 1);
-      AdverbHead = Rule("adverbHead", 30, 1);
-      PastTenseStem = Rule("pastTenseStem", 30, 1);
       DictionaryFormStart = Rule("dictionaryFormStart", 30, 1);
-      DictionaryFormHead = Rule("dictionaryFormHead", 30, 1);
-      TeFormStemStart = Rule("teFormStemStart", 20, 1);
-      TeFormStemHead = Rule("teFormStemHead", 20, 1);
-      IchidanImperative = Rule("ichidanImperative", 30, 1);
-      GodanPotential = Rule("godanPotential", 30, 1);
-      GodanImperative = Rule("godanImperative", 30, 1);
-      GodanImperativeHead = Rule("godanImperativeHead", 30, 1);
-      SingleToken = Rule("singleToken", 30, 1);
-      SentenceEnd = Rule("sentenceEnd", 10, 1);
-      SentenceStart = Rule("sentenceStart", 10, 1);
-      Surface = Rule("surface", 10, 1);
       YieldLastToken = Add(new YieldLastTokenToOverlappingCompound(partsOfSpeech, storedRules, guard));
       AssertEveryStoredRuleIsOneOfThese();
       return;
@@ -57,27 +41,12 @@ public class VocabMatchingRequireForbidFlags
       }
    }
 
-   public RequireForbidFlagField MasuStem { get; }
-   public RequireForbidFlagField Godan { get; }
-   public RequireForbidFlagField Ichidan { get; }
-   public RequireForbidFlagField Irrealis { get; }
-   public RequireForbidFlagField AdverbHead { get; }
-   public RequireForbidFlagField PastTenseStem { get; }
+   /// <summary>
+   /// Required, a word must start with a dictionary-form verb's ending to match, and the vocab's forms' placeholder for one is expanded. Otherwise,<br/>
+   /// required or not, a word that starts with one doesn't match. Forbidding it differs from leaving it unset only in what it weighs.
+   /// </summary>
    public RequireForbidFlagField DictionaryFormStart { get; }
-   public RequireForbidFlagField DictionaryFormHead { get; }
-   public RequireForbidFlagField TeFormStemStart { get; }
-   public RequireForbidFlagField TeFormStemHead { get; }
-   public RequireForbidFlagField IchidanImperative { get; }
-   public RequireForbidFlagField GodanPotential { get; }
-   public RequireForbidFlagField GodanImperative { get; }
-   public RequireForbidFlagField GodanImperativeHead { get; }
 
-   /// <summary>Required: the word must be a single token. Forbidden: it must be a compound of several.</summary>
-   public RequireForbidFlagField SingleToken { get; }
-
-   public RequireForbidFlagField SentenceEnd { get; }
-   public RequireForbidFlagField SentenceStart { get; }
-   public RequireForbidFlagField Surface { get; }
    public YieldLastTokenToOverlappingCompound YieldLastToken { get; }
 
    /// <summary>What the rules weigh together: see <see cref="VocabNoteMatchingConfiguration.CustomRequirementsWeight"/>.</summary>

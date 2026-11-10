@@ -2,8 +2,8 @@ import typing, abc
 from JAStudio.Core.Note.EditableFields import EditableField_2, EditableTextListField_1, EditableTextField_1, EditableSetField_2, EditableFlagField_1, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.Vocabulary import VocabNote, EnteredForm, UsuallyWrittenInKanaDecision, WordReference
 from System.Collections.Generic import IReadOnlyList_1
-from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice, RequireForbidFlagField
-from System import Func_2
+from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
+from System import Func_2, Action_2
 
 class EditableFormsField(EditableField_2[VocabNote, IReadOnlyList_1[EnteredForm]]):
     def __init__(self) -> None: ...
@@ -34,15 +34,13 @@ class EditablePartsOfSpeechField(EditableField_2[VocabNote, IReadOnlyList_1[str]
 
 
 class EditableRequireForbidField(EditableField_2[VocabNote, RequireForbidChoice]):
-    def __init__(self, name: str, label: str, ruleOn: Func_2[VocabNote, RequireForbidFlagField]) -> None: ...
+    def __init__(self, name: str, label: str, read: Func_2[VocabNote, RequireForbidChoice], write: Action_2[VocabNote, RequireForbidChoice]) -> None: ...
     @property
     def ChangesHowSentencesParse(self) -> bool: ...
     @property
     def Label(self) -> str: ...
     @property
     def Name(self) -> str: ...
-    @property
-    def RuleOn(self) -> Func_2[VocabNote, RequireForbidFlagField]: ...
     @property
     def ValueType(self) -> typing.Type[typing.Any]: ...
     def Read(self, note: VocabNote) -> RequireForbidChoice: ...
@@ -97,6 +95,7 @@ class VocabEditableFields(abc.ABC):
     Literary : EditableFlagField_1[VocabNote]
     LongExplanation : EditableTextField_1[VocabNote]
     MasuStem : EditableRequireForbidField
+    MatchCondition : EditableTextField_1[VocabNote]
     MatchWithPrecedingVowel : EditableFlagField_1[VocabNote]
     Mnemonic : EditableTextField_1[VocabNote]
     PartsOfSpeech : EditablePartsOfSpeechField

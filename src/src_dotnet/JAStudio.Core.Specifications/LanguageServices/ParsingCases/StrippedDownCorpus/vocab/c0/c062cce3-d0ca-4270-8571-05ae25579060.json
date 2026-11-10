@@ -48,27 +48,24 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      {
-        "text": "〜ておる |&nbsp;〜とる",
-        "disambiguation": ""
-      },
       {
         "text": "いでいる",
         "disambiguation": ""

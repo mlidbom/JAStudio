@@ -28,13 +28,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -73,7 +67,6 @@
   },
   "id": "d2eff495-9cbe-41f4-9fb6-a0e56d4e0d4b",
   "tags": [
-    "legacy_scheduling",
     "source::lyrics::未来のひとへ",
     "source::wani::level::07"
   ]

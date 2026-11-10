@@ -39,24 +39,41 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [
-        "い"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": [
-        "ん"
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "い"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "precedingToken": {
+            "surface": {
+              "endsWithOneOf": [
+                "ん"
+              ]
+            }
+          }
+        },
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        }
       ]
-    }
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -244,6 +261,7 @@
   "id": "8e8fdb1c-2542-457f-9ca3-73922f7a1d26",
   "tags": [
     "-::vocab::matching::uses::prefix-is-not",
-    "-::vocab::matching::uses::required-prefix"
+    "-::vocab::matching::uses::required-prefix",
+    "source::jastudio"
   ]
 }

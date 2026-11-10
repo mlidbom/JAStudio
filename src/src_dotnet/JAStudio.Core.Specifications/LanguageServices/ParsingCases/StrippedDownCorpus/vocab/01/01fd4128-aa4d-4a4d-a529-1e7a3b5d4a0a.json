@@ -28,15 +28,20 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [
-        "でしょう"
-      ],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "surface": {
+              "isOneOf": [
+                "でしょう"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -61,7 +66,6 @@
   "id": "01fd4128-aa4d-4a4d-a529-1e7a3b5d4a0a",
   "tags": [
     "-::vocab::matching::uses::surface-is-not",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

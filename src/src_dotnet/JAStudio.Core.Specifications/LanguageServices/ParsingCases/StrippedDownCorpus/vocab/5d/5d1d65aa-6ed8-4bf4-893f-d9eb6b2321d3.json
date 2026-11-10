@@ -36,23 +36,33 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "irrealis": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [
-        "なきゃ",
-        "なし",
-        "ねえ"
-      ],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "irrealis"
+            }
+          }
+        },
+        {
+          "not": {
+            "surface": {
+              "isOneOf": [
+                "なきゃ",
+                "なし",
+                "ねえ"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -97,6 +107,7 @@
   },
   "id": "5d1d65aa-6ed8-4bf4-893f-d9eb6b2321d3",
   "tags": [
-    "-::vocab::matching::uses::surface-is-not"
+    "-::vocab::matching::uses::surface-is-not",
+    "source::jastudio"
   ]
 }

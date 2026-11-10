@@ -35,13 +35,7 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -65,5 +59,7 @@
     "images": []
   },
   "id": "4f5c7aea-3f37-42f2-be40-8ba8627a33a7",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

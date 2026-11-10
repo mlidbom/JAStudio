@@ -60,13 +60,7 @@
       "dictionaryFormStart": "forbidden"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -85,5 +79,7 @@
     "images": []
   },
   "id": "a5cc413e-1e98-4256-8d60-43c4334b16c7",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

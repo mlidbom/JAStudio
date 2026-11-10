@@ -48,19 +48,34 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "adverbHead": "forbidden",
-      "irrealis": "forbidden",
-      "sentenceEnd": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "irrealis"
+            }
+          }
+        },
+        {
+          "not": {
+            "lastToken": {
+              "fact": "endOfStatement"
+            }
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "adverb"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -79,5 +94,7 @@
     "images": []
   },
   "id": "2e24bc32-48eb-4d4d-b7f2-7ce2e1679162",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

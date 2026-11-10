@@ -60,13 +60,7 @@
       "isInflectingWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -86,6 +80,7 @@
   },
   "id": "e3ccb231-ba95-4a18-b693-85b2fe7593bc",
   "tags": [
-    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "source::jastudio"
   ]
 }

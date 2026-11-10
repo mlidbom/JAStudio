@@ -8,14 +8,25 @@
     <ScrollViewer>
         <StackPanel Spacing="8" Margin="6">
             <Border Classes="section">
-                <StackPanel>
-                    <TextBlock Classes="sectionTitle" Text="Display" />
-                    <ContentControl Content="{Binding YieldLastToken}" />
+                <StackPanel Spacing="4">
+                    <TextBlock Classes="sectionTitle" Text="Match-condition" />
+                    <SelectableTextBlock Text="{Binding MatchCondition}" FontFamily="Consolas,Courier New,monospace" TextWrapping="Wrap" />
+                    <TextBlock IsVisible="{Binding !CanBeEditedRuleByRule}"
+                               TextWrapping="Wrap"
+                               Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it as a whole, as its JSON, through the MCP server." />
                 </StackPanel>
             </Border>
 
             <Border Classes="section">
                 <StackPanel>
+                    <TextBlock Classes="sectionTitle" Text="Display" />
+                    <ContentControl Content="{Binding YieldLastToken}" />
+                    <ContentControl Content="{Binding YieldToSurface}" />
+                </StackPanel>
+            </Border>
+
+            <Border Classes="section">
+                <StackPanel IsEnabled="{Binding CanBeEditedRuleByRule}">
                     <TextBlock Classes="sectionTitle" Text="Misc matching rules" />
                     <ItemsControl ItemsSource="{Binding MiscMatchingRules}" />
                 </StackPanel>
@@ -24,7 +35,8 @@
             <Border Classes="section">
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Stem matching rules" />
-                    <ItemsControl ItemsSource="{Binding StemMatchingRules}" />
+                    <ContentControl Content="{Binding DictionaryFormStart}" />
+                    <ItemsControl ItemsSource="{Binding StemMatchingRules}" IsEnabled="{Binding CanBeEditedRuleByRule}" />
                 </StackPanel>
             </Border>
 
@@ -43,7 +55,7 @@
             </Border>
 
             <Border Classes="section">
-                <StackPanel>
+                <StackPanel IsEnabled="{Binding CanBeEditedRuleByRule}">
                     <TextBlock Classes="sectionTitle" Text="String rules" />
                     <ItemsControl ItemsSource="{Binding TextSetRules}" />
                 </StackPanel>

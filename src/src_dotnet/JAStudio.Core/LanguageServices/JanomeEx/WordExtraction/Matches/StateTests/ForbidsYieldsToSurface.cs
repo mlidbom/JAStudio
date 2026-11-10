@@ -7,7 +7,7 @@ static class ForbidsYieldsToValidSurfaceSurface
 {
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {
-      var surfaces = inspector.Match.Rules.YieldToSurface;
+      var surfaces = inspector.Match.MatchingConfiguration.YieldToSurface.Surfaces;
       var surfaceVariant = inspector.SurfaceVariant;
       if(surfaceVariant.HasValidMatch && surfaces.Contains(surfaceVariant.Form))
       {

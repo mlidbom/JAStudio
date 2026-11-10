@@ -50,15 +50,22 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [
-        "ん"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "ん"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -83,6 +90,7 @@
   },
   "id": "b642ce5d-2123-46bf-8275-68a457375156",
   "tags": [
-    "-::vocab::matching::uses::prefix-is-not"
+    "-::vocab::matching::uses::prefix-is-not",
+    "source::jastudio"
   ]
 }

@@ -44,17 +44,19 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "irrealis": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -73,5 +75,7 @@
     "images": []
   },
   "id": "2bce3998-071a-42f4-b58a-3f3408814ce8",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

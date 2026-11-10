@@ -33,13 +33,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -69,7 +63,6 @@
   "id": "33bf9bc1-0744-4973-8d45-5776bc54eac1",
   "tags": [
     "-::formal-noun",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

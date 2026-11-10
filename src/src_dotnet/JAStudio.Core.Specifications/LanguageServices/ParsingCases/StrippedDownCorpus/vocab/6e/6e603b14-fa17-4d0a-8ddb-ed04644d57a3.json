@@ -39,13 +39,7 @@
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -69,7 +63,6 @@
   },
   "id": "6e603b14-fa17-4d0a-8ddb-ed04644d57a3",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

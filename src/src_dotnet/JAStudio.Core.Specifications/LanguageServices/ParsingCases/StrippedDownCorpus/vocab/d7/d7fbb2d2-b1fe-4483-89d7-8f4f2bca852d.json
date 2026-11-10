@@ -47,20 +47,14 @@
       "isOwned": false
     }
   ],
-  "sentenceCount": 538,
+  "sentenceCount": 539,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">CD:Sentence ender particles: ne, yo. na, kana, yone</a>",
   "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -84,7 +78,6 @@
   },
   "id": "d7fbb2d2-b1fe-4483-89d7-8f4f2bca852d",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

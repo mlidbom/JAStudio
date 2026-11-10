@@ -41,17 +41,16 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "singleToken": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "fact": "singleToken"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -70,5 +69,7 @@
     "images": []
   },
   "id": "21f95042-c8d2-4848-8e8c-2becec4458e2",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

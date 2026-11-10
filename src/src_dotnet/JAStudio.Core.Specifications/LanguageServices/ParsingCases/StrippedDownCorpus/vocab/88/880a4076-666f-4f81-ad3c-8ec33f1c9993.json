@@ -45,13 +45,7 @@
     "flags": [
       "isPoisonWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -70,5 +64,7 @@
     "images": []
   },
   "id": "880a4076-666f-4f81-ad3c-8ec33f1c9993",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

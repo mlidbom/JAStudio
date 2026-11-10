@@ -44,17 +44,18 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "sentenceEnd": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "lastToken": {
+            "fact": "endOfStatement"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -74,6 +75,7 @@
   },
   "id": "7d850624-109a-430d-9656-27187cdee521",
   "tags": [
-    "-::TODO::studio::vocab::matching::requires-forbids::predicate-adjective-verb-copula-prefix"
+    "-::TODO::studio::vocab::matching::requires-forbids::predicate-adjective-verb-copula-prefix",
+    "source::jastudio"
   ]
 }

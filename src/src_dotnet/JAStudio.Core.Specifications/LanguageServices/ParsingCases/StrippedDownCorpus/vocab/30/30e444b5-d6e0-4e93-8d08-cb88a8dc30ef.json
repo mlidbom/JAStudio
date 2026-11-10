@@ -50,15 +50,22 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [
-        "て"
-      ],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "followingToken": {
+              "surface": {
+                "startsWithOneOf": [
+                  "て"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -83,7 +90,6 @@
   "id": "30e444b5-d6e0-4e93-8d08-cb88a8dc30ef",
   "tags": [
     "-::vocab::matching::uses::suffix-is-not",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

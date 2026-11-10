@@ -57,18 +57,44 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "pastTenseStem": "forbidden",
-      "surface": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "anyOf": [
+              {
+                "precedingToken": {
+                  "fact": "pastTenseStem"
+                }
+              },
+              {
+                "allOf": [
+                  {
+                    "not": {
+                      "precedingText": {
+                        "fact": "empty"
+                      }
+                    }
+                  },
+                  {
+                    "firstToken": {
+                      "fact": "pastTenseMarker"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -105,5 +131,7 @@
     "images": []
   },
   "id": "83865919-ae21-4d86-b814-f700651c09ac",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

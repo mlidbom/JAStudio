@@ -44,13 +44,7 @@
       "dictionaryFormStart": "forbidden"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -69,5 +63,7 @@
     "images": []
   },
   "id": "6b751596-6377-486f-82d5-57e6a984629f",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

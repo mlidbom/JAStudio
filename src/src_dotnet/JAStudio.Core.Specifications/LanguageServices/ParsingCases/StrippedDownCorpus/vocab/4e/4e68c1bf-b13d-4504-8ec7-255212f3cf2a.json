@@ -47,19 +47,22 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
     "perfectSynonyms": [],
-    "synonyms": [],
+    "synonyms": [
+      {
+        "text": "何なんだ",
+        "disambiguation": ""
+      },
+      {
+        "text": "何なんです",
+        "disambiguation": ""
+      }
+    ],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": []
@@ -73,7 +76,6 @@
   },
   "id": "4e68c1bf-b13d-4504-8ec7-255212f3cf2a",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

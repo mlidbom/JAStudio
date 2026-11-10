@@ -36,13 +36,7 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -75,7 +69,6 @@
   },
   "id": "a2317963-e961-4c96-bcc4-8ad9ffbb738e",
   "tags": [
-    "legacy_scheduling",
     "source::core2000::step02"
   ]
 }

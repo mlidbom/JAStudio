@@ -3,6 +3,7 @@ from System import IEquatable_1
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from System.Text.Json.Nodes import JsonObject
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 
 class Condition_GenericClasses(abc.ABCMeta):
     Generic_Condition_GenericClasses_Condition_1_TSubject = typing.TypeVar('Generic_Condition_GenericClasses_Condition_1_TSubject')
@@ -106,6 +107,8 @@ class MatchConditionJson(abc.ABC):
     def MatchConditionFrom(json: JsonObject) -> Condition_1[CandidateWordVariant]: ...
     @staticmethod
     def Of(matchCondition: Condition_1[CandidateWordVariant]) -> JsonObject: ...
+    @staticmethod
+    def VocabsMatchConditionFrom(json: JsonObject) -> AllOfGroup_1[CandidateWordVariant]: ...
 
 
 class SubjectCondition_GenericClasses(abc.ABCMeta):

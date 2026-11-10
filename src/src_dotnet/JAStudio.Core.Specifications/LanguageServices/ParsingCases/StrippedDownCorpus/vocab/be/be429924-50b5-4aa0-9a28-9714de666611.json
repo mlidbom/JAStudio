@@ -39,18 +39,41 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "sentenceStart": "required",
-      "surface": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingText": {
+            "anyOf": [
+              {
+                "fact": "empty"
+              },
+              {
+                "endsWithOneOf": [
+                  "\t",
+                  " ",
+                  "\"",
+                  ".",
+                  "?",
+                  "​",
+                  "　",
+                  "。",
+                  "「",
+                  "」",
+                  "？",
+                  "｡"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],

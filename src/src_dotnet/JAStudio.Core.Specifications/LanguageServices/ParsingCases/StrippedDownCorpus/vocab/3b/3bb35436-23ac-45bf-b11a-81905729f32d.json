@@ -48,17 +48,38 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "sentenceStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingText": {
+            "anyOf": [
+              {
+                "fact": "empty"
+              },
+              {
+                "endsWithOneOf": [
+                  "\t",
+                  " ",
+                  "\"",
+                  ".",
+                  "?",
+                  "​",
+                  "　",
+                  "。",
+                  "「",
+                  "」",
+                  "？",
+                  "｡"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -77,5 +98,7 @@
     "images": []
   },
   "id": "3bb35436-23ac-45bf-b11a-81905729f32d",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

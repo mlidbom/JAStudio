@@ -37,15 +37,9 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "こい"
-      ],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": [
+      "こい"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -74,7 +68,6 @@
   },
   "id": "3cb7e3ef-aadf-447d-872b-d0ef86f44c25",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::05"
   ]
 }

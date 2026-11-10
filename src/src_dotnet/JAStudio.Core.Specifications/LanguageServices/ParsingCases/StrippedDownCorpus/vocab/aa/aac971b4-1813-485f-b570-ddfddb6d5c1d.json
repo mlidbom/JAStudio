@@ -52,15 +52,9 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "てください"
-      ],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": [
+      "てください"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -88,5 +82,7 @@
     "images": []
   },
   "id": "aac971b4-1813-485f-b570-ddfddb6d5c1d",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

@@ -53,17 +53,22 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [
-        "よし"
-      ],
-      "yieldToSurface": [
-        "よく"
-      ],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "surface": {
+              "isOneOf": [
+                "よし"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": [
+      "よく"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],

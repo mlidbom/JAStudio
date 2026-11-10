@@ -63,24 +63,13 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
     "perfectSynonyms": [],
-    "synonyms": [
-      {
-        "text": "られない",
-        "disambiguation": ""
-      }
-    ],
+    "synonyms": [],
     "antonyms": [],
     "confusedWith": [],
     "seeAlso": []
@@ -93,5 +82,7 @@
     "images": []
   },
   "id": "ef567631-2987-4056-a05a-2c228b721529",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

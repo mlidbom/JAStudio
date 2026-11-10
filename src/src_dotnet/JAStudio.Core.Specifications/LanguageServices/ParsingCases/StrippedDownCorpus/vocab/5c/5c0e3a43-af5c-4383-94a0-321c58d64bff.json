@@ -32,19 +32,18 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "singleToken": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "うまく"
-      ],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "fact": "singleToken"
+        }
+      ]
+    },
+    "yieldToSurface": [
+      "うまく"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -73,7 +72,6 @@
   },
   "id": "5c0e3a43-af5c-4383-94a0-321c58d64bff",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::43"
   ]
 }

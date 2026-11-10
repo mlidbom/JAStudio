@@ -46,16 +46,14 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [
+      {
+        "text": "つける",
+        "disambiguation": ""
+      },
       {
         "text": "付ける",
         "disambiguation": ""
@@ -86,7 +84,6 @@
   },
   "id": "3ee55b8b-f908-4935-ae46-f2082c1bb1ff",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::09"
   ]
 }

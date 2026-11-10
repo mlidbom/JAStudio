@@ -74,13 +74,7 @@
       "isInflectingWord",
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -106,7 +100,6 @@
   "id": "0e6daa5b-6dea-44e4-b4d1-af1d6c360220",
   "tags": [
     "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

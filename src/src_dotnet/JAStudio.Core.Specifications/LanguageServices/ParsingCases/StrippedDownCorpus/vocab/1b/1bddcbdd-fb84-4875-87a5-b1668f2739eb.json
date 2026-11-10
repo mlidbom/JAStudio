@@ -51,31 +51,48 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "godanPotential": "forbidden",
-      "ichidan": "forbidden",
-      "irrealis": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "ichidanVerb"
+            }
+          }
+        },
+        {
+          "not": {
+            "firstToken": {
+              "anyOf": [
+                {
+                  "fact": "godanPotentialStem"
+                },
+                {
+                  "fact": "godanPotentialInflection"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      {
-        "text": "あれない",
-        "disambiguation": ""
-      },
       {
         "text": "えれない",
         "disambiguation": ""
@@ -98,6 +115,7 @@
   },
   "id": "1bddcbdd-fb84-4875-87a5-b1668f2739eb",
   "tags": [
-    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "source::jastudio"
   ]
 }

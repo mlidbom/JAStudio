@@ -62,13 +62,7 @@
     "flags": [
       "isCompositionallyTransparentCompound"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -87,5 +81,7 @@
     "images": []
   },
   "id": "93cc7ef1-75fe-41e1-a1f1-df8aaf67cc07",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

@@ -35,21 +35,38 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "ichidanImperative": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [
-        "くれ"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "くれ"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "firstToken": {
+            "anyOf": [
+              {
+                "fact": "ichidanImperativeStem"
+              },
+              {
+                "fact": "ichidanImperativeInflection"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -78,6 +95,7 @@
   },
   "id": "e268ce3b-95c7-4860-ae31-9693be3dc7ab",
   "tags": [
-    "-::vocab::matching::uses::prefix-is-not"
+    "-::vocab::matching::uses::prefix-is-not",
+    "source::jastudio"
   ]
 }

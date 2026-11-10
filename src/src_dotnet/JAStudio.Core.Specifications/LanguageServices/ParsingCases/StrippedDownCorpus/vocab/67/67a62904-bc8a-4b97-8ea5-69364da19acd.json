@@ -28,19 +28,22 @@
   "references": "Cure Dolly: {\n   <a href=\"https://youtu.be/OiKgudW9xB8?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=505\">Secrets of the で particle. Why do we say みんなで行く? and 世界で一番? | Lesson 55</a> \n}\n<br><a href=\"https://www.japanesewithanime.com/2019/07/de-particle.html\">で Particle | Japanese with Anime</a>",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "firstToken": {
+              "fact": "teFormStem"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -77,7 +80,6 @@
   },
   "id": "67a62904-bc8a-4b97-8ea5-69364da19acd",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

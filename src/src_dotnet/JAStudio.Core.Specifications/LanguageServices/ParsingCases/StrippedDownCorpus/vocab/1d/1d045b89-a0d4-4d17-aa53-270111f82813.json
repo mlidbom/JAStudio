@@ -50,13 +50,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -80,7 +74,6 @@
   },
   "id": "1d045b89-a0d4-4d17-aa53-270111f82813",
   "tags": [
-    "legacy_scheduling",
     "source::core2000::step05"
   ]
 }

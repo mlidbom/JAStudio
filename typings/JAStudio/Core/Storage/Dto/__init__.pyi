@@ -1,9 +1,10 @@
-import typing, abc
-from MemoryPack import IMemoryPackable_1, IMemoryPackFormatterRegister
+import typing, clr, abc
+from MemoryPack import IMemoryPackable_1, IMemoryPackFormatterRegister, MemoryPackCustomFormatterAttribute_2, MemoryPackFormatter_1, MemoryPackReader, MemoryPackWriter_1
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 from JAStudio.Core.Storage import IIdentifiableByGuid
 from System import Guid, Action
 from System.Collections.Generic import List_1, Dictionary_2
+from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Sentences import SentenceConfiguration, ParsingResult
 
 class AudioReferenceDto(IMemoryPackable_1[AudioReferenceDto]):
@@ -73,6 +74,30 @@ class ImageReferenceDto(IMemoryPackable_1[ImageReferenceDto]):
     @staticmethod
     def From(image: ImageReference) -> ImageReferenceDto: ...
     def ToReference(self) -> ImageReference: ...
+
+
+class JsonObjectAsJsonTextAttribute(MemoryPackCustomFormatterAttribute_2[JsonObjectAsJsonTextFormatter, JsonObject]):
+    def __init__(self) -> None: ...
+    @property
+    def TypeId(self) -> typing.Any: ...
+    def GetFormatter(self) -> JsonObjectAsJsonTextFormatter: ...
+
+
+class JsonObjectAsJsonTextFormatter(MemoryPackFormatter_1[JsonObject]):
+    def __init__(self) -> None: ...
+    def Deserialize(self, reader: clr.Reference[MemoryPackReader], value: clr.Reference[JsonObject]) -> None: ...
+    # Skipped Serialize due to it being static, abstract and generic.
+
+    Serialize : Serialize_MethodGroup
+    class Serialize_MethodGroup:
+        def __getitem__(self, t:typing.Type[Serialize_1_T1]) -> Serialize_1[Serialize_1_T1]: ...
+
+        Serialize_1_T1 = typing.TypeVar('Serialize_1_T1')
+        class Serialize_1(typing.Generic[Serialize_1_T1]):
+            Serialize_1_TBufferWriter = JsonObjectAsJsonTextFormatter.Serialize_MethodGroup.Serialize_1_T1
+            def __call__(self, writer: clr.Reference[MemoryPackWriter_1[Serialize_1_TBufferWriter]], value: clr.Reference[JsonObject]) -> None:...
+
+
 
 
 class KanjiDto(CorpusNoteDto, IMemoryPackable_1[KanjiDto]):
@@ -438,6 +463,10 @@ class VocabDto(CorpusNoteDto, IMemoryPackable_1[VocabDto]):
 class VocabMatchingDto(IMemoryPackable_1[VocabMatchingDto]):
     def __init__(self) -> None: ...
     @property
+    def Condition(self) -> JsonObject: ...
+    @Condition.setter
+    def Condition(self, value: JsonObject) -> JsonObject: ...
+    @property
     def Flags(self) -> List_1[str]: ...
     @Flags.setter
     def Flags(self, value: List_1[str]) -> List_1[str]: ...
@@ -449,6 +478,10 @@ class VocabMatchingDto(IMemoryPackable_1[VocabMatchingDto]):
     def Rules(self) -> VocabMatchingRulesDto: ...
     @Rules.setter
     def Rules(self, value: VocabMatchingRulesDto) -> VocabMatchingRulesDto: ...
+    @property
+    def YieldToSurface(self) -> List_1[str]: ...
+    @YieldToSurface.setter
+    def YieldToSurface(self, value: List_1[str]) -> List_1[str]: ...
 
 
 class VocabMatchingRulesDto(IMemoryPackable_1[VocabMatchingRulesDto]):

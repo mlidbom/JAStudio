@@ -52,18 +52,43 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "sentenceEnd": "required",
-      "sentenceStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingText": {
+            "anyOf": [
+              {
+                "fact": "empty"
+              },
+              {
+                "endsWithOneOf": [
+                  "\t",
+                  " ",
+                  "\"",
+                  ".",
+                  "?",
+                  "​",
+                  "　",
+                  "。",
+                  "「",
+                  "」",
+                  "？",
+                  "｡"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "lastToken": {
+            "fact": "endOfStatement"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -75,12 +100,7 @@
         "disambiguation": ""
       }
     ],
-    "antonyms": [
-      {
-        "text": "いや ちょっとね",
-        "disambiguation": ""
-      }
-    ],
+    "antonyms": [],
     "confusedWith": [],
     "seeAlso": []
   },
@@ -97,7 +117,6 @@
   },
   "id": "e749f878-2d51-4781-89a0-42725e5f6127",
   "tags": [
-    "legacy_scheduling",
     "source::core2000::step10"
   ]
 }

@@ -47,20 +47,28 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "ichidan": "forbidden",
-      "irrealis": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "ichidanVerb"
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -97,5 +105,7 @@
     "images": []
   },
   "id": "182b5f91-17e6-41ce-b062-bad3478d55a9",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

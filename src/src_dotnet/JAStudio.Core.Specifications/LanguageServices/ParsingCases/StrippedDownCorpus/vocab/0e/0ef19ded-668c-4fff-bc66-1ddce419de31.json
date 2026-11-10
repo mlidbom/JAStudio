@@ -45,15 +45,9 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "いらっしゃいませ"
-      ],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": [
+      "いらっしゃいませ"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -72,5 +66,7 @@
     "images": []
   },
   "id": "0ef19ded-668c-4fff-bc66-1ddce419de31",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

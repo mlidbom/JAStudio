@@ -48,20 +48,23 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "sentenceEnd": "required",
-      "surface": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isPoisonWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "lastToken": {
+            "fact": "endOfStatement"
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -81,6 +84,7 @@
   },
   "id": "4afe9a68-ea87-48a0-8adb-a97dcd43dffd",
   "tags": [
-    "-::TODO"
+    "-::TODO",
+    "source::jastudio"
   ]
 }

@@ -51,13 +51,7 @@
       "dictionaryFormStart": "forbidden"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -81,7 +75,6 @@
   },
   "id": "8e5d7005-0538-4131-a09b-7f8317fb09f6",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

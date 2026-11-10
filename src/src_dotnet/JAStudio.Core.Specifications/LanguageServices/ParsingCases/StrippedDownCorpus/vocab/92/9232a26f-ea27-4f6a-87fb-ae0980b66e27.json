@@ -34,13 +34,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -70,7 +64,6 @@
   "id": "9232a26f-ea27-4f6a-87fb-ae0980b66e27",
   "tags": [
     "-::vocab::is-ichidan-hiding-godan-potential",
-    "legacy_scheduling",
     "source::wani::level::04"
   ]
 }

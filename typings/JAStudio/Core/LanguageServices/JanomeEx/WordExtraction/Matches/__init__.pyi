@@ -5,7 +5,7 @@ from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant, CandidateWord, WordExclusion
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
-from JAStudio.Core.Note.Vocabulary.Matching import VocabNoteMatchingConfiguration, VocabMatchingRequireForbidFlags, VocabNoteMatchingRules
+from JAStudio.Core.Note.Vocabulary.Matching import VocabNoteMatchingConfiguration, VocabMatchingRequireForbidFlags
 
 class DictionaryMatch(Match):
     @property
@@ -180,8 +180,6 @@ class VocabMatch(Match):
     def Readings(self) -> List_1[str]: ...
     @property
     def RequiresForbids(self) -> VocabMatchingRequireForbidFlags: ...
-    @property
-    def Rules(self) -> VocabNoteMatchingRules: ...
     @property
     def StartIndex(self) -> int: ...
     @property

@@ -33,7 +33,7 @@ public class When_getting_the_editable_fields_of_a_note : McpServerSpecification
       [XF] public void the_readings_are_listed_with_their_value() => JsonNode.DeepEquals(Field("readings").Value, new JsonArray("いった")).Must().BeTrue();
       [XF] public void the_readings_take_a_list_of_texts() => Field("readings").Takes.Must().Be("a list of texts");
       [XF] public void the_readings_are_labeled_as_in_the_vocabs_editor() => Field("readings").Label.Must().Be("Readings");
-      [XF] public void the_surface_rule_takes_unset_required_or_forbidden() => Field("matching.requiredOrForbidden.surface").Takes.Must().Be("one of \"unset\", \"required\", \"forbidden\"");
+      [XF] public void the_surface_rule_takes_unset_required_or_forbidden() => Field("matching.rules.surface").Takes.Must().Be("one of \"unset\", \"required\", \"forbidden\"");
       [XF] public void the_forms_change_how_sentences_parse() => Field("forms").ChangesHowSentencesParse.Must().BeTrue();
       [XF] public void the_answer_does_not_change_how_sentences_parse() => Field("corpusAnswer").ChangesHowSentencesParse.Must().BeFalse();
    }

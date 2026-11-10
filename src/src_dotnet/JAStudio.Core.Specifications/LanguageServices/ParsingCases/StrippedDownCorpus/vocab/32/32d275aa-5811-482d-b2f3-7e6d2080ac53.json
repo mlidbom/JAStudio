@@ -26,21 +26,51 @@
   "references": "Cure Dolly: {\n<a href=\"https://www.youtube.com/watch?v=hS02cADsjfI&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=86\">Understanding copulas: である, であります、でござる、でございます</a>\n}\n<a href=\"https://www.japanesewithanime.com/2019/10/da-copula.html?m=1\">だ Copula | Japanese with Anime</a><br><a href=\"https://www.tofugu.com/japanese-grammar/da/\">だ: Japanese Word for Present/Positiveness with a \"Punch\" (tofugu.com)</a><br><a href=\"https://www.tofugu.com/japanese/da-vs-desu-in-real-life/\">Da (だ) vs Desu (です)—How People Use them in Real Life (tofugu.com)</a>",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "pastTenseStem": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [
-        "で",
-        "な",
-        "なら"
-      ],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "anyOf": [
+              {
+                "precedingToken": {
+                  "fact": "pastTenseStem"
+                }
+              },
+              {
+                "allOf": [
+                  {
+                    "not": {
+                      "precedingText": {
+                        "fact": "empty"
+                      }
+                    }
+                  },
+                  {
+                    "firstToken": {
+                      "fact": "pastTenseMarker"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "not": {
+            "surface": {
+              "isOneOf": [
+                "で",
+                "な",
+                "なら"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -82,7 +112,6 @@
   "id": "32d275aa-5811-482d-b2f3-7e6d2080ac53",
   "tags": [
     "-::vocab::matching::uses::surface-is-not",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

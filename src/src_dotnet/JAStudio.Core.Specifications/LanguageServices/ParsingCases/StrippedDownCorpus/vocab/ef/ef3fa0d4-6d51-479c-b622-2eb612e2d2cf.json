@@ -29,15 +29,22 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [
-        "や"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "や"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -62,7 +69,6 @@
   "id": "ef3fa0d4-6d51-479c-b622-2eb612e2d2cf",
   "tags": [
     "-::vocab::matching::uses::prefix-is-not",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

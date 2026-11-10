@@ -49,17 +49,17 @@
   "images": [],
   "matching": {
     "requiredOrForbidden": {
-      "singleToken": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "fact": "singleToken"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -78,5 +78,7 @@
     "images": []
   },
   "id": "56f0e270-2d9a-4ed7-957f-8d32ebebf2d7",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

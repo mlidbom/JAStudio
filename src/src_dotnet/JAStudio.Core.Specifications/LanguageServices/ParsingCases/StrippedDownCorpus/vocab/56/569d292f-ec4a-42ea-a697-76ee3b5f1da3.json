@@ -43,19 +43,19 @@
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden",
-      "singleToken": "required",
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [
-        "うまく"
-      ],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "fact": "singleToken"
+        }
+      ]
+    },
+    "yieldToSurface": [
+      "うまく"
+    ]
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -74,5 +74,7 @@
     "images": []
   },
   "id": "569d292f-ec4a-42ea-a697-76ee3b5f1da3",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

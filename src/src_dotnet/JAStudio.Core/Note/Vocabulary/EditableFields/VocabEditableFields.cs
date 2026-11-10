@@ -1,9 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.SysUtils.Json;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
 namespace JAStudio.Core.Note.Vocabulary.EditableFields;
@@ -64,24 +71,24 @@ public static class VocabEditableFields
       new("sourceData.readingMnemonic", "Reading mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.ReadingMnemonic);
 
    public static readonly EditableRequireForbidField YieldLastToken = RequireForbidRule("yieldLastTokenToOverlappingCompound", "Yield to overlapping following compound", it => it.YieldLastToken);
-   public static readonly EditableRequireForbidField Surface = RequireForbidRule("surface", "Surface", it => it.Surface);
-   public static readonly EditableRequireForbidField SentenceEnd = RequireForbidRule("sentenceEnd", "Sentence end", it => it.SentenceEnd);
-   public static readonly EditableRequireForbidField SentenceStart = RequireForbidRule("sentenceStart", "Sentence start", it => it.SentenceStart);
-   public static readonly EditableRequireForbidField SingleToken = RequireForbidRule("singleToken", "Single token", it => it.SingleToken);
-   public static readonly EditableRequireForbidField GodanImperative = RequireForbidRule("godanImperative", "Godan imperative", it => it.GodanImperative);
-   public static readonly EditableRequireForbidField GodanImperativeHead = RequireForbidRule("godanImperativeHead", "Godan imperative (head)", it => it.GodanImperativeHead);
-   public static readonly EditableRequireForbidField GodanPotential = RequireForbidRule("godanPotential", "Godan potential", it => it.GodanPotential);
-   public static readonly EditableRequireForbidField IchidanImperative = RequireForbidRule("ichidanImperative", "Ichidan imperative", it => it.IchidanImperative);
-   public static readonly EditableRequireForbidField MasuStem = RequireForbidRule("masuStem", "Masu stem", it => it.MasuStem);
-   public static readonly EditableRequireForbidField Godan = RequireForbidRule("godan", "Godan", it => it.Godan);
-   public static readonly EditableRequireForbidField Ichidan = RequireForbidRule("ichidan", "Ichidan", it => it.Ichidan);
-   public static readonly EditableRequireForbidField Irrealis = RequireForbidRule("irrealis", "Irrealis", it => it.Irrealis);
-   public static readonly EditableRequireForbidField PastTenseStem = RequireForbidRule("pastTenseStem", "Past tense stem", it => it.PastTenseStem);
+   public static readonly EditableRequireForbidField Surface = MatchingRule(MatchingRules.Surface, "Surface");
+   public static readonly EditableRequireForbidField SentenceEnd = MatchingRule(MatchingRules.SentenceEnd, "Sentence end");
+   public static readonly EditableRequireForbidField SentenceStart = MatchingRule(MatchingRules.SentenceStart, "Sentence start");
+   public static readonly EditableRequireForbidField SingleToken = MatchingRule(MatchingRules.SingleToken, "Single token");
+   public static readonly EditableRequireForbidField GodanImperative = MatchingRule(MatchingRules.GodanImperative, "Godan imperative");
+   public static readonly EditableRequireForbidField GodanImperativeHead = MatchingRule(MatchingRules.GodanImperativeHead, "Godan imperative (head)");
+   public static readonly EditableRequireForbidField GodanPotential = MatchingRule(MatchingRules.GodanPotential, "Godan potential");
+   public static readonly EditableRequireForbidField IchidanImperative = MatchingRule(MatchingRules.IchidanImperative, "Ichidan imperative");
+   public static readonly EditableRequireForbidField MasuStem = MatchingRule(MatchingRules.MasuStem, "Masu stem");
+   public static readonly EditableRequireForbidField Godan = MatchingRule(MatchingRules.Godan, "Godan");
+   public static readonly EditableRequireForbidField Ichidan = MatchingRule(MatchingRules.Ichidan, "Ichidan");
+   public static readonly EditableRequireForbidField Irrealis = MatchingRule(MatchingRules.Irrealis, "Irrealis");
+   public static readonly EditableRequireForbidField PastTenseStem = MatchingRule(MatchingRules.PastTenseStem, "Past tense stem");
    public static readonly EditableRequireForbidField DictionaryFormStart = RequireForbidRule("dictionaryFormStart", "Dictionary form (start)", it => it.DictionaryFormStart);
-   public static readonly EditableRequireForbidField DictionaryFormHead = RequireForbidRule("dictionaryFormHead", "Dictionary form (head)", it => it.DictionaryFormHead);
-   public static readonly EditableRequireForbidField AdverbHead = RequireForbidRule("adverbHead", "Adverb (head)", it => it.AdverbHead);
-   public static readonly EditableRequireForbidField TeFormStemStart = RequireForbidRule("teFormStemStart", "て-form stem (start)", it => it.TeFormStemStart);
-   public static readonly EditableRequireForbidField TeFormStemHead = RequireForbidRule("teFormStemHead", "て-form stem (head)", it => it.TeFormStemHead);
+   public static readonly EditableRequireForbidField DictionaryFormHead = MatchingRule(MatchingRules.DictionaryFormHead, "Dictionary form (head)");
+   public static readonly EditableRequireForbidField AdverbHead = MatchingRule(MatchingRules.AdverbHead, "Adverb (head)");
+   public static readonly EditableRequireForbidField TeFormStemStart = MatchingRule(MatchingRules.TeFormStemStart, "て-form stem (start)");
+   public static readonly EditableRequireForbidField TeFormStemHead = MatchingRule(MatchingRules.TeFormStemHead, "て-form stem (head)");
 
    public static readonly EditableFlagField<VocabNote> IsInflectingWord = MatchingFlag("isInflectingWord", "Inflecting word", it => it.IsInflectingWord, changesHowSentencesParse: true);
    public static readonly EditableFlagField<VocabNote> IsPoisonWord = MatchingFlag("isPoisonWord", "Poison word", it => it.IsPoisonWord, changesHowSentencesParse: true);
@@ -95,11 +102,29 @@ public static class VocabEditableFields
                    it => it.QuestionOverridesForm,
                    changesHowSentencesParse: true);
 
-   public static readonly EditableTextSetField<VocabNote> PrefixIsNot = TextSetRule("prefixIsNot", "Prefix is not", it => it.PrefixIsNot);
-   public static readonly EditableTextSetField<VocabNote> RequiredPrefix = TextSetRule("requiredPrefix", "Required prefix", it => it.RequiredPrefix);
-   public static readonly EditableTextSetField<VocabNote> SuffixIsNot = TextSetRule("suffixIsNot", "Suffix is not", it => it.SuffixIsNot);
-   public static readonly EditableTextSetField<VocabNote> SurfaceIsNot = TextSetRule("surfaceIsNot", "Surface is not", it => it.SurfaceIsNot);
-   public static readonly EditableTextSetField<VocabNote> YieldToSurface = TextSetRule("yieldToSurface", "Yield to surface", it => it.YieldToSurface);
+   public static readonly EditableTextSetField<VocabNote> PrefixIsNot = MatchingRule(MatchingRules.PrefixIsNot, "Prefix is not");
+   public static readonly EditableTextSetField<VocabNote> RequiredPrefix = MatchingRule(MatchingRules.RequiredPrefix, "Required prefix");
+   public static readonly EditableTextSetField<VocabNote> SuffixIsNot = MatchingRule(MatchingRules.SuffixIsNot, "Suffix is not");
+   public static readonly EditableTextSetField<VocabNote> SurfaceIsNot = MatchingRule(MatchingRules.SurfaceIsNot, "Surface is not");
+   /// <summary>The vocab's <see cref="VocabNoteMatchingConfiguration.YieldToSurface"/> rule, a rule on display.</summary>
+   public static readonly EditableTextSetField<VocabNote> YieldToSurface =
+      new("matching.yieldToSurface",
+          "Yield to surface",
+          it => it.MatchingConfiguration.YieldToSurface.Surfaces,
+          it => it.MatchingConfiguration.YieldToSurface.Save(),
+          changesHowSentencesParse: true);
+
+   /// <summary>
+   /// The vocab's whole <see cref="VocabNoteMatchingConfiguration.MatchCondition"/>, as JSON (<see cref="MatchConditionJson"/>): empty for none. It can hold<br/>
+   /// any condition, where the matching rules above edit only one made of rules. A condition that isn't an "all of" is made the only one in one.
+   /// </summary>
+   public static readonly EditableTextField<VocabNote> MatchCondition =
+      new("matching.condition",
+          "Match-condition",
+          TextFieldFormat.Paragraphs,
+          it => it.MatchingConfiguration.MatchCondition.IsEmpty ? "" : MatchConditionJson.Of(it.MatchingConfiguration.MatchCondition).ToJsonString(IndentedJson),
+          (it, json) => it.MatchingConfiguration.SetMatchCondition(MatchConditionIn(json)),
+          changesHowSentencesParse: true);
 
    public static readonly EditableUsuallyWrittenInKanaField UsuallyWrittenInKana = new();
 
@@ -171,7 +196,7 @@ public static class VocabEditableFields
       YieldLastToken, Surface, SentenceEnd, SentenceStart, SingleToken, GodanImperative, GodanImperativeHead, GodanPotential, IchidanImperative, MasuStem,
       Godan, Ichidan, Irrealis, PastTenseStem, DictionaryFormStart, DictionaryFormHead, AdverbHead, TeFormStemStart, TeFormStemHead,
       IsInflectingWord, IsPoisonWord, MatchWithPrecedingVowel, QuestionOverridesForm, PrefixIsNot, RequiredPrefix, SuffixIsNot, SurfaceIsNot, YieldToSurface,
-      UsuallyWrittenInKana, IsCompositionallyTransparentCompound,
+      MatchCondition, UsuallyWrittenInKana, IsCompositionallyTransparentCompound,
       Archaic, Childish, Derogatory, Formal, Honorific, Humble, Informal, Literary, Polite, RoughMasculine, Sensitive, Slang, SoftFeminine, Vulgar,
       Tags,
       Synonyms, PerfectSynonyms, Antonyms, ConfusedWith, SeeAlso, ErgativeTwins, DerivedFrom
@@ -188,17 +213,38 @@ public static class VocabEditableFields
 
    static List<string> DisambiguationNamesOf(IEnumerable<WordReference> words) => [.. words.Select(it => it.DisambiguationName)];
 
-   /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>
+   /// <summary>One of the vocab's require/forbid rules that aren't in its match-condition (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableRequireForbidField RequireForbidRule(string name, string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>
-      new($"matching.requiredOrForbidden.{name}", label, it => rule(it.MatchingConfiguration.RequiresForbids));
+      new($"matching.requiredOrForbidden.{name}",
+          label,
+          it => rule(it.MatchingConfiguration.RequiresForbids).Choice,
+          (it, choice) => rule(it.MatchingConfiguration.RequiresForbids).Choose(choice));
+
+   /// <summary>A matching rule of the vocab's match-condition that a vocab requires or forbids (<see cref="MatchConditionAsRules"/>).</summary>
+   static EditableRequireForbidField MatchingRule(RequireForbidMatchingRule rule, string label) =>
+      new($"matching.rules.{rule.Name}", label, it => it.MatchingConfiguration.Rules.ChoiceOf(rule), (it, choice) => it.MatchingConfiguration.Rules.Choose(rule, choice));
 
    /// <summary>One of the vocab's matching flags (<see cref="VocabMatchingFlags"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableFlagField<VocabNote> MatchingFlag(string name, string label, Func<VocabMatchingFlags, FlagField> flag, bool changesHowSentencesParse) =>
       new($"matching.flags.{name}", label, it => flag(it.MatchingConfiguration.Flags), changesHowSentencesParse);
 
-   /// <summary>One of the vocab's configurable matching rules (<see cref="VocabNoteMatchingRules"/>), named <paramref name="name"/> in the corpus.</summary>
-   static EditableTextSetField<VocabNote> TextSetRule(string name, string label, Func<VocabNoteMatchingRules, HashSet<string>> rule) =>
-      new($"matching.rules.{name}", label, it => rule(it.MatchingConfiguration.ConfigurableRules), it => it.MatchingConfiguration.ConfigurableRules.Save(), changesHowSentencesParse: true);
+   /// <summary>A matching rule of the vocab's match-condition that a vocab gives texts (<see cref="MatchConditionAsRules"/>).</summary>
+   static EditableTextSetField<VocabNote> MatchingRule(TextsMatchingRule rule, string label) =>
+      new($"matching.rules.{rule.Name}",
+          label,
+          it => it.MatchingConfiguration.Rules.TextsOf(rule),
+          (it, text) => it.MatchingConfiguration.Rules.SetTexts(rule, [.. it.MatchingConfiguration.Rules.TextsOf(rule), text]),
+          (it, text) => it.MatchingConfiguration.Rules.SetTexts(rule, it.MatchingConfiguration.Rules.TextsOf(rule).Where(each => each != text)),
+          changesHowSentencesParse: true);
+
+   static readonly JsonSerializerOptions IndentedJson = new() { WriteIndented = true, Encoder = FullUnicodeJsonEncoder.Instance };
+
+   /// <summary>The match-condition the JSON text <paramref name="json"/> holds: none when it's empty.</summary>
+   /// <exception cref="FormatException">When it isn't a condition on a word.</exception>
+   static AllOfGroup<CandidateWordVariant> MatchConditionIn(string json) =>
+      json.Trim().Length == 0
+         ? ConditionGroup.AllOf<CandidateWordVariant>()
+         : MatchConditionJson.VocabsMatchConditionFrom(JsonNode.Parse(json) as JsonObject ?? throw new FormatException($"A match-condition is a JSON object: {json}"));
 
    /// <summary>One of the vocab's register flags (<see cref="VocabNoteRegister"/>), such as whether it's formal, named <paramref name="name"/> in the corpus.</summary>
    static EditableFlagField<VocabNote> RegisterFlag(string name, string label, Func<VocabNoteRegister, FlagField> flag) =>

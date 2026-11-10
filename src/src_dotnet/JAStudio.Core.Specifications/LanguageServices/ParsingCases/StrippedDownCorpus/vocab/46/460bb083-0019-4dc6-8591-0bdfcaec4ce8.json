@@ -64,21 +64,42 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemHead": "forbidden"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [
-        "を"
-      ],
-      "suffixIsNot": [
-        "か"
-      ],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "を"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "not": {
+            "precedingToken": {
+              "fact": "teFormStem"
+            }
+          }
+        },
+        {
+          "not": {
+            "followingToken": {
+              "surface": {
+                "startsWithOneOf": [
+                  "か"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -104,6 +125,7 @@
   "id": "460bb083-0019-4dc6-8591-0bdfcaec4ce8",
   "tags": [
     "-::vocab::matching::uses::prefix-is-not",
-    "-::vocab::matching::uses::suffix-is-not"
+    "-::vocab::matching::uses::suffix-is-not",
+    "source::jastudio"
   ]
 }

@@ -55,17 +55,18 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -98,10 +99,6 @@
     ],
     "synonyms": [
       {
-        "text": "〜ておる |&nbsp;〜とる",
-        "disambiguation": ""
-      },
-      {
         "text": "ていた",
         "disambiguation": ""
       },
@@ -118,7 +115,15 @@
         "disambiguation": ""
       },
       {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
         "text": "てた",
+        "disambiguation": ""
+      },
+      {
+        "text": "とる",
         "disambiguation": ""
       },
       {
@@ -138,5 +143,7 @@
     "images": []
   },
   "id": "4fab3c6e-f6c9-4a83-8f11-af2923b8cce3",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

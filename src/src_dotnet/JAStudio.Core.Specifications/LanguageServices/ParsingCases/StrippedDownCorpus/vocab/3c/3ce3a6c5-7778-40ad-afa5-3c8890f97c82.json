@@ -55,20 +55,11 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
-    "derivedFrom": {
-      "text": "出会う",
-      "disambiguation": ""
-    },
+    "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
     "antonyms": [],
@@ -93,7 +84,6 @@
   },
   "id": "3ce3a6c5-7778-40ad-afa5-3c8890f97c82",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::10"
   ]
 }

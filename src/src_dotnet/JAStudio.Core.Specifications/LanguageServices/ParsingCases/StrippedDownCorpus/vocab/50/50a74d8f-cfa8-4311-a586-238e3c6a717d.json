@@ -43,20 +43,26 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "irrealis": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
-    "ergativeTwins": [],
+    "ergativeTwins": [
+      {
+        "text": "無くす",
+        "disambiguation": ""
+      }
+    ],
     "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [],
@@ -72,5 +78,7 @@
     "images": []
   },
   "id": "50a74d8f-cfa8-4311-a586-238e3c6a717d",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

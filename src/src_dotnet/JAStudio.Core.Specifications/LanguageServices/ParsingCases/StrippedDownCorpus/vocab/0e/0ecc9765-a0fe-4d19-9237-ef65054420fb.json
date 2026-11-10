@@ -22,26 +22,36 @@
   "usuallyWrittenInKana": true,
   "audio": [],
   "forms": [],
-  "sentenceCount": 11626,
+  "sentenceCount": 11625,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=uoj5l8-Ppws&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=83\">Cure Dolly</a>",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [
-        "く"
-      ],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "precedingToken": {
+              "surface": {
+                "endsWithOneOf": [
+                  "く"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -93,7 +103,6 @@
   "id": "0ecc9765-a0fe-4d19-9237-ef65054420fb",
   "tags": [
     "-::vocab::matching::uses::prefix-is-not",
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

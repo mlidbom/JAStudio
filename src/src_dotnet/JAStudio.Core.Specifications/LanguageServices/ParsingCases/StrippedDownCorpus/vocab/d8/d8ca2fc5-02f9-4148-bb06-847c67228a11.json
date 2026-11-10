@@ -53,13 +53,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -67,7 +61,7 @@
     "perfectSynonyms": [],
     "synonyms": [
       {
-        "text": "<div>なんなんだ</div>",
+        "text": "なんなんだ",
         "disambiguation": ""
       }
     ],

@@ -50,15 +50,22 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [
-        "た"
-      ],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "followingToken": {
+              "surface": {
+                "startsWithOneOf": [
+                  "た"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -78,6 +85,7 @@
   },
   "id": "fc8e304a-6a77-4286-b8b5-e2de0db56c1a",
   "tags": [
-    "-::vocab::matching::uses::suffix-is-not"
+    "-::vocab::matching::uses::suffix-is-not",
+    "source::jastudio"
   ]
 }

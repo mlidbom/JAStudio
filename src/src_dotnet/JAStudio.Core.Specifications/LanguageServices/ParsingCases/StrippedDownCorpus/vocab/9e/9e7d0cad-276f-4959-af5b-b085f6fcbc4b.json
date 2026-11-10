@@ -49,23 +49,13 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
     "derivedFrom": null,
     "perfectSynonyms": [],
     "synonyms": [
-      {
-        "text": "きれい",
-        "disambiguation": ""
-      },
       {
         "text": "きれいな",
         "disambiguation": ""
@@ -101,7 +91,6 @@
   },
   "id": "9e7d0cad-276f-4959-af5b-b085f6fcbc4b",
   "tags": [
-    "legacy_scheduling",
     "source::wani::level::29"
   ]
 }

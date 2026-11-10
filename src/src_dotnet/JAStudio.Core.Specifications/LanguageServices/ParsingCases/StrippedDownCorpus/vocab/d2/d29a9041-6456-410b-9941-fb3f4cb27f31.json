@@ -37,13 +37,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -62,5 +56,7 @@
     "images": []
   },
   "id": "d29a9041-6456-410b-9941-fb3f4cb27f31",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

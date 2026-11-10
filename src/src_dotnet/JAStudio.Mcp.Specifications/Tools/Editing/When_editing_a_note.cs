@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Sentences;
@@ -47,17 +48,17 @@ public class When_editing_a_note : McpServerSpecification
          {
             ["readings"] = new JsonArray("いった", "おこなった"),
             ["corpusAnswer"] = "went/left",
-            ["matching.requiredOrForbidden.surface"] = "required"
+            ["matching.rules.surface"] = "required"
          }));
 
       [XF] public void the_edit_names_the_vocab() => _edit.Note.Must().Be("行った");
-      [XF] public void the_edit_reports_each_field_that_changed_in_the_order_of_the_vocabs_fields() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.requiredOrForbidden.surface"]);
+      [XF] public void the_edit_reports_each_field_that_changed_in_the_order_of_the_vocabs_fields() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.rules.surface", "matching.condition"]);
       [XF] public void the_edit_reports_the_readings_before() => JsonNode.DeepEquals(_edit.Changes[0].Before, new JsonArray("いいた")).Must().BeTrue();
       [XF] public void the_edit_reports_the_readings_after() => JsonNode.DeepEquals(_edit.Changes[0].After, new JsonArray("いった", "おこなった")).Must().BeTrue();
       [XF] public void the_edit_reports_the_surface_rule_before_as_unset() => JsonNode.DeepEquals(_edit.Changes[2].Before, JsonValue.Create("unset")).Must().BeTrue();
       [XF] public void the_vocab_has_the_readings() => Vocab.GetReadings().Must().SequenceEqual(["いった", "おこなった"]);
       [XF] public void the_vocab_has_the_answer() => Vocab.CorpusAnswer.Value.Must().Be("went/left");
-      [XF] public void the_vocab_requires_the_surface() => Vocab.MatchingConfiguration.RequiresForbids.Surface.Choice.Must().Be(RequireForbidChoice.Required);
+      [XF] public void the_vocab_requires_the_surface() => Vocab.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Surface).Must().Be(RequireForbidChoice.Required);
       [XF] public void the_vocab_is_saved_with_the_answer() => VocabStored().CorpusAnswer.Value.Must().Be("went/left");
       [XF] public void the_sentences_that_may_contain_the_vocab_are_reparsed_since_the_surface_rule_changes_how_sentences_parse() => _edit.SentencesReparsed.Must().BeTrue();
    }

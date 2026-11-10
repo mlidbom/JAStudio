@@ -49,15 +49,22 @@
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [
-        "は"
-      ],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "followingToken": {
+              "surface": {
+                "startsWithOneOf": [
+                  "は"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -77,6 +84,7 @@
   },
   "id": "9773d025-cfda-44da-828e-45aa184b801a",
   "tags": [
-    "-::vocab::matching::uses::suffix-is-not"
+    "-::vocab::matching::uses::suffix-is-not",
+    "source::jastudio"
   ]
 }

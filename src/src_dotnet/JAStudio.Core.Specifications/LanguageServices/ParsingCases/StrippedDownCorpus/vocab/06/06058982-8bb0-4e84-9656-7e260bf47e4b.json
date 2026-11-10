@@ -58,20 +58,23 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "surface": "required",
-      "teFormStemStart": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "firstToken": {
+            "fact": "teFormStem"
+          }
+        },
+        {
+          "fact": "matchedByItsSurface"
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -104,10 +107,6 @@
     ],
     "synonyms": [
       {
-        "text": "〜ておる |&nbsp;〜とる",
-        "disambiguation": ""
-      },
-      {
         "text": "ていた",
         "disambiguation": ""
       },
@@ -120,11 +119,19 @@
         "disambiguation": ""
       },
       {
+        "text": "ておる",
+        "disambiguation": ""
+      },
+      {
         "text": "てた",
         "disambiguation": ""
       },
       {
         "text": "てました",
+        "disambiguation": ""
+      },
+      {
+        "text": "とる",
         "disambiguation": ""
       },
       {

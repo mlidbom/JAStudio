@@ -50,13 +50,7 @@
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -149,6 +143,10 @@
         "disambiguation": ""
       },
       {
+        "text": "ていました",
+        "disambiguation": ""
+      },
+      {
         "text": "ています",
         "disambiguation": ""
       },
@@ -170,6 +168,10 @@
       },
       {
         "text": "でおる",
+        "disambiguation": ""
+      },
+      {
+        "text": "てました",
         "disambiguation": ""
       },
       {
@@ -250,5 +252,7 @@
     "images": []
   },
   "id": "9606eedf-9298-426a-8312-5bcf8601b6de",
-  "tags": []
+  "tags": [
+    "source::jastudio"
+  ]
 }

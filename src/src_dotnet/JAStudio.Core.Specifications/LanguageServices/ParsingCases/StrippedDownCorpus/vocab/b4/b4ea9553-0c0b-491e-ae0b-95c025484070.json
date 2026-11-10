@@ -39,21 +39,49 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "pastTenseStem": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "questionOverridesForm"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": [
-        "ん"
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "surface": {
+              "endsWithOneOf": [
+                "ん"
+              ]
+            }
+          }
+        },
+        {
+          "anyOf": [
+            {
+              "precedingToken": {
+                "fact": "pastTenseStem"
+              }
+            },
+            {
+              "allOf": [
+                {
+                  "not": {
+                    "precedingText": {
+                      "fact": "empty"
+                    }
+                  }
+                },
+                {
+                  "firstToken": {
+                    "fact": "pastTenseMarker"
+                  }
+                }
+              ]
+            }
+          ]
+        }
       ]
-    }
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -83,6 +111,7 @@
   },
   "id": "b4ea9553-0c0b-491e-ae0b-95c025484070",
   "tags": [
-    "-::vocab::matching::uses::required-prefix"
+    "-::vocab::matching::uses::required-prefix",
+    "source::jastudio"
   ]
 }

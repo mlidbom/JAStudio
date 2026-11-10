@@ -36,7 +36,7 @@
       "isOwned": false
     }
   ],
-  "sentenceCount": 2142,
+  "sentenceCount": 2141,
   "technicalNotes": "",
   "references": "<a href=\"https://www.japanesewithanime.com/2020/09/eventivizers.html?m=1\">Eventivizers | Japanese with Anime</a>",
   "images": [],
@@ -45,13 +45,7 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [
@@ -85,6 +79,7 @@
   },
   "id": "9b45c525-8634-48f9-9a05-7b7c37a828c4",
   "tags": [
-    "-::TODO::studio::vocab::matching::merge-prefixes-ni-ku-to"
+    "-::TODO::studio::vocab::matching::merge-prefixes-ni-ku-to",
+    "source::jastudio"
   ]
 }

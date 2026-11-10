@@ -44,13 +44,7 @@
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -74,7 +68,6 @@
   },
   "id": "dd47f910-a119-4b32-8a48-3a9fb7c78eeb",
   "tags": [
-    "legacy_scheduling",
     "source::yomitan"
   ]
 }

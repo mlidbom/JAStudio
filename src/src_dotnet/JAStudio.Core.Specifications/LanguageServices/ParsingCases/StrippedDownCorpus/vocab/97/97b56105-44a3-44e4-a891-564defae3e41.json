@@ -46,20 +46,25 @@
   "references": "",
   "images": [],
   "matching": {
-    "requiredOrForbidden": {
-      "ichidan": "required",
-      "irrealis": "required"
-    },
+    "requiredOrForbidden": {},
     "flags": [
       "isInflectingWord"
     ],
-    "rules": {
-      "prefixIsNot": [],
-      "suffixIsNot": [],
-      "surfaceIsNot": [],
-      "yieldToSurface": [],
-      "requiredPrefix": []
-    }
+    "condition": {
+      "allOf": [
+        {
+          "precedingToken": {
+            "fact": "irrealis"
+          }
+        },
+        {
+          "precedingToken": {
+            "fact": "ichidanVerb"
+          }
+        }
+      ]
+    },
+    "yieldToSurface": []
   },
   "relatedVocab": {
     "ergativeTwins": [],
@@ -72,10 +77,6 @@
       },
       {
         "text": "えれない",
-        "disambiguation": ""
-      },
-      {
-        "text": "れない",
         "disambiguation": ""
       }
     ],
@@ -92,6 +93,7 @@
   },
   "id": "97b56105-44a3-44e4-a891-564defae3e41",
   "tags": [
-    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel"
+    "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
+    "source::jastudio"
   ]
 }
