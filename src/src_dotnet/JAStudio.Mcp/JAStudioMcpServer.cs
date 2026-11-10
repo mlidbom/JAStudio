@@ -15,6 +15,7 @@ using JAStudio.Mcp.Tools.Collection;
 using JAStudio.Mcp.Tools.Corpus;
 using JAStudio.Mcp.Tools.Dictionary;
 using JAStudio.Mcp.Tools.Editing;
+using JAStudio.Mcp.Tools.Matching;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Saving;
@@ -106,6 +107,7 @@ public sealed class JAStudioMcpServer
              .WithTools<SaveTools>(ToolResultJsonOptions)
              .WithTools<ReloadTools>(ToolResultJsonOptions)
              .WithTools<AnalysisTools>(ToolResultJsonOptions)
+             .WithTools<MatchConditionMigrationTools>(ToolResultJsonOptions)
              .WithTools<DictionaryTools>(ToolResultJsonOptions)
              .WithTools<NoteEditingTools>(ToolResultJsonOptions)
              .WithTools<NoteCommandTools>(ToolResultJsonOptions)

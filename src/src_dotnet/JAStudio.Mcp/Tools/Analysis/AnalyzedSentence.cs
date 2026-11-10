@@ -20,7 +20,7 @@ public record AnalyzedSentence(string Text, IReadOnlyList<string> DisplayedWords
    static IEnumerable<CandidateWordVariant> CandidateWordsWithMatches(TextAnalysis analysis) =>
       analysis.Locations
               .SelectMany(it => it.CandidateWords)
-              .SelectMany(it => it.BaseVariant == null ? [it.SurfaceVariant] : new[] { it.SurfaceVariant, it.BaseVariant })
+              .SelectMany(it => it.Variants)
               .Where(it => it.Matches.Count > 0)
               .OrderBy(it => it.StartIndex)
               .ThenByDescending(it => it.Word.LocationCount);
