@@ -121,10 +121,16 @@ public class JPCollection
    /// Reads from Anki again what this collection holds of each note's study-note, as the load does, without loading the corpus again: its Anki note id,<br/>
    /// the studying statuses of its cards and its tags (<see cref="IBackendDataLoader"/>). Each note whose study-note differs from before is notified<br/>
    /// through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an Anki operation that changed notes, undo<br/>
-   /// and redo included.
+   /// and redo included. It shows no progress.
    /// </summary>
+   /// <remarks>
+   /// It shows no progress since it runs in the background so often, after every Anki operation that changed notes: Anki's editor saves its note each<br/>
+   /// time typing pauses, and each save is such an operation. A progress window would also take the focus from the editor's field, and the editor saves<br/>
+   /// its note when the field loses the focus: each read would then start the next one.
+   /// </remarks>
    public void ReadTheStudyNotesFromAnkiAgain() => _oneLoadOrReadFromAnkiAtATime.Do(() =>
    {
+      using var showingNoProgress = NoteServices.TaskRunner.Current("Reading the study-notes from Anki again", forceHide: true);
       var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
       GiveEachNoteItsStudyNoteFrom(_backendDataLoader.Load(NoteServices.TaskRunner), ankiNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
    });

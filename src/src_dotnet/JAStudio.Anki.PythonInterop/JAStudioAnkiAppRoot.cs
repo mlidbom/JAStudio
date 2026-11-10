@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
@@ -14,8 +13,6 @@ using Compze.Internals.SystemCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
-using JAStudio.Core.Note.Collection;
-using JAStudio.Core.SysUtils.Threading;
 using JAStudio.Mcp.Live;
 using JAStudio.UI;
 using JAStudio.UI.Shortcuts;
@@ -34,11 +31,7 @@ public class JAStudioAnkiAppRoot
    readonly CoreApp _coreApp;
    readonly CardServer _cardServer;
    readonly LiveJAStudioMcpServer _liveMcpServer;
-   readonly BackgroundRefresh _readingTheStudyNotesFromAnkiAgain;
-   CancellationTokenSource? _pendingCatchUpWithAnki;
-
-   /// <summary>How long a profile that opened waits before catching up with Anki, since Anki often syncs as a profile opens, which catches up anyway.</summary>
-   static readonly TimeSpan CatchUpDelayAfterAProfileOpened = TimeSpan.FromMilliseconds(500);
+   readonly CatchingUpWithAnki _catchingUpWithAnki;
 
    // Stored to keep the UI thread rooted (prevent GC). Not accessed directly.
 #pragma warning disable CS0414
@@ -72,7 +65,7 @@ public class JAStudioAnkiAppRoot
       _coreApp = coreApp;
       _cardServer = cardServer;
       _liveMcpServer = liveMcpServer;
-      _readingTheStudyNotesFromAnkiAgain = new BackgroundRefresh(coreApp.Services.BackgroundTaskManager, coreApp.Collection.ReadTheStudyNotesFromAnkiAgain);
+      _catchingUpWithAnki = new CatchingUpWithAnki(coreApp.Collection, StudyNoteWrites, coreApp.Services.BackgroundTaskManager);
       Dialogs = new AnkiDialogs();
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
@@ -141,42 +134,11 @@ public class JAStudioAnkiAppRoot
       return root;
    }
 
-   bool _profileOpen = false;
-
    // ReSharper disable once UnusedMember.Global used from python
    public void HandleAnkiLifecycleEvent(AnkiLifecycleEvent lifecycleEvent)
    {
       this.Log().Info($"HandleAnkiLifecycleEvent({lifecycleEvent})");
-
-      switch(lifecycleEvent)
-      {
-         case AnkiLifecycleEvent.ProfileOpened:
-            _profileOpen = true;
-            ScheduleTheCatchUpWithAnki();
-            break;
-
-         case AnkiLifecycleEvent.SyncCompleted:
-            if(_profileOpen)
-            {
-               CancelThePendingCatchUpWithAnki();
-               _coreApp.Services.BackgroundTaskManager.Run(CatchUpWithAnki);
-            }
-
-            break;
-
-         case AnkiLifecycleEvent.ProfileClosing:
-            _profileOpen = false;
-            CancelThePendingCatchUpWithAnki();
-            StudyNoteWrites.Hold();
-            break;
-         case AnkiLifecycleEvent.SyncStarting:
-            CancelThePendingCatchUpWithAnki();
-            StudyNoteWrites.Hold();
-            break;
-
-         default:
-            throw new ArgumentOutOfRangeException(nameof(lifecycleEvent), lifecycleEvent, null);
-      }
+      _catchingUpWithAnki.Handle(lifecycleEvent);
    }
 
    /// <summary>
@@ -193,13 +155,10 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedMember.Global used from python
    public void ANoteWasAddedInAnki(string ankiNoteType) => _coreApp.Services.Resolve<AutomaticImportRuns>().AfterANoteWasAddedInAnki(ankiNoteType);
 
-   /// <summary>
-   /// An Anki operation changed notes, such as marking one, editing tags in Anki's browser or a review that made a card a leech, which tags its note, or<br/>
-   /// an undo or redo, which run as operations too: reads the study-notes from Anki again, in the background, one read at a time<br/>
-   /// (<see cref="JPCollection.ReadTheStudyNotesFromAnkiAgain"/>). Python calls it from Anki's <c>operation_did_execute</c> hook.
-   /// </summary>
+   /// <inheritdoc cref="CatchingUpWithAnki.AnkiChangedNotes"/>
+   /// <remarks>Python calls it from Anki's <c>operation_did_execute</c> hook.</remarks>
    // ReSharper disable once UnusedMember.Global used from python
-   public void AnkiChangedNotes() => _readingTheStudyNotesFromAnkiAgain.Run();
+   public void AnkiChangedNotes() => _catchingUpWithAnki.AnkiChangedNotes();
 
    // ReSharper disable once UnusedMember.Global used from python
    public void ShutDown() => this.Log().Info().MethodExecutionTime(() =>
@@ -211,43 +170,4 @@ public class JAStudioAnkiAppRoot
       _host.Dispose();
       Dispatcher.UIThread.InvokeShutdown();
    });
-
-   /// <summary>
-   /// Once Anki's collection can take writes again, after a sync or as a profile opens: loads the collection, the first time, or else reads the study-notes<br/>
-   /// from Anki again, then makes the study-note writes held meanwhile. A sync or another profile doesn't change the corpus, so it isn't loaded again:<br/>
-   /// what may have changed in Anki is only the study-notes.
-   /// </summary>
-   void CatchUpWithAnki()
-   {
-      if(_coreApp.Collection.IsInitialized)
-         _coreApp.Collection.ReadTheStudyNotesFromAnkiAgain();
-      else
-         _coreApp.Collection.ReloadFromBackend();
-      StudyNoteWrites.MakeThem();
-   }
-
-   /// <summary>Catches up with Anki in the background after <see cref="CatchUpDelayAfterAProfileOpened"/>, unless a sync starts first.</summary>
-   void ScheduleTheCatchUpWithAnki()
-   {
-      CancelThePendingCatchUpWithAnki();
-      var cancellation = new CancellationTokenSource();
-      _pendingCatchUpWithAnki = cancellation;
-
-      _coreApp.Services.BackgroundTaskManager.RunAsync(async () =>
-      {
-         await Task.Delay(CatchUpDelayAfterAProfileOpened, cancellation.Token);
-         this.Log().Info("The profile opened: catching up with Anki");
-         CatchUpWithAnki();
-      });
-   }
-
-   void CancelThePendingCatchUpWithAnki()
-   {
-      if(_pendingCatchUpWithAnki != null)
-      {
-         _pendingCatchUpWithAnki.Cancel();
-         _pendingCatchUpWithAnki.Dispose();
-         _pendingCatchUpWithAnki = null;
-      }
-   }
 }

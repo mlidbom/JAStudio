@@ -1,23 +1,20 @@
 namespace JAStudio.Anki;
 
 /// <summary>
-/// Events from the Anki host that affect the .NET addon lifecycle.
-/// Python forwards these via JAStudioAppRoot.HandleAnkiLifecycleEvent().
+/// What happens in Anki that decides whether JAStudio may use the collection Anki has open: a profile opening or closing, and a sync starting or<br/>
+/// finishing. Python passes each on from Anki's hooks to <c>JAStudioAnkiAppRoot.HandleAnkiLifecycleEvent</c>.
 /// </summary>
 public enum AnkiLifecycleEvent
 {
-   /// <summary>Anki profile opened and collection is available. Load/reload all data from the DB.</summary>
+   /// <summary>An Anki profile opened, and its collection with it: JAStudio may use it, and catches up with it.</summary>
    ProfileOpened,
 
-   /// <summary>Anki profile is about to close. Clear caches.</summary>
+   /// <summary>The Anki profile is about to close, and its collection with it: JAStudio may no longer use it.</summary>
    ProfileClosing,
 
-   /// <summary>Anki sync is about to start. The DB may become unreliable.</summary>
+   /// <summary>A sync is about to start: JAStudio may not use the collection until it finishes, since the sync holds it, and a full sync replaces it.</summary>
    SyncStarting,
 
-   /// <summary>Anki sync completed. Reload caches from the (possibly changed) DB.</summary>
-   SyncCompleted,
-
-   /// <summary>A new Anki collection object was loaded (e.g. after sync). Reload caches.</summary>
-   CollectionLoaded
+   /// <summary>The sync finished: JAStudio may use the collection again.</summary>
+   SyncCompleted
 }

@@ -85,7 +85,6 @@ class AnkiLifecycleEvent(typing.SupportsInt):
     ProfileClosing : AnkiLifecycleEvent # 1
     SyncStarting : AnkiLifecycleEvent # 2
     SyncCompleted : AnkiLifecycleEvent # 3
-    CollectionLoaded : AnkiLifecycleEvent # 4
 
 
 class AnkiNoteIdMapLoader(abc.ABC):

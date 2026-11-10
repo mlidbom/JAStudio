@@ -3,20 +3,27 @@ from JAStudio.Core.Note import IBackendNoteCreator, KanjiNote
 from System import Action, Action_1
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
+from JAStudio.Core.Note.Collection import JPCollection, IExternalNoteUpdateHandler
+from JAStudio.Core.TaskRunners import BackgroundTaskManager
+from JAStudio.Anki import AnkiLifecycleEvent
 from JAStudio.UI import AnkiDialogs
 from JAStudio.UI.Shortcuts import NoteViewShortcuts
 from JAStudio.Core import TemporaryServiceCollection
-from JAStudio.Anki import AnkiLifecycleEvent
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
 from System.Collections.Generic import List_1
 from JAStudio.UI.Menus import NoteContextMenu
-from JAStudio.Core.Note.Collection import IExternalNoteUpdateHandler
 
 class AnkiBackendNoteCreator(IBackendNoteCreator):
     def __init__(self) -> None: ...
     def CreateKanji(self, note: KanjiNote, callback: Action) -> None: ...
     def CreateSentence(self, note: SentenceNote, callback: Action) -> None: ...
     def CreateVocab(self, note: VocabNote, callback: Action) -> None: ...
+
+
+class CatchingUpWithAnki:
+    def __init__(self, collection: JPCollection, studyNoteWrites: StudyNoteWrites, backgroundTasks: BackgroundTaskManager) -> None: ...
+    def AnkiChangedNotes(self) -> None: ...
+    def Handle(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
 
 
 class JAStudioAnkiAppRoot:

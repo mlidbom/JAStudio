@@ -1,7 +1,7 @@
 """Tells JAStudio after every Anki operation that changed notes, so that it reads the study-notes from Anki again: their tags, which JAStudio shows
 below anki::, the studying statuses of their cards, and which notes have one. Such as marking a note, tags edited in Anki's browser, or a review that
-made a card a leech, which tags its note. Anki's undo and redo run as operations too, so they're followed as well. A sync, and a profile opening, have
-JAStudio read them again too, so they need nothing here."""
+made a card a leech, which tags its note. Anki's undo and redo run as operations too, so they're followed as well, and so is a sync: once it finishes,
+Anki fires this hook with every kind of change flagged. A profile opening isn't announced so: JAStudio catches up with it itself (CatchingUpWithAnki)."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

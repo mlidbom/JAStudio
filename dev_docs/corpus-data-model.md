@@ -737,6 +737,15 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromAnkiAgain`,
     in the background, one read at a time (`BackgroundRefresh`). It reads through the same loaders as the load, after
     `AnkiFacade.Col.DbFilePath` has Anki checkpoint its write-ahead log, which the loaders' `immutable=1` reads don't see.*
+    - *Fixed 2026-11-10, after Magnus found it live: the re-read showed the load's progress window, and it looped.*
+      Anki's editor saves its note each time typing pauses, and each save is an operation that changed notes. The
+      progress window took the focus from the editor's field, the editor saves its note when its field loses the
+      focus, and that save started the next re-read, until another note was selected. The re-read now shows no
+      progress. It still runs after each such save, in the background.
+    - *A sync announces itself, 2026-11-10:* once a sync finishes, Anki fires `operation_did_execute` with every kind
+      of change flagged (`mw.reset()` after `sync_did_finish`, in `_sync_collection_and_media`), as its own screens need
+      it to. JAStudio's own catch-up after a sync made a second re-read, so a sync no longer has one: the hook's re-read
+      is the sync's.
   - **Cost, measured 2026-11-10 on a copy of the collection:** reading every study-note's tags takes about 40 ms for
     80,512 notes; the hook's scan takes 13 ms, since Anki has no index on a note's modification time. The id mappings
     and the cards' statuses aren't measured yet. If the whole re-read is cheap enough, it may also replace the separate
@@ -745,13 +754,16 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     notes stay the same objects, so open tabs keep their state. Magnus doesn't rely on a sync to take in changes made to
     the corpus checkout by hand: Local Actions > "Reload the collection from disk" and the live fast-forward tool do that.
     When a profile closes, JAStudio forgets the Anki state and keeps the notes; when one opens, it reads that profile's.
-    *Done 2026-11-10: `JAStudioAnkiAppRoot.CatchUpWithAnki` re-reads the study-notes after a sync and as a profile opens,
-    and loads the collection only the first time. A profile closing forgets nothing after all: the re-read as the next
-    one opens replaces what JAStudio held of the study-notes anyway.*
+    *Done 2026-11-10: `CatchingUpWithAnki` re-reads the study-notes after every Anki operation that changed notes, a
+    sync's included, and as a profile opens, and loads the collection the first time instead. It does so only while
+    JAStudio may use Anki's collection: while a profile is open and no sync is under way. Anki syncs as a profile
+    closes, when set to, and that sync's operation then re-reads nothing. A profile closing forgets nothing after all:
+    the re-read as the next one opens replaces what JAStudio held of the study-notes anyway.*
   - **During a sync JAStudio writes no study-notes**, since today's emptied collection no longer keeps a person from
     editing then, and a full sync replaces Anki's collection: it writes those of the notes changed meanwhile once the
     sync is over. How Anki handles a write during a sync isn't known yet. *Done 2026-11-10: `StudyNoteWrites` holds them
-    from a sync's start, or a profile's closing, until the catch-up, and makes each held note's write once. Creating a
+    from a sync's start, or a profile's closing, until the next catch-up, and makes each held note's write once, after
+    the catch-up has read the study-notes, so that each goes to the Anki note the open collection has for it. Creating a
     study-note and suspending or unsuspending cards from JAStudio aren't held: they were possible during a sync before too.*
 - **Decided, not built (Magnus, 2026-11-10), in this order:**
   1. A creating command that opens a vocab that existed already, rather than create one, says so in a simple dialog
