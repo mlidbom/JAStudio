@@ -67,8 +67,8 @@ not necessarily in how:
   rename dialog and its delete confirmation, for a branch in the source branch or moved into it; and the × of a source
   tag in a note's Tags editor asks first. Editing tags is much of how Magnus imports and organizes, so it warns rather
   than forbids.
-- **Every tag change writes the note** to its corpus file, and through the Anki-projection to its Anki note, as
-  any other edit does.
+- **Every tag change writes the note** to its corpus file, as any other edit does. *Until 2026-11-10 it also wrote the
+  note's tags into its Anki note: see [Tags and Anki](#tags-and-anki).*
 
 ## Tag management: browsing the tag tree
 
@@ -114,10 +114,13 @@ many notes change.
 
 ## Tags and Anki
 
-- **The Anki-projection** writes each note's whole tag list to its Anki note.
-- **Tags are edited only in JAStudio** (since 2026-11-07). Saving a note in Anki no longer takes its tags back, so
-  a tag change made in Anki is undone by JAStudio's next write of the note. Importing a note still takes all its
-  tags along. See `corpus-data-model.md`, "Anki's role and its consequences".
+- **The corpus's tags and Anki's tags are separate sets (Magnus, 2026-11-10).** The Anki-projection writes no tags
+  into a study-note: a note's tags are the corpus's, edited in JAStudio, and a study-note's tags in Anki are the
+  student's, such as Anki's own `leech` and `marked`. *Until 2026-11-10 the Anki-projection replaced the study-note's
+  whole tag list with the note's tags on every write, so a tag added in Anki, by Anki or by hand, was gone at the
+  next write.* Why, and what follows: `corpus-data-model.md`, "The corpus's tags and Anki's tags are separate".
+- **Tags are edited only in JAStudio** (since 2026-11-07). Saving a note in Anki doesn't take its tags back.
+  Importing a note still takes all its tags along: an imported raw note's tags are its source's, not a student's.
 - **Student-tags** such as priority are still in the corpus today, so they behave like any other tag. When they
   move out of the corpus and are read from Anki instead, the tag tree should still show them. How is decided
   then.

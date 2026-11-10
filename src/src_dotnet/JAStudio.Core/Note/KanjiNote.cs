@@ -62,7 +62,7 @@ public class KanjiNote : JPNote
 
    public override CorpusNoteDto ToDto() => KanjiNoteConverter.ToDto(this);
 
-   protected override Dictionary<string, string> StudyNoteFields() => new() { [AnkiFieldNames.Question] = GetQuestion() };
+   protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new() { [AnkiFieldNames.Question] = GetQuestion() };
 
    public override string GetQuestion() => _question.Value;
 

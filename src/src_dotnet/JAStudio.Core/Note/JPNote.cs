@@ -42,18 +42,22 @@ public abstract class JPNote
    }
 
    /// <summary>
-   /// The note as its Anki study-note has it: the <see cref="StudyNoteFields"/>, the id of this note that links the two, and the note's tags.
+   /// The fields JAStudio writes into the note's Anki study-note, by their names in Anki: the <see cref="StudyNoteFieldsBesidesTheId"/>, and the id of<br/>
+   /// this note, which links the two.
    /// </summary>
-   // ReSharper disable once UnusedMember.Global Used from python
-   public AnkiNoteData GetData()
+   /// <remarks>
+   /// JAStudio writes no tags into a study-note: the note's tags are the corpus's, and the study-note's tags in Anki are the student's, such as Anki's<br/>
+   /// own <c>leech</c> and <c>marked</c>. The two sets are separate (Magnus, 2026-11-10).
+   /// </remarks>
+   public Dictionary<string, string> StudyNoteFields()
    {
-      var fields = StudyNoteFields();
+      var fields = StudyNoteFieldsBesidesTheId();
       fields[AnkiFieldNames.JasNoteId] = _id.Value.ToString();
-      return new AnkiNoteData(_id, fields, Tags.ToStringList());
+      return fields;
    }
 
    /// <summary>The fields JAStudio writes into the note's Anki study-note besides <see cref="AnkiFieldNames.JasNoteId"/>: its question and its audio.</summary>
-   protected abstract Dictionary<string, string> StudyNoteFields();
+   protected abstract Dictionary<string, string> StudyNoteFieldsBesidesTheId();
 
    public override bool Equals(object? obj) => obj is JPNote other && other.GetId() == _id;
 

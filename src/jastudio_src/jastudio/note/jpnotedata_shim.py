@@ -10,19 +10,15 @@ if TYPE_CHECKING:
 
 class JPNoteDataShim:
     @classmethod
-    def sync_note_to_anki_note(cls, jp_note: JPNote, note: Note) -> None:
-        data = jp_note.GetData()
-        # str() converts pythonnet System.String to native Python str, which Anki's
-        # protobuf serialization requires.
-        note.tags = [str(tag) for tag in data.Tags]
-        for key_value_pair in data.Fields:
+    def write_study_note_fields(cls, jp_note: JPNote, note: Note) -> None:
+        """Writes the fields JAStudio writes into the note's study-note. Its tags are the student's, which JAStudio never writes."""
+        for key_value_pair in jp_note.StudyNoteFields():
+            # str() converts pythonnet System.String to native Python str, which Anki's protobuf serialization requires.
             note[str(key_value_pair.Key)] = str(key_value_pair.Value)
-        # Persist the domain NoteId into the Anki field so it survives across sessions.
-        note["jas_note_id"] = str(jp_note.GetId())
 
     @classmethod
     def write_study_note(cls, jp_note: JPNote, anki_note_id: NoteId) -> None:
-        """Writes the note's study-note into its Anki note: the fields JAStudio writes, and the tags."""
+        """Writes the note's study-note into its Anki note."""
         anki_note = app.anki_collection().get_note(anki_note_id)
-        cls.sync_note_to_anki_note(jp_note, anki_note)
+        cls.write_study_note_fields(jp_note, anki_note)
         app.anki_collection().update_note(anki_note)

@@ -5,7 +5,8 @@ namespace JAStudio.Core.Anki.StudyNotes;
 
 /// <summary>
 /// The study-notes in the Anki profile JAStudio works with: the Anki notes of JAStudio's note types, which hold a note's cards and the few fields<br/>
-/// Anki itself needs. JAStudio writes a note's study-note from the corpus (<see cref="JPNote.GetData"/>) whenever it updates the note.
+/// Anki itself needs. JAStudio writes those fields from the corpus (<see cref="JPNote.StudyNoteFields"/>) whenever it updates the note. A study-note's<br/>
+/// tags are the student's, never written by JAStudio.
 /// </summary>
 /// <remarks>
 /// A study-note can differ from what JAStudio would write now: a reload passes on only the notes whose files changed while the collection held them,<br/>

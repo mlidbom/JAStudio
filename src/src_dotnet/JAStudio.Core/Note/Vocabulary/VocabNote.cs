@@ -90,7 +90,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
 
    public override CorpusNoteDto ToDto() => VocabNoteConverter.ToDto(this);
 
-   protected override Dictionary<string, string> StudyNoteFields() => new()
+   protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()
    {
       [AnkiFieldNames.Question] = Question.DisambiguationName,
       [AnkiFieldNames.Vocab.AudioB] = Audio.First.RawValue(),

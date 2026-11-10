@@ -657,8 +657,8 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     which sentences a vocab shows.
   - **Leaning:** read it from the Anki notes' tags when JAStudio loads, as the studying status is. The loader
     already reads every Anki note's `jas_note_id` (`AnkiNoteIdMapLoader.Load`), and the tags are in the
-    same row. That needs the Anki-projection to stop replacing the Anki note's whole tag list: it writes only
-    corpus-tags and leaves student-tags alone.
+    same row. *The Anki-projection stopped replacing the Anki note's tag list on 2026-11-10: it writes no tags at all
+    ([the two sets are separate](#the-corpuss-tags-and-ankis-tags-are-separate-magnus-2026-11-10)).*
   - **For later:** a corpus note with no Anki note has nowhere to carry a priority tag. The alternative then is a
     per-student priority table keyed by source tag prefix, resolved by longest prefix, the way
     `MediaImportRuleSet` resolves import rules. The data supports that: every note with a priority tag also has
@@ -671,6 +671,31 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     tags in slice 6. With Magnus the corpus's only user, it costs more than it buys. It comes back when the corpus gets a
     second user, or notes without an Anki note.
 
+### The corpus's tags and Anki's tags are separate (Magnus, 2026-11-10)
+
+**JAStudio writes no tags into a study-note, and stores no tag of Anki's in the corpus.** A note's tags are the
+corpus's, edited in JAStudio. A study-note's tags in Anki are the student's: Anki's own `leech` and `marked`, and any
+tag added in Anki. JAStudio is to read Anki's tags, for filtering, ordering by priority and searching in JAStudio, but
+never store them (Magnus: "I could do all complex filtering and searching I need in jastudio then").
+
+**Why:** until 2026-11-10 the Anki-projection replaced a study-note's whole tag list with the note's tags on every write
+(`JPNoteDataShim`), so a tag added in Anki, by Anki or by hand, was gone at the next write. Not one study-note had
+`leech`, after years of reviews, which that would explain. It broke the principle that JAStudio is the master of the
+notes and Anki only of a student's studying. Found when `list_the_study_notes_that_differ` (`jastudio-mcp.md`) showed
+21,236 study-notes carrying tags the corpus had dropped.
+
+- **Done (2026-11-10):** the Anki-projection writes only the fields (`JPNote.StudyNoteFields`), and the comparison of
+  study-notes compares only them. Anki's `marked` (on 2 notes) left the corpus.
+- **Next, whenever it suits (Magnus):** a cleanup drive removing from Anki the corpus-tags JAStudio wrote there, including
+  the tags the corpus no longer has, on 21,236 study-notes. It keeps the student-tags below, which JAStudio wrote there
+  too, and any tag of Anki's.
+- **Then:** reading Anki's tags into JAStudio, held in memory as the studying status is, as a kind of their own ("Anki
+  tags", so that a search says which it means). Only after the cleanup, or JAStudio would show Magnus's Anki tags mixed
+  with its own old copies. Open: whether JAStudio may change them, such as marking a note, and how its view keeps up
+  when Anki adds one during a review.
+- **The student-tags still in the corpus** then move out, priority last: JAStudio reads it from the corpus, to order a
+  vocab's sentence list (`JPNote.PriorityTagValue`). Which tags are student-tags is Magnus's call (below).
+
 ### Student-tags and corpus-tags
 
 How today's tags split, as read on 2026-11-06 (the numbers count notes):
@@ -679,7 +704,7 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
   - priority (about 48,500 sentences);
   - `legacy_scheduling` (9,355);
   - `_only_studying_listening` (1,065 sentences);
-  - Anki's `marked` (2);
+  - ~~Anki's `marked` (2)~~ *left the corpus 2026-11-10: it's Anki's;*
   - ~~the kanji tags generated from what is studied~~, such as `-::kanji::studying-vocab`: *gone since 2026-11-08 (slice 6),
     with the code that generated them.*
 - **Not yet classified:** `active_kanji` (1,531 kanji), `preparing-cards` (20), `tmp` (18), `-::TODO…` (about 40).
@@ -830,8 +855,9 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
    write, lists the notes that differ, and writes those on request. Needed because a reload passes only notes whose
    files changed on to Anki, and none at startup, while a change of format is fast-forwarded with Anki closed. Run first
    for a baseline. *Built 2026-11-10: `list_the_study_notes_that_differ` and `write_the_study_notes_that_differ`
-   (`jastudio-mcp.md`). The baseline: 21,236 study-notes carry tags the corpus dropped in slice 6 and earlier, and 16
-   sentences' questions differ in spaces at an end; no audio differs.*
+   (`jastudio-mcp.md`). The baseline: 16 sentences' questions differ in spaces at an end; no audio differs. It also
+   showed 21,236 study-notes carrying tags the corpus had dropped, which led to the corpus's tags and Anki's tags
+   becoming separate: see [Tags](#the-corpuss-tags-and-ankis-tags-are-separate-magnus-2026-11-10).*
 2. **The domain model, on today's storage:** a full rebuild in the headless JAStudio's worktree first. Then the
    reference types and the lists, filled from today's fields by a temporary mapping in the converters. Everything
    moves to the lists: the Anki-projection, the web cards, TTS keeping and its dialog, the editors, the MCP's editable

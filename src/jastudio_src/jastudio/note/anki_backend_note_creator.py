@@ -21,7 +21,7 @@ class AnkiBackendNoteCreator:
     @classmethod
     def _create_note(cls, note: JPNote, note_type: str, callback: Callable[[], None]) -> None:
         backend_note = Note(app.anki_collection(), app.anki_collection().models.by_name(note_type))
-        JPNoteDataShim.sync_note_to_anki_note(note, backend_note)
+        JPNoteDataShim.write_study_note_fields(note, backend_note)
         app.anki_collection().addNote(backend_note)
         # Register the Anki ID → domain NoteId mapping, through which Anki's reports about the note's cards and its deletion reach the note.
         note.Services.ExternalNoteIdMap.Register(int(backend_note.id), note.GetId())

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Anki.StudyNotes;
@@ -35,8 +34,6 @@ public static class StudyNotesInAnkisDatabase
    static StudyNoteInAnki StudyNoteFrom(NoteRow row, IReadOnlyList<string> fieldNames)
    {
       var fieldValues = row.Fields.Split(FieldSeparator);
-      return new StudyNoteInAnki(row.Id,
-                                 fieldNames.Select((name, ordinal) => (name, ordinal)).ToDictionary(it => it.name, it => fieldValues[it.ordinal]),
-                                 row.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+      return new StudyNoteInAnki(row.Id, fieldNames.Select((name, ordinal) => (name, ordinal)).ToDictionary(it => it.name, it => fieldValues[it.ordinal]));
    }
 }

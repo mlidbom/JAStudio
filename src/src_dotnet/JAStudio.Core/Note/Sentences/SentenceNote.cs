@@ -65,7 +65,7 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
 
    public override CorpusNoteDto ToDto() => SentenceNoteConverter.ToDto(this);
 
-   protected override Dictionary<string, string> StudyNoteFields() => new()
+   protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()
    {
       [AnkiFieldNames.Question] = GetQuestion(),
       [AnkiFieldNames.Sentence.Audio] = Audio.RawValue()

@@ -11,7 +11,7 @@ using ModelContextProtocol.Server;
 namespace JAStudio.Mcp.Tools.StudyNotes;
 
 /// <summary>
-/// The tools that compare the study-notes in Anki, the Anki notes that hold the notes' cards, with what JAStudio would write for them now, and write<br/>
+/// The tools that compare the fields of the study-notes in Anki, the Anki notes that hold the notes' cards, with what JAStudio would write now, and write<br/>
 /// those that differ (<see cref="IAnkiStudyNotes"/>). A change to the corpus made while Anki was closed, such as a fast-forward of the corpus checkout<br/>
 /// that changes how notes are stored, reaches the study-notes only through them.
 /// </summary>
@@ -33,13 +33,13 @@ public class StudyNoteTools
    [McpServerTool(Name = "list_the_study_notes_that_differ", ReadOnly = true, Idempotent = true)]
    [Description("""
                 Compares every study-note in Anki, the Anki note holding a note's cards, with the study-note JAStudio would write for the note now:
-                the fields JAStudio writes (the question, the audio and the note's id) and the tags. JAStudio writes a note's study-note whenever it
-                updates the note, but a reload passes on only the notes whose files changed while it held them, and none at startup, so a change to
-                the corpus made while Anki was closed, or a change to what JAStudio writes, leaves study-notes out of date until
-                write_the_study_notes_that_differ writes them. Text is compared as Anki stores it, in Unicode normalization form C, and tags
-                ignoring case and order, as Anki keeps them. In the headless JAStudio, Anki's latest changes may still be in its database's
-                write-ahead log, which it doesn't read. Reports how many study-notes were compared, in how many each field and the tags differ,
-                the notes whose study-note differs, by type, each with what differs, and how many study-notes in Anki belong to no note of the
+                the fields JAStudio writes, which are the question, the audio and the note's id. A study-note's tags are the student's, which
+                JAStudio never writes. JAStudio writes a note's study-note whenever it updates the note, but a reload passes on only the notes
+                whose files changed while it held them, and none at startup, so a change to the corpus made while Anki was closed, or a change to
+                what JAStudio writes, leaves study-notes out of date until write_the_study_notes_that_differ writes them. Text is compared as Anki
+                stores it, in Unicode normalization form C. In the headless JAStudio, Anki's latest changes may still be in its database's
+                write-ahead log, which it doesn't read. Reports how many study-notes were compared, in how many each field differs, the notes
+                whose study-note differs, by type, each with the fields that differ, and how many study-notes in Anki belong to no note of the
                 collection.
                 """)]
    public StudyNotesThatDiffer ListTheStudyNotesThatDiffer(

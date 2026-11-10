@@ -5,8 +5,8 @@ using JAStudio.Core.Note.Collection;
 namespace JAStudio.Core.Anki.StudyNotes;
 
 /// <summary>
-/// Every study-note in Anki compared with the one JAStudio would write for its note now: which differ, and how<br/>
-/// (<see cref="StudyNoteInAnki.DifferencesFromTheStudyNoteOf"/>).
+/// Every study-note in Anki compared with the one JAStudio would write for its note now: which differ, and in which fields<br/>
+/// (<see cref="StudyNoteInAnki.FieldsThatDifferFromTheStudyNoteOf"/>).
 /// </summary>
 public sealed class StudyNoteComparison
 {
@@ -25,8 +25,8 @@ public sealed class StudyNoteComparison
          }
 
          NotesCompared++;
-         var differences = studyNote.DifferencesFromTheStudyNoteOf(note);
-         if(differences.Any) _notesWhoseStudyNoteDiffers.Add(new NoteWhoseStudyNoteDiffers(note, differences));
+         var fieldsThatDiffer = studyNote.FieldsThatDifferFromTheStudyNoteOf(note);
+         if(fieldsThatDiffer.Count > 0) _notesWhoseStudyNoteDiffers.Add(new NoteWhoseStudyNoteDiffers(note, fieldsThatDiffer));
       }
    }
 

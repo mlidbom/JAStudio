@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Note;
 
@@ -18,11 +17,7 @@ public class InMemoryAnkiStudyNotes : IAnkiStudyNotes
 
    public IReadOnlyList<StudyNoteInAnki> ReadAll() => [.. _byAnkiNoteId.Values];
 
-   public void Write(JPNote note)
-   {
-      var written = note.GetData();
-      Put(new StudyNoteInAnki(_ankiNoteIds.RequireExternalId(note.GetId()), written.Fields.ToDictionary(), written.Tags));
-   }
+   public void Write(JPNote note) => Put(new StudyNoteInAnki(_ankiNoteIds.RequireExternalId(note.GetId()), note.StudyNoteFields()));
 
    /// <summary>Puts <paramref name="studyNote"/> in the pretend Anki, in place of the study-note of the same Anki note, as a change made in Anki would.</summary>
    public void Put(StudyNoteInAnki studyNote) => _byAnkiNoteId[studyNote.AnkiNoteId] = studyNote;
