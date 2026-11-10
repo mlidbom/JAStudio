@@ -7,7 +7,7 @@ using JAStudio.Audio;
 namespace JAStudio.UI.ViewModels.TextToSpeech;
 
 /// <summary>
-/// The note's TTS audio as it is when the TTS dialog opens, which keeping an attempt replaces:<br/>
+/// The note's TTS audio as it is when the TTS dialog opens, which using an attempt replaces:<br/>
 /// played to listen to it again, and decoded once, to compare each attempt with.
 /// </summary>
 /// <remarks>
@@ -28,14 +28,12 @@ sealed class CurrentAudioViewModel
    /// <summary>The TTS audio of <paramref name="note"/> as it is now, found in <paramref name="media"/>.</summary>
    public static CurrentAudioViewModel Of(IHasTextToSpeechAudio note, MediaFileIndex media)
    {
-      var reference = note.TextToSpeechAudio.RawValue();
-      if(!note.TextToSpeechAudio.HasAudio()) return new CurrentAudioViewModel("none", null);
-      if(media.GetAudioAttachments(reference) is not [var attachment, ..]) return new CurrentAudioViewModel($"{reference}, not in JAStudio's media yet", null);
+      if(note.Audio.TextToSpeech is not [var speech, ..]) return new CurrentAudioViewModel("none", null);
+      if(media.Resolve(speech) is not {} file) return new CurrentAudioViewModel($"{speech.FileName}, not in JAStudio's media yet", null);
 
-      var fileName = attachment.OriginalFileName ?? throw new InvalidOperationException($"The media layer found {reference} for the note's TTS audio, but without its file name.");
-      return DecodedAudio.CanDecode(fileName)
-                ? new CurrentAudioViewModel(fileName, File.ReadAllBytes(attachment.FilePath))
-                : new CurrentAudioViewModel($"{fileName}, of a kind JAStudio doesn't play", null);
+      return DecodedAudio.CanDecode(speech.FileName)
+                ? new CurrentAudioViewModel(speech.FileName, File.ReadAllBytes(file.FilePath))
+                : new CurrentAudioViewModel($"{speech.FileName}, of a kind JAStudio doesn't play", null);
    }
 
    /// <summary>The audio as the dialog shows it: its file name, such as <c>hypertts-….mp3</c>, "none", or why it can't be played.</summary>

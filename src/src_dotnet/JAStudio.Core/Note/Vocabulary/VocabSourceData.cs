@@ -1,10 +1,13 @@
+using System.Collections.Generic;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
 /// <summary>
-/// What a <see cref="VocabNote"/>'s source, such as WaniKani or the dictionary, gave it when it was imported: its answer and its mnemonics.
+/// What a <see cref="VocabNote"/>'s source, such as WaniKani or the dictionary, gave it when it was imported: its answer, its mnemonics, its audio and its<br/>
+/// images.
 /// </summary>
 /// <remarks>
 /// The source's answer is shown while the vocab has no <see cref="VocabNote.CorpusAnswer"/> of its own.<br/>
@@ -12,11 +15,13 @@ namespace JAStudio.Core.Note.Vocabulary;
 /// </remarks>
 public class VocabSourceData
 {
-   public VocabSourceData(VocabSourceDataDto? data, NoteGuard guard)
+   public VocabSourceData(VocabSourceDataDto? data, IEnumerable<AudioReference> audio, IEnumerable<ImageReference> images, NoteGuard guard)
    {
       Answer = new WritableStringValue(data?.Answer ?? string.Empty, guard);
       Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, guard);
       ReadingMnemonic = new WritableStringValue(data?.ReadingMnemonic ?? string.Empty, guard);
+      Audio = new AudioReferenceList(audio, guard);
+      Images = new MediaReferenceList<ImageReference>(images, guard);
    }
 
    internal VocabSourceDataDto ToDto() => new() { Answer = Answer.Value, Mnemonic = Mnemonic.Value, ReadingMnemonic = ReadingMnemonic.Value };
@@ -29,4 +34,10 @@ public class VocabSourceData
 
    /// <summary>The source's mnemonic for the vocab's reading. Never shown.</summary>
    public WritableStringValue ReadingMnemonic { get; }
+
+   /// <summary>The audio the source gave the vocab, such as WaniKani's recordings of the word in a male and a female voice.</summary>
+   public AudioReferenceList Audio { get; }
+
+   /// <summary>The images the source gave the vocab, such as Core 2000's. Shown nowhere yet.</summary>
+   public MediaReferenceList<ImageReference> Images { get; }
 }

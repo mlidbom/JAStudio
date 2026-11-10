@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             x:Class="JAStudio.UI.Controls.NoteFields.ImageListEditor"
+             x:DataType="noteFields:ImageListEditorViewModel">
+    <StackPanel Spacing="2">
+        <TextBlock Text="{Binding Title}" />
+        <TextBlock Text="None" Foreground="Gray" Margin="6,0,0,0" IsVisible="{Binding !Items.Count}" />
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="noteFields:ImageThumbnailViewModel">
+                    <Panel Margin="6,2,0,2">
+                        <ToolTip.Tip>
+                            <StackPanel Spacing="4" MaxWidth="420">
+                                <Image Source="{Binding PathToShow, Converter={x:Static noteFields:ImageFileConverter.Preview}}" IsVisible="{Binding CanBeShown}"
+                                       MaxWidth="400" MaxHeight="300" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" />
+                                <TextBlock Text="{Binding WhyItCannotBeShown}" IsVisible="{Binding !CanBeShown}" Foreground="Gray" />
+                                <TextBlock Text="{Binding FileName}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding AltText}" IsVisible="{Binding HasAltText}" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </ToolTip.Tip>
+                        <Border BorderBrush="Gray" BorderThickness="1" Height="48" MinWidth="48">
+                            <Panel>
+                                <Image Source="{Binding PathToShow, Converter={x:Static noteFields:ImageFileConverter.Thumbnail}}" IsVisible="{Binding CanBeShown}" Stretch="Uniform" />
+                                <TextBlock Text="{Binding FileName}" IsVisible="{Binding !CanBeShown}" Foreground="Gray" FontSize="10"
+                                           TextWrapping="Wrap" MaxWidth="96" Margin="2" VerticalAlignment="Center" />
+                            </Panel>
+                        </Border>
+                        <Button Content="×" Command="{Binding RemoveCommand}" ToolTip.Tip="Remove the image from the note"
+                                HorizontalAlignment="Right" VerticalAlignment="Top" Width="16" Height="16" Padding="0" FontSize="14" FontWeight="Bold"
+                                Background="#E6F2F2F2" BorderBrush="Gray" BorderThickness="1" />
+                    </Panel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

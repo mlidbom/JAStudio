@@ -21,7 +21,6 @@ public class MatchViewModel
    public string Answer { get; }
    public string VocabForm { get; }
    public List<CompoundPartViewModel> CompoundParts { get; }
-   public string AudioPath { get; }
    public bool IsHighlighted { get; }
    public string Readings { get; }
    public string MetaTagsHtml { get; }
@@ -42,7 +41,6 @@ public class MatchViewModel
       Answer = match.Answer;
       VocabForm = !settings.ShowBreakdownInEditMode() ? match.MatchForm : match.ExclusionForm;
       CompoundParts = [];
-      AudioPath = string.Empty;
       IsHighlighted = config.HighlightedWords.Contains(ParsedForm) || config.HighlightedWords.Contains(VocabForm);
       Readings = string.Join(", ", match.Readings);
       MetaTagsHtml = string.Empty;
@@ -54,7 +52,6 @@ public class MatchViewModel
       if(VocabMatch != null)
       {
          CompoundParts = CompoundPartViewModel.GetCompoundPartsRecursive(this, VocabMatch.Vocab, config, settings, vocab);
-         AudioPath = VocabMatch.Vocab.Audio.PrimaryAudioPath;
          _metaTags = VocabMatch.Vocab.GetMetaTags().ToList();
          MetaTagsHtml = VocabMatch.Vocab.MetaData.MetaTagsHtml(displayExtendedSentenceStatistics: false);
          MatchOwnsForm = VocabMatch.Vocab.Forms.IsOwnedForm(ParsedForm);

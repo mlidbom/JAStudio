@@ -15,7 +15,6 @@ public class CompoundPartViewModel
    public string Question { get; }
    public string Answer { get; }
    public string Readings { get; }
-   public string AudioPath { get; }
    public string MetaTagsHtml { get; }
    public bool DisplayReadings { get; }
    public bool IsHighlighted { get; }
@@ -28,7 +27,6 @@ public class CompoundPartViewModel
       Question = vocabNote.GetQuestion();
       Answer = vocabNote.GetAnswer();
       Readings = string.Join(", ", vocabNote.GetReadings());
-      AudioPath = vocabNote.Audio.PrimaryAudioPath;
       MetaTagsHtml = vocabNote.MetaData.MetaTagsHtml(noSentenceStatistics: true);
       DisplayReadings = Question != Readings;
       IsHighlighted = config.HighlightedWords.Contains(Question);

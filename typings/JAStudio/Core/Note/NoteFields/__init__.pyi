@@ -1,7 +1,6 @@
 import typing, abc
-from System.Collections.Generic import List_1
-from JAStudio.Core.Note import NoteGuard
 from System import IObservable_1, IDisposable, IObserver_1
+from JAStudio.Core.Note import NoteGuard
 
 class FlagField:
     @property
@@ -39,33 +38,6 @@ class IWritableStringValue(IStringValue, typing.Protocol):
     def Set(self, value: str) -> None: ...
 
 
-class MediaFieldParsing(abc.ABC):
-    @staticmethod
-    def ParseAudioReferences(rawValue: str) -> List_1[MediaReference]: ...
-    @staticmethod
-    def ParseImageReferences(rawValue: str) -> List_1[MediaReference]: ...
-
-
-class MediaReference:
-    def __init__(self, fileName: str, type: MediaType) -> None: ...
-    @property
-    def FileName(self) -> str: ...
-    @property
-    def Type(self) -> MediaType: ...
-
-
-class MediaType(typing.SupportsInt):
-    @typing.overload
-    def __init__(self, value : int) -> None: ...
-    @typing.overload
-    def __init__(self, value : int, force_if_true: bool) -> None: ...
-    def __int__(self) -> int: ...
-    
-    # Values:
-    Audio : MediaType # 0
-    Image : MediaType # 1
-
-
 class SentenceQuestionField:
     def __init__(self, corpusQuestion: IWritableStringValue, sourceQuestion: IWritableStringValue) -> None: ...
     WordBreakTag : str
@@ -77,14 +49,6 @@ class SentenceQuestionField:
 class StripHtmlOnReadFallbackStringField:
     def __init__(self, primaryField: IStringValue, fallbackField: IStringValue) -> None: ...
     def Get(self) -> str: ...
-
-
-class WritableImageValue:
-    def __init__(self, initialValue: str, guard: NoteGuard) -> None: ...
-    def GetMediaReferences(self) -> List_1[MediaReference]: ...
-    def RawValue(self) -> str: ...
-    def SetRawValue(self, value: str) -> None: ...
-    def ToString(self) -> str: ...
 
 
 class WritableStringValue(IWritableStringValue, IObservable_1[str]):

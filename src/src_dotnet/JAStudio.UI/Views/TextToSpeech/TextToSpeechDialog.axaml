@@ -38,21 +38,21 @@
                 <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsGenerating}" Width="80" VerticalAlignment="Center" />
             </StackPanel>
 
-            <TextBlock Text="Attempts. Selecting one plays it, ▶ plays it again, 1 to 9 play attempts 1 to 9, and Enter keeps the selected one:" TextWrapping="Wrap" />
+            <TextBlock Text="Attempts. Selecting one plays it, ▶ plays it again, 1 to 9 play attempts 1 to 9, and Enter uses the selected one:" TextWrapping="Wrap" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,8,0,0">
             <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Foreground="OrangeRed"
                        IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                <Button Content="{Binding KeepText}" Click="OnKeep" IsEnabled="{Binding CanKeep}" />
+                <Button Content="{Binding UseText}" Click="OnUse" IsEnabled="{Binding CanUse}" />
                 <Button Content="Close" IsCancel="True" Click="OnClose" />
             </StackPanel>
         </StackPanel>
 
         <ListBox x:Name="AttemptList" ItemsSource="{Binding Attempts}" SelectedItem="{Binding SelectedAttempt}">
             <ListBox.ItemTemplate>
-                <!-- The ▶ doesn't take the keyboard, which stays on the attempts, so that Enter keeps the selected attempt rather than pressing ▶ again. -->
+                <!-- The ▶ doesn't take the keyboard, which stays on the attempts, so that Enter uses the selected attempt rather than pressing ▶ again. -->
                 <DataTemplate x:DataType="textToSpeech:SpeechAttemptViewModel">
                     <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
                         <Button Grid.Column="0" Content="▶" Click="OnPlayAnAttempt" Focusable="False" Padding="6,0" Margin="0,0,8,0" />

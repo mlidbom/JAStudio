@@ -5,8 +5,8 @@ using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Storage.Dto;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
-using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
 
@@ -32,8 +32,18 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    public WritableStringValue SourceName { get; }
 
    public WritableStringValue Reading { get; }
-   public WritableImageValue Screenshot { get; }
-   public WritableAudioValue Audio { get; }
+
+   /// <summary>
+   /// The corpus's own audio for the sentence, added since its source: its TTS audio. The audio its source gave it is its <see cref="SentenceSourceData.Audio"/>,<br/>
+   /// and <see cref="AllAudio"/> is both.
+   /// </summary>
+   public AudioReferenceList Audio { get; }
+
+   /// <summary>All the sentence's audio, its <see cref="SentenceSourceData.Audio"/> and its <see cref="Audio"/>, in the order it's preferred in.</summary>
+   public AllAudioOfANote AllAudio { get; }
+
+   /// <summary>The corpus's own screenshots for the sentence, added since its source, such as one pasted in. Its card shows them after its source's.</summary>
+   public MediaReferenceList<ImageReference> Screenshots { get; }
 
    ParsingResult _parsingResult;
 
@@ -50,9 +60,11 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
       CorpusQuestion = new WritableStringValue(data?.CorpusQuestion ?? string.Empty, Guard);
       CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
       Comments = new WritableStringValue(data?.Comments ?? string.Empty, Guard);
-      SourceData = new SentenceSourceData(data?.SourceData, Guard);
-      Screenshot = new WritableImageValue(data?.Screenshot ?? string.Empty, Guard);
-      Audio = new WritableAudioValue(data?.Audio ?? string.Empty, Guard);
+      //wip: slice 9's step 3 reads the media lists from data itself, rather than from the media fields of today (TodaysMediaFields).
+      SourceData = new SentenceSourceData(data?.SourceData, TodaysMediaFields.SentenceSourceAudioIn(data), TodaysMediaFields.SentenceSourceScreenshotsIn(data), Guard);
+      Audio = new AudioReferenceList(TodaysMediaFields.SentenceAudioIn(data), Guard);
+      Screenshots = new MediaReferenceList<ImageReference>([], Guard);
+      AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
 
       Configuration = new CachingSentenceConfigurationField(this, data?.Configuration, Guard);
       _parsingResult = SentenceDto.CreateParsingResult(data?.ParsingResult);
@@ -68,28 +80,20 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()
    {
       [AnkiFieldNames.Question] = GetQuestion(),
-      [AnkiFieldNames.Sentence.Audio] = Audio.RawValue()
+      [AnkiFieldNames.Sentence.Audio] = AnkiMediaMarkup.SoundTagsFor(AllAudio.InTheOrderPreferred.Take(1))
    };
 
-   public IReadOnlyList<AudioAttachment> AudioAttachments => Services.MediaFileIndex.GetAudioAttachments(Audio.RawValue());
-   public AudioAttachment?               PreferredAudio   => AudioAttachments.FirstOrDefault();
-   public IReadOnlyList<ImageAttachment> Screenshots      => Services.MediaFileIndex.GetImageAttachments(Screenshot.RawValue());
+   /// <summary>The file of the sentence's <see cref="AllAudioOfANote.Preferred"/> audio in the media layer, or null when it has no audio, or the media layer hasn't its file.</summary>
+   public AudioAttachment? PreferredAudio => AllAudio.PreferredFileIn(Services.MediaFileIndex);
 
-   public override List<MediaReference> MediaReferences
-   {
-      get
-      {
-         var refs = Audio.GetMediaReferences();
-         refs.AddRange(Screenshot.GetMediaReferences());
-         return refs;
-      }
-   }
+   /// <summary>All the sentence's screenshots, its source's, then the corpus's own (<see cref="Screenshots"/>), as its card shows them.</summary>
+   public IReadOnlyList<ImageReference> AllScreenshots => [..SourceData.Screenshots.All, ..Screenshots.All];
+
+   public override IEnumerable<MediaReference> MediaReferences => [..SourceData.Audio.All, ..SourceData.Screenshots.All, ..Audio.All, ..Screenshots.All];
 
    public override string GetQuestion() => Question.WithoutInvisibleSpace();
 
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
-
-   public WritableAudioValue TextToSpeechAudio => Audio;
 
    public override string GetAnswer() => Answer.Get();
 

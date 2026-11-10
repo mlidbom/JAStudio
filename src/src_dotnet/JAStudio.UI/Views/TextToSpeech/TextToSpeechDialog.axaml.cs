@@ -16,11 +16,11 @@ namespace JAStudio.UI.Views.TextToSpeech;
 
 /// <summary>
 /// The TTS dialog for one note, showing a <see cref="TextToSpeechDialogViewModel"/>: generate the note's TTS audio with the chosen voices,<br/>
-/// listen to the attempts, and keep one. It opens where it was last, with the keyboard on the attempts, and the default voice speaking.
+/// listen to the attempts, and use one. It opens where it was last, with the keyboard on the attempts, and the default voice speaking.
 /// </summary>
 /// <remarks>
-/// The keys 1 to 9 play attempts 1 to 9, 0 plays the note's TTS audio as it is now, and Enter keeps the selected attempt. They do nothing while<br/>
-/// the keyboard is in the text to speak, where they're typed. Keeping closes the dialog. Closing it otherwise changes nothing.<br/>
+/// The keys 1 to 9 play attempts 1 to 9, 0 plays the note's TTS audio as it is now, and Enter uses the selected attempt. They do nothing while<br/>
+/// the keyboard is in the text to speak, where they're typed. Using one closes the dialog. Closing it otherwise changes nothing.<br/>
 /// It plays through a <see cref="SoundFlowAudioPlayer"/> of its own, closed with the dialog.
 /// </remarks>
 partial class TextToSpeechDialog : Window
@@ -67,8 +67,8 @@ partial class TextToSpeechDialog : Window
          case Key.D0 when _dialog.CurrentAudio.CanPlay:
             _dialog.PlayTheCurrentAudio();
             break;
-         case Key.Enter when _dialog.CanKeep:
-            Keep();
+         case Key.Enter when _dialog.CanUse:
+            Use();
             break;
          default:
             return;
@@ -105,11 +105,11 @@ partial class TextToSpeechDialog : Window
             _dialog.Offer(chosen.ChosenVoicesOf(_providers));
       });
 
-   void OnKeep(object? sender, RoutedEventArgs e) => Keep();
+   void OnUse(object? sender, RoutedEventArgs e) => Use();
 
-   void Keep()
+   void Use()
    {
-      _dialog.KeepTheSelectedAttempt();
+      _dialog.UseTheSelectedAttempt();
       Close();
    }
 

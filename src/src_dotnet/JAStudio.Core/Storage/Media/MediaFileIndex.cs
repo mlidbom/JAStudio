@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Compze.Internals.Logging;
 using Compze.SystemCE;
 using Compze.Underscore;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Storage.Media;
@@ -87,17 +86,11 @@ public class MediaFileIndex
       if(!_initialized) Build();
    });
 
-   public IReadOnlyList<AudioAttachment> GetAudioAttachments(string rawValue) => EnsureInitialized()
-     ._(_ => MediaFieldParsing.ParseAudioReferences(rawValue)
-                              .Select(r => ResolveAudio(r.FileName))
-                              .OfType<AudioAttachment>()
-                              .ToList());
+   /// <summary>The file <paramref name="audio"/> references, or null when the media layer hasn't it.</summary>
+   public AudioAttachment? Resolve(AudioReference audio) => EnsureInitialized()._(_ => ResolveAudio(audio.FileName));
 
-   public IReadOnlyList<ImageAttachment> GetImageAttachments(string rawValue) => EnsureInitialized()
-     ._(_ => MediaFieldParsing.ParseImageReferences(rawValue)
-                              .Select(r => ResolveImage(r.FileName))
-                              .OfType<ImageAttachment>()
-                              .ToList());
+   /// <summary>The file <paramref name="image"/> references, or null when the media layer hasn't it.</summary>
+   public ImageAttachment? Resolve(ImageReference image) => EnsureInitialized()._(_ => ResolveImage(image.FileName));
 
    AudioAttachment? ResolveAudio(string fileName)
    {

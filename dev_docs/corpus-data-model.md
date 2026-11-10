@@ -289,7 +289,7 @@ Two cautions:
 | ~~Parts of speech~~ | `VocabNotePartsOfSpeech` | ~~One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times)~~ *Gone 2026-11-08 (slice 7b): `partsOfSpeech` is a list of the names of `PartOfSpeech`s, a closed set.* |
 | ~~Primary kanji readings~~ | `KanjiNoteReadings` | ~~Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml`~~ *Gone 2026-11-08 (slice 7a): `readings` is `{ "on", "kun", "nanori" }`, each a list of `{ "kana", "isPrimary" }`. The cards still show a primary reading inside `<primary>`, made from the model (`KanjiReadingsHtml`).* |
 | Primary kanji meaning | kanji `sourceAnswer` | `<primary>Stab</primary>, Thrust` |
-| Media references | `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue` | Anki's `[sound:x.mp3]` and `<img src="…">` *Slice 9 makes them data (2026-11-10): see [Media](#media-open).* |
+| Media references | `AnkiMediaMarkup`, used for the corpus by `TodaysMediaFields` until slice 9's step 3 (until 2026-11-10: `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue`) | Anki's `[sound:x.mp3]` and `<img src="…">` *Slice 9 makes them data (2026-11-10): see [Media](#media-open).* |
 | Word-break hints | `SentenceQuestionField` | `<wbr>` inserted into the question text by `SentenceQuestionField.SplitTokenWithWordBreakTag`, to force the tokenizer to split there. It writes the source question when there is no user question. 252 sentence files have one: 233 in `sourceQuestion`, 19 in `userQuestion`. *Goes with the matching configuration's redesign (Magnus, 2026-11-10).* |
 
 The brackets caused two bugs: `a921f09cb` (alternative compound parts lost when editing a vocab) and `51a2ab4ae`
@@ -877,10 +877,33 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
    becoming separate: see [Tags](#the-corpuss-tags-and-ankis-tags-are-separate-magnus-2026-11-10).*
 2. **The domain model, on today's storage:** a full rebuild in the headless JAStudio's worktree first. Then the
    reference types and the lists, filled from today's fields by a temporary mapping in the converters. Everything
-   moves to the lists: the Anki-projection, the web cards, TTS keeping and its dialog, the editors, the MCP's editable
+   moves to the lists: the Anki-projection, the web cards, using TTS audio and its dialog, the editors, the MCP's editable
    fields, `VocabCloner`, the import (into source data), deleting a note's unused files, `MediaFileIndex`. Markup is
    parsed only where Anki's crosses the boundary: the import reading Anki's fields, the projection writing them.
    Checked: the Anki comparison shows formatting only, a full rebuild changes nothing. A source commit.
+   *Built 2026-11-10.*
+   - **The types:** `AudioReference` and `ImageReference` (`Note/Media`), in lists of the source data and the corpus's
+     own (`AudioReferenceList`, `MediaReferenceList`); `AllAudioOfANote` orders a note's audio as preferred. Anki's
+     markup is read and written by `AnkiMediaMarkup` only. The temporary mapping is `TodaysMediaFields`: a vocab's audio
+     is all the corpus's own, its `audioTTS` TTS; its `image` the source's, its `userImage` the corpus's own; a
+     sentence's audio TTS by the `_tts_audio` tag or a TTS file name, the corpus's own, else the source's; its
+     screenshots the source's.
+   - **What changed for Magnus:** the editors show the source's media in their Source section and the corpus's own in
+     their Corpus section (a kanji's images in its Core section): audio as rows with ▶, the file's name and what's known
+     about it, images as thumbnails with a larger preview, the file's name and the alt text on hover, each with a remove
+     button, and "TTS..." beside the corpus's own audio (adding by hand is later). The TTS dialog's "Keep" is "Use" now
+     (Magnus: "keep" said nothing about what happens to the note). Using TTS audio for a sentence leaves its recording,
+     which stays the audio played: *decided (Magnus, 2026-11-10)*, since TTS audio may let a sentence be used without IP
+     issues, but the real audio of a scene mustn't be lost; more intelligent handling may come later. A sentence card
+     shows a screenshot whose file is missing as a broken image, rather than leaving it out. The MCP's editable fields
+     no longer include the media fields.
+   - **Checked on the corpus at `bc60d8b913`:** a full rebuild changed nothing. The Anki comparison: 475 study-notes
+     differ (470 vocab, 5 sentences), all only in the markup of their audio, such as a leading space, an `&nbsp;`, or
+     a vocab's second recording moving from `Audio_b` to `Audio_g`. Saving every note (`save_every_note`) would rewrite
+     946 vocab, 45 kanji and 464 sentences, all in formatting only, by a classifying script: `alt` after `src`, `<img>`
+     without ` /`, separators dropped, and 244 vocab's recordings split anew between `audioB` and `audioG`, in the same
+     order. A note Magnus edits before step 3 gets that formatting. The comparison tool learned to tell such notes
+     (`OnlyTheMarkupOfItsAudioDiffers`).
 3. **The format and the migration:** the DTOs take the shape above; `_tts_audio`, `Tags.TTSAudio` and the temporary
    mapping go. A one-time Python script migrates the notes, reusing the survey's TTS proof, in the headless worktree,
    and reports to Magnus before anything is committed. Checked: a full rebuild after it changes nothing, every

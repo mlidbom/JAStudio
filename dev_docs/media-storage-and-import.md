@@ -41,23 +41,29 @@ Anki,** such as `hypertts-0001168b….mp3`, so file names must be unique across 
 
 ## How a note finds its media
 
-**The note holds the link.** A note's media fields hold Anki's markup in the corpus JSON: `[sound:…]` for audio and
-`<img src="…">` for images. That file name is the only connection between a note and a file. The files don't know
-their notes.
+**The note holds the link.** A note holds lists of references to its media files (`AudioReference`, `ImageReference`),
+each the file's name with the facts known about the file: what its source gave it, in its source data, and the corpus's
+own, added since (`corpus-data-model.md`, Media). That file name is the only connection between a note and a file. The
+files don't know their notes.
 
-| Note type | Media fields (`VocabDto`, `SentenceDto`) |
+| Note type | Media lists |
 |---|---|
-| Vocab | `AudioB` (`Audio_b`), `AudioG` (`Audio_g`), `AudioTTS` (`Audio_TTS`), `Image`, `UserImage` |
-| Sentence | `Audio` (`Audio Sentence`), `Screenshot` |
-| Kanji | none |
+| Vocab | audio and images, its source's and the corpus's own |
+| Sentence | audio and screenshots, its source's and the corpus's own |
+| Kanji | images, the corpus's own |
+
+*Until slice 9's step 3 the corpus JSON still stores them as Anki's markup in fixed fields, `[sound:…]` and
+`<img src="…">`: a vocab's `audioB`, `audioG`, `audioTTS`, `image` and `userImage`, a sentence's `audio` and
+`screenshot`, a kanji's `image`, read into the lists and written back by a temporary mapping (`TodaysMediaFields`).*
 
 **`MediaFileIndex` maps file names to files.** On first use it scans the whole media tree, leaving out `.json` and
 `.txt` files. It maps each file name, ignoring case, to an `AudioAttachment` or an `ImageAttachment`, by the file's
 extension. Each attachment holds only the original file name and the path. For a duplicate name, the first file
 found wins, and a warning is logged.
 
-`MediaFileIndex.GetAudioAttachments` and `GetImageAttachments` parse a field's markup and look up each name. A
-reference whose file isn't in the media layer finds nothing. The card server serves the files to the note pages at
+`MediaFileIndex.Resolve` looks up a reference's file by its name. A reference whose file isn't in the media layer
+finds nothing. Anki's markup is read only where Anki's fields come in, the import, and written only where they go out,
+the Anki-projection (`AnkiMediaMarkup`). The card server serves the files to the note pages at
 `/media?name={file name}`, through the index.
 
 ## Importing from Anki

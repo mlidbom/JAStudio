@@ -1,16 +1,17 @@
 import typing, abc
 from System import Action, Guid, IDisposable, Func_2
 from JAStudio.Core.Note.Sentences import SentenceNote
-from JAStudio.Core.Note.Vocabulary import VocabNote, WritableAudioValue, VocabNoteFactory, VocabNoteGeneratedData
-from System.Collections.Generic import IEnumerable_1, List_1, HashSet_1, Dictionary_2, IReadOnlyList_1
+from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteFactory, VocabNoteGeneratedData
+from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReference, MediaReferenceList_1, ImageReference
+from System.Collections.Generic import IEnumerable_1, HashSet_1, Dictionary_2, IReadOnlyList_1, List_1
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
-from JAStudio.Core.Note.NoteFields import MediaReference, WritableStringValue, WritableImageValue
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
 from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableTextListField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.KanjiReadings import EditableKanjiReadingsField, KanjiNoteReadings
+from JAStudio.Core.Note.NoteFields import WritableStringValue
 from Compze.Abstractions import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
@@ -66,9 +67,11 @@ class ICardOperations(typing.Protocol):
 
 class IHasTextToSpeechAudio(typing.Protocol):
     @property
-    def TextToSpeak(self) -> str: ...
+    def AllAudio(self) -> AllAudioOfANote: ...
     @property
-    def TextToSpeechAudio(self) -> WritableAudioValue: ...
+    def Audio(self) -> AudioReferenceList: ...
+    @property
+    def TextToSpeak(self) -> str: ...
     @staticmethod
     def SpeakableTextOf(question: str) -> str: ...
 
@@ -83,7 +86,7 @@ class JPNote(abc.ABC):
     @property
     def Guard(self) -> NoteGuard: ...
     @property
-    def MediaReferences(self) -> List_1[MediaReference]: ...
+    def MediaReferences(self) -> IEnumerable_1[MediaReference]: ...
     @property
     def RecursiveFlushGuard(self) -> NoteFlushGuard: ...
     @property
@@ -135,7 +138,6 @@ class KanjiCommands(abc.ABC):
 class KanjiEditableFields(abc.ABC):
     Answer : EditableTextField_1[KanjiNote]
     ConfusedWith : EditableTextListField_1[KanjiNote]
-    Image : EditableTextField_1[KanjiNote]
     KunReadings : EditableKanjiReadingsField
     Mnemonic : EditableTextField_1[KanjiNote]
     NanoriReadings : EditableKanjiReadingsField
@@ -177,11 +179,11 @@ class KanjiNote(JPNote):
     @property
     def Guard(self) -> NoteGuard: ...
     @property
-    def Image(self) -> WritableImageValue: ...
+    def Images(self) -> MediaReferenceList_1[ImageReference]: ...
     @property
     def KanjiReferences(self) -> WritableStringValue: ...
     @property
-    def MediaReferences(self) -> List_1[MediaReference]: ...
+    def MediaReferences(self) -> IEnumerable_1[MediaReference]: ...
     @property
     def Mnemonic(self) -> WritableStringValue: ...
     @property

@@ -4,6 +4,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.KanjiReadings;
+using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
@@ -56,10 +57,7 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
          Field(KanjiEditableFields.SourceAnswer),
          Field(KanjiEditableFields.SourceMeaningMnemonic)
       ];
-      OtherFields =
-      [
-         Field(KanjiEditableFields.Image)
-      ];
+      Images = new ImageListEditorViewModel("Images", () => CurrentKanji().Images, services.Resolve<MediaFileIndex>());
       Tags = new NoteTagsEditorViewModel(services, CurrentKanji);
    }
 
@@ -78,8 +76,8 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
-   /// <summary>The kanji's image, as Anki's <c>&lt;img src="…"&gt;</c> markup (<see cref="KanjiNote.Image"/>).</summary>
-   public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
+   /// <summary>The kanji's images (<see cref="KanjiNote.Images"/>), all the corpus's own, shown with the kanji's other own data in its core section.</summary>
+   public ImageListEditorViewModel Images { get; }
 
    public NoteTagsEditorViewModel Tags { get; }
 
@@ -87,10 +85,11 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    {
       foreach(var field in AllFields()) field.Refresh();
       foreach(var readings in Readings) readings.Refresh();
+      Images.Refresh();
       Tags.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..RelatedFields, ..SourceFields, ..OtherFields];
+   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..RelatedFields, ..SourceFields];
 
    TextFieldEditorViewModel Field(EditableTextField<KanjiNote> field) =>
       new(_fatalErrorHandler, field.Label, field.Format, () => field.Read(CurrentKanji()), WritingToTheCurrentKanji(field.Write));

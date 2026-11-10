@@ -22,13 +22,7 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Corpus" />
                     <ItemsControl ItemsSource="{Binding CorpusFields}" />
-                </StackPanel>
-            </Border>
-
-            <Border Classes="section">
-                <StackPanel>
-                    <TextBlock Classes="sectionTitle" Text="Audio" />
-                    <ItemsControl ItemsSource="{Binding AudioFields}" />
+                    <ItemsControl ItemsSource="{Binding CorpusMedia}" />
                 </StackPanel>
             </Border>
 
@@ -43,6 +37,7 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Source" />
                     <ItemsControl ItemsSource="{Binding SourceFields}" />
+                    <ItemsControl ItemsSource="{Binding SourceMedia}" />
                 </StackPanel>
             </Border>
         </StackPanel>

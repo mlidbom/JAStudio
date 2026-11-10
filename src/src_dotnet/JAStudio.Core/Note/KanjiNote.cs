@@ -6,6 +6,7 @@ using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.KanjiReadings;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage.Converters;
@@ -31,8 +32,11 @@ public class KanjiNote : JPNote
 
    public WritableStringValue KanjiReferences { get; }
 
-   /// <summary>An image for the kanji, which only a few have: see <see cref="KanjiDto.Image"/>.</summary>
-   public WritableImageValue Image { get; }
+   /// <summary>
+   /// The kanji's images, which only a few have, all the corpus's own: pasted or from the web, as kanji have no source media. Shown nowhere yet: JAStudio<br/>
+   /// only carries them, kept from the Anki notes before they were trimmed, since an image can't be made again the way the kanji's audio can be computed.
+   /// </summary>
+   public MediaReferenceList<ImageReference> Images { get; }
 
    readonly WritableStringValue _question;
    readonly WritableStringValue _radicalsRaw;
@@ -48,7 +52,8 @@ public class KanjiNote : JPNote
       SourceData = new KanjiSourceData(data?.SourceData, Guard);
       Readings = new KanjiNoteReadings(data?.Readings, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
-      Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
+      //wip: slice 9's step 3 reads the images from data itself, rather than from the media field of today (TodaysMediaFields).
+      Images = new MediaReferenceList<ImageReference>(TodaysMediaFields.KanjiImagesIn(data), Guard);
       _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
       _primaryVocabRaw = new WritableStringValue(data?.PrimaryVocab != null ? string.Join(", ", data.PrimaryVocab) : string.Empty, Guard);
       _similarMeaningRaw = new WritableStringValue(data?.SimilarMeaning != null ? string.Join(", ", data.SimilarMeaning) : string.Empty, Guard);
@@ -373,7 +378,7 @@ public class KanjiNote : JPNote
 
    public List<VocabNote> GetVocabNotes() => Services.Collection.Vocab.WithKanjiInAnyForm(this);
 
-   public override List<MediaReference> MediaReferences => Image.GetMediaReferences();
+   public override IEnumerable<MediaReference> MediaReferences => Images.All;
 
    public List<VocabNote> GetVocabNotesSorted() =>
       VocabNoteSorting.SortVocabListByStudyingStatus(

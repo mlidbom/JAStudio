@@ -8,7 +8,7 @@ namespace JAStudio.UI.ViewModels.TextToSpeech;
 /// <summary>
 /// One attempt in the TTS dialog: a voice's speech of the text, numbered in the order generated, kept in memory to replay without generating it again.<br/>
 /// It says whether it sounds the same as the attempt before it with the same voice and text, since a voice may say a text differently each time,<br/>
-/// and whether it sounds the same as the note's current audio, which keeping it would replace.
+/// and whether it sounds the same as the note's current audio, which using it would replace.
 /// </summary>
 sealed class SpeechAttemptViewModel
 {

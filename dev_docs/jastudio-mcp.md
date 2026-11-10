@@ -275,8 +275,9 @@ the headless JAStudio.
          note, as the dialog's question would stop a person. A kept Anki note is left alone, not suspended, which
          changes only whether its cards come up for review: dealing with it in Anki is Magnus's to do. Its cards show
          that the note no longer exists in JAStudio. The headless JAStudio can only keep an Anki note.
-  - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. Writing an
-    audio field's reference is an edit like any other.
+  - **Left out on purpose:** generating text-to-speech audio, which calls Azure or Google and costs money. A note's
+    media lists aren't editable fields: `get_note` shows them as the corpus stores them, and the workspace's editors
+    remove files from them.
   - A kanji's readings of each kind are one field, such as `readings.on`, a list of `{"kana", "isPrimary"}` in order,
     which replaced the three tools that added, removed and made primary one reading at a time.
 - **Running, built:**

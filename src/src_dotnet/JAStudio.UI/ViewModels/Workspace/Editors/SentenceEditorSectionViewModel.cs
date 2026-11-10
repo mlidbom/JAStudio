@@ -4,6 +4,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
@@ -48,10 +49,19 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
          Field(SentenceEditableFields.SourceComments),
          Field(SentenceEditableFields.SourceExternalId)
       ];
+      var media = services.Resolve<MediaFileIndex>();
+      CorpusMedia =
+      [
+         new AudioListEditorViewModel("Audio", () => CurrentSentence().Audio, media, EditorAudioPlayer.Instance, () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
+         new ImageListEditorViewModel("Screenshots", () => CurrentSentence().Screenshots, media)
+      ];
+      SourceMedia =
+      [
+         new AudioListEditorViewModel("Audio", () => CurrentSentence().SourceData.Audio, media, EditorAudioPlayer.Instance),
+         new ImageListEditorViewModel("Screenshots", () => CurrentSentence().SourceData.Screenshots, media)
+      ];
       OtherFields =
       [
-         TextToSpeechAudioField(SentenceEditableFields.Audio),
-         Field(SentenceEditableFields.Screenshot),
          Field(SentenceEditableFields.SourceName)
       ];
       Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
@@ -62,14 +72,16 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> CorpusFields { get; }
 
+   /// <summary>The corpus's own audio and screenshots of the sentence, added since its source. The audio has a button for generating new TTS audio.</summary>
+   public IReadOnlyList<MediaListEditorViewModel> CorpusMedia { get; }
+
    /// <summary>What the sentence's source gave it (<see cref="SentenceNote.SourceData"/>): its question, answer and comments, and the id it has there.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
 
-   /// <summary>
-   /// The sentence's audio and screenshot, as Anki's <c>[sound:file]</c> and image references, and the name of the work or deck it came from<br/>
-   /// (<see cref="SentenceNote.SourceName"/>).<br/>
-   /// The audio is its TTS audio, with a button for generating new (<see cref="TextToSpeechAudioFieldEditorViewModel"/>).
-   /// </summary>
+   /// <summary>The audio and screenshots the sentence's source gave it (<see cref="SentenceNote.SourceData"/>).</summary>
+   public IReadOnlyList<MediaListEditorViewModel> SourceMedia { get; }
+
+   /// <summary>The name of the work or deck the sentence came from (<see cref="SentenceNote.SourceName"/>).</summary>
    public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
 
    public NoteTagsEditorViewModel Tags { get; }
@@ -77,6 +89,7 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    public void Refresh()
    {
       foreach(var field in AllFields()) field.Refresh();
+      foreach(var list in (IEnumerable<MediaListEditorViewModel>)[..CorpusMedia, ..SourceMedia]) list.Refresh();
       Tags.Refresh();
    }
 
@@ -84,14 +97,6 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
 
    TextFieldEditorViewModel Field(EditableTextField<SentenceNote> field) =>
       new(_fatalErrorHandler, field.Label, field.Format, () => field.Read(CurrentSentence()), WritingToTheCurrentSentence(field.Write));
-
-   /// <summary>The sentence's text-to-speech audio, with a button for generating new in the <see cref="TextToSpeechDialog"/>.</summary>
-   TextToSpeechAudioFieldEditorViewModel TextToSpeechAudioField(EditableTextField<SentenceNote> field) =>
-      new(_fatalErrorHandler,
-          field.Label,
-          () => field.Read(CurrentSentence()),
-          WritingToTheCurrentSentence(field.Write),
-          () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services));
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the sentence as the collection holds it now, and updates the sentence's generated data.</summary>
    Action<string> WritingToTheCurrentSentence(Action<SentenceNote, string> write) =>

@@ -51,18 +51,6 @@ public static class VocabEditableFields
           it => DisambiguationNamesOf(it.CompoundParts.Alternative()),
           (it, parts) => it.CompoundParts.SetAlternative(WordsNamedBy(parts)));
 
-   /// <summary>The vocab's first audio, as Anki's <c>[sound:file]</c> reference.</summary>
-   public static readonly EditableTextField<VocabNote> FirstAudio =
-      new("audioB", "First", TextFieldFormat.Line, it => it.Audio.First.RawValue(), (it, audio) => it.Audio.First.SetRawValue(audio));
-
-   /// <summary>The vocab's second audio, as Anki's <c>[sound:file]</c> reference.</summary>
-   public static readonly EditableTextField<VocabNote> SecondAudio =
-      new("audioG", "Second", TextFieldFormat.Line, it => it.Audio.Second.RawValue(), (it, audio) => it.Audio.Second.SetRawValue(audio));
-
-   /// <summary>The vocab's text-to-speech audio, as Anki's <c>[sound:file]</c> reference.</summary>
-   public static readonly EditableTextField<VocabNote> TextToSpeechAudio =
-      new("audioTTS", "Text to speech", TextFieldFormat.Line, it => it.TextToSpeechAudio.RawValue(), (it, audio) => it.TextToSpeechAudio.SetRawValue(audio));
-
    public static readonly EditableTextField<VocabNote> TechnicalNotes = new("technicalNotes", "Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes);
 
    /// <summary>The answer the vocab's source gave it (<see cref="VocabNote.SourceData"/>).</summary>
@@ -179,7 +167,7 @@ public static class VocabEditableFields
    public static IReadOnlyList<IEditableField<VocabNote>> All { get; } =
    [
       Question, Disambiguation, Readings, Forms, PartsOfSpeech, Answer, Explanation, LongExplanation, Mnemonic, CompoundParts, AlternativeCompoundParts,
-      FirstAudio, SecondAudio, TextToSpeechAudio, TechnicalNotes, SourceAnswer, SourceMnemonic, SourceReadingMnemonic,
+      TechnicalNotes, SourceAnswer, SourceMnemonic, SourceReadingMnemonic,
       YieldLastToken, Surface, SentenceEnd, SentenceStart, SingleToken, GodanImperative, GodanImperativeHead, GodanPotential, IchidanImperative, MasuStem,
       Godan, Ichidan, Irrealis, PastTenseStem, DictionaryFormStart, DictionaryFormHead, AdverbHead, TeFormStemStart, TeFormStemHead,
       IsInflectingWord, IsPoisonWord, MatchWithPrecedingVowel, QuestionOverridesForm, PrefixIsNot, RequiredPrefix, SuffixIsNot, SurfaceIsNot, YieldToSurface,

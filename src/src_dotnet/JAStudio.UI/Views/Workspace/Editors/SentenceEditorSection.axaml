@@ -12,6 +12,7 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Corpus" />
                     <ItemsControl ItemsSource="{Binding CorpusFields}" />
+                    <ItemsControl ItemsSource="{Binding CorpusMedia}" />
                 </StackPanel>
             </Border>
 
@@ -19,6 +20,7 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Source" />
                     <ItemsControl ItemsSource="{Binding SourceFields}" />
+                    <ItemsControl ItemsSource="{Binding SourceMedia}" />
                 </StackPanel>
             </Border>
 

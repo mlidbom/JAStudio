@@ -4,7 +4,7 @@ using System.Linq;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage.Dto;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Media;
 using MemoryPack;
@@ -156,7 +156,8 @@ public abstract class JPNote
       // Override in subclasses
    }
 
-   public abstract List<MediaReference> MediaReferences { get; }
+   /// <summary>Every media file the note references: its source's and the corpus's own, of every kind.</summary>
+   public abstract IEnumerable<MediaReference> MediaReferences { get; }
 
    public abstract CorpusNoteDto ToDto();
 
@@ -225,7 +226,7 @@ public abstract class JPNote
 
       if(IsStudying(CardTypes.Reading)) tags.Add("is_studying_reading");
       if(IsStudying(CardTypes.Listening)) tags.Add("is_studying_listening");
-      if(Tags.Contains(Tagging.Tags.TTSAudio)) tags.Add("tts_audio");
+      if(this is IHasTextToSpeechAudio { AllAudio.IsAllTextToSpeech: true }) tags.Add("tts_audio");
 
       return tags;
    }

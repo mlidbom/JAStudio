@@ -39,14 +39,6 @@ public static class SentenceEditableFields
    /// <summary>The id the sentence has in its source.</summary>
    public static readonly EditableTextField<SentenceNote> SourceExternalId = new("sourceData.externalId", "External id", TextFieldFormat.Line, it => it.SourceData.ExternalId);
 
-   /// <summary>The sentence's text-to-speech audio, as Anki's <c>[sound:file]</c> reference.</summary>
-   public static readonly EditableTextField<SentenceNote> Audio =
-      new("audio", "Audio", TextFieldFormat.Line, it => it.TextToSpeechAudio.RawValue(), (it, audio) => it.TextToSpeechAudio.SetRawValue(audio));
-
-   /// <summary>The sentence's screenshot, as Anki's <c>&lt;img src="…"&gt;</c> markup.</summary>
-   public static readonly EditableTextField<SentenceNote> Screenshot =
-      new("screenshot", "Screenshot", TextFieldFormat.Line, it => it.Screenshot.RawValue(), (it, screenshot) => it.Screenshot.SetRawValue(screenshot));
-
    /// <summary>The name of the source the sentence was imported from (<see cref="SentenceNote.SourceName"/>).</summary>
    public static readonly EditableTextField<SentenceNote> SourceName = new("sourceName", "Source name", TextFieldFormat.Line, it => it.SourceName);
 
@@ -65,7 +57,7 @@ public static class SentenceEditableFields
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<SentenceNote>> All { get; } =
    [
-      Question, Answer, Comments, Reading, SourceQuestion, SourceAnswer, SourceComments, SourceExternalId, Audio, Screenshot, SourceName, Tags,
+      Question, Answer, Comments, Reading, SourceQuestion, SourceAnswer, SourceComments, SourceExternalId, SourceName, Tags,
       HighlightedVocab, IncorrectMatches, HiddenMatches
    ];
 

@@ -12,6 +12,7 @@
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Core" />
                     <ItemsControl ItemsSource="{Binding CoreFields}" />
+                    <ContentControl Content="{Binding Images}" />
                 </StackPanel>
             </Border>
 
@@ -36,12 +37,6 @@
                 </StackPanel>
             </Border>
 
-            <Border Classes="section">
-                <StackPanel>
-                    <TextBlock Classes="sectionTitle" Text="Other" />
-                    <ItemsControl ItemsSource="{Binding OtherFields}" />
-                </StackPanel>
-            </Border>
 
             <Border Classes="section">
                 <StackPanel>

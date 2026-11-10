@@ -4,6 +4,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
+using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Views.TextToSpeech;
@@ -31,7 +32,8 @@ class VocabTextEditorViewModel
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
    /// <param name="sentencesReparser">Reparses the vocab's sentences after a change to what it matches.</param>
    /// <param name="openTheTextToSpeechDialog">Opens the <see cref="TextToSpeechDialog"/> for the vocab as the collection holds it now.</param>
-   public VocabTextEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, VocabSentencesReparserViewModel sentencesReparser, Action openTheTextToSpeechDialog)
+   /// <param name="media">Finds the vocab's audio and images in the media layer, to play and show them.</param>
+   public VocabTextEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, VocabSentencesReparserViewModel sentencesReparser, Action openTheTextToSpeechDialog, MediaFileIndex media)
    {
       _fatalErrorHandler = fatalErrorHandler;
       _currentVocab = currentVocab;
@@ -51,11 +53,15 @@ class VocabTextEditorViewModel
          Field(VocabEditableFields.CompoundParts),
          Field(VocabEditableFields.AlternativeCompoundParts)
       ];
-      AudioFields =
+      CorpusMedia =
       [
-         Field(VocabEditableFields.FirstAudio),
-         Field(VocabEditableFields.SecondAudio),
-         TextToSpeechAudioField(VocabEditableFields.TextToSpeechAudio, openTheTextToSpeechDialog)
+         new AudioListEditorViewModel("Audio", () => _currentVocab().Audio, media, EditorAudioPlayer.Instance, openTheTextToSpeechDialog),
+         new ImageListEditorViewModel("Images", () => _currentVocab().Images, media)
+      ];
+      SourceMedia =
+      [
+         new AudioListEditorViewModel("Audio", () => _currentVocab().SourceData.Audio, media, EditorAudioPlayer.Instance),
+         new ImageListEditorViewModel("Images", () => _currentVocab().SourceData.Images, media)
       ];
       TechnicalNotes = Field(VocabEditableFields.TechnicalNotes);
       SourceFields =
@@ -86,16 +92,16 @@ class VocabTextEditorViewModel
    /// </summary>
    public IReadOnlyList<TextFieldEditorViewModel> CorpusFields { get; }
 
-   /// <summary>
-   /// The vocab's audio, as Anki's <c>[sound:file]</c> references. The last is its TTS audio, with a button for generating new<br/>
-   /// (<see cref="TextToSpeechAudioFieldEditorViewModel"/>).
-   /// </summary>
-   public IReadOnlyList<TextFieldEditorViewModel> AudioFields { get; }
+   /// <summary>The corpus's own audio and images of the vocab, added since its source. The audio has a button for generating new TTS audio.</summary>
+   public IReadOnlyList<MediaListEditorViewModel> CorpusMedia { get; }
 
    public TextFieldEditorViewModel TechnicalNotes { get; }
 
    /// <summary>What the vocab's source gave it (<see cref="VocabNote.SourceData"/>): its answer and mnemonics. The mnemonics are never shown on a card.</summary>
    public IReadOnlyList<TextFieldEditorViewModel> SourceFields { get; }
+
+   /// <summary>The audio and images the vocab's source gave it (<see cref="VocabNote.SourceData"/>).</summary>
+   public IReadOnlyList<MediaListEditorViewModel> SourceMedia { get; }
 
    /// <summary>Shows everything as the note has it now, after a change made elsewhere.</summary>
    public void Refresh()
@@ -105,9 +111,10 @@ class VocabTextEditorViewModel
       Forms.Refresh();
       PartsOfSpeech.Refresh();
       foreach(var field in LiveTextFields()) field.Refresh();
+      foreach(var list in (IEnumerable<MediaListEditorViewModel>)[..CorpusMedia, ..SourceMedia]) list.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> LiveTextFields() => [Readings, TechnicalNotes, ..CorpusFields, ..AudioFields, ..SourceFields];
+   IEnumerable<TextFieldEditorViewModel> LiveTextFields() => [Readings, TechnicalNotes, ..CorpusFields, ..SourceFields];
 
    /// <summary>A text field that changes how sentences parse, written when it's committed, after which the vocab's sentences are reparsed.</summary>
    CommittingTextFieldEditorViewModel CommittingField(EditableTextField<VocabNote> field) =>
@@ -127,10 +134,6 @@ class VocabTextEditorViewModel
           TextFieldFormat.CommaSeparated,
           () => string.Join(", ", field.Read(_currentVocab())),
           WritingToTheCurrentVocab((it, text) => field.Write(it, StringExtensions.ExtractCommaSeparatedValues(text))));
-
-   /// <summary>The text-to-speech audio's field, with a button for generating new audio in the <see cref="TextToSpeechDialog"/>, which <paramref name="openTheTextToSpeechDialog"/> opens.</summary>
-   TextToSpeechAudioFieldEditorViewModel TextToSpeechAudioField(EditableTextField<VocabNote> field, Action openTheTextToSpeechDialog) =>
-      new(_fatalErrorHandler, field.Label, () => field.Read(_currentVocab()), WritingToTheCurrentVocab(field.Write), openTheTextToSpeechDialog);
 
    /// <summary>Writes a field's text with <paramref name="write"/> to the vocab as the collection holds it now, and updates the vocab's generated data.</summary>
    Action<string> WritingToTheCurrentVocab(Action<VocabNote, string> write) =>

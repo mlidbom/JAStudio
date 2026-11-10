@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace JAStudio.Core.Anki;
 
 /// <summary>
@@ -26,4 +28,7 @@ public static class AnkiFieldNames
    {
       public const string Audio = "Audio Sentence";
    }
+
+   /// <summary>The fields holding audio, of every note type, a vocab's in the order its card templates play them: its recordings, else its TTS audio.</summary>
+   public static IReadOnlyList<string> AudioFields { get; } = [Vocab.AudioB, Vocab.AudioG, Vocab.AudioTTS, Sentence.Audio];
 }

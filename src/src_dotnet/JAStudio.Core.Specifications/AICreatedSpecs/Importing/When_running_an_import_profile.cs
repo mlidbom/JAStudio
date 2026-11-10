@@ -6,6 +6,7 @@ using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.Checking;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 
 // ReSharper disable InconsistentNaming
@@ -36,8 +37,9 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
       [XF] public void the_sentence_takes_its_source_answer_from_the_English_field() => Sentence.SourceData.Answer.Value.Must().Be("You've been living your whole life alone!!");
       [XF] public void the_sentence_takes_its_reading_from_the_Reading_field_with_its_furigana_as_it_is() => Sentence.Reading.Value.Must().Be("ずっと 1 人[にん]で 生[い]きていくんだ");
       [XF] public void the_sentence_takes_its_external_id_from_the_ID_field() => Sentence.SourceData.ExternalId.Value.Must().Be("anime_the_garden_of_words_000000346");
-      [XF] public void the_sentences_audio_references_the_sentence_cards_audio_file() => Sentence.Audio.RawValue().Must().Be("[sound:garden_of_words_346.mp3]");
-      [XF] public void the_sentences_screenshot_references_the_sentence_cards_screenshot_file() => Sentence.Screenshot.RawValue().Must().Be("<img src=\"garden_of_words_346.jpg\">");
+      [XF] public void the_sentences_source_audio_is_the_sentence_cards_audio_file() => Sentence.SourceData.Audio.All.Must().SequenceEqual([new AudioReference("garden_of_words_346.mp3")]);
+      [XF] public void the_sentences_source_screenshots_are_the_sentence_cards_screenshot_file() => Sentence.SourceData.Screenshots.All.Must().SequenceEqual([new ImageReference("garden_of_words_346.jpg")]);
+      [XF] public void the_sentence_has_no_media_of_the_corpuss_own() => (Sentence.Audio.All.Count, Sentence.Screenshots.All.Count).Must().Be((0, 0));
       [XF] public void the_sentence_is_tagged_with_the_profiles_tag() => Sentence.Tags.ToStringList().Must().Contain("source::immersion_kit");
 
       [XF] public void the_audio_is_stored_in_the_profiles_audio_folder_normalized_as_mp3gain_normalizes_it() =>
@@ -108,13 +110,13 @@ public class When_running_an_import_profile : ImportingSpecification, IAIGenerat
          }
       }
 
-      /// <summary>The sentence's audio and screenshot fields are emptied, which leaves both files in the media layer, used by no note.</summary>
+      /// <summary>The sentence's audio and screenshot are removed from it, which leaves both files in the media layer, used by no note.</summary>
       public class and_then_the_sentence_stops_using_its_media_files : on_an_Immersion_Kit_sentence_card
       {
          public and_then_the_sentence_stops_using_its_media_files()
          {
-            Sentence.Audio.SetRawValue("");
-            Sentence.Screenshot.SetRawValue("");
+            Sentence.SourceData.Audio.Remove(Sentence.SourceData.Audio.All.Single());
+            Sentence.SourceData.Screenshots.Remove(Sentence.SourceData.Screenshots.All.Single());
          }
 
          public class and_another_sentence_card_has_the_same_audio_file : and_then_the_sentence_stops_using_its_media_files

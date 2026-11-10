@@ -5,9 +5,11 @@ using System.Text.RegularExpressions;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
 using JAStudio.TextToSpeech;
+using VoiceGender = JAStudio.Core.Note.Media.VoiceGender;
 using JAStudio.UI.ViewModels.TextToSpeech;
 
 // ReSharper disable InconsistentNaming
@@ -47,7 +49,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
    [XF] public void the_new_attempt_is_selected_and_played() => (_dialog.SelectedAttempt == Attempt(1), _player.Played.Single() == Attempt(1).Speech.Mp3).Must().Be((true, true));
    [XF] public void the_attempt_says_how_long_it_lasts() => Attempt(1).Length.Must().Be("1.00 s");
    [XF] public void the_note_has_no_tts_audio_yet() => (_dialog.CurrentAudio.Description, _dialog.CurrentAudio.CanPlay).Must().Be(("none", false));
-   [XF] public void the_note_is_unchanged() => _sentence.Audio.RawValue().Must().Be("");
+   [XF] public void the_note_is_unchanged() => _sentence.AllAudio.InTheOrderPreferred.Must().BeEmpty();
 
    public class after_generating_with_the_default_voice_again : When_generating_tts_audio_for_a_note
    {
@@ -112,25 +114,26 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       [XF] public void it_is_no_longer_generating() => _dialog.IsGenerating.Must().BeFalse();
    }
 
-   public class after_keeping_attempt_1_when_attempt_2_was_selected : When_generating_tts_audio_for_a_note
+   public class after_using_attempt_1_when_attempt_2_was_selected : When_generating_tts_audio_for_a_note
    {
       readonly string _fileName;
 
-      public after_keeping_attempt_1_when_attempt_2_was_selected()
+      public after_using_attempt_1_when_attempt_2_was_selected()
       {
          _dialog.GenerateWith(_provider.Varying);
          _dialog.PlayTheAttemptNumbered(1);
-         _fileName = _dialog.KeepTheSelectedAttempt();
+         _fileName = _dialog.UseTheSelectedAttempt();
       }
 
-      string KeptFile => Path.Combine(GetService<IEnvironmentPaths>().MediaDir, "free", "TTS", "sentences", "jastudio", _fileName);
+      string UsedFile => Path.Combine(GetService<IEnvironmentPaths>().MediaDir, "free", "TTS", "sentences", "jastudio", _fileName);
 
       [XF] public void the_file_is_named_after_the_voice_and_made_unique() => Regex.IsMatch(_fileName, "^jastudio-tts-fake-steady-[0-9a-f]{32}\\.mp3$").Must().BeTrue();
-      [XF] public void the_notes_audio_references_it() => _sentence.Audio.RawValue().Must().Be($"[sound:{_fileName}]");
-      [XF] public void it_is_in_the_media_layers_folder_for_the_tts_audio_of_sentences() => File.ReadAllBytes(KeptFile).SequenceEqual(Attempt(1).Speech.Mp3).Must().BeTrue();
-      [XF] public void the_note_finds_it_in_the_media_layer() => (_sentence.PreferredAudio?.FilePath ?? "").Must().Be(KeptFile);
+      [XF] public void it_is_the_corpuss_own_audio_of_the_note_as_tts_audio_of_ours_with_its_voice_and_the_voices_gender() =>
+         _sentence.Audio.All.Must().SequenceEqual([new AudioReference(_fileName) { IsOurs = true, IsTextToSpeech = true, TextToSpeechVoice = "Fake ja-JP-Steady", VoiceGender = VoiceGender.Female }]);
+      [XF] public void it_is_in_the_media_layers_folder_for_the_tts_audio_of_sentences() => File.ReadAllBytes(UsedFile).SequenceEqual(Attempt(1).Speech.Mp3).Must().BeTrue();
+      [XF] public void the_note_finds_it_in_the_media_layer() => (_sentence.PreferredAudio?.FilePath ?? "").Must().Be(UsedFile);
 
-      public class and_opening_the_dialog_again_and_generating_with_both_voices : after_keeping_attempt_1_when_attempt_2_was_selected
+      public class and_opening_the_dialog_again_and_generating_with_both_voices : after_using_attempt_1_when_attempt_2_was_selected
       {
          readonly TextToSpeechDialogViewModel _dialogOpenedAgain;
 
@@ -141,10 +144,38 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
             _dialogOpenedAgain.GenerateWith(_provider.Varying);
          }
 
-         [XF] public void the_kept_file_is_the_current_audio_and_can_be_played() => (_dialogOpenedAgain.CurrentAudio.Description, _dialogOpenedAgain.CurrentAudio.CanPlay).Must().Be((_fileName, true));
+         [XF] public void the_used_file_is_the_current_audio_and_can_be_played() => (_dialogOpenedAgain.CurrentAudio.Description, _dialogOpenedAgain.CurrentAudio.CanPlay).Must().Be((_fileName, true));
 
          [XF] public void each_attempt_says_how_it_compares_with_the_current_audio() =>
             TheAttemptsOf(_dialogOpenedAgain).Must().SequenceEqual(["#1 Fake Steady same as current", "#2 Fake Varying differs from current: 0.50 s longer"]);
+      }
+   }
+
+   public class when_the_sentence_has_a_recording_from_its_source_and_attempt_1_is_used : When_generating_tts_audio_for_a_note
+   {
+      static readonly AudioReference Recording = new("garden_of_words_346.mp3");
+
+      public when_the_sentence_has_a_recording_from_its_source_and_attempt_1_is_used()
+      {
+         _sentence.SourceData.Audio.Add(Recording);
+         _dialog.UseTheSelectedAttempt();
+      }
+
+      [XF] public void the_recording_stays() => _sentence.SourceData.Audio.All.Must().SequenceEqual([Recording]);
+      [XF] public void the_recording_is_still_the_audio_played_for_the_sentence() => _sentence.AllAudio.Preferred.Must().Be(Recording);
+
+      public class and_attempt_2_is_used_after_it : when_the_sentence_has_a_recording_from_its_source_and_attempt_1_is_used
+      {
+         readonly string _fileOfAttempt2;
+
+         public and_attempt_2_is_used_after_it()
+         {
+            _dialog.GenerateWith(_provider.Varying);
+            _fileOfAttempt2 = _dialog.UseTheSelectedAttempt();
+         }
+
+         [XF] public void it_replaces_the_tts_audio_used_before() => _sentence.Audio.All.Select(it => it.FileName).Must().SequenceEqual([_fileOfAttempt2]);
+         [XF] public void the_recording_still_stays() => _sentence.SourceData.Audio.All.Must().SequenceEqual([Recording]);
       }
    }
 
@@ -155,7 +186,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       public when_the_notes_tts_audio_is_of_a_kind_jastudio_does_not_play()
       {
          GetService<MediaStorageService>().StoreNewAudioFile([1, 2, 3], TextToSpeechAudioFolders.For(_sentence), "imported-clip.ogg");
-         _sentence.Audio.SetRawValue("[sound:imported-clip.ogg]");
+         _sentence.Audio.Add(new AudioReference("imported-clip.ogg") { IsTextToSpeech = true });
          _dialogForOggAudio = DialogOffering(_provider.Steady);
          _dialogForOggAudio.GenerateWithTheDefaultVoice();
       }

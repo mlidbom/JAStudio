@@ -110,9 +110,7 @@
             {
                 var kanjis = _note.Kanji.ExtractMainFormKanji();
                 _kanjiListViewModel = kanjis.Count > 0 ? KanjiListViewModelFactory.Create(kanjis) : null;
-                _hasAudio = !string.IsNullOrEmpty(_note.Audio.First.RawValue())
-                         || !string.IsNullOrEmpty(_note.Audio.Second.RawValue())
-                         || !string.IsNullOrEmpty(_note.Audio.Tts.RawValue());
+                _hasAudio = _note.AllAudio.Preferred != null;
             }
         }
     }

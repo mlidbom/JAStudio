@@ -79,7 +79,6 @@ class VocabEditableFields(abc.ABC):
     Disambiguation : EditableTextField_1[VocabNote]
     ErgativeTwins : EditableSetField_2[VocabNote, WordReference]
     Explanation : EditableTextField_1[VocabNote]
-    FirstAudio : EditableTextField_1[VocabNote]
     Formal : EditableFlagField_1[VocabNote]
     Forms : EditableFormsField
     Godan : EditableRequireForbidField
@@ -110,7 +109,6 @@ class VocabEditableFields(abc.ABC):
     Readings : EditableTextListField_1[VocabNote]
     RequiredPrefix : EditableTextSetField_1[VocabNote]
     RoughMasculine : EditableFlagField_1[VocabNote]
-    SecondAudio : EditableTextField_1[VocabNote]
     SeeAlso : EditableSetField_2[VocabNote, WordReference]
     Sensitive : EditableFlagField_1[VocabNote]
     SentenceEnd : EditableRequireForbidField
@@ -129,7 +127,6 @@ class VocabEditableFields(abc.ABC):
     TechnicalNotes : EditableTextField_1[VocabNote]
     TeFormStemHead : EditableRequireForbidField
     TeFormStemStart : EditableRequireForbidField
-    TextToSpeechAudio : EditableTextField_1[VocabNote]
     UsuallyWrittenInKana : EditableUsuallyWrittenInKanaField
     Vulgar : EditableFlagField_1[VocabNote]
     YieldLastToken : EditableRequireForbidField

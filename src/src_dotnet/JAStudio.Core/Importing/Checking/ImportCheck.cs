@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Storage.Media;
 using Mp3LoudnessNormalization;
 
@@ -167,7 +167,7 @@ class ImportCheck(ImportProfile profile, IReadOnlyList<AnkiNoteType> noteTypesFo
       : externalId == "" ? FieldCheck.Neutral("", "No external id.")
       : checkOfTheExternalId();
 
-   static FieldCheck MediaFieldCheck(string mappedAnkiField, List<MediaReference> files, Func<MediaReference, FieldCheck> checkOfAFile) =>
+   static FieldCheck MediaFieldCheck(string mappedAnkiField, IEnumerable<MediaReference> files, Func<MediaReference, FieldCheck> checkOfAFile) =>
       mappedAnkiField == "" ? FieldCheck.NotMapped() : FieldCheck.OfAMediaField([.. files.Select(checkOfAFile)]);
 
    CheckedRawNote Checked(RawNote rawNote, RawNoteOutcome outcome, FieldCheck externalId, FieldCheck audio, FieldCheck screenshot, IReadOnlyList<string> whatIsWrongWithTheNoteAsAWhole) =>
@@ -177,7 +177,7 @@ class ImportCheck(ImportProfile profile, IReadOnlyList<AnkiNoteType> noteTypesFo
    bool IsTheSameFile(MediaReference file, MediaAttachment inTheMediaLayer)
    {
       var ankisCopy = File.ReadAllBytes(InAnkisMediaFolder(file));
-      var asTheImportWouldStoreIt = file.Type == MediaType.Audio ? new Mp3File(ankisCopy).NormalizedToTheReplayGainReference().Bytes() : ankisCopy;
+      var asTheImportWouldStoreIt = file is AudioReference ? new Mp3File(ankisCopy).NormalizedToTheReplayGainReference().Bytes() : ankisCopy;
       return File.ReadAllBytes(inTheMediaLayer.FilePath).AsSpan().SequenceEqual(asTheImportWouldStoreIt);
    }
 

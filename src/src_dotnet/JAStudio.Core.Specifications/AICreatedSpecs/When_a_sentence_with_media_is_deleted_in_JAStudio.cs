@@ -6,7 +6,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
 
@@ -35,9 +35,9 @@ public class When_a_sentence_with_media_is_deleted_in_JAStudio : SpecificationSt
       _sharedScreenshotPath = Path.Combine(GetService<IEnvironmentPaths>().MediaDir, "free/sentences", "shared-screenshot.jpg");
 
       _deleted = CreateTestSentence("部屋が広い。", "The room is large.");
-      _deleted.Audio.SetRawValue("[sound:own-audio.mp3]");
-      _deleted.Screenshot.SetRawValue("<img src=\"shared-screenshot.jpg\">");
-      CreateTestSentence("部屋が狭い。", "The room is small.").Screenshot.SetRawValue("<img src=\"shared-screenshot.jpg\">");
+      _deleted.SourceData.Audio.Add(new AudioReference("own-audio.mp3"));
+      _deleted.Screenshots.Add(new ImageReference("shared-screenshot.jpg"));
+      CreateTestSentence("部屋が狭い。", "The room is small.").SourceData.Screenshots.Add(new ImageReference("shared-screenshot.jpg"));
 
       var collection = GetService<JPCollection>();
       collection.NoteDeleted.Subscribe(_notifiedAsDeleted.Add);

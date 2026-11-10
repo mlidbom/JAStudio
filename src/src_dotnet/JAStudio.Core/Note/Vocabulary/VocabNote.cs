@@ -4,6 +4,7 @@ using Compze.Contracts;
 using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Storage.Converters;
@@ -43,14 +44,24 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public VocabNoteMetaData MetaData { get; }
    public VocabNoteRegister Register { get; }
    public VocabNoteUsuallyWrittenInKana UsuallyWrittenInKana { get; }
-   public VocabNoteAudio Audio { get; }
+
+   /// <summary>
+   /// The corpus's own audio for the vocab, added since its source: its TTS audio, and recordings from elsewhere, such as Yomitan's or Forvo's.<br/>
+   /// The audio its source gave it is its <see cref="VocabSourceData.Audio"/>, and <see cref="AllAudio"/> is both.
+   /// </summary>
+   public AudioReferenceList Audio { get; }
+
+   /// <summary>All the vocab's audio, its <see cref="VocabSourceData.Audio"/> and its <see cref="Audio"/>, in the order it's preferred in.</summary>
+   public AllAudioOfANote AllAudio { get; }
+
+   /// <summary>The corpus's own images for the vocab, added since its source, such as images from the web. Shown nowhere yet.</summary>
+   public MediaReferenceList<ImageReference> Images { get; }
+
    public VocabNoteMatchingConfiguration MatchingConfiguration { get; }
    public VocabCloner Cloner { get; }
 
    public WritableStringValue TechnicalNotes { get; }
    public WritableStringValue References { get; }
-   public WritableImageValue Image { get; }
-   public WritableImageValue UserImage { get; }
 
    readonly List<string> _readings;
 
@@ -60,11 +71,13 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       Explanation = new WritableStringValue(data?.Explanation ?? string.Empty, Guard);
       ExplanationLong = new WritableStringValue(data?.ExplanationLong ?? string.Empty, Guard);
       Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
-      SourceData = new VocabSourceData(data?.SourceData, Guard);
+      //wip: slice 9's step 3 reads the media lists from data itself, rather than from the media fields of today (TodaysMediaFields).
+      SourceData = new VocabSourceData(data?.SourceData, [], TodaysMediaFields.VocabSourceImagesIn(data), Guard);
+      Audio = new AudioReferenceList(TodaysMediaFields.VocabAudioIn(data), Guard);
+      Images = new MediaReferenceList<ImageReference>(TodaysMediaFields.VocabImagesIn(data), Guard);
+      AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
       TechnicalNotes = new WritableStringValue(data?.TechnicalNotes ?? string.Empty, Guard);
       References = new WritableStringValue(data?.References ?? string.Empty, Guard);
-      Image = new WritableImageValue(data?.Image ?? string.Empty, Guard);
-      UserImage = new WritableImageValue(data?.UserImage ?? string.Empty, Guard);
       _readings = data?.Readings != null ? [..data.Readings] : [];
 
       Question = new VocabNoteQuestion(this, data, Guard);
@@ -78,7 +91,6 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
-      Audio = new VocabNoteAudio(data, Guard);
       MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
       Cloner = new VocabCloner(this);
    }
@@ -93,36 +105,19 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    protected override Dictionary<string, string> StudyNoteFieldsBesidesTheId() => new()
    {
       [AnkiFieldNames.Question] = Question.DisambiguationName,
-      [AnkiFieldNames.Vocab.AudioB] = Audio.First.RawValue(),
-      [AnkiFieldNames.Vocab.AudioG] = Audio.Second.RawValue(),
-      [AnkiFieldNames.Vocab.AudioTTS] = Audio.Tts.RawValue()
+      [AnkiFieldNames.Vocab.AudioB] = AnkiMediaMarkup.SoundTagsFor(AllAudio.Recordings.Take(1)),
+      [AnkiFieldNames.Vocab.AudioG] = AnkiMediaMarkup.SoundTagsFor(AllAudio.Recordings.Skip(1)),
+      [AnkiFieldNames.Vocab.AudioTTS] = AnkiMediaMarkup.SoundTagsFor(AllAudio.TextToSpeech)
    };
 
    public override string GetQuestion() => Question.Text;
 
    public string TextToSpeak => IHasTextToSpeechAudio.SpeakableTextOf(GetQuestion());
 
-   public WritableAudioValue TextToSpeechAudio => Audio.Tts;
+   /// <summary>The file of the vocab's <see cref="AllAudioOfANote.Preferred"/> audio in the media layer, or null when it has no audio, or the media layer hasn't its file.</summary>
+   public AudioAttachment? PreferredAudio => AllAudio.PreferredFileIn(Services.MediaFileIndex);
 
-   public IReadOnlyList<AudioAttachment> FirstAudio   => Services.MediaFileIndex.GetAudioAttachments(Audio.First.RawValue());
-   public IReadOnlyList<AudioAttachment> SecondAudio  => Services.MediaFileIndex.GetAudioAttachments(Audio.Second.RawValue());
-   public IReadOnlyList<AudioAttachment> TtsAudio     => Services.MediaFileIndex.GetAudioAttachments(Audio.Tts.RawValue());
-   public AudioAttachment?               PreferredAudio => FirstAudio.FirstOrDefault() ?? SecondAudio.FirstOrDefault() ?? TtsAudio.FirstOrDefault();
-   public IReadOnlyList<ImageAttachment> Images       => Services.MediaFileIndex.GetImageAttachments(Image.RawValue());
-   public IReadOnlyList<ImageAttachment> UserImages   => Services.MediaFileIndex.GetImageAttachments(UserImage.RawValue());
-
-   public override List<MediaReference> MediaReferences
-   {
-      get
-      {
-         var refs = Audio.First.GetMediaReferences();
-         refs.AddRange(Audio.Second.GetMediaReferences());
-         refs.AddRange(Audio.Tts.GetMediaReferences());
-         refs.AddRange(Image.GetMediaReferences());
-         refs.AddRange(UserImage.GetMediaReferences());
-         return refs;
-      }
-   }
+   public override IEnumerable<MediaReference> MediaReferences => [..SourceData.Audio.All, ..SourceData.Images.All, ..Audio.All, ..Images.All];
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
    public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;

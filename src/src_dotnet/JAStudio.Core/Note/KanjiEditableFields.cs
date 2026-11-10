@@ -50,14 +50,11 @@ public static class KanjiEditableFields
    public static readonly EditableTextField<KanjiNote> SourceMeaningMnemonic =
       new("sourceData.meaningMnemonic", "Meaning mnemonic", TextFieldFormat.Paragraphs, it => it.SourceData.MeaningMnemonic);
 
-   /// <summary>The kanji's image, as Anki's <c>&lt;img src="…"&gt;</c> markup (<see cref="KanjiNote.Image"/>).</summary>
-   public static readonly EditableTextField<KanjiNote> Image = new("image", "Image", TextFieldFormat.Line, it => it.Image.RawValue(), (it, image) => it.Image.SetRawValue(image));
-
    public static readonly EditableTagsField<KanjiNote> Tags = new();
 
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<KanjiNote>> All { get; } =
    [
-      Question, Answer, Mnemonic, OnReadings, KunReadings, NanoriReadings, Radicals, PrimaryVocab, SimilarMeaning, ConfusedWith, SourceAnswer, SourceMeaningMnemonic, Image, Tags
+      Question, Answer, Mnemonic, OnReadings, KunReadings, NanoriReadings, Radicals, PrimaryVocab, SimilarMeaning, ConfusedWith, SourceAnswer, SourceMeaningMnemonic, Tags
    ];
 }

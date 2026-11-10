@@ -1,5 +1,4 @@
 @using JAStudio.Core.Note
-@using JAStudio.Core.Note.Tagging
 @using JAStudio.Core.Note.Vocabulary
 @using JAStudio.Core.UI.Web.Vocab
 @using JAStudio.Web
@@ -52,7 +51,7 @@
                       .ThenBy(s => s.VocabIsDisplayed ? 0 : 1)
                       .ThenBy(s => string.IsNullOrEmpty(s.Sentence.GetAnswer()) ? 1 : 0)
                       .ThenBy(s => s.Sentence.PriorityTagValue())
-                      .ThenBy(s => s.Sentence.Tags.Contains(Tags.TTSAudio) ? 1 : 0)
+                      .ThenBy(s => s.Sentence.AllAudio.IsAllTextToSpeech ? 1 : 0)
                       .ThenBy(s => s.ContainsPrimaryForm() ? 0 : 1)
                       .ThenBy(s => s.Sentence.Question.WithoutInvisibleSpace().Length)
                       .ToList();

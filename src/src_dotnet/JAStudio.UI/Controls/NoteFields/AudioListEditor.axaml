@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             x:Class="JAStudio.UI.Controls.NoteFields.AudioListEditor"
+             x:DataType="noteFields:AudioListEditorViewModel">
+    <StackPanel Spacing="2">
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Content="TTS..." Command="{Binding OpenTheTextToSpeechDialogCommand}"
+                    IsVisible="{Binding CanGenerateTextToSpeechAudio}"
+                    ToolTip.Tip="Generate new TTS audio for the note, listen to the attempts, and use one: it replaces the TTS audio here" />
+            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+        </DockPanel>
+        <TextBlock Text="None" Foreground="Gray" Margin="6,0,0,0" IsVisible="{Binding !Items.Count}" />
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="noteFields:AudioRowViewModel">
+                    <DockPanel Margin="6,1,0,1">
+                        <Button DockPanel.Dock="Left" Content="▶" Command="{Binding PlayCommand}"
+                                ToolTip.Tip="{Binding PlayTip}" ToolTip.ShowOnDisabled="True"
+                                Width="22" Height="22" Padding="0" FontSize="11" VerticalAlignment="Top" Margin="0,0,6,0" />
+                        <Button DockPanel.Dock="Right" Content="×" Command="{Binding RemoveCommand}" ToolTip.Tip="Remove the file from the note"
+                                Width="16" Height="16" Padding="0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top" Margin="6,0,0,0" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding FileName}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Facts}" Foreground="Gray" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

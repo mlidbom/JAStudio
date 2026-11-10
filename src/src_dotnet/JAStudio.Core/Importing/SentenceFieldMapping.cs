@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.Note;
+using JAStudio.Core.Note.Media;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Dto;
-using JAStudio.Core.Note.NoteFields;
 
 namespace JAStudio.Core.Importing;
 
 /// <summary>
 /// Which field of a <see cref="RawNote"/> each field of a corpus sentence takes its value from, by the raw note type's field names.<br/>
-/// An empty name leaves the sentence's field empty. Media fields hold Anki's markup, <c>[sound:…]</c> and <c>&lt;img src="…"&gt;</c>, as the corpus does.
+/// An empty name leaves the sentence's field empty. The raw note's media fields hold Anki's markup, <c>[sound:…]</c> and <c>&lt;img src="…"&gt;</c>,<br/>
+/// read with <see cref="AnkiMediaMarkup"/>.
 /// </summary>
 public class SentenceFieldMapping
 {
@@ -34,16 +38,22 @@ public class SentenceFieldMapping
       new[] { SourceQuestion, SourceAnswer, Reading, ExternalId, SourceName, SourceComments, Audio, Screenshot }.Where(it => it != "");
 
    /// <summary>
-   /// The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, the texts as the sentence's source data, with its own tags<br/>
-   /// and <paramref name="tagsToAdd"/>.
+   /// The corpus sentence <paramref name="rawNote"/> becomes: its mapped fields, the texts, audio and screenshots as the sentence's source data, with its own<br/>
+   /// tags and <paramref name="tagsToAdd"/>.
    /// </summary>
-   public SentenceDto SentenceDtoFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
+   public SentenceNote SentenceFrom(RawNote rawNote, IEnumerable<string> tagsToAdd, NoteServices services)
+   {
+      var sentence = new SentenceNote(services, SentenceDtoFrom(rawNote, tagsToAdd));
+      foreach(var audio in AudioOf(rawNote)) sentence.SourceData.Audio.Add(audio);
+      foreach(var screenshot in ScreenshotsOf(rawNote)) sentence.SourceData.Screenshots.Add(screenshot);
+      return sentence;
+   }
+
+   SentenceDto SentenceDtoFrom(RawNote rawNote, IEnumerable<string> tagsToAdd) => new()
    {
       Id = Guid.NewGuid(),
       Reading = rawNote.Field(Reading),
       SourceName = rawNote.Field(SourceName),
-      Audio = rawNote.Field(Audio),
-      Screenshot = rawNote.Field(Screenshot),
       SourceData = new SentenceSourceDataDto
                    {
                       Question = rawNote.Field(SourceQuestion),
@@ -58,11 +68,11 @@ public class SentenceFieldMapping
    public string ExternalIdOf(RawNote rawNote) => rawNote.Field(ExternalId);
 
    /// <summary>The audio files the <see cref="Audio"/> field of <paramref name="rawNote"/> references, in Anki's media folder.</summary>
-   public List<MediaReference> AudioOf(RawNote rawNote) => MediaFieldParsing.ParseAudioReferences(rawNote.Field(Audio));
+   public IReadOnlyList<AudioReference> AudioOf(RawNote rawNote) => AnkiMediaMarkup.AudioIn(rawNote.Field(Audio));
 
    /// <summary>The image files the <see cref="Screenshot"/> field of <paramref name="rawNote"/> references, in Anki's media folder.</summary>
-   public List<MediaReference> ScreenshotsOf(RawNote rawNote) => MediaFieldParsing.ParseImageReferences(rawNote.Field(Screenshot));
+   public IReadOnlyList<ImageReference> ScreenshotsOf(RawNote rawNote) => AnkiMediaMarkup.ImagesIn(rawNote.Field(Screenshot));
 
    /// <summary>Every media file <paramref name="rawNote"/> references in its mapped media fields.</summary>
-   public List<MediaReference> MediaOf(RawNote rawNote) => [.. AudioOf(rawNote), .. ScreenshotsOf(rawNote)];
+   public IReadOnlyList<MediaReference> MediaOf(RawNote rawNote) => [.. AudioOf(rawNote), .. ScreenshotsOf(rawNote)];
 }

@@ -5,7 +5,7 @@ using Compze.Contracts;
 using JAStudio.Core.Importing.Checking;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.NoteFields;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
@@ -133,7 +133,7 @@ public class ImportRun
 
    void AddTheSentenceOf(RawNote rawNote)
    {
-      var sentence = new SentenceNote(_noteServices, Profile.FieldMapping.SentenceDtoFrom(rawNote, Profile.TagsToAdd));
+      var sentence = Profile.FieldMapping.SentenceFrom(rawNote, Profile.TagsToAdd, _noteServices);
       sentence.UpdateGeneratedData();
 
       if(Profile.CreatesAnkiNotesToStudy)
