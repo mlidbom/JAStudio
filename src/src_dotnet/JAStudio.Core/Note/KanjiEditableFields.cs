@@ -1,12 +1,16 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.KanjiReadings;
+using JAStudio.Core.Note.KanjiRelationships;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note;
 
 /// <summary>
 /// Every field of a kanji that a person edits in the kanji's editor in the workspace (<see cref="IEditableField{TNote}"/>), in the editor's order:<br/>
-/// the kanji, its answer and mnemonic; its readings; its radicals and related vocab and kanji; what its source gave it; its image; its tags.
+/// the kanji, its answer and mnemonic; its readings; its radicals, the kanji it's related to and its primary vocab; what its source gave it; its tags.
 /// </summary>
 /// <remarks>
 /// The kanji's editor is built from these fields, and JAStudio's MCP server edits <see cref="All"/> of them, so the two edit the same fields.
@@ -24,24 +28,27 @@ public static class KanjiEditableFields
    public static readonly EditableKanjiReadingsField KunReadings = new("readings.kun", KanjiReadingKind.Kun);
    public static readonly EditableKanjiReadingsField NanoriReadings = new("readings.nanori", KanjiReadingKind.Nanori);
 
-   /// <summary>The radicals the kanji is made of.</summary>
-   public static readonly EditableTextListField<KanjiNote> Radicals =
-      new("radicals", "Radicals", it => StringExtensions.ExtractCommaSeparatedValues(it.RadicalsRaw), (it, radicals) => it.RadicalsRaw = string.Join(", ", radicals));
+   /// <summary>The radicals the kanji is made of (<see cref="KanjiNote.Radicals"/>), in their order, each as often as the kanji has it.</summary>
+   public static readonly EditableListField<KanjiNote, string> Radicals =
+      new("radicals",
+          "Radicals",
+          it => it.Radicals.All,
+          (it, radical) => it.Radicals.Add(radical),
+          (it, radical) => it.Radicals.Remove(radical),
+          (it, radicals) => it.Radicals.Set(radicals));
 
-   /// <summary>The vocab the kanji's card shows as its primary vocab.</summary>
+   /// <summary>Other kanji with a similar meaning (<see cref="KanjiNote.SimilarMeaning"/>): adding or removing one changes that kanji's too.</summary>
+   public static readonly EditableSetField<KanjiNote, string> SimilarMeaning = Relationship("similarMeaning", "Similar meaning", it => it.SimilarMeaning);
+
+   /// <summary>Other kanji the kanji is easily confused with (<see cref="KanjiNote.ConfusedWith"/>): only this kanji knows of them.</summary>
+   public static readonly EditableSetField<KanjiNote, string> ConfusedWith = Relationship("confusedWith", "Confused with", it => it.ConfusedWith);
+
+   /// <summary>
+   /// The vocab the kanji's page shows first (<see cref="KanjiNote.PrimaryVocab"/>), in their order, each typed by its name, such as <c>入る:masu</c>,<br/>
+   /// as a vocab's compound parts are.
+   /// </summary>
    public static readonly EditableTextListField<KanjiNote> PrimaryVocab =
-      new("primaryVocab", "Primary vocab", it => StringExtensions.ExtractCommaSeparatedValues(it.PrimaryVocabRaw), (it, vocab) => it.PrimaryVocabRaw = string.Join(", ", vocab));
-
-   /// <summary>Other kanji with a similar meaning.</summary>
-   public static readonly EditableTextListField<KanjiNote> SimilarMeaning =
-      //todo: Harmonize with the menu (Magnus, 2026-11-09): the editor writes this list as free text, one way only, while the menu's "Similar meaning"
-      //   (KanjiCommands.AddSimilarMeaning) adds a kanji both ways. The free-text field should go, the editor should add and remove kanji as the menu does,
-      //   and the menu item should then probably go.
-      new("similarMeaning", "Similar meaning", it => StringExtensions.ExtractCommaSeparatedValues(it.SimilarMeaningRaw), (it, kanji) => it.SimilarMeaningRaw = string.Join(", ", kanji));
-
-   /// <summary>Other kanji the kanji is confused with.</summary>
-   public static readonly EditableTextListField<KanjiNote> ConfusedWith =
-      new("confusedWith", "Confused with", it => StringExtensions.ExtractCommaSeparatedValues(it.RelatedConfusedWithRaw), (it, kanji) => it.RelatedConfusedWithRaw = string.Join(", ", kanji));
+      new("primaryVocab", "Primary vocab", it => [.. it.PrimaryVocab.Words.Select(word => word.DisambiguationName)], (it, names) => it.PrimaryVocab.Set(WordReference.TheWordsNamedBy(names)));
 
    /// <summary>The answer the kanji's source gave it (<see cref="KanjiNote.SourceData"/>).</summary>
    public static readonly EditableTextField<KanjiNote> SourceAnswer = new("sourceData.answer", "Answer", TextFieldFormat.Paragraphs, it => it.SourceData.Answer);
@@ -55,6 +62,21 @@ public static class KanjiEditableFields
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<KanjiNote>> All { get; } =
    [
-      Question, Answer, Mnemonic, OnReadings, KunReadings, NanoriReadings, Radicals, PrimaryVocab, SimilarMeaning, ConfusedWith, SourceAnswer, SourceMeaningMnemonic, Tags
+      Question, Answer, Mnemonic, OnReadings, KunReadings, NanoriReadings, Radicals, SimilarMeaning, ConfusedWith, PrimaryVocab, SourceAnswer, SourceMeaningMnemonic, Tags
    ];
+
+   /// <summary>
+   /// One of the kanji's relationships to other kanji (<see cref="KanjiRelationship"/>), named <paramref name="name"/> in the corpus, edited through the<br/>
+   /// relationship's own operations.
+   /// </summary>
+   static EditableSetField<KanjiNote, string> Relationship(string name, string label, Func<KanjiNote, KanjiRelationship> relationship) =>
+      new(name,
+          label,
+          it => relationship(it).Kanji,
+          (it, kanji) => relationship(it).Add(kanji),
+          (it, kanji) => relationship(it).Remove(kanji),
+          InTheOrderTheyWereAdded);
+
+   /// <summary><paramref name="kanji"/> as a <see cref="KanjiRelationship"/> holds them: in the order they were added (<see cref="KanjiRelationship.Kanji"/>).</summary>
+   static IEnumerable<string> InTheOrderTheyWereAdded(IEnumerable<string> kanji) => kanji;
 }

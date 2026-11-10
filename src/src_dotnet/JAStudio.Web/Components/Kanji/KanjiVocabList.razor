@@ -27,25 +27,23 @@
     [Parameter, EditorRequired] public KanjiNote Note { get; set; } = null!;
 
     List<VocabNote> _vocabs = [];
-    bool _hasRealPrimaryVocabs;
-    HashSet<string> _primaryVocabs = [];
+    bool _hasPrimaryVocabOfItsOwn;
+    HashSet<VocabNote> _primaryVocab = [];
 
     protected override void OnParametersSet()
     {
         _vocabs = Note.GetVocabNotesSorted();
-        _primaryVocabs = [..Note.PrimaryVocabsOrDefaults];
-        _hasRealPrimaryVocabs = Note.PrimaryVocab.Count > 0;
+        _primaryVocab = [..Note.PrimaryVocabOrDefaults];
+        _hasPrimaryVocabOfItsOwn = Note.PrimaryVocab.Words.Count > 0;
     }
 
     string CreateClasses(VocabNote vocab)
     {
         var classes = string.Join(" ", vocab.GetMetaTags());
 
-        var vocabReadings = vocab.GetReadings();
-        if(_primaryVocabs.Contains(vocab.GetQuestion()) ||
-           (vocabReadings.Count > 0 && Note.PrimaryVocab.Contains(vocabReadings[0])))
+        if(_primaryVocab.Contains(vocab))
         {
-            classes += _hasRealPrimaryVocabs ? " primary_vocab" : " default_primary_vocab";
+            classes += _hasPrimaryVocabOfItsOwn ? " primary_vocab" : " default_primary_vocab";
         }
 
         if(!vocab.GetQuestion().Contains(Note.GetQuestion()))

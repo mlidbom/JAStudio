@@ -60,6 +60,17 @@ public class JPCollection
    internal void NotifyThatTheStudyNoteChangedFor(JPNote note) => _studyNoteChanged.OnNext(note);
 
    /// <summary>
+   /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, after the vocab that had the one name got the<br/>
+   /// other: in every vocab's related vocab and compound parts (<see cref="VocabCollection.RenameTheReferences"/>), and every kanji's primary vocab<br/>
+   /// (<see cref="KanjiCollection.RenameThePrimaryVocab"/>).
+   /// </summary>
+   internal void RenameTheWordReferences(WordReference oldName, WordReference newName)
+   {
+      Vocab.RenameTheReferences(oldName, newName);
+      Kanji.RenameThePrimaryVocab(oldName, newName);
+   }
+
+   /// <summary>
    /// The notes, of every type, that match <paramref name="search"/>, found by checking every note in memory.<br/>
    /// They come in no particular order: whoever shows them sorts them.
    /// </summary>

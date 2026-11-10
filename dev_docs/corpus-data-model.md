@@ -385,8 +385,8 @@ instead is gone.
 
 ### A domain model shaped like Anki fields
 
-- `KanjiNote` joins the JSON lists `radicals`, `primaryVocab`, `similarMeaning` and `confusedWith` back into
-  comma strings in memory, then re-parses them on every read.
+- ~~`KanjiNote` joins the JSON lists `radicals`, `primaryVocab`, `similarMeaning` and `confusedWith` back into
+  comma strings in memory, then re-parses them on every read.~~ *Gone 2026-11-10 (slice 10): they're lists in the model too.*
 - `VocabNotePartsOfSpeech` holds one raw string.
 - `RelatedVocabDataSerializer` (*deleted 2026-11-09: nothing used it*), `VocabNoteMatchingRulesSerializer` (*deleted
   2026-11-08: nothing used it*), `ISentenceConfigurationSerializer` and `ParsingResultSerializer` exist only to produce Anki field strings and feed editor text boxes.
@@ -403,7 +403,8 @@ The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectio
   box, compound parts have a box each for the primary and the alternative ones, and the question and its
   disambiguation have a box each.)*
 - A vocab's forms and parts of speech are lists, with entries added and removed one at a time. Its readings and
-  compound parts, and the kanji's lists, are still comma separated text.
+  compound parts are still comma separated text. *The kanji's radicals and related kanji are chips since 2026-11-10 (slice 10), and
+  its primary vocab are typed as names, as compound parts are.*
 - Parts of speech are free text, and audio is raw `[sound:…]`.
 - Related vocab can't be edited: its raw JSON text box went with the vocab editor dialog, and a proper editor is
   still to come.
@@ -617,6 +618,8 @@ That reasoning gives one rule for the other references too:
 - Kanji references (`radicals`, `similarMeaning`, `confusedWith`) use the kanji character itself, which never
   changes. That's a natural key, so text is simply right there.
 - Kanji `primaryVocab` refers to words, so it gets the same treatment as vocab relationships.
+
+*Built 2026-11-10 for the kanji (slice 10): the kanji's lists hold kanji characters, and its primary vocab word-references.*
 - Forms and compound parts are spellings and words, not links to notes, so they stay text.
 - Sentence `configuration` entries are words at positions, so they stay text.
 - `parsingResult` keeps vocab ids, because it's a cache: a re-parse repairs any dangling id.
@@ -1522,8 +1525,8 @@ Progress on step 3:
         - ~~**References that still name another vocab exactly stay**, when the corpus has a duplicate with the old name.~~
           *Gone 2026-11-10: no two vocab share a question any more (below).*
         - **Not renamed:** a sentence's configuration, which names a vocab `text:disambiguation` in 22 entries (see
-          [In-string-micro-syntaxes](#in-string-micro-syntaxes)), and a kanji's primary vocab, which are still text, and which
-          no kanji has. Nor are the sentences of the vocab whose compound parts were renamed reparsed, though compound parts
+          [In-string-micro-syntaxes](#in-string-micro-syntaxes)), ~~and a kanji's primary vocab, which are still text, and which
+          no kanji has~~ *(word-references, renamed too, since slice 10)*. Nor are the sentences of the vocab whose compound parts were renamed reparsed, though compound parts
           feed parsing in one place (`IchidanGodanPotentialOrImperativeHybridSplitter`): renaming is rare, and the renamed
           vocab's own sentences are reparsed, as for any change to its question.
       - **No two vocab share a question (Magnus, 2026-11-10):** its text and its disambiguation together, since other notes
@@ -1547,11 +1550,40 @@ Progress on step 3:
         - **Checked with the screen-tools** on the real corpus: adding 目覚まし to 起こす's synonyms through the picker added 起こす to
           目覚まし's too. Trying it first found that the headless screen activated popups, which closed an `AutoCompleteBox`'s
           suggestions as they opened, the parts of speech' box's too: fixed in the MCP server (`jastudio-mcp.md`).
-        - **Not done:** the menus on selected text still add to and remove from the relationships as before; the kanji editor's
-          related fields are still text.
-   9. Media, once the points under [Media](#media-open) are settled. *Under way (2026-11-10): the corpus keeps its media
-      references, as data rather than Anki's markup (Magnus). The survey and the shape agreed with Magnus are under
-      [Media](#media-open).*
+        - **Not done:** the menus on selected text still add to and remove from the relationships as before; ~~the kanji editor's
+          related fields are still text~~ *(chips since slice 10, 2026-11-10)*.
+   9. Media, once the points under [Media](#media-open) are settled. *Done 2026-11-10: the corpus keeps its media
+      references, as data rather than Anki's markup (Magnus). The survey, the shape agreed with Magnus and the plan's four steps
+      are under [Media](#media-open).*
+   10. The kanji's lists as the model (Magnus, 2026-11-10: "do the kanji thing you recommended"). *Done 2026-11-10.* `KanjiNote` held
+       its radicals, primary vocab, kanji with a similar meaning and kanji it's confused with as comma separated text in memory, though
+       the corpus stored lists, and its editor edited them as text.
+       - **The types** (`Note/KanjiRelationships`), each kanji named by its character, as decided under
+         [References between entities](#references-between-entities-word-references), so a kanji the corpus has no note for can be named:
+         - `KanjiRadicals`: a list in order, where a radical may come more than once (二 is made of 一 and 一, as in 6 kanji), and never
+           the kanji itself;
+         - `MutualKanjiRelationship` for the similar meaning: adding or removing a kanji changes that kanji's too, as the menu's
+           "Similar meaning" did while the editor didn't (Magnus's `todo:` of 2026-11-09, resolved);
+         - `KanjiRelationship` for confused with: one way, as a vocab's confused-with is;
+         - `KanjiPrimaryVocab`: word-references in order, as a vocab's related vocab are, renamed with the vocab
+           (`JPCollection.RenameTheWordReferences`). Stored as `{ "text", "disambiguation" }`; no kanji has any, so no file changed.
+       - **The editor:** the radicals, the similar meaning and confused with are chips with a box offering the corpus's kanji, found by
+         character, reading or meaning (`KanjiListEditor`), dimmed when the corpus has no note for the kanji. Only one character can be
+         added. Primary vocab are typed as the vocab's names, comma separated, as compound parts are.
+       - **Calls made:**
+         - The string menu's "Similar meaning" stays, now the same operation as the editor's, though the `todo:` said the menu item
+           should "probably go": the vocab's string menus kept theirs, as the quick way to add the text selected.
+         - Confused with stays one way, though 332 of the corpus's 463 confused-with values are mutual, set by hand both ways.
+         - A primary vocab names a vocab, not its reading: the kanji page also marked a vocab primary when a primary vocab was its
+           first reading. The page's vocab list orders first the vocab the primary vocab refer to, rather than those whose question,
+           question without noise characters or first reading was one's text. With no kanji having primary vocab, only the defaults
+           show, which are vocab notes as before.
+       - **The data** (`dev_scripts/corpus_migrations/clean_up_the_kanji_lists.py`, corpus commit `f063a197500`): 10 confused-with
+         values that ran several kanji together are split, such as 佐's `祐怖`, `&nbsp;` is dropped from 3, and the 13 kanji that
+         listed themselves among their radicals don't. Left as they are: 5 words where a kanji should be, in `corpus-data-issues.md`,
+         and 15 similar meanings that go one way only, such as 耂's 老 and 衤's 衣.
+       - **Checked:** a full rebuild and saving every note changed nothing, before and after the code change; the snapshots read the
+         new `primaryVocab` as before, every kanji's being empty.
 
 ### Before the trim (2026-11-08)
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -34,6 +35,13 @@ public class KanjiCollection
    }
 
    public List<KanjiNote> WithRadical(string radical) => Cache.WithRadical(radical);
+
+   /// <summary>Renames the word-reference <paramref name="oldName"/> to <paramref name="newName"/> in every kanji's primary vocab, after the vocab that had the one name got the other.</summary>
+   internal void RenameThePrimaryVocab(WordReference oldName, WordReference newName)
+   {
+      foreach(var kanji in All())
+         kanji.PrimaryVocab.Rename(oldName, newName);
+   }
 
    public HashSet<KanjiNote> WithReading(string reading)
    {

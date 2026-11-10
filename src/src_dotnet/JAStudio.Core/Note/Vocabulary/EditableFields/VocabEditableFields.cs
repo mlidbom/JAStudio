@@ -42,14 +42,14 @@ public static class VocabEditableFields
 
    /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Primary"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>, as <c>出す:masu</c>.</summary>
    public static readonly EditableTextListField<VocabNote> CompoundParts =
-      new("compoundParts.primary", "Compound parts", it => DisambiguationNamesOf(it.CompoundParts.Primary()), (it, parts) => it.CompoundParts.SetPrimary(WordsNamedBy(parts)));
+      new("compoundParts.primary", "Compound parts", it => DisambiguationNamesOf(it.CompoundParts.Primary()), (it, parts) => it.CompoundParts.SetPrimary(WordReference.TheWordsNamedBy(parts)));
 
    /// <summary>The vocab's <see cref="VocabNoteCompoundParts.Alternative"/> compound parts, each by its <see cref="WordReference.DisambiguationName"/>.</summary>
    public static readonly EditableTextListField<VocabNote> AlternativeCompoundParts =
       new("compoundParts.alternative",
           "Alternative compound parts",
           it => DisambiguationNamesOf(it.CompoundParts.Alternative()),
-          (it, parts) => it.CompoundParts.SetAlternative(WordsNamedBy(parts)));
+          (it, parts) => it.CompoundParts.SetAlternative(WordReference.TheWordsNamedBy(parts)));
 
    public static readonly EditableTextField<VocabNote> TechnicalNotes = new("technicalNotes", "Technical notes", TextFieldFormat.Paragraphs, it => it.TechnicalNotes);
 
@@ -187,13 +187,6 @@ public static class VocabEditableFields
           WordReference.InAFixedOrder);
 
    static List<string> DisambiguationNamesOf(IEnumerable<WordReference> words) => [.. words.Select(it => it.DisambiguationName)];
-
-   /// <summary>
-   /// The words <paramref name="disambiguationNames"/> name (<see cref="WordReference.FromDisambiguationNameOrNone"/>), leaving out text that names none,<br/>
-   /// as <c>:</c> typed alone does, since the editor writes every keystroke.
-   /// </summary>
-   static IEnumerable<WordReference> WordsNamedBy(IEnumerable<string> disambiguationNames) =>
-      disambiguationNames.Select(WordReference.FromDisambiguationNameOrNone).OfType<WordReference>();
 
    /// <summary>One of the vocab's require/forbid matching rules (<see cref="VocabMatchingRequireForbidFlags"/>), named <paramref name="name"/> in the corpus.</summary>
    static EditableRequireForbidField RequireForbidRule(string name, string label, Func<VocabMatchingRequireForbidFlags, RequireForbidFlagField> rule) =>

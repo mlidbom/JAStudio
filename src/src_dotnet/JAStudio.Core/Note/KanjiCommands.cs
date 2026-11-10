@@ -23,10 +23,10 @@ public static class KanjiCommands
    public static readonly NoteChangingCommand<KanjiNote> BootstrapMnemonicFromRadicals = new("bootstrapMnemonicFromRadicals", "Bootstrap mnemonic from radicals", it => it.BootstrapMnemonicFromRadicals());
 
    /// <summary>
-   /// Adds a kanji to the kanji's kanji with a similar meaning, and the kanji to that kanji's, both ways, unlike writing the field<br/>
-   /// (<see cref="KanjiEditableFields.SimilarMeaning"/>), which changes only the kanji's.
+   /// Adds a kanji to the kanji's kanji with a similar meaning, and the kanji to that kanji's, as adding it in the editor does<br/>
+   /// (<see cref="KanjiEditableFields.SimilarMeaning"/>): the string menus' quick way to add the text selected.
    /// </summary>
-   public static readonly NoteChangingCommandTakingAText<KanjiNote> AddSimilarMeaning = new("addSimilarMeaning", "Similar meaning", "the kanji with a similar meaning", (it, kanji) => it.AddSimilarMeaning(kanji));
+   public static readonly NoteChangingCommandTakingAText<KanjiNote> AddSimilarMeaning = new("addSimilarMeaning", "Similar meaning", "the kanji with a similar meaning", (it, kanji) => it.SimilarMeaning.Add(kanji));
 
    /// <summary>Every command above, in the same order.</summary>
    public static IReadOnlyList<INoteCommand<KanjiNote>> All { get; } = [AcceptMeaning, PopulateRadicalsFromMnemonicTags, BootstrapMnemonicFromRadicals, AddSimilarMeaning];

@@ -4,11 +4,11 @@
     <div class="kanjiContainer">
         <div class="kanji">
             ::::::::::<span class="clipboard">@Note.GetQuestion()</span>::::::::::
-            @foreach(var confused in Note.RelatedConfusedWith)
+            @foreach(var confused in Note.ConfusedWith.Kanji)
             {
                 <text> !</text><span class="clipboard">@confused</span>
             }
-            @foreach(var similar in Note.SimilarMeaning)
+            @foreach(var similar in Note.SimilarMeaning.Kanji)
             {
                 <text> =</text><span class="clipboard">@similar</span>
             }

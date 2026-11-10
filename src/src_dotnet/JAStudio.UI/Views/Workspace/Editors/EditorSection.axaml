@@ -5,6 +5,7 @@
              xmlns:editorViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors"
              xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
              xmlns:relatedWords="clr-namespace:JAStudio.UI.Controls.NoteFields.RelatedWords"
+             xmlns:relatedKanji="clr-namespace:JAStudio.UI.Controls.NoteFields.RelatedKanji"
              x:Class="JAStudio.UI.Views.Workspace.Editors.EditorSection"
              x:DataType="vm:WorkspaceViewModel">
 
@@ -21,6 +22,9 @@
         </DataTemplate>
         <DataTemplate DataType="relatedWords:WordSetEditorViewModel">
             <relatedWords:WordSetEditor Margin="0,0,0,6" />
+        </DataTemplate>
+        <DataTemplate DataType="relatedKanji:KanjiListEditorViewModel">
+            <relatedKanji:KanjiListEditor Margin="0,0,0,6" />
         </DataTemplate>
         <DataTemplate DataType="noteFields:PartsOfSpeechEditorViewModel">
             <noteFields:PartsOfSpeechEditor Margin="0,0,0,6" />

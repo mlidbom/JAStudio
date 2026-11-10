@@ -11,7 +11,7 @@ public partial class KanjiDto : CorpusNoteDto
    public string CorpusAnswer { get; init; } = string.Empty;
    public KanjiReadingsDto Readings { get; init; } = new();
    public List<string> Radicals { get; init; } = [];
-   public List<string> PrimaryVocab { get; init; } = [];
+   public List<WordReferenceDto> PrimaryVocab { get; init; } = [];
    public string References { get; init; } = string.Empty;
    public string Mnemonic { get; init; } = string.Empty;
    public List<string> SimilarMeaning { get; init; } = [];

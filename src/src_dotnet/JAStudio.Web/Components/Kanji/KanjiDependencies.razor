@@ -28,7 +28,7 @@
 
     List<KanjiNote> _radicals = [];
 
-    protected override void OnParametersSet() => _radicals = Note.GetRadicalsNotes();
+    protected override void OnParametersSet() => _radicals = Note.Radicals.Notes();
 
     static string FormatReadings(KanjiNote kanji)
     {

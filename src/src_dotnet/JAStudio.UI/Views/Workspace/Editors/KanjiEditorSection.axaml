@@ -26,7 +26,8 @@
             <Border Classes="section">
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Related" />
-                    <ItemsControl ItemsSource="{Binding RelatedFields}" />
+                    <ItemsControl ItemsSource="{Binding RelatedKanji}" />
+                    <ContentControl Content="{Binding PrimaryVocab}" />
                 </StackPanel>
             </Border>
 

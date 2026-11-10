@@ -12,7 +12,7 @@ namespace JAStudio.Core.Note.EditableFields;
 /// Writing a whole set (<see cref="Write"/>) adds each item the note's set lacks and removes each item it has that isn't in the new set, through those<br/>
 /// same operations, so whatever they do besides, such as adding the vocab to its new synonym's synonyms too, happens as when a person makes the change.
 /// </remarks>
-public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList<TItem>> where TNote : JPNote where TItem : notnull
+public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList<TItem>>, IFieldEditedOneItemAtATime<TNote, TItem> where TNote : JPNote where TItem : notnull
 {
    readonly Func<TNote, IEnumerable<TItem>> _itemsOn;
    readonly Action<TNote, TItem> _add;
@@ -34,6 +34,8 @@ public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList
       _remove = remove;
       _inOrder = inOrder;
    }
+
+   public bool HoldsEachItemOnce => true;
 
    /// <summary>Adds <paramref name="item"/> to the set on <paramref name="note"/>, and saves the note.</summary>
    public void Add(TNote note, TItem item) => _add(note, item);

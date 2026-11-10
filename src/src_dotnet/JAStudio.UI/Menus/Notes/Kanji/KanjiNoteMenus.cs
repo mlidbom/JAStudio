@@ -22,14 +22,14 @@ class KanjiNoteMenus
                      SpecMenuItem.Submenu(ShortcutFinger.Home1("Open"),
                                           new List<SpecMenuItem>
                                           {
-                                             NoteListMenuItem.Showing(ShortcutFinger.Home1("Primary Vocabs"), $"Primary vocab of {kanji.GetQuestion()}", () => Collection.Vocab.WithAnyFormIn(kanji.PrimaryVocab)),
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home1("Primary Vocabs"), $"Primary vocab of {kanji.GetQuestion()}", kanji.PrimaryVocab.Notes),
                                              NoteListMenuItem.Showing(ShortcutFinger.Home2("Vocabs"), $"Vocab with {kanji.GetQuestion()}", kanji.GetVocabNotes),
-                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Radicals"), $"Radicals of {kanji.GetQuestion()}", kanji.GetRadicalsNotes),
+                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Radicals"), $"Radicals of {kanji.GetQuestion()}", kanji.Radicals.Notes),
                                              NoteListMenuItem.Showing(ShortcutFinger.Home4("Kanji"), $"Kanji with the radical {kanji.GetQuestion()}", () => Collection.Kanji.WithRadical(kanji.GetQuestion())),
                                              NoteListMenuItem.Showing(ShortcutFinger.Home5("Sentences"), $"Sentences with {kanji.GetQuestion()}", () => Collection.Sentences.SentencesWithSubstring(kanji.GetQuestion()))
                                           }),
                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(kanji)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), () => kanji.PrimaryVocab = [])
+                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), kanji.PrimaryVocab.Clear)
                   };
 
       if(!kanji.CorpusAnswer.HasValue())

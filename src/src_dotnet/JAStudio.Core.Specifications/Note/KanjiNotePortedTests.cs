@@ -19,7 +19,7 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
 
       inside.PopulateRadicalsFromMnemonicTags();
 
-      Assert.Equal(["冂", "人"], inside.Radicals);
+      Assert.Equal(["冂", "人"], inside.Radicals.All);
    }
 
    [Theory]
@@ -30,7 +30,7 @@ public class KanjiNotePortedTests : SpecificationUsingACollection
    public void BootstrapMnemonic(string kanji, string radicals, string expectedMnemonic)
    {
       var kanjiNote = GetService<KanjiCollection>().WithKanji(kanji)!;
-      kanjiNote.RadicalsRaw = radicals;
+      kanjiNote.Radicals.Set(StringExtensions.ExtractCommaSeparatedValues(radicals));
 
       kanjiNote.BootstrapMnemonicFromRadicals();
 

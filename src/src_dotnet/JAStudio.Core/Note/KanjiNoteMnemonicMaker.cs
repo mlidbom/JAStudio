@@ -123,7 +123,7 @@ public class KanjiNoteMnemonicMaker
          return $"<read>{char.ToUpper(reading[0]) + reading.Substring(1)}</read>";
       }
 
-      var radicalNames = kanjiNote.GetRadicalsNotes()
+      var radicalNames = kanjiNote.Radicals.Notes()
                                   .Select(rad => rad.PrimaryRadicalMeaning)
                                   .ToList();
 

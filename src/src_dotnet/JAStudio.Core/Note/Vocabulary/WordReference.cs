@@ -62,6 +62,13 @@ public sealed record WordReference
    public static WordReference? FromDisambiguationNameOrNone(string text) => CanBeADisambiguationName(text) ? FromDisambiguationName(text) : null;
 
    /// <summary>
+   /// The words <paramref name="disambiguationNames"/> name (<see cref="FromDisambiguationNameOrNone"/>), leaving out text that names none, as <c>:</c><br/>
+   /// typed alone does: an editor's text box of names, such as a vocab's compound parts, writes every keystroke.
+   /// </summary>
+   public static IEnumerable<WordReference> TheWordsNamedBy(IEnumerable<string> disambiguationNames) =>
+      disambiguationNames.Select(FromDisambiguationNameOrNone).OfType<WordReference>();
+
+   /// <summary>
    /// <paramref name="words"/> in a fixed order, by their <see cref="DisambiguationName"/>s compared ordinally, so that the same set of words is always<br/>
    /// listed the same way.
    /// </summary>

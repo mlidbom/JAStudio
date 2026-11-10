@@ -6,6 +6,7 @@ using JAStudio.Core.Anki;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.KanjiReadings;
+using JAStudio.Core.Note.KanjiRelationships;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary;
@@ -38,11 +39,19 @@ public class KanjiNote : JPNote
    /// </summary>
    public MediaReferenceList<ImageReference> Images { get; }
 
+   /// <summary>The radicals the kanji is made of, in their order.</summary>
+   public KanjiRadicals Radicals { get; }
+
+   /// <summary>The vocab the kanji's page shows first among the vocab with the kanji. Most kanji have none, and show default ones: see <see cref="PrimaryVocabOrDefaults"/>.</summary>
+   public KanjiPrimaryVocab PrimaryVocab { get; }
+
+   /// <summary>Other kanji with a similar meaning: a relationship that goes both ways.</summary>
+   public MutualKanjiRelationship SimilarMeaning { get; }
+
+   /// <summary>Other kanji the kanji is easily confused with: a relationship that goes one way, so only this kanji knows of them.</summary>
+   public KanjiRelationship ConfusedWith { get; }
+
    readonly WritableStringValue _question;
-   readonly WritableStringValue _radicalsRaw;
-   readonly WritableStringValue _primaryVocabRaw;
-   readonly WritableStringValue _similarMeaningRaw;
-   readonly WritableStringValue _confusedWithRaw;
 
    public KanjiNote(NoteServices services, KanjiDto? data = null) : base(services, data != null ? new KanjiId(data.Id) : KanjiId.New(), data?.Tags)
    {
@@ -53,10 +62,10 @@ public class KanjiNote : JPNote
       Readings = new KanjiNoteReadings(data?.Readings, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
       Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
-      _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
-      _primaryVocabRaw = new WritableStringValue(data?.PrimaryVocab != null ? string.Join(", ", data.PrimaryVocab) : string.Empty, Guard);
-      _similarMeaningRaw = new WritableStringValue(data?.SimilarMeaning != null ? string.Join(", ", data.SimilarMeaning) : string.Empty, Guard);
-      _confusedWithRaw = new WritableStringValue(data?.ConfusedWith != null ? string.Join(", ", data.ConfusedWith) : string.Empty, Guard);
+      Radicals = new KanjiRadicals(this, data?.Radicals ?? [], Guard);
+      PrimaryVocab = new KanjiPrimaryVocab(this, data?.PrimaryVocab.Select(WordReference.FromDto) ?? [], Guard);
+      SimilarMeaning = new MutualKanjiRelationship(this, data?.SimilarMeaning ?? [], Guard, it => it.SimilarMeaning);
+      ConfusedWith = new KanjiRelationship(this, data?.ConfusedWith ?? [], Guard);
    }
 
    public override void UpdateInCache()
@@ -71,6 +80,9 @@ public class KanjiNote : JPNote
    public override string GetQuestion() => _question.Value;
 
    public void SetQuestion(string value) => _question.Set(value);
+
+   /// <summary>Whether <paramref name="character"/> is the kanji's own character: the one other notes name it by, as its radicals and related kanji do.</summary>
+   public bool IsNamedBy(string character) => character == GetQuestion();
 
    /// <summary>The answer shown: the <see cref="CorpusAnswer"/>, or the source's answer while the corpus has none.</summary>
    public override string GetAnswer() => CorpusAnswer.HasValue() ? CorpusAnswer.Value : SourceData.Answer.Value;
@@ -109,112 +121,15 @@ public class KanjiNote : JPNote
       return [..base.SearchableTexts(), ..readings, ..readings.Select(KanaUtils.Romanize)];
    }
 
-   public List<string> Radicals
+   /// <summary>
+   /// The vocab the kanji's page shows first, and marks as primary: its <see cref="PrimaryVocab"/>, or while it has none, by default, for each of its<br/>
+   /// primary readings, of the vocab studied for reading whose reading has it where the kanji is, the one with the most studied sentences.
+   /// </summary>
+   public List<VocabNote> PrimaryVocabOrDefaults => PrimaryVocab.Words.Count > 0 ? PrimaryVocab.Notes() : DefaultPrimaryVocab();
+
+   List<VocabNote> DefaultPrimaryVocab()
    {
-      get
-      {
-         var question = GetQuestion();
-         return [.. AllRadicals.Where(r => r != question)];
-      }
-   }
-
-   public List<string> AllRadicals => StringExtensions.ExtractCommaSeparatedValues(_radicalsRaw.Value);
-
-   /// <summary>The kanji's radicals as the note stores them: comma separated, exactly as typed. <see cref="AllRadicals"/> is them as a list.</summary>
-   public string RadicalsRaw
-   {
-      get => _radicalsRaw.Value;
-      set => _radicalsRaw.Set(value);
-   }
-
-   public void PositionPrimaryVocab(string vocab, int newIndex = -1)
-   {
-      vocab = vocab.Trim();
-      var primaryVocabList = PrimaryVocab;
-
-      if(primaryVocabList.Contains(vocab))
-      {
-         primaryVocabList.Remove(vocab);
-      }
-
-      if(newIndex == -1)
-      {
-         primaryVocabList.Add(vocab);
-      } else
-      {
-         primaryVocabList.Insert(newIndex, vocab);
-      }
-
-      PrimaryVocab = primaryVocabList;
-   }
-
-   public void RemovePrimaryVocab(string vocab)
-   {
-      var primaryVocabList = PrimaryVocab;
-      primaryVocabList.RemoveAll(v => v == vocab);
-      PrimaryVocab = primaryVocabList;
-   }
-
-   public List<string> SimilarMeaning => StringExtensions.ExtractCommaSeparatedValues(_similarMeaningRaw.Value);
-
-   public void AddSimilarMeaning(string newSynonymQuestion, bool isRecursiveCall = false)
-   {
-      var nearSynonymsQuestions = SimilarMeaning;
-      if(!nearSynonymsQuestions.Contains(newSynonymQuestion))
-      {
-         nearSynonymsQuestions.Add(newSynonymQuestion);
-      }
-
-      _similarMeaningRaw.Set(string.Join(", ", nearSynonymsQuestions));
-
-      if(!isRecursiveCall)
-      {
-         var newSynonym = Services.Collection.Kanji.WithKanji(newSynonymQuestion);
-         if(newSynonym != null)
-         {
-            newSynonym.AddSimilarMeaning(GetQuestion(), isRecursiveCall: true);
-         }
-      }
-   }
-
-   public List<string> RelatedConfusedWith => StringExtensions.ExtractCommaSeparatedValues(_confusedWithRaw.Value);
-
-   public void AddRelatedConfusedWith(string newConfusedWith)
-   {
-      var confusedWith = RelatedConfusedWith;
-      if(!confusedWith.Contains(newConfusedWith))
-      {
-         confusedWith.Add(newConfusedWith);
-      }
-
-      _confusedWithRaw.Set(string.Join(", ", confusedWith));
-   }
-
-   public List<string> PrimaryVocabsOrDefaults
-   {
-      get
-      {
-         var primaryVocab = PrimaryVocab;
-         return primaryVocab.Count > 0 ? primaryVocab : GenerateDefaultPrimaryVocab();
-      }
-   }
-
-   public List<string> PrimaryVocab
-   {
-      get => StringExtensions.ExtractCommaSeparatedValues(_primaryVocabRaw.Value);
-      set => _primaryVocabRaw.Set(string.Join(", ", value));
-   }
-
-   /// <summary>The kanji's primary vocab as the note stores them: comma separated, exactly as typed. <see cref="PrimaryVocab"/> is them as a list.</summary>
-   public string PrimaryVocabRaw
-   {
-      get => _primaryVocabRaw.Value;
-      set => _primaryVocabRaw.Set(value);
-   }
-
-   public List<string> GenerateDefaultPrimaryVocab()
-   {
-      var result = new List<string>();
+      var result = new List<VocabNote>();
 
       var studyingReadingVocabInDescendingStudyingSentencesOrder = GetVocabNotes()
                                                                   .Where(v => v.IsStudying(CardTypes.Reading))
@@ -231,7 +146,7 @@ public class KanjiNote : JPNote
             var readings = vocab.GetReadings();
             if(readings.Count > 0 && ReadingInVocabReading(primaryReading, readings[0], vocab.GetQuestion()))
             {
-               result.Add(vocab.GetQuestion());
+               result.Add(vocab);
                break;
             }
          }
@@ -267,17 +182,6 @@ public class KanjiNote : JPNote
          var result = GetDedicatedRadicalPrimaryMeaning();
          return !string.IsNullOrEmpty(result) ? result : PrimaryMeaning;
       }
-   }
-
-   public List<KanjiNote> GetRadicalsNotes()
-   {
-      return
-      [
-         .. Radicals
-           .Select(radical => Services.Collection.Kanji.WithKanji(radical))
-           .Where(k => k != null)
-           .Cast<KanjiNote>()
-      ];
    }
 
    public List<string> TagVocabReadings(VocabNote vocab)
@@ -363,18 +267,6 @@ public class KanjiNote : JPNote
    /// </summary>
    public string ShownMnemonic => Mnemonic.HasValue() ? Mnemonic.Value : $"# {Services.KanjiNoteMnemonicMaker.CreateDefaultMnemonic(this)}";
 
-   public string SimilarMeaningRaw
-   {
-      get => _similarMeaningRaw.Value;
-      set => _similarMeaningRaw.Set(value);
-   }
-
-   public string RelatedConfusedWithRaw
-   {
-      get => _confusedWithRaw.Value;
-      set => _confusedWithRaw.Set(value);
-   }
-
    public List<VocabNote> GetVocabNotes() => Services.Collection.Vocab.WithKanjiInAnyForm(this);
 
    public override IEnumerable<MediaReference> MediaReferences => Images.All;
@@ -382,7 +274,7 @@ public class KanjiNote : JPNote
    public List<VocabNote> GetVocabNotesSorted() =>
       VocabNoteSorting.SortVocabListByStudyingStatus(
          GetVocabNotes(),
-         PrimaryVocabsOrDefaults,
+         PrimaryVocabOrDefaults,
          preferredKanji: GetQuestion());
 
    public void BootstrapMnemonicFromRadicals()
@@ -392,18 +284,14 @@ public class KanjiNote : JPNote
 
    public void PopulateRadicalsFromMnemonicTags()
    {
+      foreach(var radical in DetectRadicalsFromMnemonic().Where(it => !Radicals.Contains(it)))
+         Radicals.Add(radical);
+
       List<string> DetectRadicalsFromMnemonic()
       {
          var radicalNames = Regex.Matches(Mnemonic.Value, "<rad>(.*?)</rad>")
                                  .Select(m => m.Groups[1].Value)
                                  .ToList();
-
-         bool KanjiAnswerContainsRadicalNameAsASeparateWord(string radicalName, KanjiNote kanji) => Regex.IsMatch(kanji.GetAnswer(), @"\b" + Regex.Escape(radicalName) + @"\b");
-
-         bool KanjiAnswerContainsAnyRadicalNameAsASeparateWord(KanjiNote kanji)
-         {
-            return radicalNames.Any(name => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji));
-         }
 
          return
          [
@@ -411,18 +299,11 @@ public class KanjiNote : JPNote
                        .Where(KanjiAnswerContainsAnyRadicalNameAsASeparateWord)
                        .Select(kanji => kanji.GetQuestion())
          ];
-      }
 
-      var radicals = Radicals;
-      foreach(var radical in DetectRadicalsFromMnemonic())
-      {
-         if(!radicals.Contains(radical))
-         {
-            radicals.Add(radical);
-         }
-      }
+         bool KanjiAnswerContainsAnyRadicalNameAsASeparateWord(KanjiNote kanji) => radicalNames.Any(name => KanjiAnswerContainsRadicalNameAsASeparateWord(name, kanji));
 
-      RadicalsRaw = string.Join(", ", radicals);
+         static bool KanjiAnswerContainsRadicalNameAsASeparateWord(string radicalName, KanjiNote kanji) => Regex.IsMatch(kanji.GetAnswer(), @"\b" + Regex.Escape(radicalName) + @"\b");
+      }
    }
 
    /// <summary>Creates a kanji with no readings and adds it to the collection.</summary>

@@ -1,72 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 
 namespace JAStudio.UI.Menus.Notes.Kanji;
 
 /// <summary>
-/// Kanji string menu builders (selection/clipboard context menus).
-/// Corresponds to notes/kanji/string_menu.py in Python.
+/// The menu of what a kanji can do with a text selected in it, or on the clipboard: put the vocab the text names at a position among the kanji's primary<br/>
+/// vocab, or remove it, which is disabled when the text names no word (<see cref="WordReference.FromDisambiguationNameOrNone"/>); add the text as a kanji<br/>
+/// with a similar meaning or one the kanji is confused with; and make a reading it names primary or secondary.
 /// </summary>
 static class KanjiStringMenus
 {
    public static SpecMenuItem BuildStringMenuSpec(string title, string text, KanjiNote kanji)
    {
-      SpecMenuItem BuildHighlightedVocabMenuSpec(string vocabToAdd)
+      var menuItems = new List<SpecMenuItem>
+                      {
+                         BuildPrimaryVocabMenuSpec(WordReference.FromDisambiguationNameOrNone(text)),
+                         BuildAddMenuSpec()
+                      };
+      menuItems.AddRange(AddPrimaryReadingsActions(ShortcutFinger.Home3, text));
+
+      return SpecMenuItem.Submenu(title, menuItems);
+
+      SpecMenuItem BuildPrimaryVocabMenuSpec(WordReference? word)
       {
-         var items = new List<SpecMenuItem>();
          var primaryVocab = kanji.PrimaryVocab;
+         var items = primaryVocab.Words
+                                 .Select((primary, position) => ForTheWord(ShortcutFinger.Numpad(position, primary.DisambiguationName), _ => true, it => primaryVocab.PutAt(it, position)))
+                                 .ToList();
 
-         // Add positioning actions for each existing primary vocab
-         for(var i = 0; i < primaryVocab.Count; i++)
-         {
-            var vocab = primaryVocab[i];
-            var index = i; // Capture for lambda
-            items.Add(SpecMenuItem.UICommand(ShortcutFinger.Numpad(index, vocab), () => kanji.PositionPrimaryVocab(vocabToAdd, index)));
-         }
-
-         // Add [Last] option
-         items.Add(SpecMenuItem.UICommand(ShortcutFinger.Home1("[Last]"), () => kanji.PositionPrimaryVocab(vocabToAdd)));
-
-         // Add Remove option if vocab is already in primary vocab
-         if(primaryVocab.Contains(vocabToAdd))
-         {
-            items.Add(SpecMenuItem.UICommand(ShortcutFinger.Home2("Remove"), () => kanji.RemovePrimaryVocab(vocabToAdd)));
-         }
+         items.Add(ForTheWord(ShortcutFinger.Home1("[Last]"), _ => true, primaryVocab.PutLast));
+         items.Add(ForTheWord(ShortcutFinger.Home2("Remove"), primaryVocab.Contains, primaryVocab.Remove));
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home1("Highlighted Vocab"), items);
-      }
 
-      List<SpecMenuItem> AddPrimaryReadingsActions(Func<string, string> titleFactory, string str)
-      {
-         var items = new List<SpecMenuItem>();
-
-         if(KanaUtils.IsOnlyKatakana(str))
-         {
-            var onReadings = kanji.Readings.On;
-            if(onReadings.IsPrimary(str))
-            {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Onyomi Reading"), () => onReadings.MakeSecondary(str)));
-            } else if(onReadings.Contains(str))
-            {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Onyomi Reading"), () => onReadings.MakePrimary(str)));
-            }
-         } else if(KanaUtils.IsOnlyHiragana(str))
-         {
-            var kunReadings = kanji.Readings.Kun;
-            if(kunReadings.IsPrimary(str))
-            {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Kunyomi reading"), () => kunReadings.MakeSecondary(str)));
-            } else if(kunReadings.Contains(str))
-            {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Kunyomi reading"), () => kunReadings.MakePrimary(str)));
-            }
-         }
-
-         return items;
+         SpecMenuItem ForTheWord(string name, Func<WordReference, bool> applies, Action<WordReference> action) =>
+            word is {} it
+               ? SpecMenuItem.UICommand(name, () => action(it), enabled: applies(it))
+               : SpecMenuItem.UICommand(name, () => {}, enabled: false);
       }
 
       SpecMenuItem BuildAddMenuSpec()
@@ -74,25 +50,39 @@ static class KanjiStringMenus
          var items = new List<SpecMenuItem>
                      {
                         NoteCommandMenuItem.Running(ShortcutFinger.Home1, KanjiCommands.AddSimilarMeaning, kanji, text),
-                        SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => kanji.AddRelatedConfusedWith(text))
+                        SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => kanji.ConfusedWith.Add(text))
                      };
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home2("Add"), items);
       }
 
-      // Build the menu hierarchy
-      var menuItems = new List<SpecMenuItem>
-                      {
-                         BuildHighlightedVocabMenuSpec(text),
-                         BuildAddMenuSpec()
-                      };
+      List<SpecMenuItem> AddPrimaryReadingsActions(Func<string, string> titleFactory, string reading)
+      {
+         var items = new List<SpecMenuItem>();
 
-      // Add primary readings actions directly to menu
-      menuItems.AddRange(AddPrimaryReadingsActions(ShortcutFinger.Home3, text));
+         if(KanaUtils.IsOnlyKatakana(reading))
+         {
+            var onReadings = kanji.Readings.On;
+            if(onReadings.IsPrimary(reading))
+            {
+               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Onyomi Reading"), () => onReadings.MakeSecondary(reading)));
+            } else if(onReadings.Contains(reading))
+            {
+               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Onyomi Reading"), () => onReadings.MakePrimary(reading)));
+            }
+         } else if(KanaUtils.IsOnlyHiragana(reading))
+         {
+            var kunReadings = kanji.Readings.Kun;
+            if(kunReadings.IsPrimary(reading))
+            {
+               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Kunyomi reading"), () => kunReadings.MakeSecondary(reading)));
+            } else if(kunReadings.Contains(reading))
+            {
+               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Kunyomi reading"), () => kunReadings.MakePrimary(reading)));
+            }
+         }
 
-      return SpecMenuItem.Submenu(
-         title,
-         menuItems
-      );
+         return items;
+      }
    }
 }

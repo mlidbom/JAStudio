@@ -89,14 +89,14 @@ public class VocabNoteQuestion
 
    /// <summary>
    /// Renames the vocab with <paramref name="rename"/>, then renames the word-references that named it by its old name, so they keep naming it<br/>
-   /// (<see cref="Collection.VocabCollection.RenameTheReferences"/>). A vocab given its first question, as it's created, had no name to be referred to by.
+   /// (<see cref="Collection.JPCollection.RenameTheWordReferences"/>). A vocab given its first question, as it's created, had no name to be referred to by.
    /// </summary>
    void RenamingTheReferencesToIt(Action rename)
    {
       var oldName = HasText ? Reference : null;
       rename();
       if(oldName is not null && !IsNamedBy(oldName))
-         _vocab.Services.Collection.Vocab.RenameTheReferences(oldName, Reference);
+         _vocab.Services.Collection.RenameTheWordReferences(oldName, Reference);
    }
 
    internal VocabQuestionDto ToDto() => new() { Text = Text, Disambiguation = Disambiguation };

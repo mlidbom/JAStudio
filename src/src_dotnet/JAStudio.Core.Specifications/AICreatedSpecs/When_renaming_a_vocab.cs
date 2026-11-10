@@ -1,5 +1,6 @@
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using static JAStudio.Core.Specifications.WordReferenceNames;
 
@@ -9,7 +10,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
 /// The vocab かける, with the form 掛ける, which other vocab refer to by name: 掛かる has it as its ergative twin, 話しかける has it as a compound part, and<br/>
-/// 掛け算 is derived from it. 引っ掛ける has its form 掛ける as a compound part, which refers to it through the form rather than by its name.
+/// 掛け算 is derived from it, and the kanji 掛 has it as its primary vocab. 引っ掛ける has its form 掛ける as a compound part, which refers to it through<br/>
+/// the form rather than by its name.
 /// </summary>
 public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
@@ -18,6 +20,7 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
    protected readonly VocabNote ToStartTalkingTo;
    protected readonly VocabNote Multiplication;
    protected readonly VocabNote ToHook;
+   protected readonly KanjiNote Hang;
 
    public When_renaming_a_vocab()
    {
@@ -30,6 +33,8 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
       Multiplication.RelatedNotes.DerivedFrom.Set(new WordReference("かける"));
       ToHook = CreateVocab("引っ掛ける", "to hook", "ひっかける");
       ToHook.CompoundParts.SetPrimary(Words("引く", "掛ける"));
+      Hang = CreateKanji("掛", "hang", "カイ", "か");
+      Hang.PrimaryVocab.PutLast(new WordReference("かける"));
    }
 
    protected static string[] ErgativeTwinsOf(VocabNote vocab) => SortedNamesOf(vocab.RelatedNotes.ErgativeTwins.Words);
@@ -42,6 +47,7 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
       [XF] public void 懸ける_keeps_掛かる_as_its_ergative_twin() => ErgativeTwinsOf(ToHang).Must().SequenceEqual(["掛かる"]);
       [XF] public void 話しかける_has_the_compound_parts_話す_and_懸ける() => NamesOf(ToStartTalkingTo.CompoundParts.Primary()).Must().SequenceEqual(["話す", "懸ける"]);
       [XF] public void 掛け算_is_derived_from_懸ける() => Multiplication.RelatedNotes.DerivedFrom.Word.Must().Be(new WordReference("懸ける"));
+      [XF] public void the_kanji_掛_has_懸ける_as_its_primary_vocab() => Hang.PrimaryVocab.Words.Must().SequenceEqual([new WordReference("懸ける")]);
 
       [XF] public void 引っ掛ける_keeps_its_compound_part_掛ける_which_named_the_form_rather_than_the_question() =>
          NamesOf(ToHook.CompoundParts.Primary()).Must().SequenceEqual(["引く", "掛ける"]);
@@ -57,5 +63,6 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
       [XF] public void 掛かる_has_かける_hang_as_its_ergative_twin() => ErgativeTwinsOf(ToBeHanging).Must().SequenceEqual(["かける:hang"]);
       [XF] public void 話しかける_has_the_compound_parts_話す_and_かける_hang() => NamesOf(ToStartTalkingTo.CompoundParts.Primary()).Must().SequenceEqual(["話す", "かける:hang"]);
       [XF] public void 掛け算_is_derived_from_かける_hang() => Multiplication.RelatedNotes.DerivedFrom.Word.Must().Be(new WordReference("かける", "hang"));
+      [XF] public void the_kanji_掛_has_かける_hang_as_its_primary_vocab() => Hang.PrimaryVocab.Words.Must().SequenceEqual([new WordReference("かける", "hang")]);
    }
 }

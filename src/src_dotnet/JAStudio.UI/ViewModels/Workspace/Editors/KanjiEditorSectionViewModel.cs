@@ -7,17 +7,19 @@ using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
+using JAStudio.UI.Controls.NoteFields.RelatedKanji;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
 
 /// <summary>
-/// What the workspace's editor section shows for a kanji (<see cref="KanjiEditorSection"/>): its text fields and its readings, edited live.<br/>
-/// Every keystroke, and every change to the readings, is written to the note at once.
+/// What the workspace's editor section shows for a kanji (<see cref="KanjiEditorSection"/>): its text fields, its readings and its lists of other kanji,<br/>
+/// edited live. Every keystroke, and every change to the readings and the lists, is written to the note at once.
 /// </summary>
 /// <remarks>
-/// Every field and the readings read and write through <see cref="CurrentKanji"/>, the kanji as the collection holds it now. See <see cref="INoteEditorSectionViewModel"/>.
+/// Every field, the readings and the lists of other kanji read and write through <see cref="CurrentKanji"/>, the kanji as the collection holds it now.<br/>
+/// See <see cref="INoteEditorSectionViewModel"/>.
 /// </remarks>
 class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
 {
@@ -45,13 +47,14 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
          ReadingList(KanjiEditableFields.KunReadings),
          ReadingList(KanjiEditableFields.NanoriReadings)
       ];
-      RelatedFields =
+      var pickableKanji = new Lazy<IReadOnlyList<PickableKanji>>(() => PickableKanji.AllIn(services.CoreApp.Collection.Kanji));
+      RelatedKanji =
       [
-         Field(KanjiEditableFields.Radicals),
-         Field(KanjiEditableFields.PrimaryVocab),
-         Field(KanjiEditableFields.SimilarMeaning),
-         Field(KanjiEditableFields.ConfusedWith)
+         new KanjiListEditorViewModel(KanjiEditableFields.Radicals, CurrentKanji, pickableKanji),
+         new KanjiListEditorViewModel(KanjiEditableFields.SimilarMeaning, CurrentKanji, pickableKanji),
+         new KanjiListEditorViewModel(KanjiEditableFields.ConfusedWith, CurrentKanji, pickableKanji)
       ];
+      PrimaryVocab = Field(KanjiEditableFields.PrimaryVocab);
       SourceFields =
       [
          Field(KanjiEditableFields.SourceAnswer),
@@ -67,8 +70,11 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The kanji's on, kun and nanori readings (<see cref="KanjiNote.Readings"/>), each primary or secondary.</summary>
    public IReadOnlyList<KanjiReadingListEditorViewModel> Readings { get; }
 
-   /// <summary>The radicals the kanji is made of, and the vocab and other kanji it's related to.</summary>
-   public IReadOnlyList<TextFieldEditorViewModel> RelatedFields { get; }
+   /// <summary>The radicals the kanji is made of, and the other kanji it's related to: those with a similar meaning, and those it's confused with.</summary>
+   public IReadOnlyList<KanjiListEditorViewModel> RelatedKanji { get; }
+
+   /// <summary>The vocab the kanji's page shows first, typed by their names.</summary>
+   public TextFieldEditorViewModel PrimaryVocab { get; }
 
    /// <summary>
    /// What the kanji's source gave it (<see cref="KanjiNote.SourceData"/>): its answer, which the corpus's own in <see cref="CoreFields"/> takes the place of,<br/>
@@ -85,11 +91,12 @@ class KanjiEditorSectionViewModel : INoteEditorSectionViewModel
    {
       foreach(var field in AllFields()) field.Refresh();
       foreach(var readings in Readings) readings.Refresh();
+      foreach(var list in RelatedKanji) list.Refresh();
       Images.Refresh();
       Tags.Refresh();
    }
 
-   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, ..RelatedFields, ..SourceFields];
+   IEnumerable<TextFieldEditorViewModel> AllFields() => [..CoreFields, PrimaryVocab, ..SourceFields];
 
    TextFieldEditorViewModel Field(EditableTextField<KanjiNote> field) =>
       new(_fatalErrorHandler, field.Label, field.Format, () => field.Read(CurrentKanji()), WritingToTheCurrentKanji(field.Write));

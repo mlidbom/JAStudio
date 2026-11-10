@@ -7,39 +7,30 @@ public static class VocabNoteSorting
 {
    public static List<VocabNote> SortVocabListByStudyingStatus(
       IEnumerable<VocabNote> vocabs,
-      List<string>? primaryVoc = null,
+      IReadOnlyList<VocabNote>? primaryVocab = null,
       string? preferredKanji = null)
    {
-      var primaryVocList = primaryVoc ?? [];
+      var primaryVocabInOrder = primaryVocab?.ToList() ?? [];
 
-      int PreferPrimaryVocabInOrder(VocabNote localVocab)
+      //refactor: The name says it sorts by studying status, which it doesn't look at: it sorts the vocab with preferredKanji first, then by their place among
+      //   primaryVocab, then those with the most sentences first, then by question. Its callers, the vocab's related vocab components among them, would read
+      //   truer with a name that says that.
+      return
+      [
+         .. vocabs.OrderBy(PreferVocabWithKanji)
+                  .ThenBy(PreferPrimaryVocabInOrder)
+                  .ThenBy(PreferMoreSentences)
+                  .ThenBy(it => it.GetQuestion())
+      ];
+
+      int PreferVocabWithKanji(VocabNote vocab) => preferredKanji == null || vocab.GetQuestion().Contains(preferredKanji) ? 0 : 1;
+
+      int PreferPrimaryVocabInOrder(VocabNote vocab)
       {
-         for(var index = 0; index < primaryVocList.Count; index++)
-         {
-            var primary = primaryVocList[index];
-            var readings = localVocab.GetReadings();
-
-            if(localVocab.GetQuestion() == primary ||
-               localVocab.Question.WithoutNoiseCharacters == primary ||
-               (readings.Any() && readings[0] == primary))
-            {
-               return index;
-            }
-         }
-
-         return 1000;
+         var index = primaryVocabInOrder.IndexOf(vocab);
+         return index == -1 ? 1000 : index;
       }
 
-      int PreferVocabWithKanji(VocabNote localVocab) => (preferredKanji == null || localVocab.GetQuestion().Contains(preferredKanji)) ? 0 : 1;
-
-      int PreferMoreSentences(VocabNote localVocab) => -localVocab.Sentences.All().Count;
-
-      var result = vocabs.OrderBy(v => PreferVocabWithKanji(v))
-                         .ThenBy(v => PreferPrimaryVocabInOrder(v))
-                         .ThenBy(v => PreferMoreSentences(v))
-                         .ThenBy(v => v.GetQuestion())
-                         .ToList();
-
-      return result;
+      int PreferMoreSentences(VocabNote vocab) => -vocab.Sentences.All().Count;
    }
 }
