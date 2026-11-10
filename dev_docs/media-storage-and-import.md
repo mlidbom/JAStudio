@@ -107,4 +107,6 @@ An import run's storing of media is specified with the import profiles, in `AICr
 The earlier design gave each media file a JSON sidecar with the ids of the notes using it, the source tag, a
 copyright status and, for TTS audio, the engine and voice. Files were renamed to GUIDs in GUID-named buckets, and the
 index could find a note's media by its id. The commit that dropped it (`2353634c3`) removed `SidecarSerializer`,
-`MediaFileId`, `TtsInfo` and the media snapshot, about a thousand lines in all. It doesn't record why.
+`MediaFileId`, `TtsInfo` and the media snapshot, about a thousand lines in all. It doesn't record why. **Why (Magnus,
+2026-11-10):** complexity, of the storage code and of managing it, not least of understanding changes to the corpus: when
+a note's JSON holds everything about it, a human reading a diff in git understands it far more easily.

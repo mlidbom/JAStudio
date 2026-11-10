@@ -733,7 +733,32 @@ below. *What follows the survey is history.*
   copyright partition, so which copy goes is a question per group. 3 HyperTTS files are in `media/vocab/TTS`, outside the
   three folders. `media/free/.git` points git at the old `free` repository's data, as `media/.git` did.
 
+### Facts about a file, and the files several notes share (2026-11-10)
+
+Magnus wants a voice's gender kept where it's known (users prefer one gender or the other), and audio from a provider told
+from audio we made: TTS, or his own recordings. Those are facts about each file, not about the field holding it: WaniKani's
+two slots held 1,099 TTS files, and 4 vocab had WaniKani's male and female files swapped (fixed, 0ef0216698). Known per
+file: whether it's TTS and its voice (proven by name), the voice's gender (WaniKani's `_b`/`_male` and `_g`/`_female` names,
+and TTS voices), an image's alt text. Unknown: the gender of Core 2000's, Yomitan's, Forvo's and the anime decks' audio.
+The 58 references to `rec<number>.mp3` are most likely Magnus's own recordings with Anki's recorder (Magnus: 90% sure).
+
+**Where the facts live: on the notes' references, rather than with the files in the media layer** (Claude's first
+proposal), because of why the sidecars were dropped (Magnus): a note's JSON holding everything about it keeps diffs
+readable. 1,009 files are used by more than one note, so a fact is repeated on each, but each was shared on purpose and
+its facts are the same everywhere:
+- 522 between a sentence and a vocab, nearly all Core 2000's: each word came with an example sentence, and both got the
+  same image (about 455), some the same audio (about 70);
+- 377 between vocab with different questions: one word as several vocab, such as 故 and ゆえ, 何処 and どこ, 片づけ and
+  片付け, and Yomitan audio reused for similar words;
+- 58 between a kanji and its vocab: Magnus's images, such as one for 助, 助ける and 助かる;
+- 27 Core 2000 screenshots shared by sentences with different texts, 21 between vocab differing only in their
+  disambiguation, 3 across all three note types, 1 between two copies of one sentence.
+
+A corpus-validity check can catch the same file with different facts on different notes.
+
 ### Proposed shape (not agreed yet)
+
+*Superseded on 2026-11-10 by facts on each reference: see above, and the report to Magnus that day.*
 
 ```json
 "audio": [
