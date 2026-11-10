@@ -307,6 +307,17 @@ the headless JAStudio.
   vocab changed. The git command line suits it: on the corpus repository (207 commits, 79,718 note files) `git status`
   took 0.17 seconds and a note's history 0.035.
 
+  **Committing inside JAStudio may come before the changes to the vocab's matching configuration** (Magnus,
+  2026-11-10): it would turn his commits, now a manual round of JAStudio and several repositories in Git Extensions,
+  into two or three clicks. What it would do:
+  - run a full rebuild before committing, so a commit always holds everything its edits changed, as the process for
+    changes to the corpus requires (`.claude/rules/02-universal-local/045-committing-with-the-corpus-repository.md`);
+  - show the changes as notes, as `diff_the_changed_notes` does;
+  - commit the media submodules too, innermost first;
+  - tell the notes edited by hand from those a rebuild only regenerated, since JAStudio knows which notes an editor
+    or a command wrote and which a rebuild did, and name the edited ones in the commit message. The diff alone can't:
+    a rebuild changes generated data such as a vocab's `sentenceCount` on notes nobody edited.
+
 ## Open questions
 
 None at the moment.
