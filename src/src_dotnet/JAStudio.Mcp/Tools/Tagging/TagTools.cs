@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Tagging;
@@ -42,6 +43,25 @@ public class TagTools
       TagTreeNode NodeOf(string path) => tagTree.NodeOf(new TagBranch(path)) ?? throw new ArgumentException($"No note has a tag in the branch {path}.", nameof(branch));
    }
 
+   [McpServerTool(Name = "add_a_tag_to_the_notes_found", Destructive = false, Idempotent = true)]
+   [Description("""
+                Adds a tag to every note a search finds that doesn't have it, as adding it to a note's tags in the editor does, and saves
+                each note it changes to the corpus checkout. The search is in the form search_notes takes, such as
+                {"allOf": [{"noteTypeIs": "vocab"}, {"not": {"tagsInclude": "source"}}]}. Refuses a tag JAStudio defines, which is
+                generated or has an editor of its own, as the editor does. Reports the notes it added the tag to.
+                """)]
+   public NotesTheTagChangedOn AddATagToTheNotesFound(
+      [Description("The search finding the notes, in the form search_notes takes.")] JsonObject search,
+      [Description("The whole path of the tag to add, such as -::grammar-term.")] string tag,
+      [Description("The most notes to list. Every note the tag is added to is counted either way.")] int maxNotesListed = NoteTools.NotesListedByDefault)
+   {
+      var tagToAdd = TagManagedByHand(tag);
+      var notesWithoutTheTag = NotesFoundBy(search).Where(it => !it.Tags.Contains(tagToAdd)).ToList();
+      foreach(var note in notesWithoutTheTag) note.Tags.Set(tagToAdd);
+
+      return new NotesTheTagChangedOn(notesWithoutTheTag.Count, [..notesWithoutTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
+   }
+
    [McpServerTool(Name = "remove_a_tag_from_the_notes_found", Destructive = true, Idempotent = true)]
    [Description("""
                 Removes a tag from every note a search finds that has it, as removing it from a note's tags in the editor does, and saves
@@ -49,18 +69,26 @@ public class TagTools
                 search_notes takes, such as {"allOf": [{"noteTypeIs": "kanji"}, {"tagsInclude": "source::lyrics"}]}. Refuses a tag JAStudio
                 defines, which is generated or has an editor of its own, as the editor does. Reports the notes it removed the tag from.
                 """)]
-   public NotesTheTagWasRemovedFrom RemoveATagFromTheNotesFound(
+   public NotesTheTagChangedOn RemoveATagFromTheNotesFound(
       [Description("The search finding the notes, in the form search_notes takes.")] JsonObject search,
       [Description("The whole path of the tag to remove, such as source::anime::violet::08.")] string tag,
       [Description("The most notes to list. Every note the tag is removed from is counted either way.")] int maxNotesListed = NoteTools.NotesListedByDefault)
    {
-      if(Tags.IsDefinedByJAStudio(tag))
-         throw new ArgumentException($"{tag} is defined by JAStudio: it's generated or has an editor of its own, so it isn't removed by hand.", nameof(tag));
-
-      var tagToRemove = Tag.FromName(tag);
-      var notesWithTheTag = _collection.NotesMatching(NoteConditionJson.ConditionFrom(search)).Where(it => it.Tags.Contains(tagToRemove)).ToList();
+      var tagToRemove = TagManagedByHand(tag);
+      var notesWithTheTag = NotesFoundBy(search).Where(it => it.Tags.Contains(tagToRemove)).ToList();
       foreach(var note in notesWithTheTag) note.Tags.Unset(tagToRemove);
 
-      return new NotesTheTagWasRemovedFrom(notesWithTheTag.Count, [..notesWithTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
+      return new NotesTheTagChangedOn(notesWithTheTag.Count, [..notesWithTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
    }
+
+   List<JPNote> NotesFoundBy(JsonObject search) => _collection.NotesMatching(NoteConditionJson.ConditionFrom(search));
+
+   /// <summary>
+   /// The tag named <paramref name="tagName"/>, refusing a tag JAStudio defines (<see cref="Tags.IsDefinedByJAStudio"/>): such a tag is generated<br/>
+   /// or has an editor of its own, so it isn't added to or removed from notes by hand, and the editor refuses it too.
+   /// </summary>
+   static Tag TagManagedByHand(string tagName) =>
+      Tags.IsDefinedByJAStudio(tagName)
+         ? throw new ArgumentException($"{tagName} is defined by JAStudio: it's generated or has an editor of its own, so it isn't added or removed by hand.", nameof(tagName))
+         : Tag.FromName(tagName);
 }

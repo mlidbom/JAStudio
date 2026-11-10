@@ -262,9 +262,11 @@ the headless JAStudio.
        - **Done (Magnus, 2026-11-09):** the context menu's universal note actions, `suspend_all_cards_of_a_note`,
          `unsuspend_all_cards_of_a_note` and `delete_a_note`. Suspending works only in the live JAStudio, which has an
          Anki to suspend cards in.
-       - **Done (2026-11-10):** `remove_a_tag_from_the_notes_found` removes a tag from every note a search finds that
-         has it, as removing it from a note's tags in the editor does, and refuses a tag JAStudio defines, as the editor
-         does. Built for fixes to the corpus's tags, such as an episode tag put on another episode's sentences.
+       - **Done (2026-11-10):** `add_a_tag_to_the_notes_found` and `remove_a_tag_from_the_notes_found` add a tag to,
+         or remove it from, every note a search finds, as adding or removing it in a note's tags in the editor does, and
+         refuse a tag JAStudio defines, as the editor does. Built for fixes to the corpus's tags, such as an episode tag
+         put on another episode's sentences. A tag branch is renamed on some notes by adding the new tag and removing
+         the old.
        - **Deleting a note, as decided with Magnus:** JAStudio is the master of the notes, and Anki only of a student's
          studying, so Anki never prevents a deletion, and JAStudio deletes notes outside Anki too. What happens to a
          note's Anki note, which holds its cards and their review history, is a choice (`ItsAnkiNote`): kept as it is,

@@ -41,10 +41,10 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
    public class episode_08_from_the_notes_tagged_with_both_episodes : When_removing_a_tag_from_the_notes_found
    {
-      readonly NotesTheTagWasRemovedFrom _result;
+      readonly NotesTheTagChangedOn _result;
 
       public episode_08_from_the_notes_tagged_with_both_episodes() =>
-         _result = ResultOf<NotesTheTagWasRemovedFrom>(RemoveATagFromTheNotesFound(
+         _result = ResultOf<NotesTheTagChangedOn>(RemoveATagFromTheNotesFound(
                                                           new JsonObject { ["allOf"] = new JsonArray(new JsonObject { ["tagsInclude"] = Episode07 }, new JsonObject { ["tagsInclude"] = Episode08 }) },
                                                           Episode08));
 
@@ -57,10 +57,10 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
    public class the_path_above_the_episodes_from_every_note : When_removing_a_tag_from_the_notes_found
    {
-      readonly NotesTheTagWasRemovedFrom _result;
+      readonly NotesTheTagChangedOn _result;
 
       public the_path_above_the_episodes_from_every_note() =>
-         _result = ResultOf<NotesTheTagWasRemovedFrom>(RemoveATagFromTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, "source::anime::violet"));
+         _result = ResultOf<NotesTheTagChangedOn>(RemoveATagFromTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, "source::anime::violet"));
 
       [XF] public void it_reports_no_note_changed_since_no_note_has_that_tag_itself() => _result.NotesChanged.Must().Be(0);
       [XF] public void the_tags_below_it_stay() => HasTheTag(_sentenceTaggedWithEpisode08Only, Episode08).Must().BeTrue();
