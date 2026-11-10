@@ -6,14 +6,3 @@
 > (Magnus, 2026-11-09). Remove an entry once it's fixed.
 >
 > The checks JAStudio could run to find such problems itself are in `corpus-validity.md`.
-
-## Found while fixing the related vocab that were sentences (2026-11-10)
-
-- **21 vocab related to themselves, 22 times.** A vocab is never related to itself (`corpus-data-model.md`, slice 8a):
-  adding its own name to a relationship does nothing, but these were stored before that rule. Each should most likely be
-  removed:
-  - synonyms: しか, のような, あれない, れる, れない, られない, えそう:imperative, させていただく, させていただきます, 綺麗, きれい,
-    特徴 and なんだかんだ言っても;
-  - perfect synonyms: えそう:imperative;
-  - see also: なきゃ, なくちゃ, なくては, なければ, ないと, せねば and ぶっ;
-  - derived from: 出会う.
