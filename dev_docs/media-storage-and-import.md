@@ -16,8 +16,9 @@ holders can be aggressive, so:
    [Where the files are](#where-the-files-are).)*
 2. **The git repositories stay a manageable size.** Audio and images are large, so they're kept out of the corpus's
    repository. *(Done.)*
-3. **The corpus holds no media references.** *(Not done: a note's media fields still hold Anki's markup. See
-   [Not done](#not-done).)*
+3. ~~**The corpus holds no media references.**~~ *Dropped (Magnus, 2026-11-10). It came from the sidecar design: with
+   media working by file name alone, a note is the only place that says which files are its. The notes keep their media
+   references, as data rather than Anki's markup: slice 9 in `corpus-data-model.md`, "Media".*
 
 ## Where the files are
 
@@ -87,8 +88,8 @@ files is to become a corpus-validity check (`corpus-validity.md`, "Missing media
 
 ## Not done
 
-- **The corpus still holds the media references,** as Anki's markup in the note fields. Moving them out has
-  unresolved design questions: see `corpus-data-model.md`, "Media (Open)".
+- **The corpus's media references are still Anki's markup** in the note fields. Slice 9 makes them data: see
+  `corpus-data-model.md`, "Media".
 - **Removing orphaned files.** Checking the whole corpus could find them, by comparing every note's references with the
   index (`corpus-validity.md`).
 - **Access gating:** offering a commercial source's media only to someone entitled to it.

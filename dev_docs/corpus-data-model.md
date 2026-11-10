@@ -289,8 +289,8 @@ Two cautions:
 | ~~Parts of speech~~ | `VocabNotePartsOfSpeech` | ~~One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times)~~ *Gone 2026-11-08 (slice 7b): `partsOfSpeech` is a list of the names of `PartOfSpeech`s, a closed set.* |
 | ~~Primary kanji readings~~ | `KanjiNoteReadings` | ~~Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml`~~ *Gone 2026-11-08 (slice 7a): `readings` is `{ "on", "kun", "nanori" }`, each a list of `{ "kana", "isPrimary" }`. The cards still show a primary reading inside `<primary>`, made from the model (`KanjiReadingsHtml`).* |
 | Primary kanji meaning | kanji `sourceAnswer` | `<primary>Stab</primary>, Thrust` |
-| Media references | `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue` | Anki's `[sound:x.mp3]` and `<img src="…">` |
-| Word-break hints | `SentenceQuestionField` | `<wbr>` inserted into the question text by `SentenceQuestionField.SplitTokenWithWordBreakTag`, to force the tokenizer to split there. It writes the source question when there is no user question. 252 sentence files have one: 233 in `sourceQuestion`, 19 in `userQuestion`. |
+| Media references | `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue` | Anki's `[sound:x.mp3]` and `<img src="…">` *Slice 9 makes them data (2026-11-10): see [Media](#media-open).* |
+| Word-break hints | `SentenceQuestionField` | `<wbr>` inserted into the question text by `SentenceQuestionField.SplitTokenWithWordBreakTag`, to force the tokenizer to split there. It writes the source question when there is no user question. 252 sentence files have one: 233 in `sourceQuestion`, 19 in `userQuestion`. *Goes with the matching configuration's redesign (Magnus, 2026-11-10).* |
 
 The brackets caused two bugs: `a921f09cb` (alternative compound parts lost when editing a vocab) and `51a2ab4ae`
 (owned forms lost when editing a vocab). About 217 vocab files used them. Two more turned up when they were removed
@@ -561,12 +561,15 @@ from the source, like the WaniKani markup in mnemonics, and stays text.
 The sentence shape is already close. What changes:
 
 - `activeQuestion` and `activeAnswer` go (persisted-derived-data);
-- `audio` and `screenshot` go (media);
+- `audio` and `screenshot` become lists of media references (slice 9, see [Media](#media-open));
 - `<wbr>` word-break hints move out of the question text into `configuration`, for example as a list of
   positions where the tokenizer must split (tentative). They're Magnus's own instructions to the tokenizer,
   set through `SentenceQuestionField.SplitTokenWithWordBreakTag`, not part of the sentence. Today they are even
   written into the source question;
 - the parsing result is named as a cache.
+
+*The last two go with the matching configuration's redesign (Magnus, 2026-11-10), as the configuration naming a vocab
+`text:disambiguation` does: they're parsing's data, which the redesign reshapes anyway.*
 
 ## References between entities (word-references)
 
@@ -662,6 +665,11 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     a source tag, 17 distinct priority tags are spread over 143 source tags, and only 4 source tags carry more
     than one priority tag. The name part of a priority tag is just a label, and is sometimes wrong:
     `source::anime::girls-last-tour` notes carry `-::priority::high::011_Natsume_01`.
+  - **Deferred (Magnus, 2026-11-10), with slice 5:** moving it out means reading it from the Anki notes' tags and
+    JAStudio no longer owning the Anki note's tag list, partly a two-way sync, which the settled rules argue against.
+    The leak it was to stop, a rebuild in the Anki profile for importing rewriting the study-state tags, went with those
+    tags in slice 6. With Magnus the corpus's only user, it costs more than it buys. It comes back when the corpus gets a
+    second user, or notes without an Anki note.
 
 ### Student-tags and corpus-tags
 
@@ -685,7 +693,74 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
 
 ## Media (Open)
 
-The direction is already set in `media-storage-and-import.md`: the core corpus stores no media data. What's missing is
+**Decided (Magnus, 2026-11-10): the corpus keeps its media references, as data rather than Anki's markup.** The goal that
+the corpus hold no media references came from the sidecar design; with media working by file name alone, a note is the
+only place that says which files are its. The Anki-projection writes the `[sound:…]` markup Anki needs. The Forvo files'
+move to `commercial-01` comes along (see [TTS audio](#tts-audio-only-what-we-know-for-sure-is-tts-magnus-2026-11-08)).
+What becomes of the vocab's three audio slots is settled in the slice, from the data. That settles the three guesses
+below. *What follows the survey is history.*
+
+### The survey (2026-11-10)
+
+- **Every file a note references is in the media layer.** 15 files there are referenced by no note.
+- **References per field:** vocab `audioB` 12,802 vocab, `audioG` 6,744, `audioTTS` 14,718, `image` 477, `userImage`
+  516; sentence `audio` 49,162 (every sentence, always exactly one file), `screenshot` 34,454; kanji `image` 71.
+- **A field often holds several files:** 216 vocab `audioB`, 163 `audioG`, 7 `audioTTS`, 82 `userImage`, 7 kanji
+  images, 7 screenshots. Between them, and around them: `,`, `<br>` and `&nbsp;`. The same file twice in one field (3)
+  or in two fields of one vocab (34). 愛しい's `audioTTS` is just `u`.
+- **Which audio is TTS,** by the rules above (a file name proving a TTS voice for vocab; the tag or a TTS file name for
+  sentences):
+
+  | Field | TTS | Not TTS |
+  |---|---|---|
+  | vocab `audioB` | 1,099 (844 Azure, 222 `ATTS`, 33 Google) | 11,929 (211 of them Forvo, 3 unproven) |
+  | vocab `audioG` | 5 | 6,911 (23 Forvo) |
+  | vocab `audioTTS` | 14,708 (3 JAStudio's own) | 16 (2 Forvo, 11 unproven, 3 others) |
+  | sentence `audio` | 14,653 | 34,509 |
+
+  So a vocab has: no audio (476), only TTS (15,760), only recordings (11,731: one 4,996, two 6,562, three or more 173),
+  or both (37). In 11 of them a TTS file in `audioB` comes before a recording.
+- **`_tts_audio`:** on 14,607 sentences, each with a HyperTTS file, and 46 more have one untagged: all 14,653 count as
+  TTS. On 245 vocab: 221 `ATTS`, 13 proven HyperTTS and 12 not TTS (4 of them Forvo).
+- **Images:** most carry an `alt` text, the title of the web page the image was found on: 490 vocab `userImage` images,
+  16 `image`, 50 kanji, 3 screenshots. 13 carry a height. Some alt texts hold `<` and `>`, so a migration must parse the
+  HTML properly. Vocab `image` is mostly Core 2000's (462 of 477; the rest web images), `userImage` Magnus's own: pasted,
+  from the web, AI. **Neither is shown anywhere:** JAStudio's vocab and kanji pages show no images, and the study-notes
+  carry none. Sentence screenshots show on the sentence page.
+- **In the media layer:** 824 file names are in two folders, with the same content: 431 Core 2000 images in both
+  `commercial-01/vocab/core2000/images` and `commercial-02/studying/core2000/images`, 45 images in both
+  `commercial-01/vocab/wani/user-image` and `free/AI/kanji/images`, and smaller groups. Which folder is right decides the
+  copyright partition, so which copy goes is a question per group. 3 HyperTTS files are in `media/vocab/TTS`, outside the
+  three folders. `media/free/.git` points git at the old `free` repository's data, as `media/.git` did.
+
+### Proposed shape (not agreed yet)
+
+```json
+"audio": [
+  { "fileName": "文句_b.mp3", "isTextToSpeech": false },
+  { "fileName": "hypertts-eb7a….mp3", "isTextToSpeech": true }
+],
+"images": [
+  { "fileName": "kv_right_img.jpg", "altText": "変化するオフィス出社率、今後オフィスはどうあるべき？…" }
+]
+```
+
+- **Vocab:** `audio` from `audioB`, `audioG` and `audioTTS`, recordings first in that order, then TTS, each file once.
+  `images` from `userImage`, then `image`.
+- **Sentences:** `audio`, and `screenshots` as a list of images. **Kanji:** `images`.
+- **`isTextToSpeech` is true only when proven,** by the rules above. It replaces the `_tts_audio` tag, which goes, from
+  `Tags` too. The vocab's sentence list marks a sentence whose audio is TTS from its audio.
+- **A note's preferred audio** is its first recording, else its first TTS audio: a change only for the 11 vocab above.
+- **The Anki-projection** writes a vocab's first recording into `Audio_b`, its other recordings into `Audio_g`, and its TTS
+  audio into `Audio_TTS`, so the card templates, which play the recordings, else the TTS, behave as before. A sentence's
+  audio goes into `Audio Sentence`.
+- **JAStudio's TTS** replaces the note's TTS audio.
+- Dropped: the heights, the separators, 愛しい's `u`.
+- **The editors** show the list, and can remove from it. Adding media by hand is a feature of its own, later.
+
+### Before the survey
+
+The direction was set in `media-storage-and-import.md`: the core corpus stores no media data. What was missing was
 removing `audioB`/`audioG`/`audioTTS`/`image`/`userImage` (vocab), `audio`/`screenshot` (sentences) and the
 kanji media fields from the corpus data types. *(Corrected 2026-11-08: this said that all media association lives in the
 media layer's sidecars, which record `noteIds`. The sidecars were dropped on 2026-05-15, and the media layer works by
@@ -953,7 +1028,8 @@ Progress on step 3:
       *The survey and the discussion are in `todo/whether-to-split-source-into-provider-and-work.md`.* **How to resume it (Magnus, 2026-11-09):** first find out what the data looks like. Then recommend, from that data:
       list what Claude considers the works and what the providers, say where each is stored now, and where it would be
       stored after the change, with how each specific kind of data the corpus has would end up represented.
-   5. Priority out of the corpus, as student-data (see [Tags](#tags)).
+   5. Priority out of the corpus, as student-data (see [Tags](#tags)). *Deferred (Magnus, 2026-11-10): see
+      [Tags](#tags), Priority.*
    6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags. *Done 2026-11-08: see
       [Persisted-derived-data](#persisted-derived-data). `sentenceCount` and the tags derived from corpus data stay, as
       derived data kept on purpose; the study-state and orphaned tags are gone.* `_tts_audio` moved to slice 9: see
@@ -1082,7 +1158,9 @@ Progress on step 3:
           suggestions as they opened, the parts of speech' box's too: fixed in the MCP server (`jastudio-mcp.md`).
         - **Not done:** the menus on selected text still add to and remove from the relationships as before; the kanji editor's
           related fields are still text.
-   9. Media, once the points under [Media](#media-open) are settled.
+   9. Media, once the points under [Media](#media-open) are settled. *Under way (2026-11-10): the corpus keeps its media
+      references, as data rather than Anki's markup (Magnus). The survey and the proposed shape are under
+      [Media](#media-open).*
 
 ### Before the trim (2026-11-08)
 
@@ -1174,7 +1252,8 @@ question 4.
    code should only interpret typed fields, not tags. Or does the source become a typed field? Separately,
    `media-storage-and-import.md` ("Source-Revealing Tags") defers a decision to move source information out of
    the core corpus entirely.
-10. **The media concerns (slice 9).** `media-storage-and-import.md` mentions "unresolved design concerns" about
+10. ~~**The media concerns (slice 9).**~~ *Answered 2026-11-10 (Magnus): the corpus keeps its media references, as data,
+    which settles all three guesses: see [Media](#media-open).* `media-storage-and-import.md` mentions "unresolved design concerns" about
     removing the media fields from the corpus, and Magnus doesn't remember what they were. My three guesses are
     under [Media](#media-open). Does any of them ring a bell, or was it something else? Mobile-review confirms
     that the second guess matters. The Anki-projection must keep filling Anki's audio fields, and the files must
