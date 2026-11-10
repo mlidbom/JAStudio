@@ -9,9 +9,9 @@ using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 namespace JAStudio.Core.TaskRunners;
 
 /// <summary>Executes an action on background threads, logs on exceptions, and invokes fatal error to surface the error to the UI.</summary>
-public class BackgroundTaskManager : IDisposable
+public sealed class BackgroundTaskManager : IDisposable
 {
-   static readonly ILogger Log = CompzeLogger.For(typeof(BackgroundTaskManager));
+   static readonly ILogger Log = CompzeLogger.For<BackgroundTaskManager>();
    readonly IFatalErrorHandler _fatalErrorHandler;
    readonly IMonitor _monitor = IMonitor.New();
    readonly List<Task> _pendingTasks = [];
@@ -44,10 +44,6 @@ public class BackgroundTaskManager : IDisposable
          try
          {
             await action();
-         }
-         catch(OperationCanceledException)
-         {
-            // Expected for debounced/cancelled work — not an error.
          }
          catch(Exception ex)
          {
