@@ -22,10 +22,21 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    /// <summary>Replaces the vocab of this folder with <paramref name="vocab"/>, written as JAStudio writes the corpus's notes.</summary>
    public void ReplaceTheVocabWith(IEnumerable<VocabNote> vocab, NoteSerializer serializer)
    {
-      if(VocabFolder.Exists) VocabFolder.Delete(recursive: true);
+      DeleteTheVocabFiles();
 
       var repository = new FileSystemNoteRepository(serializer, _folder.FullName);
       foreach(var note in vocab) repository.Save(note);
+   }
+
+   /// <summary>
+   /// Deletes the files of the vocab, but not their folders: Windows deletes a folder that something such as the IDE watches only once it lets go, so<br/>
+   /// writing into the same path straight after deleting the folder fails with <see cref="DirectoryNotFoundException"/>. An empty folder left behind is<br/>
+   /// nothing to git.
+   /// </summary>
+   void DeleteTheVocabFiles()
+   {
+      if(!VocabFolder.Exists) return;
+      foreach(var file in VocabFolder.EnumerateFiles("*", SearchOption.AllDirectories)) file.Delete();
    }
 
    public override string ToString() => _folder.FullName;
