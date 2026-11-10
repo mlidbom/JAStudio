@@ -28,7 +28,7 @@ holders can be aggressive, so:
 repository's git data, in `.git/modules/src/jas_database/modules/media/modules/` of the main repository. That
 folder holds about 3.9 GB, of which about 1.8 GB is the old repository's own data, but deleting it breaks both
 submodules. A file `media/.git` that made git run inside `media/` show the old repository was deleted on
-2026-11-08.* In it:
+2026-11-08, and `media/free/.git`, pointing at a former `free` repository's data, on 2026-11-10.* In it:
 
 | Folder | What | Files (2026-11-07) |
 |---|---|---|

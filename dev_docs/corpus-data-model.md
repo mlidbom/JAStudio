@@ -822,6 +822,7 @@ files, most likely from AwesomeTTS, HyperTTS's predecessor, name their Azure voi
 **A legal follow-up, for slice 9:** the 235 distinct Forvo files are all filed under `free/`, which the media layer says is
 freely redistributable: 221 in `free/yomitan/vocab/audio` and 14 in `free/TTS/vocab`. They move to `commercial-01`, as
 WaniKani's audio is there (Magnus, 2026-11-08). Not urgent: the commercial repositories are private, and the problem is old.
+*Done 2026-11-10: they're in `commercial-01/vocab/forvo/audio`. One of them was in both `free/` folders.*
 
 **The direction (thoughts, not decided):** state whether audio is TTS where the audio is referenced, rather than in a tag:
 probably the audio fields become a list of objects with metadata, starting with whether the audio is TTS, replacing the
