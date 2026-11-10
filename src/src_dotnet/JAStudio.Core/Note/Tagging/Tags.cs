@@ -67,8 +67,14 @@ public static class Tags
    {
       public const string Folder = FSource; // Keep as string for startswith() checks
 
-      public static readonly Tag ImmersionKit = Tag.FromName(FSource + "immersion_kit");
+      /// <summary>A vocab JAStudio created from the dictionary, JMdict, which gave it its answer and readings.</summary>
       public static readonly Tag Jamdict = Tag.FromName(FSource + "jamdict");
+
+      /// <summary>
+      /// Our own content, made by Magnus or Claude: a vocab JAStudio creates when the dictionary has no entry for it, or derives from<br/>
+      /// another vocab, such as its suffix version, and a kanji created by hand, such as a radical or component.
+      /// </summary>
+      public static readonly Tag Jastudio = Tag.FromName(FSource + "jastudio");
    }
 
    public static readonly Tag TTSAudio = Tag.FromName("_tts_audio");

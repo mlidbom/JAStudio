@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 
 // ReSharper disable InconsistentNaming
@@ -10,7 +11,9 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
 /// Creating a vocab (<see cref="VocabNoteFactory"/>) that has no parts of speech gives it the dictionary's, and decides it as usually written in kana<br/>
-/// where the dictionary says so. Only when it's created: parts of speech removed later stay removed.
+/// where the dictionary says so. Only when it's created: parts of speech removed later stay removed. A vocab created from the dictionary is tagged<br/>
+/// as the dictionary's, <see cref="Tags.Source.Jamdict"/>, and one the dictionary has no entry for, or derived from another, as our own,<br/>
+/// <see cref="Tags.Source.Jastudio"/>. A clone, a copy with the source data, keeps the original's source tags.
 /// </summary>
 public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
@@ -55,5 +58,41 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
          _vocab = GetService<VocabNoteFactory>().Create("書く", "to write", ["かく"], it => it.PartsOfSpeech.Set([PartOfSpeech.Noun]));
 
       [XF] public void it_keeps_them() => NamesOfThePartsOfSpeechOf(_vocab).Must().SequenceEqual(["noun"]);
+   }
+
+   public class from_the_dictionary_for_a_word_it_has : When_JAStudio_creates_a_vocab
+   {
+      protected readonly VocabNote _vocab;
+      public from_the_dictionary_for_a_word_it_has() => _vocab = GetService<VocabNoteFactory>().CreateWithDictionary("書く");
+
+      [XF] public void it_is_tagged_as_the_dictionarys() => _vocab.Tags.Contains(Tags.Source.Jamdict).Must().BeTrue();
+      [XF] public void it_is_not_tagged_as_our_own() => _vocab.Tags.Contains(Tags.Source.Jastudio).Must().BeFalse();
+
+      public class and_then_cloned : from_the_dictionary_for_a_word_it_has
+      {
+         readonly VocabNote _clone;
+         public and_then_cloned() => _clone = _vocab.Cloner.Clone();
+
+         [XF] public void the_clone_is_tagged_as_the_dictionarys_as_the_original_is() => _clone.Tags.Contains(Tags.Source.Jamdict).Must().BeTrue();
+         [XF] public void the_clone_is_not_tagged_as_our_own() => _clone.Tags.Contains(Tags.Source.Jastudio).Must().BeFalse();
+      }
+
+      public class and_then_its_suffix_version_created : from_the_dictionary_for_a_word_it_has
+      {
+         readonly VocabNote _suffixVersion;
+         public and_then_its_suffix_version_created() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("ば");
+
+         [XF] public void the_suffix_version_is_tagged_as_our_own() => _suffixVersion.Tags.Contains(Tags.Source.Jastudio).Must().BeTrue();
+         [XF] public void the_suffix_version_is_not_tagged_as_the_dictionarys() => _suffixVersion.Tags.Contains(Tags.Source.Jamdict).Must().BeFalse();
+      }
+   }
+
+   public class from_the_dictionary_for_a_word_it_has_no_entry_for : When_JAStudio_creates_a_vocab
+   {
+      readonly VocabNote _vocab;
+      public from_the_dictionary_for_a_word_it_has_no_entry_for() => _vocab = GetService<VocabNoteFactory>().CreateWithDictionary("ぺぺぺぺ");
+
+      [XF] public void it_is_tagged_as_our_own() => _vocab.Tags.Contains(Tags.Source.Jastudio).Must().BeTrue();
+      [XF] public void it_is_not_tagged_as_the_dictionarys() => _vocab.Tags.Contains(Tags.Source.Jamdict).Must().BeFalse();
    }
 }

@@ -34,9 +34,10 @@ public class NoteCreationTools
    [Description("""
                 Creates a note from a text, as the context menu's "Create" does for the text selected, and adds it to the collection: saved to the
                 corpus checkout and to Anki, as any note created. A vocab is created from the dictionary, with its answer, readings and parts of
-                speech when the dictionary has the word, and the sentences that may contain it are then reparsed, as the menu does. A sentence is
-                created with the text as its question. A kanji is created with the text as its question and the answer "TODO", as the menu creates
-                it. The MCP server has no tool that deletes a note. Reports the note created; edit_a_note edits it further.
+                speech and the tag source::jamdict when the dictionary has the word, and empty, tagged source::jastudio as our own, when it hasn't;
+                the sentences that may contain it are then reparsed, as the menu does. A sentence is created with the text as its question. A kanji
+                is created with the text as its question, the answer "TODO" and the tag source::jastudio, as the menu creates it. Reports the note
+                created; edit_a_note edits it further, and delete_a_note deletes it.
                 """)]
    public NoteSummary CreateANote(
       [Description("""What note to create: "vocab", "sentence" or "kanji".""")] string noteType,
@@ -45,7 +46,7 @@ public class NoteCreationTools
       {
          "vocab"    => CreateAVocab(text),
          "sentence" => SentenceNote.Create(_noteServices, text),
-         "kanji"    => KanjiNote.Create(_noteServices, text, AnswerOfAKanjiCreated),
+         "kanji"    => KanjiNote.CreateByHand(_noteServices, text, AnswerOfAKanjiCreated),
          _          => throw new ArgumentException($"There is no note type named '{noteType}'. The note types are \"vocab\", \"sentence\" and \"kanji\".", nameof(noteType))
       });
 

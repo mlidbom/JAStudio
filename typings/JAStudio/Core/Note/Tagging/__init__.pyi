@@ -96,8 +96,8 @@ class Tags(abc.ABC):
 
     class Source(abc.ABC):
         Folder : str
-        ImmersionKit : Tag
         Jamdict : Tag
+        Jastudio : Tag
 
 
     class Vocab(abc.ABC):

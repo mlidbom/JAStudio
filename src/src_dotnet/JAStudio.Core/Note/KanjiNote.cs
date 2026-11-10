@@ -430,4 +430,15 @@ public class KanjiNote : JPNote
       services.Collection.Kanji.Add(note);
       return note;
    }
+
+   /// <summary>
+   /// Creates a kanji by hand, as the note menus' "Create" does: one of our own, such as a radical or a component, tagged<br/>
+   /// <see cref="Tagging.Tags.Source.Jastudio"/>. See <see cref="Create"/>.
+   /// </summary>
+   public static KanjiNote CreateByHand(NoteServices services, string question, string answer)
+   {
+      var note = Create(services, question, answer);
+      note.Tags.Set(Tagging.Tags.Source.Jastudio);
+      return note;
+   }
 }

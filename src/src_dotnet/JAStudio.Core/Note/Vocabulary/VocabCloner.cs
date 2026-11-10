@@ -76,6 +76,16 @@ public class VocabCloner
       }
    }
 
+   /// <summary>
+   /// Gives <paramref name="clone"/> the vocab's source tags: a clone is a copy of the vocab, its source data included, so its content<br/>
+   /// comes from where the vocab's came from. A version derived from the vocab, such as its suffix version, is our own instead (<see cref="VocabNoteFactory.CreateWithCorpusAnswer"/>).
+   /// </summary>
+   void CopySourceTagsTo(VocabNote clone)
+   {
+      foreach(var tag in Note.Tags.Where(it => it.Name.StartsWith(Tags.Source.Folder)))
+         clone.Tags.Set(tag);
+   }
+
    public VocabNote Clone()
    {
       var source = VocabNoteConverter.ToDto(Note);
@@ -108,6 +118,7 @@ public class VocabCloner
       var clone = new VocabNote(Note.Services, cloneData);
 
       CopyVocabTagsTo(clone);
+      CopySourceTagsTo(clone);
 
       foreach(var related in clone.RelatedNotes.Synonyms.Words.ToList())
       {

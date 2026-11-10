@@ -20,12 +20,18 @@ public class VocabNoteFactory
       _noteServices = noteServices;
    }
 
+   /// <summary>
+   /// Creates a vocab from the dictionary's entry for <paramref name="question"/>, tagged <see cref="Tags.Source.Jamdict"/>,<br/>
+   /// or, when the dictionary has none, an empty vocab of our own, tagged <see cref="Tags.Source.Jastudio"/>, for Magnus or Claude to fill in.
+   /// </summary>
    public VocabNote CreateWithDictionary(string question)
    {
       var lookupResult = _dictLookup.LookupWord(question);
       if(!lookupResult.FoundWords())
       {
-         return Create(question, "", []);
+         var ourOwn = Create(question, "", []);
+         ourOwn.Tags.Set(Tags.Source.Jastudio);
+         return ourOwn;
       }
 
       var created = Create(question, lookupResult.FormatAnswer(), lookupResult.Readings());
@@ -64,11 +70,15 @@ public class VocabNoteFactory
       note.PartsOfSpeech.SetAutomaticallyFromDictionary();
    }
 
-   /// <summary>Creates a vocab whose answer, <paramref name="corpusAnswer"/>, is the corpus's own: a vocab that came from no source.</summary>
+   /// <summary>
+   /// Creates a vocab whose answer, <paramref name="corpusAnswer"/>, is the corpus's own: a vocab of our own, which came from no source,<br/>
+   /// tagged <see cref="Tags.Source.Jastudio"/>.
+   /// </summary>
    public VocabNote CreateWithCorpusAnswer(string question, string corpusAnswer, List<string> readings, Action<VocabNote>? initializer = null)
    {
       var note = Create(question, "", readings, initializer);
       note.CorpusAnswer.Set(corpusAnswer);
+      note.Tags.Set(Tags.Source.Jastudio);
       return note;
    }
 }

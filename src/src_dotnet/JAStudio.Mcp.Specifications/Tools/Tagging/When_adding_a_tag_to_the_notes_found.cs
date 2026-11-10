@@ -16,7 +16,7 @@ namespace JAStudio.Mcp.Specifications.Tools.Tagging;
 /// <summary>The notes: a vocab tagged <c>source::wani</c>, a vocab with no tags, and a kanji with no tags.</summary>
 public class When_adding_a_tag_to_the_notes_found : McpServerSpecification
 {
-   protected const string Jastudio = "source::jastudio";
+   protected const string ToReview = "-::to-review";
 
    protected readonly VocabNote _vocabFromWaniKani;
    protected readonly VocabNote _vocabWithNoTags;
@@ -35,16 +35,16 @@ public class When_adding_a_tag_to_the_notes_found : McpServerSpecification
 
    protected static bool HasTheTag(JPNote note, string tag) => note.Tags.Contains(Tag.FromName(tag));
 
-   public class source_jastudio_to_the_notes_without_a_source_tag : When_adding_a_tag_to_the_notes_found
+   public class a_label_to_the_notes_without_a_source_tag : When_adding_a_tag_to_the_notes_found
    {
       readonly NotesTheTagChangedOn _result;
 
-      public source_jastudio_to_the_notes_without_a_source_tag() =>
-         _result = ResultOf<NotesTheTagChangedOn>(AddATagToTheNotesFound(new JsonObject { ["not"] = new JsonObject { ["tagsInclude"] = "source" } }, Jastudio));
+      public a_label_to_the_notes_without_a_source_tag() =>
+         _result = ResultOf<NotesTheTagChangedOn>(AddATagToTheNotesFound(new JsonObject { ["not"] = new JsonObject { ["tagsInclude"] = "source" } }, ToReview));
 
-      [XF] public void the_vocab_with_no_tags_has_it() => HasTheTag(_vocabWithNoTags, Jastudio).Must().BeTrue();
-      [XF] public void the_kanji_with_no_tags_has_it() => HasTheTag(_kanjiWithNoTags, Jastudio).Must().BeTrue();
-      [XF] public void the_vocab_from_WaniKani_the_search_did_not_find_does_not() => HasTheTag(_vocabFromWaniKani, Jastudio).Must().BeFalse();
+      [XF] public void the_vocab_with_no_tags_has_it() => HasTheTag(_vocabWithNoTags, ToReview).Must().BeTrue();
+      [XF] public void the_kanji_with_no_tags_has_it() => HasTheTag(_kanjiWithNoTags, ToReview).Must().BeTrue();
+      [XF] public void the_vocab_from_WaniKani_the_search_did_not_find_does_not() => HasTheTag(_vocabFromWaniKani, ToReview).Must().BeFalse();
       [XF] public void it_reports_two_notes_changed() => _result.NotesChanged.Must().Be(2);
       [XF] public void it_lists_the_two_notes_it_changed() => _result.Notes.Select(it => it.Question).Order().Must().SequenceEqual(["来る", "行"]);
    }
