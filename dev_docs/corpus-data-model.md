@@ -712,6 +712,49 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   own tags (Magnus: "jastudio is the only place I have all the information to work effectively with them. So feature
   parity for working with anki tags would be quite nice"). They stay the student's, stored only in Anki: JAStudio writes
   a change to the study-note's tags in Anki.
+  - **Renaming and deleting a tag below `anki::` works as in Anki: on every Anki note with the tag** (Magnus,
+    2026-11-10), not only on JAStudio's study-notes: "renaming and deleting working the same way they would in anki is
+    the most intuitive and simple for me. If in doubt, I have to check in anki, but I don't end up with strange
+    in-between results and having to do the work twice". Anki's `col.tags.rename(old, new)` and `col.tags.remove(tags)`
+    do it, children included, each one call to Anki's backend; adding and removing a tag on given notes are
+    `bulk_add` and `bulk_remove`. They run as Anki operations, so Anki's undo covers them, and the headless JAStudio
+    refuses them. The `anki` branch itself is still never renamed or deleted.
+  - **What that means for the cleanup drive:** 793 Anki notes of other note types, such as Jo Mako's grammar notes, have
+    tags too (counted 2026-11-10 on a copy of the collection): `source::jo-mako-grammar` (370), `legacy_scheduling`
+    (202), `source::grammar` (181), `-::priority` (2) and `source::jlab` (2). Deleting `anki::source` would strip theirs,
+    so the cleanup deletes the branches below `source` that are JAStudio's, unless Magnus decides otherwise then. Anki
+    keeps a tag in its tag list until `clear_unused_tags` (what Check Database does) drops it: run it after the cleanup.
+- **Decided, not built (Magnus, 2026-11-10): JAStudio re-reads the Anki state, and only it, whenever Anki's may have
+  changed.** The Anki state is all JAStudio takes from Anki, through `AnkiBackendDataLoader`: which Anki note is each
+  note's study-note (the id mappings), the studying statuses of the study-notes' cards, and the study-notes' tags.
+  Nothing else depends on the Anki profile or on a sync: the corpus and its media layer live in the add-on folder, the
+  configuration is the add-on's, and JAStudio only writes a study-note's fields, never reads them back but for its id.
+  - **When:** after every Anki operation that changed notes, undo and redo included (Anki's own undo, not a text box's
+    undo in Anki's editor, which isn't an operation), after a sync, and when a profile opens. In the background, one
+    re-read at a time, announcing through `JPCollection.StudyNoteChanged` only the notes whose study-note differs. It
+    replaces the hook's scan of the notes changed since it last looked (`follow_the_tags_of_the_study_notes.py`), which
+    misses an undo, since undo restores a note's modification time.
+  - **Cost, measured 2026-11-10 on a copy of the collection:** reading every study-note's tags takes about 40 ms for
+    80,512 notes; the hook's scan takes 13 ms, since Anki has no index on a note's modification time. The id mappings
+    and the cards' statuses aren't measured yet. If the whole re-read is cheap enough, it may also replace the separate
+    ways JAStudio follows a card suspended and a study-note deleted in Anki: measure first.
+  - **A sync and a profile switch no longer load the corpus again** (today `ClearCaches`, then `ReloadFromBackend`). The
+    notes stay the same objects, so open tabs keep their state. Magnus doesn't rely on a sync to take in changes made to
+    the corpus checkout by hand: Local Actions > "Reload the collection from disk" and the live fast-forward tool do that.
+    When a profile closes, JAStudio forgets the Anki state and keeps the notes; when one opens, it reads that profile's.
+  - **During a sync JAStudio writes no study-notes**, since today's emptied collection no longer keeps a person from
+    editing then, and a full sync replaces Anki's collection: it writes those of the notes changed meanwhile once the
+    sync is over. How Anki handles a write during a sync isn't known yet.
+- **Decided, not built (Magnus, 2026-11-10), in this order:**
+  1. A creating command that opens a vocab that existed already, rather than create one, says so in a simple dialog
+     ("could be very confusing without information about what happened").
+  2. A note's tab shows a change to its study-note (`StudyNoteChanged`) at once, as it does an update of the note: today
+     it shows only when the tab opens again.
+  3. The re-read of the Anki state, above.
+  4. Changing Anki's tags in JAStudio, above.
+  5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`.
+  6. The orphaned study-note of the deleted jamdict ましょうか: deleted in Anki's browser, or by a live MCP tool that deletes
+     the study-notes whose note is gone.
 - **Priority is an Anki tag:** JAStudio reads it from `anki::-::priority::…` (`Tags.PriorityFolder`), to order a vocab's
   sentence list and color its source labels (`JPNote.PriorityTagValue`, `JPNote.GetMetaTags`), and it leaves the
   corpus. The one sentence with no Anki note loses its priority, medium.
