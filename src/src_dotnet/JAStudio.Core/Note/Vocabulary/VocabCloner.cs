@@ -89,8 +89,6 @@ public class VocabCloner
    public VocabNote Clone()
    {
       var source = VocabNoteConverter.ToDto(Note);
-      //review: the clone doesn't get the vocab's UsuallyWrittenInKana, so it starts undecided and generating its data may decide it anew.
-      //   It never did: the tag _uk it was until slice 4b isn't below Tags.Vocab.Root, so CopyVocabTagsTo didn't copy it. Should a clone copy it?
       var cloneData = new VocabDto
                       {
                          Id = Guid.NewGuid(),
@@ -104,6 +102,7 @@ public class VocabCloner
                          Readings = source.Readings,
                          PartsOfSpeech = source.PartsOfSpeech,
                          Register = source.Register,
+                         UsuallyWrittenInKana = source.UsuallyWrittenInKana,
                          Audio = source.Audio,
                          Forms = source.Forms,
                          SentenceCount = source.SentenceCount,
