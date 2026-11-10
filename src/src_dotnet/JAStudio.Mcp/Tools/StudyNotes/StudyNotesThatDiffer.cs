@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Anki.StudyNotes;
@@ -19,8 +20,11 @@ public record StudyNotesThatDiffer(
    StudyNotesThatDifferOfOneType Sentences,
    int StudyNotesOfNoNote)
 {
-   /// <summary>The report of <paramref name="comparison"/>, listing at most <paramref name="maxNotesListedPerType"/> notes of each type.</summary>
-   public static StudyNotesThatDiffer In(StudyNoteComparison comparison, int maxNotesListedPerType)
+   /// <summary>
+   /// The report of <paramref name="comparison"/>, listing at most <paramref name="maxNotesListedPerType"/> notes of each type, and none that<br/>
+   /// <paramref name="isLeftOutOfTheList"/>.
+   /// </summary>
+   public static StudyNotesThatDiffer In(StudyNoteComparison comparison, int maxNotesListedPerType, Func<NoteWhoseStudyNoteDiffers, bool> isLeftOutOfTheList)
    {
       var differing = comparison.NotesWhoseStudyNoteDiffers;
       return new StudyNotesThatDiffer(
@@ -31,9 +35,9 @@ public record StudyNotesThatDiffer(
                         .Select(it => new StudyNoteFieldDifferenceCount(it.Key, it.Count()))
                         .OrderByDescending(it => it.StudyNotes)
          ],
-         StudyNotesThatDifferOfOneType.Of(differing.Where(it => it.Note is VocabNote), maxNotesListedPerType),
-         StudyNotesThatDifferOfOneType.Of(differing.Where(it => it.Note is KanjiNote), maxNotesListedPerType),
-         StudyNotesThatDifferOfOneType.Of(differing.Where(it => it.Note is SentenceNote), maxNotesListedPerType),
+         StudyNotesThatDifferOfOneType.Of([.. differing.Where(it => it.Note is VocabNote)], maxNotesListedPerType, isLeftOutOfTheList),
+         StudyNotesThatDifferOfOneType.Of([.. differing.Where(it => it.Note is KanjiNote)], maxNotesListedPerType, isLeftOutOfTheList),
+         StudyNotesThatDifferOfOneType.Of([.. differing.Where(it => it.Note is SentenceNote)], maxNotesListedPerType, isLeftOutOfTheList),
          comparison.StudyNotesOfNoNote.Count);
    }
 }

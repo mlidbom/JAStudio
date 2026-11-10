@@ -304,7 +304,10 @@ the headless JAStudio.
   - `list_the_study_notes_that_differ` compares every study-note in Anki (`IAnkiStudyNotes`, read straight from Anki's
     database) with the one JAStudio would write now (`StudyNoteComparison`), as Anki keeps what's written into it: text in
     Unicode normalization form C. It counts the differences by field, and lists the notes, each with the fields that
-    differ.
+    differ. It also counts and marks the notes where only the markup of the audio differs: the same audio files in the
+    same order, with only the markup around them, or which audio field holds which file, different
+    (`NoteWhoseStudyNoteDiffers.OnlyTheMarkupOfItsAudioDiffers`), and leaves them out of the lists when asked. Added
+    2026-11-10 for slice 9, when moving the audio to lists made 475 study-notes differ so, and none otherwise.
   - `write_the_study_notes_that_differ` writes them, or the study-notes of the notes given, through the same Python code
     that writes a study-note on every update (`JPNoteDataShim.write_study_note`), then compares again. Only in the live
     JAStudio: the headless one compares, reading the collection file, but has no Anki to write in.

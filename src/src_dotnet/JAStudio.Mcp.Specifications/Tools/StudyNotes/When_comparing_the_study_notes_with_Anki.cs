@@ -4,6 +4,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Anki.StudyNotes;
+using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TestUtils;
 using JAStudio.Mcp.Tools.StudyNotes;
@@ -68,6 +69,54 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
          [XF] public void the_vocab_is_reported_written() => _written.Vocab.Notes.Single().Question.Must().Be("勉強");
          [XF] public void no_study_note_differs_afterwards() => _written.StudyNotesThatDifferAfterwards.Must().Be(0);
          [XF] public void the_question_in_Anki_is_the_one_JAStudio_writes() => TheVocabsStudyNote.Fields[AnkiFieldNames.Question].Must().Be("勉強");
+      }
+   }
+
+   /// <summary>The vocab given the recordings a.mp3 and b.mp3, which JAStudio writes into Audio_b and Audio_g, and which its study-note has in Anki as given.</summary>
+   public class with_two_recordings : When_comparing_the_study_notes_with_Anki
+   {
+      public with_two_recordings()
+      {
+         Vocab.Audio.Add(new AudioReference("a.mp3"));
+         Vocab.Audio.Add(new AudioReference("b.mp3"));
+      }
+
+      protected StudyNotesThatDiffer ListTheStudyNotesThatDifferWithTheAudioInAnki(string audioB, string audioG, bool leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers = false)
+      {
+         StudyNotesInAnki.Put(new StudyNoteInAnki(TheVocabsStudyNote.AnkiNoteId,
+                                                  new Dictionary<string, string>(Vocab.StudyNoteFields()) { [AnkiFieldNames.Vocab.AudioB] = audioB, [AnkiFieldNames.Vocab.AudioG] = audioG }));
+         return ResultOf<StudyNotesThatDiffer>(CallTool("list_the_study_notes_that_differ",
+                                                        new Dictionary<string, object?> { ["leaveOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers"] = leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers }));
+      }
+
+      /// <summary>Both in Audio_b in Anki, after a space and with a comma between them.</summary>
+      public class both_in_Audio_b_with_other_markup_in_Anki : with_two_recordings
+      {
+         readonly StudyNotesThatDiffer _found;
+
+         public both_in_Audio_b_with_other_markup_in_Anki() => _found = ListTheStudyNotesThatDifferWithTheAudioInAnki(" [sound:a.mp3], [sound:b.mp3]", "");
+
+         [XF] public void the_vocab_is_listed_as_differing_only_in_the_markup_of_its_audio() => _found.Vocab.Notes.Single().OnlyTheMarkupOfItsAudioDiffers.Must().BeTrue();
+         [XF] public void it_is_counted_as_differing_only_in_the_markup_of_its_audio() => (_found.Vocab.Count, _found.Vocab.OnlyInTheMarkupOfTheirAudio).Must().Be((1, 1));
+
+         public class then_leaving_those_out_of_the_list : both_in_Audio_b_with_other_markup_in_Anki
+         {
+            readonly StudyNotesThatDiffer _foundLeavingThemOut;
+
+            public then_leaving_those_out_of_the_list() => _foundLeavingThemOut = ListTheStudyNotesThatDifferWithTheAudioInAnki(" [sound:a.mp3], [sound:b.mp3]", "", leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers: true);
+
+            [XF] public void the_vocab_is_counted_but_not_listed() => (_foundLeavingThemOut.Vocab.Count, _foundLeavingThemOut.Vocab.Notes.Count).Must().Be((1, 0));
+         }
+      }
+
+      /// <summary>In the other order in Anki: b.mp3 in Audio_b, a.mp3 in Audio_g.</summary>
+      public class in_the_other_order_in_Anki : with_two_recordings
+      {
+         readonly StudyNotesThatDiffer _found;
+
+         public in_the_other_order_in_Anki() => _found = ListTheStudyNotesThatDifferWithTheAudioInAnki("[sound:b.mp3]", "[sound:a.mp3]");
+
+         [XF] public void the_vocab_is_listed_as_differing_in_more_than_the_markup_of_its_audio() => _found.Vocab.Notes.Single().OnlyTheMarkupOfItsAudioDiffers.Must().BeFalse();
       }
    }
 

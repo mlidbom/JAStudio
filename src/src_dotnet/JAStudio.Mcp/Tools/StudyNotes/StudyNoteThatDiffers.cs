@@ -4,8 +4,11 @@ using JAStudio.Mcp.Tools.Notes;
 
 namespace JAStudio.Mcp.Tools.StudyNotes;
 
-/// <summary>A note whose study-note in Anki differs from what JAStudio would write for it now, with the fields that differ.</summary>
-public record StudyNoteThatDiffers(NoteSummary Note, IReadOnlyList<StudyNoteFieldDifference> Fields)
+/// <summary>
+/// A note whose study-note in Anki differs from what JAStudio would write for it now, with the fields that differ, and whether only the markup of its<br/>
+/// audio differs (<see cref="NoteWhoseStudyNoteDiffers.OnlyTheMarkupOfItsAudioDiffers"/>).
+/// </summary>
+public record StudyNoteThatDiffers(NoteSummary Note, bool OnlyTheMarkupOfItsAudioDiffers, IReadOnlyList<StudyNoteFieldDifference> Fields)
 {
-   public static StudyNoteThatDiffers Of(NoteWhoseStudyNoteDiffers note) => new(NoteSummary.Of(note.Note), note.Fields);
+   public static StudyNoteThatDiffers Of(NoteWhoseStudyNoteDiffers note) => new(NoteSummary.Of(note.Note), note.OnlyTheMarkupOfItsAudioDiffers, note.Fields);
 }

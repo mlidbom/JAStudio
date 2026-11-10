@@ -40,11 +40,15 @@ public class StudyNoteTools
                 stores it, in Unicode normalization form C. In the headless JAStudio, Anki's latest changes may still be in its database's
                 write-ahead log, which it doesn't read. Reports how many study-notes were compared, in how many each field differs, the notes
                 whose study-note differs, by type, each with the fields that differ, and how many study-notes in Anki belong to no note of the
-                collection.
+                collection. Of the notes whose study-note differs it also counts, and marks, those where only the markup of the audio differs:
+                the fields that differ are audio fields, holding the same audio files in the same order in Anki as JAStudio would write, so only
+                the markup around the files, such as a space or an &nbsp;, or which of the fields holds which file, differs.
                 """)]
    public StudyNotesThatDiffer ListTheStudyNotesThatDiffer(
-      [Description("The most notes of each type to list. Every note whose study-note differs is counted either way.")] int maxNotesListedPerType = NotesListedPerTypeByDefault) =>
-      StudyNotesThatDiffer.In(Comparison(), maxNotesListedPerType);
+      [Description("The most notes of each type to list. Every note whose study-note differs is counted either way.")] int maxNotesListedPerType = NotesListedPerTypeByDefault,
+      [Description("Whether to leave out of the lists the notes where only the markup of the audio differs, to list only those that differ in more. They're counted either way.")]
+      bool leaveOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers = false) =>
+      StudyNotesThatDiffer.In(Comparison(), maxNotesListedPerType, it => leaveOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers && it.OnlyTheMarkupOfItsAudioDiffers);
 
    [McpServerTool(Name = "write_the_study_notes_that_differ", Destructive = false, Idempotent = true)]
    [Description("""
