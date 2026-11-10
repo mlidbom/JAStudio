@@ -745,16 +745,21 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     notes stay the same objects, so open tabs keep their state. Magnus doesn't rely on a sync to take in changes made to
     the corpus checkout by hand: Local Actions > "Reload the collection from disk" and the live fast-forward tool do that.
     When a profile closes, JAStudio forgets the Anki state and keeps the notes; when one opens, it reads that profile's.
+    *Done 2026-11-10: `JAStudioAnkiAppRoot.CatchUpWithAnki` re-reads the study-notes after a sync and as a profile opens,
+    and loads the collection only the first time. A profile closing forgets nothing after all: the re-read as the next
+    one opens replaces what JAStudio held of the study-notes anyway.*
   - **During a sync JAStudio writes no study-notes**, since today's emptied collection no longer keeps a person from
     editing then, and a full sync replaces Anki's collection: it writes those of the notes changed meanwhile once the
-    sync is over. How Anki handles a write during a sync isn't known yet.
+    sync is over. How Anki handles a write during a sync isn't known yet. *Done 2026-11-10: `StudyNoteWrites` holds them
+    from a sync's start, or a profile's closing, until the catch-up, and makes each held note's write once. Creating a
+    study-note and suspending or unsuspending cards from JAStudio aren't held: they were possible during a sync before too.*
 - **Decided, not built (Magnus, 2026-11-10), in this order:**
   1. A creating command that opens a vocab that existed already, rather than create one, says so in a simple dialog
      ("could be very confusing without information about what happened"). *Done 2026-11-10: the creating methods give back a
      `CreatedOrExistingVocab`, and `WorkspaceWindow.OpenTheVocab` shows a `MessageDialog` when it existed already.*
   2. A note's tab shows a change to its study-note (`StudyNoteChanged`) at once, as it does an update of the note: today
      it shows only when the tab opens again. *Done 2026-11-10: `NoteTabViewModel` follows `StudyNoteChanged`.*
-  3. The re-read of the Anki state, above. *Done 2026-11-10 after Anki operations; a sync and a profile switch are next.*
+  3. The re-read of the Anki state, above. *Done 2026-11-10.*
   4. Changing Anki's tags in JAStudio, above.
   5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`.
   6. The orphaned study-note of the deleted jamdict ましょうか: deleted in Anki's browser, or by a live MCP tool that deletes

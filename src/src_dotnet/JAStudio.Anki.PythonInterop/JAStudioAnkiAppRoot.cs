@@ -35,8 +35,10 @@ public class JAStudioAnkiAppRoot
    readonly CardServer _cardServer;
    readonly LiveJAStudioMcpServer _liveMcpServer;
    readonly BackgroundRefresh _readingTheStudyNotesFromAnkiAgain;
-   CancellationTokenSource? _reloadCts;
-   static readonly TimeSpan ReloadDebounceDelay = TimeSpan.FromMilliseconds(500);
+   CancellationTokenSource? _pendingCatchUpWithAnki;
+
+   /// <summary>How long a profile that opened waits before catching up with Anki, since Anki often syncs as a profile opens, which catches up anyway.</summary>
+   static readonly TimeSpan CatchUpDelayAfterAProfileOpened = TimeSpan.FromMilliseconds(500);
 
    // Stored to keep the UI thread rooted (prevent GC). Not accessed directly.
 #pragma warning disable CS0414
@@ -55,6 +57,10 @@ public class JAStudioAnkiAppRoot
 
    /// <summary>The keyboard shortcuts for a note being viewed, which Python binds in Anki's reviewer and previewer.</summary>
    public NoteViewShortcuts NoteViewShortcuts { get; }
+
+   /// <summary>The writes of the notes' study-notes into Anki, which Python makes, held during a sync and while no Anki profile is open.</summary>
+   // ReSharper disable once MemberCanBePrivate.Global used from python
+   public StudyNoteWrites StudyNoteWrites { get; } = new();
 
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    // ReSharper disable once UnusedMember.Global used from python
@@ -146,26 +152,26 @@ public class JAStudioAnkiAppRoot
       {
          case AnkiLifecycleEvent.ProfileOpened:
             _profileOpen = true;
-            ScheduleDebouncedReload();
+            ScheduleTheCatchUpWithAnki();
             break;
 
          case AnkiLifecycleEvent.SyncCompleted:
             if(_profileOpen)
             {
-               CancelPendingReload();
-               _coreApp.Services.BackgroundTaskManager.Run(() => _coreApp.Collection.ReloadFromBackend());
+               CancelThePendingCatchUpWithAnki();
+               _coreApp.Services.BackgroundTaskManager.Run(CatchUpWithAnki);
             }
 
             break;
 
          case AnkiLifecycleEvent.ProfileClosing:
             _profileOpen = false;
-            CancelPendingReload();
-            _coreApp.Collection.ClearCaches();
+            CancelThePendingCatchUpWithAnki();
+            StudyNoteWrites.Hold();
             break;
          case AnkiLifecycleEvent.SyncStarting:
-            CancelPendingReload();
-            _coreApp.Collection.ClearCaches();
+            CancelThePendingCatchUpWithAnki();
+            StudyNoteWrites.Hold();
             break;
 
          default:
@@ -206,27 +212,42 @@ public class JAStudioAnkiAppRoot
       Dispatcher.UIThread.InvokeShutdown();
    });
 
-   void ScheduleDebouncedReload()
+   /// <summary>
+   /// Once Anki's collection can take writes again, after a sync or as a profile opens: loads the collection, the first time, or else reads the study-notes<br/>
+   /// from Anki again, then makes the study-note writes held meanwhile. A sync or another profile doesn't change the corpus, so it isn't loaded again:<br/>
+   /// what may have changed in Anki is only the study-notes.
+   /// </summary>
+   void CatchUpWithAnki()
    {
-      CancelPendingReload();
-      var cts = new CancellationTokenSource();
-      _reloadCts = cts;
+      if(_coreApp.Collection.IsInitialized)
+         _coreApp.Collection.ReadTheStudyNotesFromAnkiAgain();
+      else
+         _coreApp.Collection.ReloadFromBackend();
+      StudyNoteWrites.MakeThem();
+   }
+
+   /// <summary>Catches up with Anki in the background after <see cref="CatchUpDelayAfterAProfileOpened"/>, unless a sync starts first.</summary>
+   void ScheduleTheCatchUpWithAnki()
+   {
+      CancelThePendingCatchUpWithAnki();
+      var cancellation = new CancellationTokenSource();
+      _pendingCatchUpWithAnki = cancellation;
 
       _coreApp.Services.BackgroundTaskManager.RunAsync(async () =>
       {
-         await Task.Delay(ReloadDebounceDelay, cts.Token);
-         this.Log().Info("Debounce elapsed reloading from backend");
-         _coreApp.Collection.ReloadFromBackend();
+         await Task.Delay(CatchUpDelayAfterAProfileOpened, cancellation.Token);
+         this.Log().Info("The profile opened: catching up with Anki");
+         CatchUpWithAnki();
       });
    }
 
-   void CancelPendingReload()
+   void CancelThePendingCatchUpWithAnki()
    {
-      if(_reloadCts != null)
+      if(_pendingCatchUpWithAnki != null)
       {
-         _reloadCts.Cancel();
-         _reloadCts.Dispose();
-         _reloadCts = null;
+         _pendingCatchUpWithAnki.Cancel();
+         _pendingCatchUpWithAnki.Dispose();
+         _pendingCatchUpWithAnki = null;
       }
    }
 }

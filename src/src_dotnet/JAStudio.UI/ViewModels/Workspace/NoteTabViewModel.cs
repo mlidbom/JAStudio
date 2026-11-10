@@ -105,7 +105,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
 
    /// <summary>
    /// Raised when the page no longer shows the current state, so it must be reloaded:<br/>
-   /// the note on it was updated, its study-note in Anki changed, such as its tags, the collection was reloaded after an Anki sync,<br/>
+   /// the note on it was updated, its study-note in Anki changed, such as its tags, the collection was loaded again,<br/>
    /// or a setting changed, such as how sentence breakdowns are shown.<br/>
    /// It's raised on the thread that made the change, or, for a tab that was hidden, when the tab is shown.
    /// </summary>

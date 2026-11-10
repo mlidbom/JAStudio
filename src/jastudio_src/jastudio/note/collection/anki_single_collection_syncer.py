@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 
 from anki.notes import NoteId
 from autoslot import Slots
-from JAStudio.Anki.PythonInterop import NoteUpdatePythonAdapter
 from JAStudio.Core.Note import JPNote
 from jastudio.note.jpnotedata_shim import JPNoteDataShim
 
@@ -19,7 +18,8 @@ class AnkiSingleCollectionSyncer[TNote: JPNote](Slots):
         self._note_type: type[TNote] = cached_note_type
         self._anki_sync_handler: IExternalNoteUpdateHandler = anki_sync_handler
 
-        NoteUpdatePythonAdapter.Register(self._anki_sync_handler, self._update_anki_note)
+        from jastudio.ui import dotnet_ui_root
+        dotnet_ui_root().StudyNoteWrites.Register(self._anki_sync_handler, self._update_anki_note)
 
         cache_runner.connect_will_remove(self._on_will_be_removed)
 

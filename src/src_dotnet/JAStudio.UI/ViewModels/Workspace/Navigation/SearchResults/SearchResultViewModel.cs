@@ -38,7 +38,7 @@ abstract class SearchResultViewModel(JPNote note) : ObservableObject
 
    /// <summary>
    /// Makes the row show <paramref name="note"/> as it is now: the row's own note after it changed,<br/>
-   /// or the object that replaced it when the collection was reloaded after an Anki sync, which has the same id.
+   /// or the object that replaced it when the collection was loaded again, which has the same id.
    /// </summary>
    public void ShowTheCurrentDataOf(JPNote note)
    {

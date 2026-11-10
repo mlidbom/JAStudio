@@ -22,9 +22,10 @@
 ## Today
 
 - **The studying status is student-data held in memory, not stored in the corpus.**
-  - At load and after every Anki sync, `CardStudyingStatusLoader` reads every card from Anki's database: its
+  - At load, and whenever JAStudio reads the study-notes from Anki again (`JPCollection.ReadTheStudyNotesFromAnkiAgain`),
+    such as after a sync, `CardStudyingStatusLoader` reads every card from Anki's database: its
     Anki note id, its card type, whether it's suspended, and its note type (`CardStudyingStatus`).
-  - Each note keeps that in memory (`JPNote.SetStudyingStatus`).
+  - Each note keeps that in memory (`JPNote.ReadItsStudyNoteFrom`, and `JPNote.SetStudyingStatus` for a single card).
 - **"Studying" means having a card that isn't suspended.** `JPNote.IsStudying(cardType)` answers it for one card
   type or for any card. `IsStudyingRead` and `IsStudyingListening` are shorthands.
 - **`ICardOperations`** is Core's interface to the studying-add-on, implemented by `AnkiCardOperationsImpl`. It
