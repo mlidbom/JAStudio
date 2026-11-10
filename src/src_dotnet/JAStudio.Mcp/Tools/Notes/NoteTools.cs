@@ -15,7 +15,7 @@ namespace JAStudio.Mcp.Tools.Notes;
 public class NoteTools
 {
    /// <summary>How many notes <see cref="SearchNotes"/> lists unless told otherwise, so that a search matching most of the corpus doesn't flood Claude's context.</summary>
-   const int NotesListedByDefault = 50;
+   public const int NotesListedByDefault = 50;
 
    readonly JPCollection _collection;
    readonly NoteSerializer _noteSerializer;
