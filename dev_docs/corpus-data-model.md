@@ -740,12 +740,13 @@ from audio we made: TTS, or his own recordings. Those are facts about each file,
 two slots held 1,099 TTS files, and 4 vocab had WaniKani's male and female files swapped (fixed, 0ef0216698). Known per
 file: whether it's TTS and its voice (proven by name), the voice's gender (WaniKani's `_b`/`_male` and `_g`/`_female` names,
 and TTS voices), an image's alt text. Unknown: the gender of Core 2000's, Yomitan's, Forvo's and the anime decks' audio.
-The 58 references to `rec<number>.mp3` are most likely Magnus's own recordings with Anki's recorder (Magnus: 90% sure).
+The 58 references to `rec<number>.mp3` are recordings made with Anki's recorder, not Magnus's voice (Magnus): 33 are on
+lyrics sentences, most likely recordings of the song.
 
-**Where the facts live, recommended (Claude), not yet agreed: on the notes' references, rather than with the files in the
-media layer** (Claude's first proposal), because of why the sidecars were dropped (Magnus): a note's JSON holding
-everything about it keeps diffs readable. 1,009 files are used by more than one note, so a fact is repeated on each, but each was shared on purpose and
-its facts are the same everywhere:
+**Where the facts live (agreed with Magnus, 2026-11-10): on the notes' references,** rather than with the files in the
+media layer (Claude's first proposal), because of why the sidecars were dropped (Magnus): a note's JSON holding
+everything about it keeps diffs readable. 1,009 files are used by more than one note, so a fact is repeated on each, but
+each was shared on purpose and its facts are the same everywhere:
 - 522 between a sentence and a vocab, nearly all Core 2000's: each word came with an example sentence, and both got the
   same image (about 455), some the same audio (about 70);
 - 377 between vocab with different questions: one word as several vocab, such as 故 and ゆえ, 何処 and どこ, 片づけ and
@@ -756,32 +757,52 @@ its facts are the same everywhere:
 
 A corpus-validity check can catch the same file with different facts on different notes.
 
-### Proposed shape (not agreed yet)
+**Where a file came from isn't in its path either:** the media import rules picked a file's folder by the source tag of
+the note it came in on, so `commercial-01/vocab/wani/user-image` holds 377 images Magnus found on the web for WaniKani
+vocab. Magnus doesn't want whether a file is ours known only from its path.
 
-*Superseded on 2026-11-10 by facts on each reference: see above, and the report to Magnus that day.*
+### The shape (agreed with Magnus, 2026-11-10)
+
+**Media the note's source gave it is the note's source data; media added since is the corpus's own,** as slice 3 split
+the texts. Only an import writes source data. JAStudio's TTS writes only the corpus's own.
 
 ```json
-"audio": [
-  { "fileName": "文句_b.mp3", "isTextToSpeech": false },
-  { "fileName": "hypertts-eb7a….mp3", "isTextToSpeech": true }
-],
-"images": [
-  { "fileName": "kv_right_img.jpg", "altText": "変化するオフィス出社率、今後オフィスはどうあるべき？…" }
-]
+"sourceData": {
+  "answer": "complaint/grumbling/objection | phrase/words/expression",
+  "audio": [ { "fileName": "文句_b.mp3", "voiceGender": "male" },
+             { "fileName": "文句_g.mp3", "voiceGender": "female" } ]
+},
+"audio":  [ { "fileName": "hypertts-….mp3", "isTextToSpeech": true, "textToSpeechVoice": "Azure ja-JP-NanamiNeural", "voiceGender": "female" } ],
+"images": [ { "fileName": "kv_right_img.jpg", "altText": "変化するオフィス出社率…" } ]
 ```
 
-- **Vocab:** `audio` from `audioB`, `audioG` and `audioTTS`, recordings first in that order, then TTS, each file once.
-  `images` from `userImage`, then `image`.
-- **Sentences:** `audio`, and `screenshots` as a list of images. **Kanji:** `images`.
-- **`isTextToSpeech` is true only when proven,** by the rules above. It replaces the `_tts_audio` tag, which goes, from
-  `Tags` too. The vocab's sentence list marks a sentence whose audio is TTS from its audio.
-- **A note's preferred audio** is its first recording, else its first TTS audio: a change only for the 11 vocab above.
-- **The Anki-projection** writes a vocab's first recording into `Audio_b`, its other recordings into `Audio_g`, and its TTS
-  audio into `Audio_TTS`, so the card templates, which play the recordings, else the TTS, behave as before. A sentence's
-  audio goes into `Audio Sentence`.
-- **JAStudio's TTS** replaces the note's TTS audio.
-- Dropped: the heights, the separators, 愛しい's `u`.
-- **The editors** show the list, and can remove from it. Adding media by hand is a feature of its own, later.
+- **Where each file came from is where it sits:** in source data, from the note's source; in the corpus's own with
+  `isTextToSpeech`, ours; in the corpus's own without, brought in from elsewhere, such as Yomitan audio added to a WaniKani
+  vocab, a Forvo recording, a web image, or WaniKani audio on a vocab derived from a WaniKani one. Naming where a brought-in
+  file came from (Yomitan, Forvo, a web page) is left out for now: the file names prove most of it, so it can be added
+  later from the same data.
+- **The lists:** vocab `audio` and `images`, sentences `audio` and `screenshots`, kanji `images`; each in source data and
+  in the corpus's own. Kanji have no source media: all their images are pasted or from the web.
+- **The facts:** `isTextToSpeech` only when proven, by the rules above (for a sentence, a TTS file name proves it, so its
+  voice may stay unknown); the TTS voice when proven; the voice's gender when known (WaniKani's file names, TTS voices);
+  an image's alt text. A fact not known is left out of the JSON rather than written as null. `isTextToSpeech` replaces the
+  `_tts_audio` tag, which goes, from `Tags` too; the vocab's sentence list marks a sentence with TTS audio from its audio.
+- **How the migration decides source data:** a file is the source's when it's the kind of file the note's source gives:
+  WaniKani's files on a vocab tagged `source::wani`, Core 2000's on Core 2000 notes, Yomitan's on vocab created through
+  Yomitan, a deck's audio and frames on its sentences, the `rec` recordings on the lyrics sentences (Magnus). Everything
+  else is the corpus's own. The cases no rule fits are listed for Magnus rather than guessed.
+- **A note's preferred audio** is a recording before TTS, and among recordings the source's first. The Anki-projection
+  writes a vocab's first recording into `Audio_b`, its other recordings into `Audio_g` and its TTS audio into `Audio_TTS`,
+  so the card templates, which play the recordings, else the TTS, behave as before; a sentence's preferred audio goes into
+  `Audio Sentence`.
+- **JAStudio's TTS** replaces the note's own TTS audio.
+- **The editors** show both lists and can remove from either, a correction; adding media by hand is a feature of its own,
+  later.
+- Dropped: the heights, the separators.
+- **Checking the migration:** `diff_the_changed_notes` can't compare across a change to how notes are stored, so the
+  migration reports what it put where, by kind of file and note source, with the cases no rule fits; the study-note fields
+  JAStudio would write are compared with today's, which may differ only where intended; and a full rebuild after the
+  migration must change nothing.
 
 ### Before the survey
 
