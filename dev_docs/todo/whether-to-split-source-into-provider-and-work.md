@@ -39,7 +39,7 @@ Immersion Kit's only inside its external id, such as `anime_shirokuma_cafe_00001
 | `source::anime::girls-last-tour` | | | 2,758 | the same, and `songs::op`, `songs::ed`, `songs::final-ending` |
 | `source::jamdict` | 12,775 | | | vocab JAStudio created from the dictionary, JMdict (`VocabNoteFactory.CreateWithDictionary`) |
 | `source::wani::level::NN` | 6,629 | 2,076 | | WaniKani, by level |
-| `source::wani` and `source::wani::current` | | | 14,567 | WaniKani's context sentences |
+| `source::wani::current` | | | 14,567 | WaniKani's context sentences (until 2026-11-10 with `source::wani` beside it) |
 | `source::wani::removed` | | | 30 | sentences no longer on WaniKani: likely WaniKani found something wrong with them |
 | `source::yomitan` | 5,567 | 396 | | mined by Magnus with Yomitan |
 | `source::core2000::stepNN` | 584 | | 1,996 | the Core 2000 deck, by step |

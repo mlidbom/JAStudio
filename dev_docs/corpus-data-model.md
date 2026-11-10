@@ -644,7 +644,10 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     on 2026-11-08.
   - The source tags are a tree written out as separate tags. 17,304 sentences carry several levels of one branch,
     such as both `source::wani` and `source::wani::current`, and 680 carry two unrelated sources, such as JLab
-    booster plus inter.
+    booster plus inter. *2026-11-10 (Magnus): a parent tag beside a tag below it is gone, removed by hand: `source::wani`
+    from 14,597 sentences and 72 vocab, `source::anime::girls-last-tour` from 2,706 sentences and `…::songs` from one,
+    and `-::grammar-term` and two `-::TODO` tags from 8 vocab. Where a note had the parent, its source now shows the tag
+    below it, such as `source::wani::current`: `JPNote.SourceTag` is the note's shortest source tag.*
   - **Open (question 9):** does the code keep reading it from the tag, or does it become a typed field? Moving
     source information out of the core corpus entirely (`media-storage-and-import.md`, "Source-Revealing Tags")
     remains a separate, deferred decision.
@@ -1193,8 +1196,8 @@ Progress on step 3:
       *The survey and the discussion are in `todo/whether-to-split-source-into-provider-and-work.md`.* **How to resume it (Magnus, 2026-11-09):** first find out what the data looks like. Then recommend, from that data:
       list what Claude considers the works and what the providers, say where each is stored now, and where it would be
       stored after the change, with how each specific kind of data the corpus has would end up represented.
-   5. Priority out of the corpus, as student-data (see [Tags](#tags)). *Deferred (Magnus, 2026-11-10): see
-      [Tags](#tags), Priority.*
+   5. Priority out of the corpus, as student-data (see [Tags](#tags)). *Done 2026-11-10: priority is an Anki tag, read
+      below `anki::`, and it left the corpus (see [Tags](#tags)).*
    6. Persisted-derived-data and study state out: `sentenceCount`, generated tags, orphaned tags. *Done 2026-11-08: see
       [Persisted-derived-data](#persisted-derived-data). `sentenceCount` and the tags derived from corpus data stay, as
       derived data kept on purpose; the study-state and orphaned tags are gone.* `_tts_audio` moved to slice 9: see
