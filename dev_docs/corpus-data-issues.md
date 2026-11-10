@@ -20,3 +20,10 @@
   - antonyms: sentences in 下って (9 of them), 降って, ほんの and ちょっと:int.
   - confused with: sentences in いつの間に, 何時の間に, なるべく, 前向き, 動物 (2), 北西, 印象, 取材, 客室, 自然と and 自然に.
   - derived from: sentences in 指導 and 潜在意識.
+
+## Found cleaning up the kanji's lists (2026-11-10)
+
+- **Words where a kanji should be, each holding the kanji itself:** the similar meaning `奇跡` of 跡, `露顕` of 露 and `各〜` of 各,
+  and the confused-with `蒸気` of 蒸 and `尋問` of 尋. Each is one of the kanji's vocab, so most likely meant as one of its primary
+  vocab, the vocab its card shows first: moved there, or removed. The cleanup split only the values that ran several other kanji
+  together, such as 佐's confused-with `祐怖` (`dev_scripts/corpus_migrations/clean_up_the_kanji_lists.py`).
