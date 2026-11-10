@@ -397,18 +397,23 @@ instead is gone.
 ### Editors
 
 The editors are in the workspace (`VocabTextEditorViewModel`, `KanjiEditorSectionViewModel`,
-`SentenceEditorSectionViewModel`). They still mostly copy Anki's note editor: one text box per stored string.
+`SentenceEditorSectionViewModel`). ~~They still mostly copy Anki's note editor: one text box per stored string.~~
+*As of 2026-11-10, a text is still one text box, but what the model holds as a list is mostly edited one item at a time.*
 
 - *(Until 2026-11-08 the brackets and `question:disambiguation` were typed by hand. Each form now has an "owned" check
   box, compound parts have a box each for the primary and the alternative ones, and the question and its
   disambiguation have a box each.)*
-- A vocab's forms and parts of speech are lists, with entries added and removed one at a time. Its readings and
-  compound parts are still comma separated text. *The kanji's radicals and related kanji are chips since 2026-11-10 (slice 10), and
-  its primary vocab are typed as names, as compound parts are.*
-- Parts of speech are free text, and audio is raw `[sound:…]`.
-- Related vocab can't be edited: its raw JSON text box went with the vocab editor dialog, and a proper editor is
-  still to come.
-- Kanji readings are edited as HTML.
+- A vocab's forms are a list, with entries added and removed one at a time. Its readings and compound parts are still
+  comma separated text. *The kanji's radicals and related kanji are chips since 2026-11-10 (slice 10), and its primary
+  vocab are typed as names, as compound parts are.*
+- ~~Parts of speech are free text, and audio is raw `[sound:…]`.~~ *As of 2026-11-10, parts of speech are chips, with a box
+  offering only those JAStudio knows (`PartsOfSpeechEditorViewModel`), and audio is a list of files, each with a button
+  playing it (`AudioListEditorViewModel`).*
+- ~~Related vocab can't be edited: its raw JSON text box went with the vocab editor dialog, and a proper editor is
+  still to come.~~ *Since 2026-11-09 (slice 8c), the vocab editor's "Related" tab has chips with a box offering the
+  corpus's vocab (`VocabRelatedEditorViewModel`).*
+- ~~Kanji readings are edited as HTML.~~ *As of 2026-11-10, a kanji's on, kun and nanori readings are chips, each primary or
+  secondary (`KanjiReadingListEditorViewModel`).*
 - The source fields are editable and get saved back.
 
 ## Target model principles (tentative)
@@ -1305,10 +1310,11 @@ most of what folders, tags and decks do in other programs. The source tree is th
 
 ## Order of work (tentative)
 
-> **Paused (Magnus, 2026-11-09) until JAStudio has its MCP server:** see [jastudio-mcp.md](jastudio-mcp.md). The
-> remaining slices (4c, 5, 8 and 9) are mostly migrate, rebuild, analyze and rebuild again, which the MCP server lets
-> Claude do without a round trip through Magnus. Slices 1 to 4b, 6 and 7 are done, and 8 since 2026-11-09, with the MCP
-> server.
+> **Where it stands (2026-11-10):** the slices of step 5 are done, but for 4c, source, which Magnus deferred, undecided
+> whether to do it at all. Steps 1 and 2 are deferred too. What's left of the model waits for the matching configuration's
+> redesign, as a tree like the note search's: the sentences' configuration naming a vocab `text:disambiguation`, the
+> `<wbr>` hints, and the parsing result named as a cache (see [Sentence](#sentence)). *(From 2026-11-09 the work was paused
+> until JAStudio had its MCP server ([jastudio-mcp.md](jastudio-mcp.md)), and slices 5, 8, 9 and 10 were done with it.)*
 
 The order follows the overall approach in [Settled so far](#settled-so-far-magnus-2026-11-05): build
 JAStudio's own UI until Anki's role is minimal, and only then change the model.
