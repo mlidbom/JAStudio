@@ -976,6 +976,9 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
    snapshots' layout changed (`CorpusNoteDto`); Anki started on the new build; the comparison
    lists the study-notes to update (about 1,100 vocab whose TTS leaves `Audio_b`, and formatting), Magnus looks, and
    they're written.
+   **Done 2026-11-10:** the checkout fast-forwarded to the step's corpus commit (`da477e78d50`); Anki loaded every note in
+   the new format and changed none; the comparison listed the same 1,356 vocab and 5 sentences as in the headless JAStudio,
+   and after they were written, none of the 79,719 study-notes differ.
 
 ### Whether a file is ours (Magnus, 2026-11-10)
 
@@ -1082,7 +1085,8 @@ WaniKani's audio is there (Magnus, 2026-11-08). Not urgent: the commercial repos
 **The direction (thoughts, not decided):** state whether audio is TTS where the audio is referenced, rather than in a tag:
 probably the audio fields become a list of objects with metadata, starting with whether the audio is TTS, replacing the
 fixed `audioB`, `audioG` and `audioTTS`. A dedicated TTS field was the alternative. Decided in slice 9; until then
-`_tts_audio` stays as it is.
+`_tts_audio` stays as it is. *Done 2026-11-10 (slice 9's step 3): a note's audio is a list of references, each saying
+whether the file is TTS and, when known, its voice; `_tts_audio` is gone.*
 
 ## Import and organization (needs its own design)
 
