@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-7b995aff33715fa0638ffc6cb9baae918db9e7b9998e6ed88974fd44.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-7b995aff33715fa0638ffc6cb9baae918db9e7b9998e6ed88974fd44.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "にゆく",
@@ -52,8 +58,7 @@
   "sentenceCount": 611,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -79,7 +84,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "437b78a2-44ee-40a7-b677-0ddc46544b31",
   "tags": []

@@ -20,15 +20,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-96ac429674645b75a515414030b0c5f8438e9280ed37c9eae40f28d7.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-96ac429674645b75a515414030b0c5f8438e9280ed37c9eae40f28d7.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden"
@@ -54,7 +59,9 @@
   "sourceData": {
     "answer": "sea-urchin | seasoned-sea-urchin-eggs",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0ce0095b-538a-485c-becc-168ddc5b1177",
   "tags": [

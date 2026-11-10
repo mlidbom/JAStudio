@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_という_と言う_2023-08-28-13-02-35.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "と言う",
@@ -44,8 +42,7 @@
   "sentenceCount": 854,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -76,7 +73,13 @@
   "sourceData": {
     "answer": "called/named/that-says/that | as-many-as/as-much-as | all-.../every-single-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_という_と言う_2023-08-28-13-02-35.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "b7d43154-7f1a-4996-be3d-41a7157a734a",
   "tags": [

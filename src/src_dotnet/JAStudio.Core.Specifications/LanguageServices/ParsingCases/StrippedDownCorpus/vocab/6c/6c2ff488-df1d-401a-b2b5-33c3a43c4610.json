@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ので_ので_2023-07-22-22-19-54.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "んで",
@@ -40,8 +38,7 @@
   "sentenceCount": 489,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required",
@@ -73,7 +70,13 @@
   "sourceData": {
     "answer": "that-being-the-case/because-of-.../the-reason-is-.../given-that-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ので_ので_2023-07-22-22-19-54.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "6c2ff488-df1d-401a-b2b5-33c3a43c4610",
   "tags": [

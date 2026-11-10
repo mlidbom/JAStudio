@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-0db407fc6330d4e4b236e80a988b09417cef9c0548729005a798318f.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-0db407fc6330d4e4b236e80a988b09417cef9c0548729005a798318f.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "いただけない",
@@ -40,8 +46,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "teFormStemHead": "forbidden"
@@ -72,7 +77,9 @@
   "sourceData": {
     "answer": "unacceptable/unsatisfactory",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0fe3cfee-f693-4a25-8712-a2675bd4e8b6",
   "tags": [

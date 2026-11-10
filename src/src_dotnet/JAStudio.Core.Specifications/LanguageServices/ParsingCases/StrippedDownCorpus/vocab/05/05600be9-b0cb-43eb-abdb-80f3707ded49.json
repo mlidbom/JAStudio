@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:幼い_b.mp3]",
-  "audioG": "[sound:幼い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "稚い",
@@ -39,8 +37,7 @@
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,18 @@
   "sourceData": {
     "answer": "very-young/little | childish/immature",
     "mnemonic": "The kanji means <kanji>infancy</kanji>. The adjective version refers more to your entire child-times, including baby times. But, if you're described as being like a child from child times, what are you called? <vocabulary>Childish</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you:\n\nWhen you were <vocabulary>childish</vocabulary> and <vocabulary>immature</vocabulary> you were sent off to do prayers to ask for forgiveness. One of the things you had to do was sing \"<reading>hosanna</reading> (<ja>おさな</ja>) in the highest.\""
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you:\n\nWhen you were <vocabulary>childish</vocabulary> and <vocabulary>immature</vocabulary> you were sent off to do prayers to ask for forgiveness. One of the things you had to do was sing \"<reading>hosanna</reading> (<ja>おさな</ja>) in the highest.\"",
+    "audio": [
+      {
+        "fileName": "幼い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "幼い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "05600be9-b0cb-43eb-abdb-80f3707ded49",
   "tags": [

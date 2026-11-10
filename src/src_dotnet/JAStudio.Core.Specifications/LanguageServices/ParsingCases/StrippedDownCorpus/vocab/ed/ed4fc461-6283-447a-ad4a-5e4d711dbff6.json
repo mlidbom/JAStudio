@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-03-09-04-36-56-683.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "気づかう",
@@ -40,8 +38,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +67,13 @@
   "sourceData": {
     "answer": "to{} worry-about-(someone's-welfare-or-comfort)/feel-anxious-about/have-apprehensions-of",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-09-04-36-56-683.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ed4fc461-6283-447a-ad4a-5e4d711dbff6",
   "tags": [

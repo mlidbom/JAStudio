@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-a5a66218a63f13f412b7445a547fdd9373c04d6c4f3ff249029878ea.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-a5a66218a63f13f412b7445a547fdd9373c04d6c4f3ff249029878ea.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +56,9 @@
   "sourceData": {
     "answer": "intolerable/unbearable/unendurable | irresistible/tremendous/out-of-this-world | cannot-help-(doing)/cannot-but-do/anxious-to-do",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7acbdaaa-a455-4499-8fe0-dbc3fa070b46",
   "tags": [

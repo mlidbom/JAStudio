@@ -23,15 +23,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-8be6944ea93d2729b8838085907c30a54d12d9d121af7ed44398337f.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-8be6944ea93d2729b8838085907c30a54d12d9d121af7ed44398337f.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -55,7 +60,9 @@
   "sourceData": {
     "answer": "desperation/despair/self-abandonment",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c8465d6b-186f-4169-b4e1-ad051a51be0b",
   "tags": [

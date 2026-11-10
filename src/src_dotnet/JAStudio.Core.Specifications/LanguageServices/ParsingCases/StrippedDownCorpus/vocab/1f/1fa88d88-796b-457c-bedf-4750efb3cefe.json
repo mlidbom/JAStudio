@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-05-17-11-02-26-192.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "仕舞い",
@@ -43,8 +41,7 @@
   "sentenceCount": 24,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -68,7 +65,13 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-05-17-11-02-26-192.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "1fa88d88-796b-457c-bedf-4750efb3cefe",
   "tags": [

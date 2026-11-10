@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-f636786b312de9fe97648b57fae6a0e30b20461e946483b1eba14282.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-f636786b312de9fe97648b57fae6a0e30b20461e946483b1eba14282.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ようと思う",
@@ -44,8 +50,7 @@
   "sentenceCount": 82,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden",
@@ -75,7 +80,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7584aec6-a266-4af7-aa48-b8035c47f426",
   "tags": []

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-04-18-23-06-47-213.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "此れほど",
@@ -48,8 +46,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +70,13 @@
   "sourceData": {
     "answer": "so/so-much/this-much",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-04-18-23-06-47-213.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "fb3dfbd6-6a7b-4c7e-951d-7f164b1f10eb",
   "tags": [

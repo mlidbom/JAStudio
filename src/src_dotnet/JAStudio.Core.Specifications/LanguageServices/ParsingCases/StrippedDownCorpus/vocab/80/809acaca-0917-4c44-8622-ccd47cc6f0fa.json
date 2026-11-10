@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-07-17-13-37-13-056.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "燥ぐ",
@@ -32,8 +30,7 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,13 @@
   "sourceData": {
     "answer": "to: make-merry/frolic/be-in-high-spirits",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-17-13-37-13-056.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "809acaca-0917-4c44-8622-ccd47cc6f0fa",
   "tags": [

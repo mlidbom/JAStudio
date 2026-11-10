@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:daa504b0d7f45e76983fd8b2bd311a1c.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "珈琲",
@@ -32,8 +30,7 @@
   "sentenceCount": 55,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"d36de9d4312b1ec9e375e52749a572e8.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,17 @@
   "sourceData": {
     "answer": "coffee",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "daa504b0d7f45e76983fd8b2bd311a1c.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "d36de9d4312b1ec9e375e52749a572e8.jpg"
+      }
+    ]
   },
   "id": "de164f3a-a34e-478f-9e9f-f7401464e1ee",
   "tags": [

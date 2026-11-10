@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-02-27-20-41-01-407.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomitan_audio_2025-02-27-20-41-01-407.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "好い",
@@ -51,8 +53,7 @@
   "sentenceCount": 336,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -85,7 +86,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "ac40246b-9ddc-475b-880d-f3b97bd10964",
   "tags": [

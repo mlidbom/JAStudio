@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:見付ける_b.mp3]",
-  "audioG": "[sound:見付ける_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "見附ける",
@@ -49,8 +47,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "to{} discover/find-(e.g.-an-error-in-a-book)/come-across/detect/spot | locate/find-(e.g.-something-missing)/find-fault | to-be:used-to-seeing/familiar-with",
     "mnemonic": "You know that <ja>付ける</ja> means \"to attach\" and that <ja>見</ja> means \"see.\" So, when you attach your seeing to something, it's like you're looking around trying <vocabulary>to find</vocabulary> something. When you find what you're looking for, imagine your eyeballs flying out and attaching to that item, then yelling \"I FOUND IT!\"\n\nYou'll usually see this word with the <ja>付</ja> in kana, so <ja>見つける</ja>.",
-    "readingMnemonic": "The readings come from <ja>見る</ja> and <ja>付ける</ja>. If you use those readings, you'll be able to read this word too."
+    "readingMnemonic": "The readings come from <ja>見る</ja> and <ja>付ける</ja>. If you use those readings, you'll be able to read this word too.",
+    "audio": [
+      {
+        "fileName": "見付ける_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "見付ける_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "7e65e313-3c82-43ad-8a08-4e5dde521457",
   "tags": [

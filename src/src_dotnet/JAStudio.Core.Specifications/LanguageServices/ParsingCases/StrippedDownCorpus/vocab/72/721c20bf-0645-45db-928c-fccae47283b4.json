@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-06-03-09-30-28-425.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "すねる",
@@ -32,8 +30,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,13 @@
   "sourceData": {
     "answer": "to: be-peevish/sulk/pout",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-06-03-09-30-28-425.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "721c20bf-0645-45db-928c-fccae47283b4",
   "tags": [

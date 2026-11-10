@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:頭_b.mp3]",
-  "audioG": "[sound:頭_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 101,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "<read>あたま</read>|<read>かしら</read>:: head | hair-(on-one's-head) | mind/brains/intellect | leader/chief/boss/captain | top/tip | beginning/start | head/person | down-payment/deposit | top-structural-component-of-a-kanji | pair\n<read>こうべ</read>|<read>かぶり</read>|<read>ず</read>|<read>つむり</read>|<read>つむ</read>|<read>つぶり</read>|<read>かぶ</read>:: head\n<read>ず</read>:: head",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading which you learned with the kanji earlier. No problem!"
+    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading which you learned with the kanji earlier. No problem!",
+    "audio": [
+      {
+        "fileName": "頭_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "頭_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "3aec26df-9ad4-4842-8956-d7858959f0e7",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:立つ_b.mp3]",
-  "audioG": "[sound:立つ_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "発つ",
@@ -32,8 +30,7 @@
   "sentenceCount": 85,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "to: stand/rise/stand-up | find-oneself-(e.g.-in-a-difficult-position) | depart-(on-a-plane,-train,-etc.)",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means \"stand\" so what is the verb version of that? It's <vocabulary>to stand</vocabulary>.",
-    "readingMnemonic": "You have to remember the <ja>た</ja> portion of this word to learn the reading of it. Think of it this way: \n\nYou have <vocabulary>to stand up</vocabulary> in order to wave goodbye to someone. When you stand up, you also say <reading>ta</reading> ta (<ja>た</ja>)!"
+    "readingMnemonic": "You have to remember the <ja>た</ja> portion of this word to learn the reading of it. Think of it this way: \n\nYou have <vocabulary>to stand up</vocabulary> in order to wave goodbye to someone. When you stand up, you also say <reading>ta</reading> ta (<ja>た</ja>)!",
+    "audio": [
+      {
+        "fileName": "立つ_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "立つ_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "6ab826bf-f136-4139-8c52-5a41350d1b78",
   "tags": [

@@ -28,15 +28,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_つよさ_強さ_2023-04-26-21-46-50.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 4,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,13 @@
   "sourceData": {
     "answer": "strength/power",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_つよさ_強さ_2023-04-26-21-46-50.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "02ebf027-42fd-41d3-a876-d3aada511af4",
   "tags": [

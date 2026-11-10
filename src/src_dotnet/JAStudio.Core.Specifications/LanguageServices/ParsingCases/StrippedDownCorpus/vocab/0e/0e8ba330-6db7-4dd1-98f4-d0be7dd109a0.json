@@ -29,15 +29,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": " [sound:ATTS にする (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "ATTS にする (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 619,
   "technicalNotes": "Tentative: Steals the meaning of the に in adverbs forcing this meaning, thus it should take precedence over any preceding adverb compounds, being shown instead of them.",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -66,11 +71,12 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0e8ba330-6db7-4dd1-98f4-d0be7dd109a0",
   "tags": [
-    "_tts_audio",
     "-::TODO::studio::vocab::matching::on-overlap::first-char-steals-focus-from-same-char-in-previous-word",
     "source::yomitan"
   ]

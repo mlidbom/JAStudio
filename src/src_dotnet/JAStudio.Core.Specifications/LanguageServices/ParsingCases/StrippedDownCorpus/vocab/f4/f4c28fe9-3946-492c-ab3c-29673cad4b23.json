@@ -26,9 +26,7 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-08-12-11-19-15-740.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "だとu",
@@ -38,8 +36,7 @@
   "sentenceCount": 474,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -74,7 +71,13 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-12-11-19-15-740.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "f4c28fe9-3946-492c-ab3c-29673cad4b23",
   "tags": [

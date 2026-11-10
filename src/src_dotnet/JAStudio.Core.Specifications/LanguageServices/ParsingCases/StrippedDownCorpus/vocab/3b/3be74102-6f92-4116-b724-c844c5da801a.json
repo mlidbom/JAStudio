@@ -20,15 +20,21 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:沈む_b.mp3]",
-  "audioG": "[sound:沈む_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 16,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"一瞬で沈む水難事故…救助は「浮いて待て」 : 読売新聞\" src=\"20170810-OYT8I50035-1.jpg\"><img alt=\"沈む太陽のほうが昼間の太陽より大きく見えるのはどうして？／人類なら知っておくべき地球の雑学（114） - レタスクラブ\" src=\"10674593.jpg\">",
+  "images": [
+    {
+      "fileName": "20170810-OYT8I50035-1.jpg",
+      "altText": "一瞬で沈む水難事故…救助は「浮いて待て」 : 読売新聞"
+    },
+    {
+      "fileName": "10674593.jpg",
+      "altText": "沈む太陽のほうが昼間の太陽より大きく見えるのはどうして？／人類なら知っておくべき地球の雑学（114） - レタスクラブ"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +63,18 @@
   "sourceData": {
     "answer": "to: sink/go-under/submerge | go-down-(e.g.-sun)/set/descend | feel-depressed/become-subdued/become-somber",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>sink</kanji> so the verb vocab version is <vocabulary>to sink</vocabulary>. \n\nThis is an intransitive verb, so it refers to something sinking on its own. You didn't do anything to make it sink. You know this is when something is just sinking on its own (you didn't sink it), because of the <ja>む</ja>, which shows it's a cow sinking. The cow stepped into some quicksand and now it's sinking, not because of you.",
-    "readingMnemonic": "You look at the cow. Poor cow. <reading>She's</reading> (<ja>しず</ja>) sinking."
+    "readingMnemonic": "You look at the cow. Poor cow. <reading>She's</reading> (<ja>しず</ja>) sinking.",
+    "audio": [
+      {
+        "fileName": "沈む_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "沈む_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "3be74102-6f92-4116-b724-c844c5da801a",
   "tags": [

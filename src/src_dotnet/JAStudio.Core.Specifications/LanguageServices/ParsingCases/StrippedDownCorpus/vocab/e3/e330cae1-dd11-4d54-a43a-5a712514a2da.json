@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -54,7 +51,9 @@
   "sourceData": {
     "answer": "hawk/falcon",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "e330cae1-dd11-4d54-a43a-5a712514a2da",
   "tags": []

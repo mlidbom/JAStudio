@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:2024-09-28-17-44-10.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "2024-09-28-17-44-10.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "つか",
@@ -43,8 +45,7 @@
   "sentenceCount": 11,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -85,7 +86,9 @@
   "sourceData": {
     "answer": "or-rather-(say)/or-better-(say)/or-perhaps-I-should-say/or,-how-should-I-put-it,.../I-mean",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "8029311e-e7a2-4d1b-a13f-c2ba05e30f6e",
   "tags": [

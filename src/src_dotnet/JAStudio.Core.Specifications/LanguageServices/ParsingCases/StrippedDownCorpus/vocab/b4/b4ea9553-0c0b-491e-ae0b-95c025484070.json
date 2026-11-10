@@ -19,9 +19,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-4c60d55cfeb46f85d1acf202cf2dc583d6469322ff6f8f7fe6024a05.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-4c60d55cfeb46f85d1acf202cf2dc583d6469322ff6f8f7fe6024a05.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "だ",
@@ -31,8 +37,7 @@
   "sentenceCount": 268,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "pastTenseStem": "required"
@@ -72,7 +77,9 @@
   "sourceData": {
     "answer": "the-expectation-is-that-.../the-reason-is-that-.../the-fact-is-that-.../the-explanation-is-that-.../it-is-that-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "b4ea9553-0c0b-491e-ae0b-95c025484070",
   "tags": [

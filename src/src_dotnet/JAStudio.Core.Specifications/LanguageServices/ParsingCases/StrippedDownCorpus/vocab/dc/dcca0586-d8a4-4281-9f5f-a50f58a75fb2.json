@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-4f9e0988324835102c15a6f8c4dfe123bc0226ca394ab3ec36764997.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-4f9e0988324835102c15a6f8c4dfe123bc0226ca394ab3ec36764997.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 11948,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "required"
@@ -78,7 +83,9 @@
   "sourceData": {
     "answer": "<read>うさぎ</read>|<read>う</read>:<tag><ja>兎</ja></tag>:: rabbit/hare/coney/cony/lagomorph-(esp.-leporids)\nindicates-speculation | indicates-will | indicates-invitation\n<read>うな</read>|<read>う</read>:<tag><ja>鰻</ja></tag>:: eel-(esp.-the-Japanese-eel,-Anguilla-japonica)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "dcca0586-d8a4-4281-9f5f-a50f58a75fb2",
   "tags": [

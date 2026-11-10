@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_2945_いまだ_male.mp3]",
-  "audioG": "[sound:Wani_2945_いまだ_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "まだ",
@@ -36,8 +34,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "still/as-yet/only | (not)-yet | more/(more)-still | at-least/comparatively/relatively | unfinished/incomplete/not-yet-done",
     "mnemonic": "This is the adverb version of <kanji>未</kanji>, so it means the same thing: <vocabulary>not yet</vocabulary>, or <vocabulary>still</vocabulary>, depending on the context.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn it with this kanji, so here a mnemonic to help you:\n\nSomeone's telling you \"<vocabulary>not yet</vocabulary>... not yet.... not yet...\". You have some food on your nose, but you're not allowed to eat it <reading>今</reading> (いま).\n\nNote that this word can also be read まだ. However, いまだ is often written in kanji, while まだ is almost always written in kana. So when you see 未だ, it's a safe bet to read it as いまだ!"
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn it with this kanji, so here a mnemonic to help you:\n\nSomeone's telling you \"<vocabulary>not yet</vocabulary>... not yet.... not yet...\". You have some food on your nose, but you're not allowed to eat it <reading>今</reading> (いま).\n\nNote that this word can also be read まだ. However, いまだ is often written in kanji, while まだ is almost always written in kana. So when you see 未だ, it's a safe bet to read it as いまだ!",
+    "audio": [
+      {
+        "fileName": "Wani_2945_いまだ_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_2945_いまだ_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c7ea2973-4ff1-4597-956a-24c8876aa9eb",
   "tags": [

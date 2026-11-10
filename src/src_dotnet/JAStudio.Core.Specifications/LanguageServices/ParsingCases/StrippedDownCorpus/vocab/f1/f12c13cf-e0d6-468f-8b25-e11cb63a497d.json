@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-bebe23838dbb8a0ba01516a5f1487185d5f04cb881b71a3f7221f7bd.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-bebe23838dbb8a0ba01516a5f1487185d5f04cb881b71a3f7221f7bd.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 95,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +65,9 @@
   "sourceData": {
     "answer": "dashi-(Japanese-soup-stock-made-from-fish-and-kelp) | pretext/excuse/pretense-(pretence)/dupe/front-man",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "f12c13cf-e0d6-468f-8b25-e11cb63a497d",
   "tags": [

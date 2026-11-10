@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Storage.Dto;
@@ -15,17 +15,26 @@ namespace JAStudio.Core.Note.Sentences;
 /// </remarks>
 public class SentenceSourceData
 {
-   public SentenceSourceData(SentenceSourceDataDto? data, IEnumerable<AudioReference> audio, IEnumerable<ImageReference> screenshots, NoteGuard guard)
+   public SentenceSourceData(SentenceSourceDataDto? data, NoteGuard guard)
    {
       Question = new WritableStringValue(data?.Question ?? string.Empty, guard);
       Answer = new WritableStringValue(data?.Answer ?? string.Empty, guard);
       Comments = new WritableStringValue(data?.Comments ?? string.Empty, guard);
       ExternalId = new WritableStringValue(data?.ExternalId ?? string.Empty, guard);
-      Audio = new AudioReferenceList(audio, guard);
-      Screenshots = new MediaReferenceList<ImageReference>(screenshots, guard);
+      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], guard);
+      Screenshots = new MediaReferenceList<ImageReference>(data?.Screenshots.Select(it => it.ToReference()) ?? [], guard);
    }
 
-   internal SentenceSourceDataDto ToDto() => new() { Question = Question.Value, Answer = Answer.Value, Comments = Comments.Value, ExternalId = ExternalId.Value };
+   internal SentenceSourceDataDto ToDto() =>
+      new()
+      {
+         Question = Question.Value,
+         Answer = Answer.Value,
+         Comments = Comments.Value,
+         ExternalId = ExternalId.Value,
+         Audio = [..Audio.All.Select(AudioReferenceDto.From)],
+         Screenshots = [..Screenshots.All.Select(ImageReferenceDto.From)],
+      };
 
    /// <summary>The source's question, shown while the sentence has no <see cref="SentenceNote.CorpusQuestion"/>.</summary>
    public WritableStringValue Question { get; }

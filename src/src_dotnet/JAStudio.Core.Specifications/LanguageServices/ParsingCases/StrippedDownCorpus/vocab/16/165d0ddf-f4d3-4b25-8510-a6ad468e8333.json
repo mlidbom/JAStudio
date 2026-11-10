@@ -17,15 +17,20 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-1701325ac53d25390ff9a3641fe4a65aad603fdd12f1af17dafedd13.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-1701325ac53d25390ff9a3641fe4a65aad603fdd12f1af17dafedd13.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Google ja-JP-Neural2-D",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -49,11 +54,12 @@
   "sourceData": {
     "answer": "Ippa",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "165d0ddf-f4d3-4b25-8510-a6ad468e8333",
   "tags": [
-    "_tts_audio",
     "source::yomitan"
   ]
 }

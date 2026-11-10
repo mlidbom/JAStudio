@@ -8,7 +8,7 @@ from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.Commands import NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
-from JAStudio.Core.Note.Media import AllAudioOfANote, ImageReference, AudioReferenceList, MediaReference, MediaReferenceList_1, AudioReference
+from JAStudio.Core.Note.Media import AllAudioOfANote, ImageReference, AudioReferenceList, MediaReference, MediaReferenceList_1
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.NoteFields import StripHtmlOnReadFallbackStringField, WritableStringValue, SentenceQuestionField
@@ -277,7 +277,7 @@ class SentenceNote(JPNote, IHasTextToSpeechAudio):
 
 
 class SentenceSourceData:
-    def __init__(self, data: SentenceSourceDataDto, audio: IEnumerable_1[AudioReference], screenshots: IEnumerable_1[ImageReference], guard: NoteGuard) -> None: ...
+    def __init__(self, data: SentenceSourceDataDto, guard: NoteGuard) -> None: ...
     @property
     def Answer(self) -> WritableStringValue: ...
     @property

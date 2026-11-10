@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-21-21-27-01-144.mp3]",
-  "audioG": "[sound:yomitan_audio_2024-06-21-21-27-12-324.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 18,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,16 @@
   "sourceData": {
     "answer": "<read>はなむけ</read>|<read>せん</read>:<tag><ja>餞</ja></tag>:: farewell-gift/parting-gift/viaticum\nwill-not-do/do-not/does-not",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-21-21-27-01-144.mp3"
+      },
+      {
+        "fileName": "yomitan_audio_2024-06-21-21-27-12-324.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "0db7ea85-3e12-4904-b39e-e04ad38739f0",
   "tags": [

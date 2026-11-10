@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": false,
-  "audioB": "[sound:過ぎる_b.mp3]",
-  "audioG": "[sound:過ぎる_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "すぎる",
@@ -32,8 +30,7 @@
   "sentenceCount": 43,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -59,7 +56,18 @@
   "sourceData": {
     "answer": "to: {pass-through/pass-by/go-beyond} | {pass-(of-time)/elapse} | {have-expired/have-ended/be-over} | {exceed/surpass/be-above} | be-no-more-than-... | be-{excessive/too-much/too-...}",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>surpass</kanji>, but this verb is intransitive, meaning we’re not focussing on who did the action, but on the action itself. So this means <vocabulary>to pass</vocabulary>, as in “the storm passed”, <vocabulary>to be over</vocabulary> as in “winter’s over”, or <vocabulary>to be too much</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you:\n\nIn order for the storm <vocabulary>to pass</vocabulary> you’re going to have to <reading>sue</reading> (<ja>す</ja>) it. Sadly storms won’t pass unless you take legal action these days."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you:\n\nIn order for the storm <vocabulary>to pass</vocabulary> you’re going to have to <reading>sue</reading> (<ja>す</ja>) it. Sadly storms won’t pass unless you take legal action these days.",
+    "audio": [
+      {
+        "fileName": "過ぎる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "過ぎる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "6b7a1a1c-58ea-4196-8cd5-cc70ac6ba4da",
   "tags": [

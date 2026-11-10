@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:進む_b.mp3]",
-  "audioG": "[sound:進む_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 46,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to: {advance/go-forward} | {precede/go-ahead-(of)} | {make-progress/improve} | {deepen/heighten} | be-{fast-(of-a-clock)/ahead} | do-of-one's-own-free-will",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>advance</kanji> so the verb vocab version means <vocabulary>to advance</vocabulary>.\n\nThis is an intransitive verb, meaning that it is about something or someone advancing forward. ",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nIn order <vocabulary>to advance</vocabulary>, you must <reading>sue Sue</reading> for her misdeeds against you. Imagine her standing in your way, literally. She keeps saying, \"You'll have to sue me if you want to get past me!\" So you do. You sue Sue. Now tell her to <reading>mo</reading>ve (<ja>む</ja>). "
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nIn order <vocabulary>to advance</vocabulary>, you must <reading>sue Sue</reading> for her misdeeds against you. Imagine her standing in your way, literally. She keeps saying, \"You'll have to sue me if you want to get past me!\" So you do. You sue Sue. Now tell her to <reading>mo</reading>ve (<ja>む</ja>). ",
+    "audio": [
+      {
+        "fileName": "進む_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "進む_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "29f86a96-94a0-4471-87a8-0d5ca5e5ac3b",
   "tags": [

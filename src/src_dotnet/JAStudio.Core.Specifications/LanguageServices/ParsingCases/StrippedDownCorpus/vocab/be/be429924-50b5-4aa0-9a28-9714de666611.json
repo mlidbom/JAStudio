@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-11-02-13-05-37-350.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ゲッ",
@@ -39,8 +37,7 @@
   "sentenceCount": 5,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceStart": "required",
@@ -67,7 +64,13 @@
   "sourceData": {
     "answer": "exclamation-of-surprised-disappointment,-disgust,-or-worry-(yuck,-ick,-ack,-eeew,-crap!,-blech,-gross)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-11-02-13-05-37-350.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "be429924-50b5-4aa0-9a28-9714de666611",
   "tags": [

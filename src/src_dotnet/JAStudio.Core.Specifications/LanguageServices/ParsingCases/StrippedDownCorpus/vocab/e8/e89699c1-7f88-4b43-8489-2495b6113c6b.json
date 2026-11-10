@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:舞う_b.mp3]",
-  "audioG": "[sound:舞う_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to: dance-(orig.-a-whirling-dance) | flutter-about/revolve",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>dance</kanji> and the verb vocab version means <vocabulary>to dance</vocabulary>, as well as <vocabulary>to flutter</vocabulary>.",
-    "readingMnemonic": "Who is the greatest dancer of them all? China's previous ruler, <reading>Mao</reading> (<ja>まう</ja>)."
+    "readingMnemonic": "Who is the greatest dancer of them all? China's previous ruler, <reading>Mao</reading> (<ja>まう</ja>).",
+    "audio": [
+      {
+        "fileName": "舞う_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "舞う_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e89699c1-7f88-4b43-8489-2495b6113c6b",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-04-22-12-00-33-915.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "屁",
@@ -36,8 +34,7 @@
   "sentenceCount": 421,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "forbidden"
@@ -63,11 +60,16 @@
   "sourceData": {
     "answer": "<read>おなら</read>|<read>へ</read>:<tag><ja>屁</ja></tag>:: wind/gas/fart | something-worthless/something-not-worth-considering\nto/towards/for",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-04-22-12-00-33-915.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "df8d62a6-1a24-40be-9a66-b0b5e3e2a38c",
   "tags": [
-    "_tts_audio",
     "source::yomitan"
   ]
 }

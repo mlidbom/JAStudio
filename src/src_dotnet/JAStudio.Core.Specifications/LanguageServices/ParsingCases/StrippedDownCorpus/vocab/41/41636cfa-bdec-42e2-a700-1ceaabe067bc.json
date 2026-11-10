@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_くらい_位_2023-07-24-00-26-54.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 19,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,13 @@
   "sourceData": {
     "answer": "throne/crown/(nobleman's)-seat | government-position/court-rank | social-standing/rank/class/echelon/rung | grade-(of-quality,-etc.)/level/tier/rank | position-of-a-figure-(e.g.-tens,-thousands)/digit/(decimal)-place | degree/extent/amount",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_くらい_位_2023-07-24-00-26-54.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "41636cfa-bdec-42e2-a700-1ceaabe067bc",
   "tags": [

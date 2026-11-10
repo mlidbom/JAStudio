@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-218b8503dc2d14ad16f93999ca34382baf20a720b18747caa4ad0cdc.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-218b8503dc2d14ad16f93999ca34382baf20a720b18747caa4ad0cdc.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "チョッと",
@@ -52,8 +58,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -77,7 +82,9 @@
   "sourceData": {
     "answer": "a-little/a-bit/slightly | just-a-minute/for-a-moment/briefly | somewhat/rather/fairly/pretty/quite | (not)-easily/(not)-readily | hey!/come-on/excuse-me",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "774d18bb-e73a-4335-988d-961d118565dc",
   "tags": [

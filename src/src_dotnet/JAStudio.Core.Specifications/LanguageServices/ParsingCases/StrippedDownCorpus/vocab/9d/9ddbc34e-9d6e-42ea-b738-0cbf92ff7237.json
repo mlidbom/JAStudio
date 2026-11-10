@@ -29,15 +29,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-03-18-21-12-13-998.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,13 @@
   "sourceData": {
     "answer": "<tag><ja>品</ja></tag>:: article/item/thing/goods/stock | quality | flirtatiousness/coquetry\n<tag><ja>支那</ja></tag>:: China\nhaving-just-started...\n<tag><ja>科</ja></tag>:: Japanese-linden-(Tilia-japonica)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-18-21-12-13-998.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "9ddbc34e-9d6e-42ea-b738-0cbf92ff7237",
   "tags": [

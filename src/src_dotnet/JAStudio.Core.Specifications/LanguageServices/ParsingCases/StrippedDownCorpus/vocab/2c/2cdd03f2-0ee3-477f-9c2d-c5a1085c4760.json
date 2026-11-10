@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:落ち_b.mp3]",
-  "audioG": "[sound:落ち_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "落",
@@ -39,8 +37,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,18 @@
   "sourceData": {
     "answer": "slip/omission | outcome/final-result/the-end | punch-line-(of-a-joke)",
     "mnemonic": "When you're talking or writing a paper, the part that <kanji>falls</kanji> at the end is the <vocabulary>conclusion</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You learned this reading already so you should be able to read it!"
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You learned this reading already so you should be able to read it!",
+    "audio": [
+      {
+        "fileName": "落ち_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "落ち_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "2cdd03f2-0ee3-477f-9c2d-c5a1085c4760",
   "tags": [

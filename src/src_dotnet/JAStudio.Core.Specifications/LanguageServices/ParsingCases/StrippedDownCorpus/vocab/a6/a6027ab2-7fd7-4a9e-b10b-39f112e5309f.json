@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_いける_いける_2024-03-29-11-16-28.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "イケる",
@@ -40,8 +38,7 @@
   "sentenceCount": 221,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "to: be-good-(at)/go-well | look-(taste,-etc.)-good | hold-one's-liquor/be-able-to-hold-one's-drink",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_いける_いける_2024-03-29-11-16-28.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a6027ab2-7fd7-4a9e-b10b-39f112e5309f",
   "tags": [

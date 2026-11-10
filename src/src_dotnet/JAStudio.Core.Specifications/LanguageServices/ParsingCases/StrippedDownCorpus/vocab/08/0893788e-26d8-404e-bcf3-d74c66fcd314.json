@@ -31,9 +31,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-475448d420c68863e2758e3f3e951c5ebbdf54b5e42ea5a2f5a59825.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-475448d420c68863e2758e3f3e951c5ebbdf54b5e42ea5a2f5a59825.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-MayuNeural",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "まし",
@@ -43,8 +49,7 @@
   "sentenceCount": 21,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +75,9 @@
   "sourceData": {
     "answer": "please | used-to-increase-the-politeness-of-a-greeting",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0893788e-26d8-404e-bcf3-d74c66fcd314",
   "tags": [

@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-05-19-14-15-31-745.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,13 @@
   "sourceData": {
     "answer": "presence-(of-a-nobleman,-the-emperor,-etc.) | outrider-(person-riding-horseback-in-the-lead-position-of-a-cavalcade) | My-Lord/My-Lady",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-05-19-14-15-31-745.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "f55e6488-7dc6-4716-bf30-884c052b4e85",
   "tags": [

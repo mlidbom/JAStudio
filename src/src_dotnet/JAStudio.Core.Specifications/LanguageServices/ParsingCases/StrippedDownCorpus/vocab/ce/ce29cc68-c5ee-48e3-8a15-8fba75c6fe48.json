@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:ef06f6c5f5a6d947dde0767f4bc8e0fa.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "独りで",
@@ -44,8 +42,7 @@
   "sentenceCount": 116,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"2b40ae17acbfc70c862c8427cc84aa4c.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -71,7 +68,17 @@
   "sourceData": {
     "answer": "alone/by-oneself/on-one's-own",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "ef06f6c5f5a6d947dde0767f4bc8e0fa.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "2b40ae17acbfc70c862c8427cc84aa4c.jpg"
+      }
+    ]
   },
   "id": "ce29cc68-c5ee-48e3-8a15-8fba75c6fe48",
   "tags": [

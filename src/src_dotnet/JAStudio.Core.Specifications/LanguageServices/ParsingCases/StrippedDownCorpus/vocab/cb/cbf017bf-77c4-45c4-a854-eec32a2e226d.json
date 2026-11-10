@@ -19,9 +19,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-2149b82eaad944718fc16421050feefc430f0aa5a85d3f6c1f7183d1.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-2149b82eaad944718fc16421050feefc430f0aa5a85d3f6c1f7183d1.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "っこ",
@@ -31,8 +37,7 @@
   "sentenceCount": 63,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +61,9 @@
   "sourceData": {
     "answer": "doing/in-such-a-state | doing-together/doing-to-each-other/contest/match | familiarizing-suffix-(sometimes-meaning-\"small\")",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "cbf017bf-77c4-45c4-a854-eec32a2e226d",
   "tags": []

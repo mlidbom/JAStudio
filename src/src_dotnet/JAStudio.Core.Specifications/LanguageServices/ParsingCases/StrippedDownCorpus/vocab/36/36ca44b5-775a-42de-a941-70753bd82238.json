@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:俺_b.mp3]",
-  "audioG": "[sound:俺_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "俺",
@@ -32,8 +30,7 @@
   "sentenceCount": 31,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "olé",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji.",
+    "audio": [
+      {
+        "fileName": "俺_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "俺_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "36ca44b5-775a-42de-a941-70753bd82238",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:周り_b.mp3]",
-  "audioG": "[sound:周り_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "まわり",
@@ -32,8 +30,12 @@
   "sentenceCount": 56,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"周り」の意味とは？「回り」とはどう違う？使い分け方や例文、類義語を解説 | Domani\" src=\"around.jpg\">",
+  "images": [
+    {
+      "fileName": "around.jpg",
+      "altText": "周り」の意味とは？「回り」とはどう違う？使い分け方や例文、類義語を解説 | Domani"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +62,18 @@
   "sourceData": {
     "answer": "circumference/girth | surroundings/neighbourhood/neighborhood/vicinity | people-surrounding-oneself/surrounding-circumstances",
     "mnemonic": "This is the noun version of the kanji <kanji>circumference</kanji>, so it means <vocabulary>circumference</vocabulary> too.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou really want to measure the <vocabulary>circumference</vocabulary> of something but there doesn't seem to be anything round around. That's when you remember, \"<reading>Mah Wa</reading>lnuts! (<ja>まわ</ja>).\" The walnuts in your pocket have an easy <vocabulary>edge</vocabulary> to measure."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou really want to measure the <vocabulary>circumference</vocabulary> of something but there doesn't seem to be anything round around. That's when you remember, \"<reading>Mah Wa</reading>lnuts! (<ja>まわ</ja>).\" The walnuts in your pocket have an easy <vocabulary>edge</vocabulary> to measure.",
+    "audio": [
+      {
+        "fileName": "周り_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "周り_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "25bcea4a-4994-4da9-947a-bcd6d3b314b3",
   "tags": [

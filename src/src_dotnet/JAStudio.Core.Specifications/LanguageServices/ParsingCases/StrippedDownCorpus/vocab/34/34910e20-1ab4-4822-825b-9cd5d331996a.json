@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:独り_b.mp3]",
-  "audioG": "[sound:独り_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 4,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,18 @@
   "sourceData": {
     "answer": "one-person | being-alone/being-by-oneself | being-single/being-unmarried | by-oneself/alone | just/only/simply",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is different from the one you learned (this is kun'yomi). There's an easy way to remember it, though. <ja>一人</ja> and <ja>独り</ja> share the same readings and mean almost the same thing. Just try to remember that this <ja>ひとり</ja> is used to emphasize solitude and independence."
+    "readingMnemonic": "The reading is different from the one you learned (this is kun'yomi). There's an easy way to remember it, though. <ja>一人</ja> and <ja>独り</ja> share the same readings and mean almost the same thing. Just try to remember that this <ja>ひとり</ja> is used to emphasize solitude and independence.",
+    "audio": [
+      {
+        "fileName": "独り_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "独り_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "34910e20-1ab4-4822-825b-9cd5d331996a",
   "tags": [

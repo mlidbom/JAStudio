@@ -23,9 +23,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ねぇ_ねぇ_2023-08-24-16-24-00.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ねー",
@@ -43,8 +41,7 @@
   "sentenceCount": 236,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -68,7 +65,13 @@
   "sourceData": {
     "answer": "right?/don't-you-think | hey/come-on/listen\nnonexistent/not-being-(there)/not-having | not",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ねぇ_ねぇ_2023-08-24-16-24-00.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "05ea31f7-b2ce-4e1e-b54e-62bb88a5ae58",
   "tags": [

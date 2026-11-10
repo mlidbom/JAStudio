@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_しらない_知らない_2023-07-22-12-54-40.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "知らん",
@@ -40,8 +38,7 @@
   "sentenceCount": 122,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +64,13 @@
   "sourceData": {
     "answer": "unknown/strange | I-don't-care/that's-irrelevant/whatever",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_しらない_知らない_2023-07-22-12-54-40.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "2584ac22-9ddc-40f0-9ae4-ab7e26943089",
   "tags": [

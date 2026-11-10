@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-07-10-06-44-16-992.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "っていうのは",
@@ -45,8 +43,7 @@
   "sentenceCount": 34,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -75,7 +72,13 @@
   "sourceData": {
     "answer": "because-.../for-.../the-reason-being-... | as-for-.../when-it-comes-to-.../regarding-.../how-about-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-10-06-44-16-992.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "e713d8c6-e40f-48aa-8138-d5cd4b3a88b9",
   "tags": [

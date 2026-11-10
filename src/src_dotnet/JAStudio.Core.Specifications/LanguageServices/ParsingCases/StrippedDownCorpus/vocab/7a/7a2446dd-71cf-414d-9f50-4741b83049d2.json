@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_つきあう_付き合う_2023-08-21-12-22-46.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "付合う",
@@ -45,8 +43,7 @@
   "sentenceCount": 62,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +67,13 @@
   "sourceData": {
     "answer": "to: associate-with/keep-company-with/go-out-with/go-steady-with/get-on-with | go-along-with/follow-someone's-lead/accompany-someone/compromise",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_つきあう_付き合う_2023-08-21-12-22-46.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "7a2446dd-71cf-414d-9f50-4741b83049d2",
   "tags": [

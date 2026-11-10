@@ -17,7 +17,7 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs.Tagging;
 /// <summary>
 /// A note's Tags editor in the workspace's editor section shows every tag the note has, each a person manages with a button that removes it,<br/>
 /// asking first for a source tag, and adds a tag picked in a dialog. Ctrl+T and Ctrl+Shift+T do the same for the note on the shown tab.<br/>
-/// The sentence is tagged <c>source::anime::natsume</c>, <c>-::counting</c> and the tag JAStudio maintains for TTS audio, <c>_tts_audio</c>.
+/// The sentence is tagged <c>source::anime::natsume</c>, <c>-::counting</c> and the tag JAStudio maintains for its hidden matches, <c>-::sentence::uses::hidden-matches</c>.
 /// </summary>
 public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
@@ -33,7 +33,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       _sentence = CreateTestSentence("家に帰る", "Go home");
       _sentence.Tags.Set(Tag.FromName(SourceTag));
       _sentence.Tags.Set(Tag.FromName(Label));
-      _sentence.Tags.Set(Tags.TTSAudio);
+      _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
       _tagsEditor = Edit<SentenceEditorSectionViewModel>(_sentence).Tags;
    }
 
@@ -49,9 +49,9 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    TagOnTheNoteViewModel TheTagShown(string tagPath) => _tagsEditor.Tags.Single(it => it.Name == tagPath);
 
    [XF] public void the_editor_shows_every_tag_the_one_JAStudio_maintains_too_in_alphabetical_order() =>
-      TagsShownInTheEditor().Must().SequenceEqual([Label, SourceTag, Tags.TTSAudio.Name]);
+      TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, SourceTag]);
 
-   [XF] public void the_tag_JAStudio_maintains_cannot_be_removed_by_hand() => TheTagShown(Tags.TTSAudio.Name).CanBeRemovedByHand.Must().BeFalse();
+   [XF] public void the_tag_JAStudio_maintains_cannot_be_removed_by_hand() => TheTagShown(Tags.Sentence.Uses.HiddenMatches.Name).CanBeRemovedByHand.Must().BeFalse();
    [XF] public void the_tags_a_person_manages_can() => (TheTagShown(SourceTag).CanBeRemovedByHand && TheTagShown(Label).CanBeRemovedByHand).Must().BeTrue();
 
    public class when_removing_a_tag_with_its_button : When_editing_a_notes_tags_in_the_workspace
@@ -71,7 +71,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
 
          [XF] public void it_asks_nothing() => _questionsAsked.Must().BeEmpty();
          [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(Label).Must().BeFalse();
-         [XF] public void the_editor_no_longer_shows_it() => TagsShownInTheEditor().Must().SequenceEqual([SourceTag, Tags.TTSAudio.Name]);
+         [XF] public void the_editor_no_longer_shows_it() => TagsShownInTheEditor().Must().SequenceEqual([Tags.Sentence.Uses.HiddenMatches.Name, SourceTag]);
       }
 
       public class that_is_a_source_tag_confirming_it : when_removing_a_tag_with_its_button
@@ -81,7 +81,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
          [XF] public void it_asks_first_saying_it_changes_the_notes_source() =>
             _questionsAsked.Must().SequenceEqual([$"{SourceTag} is a source tag: removing it changes the note's source. Remove it?"]);
          [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(SourceTag).Must().BeFalse();
-         [XF] public void the_tag_JAStudio_maintains_stays() => _sentence.Tags.Contains(Tags.TTSAudio).Must().BeTrue();
+         [XF] public void the_tag_JAStudio_maintains_stays() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
       }
 
       public class that_is_a_source_tag_declining_it : when_removing_a_tag_with_its_button
@@ -97,7 +97,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       public after_adding_a_new_tag_through_the_editor() => _tagsEditor.AddATag(Picking(NewTag));
 
       [XF] public void the_sentence_has_it() => TheSentenceHas(NewTag).Must().BeTrue();
-      [XF] public void the_editor_shows_it_in_alphabetical_order() => TagsShownInTheEditor().Must().SequenceEqual([Label, NewTag, SourceTag, Tags.TTSAudio.Name]);
+      [XF] public void the_editor_shows_it_in_alphabetical_order() => TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, NewTag, SourceTag]);
    }
 
    public class after_adding_a_tag_to_the_note_on_the_shown_tab_as_ctrl_t_does : When_editing_a_notes_tags_in_the_workspace

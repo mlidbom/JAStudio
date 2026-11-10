@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:rec1717853012.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "rec1717853012.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "っ放し",
@@ -35,8 +37,7 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -62,7 +63,9 @@
   "sourceData": {
     "answer": "keep-...-ing/have-been-...-ing/leaving-(something)-on/leaving-(something)-still-in-use",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "39e43c48-ded9-4b95-94bd-4b8c425e5a3f",
   "tags": [

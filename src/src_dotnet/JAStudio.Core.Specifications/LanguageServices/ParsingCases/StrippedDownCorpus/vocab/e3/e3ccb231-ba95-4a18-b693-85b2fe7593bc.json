@@ -29,9 +29,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-1362823e398723764628c9bf91e93f88a49de365cc005c137603352c.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-1362823e398723764628c9bf91e93f88a49de365cc005c137603352c.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ようと",
@@ -45,8 +51,7 @@
   "sentenceCount": 265,
   "technicalNotes": "",
   "references": "<a href=\"https://youtu.be/IE7WgIOOGbM?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=129\">Cure dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -75,7 +80,9 @@
   "sourceData": {
     "answer": "way, like, kind SOURCE",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "e3ccb231-ba95-4a18-b693-85b2fe7593bc",
   "tags": [

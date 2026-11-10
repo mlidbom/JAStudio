@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-02-27-20-41-01-407.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "好い",
@@ -51,8 +49,7 @@
   "sentenceCount": 196,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -85,7 +82,13 @@
   "sourceData": {
     "answer": "good/excellent/fine/nice/pleasant/agreeable | sufficient/enough/ready/prepared | profitable-(deal,-business-offer,-etc.)/beneficial | OK/all-right/fine/no-problem",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-02-27-20-41-01-407.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "5171b830-aa1e-43f9-bea1-34ff0f02eb20",
   "tags": [

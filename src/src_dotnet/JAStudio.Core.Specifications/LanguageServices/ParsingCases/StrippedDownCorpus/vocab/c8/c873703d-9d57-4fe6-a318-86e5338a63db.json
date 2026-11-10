@@ -20,15 +20,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-c6490c0698659edf4c0b76a6e527be307310731c1bfa87558380d8c5.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-c6490c0698659edf4c0b76a6e527be307310731c1bfa87558380d8c5.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 26,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "masuStem": "required"
@@ -61,7 +66,9 @@
   "sourceData": {
     "answer": "don't | do | hey/listen/you | now,-.../well,-.../I-tell-you!/you-know | wow/ooh",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c873703d-9d57-4fe6-a318-86e5338a63db",
   "tags": [

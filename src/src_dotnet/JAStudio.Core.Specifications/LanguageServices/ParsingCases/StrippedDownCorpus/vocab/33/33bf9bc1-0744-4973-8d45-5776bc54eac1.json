@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_の_の_2023-07-18-18-47-39.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ん",
@@ -31,8 +29,7 @@
   "sentenceCount": 16332,
   "technicalNotes": "",
   "references": "Cure Dolly{\n<a href=\"https://www.youtube.com/watch?v=5IzL2Q5xgGQ\">の１</a> |\n<a href=\"https://www.youtube.com/watch?v=Bq3GO63D9bw\">CD:の2</a> | \n<a href=\"https://www.youtube.com/watch?v=GB8fWjQuz9A&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=40\">na vs no, naru &amp; taru adjectives</a> \n}\n<a href=\"https://www.japanesewithanime.com/2019/05/no-particle.html\">の Particle | Japanese with Anime</a><br><a href=\"https://www.japanesewithanime.com/2019/03/formal-nouns.html\">Formal Nouns | Japanese with Anime</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "indicates-possessive | nominalizes-verbs-and-adjectives | substitutes-for-\"ga\"-in-subordinate-phrases | (at-sentence-end,-falling-tone)-indicates-a-confident-conclusion | (at-sentence-end)-indicates-emotional-emphasis | (at-sentence-end,-rising-tone)-indicates-question",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_の_の_2023-07-18-18-47-39.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "33bf9bc1-0744-4973-8d45-5776bc54eac1",
   "tags": [

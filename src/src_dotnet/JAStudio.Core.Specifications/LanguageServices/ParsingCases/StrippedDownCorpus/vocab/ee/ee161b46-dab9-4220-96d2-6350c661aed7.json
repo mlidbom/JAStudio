@@ -20,15 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:中_b.mp3][sound:yomitan_audio_2025-04-05-07-01-35-417.mp3]",
-  "audioG": "[sound:中_g.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomitan_audio_2025-04-05-07-01-35-417.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 505,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +53,18 @@
   "sourceData": {
     "answer": "<read>なか</read>:: inside/interior/in | among/within | middle/center/centre | during/while/middle/midst/amid | interval/gap | mean/average | second-(of-three,-e.g.-sons,-volumes)/middle | medium-grade/medium-quality | red-light-district\n<read>ちゅう</read>:: medium/average/middle | moderation | middle-school | China | volume-two-(of-three) | during-(a-certain-time-when-one-did-or-is-doing-something)/under-(construction,-etc.)/while | in/out-of/of-the",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "Since this word is made up of a single kanji, it uses the kun'yomi reading. When learning the kanji, you didn't learn that reading, so here's a mnemonic to help you with this word:\n\nThere's a sound coming from <kanji>inside</kanji> the wall. It sounds like a knock, knock, knock noise. You break down the wall, and there's some creepy dude standing inside. He is the <reading>knocker</reading> (<ja>なか</ja>)."
+    "readingMnemonic": "Since this word is made up of a single kanji, it uses the kun'yomi reading. When learning the kanji, you didn't learn that reading, so here's a mnemonic to help you with this word:\n\nThere's a sound coming from <kanji>inside</kanji> the wall. It sounds like a knock, knock, knock noise. You break down the wall, and there's some creepy dude standing inside. He is the <reading>knocker</reading> (<ja>なか</ja>).",
+    "audio": [
+      {
+        "fileName": "中_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "中_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "ee161b46-dab9-4220-96d2-6350c661aed7",
   "tags": [

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:虫_b.mp3]",
-  "audioG": "[sound:虫_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "むし",
@@ -35,8 +33,7 @@
   "sentenceCount": 51,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,18 @@
   "sourceData": {
     "answer": "insect/bug/cricket/moth | worm/roundworm | one's-emotions/one's-feelings | nervousness/fretfulness | person-devoted-to-one-thing/single-minded-person | valve-core | mushi-(type-of-game-played-with-a-stripped-deck)",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. This word is actually more general than the English words <vocabulary>insect</vocabulary> and <vocabulary>bug</vocabulary>, though. It covers things like worms and spiders, too, so in that sense it's more like <vocabulary>creepy-crawly</vocabulary>.",
-    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading, which is also the reading you learned when you learned this kanji!"
+    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading, which is also the reading you learned when you learned this kanji!",
+    "audio": [
+      {
+        "fileName": "虫_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "虫_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c9921007-5d02-47db-b44f-3f05842b7d33",
   "tags": [

@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-08-15-04-33-02-340.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 63,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,13 @@
   "sourceData": {
     "answer": "book/document | calligraphy-(esp.-Chinese)/penmanship | handwriting | letter/note",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-15-04-33-02-340.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "6961c1d9-53c4-46da-b862-86916f2492d5",
   "tags": [

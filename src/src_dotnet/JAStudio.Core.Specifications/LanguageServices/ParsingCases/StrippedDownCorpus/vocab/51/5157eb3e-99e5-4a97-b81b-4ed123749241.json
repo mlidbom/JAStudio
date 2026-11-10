@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_つかまえる_捕まえる_2023-09-19-15-41-00.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "掴まえる",
@@ -40,8 +38,12 @@
   "sentenceCount": 40,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"好きな人を捕まえる方法とは。 (@rio_319_) / X\" src=\"8u9Ewfly_400x400.jpeg\">",
+  "images": [
+    {
+      "fileName": "8u9Ewfly_400x400.jpeg",
+      "altText": "好きな人を捕まえる方法とは。 (@rio_319_) / X"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +72,13 @@
   "sourceData": {
     "answer": "to{} catch/capture/arrest/seize/restrain | grab/clutch/grasp/seize/hold-on-to | catch-hold-of-(someone)/stop-(e.g.-a-stranger-in-the-street)/hail-(a-taxi,-waiter,-etc.)/hold-(someone)-back/detain | towards-(someone)/at-(someone)/in-(someone's)-face",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_つかまえる_捕まえる_2023-09-19-15-41-00.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "5157eb3e-99e5-4a97-b81b-4ed123749241",
   "tags": [

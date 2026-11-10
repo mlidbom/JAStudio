@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:02a1c1d02bbb109a57a7e246f4006ce3.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "已む",
@@ -40,8 +38,7 @@
   "sentenceCount": 125,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"04ef8847586f68ba6c16a19e45de75d9.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +67,17 @@
   "sourceData": {
     "answer": "to: cease/stop/be-over",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "02a1c1d02bbb109a57a7e246f4006ce3.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "04ef8847586f68ba6c16a19e45de75d9.jpg"
+      }
+    ]
   },
   "id": "122ea4d3-6064-48b2-bed2-b5c1114f0306",
   "tags": [

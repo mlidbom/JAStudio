@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
@@ -12,9 +13,14 @@ namespace JAStudio.Core.Storage;
 
 public class NoteSerializer
 {
+   /// <summary>
+   /// How the corpus's note files are written and read. A file with a property the notes don't have fails to load (<see cref="JsonUnmappedMemberHandling.Disallow"/>):<br/>
+   /// such as a file of an older format, which would otherwise load as a note without what that property held.
+   /// </summary>
    internal static readonly JsonSerializerOptions JsonOptions = new()
                                                        {
                                                           WriteIndented = true,
+                                                          UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
                                                           PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                                           Encoder = FullUnicodeJsonEncoder.Instance,
                                                           TypeInfoResolver = new NoteSerializationContext(new JsonSerializerOptions

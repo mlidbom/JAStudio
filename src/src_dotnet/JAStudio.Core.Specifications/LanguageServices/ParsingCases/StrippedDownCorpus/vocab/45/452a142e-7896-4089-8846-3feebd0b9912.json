@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-594766d578ddc98e8f5af3dbbf118040c17d0b5e3817f792703536d1.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-594766d578ddc98e8f5af3dbbf118040c17d0b5e3817f792703536d1.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "籠る",
@@ -48,8 +54,7 @@
   "sentenceCount": 45,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +78,9 @@
   "sourceData": {
     "answer": "to: {shut-oneself-in-(e.g.-one's-room)/be-confined-in/seclude-oneself/hide-away/stay-inside-(one's-shell)} | be-filled-with-(emotion,-enthusiasm,-etc.) | {fill-the-room-(of-a-gas,-smell,-etc.)/be-heavy-with-(e.g.-smoke)/be-stuffy/be-dense} | be-muffled-(e.g.-voice) | hold-(a-castle,-fortress,-etc.) | confine-oneself-in-a-temple-to-pray",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "452a142e-7896-4089-8846-3feebd0b9912",
   "tags": []

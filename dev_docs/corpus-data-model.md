@@ -289,7 +289,7 @@ Two cautions:
 | ~~Parts of speech~~ | `VocabNotePartsOfSpeech` | ~~One comma-separated string, with duplicate spellings on disk (`"noun, suru verb"` 1,436 times, `"noun, する verb"` 774 times)~~ *Gone 2026-11-08 (slice 7b): `partsOfSpeech` is a list of the names of `PartOfSpeech`s, a closed set.* |
 | ~~Primary kanji readings~~ | `KanjiNoteReadings` | ~~Comma-separated HTML: `<primary>ひ</primary>, ひつ` in `readingOnHtml` / `readingKunHtml` / `readingNanHtml`~~ *Gone 2026-11-08 (slice 7a): `readings` is `{ "on", "kun", "nanori" }`, each a list of `{ "kana", "isPrimary" }`. The cards still show a primary reading inside `<primary>`, made from the model (`KanjiReadingsHtml`).* |
 | Primary kanji meaning | kanji `sourceAnswer` | `<primary>Stab</primary>, Thrust` |
-| Media references | `AnkiMediaMarkup`, used for the corpus by `TodaysMediaFields` until slice 9's step 3 (until 2026-11-10: `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue`) | Anki's `[sound:x.mp3]` and `<img src="…">` *Slice 9 makes them data (2026-11-10): see [Media](#media-open).* |
+| ~~Media references~~ | `AnkiMediaMarkup`, used only at Anki's boundary since slice 9's step 3 (until 2026-11-10: `MediaFieldParsing`, `WritableAudioValue`, `WritableImageValue`, then `TodaysMediaFields`) | ~~Anki's `[sound:x.mp3]` and `<img src="…">`~~ *Gone 2026-11-10 (slice 9's step 3): lists of references, each a file's name and the facts known about it: see [Media](#media-open).* |
 | Word-break hints | `SentenceQuestionField` | `<wbr>` inserted into the question text by `SentenceQuestionField.SplitTokenWithWordBreakTag`, to force the tokenizer to split there. It writes the source question when there is no user question. 252 sentence files have one: 233 in `sourceQuestion`, 19 in `userQuestion`. *Goes with the matching configuration's redesign (Magnus, 2026-11-10).* |
 
 The brackets caused two bugs: `a921f09cb` (alternative compound parts lost when editing a vocab) and `51a2ab4ae`
@@ -908,7 +908,8 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
    mapping go. A one-time Python script migrates the notes, reusing the survey's TTS proof, in the headless worktree,
    and reports to Magnus before anything is committed. Checked: a full rebuild after it changes nothing, every
    reference resolves, cards render as before. A source and corpus commit pair.
-   **Worked out 2026-11-10, not yet built** (the corpus at `bc60d8b913`; the survey's scripts were in a session's scratchpad):
+   **Worked out 2026-11-10, and built the same day** (the corpus at `bc60d8b913`; the survey's scripts were in a session's scratchpad;
+   the migration's in `dev_scripts/corpus_migrations/`, and what was built is below the plan):
    - **The format:** `AudioReferenceDto` (`fileName`, `isOurs`, `isTextToSpeech`, `textToSpeechVoice`, `voiceGender` as
      `male`/`female`/`neutral`) and `ImageReferenceDto` (`fileName`, `isOurs`, `altText`), each fact left out of the JSON
      when not known or false (`JsonIgnoreCondition.WhenWritingDefault`), both `[MemoryPackable]` for the snapshots. Lists:
@@ -948,7 +949,31 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
    - **Checks before committing:** the report to Magnus; `save_every_note` twice, the second changing nothing; a full
      rebuild changing nothing; the study-note comparison (expected: about 1,100 vocab whose TTS leaves `Audio_b`, and
      formatting); cards rendered for a few notes. Delete the worktree's `snapshot.bin` files before loading the new format.
-4. **Into Magnus's checkout:** with Anki closed, a git fast-forward; Anki started on the new build; the comparison
+   - **Built** (`dev_scripts/corpus_migrations/migrate_the_media_to_references.py`, checked by `verify_the_media_references.py`):
+     - **The format** as planned: `AudioReferenceDto`, `ImageReferenceDto`, the lists, `UnmappedMemberHandling.Disallow` on
+       `NoteSerializer.JsonOptions`; `TodaysMediaFields`, `Tags.TTSAudio` and `_tts_audio` gone. With `_tts_audio` gone every
+       jastudio-maintained-tag is generated: none has an editor of its own. The specifications that used `_tts_audio` as the
+       example of a maintained tag use one of the note's type, such as `-::sentence::uses::hidden-matches`.
+     - **Departures from the rules above, found in the data:** WaniKani's audio is also `Wani_<id>[_<reading>]_male.mp3` and
+       `_female.mp3` (1,151 files on WaniKani vocab, which have no other WaniKani audio), so those are the source's too. Core
+       2000's sentence audio is also `<32 hex>-<40 hex>.mp3` (400). On Immersion Kit sentences every file but TTS audio, a
+       pasted screenshot or a `rec` recording is the source's, as Immersion Kit's names have many shapes, such as games' voice
+       lines (`0x00066667.wav.ogg`). A WaniKani vocab's `<word>_b.mp3`/`_g.mp3` is the source's whatever the word: 10 are of a
+       related word, such as `相談_g.mp3` on 相談する and `居る_b.mp3` on 入る.
+     - **What went where** (the report): the source's, on vocab 13,464 WaniKani, 576 Core 2000 and 4,096 Yomitan audio files and
+       450 Core 2000 images, on sentences 34,506 audio files and 34,410 screenshots; the corpus's own TTS audio, 15,803 vocab
+       files and 14,653 sentence files, each with its voice but 41 sentences'. 3 files fit no rule, the corpus's own: two web images
+       on Core 2000 sentences and `asoentuhaonteuh.mp3` on an anime sentence. 34 second references dropped. Proven ours besides
+       TTS: the 2 AI images, on 3 notes.
+     - **Checked:** the migration reads every note's old fields as the corpus stored them, all present; JAStudio's rewrite of every
+       note (`save_every_note`) came out byte for byte as the script wrote them, and a second one, and a full rebuild, changed
+       nothing; every note references the same files as at `HEAD`, each once, each list in its old order (79,720 notes,
+       119,420 references); of 79,719 study-notes, 1,356 vocab and 5 sentences differ: 1,280 vocab and the sentences only in
+       the markup of their audio, the other 76 by a dropped second reference, the source's audio now first, or TTS audio moving
+       to `Audio_TTS` behind a recording. Kanji none. Cards rendered as before. The parsing cases' stripped-down corpus was
+       migrated by the same script.
+4. **Into Magnus's checkout:** with Anki closed, a git fast-forward, and the checkout's `snapshot.bin` files deleted, as the
+   snapshots' layout changed (`CorpusNoteDto`); Anki started on the new build; the comparison
    lists the study-notes to update (about 1,100 vocab whose TTS leaves `Audio_b`, and formatting), Magnus looks, and
    they're written.
 

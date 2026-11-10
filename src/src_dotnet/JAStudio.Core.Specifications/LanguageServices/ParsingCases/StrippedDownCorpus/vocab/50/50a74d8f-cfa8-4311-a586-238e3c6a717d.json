@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-5ab83ddceb4d87de0711924b766f2591bf53cc0612f7c69efdc43860.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-5ab83ddceb4d87de0711924b766f2591bf53cc0612f7c69efdc43860.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 135,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "irrealis": "required"
@@ -62,7 +67,9 @@
   "sourceData": {
     "answer": "to: be-{lost-(e.g.-luggage)/missing} | {be-used-up/be-run-out/be-exhausted/be-consumed/be-reduced-to-zero/not-occur-any-more} | {disappear-(e.g.-pain)/be-lost-(e.g.-a-dream,-confidence)}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "50a74d8f-cfa8-4311-a586-238e3c6a717d",
   "tags": []

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_けれど_けれど_2023-05-03-21-43-20.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "けど",
@@ -44,8 +42,7 @@
   "sentenceCount": 61,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,13 @@
   "sourceData": {
     "answer": "but/however/although",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_けれど_けれど_2023-05-03-21-43-20.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ee1bcf84-6d07-452d-abe7-a3c7c964cdfb",
   "tags": [

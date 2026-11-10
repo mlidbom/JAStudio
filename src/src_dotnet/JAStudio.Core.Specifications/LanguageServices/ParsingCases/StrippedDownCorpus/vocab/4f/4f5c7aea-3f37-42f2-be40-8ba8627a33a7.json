@@ -20,15 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "[sound:hypertts-2c4cbde5e72322aeba6f42181b49cab421933cd9d9c16a66ebcb42fa.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-2c4cbde5e72322aeba6f42181b49cab421933cd9d9c16a66ebcb42fa.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -59,7 +60,9 @@
   "sourceData": {
     "answer": "indicates-supposition/if-...-then/when/after | (typically-after-someone's-name)-indicates-exasperation",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4f5c7aea-3f37-42f2-be40-8ba8627a33a7",
   "tags": []

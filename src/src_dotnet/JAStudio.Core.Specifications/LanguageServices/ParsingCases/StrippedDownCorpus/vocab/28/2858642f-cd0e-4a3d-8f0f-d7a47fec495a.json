@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-07-27-17-54-04-846.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "戴ける",
@@ -44,8 +42,7 @@
   "sentenceCount": 38,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -71,7 +68,13 @@
   "sourceData": {
     "answer": "to-be: able-to-receive/able-to-take/able-to-accept | able-to-eat/able-to-drink | acceptable/satisfactory",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-07-27-17-54-04-846.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "2858642f-cd0e-4a3d-8f0f-d7a47fec495a",
   "tags": [

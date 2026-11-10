@@ -28,15 +28,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_のに_のに_2023-07-16-04-08-52.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 526,
   "technicalNotes": "",
   "references": "Cure Dolly <a href=\"https://www.youtube.com/watch?v=Au5JOtcwE7A&amp;t=53s\">のに、なのに</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -62,7 +59,13 @@
   "sourceData": {
     "answer": "although/despite/even-though/and-yet | whereas/while | if-only/I-wish | in-order-to",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_のに_のに_2023-07-16-04-08-52.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "6e603b14-fa17-4d0a-8ddb-ed04644d57a3",
   "tags": [

@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-15-09-45-37-448.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 65,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,13 @@
   "sourceData": {
     "answer": "<tag><ja>箇</ja></tag>:: counter-for-the-hito-futa-mi-counting-system-(forming-hitotsu,-futatsu,-mitsu,-and-misoji,-yasoji,-etc.)\nindicates-two-contrasting-actions | indicates-possessive-(often-found-in-place-names-and-compound-words)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-15-09-45-37-448.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "59a28ee7-938f-4438-b2dd-4aaf38988952",
   "tags": [

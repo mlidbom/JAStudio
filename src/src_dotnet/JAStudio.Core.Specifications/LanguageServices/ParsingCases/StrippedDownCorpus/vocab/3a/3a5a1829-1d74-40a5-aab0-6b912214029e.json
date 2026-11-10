@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-06-02-12-29-20-669.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,13 @@
   "sourceData": {
     "answer": "to: laugh/break-into-laughter/be-made-to-laugh | be-funny/be-laughable/make-one-laugh/make-one-smile",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-02-12-29-20-669.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "3a5a1829-1d74-40a5-aab0-6b912214029e",
   "tags": [

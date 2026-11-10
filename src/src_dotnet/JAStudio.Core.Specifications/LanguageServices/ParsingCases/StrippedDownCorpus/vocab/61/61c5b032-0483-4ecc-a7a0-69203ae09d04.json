@@ -19,9 +19,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:何故_b.mp3]",
-  "audioG": "[sound:何故_g.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "何故_b.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "何故_g.mp3",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "何故",
@@ -39,8 +46,7 @@
   "sentenceCount": 104,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +70,9 @@
   "sourceData": {
     "answer": "why/how",
     "mnemonic": "When you want to know <kanji>what</kanji> the <kanji>circumstances</kanji> are around you, you have to ask <vocabulary>why</vocabulary>. Why do things happen around you? Asking why is very important if you want to understand the world.",
-    "readingMnemonic": "The reading for this is an exception. The reading for <ja>何</ja> is just the first <ja>な</ja> from <ja>なに</ja>. You can remember the second part this way:\n\nNo one knows quite <vocabulary>how</vocabulary> or <vocabulary>why</vocabulary> that big <reading>ze</reading>ppelin (<ja>ぜ</ja>) crashed in the 1930s. People are still asking today and no one has any answers. We have to keep asking until we get some."
+    "readingMnemonic": "The reading for this is an exception. The reading for <ja>何</ja> is just the first <ja>な</ja> from <ja>なに</ja>. You can remember the second part this way:\n\nNo one knows quite <vocabulary>how</vocabulary> or <vocabulary>why</vocabulary> that big <reading>ze</reading>ppelin (<ja>ぜ</ja>) crashed in the 1930s. People are still asking today and no one has any answers. We have to keep asking until we get some.",
+    "audio": [],
+    "images": []
   },
   "id": "61c5b032-0483-4ecc-a7a0-69203ae09d04",
   "tags": []

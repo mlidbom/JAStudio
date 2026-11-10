@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:寝る_b.mp3]",
-  "audioG": "[sound:寝る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "寐る",
@@ -32,8 +30,7 @@
   "sentenceCount": 128,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +64,18 @@
   "sourceData": {
     "answer": "to: sleep-(lying-down) | go-to-bed/lie-in-bed | lie-down | sleep-(with-someone,-i.e.-have-intercourse) | lie-flat-(e.g.-of-hair) | lie-idle-(of-funds,-stock,-etc.) | ferment-(of-soy-sauce,-miso,-etc.)",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>lie down</kanji> so the verb vocab version is <vocabulary>to lie down</vocabulary>, but what you're really doing is trying <vocabulary>to sleep</vocabulary>.",
-    "readingMnemonic": "The reading is the same as the reading you learned with the kanji. So, you can go ahead and lie down for a moment before moving on to the next item."
+    "readingMnemonic": "The reading is the same as the reading you learned with the kanji. So, you can go ahead and lie down for a moment before moving on to the next item.",
+    "audio": [
+      {
+        "fileName": "寝る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "寝る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "9c10be1a-cf8a-48f4-9780-c48d02464acd",
   "tags": [

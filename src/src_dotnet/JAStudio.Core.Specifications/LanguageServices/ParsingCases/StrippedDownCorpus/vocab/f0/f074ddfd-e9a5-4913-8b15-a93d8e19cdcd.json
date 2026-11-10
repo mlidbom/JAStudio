@@ -20,9 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:行く_b.mp3]",
-  "audioG": "[sound:行く_g.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "行く_b.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "行く_g.mp3",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "行く",
@@ -32,8 +39,7 @@
   "sentenceCount": 565,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +68,9 @@
   "sourceData": {
     "answer": "to:{go/move-(in-a-direction-or-towards-a-specific-location)/head-(towards)/be-transported-(towards)/reach} | to:{proceed/take-place} | to:{pass-through/come-and-go} | to:walk | to:{die/pass-away} | to:do-(in-a-specific-way) | to:{stream/flow} | to{?}continue | to:{have-an-orgasm/come/cum} | to:{trip/get-high/have-a-drug-induced-hallucination}",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>go</kanji> so the verb form of this is <vocabulary>to go</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have to remember the <ja>い</ja> portion. To remember <ja>い</ja> we use the word \"eagle.\" \n\nYou want <vocabulary>to go</vocabulary> somewhere (anywhere!) but you can't. An <reading>ea</reading>gle (<ja>い</ja>) blocks your path. You try to go forward and it opens its wings and bites at you. You try to go back and it jumps at you. There's nowhere for you to go with this eagle standing there."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have to remember the <ja>い</ja> portion. To remember <ja>い</ja> we use the word \"eagle.\" \n\nYou want <vocabulary>to go</vocabulary> somewhere (anywhere!) but you can't. An <reading>ea</reading>gle (<ja>い</ja>) blocks your path. You try to go forward and it opens its wings and bites at you. You try to go back and it jumps at you. There's nowhere for you to go with this eagle standing there.",
+    "audio": [],
+    "images": []
   },
   "id": "f074ddfd-e9a5-4913-8b15-a93d8e19cdcd",
   "tags": [

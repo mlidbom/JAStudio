@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": false,
-  "audioB": "[sound:巧い_b.mp3]",
-  "audioG": "[sound:巧い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "skillful/skilful/clever/expert/wise/successful | delicious/appetizing/appetising/tasty | fortunate/splendid/promising",
     "mnemonic": "You're so <kanji>adept</kanji>! That makes you <vocabulary>adept</vocabulary> at that thing. <vocabulary>Skillful</vocabulary> and <vocabulary>clever</vocabulary> are other ways to do it too.",
-    "readingMnemonic": "Remember <ja>旨い</ja>, which means \"delicious\"? Remember how it also means \"skillful\" and \"clever\"? It's the same with this word, and the reading is the same as well."
+    "readingMnemonic": "Remember <ja>旨い</ja>, which means \"delicious\"? Remember how it also means \"skillful\" and \"clever\"? It's the same with this word, and the reading is the same as well.",
+    "audio": [
+      {
+        "fileName": "巧い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "巧い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "15288aa0-a54d-42aa-bf95-a2d956b689d5",
   "tags": [

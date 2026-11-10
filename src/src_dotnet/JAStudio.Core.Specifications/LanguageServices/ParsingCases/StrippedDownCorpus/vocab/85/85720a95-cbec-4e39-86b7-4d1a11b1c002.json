@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:買う_b.mp3]",
-  "audioG": "[sound:買う_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "かう",
@@ -32,8 +30,7 @@
   "sentenceCount": 332,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "to{} buy/purchase | value/have-a-high-opinion | stir/provoke/draw-upon-oneself",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>buy</kanji> so the verb form is <vocabulary>to buy</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. If you remember your kanji readings, you'll be just fine."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. If you remember your kanji readings, you'll be just fine.",
+    "audio": [
+      {
+        "fileName": "買う_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "買う_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "85720a95-cbec-4e39-86b7-4d1a11b1c002",
   "tags": [

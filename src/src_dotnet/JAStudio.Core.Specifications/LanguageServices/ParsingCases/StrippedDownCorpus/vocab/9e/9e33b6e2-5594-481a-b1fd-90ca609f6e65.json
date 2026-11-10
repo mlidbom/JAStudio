@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:量_b.mp3]",
-  "audioG": "[sound:量_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 20,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "quantity/amount/volume/capacity/portion-(of-food) | generosity/magnanimity/tolerance | pramana/(in-Indian-philosophy)-means-by-which-one-gains-accurate-and-valid-knowledge",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji.",
+    "audio": [
+      {
+        "fileName": "量_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "量_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "9e33b6e2-5594-481a-b1fd-90ca609f6e65",
   "tags": [

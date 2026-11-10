@@ -26,9 +26,14 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:Chobits_01_0.15.32.280-0.15.33.220.mp3]",
-  "audioG": "[sound:A_FruitsBasket_S01E16_1_0.17.47.173-0.17.48.550.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "Chobits_01_0.15.32.280-0.15.33.220.mp3"
+    },
+    {
+      "fileName": "A_FruitsBasket_S01E16_1_0.17.47.173-0.17.48.550.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "何なんだ",
@@ -38,8 +43,7 @@
   "sentenceCount": 6,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -63,7 +67,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4e68c1bf-b13d-4504-8ec7-255212f3cf2a",
   "tags": [

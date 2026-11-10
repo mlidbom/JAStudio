@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:気_b.mp3]",
-  "audioG": "[sound:気_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "氣",
@@ -31,8 +29,7 @@
   "sentenceCount": 561,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=ZHHd3nHkFb0&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=76\">Cure Dolly Secrets of 気 Ki - ki ni naru, ki ni suru, ki ga suru, ki ni iru etc.</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,18 @@
   "sourceData": {
     "answer": "spirit/mind/heart | nature/disposition | motivation/intention | mood/feelings | ambience/atmosphere/mood",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as the kanji that makes up this word. Lucky you!"
+    "readingMnemonic": "The reading is the same as the kanji that makes up this word. Lucky you!",
+    "audio": [
+      {
+        "fileName": "気_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "気_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "da628d09-0c31-4ba3-92bb-f085e5c784a3",
   "tags": [

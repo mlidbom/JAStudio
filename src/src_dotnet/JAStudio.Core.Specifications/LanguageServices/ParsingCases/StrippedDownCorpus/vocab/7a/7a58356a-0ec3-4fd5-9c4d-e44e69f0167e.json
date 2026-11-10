@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-04-22-12-00-33-915.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 270,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "forbidden"
@@ -63,7 +60,13 @@
   "sourceData": {
     "answer": "eh?/what?/oh? | yes/that's-correct | strengthens-a-question,-assertion,-etc. | hey",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-04-22-12-00-33-915.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "7a58356a-0ec3-4fd5-9c4d-e44e69f0167e",
   "tags": [

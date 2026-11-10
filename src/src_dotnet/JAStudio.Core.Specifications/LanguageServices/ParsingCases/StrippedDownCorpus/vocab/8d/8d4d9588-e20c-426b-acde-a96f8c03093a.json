@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-bd6067708e45c193ba7e1fed7277bf050f6f9362401d099811024d97.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-bd6067708e45c193ba7e1fed7277bf050f6f9362401d099811024d97.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "来い",
@@ -40,8 +46,7 @@
   "sentenceCount": 20,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceEnd": "required",
@@ -69,7 +74,9 @@
   "sourceData": {
     "answer": "rich-in-.../high-in-.../full-of-.../very-.../quite-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "8d4d9588-e20c-426b-acde-a96f8c03093a",
   "tags": []

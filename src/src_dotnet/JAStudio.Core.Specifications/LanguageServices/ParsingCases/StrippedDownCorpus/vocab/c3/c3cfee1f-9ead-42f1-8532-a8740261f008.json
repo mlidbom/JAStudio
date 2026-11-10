@@ -22,9 +22,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-04-22-06-39-59-213.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "何て",
@@ -34,8 +32,7 @@
   "sentenceCount": 428,
   "technicalNotes": "",
   "references": "Cure Dolly: <a href=\"https://youtu.be/OlUG9ym-b4Y?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=520\">なんて、なんか、など</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -66,7 +63,13 @@
   "sourceData": {
     "answer": "<tag><ja>何て</ja></tag>:: how-...!/what-...! | what?/what's-that?\nthings-like/something-like/someone-like/such-a-thing-as/(the-fact)-that/to-think-that",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-04-22-06-39-59-213.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "c3cfee1f-9ead-42f1-8532-a8740261f008",
   "tags": [

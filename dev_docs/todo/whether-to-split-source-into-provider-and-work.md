@@ -144,7 +144,7 @@ The discussion found more than provider and work in and around `source::`:
 - **The licence regime:** `free::` in `source::free::misc`, and the media layer's `free`, `commercial-01` and
   `commercial-02`. It follows the origin of each piece of content, not the note.
 - **The media's own origin,** a separate axis, per media file:
-  - A WaniKani sentence's text is WaniKani's, but its audio is TTS (`_tts_audio`, on 14,607 sentences).
+  - A WaniKani sentence's text is WaniKani's, but its audio is TTS (14,597 sentences, the corpus's own TTS audio since slice 9's step 3).
   - The dictionary vocab have TTS audio.
   - Some Yomitan vocab have audio clipped from One Week Friends.
 

@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ら_等_2023-09-09-08-04-18.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_ら_等_2023-09-09-08-04-18.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "等",
@@ -35,8 +37,7 @@
   "sentenceCount": 160,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +61,9 @@
   "sourceData": {
     "answer": "<tag><ja>等</ja></tag>:: pluralizing-suffix | or-so/rough-indicator-of-direction,-location,-amount,-etc. | nominalizing-suffix\n<read>にし</read>|<read>ら</read>:<tag><ja>螺</ja></tag>:: small-spiral-shelled-snail/spiral-shellfish",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "81c03bc3-becb-4608-b45a-6524e94e19d5",
   "tags": []

@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:離れる_b.mp3]",
-  "audioG": "[sound:離れる_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 60,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "to: be-{separated/apart/distant} | {leave/go-away} | {leave-(a-job,-etc.)/quit/give-up} | {lose-connection-with/drift-away-from}",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>detach</kanji>, but what happens when something detaches? It causes it <vocabulary>to separate</vocabulary> and <vocabulary>to leave</vocabulary>. This refers to when something separates on its own. You aren't doing the separating. You know this because it's <reading>rare</reading> (<ja>れる</ja>) to see things separate, but sometimes you do see them. Also, whenever you see <ja>れる</ja> usually it's a safe bet that you're not the one doing the action, right? Think about it.",
-    "readingMnemonic": "For the reading, think about what is separating. It's quite sad, because all of the <ja><reading>花</reading></ja>s (<ja>はな</ja>) are separating from their stems and falling on the ground, and nobody knows why. Just falling off and being sad."
+    "readingMnemonic": "For the reading, think about what is separating. It's quite sad, because all of the <ja><reading>花</reading></ja>s (<ja>はな</ja>) are separating from their stems and falling on the ground, and nobody knows why. Just falling off and being sad.",
+    "audio": [
+      {
+        "fileName": "離れる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "離れる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "4fcb1777-1e38-421b-b039-2b350e44509b",
   "tags": [

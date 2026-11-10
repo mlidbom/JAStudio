@@ -21,9 +21,15 @@
     "polite"
   ],
   "usuallyWrittenInKana": true,
-  "audioB": " [sound:ATTS ます (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "ATTS ます (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "マス",
@@ -37,8 +43,7 @@
   "sentenceCount": 7324,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -74,11 +79,12 @@
   "sourceData": {
     "answer": "<tag><ja>鱒</ja></tag>:: trout/sea-trout\nused-to-indicate-respect-for-the-listener-(or-reader) | used-to-indicate-respect-for-those-affected-by-the-action",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "d3765dc0-d7b5-439a-81ab-84ba2f89b7b7",
   "tags": [
-    "_tts_audio",
     "source::yomitan"
   ]
 }

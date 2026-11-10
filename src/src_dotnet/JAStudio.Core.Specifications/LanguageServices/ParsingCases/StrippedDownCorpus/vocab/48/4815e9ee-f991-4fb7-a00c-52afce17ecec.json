@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:考える_b.mp3]",
-  "audioG": "[sound:考える_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "稽える",
@@ -36,8 +34,7 @@
   "sentenceCount": 203,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "to{} think-(about,-of)/think-over/ponder/contemplate/reflect-(on)/meditate-(on) | consider/bear-in-mind/allow-for/take-into-consideration | think-(that)/believe/hold-(a-view)/judge/conclude/suspect | intend-(to-do)/think-of-(doing)/plan | predict/anticipate/expect/imagine | come-up-with/think-up/contrive/devise | consider-(as)/regard-(as)/look-on-(as)/take/view",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>think</kanji>, so the verb version is <vocabulary>to think about</vocabulary> or <vocabulary>to consider</vocabulary>. \n\nNote that this isn't the \"to think\" that is like \"I think that he is a power ranger.\" No, this is more like the actual thinking action. That's why this word is \"to think about\" or \"to consider\" rather than plain old \"to think\" which is <ja>思う</ja>.",
-    "readingMnemonic": "If you want <vocabulary>to think</vocabulary>, the best way to do so is to do the <reading>conga</reading> (<ja>かんが</ja>). Imagine yourself doing the conga and thinking away. You're so inspired! The thoughts are flowing as freely as your sweet, slow dance moves."
+    "readingMnemonic": "If you want <vocabulary>to think</vocabulary>, the best way to do so is to do the <reading>conga</reading> (<ja>かんが</ja>). Imagine yourself doing the conga and thinking away. You're so inspired! The thoughts are flowing as freely as your sweet, slow dance moves.",
+    "audio": [
+      {
+        "fileName": "考える_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "考える_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "4815e9ee-f991-4fb7-a00c-52afce17ecec",
   "tags": [

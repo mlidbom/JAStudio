@@ -21,15 +21,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "[sound:yomichan_audio_ない_ない_2023-07-20-04-41-08.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_ない_ない_2023-07-20-04-41-08.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 4147,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "irrealis": "required",
@@ -56,7 +57,9 @@
   "sourceData": {
     "answer": "<tag><ja>無い</ja></tag>:: nonexistent/not-being-(there) | unowned/not-had/unpossessed | unique | not/impossible/won't-happen | not | to-not-be/to-have-not\nnot | emphatic-suffix",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "1d4932a0-8cac-4af7-8a41-3b8a0d69fe9f",
   "tags": [

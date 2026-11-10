@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ない_ない_2023-07-20-04-41-08.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ない",
@@ -32,8 +30,7 @@
   "sentenceCount": 106,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "irrealis": "forbidden"
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "nonexistent/not-being-(there) | unowned/not-had/unpossessed | unique | not/impossible/won't-happen | not | to-not-be/to-have-not",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ない_ない_2023-07-20-04-41-08.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ba2dd925-71e4-4ea5-8171-b59fa72ea268",
   "tags": [

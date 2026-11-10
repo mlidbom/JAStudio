@@ -19,15 +19,14 @@ public partial class VocabDto : CorpusNoteDto
    public List<string> Register { get; init; } = [];
    /// <summary>The vocab's <see cref="Note.Vocabulary.VocabNoteUsuallyWrittenInKana.Decision"/>: true for yes, false for no, and null while it's undecided.</summary>
    public bool? UsuallyWrittenInKana { get; init; }
-   public string AudioB { get; init; } = string.Empty;
-   public string AudioG { get; init; } = string.Empty;
-   public string AudioTTS { get; init; } = string.Empty;
+   /// <summary>The corpus's own audio of the vocab, added since its source gave it its own: see <see cref="Note.Vocabulary.VocabNote.Audio"/>.</summary>
+   public List<AudioReferenceDto> Audio { get; init; } = [];
    public List<EnteredFormDto> Forms { get; init; } = [];
    public int SentenceCount { get; init; }
    public string TechnicalNotes { get; init; } = string.Empty;
    public string References { get; init; } = string.Empty;
-   public string Image { get; init; } = string.Empty;
-   public string UserImage { get; init; } = string.Empty;
+   /// <summary>The corpus's own images of the vocab: see <see cref="Note.Vocabulary.VocabNote.Images"/>.</summary>
+   public List<ImageReferenceDto> Images { get; init; } = [];
    public VocabMatchingDto Matching { get; init; } = new();
    public VocabRelatedDto RelatedVocab { get; init; } = new();
    public VocabSourceDataDto SourceData { get; init; } = new();

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_9085_male.mp3]",
-  "audioG": "[sound:Wani_9085_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "なくなる",
@@ -32,8 +30,15 @@
   "sentenceCount": 15,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"無くすイラスト｜無料イラスト・フリー素材なら「イラストAC」\" src=\"a489534943969936052a2fd823859303_t.jpeg\"><img src=\"paste-ac69a9585e16e01b601e77a737729c3cba03dcde.jpg\">",
+  "images": [
+    {
+      "fileName": "a489534943969936052a2fd823859303_t.jpeg",
+      "altText": "無くすイラスト｜無料イラスト・フリー素材なら「イラストAC」"
+    },
+    {
+      "fileName": "paste-ac69a9585e16e01b601e77a737729c3cba03dcde.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +72,18 @@
   "sourceData": {
     "answer": "to: be-{lost-(e.g.-luggage)/missing} | {be-used-up/be-run-out/be-exhausted/be-consumed/be-reduced-to-zero/not-occur-any-more} | {disappear-(e.g.-pain)/be-lost-(e.g.-a-dream,-confidence)}",
     "mnemonic": "Here we have <kanji>nothing</kanji>, followed by the verb <ja>なる</ja>. A verb that means \"become nothing\"? That'll be <vocabulary>to be gone</vocabulary>, <vocabulary>to run out</vocabulary>, <vocabulary>to be lost</vocabulary>, or <vocabulary>to disappear</vocabulary>.\n\nThis can be translated in various ways depending on the situation, but just remember that it always refers to something changing from being there, to not being there.",
-    "readingMnemonic": "This uses the kun'yomi reading, which you learned with <ja>無し</ja>, so you should be good to go."
+    "readingMnemonic": "This uses the kun'yomi reading, which you learned with <ja>無し</ja>, so you should be good to go.",
+    "audio": [
+      {
+        "fileName": "Wani_9085_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_9085_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "628df215-92f9-427d-8b3b-9a337613a2f3",
   "tags": [

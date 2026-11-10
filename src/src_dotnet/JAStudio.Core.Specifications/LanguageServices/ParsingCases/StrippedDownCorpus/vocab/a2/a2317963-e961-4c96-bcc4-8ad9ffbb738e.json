@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:c28ab5782d772a77a787d7b6771efaaf-dfc387899599bd070747c1aa98cdcf46493c9163.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "様",
@@ -32,8 +30,7 @@
   "sentenceCount": 972,
   "technicalNotes": "",
   "references": "<a href=\"https://youtu.be/IE7WgIOOGbM?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=129\">Cure dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -68,7 +65,13 @@
   "sourceData": {
     "answer": "<tag><ja>様</ja></tag>:: appearing-.../looking-... | way-to-.../method-of-...ing | form/style/design | like/similar-to | thing-(thought-or-spoken)\n<tag><ja>良う</ja></tag>:: well/properly/skillfully | often | how-(could-you)/why-(would-you)\n<tag><ja>癰</ja></tag>:: carbuncle\n(I)-will/(I)-shall | let's | (I)-wonder-(if)/might-it-be-(that)/maybe/perhaps/perchance | hey/yo/hi | come-on/hey",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "c28ab5782d772a77a787d7b6771efaaf-dfc387899599bd070747c1aa98cdcf46493c9163.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a2317963-e961-4c96-bcc4-8ad9ffbb738e",
   "tags": [

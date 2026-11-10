@@ -20,15 +20,17 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:逆_b.mp3]",
-  "audioG": "[sound:逆_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 18,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"逆」は英語で何て言う？反対、逆さま、逆に等、意味ごとに詳しく解説| Kimini英会話\" src=\"rhinoceros-782278_1280-1200x675.jpg\">",
+  "images": [
+    {
+      "fileName": "rhinoceros-782278_1280-1200x675.jpg",
+      "altText": "逆」は英語で何て言う？反対、逆さま、逆に等、意味ごとに詳しく解説| Kimini英会話"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +54,18 @@
   "sourceData": {
     "answer": "reverse/opposite | converse-(of-a-hypothesis,-etc.) | inverse-(function)",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as what you learned with the kanji as well. Lucky! <kanji>Reverse</kanji> face time!"
+    "readingMnemonic": "The reading is the same as what you learned with the kanji as well. Lucky! <kanji>Reverse</kanji> face time!",
+    "audio": [
+      {
+        "fileName": "逆_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "逆_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5c4e35d4-953f-4e9f-833e-078aa8358d80",
   "tags": [

@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_た_た_2023-07-20-12-04-32.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 13591,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -71,7 +68,13 @@
   "sourceData": {
     "answer": "did/(have)-done | (please)-do",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_た_た_2023-07-20-12-04-32.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "8ee8e382-e65c-4af4-81b6-ccd55babc91f",
   "tags": [

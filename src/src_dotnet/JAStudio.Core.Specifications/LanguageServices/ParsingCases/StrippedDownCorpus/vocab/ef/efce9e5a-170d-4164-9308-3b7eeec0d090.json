@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-d9efb2629acc06147878f837d0a19c33c4487f418841f44f7f66445a.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-d9efb2629acc06147878f837d0a19c33c4487f418841f44f7f66445a.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "べない",
@@ -84,8 +90,7 @@
   "sentenceCount": 564,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanPotential": "required",
@@ -133,7 +138,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "efce9e5a-170d-4164-9308-3b7eeec0d090",
   "tags": []

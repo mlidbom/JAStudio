@@ -23,9 +23,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-f8daadbb23405a9163f4451fac46310a1cd2f9fe07aa4db62a0872e5.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-f8daadbb23405a9163f4451fac46310a1cd2f9fe07aa4db62a0872e5.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "っす",
@@ -35,8 +41,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required"
@@ -62,7 +67,9 @@
   "sourceData": {
     "answer": "<read>すだれ</read>|<read>す</read>:<tag><ja>簾</ja></tag>:: bamboo-screen/rattan-blind | bamboo-mat-(for-rolling-sushi)\n<tag><ja>為</ja></tag>:: to{?}do\n<read>っす</read>|<read>す</read>:: be/is\n<tag><ja>鬆</ja></tag>:: cavity-(in-old-root-vegetables,-tofu,-metal-casting,-etc.)/pore/hollow/bubble/blowhole | porous/pithy/spongy",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "494193da-0b1c-4684-9355-f8f526d3e229",
   "tags": []

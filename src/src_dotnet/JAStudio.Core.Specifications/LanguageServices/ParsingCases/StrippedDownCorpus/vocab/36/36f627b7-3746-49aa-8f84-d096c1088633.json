@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-d0b0a8ffcbbae2ff83aae3acda2ad366639562c71a420df5590be371.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-d0b0a8ffcbbae2ff83aae3acda2ad366639562c71a420df5590be371.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "って思った",
@@ -40,8 +46,7 @@
   "sentenceCount": 143,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "36f627b7-3746-49aa-8f84-d096c1088633",
   "tags": []

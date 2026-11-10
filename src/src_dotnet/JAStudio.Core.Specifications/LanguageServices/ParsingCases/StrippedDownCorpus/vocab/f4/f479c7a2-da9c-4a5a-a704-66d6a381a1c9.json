@@ -22,15 +22,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-b8ef71490237d859453781c5e44449e70a5d889d1246d3d93a16bbb2.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-b8ef71490237d859453781c5e44449e70a5d889d1246d3d93a16bbb2.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -54,7 +59,9 @@
   "sourceData": {
     "answer": "<read>いり</read>:<tag><ja>入り</ja></tag>:: entering | setting-(of-the-Sun) | containing/content/audience | income | beginning\n<read>しお</read>:: counter-for-soakings-(of-fabric-in-a-dye)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "f479c7a2-da9c-4a5a-a704-66d6a381a1c9",
   "tags": [

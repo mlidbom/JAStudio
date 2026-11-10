@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-b41d8e7ad117e647133fe1d26b234a66a7368857477e159618f0b61a.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-b41d8e7ad117e647133fe1d26b234a66a7368857477e159618f0b61a.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 4,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +65,9 @@
   "sourceData": {
     "answer": "at-the-risk-of-one's-life/even-if-(I)-die/even-if-it-kills-one-(me,-him,-etc.) | at-all-costs/no-matter-what/as-long-as-I-live/definitely",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "74bfd14e-dd22-4676-8fb4-a93d9ad894ef",
   "tags": [

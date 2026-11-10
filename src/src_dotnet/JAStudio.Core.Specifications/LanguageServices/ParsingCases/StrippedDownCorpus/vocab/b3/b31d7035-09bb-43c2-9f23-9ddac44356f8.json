@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_だろう_だろう_2023-05-15-08-01-13.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "だろ",
@@ -40,8 +38,7 @@
   "sentenceCount": 1026,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "seems/I-think/I-guess/I-wonder/I-hope | don't-you-agree?/I-thought-you'd-say-that!",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_だろう_だろう_2023-05-15-08-01-13.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "b31d7035-09bb-43c2-9f23-9ddac44356f8",
   "tags": [

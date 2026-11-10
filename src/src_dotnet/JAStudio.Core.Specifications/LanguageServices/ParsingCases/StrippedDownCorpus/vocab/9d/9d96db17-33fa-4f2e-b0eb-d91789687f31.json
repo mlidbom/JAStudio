@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:日本語_b.mp3]",
-  "audioG": "[sound:日本語_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 131,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "Japanese-(language)",
     "mnemonic": "You know <ja>日本</ja> is \"Japan.\" So, when you add <kanji>language</kanji> onto the end of that you have <vocabulary>Japanese language</vocabulary>.",
-    "readingMnemonic": "The reading is just the vocab word <ja>日本</ja> (<ja>にほん</ja>) plus the reading that you learned for <ja>語</ja>. Combine them together to get the reading for this word."
+    "readingMnemonic": "The reading is just the vocab word <ja>日本</ja> (<ja>にほん</ja>) plus the reading that you learned for <ja>語</ja>. Combine them together to get the reading for this word.",
+    "audio": [
+      {
+        "fileName": "日本語_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "日本語_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "9d96db17-33fa-4f2e-b0eb-d91789687f31",
   "tags": [

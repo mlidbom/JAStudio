@@ -21,9 +21,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": false,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-c13abc974adbbd93a73fb5d1d6c80c2f0b15d4fcbca9fda8c29f357d.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-c13abc974adbbd93a73fb5d1d6c80c2f0b15d4fcbca9fda8c29f357d.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "じん",
@@ -45,8 +47,7 @@
   "sentenceCount": 2084,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +71,9 @@
   "sourceData": {
     "answer": "<read>じん</read>:: -ian-(e.g.-Italian)/-ite-(e.g.-Tokyoite) | -er-(e.g.-performer,-etc.)/person-working-with-... | man/person/people\n<read>ひと</read>:: man/person | human-being/mankind/people | human-(Homo-sapiens)/humans-as-a-species | character/personality | man-of-talent/true-man | another-person/other-people/others | adult\n<read>にん</read>:: counter-for-people",
     "mnemonic": "When a vocab is a single kanji all alone, it usually has the same meaning as its kanji parent. That goes for this vocab word as well. <kanji>Person</kanji> is <vocabulary>person</vocabulary>.",
-    "readingMnemonic": "When a vocab is a single kanji with no okurigana (hiragana attached to the kanji), it usually uses the kun'yomi reading. Since you don't know the kun'yomi reading for this kanji yet, let's use a mnemonic to learn it.\n\nWhat does a <vocabulary>person</vocabulary> hate more than anything? They hate extreme <reading>heat</reading> (<ja>ひと</ja>). You can always put on more clothes to stay warm, but when the heat gets too high, you can only take off so much."
+    "readingMnemonic": "When a vocab is a single kanji with no okurigana (hiragana attached to the kanji), it usually uses the kun'yomi reading. Since you don't know the kun'yomi reading for this kanji yet, let's use a mnemonic to learn it.\n\nWhat does a <vocabulary>person</vocabulary> hate more than anything? They hate extreme <reading>heat</reading> (<ja>ひと</ja>). You can always put on more clothes to stay warm, but when the heat gets too high, you can only take off so much.",
+    "audio": [],
+    "images": []
   },
   "id": "7489fcaf-31a9-4fba-adf2-a9e76e46d803",
   "tags": [

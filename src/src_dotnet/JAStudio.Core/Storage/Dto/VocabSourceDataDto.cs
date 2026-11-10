@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MemoryPack;
 
 namespace JAStudio.Core.Storage.Dto;
@@ -9,4 +10,6 @@ public partial class VocabSourceDataDto
    public string Answer { get; init; } = string.Empty;
    public string Mnemonic { get; init; } = string.Empty;
    public string ReadingMnemonic { get; init; } = string.Empty;
+   public List<AudioReferenceDto> Audio { get; init; } = [];
+   public List<ImageReferenceDto> Images { get; init; } = [];
 }

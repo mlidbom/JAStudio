@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-05-14-22-07-00-758.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "teFormStemStart": "forbidden"
@@ -54,7 +51,13 @@
   "sourceData": {
     "answer": "unthinkable/unimaginable/inconceivable/unexpected | terrible/awful/serious | very",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-05-14-22-07-00-758.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "697a5569-40bf-4dd6-91e3-5b7342e702f2",
   "tags": [

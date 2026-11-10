@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:落書き_b.mp3]",
-  "audioG": "[sound:落書き_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "楽書",
@@ -49,8 +47,7 @@
   "sentenceCount": 22,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "scrawl/scribble/graffiti/doodle",
     "mnemonic": "When <kanji>writing</kanji> just happens to \"<kanji>fall</kanji>\" on the wall (whoops, wasn't me who did that, how strannnnge) it's writing that's not supposed to be where it is. This kind of writing is <vocabulary>graffiti</vocabulary>.",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. <ja>書</ja>, however, is kun'yomi in this case and also has rendaku. So just remember that it's read as <ja>が</ja> for this vocab and you'll be fine."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. <ja>書</ja>, however, is kun'yomi in this case and also has rendaku. So just remember that it's read as <ja>が</ja> for this vocab and you'll be fine.",
+    "audio": [
+      {
+        "fileName": "落書き_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "落書き_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "b8707342-7341-4e5b-af3a-6f2fd3eecb3d",
   "tags": [

@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2026-00-28-05-27-33-295.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "1寸",
@@ -45,8 +43,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +67,13 @@
   "sourceData": {
     "answer": "one-sun-(approx.-3.03-cm) | little-bit-(of-time,-distance,-etc.)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2026-00-28-05-27-33-295.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a99c6890-2a51-4975-9439-6224b9675ce2",
   "tags": [

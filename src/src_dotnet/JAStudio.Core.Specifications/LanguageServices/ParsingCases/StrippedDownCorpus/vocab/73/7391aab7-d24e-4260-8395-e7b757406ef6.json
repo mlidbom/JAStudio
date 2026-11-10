@@ -19,15 +19,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:katakana_22_ni.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "katakana_22_ni.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 12570,
   "technicalNotes": "",
   "references": "<a href=\"https://www.japanesewithanime.com/2019/05/ni-particle.html\">に Particle | Japanese with Anime</a>&nbsp;#&nbsp;<a href=\"https://www.japanesewithanime.com/2019/10/ni-copula.html\">に Adverbial Copula | Japanese with Anime</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -58,7 +59,9 @@
   "sourceData": {
     "answer": "at-(place,-time)/in/on/during | to-(direction,-state)/toward/into | for-(purpose) | because-of-(reason)/for/with | by/from | as-(i.e.-in-the-role-of) | per/in/for/a-(e.g.-\"once-a-month\") | and/in-addition-to | if/although",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7391aab7-d24e-4260-8395-e7b757406ef6",
   "tags": [

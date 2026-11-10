@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:d3c1ab899ca7d8d206f2817aa1396c51.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "了う",
@@ -45,8 +43,7 @@
   "sentenceCount": 702,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +67,13 @@
   "sourceData": {
     "answer": "to{}{finish/stop/end/put-an-end-to/bring-to-a-close} | to{}{close-(a-business,-etc.)/close-down/shut-down/shut-up} | to{}{put-away/put-back/keep/store} | to{?}{do-completely/finish} | to{?}{do-accidentally/do-without-meaning-to/happen-to-do}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "d3c1ab899ca7d8d206f2817aa1396c51.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "49a757e5-352c-4526-a118-c665361fea66",
   "tags": [

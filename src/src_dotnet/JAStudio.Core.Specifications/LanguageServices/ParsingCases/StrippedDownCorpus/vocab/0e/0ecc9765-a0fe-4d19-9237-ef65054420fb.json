@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_て_て_2023-07-16-00-53-44.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 11626,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=uoj5l8-Ppws&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=83\">Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "teFormStemStart": "required"
@@ -85,7 +82,13 @@
   "sourceData": {
     "answer": "<read>って</read>|<read>て</read>:: you-said/he-said/she-said/they-said | if-...-then | do-you-seriously-think-that | I-already-told-you/you-should-know-by-now-that/of-course | the-said-.../said-... | says-that-... | I-hear-that-... | as-for-the-term-... | as-for-...\nindicates-continuing-action",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_て_て_2023-07-16-00-53-44.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "0ecc9765-a0fe-4d19-9237-ef65054420fb",
   "tags": [

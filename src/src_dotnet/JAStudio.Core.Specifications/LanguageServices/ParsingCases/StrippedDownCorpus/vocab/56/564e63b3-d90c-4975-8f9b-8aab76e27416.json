@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_そんな_そんな_2023-07-25-02-18-08.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 361,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,13 @@
   "sourceData": {
     "answer": "such/that-sort-of/that-kind-of/like-that | no-way!/never!",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_そんな_そんな_2023-07-25-02-18-08.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "564e63b3-d90c-4975-8f9b-8aab76e27416",
   "tags": [

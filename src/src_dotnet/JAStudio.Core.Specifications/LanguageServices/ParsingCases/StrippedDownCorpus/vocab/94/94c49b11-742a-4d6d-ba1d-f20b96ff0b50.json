@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:嫌_b.mp3]",
-  "audioG": "[sound:嫌_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "厭や",
@@ -36,8 +34,7 @@
   "sentenceCount": 81,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "disagreeable/detestable/unpleasant/reluctant",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. The vocab has the added meanings of <vocabulary>eww</vocabulary>, <vocabulary>gross</vocabulary>, and even <vocabulary>reluctant</vocabulary>.",
-    "readingMnemonic": "The reading for this word is pretty weird. It's different than the <ja>嫌い</ja> word you will see in this level too. It is <ja><reading>いや</reading></ja>, so when you think of something you dislike, just think \"<reading>iyah</reading>, I dislike it.\" Also, think about that <vocabulary>eww</vocabulary> feeling it gives you when you think of the thing you dislike most."
+    "readingMnemonic": "The reading for this word is pretty weird. It's different than the <ja>嫌い</ja> word you will see in this level too. It is <ja><reading>いや</reading></ja>, so when you think of something you dislike, just think \"<reading>iyah</reading>, I dislike it.\" Also, think about that <vocabulary>eww</vocabulary> feeling it gives you when you think of the thing you dislike most.",
+    "audio": [
+      {
+        "fileName": "嫌_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "嫌_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "94c49b11-742a-4d6d-ba1d-f20b96ff0b50",
   "tags": [

@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:形_b.mp3]",
-  "audioG": "[sound:形_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "容",
@@ -37,8 +35,16 @@
   "sentenceCount": 68,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"Playground\" src=\"stokuvhfnad66h2bzdkz.png\"><img alt=\"Playground\" src=\"kl7tdwgkzuqtmre80oii.png\">",
+  "images": [
+    {
+      "fileName": "stokuvhfnad66h2bzdkz.png",
+      "altText": "Playground"
+    },
+    {
+      "fileName": "kl7tdwgkzuqtmre80oii.png",
+      "altText": "Playground"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +68,18 @@
   "sourceData": {
     "answer": "<read>かたち</read>|<read>よう</read>:: form/shape/figure | visage\n<read>けい</read>:: form/tense | adjective/i-adjective-(in-Japanese)",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading. You haven't learned this reading yet, so here's a mnemonic to help you:\n\nYou really want to eat food that's in neat <vocabulary>shape</vocabulary>s, so you decide to use a <reading>cutter</reading> (<ja>かた</ja>) on your <reading>chee</reading>se (<ja>ち</ja>) to make it a new shape. Square cheese is so boring. After you cut it up you have mouse shaped cheese! It just tastes better like that."
+    "readingMnemonic": "Since this word is made up of a single kanji, it should use the kun'yomi reading. You haven't learned this reading yet, so here's a mnemonic to help you:\n\nYou really want to eat food that's in neat <vocabulary>shape</vocabulary>s, so you decide to use a <reading>cutter</reading> (<ja>かた</ja>) on your <reading>chee</reading>se (<ja>ち</ja>) to make it a new shape. Square cheese is so boring. After you cut it up you have mouse shaped cheese! It just tastes better like that.",
+    "audio": [
+      {
+        "fileName": "形_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "形_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c44c26ca-4554-43d2-9ec1-bceb541349dc",
   "tags": [

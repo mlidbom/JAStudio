@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:4669d708df69b52424d71068b7d8dac9.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "抽匣",
@@ -47,8 +45,7 @@
   "sentenceCount": 11,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"20f7a8fa330c8819e79b039dda990e20.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -72,7 +69,17 @@
   "sourceData": {
     "answer": "drawer | withdrawal-(of-money-from-an-account) | variety-of-knowledge-and-experience-useful-for-handling-things-impromptu",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "4669d708df69b52424d71068b7d8dac9.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "20f7a8fa330c8819e79b039dda990e20.jpg"
+      }
+    ]
   },
   "id": "019a8c4f-b7d4-4bc7-bcc9-d0bba5edac6a",
   "tags": [

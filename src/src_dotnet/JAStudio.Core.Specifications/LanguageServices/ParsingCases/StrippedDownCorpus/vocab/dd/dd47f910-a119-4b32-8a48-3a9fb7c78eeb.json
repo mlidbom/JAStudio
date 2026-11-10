@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-06-08-47-09-989.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "為さい",
@@ -40,8 +38,7 @@
   "sentenceCount": 152,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=zayeW4AQ0Is&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=85\">Three Levels of Command in Japanese: て-form commands, なさい, な-commands, imperative form. Lesson 83 - YouTube</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -67,7 +64,13 @@
   "sourceData": {
     "answer": "do-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-06-08-47-09-989.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "dd47f910-a119-4b32-8a48-3a9fb7c78eeb",
   "tags": [

@@ -19,15 +19,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-6901f202011964bf63a13424132291ebee0556f4850738104bfd2da4.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-6901f202011964bf63a13424132291ebee0556f4850738104bfd2da4.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 111,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +52,9 @@
   "sourceData": {
     "answer": "don't-you-think?/indicates-question",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "3595fdff-1ada-49fa-9105-6af8fbab5b3a",
   "tags": [

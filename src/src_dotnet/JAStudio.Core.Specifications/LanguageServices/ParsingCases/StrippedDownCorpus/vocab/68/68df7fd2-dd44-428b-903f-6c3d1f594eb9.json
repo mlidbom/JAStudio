@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_たい_たい_2023-07-16-02-40-45.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 1081,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -64,7 +61,13 @@
   "sourceData": {
     "answer": "<tag><ja>鯛</ja></tag>:: sea-bream-(Sparidae)/porgy | tai-(species-of-reddish-brown-Pacific-sea-bream,-Pagrus-major)\nwant-to-...-do-something/would-like-to-... | indicates-emphasis | very-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_たい_たい_2023-07-16-02-40-45.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "68df7fd2-dd44-428b-903f-6c3d1f594eb9",
   "tags": [

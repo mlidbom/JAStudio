@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:出会う_b.mp3]",
-  "audioG": "[sound:出会う_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "出合う",
@@ -53,8 +51,7 @@
   "sentenceCount": 56,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -81,7 +78,18 @@
   "sourceData": {
     "answer": "To Meet By Chance, To Meet Unexpectedly, To Come Across, To Encounter, To Run Into",
     "mnemonic": "You <kanji>exit</kanji> your house and you <kanji>meet</kanji> someone. You didn’t mean to meet them, but it happened anyway. That’s why this word means <vocabulary>to meet by chance</vocabulary>.",
-    "readingMnemonic": "The reading is that of the word <ja>出る</ja> and the word <ja>会う</ja>, both of which you've hopefully seen. The <ja>出</ja> portion may be confusing, but you can usually assume that if one part of the word is kun'yomi / vocab reading, the other part is too, which is why <ja>出</ja> uses the vocab reading.\n\nOh by the way, this word can be written like this too: <ja>出合う</ja>. It’s not as common, but you may come across it every now and then, so it’s good to know! "
+    "readingMnemonic": "The reading is that of the word <ja>出る</ja> and the word <ja>会う</ja>, both of which you've hopefully seen. The <ja>出</ja> portion may be confusing, but you can usually assume that if one part of the word is kun'yomi / vocab reading, the other part is too, which is why <ja>出</ja> uses the vocab reading.\n\nOh by the way, this word can be written like this too: <ja>出合う</ja>. It’s not as common, but you may come across it every now and then, so it’s good to know! ",
+    "audio": [
+      {
+        "fileName": "出会う_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "出会う_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "3ce3a6c5-7778-40ad-afa5-3c8890f97c82",
   "tags": [

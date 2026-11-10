@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:katakana_5_o.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "katakana_5_o.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "御",
@@ -35,8 +37,7 @@
   "sentenceCount": 1156,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "ichidanImperative": "forbidden",
@@ -63,7 +64,9 @@
   "sourceData": {
     "answer": "oh!-(expression-of-slight-surprise)\n<tag><ja>御</ja></tag>:: honorific/polite/humble-prefix",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "25afbecf-5751-4f2b-a02a-ab0a5bf739d8",
   "tags": []

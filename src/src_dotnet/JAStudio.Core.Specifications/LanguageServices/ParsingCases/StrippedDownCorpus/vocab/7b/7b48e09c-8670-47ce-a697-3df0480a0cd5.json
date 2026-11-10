@@ -20,15 +20,17 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:割れる_b.mp3]",
-  "audioG": "[sound:割れる_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 14,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"割れた皿 - その他\" src=\"5d41e1d5f351babd587cdb9f8f392bb9.jpg\">",
+  "images": [
+    {
+      "fileName": "5d41e1d5f351babd587cdb9f8f392bb9.jpg",
+      "altText": "割れた皿 - その他"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +72,18 @@
   "sourceData": {
     "answer": "to: {break/be-smashed} | {split/crack/fissure/be-torn} | {be-divided-(opinion,-vote,-etc.)/split-(e.g.-of-a-party)} | {come-to-light/become-clear/be-identified/be-revealed} | be-distorted-(of-a-sound) | be-divisible-(without-a-remainder) | go-below-a-minimum",
     "mnemonic": "Remember how <ja>割る</ja> is \"to divide\"? Now you're learning the intransitive version. Instead of you doing the dividing, something just gets divided or split up. So this is <vocabulary>to be divided</vocabulary> or <vocabulary>to be split</vocabulary>.\n\nIt can also mean <vocabulary>to break</vocabulary>, as in <ja>ワイングラスが割れる</ja> (the wine glass breaks). After all, when an object breaks, it’s divided into parts, right?",
-    "readingMnemonic": "The reading is shared with <ja>割る</ja>."
+    "readingMnemonic": "The reading is shared with <ja>割る</ja>.",
+    "audio": [
+      {
+        "fileName": "割れる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "割れる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "7b48e09c-8670-47ce-a697-3df0480a0cd5",
   "tags": [

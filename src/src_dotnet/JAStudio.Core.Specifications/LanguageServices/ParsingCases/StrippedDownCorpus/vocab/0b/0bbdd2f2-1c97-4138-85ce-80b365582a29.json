@@ -34,9 +34,22 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-2aa55e2235f8d6147f81cf852588528f0f824332daa85426cf485cc5.mp3][sound:hypertts-4af8bca40fcd47ea64e09549bafa98e255b64f2c52c4330855275607.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-2aa55e2235f8d6147f81cf852588528f0f824332daa85426cf485cc5.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "hypertts-4af8bca40fcd47ea64e09549bafa98e255b64f2c52c4330855275607.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ように",
@@ -46,8 +59,7 @@
   "sentenceCount": 39,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=IE7WgIOOGbM&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=31\">Cure Dolly Lesson 28: You ni- one key to all the main uses!</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -78,7 +90,9 @@
   "sourceData": {
     "answer": "in-order-to-(e.g.-meet-goal)/so-that/take-care-(so-as) | hoping-or-wishing-for-something",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0bbdd2f2-1c97-4138-85ce-80b365582a29",
   "tags": []

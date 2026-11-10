@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:遭う_b.mp3]",
-  "audioG": "[sound:遭う_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "遇う",
@@ -44,8 +42,7 @@
   "sentenceCount": 13,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,18 @@
   "sourceData": {
     "answer": "to: meet/encounter/see | have-an-accident/have-a-bad-experience",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>encounter</kanji>, so the verb version is <vocabulary>to encounter</vocabulary> or <vocabulary>to meet</vocabulary>.",
-    "readingMnemonic": "Remember how <ja>会う</ja> also means <vocabulary>to meet</vocabulary>? Well they're both read <ja>あう</ja> too! So if you know that one, you know this one too!"
+    "readingMnemonic": "Remember how <ja>会う</ja> also means <vocabulary>to meet</vocabulary>? Well they're both read <ja>あう</ja> too! So if you know that one, you know this one too!",
+    "audio": [
+      {
+        "fileName": "遭う_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "遭う_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "0e31db44-b4e8-4176-9171-b481fe9387c1",
   "tags": [

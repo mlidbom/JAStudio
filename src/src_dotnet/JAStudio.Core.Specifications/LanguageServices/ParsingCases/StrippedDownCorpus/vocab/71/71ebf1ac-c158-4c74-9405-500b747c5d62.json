@@ -19,9 +19,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": " [sound:ATTS られる (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "ATTS られる (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "えられる",
@@ -31,8 +37,7 @@
   "sentenceCount": 628,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=cvV6d-RETs8&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=16\">Receiving, NOT Passive: Cure dolly</a> # <a href=\"https://www.youtube.com/watch?v=LCvGHWbhDKw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=22\">Causative and Receiving(Passive): Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -75,11 +80,12 @@
   "sourceData": {
     "answer": "indicates-passive-voice-(incl.-the-\"suffering-passive\") | indicates-the-potential-form | indicates-spontaneous-occurrence | used-as-an-honorific-for-others'-actions",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "71ebf1ac-c158-4c74-9405-500b747c5d62",
   "tags": [
-    "_tts_audio",
     "source::yomitan"
   ]
 }

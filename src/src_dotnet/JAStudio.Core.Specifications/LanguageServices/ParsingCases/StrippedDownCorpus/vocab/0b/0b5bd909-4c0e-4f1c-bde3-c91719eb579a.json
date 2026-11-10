@@ -19,15 +19,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:katakana_45_wo.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "katakana_45_wo.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 10514,
   "technicalNotes": "",
   "references": "<a href=\"https://www.japanesewithanime.com/2019/05/wo-particle.html\">を Particle | Japanese with Anime</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +57,9 @@
   "sourceData": {
     "answer": "indicates-direct-object-of-action | indicates-subject-of-causative-expression | indicates-an-area-traversed | indicates-time-(period)-over-which-action-takes-place | indicates-point-of-departure-or-separation-of-action | indicates-object-of-desire,-like,-hate,-etc.",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0b5bd909-4c0e-4f1c-bde3-c91719eb579a",
   "tags": [

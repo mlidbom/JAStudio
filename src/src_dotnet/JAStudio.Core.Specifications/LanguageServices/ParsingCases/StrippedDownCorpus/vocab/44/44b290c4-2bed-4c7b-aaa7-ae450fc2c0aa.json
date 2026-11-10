@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ら_等_2023-09-09-08-04-18.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ら",
@@ -35,8 +33,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,13 @@
   "sourceData": {
     "answer": "pluralizing-suffix | or-so/rough-indicator-of-direction,-location,-amount,-etc. | nominalizing-suffix",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ら_等_2023-09-09-08-04-18.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "44b290c4-2bed-4c7b-aaa7-ae450fc2c0aa",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:楽しむ_b.mp3]",
-  "audioG": "[sound:楽しむ_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "楽む",
@@ -36,8 +34,7 @@
   "sentenceCount": 48,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "to{?}enjoy-(oneself)",
     "mnemonic": "You've hopefully seen the word <ja>楽しい</ja>, which means \"fun.\" Now you're going to figure out the verb version (ends in an <ja>う</ja> sound, right?) of it. That would be <vocabulary>to enjoy</vocabulary>. Speaking of which, I hope you're enjoying WaniKani so far!",
-    "readingMnemonic": "The reading is the same as the word <ja>楽しい</ja>, so be sure to know that word and you'll be able to apply it over here."
+    "readingMnemonic": "The reading is the same as the word <ja>楽しい</ja>, so be sure to know that word and you'll be able to apply it over here.",
+    "audio": [
+      {
+        "fileName": "楽しむ_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "楽しむ_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "25dcb9bd-97b4-476f-9bbd-255f75b15b93",
   "tags": [

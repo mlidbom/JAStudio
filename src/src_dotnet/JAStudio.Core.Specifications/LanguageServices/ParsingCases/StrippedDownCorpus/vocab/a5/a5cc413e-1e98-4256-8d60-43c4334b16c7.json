@@ -28,9 +28,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_うまく_旨く_2023-04-26-19-03-21.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_うまく_旨く_2023-04-26-19-03-21.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "巧く",
@@ -52,8 +54,7 @@
   "sentenceCount": 19,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden"
@@ -79,7 +80,9 @@
   "sourceData": {
     "answer": "skilfully/skillfully/well/aptly/cleverly | successfully/smoothly | deliciously",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "a5cc413e-1e98-4256-8d60-43c4334b16c7",
   "tags": []

@@ -71,10 +71,9 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       Explanation = new WritableStringValue(data?.Explanation ?? string.Empty, Guard);
       ExplanationLong = new WritableStringValue(data?.ExplanationLong ?? string.Empty, Guard);
       Mnemonic = new WritableStringValue(data?.Mnemonic ?? string.Empty, Guard);
-      //wip: slice 9's step 3 reads the media lists from data itself, rather than from the media fields of today (TodaysMediaFields).
-      SourceData = new VocabSourceData(data?.SourceData, [], TodaysMediaFields.VocabSourceImagesIn(data), Guard);
-      Audio = new AudioReferenceList(TodaysMediaFields.VocabAudioIn(data), Guard);
-      Images = new MediaReferenceList<ImageReference>(TodaysMediaFields.VocabImagesIn(data), Guard);
+      SourceData = new VocabSourceData(data?.SourceData, Guard);
+      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
+      Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
       TechnicalNotes = new WritableStringValue(data?.TechnicalNotes ?? string.Empty, Guard);
       References = new WritableStringValue(data?.References ?? string.Empty, Guard);

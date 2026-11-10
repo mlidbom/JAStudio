@@ -29,9 +29,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-928afe61a45b171358067ca756a1545d3f7f5b2ca653c3fe7b509dd7.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-928afe61a45b171358067ca756a1545d3f7f5b2ca653c3fe7b509dd7.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "買いかえる",
@@ -45,8 +51,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -72,7 +77,9 @@
   "sourceData": {
     "answer": "to{} buy-a-replacement/replace-by-buying-something-new",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "9fdb8682-52eb-4bc6-a705-f557dcab16dc",
   "tags": [

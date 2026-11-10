@@ -21,9 +21,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-059d327ec5183eba50d4697645d58c4e8a7adb3947334f3c741eb06c.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-059d327ec5183eba50d4697645d58c4e8a7adb3947334f3c741eb06c.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "やめ",
@@ -33,8 +35,7 @@
   "sentenceCount": 22,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +59,9 @@
   "sourceData": {
     "answer": "(a)-stop-(e.g.-in-a-timber-joint,-or-at-the-end-of-a-kanji-stroke) | remaining-(e.g.-poste-restante) | forty-five-degree-angle",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "504d85e9-d4a3-4233-be72-b50072fe6aef",
   "tags": [

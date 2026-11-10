@@ -24,9 +24,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:之_b.mp3]",
-  "audioG": "[sound:之_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "之",
@@ -64,8 +62,7 @@
   "sentenceCount": 896,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -98,7 +95,18 @@
   "sourceData": {
     "answer": "<tag><ja>此れ</ja></tag>:: this/this-one | this-person | now/this-point-(in-time) | here | used-to-stress-the-subject-of-a-sentence | I/me\nhey/oi/come-on/look/listen",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!"
+    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!",
+    "audio": [
+      {
+        "fileName": "之_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "之_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e9f9b41a-6a88-489e-8528-a119fe90f003",
   "tags": [

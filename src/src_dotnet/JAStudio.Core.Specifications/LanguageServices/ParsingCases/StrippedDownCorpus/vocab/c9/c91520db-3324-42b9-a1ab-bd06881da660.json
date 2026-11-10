@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:静寂_b.mp3]",
-  "audioG": "[sound:静寂_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "黙",
@@ -32,8 +30,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "silence/stillness/quietness",
     "mnemonic": "If you're <kanji>lonely</kanji> and <kanji>quiet</kanji> you'll be surrounded in <vocabulary>silence</vocabulary>.",
-    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own."
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own.",
+    "audio": [
+      {
+        "fileName": "静寂_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "静寂_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c91520db-3324-42b9-a1ab-bd06881da660",
   "tags": [

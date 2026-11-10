@@ -28,15 +28,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-02-22-18-55-58-079.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 432,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -62,7 +59,13 @@
   "sourceData": {
     "answer": "won't/hasn't/isn't/doesn't | won't-you",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-02-22-18-55-58-079.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "0cfc4d3f-b8a6-46bb-93a6-740474c140aa",
   "tags": [

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_あんた_貴方_2023-09-13-04-09-27.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "アンタ",
@@ -31,8 +29,7 @@
   "sentenceCount": 127,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,13 @@
   "sourceData": {
     "answer": "you",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_あんた_貴方_2023-09-13-04-09-27.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "3325ce5d-575e-4a3e-9997-f47e0d75960e",
   "tags": [

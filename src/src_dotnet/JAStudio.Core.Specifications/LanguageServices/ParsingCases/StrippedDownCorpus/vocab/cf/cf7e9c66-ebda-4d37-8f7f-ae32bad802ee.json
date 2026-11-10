@@ -29,15 +29,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_とは_とは_2023-09-19-08-05-09.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 365,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "indicates-word-or-phrase-being-defined | used-for-quoting-(thoughts,-speech,-etc.) | with | (not)-as-much-as/(not)-so-much-as | the-fact-that/to-think-that/such-a-thing-as",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_とは_とは_2023-09-19-08-05-09.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "cf7e9c66-ebda-4d37-8f7f-ae32bad802ee",
   "tags": [

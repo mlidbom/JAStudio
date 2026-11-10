@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:9413fc7459e50669c9b0745e38c41e32.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "如何",
@@ -32,8 +30,7 @@
   "sentenceCount": 17,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"e41587844aaa37256e33e3dc420eedda.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,17 @@
   "sourceData": {
     "answer": "how/in-what-way/how-about | questionable",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "9413fc7459e50669c9b0745e38c41e32.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "e41587844aaa37256e33e3dc420eedda.jpg"
+      }
+    ]
   },
   "id": "8a7d740e-7fdd-4bfe-91da-b6ae0aaa5e17",
   "tags": [

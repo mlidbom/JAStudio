@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_よ_よ_2023-07-16-04-16-17.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 4641,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">CD:Sentence ender particles: ne, yo. na, kana, yone</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "hey/you | hey | hey/hold-on | yo/hey",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_よ_よ_2023-07-16-04-16-17.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "8d071a9e-11b0-4f59-82d7-c95c096b924b",
   "tags": [

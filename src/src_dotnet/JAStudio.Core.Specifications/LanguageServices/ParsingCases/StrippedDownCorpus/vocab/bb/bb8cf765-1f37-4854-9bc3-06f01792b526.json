@@ -19,9 +19,24 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_5624_いいえ_male.mp3]<br>[sound:Wani_5624_いえ_male.mp3]",
-  "audioG": "[sound:Wani_5624_いいえ_female.mp3]<br>[sound:Wani_5624_いえ_female.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "Wani_5624_いいえ_male.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "Wani_5624_いえ_male.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "Wani_5624_いいえ_female.mp3",
+      "voiceGender": "female"
+    },
+    {
+      "fileName": "Wani_5624_いえ_female.mp3",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "いえ",
@@ -31,8 +46,7 @@
   "sentenceCount": 161,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +70,9 @@
   "sourceData": {
     "answer": "no/nay | well/er/why | you're-welcome/not-at-all/don't-mention-it",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "bb8cf765-1f37-4854-9bc3-06f01792b526",
   "tags": [

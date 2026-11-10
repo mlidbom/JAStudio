@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-a2cf0ad9b051825083a7b9b34265134a6a9a886d9f084f6e0a7c819a.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-a2cf0ad9b051825083a7b9b34265134a6a9a886d9f084f6e0a7c819a.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "知らない",
@@ -40,8 +46,7 @@
   "sentenceCount": 22,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +72,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "fc8e304a-6a77-4286-b8b5-e2de0db56c1a",
   "tags": [

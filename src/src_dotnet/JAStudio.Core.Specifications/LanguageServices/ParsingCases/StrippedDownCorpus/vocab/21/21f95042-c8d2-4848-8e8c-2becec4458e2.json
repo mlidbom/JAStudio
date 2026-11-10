@@ -21,9 +21,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-69b9efcb9d79fbd9eff647c13a24b304004d9b14f0897a40d29cbe7b.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-69b9efcb9d79fbd9eff647c13a24b304004d9b14f0897a40d29cbe7b.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ったらしい",
@@ -33,8 +39,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -60,7 +65,9 @@
   "sourceData": {
     "answer": "seeming-very",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "21f95042-c8d2-4848-8e8c-2becec4458e2",
   "tags": []

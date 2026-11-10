@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-aa1c0e0e2761b388270e07646fb73814ff9e644e35a090ecf6e7afe9.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-aa1c0e0e2761b388270e07646fb73814ff9e644e35a090ecf6e7afe9.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "よう",
@@ -36,8 +42,7 @@
   "sentenceCount": 1767,
   "technicalNotes": "",
   "references": "<a href=\"https://youtu.be/IE7WgIOOGbM?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=129\">Cure dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden",
@@ -97,7 +102,9 @@
   "sourceData": {
     "answer": "oh!/good-heavens! | ugh!/oh-no! | ah!/the-penny-drops! | yes!/okay!",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "42cbfd74-ecd1-40b4-a265-0495417db3f0",
   "tags": [

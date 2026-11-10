@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:聞く_b.mp3]",
-  "audioG": "[sound:聞く_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "聴く",
@@ -32,8 +30,7 @@
   "sentenceCount": 488,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "to{} hear | listen-(e.g.-to-music) | ask/enquire/query | hear-about/hear-of/learn-of | follow-(advice,-order,-etc.)/obey/listen-to/comply-with | hear-(e.g.-a-plea)/grant-(a-request)/accept-(e.g.-an-argument)/give-consideration-to | smell-(esp.-incense)/sample-(a-fragrance) | taste-(alcohol)/try",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>hear</kanji> so the vocab verb version is <vocabulary>to hear</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou need <vocabulary>to hear</vocabulary> something very important, but you can't. In order to hear, you have to take a <reading>key</reading> (<ja>き</ja>) and unlock the doors covering your ears. Go ahead and imagine yourself doing that, focusing on the key."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou need <vocabulary>to hear</vocabulary> something very important, but you can't. In order to hear, you have to take a <reading>key</reading> (<ja>き</ja>) and unlock the doors covering your ears. Go ahead and imagine yourself doing that, focusing on the key.",
+    "audio": [
+      {
+        "fileName": "聞く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "聞く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "ee02c08a-d068-40ff-b882-ffc586af7186",
   "tags": [

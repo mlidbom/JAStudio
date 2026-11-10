@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-b93da906a5ecd8d36a497e0809af132273a5102a37811a40489a0923.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-b93da906a5ecd8d36a497e0809af132273a5102a37811a40489a0923.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "いいの",
@@ -40,8 +46,7 @@
   "sentenceCount": 161,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "93ad6e92-f9b5-4043-94b0-44e0e9c226d8",
   "tags": []

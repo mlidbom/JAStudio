@@ -24,15 +24,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_そんな_そんな_2023-07-25-02-18-08.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_そんな_そんな_2023-07-25-02-18-08.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 19,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceEnd": "required",
@@ -59,7 +60,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "77f856e1-d5af-4607-9f2d-88dde70cdb30",
   "tags": []

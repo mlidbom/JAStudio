@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-14-12-25-01-553.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "け",
@@ -31,8 +29,7 @@
   "sentenceCount": 120,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,13 @@
   "sourceData": {
     "answer": "particle-indicating-that-the-speaker-is-trying-to-recall-some-information",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-14-12-25-01-553.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "67d86b61-4e24-47f2-bb31-3df895643af4",
   "tags": [

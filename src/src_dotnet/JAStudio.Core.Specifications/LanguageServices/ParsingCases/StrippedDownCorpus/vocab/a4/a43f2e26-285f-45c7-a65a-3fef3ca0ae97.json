@@ -20,15 +20,21 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_3311_いい_male.mp3]",
-  "audioG": "[sound:Wani_3311_いい_female.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "Wani_3311_いい_male.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "Wani_3311_いい_female.mp3",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [],
   "sentenceCount": 1500,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +67,9 @@
   "sourceData": {
     "answer": "<tag><ja>謂</ja></tag>:: what-was-said/what-it-means/origin-of-a-story-(or-tradition,-etc.)\ngood/excellent/fine/nice/pleasant/agreeable | sufficient/enough/ready/prepared | profitable-(deal,-business-offer,-etc.)/beneficial | OK/all-right/fine/no-problem",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "a43f2e26-285f-45c7-a65a-3fef3ca0ae97",
   "tags": [

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-06-23-22-37-05-802.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "切れ無い",
@@ -35,8 +33,7 @@
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "masuStem": "required"
@@ -67,7 +64,13 @@
   "sourceData": {
     "answer": "cannot-completely-...-(because-it-is-excessive)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-06-23-22-37-05-802.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "eef8a2a5-50b4-4589-8107-a0170b738b40",
   "tags": [

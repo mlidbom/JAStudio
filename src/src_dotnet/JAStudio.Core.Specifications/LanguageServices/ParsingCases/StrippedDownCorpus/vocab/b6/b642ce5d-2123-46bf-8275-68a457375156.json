@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-82d5086ef60f0b71be241dae68080f901d7a55e22853c77234be1617.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-82d5086ef60f0b71be241dae68080f901d7a55e22853c77234be1617.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "で無い",
@@ -40,8 +46,7 @@
   "sentenceCount": 39,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -72,7 +77,9 @@
   "sourceData": {
     "answer": "is-not/am-not/are-not",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "b642ce5d-2123-46bf-8275-68a457375156",
   "tags": [

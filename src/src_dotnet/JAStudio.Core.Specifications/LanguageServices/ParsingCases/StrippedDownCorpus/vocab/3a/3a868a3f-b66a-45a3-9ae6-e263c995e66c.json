@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-66fdb03c410fadf0f8e230f0b8be97c3e915b42e03dc892480300fdc.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-66fdb03c410fadf0f8e230f0b8be97c3e915b42e03dc892480300fdc.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ませ",
@@ -32,8 +38,7 @@
   "sentenceCount": 11,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -59,7 +64,9 @@
   "sourceData": {
     "answer": "<tag><ja>増し</ja></tag>:: better/preferable/less-objectionable/least-worst | more/increase/extra | increase/growth\n<read>ませ</read>|<read>まし</read>:: please | used-to-increase-the-politeness-of-a-greeting",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "3a868a3f-b66a-45a3-9ae6-e263c995e66c",
   "tags": [

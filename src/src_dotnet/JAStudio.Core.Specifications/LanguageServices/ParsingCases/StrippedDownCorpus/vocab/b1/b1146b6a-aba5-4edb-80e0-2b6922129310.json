@@ -20,9 +20,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:入れる_b.mp3][sound:rec1744457907.mp3]",
-  "audioG": "[sound:入れる_g.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "rec1744457907.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "容れる",
@@ -36,8 +38,7 @@
   "sentenceCount": 160,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +62,18 @@
   "sourceData": {
     "answer": "to{} put-in/let-in/take-in/bring-in/insert/install-(e.g.-software)/set-(a-jewel,-etc.)/ink-in-(e.g.-tattoo) | admit/accept/employ/hire | accept/comply/grant/adopt-(a-policy,-etc.)/take-(advice,-etc.)/listen-to/pay-attention-to | include | pay-(one's-rent,-etc.) | cast-(a-vote) | make-(tea,-coffee,-etc.) | turn-on-(a-switch,-etc.) | send-(a-fax)/call",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an う sound, you know this word is a verb. The kanji <ja>入</ja> means \"enter,\" but this word does not mean \"to enter\" (which you already learned as <ja>入る</ja>). Still, the meaning of <ja>入れる</ja> is still related to the kanji's meaning: it means <vocabulary>to insert</vocabulary> or <vocabulary>to put in</vocabulary>. It's something you do to another object, like inserting a key into a lock, or your hand into a glove. ",
-    "readingMnemonic": "When a vocab is a single kanji plus some okurigana (hiragana stuck on the end of kanji) it's almost always going to be the kun'yomi reading. This is one of two kun'yomi readings you'll be learning for the kanji <ja>入</ja>. As long as you know that this vocab means <vocabulary>to insert</vocabulary>, you can use that to remember the reading as well. \n\nImagine inserting your hand into a hole and an <reading>ea</reading>gle (<ja>い</ja>) flies out, screaming: \"<ja><reading>い</reading></ja>!\" This is something that happens every time you insert your hand into something: an eagle comes out. You don't know why."
+    "readingMnemonic": "When a vocab is a single kanji plus some okurigana (hiragana stuck on the end of kanji) it's almost always going to be the kun'yomi reading. This is one of two kun'yomi readings you'll be learning for the kanji <ja>入</ja>. As long as you know that this vocab means <vocabulary>to insert</vocabulary>, you can use that to remember the reading as well. \n\nImagine inserting your hand into a hole and an <reading>ea</reading>gle (<ja>い</ja>) flies out, screaming: \"<ja><reading>い</reading></ja>!\" This is something that happens every time you insert your hand into something: an eagle comes out. You don't know why.",
+    "audio": [
+      {
+        "fileName": "入れる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "入れる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "b1146b6a-aba5-4edb-80e0-2b6922129310",
   "tags": [

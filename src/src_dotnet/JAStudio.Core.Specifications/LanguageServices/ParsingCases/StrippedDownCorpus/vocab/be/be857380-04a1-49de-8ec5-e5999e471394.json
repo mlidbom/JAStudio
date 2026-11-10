@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-87e48127ade9b879dff00ddae2a31f92e60f5cb68b83071ac0ada0bf.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-87e48127ade9b879dff00ddae2a31f92e60f5cb68b83071ac0ada0bf.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "べなかった",
@@ -84,8 +90,7 @@
   "sentenceCount": 62,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanPotential": "required",
@@ -115,7 +120,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "be857380-04a1-49de-8ec5-e5999e471394",
   "tags": []

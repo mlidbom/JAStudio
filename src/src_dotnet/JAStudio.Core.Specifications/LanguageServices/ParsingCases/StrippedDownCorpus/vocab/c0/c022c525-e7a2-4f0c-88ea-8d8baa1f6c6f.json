@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:落とす_b.mp3]",
-  "audioG": "[sound:落とす_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "落す",
@@ -32,8 +30,7 @@
   "sentenceCount": 58,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "to{} drop/lose/let-fall/shed-(light)/cast-(one's-gaze)/pour-in-(liquid)/leave-behind | clean-off-(dirt,-makeup,-paint,-etc.)/remove-(e.g.-stains-or-facial-hair)/lose/spend-money-at-a-certain-place/omit/leave-out/secretly-let-escape | lose-(a-match)/reject-(an-applicant)/fail-(a-course)/defeat-(in-an-election) | lower-(e.g.-shoulders-or-voice)/lessen-(e.g.-production-or-body-weight)/worsen-(quality)/reduce-(e.g.-rank-or-popularity)/speak-badly-of/make-light-of/fall-into-straitened-circumstances | fall-into-(e.g.-a-dilemma-or-sin)/make-one's-own/have-one's-bid-accepted/force-surrender/take-(e.g.-an-enemy-camp-or-castle)/forcefully-convince/press-for-a-confession/deal-with | download/copy-from-a-computer-to-another-medium | make-someone-swoon-(judo) | finish-a-story-(e.g.-with-the-punch-line) | finish-(a-period,-e.g.-of-fasting)",
     "mnemonic": "You've seen how <ja>落ちる</ja> means \"to fall down.\" Now you're doing the action of \"falling something down,\" aka you're dropping it. You can remember this because you kind of <reading>toss</reading> (<ja>とす</ja>) something and it drops to the ground, making this word mean <vocabulary>to drop something</vocabulary>.",
-    "readingMnemonic": "The reading comes from <ja>落ちる</ja>. So long as you know that word you can apply that reading over here, too."
+    "readingMnemonic": "The reading comes from <ja>落ちる</ja>. So long as you know that word you can apply that reading over here, too.",
+    "audio": [
+      {
+        "fileName": "落とす_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "落とす_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c022c525-e7a2-4f0c-88ea-8d8baa1f6c6f",
   "tags": [

@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-241025bb42b9589d79f5fcfb56e87b6203e578e9b3a7942d2cbcda87.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-241025bb42b9589d79f5fcfb56e87b6203e578e9b3a7942d2cbcda87.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 19,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -78,7 +83,9 @@
   "sourceData": {
     "answer": "<tag>activity-verb:</tag>{is}-_-ing | _-s-{habitually/recurringly}\n<tag>state-change-verb:</tag> {has/has-been/is}-_-{ed} | _-s-{habitually/recurringly}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "bcd96c70-9387-4103-8e1c-6abe7f53d43e",
   "tags": []

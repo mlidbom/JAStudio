@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:276ee3db8ec2b1127ee0df756dead80d-0bbc8a208a2feae14a92e031c6f9b989ab37bfb9.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "見附ける",
@@ -49,8 +47,7 @@
   "sentenceCount": 173,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -79,7 +76,13 @@
   "sourceData": {
     "answer": "to{} discover/find-(e.g.-an-error-in-a-book)/come-across/detect/spot | locate/find-(e.g.-something-missing)/find-fault | to-be:used-to-seeing/familiar-with",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "276ee3db8ec2b1127ee0df756dead80d-0bbc8a208a2feae14a92e031c6f9b989ab37bfb9.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "7f63f7e9-803b-4ca3-a128-b60b97700a8c",
   "tags": [

@@ -22,9 +22,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-9089d1cacd205ec152fecaa9518c2f6f654eb70806f4b83f7471c31e.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-9089d1cacd205ec152fecaa9518c2f6f654eb70806f4b83f7471c31e.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ぺ",
@@ -38,8 +44,7 @@
   "sentenceCount": 11,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "forbidden"
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "word-used-at-sentence-end-(like-a-particle)-to-indicate-speculation,-volition-or-invitation | familiar-suffix-used-after-a-personal-name",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "cc9ca8da-2d96-42ee-8e26-096736f6a8fc",
   "tags": []

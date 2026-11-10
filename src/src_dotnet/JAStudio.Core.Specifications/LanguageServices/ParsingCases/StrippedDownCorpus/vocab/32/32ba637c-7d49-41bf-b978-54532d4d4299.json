@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_なの_なの_2023-08-01-18-31-56.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "なん",
@@ -40,8 +38,7 @@
   "sentenceCount": 1480,
   "technicalNotes": "",
   "references": "\nCure Dolly: {<a href=\"https://www.youtube.com/watch?v=oayY4kBHGlM&amp;list=TLPQMDcwODIwMjQmA4jJ2UHXoA&amp;index=10\">Japanese NA NO ending. Completely different from NA NO DESU</a> |<br>&nbsp;&nbsp;<a href=\"https://youtu.be/lYvIOi8Q3I8?t=258\">んです、のです、なのです、なんです</a> \n}",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -68,7 +65,13 @@
   "sourceData": {
     "answer": "that's-the-way-it-is/yes | is-that-so?/is-it?",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_なの_なの_2023-08-01-18-31-56.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "32ba637c-7d49-41bf-b978-54532d4d4299",
   "tags": [

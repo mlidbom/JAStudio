@@ -25,9 +25,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-ea35e4389b825fb29afa4a595b61062ec83882b7553b8bcfb81d54b3.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-ea35e4389b825fb29afa4a595b61062ec83882b7553b8bcfb81d54b3.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "態",
@@ -41,8 +47,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -71,7 +76,9 @@
   "sourceData": {
     "answer": "mess/sorry-state/plight/sad-sight | -ways/-wards | in-the-act-of-.../just-as-one-is-... | manner-of-.../way-of-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "797d6bf4-5363-43c5-8bdc-aa28f2f732c5",
   "tags": []

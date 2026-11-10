@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:遅い_b.mp3]",
-  "audioG": "[sound:遅い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "遲い",
@@ -43,8 +41,7 @@
   "sentenceCount": 68,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +70,18 @@
   "sourceData": {
     "answer": "slow/time-consuming/sluggish | late-(in-the-day)/towards-the-end-(of-the-day-or-night)/until-a-time-far-into-the-day-or-night | later-(than-expected-or-usual)/late/behind-schedule/behind-time/tardy/overdue/unpunctual | too-late/having-missed-the-boat | dull/stupid",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>slow</kanji>? It's <vocabulary>slow</vocabulary> (or, if you're slow, you're probably <vocabulary>late</vocabulary>, too).",
-    "readingMnemonic": "How <vocabulary>slow</vocabulary> are you? You are <reading>oh so</reading> slow (<ja>おそ</ja>)."
+    "readingMnemonic": "How <vocabulary>slow</vocabulary> are you? You are <reading>oh so</reading> slow (<ja>おそ</ja>).",
+    "audio": [
+      {
+        "fileName": "遅い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "遅い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "f96a70ed-e4c1-450b-bc9a-80ca8b4c358f",
   "tags": [

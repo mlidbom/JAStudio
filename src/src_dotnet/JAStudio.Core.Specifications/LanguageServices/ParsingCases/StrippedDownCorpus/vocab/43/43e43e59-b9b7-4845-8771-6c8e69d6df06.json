@@ -21,15 +21,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": false,
-  "audioB": "[sound:Wani_5538_め_male.mp3]",
-  "audioG": "[sound:Wani_5538_め_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,18 @@
   "sourceData": {
     "answer": "<read>め</read>:<tag><ja>目</ja></tag>:: eye/eyeball | eyesight/sight/vision | look/stare/gaze/glance | notice/attention/observation/eyes-(of-the-world,-public,-etc.) | an-experience | viewpoint | discrimination/discernment/judgement/eye-(e.g.-for-quality) | appearance | chance-to-succeed/possibility | spacing-(between-crossed-strands-of-a-net,-mesh,-etc.)/opening/stitch/texture/weave | grain-(of-wood) | eye-(of-a-storm,-needle,-etc.) | intersection-(on-a-go-board)/square-(on-a-chess-board) | dot-(on-a-dice)/pip/rolled-number | graduation/division-(of-a-scale) | tooth-(of-a-saw,-comb,-etc.) | ordinal-number-suffix | somewhat/-ish | point-(e.g.-of-change)\n<read>まなこ</read>:: eye/eyeball | pupil-and-(dark)-iris-of-the-eye | insight/perceptivity/power-of-observation | look/field-of-vision | core/center/centre/essence\n<read>がん</read>:: eye | insight/vision/power-of-observation | gist/main-point | hole",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. This is just a little more technical than <ja>目</ja>.",
-    "readingMnemonic": "The reading is the same as the word \"eye\" (<ja>目</ja>), so use that to remember this!"
+    "readingMnemonic": "The reading is the same as the word \"eye\" (<ja>目</ja>), so use that to remember this!",
+    "audio": [
+      {
+        "fileName": "Wani_5538_め_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_5538_め_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "43e43e59-b9b7-4845-8771-6c8e69d6df06",
   "tags": [

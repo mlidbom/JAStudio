@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_ばけもの_化け物_2024-04-08-23-37-44.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "化物",
@@ -39,8 +37,7 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,13 @@
   "sourceData": {
     "answer": "goblin/apparition/monster/ghost/phantom/spectre/specter",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_ばけもの_化け物_2024-04-08-23-37-44.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "7e071f09-93a1-4169-aabb-5be351d92d2d",
   "tags": [

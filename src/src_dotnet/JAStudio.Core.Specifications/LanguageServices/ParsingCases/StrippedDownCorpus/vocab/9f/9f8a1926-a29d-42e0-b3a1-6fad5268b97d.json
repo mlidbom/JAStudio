@@ -23,15 +23,20 @@
     "honorific"
   ],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-ed171ef43f2e37c422b124f7c40430992f3a51331d900127fbe2bf82.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-ed171ef43f2e37c422b124f7c40430992f3a51331d900127fbe2bf82.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 75,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -55,7 +60,9 @@
   "sourceData": {
     "answer": "to{} see/look/watch | rule/govern",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "9f8a1926-a29d-42e0-b3a1-6fad5268b97d",
   "tags": [

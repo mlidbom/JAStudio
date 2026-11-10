@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:込む_b.mp3]",
-  "audioG": "[sound:込む_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "籠む",
@@ -40,8 +38,7 @@
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +67,18 @@
   "sourceData": {
     "answer": "to-be:{crowded/packed} | to-be:complex | to-go-into/to-put-into/to-remain-(seated)/to-be-plunged-into-(silence)/to-do-thoroughly | to-do-intently | to-continue-in-the-same-state",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>crowded</kanji> and the verb vocab version is <vocabulary>to be crowded</vocabulary>.",
-    "readingMnemonic": "Lucky for you, the reading you learned with the kanji is the one you use here."
+    "readingMnemonic": "Lucky for you, the reading you learned with the kanji is the one you use here.",
+    "audio": [
+      {
+        "fileName": "込む_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "込む_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "6b38472b-ffec-4e14-a824-3fa8d585668e",
   "tags": [

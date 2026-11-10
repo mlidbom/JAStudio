@@ -21,9 +21,15 @@
     "roughMasculine"
   ],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-5bf20240643dbc1d6c5cab3b9e986189f78d174a0bdd72b78c83194d.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-5bf20240643dbc1d6c5cab3b9e986189f78d174a0bdd72b78c83194d.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "で",
@@ -73,8 +79,7 @@
   "sentenceCount": 628,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "required"
@@ -109,7 +114,9 @@
   "sourceData": {
     "answer": "eh?/what?/oh? | yes/that's-correct | strengthens-a-question,-assertion,-etc. | hey",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "602a5d49-874c-4f77-a5de-9ddbd99ee156",
   "tags": []

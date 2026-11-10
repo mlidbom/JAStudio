@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:強い_b.mp3]",
-  "audioG": "[sound:強い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 155,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "strong/potent/competent/domineering/tough | strong/brawny/powerful/healthy/rugged | good-(at)/skilled/knowledgeable | being-able-to-handle/know-how-to-deal-(with)/durable-(against)/resistant-(to)/resilient | firm/rigid/solid | intense/strong/fierce/high | dependable/trustworthy",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>strong</kanji>? It's also <vocabulary>strong</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nSo you wanna be <vocabulary>strong</vocabulary> huh? Well, all you have to do is eat these <reading>two yo</reading>gurts (<ja>つよ</ja>). One is filled with horse steroids, the other is full of bull steroids. They will make you so strong."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nSo you wanna be <vocabulary>strong</vocabulary> huh? Well, all you have to do is eat these <reading>two yo</reading>gurts (<ja>つよ</ja>). One is filled with horse steroids, the other is full of bull steroids. They will make you so strong.",
+    "audio": [
+      {
+        "fileName": "強い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "強い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "d2eff495-9cbe-41f4-9fb6-a0e56d4e0d4b",
   "tags": [

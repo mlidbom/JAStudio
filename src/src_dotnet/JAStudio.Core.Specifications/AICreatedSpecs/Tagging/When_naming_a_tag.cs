@@ -34,8 +34,7 @@ public class When_naming_a_tag : IAIGeneratedSpec
    public class defined_by_jastudio : When_naming_a_tag
    {
       [XF] public void a_tag_defined_in_a_nested_class_is() => Tags.IsDefinedByJAStudio(Tags.Vocab.Matching.Uses.PrefixIsNot.Name).Must().BeTrue();
-      [XF] public void a_tag_defined_at_the_top_is() => Tags.IsDefinedByJAStudio("_tts_audio").Must().BeTrue();
-      [XF] public void case_is_ignored() => Tags.IsDefinedByJAStudio("_TTS_AUDIO").Must().BeTrue();
+      [XF] public void case_is_ignored() => Tags.IsDefinedByJAStudio("-::SENTENCE::USES::HIDDEN-MATCHES").Must().BeTrue();
       [XF] public void a_tag_a_person_applies_is_not() => Tags.IsDefinedByJAStudio("source::anime::natsume").Must().BeFalse();
       [XF] public void a_source_tag_JAStudio_sets_when_it_creates_a_note_is() => Tags.IsDefinedByJAStudio(Tags.Source.Jamdict.Name).Must().BeTrue();
    }
@@ -43,7 +42,6 @@ public class When_naming_a_tag : IAIGeneratedSpec
    public class maintained_by_jastudio : When_naming_a_tag
    {
       [XF] public void a_generated_tag_is() => Tags.IsMaintainedByJAStudio(Tags.Kanji.InAnyVocabForm.Name).Must().BeTrue();
-      [XF] public void the_tag_of_TTS_audio_which_has_an_editor_of_its_own_is() => Tags.IsMaintainedByJAStudio("_TTS_AUDIO").Must().BeTrue();
       [XF] public void a_source_tag_JAStudio_sets_when_it_creates_a_note_is_not() => Tags.IsMaintainedByJAStudio(Tags.Source.Jastudio.Name).Must().BeFalse();
       [XF] public void a_tag_a_person_applies_is_not() => Tags.IsMaintainedByJAStudio("source::anime::natsume").Must().BeFalse();
    }
@@ -53,7 +51,7 @@ public class When_naming_a_tag : IAIGeneratedSpec
       [XF] public void a_source_tag_JAStudio_sets_can_be() => Tags.WhyItCannotBeATagAPersonManages(Tags.Source.Jamdict.Name).Must().BeNull();
       [XF] public void a_tag_JAStudio_maintains_cannot_be() =>
          Tags.WhyItCannotBeATagAPersonManages(Tags.Kanji.InAnyVocabForm.Name)
-             .Must().NotBeNull().Be($"{Tags.Kanji.InAnyVocabForm.Name} is maintained by JAStudio, which generates it or has an editor of its own for it.");
+             .Must().NotBeNull().Be($"{Tags.Kanji.InAnyVocabForm.Name} is maintained by JAStudio, which generates it.");
       [XF] public void a_name_with_a_space_cannot_be() => Tags.WhyItCannotBeATagAPersonManages("source::the anime").Must().NotBeNull().Be("A tag can't contain spaces.");
    }
 }

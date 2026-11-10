@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:〜様_b.mp3]",
-  "audioG": "[sound:〜様_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "さま",
@@ -32,8 +30,7 @@
   "sentenceCount": 494,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "Mr./Mrs./Miss/Ms. | makes-a-word-more-polite-(usu.-in-fixed-expressions) | state/situation/appearance/manner",
     "mnemonic": "Add this onto the end of someone's name. It's probably too polite, to be honest, unless you're talking to one of your customers or something. It's good to know, but you're probably not going to use it much, despite seeing and hearing it fairly often.",
-    "readingMnemonic": "The reading is the same as what you learned with the kanji."
+    "readingMnemonic": "The reading is the same as what you learned with the kanji.",
+    "audio": [
+      {
+        "fileName": "〜様_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "〜様_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "0adae2c5-6cd4-4587-ac7b-517b864b5ce5",
   "tags": [

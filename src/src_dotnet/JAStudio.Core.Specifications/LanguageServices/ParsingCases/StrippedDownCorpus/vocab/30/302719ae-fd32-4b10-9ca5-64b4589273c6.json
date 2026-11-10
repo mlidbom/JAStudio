@@ -29,15 +29,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_だから_だから_2023-07-20-12-02-35.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 661,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "so/therefore/accordingly/consequently/on-those-grounds/that-is-why/for-that-reason | like-I-said/I-told-you-already",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_だから_だから_2023-07-20-12-02-35.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "302719ae-fd32-4b10-9ca5-64b4589273c6",
   "tags": [

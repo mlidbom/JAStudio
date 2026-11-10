@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:お腹_b.mp3]",
-  "audioG": "[sound:お腹_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "お中",
@@ -52,8 +50,7 @@
   "sentenceCount": 42,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -77,7 +74,18 @@
   "sourceData": {
     "answer": "belly/abdomen/stomach",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is an exception, but it isn't too hard to remember. It's the same as <ja><reading>中</reading></ja> (<ja>なか</ja>), so if you think about it it makes sense. It's your insides, just like your <vocabulary>belly</vocabulary> is your insides!"
+    "readingMnemonic": "The reading is an exception, but it isn't too hard to remember. It's the same as <ja><reading>中</reading></ja> (<ja>なか</ja>), so if you think about it it makes sense. It's your insides, just like your <vocabulary>belly</vocabulary> is your insides!",
+    "audio": [
+      {
+        "fileName": "お腹_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "お腹_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "ea038c95-621d-4764-804c-c2a491ab56a7",
   "tags": [

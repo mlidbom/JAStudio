@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-4f8b7d9294a7acab473083c8dc8b993761f135b36fe26ffb3758f9d2.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-4f8b7d9294a7acab473083c8dc8b993761f135b36fe26ffb3758f9d2.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 12,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +65,9 @@
   "sourceData": {
     "answer": "normally/ordinarily/usually/generally/commonly | by-anyone's-standards/by-normal-standards/sufficiently/actually/genuinely/truly | without-any-issues/without-any-difficulty/(surprisingly)-well/just-fine/naturally",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "fecc5093-3a08-4e3a-8fa2-b53de31bd034",
   "tags": [

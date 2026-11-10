@@ -19,15 +19,17 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:月光_b.mp3]",
-  "audioG": "[sound:月光_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "<img alt=\"品读唐诗】盛唐诗人遇见的月光| 张九龄| 明月| 大纪元\" src=\"1537972070-450x300.jpg\">",
-  "userImage": "",
+  "images": [
+    {
+      "fileName": "1537972070-450x300.jpg",
+      "altText": "品读唐诗】盛唐诗人遇见的月光| 张九龄| 明月| 大纪元"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +53,18 @@
   "sourceData": {
     "answer": "moonlight/moonbeam",
     "mnemonic": "The <kanji>moon</kanji> <kanji>light</kanji> (not sunlight!) can be bright sometimes. This is night when you're stumbling home from a nomikai after work. What is this light from the moon called? It's <vocabulary>moon light</vocabulary>. This word can also mean a <vocabulary>moonbeam</vocabulary> as well. ",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>月</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\nThe <vocabulary>moonlight</vocabulary> brings out a strange creature known as a <reading>Geck</reading>-<reading><ja>こう</ja></reading><ja>いち</ja> (<ja>げっこう</ja>), which are geckos with the head of <ja>こういち</ja>. Imagine a swarm of them all crawling out of their crevices once the moon comes out."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>月</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\nThe <vocabulary>moonlight</vocabulary> brings out a strange creature known as a <reading>Geck</reading>-<reading><ja>こう</ja></reading><ja>いち</ja> (<ja>げっこう</ja>), which are geckos with the head of <ja>こういち</ja>. Imagine a swarm of them all crawling out of their crevices once the moon comes out.",
+    "audio": [
+      {
+        "fileName": "月光_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "月光_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "8d2c94db-10fc-4c2f-aded-70133e1e1769",
   "tags": [

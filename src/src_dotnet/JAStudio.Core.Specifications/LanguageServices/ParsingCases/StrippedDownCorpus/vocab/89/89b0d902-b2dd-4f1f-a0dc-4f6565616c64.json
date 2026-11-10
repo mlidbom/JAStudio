@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_な_な_2023-07-22-11-23-07.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 5526,
   "technicalNotes": "",
   "references": "Cure Dolly {&nbsp;<a href=\"https://youtu.be/lYvIOi8Q3I8?t=334\">な is connective だ</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=zayeW4AQ0Is&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=85\">Commands: て, なさい, な</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=iyVZlaEqU24\">Japanese \"Adjectives\"</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=IWEok4Ivfyc\">Sentence ender particles</a>&nbsp;|&nbsp;<a href=\"https://www.youtube.com/watch?v=GB8fWjQuz9A&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=40\">na vs no, naru &amp; taru adjectives</a>&nbsp;}&nbsp;<a href=\"https://www.japanesewithanime.com/2019/05/na-particle.html?m=1\">な Particle | Japanese with Anime</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "don't | do | hey/listen/you | now,-.../well,-.../I-tell-you!/you-know | wow/ooh",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_な_な_2023-07-22-11-23-07.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "89b0d902-b2dd-4f1f-a0dc-4f6565616c64",
   "tags": [

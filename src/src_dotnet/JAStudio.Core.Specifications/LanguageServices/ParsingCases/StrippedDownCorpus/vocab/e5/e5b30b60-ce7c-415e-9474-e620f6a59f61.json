@@ -29,15 +29,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:Wani_2823_はーとがた_male.mp3]",
-  "audioG": "[sound:Wani_2823_はーとがた_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 5,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "heart-shape",
     "mnemonic": "<ja>ハート</ja> is of course \"heart\" and you know that <ja>形</ja> means <kanji>shape</kanji>. You've probably already figured this one out. It's <vocabulary>heart shaped</vocabulary>. \n\nYou can add this kanji to all sorts of other things too to say \"____ shaped.\" Give it a try!",
-    "readingMnemonic": "The reading for the kanji portion uses the kun'yomi reading. This is kind of like the reading you already learned for <ja>形</ja> just without the <ja>ち</ja> part. And rendaku happens too, so it becomes <ja>がた</ja>. If you can remember that, you should be able to remember this reading too!"
+    "readingMnemonic": "The reading for the kanji portion uses the kun'yomi reading. This is kind of like the reading you already learned for <ja>形</ja> just without the <ja>ち</ja> part. And rendaku happens too, so it becomes <ja>がた</ja>. If you can remember that, you should be able to remember this reading too!",
+    "audio": [
+      {
+        "fileName": "Wani_2823_はーとがた_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_2823_はーとがた_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e5b30b60-ce7c-415e-9474-e620f6a59f61",
   "tags": [

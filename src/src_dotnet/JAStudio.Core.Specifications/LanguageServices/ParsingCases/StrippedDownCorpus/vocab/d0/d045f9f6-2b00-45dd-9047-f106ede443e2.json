@@ -21,15 +21,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:楽_b.mp3]",
-  "audioG": "[sound:楽_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 26,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -53,7 +50,18 @@
   "sourceData": {
     "answer": "<read>らく</read>:: comfort/ease/relief/(at)-peace/relaxation | easy/simple/without-trouble/without-hardships | (economically)-comfortable | raku-pottery | sukha-(happiness)\n<read>がく</read>:: music | old-Japanese-court-music/gagaku",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as the kanji you learned, too, making this one an <vocabulary>ease</vocabulary> to learn!"
+    "readingMnemonic": "The reading is the same as the kanji you learned, too, making this one an <vocabulary>ease</vocabulary> to learn!",
+    "audio": [
+      {
+        "fileName": "楽_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "楽_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "d045f9f6-2b00-45dd-9047-f106ede443e2",
   "tags": [

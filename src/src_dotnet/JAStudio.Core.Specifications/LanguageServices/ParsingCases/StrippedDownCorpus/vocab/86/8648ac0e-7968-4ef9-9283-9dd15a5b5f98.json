@@ -22,9 +22,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-d66615aea2668743b071bbfed127535e312ca2ea56d3aa853e244d9a.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-d66615aea2668743b071bbfed127535e312ca2ea56d3aa853e244d9a.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "達て",
@@ -38,8 +44,7 @@
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required",
@@ -66,7 +71,9 @@
   "sourceData": {
     "answer": "<tag><ja>達て</ja></tag>:: strongly-hoping-or-requesting-(of-something-that-is-difficult-to-be-brought-to-fruition)\neven-if/even-though | however/no-matter-how",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "8648ac0e-7968-4ef9-9283-9dd15a5b5f98",
   "tags": [

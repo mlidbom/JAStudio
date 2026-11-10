@@ -60,10 +60,9 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
       CorpusQuestion = new WritableStringValue(data?.CorpusQuestion ?? string.Empty, Guard);
       CorpusAnswer = new WritableStringValue(data?.CorpusAnswer ?? string.Empty, Guard);
       Comments = new WritableStringValue(data?.Comments ?? string.Empty, Guard);
-      //wip: slice 9's step 3 reads the media lists from data itself, rather than from the media fields of today (TodaysMediaFields).
-      SourceData = new SentenceSourceData(data?.SourceData, TodaysMediaFields.SentenceSourceAudioIn(data), TodaysMediaFields.SentenceSourceScreenshotsIn(data), Guard);
-      Audio = new AudioReferenceList(TodaysMediaFields.SentenceAudioIn(data), Guard);
-      Screenshots = new MediaReferenceList<ImageReference>([], Guard);
+      SourceData = new SentenceSourceData(data?.SourceData, Guard);
+      Audio = new AudioReferenceList(data?.Audio.Select(it => it.ToReference()) ?? [], Guard);
+      Screenshots = new MediaReferenceList<ImageReference>(data?.Screenshots.Select(it => it.ToReference()) ?? [], Guard);
       AllAudio = new AllAudioOfANote(SourceData.Audio, Audio);
 
       Configuration = new CachingSentenceConfigurationField(this, data?.Configuration, Guard);

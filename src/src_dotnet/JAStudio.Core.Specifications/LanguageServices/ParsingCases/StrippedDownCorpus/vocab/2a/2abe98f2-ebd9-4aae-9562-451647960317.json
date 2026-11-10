@@ -20,15 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:katakana_d1_ga.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "katakana_d1_ga.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 11027,
   "technicalNotes": "Adding a sentence end version does not work because hundreds of sentences place spaces after が for formatting purposes creating tons of false positives.",
   "references": "Cure Dolly: {\n<a href=\"https://www.youtube.com/watch?v=eIoyAZwPqz0\">Receiving form</a> | \n<a href=\"https://www.youtube.com/watch?v=DHH_e0q8b7A&amp;list=TLPQMDUwODIwMjQTYToXRlMchw&amp;index=9\">が and I/He/She</a>\n}\n#<br>&nbsp;&nbsp;<a href=\"https://en.wikibooks.org/wiki/Japanese/Grammar/Basic_Particles#The_topic_and_subject_markers_%E3%81%AF_and_%E3%81%8C\">Wikibooks</a>&nbsp;#&nbsp;<a href=\"https://www.japanesewithanime.com/2019/05/ga-particle.html?m=1\">Japanese with Anime</a>&nbsp;#&nbsp;<a href=\"https://www.tofugu.com/japanese-grammar/particle-ga/\">tofugu</a>&nbsp;#&nbsp;<a href=\"https://japanese.stackexchange.com/questions/60953/verbs-using-%e3%81%8c-to-mark-the-direct-object-subject\">が direct object/subject</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceStart": "forbidden"
@@ -71,7 +72,9 @@
   "sourceData": {
     "answer": "indicates-sentence-subject-(occasionally-object) | indicates-possessive-(esp.-in-literary-expressions) | but/however/still/and | regardless-of/whether-(or-not)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "2abe98f2-ebd9-4aae-9562-451647960317",
   "tags": [

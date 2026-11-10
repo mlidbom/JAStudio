@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:一_b.mp3]",
-  "audioG": "[sound:一_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "１",
@@ -48,8 +46,7 @@
   "sentenceCount": 1011,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +70,18 @@
   "sourceData": {
     "answer": "<read>いち</read>:: one | best | first/foremost | beginning/start | a-(single)/one-(of-many) | ace-(playing-card) | bottom-string-(on-a-shamisen,-etc.)\n<read>ひと</read>|<read>ひ</read>|<read>ひい</read>:: one | one",
     "mnemonic": "As is the case with most vocab words that consist of a single kanji, this vocab word has the same meaning as the kanji it parallels, which is <vocabulary>one</vocabulary>.",
-    "readingMnemonic": "When a vocab word is all alone and has no okurigana (hiragana attached to kanji) connected to it, it usually uses the kun'yomi reading. Numbers are an exception, however. When a number is all alone, with no kanji or okurigana, it is going to be the on'yomi reading, which you learned with the kanji.  Just remember this exception for alone numbers and you'll be able to read future number-related vocab to come."
+    "readingMnemonic": "When a vocab word is all alone and has no okurigana (hiragana attached to kanji) connected to it, it usually uses the kun'yomi reading. Numbers are an exception, however. When a number is all alone, with no kanji or okurigana, it is going to be the on'yomi reading, which you learned with the kanji.  Just remember this exception for alone numbers and you'll be able to read future number-related vocab to come.",
+    "audio": [
+      {
+        "fileName": "一_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "一_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "1986c655-ab32-49f8-907a-8a1948671dab",
   "tags": [

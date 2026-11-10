@@ -64,10 +64,10 @@ public class When_adding_a_tag_to_the_notes_found : McpServerSpecification
    {
       readonly CallToolResult _result;
 
-      public a_tag_JAStudio_defines() => _result = AddATagToTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, Tags.TTSAudio.Name);
+      public a_tag_JAStudio_defines() => _result = AddATagToTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, Tags.Vocab.IsIchidanHidingGodanPotential.Name);
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
-      [XF] public void the_failure_names_the_tag() => TextOf(_result).Must().Contain(Tags.TTSAudio.Name);
-      [XF] public void no_note_has_the_tag() => _vocabWithNoTags.Tags.Contains(Tags.TTSAudio).Must().BeFalse();
+      [XF] public void the_failure_names_the_tag() => TextOf(_result).Must().Contain(Tags.Vocab.IsIchidanHidingGodanPotential.Name);
+      [XF] public void no_note_has_the_tag() => _vocabWithNoTags.Tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential).Must().BeFalse();
    }
 }

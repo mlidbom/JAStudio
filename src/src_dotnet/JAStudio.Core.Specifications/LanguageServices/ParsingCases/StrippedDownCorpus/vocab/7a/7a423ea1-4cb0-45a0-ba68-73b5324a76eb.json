@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 5,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,9 @@
   "sourceData": {
     "answer": "detached-building/solitary-house/room-detached-from-main-house | separation-from/loss-of-interest-in/independence-of/distancing-(of-oneself)-from/disillusionment-with/alienation-from-(something)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7a423ea1-4cb0-45a0-ba68-73b5324a76eb",
   "tags": []

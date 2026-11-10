@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-1cc0850c2ad4acd70e9656ec0730479a702b09a8b98f88c3d9111671.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-1cc0850c2ad4acd70e9656ec0730479a702b09a8b98f88c3d9111671.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "為れた",
@@ -40,8 +46,7 @@
   "sentenceCount": 104,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required",
@@ -68,7 +73,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "aadf8fe7-ab14-45eb-940e-6cfb921b8977",
   "tags": []

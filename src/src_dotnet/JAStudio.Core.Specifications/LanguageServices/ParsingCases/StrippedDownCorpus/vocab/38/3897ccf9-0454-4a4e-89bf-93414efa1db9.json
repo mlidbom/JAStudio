@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_される_為れる_2024-04-10-17-39-14.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "為れる",
@@ -40,8 +38,7 @@
   "sentenceCount": 422,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "to-be:done-(to-someone) | to{?}{do/be-doing}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_される_為れる_2024-04-10-17-39-14.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "3897ccf9-0454-4a4e-89bf-93414efa1db9",
   "tags": [

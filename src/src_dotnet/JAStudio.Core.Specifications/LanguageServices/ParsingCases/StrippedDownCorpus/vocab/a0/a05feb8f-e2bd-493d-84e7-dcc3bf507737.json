@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-155843cd6732f541cfbe7e7c22b2c9c958decab397235942a96bc1de.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-155843cd6732f541cfbe7e7c22b2c9c958decab397235942a96bc1de.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "って言って",
@@ -40,8 +46,7 @@
   "sentenceCount": 77,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -67,7 +72,9 @@
   "sourceData": {
     "answer": "however/because/as",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "a05feb8f-e2bd-493d-84e7-dcc3bf507737",
   "tags": []

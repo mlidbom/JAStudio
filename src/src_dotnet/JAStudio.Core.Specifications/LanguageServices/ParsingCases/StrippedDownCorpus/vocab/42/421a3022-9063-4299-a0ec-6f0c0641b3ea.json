@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:澄む_b.mp3]",
-  "audioG": "[sound:澄む_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "清む",
@@ -32,8 +30,7 @@
   "sentenceCount": 5,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "to: become-clear-(water,-air,-etc.)/become-transparent | resonate-clearly-(e.g.-voice) | become-serene/become-tranquil/be-free-of-worries | pronounce-as-an-unvoiced-sound",
     "mnemonic": "Something with <kanji>lucidity</kanji> is clear. That's why this word is <vocabulary>to become clear</vocabulary> or <vocabulary>to become transparent</vocabulary>.",
-    "readingMnemonic": "You learned this reading when you learned the kanji."
+    "readingMnemonic": "You learned this reading when you learned the kanji.",
+    "audio": [
+      {
+        "fileName": "澄む_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "澄む_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "421a3022-9063-4299-a0ec-6f0c0641b3ea",
   "tags": [

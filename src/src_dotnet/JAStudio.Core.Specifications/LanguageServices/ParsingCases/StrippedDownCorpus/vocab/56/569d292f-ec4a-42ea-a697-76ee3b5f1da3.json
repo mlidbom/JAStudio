@@ -20,9 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:旨い_b.mp3]",
-  "audioG": "[sound:旨い_g.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "旨い_b.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "旨い_g.mp3",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "旨い",
@@ -32,8 +39,7 @@
   "sentenceCount": 154,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden",
@@ -63,7 +69,9 @@
   "sourceData": {
     "answer": "skillful/skilful/clever/expert/wise/successful | delicious/appetizing/appetising/tasty | fortunate/splendid/promising",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>delicious</kanji>? It's <vocabulary>delicious</vocabulary>. It also means \"<vocabulary>skillful</vocabulary>\" and \"<vocabulary>clever</vocabulary>\" as well, because delicious things are skillfully delicious, right?",
-    "readingMnemonic": "What's especially delicious? <reading>Horse</reading> (<ja>うま</ja>) is delicious. Mmm, that delicious horse."
+    "readingMnemonic": "What's especially delicious? <reading>Horse</reading> (<ja>うま</ja>) is delicious. Mmm, that delicious horse.",
+    "audio": [],
+    "images": []
   },
   "id": "569d292f-ec4a-42ea-a697-76ee3b5f1da3",
   "tags": []

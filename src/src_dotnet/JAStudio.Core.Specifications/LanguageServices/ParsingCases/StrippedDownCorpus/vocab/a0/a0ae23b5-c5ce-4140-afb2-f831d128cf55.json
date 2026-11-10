@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_6972_にぶい_male.mp3][sound:Wani_6972_のろい_male.mp3]",
-  "audioG": "[sound:Wani_6972_にぶい_female.mp3][sound:Wani_6972_のろい_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "にぶい",
@@ -36,8 +34,7 @@
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,26 @@
   "sourceData": {
     "answer": "<read>にぶい</read>:: dull-(e.g.-a-knife)/blunt | thickheaded/obtuse/stupid | dull-(sound,-color,-etc.)/dim-(light) | slow/sluggish/inert/lethargic | insensitive/dull-(e.g.-reflexes)/unperceptive/unfeeling\n<read>のろい</read>:: thickheaded/obtuse/stupid | slow/sluggish/inert/lethargic | indulgent-(esp.-to-the-opposite-sex)/doting",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>dull</kanji>? It's <vocabulary>dull</vocabulary>.",
-    "readingMnemonic": "To remember the reading, think about how when you're i<reading>neb</reading>riated (<ja>にぶ</ja>) you need to use a <vocabulary>dull</vocabulary> knife. The <ja>にぶい</ja> reading talks about a thing that is dull. For <ja>のろい</ja>, which refers to a dull mind (someone who's <vocabulary>thickheaded</vocabulary>). Think about a <reading>Nor</reading>se (<ja>のろ</ja>) God, the God of dullbrains."
+    "readingMnemonic": "To remember the reading, think about how when you're i<reading>neb</reading>riated (<ja>にぶ</ja>) you need to use a <vocabulary>dull</vocabulary> knife. The <ja>にぶい</ja> reading talks about a thing that is dull. For <ja>のろい</ja>, which refers to a dull mind (someone who's <vocabulary>thickheaded</vocabulary>). Think about a <reading>Nor</reading>se (<ja>のろ</ja>) God, the God of dullbrains.",
+    "audio": [
+      {
+        "fileName": "Wani_6972_にぶい_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_6972_のろい_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_6972_にぶい_female.mp3",
+        "voiceGender": "female"
+      },
+      {
+        "fileName": "Wani_6972_のろい_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "a0ae23b5-c5ce-4140-afb2-f831d128cf55",
   "tags": [

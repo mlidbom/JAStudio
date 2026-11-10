@@ -20,15 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "[sound:yomichan_audio_な_な_2023-07-22-11-23-07.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_な_な_2023-07-22-11-23-07.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 357,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormHead": "required"
@@ -59,7 +60,9 @@
   "sourceData": {
     "answer": "don't | do | hey/listen/you | now,-.../well,-.../I-tell-you!/you-know | wow/ooh",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "a47ececb-300f-4763-a687-6a99463a8d8d",
   "tags": [

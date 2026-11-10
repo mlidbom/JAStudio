@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:話_b.mp3]",
-  "audioG": "[sound:話_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "話し",
@@ -39,8 +37,7 @@
   "sentenceCount": 310,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -69,7 +66,18 @@
   "sourceData": {
     "answer": "talk/speech/chat/conversation | topic/subject | discussions/negotiation/argument | rumor/talk/hearsay | tale/story/fable | circumstances/particulars",
     "mnemonic": "The kanji version of <ja>話</ja> means <kanji>talk</kanji>. This word also means <vocabulary>talk</vocabulary>, but it means a few other things as well. This can refer to a <vocabulary>speech</vocabulary> or <vocabulary>story</vocabulary> as well. Basically anything that involves a talking session. So, before you go, I hope you stay awhile and listen to my <ja>話</ja>.",
-    "readingMnemonic": "Who tells a great <vocabulary>story</vocabulary>? <reading>Hana, she</reading> (<ja>はなし</ja>) tells a great story! If you know someone named Hana or Hanna you can use that person to help you to remember this one better too. \n\nYou can also use <ja>話す</ja>'s reading to help you to remember this one, as well."
+    "readingMnemonic": "Who tells a great <vocabulary>story</vocabulary>? <reading>Hana, she</reading> (<ja>はなし</ja>) tells a great story! If you know someone named Hana or Hanna you can use that person to help you to remember this one better too. \n\nYou can also use <ja>話す</ja>'s reading to help you to remember this one, as well.",
+    "audio": [
+      {
+        "fileName": "話_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "話_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "63a9511e-9292-41a4-8835-194647930d56",
   "tags": [

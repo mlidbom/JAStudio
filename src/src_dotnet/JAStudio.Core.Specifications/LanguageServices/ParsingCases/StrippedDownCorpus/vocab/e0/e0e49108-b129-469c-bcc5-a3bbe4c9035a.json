@@ -32,15 +32,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_どうやって_どうやって_2023-07-20-06-20-26.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 63,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,13 @@
   "sourceData": {
     "answer": "how/in-what-way/by-what-means",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_どうやって_どうやって_2023-07-20-06-20-26.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "e0e49108-b129-469c-bcc5-a3bbe4c9035a",
   "tags": [

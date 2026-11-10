@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:考え_b.mp3]",
-  "audioG": "[sound:考え_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 36,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "thinking/thought/view/opinion/concept | idea/notion/imagination | intention/plan/design | consideration/judgement/deliberation/reflection | wish/hope/expectation",
     "mnemonic": "This is a noun version of <kanji>think</kanji>. What is \"a think\"? It's a <vocabulary>thought</vocabulary>.",
-    "readingMnemonic": "You learned this reading with <ja>考える</ja>, just cut off the <ja>る</ja>!"
+    "readingMnemonic": "You learned this reading with <ja>考える</ja>, just cut off the <ja>る</ja>!",
+    "audio": [
+      {
+        "fileName": "考え_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "考え_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "20c3e5fb-f923-4aad-9b52-bdcb7c314d68",
   "tags": [

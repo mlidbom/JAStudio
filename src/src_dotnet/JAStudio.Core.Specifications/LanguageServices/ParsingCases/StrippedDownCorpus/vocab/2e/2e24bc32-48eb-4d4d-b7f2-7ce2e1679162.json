@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-d72588f7df045ea2639d12d23dfa8db2a97928bb21d1cc894d8b6c12.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-d72588f7df045ea2639d12d23dfa8db2a97928bb21d1cc894d8b6c12.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "乃至",
@@ -40,8 +46,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "adverbHead": "forbidden",
@@ -69,7 +74,9 @@
   "sourceData": {
     "answer": "from-...-to/between-...-and | or",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "2e24bc32-48eb-4d4d-b7f2-7ce2e1679162",
   "tags": []

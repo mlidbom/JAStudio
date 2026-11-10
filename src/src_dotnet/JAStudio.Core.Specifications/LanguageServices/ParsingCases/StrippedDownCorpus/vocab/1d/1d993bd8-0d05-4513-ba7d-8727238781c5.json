@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:通り_b.mp3][sound:yomitan_audio_2024-05-27-03-00-48-256.mp3]",
-  "audioG": "[sound:通り_g.mp3][sound:yomitan_audio_2024-05-27-03-00-48-256.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomitan_audio_2024-05-27-03-00-48-256.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "どおり",
@@ -31,8 +33,12 @@
   "sentenceCount": 66,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=G3qc0esEbvE&amp;list=PLg9uYxuZf8x-W5kcce4zVNwK_JHjxHK5x&amp;index=27\">Cure Dolly: 通り and せっかく: A metaphorical road and an untranslatable word</a>",
-  "image": "",
-  "userImage": "<img alt=\"沖縄随一の繁華街「国際通り」でおすすめのグルメ・スイーツ食べ歩きガイド 【楽天トラベル】\" src=\"kokusaidori-guide-key03_0.jpg\">",
+  "images": [
+    {
+      "fileName": "kokusaidori-guide-key03_0.jpg",
+      "altText": "沖縄随一の繁華街「国際通り」でおすすめのグルメ・スイーツ食べ歩きガイド 【楽天トラベル】"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +62,18 @@
   "sourceData": {
     "answer": "avenue/street/way/road | coming-and-going/street-traffic | flow-(of-water,-air,-etc.) | transmission-(of-sound)/reach-(e.g.-of-voice) | fame/reputation/popularity | the-same-status-or-way/as-(e.g.-as-expected,-as-I-said) | understanding/comprehension | counter-for-sets-of-things/counter-for-methods,-ways,-types",
     "mnemonic": "You know the word <ja>通る</ja> hopefully by now. That is the verb version of this word, which means \"to pass through.\" So, if this is the noun version, what is it that you use to pass through something? To drive or walk along? That would be an <vocabulary>avenue</vocabulary> (or <vocabulary>street</vocabulary>, <vocabulary>road</vocabulary>, etc). This is a pretty common word in Japan, and good for not getting lost.",
-    "readingMnemonic": "The reading is the same as the word <ja>通る</ja>, so as long as you know that, you should be able to read this one as well. Mind the strange long <ja>お</ja> sound!"
+    "readingMnemonic": "The reading is the same as the word <ja>通る</ja>, so as long as you know that, you should be able to read this one as well. Mind the strange long <ja>お</ja> sound!",
+    "audio": [
+      {
+        "fileName": "通り_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "通り_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "1d993bd8-0d05-4513-ba7d-8727238781c5",
   "tags": [

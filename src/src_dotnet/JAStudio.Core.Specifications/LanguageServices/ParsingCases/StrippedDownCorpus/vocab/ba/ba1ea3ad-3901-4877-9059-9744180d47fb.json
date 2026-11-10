@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-16-22-32-45-213.mp3]",
-  "audioG": "[sound:yomitan_audio_2024-06-16-22-33-07-944.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "下さる",
@@ -32,8 +30,7 @@
   "sentenceCount": 823,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +64,16 @@
   "sourceData": {
     "answer": "to{?}{give/confer/bestow} | to{?}{kindly-do-for-one/oblige/favour/favor}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-16-22-32-45-213.mp3"
+      },
+      {
+        "fileName": "yomitan_audio_2024-06-16-22-33-07-944.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ba1ea3ad-3901-4877-9059-9744180d47fb",
   "tags": [

@@ -20,9 +20,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:b6a0b3133ad8260d8b09077168bc23ac.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "b6a0b3133ad8260d8b09077168bc23ac.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "蒔く",
@@ -40,8 +42,11 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"68700e50c8dda3f70104ce50fc295284.jpg\">",
-  "userImage": "",
+  "images": [
+    {
+      "fileName": "68700e50c8dda3f70104ce50fc295284.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "to{} sow/plant/seed | sow-(the-seeds-of;-e.g.-conflict) | sprinkle-(gold-or-silver-powder-on-lacquerware)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c41f67b9-19b6-4b76-8099-1f2b8307d4ea",
   "tags": []

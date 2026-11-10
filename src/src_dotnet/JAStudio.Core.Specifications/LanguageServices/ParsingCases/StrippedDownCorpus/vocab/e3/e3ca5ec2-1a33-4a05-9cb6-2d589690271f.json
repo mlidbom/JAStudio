@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:思い出す_b.mp3]",
-  "audioG": "[sound:思い出す_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "おもい出す",
@@ -49,8 +47,7 @@
   "sentenceCount": 96,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "to{} recall/remember/recollect",
     "mnemonic": "You know that <ja>思う</ja> means to think (so <ja>思い</ja> is <kanji>a thought</kanji>). You also know that <ja>出す</ja> means <kanji>to remove</kanji>. So, when you remove a thought, you are remembering something. This is a verb, so the verb form of remembering something is <vocabulary>to remember</vocabulary>.",
-    "readingMnemonic": "The reading for this word is the kun'yomi readings. You should know the words <ja>思う</ja> and <ja>出す</ja> and their readings, so you should be able to read this word if you know those words."
+    "readingMnemonic": "The reading for this word is the kun'yomi readings. You should know the words <ja>思う</ja> and <ja>出す</ja> and their readings, so you should be able to read this word if you know those words.",
+    "audio": [
+      {
+        "fileName": "思い出す_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "思い出す_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e3ca5ec2-1a33-4a05-9cb6-2d589690271f",
   "tags": [

@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-08-07-01-56-13-753.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "あいつ等",
@@ -48,8 +46,7 @@
   "sentenceCount": 33,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +70,13 @@
   "sourceData": {
     "answer": "they",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-07-01-56-13-753.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "c7f635cb-83e0-4f82-8cd0-58f29f12974c",
   "tags": [

@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_でしょう_でしょう_2023-08-19-17-22-49.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "でしょ",
@@ -40,8 +38,7 @@
   "sentenceCount": 420,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "it-seems/I-think/I-guess/I-wonder | right?/don't-you-agree?",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_でしょう_でしょう_2023-08-19-17-22-49.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "df3af823-04c1-40cc-a317-69f0223d264e",
   "tags": [

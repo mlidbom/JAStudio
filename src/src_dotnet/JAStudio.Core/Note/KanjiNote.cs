@@ -52,8 +52,7 @@ public class KanjiNote : JPNote
       SourceData = new KanjiSourceData(data?.SourceData, Guard);
       Readings = new KanjiNoteReadings(data?.Readings, Guard);
       KanjiReferences = new WritableStringValue(data?.References ?? string.Empty, Guard);
-      //wip: slice 9's step 3 reads the images from data itself, rather than from the media field of today (TodaysMediaFields).
-      Images = new MediaReferenceList<ImageReference>(TodaysMediaFields.KanjiImagesIn(data), Guard);
+      Images = new MediaReferenceList<ImageReference>(data?.Images.Select(it => it.ToReference()) ?? [], Guard);
       _radicalsRaw = new WritableStringValue(data?.Radicals != null ? string.Join(", ", data.Radicals) : string.Empty, Guard);
       _primaryVocabRaw = new WritableStringValue(data?.PrimaryVocab != null ? string.Join(", ", data.PrimaryVocab) : string.Empty, Guard);
       _similarMeaningRaw = new WritableStringValue(data?.SimilarMeaning != null ? string.Join(", ", data.SimilarMeaning) : string.Empty, Guard);

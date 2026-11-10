@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-03-14-20-53-40-245.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ダシ",
@@ -39,8 +37,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "masuStem": "required"
@@ -66,7 +63,13 @@
   "sourceData": {
     "answer": "dashi-(Japanese-soup-stock-made-from-fish-and-kelp) | pretext/excuse/pretense-(pretence)/dupe/front-man",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-14-20-53-40-245.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "8d61cda2-9c34-423d-962a-288eef5caf1d",
   "tags": [

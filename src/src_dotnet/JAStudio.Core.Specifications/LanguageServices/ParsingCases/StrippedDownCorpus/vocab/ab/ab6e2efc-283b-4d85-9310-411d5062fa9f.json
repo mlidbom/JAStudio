@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:4cf9ed1073a1b50e7da433256510d28c-951e29df42fde2a9e2e168d12f0b2661f54d1c69.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "直ぐ",
@@ -33,8 +31,7 @@
   "sentenceCount": 197,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,13 @@
   "sourceData": {
     "answer": "immediately/at-once/right-away/directly | soon/before-long/shortly | easily/readily/without-difficulty | right-(near)/nearby/just-(handy) | honest/upright/frank/straightforward",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "4cf9ed1073a1b50e7da433256510d28c-951e29df42fde2a9e2e168d12f0b2661f54d1c69.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ab6e2efc-283b-4d85-9310-411d5062fa9f",
   "tags": [

@@ -21,9 +21,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-571ebef71469b9cfcc4a37d9b8f772260252f88dd8cb55c3a47f648c.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-571ebef71469b9cfcc4a37d9b8f772260252f88dd8cb55c3a47f648c.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ぶゆ",
@@ -41,8 +47,7 @@
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -68,7 +73,9 @@
   "sourceData": {
     "answer": "black-fly-(any-insect-of-family-Simuliidae)/gnat",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "79f4e9da-f82e-4eba-a2c5-3edcb7692334",
   "tags": [

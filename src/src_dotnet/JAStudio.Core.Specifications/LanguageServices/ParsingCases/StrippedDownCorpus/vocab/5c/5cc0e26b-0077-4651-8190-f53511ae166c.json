@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:腹_b.mp3]",
-  "audioG": "[sound:腹_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "肚",
@@ -31,8 +29,7 @@
   "sentenceCount": 34,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,18 @@
   "sourceData": {
     "answer": "abdomen/belly/stomach | womb | one's-mind/one's-real-intentions/one's-true-motive | courage/nerve/willpower | generosity/magnanimity | feelings/emotions | wide-middle-part/bulging-part | inside/interior/inner-part | anti-node | counter-for-hard-roe | counter-for-containers-with-bulging-middles-(pots,-vases,-etc.)",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "If anyone ever tries to touch your <kanji>belly</kanji> make sure you yell \"Seku<reading>hara</reading> (<ja>はら</ja>)! Sekuhara!” Sekuhara is short for sexual harassment in Japan. And if you don't want someone to touch your belly, but they're trying to, then that's sekuhara!"
+    "readingMnemonic": "If anyone ever tries to touch your <kanji>belly</kanji> make sure you yell \"Seku<reading>hara</reading> (<ja>はら</ja>)! Sekuhara!” Sekuhara is short for sexual harassment in Japan. And if you don't want someone to touch your belly, but they're trying to, then that's sekuhara!",
+    "audio": [
+      {
+        "fileName": "腹_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "腹_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5cc0e26b-0077-4651-8190-f53511ae166c",
   "tags": [

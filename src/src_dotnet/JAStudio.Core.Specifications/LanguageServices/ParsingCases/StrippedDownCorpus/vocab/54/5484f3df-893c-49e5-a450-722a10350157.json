@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:造る_b.mp3]",
-  "audioG": "[sound:造る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "創る",
@@ -36,8 +34,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "to{} make/produce/manufacture/build/construct | prepare-(food)/brew-(alcohol) | raise/grow/cultivate/train | till | draw-up-(a-document)/make-out/prepare/write | create-(an-artistic-work,-etc.)/compose | coin-(a-phrase)/organize/organise/establish/found | have-(a-child) | make-up-(one's-face,-etc.) | fabricate-(an-excuse,-etc.) | give-a-(false)-appearance/feign-(a-smile,-etc.)/put-on-a-show-of-emotion | form-(a-line,-etc.) | set-(a-record) | commit-(a-sin,-etc.)",
     "mnemonic": "When you <kanji>create</kanji> something you make something. This type of creation is usually for large things (perhaps ships) that you'd want <vocabulary>to manufacture</vocabulary> so you can <vocabulary>make</vocabulary> a lot of them.",
-    "readingMnemonic": "The reading is like <ja>作る</ja>, which means \"to make.\" They have very similar meanings, but different kanji. Use <ja>作る</ja> to help you to remember the reading of this word."
+    "readingMnemonic": "The reading is like <ja>作る</ja>, which means \"to make.\" They have very similar meanings, but different kanji. Use <ja>作る</ja> to help you to remember the reading of this word.",
+    "audio": [
+      {
+        "fileName": "造る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "造る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5484f3df-893c-49e5-a450-722a10350157",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:笑う_b.mp3]",
-  "audioG": "[sound:笑う_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "嗤う",
@@ -36,8 +34,12 @@
   "sentenceCount": 105,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"営業パーソンは商談で笑顔をつくれ。笑う気分でなくても口角をあげよ\" src=\"shutterstock_67651108.jpg\">",
+  "images": [
+    {
+      "fileName": "shutterstock_67651108.jpg",
+      "altText": "営業パーソンは商談で笑顔をつくれ。笑う気分でなくても口角をあげよ"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +63,18 @@
   "sourceData": {
     "answer": "to: laugh | smile | {sneer/ridicule} | be-{dumbfounded/flabbergasted}",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>laugh</kanji> so the verb vocab version is <vocabulary>to laugh</vocabulary>.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji. You can laugh freely, now!"
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji. You can laugh freely, now!",
+    "audio": [
+      {
+        "fileName": "笑う_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "笑う_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "909921d4-4d6c-4913-844a-162826170138",
   "tags": [

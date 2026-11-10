@@ -1,4 +1,4 @@
-using JAStudio.Core.Anki;
+using System.Linq;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Dto;
 
@@ -19,8 +19,7 @@ static class KanjiNoteConverter
          Mnemonic = note.Mnemonic.Value,
          SimilarMeaning = note.SimilarMeaning,
          ConfusedWith = note.RelatedConfusedWith,
-         //wip: slice 9's step 3 stores the images themselves, rather than in the media field of today (TodaysMediaFields).
-         Image = AnkiMediaMarkup.ImgTagsFor(note.Images.All),
+         Images = [..note.Images.All.Select(ImageReferenceDto.From)],
          SourceData = note.SourceData.ToDto(),
          Tags = note.Tags.ToStringList(),
       };

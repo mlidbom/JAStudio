@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ねぎ",
@@ -41,8 +39,7 @@
   "sentenceCount": 50,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -66,7 +63,9 @@
   "sourceData": {
     "answer": "Welsh-onion-(Allium-fistulosum)/green-onion/spring-onion",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "f3bf29cb-d64d-45c5-b8a8-c8cb20297b1a",
   "tags": []

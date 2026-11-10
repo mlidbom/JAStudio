@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:結構_b.mp3]",
-  "audioG": "[sound:結構_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "結構",
@@ -33,8 +31,12 @@
   "sentenceCount": 4,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"Câu nói vừa đồng ý vừa từ chối - Lý do người Nhật thích dùng - Nhật Ngữ  Hướng Minh\" src=\"kekko-desu-nhung-cau-noi-vua-co-nghia-tu-choi-vua-co-nghia-dong-y-trong-tieng-nhat.png\">",
+  "images": [
+    {
+      "fileName": "kekko-desu-nhung-cau-noi-vua-co-nghia-tu-choi-vua-co-nghia-dong-y-trong-tieng-nhat.png",
+      "altText": "Câu nói vừa đồng ý vừa từ chối - Lý do người Nhật thích dùng - Nhật Ngữ  Hướng Minh"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +60,18 @@
   "sourceData": {
     "answer": "Fine, Fairly, Alright, Quite, Pretty",
     "mnemonic": "<kanji>Bind</kanji> and <kanji>set up</kanji> everything so it is <vocabulary>fairly</vocabulary> <vocabulary>fine</vocabulary> and <vocabulary>alright</vocabulary>. This word is used like this:\n\n\"That's fine, no more\" <ja>結構です</ja>\n\"It's fairly big\" <ja>結構大きい</ja>\n\"It's alright\" <ja>結構です</ja>\n\netc.",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well. The <ja>けつ</ja> shortens to <ja>けっ</ja>."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well. The <ja>けつ</ja> shortens to <ja>けっ</ja>.",
+    "audio": [
+      {
+        "fileName": "結構_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "結構_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "d7a99864-7ba9-46b5-967a-f550c88b50b5",
   "tags": [

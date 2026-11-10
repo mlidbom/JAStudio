@@ -22,9 +22,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:Wani_2781_なに_male.mp3][sound:Wani_2781_なん_male.mp3]",
-  "audioG": "[sound:Wani_2781_なに_female.mp3][sound:Wani_2781_なん_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "なん",
@@ -38,8 +36,7 @@
   "sentenceCount": 2798,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -63,7 +60,26 @@
   "sourceData": {
     "answer": "<read>なに</read>:: what | you-know-what/that-thing | whatsit/whachamacallit/what's-his-name/what's-her-name | (not)-at-all/(not)-in-the-slightest | what?/huh? | hey! | oh,-no-(it's-fine)/why-(it's-nothing)/oh-(certainly-not)\n<read>なん</read>:: what | how-many | many/a-lot-of | several/a-few/some",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading for this word is the same as the reading you learned with the kanji. What? Yeah, that's what."
+    "readingMnemonic": "The reading for this word is the same as the reading you learned with the kanji. What? Yeah, that's what.",
+    "audio": [
+      {
+        "fileName": "Wani_2781_なに_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_2781_なん_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_2781_なに_female.mp3",
+        "voiceGender": "female"
+      },
+      {
+        "fileName": "Wani_2781_なん_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "de0c7b4c-ead6-4a6d-b0ce-76ab9cf3fc2d",
   "tags": [

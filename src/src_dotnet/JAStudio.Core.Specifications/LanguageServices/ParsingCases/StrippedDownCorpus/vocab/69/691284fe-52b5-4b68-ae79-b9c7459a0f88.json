@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:陰_b.mp3]",
-  "audioG": "[sound:陰_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "翳",
@@ -35,8 +33,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,18 @@
   "sourceData": {
     "answer": "shade/shadow | behind-(something)/other-side/back | background/behind-the-scenes/behind-someone's-back | gloom-(in-someone's-expression,-nature,-etc.)/darkness",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well. Also means <vocabulary>shadow</vocabulary>.",
-    "readingMnemonic": "Look at a <vocabulary>shadow</vocabulary>. It's long, surprisingly long. It's in the shape of a <reading>cage</reading> (<ja>かげ</ja>), because that's what is producing the long shadow. Check out each bar of the cage. Maybe you're inside the cage? Whatever is going on, a long shadow is being created by the cage and shade."
+    "readingMnemonic": "Look at a <vocabulary>shadow</vocabulary>. It's long, surprisingly long. It's in the shape of a <reading>cage</reading> (<ja>かげ</ja>), because that's what is producing the long shadow. Check out each bar of the cage. Maybe you're inside the cage? Whatever is going on, a long shadow is being created by the cage and shade.",
+    "audio": [
+      {
+        "fileName": "陰_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "陰_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "691284fe-52b5-4b68-ae79-b9c7459a0f88",
   "tags": [

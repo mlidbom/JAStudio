@@ -20,15 +20,19 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:飛ばす_b.mp3]",
-  "audioG": "[sound:飛ばす_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 24,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img src=\"paste-d6e741665b797170f696161a072bafae1592581c.jpg\"><img src=\"paste-3e15b6cee3b44009e4f86504956019b7b627a6be.jpg\">",
+  "images": [
+    {
+      "fileName": "paste-d6e741665b797170f696161a072bafae1592581c.jpg"
+    },
+    {
+      "fileName": "paste-3e15b6cee3b44009e4f86504956019b7b627a6be.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +56,18 @@
   "sourceData": {
     "answer": "to{}{let-fly/make-fly/send-flying/blow-off-(e.g.-in-the-wind)/launch/fire/hurl/shoot} | to{}{skip-over/leave-out/omit/drop-(e.g.-a-stitch)} | to{}{run-fast/drive-fast/gallop} | to{}{spray/splash/spatter} | to{}{say-without-reservation/call-out-(e.g.-a-jeer)/rattle-off-(e.g.-a-joke)} | to{}{spread-(e.g.-a-rumour)/circulate/send-out-(a-message)/issue-(e.g.-an-appeal)} | to{}{transfer-(to-a-less-important-post)/send-away-(e.g.-to-a-provincial-branch)/demote} | to{}dispatch-quickly-(e.g.-a-reporter) | to{}{get-rid-of/burn-off-(alcohol)} | to{}attack-(e.g.-with-a-leg-manoeuvre) | to{?}{do-vigorously/do-roughly/do-energetically}",
     "mnemonic": "Remember how <ja>飛ぶ</ja> is to fly? Well this word is for when you make some thing fly. So, this word is <vocabulary>to let something fly</vocabulary> or <vocabulary>to send something flying</vocabulary>. It also means <vocabulary>to skip over something</vocabulary>, such as someone's turn or a question on a test.",
-    "readingMnemonic": "The reading is just like <ja>飛ぶ</ja>, so if you know that reading you're close. Here's a mnemonic to help you remember the second part:\n\nYou can use your strength <vocabulary>to let something fly</vocabulary>, and that something is a <reading>bus</reading> (<ja>ばす</ja>). You're that buff!"
+    "readingMnemonic": "The reading is just like <ja>飛ぶ</ja>, so if you know that reading you're close. Here's a mnemonic to help you remember the second part:\n\nYou can use your strength <vocabulary>to let something fly</vocabulary>, and that something is a <reading>bus</reading> (<ja>ばす</ja>). You're that buff!",
+    "audio": [
+      {
+        "fileName": "飛ばす_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "飛ばす_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "69255270-30f6-46e7-8882-d5a4d7bb8355",
   "tags": [

@@ -28,15 +28,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-02-09-01-18-863.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 664,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceEnd": "required",
@@ -70,7 +67,13 @@
   "sourceData": {
     "answer": "endorsing-and-questioning-the-preceding-statement | lamenting-reflections-on-the-preceding-statement",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-02-09-01-18-863.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "136243f5-581e-44e5-8643-c12039fd3e49",
   "tags": [

@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2026-00-16-11-13-38-451.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "留める",
@@ -37,8 +35,7 @@
   "sentenceCount": 96,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,13 @@
   "sourceData": {
     "answer": "<read>とめる</read>:: to{} stop/turn-off | park | prevent/suppress-(a-cough)/hold-back-(tears)/hold-(one's-breath)/relieve-(pain) | stop-(someone-from-doing-something)/dissuade/forbid/prohibit | notice/be-aware-of/concentrate-on/pay-attention-to/remember/bear-in-mind | fix-(in-place)/fasten/tack/pin/nail/button/staple | detain/keep-in-custody\n<read>やめる</read>:: to{} stop-(an-activity)/cease/discontinue/end/quit | cancel/abandon/give-up/abolish/abstain/refrain",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2026-00-16-11-13-38-451.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "e5de34e0-ad94-4a63-aac6-ed79b969f62a",
   "tags": [

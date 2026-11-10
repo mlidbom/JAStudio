@@ -26,9 +26,11 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-c7d95542da191ef6ec88bb9f07346fc378e619b344c501f349b262d4.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-c7d95542da191ef6ec88bb9f07346fc378e619b344c501f349b262d4.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "何だろう",
@@ -46,8 +48,7 @@
   "sentenceCount": 74,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -71,7 +72,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "251d7b64-c1d9-42fc-9f78-5d0de2c4be3f",
   "tags": [

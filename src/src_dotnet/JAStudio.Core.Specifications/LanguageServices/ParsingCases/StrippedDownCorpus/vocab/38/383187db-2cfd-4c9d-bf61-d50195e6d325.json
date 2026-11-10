@@ -23,9 +23,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:色々_b.mp3]",
-  "audioG": "[sound:色々_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "いろいろ",
@@ -39,8 +37,7 @@
   "sentenceCount": 132,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,18 @@
   "sourceData": {
     "answer": "various/all-sorts-of/variety-of | various-colors-(colours)",
     "mnemonic": "This is the kanji <kanji>color</kanji> repeated twice (the <ja>々</ja> character just repeats the kanji before it). When you have colors and colors and colors, you have a lot of variety. That's why this word means <vocabulary>various</vocabulary>.",
-    "readingMnemonic": "The reading for this kanji is just the kun'yomi reading twice. Since you've learned the kun'yomi reading already, you should be able to read this word as well. Nothing tricky about it."
+    "readingMnemonic": "The reading for this kanji is just the kun'yomi reading twice. Since you've learned the kun'yomi reading already, you should be able to read this word as well. Nothing tricky about it.",
+    "audio": [
+      {
+        "fileName": "色々_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "色々_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "383187db-2cfd-4c9d-bf61-d50195e6d325",
   "tags": [

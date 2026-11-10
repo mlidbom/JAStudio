@@ -28,9 +28,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-b143d0e8bfbffa488584012ef698104628d64f32fb8100761572cd53.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-b143d0e8bfbffa488584012ef698104628d64f32fb8100761572cd53.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "すな",
@@ -40,8 +42,7 @@
   "sentenceCount": 6,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +66,9 @@
   "sourceData": {
     "answer": "don't",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4f185175-9295-474e-b1ff-e6a072f0799c",
   "tags": [

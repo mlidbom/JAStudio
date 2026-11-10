@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-0b8b6cbf5a15a317a3b9cb67e60e020071b9e49bc1bcecdda913a285.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-0b8b6cbf5a15a317a3b9cb67e60e020071b9e49bc1bcecdda913a285.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "考え過ぎ",
@@ -40,8 +46,7 @@
   "sentenceCount": 1,
   "technicalNotes": "We forbid preceding adverbs because when preceded by an adverb it has a different meaning.  {verb}-too-{adverb} is an important pattern to learn that we do not want to obscure.",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "adverbHead": "forbidden"
@@ -67,7 +72,9 @@
   "sourceData": {
     "answer": "overthinking",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c86c1cbe-946a-4f65-a4de-9f013a7040a2",
   "tags": [

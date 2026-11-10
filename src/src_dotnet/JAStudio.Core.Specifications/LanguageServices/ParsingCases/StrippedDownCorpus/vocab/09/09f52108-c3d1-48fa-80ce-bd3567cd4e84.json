@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:笑い_b.mp3]",
-  "audioG": "[sound:笑い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "咲い",
@@ -39,8 +37,7 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,18 @@
   "sourceData": {
     "answer": "laugh/laughter | smile | sneer | sex-aids-(e.g.-dildos,-pornographic-books,-erotic-woodblock-prints,-etc.)",
     "mnemonic": "You know that <ja>笑う</ja> is \"to laugh.\" This is the noun version, because the <ja>う</ja> in <ja>笑う</ja> turns to <ja>い</ja> (so don't confuse this as an adjective). What is the noun version of \"to laugh\"? It's <vocabulary>a laugh</vocabulary>.",
-    "readingMnemonic": "The reading is the same as <ja>笑う</ja>, so just make sure you know that so you can know this as well."
+    "readingMnemonic": "The reading is the same as <ja>笑う</ja>, so just make sure you know that so you can know this as well.",
+    "audio": [
+      {
+        "fileName": "笑い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "笑い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "09f52108-c3d1-48fa-80ce-bd3567cd4e84",
   "tags": [

@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "大",
@@ -33,8 +31,7 @@
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,9 @@
   "sourceData": {
     "answer": "greater-(of-equal-court-ranks)/upper/senior | a-great-deal/very-much",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "d3099f65-7fa9-4170-aa50-e96b37929058",
   "tags": []

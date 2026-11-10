@@ -24,15 +24,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-08-19-11-03-00-415.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 5970,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden"
@@ -77,7 +74,13 @@
   "sourceData": {
     "answer": "yes/yeah/uh-huh | huh?/what? | not | 's/of/belonging-to | at-(place,-time)/in/on/during\n<read>ん</read>|<read>うん</read>:: some-(at-the-start-of-a-number-in-place-of-a-digit)\nprobably | will/intend-to | would-like-to-have-done-(for-me)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-19-11-03-00-415.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "cc6433c2-80a1-498d-8f0d-9da2a46c2885",
   "tags": [

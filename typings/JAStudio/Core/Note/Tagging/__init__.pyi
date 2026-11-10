@@ -81,7 +81,6 @@ class TagBranchRename:
 
 class Tags(abc.ABC):
     PriorityFolder : str
-    TTSAudio : Tag
     @staticmethod
     def IsDefinedByJAStudio(tagName: str) -> bool: ...
     @staticmethod

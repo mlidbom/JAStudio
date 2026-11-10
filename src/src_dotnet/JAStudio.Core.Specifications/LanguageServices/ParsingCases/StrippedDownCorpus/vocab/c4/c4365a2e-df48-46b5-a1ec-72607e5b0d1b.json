@@ -29,15 +29,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-0a024b6b6d4b7c32953987aa7598720eae4aca8bf5a231dea1d41196.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-0a024b6b6d4b7c32953987aa7598720eae4aca8bf5a231dea1d41196.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 635,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -83,7 +88,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c4365a2e-df48-46b5-a1ec-72607e5b0d1b",
   "tags": [

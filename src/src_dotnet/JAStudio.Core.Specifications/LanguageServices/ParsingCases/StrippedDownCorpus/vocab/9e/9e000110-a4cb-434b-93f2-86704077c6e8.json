@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-05-19-16-03-05-626.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "わあっ",
@@ -35,8 +33,7 @@
   "sentenceCount": 25,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,13 @@
   "sourceData": {
     "answer": "wow!/oh!/eek!/gee! | yeah!/alright!/hurray! | waah!/boohoo!",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-05-19-16-03-05-626.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "9e000110-a4cb-434b-93f2-86704077c6e8",
   "tags": [

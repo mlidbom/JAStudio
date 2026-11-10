@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ぬ_ぬ_2023-09-21-08-57-34.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 193,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required"
@@ -77,7 +74,13 @@
   "sourceData": {
     "answer": "not | indicates-completion",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ぬ_ぬ_2023-09-21-08-57-34.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "8613cc2a-1711-4980-9e28-7d98b474c49c",
   "tags": [

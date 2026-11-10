@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:付く_b.mp3]",
-  "audioG": "[sound:付く_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "つく",
@@ -44,8 +42,7 @@
   "sentenceCount": 81,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "to:{be-attached/be-connected-with/adhere/stick/cling} | to:{remain-imprinted/scar/stain/dye} | to:bear-(fruit,-interest,-etc.) | to:{be-acquired-(of-a-habit,-ability,-etc.)/increase-(of-strength,-etc.)} | to:take-root | to:{accompany/attend/follow/study-with} | to:{side-with/belong-to} | to:{possess/haunt} | to-be:{lit/lighted} | to-be:{settled/resolved/decided} | to-be:given-(of-a-name,-price,-etc.) | to-be:{sensed/perceived} | to-be:lucky | to{?}become-(a-state,-condition,-etc.)",
     "mnemonic": "You know that the word <ja>付ける</ja> means \"to attach\" and you know that the kanji <ja>付</ja> means <kanji>attach</kanji>. So, this word probably has something to do with attaching. This is the intransitive version, though, where something is attached (and you're not doing the attaching). You can use the <ja>く</ja> as a hint. You see something attached on the wall. You say \"Coo'\"",
-    "readingMnemonic": "The reading can be derived from <ja>付ける</ja>, a word you should have seen a few levels ago. If you know that word's reading you should be able to figure out this word's reading as well (and vice versa)."
+    "readingMnemonic": "The reading can be derived from <ja>付ける</ja>, a word you should have seen a few levels ago. If you know that word's reading you should be able to figure out this word's reading as well (and vice versa).",
+    "audio": [
+      {
+        "fileName": "付く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "付く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "3ee55b8b-f908-4935-ae46-f2082c1bb1ff",
   "tags": [

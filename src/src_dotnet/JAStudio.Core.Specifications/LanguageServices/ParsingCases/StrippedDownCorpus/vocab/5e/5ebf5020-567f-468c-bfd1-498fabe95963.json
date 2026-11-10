@@ -19,15 +19,21 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:風_b.mp3][sound:yomichan_audio_ふう_風_2023-07-30-10-48-17.mp3]",
-  "audioG": "[sound:風_g.mp3][sound:yomichan_audio_ふう_風_2023-07-30-10-48-17.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_ふう_風_2023-07-30-10-48-17.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 69,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"風」はいったいどこから来るの？／誰かに話したくなる地球の雑学 - レタスクラブ\" src=\"10339110.jpg\">",
+  "images": [
+    {
+      "fileName": "10339110.jpg",
+      "altText": "風」はいったいどこから来るの？／誰かに話したくなる地球の雑学 - レタスクラブ"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +57,18 @@
   "sourceData": {
     "answer": "wind/breeze/draught/draft | manner/behaviour/behavior | cold/influenza",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "Do you know the word \"kamikaze\" from WWII history? Well, it means \"divine wind.\" The \"kaze\" part is the wind part, and this word uses the same reading, making it <ja><reading>かぜ</reading></ja> as well."
+    "readingMnemonic": "Do you know the word \"kamikaze\" from WWII history? Well, it means \"divine wind.\" The \"kaze\" part is the wind part, and this word uses the same reading, making it <ja><reading>かぜ</reading></ja> as well.",
+    "audio": [
+      {
+        "fileName": "風_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "風_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5ebf5020-567f-468c-bfd1-498fabe95963",
   "tags": [

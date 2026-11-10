@@ -24,15 +24,16 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:A_Girls'_Last_Tour_S01_05_0.03.23.828-0.03.24.662.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "A_Girls'_Last_Tour_S01_05_0.03.23.828-0.03.24.662.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 6,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "required"
@@ -58,7 +59,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "f162db2e-13e3-4e22-9994-7ad5be6df7e7",
   "tags": [

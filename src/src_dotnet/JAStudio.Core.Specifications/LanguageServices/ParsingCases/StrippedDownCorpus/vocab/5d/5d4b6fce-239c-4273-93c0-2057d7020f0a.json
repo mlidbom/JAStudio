@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-1905ed8ea23708a5d768be5bc95287c16846b26978b5e11549fb8419.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-1905ed8ea23708a5d768be5bc95287c16846b26978b5e11549fb8419.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-NanamiNeural",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "っていって",
@@ -40,8 +46,7 @@
   "sentenceCount": 64,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "5d4b6fce-239c-4273-93c0-2057d7020f0a",
   "tags": []

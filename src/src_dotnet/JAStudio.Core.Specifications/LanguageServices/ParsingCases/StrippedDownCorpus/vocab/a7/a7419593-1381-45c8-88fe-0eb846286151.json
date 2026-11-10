@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:有る_b.mp3]",
-  "audioG": "[sound:有る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "在る",
@@ -36,8 +34,7 @@
   "sentenceCount": 2649,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -68,7 +65,18 @@
   "sourceData": {
     "answer": "<tag><ja>有る</ja></tag>:: to: {be/exist/live} | have | be-located | be-equipped-with | {happen/come-about}\n<tag><ja>或る</ja></tag>:: a-certain-.../some-...",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>have</kanji> and so the verb version means <vocabulary>to have</vocabulary>. An alternative meaning is <vocabulary>to exist</vocabulary> though this refers only to non-living inanimate things, not moving and living things. So really, this is similar to \"to have\" as well.\n\nThe kanji isn't used too often for this word, so when you're writing just use the kana. But you'll see the kanji used sometimes so it's important to be able to recognize it!",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\n<vocabulary>To have</vocabulary> something is very nice. But now, the only thing you possess are screams. Imagine this. You are in a totally empty room with no possessions. You open a little box and look inside. It contains screams that yell: \"<reading>AAAAHHHH</reading>\" (<ja>あ</ja>)."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\n<vocabulary>To have</vocabulary> something is very nice. But now, the only thing you possess are screams. Imagine this. You are in a totally empty room with no possessions. You open a little box and look inside. It contains screams that yell: \"<reading>AAAAHHHH</reading>\" (<ja>あ</ja>).",
+    "audio": [
+      {
+        "fileName": "有る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "有る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "a7419593-1381-45c8-88fe-0eb846286151",
   "tags": [

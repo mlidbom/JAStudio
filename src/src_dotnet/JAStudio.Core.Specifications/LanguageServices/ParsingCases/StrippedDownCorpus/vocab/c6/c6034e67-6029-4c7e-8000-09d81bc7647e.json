@@ -20,15 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:破る_b.mp3]",
-  "audioG": "[sound:破る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 26,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img src=\"paste-dd6d265b296ad28967fd507a88a40380d3abaa46.jpg\">",
+  "images": [
+    {
+      "fileName": "paste-dd6d265b296ad28967fd507a88a40380d3abaa46.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +63,18 @@
   "sourceData": {
     "answer": "to{} tear/rip/break/destroy | break-through-(cordon,-opponent's-defense,-etc.)/breach | defeat/beat | break-(e.g.-silence)/disturb-(e.g.-peace)/shatter-(e.g.-dream)/disrupt/spoil | violate-(e.g.-rule)/break-(e.g.-promise)/infringe | break-(a-record)",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>tear</kanji> so the verb version is <vocabulary>to tear</vocabulary>.",
-    "readingMnemonic": "You start <vocabulary>to tear</vocabulary> the cloth. You don't know if you're supposed to or not. The crowd isn't sure either. You hear kind of a <reading>yah boo</reading> (<ja>やぶ</ja>) reaction going on, making you unsure if you should continue or stop. Yah! Boo. Yah! Boo!"
+    "readingMnemonic": "You start <vocabulary>to tear</vocabulary> the cloth. You don't know if you're supposed to or not. The crowd isn't sure either. You hear kind of a <reading>yah boo</reading> (<ja>やぶ</ja>) reaction going on, making you unsure if you should continue or stop. Yah! Boo. Yah! Boo!",
+    "audio": [
+      {
+        "fileName": "破る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "破る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c6034e67-6029-4c7e-8000-09d81bc7647e",
   "tags": [

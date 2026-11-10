@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-f8173f31b2fbe75072cd7edeb20aca077ac1799af2b9afe068a34a0b.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-f8173f31b2fbe75072cd7edeb20aca077ac1799af2b9afe068a34a0b.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 3,
   "technicalNotes": "The meanings that are not just the combination of the particles are rare and can usually be intuited without the vocab. 441 hits most of which won't be relevant.... Poison word it is. Highlight in sentences where it actually helps.",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "required",
@@ -66,7 +71,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "3abc2197-331e-49cf-ac45-d8eb57d64e61",
   "tags": []

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:未だ_b.mp3]",
-  "audioG": "[sound:未だ_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "いまだ",
@@ -36,8 +34,7 @@
   "sentenceCount": 406,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=sBhD_Z5_pHw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=70\">Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "still/as-yet/only | (not)-yet | more/(more)-still | at-least/comparatively/relatively | unfinished/incomplete/not-yet-done",
     "mnemonic": "This is the adverb version of <kanji>未</kanji>, so it means the same thing: <vocabulary>not yet</vocabulary>, or <vocabulary>still</vocabulary>, depending on the context.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn it with this kanji, so here a mnemonic to help you:\n\nSomeone's telling you \"<vocabulary>not yet</vocabulary>... not yet.... not yet...\". You have some food on your nose, but you're not allowed to eat it <reading>今</reading> (<ja>いま</ja>).\n\nNote that this word can also be read <ja>まだ</ja>. However, <ja>いまだ</ja> is often written in kanji, while <ja>まだ</ja> is almost always written in kana. So when you see <ja>未だ</ja>, it's a safe bet to read it as <ja>いまだ</ja>!"
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn it with this kanji, so here a mnemonic to help you:\n\nSomeone's telling you \"<vocabulary>not yet</vocabulary>... not yet.... not yet...\". You have some food on your nose, but you're not allowed to eat it <reading>今</reading> (<ja>いま</ja>).\n\nNote that this word can also be read <ja>まだ</ja>. However, <ja>いまだ</ja> is often written in kanji, while <ja>まだ</ja> is almost always written in kana. So when you see <ja>未だ</ja>, it's a safe bet to read it as <ja>いまだ</ja>!",
+    "audio": [
+      {
+        "fileName": "未だ_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "未だ_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "a263e90d-ecd3-475d-b081-c4478a3009ec",
   "tags": [

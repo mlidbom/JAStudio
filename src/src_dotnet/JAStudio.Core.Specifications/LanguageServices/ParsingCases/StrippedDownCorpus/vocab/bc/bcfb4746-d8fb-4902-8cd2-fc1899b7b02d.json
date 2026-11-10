@@ -28,9 +28,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-7a670ce58b7f688de926f934841de326bd683cb982838c19f725626e.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-7a670ce58b7f688de926f934841de326bd683cb982838c19f725626e.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "無理する",
@@ -40,8 +42,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +66,9 @@
   "sourceData": {
     "answer": "to{?}{work-too-hard/try-too-hard/force-oneself}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "bcfb4746-d8fb-4902-8cd2-fc1899b7b02d",
   "tags": [

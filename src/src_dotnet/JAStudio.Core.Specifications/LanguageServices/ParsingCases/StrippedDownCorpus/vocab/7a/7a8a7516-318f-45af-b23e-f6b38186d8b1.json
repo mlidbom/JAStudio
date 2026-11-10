@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-b4e40f6f6a2243f2af0aa13d03e956f1033fe6416a303576fe6501ae.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-b4e40f6f6a2243f2af0aa13d03e956f1033fe6416a303576fe6501ae.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "高菜",
@@ -36,8 +42,7 @@
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -63,7 +68,9 @@
   "sourceData": {
     "answer": "leaf-mustard-(Brassica-juncea-var.-integrifolia)/mustard-greens",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7a8a7516-318f-45af-b23e-f6b38186d8b1",
   "tags": []

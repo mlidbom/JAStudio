@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-08-08-06-27-46-217.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "倭",
@@ -33,8 +31,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,13 @@
   "sourceData": {
     "answer": "sum | harmony/peace | Japan/Japanese-style",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-08-06-27-46-217.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a8e93728-42ad-4f87-8b71-335562a6ac15",
   "tags": [

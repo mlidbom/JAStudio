@@ -29,9 +29,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-d37ce912dc7f0c7be0cc2c58e3316b9b868624a99740b0c0be206552.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-d37ce912dc7f0c7be0cc2c58e3316b9b868624a99740b0c0be206552.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "でる",
@@ -41,8 +43,7 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -240,7 +241,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "81fa2832-6803-44e6-aed5-eef013848cf3",
   "tags": [

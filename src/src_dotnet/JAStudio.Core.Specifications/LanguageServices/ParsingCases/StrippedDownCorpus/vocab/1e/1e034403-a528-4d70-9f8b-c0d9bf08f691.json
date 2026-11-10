@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:待つ_b.mp3]",
-  "audioG": "[sound:待つ_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "俟つ",
@@ -33,8 +31,7 @@
   "sentenceCount": 359,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,18 @@
   "sourceData": {
     "answer": "to{} to:wait | to:await/look-forward-to/anticipate | to:depend-on/need",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>wait</kanji> so the verb version is <vocabulary>to wait</vocabulary>.",
-    "readingMnemonic": "You need <vocabulary>to wait</vocabulary> for your <reading>ma</reading>ma (<ja>ま</ja>) all the time. You want to go out? You have to wait for mama to drive you. Want to eat dinner? You have to wait for mama to make you food. Hmm. Maybe all this waiting is really a you problem."
+    "readingMnemonic": "You need <vocabulary>to wait</vocabulary> for your <reading>ma</reading>ma (<ja>ま</ja>) all the time. You want to go out? You have to wait for mama to drive you. Want to eat dinner? You have to wait for mama to make you food. Hmm. Maybe all this waiting is really a you problem.",
+    "audio": [
+      {
+        "fileName": "待つ_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "待つ_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "1e034403-a528-4d70-9f8b-c0d9bf08f691",
   "tags": [

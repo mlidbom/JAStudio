@@ -29,9 +29,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-620b6505a060080cf817d81588868cb9237c9e8143153e4c1bcf52e9.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-620b6505a060080cf817d81588868cb9237c9e8143153e4c1bcf52e9.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "でる",
@@ -41,8 +47,7 @@
   "sentenceCount": 2323,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "teFormStemStart": "required"
@@ -241,7 +246,9 @@
   "sourceData": {
     "answer": "to{?}{be-...-ing/have-been-...-ing}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4c8d7119-0464-426c-88b7-ee97c1554eb5",
   "tags": []

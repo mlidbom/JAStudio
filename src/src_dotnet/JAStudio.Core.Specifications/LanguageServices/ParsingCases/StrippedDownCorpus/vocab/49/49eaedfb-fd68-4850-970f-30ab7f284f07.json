@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:就く_b.mp3]",
-  "audioG": "[sound:就く_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "つく",
@@ -43,8 +41,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -68,7 +65,18 @@
   "sourceData": {
     "answer": "to: take-(seat,-position,-course,-office,-etc.)/assume/be-hired/be-employed | ascend-(the-throne)/accede | start-(on-a-journey)/commence/depart | study-(under-teacher)/be-an-apprentice",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>settle in</kanji>. The verb vocab version is <vocabulary>to settle in</vocabulary>.",
-    "readingMnemonic": "Try <vocabulary>to settle in</vocabulary> to this life. Wow, you are <reading>too</reading> (<ja>つ</ja>) settled in now, don't get too comfortable."
+    "readingMnemonic": "Try <vocabulary>to settle in</vocabulary> to this life. Wow, you are <reading>too</reading> (<ja>つ</ja>) settled in now, don't get too comfortable.",
+    "audio": [
+      {
+        "fileName": "就く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "就く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "49eaedfb-fd68-4850-970f-30ab7f284f07",
   "tags": [

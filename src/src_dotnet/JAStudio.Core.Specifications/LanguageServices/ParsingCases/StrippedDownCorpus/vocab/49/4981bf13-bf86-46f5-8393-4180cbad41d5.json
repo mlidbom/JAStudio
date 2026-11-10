@@ -23,9 +23,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-07-13-15-45-34-745.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "一",
@@ -47,8 +45,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -72,7 +69,13 @@
   "sourceData": {
     "answer": "one | best | first/foremost | beginning/start | a-(single)/one-(of-many) | ace-(playing-card) | bottom-string-(on-a-shamisen,-etc.)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-07-13-15-45-34-745.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "4981bf13-bf86-46f5-8393-4180cbad41d5",
   "tags": [

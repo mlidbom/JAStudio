@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:見せる_b.mp3]",
-  "audioG": "[sound:見せる_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "みせる",
@@ -32,8 +30,7 @@
   "sentenceCount": 110,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "to{} show/display",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. It's related to the meaning of the kanji <ja>見</ja> \"see,\" but this one is about having someone else see something. In other words, it means <vocabulary>to show</vocabulary>. ",
-    "readingMnemonic": "The reading for this word is the same as the one that you learned with the kanji, so you should be able to read it."
+    "readingMnemonic": "The reading for this word is the same as the one that you learned with the kanji, so you should be able to read it.",
+    "audio": [
+      {
+        "fileName": "見せる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "見せる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "9232a26f-ea27-4f6a-87fb-ae0980b66e27",
   "tags": [

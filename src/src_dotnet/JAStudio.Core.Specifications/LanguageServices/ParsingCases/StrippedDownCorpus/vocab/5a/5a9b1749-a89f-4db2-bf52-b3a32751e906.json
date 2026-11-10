@@ -30,9 +30,7 @@
     "archaic"
   ],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-02-28-17-05-31-922.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "云える",
@@ -42,8 +40,7 @@
   "sentenceCount": 63,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +64,13 @@
   "sourceData": {
     "answer": "to-be:{possible-to-say/able-to-say} | said/have-said",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-02-28-17-05-31-922.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "5a9b1749-a89f-4db2-bf52-b3a32751e906",
   "tags": [

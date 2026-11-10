@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-03-11-09-13-45-333.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "落付ける",
@@ -53,8 +51,7 @@
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -80,7 +77,13 @@
   "sourceData": {
     "answer": "to{} quiet/calm-down/compose-oneself/settle-down",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-11-09-13-45-333.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "bea40e92-76fe-4fcd-9a47-3c0f797ca98a",
   "tags": [

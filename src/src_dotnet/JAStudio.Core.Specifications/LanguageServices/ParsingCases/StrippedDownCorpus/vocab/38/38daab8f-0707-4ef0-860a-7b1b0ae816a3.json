@@ -29,9 +29,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:larcjdprocgpudb.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "larcjdprocgpudb.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "母さま",
@@ -41,8 +43,7 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -66,7 +67,9 @@
   "sourceData": {
     "answer": "mother",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "38daab8f-0707-4ef0-860a-7b1b0ae816a3",
   "tags": []

@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:Wani_8939_male.mp3]",
-  "audioG": "[sound:Wani_8939_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 14,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to{} advance/move-forward/put-(a-clock,-watch)-forward | carry-forward-(plans,-work,-etc.)/proceed-with/make-progress-in/further/advance/hasten/speed-up | raise/elevate/promote/develop/stimulate-(e.g.-one's-appetite)",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>advance</kanji>, and this verb means <vocabulary>to advance something</vocabulary> or <vocabulary>to move something forward</vocabulary>.\n\nThis is a transitive verb, so you act upon something else. You advance something. You move something forward. Like a school project, or your plans for taking over the world.",
-    "readingMnemonic": "Since this word has okurigana (hiragana attached to the kanji) you know that it's probably going to be the kun'yomi reading, which you didn't learn with the kanji. Here's a mnemonic to help:\n\nYou are moving your lawsuit forward against Sue. But now she says that YOU'RE the problem. \"<reading>Sue, sue me</reading>,\" (<ja>すすめ</ja>) you say as you continue to advance the lawsuit. Make sure to say \"me\" like \"mehh,\" in a really snobbish way."
+    "readingMnemonic": "Since this word has okurigana (hiragana attached to the kanji) you know that it's probably going to be the kun'yomi reading, which you didn't learn with the kanji. Here's a mnemonic to help:\n\nYou are moving your lawsuit forward against Sue. But now she says that YOU'RE the problem. \"<reading>Sue, sue me</reading>,\" (<ja>すすめ</ja>) you say as you continue to advance the lawsuit. Make sure to say \"me\" like \"mehh,\" in a really snobbish way.",
+    "audio": [
+      {
+        "fileName": "Wani_8939_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_8939_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c88bca68-5619-4eb7-bf23-b468672a27de",
   "tags": [

@@ -21,15 +21,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-2623d98c200d7fb2cbb82b35a1fbd8cb59b504b2213e5e959a036202.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-2623d98c200d7fb2cbb82b35a1fbd8cb59b504b2213e5e959a036202.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 22,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -53,7 +58,9 @@
   "sourceData": {
     "answer": "sedge-(Cyperaceae-spp.,-esp.-members-of-genus-Carex)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "812eedb9-4442-49ea-aa03-02cae9d3a131",
   "tags": [

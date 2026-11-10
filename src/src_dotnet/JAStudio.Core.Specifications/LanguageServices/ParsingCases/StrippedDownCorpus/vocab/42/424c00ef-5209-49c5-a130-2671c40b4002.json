@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-bfe6acffd9948e1eb6f531cad6d2f3fe0078648f6662367c57339a37.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-bfe6acffd9948e1eb6f531cad6d2f3fe0078648f6662367c57339a37.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "んだ",
@@ -48,8 +54,7 @@
   "sentenceCount": 277,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=lYvIOi8Q3I8\">Cure Dolly:complex endings made easy!　んです、のです、なのです、なんです</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required",
@@ -76,7 +81,9 @@
   "sourceData": {
     "answer": "the-expectation-is-that-.../the-reason-is-that-.../the-fact-is-that-.../the-explanation-is-that-.../it-is-that-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "424c00ef-5209-49c5-a130-2671c40b4002",
   "tags": []

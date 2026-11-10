@@ -20,9 +20,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-04-22-21-27-49-870.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomitan_audio_2025-04-22-21-27-49-870.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "ごく",
@@ -36,8 +38,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +62,9 @@
   "sourceData": {
     "answer": "quite/very | 10^48/quindecillion",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "57893583-4ba7-4bdd-837a-20a0a047ce5a",
   "tags": []

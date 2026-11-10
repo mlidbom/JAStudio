@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:毎日_b.mp3]",
-  "audioG": "[sound:毎日_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 161,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "every-day",
     "mnemonic": "<kanji>Every</kanji> <kanji>day</kanji> is <vocabulary>daily</vocabulary> (or just <vocabulary>every day</vocabulary>).",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>日</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\n<vocabulary>Every day</vocabulary> you watch your favorite program, <reading>My</reading> <reading>Nietzsche</reading> (<ja>まいにち</ja>). It's a <vocabulary>daily</vocabulary> cartoon about Nietzsche and his life, which you follow religiously. Oh how much you love Nietzsche."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>日</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\n<vocabulary>Every day</vocabulary> you watch your favorite program, <reading>My</reading> <reading>Nietzsche</reading> (<ja>まいにち</ja>). It's a <vocabulary>daily</vocabulary> cartoon about Nietzsche and his life, which you follow religiously. Oh how much you love Nietzsche.",
+    "audio": [
+      {
+        "fileName": "毎日_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "毎日_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "b3b2c379-fab6-4ef1-b7b4-8facbcb0f0fc",
   "tags": [

@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:Wani_3714_わたし_male.mp3][sound:Wani_3714_わたくし_male.mp3]",
-  "audioG": "[sound:Wani_3714_わたし_female.mp3][sound:Wani_3714_わたくし_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "わたし",
@@ -41,8 +39,7 @@
   "sentenceCount": 2873,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -66,7 +63,26 @@
   "sourceData": {
     "answer": "<read>わたし</read>:: I/me\n<read>わたくし</read>:: I/me | personal-(affairs,-etc.)/private | selfishness/partiality | secrecy/confidentiality",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "If you're lucky, you already know this (very) common word's reading. It's the word for \"I,\" probably one of the first things you'd learn in Japanese. The reading for this is <ja><reading>わたし</reading></ja>. If you don't know that already, just think: \"<reading>What, a <ja>し</ja></reading>?\" referring to the reading of the kanji, which is <ja>し</ja>."
+    "readingMnemonic": "If you're lucky, you already know this (very) common word's reading. It's the word for \"I,\" probably one of the first things you'd learn in Japanese. The reading for this is <ja><reading>わたし</reading></ja>. If you don't know that already, just think: \"<reading>What, a <ja>し</ja></reading>?\" referring to the reading of the kanji, which is <ja>し</ja>.",
+    "audio": [
+      {
+        "fileName": "Wani_3714_わたし_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_3714_わたくし_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_3714_わたし_female.mp3",
+        "voiceGender": "female"
+      },
+      {
+        "fileName": "Wani_3714_わたくし_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "b0feb775-fb1d-4097-b7bc-dbf87fae98a1",
   "tags": [

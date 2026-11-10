@@ -30,9 +30,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-06-09-05-53-605.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ソーダ",
@@ -46,8 +44,7 @@
   "sentenceCount": 159,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=uSJukXcyccw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=26\">Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required",
@@ -74,7 +71,13 @@
   "sourceData": {
     "answer": "that-is-so/that-is-right/it-looks-to-me/that's-my-impression | people-say-that/it-is-said-that/I-hear-that\n<tag><ja>曹達</ja></tag>:: soda",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-06-09-05-53-605.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "fe4dd6a4-d47d-466a-98c6-a996ac0d58d7",
   "tags": [

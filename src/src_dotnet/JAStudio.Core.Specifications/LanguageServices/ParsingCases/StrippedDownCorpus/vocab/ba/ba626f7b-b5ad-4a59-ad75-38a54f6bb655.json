@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_なぜか_何故か_2023-08-28-12-59-23.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "なぜか",
@@ -31,8 +29,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,13 @@
   "sourceData": {
     "answer": "somehow/for-some-reason/without-knowing-why",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_なぜか_何故か_2023-08-28-12-59-23.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ba626f7b-b5ad-4a59-ad75-38a54f6bb655",
   "tags": [

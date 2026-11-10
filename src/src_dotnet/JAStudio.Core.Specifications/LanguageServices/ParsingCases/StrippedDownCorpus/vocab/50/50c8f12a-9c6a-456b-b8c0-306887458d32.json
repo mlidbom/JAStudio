@@ -30,9 +30,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-03a28625d8f460cca47405a64db73c557691f1b15eea862ecdcdd860.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-03a28625d8f460cca47405a64db73c557691f1b15eea862ecdcdd860.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "為手",
@@ -46,8 +52,7 @@
   "sentenceCount": 2005,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -73,7 +78,9 @@
   "sourceData": {
     "answer": "<tag><ja>仕手</ja></tag>:: doer/performer | protagonist-(in-noh-or-kyogen)/hero/leading-part/main-character | speculator-(in-trading)\nby-(indicating-means-of-action)/as-(a-group,-etc.) | indicates-patient-of-a-causative-expression | acts-as-a-connective | adds-emphasis | and-then",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "50c8f12a-9c6a-456b-b8c0-306887458d32",
   "tags": []

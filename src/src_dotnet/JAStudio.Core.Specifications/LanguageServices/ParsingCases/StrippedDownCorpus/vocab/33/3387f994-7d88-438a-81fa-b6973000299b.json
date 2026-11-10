@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:降りる_b.mp3]",
-  "audioG": "[sound:降りる_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "下りる",
@@ -32,8 +30,7 @@
   "sentenceCount": 37,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "to: {descend-(e.g.-a-mountain)/go-down/come-down} | {alight-(e.g.-from-bus)/get-off/disembark/dismount} | {step-down/retire/give-up/quit/fold} | be-{granted/issued/given} | form-(of-frost,-dew,-mist,-etc.) | be-passed-(from-the-body;-e.g.-of-a-roundworm)",
     "mnemonic": "The kanji is <kanji>descend</kanji>, but this verb vocab word is <vocabulary>to get off</vocabulary>, as in, to get off the train, or to get out of the car. If you think about trains back in the day, you had to descend down to the platform to get out of them, which is how this word became what it is. You know that this word is the \"to get off\" word because once you get off the train, you enter the <reading>real</reading> (<ja>りる</ja>) world, where hardships are real and not as comfy as the train.",
-    "readingMnemonic": "The reading is unlike anything you've seen with this kanji. Just think about how you have <vocabulary>to get off</vocabulary> at <reading>O</reading>-station. None of the other letters are your stop. Just <reading>O</reading>-Station (<ja>お</ja>)."
+    "readingMnemonic": "The reading is unlike anything you've seen with this kanji. Just think about how you have <vocabulary>to get off</vocabulary> at <reading>O</reading>-station. None of the other letters are your stop. Just <reading>O</reading>-Station (<ja>お</ja>).",
+    "audio": [
+      {
+        "fileName": "降りる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "降りる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "3387f994-7d88-438a-81fa-b6973000299b",
   "tags": [

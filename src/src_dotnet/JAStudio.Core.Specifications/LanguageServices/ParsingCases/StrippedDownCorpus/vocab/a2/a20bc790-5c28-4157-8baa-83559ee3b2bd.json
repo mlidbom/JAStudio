@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-ca479b9bd61812de1991eba8ef7773a75dab23e3cfc76421dac74805.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-ca479b9bd61812de1991eba8ef7773a75dab23e3cfc76421dac74805.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "考え過ぎる",
@@ -40,8 +46,7 @@
   "sentenceCount": 2,
   "technicalNotes": "We forbid preceding adverbs because when preceded by an adverb it has a different meaning.  {verb}-too-{adverb} is an important pattern to learn that we do not want to obscure.",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "adverbHead": "forbidden"
@@ -67,7 +72,9 @@
   "sourceData": {
     "answer": "to{?}{think-too-much/be-over-concerned}",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "a20bc790-5c28-4157-8baa-83559ee3b2bd",
   "tags": []

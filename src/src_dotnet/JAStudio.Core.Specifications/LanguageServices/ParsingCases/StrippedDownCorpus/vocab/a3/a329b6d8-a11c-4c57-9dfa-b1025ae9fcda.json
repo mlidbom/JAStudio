@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-07-14-08-16-46-260.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "レヴェル",
@@ -31,8 +29,7 @@
   "sentenceCount": 25,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,13 @@
   "sourceData": {
     "answer": "level/standard/amount/degree/grade/rank/class | level-(plane)/floor/storey-(story)/layer/stratum | spirit-level/(surveyor's)-level | minor-release-sequence-number-(software-versioning) | rebel",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-14-08-16-46-260.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a329b6d8-a11c-4c57-9dfa-b1025ae9fcda",
   "tags": [

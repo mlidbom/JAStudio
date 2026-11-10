@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:逃がす_b.mp3]",
-  "audioG": "[sound:逃がす_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "迯がす",
@@ -32,8 +30,16 @@
   "sentenceCount": 18,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"気をつけてね♡』ひとり暮らし女性のいまどき「虫対応」は “殺さない、逃がす”の「スイープウーマン」 | ダイオ化成株式会社のプレスリリース\" src=\"d14296-3-986710-19.jpg\"><img alt=\"逃がすイラスト｜無料イラスト・フリー素材なら「イラストAC」\" src=\"fe20048adc9dad6b00a48a1633110c54_t.jpeg\">",
+  "images": [
+    {
+      "fileName": "d14296-3-986710-19.jpg",
+      "altText": "気をつけてね♡』ひとり暮らし女性のいまどき「虫対応」は “殺さない、逃がす”の「スイープウーマン」 | ダイオ化成株式会社のプレスリリース"
+    },
+    {
+      "fileName": "fe20048adc9dad6b00a48a1633110c54_t.jpeg",
+      "altText": "逃がすイラスト｜無料イラスト・フリー素材なら「イラストAC」"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -67,7 +73,18 @@
   "sourceData": {
     "answer": "to{} set-free/let-go/release | miss-(e.g.-a-chance)/lose/let-get-away/fail-to-catch",
     "mnemonic": "Remember how <ja>逃げる</ja> means \"to escape\"? Well this verbs means <vocabulary>to let go</vocabulary>, <vocabulary>to set free</vocabulary>, or <vocabulary>to let escape</vocabulary>.",
-    "readingMnemonic": "You learned the <ja>に</ja> reading for this kanji when you learned <ja>逃げる</ja>.\n\nIf you have trouble telling the two words apart, remember that if you're going <vocabulary>to let go</vocabulary> of someone, make sure they have their <reading>knee gua</reading>rds (<ja>にが</ja>). It's a dangerous world, you can't have them running free without some extra protection, you know."
+    "readingMnemonic": "You learned the <ja>に</ja> reading for this kanji when you learned <ja>逃げる</ja>.\n\nIf you have trouble telling the two words apart, remember that if you're going <vocabulary>to let go</vocabulary> of someone, make sure they have their <reading>knee gua</reading>rds (<ja>にが</ja>). It's a dangerous world, you can't have them running free without some extra protection, you know.",
+    "audio": [
+      {
+        "fileName": "逃がす_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "逃がす_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "0c17f57c-d989-4030-bab4-9d7893ecd6e9",
   "tags": [

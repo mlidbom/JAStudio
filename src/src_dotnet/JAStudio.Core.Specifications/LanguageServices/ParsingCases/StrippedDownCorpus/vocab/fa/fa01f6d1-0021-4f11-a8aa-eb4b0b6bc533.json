@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_か_か_2023-07-16-00-12-26.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 5774,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=TOv3voBcEv8&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=41\">Cure Dolly: Lesson 39: The か Ka-particle's Secret Life!</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,13 @@
   "sourceData": {
     "answer": "yes?/no?/isn't-it?/is-it? | or/whether-or-not | some--(e.g.-something,-someone) | hmm/huh | very | -al/-ial/-ic/-ical/-ish/-y | in-that-way",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_か_か_2023-07-16-00-12-26.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "fa01f6d1-0021-4f11-a8aa-eb4b0b6bc533",
   "tags": [

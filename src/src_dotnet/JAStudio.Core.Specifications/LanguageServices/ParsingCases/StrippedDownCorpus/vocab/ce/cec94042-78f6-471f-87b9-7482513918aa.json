@@ -30,15 +30,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:大丈夫_b.mp3]",
-  "audioG": "[sound:大丈夫_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 328,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "safe/secure/sound/problem-free/without-fear/all-right/alright/OK/okay | certainly/surely/undoubtedly | no-thanks/I'm-good/that's-alright | great-man/fine-figure-of-a-man",
     "mnemonic": "The <kanji>big</kanji> <kanji>height</kanji> of your <kanji>husband</kanji> makes everything <vocabulary>safe</vocabulary> and <vocabulary>all right</vocabulary>. Nothing you need to worry about when you have your super giant husband around to protect you. This is a really useful word, and it is used all the time. If someone asks: \"Are you alright?\" you could say in response \"<ja>大丈夫</ja>\" to mean you're doing all right.",
-    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own. Watch out for the rendaku."
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own. Watch out for the rendaku.",
+    "audio": [
+      {
+        "fileName": "大丈夫_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "大丈夫_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "cec94042-78f6-471f-87b9-7482513918aa",
   "tags": [

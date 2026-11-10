@@ -29,9 +29,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-9d01198d8729d842c9a9874810a5466b203f253d930986eb2ab539a2.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-9d01198d8729d842c9a9874810a5466b203f253d930986eb2ab539a2.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-MayuNeural",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "でいる",
@@ -41,8 +47,7 @@
   "sentenceCount": 233,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -238,7 +243,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "5fbc8a03-3c65-4e1c-91ec-e2fc1c31496b",
   "tags": [

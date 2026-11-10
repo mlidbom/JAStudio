@@ -33,9 +33,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:下さい_b.mp3]",
-  "audioG": "[sound:下さい_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "下さい",
@@ -45,8 +43,7 @@
   "sentenceCount": 599,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -75,7 +72,18 @@
   "sourceData": {
     "answer": "please-(give-me) | please-(do-for-me)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "下さい_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "下さい_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "20a90303-9b42-4d4e-81a8-278b61da9d11",
   "tags": [

@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-02-21-17-46-52-720.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "要る",
@@ -41,8 +39,7 @@
   "sentenceCount": 4870,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -83,7 +80,13 @@
   "sourceData": {
     "answer": "<tag><ja>要る</ja></tag>:: to-be: needed/wanted\n<tag><ja>居る</ja></tag>:: to:{be-(of-animate-objects)/exist} | to:stay | to{?}{be-...-ing/have-been-...-ing}\n<tag><ja>癒る</ja></tag>:: to: calm-down",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-02-21-17-46-52-720.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "8211800d-5642-41a5-b7e6-184e6d052d66",
   "tags": [

@@ -20,15 +20,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-2d43953e3c4fe2a516f6d174344b6510ef6a47369e713cefaea12969.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-2d43953e3c4fe2a516f6d174344b6510ef6a47369e713cefaea12969.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +57,9 @@
   "sourceData": {
     "answer": "to{} sharpen/hone/whet/grind | wash-(rice) | scour/polish/burnish",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "42ccda04-b6a2-4ec0-8592-14ba4b5e42f2",
   "tags": [

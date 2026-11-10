@@ -21,15 +21,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-8efc63f41141f8a6d26c01653c36d0496504d1b4e01e5377da858958.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-8efc63f41141f8a6d26c01653c36d0496504d1b4e01e5377da858958.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -53,7 +58,9 @@
   "sourceData": {
     "answer": "going-out/outing/leaving-(one's-home,-office,-etc.)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "96839c04-be2b-4781-9303-8067fadb146c",
   "tags": [

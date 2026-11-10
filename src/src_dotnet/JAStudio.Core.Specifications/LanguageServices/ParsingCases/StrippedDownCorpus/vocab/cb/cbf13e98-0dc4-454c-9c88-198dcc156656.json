@@ -17,9 +17,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-f6b38eaae0b2cb12c72d94cca1709f4be402c659fc8b41e73493fe06.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-f6b38eaae0b2cb12c72d94cca1709f4be402c659fc8b41e73493fe06.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "こと",
@@ -37,8 +43,7 @@
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +67,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "cbf13e98-0dc4-454c-9c88-198dcc156656",
   "tags": []

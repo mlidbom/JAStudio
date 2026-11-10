@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_じゃ_じゃ_2023-08-20-04-11-10.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "じゃあ",
@@ -40,8 +38,7 @@
   "sentenceCount": 1247,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +70,13 @@
   "sourceData": {
     "answer": "then/well/so/well-then | be/is",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_じゃ_じゃ_2023-08-20-04-11-10.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "4b6b767c-3a51-4bf8-9ed4-16ccb837b355",
   "tags": [

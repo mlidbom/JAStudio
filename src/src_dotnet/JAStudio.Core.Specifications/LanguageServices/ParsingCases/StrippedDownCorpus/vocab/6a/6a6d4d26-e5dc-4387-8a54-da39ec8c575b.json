@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:綺麗_b.mp3]",
-  "audioG": "[sound:綺麗_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "奇麗",
@@ -43,8 +41,11 @@
   "sentenceCount": 55,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"fa07112b877e0a94beb9373ecc98ad44.jpg\">",
-  "userImage": "",
+  "images": [
+    {
+      "fileName": "fa07112b877e0a94beb9373ecc98ad44.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -85,7 +86,18 @@
   "sourceData": {
     "answer": "pretty/lovely/beautiful/fair | clean/clear/pure/tidy/neat | completely/entirely",
     "mnemonic": "Things that are <kanji>beautiful</kanji> and <kanji>lovely</kanji> are very <vocabulary>beautiful</vocabulary>, <vocabulary>pretty</vocabulary>, and often <vocabulary>clean</vocabulary>, too. You can call someone <ja>綺麗</ja>. You can also mention how clean something is with <ja>綺麗</ja>. Gives you some insight as to what \"beauty\" is in Japan, I suppose. Take your baths, folks.\n\nWondering what the difference is between <ja>綺麗</ja> and <ja>美しい</ja>? <ja>美しい</ja> is more dramatic, so it implies you’re really blown away by something’s (or someone’s) beauty. <ja>綺麗</ja>, on the other hand, is a more everyday word that covers anything that’s beautiful, pretty, or even just clean. In other words, the bar is a bit lower for <ja>綺麗</ja>!",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well.",
+    "audio": [
+      {
+        "fileName": "綺麗_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "綺麗_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "6a6d4d26-e5dc-4387-8a54-da39ec8c575b",
   "tags": [

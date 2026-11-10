@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:貸す_b.mp3]",
-  "audioG": "[sound:貸す_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "藉す",
@@ -32,8 +30,12 @@
   "sentenceCount": 60,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"貸し借りイラスト｜無料イラスト・フリー素材なら「イラストAC」\" src=\"49f2f2e43964d6604f7e6a32b0242958_t.jpeg\">",
+  "images": [
+    {
+      "fileName": "49f2f2e43964d6604f7e6a32b0242958_t.jpeg",
+      "altText": "貸し借りイラスト｜無料イラスト・フリー素材なら「イラストAC」"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +64,18 @@
   "sourceData": {
     "answer": "to{} lend/loan | rent-out/hire-out",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>lend</kanji> so the verb vocab version is <vocabulary>to lend</vocabulary>.",
-    "readingMnemonic": "Allow me <vocabulary>to lend</vocabulary> you some advice. The reading you learned from the kanji can be used here."
+    "readingMnemonic": "Allow me <vocabulary>to lend</vocabulary> you some advice. The reading you learned from the kanji can be used here.",
+    "audio": [
+      {
+        "fileName": "貸す_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "貸す_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e5c4b48d-f2ac-4f65-a349-c7f5d513f901",
   "tags": [

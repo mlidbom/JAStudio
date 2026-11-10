@@ -29,9 +29,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-ef38e0e1db5d5678d93fc6f11f2ee6b97a5bdf7bc209cb70f15c8709.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-ef38e0e1db5d5678d93fc6f11f2ee6b97a5bdf7bc209cb70f15c8709.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "況して",
@@ -45,8 +51,7 @@
   "sentenceCount": 37,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +75,9 @@
   "sourceData": {
     "answer": "still-more/to-say-nothing-of/not-to-mention | still-less",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4cc6ab1e-18e2-45ac-abe8-955dfdefee9c",
   "tags": []

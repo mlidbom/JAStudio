@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:彼_b.mp3]",
-  "audioG": "[sound:彼_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 581,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "he/him | boyfriend",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji.",
+    "audio": [
+      {
+        "fileName": "彼_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "彼_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "2418668a-2f1f-4546-a20e-1cd8c2024654",
   "tags": [

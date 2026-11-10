@@ -32,9 +32,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:2024-09-28-05-15-29.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "2024-09-28-05-15-29.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "かも知れません",
@@ -44,8 +46,7 @@
   "sentenceCount": 40,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -83,7 +84,9 @@
   "sourceData": {
     "answer": "may/might/perhaps/may-be/possibly",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "38af5aac-edbb-44b1-bf88-895992df22e2",
   "tags": [

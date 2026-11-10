@@ -28,15 +28,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-10680c025c4e7efe5f513d25d9ad306dcd16b07c72ac90f52ce5d66a.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-10680c025c4e7efe5f513d25d9ad306dcd16b07c72ac90f52ce5d66a.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 67,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -63,7 +64,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "870193f8-24ff-475f-ac5a-c9e54cc60e05",
   "tags": [

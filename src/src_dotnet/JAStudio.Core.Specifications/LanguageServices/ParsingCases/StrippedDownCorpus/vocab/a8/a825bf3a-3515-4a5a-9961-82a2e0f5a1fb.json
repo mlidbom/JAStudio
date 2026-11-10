@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-04-30-11-20-53-691.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "どう",
@@ -36,8 +34,7 @@
   "sentenceCount": 33,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "precisely/exactly/plumb/totally/very-much | damn/stupid/cursed\nbut/however | even-though/even-if",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-04-30-11-20-53-691.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a825bf3a-3515-4a5a-9961-82a2e0f5a1fb",
   "tags": [

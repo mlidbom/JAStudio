@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-31-04-56-43-191.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 15,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "masuStem": "required",
@@ -82,7 +79,13 @@
   "sourceData": {
     "answer": "to:{be-(animate)/be/exist} | to-be:..ing | to{?}(have-the-audacity-to)-do",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-31-04-56-43-191.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "2a8ce214-af70-41c3-835d-601c0f592bf0",
   "tags": [

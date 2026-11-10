@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:628dff75d2c6e5073a715fd94e18967b.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "わたし達",
@@ -48,8 +46,7 @@
   "sentenceCount": 216,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -73,7 +70,13 @@
   "sourceData": {
     "answer": "we/us",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "628dff75d2c6e5073a715fd94e18967b.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "1d045b89-a0d4-4d17-aa53-270111f82813",
   "tags": [

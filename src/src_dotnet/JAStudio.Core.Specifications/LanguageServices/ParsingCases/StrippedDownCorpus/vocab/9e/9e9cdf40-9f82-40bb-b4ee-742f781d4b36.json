@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-04-31-06-18-52-568.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "停める",
@@ -32,8 +30,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,13 @@
   "sourceData": {
     "answer": "to{} stop/turn-off | park | prevent/suppress-(a-cough)/hold-back-(tears)/hold-(one's-breath)/relieve-(pain) | stop-(someone-from-doing-something)/dissuade/forbid/prohibit | notice/be-aware-of/concentrate-on/pay-attention-to/remember/bear-in-mind | fix-(in-place)/fasten/tack/pin/nail/button/staple | detain/keep-in-custody",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-04-31-06-18-52-568.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "9e9cdf40-9f82-40bb-b4ee-742f781d4b36",
   "tags": [

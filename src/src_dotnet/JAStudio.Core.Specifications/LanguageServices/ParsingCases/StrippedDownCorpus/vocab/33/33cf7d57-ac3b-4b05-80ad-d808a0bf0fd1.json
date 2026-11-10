@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:頼む_b.mp3]",
-  "audioG": "[sound:頼む_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "憑む",
@@ -36,8 +34,7 @@
   "sentenceCount": 111,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "to{}{request/beg/ask} | to{}{call/order/reserve} | to{}entrust-to | to{}rely-on | please/please-do",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>trust</kanji>, but the verb vocab version is <vocabulary>to ask for</vocabulary> or <vocabulary>to rely on</vocabulary> or <vocabulary>to request</vocabulary>. When you trust someone you can <ja>頼む</ja> them, but only when you trust them. You put it in their hands. You trust them, after all.",
-    "readingMnemonic": "But, you're entrusting this task to your friend not because you are busy, but because you want to go have a <ja><reading>楽</reading>しい</ja> time at the waterpark. Sucker!"
+    "readingMnemonic": "But, you're entrusting this task to your friend not because you are busy, but because you want to go have a <ja><reading>楽</reading>しい</ja> time at the waterpark. Sucker!",
+    "audio": [
+      {
+        "fileName": "頼む_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "頼む_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "33cf7d57-ac3b-4b05-80ad-d808a0bf0fd1",
   "tags": [

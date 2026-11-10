@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-4cd482143804587e9ac2d3d5c532dce99a516d185a8b3a5dac77adca.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-4cd482143804587e9ac2d3d5c532dce99a516d185a8b3a5dac77adca.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "じゃう",
@@ -36,8 +42,7 @@
   "sentenceCount": 19,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -84,7 +89,9 @@
   "sourceData": {
     "answer": "to do: completely | accidentally",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "490c22e6-8133-4dd0-bccd-619f12997004",
   "tags": [

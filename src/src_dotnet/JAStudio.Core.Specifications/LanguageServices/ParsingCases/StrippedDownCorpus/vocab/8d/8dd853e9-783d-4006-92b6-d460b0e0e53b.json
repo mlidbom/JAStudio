@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:替える_b.mp3]",
-  "audioG": "[sound:替える_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "換える",
@@ -36,8 +34,7 @@
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "to{} replace | exchange/interchange | substitute",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>replace</kanji> so the verb vocab version is <vocabulary>to replace</vocabulary>. You know that you're doing the replacing because of the <reading>air</reading> (<ja>える</ja>). You're replacing the air as quickly as you can because if you don't you wouldn't be able to breathe in this small room.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji.",
+    "audio": [
+      {
+        "fileName": "替える_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "替える_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "8dd853e9-783d-4006-92b6-d460b0e0e53b",
   "tags": [

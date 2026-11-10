@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:長い_b.mp3]",
-  "audioG": "[sound:長い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "永い",
@@ -35,8 +33,7 @@
   "sentenceCount": 100,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,18 @@
   "sourceData": {
     "answer": "long-(distance,-length) | long-(time)/protracted/prolonged",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>long</kanji>? It's also <vocabulary>long</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have something that's really long. It's this crazy hair growing out of the tip of your nose. You don't really care either way if it stays or goes, but you're too lazy to cut it off. Your parents, though, keep trying to <reading>nag</reading> (<ja>なが</ja>) you to trim it. Imagine this process happening and be irritated about it. What naggers."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: \n\nYou have something that's really long. It's this crazy hair growing out of the tip of your nose. You don't really care either way if it stays or goes, but you're too lazy to cut it off. Your parents, though, keep trying to <reading>nag</reading> (<ja>なが</ja>) you to trim it. Imagine this process happening and be irritated about it. What naggers.",
+    "audio": [
+      {
+        "fileName": "長い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "長い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "c4c1ec80-c2ae-4a94-9bdf-647433041c9a",
   "tags": [

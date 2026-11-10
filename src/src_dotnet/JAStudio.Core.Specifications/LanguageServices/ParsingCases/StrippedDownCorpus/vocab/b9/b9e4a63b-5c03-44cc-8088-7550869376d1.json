@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-03-16-18-19-50-694.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "いっけ",
@@ -44,8 +42,7 @@
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanPotential": "forbidden"
@@ -71,7 +68,13 @@
   "sourceData": {
     "answer": "prefix-used-to-strengthen-a-derogatory-adjective",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-16-18-19-50-694.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "b9e4a63b-5c03-44cc-8088-7550869376d1",
   "tags": [

@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:存在_b.mp3]",
-  "audioG": "[sound:存在_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 50,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "existence/being",
     "mnemonic": "I <kanji>exist</kanji>, I <kanji>suppose</kanji>... this is the kind of <vocabulary>existence</vocabulary> I have. I'm not really sure either way, and I don't care. Existence is futile, I suppose.",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well.",
+    "audio": [
+      {
+        "fileName": "存在_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "存在_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "b400316c-0370-43a6-92eb-bb94670845fc",
   "tags": [

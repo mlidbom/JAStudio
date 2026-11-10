@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-11-17-08-40-48-046.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "かも",
@@ -39,8 +37,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,13 @@
   "sourceData": {
     "answer": "duck | easy-mark/sucker/sitting-duck",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-11-17-08-40-48-046.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "df838e13-b69e-463e-b951-28a1ae6e1474",
   "tags": [

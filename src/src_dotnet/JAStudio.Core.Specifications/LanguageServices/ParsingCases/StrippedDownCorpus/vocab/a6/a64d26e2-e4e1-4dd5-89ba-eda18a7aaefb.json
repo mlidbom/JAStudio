@@ -20,9 +20,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-9dc3acf84c1548b4dc55ebbf5cec930657fb03a1cd1784b867f686f4.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-9dc3acf84c1548b4dc55ebbf5cec930657fb03a1cd1784b867f686f4.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ぐらい",
@@ -32,8 +38,7 @@
   "sentenceCount": 259,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=6PEQTcDnbBk&amp;list=PLg9uYxuZf8x-W5kcce4zVNwK_JHjxHK5x&amp;index=25\">Cure Dolly: くらい (kurai) VS ほど (hodo) What they mean and why they mean it. - YouTube</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +62,9 @@
   "sourceData": {
     "answer": "approximately/about/around/or-so | to-(about)-the-extent-that/(almost)-enough-that/so-...-that-.../at-least | as-...-as-.../like",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "a64d26e2-e4e1-4dd5-89ba-eda18a7aaefb",
   "tags": [

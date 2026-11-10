@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:嘘_b.mp3]",
-  "audioG": "[sound:嘘_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "噓",
@@ -40,8 +38,7 @@
   "sentenceCount": 105,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,18 @@
   "sourceData": {
     "answer": "lie/fib/falsehood/untruth | mistake/error | unwise-move/bad-decision | no-way!/unbelievable!/really?!",
     "mnemonic": "The kanji and the word are exactly the same. A <kanji>lie</kanji> is a <vocabulary>lie</vocabulary>!",
-    "readingMnemonic": "Since this word is made up of a single kanji, it probably uses the kun'yomi reading. You learned with reading with the kanji, so you should be able to read it already!"
+    "readingMnemonic": "Since this word is made up of a single kanji, it probably uses the kun'yomi reading. You learned with reading with the kanji, so you should be able to read it already!",
+    "audio": [
+      {
+        "fileName": "嘘_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "嘘_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "03dbe87e-58b1-42cd-9242-8ca666feb8eb",
   "tags": [

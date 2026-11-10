@@ -17,11 +17,8 @@ public partial class KanjiDto : CorpusNoteDto
    public List<string> SimilarMeaning { get; init; } = [];
    public List<string> ConfusedWith { get; init; } = [];
 
-   /// <summary>
-   /// An image for the kanji, as Anki's <c>&lt;img src="…"&gt;</c> markup, or empty. Only a few kanji have one: JAStudio only carries it, kept from<br/>
-   /// the Anki notes before they were trimmed, since an image can't be made again the way the kanji's audio can be computed.
-   /// </summary>
-   public string Image { get; init; } = string.Empty;
+   /// <summary>The kanji's images, the corpus's own: see <see cref="Note.KanjiNote.Images"/>.</summary>
+   public List<ImageReferenceDto> Images { get; init; } = [];
 
    public KanjiSourceDataDto SourceData { get; init; } = new();
 }

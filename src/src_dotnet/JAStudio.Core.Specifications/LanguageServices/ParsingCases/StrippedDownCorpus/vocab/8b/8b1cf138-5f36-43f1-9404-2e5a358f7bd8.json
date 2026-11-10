@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-d6f9d167a694ded910bf3200f3014a8994d99ad22e4736c2c63bac03.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-d6f9d167a694ded910bf3200f3014a8994d99ad22e4736c2c63bac03.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 356,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "required"
@@ -64,7 +69,9 @@
   "sourceData": {
     "answer": "eel-(esp.-the-Japanese-eel,-Anguilla-japonica)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "8b1cf138-5f36-43f1-9404-2e5a358f7bd8",
   "tags": []

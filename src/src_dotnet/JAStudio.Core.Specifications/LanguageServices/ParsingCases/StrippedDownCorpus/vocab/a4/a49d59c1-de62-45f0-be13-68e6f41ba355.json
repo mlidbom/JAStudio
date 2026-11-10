@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:お金_b.mp3]",
-  "audioG": "[sound:お金_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "御金",
@@ -31,8 +29,7 @@
   "sentenceCount": 114,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,18 @@
   "sourceData": {
     "answer": "money",
     "mnemonic": "The <ja>お</ja> is an honorific that makes this word a bit more fancy. When you're talking about money you gotta be fancy, after all. So, you're basically saying \"gold\" in a nicer way. What was gold back in the day? It was <vocabulary>money</vocabulary>.",
-    "readingMnemonic": "The reading for <ja>金</ja> is different from the one you learned with the kanji. Makes sense since this is a single kanji with hiragana attached. Here's a mnemonic to help you: \n\nYou've saved up a ton of money. With it you're going to buy something awesome. Then, suddenly someone hits you in the knees with a bat. Now you have to spend all your <vocabulary>money</vocabulary> buying a <reading>cane</reading> (<ja>かね</ja>). Sucks for you :("
+    "readingMnemonic": "The reading for <ja>金</ja> is different from the one you learned with the kanji. Makes sense since this is a single kanji with hiragana attached. Here's a mnemonic to help you: \n\nYou've saved up a ton of money. With it you're going to buy something awesome. Then, suddenly someone hits you in the knees with a bat. Now you have to spend all your <vocabulary>money</vocabulary> buying a <reading>cane</reading> (<ja>かね</ja>). Sucks for you :(",
+    "audio": [
+      {
+        "fileName": "お金_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "お金_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "a49d59c1-de62-45f0-be13-68e6f41ba355",
   "tags": [

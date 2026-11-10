@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:甘い_b.mp3]",
-  "audioG": "[sound:甘い_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 58,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "sweet-tasting/sweet/sugary/sugared | fragrant-(smelling)/sweet-(music) | lightly-salted/light-in-salt/not-spicy | naive/overly-optimistic/soft-on/generous/indulgent/easy-going/lenient | half-hearted/not-finished-properly | insufficient/not-satisfactory/inadequate/loose | mild | tempting/enticing/luring",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>sweet</kanji>? It's <vocabulary>sweet</vocabulary>.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji."
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji.",
+    "audio": [
+      {
+        "fileName": "甘い_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "甘い_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "1bb9641b-d218-454c-832c-38e6a91b7af7",
   "tags": [

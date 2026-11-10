@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-ac8620aeb23f11177924527c2c044056146a766e3a1ead0ae604de3f.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-ac8620aeb23f11177924527c2c044056146a766e3a1ead0ae604de3f.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 0,
   "technicalNotes": "We need to keep this because without it the rare word is shown directly from the dictionary instead...",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanPotential": "forbidden"
@@ -55,7 +60,9 @@
   "sourceData": {
     "answer": "being-able-to-hear-something-(clearly)/clearness-of-a-sound/reception-(e.g.-of-a-radio-station) | reputation/renown/fame/hearsay | impression-(that-something-gives-off)/respectability | sonority",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "1bab7a39-4fd1-4578-a15f-da0ceabb125d",
   "tags": [

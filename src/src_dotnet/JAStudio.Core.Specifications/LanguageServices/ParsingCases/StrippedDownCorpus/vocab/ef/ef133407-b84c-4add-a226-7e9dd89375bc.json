@@ -28,15 +28,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:教科書_b.mp3]",
-  "audioG": "[sound:教科書_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 20,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,18 @@
   "sourceData": {
     "answer": "textbook/coursebook/schoolbook",
     "mnemonic": "The thing you use to <kanji>teach</kanji> a <kanji>course</kanji> with <kanji>writing</kanji>s is a <vocabulary>textbook</vocabulary>. It's a book of writings you use to teach your course!",
-    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own."
+    "readingMnemonic": "This is a jukugo word that uses the on'yomi readings of the kanji. You should be able to read this on your own.",
+    "audio": [
+      {
+        "fileName": "教科書_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "教科書_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "ef133407-b84c-4add-a226-7e9dd89375bc",
   "tags": [

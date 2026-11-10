@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:Wani_5289_male.mp3]",
-  "audioG": "[sound:Wani_5289_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "貸",
@@ -31,8 +29,7 @@
   "sentenceCount": 5,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,18 @@
   "sourceData": {
     "answer": "loan/lending | favor/favour/debt/obligation | creditor/method-of-lending/credit-side",
     "mnemonic": "To lend or to rent is <ja>貸す</ja>. This is the noun version of that, used as a prefix. It is something that has been rented, a <vocabulary>rental</vocabulary>.",
-    "readingMnemonic": "The reading is the same as <ja>貸す</ja>."
+    "readingMnemonic": "The reading is the same as <ja>貸す</ja>.",
+    "audio": [
+      {
+        "fileName": "Wani_5289_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_5289_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "d4a5550f-0d6d-4433-a308-b1021938abc9",
   "tags": [

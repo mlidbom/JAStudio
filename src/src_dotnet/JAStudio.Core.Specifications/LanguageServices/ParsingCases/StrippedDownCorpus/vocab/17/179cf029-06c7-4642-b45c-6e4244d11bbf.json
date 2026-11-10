@@ -22,9 +22,7 @@
     "humble"
   ],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:頂く_b.mp3]",
-  "audioG": "[sound:頂く_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "いただく",
@@ -38,8 +36,7 @@
   "sentenceCount": 48,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -63,7 +60,18 @@
   "sourceData": {
     "answer": "to{}{receive/get/accept/take/buy} | to{}{eat/drink} | to{}{be-crowned-with/wear-(on-one's-head)/have-(on-top)} | to{}{have-(as-one's-leader)/live-under-(a-ruler)/install-(a-president)} | to{?}get-somebody-to-do-something",
     "mnemonic": "If you <kanji>humbly</kanji> do something you are going <vocabulary>to humbly receive</vocabulary>, <vocabulary>to humbly accept</vocabulary>, or eat or drink it. Basically you're humbly doing a lot of things. And you can use this word for all of them!",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn this reading yet, so here's a mnemonic to help you:\n\nYou technically already know this reading! You know how people say <ja>いただきます</ja>? Well that's the same as this! You're humbly receiving your meal. So <vocabulary>to humbly receive</vocabulary> is <ja><reading>いただく</reading></ja>!"
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn this reading yet, so here's a mnemonic to help you:\n\nYou technically already know this reading! You know how people say <ja>いただきます</ja>? Well that's the same as this! You're humbly receiving your meal. So <vocabulary>to humbly receive</vocabulary> is <ja><reading>いただく</reading></ja>!",
+    "audio": [
+      {
+        "fileName": "頂く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "頂く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "179cf029-06c7-4642-b45c-6e4244d11bbf",
   "tags": [

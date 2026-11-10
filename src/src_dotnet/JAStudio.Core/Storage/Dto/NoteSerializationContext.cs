@@ -25,6 +25,8 @@ namespace JAStudio.Core.Storage.Dto;
 [JsonSerializable(typeof(WordExclusionDto))]
 [JsonSerializable(typeof(SentenceParsingResultDto))]
 [JsonSerializable(typeof(ParsedMatchDto))]
+[JsonSerializable(typeof(AudioReferenceDto))]
+[JsonSerializable(typeof(ImageReferenceDto))]
 [JsonSerializable(typeof(AllNotesDto))]
 [JsonSourceGenerationOptions(
    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,

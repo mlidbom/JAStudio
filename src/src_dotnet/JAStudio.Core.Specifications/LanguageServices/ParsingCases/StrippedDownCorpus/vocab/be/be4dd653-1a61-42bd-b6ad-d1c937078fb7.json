@@ -26,9 +26,15 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-9661233943a2dd309d6ccb4bf8aabb111e2872b22b7e82bd66d74b40.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-9661233943a2dd309d6ccb4bf8aabb111e2872b22b7e82bd66d74b40.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "と思う",
@@ -38,8 +44,7 @@
   "sentenceCount": 48,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "be4dd653-1a61-42bd-b6ad-d1c937078fb7",
   "tags": []

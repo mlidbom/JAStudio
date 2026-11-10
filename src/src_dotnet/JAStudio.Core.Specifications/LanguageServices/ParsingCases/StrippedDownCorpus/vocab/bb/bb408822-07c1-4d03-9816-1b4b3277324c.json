@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-04-14-58-08-673.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "ですが",
@@ -40,8 +38,7 @@
   "sentenceCount": 185,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "but/however/(and)-yet/nevertheless/still/for-all-that",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-06-04-14-58-08-673.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "bb408822-07c1-4d03-9816-1b4b3277324c",
   "tags": [

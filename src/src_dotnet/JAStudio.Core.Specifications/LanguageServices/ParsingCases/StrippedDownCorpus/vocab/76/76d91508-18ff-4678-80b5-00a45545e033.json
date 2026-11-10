@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": false,
-  "audioB": "[sound:目_b.mp3]",
-  "audioG": "[sound:目_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "眼",
@@ -35,8 +33,7 @@
   "sentenceCount": 256,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,18 @@
   "sourceData": {
     "answer": "eye/eyeball | eyesight/sight/vision | look/stare/gaze/glance | notice/attention/observation/eyes-(of-the-world,-public,-etc.) | an-experience | viewpoint | discrimination/discernment/judgement/eye-(e.g.-for-quality) | appearance | chance-to-succeed/possibility | spacing-(between-crossed-strands-of-a-net,-mesh,-etc.)/opening/stitch/texture/weave | grain-(of-wood) | eye-(of-a-storm,-needle,-etc.) | intersection-(on-a-go-board)/square-(on-a-chess-board) | dot-(on-a-dice)/pip/rolled-number | graduation/division-(of-a-scale) | tooth-(of-a-saw,-comb,-etc.) | ordinal-number-suffix | somewhat/-ish | point-(e.g.-of-change)",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading is the same as the one you learned for the kanji, meaning you should already know it!"
+    "readingMnemonic": "The reading is the same as the one you learned for the kanji, meaning you should already know it!",
+    "audio": [
+      {
+        "fileName": "目_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "目_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "76d91508-18ff-4678-80b5-00a45545e033",
   "tags": [

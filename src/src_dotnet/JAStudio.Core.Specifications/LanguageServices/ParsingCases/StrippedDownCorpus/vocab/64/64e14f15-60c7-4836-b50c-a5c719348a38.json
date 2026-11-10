@@ -20,9 +20,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:過ぎ_b.mp3]",
-  "audioG": "[sound:過ぎ_g.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "過ぎ_b.mp3",
+      "voiceGender": "male"
+    },
+    {
+      "fileName": "過ぎ_g.mp3",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "過ぎ",
@@ -36,8 +43,7 @@
   "sentenceCount": 37,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -63,7 +69,9 @@
   "sourceData": {
     "answer": "<tag><ja>過ぎ</ja></tag>:: past/after | too-(much)/over--(e.g.-eating)\n<tag><ja>須義</ja></tag>:: cobia-(Rachycentron-canadum)/sergeant-fish",
     "mnemonic": "<ja>過ぎる</ja> is <vocabulary>to pass</vocabulary>. When you pass what is needed, what are you left with? Just this word: <vocabulary>too much</vocabulary>. This can also mean <vocabulary>after</vocabulary>, as in \"after 5pm\", and <vocabulary>past</vocabulary>, as in \"past sixty\".",
-    "readingMnemonic": "The reading comes from <ja>過ぎる</ja>. Know that and you know <vocabulary>too much</vocabulary>. Dial it down to get <ja>過ぎ</ja>."
+    "readingMnemonic": "The reading comes from <ja>過ぎる</ja>. Know that and you know <vocabulary>too much</vocabulary>. Dial it down to get <ja>過ぎ</ja>.",
+    "audio": [],
+    "images": []
   },
   "id": "64e14f15-60c7-4836-b50c-a5c719348a38",
   "tags": []

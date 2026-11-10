@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:機械_b.mp3]",
-  "audioG": "[sound:機械_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "器械",
@@ -31,8 +29,7 @@
   "sentenceCount": 63,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,18 @@
   "sourceData": {
     "answer": "machine/mechanism | instrument/appliance/apparatus",
     "mnemonic": "A <kanji>machine</kanji> <kanji>contraption</kanji> is just a <vocabulary>machine</vocabulary>",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well.",
+    "audio": [
+      {
+        "fileName": "機械_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "機械_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "cdcdd019-3b74-48d2-90a7-ad4ad64d12c7",
   "tags": [

@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-438cbf69be69e2ae9da667538e4fbb48fcc16e8c8a86ca8f31695e44.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-438cbf69be69e2ae9da667538e4fbb48fcc16e8c8a86ca8f31695e44.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Google ja-JP-Neural2-B",
+      "voiceGender": "female"
+    }
+  ],
   "forms": [
     {
       "text": "無いと",
@@ -40,8 +46,7 @@
   "sentenceCount": 326,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -109,7 +114,9 @@
   "sourceData": {
     "answer": "have-to-(verb)/must-(verb) | is-indispensable/absolutely-necessary",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c2ba6369-13db-47e6-8b64-5928c0034323",
   "tags": [

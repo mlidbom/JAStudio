@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-07-25-20-06-45-590.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "きれ",
@@ -33,8 +31,7 @@
   "sentenceCount": 5,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,13 @@
   "sourceData": {
     "answer": "<read>きれ</read>:: piece/slice/strip/scrap | cloth | sharpness | agility | counter-for-scraps,-pieces,-etc.\n<read>ぎれ</read>:: completely-using-up-.../running-out-of-.../exhausting-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-25-20-06-45-590.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "d0068d36-1b81-4031-8a2a-852623bca35b",
   "tags": [

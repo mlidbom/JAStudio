@@ -39,6 +39,6 @@ sealed class TagOnTheNoteViewModel
    /// <summary>What hovering the tag shows: why it can't be removed, for one that <see cref="IsReadOnly"/>.</summary>
    public string? ToolTip =>
       IsAnAnkiTag              ? Tags.Anki.WhyItIsReadOnly
-      : IsMaintainedByJAStudio ? "JAStudio maintains this tag: it generates it, or has an editor of its own for it."
+      : IsMaintainedByJAStudio ? "JAStudio maintains this tag: it generates it."
                                : null;
 }

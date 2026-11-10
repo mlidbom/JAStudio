@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:2363d051a10ad47be705ab211b6c7e2a.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 55,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"b4a48a76b79829fd26b6c12534fb62f0.jpg\" />",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,17 @@
   "sourceData": {
     "answer": "television/TV | TV-program/TV-programme/TV-broadcast",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "2363d051a10ad47be705ab211b6c7e2a.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "b4a48a76b79829fd26b6c12534fb62f0.jpg"
+      }
+    ]
   },
   "id": "f6d90268-dbbc-4462-b21d-fdf458f9046d",
   "tags": [

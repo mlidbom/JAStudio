@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:88de14505716052e8fc8b61d809d2843-893385d135a36d1c9aee72894a69627d2856470e.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "其",
@@ -40,8 +38,7 @@
   "sentenceCount": 951,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,13 @@
   "sourceData": {
     "answer": "<tag><ja>其れ</ja></tag>:: that/it | then/that-point-(in-time)/that-time | there | you\nthere!/look! | go-on!/right!/here-goes!",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "88de14505716052e8fc8b61d809d2843-893385d135a36d1c9aee72894a69627d2856470e.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "649623f9-ee80-4187-b7b3-955e4738b82d",
   "tags": [

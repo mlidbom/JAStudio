@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:驚く_b.mp3]",
-  "audioG": "[sound:驚く_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "愕く",
@@ -36,8 +34,7 @@
   "sentenceCount": 32,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -66,7 +63,18 @@
   "sourceData": {
     "answer": "to-be: surprised/astonished",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>surprised</kanji>, so the verb vocab version is <vocabulary>to be surprised</vocabulary>.",
-    "readingMnemonic": "What are you so surprised by? Your friend's <reading>odor</reading> (<ja>おどろ</ja>). Think of a friend that you wouldn't expect to be so smelly. Then, be surprised by the odor. Eww, bro, you have to take a shower."
+    "readingMnemonic": "What are you so surprised by? Your friend's <reading>odor</reading> (<ja>おどろ</ja>). Think of a friend that you wouldn't expect to be so smelly. Then, be surprised by the odor. Eww, bro, you have to take a shower.",
+    "audio": [
+      {
+        "fileName": "驚く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "驚く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "1440f1ff-94e5-49fd-a09c-72b656395552",
   "tags": [

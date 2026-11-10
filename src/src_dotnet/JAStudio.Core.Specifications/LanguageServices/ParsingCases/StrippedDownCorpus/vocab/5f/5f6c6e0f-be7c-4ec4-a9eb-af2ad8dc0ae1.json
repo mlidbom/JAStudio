@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:易しい_b.mp3]",
-  "audioG": "[sound:易しい_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "やさしい",
@@ -31,8 +29,12 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"5 Ways To Find A Low-Stress, Easy Job In 2023\" src=\"960x0.jpg\">",
+  "images": [
+    {
+      "fileName": "960x0.jpg",
+      "altText": "5 Ways To Find A Low-Stress, Easy Job In 2023"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +58,18 @@
   "sourceData": {
     "answer": "easy/plain/simple",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>easy</kanji>? It's also <vocabulary>easy</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: Everything is so <vocabulary>easy</vocabulary> for you to do. Why? Because you don't do anything yourself. You ask others. You say things like \"Hey, can you get me some water?\" They say \"<reading>yassah!</reading>\" (<ja>やさ</ja>) very enthusiastically."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: Everything is so <vocabulary>easy</vocabulary> for you to do. Why? Because you don't do anything yourself. You ask others. You say things like \"Hey, can you get me some water?\" They say \"<reading>yassah!</reading>\" (<ja>やさ</ja>) very enthusiastically.",
+    "audio": [
+      {
+        "fileName": "易しい_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "易しい_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5f6c6e0f-be7c-4ec4-a9eb-af2ad8dc0ae1",
   "tags": [

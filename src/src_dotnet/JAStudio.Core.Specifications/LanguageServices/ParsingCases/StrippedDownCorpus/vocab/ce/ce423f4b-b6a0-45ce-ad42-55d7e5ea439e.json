@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-08-07-10-53-10-142.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "為さる",
@@ -33,8 +31,7 @@
   "sentenceCount": 169,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,13 @@
   "sourceData": {
     "answer": "to{} do",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-07-10-53-10-142.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ce423f4b-b6a0-45ce-ad42-55d7e5ea439e",
   "tags": [

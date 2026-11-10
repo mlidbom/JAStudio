@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-33ef895d2bf6e118617478c47b6108bb469f461fae86cdee71fb88b3.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-33ef895d2bf6e118617478c47b6108bb469f461fae86cdee71fb88b3.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "オレは",
@@ -40,8 +46,7 @@
   "sentenceCount": 271,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +70,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4b7c927a-b5e6-4fe9-a11e-5377544d6e59",
   "tags": []

@@ -20,15 +20,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-2646fe1d49f154b25af789456cc0da94fffd81d0e804d97aacd50cd4.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-2646fe1d49f154b25af789456cc0da94fffd81d0e804d97aacd50cd4.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 1011,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "required"
@@ -54,7 +59,9 @@
   "sourceData": {
     "answer": "<tag><ja>藺</ja></tag>:: soft-rush-(Juncus-effusus-var.-decipiens)/common-rush\nstrengthens-a-question,-assertion,-etc.",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "504d1590-9cb5-4f67-bdaf-1f174a93c67b",
   "tags": []

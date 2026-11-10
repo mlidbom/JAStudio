@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ぜ_ぜ_2023-09-17-14-22-09.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 127,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "forbidden"
@@ -53,7 +50,13 @@
   "sourceData": {
     "answer": "I-can-tell-you | heh",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ぜ_ぜ_2023-09-17-14-22-09.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "b488aa62-cb2a-42ad-b190-118e7d88ef44",
   "tags": [

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:cfb892a6d4515154c264d0d5c77b5f63-99718a4fc7b34626cb594fdcd424b62ca7a0d0a8.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "此所",
@@ -47,8 +45,7 @@
   "sentenceCount": 642,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -89,7 +86,13 @@
   "sourceData": {
     "answer": "here/this-place | this-point/here/now | these-past-...-(e.g.-three-years)/these-last-... | the-next-...-(e.g.-few-days)/these-next-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "cfb892a6d4515154c264d0d5c77b5f63-99718a4fc7b34626cb594fdcd424b62ca7a0d0a8.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "809572a3-a267-4c38-93ea-fa7cab5b3e9b",
   "tags": [

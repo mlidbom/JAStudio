@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-05-10-21-17-44-105.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "つく",
@@ -47,8 +45,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -72,7 +69,13 @@
   "sourceData": {
     "answer": "to: possess/haunt",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-05-10-21-17-44-105.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "5cb2f34d-12f1-4f54-af73-3bbfd5ad4bed",
   "tags": [

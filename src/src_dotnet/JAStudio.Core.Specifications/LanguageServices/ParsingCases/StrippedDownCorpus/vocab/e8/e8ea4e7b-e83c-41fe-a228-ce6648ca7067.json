@@ -24,9 +24,15 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-3f24b4fdd27325125edafaeb66a3086031d94087d717f0f6e621b894.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-3f24b4fdd27325125edafaeb66a3086031d94087d717f0f6e621b894.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "って聞",
@@ -40,8 +46,7 @@
   "sentenceCount": 85,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "yieldLastTokenToOverlappingCompound": "required"
@@ -67,7 +72,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "e8ea4e7b-e83c-41fe-a228-ce6648ca7067",
   "tags": []

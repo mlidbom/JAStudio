@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:天気_b.mp3]",
-  "audioG": "[sound:天気_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 38,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "weather/the-elements | fair-weather/fine-weather",
     "mnemonic": "What is the <kanji>heaven</kanji> <kanji>energy</kanji>? If you think about it, that's all the stuff that falls on us from the sky. Lightning, rain, snow, hail... What is all of that? It's the <vocabulary>weather</vocabulary>.",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well.",
+    "audio": [
+      {
+        "fileName": "天気_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "天気_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "9aebb021-d01f-47cd-83f5-75e0e275fd2d",
   "tags": [

@@ -21,9 +21,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-07-09-12-16-09-440.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "かぎり",
@@ -33,8 +31,7 @@
   "sentenceCount": 21,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +55,13 @@
   "sourceData": {
     "answer": "limit/limits/bounds | degree/extent/scope | the-end/the-last | as-long-as-.../as-far-as-.../as-much-as-.../to-the-limits-of-.../all-of-... | unless-... | (not)-included-in-.../(not)-part-of-... | ...-only-(e.g.-\"one-time-only\",-\"today-only\") | end-of-one's-life/final-moments/death | funeral/burial",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-09-12-16-09-440.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ec2915f1-b961-423e-a4e1-e286750a6255",
   "tags": [

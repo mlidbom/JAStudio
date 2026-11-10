@@ -22,9 +22,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "か",
@@ -66,8 +64,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -91,7 +88,9 @@
   "sourceData": {
     "answer": "<read>か</read>:: phala-(attained-state,-result) | enlightenment-(as-the-fruits-of-one's-Buddhist-practice) | fruit | counter-for-pieces-of-fruit\n<read>はたて</read>:<tag><ja>果たて</ja></tag>:: end/limit/extremity\n<read>はか</read>:<tag><ja>捗</ja></tag>:: progress",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "1bbdda8c-e4c7-416f-91a5-11c9801041b6",
   "tags": []

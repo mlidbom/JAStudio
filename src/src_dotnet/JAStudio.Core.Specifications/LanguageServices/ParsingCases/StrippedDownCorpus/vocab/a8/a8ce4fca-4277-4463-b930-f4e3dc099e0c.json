@@ -21,9 +21,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:吐く_b.mp3][sound:yomitan_audio_2024-04-23-03-31-12-959.mp3]",
-  "audioG": "[sound:吐く_g.mp3][sound:yomitan_audio_2024-04-23-03-31-12-959.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomitan_audio_2024-04-23-03-31-12-959.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "つく",
@@ -33,8 +35,11 @@
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img src=\"paste-858080a327ea7979521d8329b342ca54b377daef.jpg\">",
+  "images": [
+    {
+      "fileName": "paste-858080a327ea7979521d8329b342ca54b377daef.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -58,7 +63,18 @@
   "sourceData": {
     "answer": "<read>つく</read>:: to{} breathe-out/breathe | tell-(a-lie)/use-(foul-language) | vomit/throw-up/spit-up\n<read>はく</read>:: to{} vomit/throw-up/spit-up | emit/send-forth/breathe-out | give-(an-opinion)/make-(a-comment)/express/tell | confess",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>throw up</kanji> so the verb version is <vocabulary>to throw up</vocabulary> or <vocabulary>to puke</vocabulary> or <vocabulary>to spit</vocabulary>.",
-    "readingMnemonic": "The reading is from the reading you learned with the kanji. HA HA HA! Barf."
+    "readingMnemonic": "The reading is from the reading you learned with the kanji. HA HA HA! Barf.",
+    "audio": [
+      {
+        "fileName": "吐く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "吐く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "a8ce4fca-4277-4463-b930-f4e3dc099e0c",
   "tags": [

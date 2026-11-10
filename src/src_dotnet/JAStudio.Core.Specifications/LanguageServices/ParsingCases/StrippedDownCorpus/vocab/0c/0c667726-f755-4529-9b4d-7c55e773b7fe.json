@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:放す_b.mp3]",
-  "audioG": "[sound:放す_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 55,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "to{} release/let-go/free/set-free/let-loose/turn-loose | add-(pieces-of-eggplant,-potato,-etc.)-to-water,-broth,-etc.",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>release</kanji> so the verb vocab version is <vocabulary>to release</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: Imagine you are going <vocabulary>to release</vocabulary> something. It is a <ja><reading>花</reading></ja> (<ja>はな</ja>). You release it from your hand and it falls, hitting the ground in slow motion. You have the power to release and you are doing the releasing (versus <ja>放れる</ja> where something is just released). You can remember this because even though you did the releasing of the flower, you're going to sue the pavement company for breaking your flower. It's all a big scam you're running."
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: Imagine you are going <vocabulary>to release</vocabulary> something. It is a <ja><reading>花</reading></ja> (<ja>はな</ja>). You release it from your hand and it falls, hitting the ground in slow motion. You have the power to release and you are doing the releasing (versus <ja>放れる</ja> where something is just released). You can remember this because even though you did the releasing of the flower, you're going to sue the pavement company for breaking your flower. It's all a big scam you're running.",
+    "audio": [
+      {
+        "fileName": "放す_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "放す_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "0c667726-f755-4529-9b4d-7c55e773b7fe",
   "tags": [

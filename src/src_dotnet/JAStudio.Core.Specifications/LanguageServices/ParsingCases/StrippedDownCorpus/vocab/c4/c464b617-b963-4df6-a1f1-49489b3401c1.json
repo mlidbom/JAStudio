@@ -20,9 +20,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Angel_Beats!_7_0.09.35.060-0.09.36.800.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "Angel_Beats!_7_0.09.35.060-0.09.36.800.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "すっげー",
@@ -100,8 +102,7 @@
   "sentenceCount": 27,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -125,7 +126,9 @@
   "sourceData": {
     "answer": "incredible/unbelievable/terrific/impressive",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c464b617-b963-4df6-a1f1-49489b3401c1",
   "tags": [

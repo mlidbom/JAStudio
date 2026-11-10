@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-cd4e0aeb6b3a1c9105f2037816809b4d01d396f7dd88c1b7ba232fa0.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-cd4e0aeb6b3a1c9105f2037816809b4d01d396f7dd88c1b7ba232fa0.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "でん",
@@ -40,8 +46,7 @@
   "sentenceCount": 124,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "teFormStemStart": "required"
@@ -161,7 +166,9 @@
   "sourceData": {
     "answer": "Japanese-marten-(Martes-melampus) | marten-(any-arboreal-weasel-like-mammal-of-genus-Martes)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "c062cce3-d0ca-4270-8571-05ae25579060",
   "tags": [

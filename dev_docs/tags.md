@@ -29,13 +29,14 @@ not necessarily in how:
 - **corpus-tag** and **student-tag** — a tag that describes the language data, and a tag that is about one
   student's studying, such as a priority tag. See `corpus-data-model.md`, "Student-tags and corpus-tags".
 - **jastudio-defined-tag** — a tag that JAStudio itself defines, in `Tags`, so that its code uses its name. Most are
-  generated, such as `-::kanji::in-any-vocab-form`. A few hold data JAStudio reads, such as `_tts_audio`, and a few are
+  generated, such as `-::kanji::in-any-vocab-form`. A few are
   source tags JAStudio sets when it creates a note, such as `source::jamdict`. *(Until 2026-11-08 the vocab's matching
   configuration, register and usually-written-in-kana were such tags too, such as `-::vocab::matching::requires::godan`
   and `_uk`.)* Tags a person applies, including the ones under `-::` such as `-::priority::…` and `-::counting`, are not
   jastudio-defined-tags.
 - **jastudio-maintained-tag** — a jastudio-defined-tag JAStudio keeps up to date itself: the generated ones, which every
-  full rebuild computes, and `_tts_audio`, which has an editor of its own (`Tags.IsMaintainedByJAStudio`). The source
+  full rebuild computes (`Tags.IsMaintainedByJAStudio`). *(`_tts_audio`, which had an editor of its own, went with
+  slice 9's step 3: whether audio is TTS is a fact on its reference now.)* The source
   tags JAStudio sets aren't: nothing sets them again after the note is created.
 - **the source branch** — `source::…`, where each note's content comes from, which is the record licensing depends on
   (`Tags.Source`). See `todo/whether-to-split-source-into-provider-and-work.md`.

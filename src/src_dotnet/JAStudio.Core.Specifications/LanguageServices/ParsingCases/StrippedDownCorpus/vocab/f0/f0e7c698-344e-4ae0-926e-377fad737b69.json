@@ -19,15 +19,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:9b5c5ade7e83fb124653c8019730cbef-af09e08d4b817d4be2d0c4981dde476f4babdfdd.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "9b5c5ade7e83fb124653c8019730cbef-af09e08d4b817d4be2d0c4981dde476f4babdfdd.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 108,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words: Cure Dolly</a>&nbsp;#&nbsp;<a href=\"https://www.youtube.com/watch?v=uSJukXcyccw&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=26\">Like/Hearsay :Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceEnd": "required",
@@ -61,7 +62,9 @@
   "sourceData": {
     "answer": "appearing-that/seeming-that/looking-like/having-the-appearance-of\n<tag><ja>然う</ja></tag>:: in-that-way/thus/such | so | so?",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "f0e7c698-344e-4ae0-926e-377fad737b69",
   "tags": []

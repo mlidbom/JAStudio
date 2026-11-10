@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:遊ぶ_b.mp3]",
-  "audioG": "[sound:遊ぶ_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 58,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to: play-(games,-sports)/enjoy-oneself/have-a-good-time | mess-about-(with-alcohol,-gambling,-philandery,-etc.) | be-idle/do-nothing/be-unused | meet-up-(with-friends)/hang-out | give-oneself-up-(to-gambling,-drinking,-etc.) | go-to-(for-pleasure-or-for-study) | tease-(somebody)/play-(with) | intentionally-throw-a-ball-to-lower-the-batter's-concentration",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>play</kanji> and the verb vocab version is <vocabulary>to play</vocabulary>.",
-    "readingMnemonic": "You want <vocabulary>to play</vocabulary> with everyone, but every once in a while someone doesn't want to play with you. You know what? That's okay. If someone doesn't want to play with you, they're the <reading>a**hole</reading> (<ja>あそ</ja>), not you."
+    "readingMnemonic": "You want <vocabulary>to play</vocabulary> with everyone, but every once in a while someone doesn't want to play with you. You know what? That's okay. If someone doesn't want to play with you, they're the <reading>a**hole</reading> (<ja>あそ</ja>), not you.",
+    "audio": [
+      {
+        "fileName": "遊ぶ_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "遊ぶ_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "67197d88-50e0-4e09-971a-2e729d4bb7c1",
   "tags": [

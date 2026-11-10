@@ -19,9 +19,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-a3e72fcdf9cbb8410ad6c75da58631e63e9bce60ecb433ebbd7c86a4.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-a3e72fcdf9cbb8410ad6c75da58631e63e9bce60ecb433ebbd7c86a4.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "九絵",
@@ -35,8 +41,7 @@
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "forbidden"
@@ -62,7 +67,9 @@
   "sourceData": {
     "answer": "longtooth-grouper-(Epinephelus-bruneus)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "5f08dc20-0c68-43bd-8bbb-224b1318202a",
   "tags": [

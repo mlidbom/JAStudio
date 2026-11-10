@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_その_その_2023-07-19-03-58-06.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "そん",
@@ -35,8 +33,7 @@
   "sentenceCount": 1248,
   "technicalNotes": "",
   "references": "\nCure Dolly: <a href=\"https://youtu.be/UCmnwgCc54A?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=475\">その for possesion etc</a> |&nbsp;<a href=\"https://www.youtube.com/watch?v=xLkY6whr7T4&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=23\">Directional Words</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +66,13 @@
   "sourceData": {
     "answer": "that/the | part-(as-in-\"part-two\") | um-.../er-.../uh-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_その_その_2023-07-19-03-58-06.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "6ac914bd-15bc-475c-8038-59146a91e948",
   "tags": [

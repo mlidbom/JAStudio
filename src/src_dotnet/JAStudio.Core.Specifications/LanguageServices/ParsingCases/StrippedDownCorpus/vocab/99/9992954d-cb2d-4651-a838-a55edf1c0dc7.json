@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_ちゃう_ちゃう_2023-07-16-18-50-15.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "じゃう",
@@ -32,8 +30,7 @@
   "sentenceCount": 436,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=VyZWoJCSQ5Q&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=46\">Cure Dolly</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -77,7 +74,13 @@
   "sourceData": {
     "answer": "to{?}do-completely | to{?}{do-accidentally/do-without-meaning-to/happen-to-do}\nno/that's-wrong/it's-not-like-that | isn't-it?/wasn't-it?",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_ちゃう_ちゃう_2023-07-16-18-50-15.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "9992954d-cb2d-4651-a838-a55edf1c0dc7",
   "tags": [

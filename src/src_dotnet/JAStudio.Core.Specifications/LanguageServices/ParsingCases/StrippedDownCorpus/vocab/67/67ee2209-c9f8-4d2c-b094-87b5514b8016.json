@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:居る_b.mp3]",
-  "audioG": "[sound:居る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "いる",
@@ -32,8 +30,7 @@
   "sentenceCount": 12,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,18 @@
   "sourceData": {
     "answer": "to:{be-(of-animate-objects)/exist} | to:stay | to{?}{be-...-ing/have-been-...-ing}",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>alive</kanji> and the verb version means <vocabulary>to exist</vocabulary> or <vocabulary>to be</vocabulary>, for anything that is alive and moving, like people and animals. \n\nThe kanji isn't used too often for this word, so when you're writing just use the kana. But you'll see the kanji used sometimes so it's important to be able to recognize it!",
-    "readingMnemonic": "Do you know the word <ja>いる</ja>? This is the kanji version! If you've been studying Japanese up to this point you probably already know that word. You can associate these two things together into one and remember the reading at the same time!"
+    "readingMnemonic": "Do you know the word <ja>いる</ja>? This is the kanji version! If you've been studying Japanese up to this point you probably already know that word. You can associate these two things together into one and remember the reading at the same time!",
+    "audio": [
+      {
+        "fileName": "居る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "居る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "67ee2209-c9f8-4d2c-b094-87b5514b8016",
   "tags": [

@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-c5c9686daf0285348021bb560eee03834fa67508c433855e0b07eb3c.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-c5c9686daf0285348021bb560eee03834fa67508c433855e0b07eb3c.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "げそう",
@@ -92,8 +98,7 @@
   "sentenceCount": 29,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanPotential": "required"
@@ -122,7 +127,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "3a0a7c64-cf41-44d2-a17e-2f1b5abf3ba9",
   "tags": []

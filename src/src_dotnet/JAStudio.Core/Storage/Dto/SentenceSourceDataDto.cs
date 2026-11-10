@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MemoryPack;
 
 namespace JAStudio.Core.Storage.Dto;
@@ -10,4 +11,6 @@ public partial class SentenceSourceDataDto
    public string Answer { get; init; } = string.Empty;
    public string Comments { get; init; } = string.Empty;
    public string ExternalId { get; init; } = string.Empty;
+   public List<AudioReferenceDto> Audio { get; init; } = [];
+   public List<ImageReferenceDto> Screenshots { get; init; } = [];
 }

@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-ef50c24b392672fc15a57353facb4018202aa3499298ddfd4522667b.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-ef50c24b392672fc15a57353facb4018202aa3499298ddfd4522667b.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "て戴く",
@@ -44,8 +50,7 @@
   "sentenceCount": 75,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -69,7 +74,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "b5e3ff6c-efbf-475c-94a1-e9823ee11360",
   "tags": []

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences;
@@ -15,8 +16,10 @@ public partial class SentenceDto : CorpusNoteDto
    public string CorpusAnswer { get; init; } = string.Empty;
    public string Comments { get; init; } = string.Empty;
    public string Reading { get; init; } = string.Empty;
-   public string Audio { get; init; } = string.Empty;
-   public string Screenshot { get; init; } = string.Empty;
+   /// <summary>The corpus's own audio of the sentence, such as TTS audio: see <see cref="Note.Sentences.SentenceNote.Audio"/>.</summary>
+   public List<AudioReferenceDto> Audio { get; init; } = [];
+   /// <summary>The corpus's own screenshots of the sentence: see <see cref="Note.Sentences.SentenceNote.Screenshots"/>.</summary>
+   public List<ImageReferenceDto> Screenshots { get; init; } = [];
    public SentenceConfigDto Configuration { get; init; } = new();
    public SentenceParsingResultDto? ParsingResult { get; init; }
 

@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_よく_良く_2023-04-24-20-05-45.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomichan_audio_よく_良く_2023-04-24-20-05-45.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "良く",
@@ -43,8 +45,12 @@
   "sentenceCount": 394,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"Young Female Chef Cooking In Kitchen Stock Photo Adobe, 51% OFF\" src=\"1000_F_167649923_mkcth5DzMwGguyu56vPdp7hga39WzAjc.jpg\">",
+  "images": [
+    {
+      "fileName": "1000_F_167649923_mkcth5DzMwGguyu56vPdp7hga39WzAjc.jpg",
+      "altText": "Young Female Chef Cooking In Kitchen Stock Photo Adobe, 51% OFF"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +76,9 @@
   "sourceData": {
     "answer": "nicely/properly/well/skillfully/skilfully | frequently/often | I'm-glad-that-you-.../thank-you-for-... | (you-have)-quite-the-nerve-to/I-don't-know-how-you-can-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "ddfee03d-a535-452e-98d6-e9d7fa8e2954",
   "tags": [

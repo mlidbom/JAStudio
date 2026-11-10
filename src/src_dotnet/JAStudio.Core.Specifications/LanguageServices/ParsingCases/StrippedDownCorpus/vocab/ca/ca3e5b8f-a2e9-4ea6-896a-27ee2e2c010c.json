@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "落とし",
@@ -31,8 +29,7 @@
   "sentenceCount": 0,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,9 @@
   "sourceData": {
     "answer": "dropping/losing | missing-item/something-one-forgot-to-write-down | trap | wooden-protrusion-from-a-Japanese-door-frame-that-fits-a-hole-in-the-threshold,-acting-as-a-lock-when-closed | conclusion-(of-a-speech,-etc.) | metallic-bowl-used-to-hold-the-charcoal-in-a-wooden-hibachi",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "ca3e5b8f-a2e9-4ea6-896a-27ee2e2c010c",
   "tags": []

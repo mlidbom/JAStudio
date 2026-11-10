@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_おもう_想う_2023-05-23-06-45-38.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "惟う",
@@ -39,8 +37,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,13 @@
   "sourceData": {
     "answer": "to{} think/consider/believe/reckon | think-(of-doing)/plan-(to-do) | judge/assess/regard | imagine/suppose/dream | expect/look-forward-to | feel/be-(in-a-state-of-mind)/desire/want | recall/remember",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_おもう_想う_2023-05-23-06-45-38.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "56ea6cb4-ad0c-4d7f-9f5f-28d05f59d4e6",
   "tags": [

@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:時間_b.mp3]",
-  "audioG": "[sound:時間_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 260,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "time | hour | period/class/lesson",
     "mnemonic": "The <kanji>time</kanji> <kanji>interval of time</kanji> is just the <vocabulary>time</vocabulary>. As is often the case, if two similar meaning kanji are combined into one word, they tend to produce a word with a similar meaning. Excuse me, friend, what's the <ja>時間</ja>?",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. If you know the readings of your kanji you'll know how to read this as well.",
+    "audio": [
+      {
+        "fileName": "時間_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "時間_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "bbe361b5-9c6a-4fa7-bc49-82927fc5e0d3",
   "tags": [

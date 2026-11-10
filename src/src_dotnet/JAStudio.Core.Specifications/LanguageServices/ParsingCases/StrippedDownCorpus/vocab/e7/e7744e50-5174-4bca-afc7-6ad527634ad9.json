@@ -19,15 +19,16 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-4e126b2c87da114106ab672aa967845951a077e95051b238cc4a8769.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-4e126b2c87da114106ab672aa967845951a077e95051b238cc4a8769.mp3"
+    }
+  ],
   "forms": [],
   "sentenceCount": 1742,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -72,7 +73,9 @@
   "sourceData": {
     "answer": "you-said/he-said/she-said/they-said | if-...-then | do-you-seriously-think-that | I-already-told-you/you-should-know-by-now-that/of-course | the-said-.../said-... | says-that-... | I-hear-that-... | as-for-the-term-... | as-for-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "e7744e50-5174-4bca-afc7-6ad527634ad9",
   "tags": [

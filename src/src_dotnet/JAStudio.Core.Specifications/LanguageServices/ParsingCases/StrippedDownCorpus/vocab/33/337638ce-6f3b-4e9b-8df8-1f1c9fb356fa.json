@@ -28,9 +28,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_かもしれない_かも知れない_2023-07-20-15-39-07.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "かも知れない",
@@ -40,8 +38,7 @@
   "sentenceCount": 196,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -79,7 +76,13 @@
   "sourceData": {
     "answer": "may/might/perhaps/may-be/possibly",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_かもしれない_かも知れない_2023-07-20-15-39-07.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "337638ce-6f3b-4e9b-8df8-1f1c9fb356fa",
   "tags": [

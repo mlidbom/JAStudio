@@ -28,15 +28,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:hypertts-ed1fe64e405c00384d0bb235ad4668096e5873378d51d93e26db6840.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-ed1fe64e405c00384d0bb235ad4668096e5873378d51d93e26db6840.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 2376,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -62,11 +67,12 @@
   "sourceData": {
     "answer": "used to indicate respect for the listener (or reader)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "2fc554c4-3ab8-4755-91a9-5ec2a38a5dde",
   "tags": [
-    "_tts_audio",
     "source::yomitan"
   ]
 }

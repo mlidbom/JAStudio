@@ -19,9 +19,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-be79b8469ef29204618faf37566749b56bc7d8d6c2e82f0169f7ed79.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-be79b8469ef29204618faf37566749b56bc7d8d6c2e82f0169f7ed79.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "毬",
@@ -35,8 +41,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +65,9 @@
   "sourceData": {
     "answer": "cone-(e.g.-pine,-hemlock)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "d16ca16c-dc39-4120-808c-70825ee59ddc",
   "tags": []

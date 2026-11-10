@@ -29,9 +29,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_というか_と言うか_2023-09-14-06-32-45.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "と言うか",
@@ -77,8 +75,7 @@
   "sentenceCount": 35,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -124,7 +121,13 @@
   "sourceData": {
     "answer": "or-rather-(say)/or-better-(say)/or-perhaps-I-should-say/or,-how-should-I-put-it/I-mean",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_というか_と言うか_2023-09-14-06-32-45.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "4a489750-0c54-4dba-99bf-d3f51beeaae9",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_たら_たら_2023-07-20-12-02-12.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "だら",
@@ -32,8 +30,7 @@
   "sentenceCount": 1030,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -64,7 +61,13 @@
   "sourceData": {
     "answer": "indicates-supposition/if-...-then/when/after | (typically-after-someone's-name)-indicates-exasperation",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_たら_たら_2023-07-20-12-02-12.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "b92e04ed-7372-45f6-aad5-6975c6447a86",
   "tags": [

@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": " [sound:ATTS なんだ (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "ATTS なんだ (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "なのだ",
@@ -40,8 +46,7 @@
   "sentenceCount": 585,
   "technicalNotes": "",
   "references": "Cure Dolly: {&nbsp;<a href=\"https://youtu.be/lYvIOi8Q3I8?t=258\">んです、のです、なのです、なんです</a>}",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,11 +79,12 @@
   "sourceData": {
     "answer": "<tag><ja>何だ</ja></tag>:: what!/oh | what-the-heck/what-the/damn\n<read>なのだ</read>|<read>なんだ</read>:: it-is-assuredly-that-.../can-say-with-confidence-that-... | did-not-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "5029b6ff-ebe3-48b9-8842-1c6c676f887f",
   "tags": [
-    "_tts_audio",
     "source::yomitan"
   ]
 }

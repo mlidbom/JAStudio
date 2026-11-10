@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:難しい_b.mp3]",
-  "audioG": "[sound:難しい_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "六ヶ敷い",
@@ -35,8 +33,7 @@
   "sentenceCount": 85,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,18 @@
   "sourceData": {
     "answer": "difficult/hard/troublesome/complicated/serious-(disease,-problem,-etc.) | impossible/unfeasible | fussy/particular/fastidious/hard-to-please/displeased | gloomy/glum/sullen/serious-(look) | dirty/unclean/filthy/detestable | unpleasant/uncomfortable/creepy/spooky",
     "mnemonic": "This is a single kanji with an <ja>い</ja> on the end, meaning you know it's probably an adjective. What's the adjective form of <kanji>difficult</kanji>? It's also <vocabulary>difficult</vocabulary>.",
-    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: It's awfully difficult to load a cow into your <reading>Moo-zooka</reading> (<ja>むずか</ja>). Click. Boom!"
+    "readingMnemonic": "Since this word consists of a kanji with hiragana attached, you can bet that it will use the kun'yomi reading. You didn't learn that reading with this kanji, so here's a mnemonic to help you: It's awfully difficult to load a cow into your <reading>Moo-zooka</reading> (<ja>むずか</ja>). Click. Boom!",
+    "audio": [
+      {
+        "fileName": "難しい_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "難しい_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "4728aa36-16cc-4fbb-8db5-31080eca32dc",
   "tags": [

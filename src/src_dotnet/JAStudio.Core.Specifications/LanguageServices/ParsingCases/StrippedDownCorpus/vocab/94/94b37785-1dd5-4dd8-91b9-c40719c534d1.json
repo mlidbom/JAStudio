@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-bfcdc8e63715e61e3caa8b6f3e3f47e1dca9c94f1689ca4d3aeee0bb.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-bfcdc8e63715e61e3caa8b6f3e3f47e1dca9c94f1689ca4d3aeee0bb.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 12,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +56,9 @@
   "sourceData": {
     "answer": "heart",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "94b37785-1dd5-4dd8-91b9-c40719c534d1",
   "tags": []

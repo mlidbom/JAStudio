@@ -18,7 +18,7 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
       {
          _sentence = CreateTestSentence("これは本です。", "This is a book.");
          _sentence.Tags.Set(Tag.FromName("source::anime::natsume"));
-         _sentence.Tags.Set(Tags.TTSAudio);
+         _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
          _sentence.Tags.Set(Tag.FromName("-::counting"));
          _sentence.Tags.Set(Tags.Source.Jastudio);
       }
@@ -27,32 +27,32 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
          _sentence.Tags.NotMaintainedByJAStudio().Select(it => it.Name).Must().SequenceEqual(["-::counting", "source::anime::natsume", "source::jastudio"]);
 
       [XF] public void all_its_tags_in_alphabetical_order_include_the_one_JAStudio_maintains() =>
-         _sentence.Tags.InAlphabeticalOrder().Select(it => it.Name).Must().SequenceEqual(["-::counting", "source::anime::natsume", "source::jastudio", "_tts_audio"]);
+         _sentence.Tags.InAlphabeticalOrder().Select(it => it.Name).Must().SequenceEqual(["-::counting", "-::sentence::uses::hidden-matches", "source::anime::natsume", "source::jastudio"]);
    }
 
-   public class given_one_tagged_with_TTSAudio : for_a_sentence
+   public class given_one_tagged_with_a_tag_JAStudio_maintains : for_a_sentence
    {
       readonly SentenceNote _sentence;
 
-      public given_one_tagged_with_TTSAudio()
+      public given_one_tagged_with_a_tag_JAStudio_maintains()
       {
          _sentence = CreateTestSentence("これは本です。", "This is a book.");
-         _sentence.Tags.Set(Tags.TTSAudio);
+         _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
       }
 
-      [XF] public void the_tag_is_present() => _sentence.Tags.Contains(Tags.TTSAudio).Must().BeTrue();
+      [XF] public void the_tag_is_present() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
 
-      public class after_unsetting_the_tag : given_one_tagged_with_TTSAudio
+      public class after_unsetting_the_tag : given_one_tagged_with_a_tag_JAStudio_maintains
       {
-         public after_unsetting_the_tag() => _sentence.Tags.Unset(Tags.TTSAudio);
+         public after_unsetting_the_tag() => _sentence.Tags.Unset(Tags.Sentence.Uses.HiddenMatches);
 
-         [XF] public void the_tag_is_not_present() => _sentence.Tags.Contains(Tags.TTSAudio).Must().BeFalse();
+         [XF] public void the_tag_is_not_present() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeFalse();
 
          public class after_setting_it_again : after_unsetting_the_tag
          {
-            public after_setting_it_again() => _sentence.Tags.Set(Tags.TTSAudio);
+            public after_setting_it_again() => _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
 
-            [XF] public void the_tag_is_present_again() => _sentence.Tags.Contains(Tags.TTSAudio).Must().BeTrue();
+            [XF] public void the_tag_is_present_again() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
          }
       }
    }

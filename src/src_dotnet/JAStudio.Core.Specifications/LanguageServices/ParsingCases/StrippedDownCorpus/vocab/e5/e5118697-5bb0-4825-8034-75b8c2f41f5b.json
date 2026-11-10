@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:9be146c0cf68304fdc9816be243fa7ad.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "先",
@@ -32,8 +30,7 @@
   "sentenceCount": 121,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,13 @@
   "sourceData": {
     "answer": "a-short-while-ago/a-moment-ago/just-now/some-time-ago",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "9be146c0cf68304fdc9816be243fa7ad.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "e5118697-5bb0-4825-8034-75b8c2f41f5b",
   "tags": [

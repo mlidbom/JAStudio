@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:b6a0b3133ad8260d8b09077168bc23ac.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "蒔く",
@@ -36,8 +34,7 @@
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"68700e50c8dda3f70104ce50fc295284.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -66,7 +63,17 @@
   "sourceData": {
     "answer": "<tag><ja>撒く</ja></tag>:: to{} scatter/sprinkle/strew | distribute-(handbills,-etc.)/spread-(rumours,-etc.) | give-the-slip/throw-off/shake-off/lose\n<tag><ja>蒔く</ja></tag>:: to{} sow/plant/seed | sow-(the-seeds-of;-e.g.-conflict) | sprinkle-(gold-or-silver-powder-on-lacquerware)",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "b6a0b3133ad8260d8b09077168bc23ac.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "68700e50c8dda3f70104ce50fc295284.jpg"
+      }
+    ]
   },
   "id": "a7f2a1fb-d633-4a81-b440-515b4068b85a",
   "tags": [

@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_8938_male.mp3]",
-  "audioG": "[sound:Wani_8938_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "付く",
@@ -44,8 +42,7 @@
   "sentenceCount": 179,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "<tag><ja>点く</ja></tag>:: to: be-{lit-(e.g.-electricity-comes-on)/lighted} | catch-fire\n<tag><ja>吐く</ja></tag>:: to{} breathe-out/breathe | tell-(a-lie)/use-(foul-language) | vomit/throw-up/spit-up\n<read>みみずく</read>|<read>みみづく</read>|<read>ずく</read>|<read>つく</read>:<tag><ja>木菟</ja></tag>:: horned-owl\n<tag><ja>搗く</ja></tag>:: to{} hull-(rice,-barley,-etc.)/pound-(rice)/polish-(rice)/stamp-(ore)",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb.\n\nThe kanji <ja>点</ja> means <kanji>point</kanji>, but this verb actually means <vocabulary>to be lit</vocabulary> or <vocabulary>to be ignited</vocabulary>. Think of it this way, when a flashlight turns on, it points a beam, of light.\n\nYou already learned <ja>点ける</ja>, which is for when you turn something on. <ja>点く</ja>, on the other hand, is an intransitive verb. That means it happens by itself. Like, \"Oh look! The lights came on! That's cool (<ja>く</ja>)!\"",
-    "readingMnemonic": "You already learned this reading when you learned <ja>点ける</ja> but here's a mnemonic just in case:\n\nEvery time you count to <reading>two</reading> (<ja>つ</ja>) a light comes on. How <reading>cool</reading> (<ja>く</ja>) that it does it all by itself!!\n\n"
+    "readingMnemonic": "You already learned this reading when you learned <ja>点ける</ja> but here's a mnemonic just in case:\n\nEvery time you count to <reading>two</reading> (<ja>つ</ja>) a light comes on. How <reading>cool</reading> (<ja>く</ja>) that it does it all by itself!!\n\n",
+    "audio": [
+      {
+        "fileName": "Wani_8938_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_8938_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "99781a14-3fce-46d5-b0eb-5e21db00a074",
   "tags": [

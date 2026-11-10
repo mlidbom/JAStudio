@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-07-10-14-34-00-144.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "溜まる",
@@ -36,8 +34,7 @@
   "sentenceCount": 20,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,13 @@
   "sourceData": {
     "answer": "<tag><ja>溜まる</ja></tag>:: to: collect/gather/save/accumulate/pile-up\n<tag><ja>堪る</ja></tag>:: to: bear/endure",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-10-14-34-00-144.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "aaa48d89-9a39-42ec-8714-1545e4957320",
   "tags": [

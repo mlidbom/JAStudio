@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-489aa70fa921ec6d6b57a7aa3791594a3a84d3c9ac2a29354d0ef2f4.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-489aa70fa921ec6d6b57a7aa3791594a3a84d3c9ac2a29354d0ef2f4.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "識った",
@@ -40,8 +46,7 @@
   "sentenceCount": 13,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required",
@@ -68,7 +73,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "3b8f69d0-69ad-4792-b601-841fe365a8ad",
   "tags": []

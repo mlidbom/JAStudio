@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-b89194e056addcdcde2e3f1665d4a9447fb6f8308d54b9643ae3c694.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-b89194e056addcdcde2e3f1665d4a9447fb6f8308d54b9643ae3c694.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +56,9 @@
   "sourceData": {
     "answer": "buying-a-replacement/replacing-by-buying-something-new",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "8ad42bb8-4ff0-43be-a6a1-5647a2e7300b",
   "tags": [

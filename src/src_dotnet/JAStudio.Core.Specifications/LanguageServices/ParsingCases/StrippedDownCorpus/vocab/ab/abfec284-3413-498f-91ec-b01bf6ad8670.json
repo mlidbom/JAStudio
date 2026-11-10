@@ -28,9 +28,14 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:1600442010000.mp3]",
-  "audioG": "[sound:ny3-nodup_09_0.17.10.600-0.17.12.790.mp3]",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "1600442010000.mp3"
+    },
+    {
+      "fileName": "ny3-nodup_09_0.17.10.600-0.17.12.790.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "いらしゃいませ",
@@ -40,8 +45,7 @@
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +69,9 @@
   "sourceData": {
     "answer": "welcome",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "abfec284-3413-498f-91ec-b01bf6ad8670",
   "tags": [

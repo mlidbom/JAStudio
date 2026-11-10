@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:〜付き_b.mp3]",
-  "audioG": "[sound:〜付き_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "つき",
@@ -43,8 +41,7 @@
   "sentenceCount": 25,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -68,7 +65,18 @@
   "sourceData": {
     "answer": "furnished-with/including | attached-to | impression/appearance | luck | sociality | under/assistant-(e.g.-to-a-manager) | soup-base",
     "mnemonic": "You know that the kanji <ja>付</ja> means <kanji>attach</kanji> and words like <ja>付く</ja> mean \"to be attached.\" This has the same idea. When you see this attached to another word, for example, you might know that something is attached to something else, or perhaps <vocabulary>included</vocabulary> with it. For example, if you stay at a hotel room, maybe it is a breakfast<ja>付き</ja>, i.e. \"<vocabulary>including</vocabulary> breakfast.\"",
-    "readingMnemonic": "The reading comes from the reading of the kanji as well as from words like <ja>付く</ja> and <ja>付ける</ja>."
+    "readingMnemonic": "The reading comes from the reading of the kanji as well as from words like <ja>付く</ja> and <ja>付ける</ja>.",
+    "audio": [
+      {
+        "fileName": "〜付き_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "〜付き_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "55853a83-3823-4aa1-bbf2-edd10e05a12b",
   "tags": [

@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-b933095c038e1285d3b459fd93b5dd64bc59cdfc5f09a8fb9f34d51a.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-b933095c038e1285d3b459fd93b5dd64bc59cdfc5f09a8fb9f34d51a.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "決っている",
@@ -64,8 +70,7 @@
   "sentenceCount": 24,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -89,7 +94,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "b22d97c7-e594-4544-a026-9f331a17b814",
   "tags": []

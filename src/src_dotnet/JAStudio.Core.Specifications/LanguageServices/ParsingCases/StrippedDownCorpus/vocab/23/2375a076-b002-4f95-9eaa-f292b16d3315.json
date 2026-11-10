@@ -19,9 +19,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-b9a2cf34cb0b0b2ce84214e5caef3dea469743632ce922b89e298736.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-b9a2cf34cb0b0b2ce84214e5caef3dea469743632ce922b89e298736.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "螺",
@@ -35,8 +41,7 @@
   "sentenceCount": 1,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required"
@@ -62,7 +67,9 @@
   "sourceData": {
     "answer": "small-spiral-shelled-snail/spiral-shellfish",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "2375a076-b002-4f95-9eaa-f292b16d3315",
   "tags": [

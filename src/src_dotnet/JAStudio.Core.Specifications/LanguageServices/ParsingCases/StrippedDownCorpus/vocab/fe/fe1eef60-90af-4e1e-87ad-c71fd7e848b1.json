@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:結構です_b.mp3]",
-  "audioG": "[sound:結構です_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "No Thank You, No Thanks",
     "mnemonic": "<ja>結構</ja> is something like \"fine\" or \"alright.\" This is just a little more polite. You can use this to say <vocabulary>no thank you</vocabulary> to someone trying to offer you something.",
-    "readingMnemonic": "The reading comes from <ja>結構</ja>."
+    "readingMnemonic": "The reading comes from <ja>結構</ja>.",
+    "audio": [
+      {
+        "fileName": "結構です_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "結構です_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "fe1eef60-90af-4e1e-87ad-c71fd7e848b1",
   "tags": [

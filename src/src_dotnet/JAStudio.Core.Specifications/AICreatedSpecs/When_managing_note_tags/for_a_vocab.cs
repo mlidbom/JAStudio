@@ -9,24 +9,24 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.When_managing_note_tags;
 
 public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   public class given_one_tagged_with_TTSAudio : for_a_vocab
+   public class given_one_tagged_with_a_tag_JAStudio_maintains : for_a_vocab
    {
       readonly VocabNote _vocab;
 
-      public given_one_tagged_with_TTSAudio()
+      public given_one_tagged_with_a_tag_JAStudio_maintains()
       {
          _vocab = CreateVocab("食べる", "to eat", "たべる");
-         _vocab.Tags.Set(Tags.TTSAudio);
+         _vocab.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential);
       }
 
-      [XF] public void the_note_contains_the_tag() => _vocab.Tags.Contains(Tags.TTSAudio).Must().BeTrue();
+      [XF] public void the_note_contains_the_tag() => _vocab.Tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential).Must().BeTrue();
 
-      public class after_unsetting_the_tag : given_one_tagged_with_TTSAudio
+      public class after_unsetting_the_tag : given_one_tagged_with_a_tag_JAStudio_maintains
       {
-         public after_unsetting_the_tag() => _vocab.Tags.Unset(Tags.TTSAudio);
+         public after_unsetting_the_tag() => _vocab.Tags.Unset(Tags.Vocab.IsIchidanHidingGodanPotential);
 
          [XF] public void the_note_no_longer_contains_the_tag() =>
-            _vocab.Tags.Contains(Tags.TTSAudio).Must().BeFalse();
+            _vocab.Tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential).Must().BeFalse();
       }
    }
 
@@ -39,10 +39,10 @@ public class for_a_vocab : SpecificationStartingWithAnEmptyCollection, IAIGenera
       {
          _tagged = CreateVocab("食べる", "to eat", "たべる");
          _untagged = CreateVocab("飲む", "to drink", "のむ");
-         _tagged.Tags.Set(Tags.TTSAudio);
+         _tagged.Tags.Set(Tags.Vocab.IsIchidanHidingGodanPotential);
       }
 
-      [XF] public void the_tagged_vocab_contains_the_tag() => _tagged.Tags.Contains(Tags.TTSAudio).Must().BeTrue();
-      [XF] public void the_untagged_vocab_does_not_contain_the_tag() => _untagged.Tags.Contains(Tags.TTSAudio).Must().BeFalse();
+      [XF] public void the_tagged_vocab_contains_the_tag() => _tagged.Tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential).Must().BeTrue();
+      [XF] public void the_untagged_vocab_does_not_contain_the_tag() => _untagged.Tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential).Must().BeFalse();
    }
 }

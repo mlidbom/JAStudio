@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:大事_b.mp3]",
-  "audioG": "[sound:大事_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 125,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "important/serious/crucial | valuable/precious | serious-matter/major-incident/matter-of-grave-concern/crisis | great-undertaking/great-enterprise/great-thing | safe/OK",
     "mnemonic": "A <kanji>big</kanji> <kanji>action</kanji> means something big is going down. This is no ordinary action. It is an action that is <vocabulary>important</vocabulary>.",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>大</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\nNothing in your life is as <vocabulary>important</vocabulary> or <vocabulary>valuable</vocabulary> to you as <reading>dye</reading>s (<ja>だい</ja>). You really just love dyes more than anything else. Dyes, dyes, dyes!"
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. Since <ja>大</ja> has two on'yomi readings, here's a mnemonic to help you remember which one to use:\n\nNothing in your life is as <vocabulary>important</vocabulary> or <vocabulary>valuable</vocabulary> to you as <reading>dye</reading>s (<ja>だい</ja>). You really just love dyes more than anything else. Dyes, dyes, dyes!",
+    "audio": [
+      {
+        "fileName": "大事_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "大事_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "33555a47-0781-4763-83cf-6e7a9521eb29",
   "tags": [

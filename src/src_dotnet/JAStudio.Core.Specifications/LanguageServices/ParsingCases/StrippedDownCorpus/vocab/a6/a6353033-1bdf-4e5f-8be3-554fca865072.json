@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:取る_b.mp3]",
-  "audioG": "[sound:取る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "とる",
@@ -32,8 +30,7 @@
   "sentenceCount": 187,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "to{} take/pick-up/grab/catch | pass/hand/give | get/obtain/acquire/win/receive/earn/take-(e.g.-a-vacation) | adopt-(a-method,-proposal,-etc.)/take-(a-measure,-attitude,-etc.)/choose | remove/get-rid-of/take-off | take-away/steal/rob | eat/have-(e.g.-lunch)/take-(e.g.-vitamins) | pick-(e.g.-flowers)/gather/extract-(e.g.-juice)/catch-(e.g.-fish) | take-up-(time,-space)/occupy/spare/set-aside | secure/reserve/save/put-aside/keep | take-(e.g.-a-joke)/interpret/understand/make-out/grasp | record/take-down | subscribe-to-(e.g.-a-newspaper)/take/buy/get | order/have-delivered | charge/fine/take-(tax) | take-(e.g.-a-wife)/take-on-(e.g.-an-apprentice)/adopt/accept | compete-(in-sumo,-cards,-etc.)/play",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>take</kanji>, so the verb version is <vocabulary>to take something</vocabulary>.",
-    "readingMnemonic": "Since this word has okurigana (hiragana attached to the kanji) you know that it's probably going to be the kun'yomi reading, which you didn't learn with the kanji. Here's a mnemonic to help you:\n\nYou're the kind of person who likes <vocabulary>to take</vocabulary> things. \"What things?\" you ask. Little <reading>toe</reading>s (<ja>と</ja>). Because that isn't creepy."
+    "readingMnemonic": "Since this word has okurigana (hiragana attached to the kanji) you know that it's probably going to be the kun'yomi reading, which you didn't learn with the kanji. Here's a mnemonic to help you:\n\nYou're the kind of person who likes <vocabulary>to take</vocabulary> things. \"What things?\" you ask. Little <reading>toe</reading>s (<ja>と</ja>). Because that isn't creepy.",
+    "audio": [
+      {
+        "fileName": "取る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "取る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "a6353033-1bdf-4e5f-8be3-554fca865072",
   "tags": [

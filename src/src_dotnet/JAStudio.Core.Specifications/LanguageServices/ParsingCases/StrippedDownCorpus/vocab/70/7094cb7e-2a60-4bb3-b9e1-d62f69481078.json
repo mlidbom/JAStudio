@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-c6a09cef37146ddd0a41fe53617c4f95379dc97b3296a8b8ca4bf8fd.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-c6a09cef37146ddd0a41fe53617c4f95379dc97b3296a8b8ca4bf8fd.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "所がある",
@@ -40,8 +46,7 @@
   "sentenceCount": 19,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -70,7 +75,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7094cb7e-2a60-4bb3-b9e1-d62f69481078",
   "tags": []

@@ -20,9 +20,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-06-21-19-48-23-086.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "yomitan_audio_2024-06-21-19-48-23-086.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "で",
@@ -32,8 +34,7 @@
   "sentenceCount": 632,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "teFormStemStart": "required"
@@ -88,7 +89,9 @@
   "sourceData": {
     "answer": "<read>ので</read>|<read>んで</read>:: that-being-the-case/because-of-.../the-reason-is-.../given-that-...\nand-then/and-so/and/so-then",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "4a33fc3b-50b9-47c7-8d6a-7d6296652719",
   "tags": [

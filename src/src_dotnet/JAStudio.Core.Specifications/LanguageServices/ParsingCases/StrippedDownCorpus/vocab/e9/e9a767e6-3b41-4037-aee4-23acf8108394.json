@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_8177_これ_male.mp3]",
-  "audioG": "[sound:Wani_8177_これ_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "惟",
@@ -59,8 +57,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -84,7 +81,18 @@
   "sourceData": {
     "answer": "this/this-one | this-person | now/this-point-(in-time) | here | used-to-stress-the-subject-of-a-sentence | I/me",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.\n\nNote that this is almost always written in kana in modern Japanese.",
-    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!"
+    "readingMnemonic": "This has the same reading as the kanji you learned, meaning you know the reading!",
+    "audio": [
+      {
+        "fileName": "Wani_8177_これ_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_8177_これ_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e9a767e6-3b41-4037-aee4-23acf8108394",
   "tags": [

@@ -72,12 +72,12 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
       public a_tag_JAStudio_defines()
       {
-         _sentenceTaggedWithEpisode08Only.Tags.Set(Tags.TTSAudio);
-         _result = RemoveATagFromTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, Tags.TTSAudio.Name);
+         _sentenceTaggedWithEpisode08Only.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
+         _result = RemoveATagFromTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, Tags.Sentence.Uses.HiddenMatches.Name);
       }
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
-      [XF] public void the_failure_names_the_tag() => TextOf(_result).Must().Contain(Tags.TTSAudio.Name);
-      [XF] public void the_note_keeps_the_tag() => _sentenceTaggedWithEpisode08Only.Tags.Contains(Tags.TTSAudio).Must().BeTrue();
+      [XF] public void the_failure_names_the_tag() => TextOf(_result).Must().Contain(Tags.Sentence.Uses.HiddenMatches.Name);
+      [XF] public void the_note_keeps_the_tag() => _sentenceTaggedWithEpisode08Only.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
    }
 }

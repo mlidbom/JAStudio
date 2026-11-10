@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Vocabulary;
 
@@ -25,12 +24,8 @@ static class VocabNoteConverter
                 PartsOfSpeech = note.PartsOfSpeech.ToDto(),
                 Register = note.Register.ToDto(),
                 UsuallyWrittenInKana = note.UsuallyWrittenInKana.ToDto(),
-                //wip: slice 9's step 3 stores the media lists themselves, rather than in the media fields of today (TodaysMediaFields).
-                AudioB = AnkiMediaMarkup.SoundTagsFor(note.AllAudio.Recordings.Take(1)),
-                AudioG = AnkiMediaMarkup.SoundTagsFor(note.AllAudio.Recordings.Skip(1)),
-                AudioTTS = AnkiMediaMarkup.SoundTagsFor(note.AllAudio.TextToSpeech),
-                Image = AnkiMediaMarkup.ImgTagsFor(note.SourceData.Images.All),
-                UserImage = AnkiMediaMarkup.ImgTagsFor(note.Images.All),
+                Audio = [..note.Audio.All.Select(AudioReferenceDto.From)],
+                Images = [..note.Images.All.Select(ImageReferenceDto.From)],
                 Forms = [.. note.Forms.EnteredForms().Select(it => new EnteredFormDto { Text = it.Text, IsOwned = it.IsOwned })],
                 SentenceCount = note.MetaData.SentenceCount,
                 TechnicalNotes = note.TechnicalNotes.Value,

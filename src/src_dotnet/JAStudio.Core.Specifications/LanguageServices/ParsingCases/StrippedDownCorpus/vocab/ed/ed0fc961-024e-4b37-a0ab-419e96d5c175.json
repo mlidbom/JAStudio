@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:声_b.mp3]",
-  "audioG": "[sound:声_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "聲",
@@ -32,8 +30,7 @@
   "sentenceCount": 171,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -57,7 +54,18 @@
   "sourceData": {
     "answer": "voice | singing-(of-a-bird)/chirping-(of-an-insect)/hoot | voice/opinion-(as-expressed-in-words)/view/wish/attitude/will | sound | sense-(of-something's-arrival)/feeling | voice/voiced-sound",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "The reading for this word is the same as the one you learned with the kanji making it easy to remember!"
+    "readingMnemonic": "The reading for this word is the same as the one you learned with the kanji making it easy to remember!",
+    "audio": [
+      {
+        "fileName": "声_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "声_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "ed0fc961-024e-4b37-a0ab-419e96d5c175",
   "tags": [

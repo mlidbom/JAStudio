@@ -31,9 +31,11 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:ny2-nodup_06_0.06.39.980-0.06.41.130.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "ny2-nodup_06_0.06.39.980-0.06.41.130.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "なんなんだ",
@@ -51,8 +53,7 @@
   "sentenceCount": 20,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -81,7 +82,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "0a4c6e20-f5fe-44f4-b00a-6b27befa84b8",
   "tags": [

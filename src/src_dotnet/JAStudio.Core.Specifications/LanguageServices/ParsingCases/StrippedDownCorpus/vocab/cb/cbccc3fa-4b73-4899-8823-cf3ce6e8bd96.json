@@ -29,9 +29,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-a958dcd604bf7dfe53465f78b6e37a022a486c67b0a97393c49c420c.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-a958dcd604bf7dfe53465f78b6e37a022a486c67b0a97393c49c420c.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "無理をする",
@@ -41,8 +47,7 @@
   "sentenceCount": 16,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -71,7 +76,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "If you can do <kanji>nothing</kanji> within <kanji>reason</kanji>, then what you're trying to do is <vocabulary>unreasonable</vocabulary> and probably downright <vocabulary>impossible</vocabulary>. If you still try, you're probably just <vocabulary>overdoing</vocabulary> it.",
-    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. As long as you know the readings for these kanji, you should be able to read this word just fine."
+    "readingMnemonic": "This is a jukugo word, which usually means on'yomi readings from the kanji. As long as you know the readings for these kanji, you should be able to read this word just fine.",
+    "audio": [],
+    "images": []
   },
   "id": "cbccc3fa-4b73-4899-8823-cf3ce6e8bd96",
   "tags": [

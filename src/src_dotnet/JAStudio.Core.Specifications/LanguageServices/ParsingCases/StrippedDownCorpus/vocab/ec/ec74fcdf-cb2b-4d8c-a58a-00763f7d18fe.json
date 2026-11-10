@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2024-07-21-18-48-53-796.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "正に",
@@ -39,8 +37,7 @@
   "sentenceCount": 13,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,13 @@
   "sourceData": {
     "answer": "exactly/surely/certainly/just | right-then/just-then/at-that-moment | just-(about-to)/on-the-verge-(of-doing-or-happening) | duly/naturally",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-07-21-18-48-53-796.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "ec74fcdf-cb2b-4d8c-a58a-00763f7d18fe",
   "tags": [

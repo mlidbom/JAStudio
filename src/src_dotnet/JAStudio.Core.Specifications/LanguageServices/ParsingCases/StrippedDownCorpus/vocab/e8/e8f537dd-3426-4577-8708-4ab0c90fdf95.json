@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:大声_b.mp3]",
-  "audioG": "[sound:大声_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 17,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "loud-voice",
     "mnemonic": "A <kanji>large</kanji> <kanji>voice</kanji> is probably pretty large. Maybe even annoying, too. That's why this is a <vocabulary>large voice</vocabulary> or a <vocabulary>loud voice</vocabulary>.",
-    "readingMnemonic": "The reading for <ja>声</ja> is <ja>ごえ</ja> (rendaku'd version of the reading you know: <ja>こえ</ja>). The reading for <ja>大</ja> is the kun'yomi reading, like with the word <ja>大きい</ja> (<ja>おおきい</ja>). Just imagine a loud voice saying \"<ja>おお！</ja>.\""
+    "readingMnemonic": "The reading for <ja>声</ja> is <ja>ごえ</ja> (rendaku'd version of the reading you know: <ja>こえ</ja>). The reading for <ja>大</ja> is the kun'yomi reading, like with the word <ja>大きい</ja> (<ja>おおきい</ja>). Just imagine a loud voice saying \"<ja>おお！</ja>.\"",
+    "audio": [
+      {
+        "fileName": "大声_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "大声_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "e8f537dd-3426-4577-8708-4ab0c90fdf95",
   "tags": [

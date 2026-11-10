@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_うわ_うわ_2023-09-16-02-52-56.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "うわあ",
@@ -47,8 +45,7 @@
   "sentenceCount": 65,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "dictionaryFormStart": "forbidden"
@@ -74,7 +71,13 @@
   "sourceData": {
     "answer": "yikes/oops/eep/wow",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_うわ_うわ_2023-09-16-02-52-56.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "8e5d7005-0538-4131-a09b-7f8317fb09f6",
   "tags": [

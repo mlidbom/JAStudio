@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:頑張る_b.mp3]",
-  "audioG": "[sound:頑張る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 83,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to: persevere/persist/keep-at-it/hang-on/hold-out/do-one's-best | insist-that/stick-to-(one's-opinion) | remain-in-a-place/stick-to-one's-post/refuse-to-budge",
     "mnemonic": "<ja>張る</ja> is <kanji>to stretch</kanji>. You're <kanji>stubborn</kanji> and want to stretch out what you're doing right now. Although you're stubborn, you keep doing it. You persevere. That's why this word is <vocabulary>to persevere</vocabulary> or <vocabulary>to do one's best</vocabulary>.",
-    "readingMnemonic": "The reading for this word is the reading for <ja>頑</ja> and <ja>張る</ja> put together but the <ja>張る</ja> part gets rendaku'd so keep that in mind."
+    "readingMnemonic": "The reading for this word is the reading for <ja>頑</ja> and <ja>張る</ja> put together but the <ja>張る</ja> part gets rendaku'd so keep that in mind.",
+    "audio": [
+      {
+        "fileName": "頑張る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "頑張る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5212db74-683a-4741-9142-0a31a89aa8c9",
   "tags": [

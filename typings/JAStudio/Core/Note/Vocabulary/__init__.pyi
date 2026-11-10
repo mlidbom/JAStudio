@@ -3,7 +3,7 @@ from System import IEquatable_1, IComparable_1, Func_1, Func_3, Array_1, Action_
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, List_1, IReadOnlySet_1, HashSet_1
 from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard, NoteFlushGuard
 from JAStudio.Core.Storage.Dto import VocabDto, CorpusNoteDto, VocabSourceDataDto
-from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReferenceList_1, ImageReference, MediaReference, AudioReference
+from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReferenceList_1, ImageReference, MediaReference
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.NoteFields import WritableStringValue, FlagField
@@ -441,7 +441,7 @@ class VocabNoteUsuallyWrittenInKana:
 
 
 class VocabSourceData:
-    def __init__(self, data: VocabSourceDataDto, audio: IEnumerable_1[AudioReference], images: IEnumerable_1[ImageReference], guard: NoteGuard) -> None: ...
+    def __init__(self, data: VocabSourceDataDto, guard: NoteGuard) -> None: ...
     @property
     def Answer(self) -> WritableStringValue: ...
     @property

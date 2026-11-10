@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:da015d97df14f1bdfa73816296e91166.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "遭う",
@@ -44,8 +42,7 @@
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"b4a722258e1f5b886a1ccc342b5b15a4.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,17 @@
   "sourceData": {
     "answer": "to: meet/encounter/see | have-an-accident/have-a-bad-experience",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "da015d97df14f1bdfa73816296e91166.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "b4a722258e1f5b886a1ccc342b5b15a4.jpg"
+      }
+    ]
   },
   "id": "fe1178bc-0d66-4798-baf3-b534cc942ae7",
   "tags": [

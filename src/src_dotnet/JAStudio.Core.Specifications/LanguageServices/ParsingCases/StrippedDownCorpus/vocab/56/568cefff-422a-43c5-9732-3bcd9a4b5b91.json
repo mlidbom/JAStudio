@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-83f8a8df565c70e18b8da1ae53fabe0bc04dcf8174a2ddd7ff044a17.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-83f8a8df565c70e18b8da1ae53fabe0bc04dcf8174a2ddd7ff044a17.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "いった",
@@ -48,8 +54,7 @@
   "sentenceCount": 137,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required",
@@ -78,7 +83,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "568cefff-422a-43c5-9732-3bcd9a4b5b91",
   "tags": []

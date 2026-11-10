@@ -20,9 +20,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:b6a0b3133ad8260d8b09077168bc23ac.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "b6a0b3133ad8260d8b09077168bc23ac.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "蒔く",
@@ -32,8 +34,11 @@
   "sentenceCount": 10,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"68700e50c8dda3f70104ce50fc295284.jpg\">",
-  "userImage": "",
+  "images": [
+    {
+      "fileName": "68700e50c8dda3f70104ce50fc295284.jpg"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +67,9 @@
   "sourceData": {
     "answer": "to{} scatter/sprinkle/strew | distribute-(handbills,-etc.)/spread-(rumours,-etc.) | give-the-slip/throw-off/shake-off/lose",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "81020a41-d636-4ee9-a158-2443d8750482",
   "tags": []

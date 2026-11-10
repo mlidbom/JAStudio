@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-06-28-17-36-45-593.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 6,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,13 @@
   "sourceData": {
     "answer": "container/receptacle/case/bag/pouch/box/holder | inserting/putting-in",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-06-28-17-36-45-593.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "a1ad9a9d-986a-4818-96f0-14ba1e3f3558",
   "tags": [

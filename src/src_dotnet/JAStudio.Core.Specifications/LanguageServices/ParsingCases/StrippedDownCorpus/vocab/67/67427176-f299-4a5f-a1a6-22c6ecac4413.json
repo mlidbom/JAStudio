@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-03-22-06-07-59-728.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "薔薇",
@@ -52,8 +50,7 @@
   "sentenceCount": 16,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -77,7 +74,13 @@
   "sourceData": {
     "answer": "<read>ばら</read>|<read>しょうび</read>|<read>そうび</read>:<tag><ja>薔薇</ja></tag>:: rose\n<read>ばら</read>:<tag><ja>散</ja></tag>:: loose-articles-(not-packaged-with-other-things)/bulk-items/individual-items | coins/small-change\n<read>ばら</read>:<tag><ja>肋</ja></tag>:: boneless-rib-(esp.-of-pork-or-beef)/boned-rib",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-22-06-07-59-728.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "67427176-f299-4a5f-a1a6-22c6ecac4413",
   "tags": [

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:傷_b.mp3]",
-  "audioG": "[sound:傷_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "創",
@@ -39,8 +37,7 @@
   "sentenceCount": 42,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -64,7 +61,18 @@
   "sourceData": {
     "answer": "wound/injury/cut/gash/bruise/scratch/scrape/scar | chip/crack/scratch/nick | flaw/defect/weakness/weak-point | stain-(on-one's-reputation)/disgrace/dishonor/dishonour | (emotional)-hurt/hurt-feelings",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "To remember this reading, just think about what your mommy did for you when you were little and you got yourself a <vocabulary>wound</vocabulary>... she would <reading>kiss</reading> (<ja>きず</ja>) the wounds better. Of course, that never worked and was a total farce, but try to forgive mommy this one time, okay?"
+    "readingMnemonic": "To remember this reading, just think about what your mommy did for you when you were little and you got yourself a <vocabulary>wound</vocabulary>... she would <reading>kiss</reading> (<ja>きず</ja>) the wounds better. Of course, that never worked and was a total farce, but try to forgive mommy this one time, okay?",
+    "audio": [
+      {
+        "fileName": "傷_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "傷_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "6efd8db9-a8dc-4afa-b825-4216b264368f",
   "tags": [

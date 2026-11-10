@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:書く_b.mp3]",
-  "audioG": "[sound:書く_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 289,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to{} write/compose/pen | draw/paint",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>write</kanji> so the verb version means <vocabulary>to write</vocabulary>.",
-    "readingMnemonic": "The reading you learned with the kanji is the on'yomi one, but this word is read with the kun'yomi, <ja>か</ja>. So just be sure to remember the kun'yomi reading to read this word in the <reading>ca</reading>r (<ja>か</ja>) ... or <vocabulary>to write</vocabulary> it, or whatever."
+    "readingMnemonic": "The reading you learned with the kanji is the on'yomi one, but this word is read with the kun'yomi, <ja>か</ja>. So just be sure to remember the kun'yomi reading to read this word in the <reading>ca</reading>r (<ja>か</ja>) ... or <vocabulary>to write</vocabulary> it, or whatever.",
+    "audio": [
+      {
+        "fileName": "書く_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "書く_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5da7bccb-b189-48b9-bc2d-30557427541d",
   "tags": [

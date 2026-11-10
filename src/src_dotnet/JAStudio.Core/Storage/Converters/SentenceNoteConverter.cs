@@ -1,6 +1,5 @@
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Sentences;
 
@@ -20,9 +19,8 @@ static class SentenceNoteConverter
                 CorpusAnswer = note.CorpusAnswer.Value,
                 Comments = note.Comments.Value,
                 Reading = note.Reading.Value,
-                //wip: slice 9's step 3 stores the media lists themselves, rather than in the media fields of today (TodaysMediaFields).
-                Audio = AnkiMediaMarkup.SoundTagsFor([..note.SourceData.Audio.All, ..note.Audio.All]),
-                Screenshot = AnkiMediaMarkup.ImgTagsFor(note.AllScreenshots),
+                Audio = [..note.Audio.All.Select(AudioReferenceDto.From)],
+                Screenshots = [..note.Screenshots.All.Select(ImageReferenceDto.From)],
                 Configuration = ToConfigurationDto(config),
                 ParsingResult = ToParsingResultDto(parsingResult),
                 SourceName = note.SourceName.Value,

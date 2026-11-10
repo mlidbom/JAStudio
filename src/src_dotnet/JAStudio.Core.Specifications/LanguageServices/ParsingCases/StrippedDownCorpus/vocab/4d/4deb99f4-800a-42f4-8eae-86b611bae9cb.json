@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2025-06-30-20-20-22-829.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,13 @@
   "sourceData": {
     "answer": "thrust/stab/lunge/pass-(in-fencing) | tsuki/thrust-to-the-throat-(in-kendo) | tsuki/thrust-to-the-chest",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-06-30-20-20-22-829.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "4deb99f4-800a-42f4-8eae-86b611bae9cb",
   "tags": [

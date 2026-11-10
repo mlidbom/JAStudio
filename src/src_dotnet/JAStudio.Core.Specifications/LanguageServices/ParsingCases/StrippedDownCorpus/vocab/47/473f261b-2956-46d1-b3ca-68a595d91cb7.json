@@ -28,9 +28,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:hypertts-cdb7c47eb7f8f655e5e73e11bfc1987d9d0d75cb5c4592791a147ff7.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "hypertts-cdb7c47eb7f8f655e5e73e11bfc1987d9d0d75cb5c4592791a147ff7.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "出あえる",
@@ -52,8 +54,7 @@
   "sentenceCount": 11,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -77,7 +78,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "473f261b-2956-46d1-b3ca-68a595d91cb7",
   "tags": [

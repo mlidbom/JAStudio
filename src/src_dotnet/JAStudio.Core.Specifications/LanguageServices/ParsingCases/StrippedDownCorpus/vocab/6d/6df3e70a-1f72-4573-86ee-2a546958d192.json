@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-ea1829bb69c3ba27c575f6ac9497611a72c18a0a048f87fa174fe315.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-ea1829bb69c3ba27c575f6ac9497611a72c18a0a048f87fa174fe315.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ドする",
@@ -48,8 +54,7 @@
   "sentenceCount": 82,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required"
@@ -75,7 +80,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "6df3e70a-1f72-4573-86ee-2a546958d192",
   "tags": []

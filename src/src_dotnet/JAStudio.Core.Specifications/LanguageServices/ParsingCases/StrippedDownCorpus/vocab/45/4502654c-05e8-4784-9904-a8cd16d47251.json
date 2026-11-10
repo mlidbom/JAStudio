@@ -19,15 +19,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:下_b.mp3]",
-  "audioG": "[sound:下_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 76,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +48,18 @@
   "sourceData": {
     "answer": "below/down/under/younger-(e.g.-daughter) | bottom | beneath/underneath | just-after/right-after | inferiority/one's-inferior-(i.e.-one's-junior) | trade-in | preliminary/preparatory",
     "mnemonic": "When a vocab is a single kanji with no okurigana (that's hiragana attached to the kanji) it tends to steal the meaning of the kanji it comes from. So, this one is <vocabulary>below</vocabulary> or <vocabulary>under</vocabulary>.",
-    "readingMnemonic": "When a vocab is a single kanji and is alone it tends to use the kun'yomi reading. You learned the on'yomi reading for this kanji, so now it's time to learn the kun'yomi reading to learn this vocabulary word.\n\nWhat's <vocabulary>below</vocabulary> you? What's below your foot? Oh no. The worst thing possible: It's <ja><reading>した</reading></ja>."
+    "readingMnemonic": "When a vocab is a single kanji and is alone it tends to use the kun'yomi reading. You learned the on'yomi reading for this kanji, so now it's time to learn the kun'yomi reading to learn this vocabulary word.\n\nWhat's <vocabulary>below</vocabulary> you? What's below your foot? Oh no. The worst thing possible: It's <ja><reading>した</reading></ja>.",
+    "audio": [
+      {
+        "fileName": "下_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "下_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "4502654c-05e8-4784-9904-a8cd16d47251",
   "tags": [

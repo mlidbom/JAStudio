@@ -30,9 +30,15 @@
     "roughMasculine"
   ],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-c5c9686daf0285348021bb560eee03834fa67508c433855e0b07eb3c.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-c5c9686daf0285348021bb560eee03834fa67508c433855e0b07eb3c.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "せそう",
@@ -82,8 +88,7 @@
   "sentenceCount": 1,
   "technicalNotes": "This works around a glitch in janome where it detects けそう etc as an imperative form when it is actually a potential",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "godanImperative": "required"
@@ -121,7 +126,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "e55bed39-da69-45fe-8763-bfc7e1d2b8fa",
   "tags": []

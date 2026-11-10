@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-08-06-22-40-09-164.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "浄める",
@@ -32,8 +30,7 @@
   "sentenceCount": 9,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -62,7 +59,13 @@
   "sourceData": {
     "answer": "to{} purify/cleanse/exorcise/purge/ward-off",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-06-22-40-09-164.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "cc66a4da-93e9-47e9-8876-2d508116c1ea",
   "tags": [

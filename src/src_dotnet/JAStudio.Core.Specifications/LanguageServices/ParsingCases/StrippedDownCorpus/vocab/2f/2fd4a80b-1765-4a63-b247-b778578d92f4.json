@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_かばん_鞄_2023-05-08-23-55-45.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "かばん",
@@ -35,8 +33,7 @@
   "sentenceCount": 23,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -65,7 +62,13 @@
   "sourceData": {
     "answer": "bag/satchel/briefcase/basket",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_かばん_鞄_2023-05-08-23-55-45.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "2fd4a80b-1765-4a63-b247-b778578d92f4",
   "tags": [

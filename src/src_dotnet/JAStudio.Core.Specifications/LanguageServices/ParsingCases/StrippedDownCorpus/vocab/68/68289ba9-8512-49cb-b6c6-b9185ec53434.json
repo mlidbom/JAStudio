@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:読む_b.mp3]",
-  "audioG": "[sound:読む_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 146,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to{} read | count | guess/predict/read-(someone's-thoughts)/see-(e.g.-into-someone's-heart)/divine",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>read</kanji> so the verb vocab version is <vocabulary>to read</vocabulary>.",
-    "readingMnemonic": "The reading is the same as the one you learned with the kanji. Go read something else, now."
+    "readingMnemonic": "The reading is the same as the one you learned with the kanji. Go read something else, now.",
+    "audio": [
+      {
+        "fileName": "読む_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "読む_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "68289ba9-8512-49cb-b6c6-b9185ec53434",
   "tags": [

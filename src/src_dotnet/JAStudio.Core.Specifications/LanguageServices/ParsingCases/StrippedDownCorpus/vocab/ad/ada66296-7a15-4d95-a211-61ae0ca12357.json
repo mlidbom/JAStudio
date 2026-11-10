@@ -20,15 +20,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-f2b57b5c2627ee4e26e6c5bc9d771a55cf078a30323ca9dc0d61873e.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-f2b57b5c2627ee4e26e6c5bc9d771a55cf078a30323ca9dc0d61873e.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +57,9 @@
   "sourceData": {
     "answer": "to: be-convinced-(that)/be-under-the-impression-(that)/feel-sure-(that)/assume-(that) | make-up-one's-mind/set-one's-heart-on/be-determined-(to-do)/be-bent-on | be-obsessed-(with-a-thought,-idea,-etc.)/think-about-obsessively",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "ada66296-7a15-4d95-a211-61ae0ca12357",
   "tags": [

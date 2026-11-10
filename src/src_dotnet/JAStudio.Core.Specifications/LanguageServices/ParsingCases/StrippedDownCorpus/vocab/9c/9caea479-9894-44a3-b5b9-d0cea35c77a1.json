@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-22ae56ecf743b9265883532e5615259c47281cb3aefea26eb761a7d8.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-22ae56ecf743b9265883532e5615259c47281cb3aefea26eb761a7d8.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "わかっている",
@@ -72,8 +78,7 @@
   "sentenceCount": 73,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -97,7 +102,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "9caea479-9894-44a3-b5b9-d0cea35c77a1",
   "tags": []

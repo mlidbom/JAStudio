@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:償う_b.mp3]",
-  "audioG": "[sound:償う_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 8,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to{} make-up-for/compensate-for/indemnify/recompense/redeem-(e.g.-a-fault)/atone-for",
     "mnemonic": "To make <kanji>reparation</kanji>s is <vocabulary>to compensate for</vocabulary> or <vocabulary>to make up for</vocabulary> something. You're going <vocabulary>to atone for</vocabulary> your sins.",
-    "readingMnemonic": "When you try <vocabulary>to compensate for</vocabulary> everything you've ever done wrong, you become too good for your own britches. You are <reading>too good now</reading> (<ja>つぐなう</ja>)."
+    "readingMnemonic": "When you try <vocabulary>to compensate for</vocabulary> everything you've ever done wrong, you become too good for your own britches. You are <reading>too good now</reading> (<ja>つぐなう</ja>).",
+    "audio": [
+      {
+        "fileName": "償う_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "償う_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "04eb94ca-200c-480b-ba83-bc3079bcb71c",
   "tags": [

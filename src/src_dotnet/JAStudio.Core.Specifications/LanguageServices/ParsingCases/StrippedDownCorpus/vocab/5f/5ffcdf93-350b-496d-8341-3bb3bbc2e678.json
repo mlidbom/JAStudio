@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:殴る_b.mp3]",
-  "audioG": "[sound:殴る_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "擲る",
@@ -36,8 +34,7 @@
   "sentenceCount": 12,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -61,7 +58,18 @@
   "sourceData": {
     "answer": "to{} strike/hit/beat/punch",
     "mnemonic": "Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>assault</kanji>. What are some ways to assault a person? How about <vocabulary>to punch</vocabulary>, <vocabulary>to strike</vocabulary>, or <vocabulary>to hit</vocabulary>, to name a few?",
-    "readingMnemonic": "Someone is <reading>nag</reading>ging (<ja>なぐ</ja>) you and nagging you about something. You can't take it any more, so you turn around <vocabulary>to punch</vocabulary> them in the face."
+    "readingMnemonic": "Someone is <reading>nag</reading>ging (<ja>なぐ</ja>) you and nagging you about something. You can't take it any more, so you turn around <vocabulary>to punch</vocabulary> them in the face.",
+    "audio": [
+      {
+        "fileName": "殴る_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "殴る_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "5ffcdf93-350b-496d-8341-3bb3bbc2e678",
   "tags": [

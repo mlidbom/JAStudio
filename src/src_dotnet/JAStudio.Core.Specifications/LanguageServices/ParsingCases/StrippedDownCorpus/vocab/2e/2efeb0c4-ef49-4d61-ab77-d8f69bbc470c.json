@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomichan_audio_おもい_想い_2023-04-26-21-53-05.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "念い",
@@ -35,8 +33,7 @@
   "sentenceCount": 52,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,13 @@
   "sourceData": {
     "answer": "thought | imagination/mind/heart | desire/wish/hope/expectation | love/affection | feelings/emotion/sentiment/experience",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_おもい_想い_2023-04-26-21-53-05.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "2efeb0c4-ef49-4d61-ab77-d8f69bbc470c",
   "tags": [

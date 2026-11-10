@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-d0b81f0d311e69f5a39085669fc740139df00153ed4925a71b5b7124.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-d0b81f0d311e69f5a39085669fc740139df00153ed4925a71b5b7124.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "所が",
@@ -40,8 +46,7 @@
   "sentenceCount": 6,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceStart": "required"
@@ -67,7 +72,9 @@
   "sourceData": {
     "answer": "even-so/however/still/whereupon/even-though/nevertheless/on-the-contrary/as-a-matter-of-fact/despite",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "3bb35436-23ac-45bf-b11a-81905729f32d",
   "tags": []

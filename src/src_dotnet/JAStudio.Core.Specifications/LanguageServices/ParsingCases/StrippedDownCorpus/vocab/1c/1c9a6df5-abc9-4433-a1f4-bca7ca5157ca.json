@@ -22,15 +22,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-008b50e9c1d92bac83871dde6afb8122af734419a48f87305a8d761f.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-008b50e9c1d92bac83871dde6afb8122af734419a48f87305a8d761f.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 7,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -54,7 +59,9 @@
   "sourceData": {
     "answer": "thief/robber",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "1c9a6df5-abc9-4433-a1f4-bca7ca5157ca",
   "tags": [

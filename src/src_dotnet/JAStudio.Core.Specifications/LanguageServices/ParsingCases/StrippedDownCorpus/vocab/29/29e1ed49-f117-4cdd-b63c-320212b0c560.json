@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-03592742e9a3435928d003df87eb0d4be893b8a4f1b2af881b54f657.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-03592742e9a3435928d003df87eb0d4be893b8a4f1b2af881b54f657.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Google ja-JP-Neural2-D",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 22,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "ichidan": "required",
@@ -90,11 +95,12 @@
   "sourceData": {
     "answer": "indicates-passive-voice-(incl.-the-\"suffering-passive\") | indicates-the-potential-form | indicates-spontaneous-occurrence | used-as-an-honorific-for-others'-actions",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "29e1ed49-f117-4cdd-b63c-320212b0c560",
   "tags": [
-    "_tts_audio",
     "-::TODO::studio::vocab::matching::requires-and-includes::preceding-vowel",
     "source::yomitan"
   ]

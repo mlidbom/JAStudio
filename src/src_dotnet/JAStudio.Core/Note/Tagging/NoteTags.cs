@@ -75,7 +75,7 @@ public class NoteTags : IEnumerable<Tag>
 
    /// <summary>
    /// The note's tags that a person manages, in alphabetical order: all but the jastudio-maintained-tags (<see cref="Tags.IsMaintainedByJAStudio"/>),<br/>
-   /// which are generated or have editors of their own. These are the tags added and removed by hand.
+   /// which are generated. These are the tags added and removed by hand.
    /// </summary>
    public IReadOnlyList<Tag> NotMaintainedByJAStudio() => [..InAlphabeticalOrder().Where(it => !Tags.IsMaintainedByJAStudio(it.Name))];
 

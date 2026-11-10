@@ -24,9 +24,15 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-26cf831aa163720718828e75cc4ae7aa1a892f7b827d7e2696114ad7.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-26cf831aa163720718828e75cc4ae7aa1a892f7b827d7e2696114ad7.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "いやだ",
@@ -36,8 +42,7 @@
   "sentenceCount": 18,
   "technicalNotes": "TODO: the exact match requirement does not seem to be working unless both forms have it set",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "surface": "required"
@@ -63,7 +68,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "80c05e57-4300-45fb-a8a1-d5db98a7283b",
   "tags": [

@@ -28,15 +28,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_なのに_なのに_2023-08-21-12-00-20.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 85,
   "technicalNotes": "",
   "references": "Cure Dolly <a href=\"https://www.youtube.com/watch?v=Au5JOtcwE7A&amp;t=53s\">のに、なのに</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -60,7 +57,13 @@
   "sourceData": {
     "answer": "and-yet/despite-this/but-even-so/but-even-then/however/nevertheless/for-all-that/notwithstanding-that",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_なのに_なのに_2023-08-21-12-00-20.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "cc4640fe-c976-44b7-848b-b29b16a04410",
   "tags": [

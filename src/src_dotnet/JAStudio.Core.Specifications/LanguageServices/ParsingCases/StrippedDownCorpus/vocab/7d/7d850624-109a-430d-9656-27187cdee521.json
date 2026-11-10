@@ -29,15 +29,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-41bc4dbcfb51e16ea0d97f8fc5837f7f2b28760be04be0344a3ed93f.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-41bc4dbcfb51e16ea0d97f8fc5837f7f2b28760be04be0344a3ed93f.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 13,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceEnd": "required"
@@ -63,7 +68,9 @@
   "sourceData": {
     "answer": "although/but/even-though/I-wish-that",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "7d850624-109a-430d-9656-27187cdee521",
   "tags": [

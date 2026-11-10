@@ -20,15 +20,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:感じる_b.mp3]",
-  "audioG": "[sound:感じる_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 119,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -52,7 +49,18 @@
   "sourceData": {
     "answer": "to{?}{feel/sense/experience}",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb. The kanji itself means <kanji>feeling</kanji> so the verb vocab version is <vocabulary>to feel</vocabulary>.",
-    "readingMnemonic": "Guess what? Even though this would use the vocab kun'yomi reading, usually, the readings for both on'yomi and kun'yomi on this kanji are the same, meaning you can read this word no matter what. Feeling better now?"
+    "readingMnemonic": "Guess what? Even though this would use the vocab kun'yomi reading, usually, the readings for both on'yomi and kun'yomi on this kanji are the same, meaning you can read this word no matter what. Feeling better now?",
+    "audio": [
+      {
+        "fileName": "感じる_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "感じる_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "7726ca8e-62d8-4c50-a29e-a42b75d03171",
   "tags": [

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomitan_audio_2025-03-14-21-31-32-782.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "縦令",
@@ -43,8 +41,7 @@
   "sentenceCount": 12,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -68,7 +65,13 @@
   "sourceData": {
     "answer": "even-if/no-matter-(what)/if/though/although/supposing/supposing-that/-ever",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2025-03-14-21-31-32-782.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "719d5c71-c1a6-4ec5-a0d3-192259cff91e",
   "tags": [

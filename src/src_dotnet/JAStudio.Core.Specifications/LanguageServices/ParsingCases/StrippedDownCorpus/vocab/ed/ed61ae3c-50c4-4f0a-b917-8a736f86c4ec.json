@@ -19,15 +19,20 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": " [sound:ATTS く (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "ATTS く (azure microsoft server speech text to speech voice (ja-jp daichineural)).mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [],
   "sentenceCount": 37,
   "technicalNotes": "",
   "references": "<a href=\"https://www.tofugu.com/japanese-grammar/i-adjective-ku-form/\">Japanese い-Adjective く Form (tofugu.com)</a><br><a href=\"https://www.tofugu.com/japanese-grammar/i-adjective-ku-form-noun/\">Japanese い-Adjective く Form as a Noun (tofugu.com)</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -102,11 +107,12 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "ed61ae3c-50c4-4f0a-b917-8a736f86c4ec",
   "tags": [
-    "_tts_audio",
     "-::vocab::matching::uses::surface-is-not",
     "source::yomitan"
   ]

@@ -19,9 +19,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:yomitan_audio_2024-08-06-17-57-14-734.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "に馴染む",
@@ -31,8 +29,7 @@
   "sentenceCount": 3,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -56,7 +53,13 @@
   "sourceData": {
     "answer": "to: become-familiar-with/fit-in/adapt-oneself/get-used-to/grow-accustomed-to",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomitan_audio_2024-08-06-17-57-14-734.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "3c068fa3-a7ac-4466-a0a0-6dd1a71b3b4a",
   "tags": [

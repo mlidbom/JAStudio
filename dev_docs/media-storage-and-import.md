@@ -52,9 +52,10 @@ files don't know their notes.
 | Sentence | audio and screenshots, its source's and the corpus's own |
 | Kanji | images, the corpus's own |
 
-*Until slice 9's step 3 the corpus JSON still stores them as Anki's markup in fixed fields, `[sound:…]` and
-`<img src="…">`: a vocab's `audioB`, `audioG`, `audioTTS`, `image` and `userImage`, a sentence's `audio` and
-`screenshot`, a kanji's `image`, read into the lists and written back by a temporary mapping (`TodaysMediaFields`).*
+The corpus JSON stores the lists as they are (`AudioReferenceDto`, `ImageReferenceDto`), a fact left out when it isn't
+known: a vocab's `audio`, `images`, `sourceData.audio` and `sourceData.images`, a sentence's `audio`, `screenshots`,
+`sourceData.audio` and `sourceData.screenshots`, a kanji's `images`. *(Until slice 9's step 3 it stored them as Anki's
+markup in fixed fields, such as a vocab's `audioB`, `audioG` and `audioTTS`: the migration is in `corpus-data-model.md`.)*
 
 **`MediaFileIndex` maps file names to files.** On first use it scans the whole media tree, leaving out `.json` and
 `.txt` files. It maps each file name, ignoring case, to an `AudioAttachment` or an `ImageAttachment`, by the file's

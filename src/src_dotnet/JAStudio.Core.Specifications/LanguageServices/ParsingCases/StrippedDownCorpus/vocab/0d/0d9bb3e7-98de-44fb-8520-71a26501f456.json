@@ -21,15 +21,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:ca3b06260eaa54b89075645a3fdafa45.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 2,
   "technicalNotes": "",
   "references": "",
-  "image": "<img src=\"b952177c36833f009afe93ced0749d22.jpg\">",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -53,7 +50,17 @@
   "sourceData": {
     "answer": "down-train/train-heading-toward-the-ending-point-of-its-route | down-slope/downward-going | downbound-(esp.-away-from-Tokyo) | downstream/downhill",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "ca3b06260eaa54b89075645a3fdafa45.mp3"
+      }
+    ],
+    "images": [
+      {
+        "fileName": "b952177c36833f009afe93ced0749d22.jpg"
+      }
+    ]
   },
   "id": "0d9bb3e7-98de-44fb-8520-71a26501f456",
   "tags": [

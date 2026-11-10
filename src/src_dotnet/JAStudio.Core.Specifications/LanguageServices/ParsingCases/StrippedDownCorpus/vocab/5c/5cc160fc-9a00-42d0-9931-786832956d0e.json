@@ -29,15 +29,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_だって_だって_2023-08-18-11-43-05.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 346,
   "technicalNotes": "",
   "references": "<a href=\"https://www.youtube.com/watch?v=kO89HzRQygQ&amp;list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;index=26\">Cure Dolly: Lesson 23: だって、から、それから</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "singleToken": "required",
@@ -69,7 +66,13 @@
   "sourceData": {
     "answer": "after-all/because | but | even | too/as-well/also | they-say/I-hear/you-mean",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_だって_だって_2023-08-18-11-43-05.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "5cc160fc-9a00-42d0-9931-786832956d0e",
   "tags": [

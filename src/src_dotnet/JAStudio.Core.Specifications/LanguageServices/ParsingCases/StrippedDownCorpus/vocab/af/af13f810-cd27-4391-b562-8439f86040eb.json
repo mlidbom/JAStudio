@@ -19,15 +19,21 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "[sound:胸_b.mp3]",
-  "audioG": "[sound:胸_g.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 32,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "<img alt=\"Chest pain: Causes other than the heart - Harvard Health\" src=\"b9050fc9-aed4-4fce-aa50-69208a0daff9.jpg\"><img alt=\"Male Chest Enlargement, Pectoral Shaping for Men\" src=\"iStock_000015641412Small-2.jpg\">",
+  "images": [
+    {
+      "fileName": "b9050fc9-aed4-4fce-aa50-69208a0daff9.jpg",
+      "altText": "Chest pain: Causes other than the heart - Harvard Health"
+    },
+    {
+      "fileName": "iStock_000015641412Small-2.jpg",
+      "altText": "Male Chest Enlargement, Pectoral Shaping for Men"
+    }
+  ],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -51,7 +57,18 @@
   "sourceData": {
     "answer": "chest/breast | breasts/bosom/bust | heart | lungs | stomach | heart/mind/feelings",
     "mnemonic": "The kanji and the word are exactly the same. That means they share meanings as well.",
-    "readingMnemonic": "This vocab word uses the same reading as the one you learned with the kanji. At least I won't have to bring up the image of you <reading>moon</reading>ing (<ja>むね</ja>) people with your breasts or whatnot. Oh dang, I just went and did it."
+    "readingMnemonic": "This vocab word uses the same reading as the one you learned with the kanji. At least I won't have to bring up the image of you <reading>moon</reading>ing (<ja>むね</ja>) people with your breasts or whatnot. Oh dang, I just went and did it.",
+    "audio": [
+      {
+        "fileName": "胸_b.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "胸_g.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "af13f810-cd27-4391-b562-8439f86040eb",
   "tags": [

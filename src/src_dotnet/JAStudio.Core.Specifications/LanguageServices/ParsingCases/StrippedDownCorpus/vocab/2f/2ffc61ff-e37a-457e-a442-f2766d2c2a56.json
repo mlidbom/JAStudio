@@ -28,9 +28,15 @@
   ],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-46cd1bbb6be3623003364fca5fc6121ba6f490a97308ba89a85a34d1.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-46cd1bbb6be3623003364fca5fc6121ba6f490a97308ba89a85a34d1.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "ばよかった",
@@ -40,8 +46,7 @@
   "sentenceCount": 34,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -76,7 +81,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "2ffc61ff-e37a-457e-a442-f2766d2c2a56",
   "tags": []

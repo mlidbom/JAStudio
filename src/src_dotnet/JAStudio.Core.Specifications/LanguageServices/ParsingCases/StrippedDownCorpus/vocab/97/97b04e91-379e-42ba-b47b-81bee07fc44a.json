@@ -26,9 +26,15 @@
   "partsOfSpeech": [],
   "register": [],
   "usuallyWrittenInKana": null,
-  "audioB": "",
-  "audioG": "",
-  "audioTTS": "[sound:hypertts-dbd709745fb22ba4b866b211fe6e46bad58acda454d1f826263f1485.mp3]",
+  "audio": [
+    {
+      "fileName": "hypertts-dbd709745fb22ba4b866b211fe6e46bad58acda454d1f826263f1485.mp3",
+      "isOurs": true,
+      "isTextToSpeech": true,
+      "textToSpeechVoice": "Azure ja-JP-DaichiNeural",
+      "voiceGender": "male"
+    }
+  ],
   "forms": [
     {
       "text": "でくる",
@@ -42,8 +48,7 @@
   "sentenceCount": 47,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [
@@ -90,7 +95,9 @@
   "sourceData": {
     "answer": "",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "97b04e91-379e-42ba-b47b-81bee07fc44a",
   "tags": [

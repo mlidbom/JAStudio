@@ -20,9 +20,7 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:Wani_8938_male.mp3]",
-  "audioG": "[sound:Wani_8938_female.mp3]",
-  "audioTTS": "",
+  "audio": [],
   "forms": [
     {
       "text": "つく",
@@ -44,8 +42,7 @@
   "sentenceCount": 4,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -74,7 +71,18 @@
   "sourceData": {
     "answer": "to: be-{lit-(e.g.-electricity-comes-on)/lighted} | catch-fire",
     "mnemonic": "This word consists of kanji with hiragana attached. Because the hiragana ends with an <ja>う</ja> sound, you know this word is a verb.\n\nThe kanji <ja>点</ja> means <kanji>point</kanji>, but this verb actually means <vocabulary>to be lit</vocabulary> or <vocabulary>to be ignited</vocabulary>. Think of it this way, when a flashlight turns on, it points a beam, of light.\n\nYou already learned <ja>点ける</ja>, which is for when you turn something on. <ja>点く</ja>, on the other hand, is an intransitive verb. That means it happens by itself. Like, \"Oh look! The lights came on! That's cool (<ja>く</ja>)!\"",
-    "readingMnemonic": "You already learned this reading when you learned <ja>点ける</ja> but here's a mnemonic just in case:\n\nEvery time you count to <reading>two</reading> (<ja>つ</ja>) a light comes on. How <reading>cool</reading> (<ja>く</ja>) that it does it all by itself!!"
+    "readingMnemonic": "You already learned this reading when you learned <ja>点ける</ja> but here's a mnemonic just in case:\n\nEvery time you count to <reading>two</reading> (<ja>つ</ja>) a light comes on. How <reading>cool</reading> (<ja>く</ja>) that it does it all by itself!!",
+    "audio": [
+      {
+        "fileName": "Wani_8938_male.mp3",
+        "voiceGender": "male"
+      },
+      {
+        "fileName": "Wani_8938_female.mp3",
+        "voiceGender": "female"
+      }
+    ],
+    "images": []
   },
   "id": "75bbcda5-9d76-4985-877b-92ae0fd3008f",
   "tags": [

@@ -21,15 +21,12 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:yomichan_audio_で_で_2023-07-22-22-46-05.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [],
   "forms": [],
   "sentenceCount": 83,
   "technicalNotes": "",
   "references": "Cure Dolly: {\n   <a href=\"https://youtu.be/OiKgudW9xB8?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj&amp;t=505\">Secrets of the で particle. Why do we say みんなで行く? and 世界で一番? | Lesson 55</a> \n}\n<br><a href=\"https://www.japanesewithanime.com/2019/07/de-particle.html\">で Particle | Japanese with Anime</a>",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {
       "sentenceStart": "required",
@@ -71,7 +68,13 @@
   "sourceData": {
     "answer": "<tag><ja>出</ja></tag>:: coming-out/going-out/outflow/efflux/rising-(of-the-Sun-or-the-Moon) | attending-(work)/appearing-(on-stage)/one's-turn-to-go-on | start/beginning | origins/background/person-(or-item)-originating-from-.../graduate-of-.../native-of-.../member-of-...-(lineage) | architectural-member-that-projects-outward | highest-point-of-the-stern-of-a-ship | amount-(comprising-something)/amount-of-time-or-effort-required-to-do-something\nat/in | at/when | by/with | and-then/so | and/then | let-me-tell-you/don't-you-know\nwithout-doing-...",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [
+      {
+        "fileName": "yomichan_audio_で_で_2023-07-22-22-46-05.mp3"
+      }
+    ],
+    "images": []
   },
   "id": "dbdd7f1b-b77d-40d0-9cb5-d82d9c13e42f",
   "tags": [

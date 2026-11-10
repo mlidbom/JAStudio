@@ -19,9 +19,11 @@
   ],
   "register": [],
   "usuallyWrittenInKana": true,
-  "audioB": "[sound:KoenoKatachi_1_0.22.28.163-0.22.29.539.mp3]",
-  "audioG": "",
-  "audioTTS": "",
+  "audio": [
+    {
+      "fileName": "KoenoKatachi_1_0.22.28.163-0.22.29.539.mp3"
+    }
+  ],
   "forms": [
     {
       "text": "彼奴",
@@ -47,8 +49,7 @@
   "sentenceCount": 226,
   "technicalNotes": "",
   "references": "",
-  "image": "",
-  "userImage": "",
+  "images": [],
   "matching": {
     "requiredOrForbidden": {},
     "flags": [],
@@ -72,7 +73,9 @@
   "sourceData": {
     "answer": "he/she/that-guy",
     "mnemonic": "",
-    "readingMnemonic": ""
+    "readingMnemonic": "",
+    "audio": [],
+    "images": []
   },
   "id": "d6eff68a-21a4-4da2-9631-bb4d4073cdaa",
   "tags": [
