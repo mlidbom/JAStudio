@@ -15,18 +15,7 @@ public sealed class DictionaryMatch : Match
                   it => it.StartLocationIsDictionaryVerbInflection).ApplyTo
    ];
 
-   static readonly List<System.Func<MatchInspector, FailedMatchRequirement?>> CombinedRequirements;
-
-   static DictionaryMatch()
-   {
-      var matchRequirements = typeof(Match).GetField("MatchPrimaryValidityRequirements",
-                                                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)?
-                                .GetValue(null) as List<System.Func<MatchInspector, FailedMatchRequirement?>>;
-
-      CombinedRequirements = new List<System.Func<MatchInspector, FailedMatchRequirement?>>(
-         matchRequirements ?? []);
-      CombinedRequirements.AddRange(RequirementsList);
-   }
+   static readonly List<System.Func<MatchInspector, FailedMatchRequirement?>> CombinedRequirements = [.. MatchPrimaryValidityRequirements, .. RequirementsList];
 
    public DictEntry DictionaryEntry { get; }
 
@@ -35,19 +24,8 @@ public sealed class DictionaryMatch : Match
    public override string Answer => DictionaryEntry.FormatAnswer();
    public override List<string> Readings => DictionaryEntry.KanaFormsText();
 
-   protected override bool IsPrimarilyValid()
-   {
-      return !CombinedRequirements
-             .Select(requirement => requirement(Inspector))
-             .Any(failure => failure != null);
-   }
+   protected override bool IsPrimarilyValid() => CombinedRequirements.Select(requirement => requirement(Inspector)).All(failure => failure == null);
 
-   protected override List<FailedMatchRequirement> CreatePrimaryValidityFailures()
-   {
-      return CombinedRequirements
-            .Select(requirement => requirement(Inspector))
-            .Where(failure => failure != null)
-            .Cast<FailedMatchRequirement>()
-            .ToList();
-   }
+   protected override List<FailedMatchRequirement> CreatePrimaryValidityFailures() =>
+      [.. CombinedRequirements.Select(requirement => requirement(Inspector)).OfType<FailedMatchRequirement>()];
 }

@@ -1,4 +1,5 @@
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 
@@ -13,6 +14,10 @@ public sealed class FailedMatchRequirement : MatchRequirement
 
    public static FailedMatchRequirement Forbids(string message) =>
       new($"forbids::{message}");
+
+   /// <summary>The failure of a word to meet <paramref name="condition"/>, one of the conditions of a vocab's match-condition, given as the condition describes itself.</summary>
+   public static FailedMatchRequirement NotMet(Condition<CandidateWordVariant> condition) =>
+      new($"not_met::{condition}");
 
    public static FailedMatchRequirement Required(string message) =>
       new($"required::{message}");

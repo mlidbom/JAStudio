@@ -11,6 +11,9 @@ public sealed record AllOfGroup<TSubject> : ConditionGroup<TSubject> where TSubj
 
    public override bool IsMetBy(TSubject subject) => ConditionsThatAddSomething.All(it => it.IsMetBy(subject));
 
+   /// <summary>The conditions in the group that <paramref name="subject"/> doesn't meet: why it doesn't meet the group, when it doesn't.</summary>
+   public IEnumerable<Condition<TSubject>> ConditionsNotMetBy(TSubject subject) => ConditionsThatAddSomething.Where(it => !it.IsMetBy(subject));
+
    protected override string Heading => "All of:";
 
    /// <summary>The key an "all of" group is stored under in the corpus.</summary>

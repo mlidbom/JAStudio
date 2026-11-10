@@ -4,6 +4,7 @@ from System.Collections.Generic import List_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements import MatchInspector, VocabMatchInspector
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant, CandidateWord, WordExclusion
 from JAStudio.Core.Note.Vocabulary import VocabNote
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 from JAStudio.Core.Note.Vocabulary.Matching import VocabNoteMatchingConfiguration, VocabMatchingRequireForbidFlags, VocabNoteMatchingRules
 
 class DictionaryMatch(Match):
@@ -167,6 +168,8 @@ class VocabMatch(Match):
     def IsValid(self) -> bool: ...
     @property
     def IsValidForDisplay(self) -> bool: ...
+    @property
+    def MatchCondition(self) -> AllOfGroup_1[CandidateWordVariant]: ...
     @property
     def MatchForm(self) -> str: ...
     @property

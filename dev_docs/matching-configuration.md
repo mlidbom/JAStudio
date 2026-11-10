@@ -7,6 +7,13 @@
 > let the parsing produce decent results WITHOUT MANUAL ADJUSTMENT for many more sentences than can be achieved with
 > the current limited set of rules that can only do and."
 >
+> **Clarified (Magnus, 2026-11-11): without manual adjustment *to sentences*.** Adjusting vocab by hand, their
+> match-conditions included, is expected. "The big, big, deal is about getting sentences to parse right without us having
+> to manually adjust a large percentage of them. The more sentences that we have never seen before that parse well
+> without any manual adjustments, the more correct and valuable our vocabulary corpus is." Vocab are finite and sentences
+> unlimited, so every condition that describes the language well pays off in every sentence JAStudio's users will bring.
+> Shared-conditions and rules-for-many-vocab make the vocab work cheaper; they serve that goal.
+>
 > A first proposal that only translated today's rules into a tree is superseded: that was "half, if that, of the
 > point" (Magnus).
 >
@@ -303,7 +310,8 @@ stem and sentence end. Those would become shared-conditions under today's names,
    a rule-for-many-vocab changes many sentences at once. The full rebuild's diff, the parsing cases, and the yardstick
    below are what make that safe.
 
-Most of the "without manual adjustment" would come from 2 and 3.
+2 and 3 make the work on vocab cheaper, and spread each improvement to every vocab it fits. The goal they serve is
+sentences that parse right without corrections on the sentence.
 
 ### The form that matched
 
@@ -334,6 +342,25 @@ changes the result. It would be part of JAStudio's MCP server, so mine to build.
   other sentences it changes.
 - Further: for a vocab corrected in many sentences, the tool could compare the tokens around its incorrect matches with
   those around its correct ones. It would then list the ingredients that tell them apart, which suggests the rule.
+
+**The generality measure (thinking with Magnus, 2026-11-11).** For each condition in each vocab's match-condition, count
+the matches it decides across the corpus: those it alone rejects, which would be valid without it. Counting every
+rejection would credit conditions that only repeat what another rejects. What it tells:
+- **A condition that decides many matches is a rule about the language.** Ones that recur across vocab are candidates
+  for shared-conditions.
+- **A condition that decides only the sentence it was written for is a patch.** It may be worth redoing as a rule.
+- **Or it shouldn't exist at all:** a correction on that sentence, marked incorrect or highlighted there, does the same
+  with no side effects. A condition is tested on every match of its vocab, and can wrongly reject a correct match in a
+  sentence nobody has seen yet. Moving one is checked mechanically: make the corrections, delete the condition, and the
+  full rebuild must change nothing.
+- **The data can't settle every case:** a literal-text condition that decides one sentence today may protect future
+  ones. The tool ranks the candidates; Magnus decides.
+- **The reverse:** clusters of similar corrections on one vocab are candidates for a condition, as the comparison
+  above suggests.
+
+So the corrections, the vocab's conditions and the rules for many vocab each hold the knowledge that belongs at their
+level. Every measure here is only as good as the sentences it runs over, so a large and diverse sentence corpus matters
+as much as the conditions: see [Expanding the sentence corpus](todo/expanding-the-sentence-corpus.md).
 
 ## Building a condition in the editor
 
@@ -585,9 +612,9 @@ A vocab's `matching` becomes:
 ```json
 "matching": {
   "condition": { "allOf": [
-    { "tokenBefore": { "fact": "irrealis" } },
-    { "not": { "tokenBefore": { "fact": "ichidanVerb" } } },
-    { "tokenBefore": { "surface": { "endsWithOneOf": ["ん"] } } }
+    { "precedingToken": { "fact": "irrealis" } },
+    { "not": { "precedingToken": { "fact": "ichidanVerb" } } },
+    { "precedingToken": { "surface": { "endsWithOneOf": ["ん"] } } }
   ] },
   "flags": ["questionOverridesForm"],
   "yieldLastTokenToOverlappingCompound": null,
@@ -650,7 +677,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
 1. **The model:** the three levels, the condition-subject nodes, JSON and descriptions, with specs. Nothing uses it yet.
    *Built 2026-11-10, waiting for Magnus's pass over its names and design.* See
    [Increment 1, as built](#increment-1-as-built).
-2. **Testing matches with it, from today's storage:**
+2. **Testing matches with it, from today's storage:** built 2026-11-10, see
+   [Increment 2, as built](#increment-2-as-built).
    - the match-condition built in memory from today's rules;
    - `VocabMatch` testing it;
    - the side-by-side check, until it's clean.
@@ -713,6 +741,37 @@ JAStudio's analysis finds them. The names are mine until Magnus's pass at the en
 **A name the model leaves behind: head and tail.** Today's rules and state tests use these for the token before and after a word, as in "Adverb (head)"
 and the `Head` and `Tail` folders. In linguistics a phrase's head is something else entirely. The model says preceding
 and following, and the old names go with today's rule types in increment 3.
+
+### Increment 2, as built
+
+**Matching tests the match-condition now.** `VocabMatch` builds each vocab's match-condition from the rules the corpus
+stores today (`TodaysMatchingRules.MatchConditionOf`) and tests it in place of the 21 requirements it replaces. The
+poison word flag and dictionary form (start) stay requirements of their own. A condition the word doesn't meet is a
+failure reason of its own, such as `not_met::Not: The preceding token: is a godan verb`.
+
+**The translation, rule by rule** (`TodaysMatchingRule`): each knows its name in the corpus, the condition it becomes,
+and the requirement that tests it today. Required becomes the condition and forbidden its negation, with these
+exceptions:
+- **Surface** forbidden becomes "not: matched by an inflected surface".
+- **Sentence start** becomes a condition on the preceding text: empty, or ending with a character that starts a
+  sentence. Today's rule reads the preceding token instead, and an empty one counts as the sentence's start: the stem
+  JAStudio splits off the く of 寄ってく is one. That's the only difference, in 25 matches, all of which other rules
+  reject anyway. A `review:matching:` comment marks it.
+- **Past tense stem** becomes "any of: the preceding token is a past-tense stem; all of: the preceding text isn't
+  empty, the first token is a past-tense marker". That's today's rule exactly: at the sentence's start a marker is the
+  tokenizer's misreading, as in だーめ.
+- **Prefix is not, required prefix and suffix is not** test the preceding or following token's surface, as today, not
+  the texts: a prefix longer than the token before would differ.
+
+**The checks, both clean:**
+- **The side-by-side check:** the MCP tool `compare_match_conditions_with_todays_rules` tests every rule both ways on
+  every vocab match of every sentence: 341,028 matches. Every rule agrees everywhere but sentence start's 25. Godan and
+  godan imperative (head) are set on no vocab that matches anything.
+- **A full rebuild changes nothing.** It takes as long as before: 5.5 to 7.6 seconds over three runs, before and after.
+- **The parsing cases pass unchanged.**
+
+**What increment 3 deletes:** the 21 requirements' state tests, `TodaysMatchingRule` and the MCP tool, once the corpus
+stores match-conditions.
 
 ### Naming and design questions: `review:matching:` comments
 

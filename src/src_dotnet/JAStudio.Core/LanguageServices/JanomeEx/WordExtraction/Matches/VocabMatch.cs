@@ -7,6 +7,8 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Tail;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Migration;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 
@@ -18,78 +20,21 @@ public sealed class VocabMatch : Match
       ForbidsYieldsToValidSurfaceSurface.ApplyTo
    ];
 
-   static readonly List<Func<VocabMatchInspector, FailedMatchRequirement?>> VocabStaticDisplayRequirementsListCombined;
+   static readonly List<Func<VocabMatchInspector, FailedMatchRequirement?>> VocabStaticDisplayRequirementsListCombined =
+      [.. VocabStaticDisplayRequirementsList, .. MatchStaticDisplayRequirements];
 
-   static readonly List<Func<VocabMatchInspector, FailedMatchRequirement?>> RequirementsList =
+   /// <summary>
+   /// The vocab's requirements that its <see cref="MatchCondition"/> doesn't replace: the poison word flag, and dictionary form (start), which is<br/>
+   /// forbidden by default for every vocab (open question 1 in dev_docs/matching-configuration.md).
+   /// </summary>
+   static readonly List<Func<VocabMatchInspector, FailedMatchRequirement?>> RequirementsBesidesTheMatchCondition =
    [
-      new RequiresOrForbids("irrealis",
-                            it => it.RequiresForbids.Irrealis,
-                            it => it.PreviousLocationIsIrrealis).ApplyTo,
-
-      new RequiresOrForbids("godan",
-                            it => it.RequiresForbids.Godan,
-                            it => it.PreviousLocationIsGodan).ApplyTo,
-
-      new RequiresOrForbids("ichidan",
-                            it => it.RequiresForbids.Ichidan,
-                            it => it.PreviousLocationIsIchidan).ApplyTo,
-
-      // head requirements
-
-      ForbidsPrefixIsIn.ApplyTo,
-      RequiresPrefixIsIn.ApplyTo,
-      RequiresOrForbidsIsSentenceStart.ApplyTo,
-      new RequiresOrForbids("te_form_prefix",
-                            it => it.RequiresForbids.TeFormStemHead,
-                            it => it.HasTeFormStemHead).ApplyTo,
-
-      RequiresOrForbidsTeFormStemStart.ApplyTo,
-      RequiresOrForbidsPastTenseStem.ApplyTo,
-
-      RequiresOrForbidsGodanImperativeHead.ApplyTo,
-      RequiresOrForbidsStartsWithGodanPotentialStemOrInflection.ApplyTo,
-      RequiresOrForbidsStartsWithGodanImperativeStemOrInflection.ApplyTo,
-      RequiresOrForbidsStartsWithIchidanImperativeStemOrInflection.ApplyTo,
-
-      // tail requirements
-      RequiresOrForbidsIsSentenceEnd.ApplyTo,
-      ForbidsSuffixIsIn.ApplyTo,
-
-      // misc requirements
       ForbidsIsPoisonWord.ApplyTo,
-      RequiresOrForbidsMasuStem.ApplyTo,
-      RequiresOrForbidsAdverbHead.ApplyTo,
-      RequiresOrForbidsDictionaryFormStart.ApplyTo,
-      RequiresOrForbidsDictionaryFormHead.ApplyTo,
-
-      RequiresOrForbidsSurface.ApplyTo,
-      RequiresOrForbidsIsSingleToken.ApplyTo,
-      ForbidsSurfaceIsIn.ApplyTo
+      RequiresOrForbidsDictionaryFormStart.ApplyTo
    ];
 
-   static readonly List<Func<VocabMatchInspector, FailedMatchRequirement?>> CombinedRequirements;
-
-   static VocabMatch()
-   {
-      VocabStaticDisplayRequirementsListCombined = new List<Func<VocabMatchInspector, FailedMatchRequirement?>>(VocabStaticDisplayRequirementsList);
-      VocabStaticDisplayRequirementsListCombined.AddRange(
-         MatchStaticDisplayRequirements.Select<Func<MatchInspector, FailedMatchRequirement?>, Func<VocabMatchInspector, FailedMatchRequirement?>>(req => inspector => req(inspector)));
-
-      CombinedRequirements = new List<Func<VocabMatchInspector, FailedMatchRequirement?>>(
-         MatchPrimaryValidityRequirements.Select<Func<MatchInspector, FailedMatchRequirement?>, Func<VocabMatchInspector, FailedMatchRequirement?>>(req => inspector => req(inspector)));
-      CombinedRequirements.AddRange(RequirementsList);
-   }
-
-   // Access to parent class static fields
-   static List<Func<MatchInspector, FailedMatchRequirement?>> MatchStaticDisplayRequirements =>
-      typeof(Match).GetField("MatchStaticDisplayRequirements",
-                             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)?
-        .GetValue(null) as List<Func<MatchInspector, FailedMatchRequirement?>> ?? [];
-
-   static List<Func<MatchInspector, FailedMatchRequirement?>> MatchPrimaryValidityRequirements =>
-      typeof(Match).GetField("MatchPrimaryValidityRequirements",
-                             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)?
-        .GetValue(null) as List<Func<MatchInspector, FailedMatchRequirement?>> ?? [];
+   static readonly List<Func<VocabMatchInspector, FailedMatchRequirement?>> CombinedRequirements =
+      [.. MatchPrimaryValidityRequirements, .. RequirementsBesidesTheMatchCondition];
 
    public VocabMatchInspector VocabInspector { get; }
    public VocabMatchingRequireForbidFlags RequiresForbids { get; }
@@ -97,6 +42,7 @@ public sealed class VocabMatch : Match
    public VocabNote Vocab { get; }
 
    bool? _anotherMatchOwnsTheFormCache = null;
+   readonly Lazy<AllOfGroup<CandidateWordVariant>> _matchCondition;
 
    public VocabMatch(CandidateWordVariant wordVariant, VocabNote vocab) : base(wordVariant)
    {
@@ -104,40 +50,33 @@ public sealed class VocabMatch : Match
       RequiresForbids = vocab.MatchingConfiguration.RequiresForbids;
       Rules = vocab.MatchingConfiguration.ConfigurableRules;
       Vocab = vocab;
+      //wip: built from today's rules until the corpus stores match-conditions (increment 3 in dev_docs/matching-configuration.md).
+      _matchCondition = new Lazy<AllOfGroup<CandidateWordVariant>>(() => TodaysMatchingRules.MatchConditionOf(vocab.MatchingConfiguration));
    }
 
-   protected override List<FailedMatchRequirement> CreateStaticDisplayRequirementFailures()
-   {
-      return VocabStaticDisplayRequirementsListCombined
-            .Select(requirement => requirement(VocabInspector))
-            .Where(failure => failure != null)
-            .Cast<FailedMatchRequirement>()
-            .ToList();
-   }
+   protected override List<FailedMatchRequirement> CreateStaticDisplayRequirementFailures() =>
+      [.. VocabStaticDisplayRequirementsListCombined.Select(requirement => requirement(VocabInspector)).OfType<FailedMatchRequirement>()];
 
-   protected override bool StaticDisplayRequirementsFulfilledInternal()
-   {
-      return !VocabStaticDisplayRequirementsListCombined
-             .Select(requirement => requirement(VocabInspector))
-             .Any(failure => failure != null);
-   }
+   protected override bool StaticDisplayRequirementsFulfilledInternal() =>
+      VocabStaticDisplayRequirementsListCombined.Select(requirement => requirement(VocabInspector)).All(failure => failure == null);
 
    protected override IEnumerable<MatchRequirement?> CreateDynamicDisplayRequirements() => [ForbidsHasDisplayedOverlappingFollowingCompound.ApplyTo(VocabInspector)];
 
-   protected override List<FailedMatchRequirement> CreatePrimaryValidityFailures()
-   {
-      return CombinedRequirements
-            .Select(requirement => requirement(VocabInspector))
-            .Where(failure => failure != null)
-            .Cast<FailedMatchRequirement>()
-            .ToList();
-   }
+   protected override List<FailedMatchRequirement> CreatePrimaryValidityFailures() =>
+   [
+      .. CombinedRequirements.Select(requirement => requirement(VocabInspector)).OfType<FailedMatchRequirement>(),
+      .. MatchCondition.ConditionsNotMetBy(Variant).Select(FailedMatchRequirement.NotMet)
+   ];
 
-   protected override bool IsPrimarilyValid()
-   {
-      return CombinedRequirements.Select(requirement => requirement(VocabInspector))
-                                 .All(failure => failure == null);
-   }
+   protected override bool IsPrimarilyValid() =>
+      CombinedRequirements.Select(requirement => requirement(VocabInspector)).All(failure => failure == null) &&
+      MatchCondition.IsMetBy(Variant);
+
+   /// <summary>
+   /// The vocab's match-condition: a word matches the vocab only when it meets it. Built from the matching rules the corpus stores today<br/>
+   /// (<see cref="TodaysMatchingRules"/>), once for this match, since an analysis doesn't outlive a change to the vocab.
+   /// </summary>
+   public AllOfGroup<CandidateWordVariant> MatchCondition => _matchCondition.Value;
 
    protected override List<FailedMatchRequirement> CreateInterdependentValidityFailures()
    {

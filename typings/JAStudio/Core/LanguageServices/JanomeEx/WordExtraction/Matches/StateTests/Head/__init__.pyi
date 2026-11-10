@@ -1,4 +1,6 @@
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.Requirements import MatchRequirement
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1
+from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 
 class FailedMatchRequirement(MatchRequirement):
     @property
@@ -9,6 +11,8 @@ class FailedMatchRequirement(MatchRequirement):
     def Reason(self) -> str: ...
     @staticmethod
     def Forbids(message: str) -> FailedMatchRequirement: ...
+    @staticmethod
+    def NotMet(condition: Condition_1[CandidateWordVariant]) -> FailedMatchRequirement: ...
     @staticmethod
     def Required(message: str) -> FailedMatchRequirement: ...
 

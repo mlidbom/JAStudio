@@ -9,7 +9,8 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 
 public abstract class Match
 {
-   static readonly List<Func<MatchInspector, FailedMatchRequirement?>> MatchPrimaryValidityRequirements =
+   /// <summary>The requirements every match must meet to be valid, whether to a vocab or to a dictionary entry.</summary>
+   protected static readonly List<Func<MatchInspector, FailedMatchRequirement?>> MatchPrimaryValidityRequirements =
    [
       ForbidsIsConfiguredIncorrect.ApplyTo,
       ForbidsDictionaryInflectionSurfaceWithBase.ApplyTo,
@@ -21,7 +22,8 @@ public abstract class Match
                   it => it.IsCompoundEndingOnDictionaryFormWhereSurfaceDiffersFromBase).ApplyTo
    ];
 
-   static readonly List<Func<MatchInspector, FailedMatchRequirement?>> MatchStaticDisplayRequirements =
+   /// <summary>The requirements every valid match must meet to be displayed that don't depend on which other matches are displayed.</summary>
+   protected static readonly List<Func<MatchInspector, FailedMatchRequirement?>> MatchStaticDisplayRequirements =
    [
       ForbidsIsConfiguredHidden.ApplyTo,
       ForbidsConfiguredToHideAllCompounds.ApplyTo

@@ -12,6 +12,9 @@ public sealed class CandidateWord
    public CandidateWordVariant SurfaceVariant { get; }
    public CandidateWordVariant? BaseVariant { get; }
 
+   /// <summary>Both of the word's variants: its <see cref="SurfaceVariant"/>, and its <see cref="BaseVariant"/> when its base form differs from its surface.</summary>
+   public IEnumerable<CandidateWordVariant> Variants => BaseVariant == null ? [SurfaceVariant] : [SurfaceVariant, BaseVariant];
+
    public List<CandidateWordVariant> IndexingVariants { get; private set; }
    public List<CandidateWordVariant> ValidVariants { get; private set; }
    public List<CandidateWordVariant> DisplayVariants { get; private set; }
