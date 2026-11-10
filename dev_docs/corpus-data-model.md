@@ -685,16 +685,19 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
 21,236 study-notes carrying tags the corpus had dropped.
 
 - **Done (2026-11-10):** the Anki-projection writes only the fields (`JPNote.StudyNoteFields`), and the comparison of
-  study-notes compares only them. Anki's `marked` (on 2 notes) left the corpus.
+  study-notes compares only them. Anki's `marked` (on 2 notes) left the corpus, and so did the student-tags
+  `legacy_scheduling`, `_only_studying_listening`, `active_kanji` and `preparing-cards` (10,996 notes; Magnus). Anki
+  keeps them all on the study-notes, but for one JLab sentence with no Anki note.
 - **Next, whenever it suits (Magnus):** a cleanup drive removing from Anki the corpus-tags JAStudio wrote there, including
-  the tags the corpus no longer has, on 21,236 study-notes. It keeps the student-tags below, which JAStudio wrote there
-  too, and any tag of Anki's.
+  the tags the corpus no longer has, on 21,236 study-notes. It keeps the student-tags, which JAStudio wrote there too
+  (priority, `legacy_scheduling`, `_only_studying_listening`, `active_kanji`, `preparing-cards`), and any tag of Anki's,
+  such as `marked`: which tags are JAStudio's can't be told from whether the corpus still has them.
 - **Then:** reading Anki's tags into JAStudio, held in memory as the studying status is, as a kind of their own ("Anki
   tags", so that a search says which it means). Only after the cleanup, or JAStudio would show Magnus's Anki tags mixed
   with its own old copies. Open: whether JAStudio may change them, such as marking a note, and how its view keeps up
   when Anki adds one during a review.
-- **The student-tags still in the corpus** then move out, priority last: JAStudio reads it from the corpus, to order a
-  vocab's sentence list (`JPNote.PriorityTagValue`). Which tags are student-tags is Magnus's call (below).
+- **Priority, the one student-tag still in the corpus,** moves out once JAStudio reads it from Anki: JAStudio reads it
+  to order a vocab's sentence list and color its source labels (`JPNote.PriorityTagValue`, `JPNote.GetMetaTags`).
 
 ### Student-tags and corpus-tags
 
@@ -702,12 +705,13 @@ How today's tags split, as read on 2026-11-06 (the numbers count notes):
 
 - **Student-tags:**
   - priority (about 48,500 sentences);
-  - `legacy_scheduling` (9,355);
-  - `_only_studying_listening` (1,065 sentences);
+  - ~~`legacy_scheduling` (9,355)~~ *left the corpus 2026-11-10;*
+  - ~~`_only_studying_listening` (1,065 sentences)~~ *left the corpus 2026-11-10;*
   - ~~Anki's `marked` (2)~~ *left the corpus 2026-11-10: it's Anki's;*
   - ~~the kanji tags generated from what is studied~~, such as `-::kanji::studying-vocab`: *gone since 2026-11-08 (slice 6),
     with the code that generated them.*
-- **Not yet classified:** `active_kanji` (1,531 kanji), `preparing-cards` (20), `tmp` (18), `-::TODO…` (about 40).
+  - ~~`active_kanji` (1,531 kanji)~~ and ~~`preparing-cards` (20)~~ *student-tags (Magnus), left the corpus 2026-11-10.*
+- **Not yet classified:** `tmp` (18), `-::TODO…` (about 40).
 - **Corpus-tags:**
   - `source::…`;
   - labels about the words, such as `-::counting`, `-::formal-noun`, ~~`_uk`~~ *(the vocab's `usuallyWrittenInKana` since slice 4b)*;
