@@ -1206,7 +1206,7 @@ Progress on step 3:
         - **Not done:** the menus on selected text still add to and remove from the relationships as before; the kanji editor's
           related fields are still text.
    9. Media, once the points under [Media](#media-open) are settled. *Under way (2026-11-10): the corpus keeps its media
-      references, as data rather than Anki's markup (Magnus). The survey and the proposed shape are under
+      references, as data rather than Anki's markup (Magnus). The survey and the shape agreed with Magnus are under
       [Media](#media-open).*
 
 ### Before the trim (2026-11-08)
