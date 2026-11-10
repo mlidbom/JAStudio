@@ -169,6 +169,10 @@ the headless JAStudio.
     `note-search.md`). It counts the notes found, and lists up to 50 of them, or as many as asked for.
   - `get_note` gets a note as the corpus stores it.
   - `describe_collection` gives the corpus folder and the notes of each type, studied or not.
+  - `get_the_tag_tree` gives the tag tree, or one branch of it such as `source`, to as many levels as asked for: each tag
+    path with the vocab, kanji and sentences in its branch, studied or not. Built (2026-11-10) to survey what the
+    `source::` tags hold for the provider-and-work question, without a script reading the corpus files; the priority
+    tags of slice 5 are the next such survey.
 - **The UI, built, in the headless JAStudio only** (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a
   window opened would open on Magnus's screen, and it has no browser to render pages with. Each tool gives an image.
   - `render_window` renders one of the main menu's windows, the options, the readings mappings or the import profiles,

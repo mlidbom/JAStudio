@@ -5,15 +5,15 @@ namespace JAStudio.Core.Note.Tagging;
 
 /// <summary>
 /// A tag path in the <see cref="TagTree"/>, such as <c>source::anime</c>, with the paths one level below it as its <see cref="Children"/>,<br/>
-/// and the number of notes in its branch. The path needn't be a tag itself: <c>source</c> is in the tree as the parent of <c>source::anime</c>.
+/// and the notes in its branch. The path needn't be a tag itself: <c>source</c> is in the tree as the parent of <c>source::anime</c>.
 /// </summary>
 public sealed class TagTreeNode
 {
-   internal TagTreeNode(string tagPath, int numberOfNotesInTheBranch, IReadOnlyList<TagTreeNode> children)
+   internal TagTreeNode(string tagPath, IReadOnlyList<JPNote> notesInTheBranch, IReadOnlyList<TagTreeNode> children)
    {
       TagPath = tagPath;
       LastLevel = new TagBranch(tagPath).LastLevel;
-      NumberOfNotesInTheBranch = numberOfNotesInTheBranch;
+      NotesInTheBranch = notesInTheBranch;
       Children = children;
    }
 
@@ -23,8 +23,11 @@ public sealed class TagTreeNode
    /// <summary>The last level of <see cref="TagPath"/>, such as <c>anime</c> for <c>source::anime</c>, which is all a tree shows below the node's parent.</summary>
    public string LastLevel { get; }
 
-   /// <summary>How many notes have <see cref="TagPath"/>, or a tag below it. A note with several tags in the branch counts once.</summary>
-   public int NumberOfNotesInTheBranch { get; }
+   /// <summary>The notes that have <see cref="TagPath"/>, or a tag below it. A note with several tags in the branch is in it once.</summary>
+   public IReadOnlyList<JPNote> NotesInTheBranch { get; }
+
+   /// <summary>How many notes have <see cref="TagPath"/>, or a tag below it: the number of <see cref="NotesInTheBranch"/>.</summary>
+   public int NumberOfNotesInTheBranch => NotesInTheBranch.Count;
 
    /// <summary>
    /// The nodes of the paths one level below, such as <c>source::anime::natsume</c> below <c>source::anime</c>,<br/>
@@ -33,7 +36,10 @@ public sealed class TagTreeNode
    public IReadOnlyList<TagTreeNode> Children { get; }
 
    /// <summary>The paths in the node's branch: <see cref="TagPath"/> and every path below it.</summary>
-   public IEnumerable<string> PathsInTheBranch() => [TagPath, ..Children.SelectMany(it => it.PathsInTheBranch())];
+   public IEnumerable<string> PathsInTheBranch() => NodesInTheBranch().Select(it => it.TagPath);
+
+   /// <summary>The nodes in the node's branch: this node and every node below it.</summary>
+   public IEnumerable<TagTreeNode> NodesInTheBranch() => [this, ..Children.SelectMany(it => it.NodesInTheBranch())];
 
    /// <summary>
    /// This node with only the paths below it that contain every part of <paramref name="typedParts"/>, and their parents,<br/>
@@ -44,7 +50,7 @@ public sealed class TagTreeNode
       if(EveryPathInTheBranchMatches(typedParts)) return this;
 
       var matchingChildren = Children.Select(it => it.WithOnlyThePathsMatching(typedParts)).OfType<TagTreeNode>().ToList();
-      return matchingChildren.Count > 0 ? new TagTreeNode(TagPath, NumberOfNotesInTheBranch, matchingChildren) : null;
+      return matchingChildren.Count > 0 ? new TagTreeNode(TagPath, NotesInTheBranch, matchingChildren) : null;
    }
 
    /// <summary>Whether <see cref="TagPath"/> contains every part of <paramref name="typedParts"/>. Every path below it contains it, so then they do too.</summary>

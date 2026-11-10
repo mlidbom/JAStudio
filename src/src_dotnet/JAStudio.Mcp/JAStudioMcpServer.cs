@@ -19,6 +19,7 @@ using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reloading;
 using JAStudio.Mcp.Tools.Screen;
+using JAStudio.Mcp.Tools.Tagging;
 using JAStudio.Mcp.Tools.Windows;
 using JAStudio.Mcp.UI;
 using Microsoft.AspNetCore.Builder;
@@ -97,6 +98,7 @@ public sealed class JAStudioMcpServer
              .WithRequestFilters(filters => filters.AddCallToolFilter(ToolExceptionReporting.ReportsTheWholeException))
              .WithTools<NoteTools>(ToolResultJsonOptions)
              .WithTools<CollectionTools>(ToolResultJsonOptions)
+             .WithTools<TagTools>(ToolResultJsonOptions)
              .WithTools<CorpusTools>(ToolResultJsonOptions)
              .WithTools<RebuildTools>(ToolResultJsonOptions)
              .WithTools<ReloadTools>(ToolResultJsonOptions)
