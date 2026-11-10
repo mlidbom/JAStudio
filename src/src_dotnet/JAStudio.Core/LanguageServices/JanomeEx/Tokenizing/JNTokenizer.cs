@@ -34,6 +34,9 @@ public sealed class JNTokenizer
 
    public JNTokenizedText Tokenize(string text)
    {
+      //refactor: the tokenizer is MeCab, with the IPADIC dictionary, but the namespace JanomeEx and the types JNTokenizer, JNToken,
+      //   JNTokenizedText, JNPartsOfSpeech and JNPOS are named for Janome, the Python tokenizer JAStudio used before. So is the comment on
+      //   JNTokenizedText.RawTokens. The names should say what they are.
       var tokenizerInput = ReplaceCharactersThatConfuseTheTokenizer(text);
       var tokens = TokenizeToLinkedTokenList(tokenizerInput);
 
