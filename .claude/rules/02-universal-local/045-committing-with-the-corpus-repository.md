@@ -37,6 +37,21 @@ The corpus stores what these produce, such as every sentence's parsing result. S
 3. **The changes the rebuild makes to the corpus MUST be committed together with the source change that caused
    them,** as below. A source change to matching or analysis is never committed without them.
 
+## Changing the corpus's notes: a full rebuild first, then small coherent commits (Magnus, 2026-11-10)
+
+When work changes notes in the corpus, such as a fix to some notes' tags or fields, or a migration:
+
+1. **Run a full rebuild first whenever there's any chance it would change the corpus,** and commit what it changes on
+   its own, before the work's change. A note the change touches is saved with the generated data the current code
+   computes, so without the rebuild first, the change's commits would carry the rebuild's differences, mixed in with
+   the change. The chance is there unless the checkout was rebuilt with the same code since its last change. In the
+   headless JAStudio: `full_rebuild`, which reports the notes it changed. A rebuild that changes anything is worth
+   reporting to Magnus: the corpus was behind the code.
+2. **Small coherent commits:** one commit for each change that stands on its own. Removing a wrong episode tag from
+   some sentences and removing a song's tag from the kanji are two commits, not one. Each is then easy to review, to
+   match with its source commit, and to revert on its own. Each corpus commit gets its source commit with the pointer,
+   as below.
+
 ## How, innermost repository first
 
 1. **A media submodule** (`src/jas_database/media/commercial-01` or `-02`), if the work changed it: commit there.
