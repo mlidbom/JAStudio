@@ -11,8 +11,8 @@ collaboration rule "Build the tools the work will need again now, not later — 
 - **No permission needed.** Don't ask before adding to or changing the server. Tell Magnus afterwards, in a line or two,
   what you added or changed and why you needed it.
 - **Commit it separately, whenever it suits the work.** Changes to the server go in commits of their own, apart from the
-  work that needed them, so each kind of change is easy to follow. Unlike other work, they need no go-ahead from Magnus
-  to be committed (Magnus, 2026-11-09). The usual checks still come first: the Definition of Done passes, and a commit
+  work that needed them, so each kind of change is easy to follow. They need no go-ahead from Magnus to be committed
+  (Magnus, 2026-11-09). The usual checks still come first: the Definition of Done passes, and a commit
   that touches the corpus repository follows the rule for committing with it.
 
 **What the ownership covers:** the server itself, meaning its tools, how they report, and the query and diagnostic code

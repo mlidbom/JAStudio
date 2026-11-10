@@ -29,8 +29,9 @@ The corpus stores what these produce, such as every sentence's parsing result. S
    - whether each kind is what the change intended.
 
    Look hardest for regressions: sentences that now parse worse, or changes the work didn't aim at. Report what you
-   found to Magnus, with examples, before committing. If he doesn't ask for this when a parsing change is made, remind
-   him: the rebuild has to be run and its result analyzed before the change is committed.
+   found to Magnus, with examples. If you can't tell whether the result is acceptable, report it before committing,
+   and let him judge (Magnus, 2026-11-11). If he doesn't ask for this when a parsing change is made, remind him: the
+   rebuild has to be run and its result analyzed before the change is committed.
 3. **The changes the rebuild makes to the corpus MUST be committed together with the source change that caused
    them,** as below. A source change to matching or analysis is never committed without them.
 
@@ -106,6 +107,3 @@ else (Magnus, 2026-11-09). That commit needs no go-ahead.
 - **The pointer records the corpus repository's `HEAD` commit, not its working tree:** Magnus's uncommitted edits there
   don't matter, and stay his.
 - **Commit only the pointer:** `git commit -m "db updates" -- src/jas_database`, so nothing else staged goes with it.
-
-Committing anything else still needs Magnus's word, as always, apart from the MCP server (see
-`090-claude-owns-the-jastudio-mcp-server.md`).
