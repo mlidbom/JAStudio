@@ -9,10 +9,6 @@
 
 ## Found in slice 8 (2026-11-09)
 
-- **Five godan verbs whose compound parts are nonsense: かする (か + する), ぎする (ぎ + する), すする (す + する), 揺する (揺 + する)
-  and さする (さ + する).** Generating a vocab's data gave every vocab ending in する without compound parts the parts X + する,
-  godan verbs included; it no longer does for godan verbs. Their parts should most likely be emptied. こする had been kept
-  from getting them by an empty alternative compound part, which slice 8's migration dropped.
 - **Related vocab that are sentences, or several words in one, rather than a word.** Each should most likely be removed, or
   replaced by the word meant:
   - synonyms: `〜ておる |&nbsp;〜とる` in ていました, ています, てました and てん; `<div>なんなんだ</div>` in 何なんだ and
