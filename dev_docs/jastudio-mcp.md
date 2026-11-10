@@ -282,6 +282,10 @@ the headless JAStudio.
 - **Running, built:**
   - `full_rebuild` runs `LocalNoteUpdater.FullRebuild`, as the workspace's menu does, and reports how long it took and
     what it changed.
+  - `save_every_note` writes every note as JAStudio stores it now, changed or not, which JAStudio otherwise never does:
+    on a clean checkout, the notes whose files then change are those JAStudio would write differently from their files.
+    Built 2026-11-10 for slice 9, to see what a change to how notes are stored does to the files, and to check a
+    migration: after it, saving every note must change nothing. Meant for the headless JAStudio's own worktree.
   - `list_changed_notes` gives the notes whose files in the corpus checkout differ from its git `HEAD`, by note type, from
     `git status`. How each changed is what `diff_the_changed_notes` shows.
   - `reload_the_collection` loads the collection again from the corpus checkout, and reports the notes it found changed

@@ -17,6 +17,7 @@ using JAStudio.Mcp.Tools.Dictionary;
 using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
+using JAStudio.Mcp.Tools.Saving;
 using JAStudio.Mcp.Tools.Reloading;
 using JAStudio.Mcp.Tools.Screen;
 using JAStudio.Mcp.Tools.StudyNotes;
@@ -102,6 +103,7 @@ public sealed class JAStudioMcpServer
              .WithTools<TagTools>(ToolResultJsonOptions)
              .WithTools<CorpusTools>(ToolResultJsonOptions)
              .WithTools<RebuildTools>(ToolResultJsonOptions)
+             .WithTools<SaveTools>(ToolResultJsonOptions)
              .WithTools<ReloadTools>(ToolResultJsonOptions)
              .WithTools<AnalysisTools>(ToolResultJsonOptions)
              .WithTools<DictionaryTools>(ToolResultJsonOptions)
