@@ -746,6 +746,17 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
       of change flagged (`mw.reset()` after `sync_did_finish`, in `_sync_collection_and_media`), as its own screens need
       it to. JAStudio's own catch-up after a sync made a second re-read, so a sync no longer has one: the hook's re-read
       is the sync's.
+    - *Fixed 2026-11-10, after Magnus found it live: "database disk image is malformed", then on every edit, until
+      Anki restarted.* Every read of Anki's database left its connection open, and Microsoft.Data.Sqlite's pool took
+      each back once it was garbage collected, and handed it to a later read. Opened as immutable, the only way past
+      Anki's exclusive lock, a connection never notices the file change: it read the pages it had cached before Anki
+      changed them, so wrong data, or SQLite's "malformed" from then on. Reproduced on copies of collections: through
+      a reused connection, every read failed, or read wrong tags without failing; through a new connection per read,
+      none. The bug was as old as the loaders, which is why Magnus saw it now and then after a sync before; a re-read
+      after every save made it show within minutes. `AnkiDb.OpenReadOnly` now pools no connection and closes each
+      with its read (`When_the_study_notes_tags_have_been_read_from_Ankis_database`). What remains: a read that
+      meets Anki writing into the file itself, which Anki does only when it checkpoints, after big writes such as a
+      sync, can still fail or read wrong data, that once.
   - **Cost, measured 2026-11-10 on a copy of the collection:** reading every study-note's tags takes about 40 ms for
     80,512 notes; the hook's scan takes 13 ms, since Anki has no index on a note's modification time. The id mappings
     and the cards' statuses aren't measured yet. If the whole re-read is cheap enough, it may also replace the separate

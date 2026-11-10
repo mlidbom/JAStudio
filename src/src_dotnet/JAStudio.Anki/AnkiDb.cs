@@ -1,6 +1,7 @@
 using System;
 using LinqToDB;
 using LinqToDB.Data;
+using LinqToDB.DataProvider.SQLite;
 using Microsoft.Data.Sqlite;
 // ReSharper disable UnusedMember.Global
 
@@ -24,17 +25,24 @@ sealed class AnkiDb : DataConnection
    public ITable<CollectionRow> Collection => this.GetTable<CollectionRow>();
 
    /// <summary>
-   /// Open the Anki database for reading as an immutable snapshot by using a SQLite URI with immutable=1, because we have been unable to open the DB while Anki is running in any other way.
+   /// Opens the Anki database <paramref name="dbFilePath"/> for reading, through a connection of its own that closes when the returned<br/>
+   /// <see cref="AnkiDb"/> is disposed.
    /// </summary>
+   /// <remarks>
+   /// It opens the file as immutable (<c>immutable=1</c>), as if it could never change, since nothing else opens it while Anki has it open: Anki<br/>
+   /// holds an exclusive lock on it. Yet Anki keeps changing it, and a connection to an immutable file never notices: it keeps using the pages it<br/>
+   /// has cached. So no connection may outlive its read: none is pooled, and each closes with its <see cref="AnkiDb"/>. A connection reused once<br/>
+   /// Anki had changed the file read wrong data, or failed with "database disk image is malformed" from then on, until Anki restarted<br/>
+   /// (2026-11-10: each connection was left open, and Microsoft.Data.Sqlite's pool took it back once it was garbage collected).
+   /// </remarks>
    public static AnkiDb OpenReadOnly(string dbFilePath)
    {
-      var uri = $"file:{dbFilePath}?immutable=1";
-      var connection = new SqliteConnection($"Data Source={uri}");
+      var connection = new SqliteConnection(new SqliteConnectionStringBuilder { DataSource = $"file:{dbFilePath}?immutable=1", Pooling = false }.ToString());
       connection.Open();
 
       // Register Anki's custom "unicase" collation (Unicode-aware case-insensitive comparison). Anki registers this via apsw; we approximate it with .NET's OrdinalIgnoreCase.
       connection.CreateCollation("unicase", (x, y) => string.Compare(x, y, StringComparison.OrdinalIgnoreCase));
 
-      return new AnkiDb(new DataOptions().UseSQLite().UseConnection(connection));
+      return new AnkiDb(new DataOptions().UseConnection(SQLiteTools.GetDataProvider(SQLiteProvider.Microsoft), connection, disposeConnection: true));
    }
 }
