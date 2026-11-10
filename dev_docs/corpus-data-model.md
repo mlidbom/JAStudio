@@ -826,7 +826,9 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`. *Done 2026-11-10, see
      above.*
   6. The orphaned study-note of the deleted jamdict ましょうか: deleted in Anki's browser, or by a live MCP tool that deletes
-     the study-notes whose note is gone.
+     the study-notes whose note is gone. *Done 2026-11-10: Magnus deleted it in Anki's browser (Anki note 1767941451785, one
+     suspended card, never studied). It was the only study-note of no note; `list_the_study_notes_that_differ` now lists
+     them, rather than counting them.*
 - **Priority is an Anki tag:** JAStudio reads it from `anki::-::priority::…` (`Tags.PriorityFolder`), to order a vocab's
   sentence list and color its source labels (`JPNote.PriorityTagValue`, `JPNote.GetMetaTags`), and it leaves the
   corpus. The one sentence with no Anki note loses its priority, medium.
