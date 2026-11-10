@@ -25,10 +25,11 @@ public class RebuildTools
 
    [McpServerTool(Name = "full_rebuild", Destructive = false, Idempotent = true)]
    [Description("""
-                Runs JAStudio's full rebuild, as the workspace's Local Actions > Update > "All the above: Full rebuild" does: reparses every
-                sentence, then updates every note's generated data and tags. Each note it changes is saved to the corpus checkout. Reports how
-                long it took, and the notes whose files now differ from the checkout's git HEAD, as list_changed_notes does: run it on a clean
-                checkout to see exactly what the rebuild changed.
+                Runs JAStudio's full rebuild, as the workspace's Local Actions > Update > "All the above: Full rebuild" does: updates the vocab's
+                generated data, reparses every sentence, then updates every note's generated data and tags, so that one run reaches the result a
+                second run would leave unchanged. Each note it changes is saved to the corpus checkout. Reports how long it took, and the notes
+                whose files now differ from the checkout's git HEAD, as list_changed_notes does: run it on a clean checkout to see exactly what
+                the rebuild changed.
                 """)]
    public FullRebuildResult FullRebuild(
       [Description("The most changed notes of each type to list. Every changed note is counted either way.")] int maxNotesListedPerType = CorpusTools.NotesListedPerTypeByDefault)
