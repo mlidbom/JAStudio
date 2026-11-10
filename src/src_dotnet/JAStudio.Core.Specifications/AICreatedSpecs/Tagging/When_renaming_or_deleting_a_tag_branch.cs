@@ -132,7 +132,7 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
       WhyItCannotBeDone(RenamingTheLastLevel("-", "dash")).Must().Be($"- holds {Tags.Kanji.InAnyVocabForm.Name}, whose name JAStudio uses, so it can't be renamed by hand.");
 
    [XF] public void deleting_a_branch_holding_a_tag_jastudio_maintains_cannot_be_done() =>
-      new TagBranch("-").WhyItCannotBeDeletedByHand(TagsInUse()).Must().Be($"- holds {Tags.Kanji.InAnyVocabForm.Name}, which JAStudio maintains, so it can't be deleted by hand.");
+      new TagBranch("-").WhyItCannotBeDeletedByHand(TagsInUse()).Must().NotBeNull().Be($"- holds {Tags.Kanji.InAnyVocabForm.Name}, which JAStudio maintains, so it can't be deleted by hand.");
 
    [XF] public void a_branch_holding_no_tag_jastudio_defines_can_be_renamed() => new TagBranch("-::priority").WhyItCannotBeRenamedByHand(TagsInUse()).Must().BeNull();
    [XF] public void a_branch_holding_no_tag_jastudio_defines_can_be_deleted() => new TagBranch("-::priority").WhyItCannotBeDeletedByHand(TagsInUse()).Must().BeNull();
@@ -142,7 +142,7 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
       const string WhySourceIsNeverChanged = "source holds every note's source, so it's never renamed or deleted.";
 
       [XF] public void itself_cannot_be_renamed() => WhyItCannotBeDone(RenamingTheLastLevel("source", "origin")).Must().Be(WhySourceIsNeverChanged);
-      [XF] public void itself_cannot_be_deleted() => new TagBranch("source").WhyItCannotBeDeletedByHand(TagsInUse()).Must().Be(WhySourceIsNeverChanged);
+      [XF] public void itself_cannot_be_deleted() => new TagBranch("source").WhyItCannotBeDeletedByHand(TagsInUse()).Must().NotBeNull().Be(WhySourceIsNeverChanged);
       [XF] public void a_branch_in_it_can_be_moved_out_of_it() => RenamingWithItsParents("source::anime", "media::anime").WhyItCannotBeDone.Must().BeNull();
       [XF] public void a_branch_can_be_moved_into_it() => RenamingWithItsParents("-::priority", "source::priority").WhyItCannotBeDone.Must().BeNull();
       [XF] public void a_branch_in_it_is_in_it() => new TagBranch("source::anime").IsInTheSourceBranch.Must().BeTrue();

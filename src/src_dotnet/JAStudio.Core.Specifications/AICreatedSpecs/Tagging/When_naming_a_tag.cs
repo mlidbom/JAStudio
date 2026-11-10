@@ -53,7 +53,7 @@ public class When_naming_a_tag : IAIGeneratedSpec
       [XF] public void a_source_tag_JAStudio_sets_can_be() => Tags.WhyItCannotBeATagAPersonManages(Tags.Source.Jamdict.Name).Must().BeNull();
       [XF] public void a_tag_JAStudio_maintains_cannot_be() =>
          Tags.WhyItCannotBeATagAPersonManages(Tags.Kanji.InAnyVocabForm.Name)
-             .Must().Be($"{Tags.Kanji.InAnyVocabForm.Name} is maintained by JAStudio, which generates it or has an editor of its own for it.");
-      [XF] public void a_name_with_a_space_cannot_be() => Tags.WhyItCannotBeATagAPersonManages("source::the anime").Must().Be("A tag can't contain spaces.");
+             .Must().NotBeNull().Be($"{Tags.Kanji.InAnyVocabForm.Name} is maintained by JAStudio, which generates it or has an editor of its own for it.");
+      [XF] public void a_name_with_a_space_cannot_be() => Tags.WhyItCannotBeATagAPersonManages("source::the anime").Must().NotBeNull().Be("A tag can't contain spaces.");
    }
 }
