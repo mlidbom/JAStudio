@@ -267,6 +267,10 @@ the headless JAStudio.
          refuse a tag JAStudio defines, as the editor does. Built for fixes to the corpus's tags, such as an episode tag
          put on another episode's sentences. A tag branch is renamed on some notes by adding the new tag and removing
          the old.
+       - **Done (2026-11-10):** `delete_a_tag_branch` deletes a tag and every tag below it, as the tag tree's Delete
+         does: a branch of the notes' own tags from every note with a tag in it, a branch below `anki::` in Anki, from
+         every Anki note with a tag in it, as one Anki operation. Built for the cleanup drive of the tags JAStudio had
+         written into Anki (`corpus-data-model.md`), about two dozen branches, some with over a hundred paths below.
        - **Deleting a note, as decided with Magnus:** JAStudio is the master of the notes, and Anki only of a student's
          studying, so Anki never prevents a deletion, and JAStudio deletes notes outside Anki too. What happens to a
          note's Anki note, which holds its cards and their review history, is a choice (`ItsAnkiNote`): kept as it is,

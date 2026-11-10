@@ -96,6 +96,33 @@ public class TagTools
       return new NotesTheTagChangedOn(notesWithTheTag.Count, [..notesWithTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
    }
 
+   [McpServerTool(Name = "delete_a_tag_branch", Destructive = true, Idempotent = true)]
+   [Description("""
+                Deletes a tag and every tag below it, as Delete in the tag tree of the workspace's tag management does. A branch of the
+                notes' own tags, such as tmp, is removed from every note with a tag in it, and each note changed is saved to the corpus
+                checkout. A branch below anki::, such as anki::tmp, is one of the notes' tags in Anki: it's deleted in Anki from every Anki
+                note with a tag in it, of whatever note type, not only from the study-notes, as one Anki operation, which Anki's Edit > Undo
+                undoes, and the headless JAStudio, which has no Anki, refuses it. Refuses a branch that can't be deleted by hand, saying why,
+                as the tag tree does: the source branch and the anki branch themselves, and a branch holding a tag JAStudio maintains.
+                Reports how many notes had a tag in the branch.
+                """)]
+   public DeletedTagBranch DeleteATagBranch([Description("The path of the branch to delete, such as tmp or anki::tmp.")] string branch)
+   {
+      var branchToDelete = new TagBranch(branch);
+      if(branchToDelete.WhyItCannotBeDeletedByHand(_collection.TagsInUse()) is {} whyNot) throw new ArgumentException(whyNot, nameof(branch));
+
+      var notesWithATagInIt = _collection.NotesWithATagIn(branchToDelete);
+      if(!branchToDelete.IsInTheAnkiBranch)
+      {
+         foreach(var note in notesWithATagInIt) note.Tags.RemoveTheBranch(branchToDelete);
+         return new DeletedTagBranch(branch, notesWithATagInIt.Count, AnkiNotesThatHadATagInIt: null);
+      }
+
+      var ankiNotesWithATagInIt = _ankiTagChanges.NumberOfAnkiNotesWithATagIn(branchToDelete);
+      _ankiTagChanges.Delete(branchToDelete);
+      return new DeletedTagBranch(branch, notesWithATagInIt.Count, ankiNotesWithATagInIt);
+   }
+
    List<JPNote> NotesFoundBy(JsonObject search) => _collection.NotesMatching(NoteConditionJson.ConditionFrom(search));
 
    /// <summary>
