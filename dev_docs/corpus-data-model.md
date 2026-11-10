@@ -908,6 +908,46 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
    mapping go. A one-time Python script migrates the notes, reusing the survey's TTS proof, in the headless worktree,
    and reports to Magnus before anything is committed. Checked: a full rebuild after it changes nothing, every
    reference resolves, cards render as before. A source and corpus commit pair.
+   **Worked out 2026-11-10, not yet built** (the corpus at `bc60d8b913`; the survey's scripts were in a session's scratchpad):
+   - **The format:** `AudioReferenceDto` (`fileName`, `isOurs`, `isTextToSpeech`, `textToSpeechVoice`, `voiceGender` as
+     `male`/`female`/`neutral`) and `ImageReferenceDto` (`fileName`, `isOurs`, `altText`), each fact left out of the JSON
+     when not known or false (`JsonIgnoreCondition.WhenWritingDefault`), both `[MemoryPackable]` for the snapshots. Lists:
+     vocab `audio`, `images`, and `sourceData.audio`, `sourceData.images`; sentence `audio`, `screenshots`, and
+     `sourceData.audio`, `sourceData.screenshots`; kanji `images`. The old fields go. `NoteSerializer.JsonOptions` gets
+     `UnmappedMemberHandling = Disallow`, so a build of the new format fails loud on an old file instead of reading it as a
+     note without media. `VocabCloner` copies the new lists. `TodaysMediaFields`, its `wip:` comments and its specification
+     go; a specification of the new format's round trip replaces it. `Tags.TTSAudio` goes: the specifications that use it as
+     the example of a jastudio-maintained-tag take another, such as `Tags.Kanji.IsRadical`. The parsing cases' stripped-down
+     corpus (`JAStudio.Core.Specifications/LanguageServices/ParsingCases/StrippedDownCorpus`) is migrated too.
+   - **The migration, by the data's file names** (a Python script; C# then rewrites every note in its own format with
+     `save_every_note`, and a second `save_every_note` must change nothing, so Python's JSON formatting doesn't matter):
+     - **TTS proof:** a vocab's `hypertts-` file is TTS when the survey's recomputed HyperTTS hash matches an Azure or Google
+       voice of the presets in `addons21/111623432/meta.json` (read the presets only: the file holds the services' keys),
+       which gives the voice; Forvo and unmatched files are recordings. `ATTS <text> (<voice>)` and `jastudio-tts-…` name
+       their voice. A sentence's audio is TTS by the `_tts_audio` tag or a TTS file name; try the hash with its question for
+       the voice. Proven TTS is `isOurs`. The voice's gender from a table of the voices found (such as Daichi male, Nanami
+       female); none for a voice not in it.
+     - **Vocab, the source's:** on `source::wani` vocab, WaniKani's `<question>_b.mp3`/`_g.mp3` (6,695 and 6,699); on
+       `source::core2000` vocab, the hex-named audio (576) and `image` (447 hex-named and 4 `<hex>_<13 digits>.jpg`); on
+       `source::yomitan` vocab, `yomitan_audio_…` and the older `yomichan_audio_…`. Everything else is the corpus's own:
+       TTS, Forvo, subs2srs clips (66), `rec` recordings (21), WaniKani-named files on derived or other vocab (such as
+       `故_b.mp3` on `source::jastudio` vocab, 137), Yomitan audio on WaniKani vocab (55), and every `userImage`.
+     - **Voice gender:** WaniKani's names, `_b`/`_male` male and `_g`/`_female` female, wherever the file is.
+     - **Sentences:** the deck's audio and frames are the source's: subs2srs, JLab's numbered files, Core 2000's hex names,
+       Immersion Kit's, the `rec` recordings on the 33 lyrics sentences, and the 2 sentences with no source tag. TTS audio is
+       the corpus's own, and so are the `paste-…` screenshots (49) and the 2 `rec` files on anime sentences. Listed for
+       Magnus rather than guessed: names fitting no rule, such as `asoentuhaonteuh.mp3` on an anime sentence.
+     - **Kanji:** all images the corpus's own.
+     - **Ours besides TTS:** `file-aNbdQAFEtF3DrSYO3IT37AfN.webp` and `OIG3.LbmpkxItYdQ4ri_FToRK`.
+     - **Dropped:** a second reference to a file the note already has (the first stays), the `_tts_audio` tag, separators
+       and image sizes. Order: the source's in field order, then the corpus's own in field order (`audioB`, `audioG`,
+       `audioTTS`; `image`, `userImage`).
+     - **Its report:** counts by note type, source and kind of file, for source data and the corpus's own, TTS proven by
+       voice, and the cases no rule fits. A verification script compares every note's old references (git `HEAD`) with its
+       new lists: the same files, but the dropped duplicates.
+   - **Checks before committing:** the report to Magnus; `save_every_note` twice, the second changing nothing; a full
+     rebuild changing nothing; the study-note comparison (expected: about 1,100 vocab whose TTS leaves `Audio_b`, and
+     formatting); cards rendered for a few notes. Delete the worktree's `snapshot.bin` files before loading the new format.
 4. **Into Magnus's checkout:** with Anki closed, a git fast-forward; Anki started on the new build; the comparison
    lists the study-notes to update (about 1,100 vocab whose TTS leaves `Audio_b`, and formatting), Magnus looks, and
    they're written.
