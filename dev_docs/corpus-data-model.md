@@ -742,9 +742,9 @@ file: whether it's TTS and its voice (proven by name), the voice's gender (WaniK
 and TTS voices), an image's alt text. Unknown: the gender of Core 2000's, Yomitan's, Forvo's and the anime decks' audio.
 The 58 references to `rec<number>.mp3` are most likely Magnus's own recordings with Anki's recorder (Magnus: 90% sure).
 
-**Where the facts live: on the notes' references, rather than with the files in the media layer** (Claude's first
-proposal), because of why the sidecars were dropped (Magnus): a note's JSON holding everything about it keeps diffs
-readable. 1,009 files are used by more than one note, so a fact is repeated on each, but each was shared on purpose and
+**Where the facts live, recommended (Claude), not yet agreed: on the notes' references, rather than with the files in the
+media layer** (Claude's first proposal), because of why the sidecars were dropped (Magnus): a note's JSON holding
+everything about it keeps diffs readable. 1,009 files are used by more than one note, so a fact is repeated on each, but each was shared on purpose and
 its facts are the same everywhere:
 - 522 between a sentence and a vocab, nearly all Core 2000's: each word came with an example sentence, and both got the
   same image (about 455), some the same audio (about 70);
