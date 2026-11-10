@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace JAStudio.Core.Note.KanjiRelationships;
 
 /// <summary>
-/// A set of kanji a kanji stores, each named by its character, such as the kanji it's confused with (<see cref="KanjiRelationship"/>): each kanji once,<br/>
+/// A set of kanji a kanji stores, each named by its character, such as the kanji it's confused with (<see cref="MutualKanjiRelationship"/>): each kanji once,<br/>
 /// in the order they were added. Every change saves the kanji, through its <see cref="NoteGuard"/>.
 /// </summary>
 /// <remarks>

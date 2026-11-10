@@ -40,7 +40,7 @@ public static class KanjiEditableFields
    /// <summary>Other kanji with a similar meaning (<see cref="KanjiNote.SimilarMeaning"/>): adding or removing one changes that kanji's too.</summary>
    public static readonly EditableSetField<KanjiNote, string> SimilarMeaning = Relationship("similarMeaning", "Similar meaning", it => it.SimilarMeaning);
 
-   /// <summary>Other kanji the kanji is easily confused with (<see cref="KanjiNote.ConfusedWith"/>): only this kanji knows of them.</summary>
+   /// <summary>Other kanji the kanji is easily confused with (<see cref="KanjiNote.ConfusedWith"/>): adding or removing one changes that kanji's too.</summary>
    public static readonly EditableSetField<KanjiNote, string> ConfusedWith = Relationship("confusedWith", "Confused with", it => it.ConfusedWith);
 
    /// <summary>
@@ -66,10 +66,10 @@ public static class KanjiEditableFields
    ];
 
    /// <summary>
-   /// One of the kanji's relationships to other kanji (<see cref="KanjiRelationship"/>), named <paramref name="name"/> in the corpus, edited through the<br/>
+   /// One of the kanji's relationships to other kanji (<see cref="MutualKanjiRelationship"/>), named <paramref name="name"/> in the corpus, edited through the<br/>
    /// relationship's own operations.
    /// </summary>
-   static EditableSetField<KanjiNote, string> Relationship(string name, string label, Func<KanjiNote, KanjiRelationship> relationship) =>
+   static EditableSetField<KanjiNote, string> Relationship(string name, string label, Func<KanjiNote, MutualKanjiRelationship> relationship) =>
       new(name,
           label,
           it => relationship(it).Kanji,
@@ -77,6 +77,6 @@ public static class KanjiEditableFields
           (it, kanji) => relationship(it).Remove(kanji),
           InTheOrderTheyWereAdded);
 
-   /// <summary><paramref name="kanji"/> as a <see cref="KanjiRelationship"/> holds them: in the order they were added (<see cref="KanjiRelationship.Kanji"/>).</summary>
+   /// <summary><paramref name="kanji"/> as a <see cref="MutualKanjiRelationship"/> holds them: in the order they were added (<see cref="MutualKanjiRelationship.Kanji"/>).</summary>
    static IEnumerable<string> InTheOrderTheyWereAdded(IEnumerable<string> kanji) => kanji;
 }

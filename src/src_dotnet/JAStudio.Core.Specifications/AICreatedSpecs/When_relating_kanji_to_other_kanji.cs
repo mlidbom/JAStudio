@@ -69,7 +69,15 @@ public class When_relating_kanji_to_other_kanji : SpecificationStartingWithAnEmp
       public after_adding_赴_to_the_kanji_走_is_confused_with() => Run.ConfusedWith.Add("赴");
 
       [XF] public void 走_is_confused_with_赴() => Run.ConfusedWith.Kanji.Must().SequenceEqual(["赴"]);
-      [XF] public void 赴_is_confused_with_no_kanji_since_only_走_knows_of_it() => Proceed.ConfusedWith.Kanji.Must().BeEmpty();
+      [XF] public void 赴_is_confused_with_走() => Proceed.ConfusedWith.Kanji.Must().SequenceEqual(["走"]);
+
+      public class and_then_removing_it : after_adding_赴_to_the_kanji_走_is_confused_with
+      {
+         public and_then_removing_it() => Run.ConfusedWith.Remove("赴");
+
+         [XF] public void 走_is_confused_with_no_kanji() => Run.ConfusedWith.Kanji.Must().BeEmpty();
+         [XF] public void 赴_is_confused_with_no_kanji() => Proceed.ConfusedWith.Kanji.Must().BeEmpty();
+      }
    }
 
    public class after_adding_the_radicals_土_土_and_人_to_走 : When_relating_kanji_to_other_kanji

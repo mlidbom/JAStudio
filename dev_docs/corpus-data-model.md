@@ -1562,9 +1562,9 @@ Progress on step 3:
          [References between entities](#references-between-entities-word-references), so a kanji the corpus has no note for can be named:
          - `KanjiRadicals`: a list in order, where a radical may come more than once (二 is made of 一 and 一, as in 6 kanji), and never
            the kanji itself;
-         - `MutualKanjiRelationship` for the similar meaning: adding or removing a kanji changes that kanji's too, as the menu's
-           "Similar meaning" did while the editor didn't (Magnus's `todo:` of 2026-11-09, resolved);
-         - `KanjiRelationship` for confused with: one way, as a vocab's confused-with is;
+         - `MutualKanjiRelationship` for the similar meaning and confused with: adding or removing a kanji changes that kanji's too, as
+           the menu's "Similar meaning" did while the editor didn't (Magnus's `todo:` of 2026-11-09, resolved). *Confused with went one
+           way at first, as a vocab's does; Magnus chose both ways the same day, since 332 of its 463 values were mutual, set by hand.*
          - `KanjiPrimaryVocab`: word-references in order, as a vocab's related vocab are, renamed with the vocab
            (`JPCollection.RenameTheWordReferences`). Stored as `{ "text", "disambiguation" }`; no kanji has any, so no file changed.
        - **The editor:** the radicals, the similar meaning and confused with are chips with a box offering the corpus's kanji, found by
@@ -1573,15 +1573,16 @@ Progress on step 3:
        - **Calls made:**
          - The string menu's "Similar meaning" stays, now the same operation as the editor's, though the `todo:` said the menu item
            should "probably go": the vocab's string menus kept theirs, as the quick way to add the text selected.
-         - Confused with stays one way, though 332 of the corpus's 463 confused-with values are mutual, set by hand both ways.
          - A primary vocab names a vocab, not its reading: the kanji page also marked a vocab primary when a primary vocab was its
            first reading. The page's vocab list orders first the vocab the primary vocab refer to, rather than those whose question,
            question without noise characters or first reading was one's text. With no kanji having primary vocab, only the defaults
            show, which are vocab notes as before.
        - **The data** (`dev_scripts/corpus_migrations/clean_up_the_kanji_lists.py`, corpus commit `f063a197500`): 10 confused-with
          values that ran several kanji together are split, such as 佐's `祐怖`, `&nbsp;` is dropped from 3, and the 13 kanji that
-         listed themselves among their radicals don't. Left as they are: 5 words where a kanji should be, in `corpus-data-issues.md`,
-         and 15 similar meanings that go one way only, such as 耂's 老 and 衤's 衣.
+         listed themselves among their radicals don't. Then, with Magnus's answers: the 5 words where a kanji should be removed, such
+         as 跡's similar meaning `奇跡` (each one of the kanji's vocab), and both relationships made to go both ways in the data
+         (`make_a_kanji_relationship_go_both_ways.py`): 15 similar meanings got their other side, such as 老 getting 耂, and 115
+         confused-with values on 108 kanji. Every confused-with value names a kanji the corpus has a note for.
        - **Checked:** a full rebuild and saving every note changed nothing, before and after the code change; the snapshots read the
          new `primaryVocab` as before, every kanji's being empty.
 

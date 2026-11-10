@@ -48,8 +48,8 @@ public class KanjiNote : JPNote
    /// <summary>Other kanji with a similar meaning: a relationship that goes both ways.</summary>
    public MutualKanjiRelationship SimilarMeaning { get; }
 
-   /// <summary>Other kanji the kanji is easily confused with: a relationship that goes one way, so only this kanji knows of them.</summary>
-   public KanjiRelationship ConfusedWith { get; }
+   /// <summary>Other kanji the kanji is easily confused with: a relationship that goes both ways.</summary>
+   public MutualKanjiRelationship ConfusedWith { get; }
 
    readonly WritableStringValue _question;
 
@@ -65,7 +65,7 @@ public class KanjiNote : JPNote
       Radicals = new KanjiRadicals(this, data?.Radicals ?? [], Guard);
       PrimaryVocab = new KanjiPrimaryVocab(this, data?.PrimaryVocab.Select(WordReference.FromDto) ?? [], Guard);
       SimilarMeaning = new MutualKanjiRelationship(this, data?.SimilarMeaning ?? [], Guard, it => it.SimilarMeaning);
-      ConfusedWith = new KanjiRelationship(this, data?.ConfusedWith ?? [], Guard);
+      ConfusedWith = new MutualKanjiRelationship(this, data?.ConfusedWith ?? [], Guard, it => it.ConfusedWith);
    }
 
    public override void UpdateInCache()

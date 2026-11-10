@@ -11,7 +11,7 @@ from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDt
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextListField_1, EditableListField_2, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.KanjiReadings import EditableKanjiReadingsField, KanjiNoteReadings
-from JAStudio.Core.Note.KanjiRelationships import KanjiRelationship, KanjiPrimaryVocab, KanjiRadicals, MutualKanjiRelationship
+from JAStudio.Core.Note.KanjiRelationships import MutualKanjiRelationship, KanjiPrimaryVocab, KanjiRadicals
 from JAStudio.Core.Note.NoteFields import WritableStringValue
 from Compze.Abstractions import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
@@ -176,7 +176,7 @@ class KanjiNote(JPNote):
     @property
     def Collection(self) -> JPCollection: ...
     @property
-    def ConfusedWith(self) -> KanjiRelationship: ...
+    def ConfusedWith(self) -> MutualKanjiRelationship: ...
     @property
     def CorpusAnswer(self) -> WritableStringValue: ...
     @property
