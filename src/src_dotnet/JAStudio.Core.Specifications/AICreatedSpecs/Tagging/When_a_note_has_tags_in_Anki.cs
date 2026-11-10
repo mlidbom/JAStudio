@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using Compze.Internals.SystemCE.ReactiveCE;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
@@ -13,8 +15,9 @@ using JAStudio.Core.TestUtils;
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Tagging;
 
 /// <summary>
-/// A note's Anki tags: the tags its study-note has in Anki, which JAStudio shows below <c>anki::</c>, reads as the collection loads, and never stores<br/>
-/// or changes. The sentence 家に帰る, tagged <c>source::anime::natsume</c> and <c>tmp::x</c>, whose study-note the student tagged <c>marked</c> and<br/>
+/// A note's Anki tags: the tags its study-note has in Anki, which JAStudio shows below <c>anki::</c>, reads as the collection loads and when Anki<br/>
+/// reports a change to them, and never stores or changes. The sentence 家に帰る, tagged <c>source::anime::natsume</c> and <c>tmp::x</c>, whose<br/>
+/// study-note the student tagged <c>marked</c> and<br/>
 /// <c>-::priority::high::5</c> in Anki, and the sentence 駅に行く, with no tags in either; then the collection loaded again, as at startup.
 /// </summary>
 public class When_a_note_has_tags_in_Anki : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -56,6 +59,29 @@ public class When_a_note_has_tags_in_Anki : SpecificationStartingWithAnEmptyColl
    [XF] public void its_priority_is_read_from_its_Anki_priority_tag() => TheSentence.PriorityTagValue().Must().Be(5);
 
    [XF] public void its_Anki_tags_are_not_offered_as_tags_to_add_or_rename() => Collection.TagsInUse().Any(it => it.Name == "anki::marked").Must().BeFalse();
+
+   /// <summary>Anki reports, during a session, that the study-note's tags are now <c>leech</c> and <c>marked</c>, as after a review that made a card a leech.</summary>
+   public class and_then_Anki_reports_its_study_notes_tags_changed : When_a_note_has_tags_in_Anki
+   {
+      protected readonly List<JPNote> NotifiedAsChanged = [];
+
+      public and_then_Anki_reports_its_study_notes_tags_changed()
+      {
+         Collection.StudyNoteChanged.Subscribe(NotifiedAsChanged.Add);
+         Collection.UpdateTheAnkiTagsOfAStudyNote(Collection.GetExternalNoteId(_sentenceId), " leech marked ");
+      }
+
+      [XF] public void its_Anki_tags_are_the_reported_ones() => TheSentence.AnkiTags.Select(it => it.Name).Order().Must().SequenceEqual(["anki::leech", "anki::marked"]);
+      [XF] public void the_change_to_its_study_note_is_notified_once() => NotifiedAsChanged.Single().Must().Be(TheSentence);
+      [XF] public void its_own_tags_are_unchanged() => TheSentence.Tags.Select(it => it.Name).Order().Must().SequenceEqual(["source::anime::natsume", "tmp::x"]);
+
+      public class and_then_the_same_tags_again : and_then_Anki_reports_its_study_notes_tags_changed
+      {
+         public and_then_the_same_tags_again() => Collection.UpdateTheAnkiTagsOfAStudyNote(Collection.GetExternalNoteId(_sentenceId), " leech marked ");
+
+         [XF] public void no_further_change_is_notified() => NotifiedAsChanged.Count.Must().Be(1);
+      }
+   }
 
    public class read_only : When_a_note_has_tags_in_Anki
    {

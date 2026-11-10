@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Tagging;
 using LinqToDB;
 
 namespace JAStudio.Anki;
@@ -21,6 +22,6 @@ public static class StudyNoteTagsLoader
       return db.Notes.Where(it => noteTypeIdsOfStudyNotes.Contains(it.NoteTypeId))
                .Select(it => new { it.Id, it.Tags })
                .ToList()
-               .ToDictionary(it => it.Id, IReadOnlyList<string> (it) => it.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+               .ToDictionary(it => it.Id, it => AnkiTags.NamesIn(it.Tags));
    }
 }

@@ -1,10 +1,12 @@
 import typing, abc
-from System.Collections.Generic import IEnumerable_1, IEnumerator_1, List_1, IReadOnlyList_1, IReadOnlyCollection_1
+from System.Collections.Generic import IEnumerable_1, IEnumerator_1, IReadOnlyList_1, List_1, IReadOnlyCollection_1
 from JAStudio.Core.Note import JPNote
 
 class AnkiTags(IEnumerable_1[Tag]):
     def __init__(self) -> None: ...
     def GetEnumerator(self) -> IEnumerator_1[Tag]: ...
+    @staticmethod
+    def NamesIn(tagsAsAnkiStoresThem: str) -> IReadOnlyList_1[str]: ...
 
 
 class NoteTags(IEnumerable_1[Tag]):

@@ -42,20 +42,21 @@ public class JPCollection
    /// <summary>Notifies every note <see cref="Delete"/> deleted, on the thread that deleted it, after it and its media are gone.</summary>
    public IObservable<JPNote> NoteDeleted => _noteDeleted;
 
-   readonly SimpleObservable<JPNote> _studyingStatusChanged = new();
+   readonly SimpleObservable<JPNote> _studyNoteChanged = new();
 
    /// <summary>
-   /// Notifies every note whose studying status changed, on the thread that changed it: when JAStudio suspended or unsuspended its cards,<br/>
-   /// or Anki reported a change to one of its cards (<see cref="UpdateCardStudyingStatus"/>).
+   /// Notifies every note whose study-note in Anki changed, on the thread that changed it: its studying status, when JAStudio suspended or unsuspended<br/>
+   /// its cards or Anki reported a change to one of them (<see cref="UpdateCardStudyingStatus"/>), or its <see cref="JPNote.AnkiTags"/>, when Anki reported<br/>
+   /// a change to them (<see cref="UpdateTheAnkiTagsOfAStudyNote"/>), or both, when its study-note was deleted.
    /// </summary>
    /// <remarks>
-   /// The studying status is held in memory, not stored with the note, so changing it updates no note, and <see cref="NoteUpdated"/> doesn't notify it.<br/>
-   /// A reload sets every note's studying status without notifying it here: <see cref="ReloadedFromBackend"/> notifies the reload.
+   /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
+   /// A reload sets every note's without notifying them here: <see cref="ReloadedFromBackend"/> notifies the reload.
    /// </remarks>
-   public IObservable<JPNote> StudyingStatusChanged => _studyingStatusChanged;
+   public IObservable<JPNote> StudyNoteChanged => _studyNoteChanged;
 
-   /// <summary>Called by <paramref name="note"/> after its studying status changed, so that <see cref="StudyingStatusChanged"/> notifies it.</summary>
-   internal void NotifyThatTheStudyingStatusChangedFor(JPNote note) => _studyingStatusChanged.OnNext(note);
+   /// <summary>Called after <paramref name="note"/>'s studying status or Anki tags changed, so that <see cref="StudyNoteChanged"/> notifies it.</summary>
+   internal void NotifyThatTheStudyNoteChangedFor(JPNote note) => _studyNoteChanged.OnNext(note);
 
    /// <summary>
    /// The notes, of every type, that match <paramref name="search"/>, found by checking every note in memory.<br/>
@@ -112,7 +113,20 @@ public class JPCollection
       if(NoteFromExternalId(status.ExternalNoteId) is not {} note) return;
 
       note.SetStudyingStatus(status);
-      NotifyThatTheStudyingStatusChangedFor(note);
+      NotifyThatTheStudyNoteChangedFor(note);
+   }
+
+   /// <summary>
+   /// Called by Anki when the tags of the study-note with <paramref name="ankiNoteId"/> may have changed during a session, such as after a review that made<br/>
+   /// one of its cards a leech, or tags edited in Anki's browser: <paramref name="tagsInAnki"/> are its tags as Anki stores them. Gives them to its note as<br/>
+   /// its <see cref="JPNote.AnkiTags"/>, if JAStudio has the note, and notifies the change through <see cref="StudyNoteChanged"/> when they differ from before.
+   /// </summary>
+   // ReSharper disable once UnusedMember.Global called from python
+   public void UpdateTheAnkiTagsOfAStudyNote(long ankiNoteId, string tagsInAnki)
+   {
+      if(NoteFromExternalId(ankiNoteId) is not {} note) return;
+
+      if(note.AnkiTags.ReadFrom(AnkiTags.NamesIn(tagsInAnki))) NotifyThatTheStudyNoteChangedFor(note);
    }
 
    public JPCollection(

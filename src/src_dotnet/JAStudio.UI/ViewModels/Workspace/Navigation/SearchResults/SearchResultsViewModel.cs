@@ -88,7 +88,7 @@ class SearchResultsViewModel : ObservableObject
       var collection = services.CoreApp.Collection;
       var uiThread = services.Resolve<IUIThreadDispatcher>();
       collection.NoteUpdated.Subscribe(ShowTheChangeTo);
-      collection.StudyingStatusChanged.Subscribe(ShowTheChangeTo);
+      collection.StudyNoteChanged.Subscribe(ShowTheChangeTo);
       collection.NoteDeleted.Subscribe(deleted => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowThatItWasDeleted(deleted))));
       collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(() => ShowEachType(it => it.ShowTheReloadedNotesOf(collection))));
       return;

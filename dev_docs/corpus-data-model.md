@@ -706,8 +706,8 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   results and the note's tags editor, which shows them dimmed, without a remove button. No tag of a note's own can be
   in the branch, and the branch is never renamed or deleted (`Tags.Anki`). It came before the cleanup drive after all:
   until then the branch also mirrors the corpus-tags JAStudio wrote into Anki, such as `anki::source::…`, but the noise
-  stays in one branch, and shows what the cleanup has to do. Open: a hook so that JAStudio sees a tag Anki adds during a
-  review before the next load.
+  stays in one branch, and shows what the cleanup has to do. *Done 2026-11-10: a change to them in Anki during a session
+  shows at once, see `tags.md`.*
 - **Decided, not built (Magnus, 2026-11-10): JAStudio changes Anki's tags too,** with the same features as for a note's
   own tags (Magnus: "jastudio is the only place I have all the information to work effectively with them. So feature
   parity for working with anki tags would be quite nice"). They stay the student's, stored only in Anki: JAStudio writes
