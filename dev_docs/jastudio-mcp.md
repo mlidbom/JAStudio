@@ -325,7 +325,7 @@ Answered:
    - **On a clean corpus checkout it changed nothing,** in 7.9 seconds, so the headless rebuild does what the rebuild
      inside Anki did.
    - **A second run changed nothing either,** in 5.9 seconds. That checkout had already settled, after Magnus's two
-     runs, so it didn't show that a full rebuild reaches a stable result in one run. That's now built and specified
+     runs, so it didn't show that a full rebuild reaches a stable result in one run. A specification checks that now
      (`corpus-data-model.md`, open question 14).
 3. **Done:** analyzing a sentence.
 4. **Done:** the same server in the live JAStudio, inside Anki, reloading the collection from disk as a tool and in the
