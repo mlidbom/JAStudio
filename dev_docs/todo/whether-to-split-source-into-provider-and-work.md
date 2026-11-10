@@ -213,4 +213,8 @@ this data, so keep it for now").
   It needs the review of the work names.
 - **Duplicate sentences:** 71 of JLab's 74 Natsume sentences (`natsumeyuujincho1-6`) are lines also in Magnus's own
   Natsume decks, and across the corpus 525 sentence texts of more than 4 characters are in 1,380 sentences. Knowing a
-  sentence's work is what found the Natsume ones. A candidate for a check in `corpus-validity.md`.
+  sentence's work is what found the Natsume ones. Not a reason to remove duplicates (Magnus, 2026-11-10): "many sentences
+  mean slightly different, or completely different, things in different contexts or with different tones of voice", and
+  studying a work, his first recommendation for studying, needs every sentence of that work, however often the same
+  sentence occurs elsewhere. Keeping the corpus from growing unbounded may still be needed some day. The only plainly
+  redundant case is the same line of the same work arriving through a second deck, as JLab's Natsume lines do.
