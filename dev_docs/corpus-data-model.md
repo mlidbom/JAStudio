@@ -698,6 +698,15 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   the tags the corpus no longer has, on 21,236 study-notes. It keeps the student-tags, which JAStudio wrote there too
   (priority, `legacy_scheduling`, `_only_studying_listening`, `active_kanji`, `preparing-cards`), and any tag of Anki's,
   such as `marked`: which tags are JAStudio's can't be told from whether the corpus still has them.
+  *Done 2026-11-10, with Magnus's word on the list, after he backed up the collection:* 24 branches below `anki::` deleted
+  in Anki with `delete_a_tag_branch`, one Anki operation each: `_uk`, `_disable_uk`, `_tts_audio`,
+  `fixed_primary_readings`, `tmp`, every branch below `-::` but `-::priority`, and every branch below `source::` that
+  JAStudio's notes had. `source::jlab` was removed from the study-notes only, one tag below it at a time, since 2 notes of
+  the note type `JlabInfoNote` have `source::jlab::beginner` too. Every note that had a branch in Anki had it in the
+  corpus too, but for `_uk`, `_disable_uk`, `_tts_audio` and most of `-::vocab`, which the corpus had dropped on purpose
+  (Magnus: "It is all now in better structured form in the notes"). Left in Anki: priority, `legacy_scheduling`,
+  `_only_studying_listening`, `active_kanji`, `preparing-cards` and `marked`, and other note types' `source::jo-mako-grammar`
+  and `source::grammar`. Anki keeps the deleted tags in its tag list until Clear Unused Tags (or Check Database).
 - **Done (2026-11-10): JAStudio reads Anki's tags, below `anki::`** (Magnus's idea: "putting all the anki tags under
   anki:: and otherwise treating them the same as other tags except them being readonly and in-memory only"; no longer
   read only since 2026-11-10, see the next item). A note's
@@ -812,7 +821,8 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
      it shows only when the tab opens again. *Done 2026-11-10: `NoteTabViewModel` follows `StudyNoteChanged`.*
   3. The re-read of the Anki state, above. *Done 2026-11-10.*
   4. Changing Anki's tags in JAStudio, above. *Done 2026-11-10.*
-  5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`.
+  5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`. *Done 2026-11-10, see
+     above.*
   6. The orphaned study-note of the deleted jamdict ましょうか: deleted in Anki's browser, or by a live MCP tool that deletes
      the study-notes whose note is gone.
 - **Priority is an Anki tag:** JAStudio reads it from `anki::-::priority::…` (`Tags.PriorityFolder`), to order a vocab's

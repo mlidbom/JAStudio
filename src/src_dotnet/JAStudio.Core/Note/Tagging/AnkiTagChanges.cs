@@ -41,6 +41,9 @@ public sealed class AnkiTagChanges
    public void RemoveFrom(IReadOnlyCollection<JPNote> notes, Tag tag)
    {
       AssertItIsAnAnkiTag(tag);
+      //bug: Anki's bulk_remove (tags_remove_from_notes in anki_facade_backend.py) removes the tag and every tag below it, so removing
+      //   anki::x from a note with anki::x and anki::x::y strips both, while removing a note's own tag x keeps x::y (NoteTags.Unset).
+      //   Verified on a copy of Magnus's collection, 2026-11-10. Removing exactly the tag would make the two kinds behave alike.
       _anki.RemoveTheTagFromTheStudyNotesOf([..notes.Where(it => it.AnkiTags.Contains(tag)).Select(it => it.GetId())], Tags.Anki.NameInAnkiOf(tag.Name));
       _collection.ReadTheStudyNotesFromAnkiAgain();
    }
