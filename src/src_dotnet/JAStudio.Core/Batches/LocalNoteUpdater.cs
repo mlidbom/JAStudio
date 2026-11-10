@@ -50,10 +50,20 @@ public class LocalNoteUpdater
       }
    }
 
+   /// <summary>
+   /// Rebuilds everything the corpus derives from its notes: reparses every sentence and updates every note's generated data, so that one run<br/>
+   /// reaches the result a second run would leave unchanged.
+   /// </summary>
+   /// <remarks>
+   /// The vocab's generated data is updated before the reparse as well as after it, as <see cref="ReparseSentencesForVocab"/> does for one vocab:<br/>
+   /// before, so that the reparse reads it as it should be; after, because some of it, such as a vocab's sentence count, depends on what the reparse<br/>
+   /// matched. One run is enough as long as nothing parsing reads is derived from what parsing decides.
+   /// </remarks>
    public void FullRebuild()
    {
       using(_taskRunner.Current("Full rebuild"))
       {
+         UpdateVocab();
          ReparseAllSentences();
          UpdateAll();
       }

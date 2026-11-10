@@ -1186,21 +1186,29 @@ question 4.
     speech, and its answer joins the senses with ` | `. So a vocab can't say that 悠々 is a taru-adjective in one sense
     and something else in another. Real support for senses could fix that, but needs significant design work, and has
     complexities of its own.
-14. **A full rebuild that reaches a stable result in one run.** *TODO (Magnus, 2026-11-09): design a way to ensure it.*
-    Running it twice can change more the second time. Turning on filling parts of speech from the dictionary showed
-    it: the first run filled 268 vocab's parts of speech, and only the second run reparsed the sentences with them,
-    since a full rebuild reparses the sentences before it regenerates the vocab's data. Until this is designed, a change
-    whose effect on the vocab's data feeds back into parsing needs two runs before its result is analyzed.
-    *Claude's proposal (2026-11-09), not built:* regenerate the vocab's data before reparsing too, so the full rebuild
-    (`LocalNoteUpdater.FullRebuild`) becomes: the vocab's data, then every sentence reparsed, then everything's data
-    (`UpdateAll`) as now. A vocab's generated data mixes what parsing reads, such as readings filled for a kana-only vocab
-    or the compound parts X + する, with what parsing decides, such as its sentence count: the first pass gets the one
-    right before parsing, the last the other after it. It's stable in one run as long as nothing parsing reads is derived
-    from what parsing decides, which holds now: the matching configuration hasn't been tags since slice 4a, and the
-    sentence count feeds no matching. Its cost is one more pass over the vocab, about a second. The alternative, running
-    the rebuild until a run changes nothing, needs no such reasoning but doubles the time of every rebuild. Simplest
-    first, so the first. To check it once built: a spec with a vocab whose generated data changes how a sentence parses,
-    such as the compound parts X + する feeding the splitter, and a full rebuild run once.
+14. **A full rebuild that reaches a stable result in one run.** *Done (2026-11-10), as Claude proposed and Magnus
+    asked.* Running it twice could change more the second time. Filling parts of speech from the dictionary showed it,
+    when that was tried as part of generating a vocab's data: the first run filled 268 vocab's parts of speech, and only
+    the second run reparsed the sentences with them, since a full rebuild reparsed the sentences before it regenerated
+    the vocab's data.
+    - **The full rebuild (`LocalNoteUpdater.FullRebuild`) now updates the vocab's generated data before reparsing as
+      well as after:** the vocab's data, then every sentence reparsed, then everything's data (`UpdateAll`) as before.
+      A vocab's generated data can hold both what parsing reads and what parsing decides, such as its sentence count:
+      the first pass gets the one right before parsing, the last the other after it. One run is enough as long as
+      nothing parsing reads is derived from what parsing decides, which holds: the matching configuration hasn't been
+      tags since slice 4a, and the sentence count feeds no matching. It costs one more pass over the vocab, about a
+      second. The alternative, running the rebuild until a run changes nothing, needs no such reasoning but doubles the
+      time of every rebuild.
+    - **Today it changes no result.** Nothing in a vocab's generated data is read by parsing now. Matching doesn't read
+      the readings filled for a kana-only vocab, nor its usually-written-in-kana decision. The compound parts X + する
+      reach neither the hybrid splitter (`IchidanGodanPotentialOrImperativeHybridSplitter`, which looks for a last part
+      える or え) nor the passive and causative verb endings. And filling parts of speech, the case that showed the
+      problem, moved to when JAStudio creates a vocab (`VocabNoteFactory`). So the change is a guarantee for generated
+      data that parsing comes to read, not a fix for a present difference. The proposal had wrongly given the X + する
+      parts as an example of data parsing reads.
+    - **The spec:** `When_running_a_full_rebuild.and_then_another_one.the_second_updates_no_note` runs a full rebuild on
+      the specifications' collection, then another, and fails naming every note the second one updated. It was checked
+      to fail: with a sentence count changed by every run, it named the vocab.
 
 ### For me to verify (not questions for Magnus)
 
