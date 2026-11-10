@@ -747,7 +747,8 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     sync is over. How Anki handles a write during a sync isn't known yet.
 - **Decided, not built (Magnus, 2026-11-10), in this order:**
   1. A creating command that opens a vocab that existed already, rather than create one, says so in a simple dialog
-     ("could be very confusing without information about what happened").
+     ("could be very confusing without information about what happened"). *Done 2026-11-10: the creating methods give back a
+     `CreatedOrExistingVocab`, and `WorkspaceWindow.OpenTheVocab` shows a `MessageDialog` when it existed already.*
   2. A note's tab shows a change to its study-note (`StudyNoteChanged`) at once, as it does an update of the note: today
      it shows only when the tab opens again.
   3. The re-read of the Anki state, above.

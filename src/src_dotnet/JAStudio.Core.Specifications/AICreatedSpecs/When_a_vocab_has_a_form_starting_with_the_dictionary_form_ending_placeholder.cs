@@ -82,7 +82,7 @@ public class When_a_vocab_has_a_form_starting_with_the_dictionary_form_ending_pl
       {
          readonly VocabNote _suffixVersion;
 
-         public after_creating_a_suffix_version_of_it() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("では");
+         public after_creating_a_suffix_version_of_it() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("では").Vocab;
 
          [XF] public void the_question_and_the_entered_forms_of_the_suffix_version_are_only_the_question_with_the_suffix_appended() => _suffixVersion.Forms.QuestionAndEnteredFormsList().Must().SequenceEqual(["う限りでは"]);
          [XF] public void the_suffix_version_matches_the_form_starting_with_each_other_dictionary_form_ending_with_the_suffix_appended() =>

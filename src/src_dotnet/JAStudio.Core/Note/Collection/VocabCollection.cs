@@ -1,3 +1,4 @@
+using System;
 using Compze.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,13 @@ public class VocabCollection
 
    /// <summary>The vocab <paramref name="reference"/> names exactly (<see cref="NamedExactlyBy"/>), or null when no vocab has that question.</summary>
    public VocabNote? NamedExactlyByOrNone(WordReference reference) => NamedExactlyBy(reference).SingleOrDefault();
+
+   /// <summary>
+   /// The vocab <paramref name="question"/> names exactly, if there is one, or else the vocab <paramref name="create"/> creates with that question:<br/>
+   /// no two vocab share a question, so a vocab that has it already is given back, unchanged, rather than a duplicate created.
+   /// </summary>
+   public CreatedOrExistingVocab NamedExactlyByOrCreated(WordReference question, Func<VocabNote> create) =>
+      NamedExactlyByOrNone(question) is {} existing ? CreatedOrExistingVocab.Existing(existing) : CreatedOrExistingVocab.Created(create());
 
    /// <summary>Whether a vocab other than <paramref name="vocab"/> has <paramref name="question"/> as its question, which no two vocab may share.</summary>
    public bool AnotherVocabHasTheQuestion(VocabNote vocab, WordReference question) => NamedExactlyBy(question).Any(it => it != vocab);

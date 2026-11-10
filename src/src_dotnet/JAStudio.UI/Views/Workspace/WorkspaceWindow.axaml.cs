@@ -13,6 +13,7 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -55,6 +56,7 @@ public partial class WorkspaceWindow : Window
    public WorkspaceWindow() => InitializeComponent();
 #pragma warning restore CS8618
 
+   /// <param name="services">The services of the JAStudio the workspace shows the notes of.</param>
    /// <param name="viewOfATab">Creates the view of a tab: <see cref="NoteTabView"/>, or <see cref="NoteTabImageView"/> where there is no screen.</param>
    WorkspaceWindow(TemporaryServiceCollection services, Func<NoteTabViewModel, Control> viewOfATab)
    {
@@ -144,6 +146,12 @@ public partial class WorkspaceWindow : Window
    public static void OpenNote(JPNote note) => Dispatcher.UIThread.Post(() => Instance.ShowNote(note));
 
    /// <summary>
+   /// Shows the vocab a person asked to create, as <see cref="OpenNote"/> does, and when it <see cref="CreatedOrExistingVocab.ExistedAlready"/> rather than<br/>
+   /// being created, says so in a dialog over the workspace: otherwise a vocab that isn't new would show as though it were. Can be called from any thread.
+   /// </summary>
+   public static void OpenTheVocab(CreatedOrExistingVocab vocab) => Dispatcher.UIThread.Post(() => Instance.ShowTheVocab(vocab));
+
+   /// <summary>
    /// Shows <paramref name="note"/> as <see cref="OpenNote"/> does, with the tab's editor section open, and brings the workspace to the front.<br/>
    /// Can be called from any thread.
    /// </summary>
@@ -175,6 +183,13 @@ public partial class WorkspaceWindow : Window
    {
       _viewModel.OpenNote(note);
       BringToFront();
+   }
+
+   void ShowTheVocab(CreatedOrExistingVocab vocab)
+   {
+      ShowNote(vocab.Vocab);
+      if(vocab.ExistedAlready)
+         MessageDialog.ShowOver(this, "The vocab exists already", $"\"{vocab.Vocab.Question.DisambiguationName}\" exists already, so it's opened rather than created: no two vocab may share a question.");
    }
 
    void ShowNoteInEditor(JPNote note)

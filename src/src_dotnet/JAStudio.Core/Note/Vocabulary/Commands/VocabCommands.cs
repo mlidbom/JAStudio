@@ -89,7 +89,7 @@ public static class VocabCommands
    ];
 
    /// <summary>A command that creates a vocab with a text prefixed onto <paramref name="onto"/>, such as "the vocab", as an expression.</summary>
-   static VocabCreatingCommandTakingAText PrefixOnto(string name, string label, string onto, Func<VocabCloner, string, VocabNote> create) =>
+   static VocabCreatingCommandTakingAText PrefixOnto(string name, string label, string onto, Func<VocabCloner, string, CreatedOrExistingVocab> create) =>
       new(name, label, $"the text to prefix onto {onto}", create);
 
    /// <summary>A command that creates a vocab with a text prefixed onto the vocab after chopping <paramref name="characters"/> characters off its start.</summary>
@@ -97,7 +97,7 @@ public static class VocabCommands
       PrefixOnto($"prefixOntoChopping{characters}", $"chop-{characters}", $"the vocab, after chopping {NumberOfCharacters(characters)} off its start", (it, prefix) => it.PrefixToChopped(prefix, characters));
 
    /// <summary>A command that creates a vocab with a text suffixed onto <paramref name="onto"/>, such as "the vocab's い-stem", as an expression.</summary>
-   static VocabCreatingCommandTakingAText SuffixOnto(string name, string label, string onto, Func<VocabCloner, string, VocabNote> create) =>
+   static VocabCreatingCommandTakingAText SuffixOnto(string name, string label, string onto, Func<VocabCloner, string, CreatedOrExistingVocab> create) =>
       new(name, label, $"the text to suffix onto {onto}", create);
 
    /// <summary>A command that creates a vocab with a text suffixed onto the vocab after chopping <paramref name="characters"/> characters off its end.</summary>

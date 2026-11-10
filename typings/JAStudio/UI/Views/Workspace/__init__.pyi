@@ -19,6 +19,7 @@ from Avalonia.Platform.Storage import ILauncher, IStorageProvider
 from Avalonia.Platform import IWindowImpl, IWindowBaseImpl, ITopLevelImpl
 from Avalonia.Rendering import RendererDiagnostics
 from JAStudio.Core.Note import JPNote
+from JAStudio.Core.Note.Vocabulary import CreatedOrExistingVocab
 
 class NoteTabImageView(UserControl):
     def __init__(self) -> None: ...
@@ -1011,6 +1012,8 @@ class WorkspaceWindow(Window):
     def InitializeComponent(self, loadXaml: bool = ...) -> None: ...
     @staticmethod
     def OpenNote(note: JPNote) -> None: ...
+    @staticmethod
+    def OpenTheVocab(vocab: CreatedOrExistingVocab) -> None: ...
     @staticmethod
     def Shown() -> WorkspaceWindow: ...
     @staticmethod

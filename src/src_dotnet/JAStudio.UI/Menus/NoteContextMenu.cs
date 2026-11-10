@@ -266,10 +266,13 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       });
    }
 
-   /// <summary>Opens the vocab whose question is <paramref name="text"/>, creating it from the dictionary first when there's none: no two vocab may share a question.</summary>
+   /// <summary>
+   /// Opens the vocab whose question is <paramref name="text"/>, creating it from the dictionary first when there's none: no two vocab may share a question,<br/>
+   /// so a dialog says so when it existed already (<see cref="WorkspaceWindow.OpenTheVocab"/>).
+   /// </summary>
    void OnCreateVocabNote(string text)
    {
-      _services.BackgroundTaskManager.Run(() => WorkspaceWindow.OpenNote(_services.CoreApp.Collection.Vocab.NamedExactlyByOrNone(new WordReference(text)) ?? CreatedFromTheDictionary()));
+      _services.BackgroundTaskManager.Run(() => WorkspaceWindow.OpenTheVocab(_services.CoreApp.Collection.Vocab.NamedExactlyByOrCreated(new WordReference(text), CreatedFromTheDictionary)));
       return;
 
       VocabNote CreatedFromTheDictionary()

@@ -36,19 +36,19 @@ static class NoteCommandMenuItem
 
    /// <summary>A menu item labeled <paramref name="label"/> that creates a vocab from <paramref name="vocab"/> with <paramref name="command"/> and opens it in the workspace.</summary>
    public static SpecMenuItem Creating(string label, VocabCreatingCommand command, VocabNote vocab) =>
-      OpeningTheVocabCreated(label, () => command.CreateFrom(vocab));
+      OpeningTheVocab(label, () => command.CreateFrom(vocab));
 
    /// <summary>
    /// A menu item labeled <paramref name="label"/> that creates a vocab from <paramref name="vocab"/> with <paramref name="command"/> and <paramref name="text"/>,<br/>
    /// and opens it in the workspace.
    /// </summary>
    public static SpecMenuItem Creating(string label, VocabCreatingCommandTakingAText command, VocabNote vocab, string text) =>
-      OpeningTheVocabCreated(label, () => command.CreateFrom(vocab, text));
+      OpeningTheVocab(label, () => command.CreateFrom(vocab, text));
 
    /// <summary>
    /// A menu item labeled <paramref name="label"/> that opens the vocab <paramref name="createVocab"/> gives in the workspace: the one it created, or the one<br/>
-   /// that had the question already, as no two vocab may share one (<see cref="VocabCloner"/>).
+   /// that had the question already, as no two vocab may share one, which a dialog then says (<see cref="WorkspaceWindow.OpenTheVocab"/>).
    /// </summary>
-   static SpecMenuItem OpeningTheVocabCreated(string label, Func<VocabNote> createVocab) =>
-      SpecMenuItem.Command(label, () => WorkspaceWindow.OpenNote(createVocab()));
+   static SpecMenuItem OpeningTheVocab(string label, Func<CreatedOrExistingVocab> createVocab) =>
+      SpecMenuItem.Command(label, () => WorkspaceWindow.OpenTheVocab(createVocab()));
 }
