@@ -180,8 +180,8 @@ Anki's side stays generic:
 - it finds notes by an Anki search (`notes_find` in `anki_facade_backend.py`);
 - it tags and deletes notes (`notes_add_tag`, `notes_remove`).
 
-C# reads note types, fields and notes straight from Anki's database (`AnkiRawNotes`), as it reads the Anki notes' corpus
-note ids at startup (`AnkiNoteIdMapLoader`). Everything specific to an import, Immersion Kit's included, is an import profile.
+C# reads note types, fields and notes from the database of the collection Anki has open, through Anki's own connection
+(`AnkiRawNotes`, `AnkiCollectionDatabase`), as it reads the study-notes (`AnkiBackendDataLoader`). Everything specific to an import, Immersion Kit's included, is an import profile.
 
 ## The first import profile: Immersion Kit
 

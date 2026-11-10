@@ -1,6 +1,6 @@
 import typing, abc
 from JAStudio.Core.Note.Collection import JPCollection
-from System.Collections.Generic import IReadOnlyCollection_1, IEnumerable_1, IEnumerator_1, IReadOnlyList_1, List_1
+from System.Collections.Generic import IReadOnlyCollection_1, IEnumerable_1, IEnumerator_1, List_1, IReadOnlyList_1
 from JAStudio.Core.Note import JPNote, NoteId
 
 class AnkiTagChanges:
@@ -16,8 +16,6 @@ class AnkiTags(IEnumerable_1[Tag]):
     def __init__(self) -> None: ...
     def Contains(self, tag: Tag) -> bool: ...
     def GetEnumerator(self) -> IEnumerator_1[Tag]: ...
-    @staticmethod
-    def NamesIn(tagsAsAnkiStoresThem: str) -> IReadOnlyList_1[str]: ...
 
 
 class IAnkiTagOperations(typing.Protocol):

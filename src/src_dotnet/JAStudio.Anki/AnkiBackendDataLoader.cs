@@ -1,43 +1,41 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
+using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Anki;
 
 /// <summary>
-/// Loads Anki-specific user data (ID mappings, studying statuses and the study-notes' tags) from an Anki collection's SQLite database:<br/>
-/// inside Anki, the collection Anki has open; in the headless JAStudio, the collection file of an Anki profile, read while Anki may be running.
+/// Loads what JAStudio needs from Anki of the study-notes, the Anki notes of its own note types (<see cref="BackendData"/>): which corpus note each<br/>
+/// is, the studying statuses of its cards, and its tags. They're read from the collection's database (<see cref="AnkiCollectionDatabase"/>): inside<br/>
+/// Anki, that of the collection Anki has open, through Anki's own connection; in the headless JAStudio, the collection file of an Anki profile.
 /// </summary>
-public class AnkiBackendDataLoader : IBackendDataLoader
+public sealed partial class AnkiBackendDataLoader : IBackendDataLoader
 {
-   readonly Func<string> _findTheCollectionDatabaseFile;
+   readonly AnkiCollectionDatabase _database;
 
-   AnkiBackendDataLoader(Func<string> findTheCollectionDatabaseFile) => _findTheCollectionDatabaseFile = findTheCollectionDatabaseFile;
-
-   /// <summary>Loads from the collection Anki has open when <see cref="Load"/> runs, which changes as Magnus switches Anki profiles.</summary>
-   public static AnkiBackendDataLoader ForTheCollectionAnkiHasOpen() =>
-      new(() => AnkiFacade.Col.DbFilePath() ?? throw new InvalidOperationException("Anki collection database is not initialized yet"));
-
-   /// <summary>
-   /// Loads from the Anki collection database <paramref name="collectionDatabaseFile"/>, an Anki profile's <c>collection.anki2</c>.<br/>
-   /// Anki's latest changes may still be in the database's write-ahead log while Anki runs, and reading the file doesn't see them.
-   /// </summary>
-   public static AnkiBackendDataLoader ForTheCollectionIn(FileInfo collectionDatabaseFile) => new(() => collectionDatabaseFile.FullName);
+   public AnkiBackendDataLoader(AnkiCollectionDatabase database) => _database = database;
 
    public BackendData Load(TaskRunner taskRunner)
    {
-      var dbPath = _findTheCollectionDatabaseFile();
-
       using var runner = taskRunner.Current("Loading user data from Anki");
+      return runner.RunIndeterminate("Reading the study-notes from Anki", Read);
+   }
 
-      var ankiIdMapTask = runner.RunIndeterminateAsync("Loading Anki ID mappings", () => AnkiNoteIdMapLoader.Load(dbPath));
-      var studyingStatusesTask = runner.RunIndeterminateAsync("Fetching studying statuses from Anki", () => CardStudyingStatusLoader.FetchAll(dbPath));
-      var studyNoteTagsTask = runner.RunIndeterminateAsync("Reading the study-notes' tags from Anki", () => StudyNoteTagsLoader.Load(dbPath));
+   /// <summary>
+   /// Reads <see cref="BackendData"/> from the database, with a SELECT each of the note types, the study-notes and the cards, one after another:<br/>
+   /// inside Anki, Anki's backend runs one at a time anyway.
+   /// </summary>
+   BackendData Read()
+   {
+      var studyNoteTypes = NoteTypesInAnki.ReadFrom(_database).OfStudyNotesById();
+      var studyNotes = _database.Read<StudyNoteRow>(StudyNoteRow.SelectEveryOf(studyNoteTypes.Keys));
+      var noteTypeOfEachStudyNote = studyNotes.ToDictionary(it => it.AnkiNoteId, it => studyNoteTypes[it.NoteTypeId]);
+      var cardsOfTheStudyNotes = _database.Read<CardRow>(CardRow.SelectEvery).Where(it => noteTypeOfEachStudyNote.ContainsKey(it.AnkiNoteId));
 
-      Task.WaitAll(ankiIdMapTask, studyingStatusesTask, studyNoteTagsTask);
-
-      return new BackendData(ankiIdMapTask.Result, studyingStatusesTask.Result, studyNoteTagsTask.Result);
+      return new BackendData(
+         idMappings: studyNotes.Where(it => it.HoldsACorpusNoteId).ToDictionary(it => it.AnkiNoteId, it => it.CorpusNoteIdAsANoteOf(noteTypeOfEachStudyNote[it.AnkiNoteId])),
+         studyingStatuses: [.. cardsOfTheStudyNotes.Select(it => it.StudyingStatusAsACardOf(noteTypeOfEachStudyNote[it.AnkiNoteId]))],
+         studyNoteTags: studyNotes.ToDictionary(it => it.AnkiNoteId, it => new NoteTagsAsAnkiStoresThem(it.Tags).Names));
    }
 }

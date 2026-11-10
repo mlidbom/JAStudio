@@ -1,20 +1,16 @@
 import typing, abc
 from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
-from System.IO import FileInfo
+from JAStudio.Anki.CollectionDatabase import AnkiCollectionDatabase
 from JAStudio.Core.TaskRunners import TaskRunner
 from JAStudio.Core.Note import ICardOperations, ExternalNoteIdMap, NoteId, JPNote
-from System.Collections.Generic import IReadOnlyList_1, Dictionary_2, IReadOnlyCollection_1, List_1, IEnumerable_1
+from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
 from JAStudio.Core.Note.Tagging import IAnkiTagOperations
-from JAStudio.Core.Note.Collection import CardStudyingStatus
 
 class AnkiBackendDataLoader(IBackendDataLoader):
-    @staticmethod
-    def ForTheCollectionAnkiHasOpen() -> AnkiBackendDataLoader: ...
-    @staticmethod
-    def ForTheCollectionIn(collectionDatabaseFile: FileInfo) -> AnkiBackendDataLoader: ...
+    def __init__(self, database: AnkiCollectionDatabase) -> None: ...
     def Load(self, taskRunner: TaskRunner) -> BackendData: ...
 
 
@@ -88,26 +84,16 @@ class AnkiLifecycleEvent(typing.SupportsInt):
     SyncCompleted : AnkiLifecycleEvent # 3
 
 
-class AnkiNoteIdMapLoader(abc.ABC):
-    @staticmethod
-    def Load(dbFilePath: str) -> Dictionary_2[int, NoteId]: ...
-
-
 class AnkiRawNotes(IAnkiRawNotes):
-    def __init__(self) -> None: ...
+    def __init__(self, database: AnkiCollectionDatabase) -> None: ...
     def Delete(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
     def NoteTypesForRawNotes(self) -> IReadOnlyList_1[AnkiNoteType]: ...
     def SelectedBy(self, profile: ImportProfile) -> IReadOnlyList_1[RawNote]: ...
     def TagAsImported(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
 
 
-class AnkiRawNoteTypes(abc.ABC):
-    @staticmethod
-    def In(collectionFilePath: str) -> IReadOnlyList_1[AnkiNoteType]: ...
-
-
 class AnkiStudyNotes(IAnkiStudyNotes):
-    def __init__(self, ankiNoteIds: ExternalNoteIdMap) -> None: ...
+    def __init__(self, database: AnkiCollectionDatabase, ankiNoteIds: ExternalNoteIdMap) -> None: ...
     def ReadAll(self) -> IReadOnlyList_1[StudyNoteInAnki]: ...
     def Write(self, note: JPNote) -> None: ...
 
@@ -121,11 +107,6 @@ class AnkiTagOperations(IAnkiTagOperations):
     def RenameTheBranchOnEveryAnkiNote(self, pathInAnki: str, renamedPathInAnki: str) -> None: ...
 
 
-class CardStudyingStatusLoader(abc.ABC):
-    @staticmethod
-    def FetchAll(dbFilePath: str) -> List_1[CardStudyingStatus]: ...
-
-
 class QueryBuilder:
     def __init__(self, externalNoteIdMap: ExternalNoteIdMap) -> None: ...
     def NotesLookup(self, notes: IEnumerable_1[JPNote]) -> str: ...
@@ -133,10 +114,5 @@ class QueryBuilder:
 
 class StudyNotesInAnkisDatabase(abc.ABC):
     @staticmethod
-    def ReadAll(collectionDatabaseFile: str) -> IReadOnlyList_1[StudyNoteInAnki]: ...
-
-
-class StudyNoteTagsLoader(abc.ABC):
-    @staticmethod
-    def Load(dbFilePath: str) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
+    def ReadAll(database: AnkiCollectionDatabase) -> IReadOnlyList_1[StudyNoteInAnki]: ...
 

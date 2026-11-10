@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +22,6 @@ public sealed class AnkiTags : IEnumerable<Tag>
       _tags = [..namesInAnki.Select(Tags.Anki.For).Distinct()];
       return !_tags.SequenceEqual(before);
    }
-
-   /// <summary>The names of the tags in <paramref name="tagsAsAnkiStoresThem"/>, a study-note's tags as Anki stores them, separated by spaces.</summary>
-   public static IReadOnlyList<string> NamesIn(string tagsAsAnkiStoresThem) => tagsAsAnkiStoresThem.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
    /// <summary>Whether the note's study-note has <paramref name="tag"/>, an Anki tag such as <c>anki::marked</c>.</summary>
    public bool Contains(Tag tag) => _tags.Contains(tag);

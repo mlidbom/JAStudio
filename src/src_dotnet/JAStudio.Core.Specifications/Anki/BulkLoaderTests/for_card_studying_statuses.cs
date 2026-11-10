@@ -1,7 +1,6 @@
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 
@@ -9,11 +8,13 @@ using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.Core.Specifications.Anki.BulkLoaderTests;
 
-public class for_card_studying_statuses
+public class for_card_studying_statuses : SpecificationReadingAnAnkiCollectionFile
 {
    public class after_fetching_all : for_card_studying_statuses
    {
-      readonly CardStudyingStatus[] _statuses = [.. CardStudyingStatusLoader.FetchAll(AnkiTestDb.Path)];
+      readonly CardStudyingStatus[] _statuses;
+
+      public after_fetching_all() => _statuses = [.. WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database).StudyingStatuses];
 
       [XF] public void the_result_is_not_empty() => _statuses.Must().NotBeEmpty();
 

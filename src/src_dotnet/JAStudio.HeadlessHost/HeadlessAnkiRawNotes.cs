@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using JAStudio.Anki;
+using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
 
@@ -14,11 +13,12 @@ namespace JAStudio.HeadlessHost;
 /// </summary>
 class HeadlessAnkiRawNotes : IAnkiRawNotes
 {
-   readonly FileInfo _ankiCollectionFile;
+   readonly AnkiCollectionDatabase _database;
 
-   public HeadlessAnkiRawNotes(FileInfo ankiCollectionFile) => _ankiCollectionFile = ankiCollectionFile;
+   /// <param name="database">The database of the collection the headless JAStudio was started with, its file (<see cref="AnkiCollectionFile"/>).</param>
+   public HeadlessAnkiRawNotes(AnkiCollectionDatabase database) => _database = database;
 
-   public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes() => AnkiRawNoteTypes.In(_ankiCollectionFile.FullName);
+   public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes() => NoteTypesInAnki.ReadFrom(_database).ForRawNotes();
    public IReadOnlyList<RawNote> SelectedBy(ImportProfile profile) => throw NoAnki();
    public void TagAsImported(IReadOnlyList<RawNote> rawNotes) => throw NoAnki();
    public void Delete(IReadOnlyList<RawNote> rawNotes) => throw NoAnki();

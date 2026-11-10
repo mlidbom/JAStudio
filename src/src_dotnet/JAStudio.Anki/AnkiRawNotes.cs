@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
@@ -8,30 +8,23 @@ using JAStudio.Core.Note;
 namespace JAStudio.Anki;
 
 /// <summary>
-/// The raw notes in the open Anki profile, for importing: note types and notes are read straight from Anki's database, the notes an import profile<br/>
-/// selects are found with Anki's own search, and tagging and deleting go through Anki.
+/// The raw notes in the open Anki profile, for importing: note types and notes are read from the database of the collection Anki has open<br/>
+/// (<see cref="AnkiCollectionDatabase"/>), the notes an import profile selects are found with Anki's own search, and tagging and deleting go<br/>
+/// through Anki.
 /// </summary>
-public class AnkiRawNotes : IAnkiRawNotes
+public partial class AnkiRawNotes : IAnkiRawNotes
 {
-   const char FieldSeparator = '\x1f';
+   readonly AnkiCollectionDatabase _database;
 
-   public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes() => AnkiRawNoteTypes.In(DbFilePath());
+   public AnkiRawNotes(AnkiCollectionDatabase database) => _database = database;
+
+   public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes() => NoteTypesInAnki.ReadFrom(_database).ForRawNotes();
 
    public IReadOnlyList<RawNote> SelectedBy(ImportProfile profile)
    {
       var ankiNoteIds = AnkiFacade.Notes.Find(SearchFor(profile));
-
-      using var db = AnkiDb.OpenReadOnly(DbFilePath());
-      var noteType = db.NoteTypes.ToList().Single(it => it.Name == profile.AnkiNoteType);
-      var fieldNames = AnkiRawNoteTypes.FieldNamesOf(noteType.Id, [.. db.Fields]);
-
-      return
-      [
-         .. db.Notes.Where(it => ankiNoteIds.Contains(it.Id))
-              .ToList()
-              .OrderBy(it => it.Id)
-              .Select(it => RawNoteFrom(it, fieldNames))
-      ];
+      var noteType = NoteTypesInAnki.ReadFrom(_database).Named(profile.AnkiNoteType);
+      return [.. _database.Read<RawNoteRow>(RawNoteRow.SelectThoseWith(ankiNoteIds)).OrderBy(it => it.AnkiNoteId).Select(it => it.AsARawNoteOf(noteType))];
    }
 
    public void TagAsImported(IReadOnlyList<RawNote> rawNotes) => AnkiFacade.Notes.AddTag(AnkiNoteIdsOf(rawNotes), RawNote.ImportedTag);
@@ -50,15 +43,5 @@ public class AnkiRawNotes : IAnkiRawNotes
       static string EscapedForAQuotedSearchTerm(string text) => text.Replace(@"\", @"\\").Replace("\"", "\\\"").Replace("*", @"\*").Replace("_", @"\_");
    }
 
-   static RawNote RawNoteFrom(NoteRow row, IReadOnlyList<string> fieldNames)
-   {
-      var fieldValues = row.Fields.Split(FieldSeparator);
-      var fieldsByName = fieldNames.Select((name, ordinal) => (name, value: ordinal < fieldValues.Length ? fieldValues[ordinal] : ""))
-                                   .ToDictionary(it => it.name, it => it.value);
-      return new RawNote(row.Id, fieldsByName, row.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries));
-   }
-
    static List<long> AnkiNoteIdsOf(IReadOnlyList<RawNote> rawNotes) => [.. rawNotes.Select(it => it.AnkiNoteId)];
-
-   static string DbFilePath() => AnkiFacade.Col.DbFilePath() ?? throw new InvalidOperationException("Anki has no collection open to import from.");
 }

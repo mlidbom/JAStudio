@@ -12,8 +12,9 @@ namespace JAStudio.Anki;
 /// IMPORTANT: This should only contain operations that REQUIRE Anki's Python API.
 /// Anything that we can implement in C# and Avalonia should be.
 /// 
-/// All calls go through anki_facade_backend.py which handles Qt thread marshaling,
-/// making it safe to call from any .NET thread (including the Avalonia UI thread).
+/// All calls go through anki_facade_backend.py, and are safe to call from any .NET thread, the Avalonia UI thread included:
+/// the functions that drive Anki's windows run their work on Qt's main thread themselves, and the others call Anki's collection
+/// on the calling thread, which Anki's backend allows from any thread.
 /// </summary>
 public static class AnkiFacade
 {
@@ -46,7 +47,7 @@ public static class AnkiFacade
       public static void Refresh() => Backend.Use(it => it.ui_refresh());
    }
 
-   /// <summary>Notes of any note type, for what only Anki does with them: its search, and tagging and deleting them. JAStudio reads notes straight from Anki's database.</summary>
+   /// <summary>Notes of any note type, for what only Anki does with them: its search, and tagging and deleting them. JAStudio reads notes from Anki's database (<see cref="Col.ReadJson"/>).</summary>
    internal static class Notes
    {
       /// <summary>The ids of the notes that the Anki search <paramref name="search"/> finds.</summary>
@@ -68,7 +69,6 @@ public static class AnkiFacade
       public static string AddFile(string filePath) => Backend.Use(it => (string)it.media_add_file(filePath));
    }
 
-   /// <summary>The study-notes: the Anki notes of JAStudio's note types, which JAStudio writes from the corpus.</summary>
    /// <summary>
    /// Anki's tags, changed as Anki operations: Anki's Edit > Undo undoes each, and Anki is told of each as of any operation, so its windows show it.<br/>
    /// The tags and paths are as Anki names them. Each call returns once Anki has made the change.
@@ -91,6 +91,7 @@ public static class AnkiFacade
       public static int NumberOfNotesWithATagIn(string path) => Backend.Use(it => (int)it.tags_number_of_notes_with_a_tag_in(path));
    }
 
+   /// <summary>The study-notes: the Anki notes of JAStudio's note types, which JAStudio writes from the corpus.</summary>
    internal static class StudyNotes
    {
       /// <summary>Writes <paramref name="note"/>'s study-note into the Anki note with the id <paramref name="ankiNoteId"/>, as JAStudio writes it whenever it updates the note.</summary>
@@ -112,19 +113,10 @@ public static class AnkiFacade
    internal static class Col
    {
       /// <summary>
-      /// Returns the path to Anki's live collection database, after checkpointing the WAL.
-      /// Anki uses WAL journaling, so without a checkpoint, recent writes (e.g. fields populated by TTS addons)
-      /// remain in the .anki2-wal sidecar and are invisible to external read-only connections opened with immutable=1.
-      /// Every code path that reads Anki's DB starts by getting the path here, so a checkpoint here guarantees freshness.
+      /// The one value the SELECT <paramref name="select"/> returns, a JSON text, from the database of the collection Anki has open, through<br/>
+      /// Anki's own connection to it (<see cref="CollectionDatabase.AnkisOwnConnection"/>).
       /// </summary>
-      public static string? DbFilePath()
-      {
-         CheckpointWal();
-         return Backend.Use(it => (string?)it.col_db_file_path());
-      }
-
-      /// <summary>Force Anki to checkpoint its SQLite WAL into the main DB file.</summary>
-      public static void CheckpointWal() => Backend.Use(it => it.col_checkpoint_wal());
+      public static string ReadJson(string select) => Backend.Use(it => (string)it.col_read_json(select));
    }
 
    /// <summary>Get note ID from card ID (requires Anki API).</summary>

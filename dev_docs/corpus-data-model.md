@@ -174,7 +174,7 @@ JAStudio writes only these since 2026-11-08 (`AnkiFieldNames`, `CorpusNoteDto.To
 
 | Field | Why Anki needs it |
 |---|---|
-| `jas_note_id` | Links the Anki note to its corpus entry (`AnkiNoteIdMapLoader.Load`). |
+| `jas_note_id` | Links the Anki note to its corpus entry (`AnkiBackendDataLoader`). |
 | The question (`Q`; for kanji, the kanji character) | Reasons:<br>• Vocab and sentence HyperTTS presets read it.<br>• The reading card's front template is `{{Q}}`, and Anki generates a card only when its front side renders non-empty.<br>• I believe Anki also rejects a front template that references no field at all, but I haven't verified it.<br>• The first field is Anki's sort field in its browser. |
 | Audio (vocab and sentences only) | `Audio_b`, `Audio_g`, `Audio_TTS` for vocab; `Audio Sentence` for sentences. Reasons:<br>• The listening card's front template is the audio fields, so a listening card exists only when the note has audio.<br>• Anki's own playback (auto-play and replay) comes from these fields (`web-rendering-architecture.md`, "Key Discovery: Anki Audio Behavior"). That is also the only audio playback on mobile.<br>• HyperTTS writes new audio into them. |
 
@@ -659,7 +659,7 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     "high" or "low" in the tag colors the sentence's source label. As the corpus grows, this ordering decides
     which sentences a vocab shows.
   - **Leaning:** read it from the Anki notes' tags when JAStudio loads, as the studying status is. The loader
-    already reads every Anki note's `jas_note_id` (`AnkiNoteIdMapLoader.Load`), and the tags are in the
+    already reads every Anki note's `jas_note_id` (`AnkiBackendDataLoader`), and the tags are in the
     same row. *The Anki-projection stopped replacing the Anki note's tag list on 2026-11-10: it writes no tags at all
     ([the two sets are separate](#the-corpuss-tags-and-ankis-tags-are-separate-magnus-2026-11-10)).*
   - **For later:** a corpus note with no Anki note has nowhere to carry a priority tag. The alternative then is a
@@ -744,8 +744,8 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     replaces the hook's scan of the notes changed since it last looked (`follow_the_tags_of_the_study_notes.py`), which
     misses an undo, since undo restores a note's modification time. *Done 2026-11-10 for Anki operations, undo and redo
     included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromAnkiAgain`,
-    in the background, one read at a time (`BackgroundRefresh`). It reads through the same loaders as the load, after
-    `AnkiFacade.Col.DbFilePath` has Anki checkpoint its write-ahead log, which the loaders' `immutable=1` reads don't see.*
+    in the background, one read at a time (`BackgroundRefresh`). It reads as the load does (`AnkiBackendDataLoader`):
+    through Anki's own connection since 2026-11-10, see the undo fix below.*
     - *Fixed 2026-11-10, after Magnus found it live: the re-read showed the load's progress window, and it looped.*
       Anki's editor saves its note each time typing pauses, and each save is an operation that changed notes. The
       progress window took the focus from the editor's field, the editor saves its note when its field loses the
@@ -762,14 +762,33 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
       changed them, so wrong data, or SQLite's "malformed" from then on. Reproduced on copies of collections: through
       a reused connection, every read failed, or read wrong tags without failing; through a new connection per read,
       none. The bug was as old as the loaders, which is why Magnus saw it now and then after a sync before; a re-read
-      after every save made it show within minutes. `AnkiDb.OpenReadOnly` now pools no connection and closes each
-      with its read (`When_the_study_notes_tags_have_been_read_from_Ankis_database`). What remains: a read that
-      meets Anki writing into the file itself, which Anki does only when it checkpoints, after big writes such as a
-      sync, can still fail or read wrong data, that once.
+      after every save made it show within minutes. A read of the file now pools no connection and closes each with
+      its read (`AnkiCollectionFile`, `When_the_study_notes_have_been_read_from_an_Anki_collection_file`). Since the
+      undo fix below, only the headless JAStudio reads the file. What remains there: a read that meets Anki writing
+      into the file itself, which Anki does only when it checkpoints, after big writes such as a sync, can still fail
+      or read wrong data, that once.
+    - *Fixed 2026-11-10, after Magnus found it live: Anki's Edit > Undo did nothing after any change, Anki's own
+      included.* Before each read of the file, JAStudio had Anki checkpoint its write-ahead log into it
+      (`PRAGMA wal_checkpoint` through `col.db`), and Anki discards its undo history whenever anything but a SELECT runs
+      through `col.db` (`is_dql` in Anki's `rslib/src/backend/dbproxy.rs`). With a re-read after every operation, undo
+      never had anything to undo. Anki has no way to checkpoint that keeps undo: its own checkpoint runs only as it
+      makes a backup or closes the collection. So JAStudio inside Anki now reads Anki's database through Anki's own
+      connection, with SELECTs only (`AnkisOwnConnection`), which see Anki's latest changes without a checkpoint, and
+      the headless JAStudio reads the file with the same SELECTs (`AnkiCollectionFile`), both through
+      `AnkiCollectionDatabase`. Each read is one SELECT whose value is a JSON array SQLite builds, of one object per
+      row, which .NET deserializes: converting each value from Python to .NET costs far more than one string (20 to
+      185 ms a read rather than 4 to 15, on a copy of Magnus's collection), and SQLite's JSON holds any text a field
+      may. The import's reads and the MCP server's study-note comparison go the same way. Magnus checked it live the
+      same day: "undo in anki works and things are nice and fast. Major improvement."
   - **Cost, measured 2026-11-10 on a copy of the collection:** reading every study-note's tags takes about 40 ms for
-    80,512 notes; the hook's scan takes 13 ms, since Anki has no index on a note's modification time. The id mappings
-    and the cards' statuses aren't measured yet. If the whole re-read is cheap enough, it may also replace the separate
-    ways JAStudio follows a card suspended and a study-note deleted in Anki: measure first.
+    80,512 notes; the hook's scan takes 13 ms, since Anki has no index on a note's modification time. If the whole
+    re-read is cheap enough, it may also replace the separate ways JAStudio follows a card suspended and a study-note
+    deleted in Anki: measure first. *The whole re-read, through Anki's own connection, measured 2026-11-10 on a copy of
+    Magnus's collection (79,719 study-notes, 159,461 cards): about 300 ms, of which about 125 ms is Anki reading and
+    Python handing over the JSON, about 90 ms deserializing it, and about 80 ms building what the notes take from it.
+    Reading the file as before took about 340 ms, plus the checkpoint: its join of the cards with the templates, for
+    their names, alone took 200 ms, so the cards are now read on their own, and each card's template name looked up
+    from its note type.*
   - **A sync and a profile switch no longer load the corpus again** (today `ClearCaches`, then `ReloadFromBackend`). The
     notes stay the same objects, so open tabs keep their state. Magnus doesn't rely on a sync to take in changes made to
     the corpus checkout by hand: Local Actions > "Reload the collection from disk" and the live fast-forward tool do that.

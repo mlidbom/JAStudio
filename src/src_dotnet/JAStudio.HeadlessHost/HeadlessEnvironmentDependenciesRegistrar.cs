@@ -1,6 +1,7 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki;
+using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
@@ -27,14 +28,15 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IEnvironmentPaths>().Instance(new HeadlessEnvironmentPaths(_arguments)),
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<IBackendNoteCreator>().Instance(new HeadlessBackendNoteCreator()),
-         Singleton.For<IAnkiRawNotes>().Instance(new HeadlessAnkiRawNotes(_arguments.AnkiCollectionFile)),
-         Singleton.For<IBackendDataLoader>().Instance(AnkiBackendDataLoader.ForTheCollectionIn(_arguments.AnkiCollectionFile)),
+         Singleton.For<AnkiCollectionDatabase>().Instance(new AnkiCollectionFile(_arguments.AnkiCollectionFile)),
+         Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
+         Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new AddonConfigFile(_arguments.AddonFolder)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ICardOperations>().Instance(new HeadlessCardOperations()),
          Singleton.For<IAnkiTagOperations>().Instance(new HeadlessAnkiTagOperations()),
-         Singleton.For<IAnkiStudyNotes>().Instance(new HeadlessAnkiStudyNotes(_arguments.AnkiCollectionFile))
+         Singleton.For<IAnkiStudyNotes>().CreatedBy(IAnkiStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
       );
 }
