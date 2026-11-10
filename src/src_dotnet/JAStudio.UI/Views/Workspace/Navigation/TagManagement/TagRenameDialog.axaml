@@ -20,6 +20,8 @@
 
         <TextBlock Text="{Binding WhyItCannotBeDone}" TextWrapping="Wrap" Foreground="Gray"
                    IsVisible="{Binding WhyItCannotBeDone, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        <TextBlock Text="{Binding SourceWarning}" TextWrapping="Wrap" Foreground="OrangeRed" FontWeight="Bold"
+                   IsVisible="{Binding SourceWarning, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
         <TextBlock Text="{Binding MergeWarning}" TextWrapping="Wrap" Foreground="OrangeRed" FontWeight="Bold"
                    IsVisible="{Binding Merges}" />
 

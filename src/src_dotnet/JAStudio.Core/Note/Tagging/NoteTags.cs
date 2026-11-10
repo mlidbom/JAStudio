@@ -70,22 +70,24 @@ public class NoteTags : IEnumerable<Tag>
       return [.. this.Select(t => t.Name).OrderBy(n => n)];
    }
 
-   /// <summary>
-   /// The note's tags that a person manages, in alphabetical order: all but the jastudio-defined-tags (<see cref="Tags.IsDefinedByJAStudio"/>),<br/>
-   /// which are generated or have editors of their own. These are the tags shown with the note, and added and removed by hand.
-   /// </summary>
-   public IReadOnlyList<Tag> NotDefinedByJAStudio() =>
-      [..this.Where(it => !Tags.IsDefinedByJAStudio(it.Name)).OrderBy(it => it.Name, StringComparer.OrdinalIgnoreCase)];
+   /// <summary>All the note's tags, in alphabetical order: those a person manages and those JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>).</summary>
+   public IReadOnlyList<Tag> InAlphabeticalOrder() => [..this.OrderBy(it => it.Name, StringComparer.OrdinalIgnoreCase)];
 
    /// <summary>
-   /// Makes <paramref name="tags"/>, none of which is a jastudio-defined-tag, the note's tags that a person manages (<see cref="NotDefinedByJAStudio"/>):<br/>
-   /// unsets the others a person manages and sets these, leaving the jastudio-defined-tags as they are.
+   /// The note's tags that a person manages, in alphabetical order: all but the jastudio-maintained-tags (<see cref="Tags.IsMaintainedByJAStudio"/>),<br/>
+   /// which are generated or have editors of their own. These are the tags added and removed by hand.
    /// </summary>
-   public void ReplaceTheTagsNotDefinedByJAStudio(IReadOnlyList<Tag> tags)
+   public IReadOnlyList<Tag> NotMaintainedByJAStudio() => [..InAlphabeticalOrder().Where(it => !Tags.IsMaintainedByJAStudio(it.Name))];
+
+   /// <summary>
+   /// Makes <paramref name="tags"/>, none of which is a jastudio-maintained-tag, the note's tags that a person manages (<see cref="NotMaintainedByJAStudio"/>):<br/>
+   /// unsets the others a person manages and sets these, leaving the jastudio-maintained-tags as they are.
+   /// </summary>
+   public void ReplaceTheTagsNotMaintainedByJAStudio(IReadOnlyList<Tag> tags)
    {
-      Contract.Argument.Assert(!tags.Any(it => Tags.IsDefinedByJAStudio(it.Name)), () => $"{string.Join(", ", tags.Select(it => it.Name))} includes a jastudio-defined-tag.");
+      Contract.Argument.Assert(!tags.Any(it => Tags.IsMaintainedByJAStudio(it.Name)), () => $"{string.Join(", ", tags.Select(it => it.Name))} includes a jastudio-maintained-tag.");
 
-      foreach(var removed in NotDefinedByJAStudio().Except(tags)) Unset(removed);
+      foreach(var removed in NotMaintainedByJAStudio().Except(tags)) Unset(removed);
       foreach(var tag in tags) Set(tag);
    }
 }

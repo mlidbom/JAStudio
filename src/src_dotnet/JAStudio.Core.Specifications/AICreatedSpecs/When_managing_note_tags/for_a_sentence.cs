@@ -10,20 +10,24 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.When_managing_note_tags;
 
 public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
-   public class given_one_with_tags_a_person_manages_and_a_jastudio_defined_tag : for_a_sentence
+   public class given_one_with_tags_a_person_manages_and_a_jastudio_maintained_tag : for_a_sentence
    {
       readonly SentenceNote _sentence;
 
-      public given_one_with_tags_a_person_manages_and_a_jastudio_defined_tag()
+      public given_one_with_tags_a_person_manages_and_a_jastudio_maintained_tag()
       {
          _sentence = CreateTestSentence("これは本です。", "This is a book.");
          _sentence.Tags.Set(Tag.FromName("source::anime::natsume"));
          _sentence.Tags.Set(Tags.TTSAudio);
          _sentence.Tags.Set(Tag.FromName("-::counting"));
+         _sentence.Tags.Set(Tags.Source.Jastudio);
       }
 
-      [XF] public void the_tags_not_defined_by_jastudio_are_those_a_person_manages_in_alphabetical_order() =>
-         _sentence.Tags.NotDefinedByJAStudio().Select(it => it.Name).Must().SequenceEqual(["-::counting", "source::anime::natsume"]);
+      [XF] public void the_tags_not_maintained_by_jastudio_are_those_a_person_manages_in_alphabetical_order_the_source_tag_JAStudio_sets_included() =>
+         _sentence.Tags.NotMaintainedByJAStudio().Select(it => it.Name).Must().SequenceEqual(["-::counting", "source::anime::natsume", "source::jastudio"]);
+
+      [XF] public void all_its_tags_in_alphabetical_order_include_the_one_JAStudio_maintains() =>
+         _sentence.Tags.InAlphabeticalOrder().Select(it => it.Name).Must().SequenceEqual(["-::counting", "source::anime::natsume", "source::jastudio", "_tts_audio"]);
    }
 
    public class given_one_tagged_with_TTSAudio : for_a_sentence

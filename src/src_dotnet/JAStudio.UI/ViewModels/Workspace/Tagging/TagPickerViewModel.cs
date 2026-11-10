@@ -58,7 +58,6 @@ partial class TagPickerViewModel : ObservableObject
    }
 
    bool CanBeANewTag(string typedName) =>
-      Tag.WhyItCannotBeTheNameOfATag(typedName) is null
-      && !_offeredTagPaths.Contains(typedName, StringComparer.OrdinalIgnoreCase)
-      && !Tags.IsDefinedByJAStudio(typedName);
+      Tags.WhyItCannotBeATagAPersonManages(typedName) is null
+      && !_offeredTagPaths.Contains(typedName, StringComparer.OrdinalIgnoreCase);
 }

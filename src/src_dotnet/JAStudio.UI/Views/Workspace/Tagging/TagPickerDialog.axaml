@@ -11,6 +11,8 @@
 
     <StackPanel Margin="10" Spacing="10">
         <taggingViews:TagPickerView DataContext="{Binding Picker}" Width="420" />
+        <TextBlock Text="{Binding SourceWarning}" TextWrapping="Wrap" Width="420" Foreground="OrangeRed" FontWeight="Bold"
+                   IsVisible="{Binding SourceWarning, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
             <Button Content="OK" IsDefault="True" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanAccept}" />
             <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />

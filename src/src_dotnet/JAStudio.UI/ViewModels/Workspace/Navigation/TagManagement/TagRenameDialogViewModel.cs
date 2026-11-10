@@ -60,7 +60,7 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
 
    /// <summary>The rename the <see cref="TypedName"/> asks for, which the dialog closes with when it's accepted.</summary>
    [ObservableProperty]
-   [NotifyPropertyChangedFor(nameof(WhyItCannotBeDone), nameof(MergeWarning), nameof(Merges), nameof(AcceptText), nameof(CanAccept))]
+   [NotifyPropertyChangedFor(nameof(WhyItCannotBeDone), nameof(MergeWarning), nameof(Merges), nameof(AcceptText), nameof(CanAccept), nameof(SourceWarning))]
    TagBranchRename _rename;
 
    partial void OnTypedNameChanged(string value) => Rename = _renamingTo(value);
@@ -78,6 +78,14 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
    public string? MergeWarning => Merges
                                      ? $"This merges with {TheTagsMergedWith()}, already in use. Afterwards their notes can't be told apart, so renaming back won't undo it. Click Merge to go ahead."
                                      : null;
+
+   /// <summary>
+   /// The warning shown when the rename moves tags into, out of or within the source branch (<see cref="Tags.Source"/>), which changes<br/>
+   /// the notes' sources, or null when it doesn't.
+   /// </summary>
+   public string? SourceWarning => Rename.Branch.IsInTheSourceBranch || Rename.Renamed.IsInTheSourceBranch
+                                      ? $"This changes the source of {(NumberOfNotesThatChange == 1 ? "1 note" : $"{NumberOfNotesThatChange} notes")}."
+                                      : null;
 
    /// <summary>The accept button's text: Merge when the rename <see cref="Merges"/>, as a last reminder, and Rename otherwise.</summary>
    public string AcceptText => Merges ? "Merge" : "Rename";

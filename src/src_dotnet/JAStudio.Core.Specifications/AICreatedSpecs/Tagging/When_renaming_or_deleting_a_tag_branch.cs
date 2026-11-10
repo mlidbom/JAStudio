@@ -17,7 +17,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Tagging;
 /// <item>a sentence tagged <c>source::anime</c>, <c>source::anime::natsume::s3::01</c> and <c>-::priority::low</c>;</item>
 /// <item>a sentence tagged <c>source::anime::natsume::s3::02</c>;</item>
 /// <item>a vocab tagged <c>source::anime::tv::s3::01</c>;</item>
-/// <item>a kanji tagged with a tag JAStudio defines, below <c>-</c>, and <c>to-be-moved::</c> followed by that tag's last level.</item>
+/// <item>a kanji tagged with a tag JAStudio defines and maintains, below <c>-</c>, and <c>to-be-moved::</c> followed by that tag's last level.</item>
 /// </list>
 /// </summary>
 public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
@@ -129,10 +129,37 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
    }
 
    [XF] public void renaming_a_branch_holding_a_tag_jastudio_defines_cannot_be_done() =>
-      WhyItCannotBeDone(RenamingTheLastLevel("-", "dash")).Must().Be($"- holds {Tags.Kanji.InAnyVocabForm.Name}, which JAStudio defines, so it can't be renamed by hand.");
+      WhyItCannotBeDone(RenamingTheLastLevel("-", "dash")).Must().Be($"- holds {Tags.Kanji.InAnyVocabForm.Name}, whose name JAStudio uses, so it can't be renamed by hand.");
 
-   [XF] public void a_branch_holding_a_tag_jastudio_defines_says_which() => new TagBranch("-").ATagDefinedByJAStudioIn(TagsInUse()).Must().Be(Tags.Kanji.InAnyVocabForm);
-   [XF] public void a_branch_holding_no_tag_jastudio_defines_says_so() => new TagBranch("-::priority").ATagDefinedByJAStudioIn(TagsInUse()).Must().BeNull();
+   [XF] public void deleting_a_branch_holding_a_tag_jastudio_maintains_cannot_be_done() =>
+      new TagBranch("-").WhyItCannotBeDeletedByHand(TagsInUse()).Must().Be($"- holds {Tags.Kanji.InAnyVocabForm.Name}, which JAStudio maintains, so it can't be deleted by hand.");
+
+   [XF] public void a_branch_holding_no_tag_jastudio_defines_can_be_renamed() => new TagBranch("-::priority").WhyItCannotBeRenamedByHand(TagsInUse()).Must().BeNull();
+   [XF] public void a_branch_holding_no_tag_jastudio_defines_can_be_deleted() => new TagBranch("-::priority").WhyItCannotBeDeletedByHand(TagsInUse()).Must().BeNull();
+
+   public class the_source_branch : When_renaming_or_deleting_a_tag_branch
+   {
+      const string WhySourceIsNeverChanged = "source holds every note's source, so it's never renamed or deleted.";
+
+      [XF] public void itself_cannot_be_renamed() => WhyItCannotBeDone(RenamingTheLastLevel("source", "origin")).Must().Be(WhySourceIsNeverChanged);
+      [XF] public void itself_cannot_be_deleted() => new TagBranch("source").WhyItCannotBeDeletedByHand(TagsInUse()).Must().Be(WhySourceIsNeverChanged);
+      [XF] public void a_branch_in_it_can_be_moved_out_of_it() => RenamingWithItsParents("source::anime", "media::anime").WhyItCannotBeDone.Must().BeNull();
+      [XF] public void a_branch_can_be_moved_into_it() => RenamingWithItsParents("-::priority", "source::priority").WhyItCannotBeDone.Must().BeNull();
+      [XF] public void a_branch_in_it_is_in_it() => new TagBranch("source::anime").IsInTheSourceBranch.Must().BeTrue();
+      [XF] public void itself_is_in_it() => new TagBranch("source").IsInTheSourceBranch.Must().BeTrue();
+      [XF] public void a_branch_outside_it_is_not_in_it() => new TagBranch("-::priority").IsInTheSourceBranch.Must().BeFalse();
+
+      public class with_a_vocab_JAStudio_created_from_the_dictionary : the_source_branch
+      {
+         public with_a_vocab_JAStudio_created_from_the_dictionary() => Tagged(CreateVocab("来る", "to come", "くる"), Tags.Source.Jamdict.Name);
+
+         [XF] public void source_jamdict_whose_name_JAStudio_uses_cannot_be_renamed() =>
+            WhyItCannotBeDone(RenamingTheLastLevel(Tags.Source.Jamdict.Name, "jmdict")).Must().Be($"{Tags.Source.Jamdict.Name} holds {Tags.Source.Jamdict.Name}, whose name JAStudio uses, so it can't be renamed by hand.");
+
+         [XF] public void source_jamdict_which_JAStudio_does_not_maintain_can_be_deleted() =>
+            new TagBranch(Tags.Source.Jamdict.Name).WhyItCannotBeDeletedByHand(TagsInUse()).Must().BeNull();
+      }
+   }
 
    public class after_deleting_natsume_from_the_notes_with_a_tag_in_it : When_renaming_or_deleting_a_tag_branch
    {

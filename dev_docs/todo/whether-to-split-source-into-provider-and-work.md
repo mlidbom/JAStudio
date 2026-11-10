@@ -201,11 +201,10 @@ original's source data, keeps the original's source tags instead: until then it 
 this data, so keep it for now").
 
 **Open:**
-- **`source::jamdict` and `source::jastudio` count as tags JAStudio defines** (`Tags.IsDefinedByJAStudio`), as all the
-  tags declared in `Tags` do. So the tag pickers don't offer them, the tag tools refuse them, and the tag management
-  can't rename or delete a branch holding one, such as `source`. That protection is meant for generated tags and tags
-  with editors of their own; source tags set when a note is created are neither, and Magnus manages the source by hand.
-  Whether to exclude them is a question for Magnus.
+- ~~**`source::jamdict` and `source::jastudio` count as tags JAStudio defines**, so they couldn't be added or removed by
+  hand, and the `source` branch couldn't be renamed or deleted.~~ *Done 2026-11-10: they're added and removed as any
+  tag, with a warning, as every change to a note's source now has; only their names can't be renamed; and `source`
+  itself is never renamed or deleted, by a rule of its own. See `tags.md`, Rules.*
 - **JLab's and Immersion Kit's works as tags, and `sourceName` gone:** the minimal alternative above. Magnus isn't sure
   of the value: "currently anime:: holds only full seasons and episodes. This would make it hold tons of tiny
   fragments with individual sentences.... Not sure I want/need that." If it's done, under a branch of their own so as

@@ -52,7 +52,7 @@ class ActionsOnSelectedResults
       [
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', $"Add a tag... ({AddATagKey})"), () => AddATagTo(selected, pickATagInADialog)),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', $"Remove a tag... ({RemoveATagKey})"), () => RemoveATagFrom(selected, pickATagInADialog),
-                              enabled: notes.Any(it => it.Tags.NotDefinedByJAStudio().Count > 0)),
+                              enabled: notes.Any(it => it.Tags.NotMaintainedByJAStudio().Count > 0)),
          SpecMenuItem.Separator(),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Unsuspend all cards"),
                               () => StartChangingEachOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),

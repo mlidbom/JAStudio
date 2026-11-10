@@ -13,29 +13,47 @@ namespace JAStudio.UI.ViewModels.Workspace.Tagging;
 
 /// <summary>
 /// The small modal dialog that picks a tag to add to some notes, or to remove from them (<see cref="TagPickerDialog"/>), with a <see cref="TagPickerViewModel"/> inside.<br/>
-/// Its title says what will happen, such as "Add a tag to 312 notes".
+/// Its title says what will happen, such as "Add a tag to 312 notes". When the tag picked is a source tag, it warns that the notes' source changes.
 /// </summary>
-/// <remarks>Neither offers a jastudio-defined-tag, since such tags aren't added or removed by hand (<see cref="Tags.IsDefinedByJAStudio"/>).</remarks>
+/// <remarks>Neither offers a tag JAStudio maintains, since such tags aren't added or removed by hand (<see cref="Tags.IsMaintainedByJAStudio"/>).</remarks>
 sealed class TagPickerDialogViewModel : ObservableObject
 {
-   TagPickerDialogViewModel(string title, TagPickerViewModel picker)
+   readonly Func<Tag, int> _numberOfNotesTheTagChanges;
+   readonly string _whatHappensToTheTag;
+
+   TagPickerDialogViewModel(string title, TagPickerViewModel picker, string whatHappensToTheTag, Func<Tag, int> numberOfNotesTheTagChanges)
    {
       Title = title;
       Picker = picker;
+      _whatHappensToTheTag = whatHappensToTheTag;
+      _numberOfNotesTheTagChanges = numberOfNotesTheTagChanges;
       picker.PropertyChanged += OnPickerPropertyChanged;
    }
 
    /// <summary>A dialog for picking a tag to add to <paramref name="notes"/>: any tag some note in <paramref name="collection"/> has, or a new one typed.</summary>
    public static TagPickerDialogViewModel ForAddingATagTo(IReadOnlyCollection<JPNote> notes, JPCollection collection) =>
-      new($"Add a tag to {NotesCounted(notes)}",
-          new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(collection.TagsInUse()), "", offersTheTypedTextAsANewTag: true));
+      new($"Add a tag to {NotesCounted(notes.Count)}",
+          new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(collection.TagsInUse()), "", offersTheTypedTextAsANewTag: true),
+          "adding",
+          tag => notes.Count(it => !it.Tags.Contains(tag)));
 
    /// <summary>A dialog for picking a tag to remove from <paramref name="notes"/>: any tag one of them has.</summary>
    public static TagPickerDialogViewModel ForRemovingATagFrom(IReadOnlyCollection<JPNote> notes) =>
-      new($"Remove a tag from {NotesCounted(notes)}",
-          new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(notes.SelectMany(it => it.Tags).Distinct()), "", offersTheTypedTextAsANewTag: false));
+      new($"Remove a tag from {NotesCounted(notes.Count)}",
+          new TagPickerViewModel(TagPathsThatCanBeAddedOrRemovedByHand(notes.SelectMany(it => it.Tags).Distinct()), "", offersTheTypedTextAsANewTag: false),
+          "removing",
+          tag => notes.Count(it => it.Tags.Contains(tag)));
 
    public string Title { get; }
+
+   /// <summary>
+   /// The warning shown when the tag picked is a source tag (<see cref="Tags.Source"/>), such as "source::misc is a source tag: adding it changes<br/>
+   /// the source of 12 notes.", or null when it isn't. The source is the record of where the corpus's content comes from.
+   /// </summary>
+   public string? SourceWarning =>
+      PickedTagPath is {} picked && new TagBranch(picked).IsInTheSourceBranch
+         ? $"{picked} is a source tag: {_whatHappensToTheTag} it changes the source of {NotesCounted(_numberOfNotesTheTagChanges(Tag.FromName(picked)))}."
+         : null;
 
    public TagPickerViewModel Picker { get; }
 
@@ -57,10 +75,11 @@ sealed class TagPickerDialogViewModel : ObservableObject
 
       OnPropertyChanged(nameof(PickedTagPath));
       OnPropertyChanged(nameof(CanAccept));
+      OnPropertyChanged(nameof(SourceWarning));
    }
 
    static List<string> TagPathsThatCanBeAddedOrRemovedByHand(IEnumerable<Tag> tags) =>
-      [..tags.Select(it => it.Name).Where(it => !Tags.IsDefinedByJAStudio(it)).Order(StringComparer.OrdinalIgnoreCase)];
+      [..tags.Select(it => it.Name).Where(it => !Tags.IsMaintainedByJAStudio(it)).Order(StringComparer.OrdinalIgnoreCase)];
 
-   static string NotesCounted(IReadOnlyCollection<JPNote> notes) => notes.Count == 1 ? "1 note" : $"{notes.Count} notes";
+   static string NotesCounted(int numberOfNotes) => numberOfNotes == 1 ? "1 note" : $"{numberOfNotes} notes";
 }

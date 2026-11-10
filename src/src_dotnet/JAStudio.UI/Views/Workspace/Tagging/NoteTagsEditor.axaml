@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tagging="clr-namespace:JAStudio.UI.ViewModels.Workspace.Tagging"
+             xmlns:taggingViews="clr-namespace:JAStudio.UI.Views.Workspace.Tagging"
              x:Class="JAStudio.UI.Views.Workspace.Tagging.NoteTagsEditor"
              x:DataType="tagging:NoteTagsEditorViewModel">
 
@@ -13,10 +14,13 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="tagging:TagOnTheNoteViewModel">
-                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Padding="8,1,2,1" Margin="0,0,6,6">
+                    <!-- A tag JAStudio maintains is dimmed, and has no ×: it isn't removed by hand. -->
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Padding="8,1,2,1" Margin="0,0,6,6"
+                            Opacity="{Binding IsMaintainedByJAStudio, Converter={x:Static taggingViews:NoteTagsEditor.OpacityOfAChip}}"
+                            ToolTip.Tip="{Binding ToolTip}">
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                            <Button Content="×" Command="{Binding RemoveCommand}" Padding="5,0" MinHeight="0"
+                            <Button Content="×" Click="OnRemoveClicked" Padding="5,0" MinHeight="0" IsVisible="{Binding CanBeRemovedByHand}"
                                     ToolTip.Tip="Removes the tag from the note" />
                         </StackPanel>
                     </Border>

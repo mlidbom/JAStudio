@@ -44,8 +44,31 @@ public sealed class TagBranch(string path)
    }
 
    /// <summary>
-   /// A tag in <paramref name="tagsInUse"/> that is in this branch and that JAStudio defines, or null when there is none.<br/>
-   /// Such tags are generated or have editors of their own, so a branch holding one can't be renamed or deleted by hand (<see cref="Tags.IsDefinedByJAStudio"/>).
+   /// Why this branch can't be renamed or moved by hand, or null when it can, given <paramref name="tagsInUse"/>, every tag some note has:<br/>
+   /// it's the source branch itself (<see cref="Tags.Source.Branch"/>), or it holds a tag whose name JAStudio's code uses (<see cref="Tags.IsDefinedByJAStudio"/>).
    /// </summary>
-   public Tag? ATagDefinedByJAStudioIn(IEnumerable<Tag> tagsInUse) => tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsDefinedByJAStudio(it.Name));
+   public string? WhyItCannotBeRenamedByHand(IEnumerable<Tag> tagsInUse) =>
+      IsTheSourceBranch
+         ? WhyTheSourceBranchIsNeverChanged
+         : tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsDefinedByJAStudio(it.Name)) is {} defined
+            ? $"{Path} holds {defined.Name}, whose name JAStudio uses, so it can't be renamed by hand."
+            : null;
+
+   /// <summary>
+   /// Why this branch can't be deleted by hand, or null when it can, given <paramref name="tagsInUse"/>, every tag some note has:<br/>
+   /// it's the source branch itself (<see cref="Tags.Source.Branch"/>), or it holds a tag JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>).
+   /// </summary>
+   public string? WhyItCannotBeDeletedByHand(IEnumerable<Tag> tagsInUse) =>
+      IsTheSourceBranch
+         ? WhyTheSourceBranchIsNeverChanged
+         : tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsMaintainedByJAStudio(it.Name)) is {} maintained
+            ? $"{Path} holds {maintained.Name}, which JAStudio maintains, so it can't be deleted by hand."
+            : null;
+
+   /// <summary>Whether this branch is in the source branch (<see cref="Tags.Source"/>), the source branch itself included: changing its tags changes notes' sources.</summary>
+   public bool IsInTheSourceBranch => Tags.Source.Branch.Contains(Path);
+
+   bool IsTheSourceBranch => Path.Equals(Tags.Source.Branch.Path, StringComparison.OrdinalIgnoreCase);
+
+   const string WhyTheSourceBranchIsNeverChanged = "source holds every note's source, so it's never renamed or deleted.";
 }

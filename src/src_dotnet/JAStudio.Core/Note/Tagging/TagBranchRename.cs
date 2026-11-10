@@ -30,8 +30,8 @@ public sealed class TagBranchRename
 
       string? WhyItCannotBeRenamed()
       {
-         if(branch.ATagDefinedByJAStudioIn(tagsInUse) is {} definedByJAStudio)
-            return $"{branch.Path} holds {definedByJAStudio.Name}, which JAStudio defines, so it can't be renamed by hand.";
+         if(branch.WhyItCannotBeRenamedByHand(tagsInUse) is {} whyNot)
+            return whyNot;
          if(renamedPath.Equals(branch.Path, StringComparison.Ordinal))
             return "Type the new name.";
          if(renamedPath.Equals(branch.Path, StringComparison.OrdinalIgnoreCase))

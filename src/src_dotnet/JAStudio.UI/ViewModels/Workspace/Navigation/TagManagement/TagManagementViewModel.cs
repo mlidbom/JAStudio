@@ -27,7 +27,9 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement;
 /// </remarks>
 /// <remarks>
 /// Renaming and deleting change each note in the background, with a progress dialog (<see cref="BulkNoteChanges"/>).<br/>
-/// A branch holding a tag JAStudio defines can't be renamed or deleted by hand (<see cref="TagBranch.ATagDefinedByJAStudioIn"/>).
+/// The source branch itself, and a branch holding a tag whose name JAStudio uses, can't be renamed by hand (<see cref="TagBranch.WhyItCannotBeRenamedByHand"/>),<br/>
+/// nor can they, or a branch holding a tag JAStudio maintains, be deleted (<see cref="TagBranch.WhyItCannotBeDeletedByHand"/>).<br/>
+/// Renaming or deleting a branch in the source branch warns that the notes' sources change.
 /// </remarks>
 partial class TagManagementViewModel : ObservableObject
 {
@@ -102,12 +104,13 @@ partial class TagManagementViewModel : ObservableObject
    /// <param name="confirmInADialog">Asks the question it's given in a dialog, and returns whether the answer was yes.</param>
    internal void DeleteTheSelectedTag(Func<string, Task<bool>> confirmInADialog)
    {
-      if(SelectedBranchThatCanBeChangedByHand() is not {} branch) return;
+      if(SelectedBranchThatCanBeDeletedByHand() is not {} branch) return;
 
       var notes = _collection.NotesWithATagIn(branch);
+      var sourceWarning = branch.IsInTheSourceBranch ? $" This changes the source of {NotesCounted(notes)}." : "";
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
-         if(!await confirmInADialog($"Delete {branch.Path} and every tag below it from {NotesCounted(notes)}? This can't be undone.")) return;
+         if(!await confirmInADialog($"Delete {branch.Path} and every tag below it from {NotesCounted(notes)}?{sourceWarning} This can't be undone.")) return;
 
          await _bulkNoteChanges.ChangeEachOf(notes, $"Deleting {branch.Path}", it => it.Tags.RemoveTheBranch(branch));
          ShowTheTagsAsTheyAreNowWithSelected(TheNearestPathAboveThatIsStillInUse(branch));
@@ -127,26 +130,29 @@ partial class TagManagementViewModel : ObservableObject
    /// <summary>The selected line's right-click menu. The actions that need a dialog are given by the view, which shows it.</summary>
    internal List<SpecMenuItem> SelectedLineMenu(Action rename, Action renameWithParents, Action delete)
    {
-      var whyItCannotBeChangedByHand = WhyTheSelectedBranchCannotBeChangedByHand();
-      var canBeChanged = SelectedLine is not null && whyItCannotBeChangedByHand is null;
+      var canBeRenamed = SelectedBranchThatCanBeRenamedByHand() is not null;
+      var canBeDeleted = SelectedBranchThatCanBeDeletedByHand() is not null;
       return
       [
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', "Search for this tag (Enter, double-click)"), SearchForTheSelectedTag, enabled: SelectedLine is not null),
          SpecMenuItem.Separator(),
-         SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', "Rename... (F2)"), rename, enabled: canBeChanged),
-         SpecMenuItem.Command(ShortcutFinger.Mnemonic('p', "Rename with parents..."), renameWithParents, enabled: canBeChanged),
-         SpecMenuItem.Command(ShortcutFinger.Mnemonic('d', "Delete... (Del)"), delete, enabled: canBeChanged),
-         ..TheExplanationOf(whyItCannotBeChangedByHand)
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', "Rename... (F2)"), rename, enabled: canBeRenamed),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('p', "Rename with parents..."), renameWithParents, enabled: canBeRenamed),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('d', "Delete... (Del)"), delete, enabled: canBeDeleted),
+         ..TheExplanationsOf([WhyTheSelectedBranchCannotBeRenamedByHand(), WhyTheSelectedBranchCannotBeDeletedByHand()])
       ];
 
-      static IEnumerable<SpecMenuItem> TheExplanationOf(string? whyItCannotBeChangedByHand) =>
-         whyItCannotBeChangedByHand is null ? [] : [SpecMenuItem.Separator(), SpecMenuItem.Command(whyItCannotBeChangedByHand, () => {}, enabled: false)];
+      static IEnumerable<SpecMenuItem> TheExplanationsOf(IEnumerable<string?> whyItCannotBeChanged)
+      {
+         var explanations = whyItCannotBeChanged.OfType<string>().Distinct().ToList();
+         return explanations.Count == 0 ? [] : [SpecMenuItem.Separator(), ..explanations.Select(it => SpecMenuItem.Command(it, () => {}, enabled: false))];
+      }
    }
 
    void RenameTheSelectedBranch(Func<TagRenameDialogViewModel, Task<TagBranchRename?>> renameInADialog,
                                 Func<TagBranch, int, IReadOnlyCollection<Tag>, TagRenameDialogViewModel> dialogFor)
    {
-      if(SelectedBranchThatCanBeChangedByHand() is not {} branch) return;
+      if(SelectedBranchThatCanBeRenamedByHand() is not {} branch) return;
 
       var notes = _collection.NotesWithATagIn(branch);
       var dialog = dialogFor(branch, notes.Count, [.._collection.TagsInUse()]);
@@ -159,14 +165,17 @@ partial class TagManagementViewModel : ObservableObject
       });
    }
 
-   /// <summary>The selected line's branch, or null when no line is selected, or its branch holds a tag JAStudio defines.</summary>
-   TagBranch? SelectedBranchThatCanBeChangedByHand() => SelectedLine is {} selected && WhyTheSelectedBranchCannotBeChangedByHand() is null ? new TagBranch(selected.TagPath) : null;
+   /// <summary>The selected line's branch, or null when no line is selected, or its branch can't be renamed by hand.</summary>
+   TagBranch? SelectedBranchThatCanBeRenamedByHand() => SelectedLine is {} selected && WhyTheSelectedBranchCannotBeRenamedByHand() is null ? new TagBranch(selected.TagPath) : null;
 
-   /// <summary>Why the selected line's branch can't be renamed or deleted by hand, for its menu to show, or null when it can, or no line is selected.</summary>
-   string? WhyTheSelectedBranchCannotBeChangedByHand() =>
-      SelectedLine is {} selected && new TagBranch(selected.TagPath).ATagDefinedByJAStudioIn(_collection.TagsInUse()) is {} definedByJAStudio
-         ? $"Can't be renamed or deleted: it holds {definedByJAStudio.Name}, which JAStudio defines"
-         : null;
+   /// <summary>The selected line's branch, or null when no line is selected, or its branch can't be deleted by hand.</summary>
+   TagBranch? SelectedBranchThatCanBeDeletedByHand() => SelectedLine is {} selected && WhyTheSelectedBranchCannotBeDeletedByHand() is null ? new TagBranch(selected.TagPath) : null;
+
+   /// <summary>Why the selected line's branch can't be renamed by hand, for its menu to show, or null when it can, or no line is selected.</summary>
+   string? WhyTheSelectedBranchCannotBeRenamedByHand() => SelectedLine is {} selected ? new TagBranch(selected.TagPath).WhyItCannotBeRenamedByHand(_collection.TagsInUse()) : null;
+
+   /// <summary>Why the selected line's branch can't be deleted by hand, for its menu to show, or null when it can, or no line is selected.</summary>
+   string? WhyTheSelectedBranchCannotBeDeletedByHand() => SelectedLine is {} selected ? new TagBranch(selected.TagPath).WhyItCannotBeDeletedByHand(_collection.TagsInUse()) : null;
 
    /// <summary>
    /// Computes the tree from the notes' tags, and shows it with the line of <paramref name="pathToSelect"/> selected, if it's shown,<br/>

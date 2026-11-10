@@ -47,7 +47,7 @@
                     <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Readings" Binding="{Binding Readings}" Width="Auto" FontFamily="{StaticResource JapaneseFont}" />
                     <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Answer" Binding="{Binding Answer}" Width="2*" />
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
-                    <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
+                    <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Tags" Binding="{Binding Tags.Text}" SortMemberPath="Tags" Width="*" />
                     <!-- The studying columns are only check boxes, so their headers are abbreviated, with the full name on hover. -->
                     <DataGridCheckBoxColumn Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto">
                         <DataGridCheckBoxColumn.Header>
@@ -69,7 +69,7 @@
                     <resultsViews:TextColumnShowingTheWholeTextOnHover Header="On readings" Binding="{Binding OnReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
                     <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Kun readings" Binding="{Binding KunReadings}" Width="*" FontFamily="{StaticResource JapaneseFont}" />
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
-                    <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
+                    <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Tags" Binding="{Binding Tags.Text}" SortMemberPath="Tags" Width="*" />
                     <!-- The studying columns are only check boxes, so their headers are abbreviated, with the full name on hover. -->
                     <DataGridCheckBoxColumn Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto">
                         <DataGridCheckBoxColumn.Header>
@@ -92,7 +92,7 @@
                     <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Source" Binding="{Binding Source.Text}" SortMemberPath="Source" Width="Auto" />
                     <resultsViews:TextColumnShowingTheWholeTextOnHover Header="External id" Binding="{Binding ExternalId.Text}" SortMemberPath="ExternalId" Width="Auto" />
                     <!-- Sorted by the value itself, which compares the numbers in it as numbers, rather than by its text. -->
-                    <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Tags" Binding="{Binding TagsNotDefinedByJAStudio.Text}" SortMemberPath="TagsNotDefinedByJAStudio" Width="*" />
+                    <resultsViews:TextColumnShowingTheWholeTextOnHover Header="Tags" Binding="{Binding Tags.Text}" SortMemberPath="Tags" Width="*" />
                     <!-- The studying columns are only check boxes, so their headers are abbreviated, with the full name on hover. -->
                     <DataGridCheckBoxColumn Binding="{Binding IsStudyingReading, Mode=OneWay}" Width="Auto">
                         <DataGridCheckBoxColumn.Header>

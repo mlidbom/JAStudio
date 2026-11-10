@@ -28,11 +28,17 @@ not necessarily in how:
   it.
 - **corpus-tag** and **student-tag** — a tag that describes the language data, and a tag that is about one
   student's studying, such as a priority tag. See `corpus-data-model.md`, "Student-tags and corpus-tags".
-- **jastudio-defined-tag** — a tag that JAStudio itself defines, in `Tags`. Most are generated, such as
-  `-::kanji::in-any-vocab-form`. A few hold data JAStudio reads, such as `_tts_audio`. *(Until 2026-11-08 the vocab's
-  matching configuration, register and usually-written-in-kana were such tags too, such as
-  `-::vocab::matching::requires::godan` and `_uk`.)* Tags a person applies, including the ones under `-::` such as
-  `-::priority::…` and `-::counting`, are not jastudio-defined-tags.
+- **jastudio-defined-tag** — a tag that JAStudio itself defines, in `Tags`, so that its code uses its name. Most are
+  generated, such as `-::kanji::in-any-vocab-form`. A few hold data JAStudio reads, such as `_tts_audio`, and a few are
+  source tags JAStudio sets when it creates a note, such as `source::jamdict`. *(Until 2026-11-08 the vocab's matching
+  configuration, register and usually-written-in-kana were such tags too, such as `-::vocab::matching::requires::godan`
+  and `_uk`.)* Tags a person applies, including the ones under `-::` such as `-::priority::…` and `-::counting`, are not
+  jastudio-defined-tags.
+- **jastudio-maintained-tag** — a jastudio-defined-tag JAStudio keeps up to date itself: the generated ones, which every
+  full rebuild computes, and `_tts_audio`, which has an editor of its own (`Tags.IsMaintainedByJAStudio`). The source
+  tags JAStudio sets aren't: nothing sets them again after the note is created.
+- **the source branch** — `source::…`, where each note's content comes from, which is the record licensing depends on
+  (`Tags.Source`). See `todo/whether-to-split-source-into-provider-and-work.md`.
 
 ## Rules
 
@@ -44,10 +50,23 @@ not necessarily in how:
 - **No empty levels:** `a::::b`, a leading `::` and a trailing `::` are invalid.
   *(2026-11-07: `Tag.WhyItCannotBeTheNameOfATag` checks a typed name against this rule and the one on spaces. Only
   typed names are checked: tags loaded from the corpus or Anki aren't.)*
-- **jastudio-defined-tags can't be edited by hand.** They appear in the tag tree for navigating, but can't be
-  renamed, moved, deleted, or added to or removed from notes by hand. They're either generated, so a hand edit
-  would be overwritten, or they have their own editors. *(2026-11-07: `Tags.IsDefinedByJAStudio` says which they
-  are: every tag declared in `Tags` and its nested classes.)*
+- **Every tag is shown,** in the tag tree, the search's tag conditions, the note's Tags editor and the search results'
+  Tags column (Magnus, 2026-11-10: "I want to see all tags on a note"). The jastudio-maintained-tags are shown dimmed,
+  without the × that removes a tag.
+- **jastudio-maintained-tags can't be edited by hand.** They can't be added to or removed from notes by hand, and a
+  branch holding one can't be deleted (`TagBranch.WhyItCannotBeDeletedByHand`): a hand edit would be overwritten by the
+  next rebuild, or contradict their editor.
+- **jastudio-defined-tags can't be renamed or moved by hand,** nor a branch holding one, nor another tag renamed onto
+  one (`TagBranch.WhyItCannotBeRenamedByHand`): JAStudio would go on using the old name. *(2026-11-07:
+  `Tags.IsDefinedByJAStudio` says which they are: every tag declared in `Tags` and its nested classes.)*
+- **The source branch itself is never renamed or deleted** (Magnus, 2026-11-10: "That branch is holy"). Everything in it
+  is added, removed, renamed and moved as any other tag, the source tags JAStudio sets included, apart from renaming
+  those. Tags can be moved into and out of it.
+- **Changing a note's source warns, prominently** (Magnus, 2026-11-10): adding or removing a source tag in the tag
+  picker dialog, on one note or on a selection, says in red how many notes' sources change; so do the tag management's
+  rename dialog and its delete confirmation, for a branch in the source branch or moved into it; and the × of a source
+  tag in a note's Tags editor asks first. Editing tags is much of how Magnus imports and organizes, so it warns rather
+  than forbids.
 - **Every tag change writes the note** to its corpus file, and through the Anki-projection to its Anki note, as
   any other edit does.
 
@@ -88,7 +107,7 @@ many notes change.
 
 | Anki | JAStudio |
 |---|---|
-| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** the tags as chips, each with a × that removes it, and a button that adds a tag picked in the tag picker dialog. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It leaves out jastudio-defined-tags, for now (Magnus, 2026-11-07). **No key jumps there:** Ctrl+T and Ctrl+Shift+T add and remove a tag on a note's tab directly (Magnus, 2026-11-07). |
+| Tag chips under the note editor's fields, with autocomplete. Ctrl+Shift+T jumps there. | **A Tags editor in every note type's editor section:** the tags as chips, each with a × that removes it, and a button that adds a tag picked in the tag picker dialog. It's on a vocab's Metadata tab, and at the bottom of the kanji and sentence editors. It shows every tag, the jastudio-maintained-tags dimmed and without a × (Magnus, 2026-11-10; until then it left out the jastudio-defined-tags). **No key jumps there:** Ctrl+T and Ctrl+Shift+T add and remove a tag on a note's tab directly (Magnus, 2026-11-07). |
 | With notes selected: Add Tags (Ctrl+Shift+A) and Remove Tags (Ctrl+Alt+Shift+A) open a prompt with autocomplete | **The same on the search results, which allow selecting several notes** (Ctrl/Shift+click, Ctrl+A). Right-click a selection → Add tags… / Remove tags…. Remove offers only the tags the selected notes have. *Shortcuts (Magnus, 2026-11-07): Ctrl+T adds and Ctrl+Shift+T removes, rather than Anki's, which are hard to remember: T for tag, as everywhere in the search, and Shift for the reverse.* |
 | Right-click tags in the sidebar → Add to / Remove from selected notes | Deferred. The Add and Remove prompts cover it. |
 | Toggle Mark (Ctrl+K) adds or removes `marked` | Skipped: `marked` is on 2 notes, and it's a student-tag. |
@@ -134,7 +153,8 @@ How these interleave with the search increments is in [note-search.md](note-sear
        existing tags, since a tag has no spaces. A new tag that differs from an existing one only in case gets the
        existing spelling.
      - **Removing** offers only the tags the selected notes have.
-     - **Neither offers a jastudio-defined-tag.**
+     - **Neither offers a jastudio-maintained-tag.** *(Until 2026-11-10, no jastudio-defined-tag, so neither
+       offered `source::jamdict`.)* Picking a source tag shows a warning in red: see Rules.
      - **One tag at a time,** unlike Anki's prompt, which takes several. That's the simple version.
    - **1b, built 2026-11-07: seeing and editing a note's tags.**
      - **A Tags column in the search's results grid,** for every note type, so a bulk tagging shows in the rows it
@@ -147,9 +167,9 @@ How these interleave with the search increments is in [note-search.md](note-sear
        itself, to the selected notes.
      - **A single note is changed at once,** on the UI thread, as the other editors change it, with no progress
        dialog, which would only flash for one note.
-     - **The column and the editor leave out the jastudio-defined-tags,** as the dialogs do
-       (`NoteTags.NotDefinedByJAStudio`). Otherwise a vocab's matching-configuration tags would crowd out the
-       rest, and they have editors of their own.
+     - **The column and the editor show every tag** (`NoteTags.InAlphabeticalOrder`), the editor showing the
+       jastudio-maintained-tags dimmed and without a × (Magnus, 2026-11-10). *Until then they left out the
+       jastudio-defined-tags, when a vocab's matching configuration was still tags and would have crowded out the rest.*
 2. **Tag management, browsing:** the tag tree with counts, the filter box, and "search for this tag". *(Built
    2026-11-07.)*
    - **Core:** `TagTree` is the tree, made by `JPCollection.TagTree`, each path a `TagTreeNode` with its last level,
@@ -185,7 +205,8 @@ How these interleave with the search increments is in [note-search.md](note-sear
    - **Can't be done:** an invalid name, the same name, a name that differs only in case (tags ignore case, so it
      would find the same tag), moving a tag below itself, and a rename that would turn a tag into one JAStudio
      defines. The dialog shows the reason, with its button disabled.
-   - **Branches holding a tag JAStudio defines,** such as `-`, can't be renamed or deleted. Their menu has the
+   - **Branches holding a tag JAStudio defines,** such as `-`, can't be renamed, and those holding one it maintains can't
+     be deleted; `source` itself is neither (see Rules, 2026-11-10). Their menu has the
      items disabled, and a line saying which tag is the reason.
    - **The changes run in the background** with a progress dialog (`BulkNoteChanges`, which the search results'
      bulk actions use too). Afterwards the tree is computed again, with the renamed line selected and the lines

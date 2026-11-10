@@ -30,10 +30,10 @@ abstract class SearchResultViewModel(JPNote note) : ObservableObject
    public bool IsStudyingListening => Note.IsStudyingListening();
 
    /// <summary>
-   /// The note's tags other than the jastudio-defined-tags (<see cref="NoteTags.NotDefinedByJAStudio"/>), separated by spaces, as Anki shows them.<br/>
+   /// All the note's tags (<see cref="NoteTags.InAlphabeticalOrder"/>), those JAStudio maintains too, separated by spaces, as Anki shows them.<br/>
    /// Sorting by them compares the numbers in them as numbers, so the tag of season 2 comes before that of season 10.
    /// </summary>
-   public TextSortedWithNumbersAsNumbers TagsNotDefinedByJAStudio => new(string.Join(" ", Note.Tags.NotDefinedByJAStudio().Select(it => it.Name)));
+   public TextSortedWithNumbersAsNumbers Tags => new(string.Join(" ", Note.Tags.InAlphabeticalOrder().Select(it => it.Name)));
 
    /// <summary>
    /// Makes the row show <paramref name="note"/> as it is now: the row's own note after it changed,<br/>

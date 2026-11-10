@@ -106,6 +106,7 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
       [XF] public void the_dialog_opened_with_the_last_level() => NameTheRenameDialogOpenedWith.Must().Be("natsume");
       [XF] public void the_dialog_showed_the_path_above_as_staying() => RenameDialogShown.FixedPathAbove.Must().Be("source::anime::");
       [XF] public void the_dialog_said_how_many_notes_change() => RenameDialogShown.WhatChanges.Must().Be($"{Natsume} and every tag below it change on 2 notes.");
+      [XF] public void the_dialog_warned_that_it_changes_the_source_of_2_notes() => (RenameDialogShown.SourceWarning ?? throw new InvalidOperationException("The dialog showed no source warning.")).Must().Be("This changes the source of 2 notes.");
       [XF] public void the_notes_have_the_renamed_tags() => TagsOf(_sentenceAboutHome).Must().SequenceEqual(["source::anime::soseki::s3::01"]);
       [XF] public void the_renamed_line_is_visible() => PathsOfTheVisibleLines().Must().Contain("source::anime::soseki");
       [XF] public void no_line_shows_the_old_name() => AllLines().Any(it => it.TagPath.StartsWith(Natsume, StringComparison.Ordinal)).Must().BeFalse();
@@ -156,7 +157,7 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
       [XF] public void the_nearest_line_above_that_is_left_is_selected_since_natsume_was_all_anime_held() => PathOfTheSelectedLine().Must().Be("source");
 
       [XF] public void the_question_said_what_is_deleted_from_how_many_notes() =>
-         DeleteQuestionAsked.Must().Be($"Delete {Natsume} and every tag below it from 2 notes? This can't be undone.");
+         DeleteQuestionAsked.Must().Be($"Delete {Natsume} and every tag below it from 2 notes? This changes the source of 2 notes. This can't be undone.");
       [XF] public void the_notes_no_longer_have_the_tags() => TagsOf(_sentenceAboutHome).Concat(TagsOf(_sentenceAboutSchool)).Must().BeEmpty();
       [XF] public void the_other_notes_keep_their_tags() => TagsOf(_vocab).Must().SequenceEqual(["source::wani"]);
    }
@@ -172,18 +173,39 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
       [XF] public void the_notes_keep_their_tags() => TagsOf(_sentenceAboutHome).Must().SequenceEqual([$"{Natsume}::s3::01"]);
    }
 
-   public class the_menu_of_the_line_of_a_branch_holding_a_tag_jastudio_defines : When_editing_the_tag_tree_in_the_workspace
+   List<SpecMenuItem> TheMenuOfTheLineOf(string tagPath)
+   {
+      _tags.SelectedLine = LineOf(tagPath);
+      return _tags.SelectedLineMenu(rename: () => {}, renameWithParents: () => {}, delete: () => {});
+   }
+
+   static List<bool> WhetherRenameRenameWithParentsAndDeleteAreEnabled(List<SpecMenuItem> menu) =>
+      [..menu.Where(it => it.Name.Contains("Rename") || it.Name.Contains("Delete")).Select(it => it.IsEnabled)];
+
+   public class the_menu_of_the_line_of_a_branch_holding_a_tag_jastudio_maintains : When_editing_the_tag_tree_in_the_workspace
    {
       readonly List<SpecMenuItem> _menu;
 
-      public the_menu_of_the_line_of_a_branch_holding_a_tag_jastudio_defines()
-      {
-         _tags.SelectedLine = LineOf("-");
-         _menu = _tags.SelectedLineMenu(rename: () => {}, renameWithParents: () => {}, delete: () => {});
-      }
+      public the_menu_of_the_line_of_a_branch_holding_a_tag_jastudio_maintains() => _menu = TheMenuOfTheLineOf("-");
 
-      [XF] public void cannot_rename_or_delete() =>
-         _menu.Where(it => it.Name.Contains("Rename") || it.Name.Contains("Delete")).Select(it => it.IsEnabled).Must().SequenceEqual([false, false, false]);
-      [XF] public void says_why() => _menu[^1].Name.Must().Be($"Can't be renamed or deleted: it holds {Tags.Kanji.InAnyVocabForm.Name}, which JAStudio defines");
+      [XF] public void cannot_rename_or_delete() => WhetherRenameRenameWithParentsAndDeleteAreEnabled(_menu).Must().SequenceEqual([false, false, false]);
+      [XF] public void says_why_for_each() =>
+         _menu.TakeLast(2).Select(it => it.Name).Must().SequenceEqual([$"- holds {Tags.Kanji.InAnyVocabForm.Name}, whose name JAStudio uses, so it can't be renamed by hand.",
+                                                                       $"- holds {Tags.Kanji.InAnyVocabForm.Name}, which JAStudio maintains, so it can't be deleted by hand."]);
+   }
+
+   public class the_menu_of_the_line_of_the_source_branch : When_editing_the_tag_tree_in_the_workspace
+   {
+      readonly List<SpecMenuItem> _menu;
+
+      public the_menu_of_the_line_of_the_source_branch() => _menu = TheMenuOfTheLineOf("source");
+
+      [XF] public void cannot_rename_or_delete() => WhetherRenameRenameWithParentsAndDeleteAreEnabled(_menu).Must().SequenceEqual([false, false, false]);
+      [XF] public void says_why_once() => _menu[^1].Name.Must().Be("source holds every note's source, so it's never renamed or deleted.");
+   }
+
+   public class the_menu_of_the_line_of_a_branch_in_the_source_branch : When_editing_the_tag_tree_in_the_workspace
+   {
+      [XF] public void can_rename_and_delete() => WhetherRenameRenameWithParentsAndDeleteAreEnabled(TheMenuOfTheLineOf(Natsume)).Must().SequenceEqual([true, true, true]);
    }
 }

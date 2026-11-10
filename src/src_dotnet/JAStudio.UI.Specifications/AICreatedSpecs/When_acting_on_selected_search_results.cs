@@ -109,7 +109,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
 
       [XF] public void both_sentences_have_the_tag() => BothSentencesHave(NewTag).Must().BeTrue();
       [XF] public void the_rows_tags_column_shows_it() =>
-         FoundSentences().Select(it => it.TagsNotDefinedByJAStudio.Text).Must().SequenceEqual([$"{NewTag} source::anime", $"{NewTag} source::anime"]);
+         FoundSentences().Select(it => it.Tags.Text).Must().SequenceEqual([$"{NewTag} source::anime", $"{NewTag} source::anime"]);
       [XF] public void the_dialog_said_it_adds_a_tag_to_2_notes() => DialogShown.Title.Must().Be("Add a tag to 2 notes");
       [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue();
 
