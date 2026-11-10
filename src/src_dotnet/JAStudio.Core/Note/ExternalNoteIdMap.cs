@@ -40,4 +40,30 @@ public class ExternalNoteIdMap
       _noteIdToExternal.Clear();
       _externalToNoteId.Clear();
    }
+
+   /// <summary>Every mapping held now, by external id: to give to <see cref="TakeIn"/> once the mappings are read from Anki again.</summary>
+   public IReadOnlyDictionary<long, NoteId> Snapshot() => new Dictionary<long, NoteId>(_externalToNoteId);
+
+   /// <summary>
+   /// Takes in <paramref name="readFromAnki"/>, every mapping as read from Anki again, in place of <paramref name="heldWhenTheReadBegan"/>, the mappings<br/>
+   /// held when that read began (<see cref="Snapshot"/>), one mapping at a time, so that the map is never empty meanwhile. A mapping registered since<br/>
+   /// the read began, as when a study-note was created meanwhile, is kept, since the read can't have seen it.
+   /// </summary>
+   /// <returns>The notes whose study-note is gone from Anki: mapped when the read began, and no longer in <paramref name="readFromAnki"/>.</returns>
+   public IReadOnlyList<NoteId> TakeIn(IReadOnlyDictionary<long, NoteId> readFromAnki, IReadOnlyDictionary<long, NoteId> heldWhenTheReadBegan)
+   {
+      List<NoteId> notesWhoseStudyNoteIsGone = [];
+      foreach(var (externalId, noteId) in heldWhenTheReadBegan)
+      {
+         if(readFromAnki.ContainsKey(externalId)) continue;
+
+         Unregister(externalId);
+         notesWhoseStudyNoteIsGone.Add(noteId);
+      }
+
+      foreach(var (externalId, noteId) in readFromAnki)
+         Register(externalId, noteId);
+
+      return notesWhoseStudyNoteIsGone;
+   }
 }

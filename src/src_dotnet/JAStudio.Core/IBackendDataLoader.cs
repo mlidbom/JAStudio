@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.TaskRunners;
@@ -27,10 +28,19 @@ public class BackendData
    /// <summary>The tags each study-note has in Anki, by its Anki note id: what each note's <see cref="Note.Tagging.AnkiTags"/> are read from.</summary>
    public Dictionary<long, IReadOnlyList<string>> StudyNoteTags { get; }
 
+   readonly ILookup<long, CardStudyingStatus> _studyingStatusesByAnkiNoteId;
+
    public BackendData(Dictionary<long, NoteId> idMappings, List<CardStudyingStatus> studyingStatuses, Dictionary<long, IReadOnlyList<string>> studyNoteTags)
    {
       IdMappings = idMappings;
       StudyingStatuses = studyingStatuses;
       StudyNoteTags = studyNoteTags;
+      _studyingStatusesByAnkiNoteId = studyingStatuses.ToLookup(it => it.ExternalNoteId);
    }
+
+   /// <summary>The studying statuses of the cards of the study-note with <paramref name="ankiNoteId"/>.</summary>
+   public IEnumerable<CardStudyingStatus> StudyingStatusesOf(long ankiNoteId) => _studyingStatusesByAnkiNoteId[ankiNoteId];
+
+   /// <summary>The tags of the study-note with <paramref name="ankiNoteId"/>: none when it has none.</summary>
+   public IReadOnlyList<string> TagsOf(long ankiNoteId) => StudyNoteTags.GetValueOrDefault(ankiNoteId) ?? [];
 }

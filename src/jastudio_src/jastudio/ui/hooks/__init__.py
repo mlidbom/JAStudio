@@ -7,7 +7,7 @@ from jastudio.ui.hooks import (
     custom_auto_advance_timings,
     custom_short_term_scheduling,
     custom_timebox_lengths,
-    follow_the_tags_of_the_study_notes,
+    follow_the_study_notes_in_anki,
     global_shortcuts,
     history_navigator,
     no_accidental_double_click,
@@ -23,7 +23,7 @@ def init() -> None:
     custom_auto_advance_timings.init()
     custom_short_term_scheduling.init()
     custom_timebox_lengths.init()
-    follow_the_tags_of_the_study_notes.init()
+    follow_the_study_notes_in_anki.init()
     history_navigator.init()
     no_accidental_double_click.init()
     timebox_end_sound.init()

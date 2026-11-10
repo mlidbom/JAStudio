@@ -20,7 +20,7 @@ public abstract class JPNote
    byte[]? _lastPersistedSnapshot;
 
    // Dictionary tracks card suspend status: true = active/unsuspended, false = suspended
-   readonly Dictionary<string, bool> _cardStatus = new();
+   Dictionary<string, bool> _cardStatus = new();
 
    /// <summary>The note's own tags: the corpus's, stored with the note and edited in JAStudio.</summary>
    public NoteTags Tags { get; }
@@ -46,6 +46,22 @@ public abstract class JPNote
    {
       // Update card status: true = active/unsuspended, false = suspended
       _cardStatus[status.CardType] = !status.IsSuspended;
+   }
+
+   /// <summary>
+   /// Gives the note what Anki holds of its study-note, in place of what it had: the studying statuses of its cards, <paramref name="cardStatuses"/>, and its<br/>
+   /// tags, <paramref name="tagsInAnki"/>, as its <see cref="AnkiTags"/>. Neither when it has no study-note. Whether either differs from before.
+   /// </summary>
+   /// <remarks>The card statuses are swapped in whole, so that whoever reads them meanwhile, such as the UI, sees either those before or those after.</remarks>
+   internal bool ReadItsStudyNoteFrom(IEnumerable<CardStudyingStatus> cardStatuses, IEnumerable<string> tagsInAnki)
+   {
+      var cardStatusesBefore = _cardStatus;
+      _cardStatus = cardStatuses.ToDictionary(it => it.CardType, it => !it.IsSuspended);
+      var theTagsDiffer = AnkiTags.ReadFrom(tagsInAnki);
+      return theTagsDiffer || !TheSameCardStatusesAs(cardStatusesBefore);
+
+      bool TheSameCardStatusesAs(Dictionary<string, bool> other) =>
+         other.Count == _cardStatus.Count && other.All(it => _cardStatus.TryGetValue(it.Key, out var isActive) && isActive == it.Value);
    }
 
    /// <summary>
@@ -120,8 +136,7 @@ public abstract class JPNote
    /// </summary>
    public void ForgetItsDeletedAnkiNote()
    {
-      _cardStatus.Clear();
-      AnkiTags.Forget();
+      ReadItsStudyNoteFrom([], []);
       Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
    }
 

@@ -4,7 +4,7 @@ from JAStudio.Core.UI.Web.Sentence import SentenceNoteRenderer
 from JAStudio.Core.UI.Web.Vocab import VocabNoteRenderer
 from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
-from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1
+from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note import NoteId, ExternalNoteIdMap, NoteServices
 from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
@@ -59,6 +59,8 @@ class BackendData:
     def StudyingStatuses(self) -> List_1[CardStudyingStatus]: ...
     @property
     def StudyNoteTags(self) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
+    def StudyingStatusesOf(self, ankiNoteId: int) -> IEnumerable_1[CardStudyingStatus]: ...
+    def TagsOf(self, ankiNoteId: int) -> IReadOnlyList_1[str]: ...
 
 
 class CoreApp(IDisposable):

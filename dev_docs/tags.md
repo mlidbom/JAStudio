@@ -128,11 +128,10 @@ many notes change.
   the search, the tag tree, the paths a search condition offers and the search results show them, and the note's tags
   editor shows them dimmed, without a remove button. A note's own tag can't be in the branch: adding one, renaming a
   branch into it, and renaming or deleting the branch are refused, with why. A level named `anki` lower down, such as
-  `tmp::anki`, is a tag like any other. A change made in Anki during a session shows at once: after every operation that
-  changed notes, such as marking a note, editing tags in Anki's browser or a review that made a card a leech, Anki hands
-  JAStudio the tags of the notes changed since it last looked (`follow_the_tags_of_the_study_notes.py`,
-  `JPCollection.UpdateTheAnkiTagsOfAStudyNote`). A sync loads the collection again. Not followed: undo in Anki, which
-  restores a note's modification time, so the change it undoes shows only at the next load. The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
+  `tmp::anki`, is a tag like any other. A change made in Anki during a session shows at once: after every Anki operation
+  that changed notes, such as marking a note, editing tags in Anki's browser or a review that made a card a leech, undo and
+  redo included, JAStudio reads the study-notes from Anki again, in the background (`follow_the_study_notes_in_anki.py`,
+  `JPCollection.ReadTheStudyNotesFromAnkiAgain`). A sync loads the collection again. The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
 
 ## Later: branches with meaning, and tags with metadata
 

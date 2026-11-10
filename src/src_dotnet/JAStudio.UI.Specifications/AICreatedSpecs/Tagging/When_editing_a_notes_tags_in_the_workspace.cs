@@ -7,6 +7,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.TestUtils;
 using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.ViewModels.Workspace.Editors;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
@@ -116,13 +117,16 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(SourceTag).Must().BeFalse();
    }
 
-   /// <summary>Anki reports, during a session, that the sentence's study-note is tagged <c>leech</c>, as after a review that made a card a leech.</summary>
-   public class after_Anki_reports_that_its_study_note_was_tagged : When_editing_a_notes_tags_in_the_workspace
+   /// <summary>
+   /// During a session, the sentence's study-note in Anki is tagged <c>leech</c>, as after a review that made a card a leech, and the study-notes are read<br/>
+   /// from Anki again, as after that review.
+   /// </summary>
+   public class after_its_study_note_is_tagged_in_Anki_and_the_study_notes_are_read_again : When_editing_a_notes_tags_in_the_workspace
    {
-      public after_Anki_reports_that_its_study_note_was_tagged()
+      public after_its_study_note_is_tagged_in_Anki_and_the_study_notes_are_read_again()
       {
-         var collection = GetService<JPCollection>();
-         collection.UpdateTheAnkiTagsOfAStudyNote(collection.GetExternalNoteId(_sentence.GetId()), "leech");
+         GetService<PretendAnki>().Tag(_sentence, "leech");
+         GetService<JPCollection>().ReadTheStudyNotesFromAnkiAgain();
       }
 
       [XF] public void the_editor_shows_the_tag_below_anki() => TagsShownInTheEditor().Must().Contain("anki::leech");

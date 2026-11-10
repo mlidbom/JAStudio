@@ -119,21 +119,6 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
 
    protected abstract void AddToCacheCore(TNote note);
    protected abstract void RemoveFromCacheCore(TNote note);
-
-   public void SetStudyingStatuses(Dictionary<long, List<CardStudyingStatus>> statusesByExternalId)
-   {
-      _monitor.Locked(() =>
-      {
-         foreach(var (externalId, statuses) in statusesByExternalId)
-         {
-            var note = WithExternalIdOrNoneCore(externalId);
-            if(note == null) continue;
-
-            foreach(var status in statuses)
-               note.SetStudyingStatus(status);
-         }
-      });
-   }
 }
 
 abstract class NoteCache<TNote, TSnapshot>(NoteServices noteServices) : NoteCacheBase<TNote>(noteServices)

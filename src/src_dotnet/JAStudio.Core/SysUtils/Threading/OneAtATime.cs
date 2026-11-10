@@ -12,6 +12,13 @@ class OneAtATime
    readonly IAwaitableMonitor _monitor = IAwaitableMonitor.New(waitTimeout: WaitTimeout.Infinite);
    bool _workIsUnderWay;
 
+   /// <summary>Does <paramref name="work"/> once the work under way, if any, has finished.</summary>
+   public void Do(Action work) => Do(() =>
+   {
+      work();
+      return true;
+   });
+
    /// <summary>Does <paramref name="work"/> once the work under way, if any, has finished, and returns its result.</summary>
    public TResult Do<TResult>(Func<TResult> work)
    {

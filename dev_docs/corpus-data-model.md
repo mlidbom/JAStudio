@@ -733,7 +733,10 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     undo in Anki's editor, which isn't an operation), after a sync, and when a profile opens. In the background, one
     re-read at a time, announcing through `JPCollection.StudyNoteChanged` only the notes whose study-note differs. It
     replaces the hook's scan of the notes changed since it last looked (`follow_the_tags_of_the_study_notes.py`), which
-    misses an undo, since undo restores a note's modification time.
+    misses an undo, since undo restores a note's modification time. *Done 2026-11-10 for Anki operations, undo and redo
+    included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromAnkiAgain`,
+    in the background, one read at a time (`BackgroundRefresh`). It reads through the same loaders as the load, after
+    `AnkiFacade.Col.DbFilePath` has Anki checkpoint its write-ahead log, which the loaders' `immutable=1` reads don't see.*
   - **Cost, measured 2026-11-10 on a copy of the collection:** reading every study-note's tags takes about 40 ms for
     80,512 notes; the hook's scan takes 13 ms, since Anki has no index on a note's modification time. The id mappings
     and the cards' statuses aren't measured yet. If the whole re-read is cheap enough, it may also replace the separate
@@ -751,7 +754,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
      `CreatedOrExistingVocab`, and `WorkspaceWindow.OpenTheVocab` shows a `MessageDialog` when it existed already.*
   2. A note's tab shows a change to its study-note (`StudyNoteChanged`) at once, as it does an update of the note: today
      it shows only when the tab opens again. *Done 2026-11-10: `NoteTabViewModel` follows `StudyNoteChanged`.*
-  3. The re-read of the Anki state, above.
+  3. The re-read of the Anki state, above. *Done 2026-11-10 after Anki operations; a sync and a profile switch are next.*
   4. Changing Anki's tags in JAStudio, above.
   5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`.
   6. The orphaned study-note of the deleted jamdict ましょうか: deleted in Anki's browser, or by a live MCP tool that deletes

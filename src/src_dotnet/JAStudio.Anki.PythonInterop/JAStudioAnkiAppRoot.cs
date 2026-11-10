@@ -14,6 +14,8 @@ using Compze.Internals.SystemCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
+using JAStudio.Core.Note.Collection;
+using JAStudio.Core.SysUtils.Threading;
 using JAStudio.Mcp.Live;
 using JAStudio.UI;
 using JAStudio.UI.Shortcuts;
@@ -32,6 +34,7 @@ public class JAStudioAnkiAppRoot
    readonly CoreApp _coreApp;
    readonly CardServer _cardServer;
    readonly LiveJAStudioMcpServer _liveMcpServer;
+   readonly BackgroundRefresh _readingTheStudyNotesFromAnkiAgain;
    CancellationTokenSource? _reloadCts;
    static readonly TimeSpan ReloadDebounceDelay = TimeSpan.FromMilliseconds(500);
 
@@ -63,6 +66,7 @@ public class JAStudioAnkiAppRoot
       _coreApp = coreApp;
       _cardServer = cardServer;
       _liveMcpServer = liveMcpServer;
+      _readingTheStudyNotesFromAnkiAgain = new BackgroundRefresh(coreApp.Services.BackgroundTaskManager, coreApp.Collection.ReadTheStudyNotesFromAnkiAgain);
       Dialogs = new AnkiDialogs();
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
@@ -182,6 +186,14 @@ public class JAStudioAnkiAppRoot
    /// </summary>
    // ReSharper disable once UnusedMember.Global used from python
    public void ANoteWasAddedInAnki(string ankiNoteType) => _coreApp.Services.Resolve<AutomaticImportRuns>().AfterANoteWasAddedInAnki(ankiNoteType);
+
+   /// <summary>
+   /// An Anki operation changed notes, such as marking one, editing tags in Anki's browser or a review that made a card a leech, which tags its note, or<br/>
+   /// an undo or redo, which run as operations too: reads the study-notes from Anki again, in the background, one read at a time<br/>
+   /// (<see cref="JPCollection.ReadTheStudyNotesFromAnkiAgain"/>). Python calls it from Anki's <c>operation_did_execute</c> hook.
+   /// </summary>
+   // ReSharper disable once UnusedMember.Global used from python
+   public void AnkiChangedNotes() => _readingTheStudyNotesFromAnkiAgain.Run();
 
    // ReSharper disable once UnusedMember.Global used from python
    public void ShutDown() => this.Log().Info().MethodExecutionTime(() =>

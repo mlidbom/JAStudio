@@ -7,9 +7,9 @@ namespace JAStudio.Core.Note.Tagging;
 
 /// <summary>
 /// A note's Anki tags: the tags its study-note has in Anki, each below <c>anki::</c> (<see cref="Tags.Anki"/>), such as <c>anki::marked</c>.<br/>
-/// They're the student's, so JAStudio only reads them: as the collection loads (<see cref="Collection.JPCollection.ReloadFromBackend"/>), and when Anki<br/>
-/// reports that they may have changed (<see cref="Collection.JPCollection.UpdateTheAnkiTagsOfAStudyNote"/>); held in memory, never stored in the corpus and<br/>
-/// never changed. A person browses and searches them with the note's own tags (<see cref="JPNote.AllTags"/>).
+/// They're the student's, so JAStudio only reads them: as the collection loads (<see cref="Collection.JPCollection.ReloadFromBackend"/>), and when it reads<br/>
+/// the study-notes from Anki again, as after an Anki operation that changed notes (<see cref="Collection.JPCollection.ReadTheStudyNotesFromAnkiAgain"/>);<br/>
+/// held in memory, never stored in the corpus and never changed. A person browses and searches them with the note's own tags (<see cref="JPNote.AllTags"/>).
 /// </summary>
 public sealed class AnkiTags : IEnumerable<Tag>
 {
@@ -25,9 +25,6 @@ public sealed class AnkiTags : IEnumerable<Tag>
 
    /// <summary>The names of the tags in <paramref name="tagsAsAnkiStoresThem"/>, a study-note's tags as Anki stores them, separated by spaces.</summary>
    public static IReadOnlyList<string> NamesIn(string tagsAsAnkiStoresThem) => tagsAsAnkiStoresThem.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-   /// <summary>Forgets them, after the note's study-note was deleted in Anki.</summary>
-   internal void Forget() => _tags = [];
 
    public IEnumerator<Tag> GetEnumerator() => _tags.GetEnumerator();
 

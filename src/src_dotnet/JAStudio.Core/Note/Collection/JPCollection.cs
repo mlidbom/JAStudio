@@ -13,6 +13,7 @@ using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.SysUtils.Threading;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -46,8 +47,8 @@ public class JPCollection
 
    /// <summary>
    /// Notifies every note whose study-note in Anki changed, on the thread that changed it: its studying status, when JAStudio suspended or unsuspended<br/>
-   /// its cards or Anki reported a change to one of them (<see cref="UpdateCardStudyingStatus"/>), or its <see cref="JPNote.AnkiTags"/>, when Anki reported<br/>
-   /// a change to them (<see cref="UpdateTheAnkiTagsOfAStudyNote"/>), or both, when its study-note was deleted.
+   /// its cards or Anki reported a change to one of them (<see cref="UpdateCardStudyingStatus"/>), its <see cref="JPNote.AnkiTags"/>, or its study-note<br/>
+   /// itself, created or deleted, as reading the study-notes from Anki again finds (<see cref="ReadTheStudyNotesFromAnkiAgain"/>).
    /// </summary>
    /// <remarks>
    /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
@@ -117,17 +118,16 @@ public class JPCollection
    }
 
    /// <summary>
-   /// Called by Anki when the tags of the study-note with <paramref name="ankiNoteId"/> may have changed during a session, such as after a review that made<br/>
-   /// one of its cards a leech, or tags edited in Anki's browser: <paramref name="tagsInAnki"/> are its tags as Anki stores them. Gives them to its note as<br/>
-   /// its <see cref="JPNote.AnkiTags"/>, if JAStudio has the note, and notifies the change through <see cref="StudyNoteChanged"/> when they differ from before.
+   /// Reads from Anki again what this collection holds of each note's study-note, as the load does, without loading the corpus again: its Anki note id,<br/>
+   /// the studying statuses of its cards and its tags (<see cref="IBackendDataLoader"/>). Each note whose study-note differs from before is notified<br/>
+   /// through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an Anki operation that changed notes, undo<br/>
+   /// and redo included.
    /// </summary>
-   // ReSharper disable once UnusedMember.Global called from python
-   public void UpdateTheAnkiTagsOfAStudyNote(long ankiNoteId, string tagsInAnki)
+   public void ReadTheStudyNotesFromAnkiAgain() => _oneLoadOrReadFromAnkiAtATime.Do(() =>
    {
-      if(NoteFromExternalId(ankiNoteId) is not {} note) return;
-
-      if(note.AnkiTags.ReadFrom(AnkiTags.NamesIn(tagsInAnki))) NotifyThatTheStudyNoteChangedFor(note);
-   }
+      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
+      GiveEachNoteItsStudyNoteFrom(_backendDataLoader.Load(NoteServices.TaskRunner), ankiNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
+   });
 
    public JPCollection(
       IBackendNoteCreator backendNoteCreator,
@@ -165,6 +165,9 @@ public class JPCollection
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
    readonly IBackendDataLoader _backendDataLoader;
+
+   /// <summary>Keeps a load of this collection and a read of the study-notes from Anki from running at the same time, which would mix what they read.</summary>
+   readonly OneAtATime _oneLoadOrReadFromAnkiAtATime = new();
 
    /// <summary>
    /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
@@ -231,7 +234,7 @@ public class JPCollection
    /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as its Anki note. Notes this collection<br/>
    /// didn't hold before aren't among them: none at startup, nor after a sync, which clears the collection when it starts.
    /// </returns>
-   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout)
+   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromAnkiAtATime.Do(() =>
    {
       var notesHeldBefore = AllNotes().ToDictionary(it => it.GetId());
       ClearCaches();
@@ -249,7 +252,7 @@ public class JPCollection
       return notesChangedOnDisk;
 
       bool ChangedOnDisk(JPNote note) => notesHeldBefore.TryGetValue(note.GetId(), out var theNoteAsHeldBefore) && !note.HasTheSameStoredDataAs(theNoteAsHeldBefore);
-   }
+   });
 
    void LoadFromBackend()
    {
@@ -258,48 +261,43 @@ public class JPCollection
       var repoLoad = TaskCE.Run(LoadFromRepository);
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
 
+      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
       var backendDataTask = Task.Run(() => _backendDataLoader.Load(NoteServices.TaskRunner));
 
       Task.WaitAll(repoLoad, mediaIndexBuild, backendDataTask);
 
-      var backendData = backendDataTask.Result;
-      foreach(var (externalId, noteId) in backendData.IdMappings)
-         NoteServices.ExternalNoteIdMap.Register(externalId, noteId);
-
-      var vocabStatuses = backendData.StudyingStatuses
-                                     .Where(s => s.NoteTypeName == NoteTypes.Vocab)
-                                     .GroupBy(s => s.ExternalNoteId)
-                                     .ToDictionary(g => g.Key, g => g.ToList());
-      var kanjiStatuses = backendData.StudyingStatuses
-                                     .Where(s => s.NoteTypeName == NoteTypes.Kanji)
-                                     .GroupBy(s => s.ExternalNoteId)
-                                     .ToDictionary(g => g.Key, g => g.ToList());
-      var sentenceStatuses = backendData.StudyingStatuses
-                                        .Where(s => s.NoteTypeName == NoteTypes.Sentence)
-                                        .GroupBy(s => s.ExternalNoteId)
-                                        .ToDictionary(g => g.Key, g => g.ToList());
-
-      runner.RunIndeterminate("Setting studying statuses",
-                              () =>
-                              {
-                                 Vocab.Cache.SetStudyingStatuses(vocabStatuses);
-                                 Kanji.Cache.SetStudyingStatuses(kanjiStatuses);
-                                 Sentences.Cache.SetStudyingStatuses(sentenceStatuses);
-                              });
-      runner.RunIndeterminate("Setting the notes' Anki tags", () => ReadTheAnkiTagsOfEachNoteFrom(backendData.StudyNoteTags));
+      runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(backendDataTask.Result, ankiNoteIdsHeldWhenTheReadBegan));
 
       IsInitialized = true;
       _reloadedFromBackend.OnNext(this);
    }
 
    /// <summary>
-   /// Gives each note the tags of its study-note in <paramref name="studyNoteTags"/> as its <see cref="JPNote.AnkiTags"/>. A study-note whose note<br/>
-   /// the collection hasn't, such as one added in Anki, has no note to give them to.
+   /// Gives each note what <paramref name="anki"/> holds of its study-note: its Anki note id, the studying statuses of its cards and its tags. A study-note<br/>
+   /// whose note the collection hasn't, such as one added in Anki, has no note to give them to. A note whose study-note was among<br/>
+   /// <paramref name="ankiNoteIdsHeldWhenTheReadBegan"/>, and is gone from Anki, is left with none.
    /// </summary>
-   void ReadTheAnkiTagsOfEachNoteFrom(Dictionary<long, IReadOnlyList<string>> studyNoteTags)
+   /// <returns>The notes whose study-note differs from before: at a load, every note with one.</returns>
+   List<JPNote> GiveEachNoteItsStudyNoteFrom(BackendData anki, IReadOnlyDictionary<long, NoteId> ankiNoteIdsHeldWhenTheReadBegan)
    {
-      foreach(var (ankiNoteId, tags) in studyNoteTags)
-         if(NoteFromExternalId(ankiNoteId) is {} note) note.AnkiTags.ReadFrom(tags);
+      List<JPNote> notesWhoseStudyNoteChanged = [];
+      foreach(var note in NoteServices.ExternalNoteIdMap.TakeIn(anki.IdMappings, ankiNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
+      {
+         note.ReadItsStudyNoteFrom([], []);
+         notesWhoseStudyNoteChanged.Add(note);
+      }
+
+      foreach(var (ankiNoteId, noteId) in anki.IdMappings)
+      {
+         if(NoteFromNoteId(noteId) is not {} note) continue;
+
+         var itsStudyNoteDiffers = note.ReadItsStudyNoteFrom(anki.StudyingStatusesOf(ankiNoteId), anki.TagsOf(ankiNoteId)) || ItIsANewStudyNote(ankiNoteId, noteId);
+         if(itsStudyNoteDiffers) notesWhoseStudyNoteChanged.Add(note);
+      }
+
+      return notesWhoseStudyNoteChanged;
+
+      bool ItIsANewStudyNote(long ankiNoteId, NoteId noteId) => !(ankiNoteIdsHeldWhenTheReadBegan.TryGetValue(ankiNoteId, out var heldThen) && heldThen.Equals(noteId));
    }
 
    void LoadFromRepository()
