@@ -47,7 +47,7 @@ public class TagTools
    [Description("""
                 Adds a tag to every note a search finds that doesn't have it, as adding it to a note's tags in the editor does, and saves
                 each note it changes to the corpus checkout. The search is in the form search_notes takes, such as
-                {"allOf": [{"noteTypeIs": "vocab"}, {"not": {"tagsInclude": "source"}}]}. Refuses a tag JAStudio defines, which is
+                {"allOf": [{"noteTypeIs": "vocab"}, {"not": {"tagsInclude": "source"}}]}. Refuses a tag JAStudio maintains, which is
                 generated or has an editor of its own, as the editor does. Reports the notes it added the tag to.
                 """)]
    public NotesTheTagChangedOn AddATagToTheNotesFound(
@@ -67,7 +67,7 @@ public class TagTools
                 Removes a tag from every note a search finds that has it, as removing it from a note's tags in the editor does, and saves
                 each note it changes to the corpus checkout. Removes the tag itself only, not the tags below it. The search is in the form
                 search_notes takes, such as {"allOf": [{"noteTypeIs": "kanji"}, {"tagsInclude": "source::lyrics"}]}. Refuses a tag JAStudio
-                defines, which is generated or has an editor of its own, as the editor does. Reports the notes it removed the tag from.
+                maintains, which is generated or has an editor of its own, as the editor does. Reports the notes it removed the tag from.
                 """)]
    public NotesTheTagChangedOn RemoveATagFromTheNotesFound(
       [Description("The search finding the notes, in the form search_notes takes.")] JsonObject search,
@@ -84,11 +84,11 @@ public class TagTools
    List<JPNote> NotesFoundBy(JsonObject search) => _collection.NotesMatching(NoteConditionJson.ConditionFrom(search));
 
    /// <summary>
-   /// The tag named <paramref name="tagName"/>, refusing a tag JAStudio defines (<see cref="Tags.IsDefinedByJAStudio"/>): such a tag is generated<br/>
-   /// or has an editor of its own, so it isn't added to or removed from notes by hand, and the editor refuses it too.
+   /// The tag named <paramref name="tagName"/>, refusing one that can't be a tag a person manages (<see cref="Tags.WhyItCannotBeATagAPersonManages"/>),<br/>
+   /// such as a tag JAStudio maintains, which is generated or has an editor of its own, as the editor refuses it.
    /// </summary>
    static Tag TagManagedByHand(string tagName) =>
-      Tags.IsDefinedByJAStudio(tagName)
-         ? throw new ArgumentException($"{tagName} is defined by JAStudio: it's generated or has an editor of its own, so it isn't added or removed by hand.", nameof(tagName))
+      Tags.WhyItCannotBeATagAPersonManages(tagName) is {} whyNot
+         ? throw new ArgumentException(whyNot, nameof(tagName))
          : Tag.FromName(tagName);
 }
