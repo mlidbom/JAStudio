@@ -126,11 +126,12 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
       public with_a_study_note_in_Anki_that_belongs_to_no_note()
       {
-         StudyNotesInAnki.Put(new StudyNoteInAnki(ankiNoteId: 999_999, new Dictionary<string, string> { [AnkiFieldNames.Question] = "孤児" }));
+         StudyNotesInAnki.Put(new StudyNoteInAnki(ankiNoteId: 999_999, new Dictionary<string, string> { [AnkiFieldNames.Question] = "孤児", [AnkiFieldNames.JasNoteId] = "a-deleted-note" }));
          _found = ListTheStudyNotesThatDiffer();
       }
 
-      [XF] public void it_is_counted() => _found.StudyNotesOfNoNote.Must().Be(1);
+      [XF] public void it_is_listed_with_its_Anki_note_id_question_and_jas_note_id() =>
+         _found.StudyNotesOfNoNote.Must().SequenceEqual([new StudyNoteOfNoNote(999_999, "孤児", "a-deleted-note")]);
       [XF] public void only_the_vocabs_study_note_is_compared() => _found.StudyNotesCompared.Must().Be(1);
    }
 }

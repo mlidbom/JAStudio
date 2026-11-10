@@ -39,8 +39,8 @@ public class StudyNoteTools
                 what JAStudio writes, leaves study-notes out of date until write_the_study_notes_that_differ writes them. Text is compared as Anki
                 stores it, in Unicode normalization form C. In the headless JAStudio, Anki's latest changes may still be in its database's
                 write-ahead log, which it doesn't read. Reports how many study-notes were compared, in how many each field differs, the notes
-                whose study-note differs, by type, each with the fields that differ, and how many study-notes in Anki belong to no note of the
-                collection. Of the notes whose study-note differs it also counts, and marks, those where only the markup of the audio differs:
+                whose study-note differs, by type, each with the fields that differ, and every study-note in Anki that belongs to no note of the
+                collection, with the id of its Anki note, its question and its jas_note_id, the id of the note it was written for. Of the notes whose study-note differs it also counts, and marks, those where only the markup of the audio differs:
                 the fields that differ are audio fields, holding the same audio files in the same order in Anki as JAStudio would write, so only
                 the markup around the files, such as a space or an &nbsp;, or which of the fields holds which file, differs.
                 """)]

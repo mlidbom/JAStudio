@@ -11,14 +11,14 @@ namespace JAStudio.Mcp.Tools.StudyNotes;
 /// <summary>What <see cref="StudyNoteTools.ListTheStudyNotesThatDiffer"/> reports of a <see cref="StudyNoteComparison"/>.</summary>
 /// <param name="StudyNotesCompared">How many study-notes were compared: those whose note the collection has.</param>
 /// <param name="Fields">Each field that differs in some study-note, with how many it differs in.</param>
-/// <param name="StudyNotesOfNoNote">How many study-notes in Anki belong to no note of the collection (<see cref="StudyNoteComparison.StudyNotesOfNoNote"/>).</param>
+/// <param name="StudyNotesOfNoNote">The study-notes in Anki that belong to no note of the collection (<see cref="StudyNoteComparison.StudyNotesOfNoNote"/>), every one.</param>
 public record StudyNotesThatDiffer(
    int StudyNotesCompared,
    IReadOnlyList<StudyNoteFieldDifferenceCount> Fields,
    StudyNotesThatDifferOfOneType Vocab,
    StudyNotesThatDifferOfOneType Kanji,
    StudyNotesThatDifferOfOneType Sentences,
-   int StudyNotesOfNoNote)
+   IReadOnlyList<StudyNoteOfNoNote> StudyNotesOfNoNote)
 {
    /// <summary>
    /// The report of <paramref name="comparison"/>, listing at most <paramref name="maxNotesListedPerType"/> notes of each type, and none that<br/>
@@ -38,6 +38,6 @@ public record StudyNotesThatDiffer(
          StudyNotesThatDifferOfOneType.Of([.. differing.Where(it => it.Note is VocabNote)], maxNotesListedPerType, isLeftOutOfTheList),
          StudyNotesThatDifferOfOneType.Of([.. differing.Where(it => it.Note is KanjiNote)], maxNotesListedPerType, isLeftOutOfTheList),
          StudyNotesThatDifferOfOneType.Of([.. differing.Where(it => it.Note is SentenceNote)], maxNotesListedPerType, isLeftOutOfTheList),
-         comparison.StudyNotesOfNoNote.Count);
+         [.. comparison.StudyNotesOfNoNote.Select(StudyNoteOfNoNote.Of)]);
    }
 }
