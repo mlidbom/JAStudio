@@ -8,3 +8,4 @@ using Xunit.v3;
 // from 11.1 seconds to 6.2 (2026-11-09).
 [assembly: Parallelization(Mode = ParallelMode.All)]
 [assembly: AssemblyFixture(typeof(PythonServicesCleanupFixture))]
+[assembly: AssemblyFixture(typeof(ThreadPoolSizedForParallelSpecifications))]

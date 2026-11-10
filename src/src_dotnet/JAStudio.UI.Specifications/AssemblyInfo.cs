@@ -7,3 +7,4 @@ using Xunit.v3;
 // has run. The only process-wide state these specifications set is CardServerUrl.BaseUrl, always to the same address.
 [assembly: Parallelization(Mode = ParallelMode.All)]
 [assembly: AssemblyFixture(typeof(PythonServicesCleanupFixture))]
+[assembly: AssemblyFixture(typeof(ThreadPoolSizedForParallelSpecifications))]
