@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JAStudio.Core.Note;
 using JAStudio.PythonInterop;
 using JAStudio.PythonInterop.Utilities;
 
@@ -65,6 +66,13 @@ public static class AnkiFacade
       /// and returns the name Anki keeps it under. That's the file's own name, unless Anki already has a different file by that name.
       /// </summary>
       public static string AddFile(string filePath) => Backend.Use(it => (string)it.media_add_file(filePath));
+   }
+
+   /// <summary>The study-notes: the Anki notes of JAStudio's note types, which JAStudio writes from the corpus.</summary>
+   internal static class StudyNotes
+   {
+      /// <summary>Writes <paramref name="note"/>'s study-note into the Anki note with the id <paramref name="ankiNoteId"/>, as JAStudio writes it whenever it updates the note.</summary>
+      public static void Write(long ankiNoteId, JPNote note) => Backend.Use(it => it.study_note_write(ankiNoteId, note));
    }
 
    internal static class NoteEx

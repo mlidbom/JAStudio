@@ -2,6 +2,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki;
 using JAStudio.Core;
+using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
@@ -31,6 +32,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new AddonConfigFile(_arguments.AddonFolder)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
-         Singleton.For<ICardOperations>().Instance(new HeadlessCardOperations())
+         Singleton.For<ICardOperations>().Instance(new HeadlessCardOperations()),
+         Singleton.For<IAnkiStudyNotes>().Instance(new HeadlessAnkiStudyNotes(_arguments.AnkiCollectionFile))
       );
 }

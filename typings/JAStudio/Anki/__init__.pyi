@@ -6,6 +6,7 @@ from JAStudio.Core.Note import ICardOperations, ExternalNoteIdMap, NoteId, JPNot
 from System.Collections.Generic import IReadOnlyList_1, Dictionary_2, List_1, IEnumerable_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Core.Importing import ImportProfile
+from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
 from JAStudio.Core.Note.Collection import CardStudyingStatus
 
 class AnkiBackendDataLoader(IBackendDataLoader):
@@ -105,6 +106,12 @@ class AnkiRawNoteTypes(abc.ABC):
     def In(collectionFilePath: str) -> IReadOnlyList_1[AnkiNoteType]: ...
 
 
+class AnkiStudyNotes(IAnkiStudyNotes):
+    def __init__(self, ankiNoteIds: ExternalNoteIdMap) -> None: ...
+    def ReadAll(self) -> IReadOnlyList_1[StudyNoteInAnki]: ...
+    def Write(self, note: JPNote) -> None: ...
+
+
 class CardStudyingStatusLoader(abc.ABC):
     @staticmethod
     def FetchAll(dbFilePath: str) -> List_1[CardStudyingStatus]: ...
@@ -113,4 +120,9 @@ class CardStudyingStatusLoader(abc.ABC):
 class QueryBuilder:
     def __init__(self, externalNoteIdMap: ExternalNoteIdMap) -> None: ...
     def NotesLookup(self, notes: IEnumerable_1[JPNote]) -> str: ...
+
+
+class StudyNotesInAnkisDatabase(abc.ABC):
+    @staticmethod
+    def ReadAll(collectionDatabaseFile: str) -> IReadOnlyList_1[StudyNoteInAnki]: ...
 

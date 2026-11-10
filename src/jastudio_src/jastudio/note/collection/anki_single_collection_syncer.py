@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING
 from anki.notes import NoteId
 from autoslot import Slots
 from JAStudio.Anki.PythonInterop import NoteUpdatePythonAdapter
-from jastudio.ankiutils import app
 from JAStudio.Core.Note import JPNote
 from jastudio.note.jpnotedata_shim import JPNoteDataShim
 
@@ -27,9 +26,7 @@ class AnkiSingleCollectionSyncer[TNote: JPNote](Slots):
     def _update_anki_note(self, note: TNote) -> None:
         anki_id = self._anki_sync_handler.GetExternalNoteId(note.GetId())
         if anki_id:
-            anki_note = app.anki_collection().get_note(NoteId(anki_id))
-            JPNoteDataShim.sync_note_to_anki_note(note, anki_note)
-            app.anki_collection().update_note(anki_note)
+            JPNoteDataShim.write_study_note(note, NoteId(anki_id))
 
     def _on_will_be_removed(self, note_ids: Sequence[NoteId]) -> None:
         for note_id in note_ids:

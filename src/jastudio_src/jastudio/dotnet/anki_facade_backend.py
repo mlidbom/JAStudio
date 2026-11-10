@@ -6,12 +6,17 @@ making them safe to call from any .NET thread (including the Avalonia UI thread)
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from anki.cards import CardId
 from anki.notes import NoteId
 from aqt import mw
 from jaspythonutils.sysutils.typed import non_optional
 from jastudio.sysutils.app_thread_pool import run_on_ui_thread_fire_and_forget
 from typed_linq_collections.q_iterable import query
+
+if TYPE_CHECKING:
+    from JAStudio.Core.Note import JPNote
 
 
 # ── Browser ──
@@ -85,6 +90,13 @@ def notes_add_tag(note_ids: list[int], tag: str) -> None:
 def notes_remove(note_ids: list[int]) -> None:
     from jastudio.ankiutils import app
     app.anki_collection().remove_notes([NoteId(note_id) for note_id in note_ids])
+
+# ── Study-notes ──
+# noinspection PyUnusedFunction
+def study_note_write(anki_note_id: int, jp_note: JPNote) -> None:
+    """Writes the note's study-note into the Anki note, as JAStudio writes it whenever it updates the note."""
+    from jastudio.note.jpnotedata_shim import JPNoteDataShim
+    JPNoteDataShim.write_study_note(jp_note, NoteId(anki_note_id))
 
 # ── NoteEx ──
 # noinspection PyUnusedFunction

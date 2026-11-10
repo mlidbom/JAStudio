@@ -1,5 +1,6 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
@@ -28,7 +29,9 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new TestConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
-         Singleton.For<ICardOperations>().Instance(new NoOpCardOperations())
+         Singleton.For<ICardOperations>().Instance(new NoOpCardOperations()),
+         Singleton.For<InMemoryAnkiStudyNotes>().CreatedBy((ExternalNoteIdMap ankiNoteIds) => new InMemoryAnkiStudyNotes(ankiNoteIds)),
+         Singleton.For<IAnkiStudyNotes>().CreatedBy((InMemoryAnkiStudyNotes studyNotes) => (IAnkiStudyNotes)studyNotes)
       );
    }
 }

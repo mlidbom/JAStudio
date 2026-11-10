@@ -829,7 +829,9 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
 1. **A tool first:** the live JAStudio's MCP server compares every note's Anki study-note with the fields JAStudio would
    write, lists the notes that differ, and writes those on request. Needed because a reload passes only notes whose
    files changed on to Anki, and none at startup, while a change of format is fast-forwarded with Anki closed. Run first
-   for a baseline.
+   for a baseline. *Built 2026-11-10: `list_the_study_notes_that_differ` and `write_the_study_notes_that_differ`
+   (`jastudio-mcp.md`). The baseline: 21,236 study-notes carry tags the corpus dropped in slice 6 and earlier, and 16
+   sentences' questions differ in spaces at an end; no audio differs.*
 2. **The domain model, on today's storage:** a full rebuild in the headless JAStudio's worktree first. Then the
    reference types and the lists, filled from today's fields by a temporary mapping in the converters. Everything
    moves to the lists: the Anki-projection, the web cards, TTS keeping and its dialog, the editors, the MCP's editable

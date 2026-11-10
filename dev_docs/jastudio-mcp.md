@@ -290,6 +290,24 @@ the headless JAStudio.
     before and after and the notes whose files it changed. Git refuses what isn't a fast-forward, or would overwrite
     changes not committed.
 - **Running, proposed:** reparsing some sentences, regenerating a note's data.
+- **The study-notes in Anki, built (2026-11-10):** a note's study-note is the Anki note holding its cards, with the few
+  fields Anki needs (the question, the audio, the note's id) and the note's tags. JAStudio writes it whenever it updates
+  the note, but a reload passes on only the notes whose files changed while it held them, and none at startup, so a change
+  to the corpus made while Anki was closed, or a change to what JAStudio writes, leaves study-notes behind. Built for
+  slice 9 of `corpus-data-model.md`, whose change of format is fast-forwarded with Anki closed.
+  - `list_the_study_notes_that_differ` compares every study-note in Anki (`IAnkiStudyNotes`, read straight from Anki's
+    database) with the one JAStudio would write now (`StudyNoteComparison`), as Anki keeps what's written into it: text in
+    Unicode normalization form C, tags ignoring case and order. It counts the differences by field and by tag, and lists
+    the notes, each with what differs.
+  - `write_the_study_notes_that_differ` writes them, or the study-notes of the notes given, through the same Python code
+    that writes a study-note on every update (`JPNoteDataShim.write_study_note`), then compares again. Only in the live
+    JAStudio: the headless one compares, reading the collection file, but has no Anki to write in.
+  - **The first comparison (2026-11-10, headless, on the corpus at `8a1a6404c9`):** of 79,719 study-notes, 21,252
+    differ, none of them in their audio. 21,236 have tags in Anki that JAStudio no longer writes: those slice 6 dropped
+    from the corpus (`has-no-studying-sentences` on 17,073 vocab, the kanji's study-state tags), and `_uk`,
+    `_disable_uk` and the vocab's matching and register tags, which earlier slices turned into data. No template,
+    filtered deck, saved search or add-on code uses them. 16 sentences' questions have spaces or a tab at an end that
+    the study-note hasn't.
 - **A diff of notes rather than of files, built (Magnus, 2026-11-09):** `diff_the_changed_notes` compares the notes whose
   files differ between two versions of the corpus: by default the checkout's `HEAD` and its files as they are now, which
   is what a full rebuild changed, or any two commits.
