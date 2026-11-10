@@ -68,11 +68,11 @@ public sealed class GoogleTextToSpeechProvider : ITextToSpeechProvider
    TextToSpeechVoice VoiceListedAs(JsonElement listed) =>
       new(this, listed.GetProperty("name").GetString() ?? throw new JsonException("Google listed a voice with no name."), GenderNamed(listed.GetProperty("ssmlGender").GetString()));
 
-   static VoiceGender GenderNamed(string? ssmlGender) => ssmlGender switch
+   static TextToSpeechVoiceGender GenderNamed(string? ssmlGender) => ssmlGender switch
    {
-      "FEMALE" => VoiceGender.Female,
-      "MALE" => VoiceGender.Male,
-      "NEUTRAL" => VoiceGender.Neutral,
-      _ => VoiceGender.Unspecified
+      "FEMALE" => TextToSpeechVoiceGender.Female,
+      "MALE" => TextToSpeechVoiceGender.Male,
+      "NEUTRAL" => TextToSpeechVoiceGender.Neutral,
+      _ => TextToSpeechVoiceGender.Unspecified
    };
 }

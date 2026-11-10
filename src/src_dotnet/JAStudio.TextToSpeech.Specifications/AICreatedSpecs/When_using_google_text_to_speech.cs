@@ -48,7 +48,7 @@ public class When_using_google_text_to_speech : IAIGeneratedSpec
       [XF] public void it_sends_the_api_key() => _service.Request.Headers["X-Goog-Api-Key"].Must().Be(ApiKey);
       [XF] public void the_voices_are_those_listed() => _voices.Select(it => it.Name).Must().SequenceEqual(["ja-JP-Neural2-B", "ja-JP-Chirp3-HD-Charon"]);
       [XF] public void a_voice_shows_its_name_without_the_language() => _voices.Select(it => it.ShortName).Must().SequenceEqual(["Neural2-B", "Chirp3-HD-Charon"]);
-      [XF] public void a_voice_has_the_gender_google_gives_it() => _voices.Select(it => it.Gender).Must().SequenceEqual([VoiceGender.Female, VoiceGender.Male]);
+      [XF] public void a_voice_has_the_gender_google_gives_it() => _voices.Select(it => it.Gender).Must().SequenceEqual([TextToSpeechVoiceGender.Female, TextToSpeechVoiceGender.Male]);
    }
 
    public class listing_the_japanese_voices_when_there_are_none : When_using_google_text_to_speech
@@ -66,7 +66,7 @@ public class When_using_google_text_to_speech : IAIGeneratedSpec
       public speaking_a_text()
       {
          _service.AnswersWith(HttpStatusCode.OK, """{ "audioContent": "AQID" }""");
-         _speech = _google.SpeakAsync(Text, new TextToSpeechVoice(_google, "ja-JP-Neural2-B", VoiceGender.Female), CancellationToken.None).GetAwaiter().GetResult();
+         _speech = _google.SpeakAsync(Text, new TextToSpeechVoice(_google, "ja-JP-Neural2-B", TextToSpeechVoiceGender.Female), CancellationToken.None).GetAwaiter().GetResult();
       }
 
       JsonElement TheRequestSent() => JsonDocument.Parse(_service.Request.Body).RootElement;

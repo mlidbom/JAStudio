@@ -5,7 +5,7 @@ namespace JAStudio.Core.Note.Media;
 /// voices (Magnus, 2026-11-10).
 /// </summary>
 /// <remarks>
-/// <c>JAStudio.TextToSpeech</c> has a <c>VoiceGender</c> of its own, the gender a tts-provider gives its voices, as Core doesn't reference that project:<br/>
+/// <c>JAStudio.TextToSpeech</c> has a <c>TextToSpeechVoiceGender</c>, the gender a tts-provider gives its voices, as Core doesn't reference that project:<br/>
 /// using a TTS voice's speech as a note's audio translates the one into the other.
 /// </remarks>
 public enum VoiceGender

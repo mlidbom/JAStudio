@@ -23,9 +23,9 @@ sealed class FakeTextToSpeechProvider : ITextToSpeechProvider
 
    public string Name => "Fake";
 
-   public TextToSpeechVoice Steady => new(this, "ja-JP-Steady", VoiceGender.Female);
-   public TextToSpeechVoice Varying => new(this, "ja-JP-Varying", VoiceGender.Male);
-   public TextToSpeechVoice Refused => new(this, "ja-JP-Refused", VoiceGender.Female);
+   public TextToSpeechVoice Steady => new(this, "ja-JP-Steady", TextToSpeechVoiceGender.Female);
+   public TextToSpeechVoice Varying => new(this, "ja-JP-Varying", TextToSpeechVoiceGender.Male);
+   public TextToSpeechVoice Refused => new(this, "ja-JP-Refused", TextToSpeechVoiceGender.Female);
 
    /// <summary>What it was asked to speak, as "voice: text", in order.</summary>
    public List<string> Spoken { get; } = [];

@@ -8,7 +8,7 @@ namespace JAStudio.TextToSpeech;
 /// <param name="Provider">The tts-provider the voice belongs to.</param>
 /// <param name="Name">The name the tts-provider knows the voice by, such as <c>ja-JP-DaichiNeural</c> or <c>ja-JP-Neural2-B</c>.</param>
 /// <param name="Gender">The gender the tts-provider gives the voice.</param>
-public sealed record TextToSpeechVoice(ITextToSpeechProvider Provider, string Name, VoiceGender Gender)
+public sealed record TextToSpeechVoice(ITextToSpeechProvider Provider, string Name, TextToSpeechVoiceGender Gender)
 {
    const string JapanesePrefix = "ja-JP-";
 

@@ -8,5 +8,5 @@ sealed class VoiceChoiceViewModel(TextToSpeechVoice voice)
    public TextToSpeechVoice Voice { get; } = voice;
 
    /// <summary>The voice as the lists show it, such as "Azure Daichi:DragonHDOmniLatestNeural (Male)".</summary>
-   public string Description => Voice.Gender == VoiceGender.Unspecified ? $"{Voice}" : $"{Voice} ({Voice.Gender})";
+   public string Description => Voice.Gender == TextToSpeechVoiceGender.Unspecified ? $"{Voice}" : $"{Voice} ({Voice.Gender})";
 }

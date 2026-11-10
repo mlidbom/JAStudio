@@ -22,7 +22,7 @@ public class When_saving_the_chosen_voices : IAIGeneratedSpec, IDisposable
    {
       File.WriteAllText(SettingsFile, """{ "azure": { "key": "azure-key", "region": "swedencentral" }, "google": { "apiKey": "google-key" } }""");
       TextToSpeechSettings.ReadFrom(SettingsFile)
-                          .WithChosenVoices([new ChosenVoice("Google", "ja-JP-Neural2-B", VoiceGender.Female), new ChosenVoice("Azure", "ja-JP-Daichi:DragonHDOmniLatestNeural", VoiceGender.Male)])
+                          .WithChosenVoices([new ChosenVoice("Google", "ja-JP-Neural2-B", TextToSpeechVoiceGender.Female), new ChosenVoice("Azure", "ja-JP-Daichi:DragonHDOmniLatestNeural", TextToSpeechVoiceGender.Male)])
                           .WriteTo(SettingsFile);
       _readBack = TextToSpeechSettings.ReadFrom(SettingsFile);
    }

@@ -4,7 +4,6 @@ using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Media;
-using VoiceGender = JAStudio.Core.Note.Media.VoiceGender;
 using JAStudio.Core.Storage.Media;
 using JAStudio.TextToSpeech;
 using Python.Runtime;
@@ -45,10 +44,10 @@ class UsingASpeech(TemporaryServiceCollection services)
    /// <summary>The gender of <paramref name="voice"/>'s speech, as a note's audio knows it: none when its tts-provider gives none.</summary>
    static VoiceGender? GenderOf(TextToSpeechVoice voice) => voice.Gender switch
    {
-      global::JAStudio.TextToSpeech.VoiceGender.Female => VoiceGender.Female,
-      global::JAStudio.TextToSpeech.VoiceGender.Male => VoiceGender.Male,
-      global::JAStudio.TextToSpeech.VoiceGender.Neutral => VoiceGender.Neutral,
-      global::JAStudio.TextToSpeech.VoiceGender.Unspecified => null,
+      TextToSpeechVoiceGender.Female => VoiceGender.Female,
+      TextToSpeechVoiceGender.Male => VoiceGender.Male,
+      TextToSpeechVoiceGender.Neutral => VoiceGender.Neutral,
+      TextToSpeechVoiceGender.Unspecified => null,
       _ => throw new ArgumentOutOfRangeException(nameof(voice), voice.Gender, "A voice gender the note's audio doesn't know.")
    };
 

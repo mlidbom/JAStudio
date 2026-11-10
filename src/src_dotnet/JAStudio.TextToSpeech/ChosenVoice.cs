@@ -11,7 +11,7 @@ namespace JAStudio.TextToSpeech;
 /// <param name="Provider">The tts-provider's <see cref="ITextToSpeechProvider.Name"/>, such as "Azure".</param>
 /// <param name="Name">The voice's <see cref="TextToSpeechVoice.Name"/>, such as <c>ja-JP-Daichi:DragonHDOmniLatestNeural</c>.</param>
 /// <param name="Gender">The voice's <see cref="TextToSpeechVoice.Gender"/>, kept so it shows without asking the tts-provider for its voice list.</param>
-public sealed record ChosenVoice(string Provider, string Name, VoiceGender Gender)
+public sealed record ChosenVoice(string Provider, string Name, TextToSpeechVoiceGender Gender)
 {
    public static ChosenVoice Of(TextToSpeechVoice voice) => new(voice.Provider.Name, voice.Name, voice.Gender);
 

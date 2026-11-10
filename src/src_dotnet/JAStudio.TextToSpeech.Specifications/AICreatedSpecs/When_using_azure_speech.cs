@@ -52,7 +52,7 @@ public class When_using_azure_speech : IAIGeneratedSpec
       [XF] public void a_voice_shows_its_name_without_the_language() =>
          _voices.Select(it => it.ShortName).Must().SequenceEqual(["DaichiNeural", "Nanami:DragonHDLatestNeural", "Daichi:DragonHDOmniLatestNeural"]);
       [XF] public void a_voice_has_the_gender_azure_gives_it_or_its_standard_version() =>
-         _voices.Select(it => it.Gender).Must().SequenceEqual([VoiceGender.Male, VoiceGender.Female, VoiceGender.Male]);
+         _voices.Select(it => it.Gender).Must().SequenceEqual([TextToSpeechVoiceGender.Male, TextToSpeechVoiceGender.Female, TextToSpeechVoiceGender.Male]);
       [XF] public void a_voice_belongs_to_azure() => _voices.All(it => ReferenceEquals(it.Provider, _azure)).Must().BeTrue();
    }
 
@@ -65,7 +65,7 @@ public class When_using_azure_speech : IAIGeneratedSpec
       public speaking_a_text_holding_characters_that_are_markup_in_ssml()
       {
          _service.AnswersWithAudio(TheAudio);
-         _speech = _azure.SpeakAsync(Text, new TextToSpeechVoice(_azure, "ja-JP-DaichiNeural", VoiceGender.Male), CancellationToken.None).GetAwaiter().GetResult();
+         _speech = _azure.SpeakAsync(Text, new TextToSpeechVoice(_azure, "ja-JP-DaichiNeural", TextToSpeechVoiceGender.Male), CancellationToken.None).GetAwaiter().GetResult();
       }
 
       XElement TheSsmlSent() => XElement.Parse(_service.Request.Body);
@@ -90,7 +90,7 @@ public class When_using_azure_speech : IAIGeneratedSpec
       public when_the_service_refuses_the_request() => _service.AnswersWith(HttpStatusCode.Unauthorized, "");
 
       [XF] public void speaking_throws_naming_azure_and_the_status() =>
-         Invoking(() => _azure.SpeakAsync("家", new TextToSpeechVoice(_azure, "ja-JP-DaichiNeural", VoiceGender.Male), CancellationToken.None).GetAwaiter().GetResult())
+         Invoking(() => _azure.SpeakAsync("家", new TextToSpeechVoice(_azure, "ja-JP-DaichiNeural", TextToSpeechVoiceGender.Male), CancellationToken.None).GetAwaiter().GetResult())
            .Must().Throw<TextToSpeechRequestFailedException>().Which.Message.Must().Be("Azure refused the request: 401 Unauthorized.");
    }
 }

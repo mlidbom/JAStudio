@@ -24,7 +24,7 @@ public class When_a_voice_speaks_a_text : IAIGeneratedSpec
       var service = new FakeTextToSpeechService();
       service.AnswersWithAudio(WhatAzureSent);
       var azure = new AzureSpeechProvider(new AzureSpeechSettings { Key = "the-key", Region = "swedencentral" }, service.Client);
-      _speech = new TextToSpeechVoice(azure, "ja-JP-NanamiNeural", VoiceGender.Female).SpeakAsync("明日は学校に行きます。", CancellationToken.None).GetAwaiter().GetResult();
+      _speech = new TextToSpeechVoice(azure, "ja-JP-NanamiNeural", TextToSpeechVoiceGender.Female).SpeakAsync("明日は学校に行きます。", CancellationToken.None).GetAwaiter().GetResult();
    }
 
    [XF] public void the_speech_is_what_azure_sent_brought_to_the_replaygain_reference() =>

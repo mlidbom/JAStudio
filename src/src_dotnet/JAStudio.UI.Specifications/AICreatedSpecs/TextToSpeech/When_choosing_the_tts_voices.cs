@@ -21,7 +21,7 @@ public class When_choosing_the_tts_voices : SpecificationUsingAWorkspace, IAIGen
 
    public When_choosing_the_tts_voices()
    {
-      var settings = new TextToSpeechSettings().WithChosenVoices([new ChosenVoice("Fake", "ja-JP-Varying", VoiceGender.Male)]);
+      var settings = new TextToSpeechSettings().WithChosenVoices([new ChosenVoice("Fake", "ja-JP-Varying", TextToSpeechVoiceGender.Male)]);
       _dialog = new ChosenVoicesDialogViewModel(settings, [_provider], _player, GetService<IFatalErrorHandler>());
       _dialog.ListTheVoices();
    }

@@ -106,11 +106,11 @@ public sealed class AzureSpeechProvider : ITextToSpeechProvider
                    new XElement(Ssml + "voice", new XAttribute("name", voice.Name), text))
         .ToString(SaveOptions.DisableFormatting);
 
-   static VoiceGender GenderNamed(string? gender) => gender switch
+   static TextToSpeechVoiceGender GenderNamed(string? gender) => gender switch
    {
-      "Female" => VoiceGender.Female,
-      "Male" => VoiceGender.Male,
-      "Neutral" => VoiceGender.Neutral,
-      _ => VoiceGender.Unspecified
+      "Female" => TextToSpeechVoiceGender.Female,
+      "Male" => TextToSpeechVoiceGender.Male,
+      "Neutral" => TextToSpeechVoiceGender.Neutral,
+      _ => TextToSpeechVoiceGender.Unspecified
    };
 }
