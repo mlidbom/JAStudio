@@ -706,8 +706,12 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   results and the note's tags editor, which shows them dimmed, without a remove button. No tag of a note's own can be
   in the branch, and the branch is never renamed or deleted (`Tags.Anki`). It came before the cleanup drive after all:
   until then the branch also mirrors the corpus-tags JAStudio wrote into Anki, such as `anki::source::…`, but the noise
-  stays in one branch, and shows what the cleanup has to do. Open: whether JAStudio may change them, such as marking a
-  note, and a hook so that JAStudio sees a tag Anki adds during a review before the next load.
+  stays in one branch, and shows what the cleanup has to do. Open: a hook so that JAStudio sees a tag Anki adds during a
+  review before the next load.
+- **Decided, not built (Magnus, 2026-11-10): JAStudio changes Anki's tags too,** with the same features as for a note's
+  own tags (Magnus: "jastudio is the only place I have all the information to work effectively with them. So feature
+  parity for working with anki tags would be quite nice"). They stay the student's, stored only in Anki: JAStudio writes
+  a change to the study-note's tags in Anki.
 - **Priority is an Anki tag:** JAStudio reads it from `anki::-::priority::…` (`Tags.PriorityFolder`), to order a vocab's
   sentence list and color its source labels (`JPNote.PriorityTagValue`, `JPNote.GetMetaTags`), and it leaves the
   corpus. The one sentence with no Anki note loses its priority, medium.
