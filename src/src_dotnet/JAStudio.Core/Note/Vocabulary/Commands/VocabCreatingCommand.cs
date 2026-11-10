@@ -23,7 +23,7 @@ public sealed class VocabCreatingCommand : INoteCommand<VocabNote>
    public string? TextTaken => null;
    public bool CreatesAVocab => true;
 
-   /// <summary>Creates a vocab from <paramref name="vocab"/>, and adds it to the collection. The vocab created.</summary>
+   /// <summary>Creates a vocab from <paramref name="vocab"/>, and adds it to the collection: the vocab created, or the one that had its question already.</summary>
    public VocabNote CreateFrom(VocabNote vocab) => _create(vocab.Cloner);
 
    public void RunOn(VocabNote note, string? text)

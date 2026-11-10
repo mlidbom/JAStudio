@@ -21,10 +21,10 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_copied :
       _vocab.Register.Humble.SetTo(true);
    }
 
-   public class by_cloning_it : When_a_vocab_with_matching_configuration_and_a_register_is_copied
+   public class by_cloning_it_with_a_disambiguation : When_a_vocab_with_matching_configuration_and_a_register_is_copied
    {
       readonly VocabNote _clone;
-      public by_cloning_it() => _clone = _vocab.Cloner.Clone();
+      public by_cloning_it_with_a_disambiguation() => _clone = _vocab.Cloner.CloneWithDisambiguation("clone");
 
       [XF] public void the_clone_requires_the_required_rule() => _clone.MatchingConfiguration.RequiresForbids.Irrealis.Choice.Must().Be(RequireForbidChoice.Required);
       [XF] public void the_clone_forbids_the_forbidden_rule() => _clone.MatchingConfiguration.RequiresForbids.GodanPotential.Choice.Must().Be(RequireForbidChoice.Forbidden);

@@ -1402,12 +1402,22 @@ Progress on step 3:
           stops being one of the vocab's forms when it's renamed, so a part left as it was would stop referring to the vocab.
         - **Only references that named the vocab exactly are renamed.** One that referred to it through another of its forms
           is a spelling the vocab most likely keeps, as `掛ける` in 引っ掛ける's parts when かける is renamed 懸ける.
-        - **References that still name another vocab exactly stay**, when the corpus has a duplicate with the old name.
+        - ~~**References that still name another vocab exactly stay**, when the corpus has a duplicate with the old name.~~
+          *Gone 2026-11-10: no two vocab share a question any more (below).*
         - **Not renamed:** a sentence's configuration, which names a vocab `text:disambiguation` in 22 entries (see
           [In-string-micro-syntaxes](#in-string-micro-syntaxes)), and a kanji's primary vocab, which are still text, and which
           no kanji has. Nor are the sentences of the vocab whose compound parts were renamed reparsed, though compound parts
           feed parsing in one place (`IchidanGodanPotentialOrImperativeHybridSplitter`): renaming is rare, and the renamed
           vocab's own sentences are reparsed, as for any change to its question.
+      - **No two vocab share a question (Magnus, 2026-11-10):** its text and its disambiguation together, since other notes
+        refer to a vocab by them. *Built 2026-11-10:* the corpus had one duplicate, ましょうか, whose copy from jamdict with no
+        answer of its own was deleted. Adding a vocab (`VocabCollection.Add`) and changing a question (`VocabNoteQuestion`) fail
+        on another vocab's question, saying so. Creating a version of a vocab that exists already, such as its ます-form, gives
+        back that vocab, unchanged, and the menus open it (`VocabCloner`); so does the context menu's "Create vocab" for a text
+        a vocab has as its question. The one copy that keeps everything is "Clone with the disambiguation" (Magnus: "a way to
+        create a clone with a different disambiguation name"), on the string menu: a copy whose question differs only in its
+        disambiguation, to tell two meanings or uses of a word apart. "Clone to form" keeps whether the vocab is usually
+        written in kana, since the clone is the same word.
       - **8c, vocab pickers** in the vocab editor, for the related vocab. *Built 2026-11-09:* the vocab editor has a "Related"
         tab, with each relationship (synonyms, perfect synonyms, antonyms, ergative twins, see also, confused with) as its words'
         chips and a box that adds one (`WordSetEditor`), and derived from as a text field. Calls made:

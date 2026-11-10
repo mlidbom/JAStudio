@@ -68,10 +68,10 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
       [XF] public void it_is_tagged_as_the_dictionarys() => _vocab.Tags.Contains(Tags.Source.Jamdict).Must().BeTrue();
       [XF] public void it_is_not_tagged_as_our_own() => _vocab.Tags.Contains(Tags.Source.Jastudio).Must().BeFalse();
 
-      public class and_then_cloned : from_the_dictionary_for_a_word_it_has
+      public class and_then_cloned_with_a_disambiguation : from_the_dictionary_for_a_word_it_has
       {
          readonly VocabNote _clone;
-         public and_then_cloned() => _clone = _vocab.Cloner.Clone();
+         public and_then_cloned_with_a_disambiguation() => _clone = _vocab.Cloner.CloneWithDisambiguation("clone");
 
          [XF] public void the_clone_is_tagged_as_the_dictionarys_as_the_original_is() => _clone.Tags.Contains(Tags.Source.Jamdict).Must().BeTrue();
          [XF] public void the_clone_is_not_tagged_as_our_own() => _clone.Tags.Contains(Tags.Source.Jastudio).Must().BeFalse();

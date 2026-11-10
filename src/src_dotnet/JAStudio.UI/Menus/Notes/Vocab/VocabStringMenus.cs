@@ -26,7 +26,9 @@ class VocabStringMenus
             BuildSetMenuSpec(text, vocab),
             BuildRemoveMenuSpec(text, vocab),
             BuildSentenceMenuSpec(text, vocab),
-            BuildCreateCombinedMenuSpec(text, vocab)
+            BuildCreateCombinedMenuSpec(text, vocab),
+            NoteCommandMenuItem.Creating(ShortcutFinger.Up2($"{VocabCommands.CloneWithDisambiguation.Label}: {vocab.GetQuestion()}{VocabNoteQuestion.DisambiguationMarker}{text}"),
+                                         VocabCommands.CloneWithDisambiguation, vocab, text)
          }
       );
 

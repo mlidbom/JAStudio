@@ -8,11 +8,18 @@ using JAStudio.Core.Storage.Converters;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
+/// <summary>
+/// Creates vocab from a vocab: copies of it, such as one with another of its forms as its question, and versions derived from it, such as its て-form.<br/>
+/// No two vocab share a question, so when the vocab to create is there already, that vocab is given back, unchanged, rather than a duplicate created.
+/// </summary>
 public class VocabCloner
 {
    public VocabCloner(VocabNote note) => Note = note;
 
    VocabNote Note { get; }
+
+   /// <summary>The vocab <paramref name="question"/> names exactly, if there is one, or else the vocab <paramref name="create"/> creates.</summary>
+   VocabNote TheVocabNamedOrCreated(WordReference question, Func<VocabNote> create) => Note.Services.Collection.Vocab.NamedExactlyByOrNone(question) ?? create();
 
    public VocabNote PrefixToDictionaryForm(string prefix) => CreatePostfixPrefixVersion(prefix, [PartOfSpeech.Expression], isPrefix: true);
 
@@ -24,8 +31,34 @@ public class VocabCloner
 
    public VocabNote CreateSuffixVersion(string suffix) => CreatePostfixPrefixVersion(suffix, [PartOfSpeech.Expression]);
 
-   VocabNote CreatePostfixPrefixVersion(string addendum, IEnumerable<PartOfSpeech> partsOfSpeech, bool isPrefix = false, bool setCompounds = true, int chopOffCharacters = 0)
+   /// <summary>
+   /// The version of the vocab with <paramref name="addendum"/> added to its question, as a suffix or, with <paramref name="isPrefix"/>, a prefix, after chopping<br/>
+   /// <paramref name="chopOffCharacters"/> off that end: created with <paramref name="partsOfSpeech"/>, then finished by <paramref name="finish"/>, unless it exists already.
+   /// </summary>
+   VocabNote CreatePostfixPrefixVersion(string addendum, IEnumerable<PartOfSpeech> partsOfSpeech, bool isPrefix = false, bool setCompounds = true, int chopOffCharacters = 0,
+                                        Action<VocabNote>? finish = null)
    {
+      return TheVocabNamedOrCreated(new WordReference(AppendPrependAddendum(Note.GetQuestion())), Create);
+
+      VocabNote Create()
+      {
+         var newReadings = Note.GetReadings().Select(AppendPrependAddendum).ToList();
+         var newVocab = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(AppendPrependAddendum(Note.GetQuestion()), Note.GetAnswer(), newReadings);
+
+         if(setCompounds)
+         {
+            var compounds = isPrefix
+                               ? new List<WordReference> { new(addendum), Note.Question.Reference }
+                               : new List<WordReference> { Note.Question.Reference, new(addendum) };
+            newVocab.CompoundParts.SetPrimary(compounds);
+         }
+
+         newVocab.PartsOfSpeech.Set(partsOfSpeech);
+         newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
+         finish?.Invoke(newVocab);
+         return newVocab;
+      }
+
       string AppendPrependAddendum(string baseStr)
       {
          if(!isPrefix)
@@ -37,25 +70,6 @@ public class VocabCloner
 
          return addendum + baseStr.Substring(chopOffCharacters);
       }
-
-      var vocabNote = Note;
-      var newQuestion = AppendPrependAddendum(Note.GetQuestion());
-      var newReadings = vocabNote.GetReadings().Select(AppendPrependAddendum).ToList();
-
-      var newVocab = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(newQuestion, Note.GetAnswer(), newReadings);
-
-      if(setCompounds)
-      {
-         var compounds = isPrefix
-                            ? new List<WordReference> { new(addendum), Note.Question.Reference }
-                            : new List<WordReference> { Note.Question.Reference, new(addendum) };
-         newVocab.CompoundParts.SetPrimary(compounds);
-      }
-
-      newVocab.PartsOfSpeech.Set(partsOfSpeech);
-      newVocab.Forms.SetEnteredForms(Note.Forms.EnteredFormsSet().Select(AppendPrependAddendum).Select(EnteredForm.NotOwned));
-
-      return newVocab;
    }
 
    /// <summary>Creates a vocab with the question, answer and readings given, and the vocab's tags, register and matching configuration.</summary>
@@ -86,14 +100,33 @@ public class VocabCloner
          clone.Tags.Set(tag);
    }
 
-   public VocabNote Clone()
+   /// <summary>
+   /// A copy of the vocab with <paramref name="form"/>, one of its forms, as its question, its disambiguation kept, such as 其れなり from それなり,<br/>
+   /// unless a vocab has that question already.
+   /// </summary>
+   public VocabNote CloneToForm(string form) => CloneWithTheQuestionUnlessAVocabHasIt(new WordReference(form, Note.Question.Disambiguation));
+
+   /// <summary>
+   /// A copy of the vocab whose question differs from its own only in <paramref name="disambiguation"/>, such as <c>入る:masu</c> from <c>入る</c>, so that two<br/>
+   /// meanings or uses of the word can be told apart, unless a vocab has that question already.
+   /// </summary>
+   public VocabNote CloneWithDisambiguation(string disambiguation) => CloneWithTheQuestionUnlessAVocabHasIt(new WordReference(Note.Question.Text, disambiguation));
+
+   /// <summary>The vocab whose question is <paramref name="question"/>, if there is one, or else a copy of this vocab with that question (<see cref="CloneWithTheQuestion"/>).</summary>
+   VocabNote CloneWithTheQuestionUnlessAVocabHasIt(WordReference question) => TheVocabNamedOrCreated(question, () => CloneWithTheQuestion(question));
+
+   /// <summary>
+   /// A copy of the vocab, its source data, media, tags and settings included, with <paramref name="question"/> as its question, added to the collection.<br/>
+   /// The copy is given its question before it's added, so that it's never a duplicate of the vocab, even for a moment.
+   /// </summary>
+   VocabNote CloneWithTheQuestion(WordReference question)
    {
       var source = VocabNoteConverter.ToDto(Note);
       var cloneData = new VocabDto
                       {
                          Id = Guid.NewGuid(),
                          Tags = [],
-                         Question = source.Question,
+                         Question = new VocabQuestionDto { Text = question.Text, Disambiguation = question.Disambiguation },
                          CorpusAnswer = source.CorpusAnswer,
                          Explanation = source.Explanation,
                          ExplanationLong = source.ExplanationLong,
@@ -127,13 +160,6 @@ public class VocabCloner
       return clone;
    }
 
-   public VocabNote CloneToForm(string form)
-   {
-      var clone = Clone();
-      clone.Question.SetText(form);
-      return clone;
-   }
-
    public VocabNote CreateNaAdjective() => CreatePostfixPrefixVersion("な", [PartOfSpeech.NaAdjective]);
 
    public VocabNote CreateNoAdjective() => CreatePostfixPrefixVersion("の", [PartOfSpeech.Expression, PartOfSpeech.NoAdjective]);
@@ -152,17 +178,18 @@ public class VocabCloner
 
    public VocabNote CreateSuruVerb(bool shimasu = false)
    {
-      var suruVerb = CreatePostfixPrefixVersion(shimasu ? "します" : "する", [PartOfSpeech.SuruVerb]);
+      return CreatePostfixPrefixVersion(shimasu ? "します" : "する", [PartOfSpeech.SuruVerb], finish: FinishTheSuruVerb);
 
-      var forms = suruVerb.Forms.QuestionAndEnteredFormsList()
-                          .Concat(suruVerb.Forms.QuestionAndEnteredFormsList().Select(form => form.Replace("する", "をする")))
-                          .ToList();
-      suruVerb.Forms.SetEnteredForms(forms.Select(EnteredForm.NotOwned));
+      void FinishTheSuruVerb(VocabNote suruVerb)
+      {
+         var forms = suruVerb.Forms.QuestionAndEnteredFormsList()
+                             .Concat(suruVerb.Forms.QuestionAndEnteredFormsList().Select(form => form.Replace("する", "をする")))
+                             .ToList();
+         suruVerb.Forms.SetEnteredForms(forms.Select(EnteredForm.NotOwned));
 
-      if(Note.PartsOfSpeech.IsTransitive()) suruVerb.PartsOfSpeech.Add(PartOfSpeech.Transitive);
-      if(Note.PartsOfSpeech.IsIntransitive()) suruVerb.PartsOfSpeech.Add(PartOfSpeech.Intransitive);
-
-      return suruVerb;
+         if(Note.PartsOfSpeech.IsTransitive()) suruVerb.PartsOfSpeech.Add(PartOfSpeech.Transitive);
+         if(Note.PartsOfSpeech.IsIntransitive()) suruVerb.PartsOfSpeech.Add(PartOfSpeech.Intransitive);
+      }
    }
 
    public VocabNote CreateShimasuVerb() => CreateSuruVerb(shimasu: true);
@@ -171,18 +198,28 @@ public class VocabCloner
 
    public VocabNote CreateSaForm() => CreatePostfixPrefixVersion("さ", [PartOfSpeech.Noun], setCompounds: true, chopOffCharacters: 1);
 
-   public VocabNote CloneToDerivedForm(string formSuffix, Func<VocabNote, string, string> createFormRoot)
+   /// <summary>
+   /// The version of the vocab with <paramref name="formSuffix"/> suffixed onto the root <paramref name="createFormRoot"/> gives each of its forms, such as its<br/>
+   /// い-stem: created as an expression, then finished by <paramref name="finish"/>, unless it exists already.
+   /// </summary>
+   VocabNote CloneToDerivedForm(string formSuffix, Func<VocabNote, string, string> createFormRoot, Action<VocabNote>? finish = null)
    {
-      string CreateFullForm(string form) => createFormRoot(Note, form) + formSuffix;
+      return TheVocabNamedOrCreated(new WordReference(CreateFullForm(Note.GetQuestion())), Create);
 
-      var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
-      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
-      var readings = Note.GetReadings().Select(CreateFullForm).ToList();
-      clone.SetReadings(readings);
-      clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
-      var compounds = new List<WordReference> { Note.Question.Reference, new(formSuffix) };
-      clone.CompoundParts.SetPrimary(compounds);
-      return clone;
+      VocabNote Create()
+      {
+         var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateFullForm(Note.GetQuestion()), Note.GetAnswer(), []);
+         clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateFullForm).Select(EnteredForm.NotOwned));
+         var readings = Note.GetReadings().Select(CreateFullForm).ToList();
+         clone.SetReadings(readings);
+         clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
+         var compounds = new List<WordReference> { Note.Question.Reference, new(formSuffix) };
+         clone.CompoundParts.SetPrimary(compounds);
+         finish?.Invoke(clone);
+         return clone;
+      }
+
+      string CreateFullForm(string form) => createFormRoot(Note, form) + formSuffix;
    }
 
    string CreatePreviewForm(string formSuffix, Func<VocabNote, string, string> createFormRoot) => createFormRoot(Note, Note.GetQuestion()) + formSuffix;
@@ -211,43 +248,37 @@ public class VocabCloner
    public VocabNote CreateTaForm() => SuffixToTeStem("た");
    public VocabNote CreateBaForm() => SuffixToEStem("ば");
 
-   public VocabNote CreateReceptiveForm()
-   {
-      var result = SuffixToAStem("れる");
-      var compoundParts = result.CompoundParts.Primary();
-      compoundParts[^1] = new WordReference("あれる");
-      result.CompoundParts.SetPrimary(compoundParts);
-      return result;
-   }
+   public VocabNote CreateReceptiveForm() => CloneToDerivedForm("れる", Conjugator.GetAStemVocab, finish: it => ReplaceTheLastCompoundPart(it, "あれる"));
 
-   public VocabNote CreateCausativeForm()
+   public VocabNote CreateCausativeForm() => CloneToDerivedForm("せる", Conjugator.GetAStemVocab, finish: it => ReplaceTheLastCompoundPart(it, "あせる"));
+
+   /// <summary>Makes <paramref name="part"/> the last of <paramref name="vocab"/>'s primary compound parts, in place of the one there.</summary>
+   static void ReplaceTheLastCompoundPart(VocabNote vocab, string part)
    {
-      var result = SuffixToAStem("せる");
-      var compoundParts = result.CompoundParts.Primary();
-      compoundParts[^1] = new WordReference("あせる");
-      result.CompoundParts.SetPrimary(compoundParts);
-      return result;
+      var compoundParts = vocab.CompoundParts.Primary();
+      compoundParts[^1] = new WordReference(part);
+      vocab.CompoundParts.SetPrimary(compoundParts);
    }
 
    public VocabNote CreateNaiForm() => SuffixToAStem("ない");
 
    public VocabNote CreateImperative()
    {
-      string CreateImperativeForm(string form) =>
-         Conjugator.GetImperative(form, Note.PartsOfSpeech.IsIchidan(), Note.PartsOfSpeech.IsGodan());
+      return TheVocabNamedOrCreated(new WordReference(CreateImperativeForm(Note.GetQuestion())), Create);
 
-      var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
-      clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
-      var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
-      clone.SetReadings(readings);
-      clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
-      return clone;
+      VocabNote Create()
+      {
+         var clone = CreateNewVocabCopyingTagsRegisterAndMatchingConfiguration(CreateImperativeForm(Note.GetQuestion()), Note.GetAnswer(), []);
+         clone.Forms.SetEnteredForms(Note.Forms.EnteredFormsList().Select(CreateImperativeForm).Select(EnteredForm.NotOwned));
+         var readings = Note.GetReadings().Select(CreateImperativeForm).ToList();
+         clone.SetReadings(readings);
+         clone.PartsOfSpeech.Set([PartOfSpeech.Expression]);
+         return clone;
+      }
+
+      string CreateImperativeForm(string form) => Conjugator.GetImperative(form, Note.PartsOfSpeech.IsIchidan(), Note.PartsOfSpeech.IsGodan());
    }
 
-   public VocabNote CreatePotentialGodan()
-   {
-      var clone = SuffixToEStem("る");
-      clone.CompoundParts.SetPrimary([Note.Question.Reference, new WordReference("える")]);
-      return clone;
-   }
+   public VocabNote CreatePotentialGodan() =>
+      CloneToDerivedForm("る", Conjugator.GetEStemVocab, finish: it => it.CompoundParts.SetPrimary([Note.Question.Reference, new WordReference("える")]));
 }

@@ -9,6 +9,7 @@ class VocabCommands(abc.ABC):
     AddSynonymsTransitivelyOneLevel : NoteChangingCommandTakingAText_1[VocabNote]
     AutogenerateCompoundParts : NoteChangingCommand_1[VocabNote]
     CloneToForm : VocabCreatingCommandTakingAText
+    CloneWithDisambiguation : VocabCreatingCommandTakingAText
     CreateBaForm : VocabCreatingCommand
     CreateCausativeForm : VocabCreatingCommand
     CreateEStem : VocabCreatingCommand

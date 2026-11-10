@@ -26,8 +26,15 @@ public static class VocabCommands
    public static readonly NoteChangingCommandTakingAText<VocabNote> AddSynonymsTransitivelyOneLevel =
       new("addSynonymsTransitivelyOneLevel", "Synonyms transitively one level", "the synonym", (it, synonym) => it.RelatedNotes.Synonyms.AddTransitivelyOneLevel(WordReference.FromDisambiguationName(synonym)));
 
-   /// <summary>A copy of the vocab, with one of its forms as its question.</summary>
+   /// <summary>A copy of the vocab, with one of its forms as its question, or the vocab that has that question already (<see cref="VocabCloner.CloneToForm"/>).</summary>
    public static readonly VocabCreatingCommandTakingAText CloneToForm = new("cloneToForm", "Clone to form", "the form to clone the vocab to", (it, form) => it.CloneToForm(form));
+
+   /// <summary>
+   /// A copy of the vocab whose question differs only in its disambiguation, or the vocab that has that question already<br/>
+   /// (<see cref="VocabCloner.CloneWithDisambiguation"/>).
+   /// </summary>
+   public static readonly VocabCreatingCommandTakingAText CloneWithDisambiguation =
+      new("cloneWithDisambiguation", "Clone with the disambiguation", "the disambiguation of the clone's question", (it, disambiguation) => it.CloneWithDisambiguation(disambiguation));
 
    public static readonly VocabCreatingCommand CreateSuruVerb = new("createSuruVerb", "する-verb", it => it.CreateSuruVerb());
    public static readonly VocabCreatingCommand CreateShimasuVerb = new("createShimasuVerb", "します-verb", it => it.CreateShimasuVerb());
@@ -73,7 +80,7 @@ public static class VocabCommands
    public static IReadOnlyList<INoteCommand<VocabNote>> All { get; } =
    [
       AcceptMeaning, GenerateAnswer, RepopulatePartsOfSpeech, AutogenerateCompoundParts, AddSynonymsTransitivelyOneLevel,
-      CloneToForm,
+      CloneToForm, CloneWithDisambiguation,
       CreateSuruVerb, CreateShimasuVerb, CreateNaAdjective, CreateNoAdjective, CreateNiAdverb, CreateToAdverb,
       CreateMasuForm, CreateTeForm, CreateTaForm, CreateNaiForm, CreateEStem, CreateBaForm, CreateReceptiveForm, CreateCausativeForm, CreateImperative, CreatePotentialGodan,
       CreateKuForm, CreateSaForm, CreateTePrefixed, CreateOPrefixed, CreateNSuffixed, CreateKaSuffixed,

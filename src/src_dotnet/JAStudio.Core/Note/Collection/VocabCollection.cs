@@ -1,3 +1,4 @@
+using Compze.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Vocabulary;
@@ -30,8 +31,14 @@ public class VocabCollection
    public VocabNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
    public List<VocabNote> WithForm(string form) => Cache.WithForm(form);
 
-   /// <summary>The vocab <paramref name="reference"/> names exactly: whose question has its text and its disambiguation. One, unless the corpus has duplicates.</summary>
+   /// <summary>The vocab <paramref name="reference"/> names exactly: whose question has its text and its disambiguation. At most one, as no two vocab share a question.</summary>
    public List<VocabNote> NamedExactlyBy(WordReference reference) => Cache.NamedExactlyBy(reference);
+
+   /// <summary>The vocab <paramref name="reference"/> names exactly (<see cref="NamedExactlyBy"/>), or null when no vocab has that question.</summary>
+   public VocabNote? NamedExactlyByOrNone(WordReference reference) => NamedExactlyBy(reference).SingleOrDefault();
+
+   /// <summary>Whether a vocab other than <paramref name="vocab"/> has <paramref name="question"/> as its question, which no two vocab may share.</summary>
+   public bool AnotherVocabHasTheQuestion(VocabNote vocab, WordReference question) => NamedExactlyBy(question).Any(it => it != vocab);
 
    /// <summary>The vocab any of <paramref name="references"/> names exactly (<see cref="NamedExactlyBy"/>).</summary>
    public List<VocabNote> NamedExactlyByAny(IEnumerable<WordReference> references) => [.. references.SelectMany(NamedExactlyBy).Distinct()];
@@ -54,20 +61,15 @@ public class VocabCollection
 
    /// <summary>
    /// Renames every word-reference that names <paramref name="oldName"/> exactly to <paramref name="newName"/>, in every vocab's related vocab and compound<br/>
-   /// parts, after the vocab that had the one name got the other. References that still name a vocab exactly, a duplicate of the renamed one, stay.
+   /// parts, after the vocab that had the one name got the other.
    /// </summary>
    /// <remarks>
    /// A reference that only refers to the vocab through one of its forms is a spelling, not the vocab's name, and stays: the vocab may well keep that form.
    /// </remarks>
    internal void RenameTheReferences(WordReference oldName, WordReference newName)
    {
-      if(ADuplicateStillHasTheOldName()) return;
-
       foreach(var vocab in All())
          vocab.RenameTheReferences(oldName, newName);
-      return;
-
-      bool ADuplicateStillHasTheOldName() => NamedExactlyBy(oldName).Count > 0;
    }
 
    /// <summary>
@@ -119,8 +121,10 @@ public class VocabCollection
 
    public List<VocabNote> WithAnyFormIn(List<string> forms) => [.. forms.SelectMany(WithForm).Distinct()];
 
+   /// <summary>Adds <paramref name="note"/>, a vocab just created, to the collection and to Anki. Its question must be one no vocab has.</summary>
    public void Add(VocabNote note)
    {
+      Contract.Argument.Assert(NamedExactlyBy(note.Question.Reference).Count == 0, () => $"A vocab named {note.Question.DisambiguationName} exists already, and no two vocab may share a question.");
       _backendNoteCreator.CreateVocab(note, () => Cache.AddToCache(note));
    }
 

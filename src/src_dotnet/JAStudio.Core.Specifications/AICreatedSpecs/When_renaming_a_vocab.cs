@@ -58,18 +58,4 @@ public class When_renaming_a_vocab : SpecificationStartingWithAnEmptyCollection,
       [XF] public void 話しかける_has_the_compound_parts_話す_and_かける_hang() => NamesOf(ToStartTalkingTo.CompoundParts.Primary()).Must().SequenceEqual(["話す", "かける:hang"]);
       [XF] public void 掛け算_is_derived_from_かける_hang() => Multiplication.RelatedNotes.DerivedFrom.Word.Must().Be(new WordReference("かける", "hang"));
    }
-
-   /// <summary>Another vocab, a duplicate, with the question かける and no disambiguation either.</summary>
-   public class while_another_vocab_has_the_same_name : When_renaming_a_vocab
-   {
-      public while_another_vocab_has_the_same_name() => CreateVocab("かける", "to bet", "かける");
-
-      public class and_after_changing_its_question_to_懸ける : while_another_vocab_has_the_same_name
-      {
-         public and_after_changing_its_question_to_懸ける() => ToHang.Question.SetText("懸ける");
-
-         [XF] public void 掛かる_keeps_かける_as_its_ergative_twin_since_it_still_names_the_other_vocab() => ErgativeTwinsOf(ToBeHanging).Must().SequenceEqual(["かける"]);
-         [XF] public void 話しかける_keeps_the_compound_parts_話す_and_かける() => NamesOf(ToStartTalkingTo.CompoundParts.Primary()).Must().SequenceEqual(["話す", "かける"]);
-      }
-   }
 }

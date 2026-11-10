@@ -45,6 +45,10 @@ static class NoteCommandMenuItem
    public static SpecMenuItem Creating(string label, VocabCreatingCommandTakingAText command, VocabNote vocab, string text) =>
       OpeningTheVocabCreated(label, () => command.CreateFrom(vocab, text));
 
+   /// <summary>
+   /// A menu item labeled <paramref name="label"/> that opens the vocab <paramref name="createVocab"/> gives in the workspace: the one it created, or the one<br/>
+   /// that had the question already, as no two vocab may share one (<see cref="VocabCloner"/>).
+   /// </summary>
    static SpecMenuItem OpeningTheVocabCreated(string label, Func<VocabNote> createVocab) =>
       SpecMenuItem.Command(label, () => WorkspaceWindow.OpenNote(createVocab()));
 }

@@ -63,6 +63,7 @@ public class VocabNoteQuestion
    {
       Contract.Argument.Assert(text != string.Empty, () => "A vocab's question can't be empty.");
       AssertHasNoDisambiguationMarker(text);
+      AssertNoOtherVocabHas(new WordReference(text, Disambiguation));
       RenamingTheReferencesToIt(() => _guard.Update(() =>
       {
          Text = text;
@@ -77,8 +78,14 @@ public class VocabNoteQuestion
    public void SetDisambiguation(string disambiguation)
    {
       AssertHasNoDisambiguationMarker(disambiguation);
+      AssertNoOtherVocabHas(new WordReference(Text, disambiguation));
       RenamingTheReferencesToIt(() => _guard.Update(() => Disambiguation = disambiguation));
    }
+
+   /// <summary>Fails, saying why, when a vocab other than this one has <paramref name="question"/> as its question: no two vocab may share one.</summary>
+   void AssertNoOtherVocabHas(WordReference question) =>
+      Contract.Argument.Assert(!_vocab.Services.Collection.Vocab.AnotherVocabHasTheQuestion(_vocab, question),
+                               () => $"Another vocab is named {question.DisambiguationName}, and no two vocab may share a question. A disambiguation tells two vocab with the same text apart.");
 
    /// <summary>
    /// Renames the vocab with <paramref name="rename"/>, then renames the word-references that named it by its old name, so they keep naming it<br/>
