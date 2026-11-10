@@ -233,7 +233,7 @@ So a single condition is a condition-subject and a condition-test. Negation, all
 ### Condition-tests, by what the condition-subject has
 
 - **A token** has:
-  - its part of speech, in IPADIC's four levels, as Janome reports it: 13 at the top (noun, verb, i-adjective,
+  - its part of speech, in IPADIC's four levels, as the tokenizer, MeCab, reports it: 13 at the top (noun, verb, i-adjective,
     adverb, particle, bound auxiliary, conjunction, interjection, prefix, symbol, …), down to such as noun › suffix ›
     person's name;
   - its inflection type, about 70, in families: godan (by row), ichidan, suru, kuru, i-adjective, special (特殊・タ,
@@ -434,10 +434,104 @@ and part-of-speech defaults would become such rules. "Dictionary form (start), f
 every vocab, which the 23 that require it opt out of. Until such rules exist, those vocab keep a flag in its place (open
 question 1 below).
 
+## The parsing engine, and what it means for the design (studied 2026-11-10)
+
+### How a sentence is parsed
+
+1. **Tokenizing (`JNTokenizer`).** MeCab, with the IPADIC dictionary, gives each token:
+   - its surface, base form and reading;
+   - its part of speech at four levels;
+   - its inflection type and inflected form.
+
+   JAStudio corrects the tokenizer twice: a quotative だって is split into だ and って (`MisTokenizedQuotativeDatte`), and
+   an ichidan verb the dictionary lacks is fixed (`MisTokenizedIchidanVerbUnknownToTheTokenizer`). A `<wbr>` hint
+   becomes a splitter that forces a token boundary.
+2. **Preprocessing (`PreProcessingStage`)** splits tokens into JAStudio's own pieces, in an order that matters:
+   - godan imperatives;
+   - godan potentials and imperatives hidden in what the tokenizer took for an ichidan verb;
+   - ichidan imperatives;
+   - every dictionary-form verb, into its stem and its ending. A godan verb's ending gets the base form う.
+3. **Candidate words (`TextAnalysisLocation`).** Every token starts candidate words of 1 to 12 tokens. Each candidate has
+   up to two variants:
+   - its surface, the tokens' surfaces joined;
+   - its base form, the same with the last token's base form, when that differs.
+4. **Matches (`CandidateWordVariant`).**
+   - **Vocab are found by exact form:** the vocab whose forms include the variant's text (`VocabCollection.WithForm`).
+   - **Each vocab match is tested:** the universal-requirements first, then the vocab's own rules, then priority.
+   - **If any vocab owns the form,** or if vocab have it but the dictionary doesn't and the word is a compound, the vocab
+     decide alone.
+   - **Otherwise,** with no valid vocab match, the dictionary's match counts. A single token with neither gets a missing
+     match.
+   - **Validity is decided in order:** every single-token word first, then the compounds. Within a word, the base variant
+     before the surface.
+5. **Display.** Three passes: display without shadowing, then shadowing, then shadowing again until nothing changes
+   (`TextAnalysis`). A location's longest displayed word shadows the locations it covers. A word that yields its last
+   token gives way to an overlapping compound that follows it.
+6. **What's stored (`ParsingResult`):** every valid match, with whether it's displayed when no breakdown option is set.
+   That links vocab to sentences, and gives a vocab its sentence count. The sentence breakdown analyzes the sentence
+   again, under the options.
+7. **After a vocab is edited,** the sentences that contain one of its forms or stems are reparsed, along with the
+   sentences it has now (`LocalNoteUpdater.ReparseSentencesForVocab`). A full rebuild takes about 8 seconds.
+
+### What it means
+
+- **Conditions can only take matches away, never add them.** A vocab can match only a text that is one of its forms.
+  So a condition can only reject a word that the form lookup found. Making a word match takes a form, or a highlight.
+- **Taking a vocab's match away can let the dictionary match instead,** unless a vocab owns the form. That's what a
+  poison word is for: it owns its form and never matches, so the dictionary doesn't match the text either. It means
+  "this text isn't a word here". In the tree, that's a condition that always fails. So the model needs an explicit
+  "never". In the search, an empty group is ignored, which is the opposite of a "never".
+- **Two kinds of token, and only one has the tokenizer's facts.**
+  - Only a tokenizer token (`JNToken`) has a part of speech, an inflection type and an inflected form.
+  - A piece JAStudio split off (`SplitTokenBase`) has only a surface, a base form, and JAStudio's facts, which are
+    yes-or-no. Its other facts come from the token it was split from (`IAnalysisToken.SourceToken`).
+  - Every dictionary-form verb is split, so "the token before" a word that follows one is the verb's ending, such as る.
+  - So a test of a split piece's part of speech needs a definition: the token it came from, or not allowed. Open
+    question 4.
+- **Tokenizing depends on the vocab.** The hybrid splitter looks up vocab, and the dictionary, by question, by form,
+  by parts of speech and by compound parts. So editing a vocab can change how other sentences are tokenized.
+- **Conditions can't fix tokenizing.** They run after preprocessing and can't change its tokens. A misparse that starts
+  in the tokenizer, such as うるせぇ coming out as う, る, せ and ぇよ, can only be patched by rejecting matches. Rules
+  for splitting tokens could one day be configurable too, but they're another layer.
+- **Validity can't depend on the breakdown's options.** The stored parsing result is made with no options, and the
+  breakdown with them. They must agree on what matches, so only conditions on display may read the options, as
+  hiding compositionally transparent compounds does.
+- **The order constrains what a condition can read:**
+  - a single-token word is decided before any compound, so a compound's conditions could read whether its parts match
+    on their own;
+  - the base variant is decided before the surface;
+  - other vocab of the same text count only through their primary validity, as priority does.
+- **Display is decided by repeating until nothing changes.** A display condition that reads what's displayed could
+  keep changing, and never settle. The code already notes that the yield check reads the displayed words it helps
+  decide. Conditions on display need a rule that guarantees they settle.
+- **Priority is only between vocab of the same text.** It compares the vocab matches of the same variant, the same span
+  of the same text. Overlaps between different spans are settled by display: the longest shadows, and yielding. So
+  conditions that tell two vocab of the same form apart, such as ようです and さまです, settle priority without weights.
+- **The universal-requirements apply to every match: vocab, dictionary and missing** (`Match.MatchPrimaryValidityRequirements`).
+  A rule-for-many-vocab doesn't reach dictionary matches. Moving these requirements out of code needs rules for every
+  match, the dictionary's included.
+- **Dictionary form (start) is one concept with two others.** The forms' placeholder う expands to every dictionary-form
+  ending. And a godan verb's split ending has the base form う. A vocab such as う限り matches only because of all three.
+  That supports making it a fact about the vocab (open question 1).
+- **Reparsing after an edit.** A vocab's edit reparses the sentences with its forms. A shared-condition or a
+  rule-for-many-vocab changes many vocab at once, so its edit needs a full rebuild, which takes about 8 seconds.
+- **The parsing cases need to carry them too.** The cases run against a stripped-down corpus of the vocab their
+  sentences look up (`LookupRecording`). It must carry the shared-conditions and rules-for-many-vocab too.
+- **Caching:** a match caches its validity, and only the yield check is computed afresh each time
+  (`CustomForbidsNoCache`). A condition on validity must therefore depend only on what doesn't change during the
+  analysis.
+- **The cost:**
+  - a full rebuild takes about 8 seconds, for 49,162 sentences;
+  - a vocab's rules are tested only on variants whose text is one of its forms;
+  - the dictionary lookups dominate the time.
+
+  So testing trees should add little.
+- **Python doesn't touch the matching configuration,** so the redesign stays in .NET.
+
 ## The core: the design to build first
 
-> Written 2026-11-10, before a close study of the whole parsing engine, which comes next and may change it. The names
-> are placeholders.
+> Written 2026-11-10, before the study of the parsing engine above. What that study changes is in its "What it means".
+> The names are placeholders.
 
 The core is the match-condition and everything it takes to replace today's require/forbid rules and configurable rules
 with it, with nothing changing in the parsing. Shared-conditions are designed in, and built right after.
@@ -583,5 +677,9 @@ power.
    - (b) Compute it from the tree, each node weighing what its rule weighs today.
 
    What decides priority once conditions can say more is open either way.
-3. **Display:** whether a second tree per vocab, "displayed when", takes over the yield rules.
+3. **Display:** whether a second tree per vocab, "displayed when", takes over the yield rules, and what rule guarantees
+   that conditions on display settle.
+4. **A split piece's tokenizer facts:** whether a test of a split piece's part of speech, inflection type or inflected
+   form reads the token it was split from, or isn't offered on it.
+5. **Rules for every match,** dictionary matches included, when the universal-requirements move out of code.
 
