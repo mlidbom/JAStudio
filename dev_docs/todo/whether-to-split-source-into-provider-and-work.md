@@ -170,33 +170,47 @@ Magnus's view, which Claude shares; neither is a lawyer's:
 
 - `SourceTag` lives in `Storage.Media`, a leftover of the dropped media sidecars, though only `JPNote` uses it.
 - `SourceTagJsonConverter` is another leftover of the sidecars, used by nothing.
-- `Tags.Source.ImmersionKit` is used by nothing.
-- `VocabNoteFactory.CreateWithDictionary`, when the dictionary has no entry, and `VocabCloner` create vocab with no
-  source tag. That is most likely where the 2,449 untagged vocab come from: their many derived forms, such as
-  あせちゃう and あせてもらう, suggest cloning.
+- *Removed in b319cbb63:* `Tags.Source.ImmersionKit`, used by nothing.
+- *Fixed in b319cbb63:* `VocabNoteFactory.CreateWithDictionary`, when the dictionary has no entry, and `VocabCloner`
+  created vocab with no source tag. That is most likely where the 2,449 untagged vocab came from: their many derived
+  forms, such as あせちゃう and あせてもらう, suggest the cloner's derived versions.
 
 ## Data changes that don't depend on the split
 
-**Done (2026-11-10):**
+**Done (2026-11-10)**, each a corpus commit of its own, after a full rebuild that changed nothing:
 - The 233 Violet Evergarden sentences tagged with both episode 07 and 08 are episode 07's, by their external ids and
   audio, and no longer have the `::08` (f70ad52b5f).
 - The kanji no longer have `source::lyrics::未来のひとへ`; its 50 vocab and 33 sentences keep it (83f0b2b734).
+- The kanji of the grammar terms, 基, 形, 格, 然, 般, 詞 and 類, no longer have `source::grammar` (9ef6a36bfd).
+- The 42 grammar terms' vocab have `-::grammar-term` instead of `source::grammar`, and the 6 names of the inflected forms
+  `-::grammar-term::_inflectable_form` instead of `source::grammar::_inflectable_form` (6354a4cab2). Magnus: "These
+  should be given another tag, if any. This is more about the meaning of the words". Each has a Yomitan or WaniKani
+  source tag too.
+- Our own content has `source::jastudio` (Magnus: "sounds good"): the 2,449 vocab and 82 kanji that had no source tag
+  (88c94920a8). The 82 kanji are radicals and components made by hand, such as ⺌ and ナ, many with WaniKani's radical
+  names, such as triceratops and narwhal.
+- Girls' Last Tour's 2,758 sentences have the priority tag `-::priority::high::011_Girls_Last_Tour` instead of Natsume's
+  season 1's, `011_Natsume_01`: the same priority, named for the right work (c18697b4d6).
 
-**Agreed, not done:**
-- **The grammar terms get `-::grammar-term`** instead of `source::grammar` (Magnus: "These should be given another tag, if
-  any. This is more about the meaning of the words"). They're 品詞, 他動詞, 連用形, Kindaichi's verb classes, and below
-  `_inflectable_form` the names of the inflected forms, such as 未然形. All 42 vocab and all 7 kanji also have another
-  source tag, Yomitan or WaniKani, so none is left without a source.
-- **Our own content gets `jastudio`** (Magnus: "sounds good"): without the split, `source::jastudio` on the 2,449 vocab
-  and 82 kanji with no source tag, and on the vocab JAStudio creates without a dictionary entry or by cloning. The 82
-  kanji are radicals and components made by hand, such as ⺌ and ナ, many with WaniKani's radical names, such as
-  triceratops and narwhal.
+**Done in the code (b319cbb63):** what JAStudio creates as our own content is tagged `source::jastudio`: a vocab the
+dictionary has no entry for, a vocab derived from another, such as its suffix version, and a kanji created by hand, as
+the note menus' "Create" does (`KanjiNote.CreateByHand`). A clone (`VocabCloner.Clone`), a full copy carrying the
+original's source data, keeps the original's source tags instead: until then it had none.
 
-**Suggested by Claude, not decided:**
-- **Whether the 7 grammar kanji keep the label,** as the 未来のひとへ kanji didn't keep theirs. They're the kanji of the
-  terms: 基, 形, 格, 然, 般, 詞 and 類.
-- **`source::free::misc` merged into `source::misc`:** both mean unknown, and `free` was the licence regime.
-- **JLab's and Immersion Kit's works as tags, and `sourceName` gone:** the minimal alternative above. It needs the
-  review of the work names.
-- **For slice 5:** all 2,758 Girls' Last Tour sentences have `-::priority::high::011_Natsume_01`. Priority's name part
-  is only a label, but this one names another work.
+**Decided to keep:** `source::free::misc` stays apart from `source::misc` (Magnus: "Licensing is most of why we have
+this data, so keep it for now").
+
+**Open:**
+- **`source::jamdict` and `source::jastudio` count as tags JAStudio defines** (`Tags.IsDefinedByJAStudio`), as all the
+  tags declared in `Tags` do. So the tag pickers don't offer them, the tag tools refuse them, and the tag management
+  can't rename or delete a branch holding one, such as `source`. That protection is meant for generated tags and tags
+  with editors of their own; source tags set when a note is created are neither, and Magnus manages the source by hand.
+  Whether to exclude them is a question for Magnus.
+- **JLab's and Immersion Kit's works as tags, and `sourceName` gone:** the minimal alternative above. Magnus isn't sure
+  of the value: "currently anime:: holds only full seasons and episodes. This would make it hold tons of tiny
+  fragments with individual sentences.... Not sure I want/need that." If it's done, under a branch of their own so as
+  not to clutter `source::anime::`, such as `source::fragments::anime::<work>` and `source::fragments::jdrama::<work>`.
+  It needs the review of the work names.
+- **Duplicate sentences:** 71 of JLab's 74 Natsume sentences (`natsumeyuujincho1-6`) are lines also in Magnus's own
+  Natsume decks, and across the corpus 525 sentence texts of more than 4 characters are in 1,380 sentences. Knowing a
+  sentence's work is what found the Natsume ones. A candidate for a check in `corpus-validity.md`.
