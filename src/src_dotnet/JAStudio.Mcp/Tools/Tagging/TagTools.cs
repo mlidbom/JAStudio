@@ -20,8 +20,13 @@ public class TagTools
    public const int LevelsListedByDefault = 2;
 
    readonly JPCollection _collection;
+   readonly AnkiTagChanges _ankiTagChanges;
 
-   public TagTools(JPCollection collection) => _collection = collection;
+   public TagTools(JPCollection collection, AnkiTagChanges ankiTagChanges)
+   {
+      _collection = collection;
+      _ankiTagChanges = ankiTagChanges;
+   }
 
    [McpServerTool(Name = "get_the_tag_tree", ReadOnly = true, Idempotent = true)]
    [Description("""
@@ -48,7 +53,9 @@ public class TagTools
                 Adds a tag to every note a search finds that doesn't have it, as adding it to a note's tags in the editor does, and saves
                 each note it changes to the corpus checkout. The search is in the form search_notes takes, such as
                 {"allOf": [{"noteTypeIs": "vocab"}, {"not": {"tagsInclude": "source"}}]}. Refuses a tag JAStudio maintains, which is
-                generated, as the editor does. Reports the notes it added the tag to.
+                generated, as the editor does. A tag below anki::, such as anki::marked, is one of the notes' tags in Anki: it's added to
+                the study-notes of the notes that have one, in Anki, as one Anki operation, which Anki's Edit > Undo undoes, and the
+                headless JAStudio, which has no Anki, refuses it. Reports the notes it added the tag to.
                 """)]
    public NotesTheTagChangedOn AddATagToTheNotesFound(
       [Description("The search finding the notes, in the form search_notes takes.")] JsonObject search,
@@ -56,8 +63,11 @@ public class TagTools
       [Description("The most notes to list. Every note the tag is added to is counted either way.")] int maxNotesListed = NoteTools.NotesListedByDefault)
    {
       var tagToAdd = TagManagedByHand(tag);
-      var notesWithoutTheTag = NotesFoundBy(search).Where(it => !it.Tags.Contains(tagToAdd)).ToList();
-      foreach(var note in notesWithoutTheTag) note.Tags.Set(tagToAdd);
+      var notesWithoutTheTag = NotesFoundBy(search).Where(it => !it.AllTags.Contains(tagToAdd) && (!tagToAdd.IsAnAnkiTag || it.HasAnAnkiNote())).ToList();
+      if(tagToAdd.IsAnAnkiTag)
+         _ankiTagChanges.AddTo(notesWithoutTheTag, tagToAdd);
+      else
+         foreach(var note in notesWithoutTheTag) note.Tags.Set(tagToAdd);
 
       return new NotesTheTagChangedOn(notesWithoutTheTag.Count, [..notesWithoutTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
    }
@@ -67,7 +77,9 @@ public class TagTools
                 Removes a tag from every note a search finds that has it, as removing it from a note's tags in the editor does, and saves
                 each note it changes to the corpus checkout. Removes the tag itself only, not the tags below it. The search is in the form
                 search_notes takes, such as {"allOf": [{"noteTypeIs": "kanji"}, {"tagsInclude": "source::lyrics"}]}. Refuses a tag JAStudio
-                maintains, which is generated, as the editor does. Reports the notes it removed the tag from.
+                maintains, which is generated, as the editor does. A tag below anki::, such as anki::marked, is one of the notes' tags in
+                Anki: it's removed from their study-notes in Anki, as one Anki operation, which Anki's Edit > Undo undoes, and the headless
+                JAStudio, which has no Anki, refuses it. Reports the notes it removed the tag from.
                 """)]
    public NotesTheTagChangedOn RemoveATagFromTheNotesFound(
       [Description("The search finding the notes, in the form search_notes takes.")] JsonObject search,
@@ -75,8 +87,11 @@ public class TagTools
       [Description("The most notes to list. Every note the tag is removed from is counted either way.")] int maxNotesListed = NoteTools.NotesListedByDefault)
    {
       var tagToRemove = TagManagedByHand(tag);
-      var notesWithTheTag = NotesFoundBy(search).Where(it => it.Tags.Contains(tagToRemove)).ToList();
-      foreach(var note in notesWithTheTag) note.Tags.Unset(tagToRemove);
+      var notesWithTheTag = NotesFoundBy(search).Where(it => it.AllTags.Contains(tagToRemove)).ToList();
+      if(tagToRemove.IsAnAnkiTag)
+         _ankiTagChanges.RemoveFrom(notesWithTheTag, tagToRemove);
+      else
+         foreach(var note in notesWithTheTag) note.Tags.Unset(tagToRemove);
 
       return new NotesTheTagChangedOn(notesWithTheTag.Count, [..notesWithTheTag.Take(maxNotesListed).Select(NoteSummary.Of)]);
    }

@@ -5,6 +5,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.TestUtils;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Tagging;
 using ModelContextProtocol.Protocol;
@@ -58,6 +59,21 @@ public class When_adding_a_tag_to_the_notes_found : McpServerSpecification
 
       [XF] public void it_reports_only_the_vocab_that_did_not_have_it_as_changed() => _result.Notes.Select(it => it.Question).Must().SequenceEqual(["来る"]);
       [XF] public void both_vocab_have_it() => (HasTheTag(_vocabFromWaniKani, "source::wani") && HasTheTag(_vocabWithNoTags, "source::wani")).Must().BeTrue();
+   }
+
+   /// <summary>A tag below <c>anki::</c>, one of the notes' tags in Anki, added to the vocab's study-notes in Anki, here the pretend Anki of the specifications.</summary>
+   public class an_Anki_tag_to_the_vocab : When_adding_a_tag_to_the_notes_found
+   {
+      readonly NotesTheTagChangedOn _result;
+
+      public an_Anki_tag_to_the_vocab() => _result = ResultOf<NotesTheTagChangedOn>(AddATagToTheNotesFound(new JsonObject { ["noteTypeIs"] = "vocab" }, "anki::flagged"));
+
+      [XF] public void the_study_note_of_each_vocab_has_it_in_Anki() =>
+         (GetService<PretendAnki>().TagsOf(_vocabFromWaniKani).SequenceEqual(["flagged"]) && GetService<PretendAnki>().TagsOf(_vocabWithNoTags).SequenceEqual(["flagged"])).Must().BeTrue();
+      [XF] public void each_vocab_shows_it_among_its_Anki_tags() =>
+         (_vocabFromWaniKani.AnkiTags.Contains(Tags.Anki.For("flagged")) && _vocabWithNoTags.AnkiTags.Contains(Tags.Anki.For("flagged"))).Must().BeTrue();
+      [XF] public void it_is_not_one_of_their_own_tags() => (HasTheTag(_vocabFromWaniKani, "anki::flagged") || HasTheTag(_vocabWithNoTags, "anki::flagged")).Must().BeFalse();
+      [XF] public void it_reports_both_vocab_changed() => _result.NotesChanged.Must().Be(2);
    }
 
    public class a_tag_JAStudio_defines : When_adding_a_tag_to_the_notes_found

@@ -3,8 +3,10 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.TestUtils;
 using JAStudio.Mcp.Tools.Tagging;
 using ModelContextProtocol.Protocol;
 
@@ -79,5 +81,24 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
       [XF] public void the_failure_names_the_tag() => TextOf(_result).Must().Contain(Tags.Sentence.Uses.HiddenMatches.Name);
       [XF] public void the_note_keeps_the_tag() => _sentenceTaggedWithEpisode08Only.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
+   }
+
+   /// <summary>A tag below <c>anki::</c>, one of the notes' tags in Anki: the study-note of each sentence is tagged <c>marked</c> in Anki, here the pretend Anki.</summary>
+   public class anki_marked_from_the_sentences_tagged_with_episode_08 : When_removing_a_tag_from_the_notes_found
+   {
+      readonly NotesTheTagChangedOn _result;
+
+      public anki_marked_from_the_sentences_tagged_with_episode_08()
+      {
+         GetService<PretendAnki>().Tag(_sentenceTaggedWithBothEpisodes, "marked");
+         GetService<PretendAnki>().Tag(_sentenceTaggedWithEpisode08Only, "marked");
+         GetService<JPCollection>().ReadTheStudyNotesFromAnkiAgain();
+         _result = ResultOf<NotesTheTagChangedOn>(RemoveATagFromTheNotesFound(new JsonObject { ["tagsInclude"] = Episode08 }, "anki::marked"));
+      }
+
+      [XF] public void the_study_notes_no_longer_have_it_in_Anki() =>
+         (GetService<PretendAnki>().TagsOf(_sentenceTaggedWithBothEpisodes).Count + GetService<PretendAnki>().TagsOf(_sentenceTaggedWithEpisode08Only).Count).Must().Be(0);
+      [XF] public void the_sentences_no_longer_show_it() => (_sentenceTaggedWithBothEpisodes.AnkiTags.Any() || _sentenceTaggedWithEpisode08Only.AnkiTags.Any()).Must().BeFalse();
+      [XF] public void it_reports_both_sentences_changed() => _result.NotesChanged.Must().Be(2);
    }
 }
