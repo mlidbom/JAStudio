@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.UI.ViewModels.Workspace;
@@ -113,5 +114,17 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       public after_removing_a_tag_from_the_note_on_the_shown_tab_as_ctrl_shift_t_does() => ShownTab().RemoveATagFromTheShownNote(Picking(SourceTag));
 
       [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(SourceTag).Must().BeFalse();
+   }
+
+   /// <summary>Anki reports, during a session, that the sentence's study-note is tagged <c>leech</c>, as after a review that made a card a leech.</summary>
+   public class after_Anki_reports_that_its_study_note_was_tagged : When_editing_a_notes_tags_in_the_workspace
+   {
+      public after_Anki_reports_that_its_study_note_was_tagged()
+      {
+         var collection = GetService<JPCollection>();
+         collection.UpdateTheAnkiTagsOfAStudyNote(collection.GetExternalNoteId(_sentence.GetId()), "leech");
+      }
+
+      [XF] public void the_editor_shows_the_tag_below_anki() => TagsShownInTheEditor().Must().Contain("anki::leech");
    }
 }

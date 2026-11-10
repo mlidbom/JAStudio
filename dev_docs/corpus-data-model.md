@@ -750,7 +750,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
      ("could be very confusing without information about what happened"). *Done 2026-11-10: the creating methods give back a
      `CreatedOrExistingVocab`, and `WorkspaceWindow.OpenTheVocab` shows a `MessageDialog` when it existed already.*
   2. A note's tab shows a change to its study-note (`StudyNoteChanged`) at once, as it does an update of the note: today
-     it shows only when the tab opens again.
+     it shows only when the tab opens again. *Done 2026-11-10: `NoteTabViewModel` follows `StudyNoteChanged`.*
   3. The re-read of the Anki state, above.
   4. Changing Anki's tags in JAStudio, above.
   5. The cleanup drive, with Magnus's word before anything is removed, then `clear_unused_tags`.

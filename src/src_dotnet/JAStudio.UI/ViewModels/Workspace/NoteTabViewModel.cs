@@ -73,13 +73,8 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       var uiThread = services.Resolve<IUIThreadDispatcher>();
       _subscriptions =
       [
-         services.CoreApp.Collection.NoteUpdated.Subscribe(note =>
-         {
-            if(!IsShowing(note)) return;
-
-            PageBecameOutdated();
-            uiThread.PostToUIThread(() => EditorSection?.Refresh());
-         }),
+         services.CoreApp.Collection.NoteUpdated.Subscribe(ShowTheChangeIfItsTheShownNote),
+         services.CoreApp.Collection.StudyNoteChanged.Subscribe(ShowTheChangeIfItsTheShownNote),
          services.CoreApp.Collection.NoteDeleted.Subscribe(note =>
          {
             if(IsShowing(note)) uiThread.PostToUIThread(Close);
@@ -91,6 +86,15 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
          }),
          services.CoreApp.Config.Changed.Subscribe(_ => PageBecameOutdated())
       ];
+      return;
+
+      void ShowTheChangeIfItsTheShownNote(JPNote note)
+      {
+         if(!IsShowing(note)) return;
+
+         PageBecameOutdated();
+         uiThread.PostToUIThread(() => EditorSection?.Refresh());
+      }
    }
 
    /// <summary>The page the tab opened on, loaded the first time the tab is shown. Links followed on the page take the tab on from there.</summary>
@@ -101,7 +105,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
 
    /// <summary>
    /// Raised when the page no longer shows the current state, so it must be reloaded:<br/>
-   /// the note on it was updated, the collection was reloaded after an Anki sync,<br/>
+   /// the note on it was updated, its study-note in Anki changed, such as its tags, the collection was reloaded after an Anki sync,<br/>
    /// or a setting changed, such as how sentence breakdowns are shown.<br/>
    /// It's raised on the thread that made the change, or, for a tab that was hidden, when the tab is shown.
    /// </summary>
