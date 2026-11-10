@@ -792,7 +792,9 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
 - **The facts:** `isOurs` only when proven (below); `isTextToSpeech` only when proven, by the rules above (for a
   sentence, a TTS file name proves it, so its voice may stay unknown); the TTS voice when proven; the voice's gender when
   known (WaniKani's file names, TTS voices); an image's alt text. A fact not known is left out of the JSON rather than
-  written as null. `isTextToSpeech` replaces the
+  written as null. Which of `Audio_b` and `Audio_g` held a recording says nothing about its voice, except through
+  WaniKani's file names: putting one into `Audio_g` never meant a female voice (Magnus, 2026-11-10). So the slots
+  aren't kept; the order is. `isTextToSpeech` replaces the
   `_tts_audio` tag, which goes, from `Tags` too; the vocab's sentence list marks a sentence with TTS audio from its audio.
 - **How the migration decides source data:** a file is the source's when it's the kind of file the note's source gives:
   WaniKani's files on a vocab tagged `source::wani`, Core 2000's on Core 2000 notes, Yomitan's on vocab created through
@@ -802,16 +804,45 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
 - **A note's preferred audio** is a recording before TTS, and among recordings the source's first. The Anki-projection
   writes a vocab's first recording into `Audio_b`, its other recordings into `Audio_g` and its TTS audio into `Audio_TTS`,
   so the card templates, which play the recordings, else the TTS, behave as before; a sentence's preferred audio goes into
-  `Audio Sentence`.
+  `Audio Sentence`. Two changes to what Anki plays follow, both accepted (Magnus, 2026-11-10):
+  - 58 vocab have recordings both from their source and added since. On 24 of them Magnus put an added one first (on 34
+    the source's), so on those 24 Anki plays another file first. **The direction, later (Magnus):** for vocab, a file of
+    ours (`isOurs`) by default before any from a source, which is someone else's; for sentences from anime and the like,
+    the real audio whenever possible.
+  - 16 files in `Audio_TTS` aren't proven TTS, so they count as recordings: on a vocab with other recordings, they play
+    too.
 - **JAStudio's TTS** replaces the note's own TTS audio.
 - **The editors** show both lists and can remove from either, a correction; adding media by hand is a feature of its own,
   later. It asks whether a file is ours, the answer no unless changed; and it can mark a file already there as ours, for
   any that are but can't be proven, if one is worth the effort (Magnus).
-- Dropped: the heights, the separators.
+- **Dropped (Magnus, 2026-11-10), nothing of value:** the sizes on 12 images, the separators between files, the 28
+  references to a file the note already has, `_tts_audio` on the 12 vocab where it was wrong, and which of a vocab's
+  `image` and `userImage` held a web image (neither is shown anywhere; source data or the corpus's own keeps what
+  matters). The notes' old form stays in the corpus repository's history.
 - **Checking the migration:** `diff_the_changed_notes` can't compare across a change to how notes are stored, so the
   migration reports what it put where, by kind of file and note source, with the cases no rule fits; the study-note fields
   JAStudio would write are compared with today's, which may differ only where intended; and a full rebuild after the
   migration must change nothing.
+
+### The plan (agreed with Magnus, 2026-11-10)
+
+1. **A tool first:** the live JAStudio's MCP server compares every note's Anki study-note with the fields JAStudio would
+   write, lists the notes that differ, and writes those on request. Needed because a reload passes only notes whose
+   files changed on to Anki, and none at startup, while a change of format is fast-forwarded with Anki closed. Run first
+   for a baseline.
+2. **The domain model, on today's storage:** a full rebuild in the headless JAStudio's worktree first. Then the
+   reference types and the lists, filled from today's fields by a temporary mapping in the converters. Everything
+   moves to the lists: the Anki-projection, the web cards, TTS keeping and its dialog, the editors, the MCP's editable
+   fields, `VocabCloner`, the import (into source data), deleting a note's unused files, `MediaFileIndex`. Markup is
+   parsed only where Anki's crosses the boundary: the import reading Anki's fields, the projection writing them.
+   Checked: the Anki comparison shows formatting only, a full rebuild changes nothing. A source commit.
+3. **The format and the migration:** the DTOs take the shape above; `_tts_audio`, `Tags.TTSAudio` and the temporary
+   mapping go. A one-time Python script migrates the notes, reusing the survey's TTS proof, in the headless worktree,
+   and reports to Magnus before anything is committed. Checked: a full rebuild after it changes nothing, every
+   reference resolves, cards render as before. A source and corpus commit pair.
+4. **Into Magnus's checkout:** with Anki closed, a git fast-forward; Anki started on the new build; the comparison
+   lists the study-notes to update (about 1,100 vocab whose TTS leaves `Audio_b`, and formatting), Magnus looks, and
+   they're written.
 
 ### Whether a file is ours (Magnus, 2026-11-10)
 
