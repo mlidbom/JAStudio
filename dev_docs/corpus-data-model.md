@@ -665,6 +665,9 @@ hierarchical tags in JAStudio is central to organizing (Magnus, 2026-11-06).
     a source tag, 17 distinct priority tags are spread over 143 source tags, and only 4 source tags carry more
     than one priority tag. The name part of a priority tag is just a label, and is sometimes wrong:
     `source::anime::girls-last-tour` notes carry `-::priority::high::011_Natsume_01`.
+  - **Done (2026-11-10), after all:** read from the study-notes' tags, below `anki::`, once JAStudio stopped writing
+    tags into study-notes ([the two sets are separate](#the-corpuss-tags-and-ankis-tags-are-separate-magnus-2026-11-10)).
+    *What follows is the deferral it ended.*
   - **Deferred (Magnus, 2026-11-10), with slice 5:** moving it out means reading it from the Anki notes' tags and
     JAStudio no longer owning the Anki note's tag list, partly a two-way sync, which the settled rules argue against.
     The leak it was to stop, a rebuild in the Anki profile for importing rewriting the study-state tags, went with those
@@ -692,19 +695,26 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
   the tags the corpus no longer has, on 21,236 study-notes. It keeps the student-tags, which JAStudio wrote there too
   (priority, `legacy_scheduling`, `_only_studying_listening`, `active_kanji`, `preparing-cards`), and any tag of Anki's,
   such as `marked`: which tags are JAStudio's can't be told from whether the corpus still has them.
-- **Then:** reading Anki's tags into JAStudio, held in memory as the studying status is, as a kind of their own ("Anki
-  tags", so that a search says which it means). Only after the cleanup, or JAStudio would show Magnus's Anki tags mixed
-  with its own old copies. Open: whether JAStudio may change them, such as marking a note, and how its view keeps up
-  when Anki adds one during a review.
-- **Priority, the one student-tag still in the corpus,** moves out once JAStudio reads it from Anki: JAStudio reads it
-  to order a vocab's sentence list and color its source labels (`JPNote.PriorityTagValue`, `JPNote.GetMetaTags`).
+- **Done (2026-11-10): JAStudio reads Anki's tags, below `anki::`** (Magnus's idea: "putting all the anki tags under
+  anki:: and otherwise treating them the same as other tags except them being readonly and in-memory only"). A note's
+  Anki tags (`JPNote.AnkiTags`) are read with the studying statuses as the collection loads, held in memory, never stored
+  and never changed in JAStudio; a change made in Anki shows at the next load. A person browses and searches them with
+  the note's own tags (`JPNote.AllTags`): the search, the tag tree, the paths a search condition offers, the search
+  results and the note's tags editor, which shows them dimmed, without a remove button. No tag of a note's own can be
+  in the branch, and the branch is never renamed or deleted (`Tags.Anki`). It came before the cleanup drive after all:
+  until then the branch also mirrors the corpus-tags JAStudio wrote into Anki, such as `anki::source::…`, but the noise
+  stays in one branch, and shows what the cleanup has to do. Open: whether JAStudio may change them, such as marking a
+  note, and a hook so that JAStudio sees a tag Anki adds during a review before the next load.
+- **Priority is an Anki tag:** JAStudio reads it from `anki::-::priority::…` (`Tags.PriorityFolder`), to order a vocab's
+  sentence list and color its source labels (`JPNote.PriorityTagValue`, `JPNote.GetMetaTags`), and it leaves the
+  corpus. The one sentence with no Anki note loses its priority, medium.
 
 ### Student-tags and corpus-tags
 
 How today's tags split, as read on 2026-11-06 (the numbers count notes):
 
 - **Student-tags:**
-  - priority (about 48,500 sentences);
+  - priority (about 48,500 sentences): *an Anki tag since 2026-11-10, read below `anki::`;*
   - ~~`legacy_scheduling` (9,355)~~ *left the corpus 2026-11-10;*
   - ~~`_only_studying_listening` (1,065 sentences)~~ *left the corpus 2026-11-10;*
   - ~~Anki's `marked` (2)~~ *left the corpus 2026-11-10: it's Anki's;*

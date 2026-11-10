@@ -45,30 +45,39 @@ public sealed class TagBranch(string path)
 
    /// <summary>
    /// Why this branch can't be renamed or moved by hand, or null when it can, given <paramref name="tagsInUse"/>, every tag some note has:<br/>
-   /// it's the source branch itself (<see cref="Tags.Source.Branch"/>), or it holds a tag whose name JAStudio's code uses (<see cref="Tags.IsDefinedByJAStudio"/>).
+   /// it's the source branch itself (<see cref="Tags.Source.Branch"/>), it's in the anki branch (<see cref="Tags.Anki"/>), or it holds a tag whose name<br/>
+   /// JAStudio's code uses (<see cref="Tags.IsDefinedByJAStudio"/>).
    /// </summary>
    public string? WhyItCannotBeRenamedByHand(IEnumerable<Tag> tagsInUse) =>
       IsTheSourceBranch
          ? WhyTheSourceBranchIsNeverChanged
-         : tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsDefinedByJAStudio(it.Name)) is {} defined
-            ? $"{Path} holds {defined.Name}, whose name JAStudio uses, so it can't be renamed by hand."
-            : null;
+         : IsInTheAnkiBranch
+            ? Tags.Anki.WhyItIsReadOnly
+            : tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsDefinedByJAStudio(it.Name)) is {} defined
+               ? $"{Path} holds {defined.Name}, whose name JAStudio uses, so it can't be renamed by hand."
+               : null;
 
    /// <summary>
    /// Why this branch can't be deleted by hand, or null when it can, given <paramref name="tagsInUse"/>, every tag some note has:<br/>
-   /// it's the source branch itself (<see cref="Tags.Source.Branch"/>), or it holds a tag JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>).
+   /// it's the source branch itself (<see cref="Tags.Source.Branch"/>), it's in the anki branch (<see cref="Tags.Anki"/>), or it holds a tag JAStudio<br/>
+   /// maintains (<see cref="Tags.IsMaintainedByJAStudio"/>).
    /// </summary>
    public string? WhyItCannotBeDeletedByHand(IEnumerable<Tag> tagsInUse) =>
       IsTheSourceBranch
          ? WhyTheSourceBranchIsNeverChanged
-         : tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsMaintainedByJAStudio(it.Name)) is {} maintained
-            ? $"{Path} holds {maintained.Name}, which JAStudio maintains, so it can't be deleted by hand."
-            : null;
+         : IsInTheAnkiBranch
+            ? Tags.Anki.WhyItIsReadOnly
+            : tagsInUse.FirstOrDefault(it => Contains(it) && Tags.IsMaintainedByJAStudio(it.Name)) is {} maintained
+               ? $"{Path} holds {maintained.Name}, which JAStudio maintains, so it can't be deleted by hand."
+               : null;
 
    /// <summary>Whether this branch is in the source branch (<see cref="Tags.Source"/>), the source branch itself included: changing its tags changes notes' sources.</summary>
    public bool IsInTheSourceBranch => Tags.Source.Branch.Contains(Path);
 
    bool IsTheSourceBranch => Path.Equals(Tags.Source.Branch.Path, StringComparison.OrdinalIgnoreCase);
+
+   /// <summary>Whether this branch is in the anki branch (<see cref="Tags.Anki"/>), the anki branch itself included: its tags are the notes' tags in Anki, read only.</summary>
+   public bool IsInTheAnkiBranch => Tags.Anki.Branch.Contains(Path);
 
    const string WhyTheSourceBranchIsNeverChanged = "source holds every note's source, so it's never renamed or deleted.";
 }

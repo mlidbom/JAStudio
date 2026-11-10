@@ -17,14 +17,16 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
    {
       var paths = new TestEnvironmentPaths();
       var ankiRawNotes = new InMemoryAnkiRawNotes();
+      var pretendAnki = new PretendAnki();
 
       registrar.Register(
          Singleton.For<InMemoryAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IAnkiRawNotes>().Instance(ankiRawNotes),
          Singleton.For<IEnvironmentPaths>().Instance(paths),
          Singleton.For<INoteRepository>().Instance(new InMemoryNoteRepository()),
-         Singleton.For<IBackendNoteCreator>().Instance(new TestingBackendNoteCreator()),
-         Singleton.For<IBackendDataLoader>().Instance(new NoOpBackendDataLoader()),
+         Singleton.For<PretendAnki>().Instance(pretendAnki),
+         Singleton.For<IBackendNoteCreator>().Instance(pretendAnki),
+         Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
          Singleton.For<IFatalErrorHandler>().Instance(new RethrowingFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new TestConfigDictSource()),

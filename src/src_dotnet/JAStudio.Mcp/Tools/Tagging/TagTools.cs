@@ -29,7 +29,7 @@ public class TagTools
                 source above source::anime, each with the vocab, kanji and sentences in its branch, meaning those that have the path's tag or a tag
                 below it, counted, and how many of them are being studied. A note with several tags in a branch counts once. A note type with no
                 note in the branch is left out. Gets the whole tree, or one branch, to as many levels below it as asked for: a node whose children
-                aren't listed says how many paths are below it.
+                aren't listed says how many paths are below it. The notes' tags in Anki, which JAStudio only reads, are in the anki branch.
                 """)]
    public IReadOnlyList<TagTreeNodeDescription> GetTheTagTree(
       [Description("The path of the branch to get, such as source or source::anime. Empty for the whole tree.")] string branch = "",

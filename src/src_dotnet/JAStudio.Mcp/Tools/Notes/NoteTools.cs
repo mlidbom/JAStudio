@@ -34,7 +34,8 @@ public class NoteTools
                 - {"text": "Question" | "Answer" | "Searchable text", plus one of "contains": "...", "is": "...", "matchesWildcards": "...",
                   "matchesRegex": "..."}. Searchable text is the question and answer of every note, and a vocab's or kanji's readings
                   in kana and in romaji, with their HTML stripped.
-                - {"tagsInclude": "source::anime"}, which includes the tag's whole branch.
+                - {"tagsInclude": "source::anime"}, which includes the tag's whole branch. A note's tags in Anki, the student's, are below
+                  anki::, such as {"tagsInclude": "anki::marked"}.
                 - {"trueOrFalse": "Studying reading" | "Studying listening", "is": true | false}
                 - {"noteTypeIs": "vocab" | "kanji" | "sentence"}
                 {"allOf": []} matches every note.

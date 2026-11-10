@@ -24,7 +24,7 @@ public sealed record TagCondition : NoteCondition
    /// <summary>The full path of the tag whose branch the note must have a tag in, such as <c>source::anime</c>.</summary>
    public string TagPath { get; }
 
-   public override bool Matches(JPNote note) => note.Tags.Any(new TagBranch(TagPath).Contains);
+   public override bool Matches(JPNote note) => note.AllTags.Any(new TagBranch(TagPath).Contains);
 
    public override IEnumerable<string> DescriptionLines() => [$"{Property.Name} include {TagPath}"];
 }

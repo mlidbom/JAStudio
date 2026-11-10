@@ -12,9 +12,10 @@ using JAStudio.UI.Views.Workspace.Tagging;
 namespace JAStudio.UI.ViewModels.Workspace.Tagging;
 
 /// <summary>
-/// The "Tags" part of a note's editors in the workspace's editor section (<see cref="NoteTagsEditor"/>): every tag the note has,<br/>
+/// The "Tags" part of a note's editors in the workspace's editor section (<see cref="NoteTagsEditor"/>): every tag the note has (<see cref="JPNote.AllTags"/>),<br/>
 /// each with a button that removes it, and a button that adds a tag picked in a <see cref="TagPickerDialog"/>, as Ctrl+T does.<br/>
 /// The tags JAStudio maintains (<see cref="Tags.IsMaintainedByJAStudio"/>) are shown dimmed, without the button: they're generated or have editors of their own.<br/>
+/// So are the note's Anki tags (<see cref="Tags.Anki"/>), which JAStudio only reads.<br/>
 /// Removing a source tag (<see cref="Tags.Source"/>) asks first, since it changes the note's source.
 /// </summary>
 /// <remarks>
@@ -37,14 +38,14 @@ partial class NoteTagsEditorViewModel : ObservableObject
       Refresh();
    }
 
-   /// <summary>The note's tags, in alphabetical order.</summary>
+   /// <summary>The note's tags, its Anki tags among them, in alphabetical order.</summary>
    [ObservableProperty] IReadOnlyList<TagOnTheNoteViewModel> _tags = [];
 
    /// <summary>Picks a tag through <paramref name="pickATagInADialog"/>, any tag in use or a new one, and adds it to the note.</summary>
    public void AddATag(Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog) => _tagging.AddATagTo(_currentNote, pickATagInADialog);
 
    /// <summary>Shows the tags as the note has them now, after a change made here or elsewhere.</summary>
-   public void Refresh() => Tags = [.._currentNote().Tags.InAlphabeticalOrder().Select(it => new TagOnTheNoteViewModel(it))];
+   public void Refresh() => Tags = [.._currentNote().AllTags.OrderBy(it => it.Name, StringComparer.OrdinalIgnoreCase).Select(it => new TagOnTheNoteViewModel(it))];
 
    /// <summary>
    /// The × of <paramref name="tag"/>: removes it from the note, and for a source tag, which changes the note's source, only once<br/>

@@ -121,9 +121,14 @@ many notes change.
   next write.* Why, and what follows: `corpus-data-model.md`, "The corpus's tags and Anki's tags are separate".
 - **Tags are edited only in JAStudio** (since 2026-11-07). Saving a note in Anki doesn't take its tags back.
   Importing a note still takes all its tags along: an imported raw note's tags are its source's, not a student's.
-- **Student-tags** such as priority are still in the corpus today, so they behave like any other tag. When they
-  move out of the corpus and are read from Anki instead, the tag tree should still show them. How is decided
-  then.
+- **A note's tags in Anki are shown below `anki::`** (Magnus, 2026-11-10), such as `anki::marked` and
+  `anki::-::priority::high::011_Natsume_01`: the student's tags, read from Anki as the collection loads, held in memory,
+  never stored and never changed in JAStudio (`Tags.Anki`, `JPNote.AnkiTags`). Otherwise they're tags like any other:
+  the search, the tag tree, the paths a search condition offers and the search results show them, and the note's tags
+  editor shows them dimmed, without a remove button. A note's own tag can't be in the branch: adding one, renaming a
+  branch into it, and renaming or deleting the branch are refused, with why. A level named `anki` lower down, such as
+  `tmp::anki`, is a tag like any other. A change made in Anki shows once the collection loads again: at startup, after a
+  sync, or when reloaded by hand. The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
 
 ## Later: branches with meaning, and tags with metadata
 

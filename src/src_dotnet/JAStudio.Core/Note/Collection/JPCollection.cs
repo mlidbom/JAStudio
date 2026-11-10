@@ -272,9 +272,20 @@ public class JPCollection
                                  Kanji.Cache.SetStudyingStatuses(kanjiStatuses);
                                  Sentences.Cache.SetStudyingStatuses(sentenceStatuses);
                               });
+      runner.RunIndeterminate("Setting the notes' Anki tags", () => ReadTheAnkiTagsOfEachNoteFrom(backendData.StudyNoteTags));
 
       IsInitialized = true;
       _reloadedFromBackend.OnNext(this);
+   }
+
+   /// <summary>
+   /// Gives each note the tags of its study-note in <paramref name="studyNoteTags"/> as its <see cref="JPNote.AnkiTags"/>. A study-note whose note<br/>
+   /// the collection hasn't, such as one added in Anki, has no note to give them to.
+   /// </summary>
+   void ReadTheAnkiTagsOfEachNoteFrom(Dictionary<long, IReadOnlyList<string>> studyNoteTags)
+   {
+      foreach(var (ankiNoteId, tags) in studyNoteTags)
+         if(NoteFromExternalId(ankiNoteId) is {} note) note.AnkiTags.ReadFrom(tags);
    }
 
    void LoadFromRepository()

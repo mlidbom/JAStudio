@@ -46,12 +46,20 @@ public class Tag
    });
 
    /// <summary>
-   /// Why <paramref name="typedName"/>, typed by a person, can't be the name of a tag, or null when it can:<br/>
-   /// a tag has no spaces, since Anki separates tags with spaces, and no empty levels, such as in <c>a::::b</c>.
+   /// Why <paramref name="typedName"/>, typed by a person, can't be the name of a note's own tag, or null when it can: it isn't well formed<br/>
+   /// (<see cref="WhyItIsNotWellFormed"/>), or it's in the anki branch (<see cref="Tags.Anki"/>), which holds the notes' tags in Anki.
    /// </summary>
    public static string? WhyItCannotBeTheNameOfATag(string typedName) =>
-      typedName.Length == 0                                       ? "A tag needs a name."
-      : typedName.Any(char.IsWhiteSpace)                          ? "A tag can't contain spaces."
-      : typedName.Split(LevelSeparator).Any(string.IsNullOrEmpty) ? $"A tag can't have an empty level, as {typedName} has."
+      WhyItIsNotWellFormed(typedName)
+      ?? (Tags.Anki.Branch.Contains(typedName) ? Tags.Anki.WhyItIsReadOnly : null);
+
+   /// <summary>
+   /// Why <paramref name="typedText"/>, typed by a person as a tag's name or a level of one, isn't well formed, or null when it is:<br/>
+   /// it has no spaces, since Anki separates tags with spaces, and no empty levels, such as in <c>a::::b</c>.
+   /// </summary>
+   public static string? WhyItIsNotWellFormed(string typedText) =>
+      typedText.Length == 0                                       ? "A tag needs a name."
+      : typedText.Any(char.IsWhiteSpace)                          ? "A tag can't contain spaces."
+      : typedText.Split(LevelSeparator).Any(string.IsNullOrEmpty) ? $"A tag can't have an empty level, as {typedText} has."
                                                                   : null;
 }

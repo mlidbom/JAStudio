@@ -13,6 +13,7 @@ sealed class TagOnTheNoteViewModel
    {
       Tag = tag;
       IsMaintainedByJAStudio = Tags.IsMaintainedByJAStudio(tag.Name);
+      IsAnAnkiTag = new TagBranch(tag.Name).IsInTheAnkiBranch;
       IsASourceTag = new TagBranch(tag.Name).IsInTheSourceBranch;
    }
 
@@ -20,15 +21,24 @@ sealed class TagOnTheNoteViewModel
 
    public string Name => Tag.Name;
 
-   /// <summary>Whether JAStudio maintains the tag (<see cref="Tags.IsMaintainedByJAStudio"/>): it's shown dimmed, with no button that removes it.</summary>
+   /// <summary>Whether JAStudio maintains the tag (<see cref="Tags.IsMaintainedByJAStudio"/>).</summary>
    public bool IsMaintainedByJAStudio { get; }
 
-   /// <summary>Whether it can be removed by hand: it isn't <see cref="IsMaintainedByJAStudio"/>.</summary>
-   public bool CanBeRemovedByHand => !IsMaintainedByJAStudio;
+   /// <summary>Whether it's one of the note's Anki tags (<see cref="Tags.Anki"/>), the tags of its study-note in Anki, which JAStudio only reads.</summary>
+   public bool IsAnAnkiTag { get; }
+
+   /// <summary>Whether it can't be removed by hand, since it <see cref="IsMaintainedByJAStudio"/> or <see cref="IsAnAnkiTag"/>: it's shown dimmed, with no button that removes it.</summary>
+   public bool IsReadOnly => IsMaintainedByJAStudio || IsAnAnkiTag;
+
+   /// <summary>Whether it can be removed by hand: it isn't <see cref="IsReadOnly"/>.</summary>
+   public bool CanBeRemovedByHand => !IsReadOnly;
 
    /// <summary>Whether it's a source tag (<see cref="Tags.Source"/>), whose removal changes the note's source, so it's confirmed first.</summary>
    public bool IsASourceTag { get; }
 
-   /// <summary>What hovering the tag shows: why it can't be removed, for one JAStudio maintains.</summary>
-   public string? ToolTip => IsMaintainedByJAStudio ? "JAStudio maintains this tag: it generates it, or has an editor of its own for it." : null;
+   /// <summary>What hovering the tag shows: why it can't be removed, for one that <see cref="IsReadOnly"/>.</summary>
+   public string? ToolTip =>
+      IsAnAnkiTag              ? Tags.Anki.WhyItIsReadOnly
+      : IsMaintainedByJAStudio ? "JAStudio maintains this tag: it generates it, or has an editor of its own for it."
+                               : null;
 }

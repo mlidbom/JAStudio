@@ -7,7 +7,7 @@ using JAStudio.Core.TaskRunners;
 namespace JAStudio.Anki;
 
 /// <summary>
-/// Loads Anki-specific user data (ID mappings and studying statuses) from an Anki collection's SQLite database:<br/>
+/// Loads Anki-specific user data (ID mappings, studying statuses and the study-notes' tags) from an Anki collection's SQLite database:<br/>
 /// inside Anki, the collection Anki has open; in the headless JAStudio, the collection file of an Anki profile, read while Anki may be running.
 /// </summary>
 public class AnkiBackendDataLoader : IBackendDataLoader
@@ -34,9 +34,10 @@ public class AnkiBackendDataLoader : IBackendDataLoader
 
       var ankiIdMapTask = runner.RunIndeterminateAsync("Loading Anki ID mappings", () => AnkiNoteIdMapLoader.Load(dbPath));
       var studyingStatusesTask = runner.RunIndeterminateAsync("Fetching studying statuses from Anki", () => CardStudyingStatusLoader.FetchAll(dbPath));
+      var studyNoteTagsTask = runner.RunIndeterminateAsync("Reading the study-notes' tags from Anki", () => StudyNoteTagsLoader.Load(dbPath));
 
-      Task.WaitAll(ankiIdMapTask, studyingStatusesTask);
+      Task.WaitAll(ankiIdMapTask, studyingStatusesTask, studyNoteTagsTask);
 
-      return new BackendData(ankiIdMapTask.Result, studyingStatusesTask.Result);
+      return new BackendData(ankiIdMapTask.Result, studyingStatusesTask.Result, studyNoteTagsTask.Result);
    }
 }

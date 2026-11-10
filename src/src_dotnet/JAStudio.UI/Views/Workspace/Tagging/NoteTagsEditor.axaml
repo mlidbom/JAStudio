@@ -16,7 +16,7 @@
                 <DataTemplate x:DataType="tagging:TagOnTheNoteViewModel">
                     <!-- A tag JAStudio maintains is dimmed, and has no ×: it isn't removed by hand. -->
                     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Padding="8,1,2,1" Margin="0,0,6,6"
-                            Opacity="{Binding IsMaintainedByJAStudio, Converter={x:Static taggingViews:NoteTagsEditor.OpacityOfAChip}}"
+                            Opacity="{Binding IsReadOnly, Converter={x:Static taggingViews:NoteTagsEditor.OpacityOfAChip}}"
                             ToolTip.Tip="{Binding ToolTip}">
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />

@@ -38,6 +38,8 @@ public sealed class TagBranchRename
             return "Only the case differs, and tags ignore case, so the tag can't be renamed this way.";
          if(branch.Contains(renamedPath))
             return "A tag can't be moved below itself.";
+         if(Renamed.IsInTheAnkiBranch)
+            return Tags.Anki.WhyItIsReadOnly;
          return tagNamesInTheBranch.Where(it => Tags.IsDefinedByJAStudio(RenamedName(it)))
                                    .Select(it => $"{it} would become {RenamedName(it)}, which JAStudio defines.")
                                    .FirstOrDefault();
@@ -83,5 +85,5 @@ public sealed class TagBranchRename
    static string? WhyItCannotBeALevel(string typedLevel) =>
       typedLevel.Contains(Tag.LevelSeparator)
          ? $"A level can't contain {Tag.LevelSeparator}. Rename with parents moves a tag below other tags."
-         : Tag.WhyItCannotBeTheNameOfATag(typedLevel);
+         : Tag.WhyItIsNotWellFormed(typedLevel);
 }

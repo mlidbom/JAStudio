@@ -24,7 +24,7 @@ public sealed class TagTree
    internal TagTree(IReadOnlyList<JPNote> notes)
    {
       var notesInTheBranchOf = NotesInEachBranchOf(notes);
-      var branchPathsOfEachTag = notes.SelectMany(it => it.Tags).Distinct().Select(it => it.PathsOfTheBranchesItIsIn).ToList();
+      var branchPathsOfEachTag = notes.SelectMany(it => it.AllTags).Distinct().Select(it => it.PathsOfTheBranchesItIsIn).ToList();
       var pathsOneLevelBelow = branchPathsOfEachTag.SelectMany(PairsOfAPathAndThePathOneLevelBelow).ToLookup(it => it.Path, it => it.PathOneLevelBelow, IgnoringCase);
 
       TopLevel = NodesFor(branchPathsOfEachTag.Select(it => it[0]));
@@ -58,7 +58,7 @@ public sealed class TagTree
       return notes.SelectMany(note => PathsOfTheBranchesTheNoteIsIn(note).Select(path => (path, note)))
                   .ToLookup(it => it.path, it => it.note, IgnoringCase);
 
-      static IEnumerable<string> PathsOfTheBranchesTheNoteIsIn(JPNote note) => note.Tags.SelectMany(it => it.PathsOfTheBranchesItIsIn).Distinct(IgnoringCase);
+      static IEnumerable<string> PathsOfTheBranchesTheNoteIsIn(JPNote note) => note.AllTags.SelectMany(it => it.PathsOfTheBranchesItIsIn).Distinct(IgnoringCase);
    }
 
    /// <summary>Each path in <paramref name="branchPaths"/>, a tag's paths from the top level down, paired with the next one, which is one level below it.</summary>

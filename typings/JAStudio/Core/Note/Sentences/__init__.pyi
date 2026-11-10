@@ -8,11 +8,11 @@ from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.Commands import NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
+from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.NoteFields import StripHtmlOnReadFallbackStringField, WritableStringValue, MediaReference, SentenceQuestionField, WritableImageValue
 from JAStudio.Core.Note.Vocabulary import WritableAudioValue
 from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
-from JAStudio.Core.Note.Tagging import NoteTags
 
 class CachingSentenceConfigurationField:
     def __init__(self, sentence: SentenceNote, data: SentenceConfigDto, guard: NoteGuard) -> None: ...
@@ -209,7 +209,11 @@ class SentenceEditableFields(abc.ABC):
 class SentenceNote(JPNote, IHasTextToSpeechAudio):
     def __init__(self, services: NoteServices, data: SentenceDto = ...) -> None: ...
     @property
+    def AllTags(self) -> IEnumerable_1[Tag]: ...
+    @property
     def AnalysisServices(self) -> AnalysisServices: ...
+    @property
+    def AnkiTags(self) -> AnkiTags: ...
     @property
     def Answer(self) -> StripHtmlOnReadFallbackStringField: ...
     @property

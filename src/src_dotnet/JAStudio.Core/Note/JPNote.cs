@@ -22,7 +22,14 @@ public abstract class JPNote
    // Dictionary tracks card suspend status: true = active/unsuspended, false = suspended
    readonly Dictionary<string, bool> _cardStatus = new();
 
+   /// <summary>The note's own tags: the corpus's, stored with the note and edited in JAStudio.</summary>
    public NoteTags Tags { get; }
+
+   /// <summary>The tags the note's study-note has in Anki, below <c>anki::</c>: the student's, read from Anki and never stored or changed in JAStudio.</summary>
+   public AnkiTags AnkiTags { get; } = new();
+
+   /// <summary>Every tag the note shows: its own <see cref="Tags"/> and its <see cref="AnkiTags"/>. These are what a person browses and searches.</summary>
+   public IEnumerable<Tag> AllTags => Tags.Concat(AnkiTags);
 
    readonly NoteId _id;
 
@@ -107,12 +114,14 @@ public abstract class JPNote
    }
 
    /// <summary>
-   /// Forgets the studying status of every card of the note, after its Anki note was deleted: with no cards in this Anki profile, the note isn't studied in it.<br/>
-   /// Notifies the change through <see cref="JPCollection.StudyingStatusChanged"/>, since the status isn't stored with the note and no flush reports it.
+   /// Forgets the note's Anki note, after it was deleted in Anki: the studying status of every card, since with no cards in this Anki profile the note<br/>
+   /// isn't studied in it, and its <see cref="AnkiTags"/>. Notifies the change through <see cref="JPCollection.StudyingStatusChanged"/>, since neither<br/>
+   /// is stored with the note and no flush reports it.
    /// </summary>
-   public void ForgetTheCardsOfItsDeletedAnkiNote()
+   public void ForgetItsDeletedAnkiNote()
    {
       _cardStatus.Clear();
+      AnkiTags.Forget();
       Services.Collection.NotifyThatTheStudyingStatusChangedFor(this);
    }
 
@@ -178,9 +187,10 @@ public abstract class JPNote
       RecursiveFlushGuard.Flush();
    }
 
+   /// <summary>The number in the note's priority tag (<see cref="Tagging.Tags.PriorityFolder"/>), an Anki tag, or 0 when it has none: the lower, the sooner a vocab lists the sentence.</summary>
    public int PriorityTagValue()
    {
-      foreach(var tag in Tags)
+      foreach(var tag in AnkiTags)
       {
          if(tag.Name.StartsWith(Tagging.Tags.PriorityFolder))
          {
@@ -199,7 +209,7 @@ public abstract class JPNote
    {
       var tags = new HashSet<string>();
 
-      foreach(var tag in Tags)
+      foreach(var tag in AnkiTags)
       {
          if(tag.Name.StartsWith(Tagging.Tags.PriorityFolder))
          {

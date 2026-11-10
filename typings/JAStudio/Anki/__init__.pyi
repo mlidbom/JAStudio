@@ -126,3 +126,8 @@ class StudyNotesInAnkisDatabase(abc.ABC):
     @staticmethod
     def ReadAll(collectionDatabaseFile: str) -> IReadOnlyList_1[StudyNoteInAnki]: ...
 
+
+class StudyNoteTagsLoader(abc.ABC):
+    @staticmethod
+    def Load(dbFilePath: str) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
+

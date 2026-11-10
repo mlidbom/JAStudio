@@ -4,7 +4,7 @@ from JAStudio.Core.UI.Web.Sentence import SentenceNoteRenderer
 from JAStudio.Core.UI.Web.Vocab import VocabNoteRenderer
 from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
-from System.Collections.Generic import Dictionary_2, List_1
+from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1
 from JAStudio.Core.Note import NoteId, ExternalNoteIdMap, NoteServices
 from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
@@ -52,11 +52,13 @@ class AppBootstrapper(abc.ABC):
 
 
 class BackendData:
-    def __init__(self, idMappings: Dictionary_2[int, NoteId], studyingStatuses: List_1[CardStudyingStatus]) -> None: ...
+    def __init__(self, idMappings: Dictionary_2[int, NoteId], studyingStatuses: List_1[CardStudyingStatus], studyNoteTags: Dictionary_2[int, IReadOnlyList_1[str]]) -> None: ...
     @property
     def IdMappings(self) -> Dictionary_2[int, NoteId]: ...
     @property
     def StudyingStatuses(self) -> List_1[CardStudyingStatus]: ...
+    @property
+    def StudyNoteTags(self) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
 
 
 class CoreApp(IDisposable):

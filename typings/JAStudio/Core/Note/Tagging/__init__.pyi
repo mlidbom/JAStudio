@@ -1,6 +1,11 @@
 import typing, abc
-from System.Collections.Generic import IEnumerable_1, List_1, IEnumerator_1, IReadOnlyList_1, IReadOnlyCollection_1
+from System.Collections.Generic import IEnumerable_1, IEnumerator_1, List_1, IReadOnlyList_1, IReadOnlyCollection_1
 from JAStudio.Core.Note import JPNote
+
+class AnkiTags(IEnumerable_1[Tag]):
+    def __init__(self) -> None: ...
+    def GetEnumerator(self) -> IEnumerator_1[Tag]: ...
+
 
 class NoteTags(IEnumerable_1[Tag]):
     def __init__(self, note: JPNote, tags: List_1[str] = ...) -> None: ...
@@ -27,10 +32,14 @@ class Tag:
     def FromName(name: str) -> Tag: ...
     @staticmethod
     def WhyItCannotBeTheNameOfATag(typedName: str) -> str: ...
+    @staticmethod
+    def WhyItIsNotWellFormed(typedText: str) -> str: ...
 
 
 class TagBranch:
     def __init__(self, path: str) -> None: ...
+    @property
+    def IsInTheAnkiBranch(self) -> bool: ...
     @property
     def IsInTheSourceBranch(self) -> bool: ...
     @property
@@ -79,6 +88,16 @@ class Tags(abc.ABC):
     def IsMaintainedByJAStudio(tagName: str) -> bool: ...
     @staticmethod
     def WhyItCannotBeATagAPersonManages(tagName: str) -> str: ...
+
+    class Anki(abc.ABC):
+        Folder : str
+        WhyItIsReadOnly : str
+        @classmethod
+        @property
+        def Branch(cls) -> TagBranch: ...
+        @staticmethod
+        def For(nameInAnki: str) -> Tag: ...
+
 
     class Kanji(abc.ABC):
         HasNonPrimaryOnReadingVocab : Tag

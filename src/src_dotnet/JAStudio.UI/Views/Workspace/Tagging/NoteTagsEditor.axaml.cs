@@ -15,8 +15,8 @@ namespace JAStudio.UI.Views.Workspace.Tagging;
 /// </summary>
 partial class NoteTagsEditor : UserControl
 {
-   /// <summary>The opacity of a tag's chip: half for a tag JAStudio maintains (<see cref="TagOnTheNoteViewModel.IsMaintainedByJAStudio"/>), so it reads as not editable.</summary>
-   public static readonly IValueConverter OpacityOfAChip = new FuncValueConverter<bool, double>(isMaintainedByJAStudio => isMaintainedByJAStudio ? 0.5 : 1.0);
+   /// <summary>The opacity of a tag's chip: half for a tag that can't be removed by hand (<see cref="TagOnTheNoteViewModel.IsReadOnly"/>), so it reads as not editable.</summary>
+   public static readonly IValueConverter OpacityOfAChip = new FuncValueConverter<bool, double>(isReadOnly => isReadOnly ? 0.5 : 1.0);
 
    public NoteTagsEditor() => InitializeComponent();
 

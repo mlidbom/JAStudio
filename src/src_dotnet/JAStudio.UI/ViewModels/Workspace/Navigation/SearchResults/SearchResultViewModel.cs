@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Compze.Contracts;
@@ -30,10 +31,10 @@ abstract class SearchResultViewModel(JPNote note) : ObservableObject
    public bool IsStudyingListening => Note.IsStudyingListening();
 
    /// <summary>
-   /// All the note's tags (<see cref="NoteTags.InAlphabeticalOrder"/>), those JAStudio maintains too, separated by spaces, as Anki shows them.<br/>
+   /// All the note's tags (<see cref="JPNote.AllTags"/>), its Anki tags and those JAStudio maintains too, in alphabetical order, separated by spaces, as Anki shows them.<br/>
    /// Sorting by them compares the numbers in them as numbers, so the tag of season 2 comes before that of season 10.
    /// </summary>
-   public TextSortedWithNumbersAsNumbers Tags => new(string.Join(" ", Note.Tags.InAlphabeticalOrder().Select(it => it.Name)));
+   public TextSortedWithNumbersAsNumbers Tags => new(string.Join(" ", Note.AllTags.Select(it => it.Name).Order(StringComparer.OrdinalIgnoreCase)));
 
    /// <summary>
    /// Makes the row show <paramref name="note"/> as it is now: the row's own note after it changed,<br/>

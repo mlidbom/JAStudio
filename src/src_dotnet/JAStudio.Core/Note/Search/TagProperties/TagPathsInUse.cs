@@ -14,7 +14,7 @@ namespace JAStudio.Core.Note.Search.TagProperties;
 public class TagPathsInUse
 {
    internal TagPathsInUse(IEnumerable<JPNote> notes) =>
-      All = [..notes.SelectMany(it => it.Tags)
+      All = [..notes.SelectMany(it => it.AllTags)
                     .Distinct()
                     .SelectMany(it => it.PathsOfTheBranchesItIsIn)
                     .Distinct(StringComparer.OrdinalIgnoreCase)

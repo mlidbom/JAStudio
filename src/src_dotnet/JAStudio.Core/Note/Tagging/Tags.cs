@@ -61,7 +61,27 @@ public static class Tags
       }
    }
 
-   public const string PriorityFolder = FRoot + "priority::"; // Keep as string for startswith() checks
+   /// <summary>
+   /// The anki branch, <c>anki::…</c>: a note's Anki tags (<see cref="AnkiTags"/>), the tags its study-note has in Anki, each below <c>anki::</c>,<br/>
+   /// such as <c>anki::marked</c>. They're the student's: read from Anki as the collection loads, held in memory only, and never changed in JAStudio.<br/>
+   /// So no tag of the note's own can be in the branch, and the branch is never renamed or deleted. See <c>dev_docs/tags.md</c>.
+   /// </summary>
+   public static class Anki
+   {
+      public const string Folder = "anki::"; // Keep as string for startswith() checks
+
+      /// <summary>The anki branch as a whole, <c>anki</c>.</summary>
+      public static TagBranch Branch => new("anki");
+
+      /// <summary>The tag a note shows for the tag <paramref name="nameInAnki"/> of its study-note in Anki: <c>anki::marked</c> for <c>marked</c>.</summary>
+      public static Tag For(string nameInAnki) => Tag.FromName(Folder + nameInAnki);
+
+      /// <summary>Why nothing in the anki branch can be added, removed, renamed or deleted in JAStudio.</summary>
+      public const string WhyItIsReadOnly = "The tags below anki:: are the notes' tags in Anki, which JAStudio only reads: change them in Anki.";
+   }
+
+   /// <summary>The priority tags, which order a vocab's sentences (<see cref="JPNote.PriorityTagValue"/>): the student's, set in Anki, so they're Anki tags.</summary>
+   public const string PriorityFolder = Anki.Folder + FRoot + "priority::"; // Keep as string for startswith() checks
 
    /// <summary>
    /// The source branch, <c>source::…</c>: where each note's content comes from, such as <c>source::wani::level::19</c> or <c>source::anime::natsume::s4::11</c>.<br/>

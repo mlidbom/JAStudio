@@ -1,14 +1,14 @@
 import typing, clr, abc
 from System import IEquatable_1, IComparable_1, Func_1, Func_3, Array_1, Action_1
-from System.Collections.Generic import IReadOnlyList_1, List_1, IEnumerable_1, IReadOnlySet_1, HashSet_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, List_1, IReadOnlySet_1, HashSet_1
 from JAStudio.Core.Note import JPNote, IHasTextToSpeechAudio, NoteServices, NoteGuard, NoteFlushGuard
 from JAStudio.Core.Storage.Dto import VocabDto, CorpusNoteDto, VocabSourceDataDto
+from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.NoteFields import WritableStringValue, WritableImageValue, MediaReference, FlagField
 from JAStudio.Core.Storage.Media import AudioAttachment, ImageAttachment, SourceTag
 from JAStudio.Core.Note.Vocabulary.Matching import VocabNoteMatchingConfiguration
 from JAStudio.Core.Note.Vocabulary.RelatedVocab import RelatedVocab
-from JAStudio.Core.Note.Tagging import NoteTags
 from JAStudio.Core.Note.Sentences import SentenceNote
 
 class EnteredForm(IEquatable_1[EnteredForm]):
@@ -172,6 +172,10 @@ class VocabCloner:
 
 class VocabNote(JPNote, IHasTextToSpeechAudio):
     def __init__(self, services: NoteServices, data: VocabDto = ...) -> None: ...
+    @property
+    def AllTags(self) -> IEnumerable_1[Tag]: ...
+    @property
+    def AnkiTags(self) -> AnkiTags: ...
     @property
     def Audio(self) -> VocabNoteAudio: ...
     @property

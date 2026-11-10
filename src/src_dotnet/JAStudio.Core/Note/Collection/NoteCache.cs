@@ -81,7 +81,7 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
       if(WithExternalIdOrNone(externalNoteId) is not {} note) return;
 
       _noteServices.ExternalNoteIdMap.Unregister(externalNoteId);
-      note.ForgetTheCardsOfItsDeletedAnkiNote();
+      note.ForgetItsDeletedAnkiNote();
    }
 
    public void JpNoteUpdated(TNote note)
