@@ -702,7 +702,9 @@ below. *What follows the survey is history.*
 
 ### The survey (2026-11-10)
 
-- **Every file a note references is in the media layer.** 15 files there are referenced by no note.
+- **Every file a note references is in the media layer,** but one: 甘ったるい's web image `zhoti610522.jpg`, whose `img`
+  tag's alt text holds `>`, so the media import, and this survey, read the tag short and missed its file name. Found and
+  added from Anki's media folder later on 2026-11-10. 15 files there are referenced by no note.
 - **References per field:** vocab `audioB` 12,802 vocab, `audioG` 6,744, `audioTTS` 14,718, `image` 477, `userImage`
   516; sentence `audio` 49,162 (every sentence, always exactly one file), `screenshot` 34,454; kanji `image` 71.
 - **A field often holds several files:** 216 vocab `audioB`, 163 `audioG`, 7 `audioTTS`, 82 `userImage`, 7 kanji
@@ -731,7 +733,9 @@ below. *What follows the survey is history.*
   `commercial-01/vocab/core2000/images` and `commercial-02/studying/core2000/images`, 45 images in both
   `commercial-01/vocab/wani/user-image` and `free/AI/kanji/images`, and smaller groups. Which folder is right decides the
   copyright partition, so which copy goes is a question per group. 3 HyperTTS files are in `media/vocab/TTS`, outside the
-  three folders. `media/free/.git` points git at the old `free` repository's data, as `media/.git` did.
+  three folders. `media/free/.git` points git at the old `free` repository's data, as `media/.git` did. *Later on
+  2026-11-10, 186 of the copies in `free/` went, with the files there not proven ours: see
+  [Whether a file is ours](#whether-a-file-is-ours-magnus-2026-11-10).*
 
 ### Facts about a file, and the files several notes share (2026-11-10)
 
@@ -759,7 +763,7 @@ A corpus-validity check can catch the same file with different facts on differen
 
 **Where a file came from isn't in its path either:** the media import rules picked a file's folder by the source tag of
 the note it came in on, so `commercial-01/vocab/wani/user-image` holds 377 images Magnus found on the web for WaniKani
-vocab. Magnus doesn't want whether a file is ours known only from its path.
+vocab. Magnus doesn't want whether a file is ours known only from its path: settled by `isOurs`, below.
 
 ### The shape (agreed with Magnus, 2026-11-10)
 
@@ -772,37 +776,78 @@ the texts. Only an import writes source data. JAStudio's TTS writes only the cor
   "audio": [ { "fileName": "文句_b.mp3", "voiceGender": "male" },
              { "fileName": "文句_g.mp3", "voiceGender": "female" } ]
 },
-"audio":  [ { "fileName": "hypertts-….mp3", "isTextToSpeech": true, "textToSpeechVoice": "Azure ja-JP-NanamiNeural", "voiceGender": "female" } ],
-"images": [ { "fileName": "kv_right_img.jpg", "altText": "変化するオフィス出社率…" } ]
+"audio":  [ { "fileName": "hypertts-….mp3", "isOurs": true, "isTextToSpeech": true, "textToSpeechVoice": "Azure ja-JP-NanamiNeural", "voiceGender": "female" } ],
+"images": [ { "fileName": "kv_right_img.jpg", "altText": "変化するオフィス出社率…" },
+            { "fileName": "OIG3.LbmpkxItYdQ4ri_FToRK", "isOurs": true, "altText": "拡張" } ]
 ```
 
-- **Where each file came from is where it sits:** in source data, from the note's source; in the corpus's own with
-  `isTextToSpeech`, ours; in the corpus's own without, brought in from elsewhere, such as Yomitan audio added to a WaniKani
-  vocab, a Forvo recording, a web image, or WaniKani audio on a vocab derived from a WaniKani one. Naming where a brought-in
-  file came from (Yomitan, Forvo, a web page) is left out for now: the file names prove most of it, so it can be added
-  later from the same data.
+- **Where each file came from is where it sits:** in source data, from the note's source; in the corpus's own, added
+  since: TTS, or brought in from elsewhere, such as Yomitan audio added to a WaniKani vocab, a Forvo recording, a web image,
+  a screenshot Magnus pasted, or WaniKani audio on a vocab derived from a WaniKani one. "The corpus's own" means added
+  since the source, not owned by us: whether a file is ours is a fact of its own, `isOurs`. Naming where a brought-in file
+  came from (Yomitan, Forvo, a web page) is left out for now: the file names prove most of it, so it can be added later
+  from the same data.
 - **The lists:** vocab `audio` and `images`, sentences `audio` and `screenshots`, kanji `images`; each in source data and
   in the corpus's own. Kanji have no source media: all their images are pasted or from the web.
-- **The facts:** `isTextToSpeech` only when proven, by the rules above (for a sentence, a TTS file name proves it, so its
-  voice may stay unknown); the TTS voice when proven; the voice's gender when known (WaniKani's file names, TTS voices);
-  an image's alt text. A fact not known is left out of the JSON rather than written as null. `isTextToSpeech` replaces the
+- **The facts:** `isOurs` only when proven (below); `isTextToSpeech` only when proven, by the rules above (for a
+  sentence, a TTS file name proves it, so its voice may stay unknown); the TTS voice when proven; the voice's gender when
+  known (WaniKani's file names, TTS voices); an image's alt text. A fact not known is left out of the JSON rather than
+  written as null. `isTextToSpeech` replaces the
   `_tts_audio` tag, which goes, from `Tags` too; the vocab's sentence list marks a sentence with TTS audio from its audio.
 - **How the migration decides source data:** a file is the source's when it's the kind of file the note's source gives:
   WaniKani's files on a vocab tagged `source::wani`, Core 2000's on Core 2000 notes, Yomitan's on vocab created through
   Yomitan, a deck's audio and frames on its sentences, the `rec` recordings on the lyrics sentences (Magnus). Everything
-  else is the corpus's own. The cases no rule fits are listed for Magnus rather than guessed.
+  else is the corpus's own. The cases no rule fits are listed for Magnus rather than guessed. `isOurs` goes on proven TTS
+  and on the AI images below, never from a file's folder.
 - **A note's preferred audio** is a recording before TTS, and among recordings the source's first. The Anki-projection
   writes a vocab's first recording into `Audio_b`, its other recordings into `Audio_g` and its TTS audio into `Audio_TTS`,
   so the card templates, which play the recordings, else the TTS, behave as before; a sentence's preferred audio goes into
   `Audio Sentence`.
 - **JAStudio's TTS** replaces the note's own TTS audio.
 - **The editors** show both lists and can remove from either, a correction; adding media by hand is a feature of its own,
-  later.
+  later. It asks whether a file is ours, the answer no unless changed; and it can mark a file already there as ours, for
+  any that are but can't be proven, if one is worth the effort (Magnus).
 - Dropped: the heights, the separators.
 - **Checking the migration:** `diff_the_changed_notes` can't compare across a change to how notes are stored, so the
   migration reports what it put where, by kind of file and note source, with the cases no rule fits; the study-note fields
   JAStudio would write are compared with today's, which may differ only where intended; and a full rebuild after the
   migration must change nothing.
+
+### Whether a file is ours (Magnus, 2026-11-10)
+
+**`isOurs: true` on a reference says we own the file's copyright, or at least are entirely free to use it however we
+like** (Magnus). It's there only when proven, and left out otherwise: a file is someone else's unless we know for sure
+it's ours, the principle of [TTS audio](#tts-audio-only-what-we-know-for-sure-is-tts-magnus-2026-11-08). Whether a file
+came with the note's source and whether it's ours are separate facts: source data is never ours, and media added since
+may or may not be. A TTS reference carries `isOurs` too, so ownership is always read from the one fact, never worked out
+from `isTextToSpeech`.
+
+**Why:** the shape first said a file was ours only by being TTS. A screenshot Magnus pasted, or a web image, is someone
+else's although he added it, and an image he had an AI generate is ours although it isn't TTS.
+
+**What's proven ours today:** the TTS audio, and 2 AI images Magnus had generated, on 3 notes: 分かれる's from ChatGPT
+(`file-aNbdQAFEtF3DrSYO3IT37AfN.webp`, its alt text the prompt) and the one 拡 and 拡張 share, from Bing Image Creator
+(`OIG3.LbmpkxItYdQ4ri_FToRK`). Not ours, among others:
+- the 47 screenshots pasted onto sentences: screen captures of the JLab videos (35) and of the anime (12), all at
+  hand-cropped sizes;
+- the web images, an AI image found on the web among them (NightCafe Creator, on one vocab);
+- any other AI image of Magnus's that its name doesn't reveal, such as among the `paste-…` files (Magnus: assume not ours).
+
+**The media layer's `free/` holds only files proven ours** (Magnus: "only move from free to commercial. Let's stay
+entirely safe"). On 2026-11-10, 4,174 files not proven ours moved to `commercial-01` (`e474bb23`), and 186 went from `free/`
+as the same file was already in a commercial folder:
+- `free/yomitan/vocab/audio`: 4,028 files Yomitan fetched. Yomitan tries a list of audio sources and takes the first
+  with a file for the word, so whose a file is, is unproven (Magnus). Now in `commercial-01/vocab/yomitan/audio`; the 394
+  TTS files there stay.
+- `free/yomitan/vocab/image`: 100 web images, now in `commercial-01/vocab/yomitan/user-image`.
+- `free/AI`: 28 web images and anime frames, not AI, now in `commercial-01/kanji/user-image` and
+  `commercial-01/vocab/yomitan/user-image`. The Bing Image Creator image stays.
+- `free/TTS/vocab`: 17 HyperTTS files whose voice isn't proven, and `benio-natsume.mp3`, now in
+  `commercial-01/vocab/unknown/audio`.
+
+Files of ours in a commercial folder stay there, such as 分かれる's ChatGPT image in `commercial-01/vocab/core2000/images`:
+a stricter folder is safe. So the corpus-validity check compares one way only: a file in `free/` that a note doesn't mark
+`isOurs` (`corpus-validity.md`).
 
 ### Before the survey
 

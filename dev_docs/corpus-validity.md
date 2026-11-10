@@ -16,14 +16,20 @@ Anki, go unnoticed until something trips on them. Checking the whole corpus find
   attempt leaves the audio it replaces behind (`text-to-speech.md`, open question 4), as HyperTTS regenerating audio
   did. Deleting one safely needs a check that no other note references the same name. Deleting a note in JAStudio
   takes its unused files with it since 2026-11-08, but notes deleted before then left theirs.
-- **Missing media files:** references to files the media layer doesn't have. *None on 2026-11-10 (the survey for slice 9,
-  `corpus-data-model.md`, "Media").*
+- **Missing media files:** references to files the media layer doesn't have. *One on 2026-11-10, found after the survey for
+  slice 9 (`corpus-data-model.md`, "Media"): 甘ったるい's web image `zhoti610522.jpg`, whose `img` tag's alt text holds
+  `>`, so the media import missed its file name. Added from Anki's media folder.* The check has to parse the markup
+  properly, or, after slice 9, read the references.
+- **A file in `free/` that isn't ours** (Magnus, 2026-11-10): the media layer's `free/` holds only files a note marks
+  `isOurs` (`corpus-data-model.md`, "Whether a file is ours"), so a file there that no note marks, or that one note marks
+  and another doesn't, belongs in a commercial folder. Only that way round: a file of ours in a commercial folder is safe.
 - **A file name in more than one folder of the media layer** (Magnus, 2026-11-10: a check rather than a one-off fix). The
   media layer finds a file by its name alone, so it keeps the first copy it finds and logs a warning
   (`MediaFileIndex`). On 2026-11-10, 824 names were in two folders, each pair with the same content: 431 Core 2000
   images in both `commercial-01/vocab/core2000/images` and `commercial-02/studying/core2000/images`, 45 images in both
   `commercial-01/vocab/wani/user-image` and `free/AI/kanji/images`, and smaller groups. Which folder is right decides the
-  copyright partition, so the check reports them by pair of folders, and which copy goes is decided per group.
+  copyright partition, so the check reports them by pair of folders, and which copy goes is decided per group. *Later that
+  day, the 186 with a copy in `free/` not proven ours lost that copy.*
 - **Anki notes of JAStudio's note types that no corpus note has.** In Anki, only JAStudio writes notes of its own note
   types (`import-profiles.md`, principle 3), so such a note is a mistake: one added through Anki's Add dialog, by a tool
   through AnkiConnect, or on the phone and brought in by a sync. JAStudio ignores them: the reload matches Anki notes

@@ -34,7 +34,7 @@ submodules. A file `media/.git` that made git run inside `media/` show the old r
 |---|---|---|
 | `commercial-01` | A submodule of the corpus repository, `JAStudioData-media-commercial-01`: commercial vocab audio and images, such as Core 2000's and WaniKani's. New commercial media goes here, since commercial-02 is near GitHub's recommended size | about 15,000 |
 | `commercial-02` | A submodule of the corpus repository, `JAStudioData-media-commercial-02`: anime audio and screenshots, per show. About 2 GB | about 69,000 |
-| `free` | Freely redistributable media, in the corpus repository itself, among it the TTS audio in `free/TTS/vocab` and `free/TTS/sentences/<source>` | about 35,000 |
+| `free` | Media that's ours: we own its copyright, or at least are entirely free to use it however we like. In the corpus repository itself: the TTS audio in `free/TTS/vocab` and `free/TTS/sentences/<source>`, and AI images Magnus had generated. Since 2026-11-10 nothing that isn't proven ours (Magnus: "stay entirely safe"): the 4,174 files not proven ours moved to `commercial-01`, among them Yomitan's audio and the web images in `free/AI` (`corpus-data-model.md`, "Whether a file is ours") | about 30,400 (2026-11-10) |
 
 The folders are organizational: they say nothing about a file that the code reads. **A file keeps the name it had in
 Anki,** such as `hypertts-0001168b….mp3`, so file names must be unique across the whole tree.
