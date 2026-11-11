@@ -80,7 +80,7 @@ public sealed class ReservoirFile : IDisposable
    /// <summary>
    /// The format of the analyses the reservoir keeps (<see cref="ReservoirSentenceAnalysis"/>), which the file holds as its <c>user_version</c>.<br/>
    /// It goes up by one whenever the format changes: the analyses of an older format are then forgotten and made anew, never read as if they were<br/>
-   /// of this one.
+   /// of this one. Analyses of a newer format, made by newer code, are neither read nor written to.
    /// </summary>
    /// <remarks>0, the first, has no <see cref="ReservoirWord.IsValid"/>, so an invalid match the sentence breakdown displays looked valid.</remarks>
    const long AnalysisFormat = 1;
@@ -137,6 +137,7 @@ public sealed class ReservoirFile : IDisposable
    /// <summary>Saves <paramref name="analyses"/>, each of the sentence with its id, and every number <paramref name="numbers"/> has given.</summary>
    public void SaveAnalyses(IReadOnlyList<(long SentenceId, ReservoirSentenceAnalysis Analysis)> analyses, ReservoirAnalysisNumbers numbers)
    {
+      AssertTheAnalysesAreOfTheCurrentFormat();
       using var transaction = _connection.BeginTransaction(deferred: false);
       using(var save = _connection.Prepared("insert or replace into sentence_analysis(sentence, analysis) values($sentence, $analysis)", "$sentence", "$analysis"))
       {
@@ -156,7 +157,7 @@ public sealed class ReservoirFile : IDisposable
    /// Whether the analyses the reservoir keeps are of an older format than <see cref="AnalysisFormat"/>, which can't be read: they're to be<br/>
    /// forgotten and made anew (<see cref="ForgetTheAnalysesOfAnOlderFormat"/>).
    /// </summary>
-   public bool KeepsAnalysesOfAnOlderFormat => _connection.ScalarAsLong("pragma user_version") < AnalysisFormat;
+   public bool KeepsAnalysesOfAnOlderFormat => FormatOfTheAnalysesKept < AnalysisFormat;
 
    /// <summary>Forgets every analysis the reservoir keeps, which are of an older format, so that analyzing makes them anew in <see cref="AnalysisFormat"/>.</summary>
    public void ForgetTheAnalysesOfAnOlderFormat()
@@ -239,10 +240,18 @@ public sealed class ReservoirFile : IDisposable
    /// <summary>Records in the file, as its <c>user_version</c>, that the analyses it keeps are of the current format, <see cref="AnalysisFormat"/>.</summary>
    void MarkTheAnalysesAsOfTheCurrentFormat() => _connection.Execute($"pragma user_version = {AnalysisFormat}");
 
+   /// <summary>The format of the analyses the reservoir keeps, as the file records it: <see cref="AnalysisFormat"/>, an older one, or a newer one, made by newer code.</summary>
+   long FormatOfTheAnalysesKept => _connection.ScalarAsLong("pragma user_version");
+
+   /// <summary>
+   /// Asserts that the analyses kept are of <see cref="AnalysisFormat"/>, the only one this code reads and writes: analyses of an older format are<br/>
+   /// to be made anew first, and those of a newer one, made by newer code, as when a checkout of an older commit opens the reservoir, are left alone.
+   /// </summary>
    void AssertTheAnalysesAreOfTheCurrentFormat() =>
-      //review: Analyses of a newer format, a user_version above AnalysisFormat, pass this and are read as if of the current one, as when a
-      //   checkout on an older commit reads a reservoir a newer one analyzed. Asserting user_version == AnalysisFormat would refuse them.
-      Contract.State.Assert(!KeepsAnalysesOfAnOlderFormat, () => "The reservoir's analyses are of an older format, which can't be read: analyze it anew first.");
+      Contract.State.Assert(FormatOfTheAnalysesKept == AnalysisFormat,
+                            () => KeepsAnalysesOfAnOlderFormat
+                                     ? "The reservoir's analyses are of an older format, which can't be read: analyze it anew first."
+                                     : $"The reservoir's analyses are of format {FormatOfTheAnalysesKept}, made by newer code than this, which reads and writes format {AnalysisFormat} only.");
 
    /// <summary>Saves every number <paramref name="numbers"/> has given, those saved already left as they are.</summary>
    void SaveTheNumbers(ReservoirAnalysisNumbers numbers)
