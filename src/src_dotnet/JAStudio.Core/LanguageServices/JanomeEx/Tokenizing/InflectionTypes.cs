@@ -46,7 +46,7 @@ public static class InflectionTypes
       List<InflectionType> unused =
       [
          Godan.Su, Ichidan.Regular, Adjective.IEnding, Sahen.Suru, Kahen.KuruKana, Bungo.Beshi, Yodan.BaEnding,
-         Ruhen.RaHen, Nidan.LowerDa, Other.Indeclinable, Special.Masu
+         Ruhen.RaHen, LowerNidan.LowerDa, UpperNidan.UpperDa, Other.Indeclinable, Special.Masu
       ];
    }
 
@@ -152,6 +152,8 @@ public static class InflectionTypes
 
       public static readonly InflectionType Beshi = AddForm("文語・ベシ",
                                                             "Classical 'beshi' - Classical expression of obligation/probability");
+
+      public static readonly InflectionType Maji = AddForm("文語・マジ", "Classical 'maji' - Classical negative conjecture, 'surely not'");
    }
 
    public static class Special
@@ -173,6 +175,8 @@ public static class InflectionTypes
       public const string Family = "四段";
       public static readonly InflectionType HaEnding = AddForm("四段・ハ行", "Classical yodan verb with 'ha' ending");
       public static readonly InflectionType BaEnding = AddForm("四段・バ行", "Classical yodan verb with 'ba' ending");
+      public static readonly InflectionType SaEnding = AddForm("四段・サ行", "Classical yodan verb with 'sa' ending");
+      public static readonly InflectionType TaEnding = AddForm("四段・タ行", "Classical yodan verb with 'ta' ending");
    }
 
    public static class Ruhen
@@ -181,11 +185,23 @@ public static class InflectionTypes
       public static readonly InflectionType RaHen = AddForm("ラ変", "Classical ra-hen irregular verb");
    }
 
-   public static class Nidan
+   public static class LowerNidan
    {
       public const string Family = "下二";
       public static readonly InflectionType LowerDa = AddForm("下二・ダ行", "Lower bigrade with 'da' ending");
       public static readonly InflectionType LowerTa = AddForm("下二・タ行", "Lower bigrade with 'ta' ending");
+      public static readonly InflectionType LowerKa = AddForm("下二・カ行", "Lower bigrade with 'ka' ending");
+      public static readonly InflectionType LowerGa = AddForm("下二・ガ行", "Lower bigrade with 'ga' ending");
+      public static readonly InflectionType LowerHa = AddForm("下二・ハ行", "Lower bigrade with 'ha' ending");
+      public static readonly InflectionType LowerMa = AddForm("下二・マ行", "Lower bigrade with 'ma' ending");
+      public static readonly InflectionType LowerU = AddForm("下二・得", "Lower bigrade 得 (u), the classical 得る");
+   }
+
+   public static class UpperNidan
+   {
+      public const string Family = "上二";
+      public static readonly InflectionType UpperDa = AddForm("上二・ダ行", "Upper bigrade with 'da' ending");
+      public static readonly InflectionType UpperHa = AddForm("上二・ハ行", "Upper bigrade with 'ha' ending");
    }
 
    public static class Other

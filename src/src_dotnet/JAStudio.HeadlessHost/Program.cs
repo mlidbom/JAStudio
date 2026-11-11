@@ -33,11 +33,15 @@ static class Program
    {
       Console.OutputEncoding = Encoding.UTF8;
       CompzeLogger.LogLevel = LogLevel.Info;
-      var arguments = HeadlessHostArguments.From(args);
-      HeadlessUserFiles.ReplaceWithACopyOfTheUserFilesOf(arguments.AddonFolder);
+      return args is [ReservoirCommands.CommandName, .. var reservoirCommand]
+                ? ReservoirCommands.Run(reservoirCommand)
+                : ServeJAStudiosMcpServer(HeadlessHostArguments.From(args));
+   }
 
-      using var host = BuildJAStudio(arguments);
-      var jastudio = StartJAStudioAndLoadTheCollection(host);
+   static int ServeJAStudiosMcpServer(HeadlessHostArguments arguments)
+   {
+      using var loaded = LoadedHeadlessJAStudio.From(arguments.Setup);
+      var jastudio = loaded.Root;
       var services = jastudio.Resolve<TemporaryServiceCollection>();
 
       var cardServer = new CardServer(jastudio, new HeadlessNoteLinkOpener(services));
@@ -54,23 +58,6 @@ static class Program
 
       mcpServer.StopAsync().GetAwaiter().GetResult();
       cardServer.StopAsync().GetAwaiter().GetResult();
-      host.StopAsync().GetAwaiter().GetResult();
       return 0;
-   }
-
-   static IHost BuildJAStudio(HeadlessHostArguments arguments)
-   {
-      var plan = AppBootstrapper.PrepareProduction(new HeadlessEnvironmentDependenciesRegistrar(arguments));
-      return Host.CreateDefaultBuilder()
-                 .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
-                 .Build();
-   }
-
-   static IRootResolver StartJAStudioAndLoadTheCollection(IHost host)
-   {
-      host.StartAsync().GetAwaiter().GetResult();
-      var jastudio = host.Services.GetRequiredService<IRootResolver>();
-      jastudio.Resolve<CoreApp>().Collection.ReloadFromBackend();
-      return jastudio;
    }
 }
