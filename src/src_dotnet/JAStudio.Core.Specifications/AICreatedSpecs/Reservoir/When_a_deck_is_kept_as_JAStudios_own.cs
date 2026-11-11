@@ -93,8 +93,8 @@ public class When_a_deck_is_kept_as_JAStudios_own : IAIGeneratedSpec, IDisposabl
                                insert into col values('{"1": {"name": "subs2srs", "flds": [{"name": "Expression", "ord": 0}, {"name": "Meaning", "ord": 1}, {"name": "Audio", "ord": 2}, {"name": "Snapshot", "ord": 3}]}}');
                                create table notes(id integer primary key, mid integer, flds text, tags text);
                                """
-                             + $"insert into notes values(1, 1, '（夏目）友人帳を 寄越せ\x1fHand it over!\x1f[sound:show_01.mp3]\x1f<img src=\"show_01.jpg\">', ' show ');"
-                             + $"insert into notes values(2, 1, 'いやだ、渡さない\x1fNo, I will not.\x1f\x1f<img src=\"show_02.jpg\">', ' show ');";
+                             + "insert into notes values(1, 1, '（夏目）友人帳を 寄越せ\x1fHand it over!\x1f[sound:show_01.mp3]\x1f<img src=\"show_01.jpg\">', ' show ');"
+                             + "insert into notes values(2, 1, 'いやだ、渡さない\x1fNo, I will not.\x1f\x1f<img src=\"show_02.jpg\">', ' show ');";
          command.ExecuteNonQuery();
       }
 
