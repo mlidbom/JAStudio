@@ -13,6 +13,7 @@
 > without any manual adjustments, the more correct and valuable our vocabulary corpus is." Vocab are finite and sentences
 > unlimited, so every condition that describes the language well pays off in every sentence JAStudio's users will bring.
 > Shared-conditions and rules-for-many-vocab make the vocab work cheaper; they serve that goal.
+> The wider strategy, phrase vocab and confirmed sentences among it, is in [improving-parsing.md](improving-parsing.md).
 >
 > A first proposal that only translated today's rules into a tree is superseded: that was "half, if that, of the
 > point" (Magnus).

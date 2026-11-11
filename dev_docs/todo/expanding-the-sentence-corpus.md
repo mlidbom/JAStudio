@@ -19,7 +19,7 @@ Everything that measures and steers that work runs over the sentence corpus (see
   sharing among vocab from one that shouldn't exist at all, because a correction on its one sentence would do.
 - **The full rebuild's diff** shows what a change does to every sentence.
 
-Each is only as good as the corpus it runs over. A rule tested on sentences of one kind can't be told apart from a patch
+Each is only as good as the corpus it runs over (see also [improving-parsing.md](../improving-parsing.md)). A rule tested on sentences of one kind can't be told apart from a patch
 for that kind. The corpus today has 49,162 sentences, and on 2026-11-10 two of today's rules, godan and godan imperative
 (head), were set only on vocab that never match in it.
 
