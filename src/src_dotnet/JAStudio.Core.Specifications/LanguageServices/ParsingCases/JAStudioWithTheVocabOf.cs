@@ -37,17 +37,23 @@ public class JAStudioWithTheVocabOf : IDisposable
    /// </summary>
    public ParsingCaseResult Parse(ParsingCase parsingCase)
    {
-      var sentence = new SentenceNote(_app.CoreApp.Services.NoteServices,
-                                      new SentenceDto
-                                      {
-                                         Id = Guid.NewGuid(),
-                                         SourceData = new SentenceSourceDataDto { Question = parsingCase.Sentence },
-                                         Configuration = parsingCase.Configuration
-                                      });
-
+      var sentence = SentenceNoteOf(parsingCase);
       return new ParsingCaseResult([.. sentence.CreateAnalysis().ValidMatches.Select(it => ParsedWordReported.Of(ParsedMatch.FromMatch(it), Collection))],
                                    BreakdownsUnderEachCombinationOfTheOptionsChangingThem(sentence));
    }
+
+   /// <summary>The analysis <paramref name="parsingCase"/>'s sentence gets as a sentence note of the corpus, with the case's configuration: what its parsing result is made from.</summary>
+   public TextAnalysis AnalysisOf(ParsingCase parsingCase) => SentenceNoteOf(parsingCase).CreateAnalysis();
+
+   /// <summary>A sentence note of <paramref name="parsingCase"/>'s sentence and configuration, as the corpus would have it.</summary>
+   SentenceNote SentenceNoteOf(ParsingCase parsingCase) =>
+      new(_app.CoreApp.Services.NoteServices,
+          new SentenceDto
+          {
+             Id = Guid.NewGuid(),
+             SourceData = new SentenceSourceDataDto { Question = parsingCase.Sentence },
+             Configuration = parsingCase.Configuration
+          });
 
    IReadOnlyList<BreakdownUnderOptions> BreakdownsUnderEachCombinationOfTheOptionsChangingThem(SentenceNote sentence)
    {

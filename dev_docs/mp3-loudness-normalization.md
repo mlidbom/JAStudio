@@ -70,3 +70,9 @@ Against mp3gain 1.4.6, the version Magnus's normalizing script uses:
 - **A file whose frames have a CRC:** mp3gain 1.4.6 measures it differently from the same audio without one, which looks
   like a bug in its decoder, and the library doesn't copy it. Its frames' gains and CRCs are changed exactly as mp3gain
   changes them. None turned up in the media layer.
+- **A clip too short to measure** (2026-11-11): one whose frames, but the last, hold less than one of ReplayGain's
+  windows, 50 ms, or one miniaudio refuses to decode, as it refuses a stream of no frames or very few. subs2srs cuts
+  such clips for very short lines: 9 of about 30,000 MP3s in five decks of the reservoir. `Mp3File.MeasureReplayGainOrNone`
+  gives none for one, and `NormalizedToTheReplayGainReference` leaves it as it is, as mp3gain leaves a file it can't
+  measure. Until then both threw. mp3gain's own decoder may well measure some of the clips miniaudio refuses, which
+  then stay unnormalized here.

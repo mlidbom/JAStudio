@@ -32,6 +32,15 @@ public sealed class TextAnalysis
    public List<Match> DisplayMatches { get; }
 
    /// <summary>
+   /// Every match the analysis made, valid or not: those of every variant of every candidate word at every location. A rejected match keeps<br/>
+   /// why, in its <see cref="Match.FailureReasons"/>.
+   /// </summary>
+   public IEnumerable<Match> EveryMatch => Locations.SelectMany(it => it.CandidateWords).SelectMany(it => it.Variants).SelectMany(it => it.Matches);
+
+   /// <summary>The vocab matches the analysis rejected, each with why, in its <see cref="Match.FailureReasons"/>.</summary>
+   public IEnumerable<VocabMatch> RejectedVocabMatches => EveryMatch.OfType<VocabMatch>().Where(it => !it.IsValid);
+
+   /// <summary>
    /// Analyzes <paramref name="sentence"/>: for the sentence breakdown under <paramref name="breakdownParsingOptions"/>, or, without them, as a<br/>
    /// sentence's stored parsing result is made.
    /// </summary>

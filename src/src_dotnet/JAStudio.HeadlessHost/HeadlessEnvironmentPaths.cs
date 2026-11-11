@@ -10,16 +10,16 @@ namespace JAStudio.HeadlessHost;
 /// </summary>
 class HeadlessEnvironmentPaths : IEnvironmentPaths
 {
-   readonly HeadlessHostArguments _arguments;
+   readonly HeadlessJAStudioSetup _setup;
 
-   public HeadlessEnvironmentPaths(HeadlessHostArguments arguments) => _arguments = arguments;
+   public HeadlessEnvironmentPaths(HeadlessJAStudioSetup setup) => _setup = setup;
 
-   public string AddonRootDir => _arguments.AddonFolder.FullName;
+   public string AddonRootDir => _setup.AddonFolder.FullName;
 
    /// <summary>The media folder of the Anki profile whose collection the headless JAStudio reads, in the profile's folder, as Anki keeps it.</summary>
-   public string AnkiMediaDir => Path.Combine(_arguments.AnkiProfileFolder.FullName, "collection.media");
+   public string AnkiMediaDir => Path.Combine(_setup.AnkiProfileFolder.FullName, "collection.media");
 
    public string UserFilesDir => HeadlessUserFiles.Folder.FullName;
-   public string DatabaseDir => _arguments.CorpusFolder.FullName;
+   public string DatabaseDir => _setup.CorpusFolder.FullName;
    public string MediaDir => Path.Combine(DatabaseDir, "media");
 }

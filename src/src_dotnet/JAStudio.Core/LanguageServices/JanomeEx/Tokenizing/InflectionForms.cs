@@ -61,6 +61,7 @@ public static class InflectionForms
 
       public static readonly InflectionForm Euphonic = AddForm("音便基本形", "Dictionary form with sound changes");
       public static readonly InflectionForm Classical = AddForm("文語基本形", "Dictionary form in classical Japanese");
+      public static readonly InflectionForm Modern = AddForm("現代基本形", "Dictionary form in modern Japanese, of a word the dictionary also has a classical dictionary form of");
    }
 
    public static class Continuative

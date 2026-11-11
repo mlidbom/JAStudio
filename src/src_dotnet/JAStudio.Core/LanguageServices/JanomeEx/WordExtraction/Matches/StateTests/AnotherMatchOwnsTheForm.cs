@@ -5,7 +5,8 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTe
 
 static class ForbidsAnotherMatchIsHigherPriority
 {
-   static readonly FailedMatchRequirement Failed = FailedMatchRequirement.Forbids("another_match_owns_the_form_or_is_higher_priority_due_to_custom_requirements_weight");
+   /// <summary>The failure of a match whose form another match owns, or that a match of a higher priority, by its custom requirements' weight, wins over.</summary>
+   internal static readonly FailedMatchRequirement Failed = FailedMatchRequirement.Forbids("another_match_owns_the_form_or_is_higher_priority_due_to_custom_requirements_weight");
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {

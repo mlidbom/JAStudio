@@ -29,7 +29,7 @@ public class When_normalizing_mp3_files_to_the_replaygain_reference : IAIGenerat
 
    public static TheoryData<string> TheFixturesWithoutACrc => [..Mp3Fixtures.Names().Where(it => it != TheFixtureWithACrc)];
 
-   static double ReplayGainMeasured(string fixture) => Math.Round(new Mp3File(Mp3Fixtures.Original(fixture)).MeasureReplayGain().Decibels, 2);
+   static double ReplayGainMeasured(string fixture) => Math.Round((new Mp3File(Mp3Fixtures.Original(fixture)).MeasureReplayGainOrNone()?.Decibels ?? double.NaN), 2);
 
    [Theory, MemberData(nameof(TheFixturesWithoutACrc))]
    public void the_replaygain_measured_is_the_one_mp3gain_measured(string fixture) => ReplayGainMeasured(fixture).Must().Be(Mp3Fixtures.ReplayGainMp3GainMeasured(fixture));
@@ -45,5 +45,5 @@ public class When_normalizing_mp3_files_to_the_replaygain_reference : IAIGenerat
       new Mp3File(Mp3Fixtures.Original("lame-crc-32khz-stereo")).WithGainChangedBy(0).Bytes().Must().SequenceEqual(Mp3Fixtures.Original("lame-crc-32khz-stereo"));
 
    [XF] public void a_file_holding_no_mp3_frames_is_refused() =>
-      Invoking(() => new Mp3File([1, 2, 3, 4, 5, 6]).MeasureReplayGain()).Must().Throw<InvalidDataException>();
+      Invoking(() => new Mp3File([1, 2, 3, 4, 5, 6]).MeasureReplayGainOrNone()).Must().Throw<InvalidDataException>();
 }

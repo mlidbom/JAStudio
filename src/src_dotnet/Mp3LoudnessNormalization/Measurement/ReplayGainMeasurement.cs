@@ -52,6 +52,9 @@ sealed class ReplayGainMeasurement
    public void AddStereo(float left, float right) => Add(_leftFilter.Filter(left * StereoSampleScale), _rightFilter.Filter(right * StereoSampleScale));
 
    /// <summary>The gain that brings the recording measured so far to ReplayGain's reference loudness. Only when it's at least one window long.</summary>
+   /// <summary>Whether a whole window was measured, so that there's a <see cref="Result"/>: a recording shorter than one window, 50 ms, has none.</summary>
+   public bool MeasuredAWindow => _histogram.HasWindows;
+
    public ReplayGain Result() => new(ReferenceLoudness - _histogram.LoudnessOnlyFivePercentOfTheWindowsExceed());
 
    void Add(double filteredLeft, double filteredRight)

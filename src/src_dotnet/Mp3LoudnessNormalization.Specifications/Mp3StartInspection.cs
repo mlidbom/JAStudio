@@ -29,10 +29,10 @@ static class Mp3StartInspection
       return mainDataBegin > 0;
    }
 
-   static int AfterAnId3V2Tag(byte[] mp3) =>
+   internal static int AfterAnId3V2Tag(byte[] mp3) =>
       mp3.Length > 10 && mp3[0] == 'I' && mp3[1] == 'D' && mp3[2] == '3' ? 10 + ((mp3[6] & 0x7F) << 21 | (mp3[7] & 0x7F) << 14 | (mp3[8] & 0x7F) << 7 | (mp3[9] & 0x7F)) : 0;
 
-   static int FirstSyncWordFrom(byte[] mp3, int position)
+   internal static int FirstSyncWordFrom(byte[] mp3, int position)
    {
       for(; position + 4 <= mp3.Length; position++)
          if(mp3[position] == 0xFF && (mp3[position + 1] & 0xE0) == 0xE0) return position;
@@ -55,7 +55,7 @@ static class Mp3StartInspection
       return markerStart + 4 <= mp3.Length && Encoding.ASCII.GetString(mp3, markerStart, 4) is "Xing" or "Info";
    }
 
-   static int FrameLength(byte[] mp3, int position)
+   internal static int FrameLength(byte[] mp3, int position)
    {
       var versionBits = (mp3[position + 1] >> 3) & 3;
       var howManyTimesLowerThanMpeg1s = versionBits switch

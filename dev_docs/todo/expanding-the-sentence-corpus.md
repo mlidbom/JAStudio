@@ -96,6 +96,104 @@ Nothing was downloaded yet.
   downloads allow range requests, as download managers' resuming suggests, a deck's database can be read without its
   media, about 4 GB for all 1,382 rather than 517. Not tried yet.
 
+## The reservoir, as built on the branch `corpus-reservoir` (Claude, the night of 2026-11-11)
+
+Built on a branch of its own, in the worktree `C:\Dev\JAStudio.worktrees\corpus-reservoir`, so that Magnus can choose
+whether to merge it. The data lives outside git, in `C:\Dev\_JAReservoir\`, a few GB in all: the reservoir, the fetched databases, the tools
+and the reports. The full decks, hundreds of GB, are to live where Magnus puts his download of the MediaFire folder.
+
+- **Reading the sources, with no Anki** (`JAStudio.Core.Reservoir.Sources`):
+  - `AnkiPackageDatabase` reads an .apkg's collection database, or one taken out of its package, in all three of Anki's
+    formats (`collection.anki2`, `anki21`, and the zstd-compressed `anki21b`), as the import's own `RawNote`s and
+    `AnkiNoteType`s. That's the ground for an `IAnkiRawNotes` reading a package, so the import profiles could import a
+    deck file with no Anki profile for importing.
+  - `DeckFieldRoles` recognizes which field holds the Japanese, the translation, the audio and the image, by known names
+    such as Expression and source_question, and else by what a sample of the notes hold (`FieldContents`). It recognized
+    all 31 of the Dropbox folder's decks right, across eleven note types.
+  - `SubtitleFile` reads .srt, .ass and .ssa, in UTF-8, UTF-16 or Shift JIS; `SubtitleCollection` reads a folder per
+    show, zipped as the kitsunekko backup is, or not, zips inside included.
+  - `ReservoirSentenceText` cleans a sentence of what its source wraps it in: HTML, ruby, direction marks, subtitle
+    formatting, speaker names in brackets such as （ユーリ）, music notes; half-width katakana become full-width.
+- **The reservoir itself** (`ReservoirFile`): a SQLite file of distinct sentences, each with the source it was first
+  found in (or the first with its audio), where in it, its translation and media file names, and how often it was found.
+  A work is added once (`ReservoirFilling`), so filling can stop and start again.
+- **The bulk analysis** (`JAStudio.Core.Reservoir.Analysis`): every sentence analyzed as a stored parsing result is made
+  (`TextAnalysis`, no configuration), with the corpus's vocab, about 6,000 sentences a second in parallel. Each analysis
+  is kept as a MemoryPack record (`ReservoirSentenceAnalysis`): its words (valid matches and displayed ones) and the vocab
+  matches it rejected, with why, vocab and failure reasons numbered (`ReservoirAnalysisNumbers`, in `.Analysis.Numbering`)
+  to keep it small.
+- **The measures, the picks and the report** (`JAStudio.Core.Reservoir.Measures`, `.Picking` and `.Reporting`): one pass
+  over the analyses counts, with examples, the sentences matching each vocab, each vocab's rejections by reason, and each
+  word no vocab has (`ReservoirMeasures`); the corpus is counted the same way (`WhatTheCorpusHas`).
+  `SentencesWorthTakingIn` then picks, greedily, among sentences of up to 50 characters, the fewest giving the corpus
+  what it lacks of each feature
+  (`SentenceFeatures`): three sentences for each vocab, two for each vocab and rejection reason, one for each frequent
+  word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list (`ReportFolder`).
+- **Checking decks before filling** (`WhatADeckGives`, `DeckCheckReport`): what each note type of each deck in a
+  folder would give, the fields recognized, the sentences, their length and examples, and which note types give
+  nothing or hold words; to look at before filling the reservoir from decks nobody has looked at.
+- **The analyses' format** is recorded in the reservoir file (`ReservoirFile.AnalysisFormat`): when it changes,
+  analyzing forgets the analyses of the older one and makes them all anew, and nothing reads them meanwhile.
+- **Run as batch commands of the headless JAStudio** (`ReservoirCommands`), from a copy of its build:
+  `JAStudio.HeadlessHost reservoir check-decks | fill-decks | fill-subtitles | analyze | vocab | report`, with
+  `--name value` arguments.
+- **Fetching the MediaFire folder's databases only:** MediaFire answers range requests (HTTP 206), so a deck's
+  collection database is read out of its zip without the media, a few MB of a deck's hundreds. A script did it for all
+  1,382 decks, into `C:\Dev\_JAReservoir\mediafire\databases` (`C:\Dev\_JAReservoir\tools\fetch_mediafire.py`); Magnus is downloading
+  the whole folder himself, with an account that allows it.
+
+## Keeping the reservoir safe (agreed with Magnus, 2026-11-11)
+
+The reservoir file is rebuilt from sources that sit in Dropbox, on MediaFire and on a USB drive, so the data isn't safe
+until it's stored as JAStudio's own. Agreed:
+
+- **The text goes in git, as the source of truth; the reservoir's SQLite file is an index derived from it.** Each
+  source's sentences are kept faithfully, a line of JSON each, in a sentence note's shape without configuration or
+  parsing result, a file per work, with everything there's any notable chance of needing: the deck's or subtitle
+  file's identity, the note's raw fields and tags, a subtitle line's times, and the mapping from the deck's fields to
+  the sentence's. A manifest per repository gives the format's version and what each collection is.
+- **The format is meant never to change,** and history isn't vital: if it must change, a new repository replaces the
+  old. A sentence JAStudio comes to care about is copied into the corpus, and lives on there.
+- **Measured (2026-11-11):** the 16.3 million distinct sentences take 5.6 GB as such lines, 343 bytes each, and about
+  0.95 GB in git; the MediaFire collection's 2.3 GB of lines packed to 415 MB. Every MediaFire deck's own database,
+  without media, takes 1.13 GB in git, the largest 66 MB, so keeping the decks themselves, as well as the lines, is
+  affordable too.
+- **The media is stored once, normalized losslessly, named by its content's SHA-256,** and so immutable; the text
+  refers to it by hash, and a list of every file's hash, kept with the text, says what must exist. Three copies: the
+  working copy, a cloud object store holding a file per object for access, and a cold copy at another provider, in
+  bundles of a few GB, since cold storage charges per object.
+- **Measured (2026-11-11):** the MediaFire folder's 1,368 decks hold 515 GB of media in 13.1 million files: 7.5 million
+  mp3s (415 GB), 5.4 million jpgs (79 GB), some png, ogg and wav, and 5.7 GB of the card templates' fonts and scripts.
+  No video.
+- **Built, and tried on five decks (2026-11-11): `reservoir import-decks`** (`DeckImporter`, in
+  `JAStudio.Core.Reservoir.Importing`; the files' format and the media store are in `JAStudio.Core.Reservoir.Storage`,
+  as the corpus has `Importing` and `Storage`. First called keeping, then archiving, to avoid the corpus's "import";
+  Magnus found neither said what's done, 2026-11-11). For each deck it writes `decks/<package name>/` with the
+  collection database as the package has it, `deck.json` (the package's name, length and SHA-256, each note type's
+  mapping, and each media file's hash and the gain applied to it) and
+  `notes.jsonl` (a line per note: its fields as they are, its tags, and the sentence it gives, in a sentence note's
+  `sourceData` shape, with each media file's hash); and the media in a `MediaStore`. The trial decks: an audiobook
+  (君の名は。), two uploaders' decks of Akame ga Kill, a Migaku deck (Kimetsu no Yaiba) and a deck in the latest package
+  format (Chi). What it showed:
+  - **Content addressing saves nothing on size:** of 60,563 media files, 60,550 are distinct, none shared between the
+    decks, not even between the two decks of one show, whose clips are cut differently. Its worth is immutability and
+    checking, not space.
+  - **Normalizing changes the files a lot, and their size not at all:** 4,892 of about 30,000 MP3s were at the reference
+    loudness; most moved by 1 to 5 steps of 1.5 dB, some very quiet ones by up to 43.
+  - **It's bound by the CPU,** decoding the MP3s to measure them: 28 of 32 logical processors busy, about 22 MB a second,
+    so about 6.5 hours for the folder's 515 GB.
+  - **The text is small:** 55.9 MB for the five decks, 14.2 MB as git stores it.
+  - **9 of about 30,000 MP3s couldn't be measured,** and threw: very short clips, which the decoder refuses, or which
+    are shorter than ReplayGain's 50 ms window. Fixed (Magnus agreed): `Mp3File.MeasureReplayGainOrNone` says so, and
+    such a clip is kept as it is, as mp3gain leaves a file it can't measure; the corpus's imports no longer fail on one either.
+  - **Once a deck is imported, its files are the truth, and its package only a backup** (Magnus, 2026-11-11: "the id in
+    the file wins once there is one"). The files are never written again from the package: a deck imported already is
+    left as it is, so a run that was interrupted goes on where it stopped (`deck.json` is written last), and should the
+    format have to change, the files are migrated into a new repository. So each note's id is simply a new GUID, the
+    line's for good, and the link from a sentence taken into the corpus back to its line holds. Another package with the
+    same file name, as two uploaders' decks can have, is refused rather than imported over. The media are listed in the
+    media map's order, and every line ends with LF, on every platform.
+
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion
