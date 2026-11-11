@@ -53,6 +53,49 @@ vocab reparses those it can affect, and says at once what it broke and what it f
 - **A second after each edit is within reach:** an edit to a vocab already reparses only the sentences that could
   contain its forms.
 
+## The first sources: Magnus's subs2srs folder (surveyed 2026-11-11)
+
+Magnus's `Dropbox\KEEP\Anki\SUBS2SRS`, 29 GB. Sentences are counted after removing whitespace and markup, and against
+the corpus's 46,986 distinct sentences. Matching on text undercounts what the corpus already has where its sentences
+were edited: Girls' Last Tour, whose 2,758 sentences are all in the corpus, counts 1,720 "new". So the new counts are
+upper bounds.
+
+- **Decks (.apkg), with audio, screenshots and English: 121,587 new sentences** from 26 shows and films, 2.6 times the
+  corpus. The largest are Legend of the Galactic Heroes (25,297), Polar Bear Cafe (13,344), March Comes In Like a Lion
+  (7,269), Fruits Basket (7,245), So I'm a Spider, So What? (6,760), Teasing Master Takagi-san (6,701), Yuru Camp
+  (5,719) and Carole & Tuesday (5,367).
+  - **`Unprocessed/` and `Unprocessed/Imported/`** hold the decks as downloaded, in six note types: subs2srs,
+    subs2srs-japanese, Japanese Jo-Mako Morphman Audio, Japanese Morphman Audio Ankiweb, Migaku Japanese and Japanese
+    Sentences Listening 2020. All are in Anki's older package formats: a plain SQLite database and a JSON media map.
+  - **`Processed/`** holds 15 of them converted in May 2024 to the Python-era JAStudio note type `_japanese_sentence`
+    (98,411 notes, in Anki's newest, zstd-compressed format), and `__original_pack.apkg` holds all 15 together. Only
+    Natsume and Violet Evergarden of them are in the corpus. Their originals are in `Unprocessed/Imported/`.
+  - **What needs cleaning:** speaker names such as （ユーリ）, `&lrm;` marks, several lines joined into one, ideographic
+    spaces.
+  - **The Anki profiles `subs2srs` and `processed-subs2srs`** hold the 2024 imports.
+- **The kitsunekko backup (`SubsOnly/kitsunekko_backup.zip`, 4.9 GB): the ocean.** Japanese subtitles of 1,871 shows:
+  25,323 subtitle files (.srt, .ass) and 3,291 archives (.zip, .rar, .7z). A sample of 400 files held 552 Japanese lines
+  a file, so the loose files hold about 14 million lines, before removing the duplicate versions of an episode. Text
+  only: no audio and no translation. The sample's files were all UTF-8 or UTF-16.
+- **`SubsOnly/`** also holds subtitles for 8 shows, some of them the decks' shows.
+
+## The real treasure trove: the "User Uploaded Anki Decks" folder (Magnus, 2026-11-11)
+
+<https://www.mediafire.com/folder/p17g5uk4phb41/User_Uploaded_Anki_Decks>. Its listing, through MediaFire's public API
+on 2026-11-11 (`folder/get_content.php?folder_key=p17g5uk4phb41`): **1,404 files, 517 GB, 1,382 of them .apkg decks.**
+Nothing was downloaded yet.
+
+- **168 audiobooks:** novels and some non-fiction, a sentence a note with the narrator's audio. Narration and written
+  Japanese, the registers the corpus lacks most: 狼と香辛料 1–8, 本好きの下剋上, 無職転生, Overlord, コンビニ人間, 君の名は。,
+  かがみの孤城, 1日1ページ、読むだけで身につく世界の教養365, and many more.
+- **About 1,200 subs2srs decks:** anime (Death Note, Clannad, Evangelion, One Piece, Haikyu, Ranma ½ …), anime films
+  (Akira, Ponyo, Porco Rosso …), live-action drama and reality TV (半分、青い。, まだ結婚できない男, Terrace House, ドクターX),
+  games (Final Fantasy VII Remake, Final Fantasy X, Ace Attorney), and a YouTube channel (ジオヒストリー).
+- **"00 - 11.10 UPDATE - read before downloading.txt"** and some READMEs: to read before taking anything.
+- **Only the text may be needed at first:** an .apkg is a zip whose database is a few MB of its hundreds. If MediaFire's
+  downloads allow range requests, as download managers' resuming suggests, a deck's database can be read without its
+  media, about 4 GB for all 1,382 rather than 517. Not tried yet.
+
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion
