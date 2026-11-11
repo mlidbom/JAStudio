@@ -17,6 +17,7 @@ using JAStudio.Mcp.Tools.Dictionary;
 using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
+using JAStudio.Mcp.Tools.Reservoir;
 using JAStudio.Mcp.Tools.Saving;
 using JAStudio.Mcp.Tools.Reloading;
 using JAStudio.Mcp.Tools.Screen;
@@ -111,8 +112,10 @@ public sealed class JAStudioMcpServer
              .WithTools<NoteCommandTools>(ToolResultJsonOptions)
              .WithTools<NoteCreationTools>(ToolResultJsonOptions)
              .WithTools<UniversalNoteActionTools>(ToolResultJsonOptions)
-             .WithTools<StudyNoteTools>(ToolResultJsonOptions);
+             .WithTools<StudyNoteTools>(ToolResultJsonOptions)
+             .WithTools<ReservoirTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
+      builder.Services.AddSingleton<OpenReservoirs>();
 
       if(headlessUI != null)
       {

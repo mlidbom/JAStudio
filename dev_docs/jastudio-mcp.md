@@ -220,6 +220,12 @@ the headless JAStudio.
   It replaces the throwaway tokenizer programs, and answers questions such as why a word doesn't match a vocab: it
   showed at once why まかれる parses as まかる + える + う (MeCab reads まかれる as one ichidan verb, and the preprocessing
   splits it as a godan potential).
+- **The reservoir, built on the branch `corpus-reservoir` (2026-11-11):** `what_a_vocab_does_in_the_reservoir` tells what
+  a vocab, as JAStudio has it now, does in a reservoir's millions of sentences (`WhatAVocabDoesInTheReservoir`): where it
+  matches, which sentences reject it and why, and where its matching changed since the reservoir's bulk analysis, which
+  is what an edit to the vocab did. It takes the reservoir's file as an argument; the reservoir's texts load at its
+  first use, in up to a minute (`OpenReservoirs`), and every later use takes seconds. It's the near-instant feedback of
+  `todo/expanding-the-sentence-corpus.md`, over the reservoir rather than the working set.
 - **Writing: parity with the workspace's editors (Magnus, 2026-11-09).** Whatever Magnus can edit in JAStudio, Claude can
   edit through the MCP server, rather than one edit at a time as work needs it. Parity holds by construction: each note
   type's editable fields are defined once, in Core (`IEditableField<TNote>`, such as `VocabEditableFields`), each with its
