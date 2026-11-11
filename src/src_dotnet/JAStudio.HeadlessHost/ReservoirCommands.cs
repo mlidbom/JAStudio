@@ -8,6 +8,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Reservoir;
 using JAStudio.Core.Reservoir.Analysis;
 using JAStudio.Core.Reservoir.Feedback;
+using JAStudio.Core.Reservoir.Keeping;
 using JAStudio.Core.Reservoir.Measures;
 using JAStudio.Core.Reservoir.Picking;
 using JAStudio.Core.Reservoir.Reporting;
@@ -24,6 +25,7 @@ static class ReservoirCommands
    public const string CommandName = "reservoir";
 
    const string Usage = """
+                        reservoir keep-decks --decks <an .apkg file, or a folder of them> --text-folder <folder> --media-folder <folder>
                         reservoir check-decks --folder <folder of .apkg files and of decks' collection databases> --report-folder <folder>
                         reservoir fill-decks --reservoir-file <file> --collection <name> --folder <folder of .apkg files and of decks' collection databases>
                         reservoir fill-subtitles --reservoir-file <file> --collection <name> --zip-or-folder <a zip or folder of a folder per show>
@@ -34,6 +36,7 @@ static class ReservoirCommands
 
    public static int Run(string[] args) => args switch
    {
+      ["keep-decks", .. var values] => KeepDecks(CommandLineValues.From(values)),
       ["check-decks", .. var values] => CheckDecks(CommandLineValues.From(values)),
       ["fill-decks", .. var values] => FillDecks(CommandLineValues.From(values)),
       ["fill-subtitles", .. var values] => FillSubtitles(CommandLineValues.From(values)),
@@ -47,6 +50,23 @@ static class ReservoirCommands
    /// Writes the report of what each deck in <c>--folder</c> would give the reservoir (<see cref="DeckCheckReport"/>), filling nothing: to check<br/>
    /// the fields recognized in decks nobody has looked at before filling the reservoir from them.
    /// </summary>
+   /// <summary>
+   /// Keeps the decks given as <c>--decks</c>, an .apkg file or a folder of them, as JAStudio's own (<see cref="ReservoirKeeping"/>): their text in<br/>
+   /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>).
+   /// </summary>
+   static int KeepDecks(CommandLineValues values)
+   {
+      var keeping = new ReservoirKeeping(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
+      FileInfo[] decks = values.ExistingFileOrFolder("decks") switch
+      {
+         FileInfo package => [package],
+         DirectoryInfo folder => folder.GetFiles("*.apkg", SearchOption.AllDirectories),
+         var neither => throw new ArgumentException($"--decks: {neither.FullName} is neither a file nor a folder")
+      };
+      foreach(var deck in decks.OrderBy(it => it.Name, StringComparer.Ordinal)) Console.WriteLine(keeping.Keep(deck));
+      return 0;
+   }
+
    static int CheckDecks(CommandLineValues values)
    {
       var folder = values.ExistingFolder("folder");

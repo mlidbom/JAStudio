@@ -165,6 +165,26 @@ until it's kept as JAStudio's own. Agreed:
 - **Measured (2026-11-11):** the MediaFire folder's 1,368 decks hold 515 GB of media in 13.1 million files: 7.5 million
   mp3s (415 GB), 5.4 million jpgs (79 GB), some png, ogg and wav, and 5.7 GB of the card templates' fonts and scripts.
   No video.
+- **Built, and tried on five decks (2026-11-11): `reservoir keep-decks`** (`JAStudio.Core.Reservoir.Keeping`). For each
+  deck it writes `decks/<package name>/` with the collection database as the package has it, `deck.json` (the package's
+  name, length and SHA-256, each note type's mapping, and each media file's hash and the gain applied to it) and
+  `notes.jsonl` (a line per note: its fields as they are, its tags, and the sentence it gives, in a sentence note's
+  `sourceData` shape, with each media file's hash); and the media in a `MediaStore`. The trial decks: an audiobook
+  (君の名は。), two uploaders' decks of Akame ga Kill, a Migaku deck (Kimetsu no Yaiba) and a deck in the latest package
+  format (Chi). What it showed:
+  - **Content addressing saves nothing on size:** of 60,563 media files, 60,550 are distinct, none shared between the
+    decks, not even between the two decks of one show, whose clips are cut differently. Its worth is immutability and
+    checking, not space.
+  - **Normalizing changes the files a lot, and their size not at all:** 4,892 of about 30,000 MP3s were at the reference
+    loudness; most moved by 1 to 5 steps of 1.5 dB, some very quiet ones by up to 43.
+  - **It's bound by the CPU,** decoding the MP3s to measure them: 28 of 32 logical processors busy, about 22 MB a second,
+    so about 6.5 hours for the folder's 515 GB.
+  - **The text is small:** 55.9 MB for the five decks, 14.2 MB as git stores it.
+  - **9 of about 30,000 MP3s can't be normalized** (a `bug:` comment at `MediaStore`): very short clips, which the
+    decoder refuses, or which are shorter than ReplayGain's 50 ms window. `Mp3File` should say such a file can't be
+    measured, as mp3gain does, instead of throwing; until it does, keeping a whole folder fails on the first.
+  - **Each note's id is a new GUID each time it's kept,** so keeping a deck twice gives different ids. An id made from
+    the package's hash and the note's id, a name-based UUID, would stay the same.
 
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
