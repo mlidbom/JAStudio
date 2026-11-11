@@ -128,8 +128,14 @@ and the reports. The full decks, hundreds of GB, are to live where Magnus puts h
   `SentencesWorthTakingIn` then picks, greedily, the fewest sentences giving the corpus what it lacks of each feature
   (`SentenceFeatures`): three sentences for each vocab, two for each vocab and rejection reason, one for each frequent
   word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list (`ReportFolder`).
+- **Checking decks before filling** (`WhatADeckGives`, `DeckCheckReport`): what each note type of each deck in a
+  folder would give, the fields recognized, the sentences, their length and examples, and which note types give
+  nothing or hold words; to look at before filling the reservoir from decks nobody has looked at.
+- **The analyses' format** is recorded in the reservoir file (`ReservoirFile.AnalysisFormat`): when it changes,
+  analyzing forgets the analyses of the older one and makes them all anew, and nothing reads them meanwhile.
 - **Run as batch commands of the headless JAStudio** (`ReservoirCommands`), from a copy of its build:
-  `JAStudio.HeadlessHost reservoir fill-decks | fill-subtitles | analyze | report`, with `--name value` arguments.
+  `JAStudio.HeadlessHost reservoir check-decks | fill-decks | fill-subtitles | analyze | vocab | report`, with
+  `--name value` arguments.
 - **Fetching the MediaFire folder's databases only:** MediaFire answers range requests (HTTP 206), so a deck's
   collection database is read out of its zip without the media, a few MB of a deck's hundreds. A script did it for all
   1,382 decks, into `C:\Dev\_JAReservoir\mediafire\databases` (`C:\Dev\_JAReservoir\tools\fetch_mediafire.py`); Magnus is downloading

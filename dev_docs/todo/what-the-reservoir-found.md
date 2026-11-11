@@ -15,6 +15,43 @@
   `When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictionary_has` reads every type and form from the
   dictionary itself, so a dictionary update can't bring the crash back unseen.
 
+- **The bulk analysis took rejected matches for matches.** It kept each sentence's valid matches together with those the
+  sentence breakdown displays, and the breakdown displays a rejected match when nothing else covers its word
+  (`Match.IsEmergencyDisplayed`). So たまえ counted as matching in 落ち着きたまえ, where its match-condition rejects it:
+  the measures' sentences matching each vocab and the picks counted such sentences, and the vocab feedback said 777
+  sentences with たまえ "no longer match" since the bulk analysis, though nothing had changed. Each word now keeps
+  whether it's a valid match (`ReservoirWord.IsValid`), and the reservoir file records its analyses' format, so the
+  analyses of the older one were forgotten and made anew.
+
+## Reading the MediaFire folder's decks
+
+`reservoir check-decks` reads every deck in a folder without filling anything, and reports what each note type would
+give: the fields recognized, the notes, the sentences, their average length and examples
+(`C:\Dev\_JAReservoir\reports\deck-check-mediafire\`). Its first run over the 980 decks fetched by then showed the field
+recognition, built on the Dropbox folder's 31 decks, wrong for several kinds of deck:
+
+- **Migaku's decks give their sentences only with furigana,** as `急[いそ,いそぐ;k2]い でる[,でる;k1] から`, which ruled
+  the field out, so a deck gave nothing, or its Target field, a single word: Kimetsu no Yaiba, Charlotte, Baccano!,
+  Itazura na Kiss, Seraph of the End and others, about 41,000 sentences. The furigana are now taken away, Anki's and
+  Migaku's.
+- **SentKanji,** the sentence field of a common sentence-mining note type, was ruled out by the kanji in its name.
+- **Decks with their fields swapped,** such as BLAME!, whose Japanese is in Meaning.
+- **Vocabulary decks** (the iKnow decks, a katakana deck) gave words as sentences: a note type whose Japanese averages
+  under 6 characters now gives none.
+
+What gives nothing now has a reason: Korean dramas, subtitles kept as images (Spirited Away, Whisper of the Heart),
+and decks in English or Spanish. **To know before taking sentences in:** some decks' subtitles were read off the screen
+by OCR, and it shows: Baccano!'s 「知つてる力分力るよなぁ」 has 力 for か and つ for っ. Such a deck's "missing words"
+are OCR errors, so the measures and the picks should leave such decks out, or weigh them down.
+
+## Near-instant feedback, at 13 million sentences
+
+The vocab feedback (`reservoir vocab`, and the MCP tool `what_a_vocab_does_in_the_reservoir`) loads every sentence's
+text once, 17 seconds for 13 million, and then takes 1.5 to 6.6 seconds a vocab, analyzing up to 20,000 of the
+sentences containing its texts: 鬱 is in 172,277 of them, たまえ in 6,442 and たん in 627,905. Most of the time is the
+analyzing, which a smaller sample would cut. An index of which sentences hold each character would cut the search too,
+but it's already under a second.
+
 ## Parsing problems, each seen across many sentences
 
 - **たまえ, the imperative of the auxiliary 給う, is often tokenized as a person's name.** 「落ち着きたまえ」 tokenizes as
