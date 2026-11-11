@@ -18,11 +18,8 @@ public sealed partial class SentencesWorthTakingIn
    SentencesWorthTakingIn(ReservoirFile reservoir, ReservoirMeasures measures, WhatTheCorpusHas corpus, int maximum)
    {
       var features = new SentenceFeatures(measures, corpus);
-      var candidates = reservoir.AnalyzedSentences().Select(it => Candidate.Of(it, features)).Where(it => it.FeatureCount > 0).ToList();
-      //bug: GainsBySource counts every feature of a source's sentences, those the corpus already has enough sentences of too, though its doc and
-      //   the report's "The works with the most to give" say it counts only what the corpus lacks. Summing FeaturesStillLacking.Length instead
-      //   would make it count what they say, and Candidate.FeatureCount could go.
-      GainsBySource = candidates.GroupBy(it => it.SourceId).ToDictionary(it => it.Key, it => it.Sum(candidate => candidate.FeatureCount));
+      var candidates = reservoir.AnalyzedSentences().Select(it => Candidate.Of(it, features)).Where(it => it.FeaturesStillLacking.Length > 0).ToList();
+      GainsBySource = candidates.GroupBy(it => it.SourceId).ToDictionary(it => it.Key, it => it.Sum(candidate => candidate.FeaturesStillLacking.Length));
       Picked = PickGreedily(candidates, features, maximum);
    }
 
@@ -38,7 +35,7 @@ public sealed partial class SentencesWorthTakingIn
 
    static List<SentenceWorthTakingIn> PickGreedily(IEnumerable<Candidate> candidates, SentenceFeatures features, int maximum)
    {
-      var queue = new PriorityQueue<Candidate, (int, double)>(candidates.Where(it => it.FeaturesStillLacking.Length > 0).Select(it => (it, Priority(it))));
+      var queue = new PriorityQueue<Candidate, (int, double)>(candidates.Select(it => (it, Priority(it))));
       var picked = new List<SentenceWorthTakingIn>();
       while(picked.Count < maximum && queue.TryDequeue(out var candidate, out var priority))
       {

@@ -99,7 +99,8 @@ Nothing was downloaded yet.
 ## The reservoir, as built on the branch `corpus-reservoir` (Claude, the night of 2026-11-11)
 
 Built on a branch of its own, in the worktree `C:\Dev\JAStudio.worktrees\corpus-reservoir`, so that Magnus can choose
-whether to merge it. The data lives outside git, in `E:\SUBS2SRS\`, a drive with no cloud backup (Magnus).
+whether to merge it. The data lives outside git, in `C:\Dev\_JAReservoir\`, a few GB in all: the reservoir, the fetched databases, the tools
+and the reports. The full decks, hundreds of GB, are to live where Magnus puts his download of the MediaFire folder.
 
 - **Reading the sources, with no Anki** (`JAStudio.Core.Reservoir.Sources`):
   - `AnkiPackageDatabase` reads an .apkg's collection database, or one taken out of its package, in all three of Anki's
@@ -131,7 +132,7 @@ whether to merge it. The data lives outside git, in `E:\SUBS2SRS\`, a drive with
   `JAStudio.HeadlessHost reservoir fill-decks | fill-subtitles | analyze | report`, with `--name value` arguments.
 - **Fetching the MediaFire folder's databases only:** MediaFire answers range requests (HTTP 206), so a deck's
   collection database is read out of its zip without the media, a few MB of a deck's hundreds. A script did it for all
-  1,382 decks, into `E:\SUBS2SRS\mediafire\databases` (`E:\SUBS2SRS\tools\fetch_mediafire.py`); Magnus is downloading
+  1,382 decks, into `C:\Dev\_JAReservoir\mediafire\databases` (`C:\Dev\_JAReservoir\tools\fetch_mediafire.py`); Magnus is downloading
   the whole folder himself, with an account that allows it.
 
 ## What "intelligently" could mean (ideas, to work out with Magnus)
