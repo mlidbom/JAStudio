@@ -24,3 +24,12 @@ piece of code, or that would otherwise be lost in a long response.
   match-conditions the corpus never exercises but the reservoir does, the words no vocab matches by how often they occur
   (a queue of vocab to create), contested words, and the fewest sentences that add the most of what the corpus lacks.
   Taking a sentence into the working set is then an import of it, media included.
+- **(Claude, 2026-11-11) Find JMdict words spelled in kana.** In the reservoir's 16 million sentences, about a quarter
+  of the missing words' occurrences are JMdict words spelled in kana: ひとつ (一つ, 14,979 sentences), いま, きょう,
+  いいかげん, しずか, いっしょ, and katakana such as ボク (24,948), アタシ, ムリ. `DictLookup.LookupWordRawInner` keeps,
+  for a kana word, only entries that are kana-only or "usually written using kana alone", and a katakana spelling isn't
+  looked up at all, so all of them come out missing, in the corpus too. The filter guards against a kana word being many
+  words' reading, and many of the kana "words" are fragments or interjections that happen to be readings (うう, れ, ハッ).
+  A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
+  exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
+  `corpus-reservoir`.
