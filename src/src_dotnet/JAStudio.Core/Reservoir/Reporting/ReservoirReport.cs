@@ -67,7 +67,7 @@ public sealed class ReservoirReport
    void WriteTheReservoirsSize()
    {
       _folder.Title(Invariant($"What the reservoir could give the corpus ({DateTime.Now:yyyy-MM-dd HH:mm})"));
-      _folder.Table(["Collection", "Works", "Sentences", "New sentences"], _reservoir.CollectionSummaries().Select(it => new[] { it.Collection, $"{it.Works:N0}", $"{it.Sentences:N0}", $"{it.NewSentences:N0}" }));
+      _folder.Table(["Collection", "Works", "Sentences", "New sentences"], _reservoir.CollectionSummaries().Select(it => new[] { it.Collection, Invariant($"{it.Works:N0}"), Invariant($"{it.Sentences:N0}"), Invariant($"{it.NewSentences:N0}") }));
       _folder.Bullets(Invariant($"**Analyzed:** {_measures.AnalyzedSentences:N0} sentences, against the corpus's {_corpus.SentenceCount:N0}."),
                       Invariant($"**Every displayed word a vocab:** {_measures.SentencesWithEveryDisplayedWordAVocab:N0} sentences, {Percent(_measures.SentencesWithEveryDisplayedWordAVocab, _measures.AnalyzedSentences)}."));
    }
@@ -83,7 +83,7 @@ public sealed class ReservoirReport
                       Invariant($"{lacking.Count:N0} vocab have fewer than {SentencesWantedForAVocab} sentences in the corpus and some in the reservoir."));
       _folder.TableWithTheRestInAFile("vocab-the-corpus-lacks-sentences-for",
                                       ["Vocab", "Corpus", "Reservoir", "Works", "Examples"],
-                                      [.. lacking.Select(it => new[] { it.Vocab.GetQuestion(), $"{it.Corpus}", $"{it.Reservoir.Count:N0}", $"{it.Reservoir.Works}", Examples(it.Reservoir) })]);
+                                      [.. lacking.Select(it => new[] { it.Vocab.GetQuestion(), Invariant($"{it.Corpus}"), Invariant($"{it.Reservoir.Count:N0}"), Invariant($"{it.Reservoir.Works}"), Examples(it.Reservoir) })]);
    }
 
    void WriteTheRejectionsOnlyTheReservoirHas()
@@ -98,7 +98,7 @@ public sealed class ReservoirReport
                       "Each is a condition, or another requirement, deciding something the corpus never shows it deciding: right or wrong, it's untested.");
       _folder.TableWithTheRestInAFile("rejections-only-the-reservoir-has",
                                       ["Vocab", "Rejected because", "Sentences", "Works", "Examples"],
-                                      [.. onlyTheReservoirs.Select(it => new[] { it.Vocab.Question, it.Reason, $"{it.Reservoir.Count:N0}", $"{it.Reservoir.Works}", Examples(it.Reservoir) })]);
+                                      [.. onlyTheReservoirs.Select(it => new[] { it.Vocab.Question, it.Reason, Invariant($"{it.Reservoir.Count:N0}"), Invariant($"{it.Reservoir.Works}"), Examples(it.Reservoir) })]);
    }
 
    /// <summary>
@@ -118,10 +118,10 @@ public sealed class ReservoirReport
                       Invariant($"{decidingNothing.Count:N0} reject nothing, in the corpus or the reservoir: they decide nothing yet. All conditions, with their counts, are in `match-conditions-at-work.tsv`."));
       _folder.Table(["Vocab", "Condition that rejects nothing", "Corpus sentences matching", "Reservoir sentences matching"],
                     decidingNothing.Take(ReportFolder.RowsInTheMarkdown)
-                                   .Select(it => new[] { it.Vocab.GetQuestion(), $"{it.Condition}".ReplaceLineEndings(" "), $"{_corpus.SentencesMatching(NoteIdOf(it.Vocab))}", $"{_measures.SentencesMatching(it.Vocab).Count}" }));
+                                   .Select(it => new[] { it.Vocab.GetQuestion(), Invariant($"{it.Condition}").ReplaceLineEndings(" "), Invariant($"{_corpus.SentencesMatching(NoteIdOf(it.Vocab))}"), Invariant($"{_measures.SentencesMatching(it.Vocab).Count}") }));
       _folder.TabSeparatedFile("match-conditions-at-work",
                                ["Vocab", "Condition", "Rejections in the corpus", "Rejections in the reservoir", "Examples"],
-                               conditions.Select(it => new[] { it.Vocab.GetQuestion(), it.Reason.ReplaceLineEndings(" "), $"{it.Corpus}", $"{it.Reservoir.Count}", Examples(it.Reservoir) }));
+                               conditions.Select(it => new[] { it.Vocab.GetQuestion(), it.Reason.ReplaceLineEndings(" "), Invariant($"{it.Corpus}"), Invariant($"{it.Reservoir.Count}"), Examples(it.Reservoir) }));
    }
 
    /// <summary>
@@ -143,7 +143,7 @@ public sealed class ReservoirReport
                       "A condition that's too strict, or a word whose form is truly always another word's: the examples tell which.");
       _folder.TableWithTheRestInAFile("vocab-the-reservoir-always-rejects",
                                       ["Vocab", "Rejections", "Most often because", "Examples"],
-                                      [.. alwaysRejected.Select(it => new[] { it.Vocab.Question, $"{it.Rejections:N0}", ReasonNumbered(it.MostOften.Key.ReasonNumber), Examples(it.MostOften.Value) })]);
+                                      [.. alwaysRejected.Select(it => new[] { it.Vocab.Question, Invariant($"{it.Rejections:N0}"), ReasonNumbered(it.MostOften.Key.ReasonNumber), Examples(it.MostOften.Value) })]);
    }
 
    void WriteTheWordsNoVocabHas(ReservoirWordKind kind, string heading, string fileName)
@@ -152,7 +152,7 @@ public sealed class ReservoirReport
       _folder.Section(heading, Invariant($"{words.Count:N0} distinct words, displayed in {words.Sum(it => it.Value.Count):N0} sentences in all."));
       _folder.TableWithTheRestInAFile(fileName,
                                       ["Word", "Reservoir", "Works", "Corpus", "Examples"],
-                                      [.. words.Select(it => new[] { it.Key.Form, $"{it.Value.Count:N0}", $"{it.Value.Works}", $"{_corpus.SentencesDisplayingUnmatched(it.Key.Form)}", Examples(it.Value) })]);
+                                      [.. words.Select(it => new[] { it.Key.Form, Invariant($"{it.Value.Count:N0}"), Invariant($"{it.Value.Works}"), Invariant($"{_corpus.SentencesDisplayingUnmatched(it.Key.Form)}"), Examples(it.Value) })]);
    }
 
    void WriteThePicks()
@@ -176,7 +176,7 @@ public sealed class ReservoirReport
       _folder.Section("The works with the most to give", "What each work's sentences give that the corpus lacks, before any is picked, and how many of the picks are its.");
       _folder.TableWithTheRestInAFile("works-with-the-most-to-give",
                                       ["Work", "Collection", "Gives", "Picked"],
-                                      [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, $"{it.Value:N0}", $"{picksBySource.GetValueOrDefault(it.Key)}" })]);
+                                      [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, Invariant($"{it.Value:N0}"), Invariant($"{picksBySource.GetValueOrDefault(it.Key)}") })]);
    }
 
    /// <summary>
@@ -191,7 +191,7 @@ public sealed class ReservoirReport
                       "Far more is a sign of subtitles read off the screen by OCR, or of text that isn't Japanese: such a work's missing words are errors.");
       _folder.TableWithTheRestInAFile("works-that-may-be-garbled",
                                       ["Work", "Collection", "Sentences", "With a missing word", "Examples"],
-                                      [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, $"{it.Value.Sentences:N0}", Percent(it.Value.ShareWithAMissingWord), Examples(it.Value.SentencesWithAMissingWord) })]);
+                                      [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, Invariant($"{it.Value.Sentences:N0}"), Percent(it.Value.ShareWithAMissingWord), Examples(it.Value.SentencesWithAMissingWord) })]);
       return;
 
       double TheMedianWorksShare()
@@ -219,7 +219,7 @@ public sealed class ReservoirReport
 
    static string NoteIdOf(VocabNote vocab) => vocab.GetId().ToString();
 
-   static string Percent(long part, long whole) => whole == 0 ? "-" : $"{100.0 * part / whole:F1}%";
+   static string Percent(long part, long whole) => whole == 0 ? "-" : Invariant($"{100.0 * part / whole:F1}%");
 
    static string Percent(double share) => Invariant($"{100.0 * share:F1}%");
 }
