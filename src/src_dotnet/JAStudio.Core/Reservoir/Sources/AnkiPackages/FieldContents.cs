@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using JAStudio.Core.Importing.RawNotes;
 
 namespace JAStudio.Core.Reservoir.Sources.AnkiPackages;
@@ -10,15 +10,15 @@ namespace JAStudio.Core.Reservoir.Sources.AnkiPackages;
 /// Anki's furigana such as <c>漢字[かんじ]</c>, an audio file, an image, or Latin letters, as a translation does. <see cref="DeckFieldRoles"/><br/>
 /// recognizes the fields by them.
 /// </summary>
-sealed partial class FieldContents
+sealed class FieldContents
 {
    FieldContents(string name, IReadOnlyList<string> values)
    {
       Name = name;
       JapaneseShare = ShareOf(values, it => ReservoirSentenceText.CleanedFrom(it) is not null);
-      FuriganaShare = ShareOf(values, it => AnkiFurigana().IsMatch(it));
-      SoundShare = ShareOf(values, it => DeckFieldRoles.SoundFile().IsMatch(it));
-      ImageShare = ShareOf(values, it => DeckFieldRoles.ImageFile().IsMatch(it));
+      FuriganaShare = ShareOf(values, AnkiFieldMarkup.HoldsFurigana);
+      SoundShare = ShareOf(values, AnkiFieldMarkup.HoldsASound);
+      ImageShare = ShareOf(values, AnkiFieldMarkup.HoldsAnImage);
       LatinShare = ShareOf(values, it => it.Count(char.IsAsciiLetter) * 2 > it.Length && ReservoirSentenceText.CleanedFrom(it) is null);
       AverageLength = values.Count == 0 ? 0 : values.Average(it => it.Length);
    }
@@ -35,7 +35,11 @@ sealed partial class FieldContents
    public double LatinShare { get; }
    public double AverageLength { get; }
 
-   static double ShareOf(IReadOnlyList<string> values, System.Func<string, bool> holds) => values.Count == 0 ? 0 : values.Count(holds) / (double)values.Count;
+   /// <summary>Whether the field holds Japanese sentences, by what it holds: mostly Japanese, and seldom media or furigana, as a word's reading has.</summary>
+   public bool HoldsJapaneseSentences => JapaneseShare >= 0.5 && SoundShare < 0.5 && ImageShare < 0.5 && FuriganaShare < 0.3;
 
-   [GeneratedRegex(@"\S\[[^\]\s]+\]")] private static partial Regex AnkiFurigana();
+   /// <summary>Whether the field holds translations, by what it holds: mostly Latin letters, and seldom media.</summary>
+   public bool HoldsTranslations => LatinShare >= 0.5 && SoundShare < 0.5 && ImageShare < 0.5;
+
+   static double ShareOf(IReadOnlyList<string> values, Func<string, bool> holds) => values.Count == 0 ? 0 : values.Count(holds) / (double)values.Count;
 }

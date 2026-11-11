@@ -1,3 +1,4 @@
+using JAStudio.Core.Reservoir.Analysis.Numbering;
 using MemoryPack;
 
 namespace JAStudio.Core.Reservoir.Analysis;

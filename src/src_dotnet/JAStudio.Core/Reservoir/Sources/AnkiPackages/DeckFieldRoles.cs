@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using JAStudio.Core.Importing.RawNotes;
 
 namespace JAStudio.Core.Reservoir.Sources.AnkiPackages;
@@ -11,7 +10,7 @@ namespace JAStudio.Core.Reservoir.Sources.AnkiPackages;
 /// them as it likes, such as Expression, source_question or Sentence for the Japanese, so a field is recognized by its name where the name is a<br/>
 /// known one, and by what it holds in a sample of the notes otherwise.
 /// </summary>
-public sealed partial class DeckFieldRoles
+public sealed class DeckFieldRoles
 {
    static readonly string[] KnownJapaneseFieldNames = ["expression", "source_question", "sentence", "japanese", "jp", "sentence-jp", "japanese sentence", "text", "front"];
    static readonly string[] KnownTranslationFieldNames = ["meaning", "english", "source_answer", "translation", "englishtl", "sentence-en", "english translation", "back"];
@@ -31,8 +30,13 @@ public sealed partial class DeckFieldRoles
    /// <summary>The field holding the sentence in Japanese, or null when none was recognized, and the note type gives no sentences.</summary>
    public string? JapaneseField { get; }
 
+   /// <summary>The field holding the sentence's translation, or null when none was recognized.</summary>
    public string? TranslationField { get; }
+
+   /// <summary>The field referring to the sentence's audio file, or null when none was recognized.</summary>
    public string? AudioField { get; }
+
+   /// <summary>The field holding the sentence's image, such as a screenshot of the scene, or null when none was recognized.</summary>
    public string? ImageField { get; }
 
    /// <summary>The roles of <paramref name="noteType"/>'s fields, recognized from their names and from <paramref name="sample"/>, some of its notes.</summary>
@@ -44,16 +48,15 @@ public sealed partial class DeckFieldRoles
 
       FieldContents? TheJapaneseField()
       {
-         var candidates = fields.Where(it => it is { JapaneseShare: >= 0.5, SoundShare: < 0.5, ImageShare: < 0.5, FuriganaShare: < 0.3 }).ToList();
-         return candidates.Where(it => KnownJapaneseFieldNames.Contains(it.Name.ToLowerInvariant())).MinBy(it => Array.IndexOf(KnownJapaneseFieldNames, it.Name.ToLowerInvariant()))
-             ?? candidates.Where(it => !NamePartsOfFieldsThatHoldNoSentence.Any(part => it.Name.Contains(part, StringComparison.OrdinalIgnoreCase)))
-                          .MaxBy(it => it.JapaneseShare + Math.Min(it.AverageLength, 40) / 400.0);
+         var candidates = fields.Where(it => it.HoldsJapaneseSentences).ToList();
+         return TheFirstOfTheKnownNames(candidates, KnownJapaneseFieldNames)
+             ?? candidates.Where(it => !IsNamedAsAFieldThatHoldsNoSentence(it)).MaxBy(HowLikelyItHoldsTheSentences);
       }
 
       FieldContents? TheTranslationField()
       {
-         var candidates = fields.Where(it => it != japanese && it is { LatinShare: >= 0.5, SoundShare: < 0.5, ImageShare: < 0.5 }).ToList();
-         return candidates.Where(it => KnownTranslationFieldNames.Contains(it.Name.ToLowerInvariant())).MinBy(it => Array.IndexOf(KnownTranslationFieldNames, it.Name.ToLowerInvariant()))
+         var candidates = fields.Where(it => it != japanese && it.HoldsTranslations).ToList();
+         return TheFirstOfTheKnownNames(candidates, KnownTranslationFieldNames)
              ?? candidates.Where(it => it.LatinShare >= 0.6).MaxBy(it => it.LatinShare);
       }
 
@@ -69,16 +72,20 @@ public sealed partial class DeckFieldRoles
 
       return new SourceSentence(text,
                                 $"note {note.AnkiNoteId}",
-                                TranslationField is null ? null : CleanTranslation(note.Field(TranslationField)),
-                                AudioField is null ? null : SoundFile().Match(note.Field(AudioField)) is { Success: true } sound ? sound.Groups[1].Value : null,
-                                ImageField is null ? null : ImageFile().Match(note.Field(ImageField)) is { Success: true } image ? image.Groups[1].Value : null);
-
-      static string? CleanTranslation(string field) => AnyTag().Replace(field, " ").Trim() is { Length: > 0 } translation ? System.Net.WebUtility.HtmlDecode(translation) : null;
+                                TranslationField is null ? null : AnkiFieldMarkup.TextIn(note.Field(TranslationField)),
+                                AudioField is null ? null : AnkiFieldMarkup.SoundFileIn(note.Field(AudioField)),
+                                ImageField is null ? null : AnkiFieldMarkup.ImageFileIn(note.Field(ImageField)));
    }
 
    public override string ToString() => $"{NoteType.Name}: Japanese {JapaneseField ?? "-"}, translation {TranslationField ?? "-"}, audio {AudioField ?? "-"}, image {ImageField ?? "-"}";
 
-   [GeneratedRegex(@"\[sound:([^\]]+)\]")] internal static partial Regex SoundFile();
-   [GeneratedRegex(@"<img[^>]*?src\s*=\s*[""']?([^""'>]+)", RegexOptions.IgnoreCase)] internal static partial Regex ImageFile();
-   [GeneratedRegex(@"<[^>]*>")] private static partial Regex AnyTag();
+   /// <summary>The one of <paramref name="candidates"/> named first in <paramref name="knownNames"/>, whatever the case, or none when none is named so.</summary>
+   static FieldContents? TheFirstOfTheKnownNames(IEnumerable<FieldContents> candidates, string[] knownNames) =>
+      candidates.Where(it => knownNames.Contains(it.Name.ToLowerInvariant())).MinBy(it => Array.IndexOf(knownNames, it.Name.ToLowerInvariant()));
+
+   static bool IsNamedAsAFieldThatHoldsNoSentence(FieldContents field) =>
+      NamePartsOfFieldsThatHoldNoSentence.Any(part => field.Name.Contains(part, StringComparison.OrdinalIgnoreCase));
+
+   /// <summary>How likely <paramref name="field"/>, of those holding Japanese, holds the sentences: the more Japanese, and the longer up to a sentence's length, the likelier.</summary>
+   static double HowLikelyItHoldsTheSentences(FieldContents field) => field.JapaneseShare + Math.Min(field.AverageLength, 40) / 400.0;
 }

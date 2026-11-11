@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JAStudio.Core.Reservoir.Measures;
+namespace JAStudio.Core.Reservoir.Picking;
 
 /// <summary>A reservoir sentence picked as worth taking into the working set (<see cref="SentencesWorthTakingIn"/>), with what it gives the corpus.</summary>
 /// <param name="SentenceId">The sentence's id in the reservoir.</param>

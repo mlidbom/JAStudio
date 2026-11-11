@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.Reservoir.Analysis.Numbering;
 using MemoryPack;
 
 namespace JAStudio.Core.Reservoir.Analysis;
@@ -11,6 +13,7 @@ namespace JAStudio.Core.Reservoir.Analysis;
 /// (<see cref="ReservoirWord"/>), and the vocab matches the analysis rejected (<see cref="RejectedVocabMatch"/>). It's made by the same<br/>
 /// <see cref="TextAnalysis"/> as a sentence's stored parsing result, with no configuration, since a reservoir sentence has none.
 /// </summary>
+/// <remarks>What it says of its sentence is told by methods, not properties, so that MemoryPack keeps only its words and rejections.</remarks>
 [MemoryPackable]
 public sealed partial record ReservoirSentenceAnalysis(ReservoirWord[] Words, RejectedVocabMatch[] RejectedVocabMatches)
 {
@@ -19,23 +22,38 @@ public sealed partial record ReservoirSentenceAnalysis(ReservoirWord[] Words, Re
    {
       var displayed = analysis.DisplayMatches.ToHashSet();
       return new ReservoirSentenceAnalysis([.. analysis.ValidMatches.Union(displayed).Select(WordOf)],
-                                           [.. EveryMatch().OfType<VocabMatch>().Where(it => !it.IsValid).Select(RejectionOf)]);
+                                           [.. analysis.RejectedVocabMatches.Select(RejectionOf)]);
 
-      ReservoirWord WordOf(Match match) =>
-         new((short)match.StartIndex, match.ParsedForm, KindOf(match), match is VocabMatch vocabMatch ? numbers.VocabNumber(vocabMatch.Vocab) : 0, displayed.Contains(match));
+      ReservoirWord WordOf(Match match) => new((short)match.StartIndex, match.ParsedForm, KindOf(match), VocabNumberOf(match), displayed.Contains(match));
+
+      int VocabNumberOf(Match match) => match is VocabMatch vocabMatch ? numbers.VocabNumber(vocabMatch.Vocab) : ReservoirWord.NoVocabNumber;
 
       RejectedVocabMatch RejectionOf(VocabMatch match) =>
          new((short)match.StartIndex, numbers.VocabNumber(match.Vocab), [.. match.FailureReasons.Select(numbers.ReasonNumber)]);
-
-      IEnumerable<Match> EveryMatch() =>
-         analysis.Locations.SelectMany(it => it.CandidateWords).SelectMany(it => it.Variants).SelectMany(it => it.Matches);
    }
+
+   /// <summary>Whether a word of the sentence is a match of the vocab with the number <paramref name="vocabNumber"/>.</summary>
+   public bool HasAWordOfTheVocabNumbered(int vocabNumber) => Words.Any(it => it.VocabNumber == vocabNumber);
+
+   /// <summary>The numbers of the vocab the sentence's words are matches of, each once.</summary>
+   public IEnumerable<int> VocabNumbersOfItsWords() => Words.Where(it => it.Kind == ReservoirWordKind.Vocab).Select(it => it.VocabNumber).Distinct();
+
+   /// <summary>Whether every word the sentence breakdown displays is a vocab: none that only the dictionary has, or nothing does.</summary>
+   public bool DisplaysOnlyVocab() => Words.Where(it => it.IsDisplayed).All(it => it.Kind == ReservoirWordKind.Vocab);
+
+   /// <summary>The words the sentence breakdown displays that no vocab has, by their form and whether the dictionary has them, each once.</summary>
+   public IEnumerable<(string Form, ReservoirWordKind Kind)> DisplayedWordsNoVocabHas() =>
+      Words.Where(it => it is { IsDisplayed: true } and not { Kind: ReservoirWordKind.Vocab }).Select(it => (it.Form, it.Kind)).Distinct();
+
+   /// <summary>Each vocab whose match the analysis rejected, with each failure reason rejecting it, every pair once.</summary>
+   public IEnumerable<VocabRejectedForAReason> VocabRejections() =>
+      RejectedVocabMatches.SelectMany(it => it.ReasonNumbers.Select(reason => new VocabRejectedForAReason(it.VocabNumber, reason))).Distinct();
 
    static ReservoirWordKind KindOf(Match match) => match switch
    {
       VocabMatch => ReservoirWordKind.Vocab,
       DictionaryMatch => ReservoirWordKind.Dictionary,
       MissingMatch => ReservoirWordKind.Missing,
-      _ => throw new System.ArgumentOutOfRangeException(nameof(match), match.GetType(), "A kind of match the analysis doesn't make.")
+      _ => throw new ArgumentOutOfRangeException(nameof(match), match.GetType(), "A kind of match the analysis doesn't make.")
    };
 }

@@ -57,6 +57,6 @@ public class When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictiona
       }
    }
 
-   // The dictionary's binary data holds byte runs that aren't UTF-8 text: they're no word's features.
+   /// <summary><paramref name="bytes"/> as text, or null when they aren't UTF-8 text, as the dictionary's binary data's runs of bytes aren't: they're no word's features.</summary>
    static string? TextOrNull(ArraySegment<byte> bytes) => System.Text.Unicode.Utf8.IsValid(bytes) ? Encoding.UTF8.GetString(bytes) : null;
 }

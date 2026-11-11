@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Reservoir.Measures;
 
@@ -19,24 +21,13 @@ public sealed class WhatTheCorpusHas
    WhatTheCorpusHas(JPCollection collection)
    {
       var analyses = collection.Sentences.All().AsParallel().Select(it => it.CreateAnalysis()).ToList();
-      foreach(var analysis in analyses)
-      {
-         foreach(var noteId in analysis.ValidMatches.OfType<VocabMatch>().Select(it => it.Vocab.GetId().ToString()).Distinct())
-            _sentencesByVocabNoteId[noteId] = _sentencesByVocabNoteId.GetValueOrDefault(noteId) + 1;
-
-         var rejections = analysis.Locations.SelectMany(it => it.CandidateWords).SelectMany(it => it.Variants).SelectMany(it => it.Matches).OfType<VocabMatch>().Where(it => !it.IsValid);
-         foreach(var rejection in rejections.SelectMany(match => match.FailureReasons.Select(reason => (match.Vocab.GetId().ToString(), reason))))
-            _rejectionsByVocabAndReason[rejection] = _rejectionsByVocabAndReason.GetValueOrDefault(rejection) + 1;
-
-         foreach(var form in analysis.DisplayMatches.Where(it => it is not VocabMatch).Select(it => it.ParsedForm).Distinct())
-            _sentencesDisplayingUnmatchedWord[form] = _sentencesDisplayingUnmatchedWord.GetValueOrDefault(form) + 1;
-      }
-
+      foreach(var analysis in analyses) Count(analysis);
       SentenceCount = analyses.Count;
    }
 
    public static WhatTheCorpusHas In(JPCollection collection) => new(collection);
 
+   /// <summary>How many sentences the corpus has.</summary>
    public int SentenceCount { get; }
 
    /// <summary>How many of the corpus's sentences have a valid match of the vocab with the note id <paramref name="vocabNoteId"/>.</summary>
@@ -47,4 +38,18 @@ public sealed class WhatTheCorpusHas
 
    /// <summary>How many of the corpus's sentences display <paramref name="form"/> as a word no vocab has: a dictionary entry, or nothing.</summary>
    public int SentencesDisplayingUnmatched(string form) => _sentencesDisplayingUnmatchedWord.GetValueOrDefault(form);
+
+   void Count(TextAnalysis analysis)
+   {
+      foreach(var noteId in analysis.ValidMatches.OfType<VocabMatch>().Select(NoteIdOf).Distinct())
+         _sentencesByVocabNoteId.CountOneMore(noteId);
+
+      foreach(var rejection in analysis.RejectedVocabMatches.SelectMany(match => match.FailureReasons.Select(reason => (NoteIdOf(match), reason))))
+         _rejectionsByVocabAndReason.CountOneMore(rejection);
+
+      foreach(var form in analysis.DisplayMatches.Where(it => it is not VocabMatch).Select(it => it.ParsedForm).Distinct())
+         _sentencesDisplayingUnmatchedWord.CountOneMore(form);
+   }
+
+   static string NoteIdOf(VocabMatch match) => match.Vocab.GetId().ToString();
 }

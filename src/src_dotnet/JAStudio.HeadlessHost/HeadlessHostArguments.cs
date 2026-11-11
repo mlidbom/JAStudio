@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 
 namespace JAStudio.HeadlessHost;
 
@@ -14,8 +13,8 @@ sealed class HeadlessHostArguments
    HeadlessHostArguments(CommandLineValues values)
    {
       Setup = HeadlessJAStudioSetup.From(values);
-      McpServerPort = int.Parse(values.Value("mcp-server-port"), CultureInfo.InvariantCulture);
-      ProcessToExitWith = Process.GetProcessById(int.Parse(values.Value("exit-with-process"), CultureInfo.InvariantCulture));
+      McpServerPort = values.Integer("mcp-server-port");
+      ProcessToExitWith = Process.GetProcessById(values.Integer("exit-with-process"));
    }
 
    public static HeadlessHostArguments From(IReadOnlyList<string> args) => new(CommandLineValues.From(args));

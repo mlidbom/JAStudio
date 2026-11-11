@@ -1,6 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
+using Compze.Internals.SystemCE.CollectionsCE.GenericCE;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Reservoir.Analysis;
+using JAStudio.Core.Reservoir.Analysis.Numbering;
 
 namespace JAStudio.Core.Reservoir.Measures;
 
@@ -15,21 +17,7 @@ public sealed class ReservoirMeasures
    ReservoirMeasures(ReservoirFile reservoir)
    {
       Numbers = reservoir.AnalysisNumbers();
-      foreach(var sentence in reservoir.AnalyzedSentences())
-      {
-         AnalyzedSentences++;
-         var words = sentence.Analysis.Words;
-         if(words.Where(it => it.IsDisplayed).All(it => it.Kind == ReservoirWordKind.Vocab)) SentencesWithEveryDisplayedWordAVocab++;
-
-         foreach(var vocabNumber in words.Where(it => it.Kind == ReservoirWordKind.Vocab).Select(it => it.VocabNumber).Distinct())
-            CountFor(SentencesByVocab, vocabNumber).Add(sentence);
-
-         foreach(var rejection in sentence.Analysis.RejectedVocabMatches.SelectMany(it => it.ReasonNumbers.Select(reason => (it.VocabNumber, reason))).Distinct())
-            CountFor(SentencesByRejection, rejection).Add(sentence);
-
-         foreach(var word in words.Where(it => it is { IsDisplayed: true } and not { Kind: ReservoirWordKind.Vocab }).Select(it => (it.Form, it.Kind)).Distinct())
-            CountFor(SentencesByUnmatchedWord, word).Add(sentence);
-      }
+      foreach(var sentence in reservoir.AnalyzedSentences()) Measure(sentence);
    }
 
    /// <summary>Measures the analyzed sentences of <paramref name="reservoir"/>, reading them all once.</summary>
@@ -38,23 +26,43 @@ public sealed class ReservoirMeasures
    /// <summary>The numbers the analyses give the vocab and the failure reasons.</summary>
    public ReservoirAnalysisNumbers Numbers { get; }
 
-   public long AnalyzedSentences { get; }
+   /// <summary>How many sentences were measured: every one with an analysis.</summary>
+   public long AnalyzedSentences { get; private set; }
 
    /// <summary>How many sentences display only vocab: no word that only the dictionary has, or nothing does.</summary>
-   public long SentencesWithEveryDisplayedWordAVocab { get; }
+   public long SentencesWithEveryDisplayedWordAVocab { get; private set; }
 
    /// <summary>The sentences with a valid match of each vocab, by the vocab's number.</summary>
    public Dictionary<int, CountWithExamples> SentencesByVocab { get; } = [];
 
    /// <summary>The sentences in which each failure reason rejects a match of each vocab, by the vocab's and the reason's numbers.</summary>
-   public Dictionary<(int VocabNumber, int ReasonNumber), CountWithExamples> SentencesByRejection { get; } = [];
+   public Dictionary<VocabRejectedForAReason, CountWithExamples> SentencesByRejection { get; } = [];
 
    /// <summary>The sentences that display each word no vocab has, as the sentence breakdown shows it, by its form and whether the dictionary has it.</summary>
    public Dictionary<(string Form, ReservoirWordKind Kind), CountWithExamples> SentencesByUnmatchedWord { get; } = [];
 
-   static CountWithExamples CountFor<TKey>(Dictionary<TKey, CountWithExamples> counts, TKey key) where TKey : notnull
+   /// <summary>The sentences matching <paramref name="vocab"/>: a count of none when no sentence does.</summary>
+   public CountWithExamples SentencesMatching(VocabNote vocab) =>
+      (Numbers.VocabNumberOrNone(vocab) is {} vocabNumber ? SentencesByVocab.GetValueOrDefault(vocabNumber) : null) ?? new CountWithExamples();
+
+   /// <summary>The sentences where the failure reason <paramref name="reason"/> rejects a match of <paramref name="vocab"/>: a count of none when it rejects none.</summary>
+   public CountWithExamples Rejections(VocabNote vocab, string reason) =>
+      (Numbers.VocabNumberOrNone(vocab) is {} vocabNumber && Numbers.ReasonNumberOrNone(reason) is {} reasonNumber
+          ? SentencesByRejection.GetValueOrDefault(new VocabRejectedForAReason(vocabNumber, reasonNumber))
+          : null) ?? new CountWithExamples();
+
+   void Measure(AnalyzedReservoirSentence sentence)
    {
-      if(!counts.TryGetValue(key, out var count)) counts[key] = count = new CountWithExamples();
-      return count;
+      AnalyzedSentences++;
+      if(sentence.Analysis.DisplaysOnlyVocab()) SentencesWithEveryDisplayedWordAVocab++;
+
+      foreach(var vocabNumber in sentence.Analysis.VocabNumbersOfItsWords())
+         SentencesByVocab.GetOrAdd(vocabNumber, () => new CountWithExamples()).Add(sentence);
+
+      foreach(var rejection in sentence.Analysis.VocabRejections())
+         SentencesByRejection.GetOrAdd(rejection, () => new CountWithExamples()).Add(sentence);
+
+      foreach(var word in sentence.Analysis.DisplayedWordsNoVocabHas())
+         SentencesByUnmatchedWord.GetOrAdd(word, () => new CountWithExamples()).Add(sentence);
    }
 }

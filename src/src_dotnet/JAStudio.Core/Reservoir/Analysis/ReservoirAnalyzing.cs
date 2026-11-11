@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Reservoir.Analysis.Numbering;
 
 namespace JAStudio.Core.Reservoir.Analysis;
 
@@ -18,14 +20,14 @@ public sealed class ReservoirAnalyzing
 
    readonly ReservoirFile _reservoir;
    readonly AnalysisServices _services;
-   readonly Action<string> _report;
+   readonly Action<string> _tellProgress;
 
-   /// <param name="report">Told how each batch went: how many sentences, and how fast.</param>
-   public ReservoirAnalyzing(ReservoirFile reservoir, AnalysisServices services, Action<string> report)
+   /// <param name="tellProgress">Told how each batch went: how many sentences, and how fast.</param>
+   public ReservoirAnalyzing(ReservoirFile reservoir, AnalysisServices services, Action<string> tellProgress)
    {
       _reservoir = reservoir;
       _services = services;
-      _report = report;
+      _tellProgress = tellProgress;
    }
 
    public void AnalyzeEveryUnanalyzedSentence()
@@ -36,13 +38,16 @@ public sealed class ReservoirAnalyzing
       while(_reservoir.UnanalyzedSentences(lastAnalyzedId, SentencesPerBatch) is { Count: > 0 } batch)
       {
          var watch = Stopwatch.StartNew();
-         var analyses = batch.AsParallel()
-                             .Select(it => (it.Id, ReservoirSentenceAnalysis.Of(new TextAnalysis(_services, it.Text, SentenceConfiguration.Empty()), numbers)))
-                             .ToList();
-         _reservoir.SaveAnalyses(analyses, numbers);
+         _reservoir.SaveAnalyses(AnalysesOf(batch, numbers), numbers);
          analyzed += batch.Count;
          lastAnalyzedId = batch[^1].Id;
-         _report($"{analyzed} sentences analyzed, the last {batch.Count} at {batch.Count / watch.Elapsed.TotalSeconds:F0} a second");
+         _tellProgress($"{analyzed} sentences analyzed, the last {batch.Count} at {batch.Count / watch.Elapsed.TotalSeconds:F0} a second");
       }
    }
+
+   /// <summary>The analysis of each sentence of <paramref name="batch"/>, made in parallel, with the id of its sentence.</summary>
+   List<(long SentenceId, ReservoirSentenceAnalysis Analysis)> AnalysesOf(IReadOnlyList<ReservoirSentence> batch, ReservoirAnalysisNumbers numbers) =>
+      batch.AsParallel()
+           .Select(it => (it.Id, ReservoirSentenceAnalysis.Of(new TextAnalysis(_services, it.Text, SentenceConfiguration.Empty()), numbers)))
+           .ToList();
 }

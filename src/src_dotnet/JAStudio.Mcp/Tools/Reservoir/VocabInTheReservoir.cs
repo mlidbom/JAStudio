@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Reservoir;
 using JAStudio.Core.Reservoir.Feedback;
 
 namespace JAStudio.Mcp.Tools.Reservoir;
@@ -35,5 +36,5 @@ public sealed record VocabInTheReservoir(
           WithExamples(whatItDoes.NoLongerMatching),
           [.. whatItDoes.RejectedByReason.OrderByDescending(it => it.Value.Count).Select(it => new RejectionWithExamples(it.Key, WithExamples(it.Value)))]);
 
-   static SentencesWithExamples WithExamples(List<(long Id, string Text)> sentences) => new(sentences.Count, [.. sentences.Take(Examples).Select(it => it.Text)]);
+   static SentencesWithExamples WithExamples(IReadOnlyList<ReservoirSentence> sentences) => new(sentences.Count, [.. sentences.Take(Examples).Select(it => it.Text)]);
 }

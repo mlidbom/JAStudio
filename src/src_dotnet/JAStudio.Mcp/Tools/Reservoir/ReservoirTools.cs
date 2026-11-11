@@ -5,7 +5,6 @@ using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Reservoir.Feedback;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Reservoir;
@@ -39,11 +38,12 @@ public class ReservoirTools
       [Description("The reservoir's file, such as E:\\SUBS2SRS\\reservoir.sqlite.")] string reservoirFile,
       [Description("The most sentences to analyze. A vocab whose forms are in more has an evenly spread sample of them analyzed.")] int mostSentencesAnalyzed = 20_000)
    {
-      var (reservoir, texts) = _openReservoirs.In(new FileInfo(reservoirFile));
-      return VocabInTheReservoir.Of(Core.Reservoir.Feedback.WhatAVocabDoesInTheReservoir.Of(TheVocab(vocab), reservoir, texts, _analysisServices, mostSentencesAnalyzed));
+      var reservoir = _openReservoirs.In(new FileInfo(reservoirFile));
+      return VocabInTheReservoir.Of(Core.Reservoir.Feedback.WhatAVocabDoesInTheReservoir.Of(TheVocabWithIdOrQuestion(vocab), reservoir.File, reservoir.Texts, _analysisServices, mostSentencesAnalyzed));
    }
 
-   VocabNote TheVocab(string noteIdOrQuestion)
+   /// <summary>The vocab with the note id <paramref name="noteIdOrQuestion"/>, or else the one vocab with it as its question.</summary>
+   VocabNote TheVocabWithIdOrQuestion(string noteIdOrQuestion)
    {
       if(Guid.TryParse(noteIdOrQuestion, out _))
          return _analysisServices.Vocab.WithIdOrNone(NoteId.Parse(noteIdOrQuestion)) ?? throw new ArgumentException($"No vocab has the id {noteIdOrQuestion}.");

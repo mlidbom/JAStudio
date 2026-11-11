@@ -14,20 +14,20 @@ namespace JAStudio.Mcp.Tools.Reservoir;
 public sealed class OpenReservoirs : IDisposable
 {
    readonly IMonitor _monitor = IMonitor.New();
-   readonly Dictionary<string, (ReservoirFile Reservoir, ReservoirSentenceTexts Texts)> _byFullPath = [];
+   readonly Dictionary<string, OpenReservoir> _byFullPath = [];
 
-   /// <summary>The reservoir in <paramref name="file"/>, with its texts, opened and loaded now if it isn't yet.</summary>
-   public (ReservoirFile Reservoir, ReservoirSentenceTexts Texts) In(FileInfo file) => _monitor.Locked(() =>
+   /// <summary>The reservoir in <paramref name="file"/>, opened, and its texts loaded, now if it isn't yet.</summary>
+   public OpenReservoir In(FileInfo file) => _monitor.Locked(() =>
    {
       if(_byFullPath.TryGetValue(file.FullName, out var open)) return open;
 
       var reservoir = ReservoirFile.OpenOrCreate(file);
-      return _byFullPath[file.FullName] = (reservoir, ReservoirSentenceTexts.LoadedFrom(reservoir));
+      return _byFullPath[file.FullName] = new OpenReservoir(reservoir, ReservoirSentenceTexts.LoadedFrom(reservoir));
    });
 
    public void Dispose() => _monitor.Locked(() =>
    {
-      foreach(var (reservoir, _) in _byFullPath.Values) reservoir.Dispose();
+      foreach(var open in _byFullPath.Values) open.File.Dispose();
       _byFullPath.Clear();
    });
 }

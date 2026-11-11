@@ -5,7 +5,8 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTe
 
 static class ForbidsIsPoisonWord
 {
-   static readonly FailedMatchRequirement Failed = FailedMatchRequirement.Forbids("poison_word");
+   /// <summary>The failure of a match of a poison word, which is never to match: the vocab is there to keep its form from matching.</summary>
+   internal static readonly FailedMatchRequirement Failed = FailedMatchRequirement.Forbids("poison_word");
 
    public static FailedMatchRequirement? ApplyTo(VocabMatchInspector inspector)
    {

@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.SysUtils.Data.Sqlite;
 using Microsoft.Data.Sqlite;
 using ZstdSharp;
 
@@ -44,10 +45,8 @@ public sealed class AnkiPackageDatabase : IDisposable
    {
       using var archive = ZipFile.OpenRead(package.FullName);
       var collectionEntry = CollectionFileNamesNewestFirst.Select(archive.GetEntry).OfType<ZipArchiveEntry>().First();
-      var copy = TemporaryFile();
-      using(var source = collectionEntry.Open())
-         CopyDecompressingIfNeeded(source, collectionEntry.Name, copy);
-      return new AnkiPackageDatabase(copy, databaseFileIsATemporaryCopy: true);
+      using var collection = collectionEntry.Open();
+      return InATemporaryCopyOf(collection, collectionEntry.Name);
    }
 
    /// <summary>
@@ -58,10 +57,8 @@ public sealed class AnkiPackageDatabase : IDisposable
    {
       if(collectionFile.Name != CompressedCollectionFileName) return new AnkiPackageDatabase(collectionFile, databaseFileIsATemporaryCopy: false);
 
-      var copy = TemporaryFile();
-      using(var source = collectionFile.OpenRead())
-         CopyDecompressingIfNeeded(source, collectionFile.Name, copy);
-      return new AnkiPackageDatabase(copy, databaseFileIsATemporaryCopy: true);
+      using var collection = collectionFile.OpenRead();
+      return InATemporaryCopyOf(collection, collectionFile.Name);
    }
 
    /// <summary>Every note type of the collection that has notes.</summary>
@@ -71,12 +68,10 @@ public sealed class AnkiPackageDatabase : IDisposable
    public IEnumerable<RawNote> NotesOf(AnkiNoteType noteType)
    {
       using var connection = OpenedReadOnly();
-      using var command = connection.CreateCommand();
-      command.CommandText = "select id, flds, tags from notes where mid = $noteTypeId";
-      command.Parameters.AddWithValue("$noteTypeId", _idsOfNoteTypes[noteType]);
-      using var reader = command.ExecuteReader();
-      while(reader.Read())
-         yield return new RawNote(reader.GetInt64(0), FieldsByName(reader.GetString(1)), reader.GetString(2).Split(' ', StringSplitOptions.RemoveEmptyEntries));
+      foreach(var note in connection.RowsReadAsEnumerated("select id, flds, tags from notes where mid = $noteTypeId",
+                                                          reader => new RawNote(reader.GetInt64(0), FieldsByName(reader.GetString(1)), reader.GetString(2).Split(' ', StringSplitOptions.RemoveEmptyEntries)),
+                                                          ("$noteTypeId", _idsOfNoteTypes[noteType])))
+         yield return note;
 
       // A note with fewer values than its note type has fields, as a deck made outside Anki can have, gets empty ones, as Anki shows it.
       IReadOnlyDictionary<string, string> FieldsByName(string fields)
@@ -91,12 +86,31 @@ public sealed class AnkiPackageDatabase : IDisposable
       if(_databaseFileIsATemporaryCopy) _databaseFile.Delete();
    }
 
+   /// <summary>The database whose file <paramref name="collection"/> reads, copied to a temporary file, and decompressed when it's in the compressed format.</summary>
+   static AnkiPackageDatabase InATemporaryCopyOf(Stream collection, string collectionFileName)
+   {
+      var copy = new FileInfo(Path.Combine(Path.GetTempPath(), $"jastudio-anki-package-{Guid.NewGuid():N}.sqlite"));
+      using(var copyStream = copy.Create())
+      {
+         if(collectionFileName == CompressedCollectionFileName)
+         {
+            using var decompressing = new DecompressionStream(collection);
+            decompressing.CopyTo(copyStream);
+         } else
+         {
+            collection.CopyTo(copyStream);
+         }
+      }
+
+      return new AnkiPackageDatabase(copy, databaseFileIsATemporaryCopy: true);
+   }
+
    IReadOnlyDictionary<AnkiNoteType, long> ReadNoteTypes()
    {
       using var connection = OpenedReadOnly();
-      var keepsNoteTypesInTables = Column<long>(connection, "select count(*) from sqlite_master where type = 'table' and name = 'notetypes'").Single() > 0;
-      var idsWithNotes = Column<long>(connection, "select distinct mid from notes");
-      return idsWithNotes.ToDictionary(id => new AnkiNoteType(Column<string>(connection, SelectTheName(id)).Single(), Column<string>(connection, SelectTheFieldNames(id))));
+      var keepsNoteTypesInTables = KeepsNoteTypesInTablesOfTheirOwn(connection);
+      return connection.Column<long>("select distinct mid from notes")
+                       .ToDictionary(id => new AnkiNoteType(connection.Column<string>(SelectTheName(id)).Single(), connection.Column<string>(SelectTheFieldNames(id))));
 
       string SelectTheName(long id) => keepsNoteTypesInTables
                                           ? $"select name from notetypes where id = {id}"
@@ -116,33 +130,19 @@ public sealed class AnkiPackageDatabase : IDisposable
    {
       var connection = new SqliteConnection(new SqliteConnectionStringBuilder { DataSource = _databaseFile.FullName, Mode = SqliteOpenMode.ReadOnly, Pooling = false }.ToString());
       connection.Open();
-      // Anki's tables compare names with its own collation, which SQLite must know of to read them.
-      connection.CreateCollation("unicase", (left, right) => string.Compare(left, right, StringComparison.OrdinalIgnoreCase));
+      AddAnkisUnicaseCollationTo(connection);
       return connection;
    }
 
-   static List<T> Column<T>(SqliteConnection connection, string select)
-   {
-      using var command = connection.CreateCommand();
-      command.CommandText = select;
-      using var reader = command.ExecuteReader();
-      var values = new List<T>();
-      while(reader.Read()) values.Add(reader.GetFieldValue<T>(0));
-      return values;
-   }
+   /// <summary>Whether the collection keeps its note types in tables of their own, as <c>collection.anki21b</c> does, rather than as JSON in the <c>col</c> table.</summary>
+   static bool KeepsNoteTypesInTablesOfTheirOwn(SqliteConnection connection) =>
+      connection.ScalarAsLong("select count(*) from sqlite_master where type = 'table' and name = 'notetypes'") > 0;
 
-   static FileInfo TemporaryFile() => new(Path.Combine(Path.GetTempPath(), $"jastudio-anki-package-{Guid.NewGuid():N}.sqlite"));
-
-   static void CopyDecompressingIfNeeded(Stream source, string collectionFileName, FileInfo target)
+   /// <summary>Anki's tables compare names with its own collation, <c>unicase</c>, which SQLite must know of to read them.</summary>
+   static void AddAnkisUnicaseCollationTo(SqliteConnection connection)
    {
-      using var targetStream = target.Create();
-      if(collectionFileName == CompressedCollectionFileName)
-      {
-         using var decompressing = new DecompressionStream(source);
-         decompressing.CopyTo(targetStream);
-      } else
-      {
-         source.CopyTo(targetStream);
-      }
+      //refactor: JAStudio.Anki's AnkiCollectionFile.AddAnkisUnicaseCollationTo adds the same collation. Both read Anki's databases with
+      //   Microsoft.Data.Sqlite; one home in Core for opening an Anki database, used by both, would end the duplication.
+      connection.CreateCollation("unicase", (left, right) => string.Compare(left, right, StringComparison.OrdinalIgnoreCase));
    }
 }

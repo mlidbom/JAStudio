@@ -1,13 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JAStudio.Core.LanguageServices.JanomeEx;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
-using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Reservoir.Analysis;
 
 namespace JAStudio.Core.Reservoir.Feedback;
 
@@ -17,15 +12,21 @@ namespace JAStudio.Core.Reservoir.Feedback;
 /// matches, which reject it and why, and in which its matching changed since the bulk analysis: what the edit did.
 /// </summary>
 /// <remarks>A vocab whose texts many sentences contain, such as a particle's, has a sample of them analyzed, spread evenly over the reservoir.</remarks>
-public sealed class WhatAVocabDoesInTheReservoir
+public sealed partial class WhatAVocabDoesInTheReservoir
 {
    const int ExamplesShown = 5;
 
-   WhatAVocabDoesInTheReservoir(VocabNote vocab, IReadOnlyList<(long Id, string Text)> containingItsTexts, IReadOnlyList<(long Id, string Text)> analyzed)
+   WhatAVocabDoesInTheReservoir(VocabNote vocab, int sentencesContainingItsTexts, IReadOnlyList<SentenceAnalyzedAnew> sentencesAnalyzed)
    {
       Vocab = vocab;
-      SentencesContainingItsTexts = containingItsTexts.Count;
-      SentencesAnalyzed = analyzed.Count;
+      SentencesContainingItsTexts = sentencesContainingItsTexts;
+      SentencesAnalyzed = sentencesAnalyzed.Count;
+      Matching = [.. sentencesAnalyzed.Where(it => it.MatchesNow).Select(it => it.Sentence)];
+      NewlyMatching = [.. sentencesAnalyzed.Where(it => it.IsNewlyMatching).Select(it => it.Sentence)];
+      NoLongerMatching = [.. sentencesAnalyzed.Where(it => it.IsNoLongerMatching).Select(it => it.Sentence)];
+      RejectedByReason = sentencesAnalyzed.SelectMany(sentence => sentence.FailureReasons.Select(reason => (Reason: reason, sentence.Sentence)))
+                                          .GroupBy(it => it.Reason)
+                                          .ToDictionary(it => it.Key, IReadOnlyList<ReservoirSentence> (it) => [.. it.Select(rejection => rejection.Sentence)]);
    }
 
    public VocabNote Vocab { get; }
@@ -37,44 +38,29 @@ public sealed class WhatAVocabDoesInTheReservoir
    public int SentencesAnalyzed { get; }
 
    /// <summary>The sentences the vocab matches in now.</summary>
-   public List<(long Id, string Text)> Matching { get; } = [];
+   public IReadOnlyList<ReservoirSentence> Matching { get; }
 
-   /// <summary>The sentences that reject the vocab's match now, by why.</summary>
-   public Dictionary<string, List<(long Id, string Text)>> RejectedByReason { get; } = [];
+   /// <summary>The sentences that reject the vocab's match now, by why, each reason in the order of the first sentence giving it.</summary>
+   public IReadOnlyDictionary<string, IReadOnlyList<ReservoirSentence>> RejectedByReason { get; }
 
    /// <summary>The sentences the vocab matches in now that it didn't match in when the reservoir was analyzed in bulk.</summary>
-   public List<(long Id, string Text)> NewlyMatching { get; } = [];
+   public IReadOnlyList<ReservoirSentence> NewlyMatching { get; }
 
    /// <summary>The sentences the vocab matched in when the reservoir was analyzed in bulk that it doesn't match in now.</summary>
-   public List<(long Id, string Text)> NoLongerMatching { get; } = [];
+   public IReadOnlyList<ReservoirSentence> NoLongerMatching { get; }
 
    /// <summary>Analyzes up to <paramref name="mostSentencesAnalyzed"/> of the reservoir's sentences that could hold <paramref name="vocab"/>.</summary>
    public static WhatAVocabDoesInTheReservoir Of(VocabNote vocab, ReservoirFile reservoir, ReservoirSentenceTexts texts, AnalysisServices services, int mostSentencesAnalyzed)
    {
       var containingItsTexts = texts.ContainingAnyOf(vocab.TextsASentenceItCanMatchInContainsOneOf());
-      var analyzed = EvenlySpreadSample(containingItsTexts, mostSentencesAnalyzed);
-      var result = new WhatAVocabDoesInTheReservoir(vocab, containingItsTexts, analyzed);
-      var vocabNumber = reservoir.AnalysisNumbers().Vocab.SingleOrDefault(it => it.NoteId == vocab.GetId().ToString())?.Number;
-      var bulkAnalyses = reservoir.AnalysesOf(analyzed.Select(it => it.Id));
-      var analysesNow = analyzed.AsParallel().AsOrdered().Select(it => (Sentence: it, Matches: TheVocabsMatchesIn(new TextAnalysis(services, it.Text, SentenceConfiguration.Empty())))).ToList();
-      foreach(var (sentence, matches) in analysesNow)
-      {
-         var matchesNow = matches.Any(it => it.IsValid);
-         if(matchesNow) result.Matching.Add(sentence);
-         if(bulkAnalyses.TryGetValue(sentence.Id, out var bulk))
-         {
-            var matchedInBulk = vocabNumber is {} number && bulk.Words.Any(it => it.VocabNumber == number);
-            if(matchesNow && !matchedInBulk) result.NewlyMatching.Add(sentence);
-            if(!matchesNow && matchedInBulk) result.NoLongerMatching.Add(sentence);
-         }
-         foreach(var reason in matches.Where(it => !it.IsValid).SelectMany(it => it.FailureReasons).Distinct())
-            result.RejectedFor(reason).Add(sentence);
-      }
-
-      return result;
-
-      IReadOnlyList<VocabMatch> TheVocabsMatchesIn(TextAnalysis analysis) =>
-         [.. analysis.Locations.SelectMany(it => it.CandidateWords).SelectMany(it => it.Variants).SelectMany(it => it.Matches).OfType<VocabMatch>().Where(it => it.Vocab.Equals(vocab))];
+      var sample = EvenlySpreadSample(containingItsTexts, mostSentencesAnalyzed);
+      var vocabNumber = reservoir.AnalysisNumbers().VocabNumberOrNone(vocab);
+      var bulkAnalyses = reservoir.AnalysesOf(sample.Select(it => it.Id));
+      var analyzedAnew = sample.AsParallel()
+                               .AsOrdered()
+                               .Select(sentence => SentenceAnalyzedAnew.For(vocab, sentence, services, bulkAnalyses.GetValueOrDefault(sentence.Id), vocabNumber))
+                               .ToList();
+      return new WhatAVocabDoesInTheReservoir(vocab, containingItsTexts.Count, analyzedAnew);
    }
 
    /// <summary>What the vocab does, as text: the counts, and a few examples of each.</summary>
@@ -89,15 +75,10 @@ public sealed class WhatAVocabDoesInTheReservoir
          description.AppendLine($"Rejected in {sentences.Count:N0}, {reason.ReplaceLineEndings(" ")}: {Examples(sentences)}");
       return description.ToString();
 
-      static string Examples(List<(long Id, string Text)> sentences) => string.Join(" / ", sentences.Take(ExamplesShown).Select(it => $"「{it.Text}」"));
+      static string Examples(IReadOnlyList<ReservoirSentence> sentences) => string.Join(" / ", sentences.Take(ExamplesShown).Select(it => $"「{it.Text}」"));
    }
 
-   List<(long Id, string Text)> RejectedFor(string reason)
-   {
-      if(!RejectedByReason.TryGetValue(reason, out var sentences)) RejectedByReason[reason] = sentences = [];
-      return sentences;
-   }
-
-   static IReadOnlyList<(long Id, string Text)> EvenlySpreadSample(IReadOnlyList<(long Id, string Text)> sentences, int most) =>
+   /// <summary>Up to <paramref name="most"/> of <paramref name="sentences"/>: all of them when there are no more, else as many spread evenly over them.</summary>
+   static IReadOnlyList<ReservoirSentence> EvenlySpreadSample(IReadOnlyList<ReservoirSentence> sentences, int most) =>
       sentences.Count <= most ? sentences : [.. Enumerable.Range(0, most).Select(index => sentences[(int)((long)index * sentences.Count / most)])];
 }

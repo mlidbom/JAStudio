@@ -32,8 +32,8 @@ public class When_works_are_added_to_the_reservoir : IAIGeneratedSpec, IDisposab
       _deckAdded = _reservoir.Add(new SourceWork(Deck, [Sentence("友人帳を寄越せ", "note 7", audioFile: "ny_01.mp3"), Sentence("先生", "note 8", audioFile: "ny_02.mp3")]));
    }
 
-   [XF] public void a_work_counts_its_sentences_and_those_new_to_the_reservoir() => (_subtitlesAdded.Sentences, _subtitlesAdded.NewSentences).Must().Be((3L, 2L));
-   [XF] public void a_later_work_counts_as_new_only_what_the_reservoir_lacked() => (_deckAdded.Sentences, _deckAdded.NewSentences).Must().Be((2L, 1L));
+   [XF] public void a_work_counts_its_sentences_and_those_new_to_the_reservoir() => Counted(_subtitlesAdded).Must().Be("3 sentences, 2 new");
+   [XF] public void a_later_work_counts_as_new_only_what_the_reservoir_lacked() => Counted(_deckAdded).Must().Be("2 sentences, 1 new");
    [XF] public void each_distinct_sentence_is_kept_once() => _reservoir.SentenceCount.Must().Be(3L);
    [XF] public void the_reservoir_has_each_work_it_was_given() => (_reservoir.Has(Subtitles) && _reservoir.Has(Deck)).Must().BeTrue();
 
@@ -49,6 +49,9 @@ public class When_works_are_added_to_the_reservoir : IAIGeneratedSpec, IDisposab
       SqliteConnection.ClearAllPools();
       _folder.Delete(recursive: true);
    }
+
+   /// <summary>What adding a work counted, as text, so that a spec failing says what it counted instead.</summary>
+   static string Counted(WorkAddedToTheReservoir added) => $"{added.Sentences} sentences, {added.NewSentences} new";
 
    string KeptAs(string text)
    {

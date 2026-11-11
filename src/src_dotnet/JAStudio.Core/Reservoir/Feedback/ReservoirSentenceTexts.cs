@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,15 +11,16 @@ namespace JAStudio.Core.Reservoir.Feedback;
 /// </summary>
 public sealed class ReservoirSentenceTexts
 {
-   readonly (long Id, string Text)[] _sentences;
+   readonly ReservoirSentence[] _sentences;
 
-   ReservoirSentenceTexts((long Id, string Text)[] sentences) => _sentences = sentences;
+   ReservoirSentenceTexts(ReservoirSentence[] sentences) => _sentences = sentences;
 
-   public static ReservoirSentenceTexts LoadedFrom(ReservoirFile reservoir) => new([.. reservoir.EverySentenceText()]);
+   public static ReservoirSentenceTexts LoadedFrom(ReservoirFile reservoir) => new([.. reservoir.EverySentence()]);
 
+   /// <summary>How many sentences the reservoir held when they were loaded.</summary>
    public int Count => _sentences.Length;
 
    /// <summary>Every sentence containing one or more of <paramref name="texts"/>, in the order they were added to the reservoir.</summary>
-   public IReadOnlyList<(long Id, string Text)> ContainingAnyOf(IReadOnlyCollection<string> texts) =>
-      [.. _sentences.AsParallel().AsOrdered().Where(sentence => texts.Any(text => sentence.Text.Contains(text, System.StringComparison.Ordinal)))];
+   public IReadOnlyList<ReservoirSentence> ContainingAnyOf(IReadOnlyCollection<string> texts) =>
+      [.. _sentences.AsParallel().AsOrdered().Where(sentence => texts.Any(text => sentence.Text.Contains(text, StringComparison.Ordinal)))];
 }

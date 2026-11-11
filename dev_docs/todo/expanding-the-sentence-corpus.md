@@ -119,12 +119,14 @@ whether to merge it. The data lives outside git, in `E:\SUBS2SRS\`, a drive with
 - **The bulk analysis** (`JAStudio.Core.Reservoir.Analysis`): every sentence analyzed as a stored parsing result is made
   (`TextAnalysis`, no configuration), with the corpus's vocab, about 6,000 sentences a second in parallel. Each analysis
   is kept as a MemoryPack record (`ReservoirSentenceAnalysis`): its words (valid matches and displayed ones) and the vocab
-  matches it rejected, with why, vocab and failure reasons numbered (`ReservoirAnalysisNumbers`) to keep it small.
-- **The measures and the report** (`JAStudio.Core.Reservoir.Measures`): one pass over the analyses counts, with
-  examples, the sentences matching each vocab, each vocab's rejections by reason, and each word no vocab has
-  (`ReservoirMeasures`); the corpus is counted the same way (`WhatTheCorpusHas`). `SentencesWorthTakingIn` then picks,
-  greedily, the fewest sentences giving the corpus what it lacks: three sentences for each vocab, two for each vocab and
-  rejection reason, one for each frequent word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list.
+  matches it rejected, with why, vocab and failure reasons numbered (`ReservoirAnalysisNumbers`, in `.Analysis.Numbering`)
+  to keep it small.
+- **The measures, the picks and the report** (`JAStudio.Core.Reservoir.Measures`, `.Picking` and `.Reporting`): one pass
+  over the analyses counts, with examples, the sentences matching each vocab, each vocab's rejections by reason, and each
+  word no vocab has (`ReservoirMeasures`); the corpus is counted the same way (`WhatTheCorpusHas`).
+  `SentencesWorthTakingIn` then picks, greedily, the fewest sentences giving the corpus what it lacks of each feature
+  (`SentenceFeatures`): three sentences for each vocab, two for each vocab and rejection reason, one for each frequent
+  word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list (`ReportFolder`).
 - **Run as batch commands of the headless JAStudio** (`ReservoirCommands`), from a copy of its build:
   `JAStudio.HeadlessHost reservoir fill-decks | fill-subtitles | analyze | report`, with `--name value` arguments.
 - **Fetching the MediaFire folder's databases only:** MediaFire answers range requests (HTTP 206), so a deck's

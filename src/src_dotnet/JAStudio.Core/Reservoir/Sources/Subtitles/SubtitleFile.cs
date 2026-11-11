@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Unicode;
 
 namespace JAStudio.Core.Reservoir.Sources.Subtitles;
 
@@ -10,7 +11,7 @@ namespace JAStudio.Core.Reservoir.Sources.Subtitles;
 /// A subtitle file, .srt, .ass or .ssa, as the sentences it shows: each line of Japanese, with the time it's shown at as its position. Lines<br/>
 /// split over several rows of text are one sentence. The file's encoding is read from its byte order mark, or is UTF-8, or else Shift JIS.
 /// </summary>
-public sealed class SubtitleFile
+public sealed partial class SubtitleFile
 {
    static readonly string[] Extensions = [".srt", ".ass", ".ssa"];
    static readonly Encoding ShiftJis = ShiftJisEncoding();
@@ -29,50 +30,51 @@ public sealed class SubtitleFile
    /// <summary>Whether <paramref name="fileName"/> names a subtitle file of a format this reads.</summary>
    public static bool IsOne(string fileName) => Extensions.Contains(Path.GetExtension(fileName).ToLowerInvariant());
 
-   public IEnumerable<SourceSentence> Sentences() =>
-      TimedLines().Select(it => ReservoirSentenceText.CleanedFrom(it.text) is {} text ? new SourceSentence(text, $"{Name} {it.time}", Translation: null, AudioFile: null, ImageFile: null) : null)
-                  .OfType<SourceSentence>();
+   /// <summary>The sentences the file shows, each line that's Japanese, read as they're enumerated.</summary>
+   public IEnumerable<SourceSentence> Sentences() => ShownLines().Select(SentenceOrNone).OfType<SourceSentence>();
 
-   IEnumerable<(string time, string text)> TimedLines() => Path.GetExtension(Name).ToLowerInvariant() == ".srt" ? SrtLines() : AssLines();
+   /// <summary>The sentence <paramref name="line"/> shows, cleaned, or none when it's no Japanese sentence.</summary>
+   SourceSentence? SentenceOrNone(ShownLine line) =>
+      ReservoirSentenceText.CleanedFrom(line.Text) is {} text ? new SourceSentence(text, $"{Name} {line.StartTime}", Translation: null, AudioFile: null, ImageFile: null) : null;
+
+   IEnumerable<ShownLine> ShownLines() => Path.GetExtension(Name).ToLowerInvariant() == ".srt" ? SrtLines() : AssLines();
 
    /// <summary>An .srt file's blocks: a number, a row with the times, such as <c>00:01:02,345 --> 00:01:04,000</c>, and the rows of text.</summary>
-   IEnumerable<(string time, string text)> SrtLines()
+   IEnumerable<ShownLine> SrtLines()
    {
-      string? time = null;
-      var text = new List<string>();
+      string? startTime = null;
+      var rows = new List<string>();
       foreach(var row in _text.Split('\n').Select(it => it.Trim()).Append(""))
       {
          if(row.Contains("-->", StringComparison.Ordinal))
          {
-            time = row[..row.IndexOf("-->", StringComparison.Ordinal)].Trim();
+            startTime = row[..row.IndexOf("-->", StringComparison.Ordinal)].Trim();
          } else if(row.Length == 0)
          {
-            if(time is not null && text.Count > 0) yield return (time, string.Join(" ", text));
-            time = null;
-            text.Clear();
-         } else if(time is not null)
+            if(startTime is not null && rows.Count > 0) yield return new ShownLine(startTime, string.Join(" ", rows));
+            startTime = null;
+            rows.Clear();
+         } else if(startTime is not null)
          {
-            text.Add(row);
+            rows.Add(row);
          }
       }
    }
 
    /// <summary>An .ass or .ssa file's <c>Dialogue:</c> rows, whose tenth comma-separated field, the last, is the text, and the second the start time.</summary>
-   IEnumerable<(string time, string text)> AssLines() =>
+   IEnumerable<ShownLine> AssLines() =>
       _text.Split('\n')
            .Where(it => it.StartsWith("Dialogue:", StringComparison.Ordinal))
            .Select(it => it.Split(',', 10))
            .Where(it => it.Length == 10)
-           .Select(it => (it[1].Trim(), it[9]));
+           .Select(it => new ShownLine(it[1].Trim(), it[9]));
 
    static string Decoded(byte[] content)
    {
       if(content is [0xEF, 0xBB, 0xBF, ..]) return Encoding.UTF8.GetString(content, 3, content.Length - 3);
       if(content is [0xFF, 0xFE, ..]) return Encoding.Unicode.GetString(content, 2, content.Length - 2);
       if(content is [0xFE, 0xFF, ..]) return Encoding.BigEndianUnicode.GetString(content, 2, content.Length - 2);
-      return IsValidUtf8(content) ? Encoding.UTF8.GetString(content) : ShiftJis.GetString(content);
-
-      static bool IsValidUtf8(byte[] content) => System.Text.Unicode.Utf8.IsValid(content);
+      return Utf8.IsValid(content) ? Encoding.UTF8.GetString(content) : ShiftJis.GetString(content);
    }
 
    static Encoding ShiftJisEncoding()

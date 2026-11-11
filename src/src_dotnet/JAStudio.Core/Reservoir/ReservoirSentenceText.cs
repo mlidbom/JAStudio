@@ -21,6 +21,9 @@ namespace JAStudio.Core.Reservoir;
 /// </remarks>
 public sealed partial record ReservoirSentenceText
 {
+   /// <summary>The longest a line of kanji with no kana is and still a sentence, such as 了解: a longer one is more likely Chinese.</summary>
+   const int LongestSentenceOfKanjiAlone = 4;
+
    ReservoirSentenceText(string text) => Text = text;
 
    public string Text { get; }
@@ -29,13 +32,7 @@ public sealed partial record ReservoirSentenceText
    /// <paramref name="raw"/> cleaned, or null when it's no Japanese sentence: a line in English, a speaker's name alone, or a line in Chinese, as<br/>
    /// fansubs' credits are, which has kanji but no kana. A line of kanji alone is a sentence only when it's short, such as 了解.
    /// </summary>
-   public static ReservoirSentenceText? CleanedFrom(string raw)
-   {
-      var cleaned = Cleaned(raw);
-      return cleaned.Any(IsKana) || cleaned.Length <= LongestSentenceOfKanjiAlone && cleaned.Any(IsJapanese) ? new ReservoirSentenceText(cleaned) : null;
-   }
-
-   const int LongestSentenceOfKanjiAlone = 4;
+   public static ReservoirSentenceText? CleanedFrom(string raw) => Cleaned(raw) is var cleaned && IsAJapaneseSentence(cleaned) ? new ReservoirSentenceText(cleaned) : null;
 
    public override string ToString() => Text;
 
@@ -50,16 +47,23 @@ public sealed partial record ReservoirSentenceText
       text = WithFullWidthKatakana(text);
       return WithoutDialogueDash(WithSingleSpaces(text));
 
-      static string WithoutHtml(string text) => WebUtility.HtmlDecode(AnyTag().Replace(LineBreakTag().Replace(RubyReading().Replace(text, ""), " "), ""));
-      static string WithoutSubtitleFormatting(string text) => SubtitleLineBreak().Replace(SubtitleOverride().Replace(text, ""), " ");
-      static string WithoutCaptionMarks(string text) => SpeechMark().Replace(SoundSource().Replace(ContinuationArrow().Replace(MissingCharacterCode().Replace(text, ""), " "), " "), " ");
-      static string WithoutAsidesAndMusicNotes(string text) => EmptyBrackets().Replace(MusicNote().Replace(BracketedAside().Replace(text, " "), " "), " ");
+      static string WithoutHtml(string text) => WebUtility.HtmlDecode(Replaced(text, (RubyReading(), ""), (LineBreakTag(), " "), (AnyTag(), "")));
+      static string WithoutSubtitleFormatting(string text) => Replaced(text, (SubtitleOverride(), ""), (SubtitleLineBreak(), " "));
+      static string WithoutCaptionMarks(string text) => Replaced(text, (MissingCharacterCode(), ""), (ContinuationArrow(), " "), (SoundSource(), " "), (SpeechMark(), " "));
+      static string WithoutAsidesAndMusicNotes(string text) => Replaced(text, (BracketedAside(), " "), (MusicNote(), " "), (EmptyBrackets(), " "));
       static string WithoutSpeakersNameBeforeAColon(string text) => SpeakersNameBeforeAColon().Replace(text, "");
       static string WithoutInvisibleMarks(string text) => InvisibleMark().Replace(text, "");
       static string WithFullWidthKatakana(string text) => HalfWidthKatakana().Replace(text, it => it.Value.Normalize(NormalizationForm.FormKC));
       static string WithSingleSpaces(string text) => Whitespace().Replace(text, " ").Trim();
       static string WithoutDialogueDash(string text) => DialogueDash().Replace(text, "");
    }
+
+   /// <summary><paramref name="text"/> with each of <paramref name="replacements"/> made in turn: every match of its pattern replaced by its replacement.</summary>
+   static string Replaced(string text, params (Regex Pattern, string Replacement)[] replacements) =>
+      replacements.Aggregate(text, (replaced, it) => it.Pattern.Replace(replaced, it.Replacement));
+
+   /// <summary>Whether <paramref name="cleaned"/> is a Japanese sentence: it has kana, or it's short and has kanji (<see cref="LongestSentenceOfKanjiAlone"/>).</summary>
+   static bool IsAJapaneseSentence(string cleaned) => cleaned.Any(IsKana) || cleaned.Length <= LongestSentenceOfKanjiAlone && cleaned.Any(IsJapanese);
 
    /// <summary>Hiragana and katakana, full-width and half-width.</summary>
    static bool IsKana(char character) => character is >= '\u3040' and <= '\u30FF' or >= '\uFF66' and <= '\uFF9F';
