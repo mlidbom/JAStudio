@@ -8,8 +8,8 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Reservoir;
 using JAStudio.Core.Reservoir.Analysis;
 using JAStudio.Core.Reservoir.Feedback;
-using JAStudio.Core.Reservoir.Keeping;
-using JAStudio.Core.Reservoir.Keeping.Media;
+using JAStudio.Core.Reservoir.Archiving;
+using JAStudio.Core.Reservoir.Archiving.Media;
 using JAStudio.Core.Reservoir.Measures;
 using JAStudio.Core.Reservoir.Picking;
 using JAStudio.Core.Reservoir.Reporting;
@@ -26,7 +26,7 @@ static class ReservoirCommands
    public const string CommandName = "reservoir";
 
    const string Usage = """
-                        reservoir keep-decks --decks <an .apkg file, or a folder of them> --text-folder <folder> --media-folder <folder>
+                        reservoir archive-decks --decks <an .apkg file, or a folder of them> --text-folder <folder> --media-folder <folder>
                         reservoir check-decks --folder <folder of .apkg files and of decks' collection databases> --report-folder <folder>
                         reservoir fill-decks --reservoir-file <file> --collection <name> --folder <folder of .apkg files and of decks' collection databases>
                         reservoir fill-subtitles --reservoir-file <file> --collection <name> --zip-or-folder <a zip or folder of a folder per show>
@@ -37,7 +37,7 @@ static class ReservoirCommands
 
    public static int Run(string[] args) => args switch
    {
-      ["keep-decks", .. var values] => KeepDecks(CommandLineValues.From(values)),
+      ["archive-decks", .. var values] => ArchiveDecks(CommandLineValues.From(values)),
       ["check-decks", .. var values] => CheckDecks(CommandLineValues.From(values)),
       ["fill-decks", .. var values] => FillDecks(CommandLineValues.From(values)),
       ["fill-subtitles", .. var values] => FillSubtitles(CommandLineValues.From(values)),
@@ -48,13 +48,13 @@ static class ReservoirCommands
    };
 
    /// <summary>
-   /// Keeps the decks given as <c>--decks</c>, an .apkg file or a folder of them, as JAStudio's own (<see cref="ReservoirKeeping"/>): their text in<br/>
+   /// Archives the decks given as <c>--decks</c>, an .apkg file or a folder of them, as JAStudio's own (<see cref="ReservoirArchive"/>): their text in<br/>
    /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>).
    /// </summary>
-   static int KeepDecks(CommandLineValues values)
+   static int ArchiveDecks(CommandLineValues values)
    {
-      var keeping = new ReservoirKeeping(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
-      foreach(var package in ThePackagesGiven().OrderBy(it => it.Name, StringComparer.Ordinal)) Console.WriteLine(keeping.Keep(package));
+      var archive = new ReservoirArchive(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
+      foreach(var package in ThePackagesGiven().OrderBy(it => it.Name, StringComparer.Ordinal)) Console.WriteLine(archive.Archive(package));
       return 0;
 
       // An .apkg file, or every one in a folder, at any depth.

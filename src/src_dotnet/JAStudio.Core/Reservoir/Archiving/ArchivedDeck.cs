@@ -1,17 +1,17 @@
-using JAStudio.Core.Reservoir.Keeping.Media;
+using JAStudio.Core.Reservoir.Archiving.Media;
 using static System.FormattableString;
 
-namespace JAStudio.Core.Reservoir.Keeping;
+namespace JAStudio.Core.Reservoir.Archiving;
 
-/// <summary>What keeping a deck did (<see cref="ReservoirKeeping.Keep"/>): how much it kept, how much of its media the store had already, and how long its media took.</summary>
+/// <summary>What archiving a deck did (<see cref="ReservoirArchive.Archive"/>): how much it archived, how much of its media the store had already, and how long its media took.</summary>
 /// <param name="Name">The file name of the deck's package.</param>
-/// <param name="Notes">How many notes the deck has, each kept as a line of <c>notes.jsonl</c>.</param>
+/// <param name="Notes">How many notes the deck has, each archived as a line of <c>notes.jsonl</c>.</param>
 /// <param name="Sentences">How many of its notes give a sentence.</param>
-/// <param name="CollectionDatabaseLength">The length of the collection database kept, in bytes.</param>
+/// <param name="CollectionDatabaseLength">The length of the collection database archived, in bytes.</param>
 /// <param name="NoteLinesLength">The length of <c>notes.jsonl</c>, in bytes.</param>
-/// <param name="Media">The deck's media, as the store keeps it.</param>
+/// <param name="Media">The deck's media, as the <see cref="MediaStore"/> stores it.</param>
 /// <param name="MediaReferencesToFilesThePackageLacks">How many of its sentences' references to media files refer to one its package lacks.</param>
-public sealed record KeptDeck(
+public sealed record ArchivedDeck(
    string Name,
    int Notes,
    int Sentences,

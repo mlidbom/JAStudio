@@ -142,10 +142,10 @@ and the reports. The full decks, hundreds of GB, are to live where Magnus puts h
   1,382 decks, into `C:\Dev\_JAReservoir\mediafire\databases` (`C:\Dev\_JAReservoir\tools\fetch_mediafire.py`); Magnus is downloading
   the whole folder himself, with an account that allows it.
 
-## Keeping the reservoir safe (agreed with Magnus, 2026-11-11; not built yet)
+## Keeping the reservoir safe (agreed with Magnus, 2026-11-11)
 
 The reservoir file is rebuilt from sources that sit in Dropbox, on MediaFire and on a USB drive, so the data isn't safe
-until it's kept as JAStudio's own. Agreed:
+until it's archived as JAStudio's own. Agreed:
 
 - **The text goes in git, as the source of truth; the reservoir's SQLite file is an index derived from it.** Each
   source's sentences are kept faithfully, a line of JSON each, in a sentence note's shape without configuration or
@@ -160,12 +160,14 @@ until it's kept as JAStudio's own. Agreed:
   affordable too.
 - **The media is stored once, normalized losslessly, named by its content's SHA-256,** and so immutable; the text
   refers to it by hash, and a list of every file's hash, kept with the text, says what must exist. Three copies: the
-  working copy, a cloud object store holding a file per object for access, and a cold archive at another provider, in
+  working copy, a cloud object store holding a file per object for access, and a cold copy at another provider, in
   bundles of a few GB, since cold storage charges per object.
 - **Measured (2026-11-11):** the MediaFire folder's 1,368 decks hold 515 GB of media in 13.1 million files: 7.5 million
   mp3s (415 GB), 5.4 million jpgs (79 GB), some png, ogg and wav, and 5.7 GB of the card templates' fonts and scripts.
   No video.
-- **Built, and tried on five decks (2026-11-11): `reservoir keep-decks`** (`JAStudio.Core.Reservoir.Keeping`). For each
+- **Built, and tried on five decks (2026-11-11): `reservoir archive-decks`** (`ReservoirArchive`, in
+  `JAStudio.Core.Reservoir.Archiving`; first called keeping, renamed as "keep" said nothing of what's done, Magnus,
+  2026-11-11). For each
   deck it writes `decks/<package name>/` with the collection database as the package has it, `deck.json` (the package's
   name, length and SHA-256, each note type's mapping, and each media file's hash and the gain applied to it) and
   `notes.jsonl` (a line per note: its fields as they are, its tags, and the sentence it gives, in a sentence note's
@@ -183,11 +185,11 @@ until it's kept as JAStudio's own. Agreed:
   - **9 of about 30,000 MP3s couldn't be measured,** and threw: very short clips, which the decoder refuses, or which
     are shorter than ReplayGain's 50 ms window. Fixed (Magnus agreed): `Mp3File.MeasureReplayGainOrNone` says so, and
     such a clip is kept as it is, as mp3gain leaves a file it can't measure; the imports no longer fail on one either.
-  - **Keeping a deck again gives the same files,** byte for byte (decided 2026-11-11): each note's id is a name-based
+  - **Archiving a deck again gives the same files,** byte for byte (decided 2026-11-11): each note's id is a name-based
     GUID made from the package's SHA-256 and the note's id (`NameBasedGuid`), so a sentence taken into the corpus keeps
-    its link to its line even if the decks are kept anew; the media are listed in the media map's order; and every line
+    its link to its line even if the decks are archived anew; the media are listed in the media map's order; and every line
     ends with LF, on every platform. A deck folder holding another package's deck of the same name is refused, rather
-    than kept over.
+    than archived over.
 
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 

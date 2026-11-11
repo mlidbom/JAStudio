@@ -1,4 +1,4 @@
-namespace JAStudio.Core.Reservoir.Keeping.Media;
+namespace JAStudio.Core.Reservoir.Archiving.Media;
 
 /// <summary>A media file as the <see cref="MediaStore"/> keeps it: under the name its normalized content gives it, and what was done to it.</summary>
 /// <param name="OriginalName">The file's name in its source, such as <c>show_01_0.01.mp3</c>, as the source's notes refer to it.</param>

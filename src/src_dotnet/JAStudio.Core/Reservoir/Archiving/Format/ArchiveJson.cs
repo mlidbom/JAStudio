@@ -5,16 +5,16 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using JAStudio.Core.SysUtils.Json;
 
-namespace JAStudio.Core.Reservoir.Keeping.Format;
+namespace JAStudio.Core.Reservoir.Archiving.Format;
 
 /// <summary>
-/// How the kept files are written as JSON: their properties in camelCase, every character as itself rather than escaped<br/>
+/// How the archive's files are written as JSON: their properties in camelCase, every character as itself rather than escaped<br/>
 /// (<see cref="FullUnicodeJsonEncoder"/>), and no property whose value is null. A document, such as <c>deck.json</c>, is indented; a file of lines,<br/>
 /// <c>notes.jsonl</c>, holds a value on each line.
 /// </summary>
-static class KeptJson
+static class ArchiveJson
 {
-   /// <summary>How every line ends, on every platform, so that a deck kept anywhere gives the same bytes.</summary>
+   /// <summary>How every line ends, on every platform, so that a deck archived anywhere gives the same bytes.</summary>
    const string LineEnd = "\n";
 
    static readonly JsonSerializerOptions LineOptions = new()

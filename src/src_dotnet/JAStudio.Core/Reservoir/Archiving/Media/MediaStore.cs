@@ -5,7 +5,7 @@ using System.Linq;
 using JAStudio.Core.Reservoir.Sources.AnkiPackages.Media;
 using Mp3LoudnessNormalization;
 
-namespace JAStudio.Core.Reservoir.Keeping.Media;
+namespace JAStudio.Core.Reservoir.Archiving.Media;
 
 /// <summary>
 /// The reservoir's media, kept once each, by content: every file normalized, then named by the SHA-256 of its content (<see cref="MediaStoreFileName"/>),<br/>

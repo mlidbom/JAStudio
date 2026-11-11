@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JAStudio.Core.Reservoir.Keeping.Media;
+namespace JAStudio.Core.Reservoir.Archiving.Media;
 
 /// <summary>
 /// The media files of a deck's package, each as the <see cref="MediaStore"/> keeps it (<see cref="StoredMedia"/>), and how long storing them took<br/>
