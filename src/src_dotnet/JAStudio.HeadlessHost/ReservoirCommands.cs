@@ -47,26 +47,28 @@ static class ReservoirCommands
    };
 
    /// <summary>
-   /// Writes the report of what each deck in <c>--folder</c> would give the reservoir (<see cref="DeckCheckReport"/>), filling nothing: to check<br/>
-   /// the fields recognized in decks nobody has looked at before filling the reservoir from them.
-   /// </summary>
-   /// <summary>
    /// Keeps the decks given as <c>--decks</c>, an .apkg file or a folder of them, as JAStudio's own (<see cref="ReservoirKeeping"/>): their text in<br/>
    /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>).
    /// </summary>
    static int KeepDecks(CommandLineValues values)
    {
       var keeping = new ReservoirKeeping(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
-      FileInfo[] decks = values.ExistingFileOrFolder("decks") switch
+      foreach(var package in ThePackagesGiven().OrderBy(it => it.Name, StringComparer.Ordinal)) Console.WriteLine(keeping.Keep(package));
+      return 0;
+
+      // An .apkg file, or every one in a folder, at any depth.
+      FileInfo[] ThePackagesGiven() => values.ExistingFileOrFolder("decks") switch
       {
          FileInfo package => [package],
          DirectoryInfo folder => folder.GetFiles("*.apkg", SearchOption.AllDirectories),
          var neither => throw new ArgumentException($"--decks: {neither.FullName} is neither a file nor a folder")
       };
-      foreach(var deck in decks.OrderBy(it => it.Name, StringComparer.Ordinal)) Console.WriteLine(keeping.Keep(deck));
-      return 0;
    }
 
+   /// <summary>
+   /// Writes the report of what each deck in <c>--folder</c> would give the reservoir (<see cref="DeckCheckReport"/>), filling nothing: to check<br/>
+   /// the fields recognized in decks nobody has looked at before filling the reservoir from them.
+   /// </summary>
    static int CheckDecks(CommandLineValues values)
    {
       var folder = values.ExistingFolder("folder");
