@@ -4,7 +4,6 @@ using System.Linq;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Reservoir.Archiving.Media;
 using JAStudio.Core.Reservoir.Sources.AnkiPackages;
-using JAStudio.Core.SysUtils;
 
 namespace JAStudio.Core.Reservoir.Archiving.Format;
 
@@ -12,7 +11,10 @@ namespace JAStudio.Core.Reservoir.Archiving.Format;
 /// A note of an archived deck, as a line of <c>notes.jsonl</c>: every field as the deck has it, its tags, and the sentence it gives, if any, shaped as<br/>
 /// a sentence note's source data.
 /// </summary>
-/// <param name="Id">The id the sentence takes into the corpus: made from the package's hash and the note's id in it, so the same every time it's archived.</param>
+/// <param name="Id">
+/// The id the sentence takes into the corpus: a new GUID when its deck is archived, and the line's from then on, as an archived deck's files are<br/>
+/// never written again from its package (<see cref="ReservoirArchive"/>).
+/// </param>
 /// <param name="AnkiNoteId">The note's id in the deck's collection database.</param>
 /// <param name="NoteType">The name of the note's note type (<see cref="ArchivedNoteTypeMapping.Name"/>).</param>
 /// <param name="Tags">The note's tags, as the deck has them.</param>
@@ -20,16 +22,13 @@ namespace JAStudio.Core.Reservoir.Archiving.Format;
 /// <param name="SourceData">The sentence the note gives, by its note type's mapping, or null when it gives none.</param>
 public sealed record ArchivedNoteLine(Guid Id, long AnkiNoteId, string NoteType, IReadOnlyList<string> Tags, IReadOnlyDictionary<string, string> Fields, ArchivedSentenceSourceData? SourceData)
 {
-   /// <summary>The namespace of the notes' ids (<see cref="NameBasedGuid"/>), JAStudio's own: a random GUID, made once.</summary>
-   static readonly Guid NoteIdNamespace = new("ceb6a19e-c9a4-4b30-83a6-2f1795b719cc");
-
    /// <summary>
    /// The line of <paramref name="note"/>, of the note type whose fields' roles are <paramref name="roles"/>, its sentence's media referred to by the<br/>
-   /// hashes they're stored under in <paramref name="media"/>, its id made from <paramref name="package"/>'s hash and the note's id in it.
+   /// hashes they're stored under in <paramref name="media"/>, with a new id.
    /// </summary>
-   public static ArchivedNoteLine Of(RawNote note, DeckFieldRoles roles, StoredDeckMedia media, ArchivedPackage package)
+   public static ArchivedNoteLine Of(RawNote note, DeckFieldRoles roles, StoredDeckMedia media)
    {
-      return new ArchivedNoteLine(NameBasedGuid.Of(NoteIdNamespace, $"{package.Sha256}:{note.AnkiNoteId}"),
+      return new ArchivedNoteLine(Guid.NewGuid(),
                               note.AnkiNoteId,
                               roles.NoteType.Name,
                               note.Tags,

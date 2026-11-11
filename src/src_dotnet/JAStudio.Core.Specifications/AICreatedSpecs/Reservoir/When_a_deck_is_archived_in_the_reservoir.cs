@@ -69,23 +69,31 @@ public class When_a_deck_is_archived_in_the_reservoir : IAIGeneratedSpec, IDispo
 
    [XF] public void the_reference_to_the_audio_the_package_lacks_is_counted() => _archived.MediaReferencesToFilesThePackageLacks.Must().Be(1);
 
-   [XF] public void archiving_the_deck_again_gives_the_same_files()
-   {
-      ArchiveIn("text-again").Archive(_package);
-      string[] files = [Path.Combine("decks", "show", "deck.json"), Path.Combine("decks", "show", "notes.jsonl")];
-      files.Select(it => File.ReadAllText(Path.Combine(_folder.FullName, "text-again", it)))
-           .Must().SequenceEqual(files.Select(it => File.ReadAllText(Path.Combine(_folder.FullName, "text", it))));
-   }
+   [XF] public void each_notes_line_has_an_id_of_its_own() => NoteLines().Select(it => it.GetProperty("id").GetGuid()).Distinct().Count().Must().Be(2);
 
    [XF] public void its_lines_end_with_a_line_feed_alone_on_every_platform() =>
       new[] { "deck.json", "notes.jsonl" }.Any(it => File.ReadAllText(Path.Combine(_deckFolder.FullName, it)).Contains('\r')).Must().BeFalse();
 
-   [XF] public void another_package_named_as_it_is_is_refused_rather_than_archived_over_it()
+   [XF] public void the_deck_is_archived_already_for_a_later_run() => ArchiveIn("text").HasArchived(_package).Must().BeTrue();
+
+   [XF] public void another_deck_is_not_archived_yet() => ArchiveIn("text").HasArchived(_package.CopyTo(Path.Combine(_folder.FullName, "another show.apkg"))).Must().BeFalse();
+
+   [XF] public void archiving_it_again_is_refused_as_an_archived_decks_files_are_never_written_again_from_its_package() =>
+      Invoking(() => ArchiveIn("text").Archive(_package)).Must().Throw<StateAssertionFailedException>();
+
+   [XF] public void a_deck_whose_archiving_stopped_before_its_companion_file_was_written_is_archived_anew()
+   {
+      File.Delete(Path.Combine(_deckFolder.FullName, "deck.json"));
+      ArchiveIn("text").Archive(_package);
+      ArchiveIn("text").HasArchived(_package).Must().BeTrue();
+   }
+
+   [XF] public void another_package_named_as_it_is_is_refused_rather_than_taken_for_it()
    {
       var anotherPackage = new FileInfo(Path.Combine(_folder.CreateSubdirectory("another uploader").FullName, _package.Name));
       _package.CopyTo(anotherPackage.FullName);
       using(var archive = ZipFile.Open(anotherPackage.FullName, ZipArchiveMode.Update)) archive.WriteEntry("readme.txt", Encoding.ASCII.GetBytes("another upload"));
-      Invoking(() => ArchiveIn("text").Archive(anotherPackage)).Must().Throw<StateAssertionFailedException>();
+      Invoking(() => ArchiveIn("text").HasArchived(anotherPackage)).Must().Throw<StateAssertionFailedException>();
    }
 
    public void Dispose()

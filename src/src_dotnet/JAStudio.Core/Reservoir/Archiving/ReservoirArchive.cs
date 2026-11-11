@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Compze.Contracts;
 using JAStudio.Core.Reservoir.Archiving.Format;
 using JAStudio.Core.Reservoir.Archiving.Media;
 using JAStudio.Core.Reservoir.Sources.AnkiPackages;
@@ -13,10 +14,11 @@ namespace JAStudio.Core.Reservoir.Archiving;
 /// the sentence it gives; and its media, normalized, in the <see cref="MediaStore"/>. The text folder is meant for git; the media store isn't.
 /// </summary>
 /// <remarks>
-/// The text folder holds <c>manifest.json</c> (<see cref="ArchiveManifest"/>), and for each deck a <see cref="ArchivedDeckFolder"/>, <c>decks/&lt;package name&gt;/</c>,<br/>
-/// with its collection database, <c>deck.json</c> (<see cref="ArchivedDeckCompanion"/>) and <c>notes.jsonl</c> (<see cref="ArchivedNoteLine"/>). The format<br/>
-/// is meant never to change: should it have to, the sources are archived anew in a new folder (see <c>dev_docs/todo/expanding-the-sentence-corpus.md</c>,<br/>
-/// "Keeping the reservoir safe").
+/// The text folder holds <c>manifest.json</c> (<see cref="ArchiveManifest"/>), and for each deck an <see cref="ArchivedDeckFolder"/>, <c>decks/&lt;package name&gt;/</c>,<br/>
+/// with its collection database, <c>deck.json</c> (<see cref="ArchivedDeckCompanion"/>) and <c>notes.jsonl</c> (<see cref="ArchivedNoteLine"/>).<br/>
+/// Once a deck is archived, its files are the truth, and its package only a backup: the files are never written again from the package, so the id<br/>
+/// each line gives its sentence stays the sentence's. The format is meant never to change: should it have to, the files are migrated into a new<br/>
+/// repository (see <c>dev_docs/todo/expanding-the-sentence-corpus.md</c>, "Keeping the reservoir safe").
 /// </remarks>
 public sealed class ReservoirArchive
 {
@@ -39,17 +41,29 @@ public sealed class ReservoirArchive
       ArchiveJson.WriteDocument(new FileInfo(Path.Combine(textFolder.FullName, "manifest.json")), new ArchiveManifest(FormatVersion, Description));
    }
 
-   /// <summary>Archives the deck in <paramref name="package"/>, an .apkg file: its database, its media, its notes as lines, and its companion file.</summary>
+   /// <summary>
+   /// Whether the deck in <paramref name="package"/>, an .apkg file, is archived already. Its folder must hold no other package's deck: another<br/>
+   /// package with the same file name, as uploads from different people can have, is refused (<see cref="ArchivedDeckFolder.HoldsTheDeckOf"/>).
+   /// </summary>
+   public bool HasArchived(FileInfo package) => ArchivedDeckFolder.Of(package, _textFolder).HoldsTheDeckOf(package);
+
+   /// <summary>
+   /// Archives the deck in <paramref name="package"/>, an .apkg file, which must not be archived yet (<see cref="HasArchived"/>): its database, its<br/>
+   /// media, its notes as lines, each with a new id, and, last, its companion file. A deck whose archiving was interrupted is archived anew.
+   /// </summary>
    public ArchivedDeck Archive(FileInfo package)
    {
+      var deckFolder = ArchivedDeckFolder.Of(package, _textFolder);
+      Contract.State.Assert(!deckFolder.HoldsADeck,
+                            () => $"{deckFolder} holds an archived deck already, whose files are never written again from its package: to archive {package.FullName} anew, delete the folder first.");
+      deckFolder.Create();
       var archivedPackage = ArchivedPackage.Of(package);
-      var deckFolder = ArchivedDeckFolder.For(package, archivedPackage, _textFolder);
       var collectionDatabase = deckFolder.CopyTheCollectionDatabaseOf(package);
       var media = _mediaStore.StoreTheMediaOf(package);
 
       using var database = AnkiPackageDatabase.InPackage(package);
       var deck = new AnkiDeck(database);
-      var lines = deck.FieldRoles.SelectMany(roles => database.NotesOf(roles.NoteType).Select(note => ArchivedNoteLine.Of(note, roles, media, archivedPackage))).ToList();
+      var lines = deck.FieldRoles.SelectMany(roles => database.NotesOf(roles.NoteType).Select(note => ArchivedNoteLine.Of(note, roles, media))).ToList();
       var noteLinesFile = deckFolder.WriteTheNoteLines(lines);
       deckFolder.WriteTheCompanion(ArchivedDeckCompanion.Of(archivedPackage, collectionDatabase, deck, media));
 

@@ -49,12 +49,14 @@ static class ReservoirCommands
 
    /// <summary>
    /// Archives the decks given as <c>--decks</c>, an .apkg file or a folder of them, as JAStudio's own (<see cref="ReservoirArchive"/>): their text in<br/>
-   /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>).
+   /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>). A deck archived already<br/>
+   /// is left as it is, so a run that was interrupted goes on where it stopped when run again.
    /// </summary>
    static int ArchiveDecks(CommandLineValues values)
    {
       var archive = new ReservoirArchive(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
-      foreach(var package in ThePackagesGiven().OrderBy(it => it.Name, StringComparer.Ordinal)) Console.WriteLine(archive.Archive(package));
+      foreach(var package in ThePackagesGiven().OrderBy(it => it.Name, StringComparer.Ordinal))
+         Console.WriteLine(archive.HasArchived(package) ? $"{package.Name}: archived already, left as it is." : archive.Archive(package).ToString());
       return 0;
 
       // An .apkg file, or every one in a folder, at any depth.

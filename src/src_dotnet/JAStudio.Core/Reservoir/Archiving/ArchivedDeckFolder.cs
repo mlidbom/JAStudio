@@ -13,29 +13,41 @@ namespace JAStudio.Core.Reservoir.Archiving;
 /// as its package has it, its companion file <c>deck.json</c> (<see cref="ArchivedDeckCompanion"/>), and its notes as lines, <c>notes.jsonl</c><br/>
 /// (<see cref="ArchivedNoteLine"/>).
 /// </summary>
+/// <remarks>
+/// The companion file is written last, so a folder holding one holds a deck archived whole, and a folder holding files but no companion file, a deck<br/>
+/// whose archiving was interrupted.
+/// </remarks>
 sealed class ArchivedDeckFolder
 {
    readonly DirectoryInfo _folder;
 
    ArchivedDeckFolder(DirectoryInfo folder) => _folder = folder;
 
+   /// <summary>The folder the deck in <paramref name="package"/>, an .apkg file, is archived in, in <paramref name="textFolder"/>, whether it's archived yet or not.</summary>
+   public static ArchivedDeckFolder Of(FileInfo package, DirectoryInfo textFolder) => new(new DirectoryInfo(Path.Combine(textFolder.FullName, "decks", FolderNameOf(package))));
+
+   /// <summary>Whether a deck is archived whole in the folder: its companion file, written last, exists.</summary>
+   public bool HoldsADeck => CompanionFile.Exists;
+
    /// <summary>
-   /// The folder the deck in <paramref name="package"/>, an .apkg file whose hash and length are <paramref name="archivedPackage"/>, is archived in, in<br/>
-   /// <paramref name="textFolder"/>, created if need be. It must hold no other package's deck: two packages with the same file name, as uploads<br/>
-   /// from different people can have, would otherwise be archived in one folder, the second overwriting the first.
+   /// Whether the deck in <paramref name="package"/>, an .apkg file, is archived whole in the folder. Any deck archived in it must be that package's:<br/>
+   /// two packages with the same file name, as uploads from different people can have, have the same folder, and the second is refused.
    /// </summary>
-   public static ArchivedDeckFolder For(FileInfo package, ArchivedPackage archivedPackage, DirectoryInfo textFolder)
+   public bool HoldsTheDeckOf(FileInfo package)
    {
-      var folder = new ArchivedDeckFolder(textFolder.CreateSubdirectory(Path.Combine("decks", FolderNameOf(package))));
-      Contract.State.Assert(folder.ArchivedPackageOrNone() is not {} archived || archived.Sha256 == archivedPackage.Sha256,
-                            () => $"{folder._folder.FullName} holds the deck of another package named as {package.Name} is: archiving {package.FullName} would overwrite it.");
-      return folder;
+      if(!HoldsADeck) return false;
+      Contract.State.Assert(PackageOfItsDeck().Sha256 == ArchivedPackage.Of(package).Sha256,
+                            () => $"{_folder.FullName} holds the deck of another package named as {package.Name} is, not the deck of {package.FullName}.");
+      return true;
    }
 
-   /// <summary>The package of the deck archived in the folder, from its <c>deck.json</c>, or none when no deck is archived in it yet.</summary>
-   ArchivedPackage? ArchivedPackageOrNone() => CompanionFile.Exists ? ArchiveJson.Read<ArchivedDeckCompanion>(CompanionFile).Package : null;
+   /// <summary>The package of the deck archived in the folder, from its <c>deck.json</c>.</summary>
+   ArchivedPackage PackageOfItsDeck() => ArchiveJson.Read<ArchivedDeckCompanion>(CompanionFile).Package;
 
    FileInfo CompanionFile => new(Path.Combine(_folder.FullName, "deck.json"));
+
+   /// <summary>Creates the folder, unless it exists: it does when an archiving of its deck was interrupted.</summary>
+   public void Create() => _folder.Create();
 
    /// <summary>Copies the collection database <paramref name="package"/> is read from into the folder, as the package has it, and gives the copy.</summary>
    public FileInfo CopyTheCollectionDatabaseOf(FileInfo package)
@@ -56,8 +68,10 @@ sealed class ArchivedDeckFolder
       return file;
    }
 
-   /// <summary>Writes <paramref name="companion"/> as <c>deck.json</c>.</summary>
+   /// <summary>Writes <paramref name="companion"/> as <c>deck.json</c>, last, as it says the deck is archived whole.</summary>
    public void WriteTheCompanion(ArchivedDeckCompanion companion) => ArchiveJson.WriteDocument(CompanionFile, companion);
+
+   public override string ToString() => _folder.FullName;
 
    /// <summary>The name of the folder a deck is archived in: its package's file name without the extension, any character a file name can't hold made <c>_</c>.</summary>
    static string FolderNameOf(FileInfo package)

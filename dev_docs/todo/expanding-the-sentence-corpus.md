@@ -185,11 +185,13 @@ until it's archived as JAStudio's own. Agreed:
   - **9 of about 30,000 MP3s couldn't be measured,** and threw: very short clips, which the decoder refuses, or which
     are shorter than ReplayGain's 50 ms window. Fixed (Magnus agreed): `Mp3File.MeasureReplayGainOrNone` says so, and
     such a clip is kept as it is, as mp3gain leaves a file it can't measure; the imports no longer fail on one either.
-  - **Archiving a deck again gives the same files,** byte for byte (decided 2026-11-11): each note's id is a name-based
-    GUID made from the package's SHA-256 and the note's id (`NameBasedGuid`), so a sentence taken into the corpus keeps
-    its link to its line even if the decks are archived anew; the media are listed in the media map's order; and every line
-    ends with LF, on every platform. A deck folder holding another package's deck of the same name is refused, rather
-    than archived over.
+  - **Once a deck is archived, its files are the truth, and its package only a backup** (Magnus, 2026-11-11: "the id in
+    the file wins once there is one"). The files are never written again from the package: a deck archived already is
+    left as it is, so a run that was interrupted goes on where it stopped (`deck.json` is written last), and should the
+    format have to change, the files are migrated into a new repository. So each note's id is simply a new GUID, the
+    line's for good, and the link from a sentence taken into the corpus back to its line holds. Another package with the
+    same file name, as two uploaders' decks can have, is refused rather than archived over. The media are listed in the
+    media map's order, and every line ends with LF, on every platform.
 
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
