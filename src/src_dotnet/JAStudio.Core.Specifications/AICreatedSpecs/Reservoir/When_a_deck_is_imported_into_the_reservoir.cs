@@ -8,8 +8,9 @@ using System.Text.Json;
 using Compze.Must;
 using Compze.Contracts.Exceptions;
 using Compze.xUnitBDD;
-using JAStudio.Core.Reservoir.Archiving;
-using JAStudio.Core.Reservoir.Archiving.Media;
+using JAStudio.Core.Reservoir.Importing;
+using JAStudio.Core.Reservoir.Storage.Format;
+using JAStudio.Core.Reservoir.Storage.Media;
 using Microsoft.Data.Sqlite;
 
 using static Compze.Must.MustActions;
@@ -19,31 +20,31 @@ using static Compze.Must.MustActions;
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Reservoir;
 
 /// <summary>
-/// A small subs2srs deck archived as JAStudio's own (<see cref="ReservoirArchive"/>): two notes, each with a screenshot, the first with audio its<br/>
+/// A small subs2srs deck imported into the reservoir (<see cref="DeckImporter"/>): two notes, each with a screenshot, the first with audio its<br/>
 /// package lacks; three image files, two of them the same content under different names.
 /// </summary>
-public class When_a_deck_is_archived_in_the_reservoir : IAIGeneratedSpec, IDisposable
+public class When_a_deck_is_imported_into_the_reservoir : IAIGeneratedSpec, IDisposable
 {
    static readonly byte[] AScreenshot = Encoding.ASCII.GetBytes("a screenshot");
    static readonly byte[] AnotherScreenshot = Encoding.ASCII.GetBytes("another screenshot");
 
-   readonly DirectoryInfo _folder = Directory.CreateTempSubdirectory("jastudio-archiving-spec-");
+   readonly DirectoryInfo _folder = Directory.CreateTempSubdirectory("jastudio-importing-spec-");
    readonly DirectoryInfo _deckFolder;
    readonly DirectoryInfo _mediaFolder;
    readonly FileInfo _package;
-   readonly ArchivedDeck _archived;
+   readonly ImportedDeck _imported;
 
-   public When_a_deck_is_archived_in_the_reservoir()
+   public When_a_deck_is_imported_into_the_reservoir()
    {
       _package = CreateThePackage();
       _mediaFolder = _folder.CreateSubdirectory("media");
-      _archived = ArchiveIn("text").Archive(_package);
+      _imported = ImporterInto("text").Import(_package);
       _deckFolder = new DirectoryInfo(Path.Combine(_folder.FullName, "text", "decks", "show"));
    }
 
-   [XF] public void the_manifest_gives_the_formats_version() => Json("text", "manifest.json").GetProperty("formatVersion").GetInt32().Must().Be(ReservoirArchive.FormatVersion);
+   [XF] public void the_manifest_gives_the_formats_version() => Json("text", "manifest.json").GetProperty("formatVersion").GetInt32().Must().Be(Manifest.CurrentFormatVersion);
 
-   [XF] public void the_collection_database_is_archived_as_the_package_has_it() => File.Exists(Path.Combine(_deckFolder.FullName, "collection.anki2")).Must().BeTrue();
+   [XF] public void the_collection_database_is_stored_as_the_package_has_it() => File.Exists(Path.Combine(_deckFolder.FullName, "collection.anki2")).Must().BeTrue();
 
    [XF] public void the_companion_file_maps_the_note_types_fields() =>
       Json("text", "decks", "show", "deck.json").GetProperty("noteTypes")[0].GetProperty("japaneseField").Text().Must().Be("Expression");
@@ -59,7 +60,7 @@ public class When_a_deck_is_archived_in_the_reservoir : IAIGeneratedSpec, IDispo
    [XF] public void a_reference_to_a_file_the_package_lacks_has_no_hash() =>
       NoteLines()[0].GetProperty("sourceData").GetProperty("audio")[0].TryGetProperty("hash", out _).Must().BeFalse();
 
-   [XF] public void the_same_content_under_two_names_is_stored_once() => $"{_archived.Media.Files.Count} files, {_archived.Media.FilesNewToTheStore} new".Must().Be("3 files, 2 new");
+   [XF] public void the_same_content_under_two_names_is_stored_once() => $"{_imported.Media.Files.Count} files, {_imported.Media.FilesNewToTheStore} new".Must().Be("3 files, 2 new");
 
    [XF] public void a_file_is_stored_under_its_hash_in_a_folder_by_the_hashs_first_two_bytes()
    {
@@ -67,25 +68,25 @@ public class When_a_deck_is_archived_in_the_reservoir : IAIGeneratedSpec, IDispo
       File.Exists(Path.Combine(_mediaFolder.FullName, hash[..2], hash[2..4], hash + ".jpg")).Must().BeTrue();
    }
 
-   [XF] public void the_reference_to_the_audio_the_package_lacks_is_counted() => _archived.MediaReferencesToFilesThePackageLacks.Must().Be(1);
+   [XF] public void the_reference_to_the_audio_the_package_lacks_is_counted() => _imported.MediaReferencesToFilesThePackageLacks.Must().Be(1);
 
    [XF] public void each_notes_line_has_an_id_of_its_own() => NoteLines().Select(it => it.GetProperty("id").GetGuid()).Distinct().Count().Must().Be(2);
 
    [XF] public void its_lines_end_with_a_line_feed_alone_on_every_platform() =>
       new[] { "deck.json", "notes.jsonl" }.Any(it => File.ReadAllText(Path.Combine(_deckFolder.FullName, it)).Contains('\r')).Must().BeFalse();
 
-   [XF] public void the_deck_is_archived_already_for_a_later_run() => ArchiveIn("text").HasArchived(_package).Must().BeTrue();
+   [XF] public void the_deck_is_imported_already_for_a_later_run() => ImporterInto("text").HasImported(_package).Must().BeTrue();
 
-   [XF] public void another_deck_is_not_archived_yet() => ArchiveIn("text").HasArchived(_package.CopyTo(Path.Combine(_folder.FullName, "another show.apkg"))).Must().BeFalse();
+   [XF] public void another_deck_is_not_imported_yet() => ImporterInto("text").HasImported(_package.CopyTo(Path.Combine(_folder.FullName, "another show.apkg"))).Must().BeFalse();
 
-   [XF] public void archiving_it_again_is_refused_as_an_archived_decks_files_are_never_written_again_from_its_package() =>
-      Invoking(() => ArchiveIn("text").Archive(_package)).Must().Throw<StateAssertionFailedException>();
+   [XF] public void importing_it_again_is_refused_as_a_stored_decks_files_are_never_written_again_from_its_package() =>
+      Invoking(() => ImporterInto("text").Import(_package)).Must().Throw<StateAssertionFailedException>();
 
-   [XF] public void a_deck_whose_archiving_stopped_before_its_companion_file_was_written_is_archived_anew()
+   [XF] public void a_deck_whose_import_stopped_before_its_companion_file_was_written_is_imported_anew()
    {
       File.Delete(Path.Combine(_deckFolder.FullName, "deck.json"));
-      ArchiveIn("text").Archive(_package);
-      ArchiveIn("text").HasArchived(_package).Must().BeTrue();
+      ImporterInto("text").Import(_package);
+      ImporterInto("text").HasImported(_package).Must().BeTrue();
    }
 
    [XF] public void another_package_named_as_it_is_is_refused_rather_than_taken_for_it()
@@ -93,7 +94,7 @@ public class When_a_deck_is_archived_in_the_reservoir : IAIGeneratedSpec, IDispo
       var anotherPackage = new FileInfo(Path.Combine(_folder.CreateSubdirectory("another uploader").FullName, _package.Name));
       _package.CopyTo(anotherPackage.FullName);
       using(var archive = ZipFile.Open(anotherPackage.FullName, ZipArchiveMode.Update)) archive.WriteEntry("readme.txt", Encoding.ASCII.GetBytes("another upload"));
-      Invoking(() => ArchiveIn("text").HasArchived(anotherPackage)).Must().Throw<StateAssertionFailedException>();
+      Invoking(() => ImporterInto("text").HasImported(anotherPackage)).Must().Throw<StateAssertionFailedException>();
    }
 
    public void Dispose()
@@ -102,7 +103,7 @@ public class When_a_deck_is_archived_in_the_reservoir : IAIGeneratedSpec, IDispo
       _folder.Delete(recursive: true);
    }
 
-   ReservoirArchive ArchiveIn(string textFolder) => new(_folder.CreateSubdirectory(textFolder), new MediaStore(_mediaFolder));
+   DeckImporter ImporterInto(string textFolder) => new(_folder.CreateSubdirectory(textFolder), new MediaStore(_mediaFolder));
 
    static string Sha256Of(byte[] content) => Convert.ToHexStringLower(SHA256.HashData(content));
 

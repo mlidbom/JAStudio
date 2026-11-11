@@ -1,17 +1,17 @@
-using JAStudio.Core.Reservoir.Archiving.Media;
+using JAStudio.Core.Reservoir.Storage.Media;
 using static System.FormattableString;
 
-namespace JAStudio.Core.Reservoir.Archiving;
+namespace JAStudio.Core.Reservoir.Importing;
 
-/// <summary>What archiving a deck did (<see cref="ReservoirArchive.Archive"/>): how much it archived, how much of its media the store had already, and how long its media took.</summary>
+/// <summary>What importing a deck did (<see cref="DeckImporter.Import"/>): how much it stored, how much of its media the store had already, and how long its media took.</summary>
 /// <param name="Name">The file name of the deck's package.</param>
-/// <param name="Notes">How many notes the deck has, each archived as a line of <c>notes.jsonl</c>.</param>
+/// <param name="Notes">How many notes the deck has, each stored as a line of <c>notes.jsonl</c>.</param>
 /// <param name="Sentences">How many of its notes give a sentence.</param>
-/// <param name="CollectionDatabaseLength">The length of the collection database archived, in bytes.</param>
+/// <param name="CollectionDatabaseLength">The length of the collection database stored, in bytes.</param>
 /// <param name="NoteLinesLength">The length of <c>notes.jsonl</c>, in bytes.</param>
 /// <param name="Media">The deck's media, as the <see cref="MediaStore"/> stores it.</param>
 /// <param name="MediaReferencesToFilesThePackageLacks">How many of its sentences' references to media files refer to one its package lacks.</param>
-public sealed record ArchivedDeck(
+public sealed record ImportedDeck(
    string Name,
    int Notes,
    int Sentences,

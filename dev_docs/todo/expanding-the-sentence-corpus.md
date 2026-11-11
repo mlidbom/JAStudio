@@ -145,7 +145,7 @@ and the reports. The full decks, hundreds of GB, are to live where Magnus puts h
 ## Keeping the reservoir safe (agreed with Magnus, 2026-11-11)
 
 The reservoir file is rebuilt from sources that sit in Dropbox, on MediaFire and on a USB drive, so the data isn't safe
-until it's archived as JAStudio's own. Agreed:
+until it's stored as JAStudio's own. Agreed:
 
 - **The text goes in git, as the source of truth; the reservoir's SQLite file is an index derived from it.** Each
   source's sentences are kept faithfully, a line of JSON each, in a sentence note's shape without configuration or
@@ -165,11 +165,12 @@ until it's archived as JAStudio's own. Agreed:
 - **Measured (2026-11-11):** the MediaFire folder's 1,368 decks hold 515 GB of media in 13.1 million files: 7.5 million
   mp3s (415 GB), 5.4 million jpgs (79 GB), some png, ogg and wav, and 5.7 GB of the card templates' fonts and scripts.
   No video.
-- **Built, and tried on five decks (2026-11-11): `reservoir archive-decks`** (`ReservoirArchive`, in
-  `JAStudio.Core.Reservoir.Archiving`; first called keeping, renamed as "keep" said nothing of what's done, Magnus,
-  2026-11-11). For each
-  deck it writes `decks/<package name>/` with the collection database as the package has it, `deck.json` (the package's
-  name, length and SHA-256, each note type's mapping, and each media file's hash and the gain applied to it) and
+- **Built, and tried on five decks (2026-11-11): `reservoir import-decks`** (`DeckImporter`, in
+  `JAStudio.Core.Reservoir.Importing`; the files' format and the media store are in `JAStudio.Core.Reservoir.Storage`,
+  as the corpus has `Importing` and `Storage`. First called keeping, then archiving, to avoid the corpus's "import";
+  Magnus found neither said what's done, 2026-11-11). For each deck it writes `decks/<package name>/` with the
+  collection database as the package has it, `deck.json` (the package's name, length and SHA-256, each note type's
+  mapping, and each media file's hash and the gain applied to it) and
   `notes.jsonl` (a line per note: its fields as they are, its tags, and the sentence it gives, in a sentence note's
   `sourceData` shape, with each media file's hash); and the media in a `MediaStore`. The trial decks: an audiobook
   (君の名は。), two uploaders' decks of Akame ga Kill, a Migaku deck (Kimetsu no Yaiba) and a deck in the latest package
@@ -184,13 +185,13 @@ until it's archived as JAStudio's own. Agreed:
   - **The text is small:** 55.9 MB for the five decks, 14.2 MB as git stores it.
   - **9 of about 30,000 MP3s couldn't be measured,** and threw: very short clips, which the decoder refuses, or which
     are shorter than ReplayGain's 50 ms window. Fixed (Magnus agreed): `Mp3File.MeasureReplayGainOrNone` says so, and
-    such a clip is kept as it is, as mp3gain leaves a file it can't measure; the imports no longer fail on one either.
-  - **Once a deck is archived, its files are the truth, and its package only a backup** (Magnus, 2026-11-11: "the id in
-    the file wins once there is one"). The files are never written again from the package: a deck archived already is
+    such a clip is kept as it is, as mp3gain leaves a file it can't measure; the corpus's imports no longer fail on one either.
+  - **Once a deck is imported, its files are the truth, and its package only a backup** (Magnus, 2026-11-11: "the id in
+    the file wins once there is one"). The files are never written again from the package: a deck imported already is
     left as it is, so a run that was interrupted goes on where it stopped (`deck.json` is written last), and should the
     format have to change, the files are migrated into a new repository. So each note's id is simply a new GUID, the
     line's for good, and the link from a sentence taken into the corpus back to its line holds. Another package with the
-    same file name, as two uploaders' decks can have, is refused rather than archived over. The media are listed in the
+    same file name, as two uploaders' decks can have, is refused rather than imported over. The media are listed in the
     media map's order, and every line ends with LF, on every platform.
 
 ## What "intelligently" could mean (ideas, to work out with Magnus)

@@ -1,7 +1,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace JAStudio.Core.Reservoir.Archiving.Media;
+namespace JAStudio.Core.Reservoir.Storage.Media;
 
 /// <summary>
 /// The name the <see cref="MediaStore"/> keeps a content under, such as <c>3fa9….mp3</c>: the SHA-256 of the content, then the extension of the<br/>

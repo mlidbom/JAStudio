@@ -8,8 +8,8 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Reservoir;
 using JAStudio.Core.Reservoir.Analysis;
 using JAStudio.Core.Reservoir.Feedback;
-using JAStudio.Core.Reservoir.Archiving;
-using JAStudio.Core.Reservoir.Archiving.Media;
+using JAStudio.Core.Reservoir.Importing;
+using JAStudio.Core.Reservoir.Storage.Media;
 using JAStudio.Core.Reservoir.Measures;
 using JAStudio.Core.Reservoir.Picking;
 using JAStudio.Core.Reservoir.Reporting;
@@ -26,7 +26,7 @@ static class ReservoirCommands
    public const string CommandName = "reservoir";
 
    const string Usage = """
-                        reservoir archive-decks --decks <an .apkg file, or a folder of them> --text-folder <folder> --media-folder <folder>
+                        reservoir import-decks --decks <an .apkg file, or a folder of them> --text-folder <folder> --media-folder <folder>
                         reservoir check-decks --folder <folder of .apkg files and of decks' collection databases> --report-folder <folder>
                         reservoir fill-decks --reservoir-file <file> --collection <name> --folder <folder of .apkg files and of decks' collection databases>
                         reservoir fill-subtitles --reservoir-file <file> --collection <name> --zip-or-folder <a zip or folder of a folder per show>
@@ -37,7 +37,7 @@ static class ReservoirCommands
 
    public static int Run(string[] args) => args switch
    {
-      ["archive-decks", .. var values] => ArchiveDecks(CommandLineValues.From(values)),
+      ["import-decks", .. var values] => ImportDecks(CommandLineValues.From(values)),
       ["check-decks", .. var values] => CheckDecks(CommandLineValues.From(values)),
       ["fill-decks", .. var values] => FillDecks(CommandLineValues.From(values)),
       ["fill-subtitles", .. var values] => FillSubtitles(CommandLineValues.From(values)),
@@ -48,15 +48,15 @@ static class ReservoirCommands
    };
 
    /// <summary>
-   /// Archives the decks given as <c>--decks</c>, an .apkg file or a folder of them, as JAStudio's own (<see cref="ReservoirArchive"/>): their text in<br/>
-   /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>). A deck archived already<br/>
+   /// Imports the decks given as <c>--decks</c>, an .apkg file or a folder of them, into the reservoir, as JAStudio's own (<see cref="DeckImporter"/>): their text in<br/>
+   /// <c>--text-folder</c>, meant for git, and their media in <c>--media-folder</c>, by content (<see cref="MediaStore"/>). A deck imported already<br/>
    /// is left as it is, so a run that was interrupted goes on where it stopped when run again.
    /// </summary>
-   static int ArchiveDecks(CommandLineValues values)
+   static int ImportDecks(CommandLineValues values)
    {
-      var archive = new ReservoirArchive(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
+      var importer = new DeckImporter(new DirectoryInfo(values.Value("text-folder")), new MediaStore(new DirectoryInfo(values.Value("media-folder"))));
       foreach(var package in ThePackagesGiven().OrderBy(it => it.Name, StringComparer.Ordinal))
-         Console.WriteLine(archive.HasArchived(package) ? $"{package.Name}: archived already, left as it is." : archive.Archive(package).ToString());
+         Console.WriteLine(importer.HasImported(package) ? $"{package.Name}: imported already, left as it is." : importer.Import(package).ToString());
       return 0;
 
       // An .apkg file, or every one in a folder, at any depth.
