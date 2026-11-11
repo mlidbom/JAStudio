@@ -11,6 +11,7 @@ using JAStudio.Core.Reservoir.Feedback;
 using JAStudio.Core.Reservoir.Measures;
 using JAStudio.Core.Reservoir.Picking;
 using JAStudio.Core.Reservoir.Reporting;
+using JAStudio.Core.Reservoir.Sources.AnkiPackages;
 
 namespace JAStudio.HeadlessHost;
 
@@ -23,6 +24,7 @@ static class ReservoirCommands
    public const string CommandName = "reservoir";
 
    const string Usage = """
+                        reservoir check-decks --folder <folder of .apkg files and of decks' collection databases> --report-folder <folder>
                         reservoir fill-decks --reservoir-file <file> --collection <name> --folder <folder of .apkg files and of decks' collection databases>
                         reservoir fill-subtitles --reservoir-file <file> --collection <name> --zip-or-folder <a zip or folder of a folder per show>
                         reservoir analyze --reservoir-file <file> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
@@ -32,6 +34,7 @@ static class ReservoirCommands
 
    public static int Run(string[] args) => args switch
    {
+      ["check-decks", .. var values] => CheckDecks(CommandLineValues.From(values)),
       ["fill-decks", .. var values] => FillDecks(CommandLineValues.From(values)),
       ["fill-subtitles", .. var values] => FillSubtitles(CommandLineValues.From(values)),
       ["analyze", .. var values] => Analyze(CommandLineValues.From(values)),
@@ -39,6 +42,26 @@ static class ReservoirCommands
       ["report", .. var values] => Report(CommandLineValues.From(values)),
       _ => throw new ArgumentException($"Unknown reservoir command: {string.Join(' ', args)}{Environment.NewLine}{Usage}")
    };
+
+   /// <summary>
+   /// Writes the report of what each deck in <c>--folder</c> would give the reservoir (<see cref="DeckCheckReport"/>), filling nothing: to check<br/>
+   /// the fields recognized in decks nobody has looked at before filling the reservoir from them.
+   /// </summary>
+   static int CheckDecks(CommandLineValues values)
+   {
+      var folder = values.ExistingFolder("folder");
+      var decks = DeckOnDisk.EveryDeckIn(folder).AsParallel().Select(TheDeckChecked).OrderBy(it => it.Deck.Name, StringComparer.Ordinal).ToList();
+      DeckCheckReport.WriteTo(new DirectoryInfo(values.Value("report-folder")), folder, decks);
+      Console.WriteLine($"{decks.Count} decks checked, giving {decks.Sum(it => it.SentenceCount)} sentences.");
+      return 0;
+
+      static WhatADeckGives TheDeckChecked(DeckOnDisk deck)
+      {
+         var whatItGives = WhatADeckGives.Of(deck);
+         Console.WriteLine($"{deck.Name}: {whatItGives.SentenceCount} sentences");
+         return whatItGives;
+      }
+   }
 
    static int FillDecks(CommandLineValues values)
    {

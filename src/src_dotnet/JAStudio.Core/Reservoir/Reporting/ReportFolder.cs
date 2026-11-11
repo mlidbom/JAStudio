@@ -32,7 +32,7 @@ sealed class ReportFolder
    public void Section(string heading, params string[] bullets)
    {
       _markdown.AppendLine($"## {heading}").AppendLine();
-      Bullets(bullets);
+      if(bullets.Length > 0) Bullets(bullets);
    }
 
    /// <summary>A list of <paramref name="bullets"/>, each a line of text.</summary>
