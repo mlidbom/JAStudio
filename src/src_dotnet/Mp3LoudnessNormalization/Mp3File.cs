@@ -21,7 +21,7 @@ namespace Mp3LoudnessNormalization;
 /// the file's first frame when it's one, but decodes one further on, such as the second file's, as a frame of silence (<see cref="FramesMp3GainsDecoderReads"/>).
 /// </remarks>
 /// <remarks>
-/// mp3gain measures the frames its decoder reads but the last, whose samples the decoder never puts out, so that's what <see cref="MeasureReplayGain"/> decodes.<br/>
+/// mp3gain measures the frames its decoder reads but the last, whose samples the decoder never puts out, so that's what <see cref="MeasureReplayGainOrNone"/> decodes.<br/>
 /// On a two-second clip, one frame more can change which window is the loudest 5%, and the measurement by over 2 dB.<br/>
 /// Compared with mp3gain 1.4.6 on 2026-11-07, on 7,565 files: 7,500 from JAStudio's media layer, and 65 TTS files from Azure and Google. Every file came out<br/>
 /// byte for byte as mp3gain made it, but for ffmpeg-encoded clips whose first frame refers to audio data in a frame before it, which isn't there:<br/>
@@ -46,7 +46,14 @@ public sealed class Mp3File
    /// <summary>
    /// The gain that brings the file to ReplayGain 1's reference loudness, measured as mp3gain measures it: on the frames its decoder reads, but the last.
    /// </summary>
-   public ReplayGain MeasureReplayGain() => DecodedMp3.Of(TheFramesMp3GainMeasures()).MeasureReplayGain();
+   public ReplayGain MeasureReplayGain() => MeasureReplayGainOrNone() ?? throw new InvalidDataException($"{this} can't be measured.");
+
+   /// <summary>
+   /// The gain that brings the file to ReplayGain 1's reference loudness, measured as mp3gain measures it: on the frames its decoder reads, but the last;<br/>
+   /// or none when it can't be measured: when they hold less than one of ReplayGain's windows, 50 ms, which mp3gain can't measure either, or when<br/>
+   /// the decoder refuses them, as it refuses some clips of very few frames, which mp3gain's own decoder may well measure.
+   /// </summary>
+   public ReplayGain? MeasureReplayGainOrNone() => DecodedMp3.DecodedOrNone(TheFramesMp3GainMeasures())?.MeasureReplayGainOrNone();
 
    /// <summary>
    /// A copy of the file with the gains of every frame mp3gain changes changed by <paramref name="mp3GainSteps"/> (<see cref="Mp3Frame.ChangeGlobalGainsBy"/>).
@@ -60,9 +67,10 @@ public sealed class Mp3File
 
    /// <summary>
    /// A copy of the file brought to ReplayGain 1's reference loudness, as <c>mp3gain /r /c</c> brings it: by the <see cref="ReplayGain.Mp3GainSteps"/><br/>
-   /// <see cref="MeasureReplayGain"/> gives, even when that makes it clip. mp3gain's tags, which record what it changed, aren't written.
+   /// <see cref="MeasureReplayGainOrNone"/> gives, even when that makes it clip; or a copy as it is when it can't be measured, as mp3gain leaves a file<br/>
+   /// it can't measure. mp3gain's tags, which record what it changed, aren't written.
    /// </summary>
-   public Mp3File NormalizedToTheReplayGainReference() => WithGainChangedBy(MeasureReplayGain().Mp3GainSteps);
+   public Mp3File NormalizedToTheReplayGainReference() => WithGainChangedBy(MeasureReplayGainOrNone()?.Mp3GainSteps ?? 0);
 
    /// <summary>The frames mp3gain measures, the ones its decoder reads but the last, as an MP3 file without tags.</summary>
    byte[] TheFramesMp3GainMeasures()
