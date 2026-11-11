@@ -1,7 +1,7 @@
 import typing, abc
-from System import Func_2, Action_2, Action_1
+from System import Func_2, Action_2
 from JAStudio.Core.Note.NoteFields import FlagField, WritableStringValue
-from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, List_1, HashSet_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, List_1
 
 class EditableField_GenericClasses(abc.ABCMeta):
     Generic_EditableField_GenericClasses_EditableField_2_TNote = typing.TypeVar('Generic_EditableField_GenericClasses_EditableField_2_TNote')
@@ -183,9 +183,6 @@ EditableTextSetField : EditableTextSetField_GenericClasses
 
 EditableTextSetField_1_TNote = typing.TypeVar('EditableTextSetField_1_TNote')
 class EditableTextSetField_1(typing.Generic[EditableTextSetField_1_TNote], EditableSetField_2[EditableTextSetField_1_TNote, str]):
-    @typing.overload
-    def __init__(self, name: str, label: str, setOn: Func_2[EditableTextSetField_1_TNote, HashSet_1[str]], save: Action_1[EditableTextSetField_1_TNote], changesHowSentencesParse: bool = ...) -> None: ...
-    @typing.overload
     def __init__(self, name: str, label: str, textsOn: Func_2[EditableTextSetField_1_TNote, IEnumerable_1[str]], add: Action_2[EditableTextSetField_1_TNote, str], remove: Action_2[EditableTextSetField_1_TNote, str], changesHowSentencesParse: bool = ...) -> None: ...
     @property
     def ChangesHowSentencesParse(self) -> bool: ...

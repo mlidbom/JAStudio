@@ -17,7 +17,6 @@ namespace JAStudio.Core.Storage.Dto;
 [JsonSerializable(typeof(VocabCompoundPartsDto))]
 [JsonSerializable(typeof(EnteredFormDto))]
 [JsonSerializable(typeof(VocabMatchingDto))]
-[JsonSerializable(typeof(VocabMatchingRulesDto))]
 [JsonSerializable(typeof(VocabRelatedDto))]
 [JsonSerializable(typeof(WordReferenceDto))]
 [JsonSerializable(typeof(SentenceDto))]

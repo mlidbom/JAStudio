@@ -70,8 +70,7 @@ public static class MatchingRules
    public static readonly RequireForbidMatchingRule SentenceEnd = new("sentenceEnd", LastToken.Meets(TokenConditions.EndsAStatement), requiredWeight: 10);
 
    /// <summary>The word isn't followed by a token whose surface starts with one of the texts.</summary>
-   public static readonly TextsMatchingRule SuffixIsNot =
-      new("suffixIsNot", texts => ConditionGroup.Not(FollowingToken.Meets(TokenConditions.Surface.Meets(TextConditions.StartsWithOneOf(texts)))), weight: 2);
+   public static readonly TextsMatchingRule SuffixIsNot = new("suffixIsNot", texts => ConditionGroup.Not(FollowingTokenSurfaceStartsWithOneOf(texts)), weight: 2);
 
    /// <summary>The word follows a masu stem, such as the 食べ of 食べます.</summary>
    public static readonly RequireForbidMatchingRule MasuStem = new("masuStem", PrecedingToken.Meets(TokenConditions.IsAMasuStem), requiredWeight: 50);
@@ -100,11 +99,11 @@ public static class MatchingRules
       GodanImperative, IchidanImperative, SentenceEnd, SuffixIsNot, MasuStem, AdverbHead, DictionaryFormHead, Surface, SingleToken, SurfaceIsNot
    ];
 
-   /// <summary>The rule named <paramref name="name"/>, or null when there's none.</summary>
-   public static MatchingRule? Named(string name) => All.SingleOrDefault(it => it.Name == name);
-
    static Condition<CandidateWordVariant> PrecedingTokenSurfaceEndsWithOneOf(string[] texts) =>
       PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf(texts)));
+
+   static Condition<CandidateWordVariant> FollowingTokenSurfaceStartsWithOneOf(string[] texts) =>
+      FollowingToken.Meets(TokenConditions.Surface.Meets(TextConditions.StartsWithOneOf(texts)));
 
    static Condition<CandidateWordVariant> IsAtTheSentencesStart() =>
       //review:matching: not quite the rule before match-conditions, which read the preceding token's surface: an empty one counted as the sentence's

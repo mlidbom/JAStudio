@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Note.Vocabulary.Matching;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 
 namespace JAStudio.Core.Note.Collection;
 

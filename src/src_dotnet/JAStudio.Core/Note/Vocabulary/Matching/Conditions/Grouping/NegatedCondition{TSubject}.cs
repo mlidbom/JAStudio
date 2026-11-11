@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -27,4 +28,6 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject> where TSub
    internal const string JsonKey = "not";
 
    internal override JsonObject ToJson() => new() { [JsonKey] = Condition.ToJson() };
+
+   internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 }

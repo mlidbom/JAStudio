@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -22,13 +21,10 @@ public class VocabNoteMatchingConfiguration
    internal VocabNoteMatchingConfiguration(VocabNotePartsOfSpeech partsOfSpeech, VocabMatchingDto? data, NoteGuard guard)
    {
       _guard = guard;
-      var storedRequireForbidRules = data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>();
-      //wip: reads the format from before match-conditions too, whose rules become the match-condition, until the corpus is migrated (increment 3 in
-      //   dev_docs/matching-configuration.md). Then a vocab file with the old rules fails to load, as a file of an older format should.
-      MatchCondition = data?.Condition is {} storedCondition ? MatchConditionJson.VocabsMatchConditionFrom(storedCondition) : MatchConditionOfTheRulesStoredBefore(data);
-      RequiresForbids = new VocabMatchingRequireForbidFlags(partsOfSpeech, storedRequireForbidRules.Where(it => MatchingRules.Named(it.Key) == null).ToDictionary(), guard);
+      MatchCondition = MatchConditionJson.VocabsMatchConditionFrom(data?.Condition);
+      RequiresForbids = new VocabMatchingRequireForbidFlags(partsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>(), guard);
       Flags = new VocabMatchingFlags(partsOfSpeech, data?.Flags ?? [], guard);
-      YieldToSurface = new VocabYieldToSurface([.. data?.YieldToSurface ?? [], .. data?.Rules?.YieldToSurface ?? []], guard);
+      YieldToSurface = new VocabYieldToSurface(data?.YieldToSurface ?? [], guard);
       Rules = new MatchConditionAsRules(this);
    }
 
@@ -55,13 +51,13 @@ public class VocabNoteMatchingConfiguration
    public int CustomRequirementsWeight =>
       //review:matching: a condition that isn't a matching rule's weighs nothing, so priority knows only the rules. Priority once conditions can say
       //   more is open question 2 in dev_docs/matching-configuration.md.
-      RequiresForbids.MatchWeight + Rules.Weight + YieldToSurface.MatchWeight;
+      RequiresForbids.MatchWeight + Rules.MatchWeight + YieldToSurface.MatchWeight;
 
    internal VocabMatchingDto ToDto() => new()
    {
       RequiredOrForbidden = RequiresForbids.ToDto(),
       Flags = Flags.ToDto(),
-      Condition = MatchCondition.IsEmpty ? null : MatchConditionJson.Of(MatchCondition),
+      Condition = MatchConditionJson.AsAVocabStoresIt(MatchCondition),
       YieldToSurface = YieldToSurface.ToDto()
    };
 
@@ -72,26 +68,5 @@ public class VocabNoteMatchingConfiguration
       RequiresForbids.OverwriteWith(other.RequiresForbids);
       Flags.OverwriteWith(other.Flags);
       YieldToSurface.OverwriteWith(other.YieldToSurface);
-   }
-
-   /// <summary>The match-condition that the rules <paramref name="data"/> stores in the format from before match-conditions become, each rule's condition in the order of <see cref="MatchingRules.All"/>.</summary>
-   static AllOfGroup<CandidateWordVariant> MatchConditionOfTheRulesStoredBefore(VocabMatchingDto? data)
-   {
-      return ConditionGroup.AllOf([.. MatchingRules.All.Select(ConditionStoredFor).OfType<Condition<CandidateWordVariant>>()]);
-
-      Condition<CandidateWordVariant>? ConditionStoredFor(MatchingRule rule) => rule switch
-      {
-         RequireForbidMatchingRule requireForbid when data?.RequiredOrForbidden.TryGetValue(rule.Name, out var stored) == true =>
-            requireForbid.ConditionFor(stored == RequiredOrForbiddenDto.Required ? RequireForbidChoice.Required : RequireForbidChoice.Forbidden),
-         TextsMatchingRule texts when TextsStoredFor(texts) is { Count: > 0 } storedTexts => texts.ConditionOn(storedTexts),
-         _ => null
-      };
-
-      List<string> TextsStoredFor(TextsMatchingRule rule) => data?.Rules is not {} rules ? []
-         : rule == MatchingRules.PrefixIsNot ? rules.PrefixIsNot
-         : rule == MatchingRules.RequiredPrefix ? rules.RequiredPrefix
-         : rule == MatchingRules.SuffixIsNot ? rules.SuffixIsNot
-         : rule == MatchingRules.SurfaceIsNot ? rules.SurfaceIsNot
-         : [];
    }
 }

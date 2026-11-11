@@ -20,12 +20,7 @@ public partial class VocabMatchingDto
    /// <summary>The names of the vocab's <see cref="VocabNoteMatchingConfiguration.Flags"/> that are set.</summary>
    public List<string> Flags { get; init; } = [];
 
-   /// <summary>The configurable rules, as the corpus stored them before match-conditions: read, and never written.</summary>
-   /// <remarks>Goes once the corpus is migrated to match-conditions (increment 3 in dev_docs/matching-configuration.md).</remarks>
-   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-   public VocabMatchingRulesDto? Rules { get; init; }
-
-   /// <summary>The vocab's <see cref="VocabNoteMatchingConfiguration.MatchCondition"/>, as <see cref="MatchConditionJson"/> writes it: none for a vocab without one.</summary>
+   /// <summary>The vocab's <see cref="VocabNoteMatchingConfiguration.MatchCondition"/>, as <see cref="MatchConditionJson.AsAVocabStoresIt"/> writes it: none for a vocab without one.</summary>
    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
    [JsonObjectAsJsonText]
    public JsonObject? Condition { get; init; }

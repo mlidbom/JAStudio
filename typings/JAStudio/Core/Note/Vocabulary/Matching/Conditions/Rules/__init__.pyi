@@ -1,16 +1,17 @@
 import abc
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
-from System.Collections.Generic import IEnumerable_1, IReadOnlySet_1, IReadOnlyList_1
+from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 
 class MatchConditionAsRules:
     @property
     def IsMadeOfRulesOnly(self) -> bool: ...
+    def AddText(self, rule: TextsMatchingRule, text: str) -> None: ...
     def ChoiceOf(self, rule: RequireForbidMatchingRule) -> RequireForbidChoice: ...
     def Choose(self, rule: RequireForbidMatchingRule, choice: RequireForbidChoice) -> None: ...
-    def SetTexts(self, rule: TextsMatchingRule, texts: IEnumerable_1[str]) -> None: ...
-    def TextsOf(self, rule: TextsMatchingRule) -> IReadOnlySet_1[str]: ...
+    def RemoveText(self, rule: TextsMatchingRule, text: str) -> None: ...
+    def TextsOf(self, rule: TextsMatchingRule) -> IReadOnlyList_1[str]: ...
 
 
 class MatchingRule(abc.ABC):
@@ -42,8 +43,6 @@ class MatchingRules(abc.ABC):
     SurfaceIsNot : TextsMatchingRule
     TeFormStemHead : RequireForbidMatchingRule
     TeFormStemStart : RequireForbidMatchingRule
-    @staticmethod
-    def Named(name: str) -> MatchingRule: ...
 
 
 class RequireForbidMatchingRule(MatchingRule):

@@ -15,14 +15,4 @@ public class VocabMatchInspector : MatchInspector
 
    public VocabMatchingRequireForbidFlags RequiresForbids => Match.RequiresForbids;
 
-   public bool PreviousLocationIsIrrealis =>
-      PreviousLocation is { Token.IsIrrealis: true };
-
-   public bool PreviousLocationIsGodan =>
-      PreviousLocation is { Token.IsGodanVerb: true };
-
-   public bool PreviousLocationIsIchidan =>
-      PreviousLocation is { Token.IsIchidanVerb: true };
-
-   public bool BaseEqualsSurface => Word.SurfaceForm == Word.BaseForm;
 }

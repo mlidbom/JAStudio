@@ -1,7 +1,7 @@
+using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -31,18 +31,20 @@ public class When_editing_a_vocabs_match_condition_rule_by_rule : SpecificationS
    {
       [XF] public void the_match_condition_is_empty_so_every_word_meets_it() => Configuration.MatchCondition.IsEmpty.Must().BeTrue();
       [XF] public void it_is_made_of_rules_only() => Configuration.Rules.IsMadeOfRulesOnly.Must().BeTrue();
-      [XF] public void every_rule_is_unset() => Configuration.Rules.ChoiceOf(MatchingRules.MasuStem).Must().Be(RequireForbidChoice.Unset);
-      [XF] public void every_texts_rule_has_no_texts() => Configuration.Rules.TextsOf(MatchingRules.PrefixIsNot).Must().BeEmpty();
+      [XF] public void every_require_forbid_rule_is_unset() =>
+         MatchingRules.All.OfType<RequireForbidMatchingRule>().Select(Configuration.Rules.ChoiceOf).Distinct().Must().SequenceEqual([RequireForbidChoice.Unset]);
+
+      [XF] public void every_texts_rule_has_no_texts() => MatchingRules.All.OfType<TextsMatchingRule>().SelectMany(Configuration.Rules.TextsOf).Must().BeEmpty();
       [XF] public void it_weighs_nothing() => Configuration.CustomRequirementsWeight.Must().Be(0);
    }
 
-   public class after_requiring_a_masu_stem_forbidding_a_godan_verb_and_giving_prefix_is_not_ん : When_editing_a_vocabs_match_condition_rule_by_rule
+   public class after_requiring_a_masu_stem_forbidding_a_godan_verb_and_adding_ん_to_prefix_is_not : When_editing_a_vocabs_match_condition_rule_by_rule
    {
-      public after_requiring_a_masu_stem_forbidding_a_godan_verb_and_giving_prefix_is_not_ん()
+      public after_requiring_a_masu_stem_forbidding_a_godan_verb_and_adding_ん_to_prefix_is_not()
       {
          Configuration.Rules.Choose(MatchingRules.MasuStem, RequireForbidChoice.Required);
          Configuration.Rules.Choose(MatchingRules.Godan, RequireForbidChoice.Forbidden);
-         Configuration.Rules.SetTexts(MatchingRules.PrefixIsNot, ["ん"]);
+         Configuration.Rules.AddText(MatchingRules.PrefixIsNot, "ん");
       }
 
       [XF] public void the_match_condition_is_all_of_the_rules_conditions_a_forbidden_one_negated_in_the_rules_order() =>
@@ -57,12 +59,12 @@ public class When_editing_a_vocabs_match_condition_rule_by_rule : SpecificationS
       [XF] public void it_weighs_what_the_rules_did_before_match_conditions_50_required_1_forbidden_and_2_for_texts() =>
          Configuration.CustomRequirementsWeight.Must().Be(53);
 
-      public class and_then_unsetting_the_required_rule_and_removing_the_texts : after_requiring_a_masu_stem_forbidding_a_godan_verb_and_giving_prefix_is_not_ん
+      public class and_then_unsetting_the_required_rule_and_removing_ん_from_prefix_is_not : after_requiring_a_masu_stem_forbidding_a_godan_verb_and_adding_ん_to_prefix_is_not
       {
-         public and_then_unsetting_the_required_rule_and_removing_the_texts()
+         public and_then_unsetting_the_required_rule_and_removing_ん_from_prefix_is_not()
          {
             Configuration.Rules.Choose(MatchingRules.MasuStem, RequireForbidChoice.Unset);
-            Configuration.Rules.SetTexts(MatchingRules.PrefixIsNot, []);
+            Configuration.Rules.RemoveText(MatchingRules.PrefixIsNot, "ん");
          }
 
          [XF] public void only_the_forbidden_rules_condition_is_left() =>
@@ -81,7 +83,7 @@ public class When_editing_a_vocabs_match_condition_rule_by_rule : SpecificationS
    public class after_giving_the_match_condition_a_condition_that_is_no_rules : When_editing_a_vocabs_match_condition_rule_by_rule
    {
       public after_giving_the_match_condition_a_condition_that_is_no_rules() =>
-         Configuration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(FirstToken.Meets(TokenConditions.PartOfSpeechIs("名詞"))));
+         Configuration.SetMatchCondition(ConditionGroup.AllOf(FirstToken.Meets(TokenConditions.PartOfSpeechIs("名詞"))));
 
       [XF] public void it_is_not_made_of_rules_only() => Configuration.Rules.IsMadeOfRulesOnly.Must().BeFalse();
       [XF] public void choosing_a_rule_throws_since_it_can_only_be_edited_as_a_whole() =>

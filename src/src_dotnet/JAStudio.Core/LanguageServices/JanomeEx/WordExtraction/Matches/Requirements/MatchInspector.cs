@@ -25,11 +25,7 @@ public class MatchInspector
    public TextAnalysisLocation EndLocation => Word.EndLocation;
    public SentenceConfiguration Configuration => Variant.Configuration;
    public TextAnalysisLocation? PreviousLocation => StartLocation.Previous;
-   public bool HasTeFormStem => StartLocation.Token.HasTeFormStem;
-   public bool HasTeFormStemHead => PreviousLocation != null && PreviousLocation.Token.HasTeFormStem;
    public string Prefix => PreviousLocation?.Token.Surface ?? "";
-   public TextAnalysisLocation? NextLocation => Word.EndLocation.Next;
-   public string Suffix => NextLocation?.Token.Surface ?? "";
    public bool HasGodanImperativePart => StartLocation.Token.IsGodanImperativeInflection || StartLocation.Token.IsGodanImperativeStem;
    public bool HasGodanPotentialStart => StartLocation.Token.IsGodanPotentialInflection || StartLocation.Token.IsGodanPotentialStem;
 
@@ -47,14 +43,6 @@ public class MatchInspector
 
    public bool CompoundLocationsAllHaveValidNonCompoundMatches =>
       Word.Locations.All(location => location.NonCompoundCandidate.HasValidWords());
-
-   public bool HasMasuStem =>
-      StartLocation.Previous != null &&
-      StartLocation.Previous.Token.IsMasuStem;
-
-   public bool HasAdverbHead =>
-      StartLocation.Previous != null &&
-      StartLocation.Previous.Token.IsAdverb;
 
    public bool IsEndOfStatement => EndLocation.Token.IsEndOfStatement;
 

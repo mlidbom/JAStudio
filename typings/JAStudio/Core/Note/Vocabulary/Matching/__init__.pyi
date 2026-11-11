@@ -3,7 +3,7 @@ from JAStudio.Core.Note.NoteFields import FlagField
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules import MatchConditionAsRules
-from System.Collections.Generic import HashSet_1
+from System.Collections.Generic import IReadOnlySet_1
 
 class IsInflectingWord(FlagField):
     @property
@@ -91,8 +91,9 @@ class VocabNoteMatchingConfiguration:
 
 class VocabYieldToSurface:
     @property
-    def Surfaces(self) -> HashSet_1[str]: ...
-    def Save(self) -> None: ...
+    def Surfaces(self) -> IReadOnlySet_1[str]: ...
+    def Add(self, surface: str) -> None: ...
+    def Remove(self, surface: str) -> None: ...
 
 
 class YieldLastTokenToOverlappingCompound(RequireForbidFlagField):

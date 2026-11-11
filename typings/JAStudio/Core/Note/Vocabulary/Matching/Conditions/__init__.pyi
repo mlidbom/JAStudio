@@ -1,9 +1,9 @@
 import typing, abc
 from System import IEquatable_1
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
+from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 
 class Condition_GenericClasses(abc.ABCMeta):
     Generic_Condition_GenericClasses_Condition_1_TSubject = typing.TypeVar('Generic_Condition_GenericClasses_Condition_1_TSubject')
@@ -104,11 +104,17 @@ class Fact_1(typing.Generic[Fact_1_TSubject], Condition_1[Fact_1_TSubject], IEqu
 
 class MatchConditionJson(abc.ABC):
     @staticmethod
+    def AsAVocabStoresIt(matchCondition: AllOfGroup_1[CandidateWordVariant]) -> JsonObject: ...
+    @staticmethod
+    def AsJsonText(matchCondition: AllOfGroup_1[CandidateWordVariant]) -> str: ...
+    @staticmethod
     def MatchConditionFrom(json: JsonObject) -> Condition_1[CandidateWordVariant]: ...
     @staticmethod
     def Of(matchCondition: Condition_1[CandidateWordVariant]) -> JsonObject: ...
     @staticmethod
     def VocabsMatchConditionFrom(json: JsonObject) -> AllOfGroup_1[CandidateWordVariant]: ...
+    @staticmethod
+    def VocabsMatchConditionFromJsonText(text: str) -> AllOfGroup_1[CandidateWordVariant]: ...
 
 
 class SubjectCondition_GenericClasses(abc.ABCMeta):

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -26,6 +27,8 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject> where TSub
 
    /// <summary>The group as the corpus stores it: its conditions under <paramref name="jsonKey"/>, such as <c>allOf</c>.</summary>
    protected JsonObject ToJsonUnder(string jsonKey) => new() { [jsonKey] = new JsonArray([.. Conditions.Select(JsonNode (it) => it.ToJson())]) };
+
+   internal override IEnumerable<TextSet> ComparedTextSets() => Conditions.SelectMany(it => it.ComparedTextSets());
 
    public virtual bool Equals(ConditionGroup<TSubject>? other) => other is not null && base.Equals(other) && Conditions.SequenceEqual(other.Conditions);
 

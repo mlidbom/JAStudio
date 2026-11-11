@@ -5,8 +5,10 @@ using JAStudio.Core.Storage.Dto;
 namespace JAStudio.Core.Note.Vocabulary.Matching;
 
 /// <summary>
-/// One require/forbid rule of a vocab's matching configuration, such as <see cref="VocabMatchingRequireForbidFlags.Godan"/>: something about<br/>
-/// a word, such as following a godan verb's stem, that a word must have to match the vocab, must not have, or that doesn't matter (<see cref="Choice"/>).
+/// One require/forbid rule of a vocab's matching configuration that isn't a condition in its match-condition, such as<br/>
+/// <see cref="VocabMatchingRequireForbidFlags.DictionaryFormStart"/>: something about a word, such as starting with a dictionary-form verb's ending, that a<br/>
+/// word must have to match the vocab, must not have, or that doesn't matter (<see cref="Choice"/>). The rules that are conditions in the match-condition<br/>
+/// are <see cref="Conditions.Rules.RequireForbidMatchingRule"/>s.
 /// </summary>
 /// <remarks>
 /// A rule that's set also weighs in when two vocab match the same word: the vocab whose rules weigh more wins<br/>

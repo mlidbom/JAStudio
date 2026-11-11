@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
@@ -46,6 +47,12 @@ public abstract record Condition<TSubject> where TSubject : class
 
    /// <summary>The condition as the corpus stores it: an object whose key says what kind of condition it is. <see cref="ConditionLevel{TSubject}"/> reads it back.</summary>
    internal abstract JsonObject ToJson();
+
+   /// <summary>
+   /// The texts that the <see cref="TextComparison"/>s in this condition compare with, one <see cref="TextSet"/> for each: its own when it is one,<br/>
+   /// else those of the conditions it holds. None for a condition that compares no text.
+   /// </summary>
+   internal virtual IEnumerable<TextSet> ComparedTextSets() => [];
 
    public sealed override string ToString() => string.Join(Environment.NewLine, DescriptionLines());
 

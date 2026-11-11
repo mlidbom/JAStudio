@@ -1,8 +1,8 @@
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 
 // ReSharper disable InconsistentNaming
 

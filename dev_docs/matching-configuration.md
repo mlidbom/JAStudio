@@ -317,8 +317,9 @@ sentences that parse right without corrections on the sentence.
 
 Some vocab are wrong only by one of their forms: ほんの by 本の, ようです by 様です. A condition on the form that matched
 lets the rest of a condition apply to that form only, such as: any of (not: the form matched is 本の; the token after is
-an amount). The other way is for each form to have a match-condition of its own. *Settled: a form that needs different
-matching gets a vocab of its own (see [Settled with Magnus](#settled-with-magnus-2026-11-10)).*
+an amount). The other way is for each form to have a match-condition of its own. *For now: a form that needs different
+matching gets a vocab of its own (see [Settled with Magnus](#settled-with-magnus-2026-11-10)). In Magnus's words: "That is my
+gut instinct and how I've done it so far, not gospel."*
 
 ### Priority, when conditions can say more
 
@@ -343,6 +344,17 @@ changes the result. It would be part of JAStudio's MCP server, so mine to build.
 - Further: for a vocab corrected in many sentences, the tool could compare the tokens around its incorrect matches with
   those around its correct ones. It would then list the ingredients that tell them apart, which suggests the rule.
 
+**The highlighted words as test samples (Magnus, 2026-11-11).** Most highlighted words aren't corrections: they're the word
+a course sentence is for, one in every Core 2000 sentence and one to three per WaniKani vocab. So for tens of thousands of
+sentences we know a word that must be in the parse. Parse each without its highlight, and the share that still finds the
+word measures the goal directly: sentences that parse right with no correction on the sentence.
+- **It's the largest truth we have.** The corrections number some 560 matches marked incorrect or hidden. The
+  highlighted words cover tens of thousands of sentences, and were chosen for the course, not for the parser's mistakes.
+- **It tests one word of each sentence,** not the whole parse. A rule that makes the highlighted word parse can still
+  break another word of the sentence; the full rebuild's diff shows that.
+- **A sentence whose highlighted word doesn't parse without its highlight** is a case to work on, and the ones that fail
+  for the same vocab, or the same pattern, suggest the rule.
+
 **The generality measure (thinking with Magnus, 2026-11-11).** For each condition in each vocab's match-condition, count
 the matches it decides across the corpus: those it alone rejects, which would be valid without it. Counting every
 rejection would credit conditions that only repeat what another rejects. What it tells:
@@ -357,6 +369,10 @@ rejection would credit conditions that only repeat what another rejects. What it
   ones. The tool ranks the candidates; Magnus decides.
 - **The reverse:** clusters of similar corrections on one vocab are candidates for a condition, as the comparison
   above suggests.
+- **Judgment, not only numbers (Magnus, 2026-11-11).** The counts are evidence, not the verdict. Knowledge of Japanese can
+  tell that a rule is worth making though few of our sentences need it yet, because many sentences out there will. And the
+  opposite: a condition can fit a large share of our sentences only because they're irregular in the same way, shaped
+  by the same work. In his words: "Apply judgment to all of the above, not pure numbers."
 
 So the corrections, the vocab's conditions and the rules for many vocab each hold the knowledge that belongs at their
 level. Every measure here is only as good as the sentences it runs over, so a large and diverse sentence corpus matters
@@ -409,6 +425,9 @@ That's to be decided when building, by trying it.
   condition, such as "any of: not: the word's surface is 本の; the token after is an amount".
 - **The highlighted words are mostly the word a sentence is for,** not corrections: Core 2000 features a word in every
   sentence, and WaniKani has one to three sentences per vocab that do the same (Magnus).
+- **That makes them test samples (Magnus, 2026-11-11):** "For all of these wani and core sentences tens of thousands of
+  them, we know that they should parse the same even if the highlighted word is un-highlighted." See
+  [the yardstick](#the-yardstick-measuring-what-the-rules-achieve).
 - **Condition-subjects:** start with the ones known, and add others when they're missed. The design must make adding
   one cheap.
 - **The yardstick comes after the core,** not before (Magnus).
@@ -607,6 +626,8 @@ name is checked when the tree is read, and a shared-condition can't use itself, 
 
 ### What's stored
 
+> As built, the format differs a little: see [Increment 3, as built](#increment-3-as-built).
+
 A vocab's `matching` becomes:
 
 ```json
@@ -628,6 +649,8 @@ A vocab's `matching` becomes:
 - **Shared-conditions** will be corpus data too, stored beside the notes, one file each.
 
 ### The migration
+
+> As built: see [Increment 3, as built](#increment-3-as-built).
 
 Every vocab's require/forbid rules and configurable rules become its match-condition: an "all of" with one or two nodes
 for each rule that's set.
@@ -682,7 +705,7 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
    - the match-condition built in memory from today's rules;
    - `VocabMatch` testing it;
    - the side-by-side check, until it's clean.
-3. **The migration:**
+3. **The migration:** built 2026-11-11, see [Increment 3, as built](#increment-3-as-built).
    - the storage changed, and the corpus migrated;
    - the Matching tab's checkbox view;
    - the MCP tool;
@@ -773,6 +796,62 @@ exceptions:
 **What increment 3 deletes:** the 21 requirements' state tests, `TodaysMatchingRule` and the MCP tool, once the corpus
 stores match-conditions.
 
+### Increment 3, as built
+
+**The corpus stores each vocab's match-condition,** as `matching.condition`: an "all of", absent for a vocab without one.
+422 of the 28,004 vocab have one. A vocab's matching configuration in the corpus now looks like this:
+
+```json
+"matching": {
+  "requiredOrForbidden": { "dictionaryFormStart": "forbidden" },
+  "flags": ["isInflectingWord"],
+  "condition": { "allOf": [
+    { "precedingToken": { "fact": "irrealis" } },
+    { "not": { "firstToken": { "anyOf": [{ "fact": "godanPotentialStem" }, { "fact": "godanPotentialInflection" }] } } }
+  ] },
+  "yieldToSurface": []
+}
+```
+
+**The migration, in two commits**, so that the code that made it is in the history:
+- **Step 1** read both formats and wrote the new one. In the headless JAStudio: a full rebuild on the old corpus changed
+  nothing; saving every note rewrote all 28,004 vocab files; read as notes, every vocab was the same as before; a full
+  rebuild changed nothing more.
+- **Step 2** removed reading the old format. A full rebuild changed nothing, and saving every note again wrote every file
+  as it was. A vocab file of the old format now fails to load, as a file of an older format should.
+- **The parsing cases** pass unchanged, on a stripped-down corpus refreshed in the new format.
+
+**The rules, now views of the match-condition** (`MatchingRules`, namespace `Conditions.Rules`):
+- **Each of the 21 rules a match-condition replaces is a `MatchingRule`:** a `RequireForbidMatchingRule`, with the
+  condition it is when required and when forbidden, or a `TextsMatchingRule`, whose condition is made of its texts. Each
+  knows what it weighs.
+- **`MatchConditionAsRules`** reads a vocab's match-condition as rules, and edits it rule by rule while it's made of
+  rules only: each condition a rule's, and no rule twice. Every migrated vocab is. Editing keeps the rules' conditions in
+  the order of `MatchingRules.All`, the order the migration wrote them in.
+- **The Matching tab** shows the match-condition as text at its top, and edits it through the rules as before. When it
+  has other conditions, the rules' sections are locked and a line says to edit it as a whole.
+- **The MCP server** edits the rules as `matching.rules.<rule>`, and the whole match-condition as JSON, as
+  `matching.condition`, which can hold any condition.
+
+**Decisions made while building it:**
+- **Priority is computed from the match-condition** (open question 2, (b)): each condition that is a rule's weighs what
+  the rule did, and others weigh nothing. So the migration changed no priority, and requiring a rule on the Matching tab
+  still raises the vocab's, as before. What priority should be once conditions can say more is still open.
+- **Dictionary form (start) stays a require/forbid rule** (open question 1, for now). Forbidding it still differs from
+  leaving it unset in what it weighs, so a flag would have changed priorities. Yielding the last token stays one too,
+  a rule on display.
+- **Yield to surface** is the vocab's `YieldToSurface`, stored as `matching.yieldToSurface`. The "configurable rules"
+  are gone.
+- **The tags for the configurable rules in use stay,** read from the rules, and so does narrowing a reparse when the
+  surface is required.
+- **A match-condition that isn't an "all of", given as JSON, is made the only condition in one.**
+
+**What went:** the 21 rules' requirements (the `StateTests` classes), the rules' fields in `VocabMatchingRequireForbidFlags`,
+`VocabNoteMatchingRules`, the side-by-side check's MCP tool, and the inspector helpers only they used.
+
+**Found and fixed on the way:** the parsing cases' full mode made a run per specification, and the two of refreshing ran
+side by side, writing and deleting each other's files. Each mode now makes one run.
+
 ### Naming and design questions: `review:matching:` comments
 
 Magnus polishes the names and design at the end of the work, into a language that's intuitive to him and to everyone
@@ -785,7 +864,8 @@ working on the corpus (Magnus, 2026-11-10). Waiting for him at each step would s
 
 ## Open questions
 
-1. **Dictionary form (start), until rules-for-many-vocab exist:** a flag on the vocab, "starts with a dictionary-form
+1. **Dictionary form (start), until rules-for-many-vocab exist.** *For now it stays a require/forbid rule outside the
+   match-condition (increment 3).* The idea: a flag on the vocab, "starts with a dictionary-form
    verb ending", which lifts the default, requires the fact, and expands the placeholder forms. A detail to settle when
    building.
 2. **Priority** between vocab that match the same word. For the migration there are two ways to keep each vocab's
@@ -794,7 +874,8 @@ working on the corpus (Magnus, 2026-11-10). Waiting for him at each step would s
      a condition no longer raises a vocab's priority, as setting a rule does today.
    - (b) Compute it from the tree, each node weighing what its rule weighs today.
 
-   What decides priority once conditions can say more is open either way.
+   *Increment 3 took (b): each condition that is a matching rule's weighs what the rule did, and others weigh nothing.*
+   What decides priority once conditions can say more is still open.
 3. **Display:** whether a second tree per vocab, "displayed when", takes over the yield rules, and what rule guarantees
    that conditions on display settle.
 4. **A split piece's tokenizer facts:** whether a test of a split piece's part of speech, inflection type or inflected

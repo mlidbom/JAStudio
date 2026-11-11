@@ -18,19 +18,4 @@ public sealed class EditableTextSetField<TNote> : EditableSetField<TNote, string
    /// <param name="changesHowSentencesParse">See <see cref="IEditableField{TNote}.ChangesHowSentencesParse"/>.</param>
    public EditableTextSetField(string name, string label, Func<TNote, IEnumerable<string>> textsOn, Action<TNote, string> add, Action<TNote, string> remove, bool changesHowSentencesParse = false)
       : base(name, label, textsOn, add, remove, texts => texts.Order(StringComparer.Ordinal), changesHowSentencesParse) {}
-
-   /// <summary>A set held by a <see cref="HashSet{T}"/> of the note, which <paramref name="setOn"/> finds, and which <paramref name="save"/> saves once changed.</summary>
-   public EditableTextSetField(string name, string label, Func<TNote, HashSet<string>> setOn, Action<TNote> save, bool changesHowSentencesParse = false)
-      : this(name,
-             label,
-             setOn,
-             (note, text) => ChangeAndSave(setOn(note), set => set.Add(text), () => save(note)),
-             (note, text) => ChangeAndSave(setOn(note), set => set.Remove(text), () => save(note)),
-             changesHowSentencesParse) {}
-
-   static void ChangeAndSave(HashSet<string> set, Func<HashSet<string>, bool> change, Action save)
-   {
-      change(set);
-      save();
-   }
 }

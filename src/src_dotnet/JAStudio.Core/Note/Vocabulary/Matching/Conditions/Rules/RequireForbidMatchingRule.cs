@@ -40,12 +40,13 @@ public sealed class RequireForbidMatchingRule : MatchingRule
    /// <summary>The condition the rule is while a vocab forbids it.</summary>
    public Condition<CandidateWordVariant> WhenForbidden { get; }
 
-   /// <summary>The condition the rule is when <paramref name="choice"/> is made: <see cref="WhenRequired"/> or <see cref="WhenForbidden"/>.</summary>
-   internal Condition<CandidateWordVariant> ConditionFor(RequireForbidChoice choice) => choice switch
+   /// <summary>The condition the rule is when <paramref name="choice"/> is made: <see cref="WhenRequired"/>, <see cref="WhenForbidden"/>, or none when it's unset.</summary>
+   internal Condition<CandidateWordVariant>? ConditionFor(RequireForbidChoice choice) => choice switch
    {
       RequireForbidChoice.Required => WhenRequired,
       RequireForbidChoice.Forbidden => WhenForbidden,
-      _ => throw new ArgumentOutOfRangeException(nameof(choice), choice, "An unset rule is no condition.")
+      RequireForbidChoice.Unset => null,
+      _ => throw new ArgumentOutOfRangeException(nameof(choice), choice, null)
    };
 
    /// <summary>The choice <paramref name="condition"/> stands for: required, forbidden, or unset when it isn't this rule's.</summary>

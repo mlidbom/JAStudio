@@ -24,7 +24,7 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    readonly VocabSentencesReparserViewModel _sentencesReparser;
 
    /// <summary>The vocab's match-condition as it describes itself, one line per condition, or "None" when it has none.</summary>
-   [ObservableProperty] string _matchCondition = "";
+   [ObservableProperty] string _matchConditionDescription = "";
 
    /// <summary>
    /// Whether the match-condition is made of matching rules only, so that the rules' editors can edit it. One given other conditions, through the MCP<br/>
@@ -117,7 +117,7 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    void ShowTheMatchCondition()
    {
       var matchingConfiguration = _currentVocab().MatchingConfiguration;
-      MatchCondition = matchingConfiguration.MatchCondition.IsEmpty ? "None" : matchingConfiguration.MatchCondition.ToString();
+      MatchConditionDescription = matchingConfiguration.MatchCondition.IsEmpty ? "None" : matchingConfiguration.MatchCondition.ToString();
       CanBeEditedRuleByRule = matchingConfiguration.Rules.IsMadeOfRulesOnly;
    }
 

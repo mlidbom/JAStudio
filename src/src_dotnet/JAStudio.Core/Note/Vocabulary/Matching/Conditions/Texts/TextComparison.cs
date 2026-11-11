@@ -25,6 +25,8 @@ public abstract record TextComparison : Condition<string>
    /// <summary>The comparison as the editor shows it, before the texts, such as "ends with one of".</summary>
    protected abstract string Description { get; }
 
+   internal override IEnumerable<TextSet> ComparedTextSets() => [Texts];
+
    /// <summary>The comparison as the corpus stores it: its texts under <paramref name="jsonKey"/>, such as <c>endsWithOneOf</c>.</summary>
    protected JsonObject ToJsonUnder(string jsonKey) => new() { [jsonKey] = Texts.ToJson() };
 }

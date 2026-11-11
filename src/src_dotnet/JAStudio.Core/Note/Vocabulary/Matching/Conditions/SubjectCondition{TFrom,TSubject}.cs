@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
@@ -33,6 +34,8 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom> where 
    public override IEnumerable<string> DescriptionLines() => Condition.DescriptionLinesPrefixedWith($"{Subject.Name}: ");
 
    internal override JsonObject ToJson() => new() { [Subject.JsonKey] = Condition.ToJson() };
+
+   internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 
    /// <summary>Whether the <see cref="Subject"/> is found in <paramref name="from"/> and meets the <see cref="Condition"/>: an absent subject meets no condition.</summary>
    bool SubjectIsFoundAndMeetsTheCondition(TFrom from) => Subject.FoundIn(from) is {} found && Condition.IsMetBy(found);

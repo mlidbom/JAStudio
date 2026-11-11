@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.SysUtils.Json;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.RelatedVocab;
 
@@ -106,24 +101,26 @@ public static class VocabEditableFields
    public static readonly EditableTextSetField<VocabNote> RequiredPrefix = MatchingRule(MatchingRules.RequiredPrefix, "Required prefix");
    public static readonly EditableTextSetField<VocabNote> SuffixIsNot = MatchingRule(MatchingRules.SuffixIsNot, "Suffix is not");
    public static readonly EditableTextSetField<VocabNote> SurfaceIsNot = MatchingRule(MatchingRules.SurfaceIsNot, "Surface is not");
+
    /// <summary>The vocab's <see cref="VocabNoteMatchingConfiguration.YieldToSurface"/> rule, a rule on display.</summary>
    public static readonly EditableTextSetField<VocabNote> YieldToSurface =
       new("matching.yieldToSurface",
           "Yield to surface",
           it => it.MatchingConfiguration.YieldToSurface.Surfaces,
-          it => it.MatchingConfiguration.YieldToSurface.Save(),
+          (it, surface) => it.MatchingConfiguration.YieldToSurface.Add(surface),
+          (it, surface) => it.MatchingConfiguration.YieldToSurface.Remove(surface),
           changesHowSentencesParse: true);
 
    /// <summary>
-   /// The vocab's whole <see cref="VocabNoteMatchingConfiguration.MatchCondition"/>, as JSON (<see cref="MatchConditionJson"/>): empty for none. It can hold<br/>
-   /// any condition, where the matching rules above edit only one made of rules. A condition that isn't an "all of" is made the only one in one.
+   /// The vocab's whole <see cref="VocabNoteMatchingConfiguration.MatchCondition"/>, as JSON text (<see cref="MatchConditionJson.AsJsonText"/>): empty for none.<br/>
+   /// It can hold any condition, where the matching rules above edit only one made of rules. A condition that isn't an "all of" is made the only one in one.
    /// </summary>
    public static readonly EditableTextField<VocabNote> MatchCondition =
       new("matching.condition",
           "Match-condition",
           TextFieldFormat.Paragraphs,
-          it => it.MatchingConfiguration.MatchCondition.IsEmpty ? "" : MatchConditionJson.Of(it.MatchingConfiguration.MatchCondition).ToJsonString(IndentedJson),
-          (it, json) => it.MatchingConfiguration.SetMatchCondition(MatchConditionIn(json)),
+          it => MatchConditionJson.AsJsonText(it.MatchingConfiguration.MatchCondition),
+          (it, text) => it.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText(text)),
           changesHowSentencesParse: true);
 
    public static readonly EditableUsuallyWrittenInKanaField UsuallyWrittenInKana = new();
@@ -233,18 +230,9 @@ public static class VocabEditableFields
       new($"matching.rules.{rule.Name}",
           label,
           it => it.MatchingConfiguration.Rules.TextsOf(rule),
-          (it, text) => it.MatchingConfiguration.Rules.SetTexts(rule, [.. it.MatchingConfiguration.Rules.TextsOf(rule), text]),
-          (it, text) => it.MatchingConfiguration.Rules.SetTexts(rule, it.MatchingConfiguration.Rules.TextsOf(rule).Where(each => each != text)),
+          (it, text) => it.MatchingConfiguration.Rules.AddText(rule, text),
+          (it, text) => it.MatchingConfiguration.Rules.RemoveText(rule, text),
           changesHowSentencesParse: true);
-
-   static readonly JsonSerializerOptions IndentedJson = new() { WriteIndented = true, Encoder = FullUnicodeJsonEncoder.Instance };
-
-   /// <summary>The match-condition the JSON text <paramref name="json"/> holds: none when it's empty.</summary>
-   /// <exception cref="FormatException">When it isn't a condition on a word.</exception>
-   static AllOfGroup<CandidateWordVariant> MatchConditionIn(string json) =>
-      json.Trim().Length == 0
-         ? ConditionGroup.AllOf<CandidateWordVariant>()
-         : MatchConditionJson.VocabsMatchConditionFrom(JsonNode.Parse(json) as JsonObject ?? throw new FormatException($"A match-condition is a JSON object: {json}"));
 
    /// <summary>One of the vocab's register flags (<see cref="VocabNoteRegister"/>), such as whether it's formal, named <paramref name="name"/> in the corpus.</summary>
    static EditableFlagField<VocabNote> RegisterFlag(string name, string label, Func<VocabNoteRegister, FlagField> flag) =>

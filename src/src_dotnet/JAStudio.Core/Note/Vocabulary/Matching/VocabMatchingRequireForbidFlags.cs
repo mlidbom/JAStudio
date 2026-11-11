@@ -21,7 +21,7 @@ public class VocabMatchingRequireForbidFlags
    /// <param name="guard">Saves the vocab after a change.</param>
    internal VocabMatchingRequireForbidFlags(VocabNotePartsOfSpeech partsOfSpeech, IReadOnlyDictionary<string, RequiredOrForbiddenDto> storedRules, NoteGuard guard)
    {
-      DictionaryFormStart = Rule("dictionaryFormStart", 30, 1);
+      DictionaryFormStart = Rule("dictionaryFormStart", requiredWeight: 30, forbiddenWeight: 1);
       YieldLastToken = Add(new YieldLastTokenToOverlappingCompound(partsOfSpeech, storedRules, guard));
       AssertEveryStoredRuleIsOneOfThese();
       return;
