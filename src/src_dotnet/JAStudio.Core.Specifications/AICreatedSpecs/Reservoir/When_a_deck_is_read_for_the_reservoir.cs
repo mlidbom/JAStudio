@@ -20,7 +20,7 @@ public abstract class When_a_deck_is_read_for_the_reservoir : IAIGeneratedSpec, 
 {
    static readonly string[] FieldNames = ["SequenceMarker", "Audio", "Snapshot", "Expression", "Meaning", "Reading"];
    static readonly string[] FirstNote = ["01_0101", "[sound:show_01_0.01.mp3]", """<img src="show_01_0.01.jpg">""", "（夏目）友人帳を 寄越せ", "Hand it over!", "友人帳[ゆうじんちょう]を 寄越[よこ]せ"];
-   static readonly string[] SecondNote = ["01_0102", "[sound:show_01_0.02.mp3]", """<img src="show_01_0.02.jpg">""", "いやだ", "No way.", "いやだ"];
+   static readonly string[] SecondNote = ["01_0102", "[sound:show_01_0.02.mp3]", """<img src="show_01_0.02.jpg">""", "いやだ、渡さない", "No way, I will not give it to you.", "いやだ、 渡[わた]さない"];
 
    readonly DirectoryInfo _folder = Directory.CreateTempSubdirectory("jastudio-deck-spec-");
    readonly AnkiPackageDatabase _database;
@@ -53,7 +53,7 @@ public abstract class When_a_deck_is_read_for_the_reservoir : IAIGeneratedSpec, 
    /// <summary>Each note's sentence, cleaned, with its translation and its media.</summary>
    protected void EachNoteGivesItsSentence() =>
       _deck.Sentences().Select(it => $"{it.Position} {it.Text} | {it.Translation} | {it.AudioFile} | {it.ImageFile}").Must()
-           .SequenceEqual(["note 1 友人帳を 寄越せ | Hand it over! | show_01_0.01.mp3 | show_01_0.01.jpg", "note 2 いやだ | No way. | show_01_0.02.mp3 | show_01_0.02.jpg"]);
+           .SequenceEqual(["note 1 友人帳を 寄越せ | Hand it over! | show_01_0.01.mp3 | show_01_0.01.jpg", "note 2 いやだ、渡さない | No way, I will not give it to you. | show_01_0.02.mp3 | show_01_0.02.jpg"]);
 
    public void Dispose()
    {

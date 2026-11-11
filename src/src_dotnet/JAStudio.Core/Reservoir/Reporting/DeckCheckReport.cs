@@ -66,14 +66,14 @@ public sealed class DeckCheckReport
 
    void WriteTheNoteTypesGivingWords()
    {
-      var givingWords = NoteTypes.Where(it => it.NoteType.GivesWordsRatherThanSentences).OrderByDescending(it => it.NoteType.SentenceCount).ToList();
+      var givingWords = NoteTypes.Where(it => it.NoteType.GivesWordsRatherThanSentences).OrderByDescending(it => it.NoteType.TextCount).ToList();
       _folder.Section("Note types giving words rather than sentences",
-                      Invariant($"{givingWords.Count:N0} note types, giving {givingWords.Sum(it => it.NoteType.SentenceCount):N0} \"sentences\" so short that they're most likely words, as a vocabulary deck's are."));
-      _folder.TableWithTheRestInAFile("note-types-giving-words", ["Deck", "Note type", "Sentences", "Average length", "Japanese field", "Examples", "Fields"],
+                      Invariant($"{givingWords.Count:N0} note types, with {givingWords.Sum(it => it.NoteType.TextCount):N0} notes whose Japanese is so short that it's most likely words, as a vocabulary deck's is: they give no sentences."));
+      _folder.TableWithTheRestInAFile("note-types-giving-words", ["Deck", "Note type", "Notes with Japanese", "Average length", "Japanese field", "Examples", "Fields"],
                                       [.. givingWords.Select(it => new[]
                                                                    {
-                                                                      it.Deck.Deck.Name, it.NoteType.Roles.NoteType.Name, Invariant($"{it.NoteType.SentenceCount:N0}"), Invariant($"{it.NoteType.AverageSentenceLength:F1}"),
-                                                                      it.NoteType.Roles.JapaneseField ?? "", string.Join(" / ", it.NoteType.ExampleSentences), string.Join(", ", it.NoteType.Roles.NoteType.FieldNames)
+                                                                      it.Deck.Deck.Name, it.NoteType.Roles.NoteType.Name, Invariant($"{it.NoteType.TextCount:N0}"), Invariant($"{it.NoteType.AverageTextLength:F1}"),
+                                                                      it.NoteType.Roles.JapaneseField ?? "", string.Join(" / ", it.NoteType.Examples), string.Join(", ", it.NoteType.Roles.NoteType.FieldNames)
                                                                    })]);
    }
 
@@ -81,13 +81,16 @@ public sealed class DeckCheckReport
    {
       _folder.Section("Every note type", "In `note-types.tsv`: each deck's note types, with the fields recognized in them, what they give, and examples of their sentences.");
       _folder.TabSeparatedFile("note-types",
-                               ["Deck", "Note type", "Notes", "Sentences", "Average length", "Japanese field", "Translation field", "Audio field", "Image field", "Examples", "Fields"],
+                               ["Deck", "Note type", "Notes", "Sentences", "Average length", "Japanese field", "Its furigana taken away", "Words, not sentences", "Translation field", "Audio field", "Image field", "Examples", "Fields"],
                                NoteTypes.Select(it => new[]
                                                       {
                                                          it.Deck.Deck.Name, it.NoteType.Roles.NoteType.Name, Invariant($"{it.NoteType.NoteCount}"), Invariant($"{it.NoteType.SentenceCount}"),
-                                                         Invariant($"{it.NoteType.AverageSentenceLength:F1}"), it.NoteType.Roles.JapaneseField ?? "", it.NoteType.Roles.TranslationField ?? "",
-                                                         it.NoteType.Roles.AudioField ?? "", it.NoteType.Roles.ImageField ?? "", string.Join(" / ", it.NoteType.ExampleSentences),
+                                                         Invariant($"{it.NoteType.AverageTextLength:F1}"), it.NoteType.Roles.JapaneseField ?? "", YesOrEmpty(it.NoteType.Roles.JapaneseFieldHoldsFurigana),
+                                                         YesOrEmpty(it.NoteType.GivesWordsRatherThanSentences), it.NoteType.Roles.TranslationField ?? "",
+                                                         it.NoteType.Roles.AudioField ?? "", it.NoteType.Roles.ImageField ?? "", string.Join(" / ", it.NoteType.Examples),
                                                          string.Join(", ", it.NoteType.Roles.NoteType.FieldNames)
                                                       }));
+
+      static string YesOrEmpty(bool yes) => yes ? "yes" : "";
    }
 }

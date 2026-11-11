@@ -32,7 +32,7 @@ public class When_checking_what_decks_would_give_the_reservoir : IAIGeneratedSpe
    [XF] public void each_note_type_with_notes_is_checked() => _deck.NoteTypes.Select(it => it.Roles.NoteType.Name).Order().Must().SequenceEqual(["basic", "sentences", "words"]);
 
    [XF] public void the_note_type_of_sentences_gives_each_notes_sentence() =>
-      TheNoteType("sentences").ExampleSentences.Select(it => it.Text).Must().SequenceEqual(["友人帳を寄越せ", "いやだ、絶対に渡さない"]);
+      TheNoteType("sentences").Examples.Select(it => it.Text).Must().SequenceEqual(["友人帳を寄越せ", "いやだ、絶対に渡さない"]);
 
    [XF] public void the_note_type_of_sentences_is_not_taken_for_one_of_words() => TheNoteType("sentences").GivesWordsRatherThanSentences.Must().BeFalse();
 
