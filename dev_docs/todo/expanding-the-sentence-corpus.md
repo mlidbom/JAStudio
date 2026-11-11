@@ -142,6 +142,30 @@ and the reports. The full decks, hundreds of GB, are to live where Magnus puts h
   1,382 decks, into `C:\Dev\_JAReservoir\mediafire\databases` (`C:\Dev\_JAReservoir\tools\fetch_mediafire.py`); Magnus is downloading
   the whole folder himself, with an account that allows it.
 
+## Keeping the reservoir safe (agreed with Magnus, 2026-11-11; not built yet)
+
+The reservoir file is rebuilt from sources that sit in Dropbox, on MediaFire and on a USB drive, so the data isn't safe
+until it's kept as JAStudio's own. Agreed:
+
+- **The text goes in git, as the source of truth; the reservoir's SQLite file is an index derived from it.** Each
+  source's sentences are kept faithfully, a line of JSON each, in a sentence note's shape without configuration or
+  parsing result, a file per work, with everything there's any notable chance of needing: the deck's or subtitle
+  file's identity, the note's raw fields and tags, a subtitle line's times, and the mapping from the deck's fields to
+  the sentence's. A manifest per repository gives the format's version and what each collection is.
+- **The format is meant never to change,** and history isn't vital: if it must change, a new repository replaces the
+  old. A sentence JAStudio comes to care about is copied into the corpus, and lives on there.
+- **Measured (2026-11-11):** the 16.3 million distinct sentences take 5.6 GB as such lines, 343 bytes each, and about
+  0.95 GB in git; the MediaFire collection's 2.3 GB of lines packed to 415 MB. Every MediaFire deck's own database,
+  without media, takes 1.13 GB in git, the largest 66 MB, so keeping the decks themselves, as well as the lines, is
+  affordable too.
+- **The media is stored once, normalized losslessly, named by its content's SHA-256,** and so immutable; the text
+  refers to it by hash, and a list of every file's hash, kept with the text, says what must exist. Three copies: the
+  working copy, a cloud object store holding a file per object for access, and a cold archive at another provider, in
+  bundles of a few GB, since cold storage charges per object.
+- **Measured (2026-11-11):** the MediaFire folder's 1,368 decks hold 515 GB of media in 13.1 million files: 7.5 million
+  mp3s (415 GB), 5.4 million jpgs (79 GB), some png, ogg and wav, and 5.7 GB of the card templates' fonts and scripts.
+  No video.
+
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion
