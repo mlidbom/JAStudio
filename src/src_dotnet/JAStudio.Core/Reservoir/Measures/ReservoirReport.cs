@@ -51,6 +51,7 @@ public sealed class ReservoirReport
       report.WriteTheReservoirsSize();
       report.WriteTheVocabTheCorpusLacksSentencesFor();
       report.WriteTheRejectionsOnlyTheReservoirHas();
+      report.WriteTheMatchConditionsAtWork();
       report.WriteTheVocabTheReservoirAlwaysRejects();
       report.WriteTheWordsNoVocabHas(ReservoirWordKind.Dictionary, "Dictionary-only words the reservoir shows most", "dictionary-only-words");
       report.WriteTheWordsNoVocabHas(ReservoirWordKind.Missing, "Missing words the reservoir shows most: no vocab and no dictionary entry", "missing-words");
@@ -97,9 +98,47 @@ public sealed class ReservoirReport
       TableWithTheRestInAFile("rejections-only-the-reservoir-has", ["Vocab", "Rejected because", "Sentences", "Examples"], rows);
    }
 
+   /// <summary>
+   /// Every condition at the root of every vocab's match-condition, with how many matches it rejects in the corpus and in the reservoir: what it<br/>
+   /// decides, the generality measure of <c>dev_docs/matching-configuration.md</c>. One that rejects nothing anywhere decides nothing yet.
+   /// </summary>
+   void WriteTheMatchConditionsAtWork()
+   {
+      var reservoirVocabNumberByNoteId = _vocabByNumber.Values.ToDictionary(it => it.NoteId, it => it.Number);
+      var reasonNumberByText = _reasonByNumber.ToDictionary(it => it.Value, it => it.Key);
+      var conditions = _collection.Vocab.All()
+                                  .SelectMany(vocab => vocab.MatchingConfiguration.MatchCondition.Conditions.Select(condition => (Vocab: vocab, Reason: $"not_met::{condition}")))
+                                  .Select(it => (it.Vocab, it.Reason, Corpus: _corpus.Rejections(it.Vocab.GetId().ToString(), it.Reason), Reservoir: ReservoirRejections(it.Vocab.GetId().ToString(), it.Reason)))
+                                  .OrderBy(it => it.Corpus + (it.Reservoir?.Count ?? 0))
+                                  .ToList();
+      var decidingNothing = conditions.Where(it => it.Corpus == 0 && it.Reservoir is null).ToList();
+      _markdown.AppendLine("## The match-conditions at work: how many matches each condition rejects").AppendLine()
+               .AppendLine(CultureInfo.InvariantCulture, $"- {conditions.Count:N0} conditions at the root of {conditions.Select(it => it.Vocab).Distinct().Count():N0} vocab's match-conditions.")
+               .AppendLine(CultureInfo.InvariantCulture, $"- {decidingNothing.Count:N0} reject nothing, in the corpus or the reservoir: they decide nothing yet. All conditions, with their counts, are in `match-conditions-at-work.tsv`.").AppendLine();
+      Table(["Vocab", "Condition that rejects nothing", "Corpus sentences matching", "Reservoir sentences matching"],
+            decidingNothing.Take(RowsInTheReport).Select(it => new[] { it.Vocab.GetQuestion(), it.Reason["not_met::".Length..].ReplaceLineEndings(" "), $"{_corpus.SentencesMatching(it.Vocab.GetId().ToString())}", $"{VocabSentencesInTheReservoir(it.Vocab.GetId().ToString())}" }));
+      File.WriteAllLines(Path.Combine(_folder.FullName, "match-conditions-at-work.tsv"),
+                         conditions.Select(it => string.Join('\t', it.Vocab.GetQuestion(), it.Reason.ReplaceLineEndings(" "), it.Corpus, it.Reservoir?.Count ?? 0, it.Reservoir is null ? "" : Examples(it.Reservoir)))
+                                   .Prepend("Vocab\tCondition\tRejections in the corpus\tRejections in the reservoir\tExamples"));
+      return;
+
+      CountWithExamples? ReservoirRejections(string noteId, string reason) =>
+         reservoirVocabNumberByNoteId.TryGetValue(noteId, out var vocabNumber) && reasonNumberByText.TryGetValue(reason, out var reasonNumber)
+            ? _measures.SentencesByRejection.GetValueOrDefault((vocabNumber, reasonNumber))
+            : null;
+
+      int VocabSentencesInTheReservoir(string noteId) =>
+         reservoirVocabNumberByNoteId.TryGetValue(noteId, out var vocabNumber) ? _measures.SentencesByVocab.GetValueOrDefault(vocabNumber)?.Count ?? 0 : 0;
+   }
+
+   /// <summary>
+   /// The vocab whose form reservoir sentences have, but which never matches there. Rejections by design are left out: a poison word's, which<br/>
+   /// never matches, and an owned form's, which its owner takes.
+   /// </summary>
    void WriteTheVocabTheReservoirAlwaysRejects()
    {
       var alwaysRejected = _measures.SentencesByRejection
+                                    .Where(it => !IsByDesign(_reasonByNumber[it.Key.ReasonNumber]))
                                     .GroupBy(it => it.Key.VocabNumber)
                                     .Where(it => !_measures.SentencesByVocab.ContainsKey(it.Key))
                                     .Select(it => (Vocab: _vocabByNumber[it.Key], Rejections: it.Sum(rejection => rejection.Value.Count), Top: it.MaxBy(rejection => rejection.Value.Count)))
@@ -107,7 +146,7 @@ public sealed class ReservoirReport
                                     .OrderByDescending(it => it.Rejections)
                                     .ToList();
       _markdown.AppendLine("## Vocab the reservoir always rejects: its form is there, but it never matches").AppendLine()
-               .AppendLine(CultureInfo.InvariantCulture, $"- {alwaysRejected.Count:N0} vocab match no sentence of the reservoir, though ten or more of its sentences have their form.")
+               .AppendLine(CultureInfo.InvariantCulture, $"- {alwaysRejected.Count:N0} vocab match no sentence of the reservoir, though ten or more of its sentences have their form, rejections by design (a poison word, an owned form) left out.")
                .AppendLine("- A condition that's too strict, or a word whose form is truly always another word's: the examples tell which.").AppendLine();
       var rows = alwaysRejected.Select(it => new[] { it.Vocab.Question, $"{it.Rejections:N0}", _reasonByNumber[it.Top.Key.ReasonNumber], Examples(it.Top.Value) }).ToList();
       TableWithTheRestInAFile("vocab-the-reservoir-always-rejects", ["Vocab", "Rejections", "Most often because", "Examples"], rows);
@@ -143,6 +182,9 @@ public sealed class ReservoirReport
    }
 
    string WorkOf(long sourceId) => _sources[sourceId].Work;
+
+   static bool IsByDesign(string reason) =>
+      reason.StartsWith("forbids::poison_word", StringComparison.Ordinal) || reason.StartsWith("forbids::another_match_owns_the_form", StringComparison.Ordinal);
 
    string Examples(CountWithExamples count)
    {

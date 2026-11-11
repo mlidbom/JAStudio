@@ -96,6 +96,42 @@ Nothing was downloaded yet.
   downloads allow range requests, as download managers' resuming suggests, a deck's database can be read without its
   media, about 4 GB for all 1,382 rather than 517. Not tried yet.
 
+## The reservoir, as built on the branch `corpus-reservoir` (Claude, the night of 2026-11-11)
+
+Built on a branch of its own, in the worktree `C:\Dev\JAStudio.worktrees\corpus-reservoir`, so that Magnus can choose
+whether to merge it. The data lives outside git, in `E:\SUBS2SRS\`, a drive with no cloud backup (Magnus).
+
+- **Reading the sources, with no Anki** (`JAStudio.Core.Reservoir.Sources`):
+  - `AnkiPackageDatabase` reads an .apkg's collection database, or one taken out of its package, in all three of Anki's
+    formats (`collection.anki2`, `anki21`, and the zstd-compressed `anki21b`), as the import's own `RawNote`s and
+    `AnkiNoteType`s. That's the ground for an `IAnkiRawNotes` reading a package, so the import profiles could import a
+    deck file with no Anki profile for importing.
+  - `DeckFieldRoles` recognizes which field holds the Japanese, the translation, the audio and the image, by known names
+    such as Expression and source_question, and else by what a sample of the notes hold (`FieldContents`). It recognized
+    all 31 of the Dropbox folder's decks right, across eleven note types.
+  - `SubtitleFile` reads .srt, .ass and .ssa, in UTF-8, UTF-16 or Shift JIS; `SubtitleCollection` reads a folder per
+    show, zipped as the kitsunekko backup is, or not, zips inside included.
+  - `ReservoirSentenceText` cleans a sentence of what its source wraps it in: HTML, ruby, direction marks, subtitle
+    formatting, speaker names in brackets such as （ユーリ）, music notes; half-width katakana become full-width.
+- **The reservoir itself** (`ReservoirFile`): a SQLite file of distinct sentences, each with the source it was first
+  found in (or the first with its audio), where in it, its translation and media file names, and how often it was found.
+  A work is added once (`ReservoirFilling`), so filling can stop and start again.
+- **The bulk analysis** (`JAStudio.Core.Reservoir.Analysis`): every sentence analyzed as a stored parsing result is made
+  (`TextAnalysis`, no configuration), with the corpus's vocab, about 6,000 sentences a second in parallel. Each analysis
+  is kept as a MemoryPack record (`ReservoirSentenceAnalysis`): its words (valid matches and displayed ones) and the vocab
+  matches it rejected, with why, vocab and failure reasons numbered (`ReservoirAnalysisNumbers`) to keep it small.
+- **The measures and the report** (`JAStudio.Core.Reservoir.Measures`): one pass over the analyses counts, with
+  examples, the sentences matching each vocab, each vocab's rejections by reason, and each word no vocab has
+  (`ReservoirMeasures`); the corpus is counted the same way (`WhatTheCorpusHas`). `SentencesWorthTakingIn` then picks,
+  greedily, the fewest sentences giving the corpus what it lacks: three sentences for each vocab, two for each vocab and
+  rejection reason, one for each frequent word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list.
+- **Run as batch commands of the headless JAStudio** (`ReservoirCommands`), from a copy of its build:
+  `JAStudio.HeadlessHost reservoir fill-decks | fill-subtitles | analyze | report`, with `--name value` arguments.
+- **Fetching the MediaFire folder's databases only:** MediaFire answers range requests (HTTP 206), so a deck's
+  collection database is read out of its zip without the media, a few MB of a deck's hundreds. A script did it for all
+  1,382 decks, into `E:\SUBS2SRS\mediafire\databases` (`E:\SUBS2SRS\tools\fetch_mediafire.py`); Magnus is downloading
+  the whole folder himself, with an account that allows it.
+
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion
