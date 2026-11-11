@@ -36,12 +36,7 @@ public sealed class ReservoirAnalyzing
    /// </summary>
    public void AnalyzeEveryUnanalyzedSentence()
    {
-      if(_reservoir.KeepsAnalysesOfAnOlderFormat)
-      {
-         _reservoir.ForgetTheAnalysesOfAnOlderFormat();
-         _tellProgress("The analyses kept were of an older format, so they're forgotten, and every sentence is analyzed anew.");
-      }
-
+      ForgetTheAnalysesKeptWhenTheyAreOfAnOlderFormat();
       var numbers = _reservoir.AnalysisNumbers();
       var analyzed = 0L;
       var lastAnalyzedId = 0L;
@@ -53,6 +48,14 @@ public sealed class ReservoirAnalyzing
          lastAnalyzedId = batch[^1].Id;
          _tellProgress($"{analyzed} sentences analyzed, the last {batch.Count} at {batch.Count / watch.Elapsed.TotalSeconds:F0} a second");
       }
+   }
+
+   void ForgetTheAnalysesKeptWhenTheyAreOfAnOlderFormat()
+   {
+      if(!_reservoir.KeepsAnalysesOfAnOlderFormat) return;
+
+      _reservoir.ForgetTheAnalysesOfAnOlderFormat();
+      _tellProgress("The analyses kept were of an older format, so they're forgotten, and every sentence is analyzed anew.");
    }
 
    /// <summary>The analysis of each sentence of <paramref name="batch"/>, made in parallel, with the id of its sentence.</summary>

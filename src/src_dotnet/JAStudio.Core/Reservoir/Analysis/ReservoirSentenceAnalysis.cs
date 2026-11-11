@@ -35,7 +35,7 @@ public sealed partial record ReservoirSentenceAnalysis(ReservoirWord[] Words, Re
    /// <summary>Whether the vocab with the number <paramref name="vocabNumber"/> has a valid match in the sentence.</summary>
    public bool HasAValidMatchOfTheVocabNumbered(int vocabNumber) => Words.Any(it => it.IsValid && it.VocabNumber == vocabNumber);
 
-   /// <summary>The numbers of the vocab the sentence's words are matches of, each once.</summary>
+   /// <summary>The numbers of the vocab with a valid match in the sentence, each once.</summary>
    public IEnumerable<int> VocabNumbersOfItsValidMatches() => Words.Where(it => it is { IsValid: true, Kind: ReservoirWordKind.Vocab }).Select(it => it.VocabNumber).Distinct();
 
    /// <summary>Whether the sentence breakdown displays a missing word: one neither a vocab nor the dictionary has.</summary>

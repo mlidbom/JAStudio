@@ -185,14 +185,20 @@ public sealed class ReservoirReport
    /// </summary>
    void WriteTheWorksThatMayBeGarbled()
    {
-      var works = _measures.ParsingBySource.Where(it => it.Value.Sentences >= SentencesOfAWorkForItsShareToCount).OrderByDescending(it => it.Value.ShareWithAMissingWord).ToList();
-      var shares = works.Select(it => it.Value.ShareWithAMissingWord).Order().ToList();
+      var works = _measures.HowEachWorkParsesBySource.Where(it => it.Value.Sentences >= SentencesOfAWorkForItsShareToCount).OrderByDescending(it => it.Value.ShareWithAMissingWord).ToList();
       _folder.Section("The works that may be garbled: whose sentences most often display a missing word",
-                      Invariant($"Of the {works.Count:N0} works with at least {SentencesOfAWorkForItsShareToCount} sentences, the median displays a missing word in {Percent(shares.Count == 0 ? 0 : shares[shares.Count / 2])} of its sentences."),
+                      Invariant($"Of the {works.Count:N0} works with at least {SentencesOfAWorkForItsShareToCount} sentences, the median displays a missing word in {Percent(TheMedianWorksShare())} of its sentences."),
                       "Far more is a sign of subtitles read off the screen by OCR, or of text that isn't Japanese: such a work's missing words are errors.");
       _folder.TableWithTheRestInAFile("works-that-may-be-garbled",
                                       ["Work", "Collection", "Sentences", "With a missing word", "Examples"],
                                       [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, $"{it.Value.Sentences:N0}", Percent(it.Value.ShareWithAMissingWord), Examples(it.Value.SentencesWithAMissingWord) })]);
+      return;
+
+      double TheMedianWorksShare()
+      {
+         var shares = works.Select(it => it.Value.ShareWithAMissingWord).Order().ToList();
+         return shares.Count == 0 ? 0 : shares[shares.Count / 2];
+      }
    }
 
    string WorkOf(long sourceId) => _sources[sourceId].Work;

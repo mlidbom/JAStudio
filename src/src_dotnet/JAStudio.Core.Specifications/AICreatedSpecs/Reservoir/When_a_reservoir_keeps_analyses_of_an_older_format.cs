@@ -25,14 +25,7 @@ public class When_a_reservoir_keeps_analyses_of_an_older_format : IAIGeneratedSp
    {
       var file = new FileInfo(Path.Combine(_folder.FullName, "reservoir.sqlite"));
       ReservoirFile.OpenOrCreate(file).Dispose();
-      using(var connection = new SqliteConnection($"Data Source={file.FullName};Pooling=False"))
-      {
-         connection.Open();
-         using var command = connection.CreateCommand();
-         command.CommandText = "pragma user_version = 0";
-         command.ExecuteNonQuery();
-      }
-
+      MarkItsAnalysesAsOfTheFirstFormat(file);
       _reservoir = ReservoirFile.OpenOrCreate(file);
    }
 
@@ -51,6 +44,19 @@ public class When_a_reservoir_keeps_analyses_of_an_older_format : IAIGeneratedSp
       _reservoir.Dispose();
       SqliteConnection.ClearAllPools();
       _folder.Delete(recursive: true);
+   }
+
+   /// <summary>
+   /// Marks the analyses the reservoir file <paramref name="file"/> keeps as of the first format, 0, as a reservoir's were before each word kept<br/>
+   /// whether it's a valid match: the format is the file's <c>user_version</c>.
+   /// </summary>
+   static void MarkItsAnalysesAsOfTheFirstFormat(FileInfo file)
+   {
+      using var connection = new SqliteConnection($"Data Source={file.FullName};Pooling=False");
+      connection.Open();
+      using var command = connection.CreateCommand();
+      command.CommandText = "pragma user_version = 0";
+      command.ExecuteNonQuery();
    }
 
    public class a_reservoir_made_now : IAIGeneratedSpec, IDisposable

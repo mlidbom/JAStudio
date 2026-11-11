@@ -39,7 +39,7 @@ sealed class SentenceFeatures
       foreach(var vocabNumber in analysis.VocabNumbersOfItsValidMatches())
          yield return VocabFeature(vocabNumber);
 
-      foreach(var word in analysis.Words.Where(IsADisplayedWordNoVocabHasShownInEnoughWorksToCount))
+      foreach(var word in analysis.DisplayedWordsNoVocabHas().Where(IsShownInEnoughWorksToCount))
          yield return WordNoVocabHasFeature(word);
 
       foreach(var rejection in analysis.VocabRejections())
@@ -60,7 +60,7 @@ sealed class SentenceFeatures
                      () => SentencesWantedForAVocab - _corpus.SentencesMatching(VocabNumbered(vocabNumber).NoteId),
                      () => $"the vocab {VocabNumbered(vocabNumber).Question}");
 
-   int WordNoVocabHasFeature(ReservoirWord word) =>
+   int WordNoVocabHasFeature((string Form, ReservoirWordKind Kind) word) =>
       FeatureWithKey($"w{word.Kind}{word.Form}",
                      () => SentencesWantedForAWord - _corpus.SentencesDisplayingUnmatched(word.Form),
                      () => $"the {(word.Kind == ReservoirWordKind.Dictionary ? "dictionary-only" : "missing")} word {word.Form}");
@@ -70,9 +70,8 @@ sealed class SentenceFeatures
                      () => SentencesWantedForARejection - _corpus.Rejections(VocabNumbered(rejection.VocabNumber).NoteId, ReasonNumbered(rejection.ReasonNumber)),
                      () => $"{VocabNumbered(rejection.VocabNumber).Question} rejected: {ReasonNumbered(rejection.ReasonNumber)}");
 
-   /// <summary>Whether <paramref name="word"/> is a displayed word no vocab has, and the sentences of enough works show it for it to be no name.</summary>
-   bool IsADisplayedWordNoVocabHasShownInEnoughWorksToCount(ReservoirWord word) =>
-      word is { IsDisplayed: true, Kind: not ReservoirWordKind.Vocab } && _measures.SentencesByUnmatchedWord[(word.Form, word.Kind)].Works >= WorksShowingAWordForItToCount(word.Kind);
+   /// <summary>Whether the sentences of enough works show <paramref name="word"/>, a displayed word no vocab has, for it to be no name.</summary>
+   bool IsShownInEnoughWorksToCount((string Form, ReservoirWordKind Kind) word) => _measures.SentencesByUnmatchedWord[word].Works >= WorksShowingAWordForItToCount(word.Kind);
 
    /// <summary>
    /// The id of the feature with the key <paramref name="key"/>. A feature found for the first time is given one, with how many sentences of it<br/>

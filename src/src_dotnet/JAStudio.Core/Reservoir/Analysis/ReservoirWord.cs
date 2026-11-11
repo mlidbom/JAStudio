@@ -6,7 +6,7 @@ namespace JAStudio.Core.Reservoir.Analysis;
 /// <summary>
 /// A word of a reservoir sentence's analysis: a valid match, as a sentence's stored parsing result holds them, or a match the sentence breakdown<br/>
 /// displays, which a missing word's always is. A displayed match can be invalid: the breakdown displays a rejected match when nothing else covers<br/>
-/// its word (<c>Match.IsEmergencyDisplayed</c>).
+/// its word (<see cref="LanguageServices.JanomeEx.WordExtraction.Matches.Match.IsEmergencyDisplayed"/>).
 /// </summary>
 /// <param name="StartIndex">The index in the sentence of the word's first character.</param>
 /// <param name="Form">The form the match puts in a parsing result.</param>
