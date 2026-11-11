@@ -18,7 +18,7 @@ public class When_recognizing_the_fields_of_a_decks_note_type : IAIGeneratedSpec
       RolesOf(["Expression", "Meaning", "Audio", "Target"],
               ["ちょっと[;o] &ensp; ごめん[;h] &ensp; 急[いそ,いそぐ;k2]い でる[,でる;k1] から &ensp; じゃあ &ensp; 後[あと;a] で", "Sorry, I am in a hurry, see you later", "[sound:kiss_01.mp3]", "ごめん"],
               ["お前[おまえ,おまえ;h] は[,は;h] 誰[だれ,だれ;k1] だ", "Who are you?", "[sound:kiss_02.mp3]", "誰"])
-        .ToString().Must().Be("migaku: Japanese Expression (furigana taken away), translation Meaning, audio Audio, image -");
+        .ToString().Must().Be("the note type: Japanese Expression (furigana taken away), translation Meaning, audio Audio, image -");
 
    [XF] public void a_migaku_decks_sentence_keeps_only_its_own_spaces() =>
       FirstSentenceOf(["Expression", "Meaning", "Audio", "Target"],
@@ -36,13 +36,19 @@ public class When_recognizing_the_fields_of_a_decks_note_type : IAIGeneratedSpec
       RolesOf(["SentKanji", "SentFurigana", "SentEng", "VocabKanji"],
               ["地球の運動について考える", "地球[ちきゅう]の 運動[うんどう]について 考[かんが]える", "To think about the motion of the Earth", "運動"],
               ["それは異端の思想だ", "それは 異端[いたん]の 思想[しそう]だ", "That is a heretical thought", "異端"])
-        .ToString().Must().Be("migaku: Japanese SentKanji, translation SentEng, audio -, image -");
+        .ToString().Must().Be("the note type: Japanese SentKanji, translation SentEng, audio -, image -");
 
    [XF] public void a_decks_japanese_in_a_field_named_as_a_translation_is_recognized_when_no_other_field_holds_japanese() =>
       RolesOf(["Expression", "Meaning", "Reading"],
               ["", "（フサタ）ハアッ… 建設者！", ""],
               ["", "ここから出られるのか？", ""])
-        .ToString().Must().Be("migaku: Japanese Meaning, translation -, audio -, image -");
+        .ToString().Must().Be("the note type: Japanese Meaning, translation -, audio -, image -");
+
+   [XF] public void a_tag_of_latin_letters_is_no_translation() =>
+      RolesOf(["Tag", "SequenceMarker", "Audio", "Expression"],
+              ["Cardcaptor_Sakura_46_01", "01_00051_0.03.51.495", "[sound:sakura_01.mp3]", "（藤隆）どうぞ、召し上がれ"],
+              ["Cardcaptor_Sakura_46_01", "01_00052_0.03.53.120", "[sound:sakura_02.mp3]", "いただきます！"])
+        .ToString().Must().Be("the note type: Japanese Expression, translation -, audio Audio, image -");
 
    [XF] public void words_are_recognized_as_words_and_give_no_sentences()
    {
@@ -52,7 +58,7 @@ public class When_recognizing_the_fields_of_a_decks_note_type : IAIGeneratedSpec
    }
 
    static DeckFieldRoles RolesOf(string[] fieldNames, params string[][] notes) =>
-      DeckFieldRoles.RecognizedIn(new AnkiNoteType("migaku", fieldNames), [.. notes.Select((values, index) => NoteOf(fieldNames, index + 1, values))]);
+      DeckFieldRoles.RecognizedIn(new AnkiNoteType("the note type", fieldNames), [.. notes.Select((values, index) => NoteOf(fieldNames, index + 1, values))]);
 
    static string FirstSentenceOf(string[] fieldNames, params string[][] notes) =>
       RolesOf(fieldNames, notes).SentenceOf(NoteOf(fieldNames, 1, notes[0])) is {} sentence ? sentence.Text.Text : "(no sentence)";

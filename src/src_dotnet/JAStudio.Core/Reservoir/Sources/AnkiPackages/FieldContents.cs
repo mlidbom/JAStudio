@@ -26,6 +26,7 @@ sealed class FieldContents
       SoundShare = ShareOf(values, AnkiFieldMarkup.HoldsASound);
       ImageShare = ShareOf(values, AnkiFieldMarkup.HoldsAnImage);
       LatinShare = ShareOf(values, it => it.Count(char.IsAsciiLetter) * 2 > it.Length && ReservoirSentenceText.CleanedFrom(it) is null);
+      SeveralWordsShare = ShareOf(values, it => AnkiFieldMarkup.TextIn(it) is {} text && text.Contains(' ', StringComparison.Ordinal));
       var texts = values.Select(TextOf).OfType<ReservoirSentenceText>().ToList();
       AverageTextLength = texts.Count == 0 ? 0 : texts.Average(it => it.Text.Length);
    }
@@ -41,6 +42,9 @@ sealed class FieldContents
    public double ImageShare { get; }
    public double LatinShare { get; }
 
+   /// <summary>The share of the values whose text holds several words, with a space between them, as prose does, unlike a tag such as <c>Show_01</c>.</summary>
+   public double SeveralWordsShare { get; }
+
    /// <summary>The average length of the field's Japanese, cleaned as the reservoir keeps it (<see cref="TextOf"/>), in characters.</summary>
    public double AverageTextLength { get; }
 
@@ -55,6 +59,9 @@ sealed class FieldContents
 
    /// <summary>Whether the field holds translations, by what it holds: mostly Latin letters, and seldom media.</summary>
    public bool HoldsTranslations => LatinShare >= 0.5 && SoundShare < 0.5 && ImageShare < 0.5;
+
+   /// <summary>Whether the field's values are mostly prose, several words each, as translations are, not tags or ids such as <c>Cardcaptor_Sakura_46_01</c>.</summary>
+   public bool HoldsProse => SeveralWordsShare >= 0.5;
 
    /// <summary>The Japanese text <paramref name="value"/>, a value of the field, holds, cleaned as the reservoir keeps it, its furigana gone when the field holds them.</summary>
    public ReservoirSentenceText? TextOf(string value) => ReservoirSentenceText.CleanedFrom(HoldsFurigana ? AnkiFieldMarkup.TextWithoutFurigana(value) : value);

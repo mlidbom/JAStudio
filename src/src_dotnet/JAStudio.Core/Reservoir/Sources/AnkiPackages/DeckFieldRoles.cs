@@ -80,7 +80,7 @@ public sealed class DeckFieldRoles
       {
          var candidates = fields.Where(it => it != japanese && it.HoldsTranslations).ToList();
          return TheFirstOfTheKnownNames(candidates, KnownTranslationFieldNames)
-             ?? candidates.Where(it => it.LatinShare >= 0.6).MaxBy(it => it.LatinShare);
+             ?? candidates.Where(it => it.LatinShare >= 0.6 && it.HoldsProse).MaxBy(it => it.LatinShare);
       }
 
       // Several fields of one kind of media, such as a sentence's audio and a word's, are told apart by "sentence" in the name.
