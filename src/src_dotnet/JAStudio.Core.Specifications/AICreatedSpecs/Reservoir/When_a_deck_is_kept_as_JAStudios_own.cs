@@ -95,19 +95,13 @@ public class When_a_deck_is_kept_as_JAStudios_own : IAIGeneratedSpec, IDisposabl
       using(var archive = ZipFile.Open(package.FullName, ZipArchiveMode.Create))
       {
          archive.CreateEntryFromFile(collection.FullName, "collection.anki2");
-         Write(archive, "media", Encoding.UTF8.GetBytes("""{"0": "show_01.jpg", "1": "show_02.jpg", "2": "show_01_again.jpg"}"""));
-         Write(archive, "0", AScreenshot);
-         Write(archive, "1", AnotherScreenshot);
-         Write(archive, "2", AScreenshot);
+         archive.WriteEntry("media", Encoding.UTF8.GetBytes("""{"0": "show_01.jpg", "1": "show_02.jpg", "2": "show_01_again.jpg"}"""));
+         archive.WriteEntry("0", AScreenshot);
+         archive.WriteEntry("1", AnotherScreenshot);
+         archive.WriteEntry("2", AScreenshot);
       }
 
       package.Refresh();
       return package;
-
-      static void Write(ZipArchive archive, string name, byte[] content)
-      {
-         using var stream = archive.CreateEntry(name).Open();
-         stream.Write(content);
-      }
    }
 }

@@ -11,6 +11,7 @@ using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Reservoir.Keeping.Format;
 using JAStudio.Core.Reservoir.Sources;
 using JAStudio.Core.Reservoir.Sources.AnkiPackages;
+using JAStudio.Core.Reservoir.Sources.AnkiPackages.Media;
 using JAStudio.Core.SysUtils.Json;
 
 namespace JAStudio.Core.Reservoir.Keeping;

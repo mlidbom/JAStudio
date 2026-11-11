@@ -2,7 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
-using JAStudio.Core.Reservoir.Sources.AnkiPackages;
+using JAStudio.Core.Reservoir.Sources.AnkiPackages.Media;
 using Mp3LoudnessNormalization;
 
 namespace JAStudio.Core.Reservoir.Keeping;
