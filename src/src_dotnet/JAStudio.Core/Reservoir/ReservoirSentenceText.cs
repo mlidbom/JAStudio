@@ -69,8 +69,11 @@ public sealed partial record ReservoirSentenceText
    /// <summary>Whether <paramref name="cleaned"/> is a Japanese sentence: it has kana, or it's short and has kanji (<see cref="LongestSentenceOfKanjiAlone"/>).</summary>
    static bool IsAJapaneseSentence(string cleaned) => cleaned.Any(IsKana) || cleaned.Length <= LongestSentenceOfKanjiAlone && cleaned.Any(IsJapanese);
 
-   /// <summary>Hiragana and katakana, full-width and half-width.</summary>
-   static bool IsKana(char character) => character is >= '\u3040' and <= '\u30FF' or >= '\uFF66' and <= '\uFF9F';
+   /// <summary>
+   /// Hiragana and katakana, full-width and half-width, but not the katakana middle dot ・, which isn't one of them, and which a foreign<br/>
+   /// subtitle file misread as Shift JIS puts in its Latin text, as in J・esperava por isso.
+   /// </summary>
+   static bool IsKana(char character) => character is >= '\u3040' and <= '\u30FF' and not '\u30FB' or >= '\uFF66' and <= '\uFF9F';
 
    /// <summary>Hiragana, katakana, full-width and half-width, and the CJK ideographs, kanji among them.</summary>
    static bool IsJapanese(char character) => character is >= '\u3040' and <= '\u30FF' or >= '\u4E00' and <= '\u9FFF' or >= '\u3400' and <= '\u4DBF' or >= '\uFF66' and <= '\uFF9F';

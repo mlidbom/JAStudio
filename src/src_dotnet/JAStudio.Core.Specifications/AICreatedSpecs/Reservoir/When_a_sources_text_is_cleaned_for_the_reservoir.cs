@@ -27,6 +27,7 @@ public class When_a_sources_text_is_cleaned_for_the_reservoir : IAIGeneratedSpec
    [XF] public void half_width_katakana_become_full_width() => Cleaned("ﾎﾟｹﾓﾝ泥棒").Must().Be("ポケモン泥棒");
    [XF] public void a_line_with_no_japanese_is_no_sentence() => Cleaned("Hey, which way is it?").Must().Be("(no sentence)");
    [XF] public void a_speakers_name_alone_is_no_sentence() => Cleaned("（ユーリ）").Must().Be("(no sentence)");
+   [XF] public void a_foreign_line_misread_as_shift_jis_with_middle_dots_for_accented_letters_is_no_sentence() => Cleaned("J・esperava por isso.").Must().Be("(no sentence)");
    [XF] public void a_line_in_chinese_with_kanji_but_no_kana_is_no_sentence() => Cleaned("警察抓到的小偷会被关进监狱").Must().Be("(no sentence)");
    [XF] public void a_short_line_of_kanji_alone_is_a_sentence() => Cleaned("了解").Must().Be("了解");
 
