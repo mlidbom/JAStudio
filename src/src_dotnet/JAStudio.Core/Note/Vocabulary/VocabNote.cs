@@ -7,6 +7,7 @@ using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.NoteFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Storage.Converters;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.SysUtils;
@@ -58,6 +59,17 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    public MediaReferenceList<ImageReference> Images { get; }
 
    public VocabNoteMatchingConfiguration MatchingConfiguration { get; }
+
+   /// <summary>
+   /// The texts a sentence must contain one of for the vocab to possibly match in it: the forms it matches by, and unless it must match a<br/>
+   /// sentence's surface as written, the stems of all its forms, which its inflections start with. A sentence with none can't hold it, so<br/>
+   /// only those with one need analyzing when the vocab changes.
+   /// </summary>
+   public List<string> TextsASentenceItCanMatchInContainsOneOf() =>
+      MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Surface) == RequireForbidChoice.Required
+         ? Forms.MatchedFormsList()
+         : [.. Conjugator.GetStemsForAllForms().Concat(Forms.MatchedFormsList())];
+
    public VocabCloner Cloner { get; }
 
    public WritableStringValue TechnicalNotes { get; }

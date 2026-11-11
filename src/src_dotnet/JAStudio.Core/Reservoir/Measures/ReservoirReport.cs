@@ -75,13 +75,13 @@ public sealed class ReservoirReport
       var reservoirCountByNoteId = _measures.SentencesByVocab.ToDictionary(it => _vocabByNumber[it.Key].NoteId, it => it.Value);
       var lacking = vocab.Where(it => it.Corpus < SentencesWantedForAVocab && reservoirCountByNoteId.ContainsKey(it.Vocab.GetId().ToString()))
                          .Select(it => (it.Vocab, it.Corpus, Reservoir: reservoirCountByNoteId[it.Vocab.GetId().ToString()]))
-                         .OrderByDescending(it => it.Reservoir.Count)
+                         .OrderByDescending(it => it.Reservoir.Works).ThenByDescending(it => it.Reservoir.Count)
                          .ToList();
       _markdown.AppendLine(CultureInfo.InvariantCulture, $"## Vocab the corpus has fewer than {SentencesWantedForAVocab} sentences for, that the reservoir has").AppendLine()
                .AppendLine(CultureInfo.InvariantCulture, $"- Of {vocab.Count:N0} vocab, the corpus matches {vocab.Count(it => it.Corpus == 0):N0} in no sentence; the reservoir has sentences for {lacking.Count(it => it.Corpus == 0):N0} of them.")
                .AppendLine(CultureInfo.InvariantCulture, $"- {lacking.Count:N0} vocab have fewer than {SentencesWantedForAVocab} sentences in the corpus and some in the reservoir.").AppendLine();
-      var rows = lacking.Select(it => new[] { it.Vocab.GetQuestion(), $"{it.Corpus}", $"{it.Reservoir.Count:N0}", Examples(it.Reservoir) }).ToList();
-      TableWithTheRestInAFile("vocab-the-corpus-lacks-sentences-for", ["Vocab", "Corpus", "Reservoir", "Examples"], rows);
+      var rows = lacking.Select(it => new[] { it.Vocab.GetQuestion(), $"{it.Corpus}", $"{it.Reservoir.Count:N0}", $"{it.Reservoir.Works}", Examples(it.Reservoir) }).ToList();
+      TableWithTheRestInAFile("vocab-the-corpus-lacks-sentences-for", ["Vocab", "Corpus", "Reservoir", "Works", "Examples"], rows);
    }
 
    void WriteTheRejectionsOnlyTheReservoirHas()
@@ -90,12 +90,12 @@ public sealed class ReservoirReport
                                 .Select(it => (Vocab: _vocabByNumber[it.Key.VocabNumber], Reason: _reasonByNumber[it.Key.ReasonNumber], Reservoir: it.Value))
                                 .Select(it => (it.Vocab, it.Reason, it.Reservoir, Corpus: _corpus.Rejections(it.Vocab.NoteId, it.Reason)))
                                 .ToList();
-      var onlyTheReservoirs = rejections.Where(it => it.Corpus == 0).OrderByDescending(it => it.Reservoir.Count).ToList();
+      var onlyTheReservoirs = rejections.Where(it => it.Corpus == 0).OrderByDescending(it => it.Reservoir.Works).ThenByDescending(it => it.Reservoir.Count).ToList();
       _markdown.AppendLine("## Rejections only the reservoir has: conditions the corpus never tests").AppendLine()
                .AppendLine(CultureInfo.InvariantCulture, $"- Of {rejections.Count:N0} pairs of a vocab and a failure reason rejecting its matches in the reservoir, the corpus has none of {onlyTheReservoirs.Count:N0}.")
                .AppendLine("- Each is a condition, or another requirement, deciding something the corpus never shows it deciding: right or wrong, it's untested.").AppendLine();
-      var rows = onlyTheReservoirs.Select(it => new[] { it.Vocab.Question, it.Reason, $"{it.Reservoir.Count:N0}", Examples(it.Reservoir) }).ToList();
-      TableWithTheRestInAFile("rejections-only-the-reservoir-has", ["Vocab", "Rejected because", "Sentences", "Examples"], rows);
+      var rows = onlyTheReservoirs.Select(it => new[] { it.Vocab.Question, it.Reason, $"{it.Reservoir.Count:N0}", $"{it.Reservoir.Works}", Examples(it.Reservoir) }).ToList();
+      TableWithTheRestInAFile("rejections-only-the-reservoir-has", ["Vocab", "Rejected because", "Sentences", "Works", "Examples"], rows);
    }
 
    /// <summary>
@@ -154,11 +154,11 @@ public sealed class ReservoirReport
 
    void WriteTheWordsNoVocabHas(ReservoirWordKind kind, string heading, string fileName)
    {
-      var words = _measures.SentencesByUnmatchedWord.Where(it => it.Key.Kind == kind).OrderByDescending(it => it.Value.Count).ToList();
+      var words = _measures.SentencesByUnmatchedWord.Where(it => it.Key.Kind == kind).OrderByDescending(it => it.Value.Works).ThenByDescending(it => it.Value.Count).ToList();
       _markdown.AppendLine(CultureInfo.InvariantCulture, $"## {heading}").AppendLine()
                .AppendLine(CultureInfo.InvariantCulture, $"- {words.Count:N0} distinct words, displayed in {words.Sum(it => it.Value.Count):N0} sentences in all.").AppendLine();
-      var rows = words.Select(it => new[] { it.Key.Form, $"{it.Value.Count:N0}", $"{_corpus.SentencesDisplayingUnmatched(it.Key.Form)}", Examples(it.Value) }).ToList();
-      TableWithTheRestInAFile(fileName, ["Word", "Reservoir", "Corpus", "Examples"], rows);
+      var rows = words.Select(it => new[] { it.Key.Form, $"{it.Value.Count:N0}", $"{it.Value.Works}", $"{_corpus.SentencesDisplayingUnmatched(it.Key.Form)}", Examples(it.Value) }).ToList();
+      TableWithTheRestInAFile(fileName, ["Word", "Reservoir", "Works", "Corpus", "Examples"], rows);
    }
 
    void WriteThePicks()

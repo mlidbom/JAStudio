@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Linq;
 using Compze.DependencyInjection;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.Reservoir;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Reservoir.Analysis;
+using JAStudio.Core.Reservoir.Feedback;
 using JAStudio.Core.Reservoir.Measures;
 
 namespace JAStudio.HeadlessHost;
@@ -21,6 +23,7 @@ static class ReservoirCommands
                         reservoir fill-decks --reservoir-file <file> --collection <name> --folder <folder of .apkg files and of decks' collection databases>
                         reservoir fill-subtitles --reservoir-file <file> --collection <name> --zip-or-folder <a zip or folder of a folder per show>
                         reservoir analyze --reservoir-file <file> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
+                        reservoir vocab --reservoir-file <file> --vocab <questions, separated by commas> --most-sentences <count> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         reservoir report --reservoir-file <file> --report-folder <folder> --sentences-to-pick <count> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         """;
 
@@ -30,6 +33,7 @@ static class ReservoirCommands
       ["fill-subtitles", .. var values] => FillSubtitles(CommandLineValues.From(values)),
       ["analyze", .. var values] => Analyze(CommandLineValues.From(values)),
       ["report", .. var values] => Report(CommandLineValues.From(values)),
+      ["vocab", .. var values] => WhatVocabDo(CommandLineValues.From(values)),
       _ => throw new ArgumentException($"Unknown reservoir command: {string.Join(' ', args)}{Environment.NewLine}{Usage}")
    };
 
@@ -67,6 +71,25 @@ static class ReservoirCommands
       var picks = SentencesWorthTakingIn.PickedFrom(reservoir, measures, corpus, int.Parse(values.Value("sentences-to-pick"), System.Globalization.CultureInfo.InvariantCulture));
       Console.WriteLine("Writing the report...");
       ReservoirReport.WriteTo(new DirectoryInfo(values.Value("report-folder")), reservoir, measures, corpus, collection, picks);
+      return 0;
+   }
+
+   /// <summary>Tells what each vocab named by <c>--vocab</c> does in the reservoir, as the corpus checkout has it now (<see cref="WhatAVocabDoesInTheReservoir"/>).</summary>
+   static int WhatVocabDo(CommandLineValues values)
+   {
+      using var reservoir = ReservoirFile.OpenOrCreate(values.ExistingFile("reservoir-file"));
+      using var jastudio = LoadedHeadlessJAStudio.From(HeadlessJAStudioSetup.From(values));
+      var texts = ReservoirSentenceTexts.LoadedFrom(reservoir);
+      Console.WriteLine($"{texts.Count:N0} sentence texts loaded.");
+      var services = jastudio.Root.Resolve<AnalysisServices>();
+      var mostSentences = int.Parse(values.Value("most-sentences"), System.Globalization.CultureInfo.InvariantCulture);
+      foreach(var vocab in values.Value("vocab").Split(',').SelectMany(question => services.Vocab.WithQuestion(question.Trim())))
+      {
+         var watch = System.Diagnostics.Stopwatch.StartNew();
+         var whatItDoes = WhatAVocabDoesInTheReservoir.Of(vocab, reservoir, texts, services, mostSentences);
+         Console.WriteLine($"{whatItDoes.Described()}({watch.Elapsed.TotalSeconds:F1} s){Environment.NewLine}");
+      }
+
       return 0;
    }
 

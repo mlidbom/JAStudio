@@ -13,9 +13,19 @@ public sealed class CountWithExamples
    const int ExamplesKept = 3;
    const int ReadableLength = 20;
 
+   /// <summary>
+   /// How many different works are counted, up to this many. How far a word spreads across works tells general vocabulary from a name or a<br/>
+   /// show's own terms, which stay in one or two; beyond this many, it's general anyway.
+   /// </summary>
+   const int WorksCountedUpTo = 30;
+
    readonly List<(long Id, double Worth)> _examples = [];
+   readonly List<long> _sourceIds = [];
 
    public int Count { get; private set; }
+
+   /// <summary>How many different works the sentences come from, counted up to <see cref="WorksCountedUpTo"/>.</summary>
+   public int Works => _sourceIds.Count;
 
    /// <summary>The ids of the example sentences, the best first.</summary>
    public IReadOnlyList<long> ExampleIds => [.. _examples.Select(it => it.Id)];
@@ -23,6 +33,7 @@ public sealed class CountWithExamples
    public void Add(AnalyzedReservoirSentence sentence)
    {
       Count++;
+      if(_sourceIds.Count < WorksCountedUpTo && !_sourceIds.Contains(sentence.SourceId)) _sourceIds.Add(sentence.SourceId);
       var example = (sentence.Id, WorthAsAnExample(sentence));
       if(_examples.Count < ExamplesKept)
       {

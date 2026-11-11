@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Note.Vocabulary.Matching;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -22,17 +20,7 @@ public class SentenceCollection
 
    public List<SentenceNote> PotentiallyMatchingVocab(VocabNote vocab)
    {
-      List<string> searchStrings;
-      if(vocab.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Surface) == RequireForbidChoice.Required)
-      {
-         searchStrings = vocab.Forms.MatchedFormsList();
-      } else
-      {
-         searchStrings = vocab.Conjugator.GetStemsForAllForms()
-                              .Concat(vocab.Forms.MatchedFormsList())
-                              .ToList();
-      }
-
+      var searchStrings = vocab.TextsASentenceItCanMatchInContainsOneOf();
       var questions = All().Select(it => it.GetQuestion()).ToList();
       var matching = questions
                     .Where(q => searchStrings.Any(s => q.Contains(s)))

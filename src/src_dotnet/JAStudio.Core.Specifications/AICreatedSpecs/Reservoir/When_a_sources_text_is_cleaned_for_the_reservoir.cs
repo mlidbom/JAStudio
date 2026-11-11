@@ -27,4 +27,17 @@ public class When_a_sources_text_is_cleaned_for_the_reservoir : IAIGeneratedSpec
    [XF] public void half_width_katakana_become_full_width() => Cleaned("ﾎﾟｹﾓﾝ泥棒").Must().Be("ポケモン泥棒");
    [XF] public void a_line_with_no_japanese_is_no_sentence() => Cleaned("Hey, which way is it?").Must().Be("(no sentence)");
    [XF] public void a_speakers_name_alone_is_no_sentence() => Cleaned("（ユーリ）").Must().Be("(no sentence)");
+   [XF] public void a_line_in_chinese_with_kanji_but_no_kana_is_no_sentence() => Cleaned("警察抓到的小偷会被关进监狱").Must().Be("(no sentence)");
+   [XF] public void a_short_line_of_kanji_alone_is_a_sentence() => Cleaned("了解").Must().Be("了解");
+
+   public class with_the_conventions_of_japanese_tv_captions : When_a_sources_text_is_cleaned_for_the_reservoir
+   {
+      [XF] public void the_arrow_continuing_a_line_goes() => Cleaned("あんときは→").Must().Be("あんときは");
+      [XF] public void the_marks_of_speech_off_screen_go_and_the_speech_stays() => Cleaned("((お前 何してんだ))").Must().Be("お前 何してんだ");
+      [XF] public void the_marks_of_speech_in_thought_go_and_the_speech_stays() => Cleaned("≪くそっ ブロックが高い≫").Must().Be("くそっ ブロックが高い");
+      [XF] public void a_sounds_source_in_square_brackets_goes() => Cleaned("[TEL] ハハハハッ。➡").Must().Be("ハハハハッ。");
+      [XF] public void the_code_of_a_character_the_caption_could_not_show_goes() => Cleaned("[外:EC0D160D9254B2E11D601546DB93002D] ったく…").Must().Be("ったく…");
+      [XF] public void a_speakers_name_before_a_colon_goes() => Cleaned("お妙：もう！ 何回言ったらわかるの？").Must().Be("もう！ 何回言ったらわかるの？");
+      [XF] public void a_time_is_no_speakers_name() => Cleaned("12:30に会おう").Must().Be("12:30に会おう");
+   }
 }

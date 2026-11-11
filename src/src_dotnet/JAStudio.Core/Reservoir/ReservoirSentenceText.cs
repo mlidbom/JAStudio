@@ -13,7 +13,11 @@ namespace JAStudio.Core.Reservoir;
 /// <remarks>
 /// What goes: HTML tags and entities, ruby readings, the invisible marks of writing direction, subtitle formatting such as <c>{\an8}</c>, short<br/>
 /// bracketed asides, music notes and the dashes that start a line of dialogue. Half-width katakana become full-width, and every run of whitespace,<br/>
-/// the ideographic space included, a single space.
+/// the ideographic space included, a single space.<br/>
+/// The conventions of Japanese TV captions go too, as the kitsunekko backup's subtitles have them: the arrow continuing a line on the next, the<br/>
+/// code of a character the caption couldn't show, such as <c>[外:0BE4F3…]</c>, a sound's source in square brackets, such as <c>[TEL]</c>, a<br/>
+/// speaker's name before a colon, such as <c>お妙：</c>, and the marks around speech heard off screen or in thought, such as <c>((…))</c> and<br/>
+/// <c>≪…≫</c>, whose speech stays.
 /// </remarks>
 public sealed partial record ReservoirSentenceText
 {
@@ -21,12 +25,17 @@ public sealed partial record ReservoirSentenceText
 
    public string Text { get; }
 
-   /// <summary><paramref name="raw"/> cleaned, or null when no Japanese is left, such as for a line in English, or a speaker's name alone.</summary>
+   /// <summary>
+   /// <paramref name="raw"/> cleaned, or null when it's no Japanese sentence: a line in English, a speaker's name alone, or a line in Chinese, as<br/>
+   /// fansubs' credits are, which has kanji but no kana. A line of kanji alone is a sentence only when it's short, such as 了解.
+   /// </summary>
    public static ReservoirSentenceText? CleanedFrom(string raw)
    {
       var cleaned = Cleaned(raw);
-      return cleaned.Any(IsJapanese) ? new ReservoirSentenceText(cleaned) : null;
+      return cleaned.Any(IsKana) || cleaned.Length <= LongestSentenceOfKanjiAlone && cleaned.Any(IsJapanese) ? new ReservoirSentenceText(cleaned) : null;
    }
+
+   const int LongestSentenceOfKanjiAlone = 4;
 
    public override string ToString() => Text;
 
@@ -34,19 +43,26 @@ public sealed partial record ReservoirSentenceText
    {
       var text = WithoutHtml(raw);
       text = WithoutSubtitleFormatting(text);
+      text = WithoutCaptionMarks(text);
       text = WithoutAsidesAndMusicNotes(text);
+      text = WithoutSpeakersNameBeforeAColon(WithSingleSpaces(text));
       text = WithoutInvisibleMarks(text);
       text = WithFullWidthKatakana(text);
       return WithoutDialogueDash(WithSingleSpaces(text));
 
       static string WithoutHtml(string text) => WebUtility.HtmlDecode(AnyTag().Replace(LineBreakTag().Replace(RubyReading().Replace(text, ""), " "), ""));
       static string WithoutSubtitleFormatting(string text) => SubtitleLineBreak().Replace(SubtitleOverride().Replace(text, ""), " ");
-      static string WithoutAsidesAndMusicNotes(string text) => MusicNote().Replace(BracketedAside().Replace(text, " "), " ");
+      static string WithoutCaptionMarks(string text) => SpeechMark().Replace(SoundSource().Replace(ContinuationArrow().Replace(MissingCharacterCode().Replace(text, ""), " "), " "), " ");
+      static string WithoutAsidesAndMusicNotes(string text) => EmptyBrackets().Replace(MusicNote().Replace(BracketedAside().Replace(text, " "), " "), " ");
+      static string WithoutSpeakersNameBeforeAColon(string text) => SpeakersNameBeforeAColon().Replace(text, "");
       static string WithoutInvisibleMarks(string text) => InvisibleMark().Replace(text, "");
       static string WithFullWidthKatakana(string text) => HalfWidthKatakana().Replace(text, it => it.Value.Normalize(NormalizationForm.FormKC));
       static string WithSingleSpaces(string text) => Whitespace().Replace(text, " ").Trim();
       static string WithoutDialogueDash(string text) => DialogueDash().Replace(text, "");
    }
+
+   /// <summary>Hiragana and katakana, full-width and half-width.</summary>
+   static bool IsKana(char character) => character is >= '\u3040' and <= '\u30FF' or >= '\uFF66' and <= '\uFF9F';
 
    /// <summary>Hiragana, katakana, full-width and half-width, and the CJK ideographs, kanji among them.</summary>
    static bool IsJapanese(char character) => character is >= '\u3040' and <= '\u30FF' or >= '\u4E00' and <= '\u9FFF' or >= '\u3400' and <= '\u4DBF' or >= '\uFF66' and <= '\uFF9F';
@@ -58,6 +74,12 @@ public sealed partial record ReservoirSentenceText
    [GeneratedRegex(@"\\[Nnh]")] private static partial Regex SubtitleLineBreak();
    [GeneratedRegex(@"（[^（）]{1,15}）|\([^()]{1,15}\)|【[^【】]{1,15}】|〔[^〔〕]{1,15}〕")] private static partial Regex BracketedAside();
    [GeneratedRegex(@"[♪♫♬～〜]*[♪♫♬][～〜]*")] private static partial Regex MusicNote();
+   [GeneratedRegex(@"[（(]\s*[）)]")] private static partial Regex EmptyBrackets();
+   [GeneratedRegex(@"\[外:[0-9A-Fa-f]+\]|[\uE000-\uF8FF]")] private static partial Regex MissingCharacterCode();
+   [GeneratedRegex(@"[→➡⇒]")] private static partial Regex ContinuationArrow();
+   [GeneratedRegex(@"\[[^\[\]]{1,12}\]|［[^［］]{1,12}］")] private static partial Regex SoundSource();
+   [GeneratedRegex(@"\(\(|\)\)|（（|））|[≪≫＜＞〈〉《》<>]")] private static partial Regex SpeechMark();
+   [GeneratedRegex(@"^[^\s：:「」、。0-9０-９]{1,10}[：:]\s*")] private static partial Regex SpeakersNameBeforeAColon();
    [GeneratedRegex(@"[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]")] private static partial Regex InvisibleMark();
    [GeneratedRegex(@"[\uFF61-\uFF9F]+")] private static partial Regex HalfWidthKatakana();
    [GeneratedRegex(@"\s+")] private static partial Regex Whitespace();

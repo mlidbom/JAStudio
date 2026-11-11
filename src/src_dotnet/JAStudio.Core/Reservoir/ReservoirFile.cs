@@ -181,8 +181,25 @@ public sealed class ReservoirFile : IDisposable
       using var reader = command.ExecuteReader();
       while(reader.Read())
          yield return new AnalyzedReservoirSentence(reader.GetInt64(0), reader.GetString(1), reader.GetInt64(2), reader.GetInt32(3), reader.GetBoolean(4),
-                                                    MemoryPackSerializer.Deserialize<ReservoirSentenceAnalysis>((byte[])reader.GetValue(5)) ?? throw new InvalidDataException($"Sentence {reader.GetInt64(0)}'s analysis is empty."));
+                                                    AnalysisIn(reader, 5, sentenceId: reader.GetInt64(0)));
    }
+
+   /// <summary>The id and text of every sentence, read as they're enumerated.</summary>
+   public IEnumerable<(long Id, string Text)> EverySentenceText()
+   {
+      using var command = _connection.CreateCommand();
+      command.CommandText = "select id, text from sentence";
+      using var reader = command.ExecuteReader();
+      while(reader.Read()) yield return (reader.GetInt64(0), reader.GetString(1));
+   }
+
+   /// <summary>The analyses of those of the sentences with the ids <paramref name="ids"/> that have one, by the sentence's id.</summary>
+   public IReadOnlyDictionary<long, ReservoirSentenceAnalysis> AnalysesOf(IEnumerable<long> ids) =>
+      ids.Distinct()
+         .Chunk(500)
+         .SelectMany(batch => Rows($"select sentence, analysis from sentence_analysis where sentence in ({string.Join(",", batch)})",
+                                   reader => KeyValuePair.Create(reader.GetInt64(0), AnalysisIn(reader, 1, sentenceId: reader.GetInt64(0)))))
+         .ToDictionary();
 
    /// <summary>The sentences with the ids <paramref name="ids"/>, by id.</summary>
    public IReadOnlyDictionary<long, StoredReservoirSentence> SentencesWithIds(IEnumerable<long> ids)
@@ -208,6 +225,10 @@ public sealed class ReservoirFile : IDisposable
       Rows("select id, collection, work, kind, location from source",
            reader => KeyValuePair.Create(reader.GetInt64(0), new ReservoirSource(reader.GetString(1), reader.GetString(2), Enum.Parse<ReservoirSourceKind>(reader.GetString(3)), reader.GetString(4))))
         .ToDictionary();
+
+   /// <summary>The analysis kept in the column <paramref name=column/> that <paramref name=reader/> is at, of the sentence <paramref name=sentenceId/>.</summary>
+   static ReservoirSentenceAnalysis AnalysisIn(SqliteDataReader reader, int column, long sentenceId) =>
+      MemoryPackSerializer.Deserialize<ReservoirSentenceAnalysis>((byte[])reader.GetValue(column)) ?? throw new InvalidDataException($"Sentence {sentenceId}'s analysis is empty.");
 
    List<T> Rows<T>(string select, Func<SqliteDataReader, T> row)
    {

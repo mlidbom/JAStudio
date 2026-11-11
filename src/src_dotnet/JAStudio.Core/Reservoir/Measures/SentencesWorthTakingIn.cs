@@ -8,8 +8,8 @@ namespace JAStudio.Core.Reservoir.Measures;
 /// <summary>
 /// The reservoir sentences worth taking into the working set: the fewest that give the corpus what it lacks, picked greedily. What the corpus lacks<br/>
 /// is a few sentences for each thing a sentence can exercise, its features: a vocab's match, a failure reason rejecting a vocab's match, a word no<br/>
-/// vocab has that the reservoir shows often. Each pick is the sentence giving the most features still lacking, audio and then a readable length<br/>
-/// breaking ties; a feature the picks have given enough of stops counting.
+/// vocab has that sentences of several works show, where a name stays in one. Each pick is the sentence giving the most features still<br/>
+/// lacking, audio and then a readable length breaking ties; a feature the picks have given enough of stops counting.
 /// </summary>
 /// <remarks>
 /// The gains only shrink as sentences are picked, so a sentence's gain is worked out anew only when it comes to the top of the queue, the usual<br/>
@@ -20,8 +20,8 @@ public sealed class SentencesWorthTakingIn
    const int SentencesWantedForAVocab = 3;
    const int SentencesWantedForARejection = 2;
    const int SentencesWantedForAWord = 1;
-   const int SentencesShowingADictionaryWordForItToCount = 5;
-   const int SentencesShowingAMissingWordForItToCount = 20;
+   const int WorksShowingADictionaryWordForItToCount = 3;
+   const int WorksShowingAMissingWordForItToCount = 5;
 
    readonly List<string> _featureDescriptions = [];
    readonly List<int> _stillLacking = [];
@@ -45,7 +45,7 @@ public sealed class SentencesWorthTakingIn
          {
             if(word.Kind == ReservoirWordKind.Vocab)
                yield return Feature($"v{word.VocabNumber}", () => SentencesWantedForAVocab - corpus.SentencesMatching(vocabByNumber[word.VocabNumber].NoteId), () => $"the vocab {vocabByNumber[word.VocabNumber].Question}");
-            else if(word.IsDisplayed && measures.SentencesByUnmatchedWord[(word.Form, word.Kind)].Count >= (word.Kind == ReservoirWordKind.Dictionary ? SentencesShowingADictionaryWordForItToCount : SentencesShowingAMissingWordForItToCount))
+            else if(word.IsDisplayed && measures.SentencesByUnmatchedWord[(word.Form, word.Kind)].Works >= (word.Kind == ReservoirWordKind.Dictionary ? WorksShowingADictionaryWordForItToCount : WorksShowingAMissingWordForItToCount))
                yield return Feature($"w{word.Kind}{word.Form}", () => SentencesWantedForAWord - corpus.SentencesDisplayingUnmatched(word.Form), () => $"the {(word.Kind == ReservoirWordKind.Dictionary ? "dictionary-only" : "missing")} word {word.Form}");
          }
 
