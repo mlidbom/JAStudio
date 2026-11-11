@@ -9,7 +9,7 @@ namespace JAStudio.Core.Reservoir.Measures;
 /// <summary>
 /// What the reservoir's analyzed sentences exercise, counted in one pass over them: for each vocab, the sentences matching it; for each vocab<br/>
 /// and failure reason, the sentences where the reason rejects one of its matches; and for each word no vocab has, the sentences displaying it,<br/>
-/// each count with a few examples (<see cref="CountWithExamples"/>). Set against <see cref="WhatTheCorpusHas"/>, they say what the reservoir<br/>
+/// each count with a few examples (<see cref="CountWithExamples"/>); and how each work's sentences parse (<see cref="HowAWorkParses"/>). Set against <see cref="WhatTheCorpusHas"/>, they say what the reservoir<br/>
 /// could add to the corpus.
 /// </summary>
 public sealed class ReservoirMeasures
@@ -41,6 +41,9 @@ public sealed class ReservoirMeasures
    /// <summary>The sentences that display each word no vocab has, as the sentence breakdown shows it, by its form and whether the dictionary has it.</summary>
    public Dictionary<(string Form, ReservoirWordKind Kind), CountWithExamples> SentencesByUnmatchedWord { get; } = [];
 
+   /// <summary>How the sentences kept from each work parse, by the id of the work's source.</summary>
+   public Dictionary<long, HowAWorkParses> ParsingBySource { get; } = [];
+
    /// <summary>The sentences matching <paramref name="vocab"/>: a count of none when no sentence does.</summary>
    public CountWithExamples SentencesMatching(VocabNote vocab) =>
       (Numbers.VocabNumberOrNone(vocab) is {} vocabNumber ? SentencesByVocab.GetValueOrDefault(vocabNumber) : null) ?? new CountWithExamples();
@@ -55,6 +58,7 @@ public sealed class ReservoirMeasures
    {
       AnalyzedSentences++;
       if(sentence.Analysis.DisplaysOnlyVocab()) SentencesWithEveryDisplayedWordAVocab++;
+      ParsingBySource.GetOrAdd(sentence.SourceId, () => new HowAWorkParses()).Add(sentence);
 
       foreach(var vocabNumber in sentence.Analysis.VocabNumbersOfItsValidMatches())
          SentencesByVocab.GetOrAdd(vocabNumber, () => new CountWithExamples()).Add(sentence);

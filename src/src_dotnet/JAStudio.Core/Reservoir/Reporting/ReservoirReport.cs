@@ -25,6 +25,9 @@ public sealed class ReservoirReport
    const int SentencesWantedForAVocab = 3;
    const int RejectionsForAVocabToCountAsAlwaysRejected = 10;
 
+   /// <summary>The fewest sentences a work must have for its share of sentences displaying a missing word to say anything about it.</summary>
+   const int SentencesOfAWorkForItsShareToCount = 200;
+
    readonly ReservoirFile _reservoir;
    readonly ReservoirMeasures _measures;
    readonly WhatTheCorpusHas _corpus;
@@ -57,6 +60,7 @@ public sealed class ReservoirReport
       report.WriteTheWordsNoVocabHas(ReservoirWordKind.Missing, "Missing words the reservoir shows most: no vocab and no dictionary entry", "missing-words");
       report.WriteThePicks();
       report.WriteTheWorksWithTheMostToGive();
+      report.WriteTheWorksThatMayBeGarbled();
       report._folder.SaveTheMarkdown();
    }
 
@@ -175,6 +179,22 @@ public sealed class ReservoirReport
                                       [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, $"{it.Value:N0}", $"{picksBySource.GetValueOrDefault(it.Key)}" })]);
    }
 
+   /// <summary>
+   /// The works whose sentences most often display a missing word, which are likely garbled, as subtitles read off the screen by OCR are, or<br/>
+   /// not Japanese (<see cref="HowAWorkParses"/>): their missing words are errors, not words for the corpus to have.
+   /// </summary>
+   void WriteTheWorksThatMayBeGarbled()
+   {
+      var works = _measures.ParsingBySource.Where(it => it.Value.Sentences >= SentencesOfAWorkForItsShareToCount).OrderByDescending(it => it.Value.ShareWithAMissingWord).ToList();
+      var shares = works.Select(it => it.Value.ShareWithAMissingWord).Order().ToList();
+      _folder.Section("The works that may be garbled: whose sentences most often display a missing word",
+                      Invariant($"Of the {works.Count:N0} works with at least {SentencesOfAWorkForItsShareToCount} sentences, the median displays a missing word in {Percent(shares.Count == 0 ? 0 : shares[shares.Count / 2])} of its sentences."),
+                      "Far more is a sign of subtitles read off the screen by OCR, or of text that isn't Japanese: such a work's missing words are errors.");
+      _folder.TableWithTheRestInAFile("works-that-may-be-garbled",
+                                      ["Work", "Collection", "Sentences", "With a missing word", "Examples"],
+                                      [.. works.Select(it => new[] { _sources[it.Key].Work, _sources[it.Key].Collection, $"{it.Value.Sentences:N0}", Percent(it.Value.ShareWithAMissingWord), Examples(it.Value.SentencesWithAMissingWord) })]);
+   }
+
    string WorkOf(long sourceId) => _sources[sourceId].Work;
 
    NumberedVocab VocabNumbered(int vocabNumber) => _measures.Numbers.VocabNumbered(vocabNumber);
@@ -194,4 +214,6 @@ public sealed class ReservoirReport
    static string NoteIdOf(VocabNote vocab) => vocab.GetId().ToString();
 
    static string Percent(long part, long whole) => whole == 0 ? "-" : $"{100.0 * part / whole:F1}%";
+
+   static string Percent(double share) => Invariant($"{100.0 * share:F1}%");
 }
