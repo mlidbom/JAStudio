@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JAStudio.Core.Note.Search;
+namespace JAStudio.Core.Note.ConditionTrees;
 
 /// <summary>
-/// Where a condition is in a search's tree of conditions: the index of the child to go down to at each level, starting at the root.<br/>
-/// The search editor finds conditions by their position, because two equal conditions can be in different places in the same search.
+/// Where a condition is in a tree of conditions, a search's or a vocab's match-condition: the index of the child to go down to at each level,<br/>
+/// starting at the root. The editors find conditions by their position, because two equal conditions can be in different places in the same tree.
 /// </summary>
 public sealed record ConditionPosition
 {
    ConditionPosition(IReadOnlyList<int> indexesFromTheRoot) => IndexesFromTheRoot = indexesFromTheRoot;
 
-   /// <summary>The position of the search's root.</summary>
+   /// <summary>The position of the tree's root.</summary>
    public static ConditionPosition Root { get; } = new([]);
 
    /// <summary>The index of the child to go down to at each level, starting at the root. Empty for the root itself.</summary>

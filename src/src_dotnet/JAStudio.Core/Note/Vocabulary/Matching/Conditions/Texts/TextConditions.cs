@@ -19,6 +19,16 @@ public static class TextConditions
       new("a text",
           [IsEmptyText],
           [],
+          [
+             ConditionTestWithTexts.Of("is one of", TextSet.HowToTypeThem, typed => new TextIsOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("starts with one of", TextSet.HowToTypeThem, typed => new TextStartsWithOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("ends with one of", TextSet.HowToTypeThem, typed => new TextEndsWithOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("contains one of", TextSet.HowToTypeThem, typed => new TextContainsOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("matches the regular expression",
+                                       "A regular expression in .NET's syntax: ^ and $ anchor it to the whole text",
+                                       typed => new TextMatchesRegularExpression(typed),
+                                       it => it.Pattern)
+          ],
           new Dictionary<string, Func<JsonNode, Condition<string>>>
           {
              [TextIsOneOf.JsonKey] = json => new TextIsOneOf(TextSet.From(json)),

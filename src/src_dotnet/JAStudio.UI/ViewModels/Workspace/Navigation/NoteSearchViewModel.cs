@@ -8,6 +8,7 @@ using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Editing;
 using JAStudio.Core.Note.Search.Grouping;
@@ -98,7 +99,6 @@ partial class NoteSearchViewModel : ObservableObject
       });
    }
 
-   /// <summary>Replaces the whole search with one that finds only the notes <paramref name="condition"/> matches, and selects the condition. Undo goes back to the search before.</summary>
    /// <summary>The whole search, as the condition tree shows it.</summary>
    internal NoteCondition CurrentSearch => _search.Current;
 
@@ -109,6 +109,7 @@ partial class NoteSearchViewModel : ObservableObject
       ChangeTheSearch(ConditionPosition.Root);
    }
 
+   /// <summary>Replaces the whole search with one that finds only the notes <paramref name="condition"/> matches, and selects the condition. Undo goes back to the search before.</summary>
    internal void SearchFor(NoteCondition condition) => ChangeTheSearch(_search.ReplaceTheWholeSearchWith(condition));
 
    /// <summary>Adds <paramref name="condition"/> to the selected group, or to the group the selected condition is in, and selects it.</summary>
@@ -197,14 +198,6 @@ partial class NoteSearchViewModel : ObservableObject
 
       static SpecMenuItem Submenu(char key, string text, IReadOnlyList<SpecMenuItem> children) => SpecMenuItem.Submenu(ShortcutFinger.Mnemonic(key, text), children, acceleratorKey: key);
    }
-
-   /// <summary>
-   /// The item of <paramref name="menu"/>, such as the <see cref="AddConditionMenu"/>, that <paramref name="key"/> picks, ignoring case,<br/>
-   /// or null when no item has that key. Typing a key on the condition tree does what typing it in the add menu would,<br/>
-   /// so t opens the tag dialog, and q opens the add menu with the question's submenu open.
-   /// </summary>
-   internal static SpecMenuItem? ItemPickedBy(char key, IEnumerable<SpecMenuItem> menu) =>
-      menu.FirstOrDefault(it => it.AcceleratorKey is {} itemKey && char.ToLowerInvariant(itemKey) == char.ToLowerInvariant(key));
 
    /// <summary>The selected line's right-click menu: everything the editor can do to it, each picked by a single key.</summary>
    /// <param name="openTheAddMenu">Opens the <see cref="AddConditionMenu"/>.</param>

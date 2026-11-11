@@ -1,11 +1,13 @@
 import typing, abc
-from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1, ConditionSubject_2, Fact_1, ConditionLevel_1
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1, Condition, ConditionSubject_2, Fact_1, ConditionLevel_1
 from JAStudio.Core.LanguageServices.JanomeEx.Tokenizing import IAnalysisToken
 from System import IEquatable_1, Array_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts import TextSet
-from System.Collections.Generic import IEnumerable_1
 
 class InflectedFormIsOneOf(Condition_1[IAnalysisToken], IEquatable_1[InflectedFormIsOneOf]):
+    @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property
@@ -30,6 +32,8 @@ class InflectedFormIsOneOf(Condition_1[IAnalysisToken], IEquatable_1[InflectedFo
 
 class InflectionTypeIsOneOf(Condition_1[IAnalysisToken], IEquatable_1[InflectionTypeIsOneOf]):
     @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
+    @property
     def IsEmpty(self) -> bool: ...
     @property
     def Names(self) -> TextSet: ...
@@ -52,6 +56,8 @@ class InflectionTypeIsOneOf(Condition_1[IAnalysisToken], IEquatable_1[Inflection
 
 
 class PartOfSpeechIs(Condition_1[IAnalysisToken], IEquatable_1[PartOfSpeechIs]):
+    @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property

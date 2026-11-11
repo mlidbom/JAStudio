@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -32,6 +33,10 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// <param name="japaneseLevels">The levels joined by ・, as <see cref="JapaneseLevels"/> has them.</param>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">As the other constructor.</exception>
    internal PartOfSpeechIs(string japaneseLevels) : this(japaneseLevels.Split(LevelSeparator)) {}
+
+   /// <summary>The condition typed into the match-condition editor: the levels from the top, separated by spaces or ・, such as 名詞 接尾.</summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">As the constructor.</exception>
+   internal static PartOfSpeechIs FromTyped(string typedLevels) => new(typedLevels.Split([" ", LevelSeparator], StringSplitOptions.RemoveEmptyEntries));
 
    /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・接尾・人名.</summary>
    public string JapaneseLevels { get; }

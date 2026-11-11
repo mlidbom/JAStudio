@@ -14,6 +14,12 @@ public sealed record AllOfGroup<TSubject> : ConditionGroup<TSubject> where TSubj
    /// <summary>The conditions in the group that <paramref name="subject"/> doesn't meet: why it doesn't meet the group, when it doesn't.</summary>
    public IEnumerable<Condition<TSubject>> ConditionsNotMetBy(TSubject subject) => ConditionsThatAddSomething.Where(it => !it.IsMetBy(subject));
 
+   public override bool IsAnyOf => false;
+
+   public override Condition SwitchedBetweenAllOfAndAnyOf() => new AnyOfGroup<TSubject>(Conditions);
+
+   protected override ConditionGroup<TSubject> WithConditions(IReadOnlyList<Condition<TSubject>> conditions) => new AllOfGroup<TSubject>(conditions);
+
    protected override string Heading => "All of:";
 
    /// <summary>The key an "all of" group is stored under in the corpus.</summary>

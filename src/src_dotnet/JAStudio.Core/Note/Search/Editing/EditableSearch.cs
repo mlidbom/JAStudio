@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Search.Grouping;
 
 namespace JAStudio.Core.Note.Search.Editing;
@@ -68,7 +69,6 @@ public class EditableSearch
    public void SwitchGroup(ConditionPosition groupPosition) =>
       Change(Current.WithConditionAt(groupPosition, GroupAt(groupPosition).SwitchedBetweenAllOfAndAnyOf()));
 
-   /// <summary>Goes back to the search as it was before the last change. Only when <see cref="CanUndo"/>.</summary>
    /// <summary>Starts over from <paramref name="search"/>, as from the search the workspace was last left with: there's no change to undo.</summary>
    public void StartFrom(NoteCondition search)
    {
@@ -76,7 +76,8 @@ public class EditableSearch
       Current = search;
    }
 
-   public void Undo() => Current = _earlierSearches.Count > 0 ? _earlierSearches.Pop() : throw new InvalidOperationException("There's no change to undo.");
+   /// <summary>Goes back to the search as it was before the last change. Only when <see cref="CanUndo"/>.</summary>
+   public void Undo() => Current = CanUndo ? _earlierSearches.Pop() : throw new InvalidOperationException("There's no change to undo.");
 
    void Change(NoteCondition changed)
    {

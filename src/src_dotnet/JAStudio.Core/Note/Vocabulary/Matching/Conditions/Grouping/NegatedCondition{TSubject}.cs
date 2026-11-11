@@ -8,7 +8,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 /// A condition that a subject meets when it doesn't meet <see cref="Condition"/> (NOT). Made by <see cref="ConditionGroup.Not{TSubject}"/>.<br/>
 /// The negation of an empty condition is empty too, so it's ignored like one.
 /// </summary>
-public sealed record NegatedCondition<TSubject> : Condition<TSubject> where TSubject : class
+public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedCondition where TSubject : class
 {
    const string Prefix = "Not: ";
 
@@ -16,6 +16,10 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject> where TSub
 
    /// <summary>The condition a subject must not meet.</summary>
    public Condition<TSubject> Condition { get; }
+
+   Conditions.Condition INegatedCondition.Condition => Condition;
+
+   public override IReadOnlyList<Conditions.Condition> Children => [Condition];
 
    public override bool IsEmpty => Condition.IsEmpty;
 
@@ -30,4 +34,6 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject> where TSub
    internal override JsonObject ToJson() => new() { [JsonKey] = Condition.ToJson() };
 
    internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
+
+   protected override Conditions.Condition WithChildReplaced(int index, Conditions.Condition replacement) => new NegatedCondition<TSubject>(replacement.AsAConditionOn<TSubject>());
 }

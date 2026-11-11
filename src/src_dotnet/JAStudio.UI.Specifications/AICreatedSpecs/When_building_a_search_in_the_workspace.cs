@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Grouping;
 using JAStudio.Core.Note.Tagging;
@@ -108,7 +109,7 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
 
    public class when_typing_a_key_from_the_add_menu : When_building_a_search_in_the_workspace
    {
-      SpecMenuItem? ItemFor(char key) => NoteSearchViewModel.ItemPickedBy(key, _search.AddConditionMenu(_ => {}));
+      SpecMenuItem? ItemFor(char key) => SpecMenuItem.ItemPickedBy(key, _search.AddConditionMenu(_ => {}));
 
       [XF] public void t_picks_the_tags_item() => ItemFor('t')?.Name.Must().Be("_t Tags");
       [XF] public void q_picks_the_questions_submenu() => ItemFor('q')?.Kind.Must().Be(SpecMenuItemKind.Submenu);
@@ -125,7 +126,7 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
          ItemPickedBy(valueKey, ItemPickedBy(propertyKey, _search.AddConditionMenu(_ => _anEditorWasOpened = true)).Children).Action();
 
       static SpecMenuItem ItemPickedBy(char key, IEnumerable<SpecMenuItem> menu) =>
-         NoteSearchViewModel.ItemPickedBy(key, menu) ?? throw new InvalidOperationException($"No item in the menu has the key {key}.");
+         SpecMenuItem.ItemPickedBy(key, menu) ?? throw new InvalidOperationException($"No item in the menu has the key {key}.");
 
       public class n_then_k : when_picking_a_value_in_the_add_menu
       {

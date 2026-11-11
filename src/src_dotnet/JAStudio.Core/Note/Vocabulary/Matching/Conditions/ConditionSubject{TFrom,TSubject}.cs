@@ -43,6 +43,10 @@ public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>
    /// <summary>This subject of <paramref name="from"/>, or null when it has none, as the sentence's first token has no preceding token.</summary>
    internal TSubject? FoundIn(TFrom from) => _foundIn(from);
 
+   IConditionLevel IConditionSubject.Level => Level;
+
+   Condition IConditionSubject.Meets(Condition condition) => Meets(condition.AsAConditionOn<TSubject>());
+
    Condition<TFrom> IConditionSubject<TFrom>.ConditionFrom(JsonObject json) => Meets(Level.ConditionFrom(json));
 
    public override string ToString() => Name;

@@ -12,6 +12,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 /// </summary>
 public sealed class TextSet : IEquatable<TextSet>
 {
+   const char TypedSeparator = ' ';
+
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When there's no text, or one is empty.</exception>
    internal TextSet(IEnumerable<string> texts)
    {
@@ -22,6 +24,16 @@ public sealed class TextSet : IEquatable<TextSet>
 
    /// <summary>The texts, each once, in ordinal order.</summary>
    public IReadOnlyList<string> Texts { get; }
+
+   /// <summary>The texts as they're typed into the match-condition editor: separated by spaces. <see cref="FromTyped"/> reads them back.</summary>
+   public string AsTyped => string.Join(TypedSeparator, Texts);
+
+   /// <summary>The texts typed into the match-condition editor, separated by spaces, as <see cref="AsTyped"/> has them.</summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When there's no text.</exception>
+   internal static TextSet FromTyped(string typedTexts) => new(typedTexts.Split(TypedSeparator, StringSplitOptions.RemoveEmptyEntries));
+
+   /// <summary>What to type for texts, as the match-condition editor tells it.</summary>
+   internal const string HowToTypeThem = "The texts, separated by spaces";
 
    internal JsonArray ToJson() => [.. Texts.Select(JsonNode (it) => it)];
 

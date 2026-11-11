@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Search.Grouping;
 
 namespace JAStudio.Core.Note.Search;

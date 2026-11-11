@@ -395,6 +395,8 @@ picked by name.
 
 ## Sharing code with the note search: to find out
 
+> Tried in increment 4: see [Increment 4, as built](#increment-4-as-built).
+
 Only if it really fits (Magnus).
 
 **What's alike:**
@@ -688,6 +690,8 @@ writes each file in its own format.
 
 ### The Matching tab, in between
 
+> Done in increment 3, and the read-only tree replaced by the tree editor in increment 4.
+
 The migration can ship before the tree editor exists:
 - **A checkbox view of the tree.** While a vocab's match-condition has today's shape, an "all of" of the nodes today's
   rules translate to, the tab shows it as today's checkboxes and edits it the same way.
@@ -713,7 +717,7 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
    - today's rule types, and the state tests that read them, deleted.
 
    The full rebuild must change nothing.
-4. **The tree editor** on the Matching tab.
+4. **The tree editor** on the Matching tab: built 2026-11-11, see [Increment 4, as built](#increment-4-as-built).
 5. **Shared-conditions.**
 
 After the core: the yardstick, rules-for-many-vocab, conditions on display, and vocab given conditions that use the new
@@ -852,6 +856,69 @@ stores match-conditions.
 
 **Found and fixed on the way:** the parsing cases' full mode made a run per specification, and the two of refreshing ran
 side by side, writing and deleting each other's files. Each mode now makes one run.
+
+### Increment 4, as built
+
+Built 2026-11-11, before the yardstick, on Magnus's word: "I want to be able to work on it as I study too. I want to be
+able to see the tree :)".
+
+**The Matching tab shows the match-condition as a tree, and edits it as the note search's tree is edited:**
+- **The keys are the search's:** `+` opens the add menu, and a key from it, typed on the tree, does what it does there.
+  `-` negates the selected line, Del removes it, Enter or a double-click changes its texts, and Ctrl+Z undoes. The
+  right-click menu has the rest, including switching a group between "all of" and "any of".
+- **A line is a condition, or a group with its conditions under it.** Negations and conditions on a subject are shown in
+  front of what they hold, on its line: "Not: The preceding token: Surface: ends with one of ん", or "The following token:
+  Any of:" with the conditions on the token under it.
+- **The add menu offers what fits where the condition goes.** At the root: a word's facts, groups, and its subjects (the
+  preceding, first, last and following token, the preceding and following text, the surface and the base form), each a
+  submenu of the conditions on it. Under "The following token: Any of:": a token's facts, groups, its texts, and part of
+  speech, inflection type and inflected form. So p, f, g adds "The preceding token: is a godan verb".
+- **The menu is built from the conditions' catalogs** (`WordConditions`, `TokenConditions`, `TextConditions`), so a
+  condition added to a catalog shows in it at once. Its keys are picked automatically from the items' names
+  (`AutomaticMnemonics`): the first letter of a word that says something, if no item before took it.
+- **A condition that takes texts opens a small dialog:** "ends with one of" takes the texts separated by spaces,
+  "part of speech is" its levels from the top, such as 名詞 接尾, and "matches the regular expression" the whole
+  pattern. What can't make a condition, such as a part of speech the tokenizer never gives, shows why, and OK stays
+  disabled.
+- **The rules' editors and the tree show each other's changes.** Requiring a rule by its radio button adds its line to
+  the tree, and the tree's undo takes it back. The rules' sections lock, with a line saying so, while the match-condition
+  holds conditions that aren't rules'.
+- **Every change is saved and reparses the vocab's sentences at once,** as the rules' editors always did. The keyboard
+  stays on the tree's selected line through the reparse.
+
+**In Core:**
+- **`Condition`, a non-generic base of `Condition<TSubject>`,** is the tree's shape: each condition's `Children`, the
+  condition at a `ConditionPosition`, and the tree with one replaced. A tree holds conditions on several subjects, so the
+  editor works with them as `Condition`, through `IConditionGroup`, `INegatedCondition` and `ISubjectCondition`, and
+  offers what a subject has through `IConditionLevel` and `IConditionSubject`.
+- **`EditableMatchCondition`** is the search's `EditableSearch` for a match-condition: changes by position, and undo. Its
+  root is always an "all of" group, never negated. Removing a condition removes the negations and conditions on
+  subjects that held only it. `LevelAt` says which conditions there are at a position: a word's at the root, a token's
+  inside "The preceding token:".
+- **`ConditionTestWithTexts`** is a kind of condition made from what's typed, such as "ends with one of", with what typing
+  makes a condition, for changing it. The levels list theirs.
+
+**Shared with the note search, after trying it** (the open question in
+[Sharing code with the note search](#sharing-code-with-the-note-search-to-find-out)):
+- **Shared:** `ConditionPosition`, moved to `JAStudio.Core.Note.ConditionTrees`, and the add menu's key picking
+  (`SpecMenuItem.ItemPickedBy`).
+- **Alike, not shared yet,** each marked with a `refactor:` comment: `EditableMatchCondition` and `EditableSearch`, and
+  the two views' keys, menus and focus handling. Sharing them needs the search's `NoteCondition` and `Condition` to share
+  the tree's shape, which is the question of the search's tree becoming a `Condition<JPNote>`.
+
+**Not built yet:**
+- **Changing a condition's subject or its condition-test in place,** such as the preceding token to the following one.
+  Remove it and add the new one.
+- **Picking a part of speech from its tree,** as a tag is picked. It's typed for now.
+- **Negating inside a condition on a subject from the keyboard.** `-` negates a line's whole condition: "Not: The
+  preceding token: is a godan verb", which is met at the sentence's start. "The preceding token: Not: is a godan verb",
+  which isn't, takes a group under the subject: add "The preceding token: All of:", add the fact in it, and negate that.
+
+**Found on the way:**
+- **Compze's assertion exceptions carry only their decorated message,** "Argument.Assert(...)", so the dialog shows why a
+  part of speech can't be made with that around it. Recommended to Magnus as a Compze change.
+- **The headless JAStudio passes no keys into a menu opened with a submenu showing,** the note search's as well, so the
+  MCP server drives those menus by clicks.
 
 ### Naming and design questions: `review:matching:` comments
 

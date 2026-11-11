@@ -60,11 +60,15 @@ mark what's known to be right, so that each acts as a regression test from then 
   of this kind.
 - **A change that breaks one is a regression the full rebuild reports,** as the diff of the parsing results already shows
   what changed. So the corpus itself checks every change, and the more is confirmed, the more certain each change.
+- **Feedback within a second of an edit** (Magnus, 2026-11-11): an edit to a vocab reparses the confirmed sentences it
+  can affect, and says at once what it broke and what it fixed. See the working set, in
+  [expanding-the-sentence-corpus.md](todo/expanding-the-sentence-corpus.md).
 - **Growing them fast is the point:** an MCP tool for me to confirm a sentence's parse once I've checked it, and an action
   in the sentence's breakdown for Magnus.
 - **Related to, not the same as, making the parsing cases part of the corpus:** confirmed sentences live in the corpus,
   with their sentences; they aren't exported as cases (Magnus).
-- **The name is open:** "reviewed" and "assessed" don't fit (Magnus). "Confirmed" is a placeholder.
+- **The name:** a sentence's parse, or a match in it, is "confirmed" (agreed with Magnus, 2026-11-11). "Reviewed" and
+  "assessed" didn't fit.
 
 ## Measuring progress
 

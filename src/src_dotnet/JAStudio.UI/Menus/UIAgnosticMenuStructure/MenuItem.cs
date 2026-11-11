@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Anki;
-using JAStudio.Core.Note;
+using JAStudio.UI.Utils;
 using Python.Runtime;
 
 namespace JAStudio.UI.Menus.UIAgnosticMenuStructure;
@@ -72,6 +72,21 @@ public abstract class SpecMenuItem
              _ => []
           });
 
+   /// <summary>
+   /// The item of <paramref name="menu"/> that <paramref name="key"/> picks, its <see cref="AcceleratorKey"/>, ignoring case, or null when no item has that key.<br/>
+   /// The tree editors use it so that typing a key on the tree does what typing it in the add menu would: in the search, t opens the tag dialog,<br/>
+   /// and q opens the add menu with the question's submenu open.
+   /// </summary>
+   public static SpecMenuItem? ItemPickedBy(char key, IEnumerable<SpecMenuItem> menu) =>
+      menu.FirstOrDefault(it => it.AcceleratorKey is {} itemKey && char.ToLowerInvariant(itemKey) == char.ToLowerInvariant(key));
+
+   /// <summary>
+   /// This item, picked by <paramref name="key"/>: <paramref name="key"/> is its <see cref="AcceleratorKey"/>, and its <see cref="Name"/> shows it as<br/>
+   /// <see cref="ShortcutFinger.Mnemonic"/> does. For a menu whose keys are picked once its items are made, as <see cref="AutomaticMnemonics"/> picks them.<br/>
+   /// Only Command and Submenu items have a key.
+   /// </summary>
+   internal virtual SpecMenuItem WithAcceleratorKey(char key) => throw new InvalidOperationException($"A {Kind} menu item has no accelerator key");
+
    /// <summary>Whether the menu item is enabled (clickable). Disabled items appear grayed out.</summary>
    public virtual bool IsEnabled => true;
 
@@ -131,6 +146,9 @@ public abstract class SpecMenuItem
          KeyboardShortcut = shortcut;
          IsEnabled = enabled;
       }
+
+      internal override SpecMenuItem WithAcceleratorKey(char key) =>
+         new CommandSpec(ShortcutFinger.Mnemonic(key, Name), Action, key, KeyboardShortcut, IsEnabled) { IsVisible = IsVisible };
    }
 
    sealed class SubmenuSpec : SpecMenuItem
@@ -146,5 +164,7 @@ public abstract class SpecMenuItem
       internal SubmenuSpec(string name, IReadOnlyList<SpecMenuItem> children, char? acceleratorKey)
          : base(name, acceleratorKey) =>
          Children = children;
+
+      internal override SpecMenuItem WithAcceleratorKey(char key) => new SubmenuSpec(ShortcutFinger.Mnemonic(key, Name), Children, key) { IsVisible = IsVisible };
    }
 }

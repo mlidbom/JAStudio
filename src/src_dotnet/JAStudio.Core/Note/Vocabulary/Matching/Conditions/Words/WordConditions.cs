@@ -72,5 +72,6 @@ public static class WordConditions
       new("a word",
           [IsASingleToken, IsMatchedByItsSurface, IsMatchedByAnInflectedSurface],
           [PrecedingToken, FirstToken, LastToken, FollowingToken, PrecedingText, FollowingText, Surface, BaseForm],
+          [],
           new Dictionary<string, Func<JsonNode, Condition<CandidateWordVariant>>>());
 }

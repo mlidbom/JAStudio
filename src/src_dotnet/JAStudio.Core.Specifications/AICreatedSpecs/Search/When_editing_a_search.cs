@@ -1,6 +1,7 @@
 using System;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Search.Editing;
 using JAStudio.Core.Note.Search.Grouping;

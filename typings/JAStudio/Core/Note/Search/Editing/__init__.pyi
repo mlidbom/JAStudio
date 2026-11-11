@@ -1,4 +1,5 @@
-from JAStudio.Core.Note.Search import NoteCondition, ConditionPosition
+from JAStudio.Core.Note.Search import NoteCondition
+from JAStudio.Core.Note.ConditionTrees import ConditionPosition
 
 class EditableSearch:
     def __init__(self) -> None: ...

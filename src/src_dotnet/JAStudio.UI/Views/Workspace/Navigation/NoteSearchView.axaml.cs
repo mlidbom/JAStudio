@@ -89,7 +89,7 @@ public partial class NoteSearchView : UserControl
             ViewModel.ToggleNegationOfTheSelectedNode();
             break;
          case { KeyModifiers: KeyModifiers.None or KeyModifiers.Shift, KeySymbol: { Length: 1 } symbol }
-            when NoteSearchViewModel.ItemPickedBy(symbol[0], AddConditionMenu()) is {} menuItem:
+            when SpecMenuItem.ItemPickedBy(symbol[0], AddConditionMenu()) is {} menuItem:
             Dispatcher.UIThread.Post(() => DoWhatPickingItDoes(menuItem));
             break;
          default:

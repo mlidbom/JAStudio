@@ -6,6 +6,7 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
+using JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -13,7 +14,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// <summary>
 /// The "Matching" tab of a vocab's <see cref="VocabEditorSectionViewModel"/> (<see cref="VocabMatchingConfigEditor"/>):<br/>
 /// the vocab's matching config, everything that decides how sentences are parsed into words and which words match this vocab: its match-condition,<br/>
-/// shown as text and edited through the matching rules it's made of, and the rules and flags outside it.<br/>
+/// edited as a tree (<see cref="MatchConditionEditor"/>), or through the matching rules it's made of, and the rules and flags outside it.<br/>
 /// Every change is written to the note at once, and the vocab's sentences are then reparsed to reflect it. Each rule and flag is one of the<br/>
 /// <see cref="VocabEditableFields"/>.
 /// </summary>
@@ -23,12 +24,9 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    readonly Func<VocabNote> _currentVocab;
    readonly VocabSentencesReparserViewModel _sentencesReparser;
 
-   /// <summary>The vocab's match-condition as it describes itself, one line per condition, or "None" when it has none.</summary>
-   [ObservableProperty] string _matchConditionDescription = "";
-
    /// <summary>
-   /// Whether the match-condition is made of matching rules only, so that the rules' editors can edit it. One given other conditions, through the MCP<br/>
-   /// server, can only be read here.
+   /// Whether the match-condition is made of matching rules only, so that the rules' editors can edit it. One with other conditions can only be<br/>
+   /// edited as a tree.
    /// </summary>
    [ObservableProperty] bool _canBeEditedRuleByRule;
 
@@ -84,8 +82,12 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
          TextSetRule(VocabEditableFields.SuffixIsNot),
          TextSetRule(VocabEditableFields.SurfaceIsNot)
       ];
-      ShowTheMatchCondition();
+      MatchConditionEditor = new MatchConditionEditorViewModel(fatalErrorHandler, currentVocab, ChangeMade);
+      ShowWhetherTheMatchConditionCanBeEditedRuleByRule();
    }
+
+   /// <summary>The vocab's match-condition, edited as a tree.</summary>
+   public MatchConditionEditorViewModel MatchConditionEditor { get; }
 
    public RequireForbidFlagEditorViewModel YieldLastToken { get; }
    public TextSetEditorViewModel YieldToSurface { get; }
@@ -99,13 +101,14 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    public IReadOnlyList<FlagEditorViewModel> MiscFlags { get; }
    public IReadOnlyList<TextSetEditorViewModel> TextSetRules { get; }
 
-   /// <summary>Shows every rule as the note has it now, after a change made elsewhere.</summary>
+   /// <summary>Shows the match-condition, and every rule and flag, as the note has it now, after a change made elsewhere or on this tab.</summary>
    public void Refresh()
    {
+      MatchConditionEditor.Refresh();
+      ShowWhetherTheMatchConditionCanBeEditedRuleByRule();
       foreach(var rule in AllRequireForbidRules) rule.Refresh();
       foreach(var flag in AllFlags) flag.Refresh();
       foreach(var rule in AllTextSetRules) rule.Refresh();
-      ShowTheMatchCondition();
    }
 
    IEnumerable<RequireForbidFlagEditorViewModel> AllRequireForbidRules => [YieldLastToken, DictionaryFormStart, ..MiscMatchingRules, ..StemMatchingRules];
@@ -114,17 +117,15 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
 
    IEnumerable<TextSetEditorViewModel> AllTextSetRules => [YieldToSurface, ..TextSetRules];
 
-   void ShowTheMatchCondition()
-   {
-      var matchingConfiguration = _currentVocab().MatchingConfiguration;
-      MatchConditionDescription = matchingConfiguration.MatchCondition.IsEmpty ? "None" : matchingConfiguration.MatchCondition.ToString();
-      CanBeEditedRuleByRule = matchingConfiguration.Rules.IsMadeOfRulesOnly;
-   }
+   void ShowWhetherTheMatchConditionCanBeEditedRuleByRule() => CanBeEditedRuleByRule = _currentVocab().MatchingConfiguration.Rules.IsMadeOfRulesOnly;
 
-   /// <summary>Shows the match-condition a change made, then reparses the vocab's sentences.</summary>
+   /// <summary>
+   /// Shows what a change made, in the tree or by a rule's or flag's editor, everywhere on the tab, as a rule changed in the tree shows in its editor,<br/>
+   /// then reparses the vocab's sentences.
+   /// </summary>
    void ChangeMade()
    {
-      ShowTheMatchCondition();
+      Refresh();
       _sentencesReparser.ReparseSentences();
    }
 

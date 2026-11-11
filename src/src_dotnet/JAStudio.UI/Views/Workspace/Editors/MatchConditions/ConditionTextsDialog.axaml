@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matchConditions="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.MatchConditions.ConditionTextsDialog"
+        x:DataType="matchConditions:ConditionTextsEditorViewModel"
+        Title="{Binding Title}"
+        SizeToContent="WidthAndHeight"
+        CanResize="False"
+        ShowInTaskbar="False">
+
+    <StackPanel Margin="10" Spacing="6" Width="420">
+        <TextBlock Text="{Binding HowToType}" TextWrapping="Wrap" />
+        <TextBox Classes="initialFocus" Text="{Binding Text}" />
+        <TextBlock Text="{Binding Problem}" Foreground="Red" TextWrapping="Wrap"
+                   IsVisible="{Binding Problem, Converter={x:Static ObjectConverters.IsNotNull}}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,4,0,0">
+            <Button Content="OK" IsDefault="True" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanAccept}" />
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

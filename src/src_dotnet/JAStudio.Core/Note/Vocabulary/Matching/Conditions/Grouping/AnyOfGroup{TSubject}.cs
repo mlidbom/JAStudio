@@ -11,6 +11,12 @@ public sealed record AnyOfGroup<TSubject> : ConditionGroup<TSubject> where TSubj
 
    public override bool IsMetBy(TSubject subject) => IsEmpty || ConditionsThatAddSomething.Any(it => it.IsMetBy(subject));
 
+   public override bool IsAnyOf => true;
+
+   public override Condition SwitchedBetweenAllOfAndAnyOf() => new AllOfGroup<TSubject>(Conditions);
+
+   protected override ConditionGroup<TSubject> WithConditions(IReadOnlyList<Condition<TSubject>> conditions) => new AnyOfGroup<TSubject>(conditions);
+
    protected override string Heading => "Any of:";
 
    /// <summary>The key an "any of" group is stored under in the corpus.</summary>

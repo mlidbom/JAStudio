@@ -7,15 +7,33 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 /// <summary>Conditions combined into one: <see cref="AllOfGroup{TSubject}"/> or <see cref="AnyOfGroup{TSubject}"/>. Made by <see cref="ConditionGroup"/>.</summary>
-/// <remarks>The empty conditions in a group are ignored (see <see cref="Condition{TSubject}.IsEmpty"/>).</remarks>
-public abstract record ConditionGroup<TSubject> : Condition<TSubject> where TSubject : class
+/// <remarks>The empty conditions in a group are ignored (see <see cref="Condition.IsEmpty"/>).</remarks>
+public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditionGroup where TSubject : class
 {
    protected ConditionGroup(IReadOnlyList<Condition<TSubject>> conditions) => Conditions = conditions;
 
    /// <summary>The conditions in this group, in the order the editor shows them.</summary>
    public IReadOnlyList<Condition<TSubject>> Conditions { get; }
 
+   IReadOnlyList<Condition> IConditionGroup.Conditions => Conditions;
+
+   public override IReadOnlyList<Condition> Children => Conditions;
+
    public override bool IsEmpty => Conditions.All(it => it.IsEmpty);
+
+   public abstract bool IsAnyOf { get; }
+
+   public Condition WithConditionAdded(Condition condition) => WithConditions([..Conditions, condition.AsAConditionOn<TSubject>()]);
+
+   public Condition WithoutConditionAt(int index) => WithConditions([..Conditions.Where((_, conditionIndex) => conditionIndex != index)]);
+
+   public abstract Condition SwitchedBetweenAllOfAndAnyOf();
+
+   /// <summary>A group of the same kind as this one, with <paramref name="conditions"/> in it.</summary>
+   protected abstract ConditionGroup<TSubject> WithConditions(IReadOnlyList<Condition<TSubject>> conditions);
+
+   protected override Condition WithChildReplaced(int index, Condition replacement) =>
+      WithConditions([..Conditions.Select((condition, conditionIndex) => conditionIndex == index ? replacement.AsAConditionOn<TSubject>() : condition)]);
 
    /// <summary>The conditions that decide whether a subject meets this group: all but the empty ones.</summary>
    protected IEnumerable<Condition<TSubject>> ConditionsThatAddSomething => Conditions.Where(it => !it.IsEmpty);

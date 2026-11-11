@@ -23,6 +23,36 @@ Each is only as good as the corpus it runs over (see also [improving-parsing.md]
 for that kind. The corpus today has 49,162 sentences, and on 2026-11-10 two of today's rules, godan and godan imperative
 (head), were set only on vocab that never match in it.
 
+## A reservoir and a working set (Magnus, 2026-11-11)
+
+Growing the corpus by one or two orders of magnitude would be fantastic, but parsing all of it, and judging what a
+change did to it, would then slow every change down. So, in Magnus's words: "rather than being very selecting in what
+we import, we could import a ton of more subs2srs decks, but a flag on the notes would include/exclude them from the
+standard parsing, maybe even standard loading at all. That way we could have an enormous treasure trove of sentences
+ready to work on when we need them."
+
+- **The reservoir:** every sentence imported, not loaded or parsed in normal use.
+- **The working set:** the sentences JAStudio loads and the full rebuild parses, as all of today's are.
+- **Choosing the working set:** a separate mode or function loads and parses the whole reservoir, however slowly, and
+  runs selection over it, which moves sentences into the working set, or out of it, by how valuable they are. What
+  "valuable" means is still to be decided: the ideas below are candidates.
+- **The names were agreed with Magnus (2026-11-11):** the reservoir, the working set, and the confirmed sentences in it.
+  His first guesses were unused, active and validated.
+
+**Near-instant feedback.** With the sentences sorted into such sets, "we could also have all known to be important
+sentences reparse automatically within a second or so of any edit, giving near instant feedback on the effects on
+parsing" (Magnus). The confirmed sentences of [improving-parsing.md](../improving-parsing.md) are such a set: an edit to a
+vocab reparses those it can affect, and says at once what it broke and what it fixed.
+
+**What the numbers say so far:**
+- **Parsing:** a full rebuild of today's 49,162 sentences takes 6.5 seconds, so about 0.13 ms a sentence. Ten times as
+  many would take about a minute, and a hundred times about 11 minutes: fine for a selection run now and then.
+- **Memory, not time, is the limit:** today every sentence is a note held in memory. Millions wouldn't fit as notes, so
+  the reservoir is probably best kept as plain sentences with their source, without parse results, and without media
+  until a sentence joins the working set.
+- **A second after each edit is within reach:** an edit to a vocab already reparses only the sentences that could
+  contain its forms.
+
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion

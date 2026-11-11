@@ -18,8 +18,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// </list>
 /// </summary>
 /// <remarks>
-/// The facts are those <see cref="IAnalysisToken"/> computes, by the same code, so a condition on one means exactly what the matching rules<br/>
-/// (<see cref="VocabNoteMatchingRules"/>) that test it today mean. On a piece JAStudio split off a token, they're the piece's own, not the token's.
+/// The facts are those <see cref="IAnalysisToken"/> computes, by the same code, so a condition on one means exactly what the matching rule that<br/>
+/// tested it before match-conditions meant (<see cref="Rules.MatchingRules"/>). On a piece JAStudio split off a token, they're the piece's own, not the token's.
 /// </remarks>
 public static class TokenConditions
 {
@@ -105,6 +105,20 @@ public static class TokenConditions
              IsAnIchidanImperativeInflection, IsAPastTenseStem, IsAPastTenseMarker, EndsAStatement, IsANonWordCharacter, IsAnInflectableWord
           ],
           [Surface, BaseForm, Reading],
+          [
+             ConditionTestWithTexts.Of("part of speech is",
+                                       "Its levels from the top, in Japanese, separated by spaces or ・, such as 名詞 接尾",
+                                       Tokens.PartOfSpeechIs.FromTyped,
+                                       it => it.JapaneseLevels),
+             ConditionTestWithTexts.Of("inflection type is one of",
+                                       "Inflection types or their families, in Japanese, separated by spaces, such as 五段・ラ行 一段",
+                                       typed => new InflectionTypeIsOneOf(TextSet.FromTyped(typed)),
+                                       it => it.Names.AsTyped),
+             ConditionTestWithTexts.Of("inflected form is one of",
+                                       "Inflected forms, in Japanese, separated by spaces, such as 連用形 連用タ接続",
+                                       typed => new InflectedFormIsOneOf(TextSet.FromTyped(typed)),
+                                       it => it.Names.AsTyped)
+          ],
           new Dictionary<string, Func<JsonNode, Condition<IAnalysisToken>>>
           {
              [Tokens.PartOfSpeechIs.JsonKey] = json => new PartOfSpeechIs(json.GetValue<string>()),

@@ -1,9 +1,11 @@
 import typing, abc
-from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1, Fact_1, ConditionLevel_1
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1, Condition, Fact_1, ConditionLevel_1
 from System import IEquatable_1, Array_1
-from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 
 class TextComparison(Condition_1[str], IEquatable_1[TextComparison]):
+    @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property
@@ -43,6 +45,8 @@ class TextConditions(abc.ABC):
 
 class TextContainsOneOf(TextComparison, IEquatable_1[TextContainsOneOf]):
     @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
+    @property
     def IsEmpty(self) -> bool: ...
     @property
     def Texts(self) -> TextSet: ...
@@ -63,6 +67,8 @@ class TextContainsOneOf(TextComparison, IEquatable_1[TextContainsOneOf]):
 
 
 class TextEndsWithOneOf(TextComparison, IEquatable_1[TextEndsWithOneOf]):
+    @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property
@@ -85,6 +91,8 @@ class TextEndsWithOneOf(TextComparison, IEquatable_1[TextEndsWithOneOf]):
 
 class TextIsOneOf(TextComparison, IEquatable_1[TextIsOneOf]):
     @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
+    @property
     def IsEmpty(self) -> bool: ...
     @property
     def Texts(self) -> TextSet: ...
@@ -105,6 +113,8 @@ class TextIsOneOf(TextComparison, IEquatable_1[TextIsOneOf]):
 
 
 class TextMatchesRegularExpression(Condition_1[str], IEquatable_1[TextMatchesRegularExpression]):
+    @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property
@@ -129,6 +139,8 @@ class TextMatchesRegularExpression(Condition_1[str], IEquatable_1[TextMatchesReg
 
 class TextSet(IEquatable_1[TextSet]):
     @property
+    def AsTyped(self) -> str: ...
+    @property
     def Texts(self) -> IReadOnlyList_1[str]: ...
     def GetHashCode(self) -> int: ...
     def ToString(self) -> str: ...
@@ -144,6 +156,8 @@ class TextSet(IEquatable_1[TextSet]):
 
 
 class TextStartsWithOneOf(TextComparison, IEquatable_1[TextStartsWithOneOf]):
+    @property
+    def Children(self) -> IReadOnlyList_1[Condition]: ...
     @property
     def IsEmpty(self) -> bool: ...
     @property

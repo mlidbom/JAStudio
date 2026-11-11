@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Nodes;
+using JAStudio.Core.Note.ConditionTrees;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
+
+namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+
+/// <summary>
+/// A node in a vocab's match-condition, whatever its subject: a word, a token or a text. What a condition is met by is <see cref="Condition{TSubject}"/>'s;<br/>
+/// this is the tree's shape, as the match-condition editor walks and changes it: each condition's <see cref="Children"/>, and the tree with a<br/>
+/// condition at a <see cref="ConditionPosition"/> replaced.
+/// </summary>
+/// <remarks>
+/// A tree holds conditions on different subjects: a condition on a word holds one on its preceding token (<see cref="ISubjectCondition"/>), which<br/>
+/// can hold one on the token's surface. So the editor works with conditions as this type, and a condition put into a tree must be on the subject<br/>
+/// of the place it's put: a group's conditions are on the group's subject.
+/// </remarks>
+public abstract record Condition
+{
+   const string Indentation = "   ";
+
+   /// <summary>
+   /// Whether this condition adds nothing: a group with no conditions in it, or only empty ones, or a condition on an empty one.<br/>
+   /// The group it's in ignores it, as the note search ignores an empty group (<see cref="JAStudio.Core.Note.Search.NoteCondition.IsEmpty"/>), so that a<br/>
+   /// group just added changes nothing until it has conditions.
+   /// </summary>
+   public virtual bool IsEmpty => false;
+
+   /// <summary>The condition as the editor would show it: one line per condition, with each group's conditions indented under it.</summary>
+   public abstract IEnumerable<string> DescriptionLines();
+
+   /// <summary>
+   /// The conditions directly under this one in the tree: a group's conditions, the one a <see cref="NegatedCondition{TSubject}"/> negates, or the one a<br/>
+   /// <see cref="ISubjectCondition"/> holds on its subject. Any other condition has none.
+   /// </summary>
+   public virtual IReadOnlyList<Condition> Children => [];
+
+   /// <summary>The condition at <paramref name="position"/> in the tree this condition is the root of.</summary>
+   public Condition ConditionAt(ConditionPosition position) =>
+      position.IsRoot ? this : Children[position.FirstIndex].ConditionAt(position.BelowTheFirstChild);
+
+   /// <summary>
+   /// The tree this condition is the root of, with the condition at <paramref name="position"/> replaced by <paramref name="replacement"/>, which must<br/>
+   /// be on the same subject. Conditions are values, so this is a new tree, and this one is unchanged.
+   /// </summary>
+   public Condition WithConditionAt(ConditionPosition position, Condition replacement) =>
+      position.IsRoot
+         ? replacement
+         : WithChildReplaced(position.FirstIndex, Children[position.FirstIndex].WithConditionAt(position.BelowTheFirstChild, replacement));
+
+   /// <summary>A condition that a subject meets when it doesn't meet this one.</summary>
+   public abstract Condition Negated();
+
+   /// <summary>This condition with its child at <paramref name="index"/> replaced by <paramref name="replacement"/>. Only conditions with <see cref="Children"/> have one to replace.</summary>
+   protected virtual Condition WithChildReplaced(int index, Condition replacement) =>
+      throw new InvalidOperationException($"A {GetType().Name} has no children to replace.");
+
+   /// <summary>This condition as the condition on <typeparamref name="TSubject"/> it must be, such as a condition put into a group on that subject.</summary>
+   /// <exception cref="ArgumentException">When it's a condition on another subject.</exception>
+   internal Condition<TSubject> AsAConditionOn<TSubject>() where TSubject : class =>
+      this as Condition<TSubject> ?? throw new ArgumentException($"Not a condition on a {typeof(TSubject).Name}: {this}");
+
+   /// <summary>
+   /// The <see cref="DescriptionLines"/> with <paramref name="prefix"/> in front of the first, as a condition holding this one shows it on the same line<br/>
+   /// as itself, such as "Not: " or "The preceding token: ".
+   /// </summary>
+   internal IEnumerable<string> DescriptionLinesPrefixedWith(string prefix)
+   {
+      var lines = DescriptionLines().ToList();
+      return [prefix + lines[0], ..lines.Skip(1)];
+   }
+
+   /// <summary>The condition as the corpus stores it: an object whose key says what kind of condition it is. <see cref="ConditionLevel{TSubject}"/> reads it back.</summary>
+   internal abstract JsonObject ToJson();
+
+   /// <summary>
+   /// The texts that the <see cref="TextComparison"/>s in this condition compare with, one <see cref="TextSet"/> for each: its own when it is one,<br/>
+   /// else those of the conditions it holds. None for a condition that compares no text.
+   /// </summary>
+   internal virtual IEnumerable<TextSet> ComparedTextSets() => [];
+
+   public sealed override string ToString() => string.Join(Environment.NewLine, DescriptionLines());
+
+   /// <summary><paramref name="line"/> indented one level, for a condition shown under the group it's in.</summary>
+   protected static string Indented(string line) => Indentation + line;
+}

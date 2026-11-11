@@ -1,40 +1,13 @@
 import typing, abc
 from System import IEquatable_1
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
+from JAStudio.Core.Note.ConditionTrees import ConditionPosition
 from JAStudio.Core.Note import JPNote
 from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Search.TextProperties import TextProperty
 from JAStudio.Core.Note.Search.NoteTypeProperties import NoteTypeProperty
 from JAStudio.Core.Note.Search.TrueOrFalseProperties import TrueOrFalseProperty
 from JAStudio.Core.Note.Search.TagProperties import TagsProperty
-
-class ConditionPosition(IEquatable_1[ConditionPosition]):
-    @property
-    def IndexesFromTheRoot(self) -> IReadOnlyList_1[int]: ...
-    @property
-    def IndexInParent(self) -> int: ...
-    @property
-    def IsRoot(self) -> bool: ...
-    @property
-    def Parent(self) -> ConditionPosition: ...
-    @classmethod
-    @property
-    def Root(cls) -> ConditionPosition: ...
-    def Child(self, index: int) -> ConditionPosition: ...
-    def GetHashCode(self) -> int: ...
-    def __eq__(self, left: ConditionPosition, right: ConditionPosition) -> bool: ...
-    def __ne__(self, left: ConditionPosition, right: ConditionPosition) -> bool: ...
-    def ToString(self) -> str: ...
-    # Skipped Equals due to it being static, abstract and generic.
-
-    Equals : Equals_MethodGroup
-    class Equals_MethodGroup:
-        @typing.overload
-        def __call__(self, other: ConditionPosition) -> bool:...
-        @typing.overload
-        def __call__(self, obj: typing.Any) -> bool:...
-
-
 
 class NoteCondition(IEquatable_1[NoteCondition], abc.ABC):
     @property

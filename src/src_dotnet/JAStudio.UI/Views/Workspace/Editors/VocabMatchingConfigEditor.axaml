@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
+             xmlns:matchConditions="clr-namespace:JAStudio.UI.Views.Workspace.Editors.MatchConditions"
              x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMatchingConfigEditor"
              x:DataType="editors:VocabMatchingConfigEditorViewModel">
 
@@ -10,10 +11,10 @@
             <Border Classes="section">
                 <StackPanel Spacing="4">
                     <TextBlock Classes="sectionTitle" Text="Match-condition" />
-                    <SelectableTextBlock Text="{Binding MatchConditionDescription}" FontFamily="Consolas,Courier New,monospace" TextWrapping="Wrap" />
+                    <matchConditions:MatchConditionEditor DataContext="{Binding MatchConditionEditor}" />
                     <TextBlock IsVisible="{Binding !CanBeEditedRuleByRule}"
                                TextWrapping="Wrap"
-                               Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it as a whole, as its JSON, through the MCP server." />
+                               Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it in the tree." />
                 </StackPanel>
             </Border>
 
