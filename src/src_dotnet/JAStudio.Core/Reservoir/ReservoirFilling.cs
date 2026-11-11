@@ -18,7 +18,10 @@ public sealed class ReservoirFilling
    readonly Action<string> _tellProgress;
 
    /// <param name="reservoir">The reservoir to fill.</param>
-   /// <param name="tellProgress">Told what each work added, and for a deck, which of its fields were recognized as what.</param>
+   /// <param name="tellProgress">
+   /// Told what each work added, and for a deck, which of its fields were recognized as what; and of each zip of subtitles left out because it<br/>
+   /// can't be read.
+   /// </param>
    public ReservoirFilling(ReservoirFile reservoir, Action<string> tellProgress)
    {
       _reservoir = reservoir;
@@ -39,10 +42,13 @@ public sealed class ReservoirFilling
       }
    }
 
-   /// <summary>Adds the shows in <paramref name="zipOrFolder"/>, a collection of subtitles kept as a folder per show, zipped or not.</summary>
+   /// <summary>
+   /// Adds the shows in <paramref name="zipOrFolder"/>, a collection of subtitles kept as a folder per show, zipped or not. A zip in a show's<br/>
+   /// folder that can't be read is left out, and told of.
+   /// </summary>
    public void AddSubtitlesIn(string collectionName, FileSystemInfo zipOrFolder)
    {
-      foreach(var work in SubtitleCollection.WorksIn(collectionName, zipOrFolder).Where(it => !_reservoir.Has(it.Source)))
+      foreach(var work in SubtitleCollection.WorksIn(collectionName, zipOrFolder, _tellProgress).Where(it => !_reservoir.Has(it.Source)))
          _tellProgress(_reservoir.Add(work).ToString());
    }
 
