@@ -188,7 +188,7 @@ public sealed class ReservoirFile : IDisposable
    public IEnumerable<(long Id, string Text)> EverySentenceText()
    {
       using var command = _connection.CreateCommand();
-      command.CommandText = "select id, text from sentence";
+      command.CommandText = "select id, text from sentence order by id";
       using var reader = command.ExecuteReader();
       while(reader.Read()) yield return (reader.GetInt64(0), reader.GetString(1));
    }
