@@ -48,9 +48,11 @@ are OCR errors, so the measures and the picks should leave such decks out, or we
 
 The vocab feedback (`reservoir vocab`, and the MCP tool `what_a_vocab_does_in_the_reservoir`) loads every sentence's
 text once, 17 seconds for 13 million, and then takes 1.5 to 6.6 seconds a vocab, analyzing up to 20,000 of the
-sentences containing its texts: 鬱 is in 172,277 of them, たまえ in 6,442 and たん in 627,905. Most of the time is the
-analyzing, which a smaller sample would cut. An index of which sentences hold each character would cut the search too,
-but it's already under a second.
+sentences containing its texts: 鬱 is in 172,277 of them, たまえ in 6,442 and たん in 627,905. A vocab's time covers
+scanning the 13 million texts for its own, reading the numbering and the sample's bulk analyses from the reservoir, and
+analyzing the sample anew; 鬱's, the first, also covers loading the dictionary (1.1 seconds). How it splits between
+those wasn't measured: the bulk analysis's speed suggests 2 to 2.5 seconds for analyzing 20,000 sentences, which would
+leave a second or two for the scan and the reads. A profile would tell.
 
 ## Parsing problems, each seen across many sentences
 
