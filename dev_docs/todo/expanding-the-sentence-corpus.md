@@ -125,7 +125,8 @@ and the reports. The full decks, hundreds of GB, are to live where Magnus puts h
 - **The measures, the picks and the report** (`JAStudio.Core.Reservoir.Measures`, `.Picking` and `.Reporting`): one pass
   over the analyses counts, with examples, the sentences matching each vocab, each vocab's rejections by reason, and each
   word no vocab has (`ReservoirMeasures`); the corpus is counted the same way (`WhatTheCorpusHas`).
-  `SentencesWorthTakingIn` then picks, greedily, the fewest sentences giving the corpus what it lacks of each feature
+  `SentencesWorthTakingIn` then picks, greedily, among sentences of up to 50 characters, the fewest giving the corpus
+  what it lacks of each feature
   (`SentenceFeatures`): three sentences for each vocab, two for each vocab and rejection reason, one for each frequent
   word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list (`ReportFolder`).
 - **Checking decks before filling** (`WhatADeckGives`, `DeckCheckReport`): what each note type of each deck in a
