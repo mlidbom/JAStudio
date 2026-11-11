@@ -915,8 +915,12 @@ able to see the tree :)".
   which isn't, takes a group under the subject: add "The preceding token: All of:", add the fact in it, and negate that.
 
 **Found on the way:**
-- **Compze's assertion exceptions carry only their decorated message,** "Argument.Assert(...)", so the dialog shows why a
-  part of speech can't be made with that around it. Recommended to Magnus as a Compze change.
+- **Why what's typed makes no condition is the editor's own question, not a caught contract assertion.** The dialog
+  first caught the conditions' contract assertions to show why, which hid any bug that failed one in the same calls,
+  and showed the reason wrapped as "Argument.Assert(...)". The Compze session pointed out the real cause (2026-11-11). Now
+  each kind of value says why it makes no condition, such as `PartOfSpeechIs.WhyTypedLevelsAreNoPartOfSpeech`, the
+  conditions' constructors assert the same rule, and the editor asks before making one. Only a regular expression's
+  parsing is caught, around itself alone, since .NET has no other way to check a pattern.
 - **The headless JAStudio passes no keys into a menu opened with a submenu showing,** the note search's as well, so the
   MCP server drives those menus by clicks.
 

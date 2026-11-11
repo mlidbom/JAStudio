@@ -1,8 +1,6 @@
 using System;
-using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Contracts.Exceptions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.UI.Views.Workspace.Editors.MatchConditions;
 
@@ -67,26 +65,13 @@ partial class ConditionTextsEditorViewModel : ObservableObject
 
    partial void OnTextChanged(string value)
    {
-      (Condition, Problem) = string.IsNullOrWhiteSpace(value) ? (null, null) : TheConditionTypedOrWhyThereIsNone(value);
+      (Condition, Problem) = TheConditionTypedOrWhyThereIsNone();
       OnPropertyChanged(nameof(Condition));
       OnPropertyChanged(nameof(CanAccept));
-   }
 
-   /// <remarks>
-   /// What's typed is on its way to a condition, so what can't make one yet, such as an unfinished part of speech or regular expression, is shown<br/>
-   /// as a problem, not thrown. These are the exceptions <see cref="ConditionTestWithTexts.MadeFrom"/> throws for it.
-   /// </remarks>
-   (Condition? Condition, string? Problem) TheConditionTypedOrWhyThereIsNone(string typedText)
-   {
-      try
-      {
-         return (_placed(_test.MadeFrom(typedText)), null);
-      }
-      catch(Exception exception) when(exception is ArgumentAssertionFailedException or RegexParseException)
-      {
-         //todo:compze: an assertion exception's Message is only "Argument.Assert(<why>)", so the dialog shows the reason wrapped in that. Once Compze's
-         //   assertion exceptions expose the reason on its own, show that here.
-         return (null, exception.Message);
-      }
+      (Condition? Condition, string? Problem) TheConditionTypedOrWhyThereIsNone() =>
+         string.IsNullOrWhiteSpace(value)                    ? (null, null)
+         : _test.WhyItMakesNoConditionFrom(value) is {} why ? (null, why)
+                                                             : (_placed(_test.MadeFrom(value)), null);
    }
 }

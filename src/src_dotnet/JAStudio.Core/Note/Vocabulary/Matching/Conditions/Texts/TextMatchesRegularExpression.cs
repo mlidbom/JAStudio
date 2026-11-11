@@ -10,13 +10,32 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 /// </summary>
 public sealed record TextMatchesRegularExpression : Condition<string>
 {
+   const RegexOptions TheRegexOptions = RegexOptions.CultureInvariant;
    readonly Regex _regex;
 
    /// <exception cref="RegexParseException">When <paramref name="pattern"/> isn't a valid regular expression.</exception>
    internal TextMatchesRegularExpression(string pattern)
    {
       Pattern = pattern;
-      _regex = new Regex(pattern, RegexOptions.CultureInvariant);
+      _regex = new Regex(pattern, TheRegexOptions);
+   }
+
+   /// <summary>Why <paramref name="pattern"/>, typed into the match-condition editor, is no valid regular expression, or null when it is one.</summary>
+   /// <remarks>
+   /// .NET has no way to check a pattern but to parse it, which throws <see cref="RegexParseException"/> for one that isn't valid. So that exception is<br/>
+   /// caught here, around the parsing alone: a pattern being typed is invalid on its way to a valid one, and saying why is the point.
+   /// </remarks>
+   internal static string? WhyItIsNoRegularExpression(string pattern)
+   {
+      try
+      {
+         _ = new Regex(pattern, TheRegexOptions);
+         return null;
+      }
+      catch(RegexParseException exception)
+      {
+         return exception.Message;
+      }
    }
 
    /// <summary>The regular expression, as it was written.</summary>

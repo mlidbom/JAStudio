@@ -29,7 +29,9 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
       [XF] public void the_condition_shows_typed_as_its_texts_separated_by_spaces() => EndsWithOneOf.TypedTextOf(TextConditions.EndsWithOneOf("ん", "い")).Must().Be("い ん");
       [XF] public void it_made_an_ends_with_condition() => EndsWithOneOf.Made(TextConditions.EndsWithOneOf("ん")).Must().BeTrue();
       [XF] public void it_did_not_make_a_starts_with_condition() => EndsWithOneOf.Made(TextConditions.StartsWithOneOf("ん")).Must().BeFalse();
-      [XF] public void nothing_typed_throws_since_a_comparison_needs_a_text() => Invoking(() => EndsWithOneOf.MadeFrom(" ")).Must().Throw<ArgumentAssertionFailedException>();
+      [XF] public void texts_typed_have_no_reason_against_them() => EndsWithOneOf.WhyItMakesNoConditionFrom("ん").Must().BeNull();
+      [XF] public void nothing_typed_says_a_comparison_needs_a_text() => EndsWithOneOf.WhyItMakesNoConditionFrom(" ").Must().Be("A condition needs at least one text to compare with.");
+      [XF] public void making_one_from_nothing_typed_throws_since_the_editor_never_does() => Invoking(() => EndsWithOneOf.MadeFrom(" ")).Must().Throw<ArgumentAssertionFailedException>();
    }
 
    public class for_part_of_speech_is : When_typing_a_condition_into_the_tree_editor
@@ -39,7 +41,11 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
       [XF] public void levels_separated_by_spaces_are_the_levels_from_the_top() => PartOfSpeechIs.MadeFrom("名詞 接尾").Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
       [XF] public void levels_separated_by_a_middle_dot_are_too() => PartOfSpeechIs.MadeFrom("名詞・接尾").Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
       [XF] public void the_condition_shows_typed_as_its_levels_separated_by_a_middle_dot() => PartOfSpeechIs.TypedTextOf(TokenConditions.PartOfSpeechIs("名詞", "接尾")).Must().Be("名詞・接尾");
-      [XF] public void a_part_of_speech_the_tokenizer_never_gives_throws() => Invoking(() => PartOfSpeechIs.MadeFrom("存在しない")).Must().Throw<ArgumentAssertionFailedException>();
+      [XF] public void a_part_of_speech_the_tokenizer_never_gives_says_so() =>
+         PartOfSpeechIs.WhyItMakesNoConditionFrom("名詞 存在しない").Must().Be("The tokenizer gives no part of speech that is, or is a kind of, 名詞・存在しない.");
+
+      [XF] public void making_one_the_tokenizer_never_gives_throws_since_the_editor_never_does() =>
+         Invoking(() => PartOfSpeechIs.MadeFrom("存在しない")).Must().Throw<ArgumentAssertionFailedException>();
    }
 
    public class for_matches_the_regular_expression : When_typing_a_condition_into_the_tree_editor
@@ -47,6 +53,8 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
       static readonly ConditionTestWithTexts MatchesTheRegularExpression = TextTest("matches the regular expression");
 
       [XF] public void the_whole_text_is_the_pattern_spaces_included() => MatchesTheRegularExpression.MadeFrom("^a b$").Must().Be(TextConditions.MatchesRegularExpression("^a b$"));
-      [XF] public void an_invalid_pattern_throws() => Invoking(() => MatchesTheRegularExpression.MadeFrom("(")).Must().Throw<RegexParseException>();
+      [XF] public void a_valid_pattern_has_no_reason_against_it() => MatchesTheRegularExpression.WhyItMakesNoConditionFrom("^a+$").Must().BeNull();
+      [XF] public void an_invalid_pattern_says_why_it_is_invalid() => MatchesTheRegularExpression.WhyItMakesNoConditionFrom("(").Must().Contain("Not enough )'s");
+      [XF] public void making_one_from_an_invalid_pattern_throws_since_the_editor_never_does() => Invoking(() => MatchesTheRegularExpression.MadeFrom("(")).Must().Throw<RegexParseException>();
    }
 }

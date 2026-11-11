@@ -18,8 +18,8 @@ public sealed class TextSet : IEquatable<TextSet>
    internal TextSet(IEnumerable<string> texts)
    {
       Texts = [.. texts.Distinct().Order(StringComparer.Ordinal)];
-      Contract.Argument.Assert(Texts.Count > 0, () => "A condition needs at least one text to compare with.");
-      Contract.Argument.Assert(Texts.All(it => it.Length > 0), () => "A condition can't compare with an empty text: every text starts with it, ends with it, and contains it.");
+      var whyTheyMakeNoSet = WhyTheyMakeNoSet(Texts);
+      Contract.Argument.Assert(whyTheyMakeNoSet is null, () => $"{whyTheyMakeNoSet}");
    }
 
    /// <summary>The texts, each once, in ordinal order.</summary>
@@ -29,13 +29,24 @@ public sealed class TextSet : IEquatable<TextSet>
    public string AsTyped => string.Join(TypedSeparator, Texts);
 
    /// <summary>The texts typed into the match-condition editor, separated by spaces, as <see cref="AsTyped"/> has them.</summary>
-   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When there's no text.</exception>
-   internal static TextSet FromTyped(string typedTexts) => new(typedTexts.Split(TypedSeparator, StringSplitOptions.RemoveEmptyEntries));
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedTextsMakeNoSet"/> says why they make none.</exception>
+   internal static TextSet FromTyped(string typedTexts) => new(TheTextsTyped(typedTexts));
+
+   /// <summary>Why the texts typed into the match-condition editor make no set, such as when nothing is typed, or null when they make one.</summary>
+   internal static string? WhyTypedTextsMakeNoSet(string typedTexts) => WhyTheyMakeNoSet(TheTextsTyped(typedTexts));
 
    /// <summary>What to type for texts, as the match-condition editor tells it.</summary>
    internal const string HowToTypeThem = "The texts, separated by spaces";
 
    internal JsonArray ToJson() => [.. Texts.Select(JsonNode (it) => it)];
+
+   static string[] TheTextsTyped(string typedTexts) => typedTexts.Split(TypedSeparator, StringSplitOptions.RemoveEmptyEntries);
+
+   /// <summary>Why <paramref name="texts"/> make no set, or null when they make one: there's at least one, and none is empty.</summary>
+   static string? WhyTheyMakeNoSet(IReadOnlyCollection<string> texts) =>
+      texts.Count == 0                 ? "A condition needs at least one text to compare with."
+      : texts.Any(it => it.Length == 0) ? "A condition can't compare with an empty text: every text starts with it, ends with it, and contains it."
+                                        : null;
 
    /// <exception cref="FormatException">When <paramref name="json"/> isn't an array of texts.</exception>
    internal static TextSet From(JsonNode json)

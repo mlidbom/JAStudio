@@ -24,8 +24,23 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
    internal InflectionTypeIsOneOf(TextSet names)
    {
       Names = names;
+      var whyTheyAreNoInflectionTypes = WhyTheyAreNoInflectionTypes(names);
+      Contract.Argument.Assert(whyTheyAreNoInflectionTypes is null, () => $"{whyTheyAreNoInflectionTypes}");
+   }
+
+   /// <summary>The condition typed into the match-condition editor: the names separated by spaces.</summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedNamesMakeNoCondition"/> says why they make none.</exception>
+   internal static InflectionTypeIsOneOf FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
+
+   /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no type of, or null when they make one.</summary>
+   internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
+      TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectionTypes(TextSet.FromTyped(typedNames));
+
+   /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflection types, or families of them, or null when they are.</summary>
+   static string? WhyTheyAreNoInflectionTypes(TextSet names)
+   {
       var unknownNames = names.Texts.Where(it => !InflectionTypes.IsKnown(it) && !InflectionTypes.IsKnownFamily(it)).ToList();
-      Contract.Argument.Assert(unknownNames.Count == 0, () => $"The tokenizer has no inflection types, nor families of them, named {string.Join(", ", unknownNames)}.");
+      return unknownNames.Count == 0 ? null : $"The tokenizer has no inflection types, nor families of them, named {string.Join(", ", unknownNames)}.";
    }
 
    /// <summary>The inflection types' names, in Japanese, as the tokenizer gives them, such as 五段・ラ行, or the family's, such as 五段.</summary>

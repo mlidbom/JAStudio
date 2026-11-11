@@ -108,15 +108,18 @@ public static class TokenConditions
           [
              ConditionTestWithTexts.Of("part of speech is",
                                        "Its levels from the top, in Japanese, separated by spaces or ・, such as 名詞 接尾",
+                                       Tokens.PartOfSpeechIs.WhyTypedLevelsAreNoPartOfSpeech,
                                        Tokens.PartOfSpeechIs.FromTyped,
                                        it => it.JapaneseLevels),
              ConditionTestWithTexts.Of("inflection type is one of",
                                        "Inflection types or their families, in Japanese, separated by spaces, such as 五段・ラ行 一段",
-                                       typed => new InflectionTypeIsOneOf(TextSet.FromTyped(typed)),
+                                       Tokens.InflectionTypeIsOneOf.WhyTypedNamesMakeNoCondition,
+                                       Tokens.InflectionTypeIsOneOf.FromTyped,
                                        it => it.Names.AsTyped),
              ConditionTestWithTexts.Of("inflected form is one of",
                                        "Inflected forms, in Japanese, separated by spaces, such as 連用形 連用タ接続",
-                                       typed => new InflectedFormIsOneOf(TextSet.FromTyped(typed)),
+                                       Tokens.InflectedFormIsOneOf.WhyTypedNamesMakeNoCondition,
+                                       Tokens.InflectedFormIsOneOf.FromTyped,
                                        it => it.Names.AsTyped)
           ],
           new Dictionary<string, Func<JsonNode, Condition<IAnalysisToken>>>

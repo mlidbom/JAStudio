@@ -11,13 +11,19 @@ public sealed class ConditionTestWithTexts
 {
    //review:matching: "condition-test", from the design document's terms: what a single condition checks about its subject. The facts are
    //   condition-tests too, ones that take no value, but they're conditions in themselves, so only those that take texts have a type.
+   readonly Func<string, string?> _whyTypedTextMakesNoCondition;
    readonly Func<string, Condition> _madeFromTypedText;
    readonly Func<Condition, string?> _typedTextOf;
 
-   ConditionTestWithTexts(string name, string howToTypeTheTexts, Func<string, Condition> madeFromTypedText, Func<Condition, string?> typedTextOf)
+   ConditionTestWithTexts(string name,
+                          string howToTypeTheTexts,
+                          Func<string, string?> whyTypedTextMakesNoCondition,
+                          Func<string, Condition> madeFromTypedText,
+                          Func<Condition, string?> typedTextOf)
    {
       Name = name;
       HowToTypeTheTexts = howToTypeTheTexts;
+      _whyTypedTextMakesNoCondition = whyTypedTextMakesNoCondition;
       _madeFromTypedText = madeFromTypedText;
       _typedTextOf = typedTextOf;
    }
@@ -28,9 +34,16 @@ public sealed class ConditionTestWithTexts
    /// <summary>What to type, as the editor tells it, such as "The texts, separated by spaces".</summary>
    public string HowToTypeTheTexts { get; }
 
-   /// <summary>The condition <paramref name="typedText"/> describes.</summary>
-   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When it describes no condition that can be made, such as an empty text.</exception>
-   /// <exception cref="System.Text.RegularExpressions.RegexParseException">When it's meant to be a regular expression, and isn't a valid one.</exception>
+   /// <summary>
+   /// Why <paramref name="typedText"/> makes no condition, such as a part of speech the tokenizer never gives, or null when it makes one: what the<br/>
+   /// editor shows while what's typed is on its way to a condition.
+   /// </summary>
+   public string? WhyItMakesNoConditionFrom(string typedText) => _whyTypedTextMakesNoCondition(typedText);
+
+   /// <summary>
+   /// The condition <paramref name="typedText"/> makes. Only for text <see cref="WhyItMakesNoConditionFrom"/> has no reason against: the conditions'<br/>
+   /// constructors assert the same rules, so making one from any other is a bug, and fails loudly.
+   /// </summary>
    public Condition MadeFrom(string typedText) => _madeFromTypedText(typedText);
 
    /// <summary>Whether <paramref name="condition"/> is of this test, so the editor can change its texts.</summary>
@@ -41,10 +54,14 @@ public sealed class ConditionTestWithTexts
       _typedTextOf(condition) ?? throw new ArgumentException($"Not a condition that {Name}: {condition}", nameof(condition));
 
    /// <summary>
-   /// The test whose conditions are the <typeparamref name="TCondition"/>s: <paramref name="madeFromTypedText"/> makes one from what's typed, and<br/>
-   /// <paramref name="typedTextOf"/> gives back what typing makes it.
+   /// The test whose conditions are the <typeparamref name="TCondition"/>s: <paramref name="whyTypedTextMakesNoCondition"/> says why what's typed<br/>
+   /// makes none, <paramref name="madeFromTypedText"/> makes one from what's typed, and <paramref name="typedTextOf"/> gives back what typing makes it.
    /// </summary>
-   internal static ConditionTestWithTexts Of<TCondition>(string name, string howToTypeTheTexts, Func<string, TCondition> madeFromTypedText, Func<TCondition, string> typedTextOf)
+   internal static ConditionTestWithTexts Of<TCondition>(string name,
+                                                         string howToTypeTheTexts,
+                                                         Func<string, string?> whyTypedTextMakesNoCondition,
+                                                         Func<string, TCondition> madeFromTypedText,
+                                                         Func<TCondition, string> typedTextOf)
       where TCondition : Condition =>
-      new(name, howToTypeTheTexts, madeFromTypedText, condition => condition is TCondition ofThisTest ? typedTextOf(ofThisTest) : null);
+      new(name, howToTypeTheTexts, whyTypedTextMakesNoCondition, madeFromTypedText, condition => condition is TCondition ofThisTest ? typedTextOf(ofThisTest) : null);
 }

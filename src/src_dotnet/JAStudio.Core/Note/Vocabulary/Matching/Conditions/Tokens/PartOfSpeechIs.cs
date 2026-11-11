@@ -26,8 +26,8 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    {
       _levels = japaneseLevels;
       JapaneseLevels = string.Join(LevelSeparator, japaneseLevels);
-      Contract.Argument.Assert(japaneseLevels.Count > 0 && JNPartsOfSpeech.AnyIsWithin(japaneseLevels),
-                               () => $"The tokenizer gives no part of speech that is, or is a kind of, {JapaneseLevels}.");
+      var whyTheyAreNoPartOfSpeech = WhyTheyAreNoPartOfSpeech(japaneseLevels);
+      Contract.Argument.Assert(whyTheyAreNoPartOfSpeech is null, () => $"{whyTheyAreNoPartOfSpeech}");
    }
 
    /// <param name="japaneseLevels">The levels joined by ・, as <see cref="JapaneseLevels"/> has them.</param>
@@ -35,8 +35,19 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    internal PartOfSpeechIs(string japaneseLevels) : this(japaneseLevels.Split(LevelSeparator)) {}
 
    /// <summary>The condition typed into the match-condition editor: the levels from the top, separated by spaces or ・, such as 名詞 接尾.</summary>
-   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">As the constructor.</exception>
-   internal static PartOfSpeechIs FromTyped(string typedLevels) => new(typedLevels.Split([" ", LevelSeparator], StringSplitOptions.RemoveEmptyEntries));
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedLevelsAreNoPartOfSpeech"/> says why they're none.</exception>
+   internal static PartOfSpeechIs FromTyped(string typedLevels) => new(TheLevelsTyped(typedLevels));
+
+   /// <summary>Why the levels typed into the match-condition editor are no part of speech the tokenizer gives, or null when they are one.</summary>
+   internal static string? WhyTypedLevelsAreNoPartOfSpeech(string typedLevels) => WhyTheyAreNoPartOfSpeech(TheLevelsTyped(typedLevels));
+
+   static string[] TheLevelsTyped(string typedLevels) => typedLevels.Split([" ", LevelSeparator], StringSplitOptions.RemoveEmptyEntries);
+
+   /// <summary>Why <paramref name="levels"/> are no part of speech the tokenizer gives, nor a kind of one, or null when they are.</summary>
+   static string? WhyTheyAreNoPartOfSpeech(IReadOnlyList<string> levels) =>
+      levels.Count == 0                    ? "A part of speech needs at least its top level, such as 名詞."
+      : !JNPartsOfSpeech.AnyIsWithin(levels) ? $"The tokenizer gives no part of speech that is, or is a kind of, {string.Join(LevelSeparator, levels)}."
+                                             : null;
 
    /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・接尾・人名.</summary>
    public string JapaneseLevels { get; }

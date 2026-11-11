@@ -26,8 +26,23 @@ public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
    internal InflectedFormIsOneOf(TextSet names)
    {
       Names = names;
+      var whyTheyAreNoInflectedForms = WhyTheyAreNoInflectedForms(names);
+      Contract.Argument.Assert(whyTheyAreNoInflectedForms is null, () => $"{whyTheyAreNoInflectedForms}");
+   }
+
+   /// <summary>The condition typed into the match-condition editor: the names separated by spaces.</summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedNamesMakeNoCondition"/> says why they make none.</exception>
+   internal static InflectedFormIsOneOf FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
+
+   /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no form of, or null when they make one.</summary>
+   internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
+      TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectedForms(TextSet.FromTyped(typedNames));
+
+   /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflected forms, or null when they are.</summary>
+   static string? WhyTheyAreNoInflectedForms(TextSet names)
+   {
       var unknownNames = names.Texts.Where(it => !InflectionForms.IsKnown(it)).ToList();
-      Contract.Argument.Assert(unknownNames.Count == 0, () => $"The tokenizer has no inflected forms named {string.Join(", ", unknownNames)}.");
+      return unknownNames.Count == 0 ? null : $"The tokenizer has no inflected forms named {string.Join(", ", unknownNames)}.";
    }
 
    /// <summary>The inflected forms' names, in Japanese, as the tokenizer gives them, such as 連用タ接続.</summary>
