@@ -3,6 +3,14 @@
   <component name="UserContentModel">
     <attachedFolders />
     <explicitIncludes />
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>dev_docs</Path>
+      <Path>src/jastudio_src/_lib</Path>
+      <Path>src/src_dotnet/JAStudio.HeadlessHost/bin</Path>
+      <Path>src/src_dotnet/JAStudio.HeadlessHost/bin/Debug/net10.0/win-x64/.playwright</Path>
+      <Path>src/src_dotnet/JAStudio.HeadlessHost/obj</Path>
+      <Path>typings</Path>
+      <Path>../../Users/magnu/.nuget/packages/microsoft.playwright/1.64.1/.playwright</Path>
+    </explicitExcludes>
   </component>
 </project>
