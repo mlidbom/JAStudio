@@ -7,7 +7,8 @@ namespace JAStudio.Core.Reservoir.Picking;
 /// <summary>
 /// The reservoir sentences worth taking into the working set: the fewest that give the corpus what it lacks, picked greedily. What the corpus lacks<br/>
 /// is a few sentences for each thing a sentence can exercise, its features (<see cref="SentenceFeatures"/>). Each pick is the sentence giving the<br/>
-/// most features still lacking, audio and then a readable length breaking ties; a feature the picks have given enough of stops counting.
+/// most features still lacking, audio and then a readable length breaking ties; a feature the picks have given enough of stops counting. Only<br/>
+/// sentences of a sentence's length are candidates (<see cref="LongestSentenceWorthTakingIn"/>).
 /// </summary>
 /// <remarks>
 /// The gains only shrink as sentences are picked, so a sentence's gain is worked out anew only when it comes to the top of the queue, the usual<br/>
@@ -15,10 +16,21 @@ namespace JAStudio.Core.Reservoir.Picking;
 /// </remarks>
 public sealed partial class SentencesWorthTakingIn
 {
+   /// <summary>
+   /// The longest sentence worth taking in, in characters: as long as the corpus's sentences, which are 15 characters long at the median and 50 at<br/>
+   /// the 99th percentile (2026-11-11). A longer text, such as an audiobook's paragraph, gives the most features of all, so the greedy pick took<br/>
+   /// little else, but it's no sentence to study, nor one whose parsing is checked at a glance.
+   /// </summary>
+   public const int LongestSentenceWorthTakingIn = 50;
+
    SentencesWorthTakingIn(ReservoirFile reservoir, ReservoirMeasures measures, WhatTheCorpusHas corpus, int maximum)
    {
       var features = new SentenceFeatures(measures, corpus);
-      var candidates = reservoir.AnalyzedSentences().Select(it => Candidate.Of(it, features)).Where(it => it.FeaturesStillLacking.Length > 0).ToList();
+      var candidates = reservoir.AnalyzedSentences()
+                                .Where(it => it.Text.Length <= LongestSentenceWorthTakingIn)
+                                .Select(it => Candidate.Of(it, features))
+                                .Where(it => it.FeaturesStillLacking.Length > 0)
+                                .ToList();
       GainsBySource = candidates.GroupBy(it => it.SourceId).ToDictionary(it => it.Key, it => it.Sum(candidate => candidate.FeaturesStillLacking.Length));
       Picked = PickGreedily(candidates, features, maximum);
    }
@@ -26,7 +38,7 @@ public sealed partial class SentencesWorthTakingIn
    /// <summary>The sentences picked, in the order they were picked: the most valuable first.</summary>
    public IReadOnlyList<SentenceWorthTakingIn> Picked { get; }
 
-   /// <summary>For each source, by its id, how many features still lacking its sentences give, before any pick: how much the source has to give.</summary>
+   /// <summary>For each source, by its id, how many features still lacking its sentences of a sentence's length give, before any pick: how much the source has to give.</summary>
    public IReadOnlyDictionary<long, int> GainsBySource { get; }
 
    /// <summary>Picks up to <paramref name="maximum"/> sentences of <paramref name="reservoir"/>, by what they'd give the corpus.</summary>

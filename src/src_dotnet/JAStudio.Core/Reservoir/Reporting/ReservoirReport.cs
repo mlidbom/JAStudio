@@ -160,7 +160,8 @@ public sealed class ReservoirReport
       var sentences = _reservoir.SentencesWithIds(_picks.Picked.Select(it => it.SentenceId));
       _folder.Section("The sentences most worth taking into the working set",
                       Invariant($"{_picks.Picked.Count:N0} sentences picked, each giving the most of what the corpus still lacked: {_picks.Picked.Sum(it => it.WhatItGives.Count):N0} things in all."),
-                      Invariant($"{_picks.Picked.Count(it => SentenceOf(it).AudioFile is not null):N0} of them have audio."));
+                      Invariant($"{_picks.Picked.Count(it => SentenceOf(it).AudioFile is not null):N0} of them have audio."),
+                      Invariant($"Only sentences of up to {SentencesWorthTakingIn.LongestSentenceWorthTakingIn} characters are candidates, as long as the corpus's."));
       _folder.TableWithTheRestInAFile("sentences-worth-taking-in",
                                       ["Sentence", "From", "Audio", "Gives"],
                                       [.. _picks.Picked.Select(it => new[] { SentenceOf(it).Text, WorkOf(it.SourceId), SentenceOf(it).AudioFile is null ? "" : "audio", string.Join("; ", it.WhatItGives) })]);
