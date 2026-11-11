@@ -9,6 +9,7 @@ using JAStudio.Core.Reservoir;
 using JAStudio.Core.Reservoir.Analysis;
 using JAStudio.Core.Reservoir.Feedback;
 using JAStudio.Core.Reservoir.Keeping;
+using JAStudio.Core.Reservoir.Keeping.Media;
 using JAStudio.Core.Reservoir.Measures;
 using JAStudio.Core.Reservoir.Picking;
 using JAStudio.Core.Reservoir.Reporting;

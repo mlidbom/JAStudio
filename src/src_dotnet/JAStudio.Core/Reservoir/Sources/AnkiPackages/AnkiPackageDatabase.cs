@@ -44,10 +44,13 @@ public sealed class AnkiPackageDatabase : IDisposable
    public static AnkiPackageDatabase InPackage(FileInfo package)
    {
       using var archive = ZipFile.OpenRead(package.FullName);
-      var collectionEntry = CollectionFileNamesNewestFirst.Select(archive.GetEntry).OfType<ZipArchiveEntry>().First();
+      var collectionEntry = CollectionEntryIn(archive);
       using var collection = collectionEntry.Open();
       return InATemporaryCopyOf(collection, collectionEntry.Name);
    }
+
+   /// <summary>The zip entry of the collection database to read in <paramref name="package"/>, an Anki package's zip: the newest format it holds.</summary>
+   public static ZipArchiveEntry CollectionEntryIn(ZipArchive package) => CollectionFileNamesNewestFirst.Select(package.GetEntry).OfType<ZipArchiveEntry>().First();
 
    /// <summary>
    /// The database in <paramref name="collectionFile"/>, a collection database taken out of a package, named as in the package: one of<br/>

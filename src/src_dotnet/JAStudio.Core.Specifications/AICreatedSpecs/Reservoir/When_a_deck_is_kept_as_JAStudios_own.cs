@@ -2,11 +2,13 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Reservoir.Keeping;
+using JAStudio.Core.Reservoir.Keeping.Media;
 using Microsoft.Data.Sqlite;
 
 // ReSharper disable InconsistentNaming
@@ -24,14 +26,14 @@ public class When_a_deck_is_kept_as_JAStudios_own : IAIGeneratedSpec, IDisposabl
 
    readonly DirectoryInfo _folder = Directory.CreateTempSubdirectory("jastudio-keeping-spec-");
    readonly DirectoryInfo _deckFolder;
-   readonly MediaStore _media;
+   readonly DirectoryInfo _mediaFolder;
    readonly KeptDeck _kept;
 
    public When_a_deck_is_kept_as_JAStudios_own()
    {
       var package = CreateThePackage();
-      _media = new MediaStore(_folder.CreateSubdirectory("media"));
-      _kept = new ReservoirKeeping(_folder.CreateSubdirectory("text"), _media).Keep(package);
+      _mediaFolder = _folder.CreateSubdirectory("media");
+      _kept = new ReservoirKeeping(_folder.CreateSubdirectory("text"), new MediaStore(_mediaFolder)).Keep(package);
       _deckFolder = new DirectoryInfo(Path.Combine(_folder.FullName, "text", "decks", "show"));
    }
 
@@ -48,23 +50,28 @@ public class When_a_deck_is_kept_as_JAStudios_own : IAIGeneratedSpec, IDisposabl
    [XF] public void a_notes_line_gives_its_sentence_cleaned() => NoteLines()[0].GetProperty("sourceData").GetProperty("question").Text().Must().Be("友人帳を 寄越せ");
 
    [XF] public void a_media_reference_has_the_hash_its_file_is_kept_under() =>
-      NoteLines()[0].GetProperty("sourceData").GetProperty("screenshots")[0].GetProperty("hash").Text().Must().Be(Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(AScreenshot)));
+      NoteLines()[0].GetProperty("sourceData").GetProperty("screenshots")[0].GetProperty("hash").Text().Must().Be(Sha256Of(AScreenshot));
 
    [XF] public void a_reference_to_a_file_the_package_lacks_has_no_hash() =>
       NoteLines()[0].GetProperty("sourceData").GetProperty("audio")[0].TryGetProperty("hash", out _).Must().BeFalse();
 
-   [XF] public void the_same_content_under_two_names_is_stored_once() => $"{_kept.MediaFiles} files, {_kept.MediaFilesNewToTheStore} new".Must().Be("3 files, 2 new");
+   [XF] public void the_same_content_under_two_names_is_stored_once() => $"{_kept.Media.Files.Count} files, {_kept.Media.FilesNewToTheStore} new".Must().Be("3 files, 2 new");
 
-   [XF] public void a_file_is_stored_under_its_hash() =>
-      _media.PathOf(Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(AnotherScreenshot)), ".jpg").Exists.Must().BeTrue();
+   [XF] public void a_file_is_stored_under_its_hash_in_a_folder_by_the_hashs_first_two_bytes()
+   {
+      var hash = Sha256Of(AnotherScreenshot);
+      File.Exists(Path.Combine(_mediaFolder.FullName, hash[..2], hash[2..4], hash + ".jpg")).Must().BeTrue();
+   }
 
-   [XF] public void the_audio_the_package_lacks_is_counted() => _kept.MediaFilesTheDeckRefersToButLacks.Must().Be(1);
+   [XF] public void the_reference_to_the_audio_the_package_lacks_is_counted() => _kept.MediaReferencesToFilesThePackageLacks.Must().Be(1);
 
    public void Dispose()
    {
       SqliteConnection.ClearAllPools();
       _folder.Delete(recursive: true);
    }
+
+   static string Sha256Of(byte[] content) => Convert.ToHexStringLower(SHA256.HashData(content));
 
    JsonElement Json(params string[] path) => JsonDocument.Parse(File.ReadAllText(Path.Combine([_folder.FullName, .. path]))).RootElement;
 
