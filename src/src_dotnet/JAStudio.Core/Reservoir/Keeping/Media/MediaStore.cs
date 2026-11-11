@@ -34,10 +34,7 @@ public sealed class MediaStore
    public StoredDeckMedia StoreTheMediaOf(FileInfo package)
    {
       var watch = Stopwatch.StartNew();
-      //bug: AsParallel without AsOrdered gives the stored files in no particular order, and deck.json lists the media in that order
-      //   (KeptDeckCompanion.Media): keeping the same deck twice can list its media in another order, which git shows as a change, in a
-      //   format meant never to change. AsOrdered() would give the media map's order.
-      var files = AnkiPackageMedia.In(package).AsParallel().Select(Store).ToList();
+      var files = AnkiPackageMedia.In(package).AsParallel().AsOrdered().Select(Store).ToList();
       return new StoredDeckMedia(files, watch.Elapsed);
    }
 
@@ -65,14 +62,8 @@ public sealed class MediaStore
 
    static (byte[] Content, int GainSteps) NormalizedMp3(byte[] content)
    {
-      //bug: Mp3File can't measure some very short clips, which subs2srs decks hold for very short lines, and throws: 9 of about 30,000 MP3s
-      //   in the five trial decks (2026-11-11). Some its decoder refuses, "No registered and working codec factory found for decoding format
-      //   'mp3'" (NotSupportedException), such as a 131 ms MPEG-2 clip of 5 frames at varying bitrates; some are shorter than ReplayGain's
-      //   50 ms window, "No window was counted" (InvalidOperationException). mp3gain leaves a file it can't measure as it is; Mp3File should
-      //   say it can't be measured instead of throwing, and this keep such a clip as it is. ImportRun normalizes the same way, and would
-      //   fail on such a clip too.
       var mp3 = new Mp3File(content);
-      var gainSteps = mp3.MeasureReplayGain().Mp3GainSteps;
+      var gainSteps = mp3.MeasureReplayGainOrNone()?.Mp3GainSteps ?? 0;
       return (mp3.WithGainChangedBy(gainSteps).Bytes(), gainSteps);
    }
 

@@ -44,11 +44,6 @@ public sealed class Mp3File
    public byte[] Bytes() => [.._bytes];
 
    /// <summary>
-   /// The gain that brings the file to ReplayGain 1's reference loudness, measured as mp3gain measures it: on the frames its decoder reads, but the last.
-   /// </summary>
-   public ReplayGain MeasureReplayGain() => MeasureReplayGainOrNone() ?? throw new InvalidDataException($"{this} can't be measured.");
-
-   /// <summary>
    /// The gain that brings the file to ReplayGain 1's reference loudness, measured as mp3gain measures it: on the frames its decoder reads, but the last;<br/>
    /// or none when it can't be measured: when they hold less than one of ReplayGain's windows, 50 ms, which mp3gain can't measure either, or when<br/>
    /// the decoder refuses them, as it refuses some clips of very few frames, which mp3gain's own decoder may well measure.

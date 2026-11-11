@@ -25,9 +25,9 @@ public sealed record KeptDeckCompanion(
    /// The companion of the deck in <paramref name="package"/>, kept as <paramref name="collectionDatabase"/>, its note types mapped as<br/>
    /// <paramref name="deck"/> recognized their fields, and its media stored as <paramref name="media"/>.
    /// </summary>
-   public static KeptDeckCompanion Of(FileInfo package, FileInfo collectionDatabase, AnkiDeck deck, StoredDeckMedia media) =>
+   public static KeptDeckCompanion Of(KeptPackage package, FileInfo collectionDatabase, AnkiDeck deck, StoredDeckMedia media) =>
       new(ReservoirKeeping.FormatVersion,
-          KeptPackage.Of(package),
+          package,
           collectionDatabase.Name,
           [.. deck.FieldRoles.Select(KeptNoteTypeMapping.Of)],
           [.. media.Files.Select(KeptMediaFile.Of)]);

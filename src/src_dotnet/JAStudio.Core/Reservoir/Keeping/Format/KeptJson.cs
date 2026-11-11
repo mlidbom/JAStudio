@@ -14,11 +14,15 @@ namespace JAStudio.Core.Reservoir.Keeping.Format;
 /// </summary>
 static class KeptJson
 {
+   /// <summary>How every line ends, on every platform, so that a deck kept anywhere gives the same bytes.</summary>
+   const string LineEnd = "\n";
+
    static readonly JsonSerializerOptions LineOptions = new()
                                                        {
                                                           PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                                           Encoder = FullUnicodeJsonEncoder.Instance,
-                                                          DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                                                          DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                                                          NewLine = LineEnd
                                                        };
 
    static readonly JsonSerializerOptions DocumentOptions = new(LineOptions) { WriteIndented = true };
@@ -26,12 +30,13 @@ static class KeptJson
    /// <summary>Writes <paramref name="value"/> to <paramref name="file"/>, indented.</summary>
    public static void WriteDocument<T>(FileInfo file, T value) => File.WriteAllText(file.FullName, JsonSerializer.Serialize(value, DocumentOptions));
 
+   /// <summary>The value <paramref name="file"/>, a document written by <see cref="WriteDocument{T}"/>, holds.</summary>
+   public static T Read<T>(FileInfo file) =>
+      JsonSerializer.Deserialize<T>(File.ReadAllText(file.FullName), DocumentOptions) ?? throw new InvalidDataException($"{file.FullName} holds JSON null.");
+
    /// <summary>Writes <paramref name="values"/> to <paramref name="file"/>, each on a line of its own.</summary>
    public static void WriteLines<T>(FileInfo file, IEnumerable<T> values)
    {
-      //review: the lines end as the platform's do, CRLF on Windows and LF elsewhere, and so do an indented document's, as
-      //   JsonSerializerOptions.NewLine is Environment.NewLine unless set: the same deck kept on two platforms gives different bytes, in a format
-      //   meant never to change. Writing LF on every platform would settle it.
-      File.WriteAllLines(file.FullName, values.Select(it => JsonSerializer.Serialize(it, LineOptions)));
+      File.WriteAllText(file.FullName, string.Concat(values.Select(it => JsonSerializer.Serialize(it, LineOptions) + LineEnd)));
    }
 }

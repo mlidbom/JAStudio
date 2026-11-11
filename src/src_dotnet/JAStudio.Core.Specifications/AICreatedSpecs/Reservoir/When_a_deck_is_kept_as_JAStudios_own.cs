@@ -6,10 +6,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Compze.Must;
+using Compze.Contracts.Exceptions;
 using Compze.xUnitBDD;
 using JAStudio.Core.Reservoir.Keeping;
 using JAStudio.Core.Reservoir.Keeping.Media;
 using Microsoft.Data.Sqlite;
+
+using static Compze.Must.MustActions;
 
 // ReSharper disable InconsistentNaming
 
@@ -27,13 +30,14 @@ public class When_a_deck_is_kept_as_JAStudios_own : IAIGeneratedSpec, IDisposabl
    readonly DirectoryInfo _folder = Directory.CreateTempSubdirectory("jastudio-keeping-spec-");
    readonly DirectoryInfo _deckFolder;
    readonly DirectoryInfo _mediaFolder;
+   readonly FileInfo _package;
    readonly KeptDeck _kept;
 
    public When_a_deck_is_kept_as_JAStudios_own()
    {
-      var package = CreateThePackage();
+      _package = CreateThePackage();
       _mediaFolder = _folder.CreateSubdirectory("media");
-      _kept = new ReservoirKeeping(_folder.CreateSubdirectory("text"), new MediaStore(_mediaFolder)).Keep(package);
+      _kept = KeepingIn("text").Keep(_package);
       _deckFolder = new DirectoryInfo(Path.Combine(_folder.FullName, "text", "decks", "show"));
    }
 
@@ -65,11 +69,32 @@ public class When_a_deck_is_kept_as_JAStudios_own : IAIGeneratedSpec, IDisposabl
 
    [XF] public void the_reference_to_the_audio_the_package_lacks_is_counted() => _kept.MediaReferencesToFilesThePackageLacks.Must().Be(1);
 
+   [XF] public void keeping_the_deck_again_gives_the_same_files()
+   {
+      KeepingIn("text-again").Keep(_package);
+      string[] files = [Path.Combine("decks", "show", "deck.json"), Path.Combine("decks", "show", "notes.jsonl")];
+      files.Select(it => File.ReadAllText(Path.Combine(_folder.FullName, "text-again", it)))
+           .Must().SequenceEqual(files.Select(it => File.ReadAllText(Path.Combine(_folder.FullName, "text", it))));
+   }
+
+   [XF] public void its_lines_end_with_a_line_feed_alone_on_every_platform() =>
+      new[] { "deck.json", "notes.jsonl" }.Any(it => File.ReadAllText(Path.Combine(_deckFolder.FullName, it)).Contains('\r')).Must().BeFalse();
+
+   [XF] public void another_package_named_as_it_is_is_refused_rather_than_kept_over_it()
+   {
+      var anotherPackage = new FileInfo(Path.Combine(_folder.CreateSubdirectory("another uploader").FullName, _package.Name));
+      _package.CopyTo(anotherPackage.FullName);
+      using(var archive = ZipFile.Open(anotherPackage.FullName, ZipArchiveMode.Update)) archive.WriteEntry("readme.txt", Encoding.ASCII.GetBytes("another upload"));
+      Invoking(() => KeepingIn("text").Keep(anotherPackage)).Must().Throw<StateAssertionFailedException>();
+   }
+
    public void Dispose()
    {
       SqliteConnection.ClearAllPools();
       _folder.Delete(recursive: true);
    }
+
+   ReservoirKeeping KeepingIn(string textFolder) => new(_folder.CreateSubdirectory(textFolder), new MediaStore(_mediaFolder));
 
    static string Sha256Of(byte[] content) => Convert.ToHexStringLower(SHA256.HashData(content));
 

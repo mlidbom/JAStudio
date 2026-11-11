@@ -42,15 +42,16 @@ public sealed class ReservoirKeeping
    /// <summary>Keeps the deck in <paramref name="package"/>, an .apkg file: its database, its media, its notes as lines, and its companion file.</summary>
    public KeptDeck Keep(FileInfo package)
    {
-      var deckFolder = KeptDeckFolder.For(package, _textFolder);
+      var keptPackage = KeptPackage.Of(package);
+      var deckFolder = KeptDeckFolder.For(package, keptPackage, _textFolder);
       var collectionDatabase = deckFolder.CopyTheCollectionDatabaseOf(package);
       var media = _mediaStore.StoreTheMediaOf(package);
 
       using var database = AnkiPackageDatabase.InPackage(package);
       var deck = new AnkiDeck(database);
-      var lines = deck.FieldRoles.SelectMany(roles => database.NotesOf(roles.NoteType).Select(note => KeptNoteLine.Of(note, roles, media))).ToList();
+      var lines = deck.FieldRoles.SelectMany(roles => database.NotesOf(roles.NoteType).Select(note => KeptNoteLine.Of(note, roles, media, keptPackage))).ToList();
       var noteLinesFile = deckFolder.WriteTheNoteLines(lines);
-      deckFolder.WriteTheCompanion(KeptDeckCompanion.Of(package, collectionDatabase, deck, media));
+      deckFolder.WriteTheCompanion(KeptDeckCompanion.Of(keptPackage, collectionDatabase, deck, media));
 
       return new KeptDeck(package.Name, lines.Count, lines.Count(it => it.SourceData is not null), collectionDatabase.Length, noteLinesFile.Length, media, MediaReferencesToFilesThePackageLacks(lines));
    }

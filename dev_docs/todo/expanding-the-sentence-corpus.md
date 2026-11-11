@@ -180,11 +180,14 @@ until it's kept as JAStudio's own. Agreed:
   - **It's bound by the CPU,** decoding the MP3s to measure them: 28 of 32 logical processors busy, about 22 MB a second,
     so about 6.5 hours for the folder's 515 GB.
   - **The text is small:** 55.9 MB for the five decks, 14.2 MB as git stores it.
-  - **9 of about 30,000 MP3s can't be normalized** (a `bug:` comment at `MediaStore`): very short clips, which the
-    decoder refuses, or which are shorter than ReplayGain's 50 ms window. `Mp3File` should say such a file can't be
-    measured, as mp3gain does, instead of throwing; until it does, keeping a whole folder fails on the first.
-  - **Each note's id is a new GUID each time it's kept,** so keeping a deck twice gives different ids. An id made from
-    the package's hash and the note's id, a name-based UUID, would stay the same.
+  - **9 of about 30,000 MP3s couldn't be measured,** and threw: very short clips, which the decoder refuses, or which
+    are shorter than ReplayGain's 50 ms window. Fixed (Magnus agreed): `Mp3File.MeasureReplayGainOrNone` says so, and
+    such a clip is kept as it is, as mp3gain leaves a file it can't measure; the imports no longer fail on one either.
+  - **Keeping a deck again gives the same files,** byte for byte (decided 2026-11-11): each note's id is a name-based
+    GUID made from the package's SHA-256 and the note's id (`NameBasedGuid`), so a sentence taken into the corpus keeps
+    its link to its line even if the decks are kept anew; the media are listed in the media map's order; and every line
+    ends with LF, on every platform. A deck folder holding another package's deck of the same name is refused, rather
+    than kept over.
 
 ## What "intelligently" could mean (ideas, to work out with Magnus)
 
