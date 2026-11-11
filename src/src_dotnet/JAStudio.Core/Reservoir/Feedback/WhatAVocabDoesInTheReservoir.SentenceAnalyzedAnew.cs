@@ -51,7 +51,7 @@ public sealed partial class WhatAVocabDoesInTheReservoir
 
       bool WasAnalyzedInBulk => _bulkAnalysis is not null;
 
-      bool MatchedInTheBulkAnalysis => _bulkAnalysis is {} bulkAnalysis && _vocabNumber is {} vocabNumber && bulkAnalysis.HasAWordOfTheVocabNumbered(vocabNumber);
+      bool MatchedInTheBulkAnalysis => _bulkAnalysis is {} bulkAnalysis && _vocabNumber is {} vocabNumber && bulkAnalysis.HasAValidMatchOfTheVocabNumbered(vocabNumber);
 
       static IReadOnlyList<VocabMatch> TheVocabsMatchesIn(TextAnalysis analysis, VocabNote vocab) => [.. analysis.EveryMatch.OfType<VocabMatch>().Where(it => it.Vocab.Equals(vocab))];
    }

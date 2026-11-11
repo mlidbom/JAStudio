@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Compze.Contracts;
 using JAStudio.Core.Reservoir.Analysis;
 using JAStudio.Core.Reservoir.Analysis.Numbering;
 using JAStudio.Core.Reservoir.Sources;
@@ -76,6 +77,14 @@ public sealed class ReservoirFile : IDisposable
    /// </summary>
    const int SecondsToWaitForAnotherWriter = 600;
 
+   /// <summary>
+   /// The format of the analyses the reservoir keeps (<see cref="ReservoirSentenceAnalysis"/>), which the file holds as its <c>user_version</c>.<br/>
+   /// It goes up by one whenever the format changes: the analyses of an older format are then forgotten and made anew, never read as if they were<br/>
+   /// of this one.
+   /// </summary>
+   /// <remarks>0, the first, has no <see cref="ReservoirWord.IsValid"/>, so an invalid match the sentence breakdown displays looked valid.</remarks>
+   const long AnalysisFormat = 1;
+
    /// <summary>The most ids a query lists in its <c>in (…)</c>: more are read in several queries.</summary>
    const int IdsPerQuery = 500;
 
@@ -86,10 +95,13 @@ public sealed class ReservoirFile : IDisposable
    /// <summary>The reservoir in <paramref name="file"/>, created empty when there's no such file.</summary>
    public static ReservoirFile OpenOrCreate(FileInfo file)
    {
+      var isNew = !File.Exists(file.FullName);
       var connection = new SqliteConnection(new SqliteConnectionStringBuilder { DataSource = file.FullName, Pooling = false, DefaultTimeout = SecondsToWaitForAnotherWriter }.ToString());
       connection.Open();
       connection.Execute(Schema);
-      return new ReservoirFile(connection);
+      var reservoir = new ReservoirFile(connection);
+      if(isNew) reservoir.TellTheAnalysesAreOfTheCurrentFormat();
+      return reservoir;
    }
 
    /// <summary>Whether the reservoir has the sentences of <paramref name="source"/>'s work: a work is added once, and found by its collection and name.</summary>
@@ -140,25 +152,46 @@ public sealed class ReservoirFile : IDisposable
       new(_connection.Rows("select number, note_id, question from vocab", reader => new NumberedVocab(reader.GetInt32(0), reader.GetString(1), reader.GetString(2))),
           _connection.Rows("select number, text from failure_reason", reader => new NumberedFailureReason(reader.GetInt32(0), reader.GetString(1))));
 
+   /// <summary>
+   /// Whether the analyses the reservoir keeps are of an older format than <see cref="AnalysisFormat"/>, which can't be read: they're to be<br/>
+   /// forgotten and made anew (<see cref="ForgetTheAnalysesOfAnOlderFormat"/>).
+   /// </summary>
+   public bool KeepsAnalysesOfAnOlderFormat => _connection.ScalarAsLong("pragma user_version") < AnalysisFormat;
+
+   /// <summary>Forgets every analysis the reservoir keeps, which are of an older format, so that analyzing makes them anew in <see cref="AnalysisFormat"/>.</summary>
+   public void ForgetTheAnalysesOfAnOlderFormat()
+   {
+      Contract.State.Assert(KeepsAnalysesOfAnOlderFormat);
+      _connection.Execute("drop table sentence_analysis");
+      _connection.Execute(Schema);
+      TellTheAnalysesAreOfTheCurrentFormat();
+   }
+
    /// <summary>Every analyzed sentence, with its analysis, read as they're enumerated.</summary>
-   public IEnumerable<AnalyzedReservoirSentence> AnalyzedSentences() =>
-      _connection.RowsReadAsEnumerated("""
+   public IEnumerable<AnalyzedReservoirSentence> AnalyzedSentences()
+   {
+      AssertTheAnalysesAreOfTheCurrentFormat();
+      return _connection.RowsReadAsEnumerated("""
                                        select sentence.id, sentence.text, sentence.source, sentence.occurrences, sentence.audio_file is not null, sentence_analysis.analysis
                                        from sentence join sentence_analysis on sentence_analysis.sentence = sentence.id
                                        """,
                                        reader => new AnalyzedReservoirSentence(reader.GetInt64(0), reader.GetString(1), reader.GetInt64(2), reader.GetInt32(3), reader.GetBoolean(4),
                                                                                AnalysisIn(reader, 5, sentenceId: reader.GetInt64(0))));
+   }
 
    /// <summary>Every sentence, in the order they were added, read as they're enumerated.</summary>
    public IEnumerable<ReservoirSentence> EverySentence() => _connection.RowsReadAsEnumerated("select id, text from sentence order by id", ReservoirSentenceIn);
 
    /// <summary>The analyses of those of the sentences with the ids <paramref name="ids"/> that have one, by the sentence's id.</summary>
-   public IReadOnlyDictionary<long, ReservoirSentenceAnalysis> AnalysesOf(IEnumerable<long> ids) =>
-      ids.Distinct()
-         .Chunk(IdsPerQuery)
-         .SelectMany(batch => _connection.Rows($"select sentence, analysis from sentence_analysis where sentence in ({string.Join(",", batch)})",
-                                               reader => KeyValuePair.Create(reader.GetInt64(0), AnalysisIn(reader, 1, sentenceId: reader.GetInt64(0)))))
-         .ToDictionary();
+   public IReadOnlyDictionary<long, ReservoirSentenceAnalysis> AnalysesOf(IEnumerable<long> ids)
+   {
+      AssertTheAnalysesAreOfTheCurrentFormat();
+      return ids.Distinct()
+                .Chunk(IdsPerQuery)
+                .SelectMany(batch => _connection.Rows($"select sentence, analysis from sentence_analysis where sentence in ({string.Join(",", batch)})",
+                                                      reader => KeyValuePair.Create(reader.GetInt64(0), AnalysisIn(reader, 1, sentenceId: reader.GetInt64(0)))))
+                .ToDictionary();
+   }
 
    /// <summary>The sentences with the ids <paramref name="ids"/>, by id.</summary>
    public IReadOnlyDictionary<long, StoredReservoirSentence> SentencesWithIds(IEnumerable<long> ids) =>
@@ -202,6 +235,11 @@ public sealed class ReservoirFile : IDisposable
 
    /// <summary>The id of the sentence added last, or 0 when there's none: a new sentence's id is one more.</summary>
    long LastSentenceId() => _connection.ScalarAsLong("select coalesce(max(id), 0) from sentence");
+
+   void TellTheAnalysesAreOfTheCurrentFormat() => _connection.Execute($"pragma user_version = {AnalysisFormat}");
+
+   void AssertTheAnalysesAreOfTheCurrentFormat() =>
+      Contract.State.Assert(!KeepsAnalysesOfAnOlderFormat, () => "The reservoir's analyses are of an older format, which can't be read: analyze it anew first.");
 
    /// <summary>Saves every number <paramref name="numbers"/> has given, those saved already left as they are.</summary>
    void SaveTheNumbers(ReservoirAnalysisNumbers numbers)

@@ -56,7 +56,7 @@ public sealed class ReservoirMeasures
       AnalyzedSentences++;
       if(sentence.Analysis.DisplaysOnlyVocab()) SentencesWithEveryDisplayedWordAVocab++;
 
-      foreach(var vocabNumber in sentence.Analysis.VocabNumbersOfItsWords())
+      foreach(var vocabNumber in sentence.Analysis.VocabNumbersOfItsValidMatches())
          SentencesByVocab.GetOrAdd(vocabNumber, () => new CountWithExamples()).Add(sentence);
 
       foreach(var rejection in sentence.Analysis.VocabRejections())

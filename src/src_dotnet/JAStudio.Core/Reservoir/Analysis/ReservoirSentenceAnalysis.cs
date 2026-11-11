@@ -24,7 +24,7 @@ public sealed partial record ReservoirSentenceAnalysis(ReservoirWord[] Words, Re
       return new ReservoirSentenceAnalysis([.. analysis.ValidMatches.Union(displayed).Select(WordOf)],
                                            [.. analysis.RejectedVocabMatches.Select(RejectionOf)]);
 
-      ReservoirWord WordOf(Match match) => new((short)match.StartIndex, match.ParsedForm, KindOf(match), VocabNumberOf(match), displayed.Contains(match));
+      ReservoirWord WordOf(Match match) => new((short)match.StartIndex, match.ParsedForm, KindOf(match), VocabNumberOf(match), displayed.Contains(match), match.IsValid);
 
       int VocabNumberOf(Match match) => match is VocabMatch vocabMatch ? numbers.VocabNumber(vocabMatch.Vocab) : ReservoirWord.NoVocabNumber;
 
@@ -32,11 +32,11 @@ public sealed partial record ReservoirSentenceAnalysis(ReservoirWord[] Words, Re
          new((short)match.StartIndex, numbers.VocabNumber(match.Vocab), [.. match.FailureReasons.Select(numbers.ReasonNumber)]);
    }
 
-   /// <summary>Whether a word of the sentence is a match of the vocab with the number <paramref name="vocabNumber"/>.</summary>
-   public bool HasAWordOfTheVocabNumbered(int vocabNumber) => Words.Any(it => it.VocabNumber == vocabNumber);
+   /// <summary>Whether the vocab with the number <paramref name="vocabNumber"/> has a valid match in the sentence.</summary>
+   public bool HasAValidMatchOfTheVocabNumbered(int vocabNumber) => Words.Any(it => it.IsValid && it.VocabNumber == vocabNumber);
 
    /// <summary>The numbers of the vocab the sentence's words are matches of, each once.</summary>
-   public IEnumerable<int> VocabNumbersOfItsWords() => Words.Where(it => it.Kind == ReservoirWordKind.Vocab).Select(it => it.VocabNumber).Distinct();
+   public IEnumerable<int> VocabNumbersOfItsValidMatches() => Words.Where(it => it is { IsValid: true, Kind: ReservoirWordKind.Vocab }).Select(it => it.VocabNumber).Distinct();
 
    /// <summary>Whether every word the sentence breakdown displays is a vocab: none that only the dictionary has, or nothing does.</summary>
    public bool DisplaysOnlyVocab() => Words.Where(it => it.IsDisplayed).All(it => it.Kind == ReservoirWordKind.Vocab);

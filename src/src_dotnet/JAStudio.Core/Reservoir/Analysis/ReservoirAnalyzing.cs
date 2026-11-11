@@ -30,8 +30,18 @@ public sealed class ReservoirAnalyzing
       _tellProgress = tellProgress;
    }
 
+   /// <summary>
+   /// Analyzes every sentence with no analysis yet; every sentence, when the analyses kept are of an older format, which are forgotten first<br/>
+   /// (<see cref="ReservoirFile.KeepsAnalysesOfAnOlderFormat"/>).
+   /// </summary>
    public void AnalyzeEveryUnanalyzedSentence()
    {
+      if(_reservoir.KeepsAnalysesOfAnOlderFormat)
+      {
+         _reservoir.ForgetTheAnalysesOfAnOlderFormat();
+         _tellProgress("The analyses kept were of an older format, so they're forgotten, and every sentence is analyzed anew.");
+      }
+
       var numbers = _reservoir.AnalysisNumbers();
       var analyzed = 0L;
       var lastAnalyzedId = 0L;
