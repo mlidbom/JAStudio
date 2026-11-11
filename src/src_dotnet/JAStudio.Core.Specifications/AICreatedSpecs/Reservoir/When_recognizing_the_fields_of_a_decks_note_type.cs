@@ -14,17 +14,20 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Reservoir;
 /// </summary>
 public class When_recognizing_the_fields_of_a_decks_note_type : IAIGeneratedSpec
 {
+   /// <summary>The fields of a Migaku deck's note type: its sentence, with Migaku's furigana, in Expression, and the word it's for in Target.</summary>
+   static readonly string[] FieldNamesOfAMigakuDeck = ["Expression", "Meaning", "Audio", "Target"];
+
+   static readonly string[][] NotesOfAMigakuDeck =
+   [
+      ["ちょっと[;o] &ensp; ごめん[;h] &ensp; 急[いそ,いそぐ;k2]い でる[,でる;k1] から &ensp; じゃあ &ensp; 後[あと;a] で", "Sorry, I am in a hurry, see you later", "[sound:kiss_01.mp3]", "ごめん"],
+      ["お前[おまえ,おまえ;h] は[,は;h] 誰[だれ,だれ;k1] だ", "Who are you?", "[sound:kiss_02.mp3]", "誰"]
+   ];
+
    [XF] public void a_migaku_decks_sentence_with_furigana_is_recognized_over_its_target_word() =>
-      RolesOf(["Expression", "Meaning", "Audio", "Target"],
-              ["ちょっと[;o] &ensp; ごめん[;h] &ensp; 急[いそ,いそぐ;k2]い でる[,でる;k1] から &ensp; じゃあ &ensp; 後[あと;a] で", "Sorry, I am in a hurry, see you later", "[sound:kiss_01.mp3]", "ごめん"],
-              ["お前[おまえ,おまえ;h] は[,は;h] 誰[だれ,だれ;k1] だ", "Who are you?", "[sound:kiss_02.mp3]", "誰"])
-        .ToString().Must().Be("the note type: Japanese Expression (furigana taken away), translation Meaning, audio Audio, image -");
+      RolesOf(FieldNamesOfAMigakuDeck, NotesOfAMigakuDeck).ToString().Must().Be("the note type: Japanese Expression (furigana taken away), translation Meaning, audio Audio, image -");
 
    [XF] public void a_migaku_decks_sentence_keeps_only_its_own_spaces() =>
-      FirstSentenceOf(["Expression", "Meaning", "Audio", "Target"],
-                      ["ちょっと[;o] &ensp; ごめん[;h] &ensp; 急[いそ,いそぐ;k2]い でる[,でる;k1] から &ensp; じゃあ &ensp; 後[あと;a] で", "Sorry, I am in a hurry, see you later", "[sound:kiss_01.mp3]", "ごめん"],
-                      ["お前[おまえ,おまえ;h] は[,は;h] 誰[だれ,だれ;k1] だ", "Who are you?", "[sound:kiss_02.mp3]", "誰"])
-        .Must().Be("ちょっと ごめん 急いでるから じゃあ 後で");
+      FirstSentenceOf(FieldNamesOfAMigakuDeck, NotesOfAMigakuDeck).Must().Be("ちょっと ごめん 急いでるから じゃあ 後で");
 
    [XF] public void a_sentence_given_only_with_ankis_furigana_loses_them() =>
       FirstSentenceOf(["Sentence", "Meaning"],
@@ -53,7 +56,7 @@ public class When_recognizing_the_fields_of_a_decks_note_type : IAIGeneratedSpec
    [XF] public void words_are_recognized_as_words_and_give_no_sentences()
    {
       var roles = RolesOf(["Expression", "Meaning"], ["相手", "partner"], ["級", "class"], ["シチュエーション", "situation"]);
-      roles.HoldsWordsRatherThanSentences.Must().BeTrue();
+      roles.JapaneseFieldHoldsWordsRatherThanSentences.Must().BeTrue();
       roles.SentenceOf(NoteOf(["Expression", "Meaning"], 1, ["相手", "partner"])).Must().BeNull();
    }
 

@@ -22,12 +22,13 @@ public sealed class DeckCheckReport
       _folder = folder;
    }
 
-   IEnumerable<(WhatADeckGives Deck, WhatANoteTypeGives NoteType)> NoteTypes => _decks.SelectMany(deck => deck.NoteTypes.Select(noteType => (deck, noteType)));
+   /// <summary>Every deck's note types that have notes.</summary>
+   IEnumerable<WhatANoteTypeGives> NoteTypes => _decks.SelectMany(it => it.NoteTypes);
 
-   /// <summary>Writes the report of <paramref name="decks"/>, the decks in <paramref name="decksFolder"/>, into <paramref name="folder"/>, created if need be.</summary>
-   public static void WriteTo(DirectoryInfo folder, DirectoryInfo decksFolder, IReadOnlyList<WhatADeckGives> decks)
+   /// <summary>Writes the report of <paramref name="decks"/>, the decks in <paramref name="decksFolder"/>, into <paramref name="reportFolder"/>, created if need be.</summary>
+   public static void WriteTo(DirectoryInfo reportFolder, DirectoryInfo decksFolder, IReadOnlyList<WhatADeckGives> decks)
    {
-      var report = new DeckCheckReport(decks, new ReportFolder(folder));
+      var report = new DeckCheckReport(decks, new ReportFolder(reportFolder));
       report._folder.Title($"What the decks in {decksFolder.FullName} would give the reservoir");
       report.WriteTheTotals();
       report.WriteTheFieldsRecognizedAsTheJapanese();
@@ -40,7 +41,7 @@ public sealed class DeckCheckReport
    void WriteTheTotals() =>
       _folder.Section("Totals",
                       Invariant($"{_decks.Count:N0} decks, with {NoteTypes.Count():N0} note types that have notes"),
-                      Invariant($"{NoteTypes.Sum(it => it.NoteType.NoteCount):N0} notes, giving {_decks.Sum(it => it.SentenceCount):N0} sentences"),
+                      Invariant($"{NoteTypes.Sum(it => it.NoteCount):N0} notes, giving {_decks.Sum(it => it.SentenceCount):N0} sentences"),
                       Invariant($"{_decks.Count(it => it.SentenceCount == 0):N0} decks give no sentence at all"));
 
    /// <summary>How many note types, and sentences, each field name was recognized as the Japanese in: a name that doesn't fit, such as a reading's, is to be looked at.</summary>
@@ -49,32 +50,36 @@ public sealed class DeckCheckReport
       _folder.Section("The fields recognized as the Japanese, by name");
       _folder.TableWithTheRestInAFile("japanese-fields",
                                       ["Field", "Note types", "Sentences"],
-                                      [.. NoteTypes.Where(it => it.NoteType.Roles.JapaneseField is not null)
-                                                   .GroupBy(it => it.NoteType.Roles.JapaneseField)
+                                      [.. NoteTypes.Where(it => it.Roles.JapaneseField is not null)
+                                                   .GroupBy(it => it.Roles.JapaneseField)
                                                    .OrderByDescending(it => it.Count())
-                                                   .Select(it => new[] { it.Key ?? "", Invariant($"{it.Count():N0}"), Invariant($"{it.Sum(noteType => noteType.NoteType.SentenceCount):N0}") })]);
+                                                   .Select(it => new[] { it.Key ?? "", Invariant($"{it.Count():N0}"), Invariant($"{it.Sum(noteType => noteType.SentenceCount):N0}") })]);
    }
 
    void WriteTheNoteTypesGivingNothing()
    {
-      var givingNothing = NoteTypes.Where(it => it.NoteType.GivesNothingFromItsNotes).OrderByDescending(it => it.NoteType.NoteCount).ToList();
+      var givingNothing = NoteTypes.Where(it => it.GivesNothingFromItsNotes).OrderByDescending(it => it.NoteCount).ToList();
       _folder.Section("Note types with notes that give no sentence",
-                      Invariant($"{givingNothing.Count:N0} note types, with {givingNothing.Sum(it => it.NoteType.NoteCount):N0} notes: no field was recognized as the Japanese, or the one that was holds none."));
-      _folder.TableWithTheRestInAFile("note-types-giving-nothing", ["Deck", "Note type", "Notes", "Fields"],
-                                      [.. givingNothing.Select(it => new[] { it.Deck.Deck.Name, it.NoteType.Roles.NoteType.Name, Invariant($"{it.NoteType.NoteCount:N0}"), string.Join(", ", it.NoteType.Roles.NoteType.FieldNames) })]);
+                      Invariant($"{givingNothing.Count:N0} note types, with {givingNothing.Sum(it => it.NoteCount):N0} notes: no field was recognized as the Japanese, or the one that was holds none."));
+      _folder.TableWithTheRestInAFile("note-types-giving-nothing",
+                                      ["Deck", "Note type", "Notes", "Fields"],
+                                      [.. givingNothing.Select(it => new[] { it.Deck.Name, it.NoteType.Name, Invariant($"{it.NoteCount:N0}"), FieldNamesOf(it) })]);
    }
 
    void WriteTheNoteTypesGivingWords()
    {
-      var givingWords = NoteTypes.Where(it => it.NoteType.GivesWordsRatherThanSentences).OrderByDescending(it => it.NoteType.TextCount).ToList();
+      var givingWords = NoteTypes.Where(it => it.GivesWordsRatherThanSentences).OrderByDescending(it => it.TextCount).ToList();
       _folder.Section("Note types giving words rather than sentences",
-                      Invariant($"{givingWords.Count:N0} note types, with {givingWords.Sum(it => it.NoteType.TextCount):N0} notes whose Japanese is so short that it's most likely words, as a vocabulary deck's is: they give no sentences."));
-      _folder.TableWithTheRestInAFile("note-types-giving-words", ["Deck", "Note type", "Notes with Japanese", "Average length", "Japanese field", "Examples", "Fields"],
-                                      [.. givingWords.Select(it => new[]
-                                                                   {
-                                                                      it.Deck.Deck.Name, it.NoteType.Roles.NoteType.Name, Invariant($"{it.NoteType.TextCount:N0}"), Invariant($"{it.NoteType.AverageTextLength:F1}"),
-                                                                      it.NoteType.Roles.JapaneseField ?? "", string.Join(" / ", it.NoteType.Examples), string.Join(", ", it.NoteType.Roles.NoteType.FieldNames)
-                                                                   })]);
+                      Invariant($"{givingWords.Count:N0} note types, with {givingWords.Sum(it => it.TextCount):N0} notes whose Japanese is so short that it's most likely words, as a vocabulary deck's is: they give no sentences."));
+      _folder.TableWithTheRestInAFile("note-types-giving-words",
+                                      ["Deck", "Note type", "Notes with Japanese", "Average length", "Japanese field", "Examples", "Fields"],
+                                      [.. givingWords.Select(Row)]);
+      return;
+
+      static string[] Row(WhatANoteTypeGives it) =>
+      [
+         it.Deck.Name, it.NoteType.Name, Invariant($"{it.TextCount:N0}"), Invariant($"{it.AverageTextLength:F1}"), it.Roles.JapaneseField ?? "", ExamplesOf(it), FieldNamesOf(it)
+      ];
    }
 
    void WriteEveryNoteType()
@@ -82,15 +87,22 @@ public sealed class DeckCheckReport
       _folder.Section("Every note type", "In `note-types.tsv`: each deck's note types, with the fields recognized in them, what they give, and examples of their sentences.");
       _folder.TabSeparatedFile("note-types",
                                ["Deck", "Note type", "Notes", "Sentences", "Average length", "Japanese field", "Its furigana taken away", "Words, not sentences", "Translation field", "Audio field", "Image field", "Examples", "Fields"],
-                               NoteTypes.Select(it => new[]
-                                                      {
-                                                         it.Deck.Deck.Name, it.NoteType.Roles.NoteType.Name, Invariant($"{it.NoteType.NoteCount}"), Invariant($"{it.NoteType.SentenceCount}"),
-                                                         Invariant($"{it.NoteType.AverageTextLength:F1}"), it.NoteType.Roles.JapaneseField ?? "", YesOrEmpty(it.NoteType.Roles.JapaneseFieldHoldsFurigana),
-                                                         YesOrEmpty(it.NoteType.GivesWordsRatherThanSentences), it.NoteType.Roles.TranslationField ?? "",
-                                                         it.NoteType.Roles.AudioField ?? "", it.NoteType.Roles.ImageField ?? "", string.Join(" / ", it.NoteType.Examples),
-                                                         string.Join(", ", it.NoteType.Roles.NoteType.FieldNames)
-                                                      }));
+                               NoteTypes.Select(Row));
+      return;
+
+      static string[] Row(WhatANoteTypeGives it) =>
+      [
+         it.Deck.Name, it.NoteType.Name, Invariant($"{it.NoteCount}"), Invariant($"{it.SentenceCount}"), Invariant($"{it.AverageTextLength:F1}"),
+         it.Roles.JapaneseField ?? "", YesOrEmpty(it.Roles.JapaneseFieldHoldsFurigana), YesOrEmpty(it.GivesWordsRatherThanSentences),
+         it.Roles.TranslationField ?? "", it.Roles.AudioField ?? "", it.Roles.ImageField ?? "", ExamplesOf(it), FieldNamesOf(it)
+      ];
 
       static string YesOrEmpty(bool yes) => yes ? "yes" : "";
    }
+
+   /// <summary>The examples of <paramref name="noteType"/>'s Japanese, separated by slashes.</summary>
+   static string ExamplesOf(WhatANoteTypeGives noteType) => string.Join(" / ", noteType.Examples);
+
+   /// <summary>The names of <paramref name="noteType"/>'s fields, in their order, separated by commas.</summary>
+   static string FieldNamesOf(WhatANoteTypeGives noteType) => string.Join(", ", noteType.NoteType.FieldNames);
 }

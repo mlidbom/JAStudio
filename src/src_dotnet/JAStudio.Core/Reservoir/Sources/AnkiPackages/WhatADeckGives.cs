@@ -16,7 +16,7 @@ public sealed class WhatADeckGives
    public static WhatADeckGives Of(DeckOnDisk deck)
    {
       using var database = deck.OpenDatabase();
-      return new WhatADeckGives(deck, [.. new AnkiDeck(database).FieldRoles.Select(roles => WhatANoteTypeGives.Of(roles, database))]);
+      return new WhatADeckGives(deck, [.. new AnkiDeck(database).FieldRoles.Select(roles => WhatANoteTypeGives.Of(deck, roles, database))]);
    }
 
    public DeckOnDisk Deck { get; }
@@ -24,5 +24,6 @@ public sealed class WhatADeckGives
    /// <summary>What each of the deck's note types that has notes gives.</summary>
    public IReadOnlyList<WhatANoteTypeGives> NoteTypes { get; }
 
+   /// <summary>How many sentences the deck gives the reservoir, from all its note types.</summary>
    public int SentenceCount => NoteTypes.Sum(it => it.SentenceCount);
 }

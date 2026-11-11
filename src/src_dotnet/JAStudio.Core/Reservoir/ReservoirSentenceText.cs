@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -33,6 +34,9 @@ public sealed partial record ReservoirSentenceText
    /// fansubs' credits are, which has kanji but no kana. A line of kanji alone is a sentence only when it's short, such as 了解.
    /// </summary>
    public static ReservoirSentenceText? CleanedFrom(string raw) => Cleaned(raw) is var cleaned && IsAJapaneseSentence(cleaned) ? new ReservoirSentenceText(cleaned) : null;
+
+   /// <summary>The average length of <paramref name="texts"/>, in characters: 0 when there are none.</summary>
+   public static double AverageLengthOf(IReadOnlyCollection<ReservoirSentenceText> texts) => texts.Count == 0 ? 0 : texts.Average(it => it.Text.Length);
 
    public override string ToString() => Text;
 

@@ -19,17 +19,18 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Reservoir;
 public class When_checking_what_decks_would_give_the_reservoir : IAIGeneratedSpec, IDisposable
 {
    readonly DirectoryInfo _folder = Directory.CreateTempSubdirectory("jastudio-deck-check-spec-");
+   readonly DirectoryInfo _decksFolder;
    readonly WhatADeckGives _deck;
 
    public When_checking_what_decks_would_give_the_reservoir()
    {
-      var decksFolder = _folder.CreateSubdirectory("decks");
-      var deckFolder = decksFolder.CreateSubdirectory("a deck");
+      _decksFolder = _folder.CreateSubdirectory("decks");
+      var deckFolder = _decksFolder.CreateSubdirectory("a deck");
       CreateTheCollection(new FileInfo(Path.Combine(deckFolder.FullName, "collection.anki2")));
-      _deck = WhatADeckGives.Of(DeckOnDisk.EveryDeckIn(decksFolder).Single());
+      _deck = WhatADeckGives.Of(DeckOnDisk.EveryDeckIn(_decksFolder).Single());
    }
 
-   [XF] public void each_note_type_with_notes_is_checked() => _deck.NoteTypes.Select(it => it.Roles.NoteType.Name).Order().Must().SequenceEqual(["basic", "sentences", "words"]);
+   [XF] public void each_note_type_with_notes_is_checked() => _deck.NoteTypes.Select(it => it.NoteType.Name).Order().Must().SequenceEqual(["basic", "sentences", "words"]);
 
    [XF] public void the_note_type_of_sentences_gives_each_notes_sentence() =>
       TheNoteType("sentences").Examples.Select(it => it.Text).Must().SequenceEqual(["友人帳を寄越せ", "いやだ、絶対に渡さない"]);
@@ -43,11 +44,11 @@ public class When_checking_what_decks_would_give_the_reservoir : IAIGeneratedSpe
    [XF] public void the_report_lists_every_note_type_in_its_file()
    {
       var reportFolder = _folder.CreateSubdirectory("report");
-      DeckCheckReport.WriteTo(reportFolder, _folder, [_deck]);
+      DeckCheckReport.WriteTo(reportFolder, _decksFolder, [_deck]);
       File.ReadAllLines(Path.Combine(reportFolder.FullName, "note-types.tsv")).Skip(1).Select(it => it.Split('\t')[1]).Order().Must().SequenceEqual(["basic", "sentences", "words"]);
    }
 
-   WhatANoteTypeGives TheNoteType(string name) => _deck.NoteTypes.Single(it => it.Roles.NoteType.Name == name);
+   WhatANoteTypeGives TheNoteType(string name) => _deck.NoteTypes.Single(it => it.NoteType.Name == name);
 
    public void Dispose()
    {

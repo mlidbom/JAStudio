@@ -46,7 +46,7 @@ public sealed class DeckFieldRoles
    /// Whether the Japanese field holds words rather than sentences, as a vocabulary deck's does (<see cref="FieldContents.HoldsWordsRatherThanSentences"/>):<br/>
    /// the note type then gives no sentences.
    /// </summary>
-   public bool HoldsWordsRatherThanSentences => _japanese?.HoldsWordsRatherThanSentences ?? false;
+   public bool JapaneseFieldHoldsWordsRatherThanSentences => _japanese?.HoldsWordsRatherThanSentences ?? false;
 
    /// <summary>The field holding the sentence's translation, or null when none was recognized.</summary>
    public string? TranslationField { get; }
@@ -80,7 +80,7 @@ public sealed class DeckFieldRoles
       {
          var candidates = fields.Where(it => it != japanese && it.HoldsTranslations).ToList();
          return TheFirstOfTheKnownNames(candidates, KnownTranslationFieldNames)
-             ?? candidates.Where(it => it.LatinShare >= 0.6 && it.HoldsProse).MaxBy(it => it.LatinShare);
+             ?? candidates.Where(it => it.HoldsTranslationsByWhatItHoldsAlone).MaxBy(it => it.LatinShare);
       }
 
       // Several fields of one kind of media, such as a sentence's audio and a word's, are told apart by "sentence" in the name.
@@ -97,7 +97,7 @@ public sealed class DeckFieldRoles
    /// <summary>The sentence <paramref name="note"/> holds, or null when it holds none, or the note type holds words rather than sentences, or has no Japanese field.</summary>
    public SourceSentence? SentenceOf(RawNote note)
    {
-      if(HoldsWordsRatherThanSentences || JapaneseTextOf(note) is not {} text) return null;
+      if(JapaneseFieldHoldsWordsRatherThanSentences || JapaneseTextOf(note) is not {} text) return null;
 
       return new SourceSentence(text,
                                 $"note {note.AnkiNoteId}",
@@ -106,9 +106,11 @@ public sealed class DeckFieldRoles
                                 ImageField is null ? null : AnkiFieldMarkup.ImageFileIn(note.Field(ImageField)));
    }
 
-   public override string ToString() =>
-      $"{NoteType.Name}: Japanese {JapaneseField ?? "-"}{(JapaneseFieldHoldsFurigana ? " (furigana taken away)" : "")}{(HoldsWordsRatherThanSentences ? " (words, not sentences)" : "")}, "
-    + $"translation {TranslationField ?? "-"}, audio {AudioField ?? "-"}, image {ImageField ?? "-"}";
+   public override string ToString() => $"{NoteType.Name}: Japanese {TheJapaneseFieldDescribed()}, translation {TranslationField ?? "-"}, audio {AudioField ?? "-"}, image {ImageField ?? "-"}";
+
+   /// <summary>The Japanese field's name, <c>-</c> when none was recognized, with what it holds when that's furigana to take away, or words.</summary>
+   string TheJapaneseFieldDescribed() =>
+      $"{JapaneseField ?? "-"}{(JapaneseFieldHoldsFurigana ? " (furigana taken away)" : "")}{(JapaneseFieldHoldsWordsRatherThanSentences ? " (words, not sentences)" : "")}";
 
    /// <summary>The one of <paramref name="candidates"/> named first in <paramref name="knownNames"/>, whatever the case, or none when none is named so.</summary>
    static FieldContents? TheFirstOfTheKnownNames(IEnumerable<FieldContents> candidates, string[] knownNames) =>
@@ -117,9 +119,7 @@ public sealed class DeckFieldRoles
    /// <summary>The one of <paramref name="candidates"/> likeliest to hold the sentences: the more Japanese, and the longer up to a sentence's length, the likelier.</summary>
    static FieldContents? TheLikeliestToHoldTheSentences(IEnumerable<FieldContents> candidates) => candidates.MaxBy(it => it.JapaneseShare + Math.Min(it.AverageTextLength, 40) / 400.0);
 
-   static bool IsNamedAsAFieldThatHoldsNoSentence(FieldContents field) => IsNamedWithAnyOf(field, NamePartsOfFieldsThatHoldNoSentence);
+   static bool IsNamedAsAFieldThatHoldsNoSentence(FieldContents field) => field.IsNamedWithAnyOf(NamePartsOfFieldsThatHoldNoSentence);
 
-   static bool IsNamedAsATranslationField(FieldContents field) => IsNamedWithAnyOf(field, NamePartsOfTranslationFields);
-
-   static bool IsNamedWithAnyOf(FieldContents field, string[] nameParts) => nameParts.Any(part => field.Name.Contains(part, StringComparison.OrdinalIgnoreCase));
+   static bool IsNamedAsATranslationField(FieldContents field) => field.IsNamedWithAnyOf(NamePartsOfTranslationFields);
 }
