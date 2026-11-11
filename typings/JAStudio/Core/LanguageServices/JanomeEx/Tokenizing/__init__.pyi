@@ -73,6 +73,7 @@ class InflectionForms(abc.ABC):
         DictionaryForm : InflectionForm
         Euphonic : InflectionForm
         Gemination : InflectionForm
+        Modern : InflectionForm
 
 
     class Continuative(abc.ABC):
@@ -155,6 +156,7 @@ class InflectionTypes(abc.ABC):
         Gotoshi : InflectionType
         Keri : InflectionType
         Ki : InflectionType
+        Maji : InflectionType
         Nari : InflectionType
         Ri : InflectionType
         Ru : InflectionType
@@ -191,10 +193,15 @@ class InflectionTypes(abc.ABC):
         KuruKanji : InflectionType
 
 
-    class Nidan(abc.ABC):
+    class LowerNidan(abc.ABC):
         Family : str
         LowerDa : InflectionType
+        LowerGa : InflectionType
+        LowerHa : InflectionType
+        LowerKa : InflectionType
+        LowerMa : InflectionType
         LowerTa : InflectionType
+        LowerU : InflectionType
 
 
     class Other(abc.ABC):
@@ -226,10 +233,18 @@ class InflectionTypes(abc.ABC):
         Ya : InflectionType
 
 
+    class UpperNidan(abc.ABC):
+        Family : str
+        UpperDa : InflectionType
+        UpperHa : InflectionType
+
+
     class Yodan(abc.ABC):
         BaEnding : InflectionType
         Family : str
         HaEnding : InflectionType
+        SaEnding : InflectionType
+        TaEnding : InflectionType
 
 
 

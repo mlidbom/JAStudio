@@ -1,0 +1,23 @@
+import abc
+from System.Collections.Generic import IEnumerable_1
+from JAStudio.Core.Reservoir.Sources import SourceWork, SourceSentence
+from System.IO import FileSystemInfo, DirectoryInfo, FileInfo
+from System import Action_1, Array_1
+
+class SubtitleCollection(abc.ABC):
+    @staticmethod
+    def WorksIn(collectionName: str, zipOrFolder: FileSystemInfo, tellOfAnUnreadableArchive: Action_1[str]) -> IEnumerable_1[SourceWork]: ...
+    @staticmethod
+    def WorksInFolder(collectionName: str, folder: DirectoryInfo, tellOfAnUnreadableArchive: Action_1[str]) -> IEnumerable_1[SourceWork]: ...
+    @staticmethod
+    def WorksInZip(collectionName: str, zip: FileInfo, tellOfAnUnreadableArchive: Action_1[str]) -> IEnumerable_1[SourceWork]: ...
+
+
+class SubtitleFile:
+    def __init__(self, name: str, content: Array_1[int]) -> None: ...
+    @property
+    def Name(self) -> str: ...
+    @staticmethod
+    def IsOne(fileName: str) -> bool: ...
+    def Sentences(self) -> IEnumerable_1[SourceSentence]: ...
+
