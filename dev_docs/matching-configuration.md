@@ -1391,6 +1391,24 @@ same day, after the review of step 3 against the code standards, which found fou
 them (a combination such as following an irrealis form and not an ichidan verb): the tree selects one line at a time.
 `define_a_shared_condition` then `use_a_shared_condition_wherever_its_definition_is` do it through the MCP server.
 
+### Increment 6, step 3, then: opening the vocab depending on one, and the vocab given once
+
+Asked for by Magnus, 2026-11-12: "add the ability to open all the notes using a shared-condition from the list of
+shared-conditions window [and] the editor for a shared condition", together with his pick of the design question below.
+
+1. **"Open the vocab depending on it"**, a button in a shared-condition's window and on each one in the window listing
+   them, lists the vocab whose match-conditions depend on it, directly or through other shared-conditions, in the
+   workspace's List tab, as the note menus' Open items do (`NoteList.OfTheVocabDependingOn`). Those are the vocab the
+   count beside the button counts, so the list's title, such as "Vocab depending on Word.IsAtTheSentencesStart (38)",
+   says the same number. The button is disabled when no vocab depends on it.
+2. **The shared-conditions reach the vocab themselves.** `SharedConditions.MakeOf`, `Rename`, `Delete` and
+   `UseWhereverItsDefinitionIs` each took the vocab whose match-conditions they change, and every caller passed all of
+   the collection's. A caller passing only some would have corrupted the corpus: after a rename or a delete, a vocab left
+   out keeps a file naming a shared-condition there's none of, and the next load fails. `SharedConditions` now gets the
+   collection's vocab through a `Lazy<VocabCollection>`, the first time a change needs them, since the collection is
+   made after the shared-conditions and loads them before its notes. Magnus picked this of three options
+   (2026-11-12): the others were to move the four operations to the vocab collection, or to keep the parameter.
+
 ### Naming and design questions: `review:matching:` comments
 
 Magnus polishes the names and design at the end of the work, into a language that's intuitive to him and to everyone
