@@ -90,7 +90,7 @@ public class When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace : Speci
       [XF] public void the_dialog_said_how_many_Anki_notes_change_and_that_Ankis_undo_undoes_it() =>
          RenameDialogShown.WhatChanges.Must().Be("anki::tmp and every tag below it change on 2 Anki notes, in Anki: Anki's Edit > Undo undoes it.");
       [XF] public void the_study_notes_have_the_renamed_tags_in_Anki() =>
-         (_anki.TagsOf(_sentenceAboutHome).SequenceEqual(["marked", "scratch::a"]) && _anki.TagsOf(_sentenceAboutSchool).SequenceEqual(["scratch::b"])).Must().BeTrue();
+         new { AboutHome = _anki.TagsOf(_sentenceAboutHome), AboutSchool = _anki.TagsOf(_sentenceAboutSchool) }.Must().Satisfy(it => it.AboutHome.SequenceEqual(["marked", "scratch::a"]) && it.AboutSchool.SequenceEqual(["scratch::b"]));
       [XF] public void the_tree_shows_the_renamed_line_selected() => PathOfTheSelectedLine().Must().Be("anki::scratch");
    }
 
@@ -106,7 +106,7 @@ public class When_editing_the_Anki_tags_in_the_tag_tree_in_the_workspace : Speci
       [XF] public void the_question_said_how_many_Anki_notes_change_and_that_Ankis_undo_undoes_it() =>
          DeleteQuestionAsked.Must().Be("Delete anki::tmp and every tag below it from 2 Anki notes in Anki? Anki's Edit > Undo undoes it.");
       [XF] public void the_study_notes_keep_only_their_other_tags_in_Anki() =>
-         (_anki.TagsOf(_sentenceAboutHome).SequenceEqual(["marked"]) && !_anki.TagsOf(_sentenceAboutSchool).Any()).Must().BeTrue();
+         new { AboutHome = _anki.TagsOf(_sentenceAboutHome), AboutSchool = _anki.TagsOf(_sentenceAboutSchool) }.Must().Satisfy(it => it.AboutHome.SequenceEqual(["marked"]) && !it.AboutSchool.Any());
    }
 
    List<SpecMenuItem> TheMenuOfTheLineOf(string tagPath)

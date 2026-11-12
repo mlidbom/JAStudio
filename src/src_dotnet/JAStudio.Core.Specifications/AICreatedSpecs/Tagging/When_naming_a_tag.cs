@@ -15,7 +15,7 @@ public class When_naming_a_tag : IAIGeneratedSpec
       readonly Tag _existing = Tag.FromName("source::anime::when-naming-a-tag");
       readonly Tag _named = Tag.FromName("Source::Anime::When-Naming-A-Tag");
 
-      [XF] public void it_is_the_existing_tag() => ReferenceEquals(_named, _existing).Must().BeTrue();
+      [XF] public void it_is_the_existing_tag() => _named.Must().ReferenceEqual(_existing);
       [XF] public void it_keeps_the_existing_spelling() => _named.Name.Must().Be("source::anime::when-naming-a-tag");
    }
 

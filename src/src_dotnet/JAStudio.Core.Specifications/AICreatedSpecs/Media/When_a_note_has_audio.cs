@@ -41,7 +41,7 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
       [XF] public void its_study_note_gets_its_first_recording_in_Audio_b() => _vocab.StudyNoteFields()["Audio_b"].Must().Be("[sound:文句_b.mp3]");
       [XF] public void its_study_note_gets_its_other_recordings_in_Audio_g() => _vocab.StudyNoteFields()["Audio_g"].Must().Be("[sound:文句_g.mp3][sound:forvo-文句.mp3]");
       [XF] public void its_study_note_gets_its_tts_audio_in_Audio_TTS() => _vocab.StudyNoteFields()["Audio_TTS"].Must().Be("[sound:hypertts-文句.mp3]");
-      [XF] public void it_is_not_marked_as_having_only_tts_audio() => _vocab.GetMetaTags().Contains("tts_audio").Must().BeFalse();
+      [XF] public void it_is_not_marked_as_having_only_tts_audio() => _vocab.GetMetaTags().Must().Satisfy(it => !it.Contains("tts_audio"));
    }
 
    /// <summary>The sentence 家に帰る with only TTS audio of the corpus's own, hypertts-家に帰る.mp3.</summary>
@@ -56,7 +56,7 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
       }
 
       [XF] public void its_study_note_gets_it_in_Audio_Sentence() => _sentence.StudyNoteFields()["Audio Sentence"].Must().Be("[sound:hypertts-家に帰る.mp3]");
-      [XF] public void it_is_marked_as_having_only_tts_audio() => _sentence.GetMetaTags().Contains("tts_audio").Must().BeTrue();
+      [XF] public void it_is_marked_as_having_only_tts_audio() => _sentence.GetMetaTags().Must().Contain("tts_audio");
    }
 
    /// <summary>The sentence 家に帰る with a recording from its source, natsume_ep01.mp3, and TTS audio of the corpus's own, hypertts-家に帰る.mp3.</summary>
@@ -73,7 +73,7 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
 
       [XF] public void the_audio_played_for_it_is_the_recording() => _sentence.AllAudio.Preferred.Must().Be(new AudioReference("natsume_ep01.mp3"));
       [XF] public void its_study_note_gets_only_the_recording_in_Audio_Sentence() => _sentence.StudyNoteFields()["Audio Sentence"].Must().Be("[sound:natsume_ep01.mp3]");
-      [XF] public void it_is_not_marked_as_having_only_tts_audio() => _sentence.GetMetaTags().Contains("tts_audio").Must().BeFalse();
+      [XF] public void it_is_not_marked_as_having_only_tts_audio() => _sentence.GetMetaTags().Must().Satisfy(it => !it.Contains("tts_audio"));
    }
 
    /// <summary>The sentence 家に帰る with no audio.</summary>
@@ -85,6 +85,6 @@ public class When_a_note_has_audio : SpecificationStartingWithAnEmptyCollection,
 
       [XF] public void no_audio_is_played_for_it() => _sentence.AllAudio.Preferred.Must().BeNull();
       [XF] public void its_study_note_gets_an_empty_Audio_Sentence() => _sentence.StudyNoteFields()["Audio Sentence"].Must().Be("");
-      [XF] public void it_is_not_marked_as_having_only_tts_audio() => _sentence.GetMetaTags().Contains("tts_audio").Must().BeFalse();
+      [XF] public void it_is_not_marked_as_having_only_tts_audio() => _sentence.GetMetaTags().Must().Satisfy(it => !it.Contains("tts_audio"));
    }
 }

@@ -30,5 +30,5 @@ public class When_a_voice_speaks_a_text : IAIGeneratedSpec
    [XF] public void the_speech_is_what_azure_sent_brought_to_the_replaygain_reference() =>
       _speech.Mp3.Must().SequenceEqual(new Mp3File(WhatAzureSent).NormalizedToTheReplayGainReference().Bytes());
 
-   [XF] public void the_speech_differs_from_what_azure_sent_which_was_louder() => _speech.Mp3.AsSpan().SequenceEqual(WhatAzureSent).Must().BeFalse();
+   [XF] public void the_speech_differs_from_what_azure_sent_which_was_louder() => _speech.Mp3.Must().Satisfy(it => !it.AsSpan().SequenceEqual(WhatAzureSent));
 }

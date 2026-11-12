@@ -40,19 +40,19 @@ public class for_a_sentence : SpecificationStartingWithAnEmptyCollection, IAIGen
          _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
       }
 
-      [XF] public void the_tag_is_present() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
+      [XF] public void the_tag_is_present() => _sentence.Tags.Must().Contain(Tags.Sentence.Uses.HiddenMatches);
 
       public class after_unsetting_the_tag : given_one_tagged_with_a_tag_JAStudio_maintains
       {
          public after_unsetting_the_tag() => _sentence.Tags.Unset(Tags.Sentence.Uses.HiddenMatches);
 
-         [XF] public void the_tag_is_not_present() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeFalse();
+         [XF] public void the_tag_is_not_present() => _sentence.Tags.Must().Satisfy(it => !it.Contains(Tags.Sentence.Uses.HiddenMatches));
 
          public class after_setting_it_again : after_unsetting_the_tag
          {
             public after_setting_it_again() => _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);
 
-            [XF] public void the_tag_is_present_again() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
+            [XF] public void the_tag_is_present_again() => _sentence.Tags.Must().Contain(Tags.Sentence.Uses.HiddenMatches);
          }
       }
    }

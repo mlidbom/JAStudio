@@ -109,7 +109,7 @@ public class When_editing_the_tag_tree_in_the_workspace : SpecificationUsingAWor
       [XF] public void the_dialog_warned_that_it_changes_the_source_of_2_notes() => (RenameDialogShown.SourceWarning ?? throw new InvalidOperationException("The dialog showed no source warning.")).Must().Be("This changes the source of 2 notes.");
       [XF] public void the_notes_have_the_renamed_tags() => TagsOf(_sentenceAboutHome).Must().SequenceEqual(["source::anime::soseki::s3::01"]);
       [XF] public void the_renamed_line_is_visible() => PathsOfTheVisibleLines().Must().Contain("source::anime::soseki");
-      [XF] public void no_line_shows_the_old_name() => AllLines().Any(it => it.TagPath.StartsWith(Natsume, StringComparison.Ordinal)).Must().BeFalse();
+      [XF] public void no_line_shows_the_old_name() => AllLines().Must().Satisfy(lines => !lines.Any(it => it.TagPath.StartsWith(Natsume, StringComparison.Ordinal)));
    }
 
    public class after_renaming_episode_02_to_01_which_is_in_use : When_editing_the_tag_tree_in_the_workspace

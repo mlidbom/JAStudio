@@ -55,7 +55,7 @@ public class When_storing_a_media_file : SpecificationStartingWithAnEmptyCollect
       }
 
       [XF] public void the_file_is_found_by_original_filename() => _attachment.Must().NotBeNull();
-      [XF] public void the_file_exists_on_disk() => File.Exists(_attachment!.FilePath).Must().BeTrue();
+      [XF] public void the_file_exists_on_disk() => _attachment!.FilePath.Must().Satisfy(File.Exists);
       [XF] public void the_path_contains_the_target_directory() => _attachment!.FilePath.Must().Contain("commercial-001");
    }
 

@@ -29,7 +29,7 @@ public sealed class When_the_study_notes_have_been_read_from_an_Anki_collection_
       File.Delete(_collection);
    }
 
-   [XF] public void no_connection_holds_the_file_open() => File.Exists(_collection).Must().BeFalse();
+   [XF] public void no_connection_holds_the_file_open() => _collection.Must().Satisfy(it => !File.Exists(it));
 
    public override void Dispose()
    {

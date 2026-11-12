@@ -15,7 +15,6 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
 {
    ImportRun Check() => Importer.Prepare(ImmersionKitProfile);
 
-   static bool AProfileProblemSays(ImportRun run, string text) => run.ProblemsWithTheProfile.Any(it => it.Description.Contains(text));
 
    public class that_has_no_Anki_note_type : When_checking_an_import_profile
    {
@@ -28,7 +27,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_problem_with_the_profile_asks_for_the_note_type() => AProfileProblemSays(_run, "Choose the Anki note type").Must().BeTrue();
+      [XF] public void a_problem_with_the_profile_asks_for_the_note_type() => _run.ProblemsWithTheProfile.Must().Satisfy(problems => problems.Any(it => it.Description.Contains("Choose the Anki note type")));
       [XF] public void no_raw_notes_are_selected() => _run.CheckedRawNotes.Must().BeEmpty();
       [XF] public void it_cannot_run() => _run.CanExecute.Must().BeFalse();
    }
@@ -43,7 +42,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_problem_with_the_profile_says_JAStudios_own_note_types_cannot_be_imported_from() => AProfileProblemSays(_run, "JAStudio's own note types can't be imported from").Must().BeTrue();
+      [XF] public void a_problem_with_the_profile_says_JAStudios_own_note_types_cannot_be_imported_from() => _run.ProblemsWithTheProfile.Must().Satisfy(problems => problems.Any(it => it.Description.Contains("JAStudio's own note types can't be imported from")));
    }
 
    public class whose_source_question_is_unmapped : When_checking_an_import_profile
@@ -56,7 +55,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_problem_with_the_profile_asks_for_the_source_question_to_be_mapped() => AProfileProblemSays(_run, "Map an Anki field to the sentence's source question").Must().BeTrue();
+      [XF] public void a_problem_with_the_profile_asks_for_the_source_question_to_be_mapped() => _run.ProblemsWithTheProfile.Must().Satisfy(problems => problems.Any(it => it.Description.Contains("Map an Anki field to the sentence's source question")));
    }
 
    public class that_maps_a_field_the_note_type_does_not_have : When_checking_an_import_profile
@@ -69,7 +68,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_problem_with_the_profile_names_the_missing_field() => AProfileProblemSays(_run, "has no field named Notes").Must().BeTrue();
+      [XF] public void a_problem_with_the_profile_names_the_missing_field() => _run.ProblemsWithTheProfile.Must().Satisfy(problems => problems.Any(it => it.Description.Contains("has no field named Notes")));
    }
 
    public class whose_audio_folder_is_outside_free_and_the_commercial_repositories : When_checking_an_import_profile
@@ -82,7 +81,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void a_problem_with_the_profile_says_where_the_audio_folder_must_be() => AProfileProblemSays(_run, "must be free/ or a commercial repository").Must().BeTrue();
+      [XF] public void a_problem_with_the_profile_says_where_the_audio_folder_must_be() => _run.ProblemsWithTheProfile.Must().Satisfy(problems => problems.Any(it => it.Description.Contains("must be free/ or a commercial repository")));
    }
 
    public class with_a_sentence_card_whose_audio_is_missing_from_Ankis_media_folder : When_checking_an_import_profile
@@ -98,7 +97,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
 
       [XF] public void the_card_has_a_problem() => CheckOf(_run, _card).Outcome.Must().Be(RawNoteOutcome.Problem);
       [XF] public void its_audio_is_marked_as_a_problem() => CheckOf(_run, _card).Audio.Mark.Must().Be(CheckMark.Problem);
-      [XF] public void whats_wrong_names_the_missing_file() => WhatIsWrongSays(CheckOf(_run, _card), "Audio missing.mp3 isn't in Anki's media folder").Must().BeTrue();
+      [XF] public void whats_wrong_names_the_missing_file() => CheckOf(_run, _card).WhatIsWrong.Must().Satisfy(whatIsWrong => whatIsWrong.Any(it => it.Contains("Audio missing.mp3 isn't in Anki's media folder")));
       [XF] public void it_cannot_run() => _run.CanExecute.Must().BeFalse();
    }
 
@@ -113,7 +112,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void whats_wrong_says_it_is_not_mp3() => WhatIsWrongSays(CheckOf(_run, _card), "Audio anime_1.wav.ogg isn't MP3").Must().BeTrue();
+      [XF] public void whats_wrong_says_it_is_not_mp3() => CheckOf(_run, _card).WhatIsWrong.Must().Satisfy(whatIsWrong => whatIsWrong.Any(it => it.Contains("Audio anime_1.wav.ogg isn't MP3")));
       [XF] public void the_finding_of_its_audio_says_the_corpus_holds_only_mp3() => CheckOf(_run, _card).Audio.Finding.Must().Contain("the corpus holds only MP3");
    }
 
@@ -129,7 +128,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
       }
 
       [XF] public void its_question_is_marked_as_a_problem() => CheckOf(_run, _card).Question.Mark.Must().Be(CheckMark.Problem);
-      [XF] public void whats_wrong_says_the_question_is_empty() => WhatIsWrongSays(CheckOf(_run, _card), "Question is empty").Must().BeTrue();
+      [XF] public void whats_wrong_says_the_question_is_empty() => CheckOf(_run, _card).WhatIsWrong.Must().Satisfy(whatIsWrong => whatIsWrong.Any(it => it.Contains("Question is empty")));
    }
 
    public class with_two_sentence_cards_using_the_same_audio_file : When_checking_an_import_profile
@@ -144,7 +143,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
          _run = Check();
       }
 
-      [XF] public void whats_wrong_says_another_card_of_the_run_uses_it_too() => WhatIsWrongSays(CheckOf(_run, _secondCard), "Audio shared.mp3 is used by another raw note of this run too").Must().BeTrue();
+      [XF] public void whats_wrong_says_another_card_of_the_run_uses_it_too() => CheckOf(_run, _secondCard).WhatIsWrong.Must().Satisfy(whatIsWrong => whatIsWrong.Any(it => it.Contains("Audio shared.mp3 is used by another raw note of this run too")));
    }
 
    public class with_valid_sentence_cards : When_checking_an_import_profile
@@ -161,7 +160,7 @@ public class When_checking_an_import_profile : ImportingSpecification, IAIGenera
       [XF] public void nothing_stops_the_run() => _run.CanExecute.Must().BeTrue();
       [XF] public void every_card_will_be_imported() => _run.With(RawNoteOutcome.WillBeImported).Count.Must().Be(2);
       [XF] public void nothing_is_imported_yet() => Sentences.All().Must().BeEmpty();
-      [XF] public void every_checked_field_is_fine() => _run.CheckedRawNotes.SelectMany(it => new[] { it.Question, it.ExternalId, it.Audio, it.Screenshot }).All(it => it.Mark == CheckMark.Fine).Must().BeTrue();
+      [XF] public void every_checked_field_is_fine() => _run.CheckedRawNotes.SelectMany(it => new[] { it.Question, it.ExternalId, it.Audio, it.Screenshot }).Must().Satisfy(fields => fields.All(it => it.Mark == CheckMark.Fine));
    }
 
    public class that_maps_no_external_id : When_checking_an_import_profile

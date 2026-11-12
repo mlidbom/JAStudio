@@ -56,7 +56,7 @@ public class When_a_note_has_tags_in_Anki : SpecificationStartingWithAnEmptyColl
 
    [XF] public void its_priority_is_read_from_its_Anki_priority_tag() => TheSentence.PriorityTagValue().Must().Be(5);
 
-   [XF] public void its_Anki_tags_are_offered_as_tags_to_add_or_rename() => Collection.TagsInUse().Any(it => it.Name == "anki::marked").Must().BeTrue();
+   [XF] public void its_Anki_tags_are_offered_as_tags_to_add_or_rename() => Collection.TagsInUse().Must().Satisfy(tagsInUse => tagsInUse.Any(it => it.Name == "anki::marked"));
 
    [XF] public void it_is_found_as_a_note_with_a_tag_in_the_branch_of_one_of_its_Anki_tags() =>
       Collection.NotesWithATagIn(new TagBranch("anki::-::priority")).Select(it => it.GetId()).Must().SequenceEqual([_sentenceId]);

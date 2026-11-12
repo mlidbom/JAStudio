@@ -105,7 +105,7 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
          public after_removing_it() => _vocab.Forms.Remove("駆ける");
 
          [XF] public void the_form_no_longer_appears_in_the_entered_forms() =>
-            _vocab.Forms.EnteredFormsList().Contains("駆ける").Must().BeFalse();
+            _vocab.Forms.EnteredFormsList().Must().Satisfy(it => !it.Contains("駆ける"));
       }
    }
 
@@ -139,8 +139,8 @@ public class When_working_with_a_VocabNote : SpecificationStartingWithAnEmptyCol
 
          [XF] public void the_owned_entered_form_stays_owned() => _vocab.Forms.EnteredForms().Must().Contain(EnteredForm.Owned("駆ける"));
          [XF] public void the_new_question_is_matched() => _vocab.Forms.MatchedFormsSet().Must().Contain("奔る");
-         [XF] public void the_new_question_is_not_among_the_entered_forms() => _vocab.Forms.EnteredFormsSet().Contains("奔る").Must().BeFalse();
-         [XF] public void the_old_question_is_no_longer_matched() => _vocab.Forms.MatchedFormsSet().Contains("走る").Must().BeFalse();
+         [XF] public void the_new_question_is_not_among_the_entered_forms() => _vocab.Forms.EnteredFormsSet().Must().Satisfy(it => !it.Contains("奔る"));
+         [XF] public void the_old_question_is_no_longer_matched() => _vocab.Forms.MatchedFormsSet().Must().Satisfy(it => !it.Contains("走る"));
          [XF] public void the_new_question_is_owned() => _vocab.Forms.IsOwnedForm("奔る").Must().BeTrue();
       }
 

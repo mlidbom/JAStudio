@@ -35,7 +35,7 @@ public class When_works_are_added_to_the_reservoir : IAIGeneratedSpec, IDisposab
    [XF] public void a_work_counts_its_sentences_and_those_new_to_the_reservoir() => Counted(_subtitlesAdded).Must().Be("3 sentences, 2 new");
    [XF] public void a_later_work_counts_as_new_only_what_the_reservoir_lacked() => Counted(_deckAdded).Must().Be("2 sentences, 1 new");
    [XF] public void each_distinct_sentence_is_kept_once() => _reservoir.SentenceCount.Must().Be(3L);
-   [XF] public void the_reservoir_has_each_work_it_was_given() => (_reservoir.Has(Subtitles) && _reservoir.Has(Deck)).Must().BeTrue();
+   [XF] public void the_reservoir_has_each_work_it_was_given() => new[] { Subtitles, Deck }.Must().Satisfy(works => works.All(_reservoir.Has));
 
    [XF] public void a_sentence_found_again_with_audio_is_kept_from_the_source_with_its_audio() =>
       KeptAs("友人帳を寄越せ").Must().Be("Natsume.apkg note 7 ny_01.mp3, found 2 times");

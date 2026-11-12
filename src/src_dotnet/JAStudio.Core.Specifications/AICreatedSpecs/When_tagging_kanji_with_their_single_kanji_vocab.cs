@@ -27,8 +27,8 @@ public class When_tagging_kanji_with_their_single_kanji_vocab : SpecificationSta
          TagKanjiMetadata();
       }
 
-      [XF] public void it_is_tagged_as_having_a_single_kanji_vocab() => _kanji.Tags.Contains(Tags.Kanji.WithSingleKanjiVocab).Must().BeTrue();
-      [XF] public void it_is_tagged_as_having_one_with_a_different_reading() => _kanji.Tags.Contains(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading).Must().BeTrue();
+      [XF] public void it_is_tagged_as_having_a_single_kanji_vocab() => _kanji.Tags.Must().Contain(Tags.Kanji.WithSingleKanjiVocab);
+      [XF] public void it_is_tagged_as_having_one_with_a_different_reading() => _kanji.Tags.Must().Contain(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading);
    }
 
    public class for_a_kanji_tagged_as_having_one_with_a_different_reading_that_has_no_single_kanji_vocab : When_tagging_kanji_with_their_single_kanji_vocab
@@ -42,7 +42,7 @@ public class When_tagging_kanji_with_their_single_kanji_vocab : SpecificationSta
          TagKanjiMetadata();
       }
 
-      [XF] public void the_tag_is_removed() => _kanji.Tags.Contains(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading).Must().BeFalse();
-      [XF] public void it_is_not_tagged_as_having_a_single_kanji_vocab() => _kanji.Tags.Contains(Tags.Kanji.WithSingleKanjiVocab).Must().BeFalse();
+      [XF] public void the_tag_is_removed() => _kanji.Tags.Must().Satisfy(it => !it.Contains(Tags.Kanji.WithSingleKanjiVocabWithDifferentReading));
+      [XF] public void it_is_not_tagged_as_having_a_single_kanji_vocab() => _kanji.Tags.Must().Satisfy(it => !it.Contains(Tags.Kanji.WithSingleKanjiVocab));
    }
 }

@@ -53,8 +53,8 @@ public class When_building_a_MediaFileIndex : SpecificationStartingWithAnEmptyCo
             _attachment = _index.TryGetByOriginalFileName("natsume_ep01_03m22s.mp3");
 
          [XF] public void it_finds_the_file() => _attachment.Must().NotBeNull();
-         [XF] public void it_resolves_the_file_path() => File.Exists(_attachment!.FilePath).Must().BeTrue();
-         [XF] public void it_is_an_audio_attachment() => (_attachment is AudioAttachment).Must().BeTrue();
+         [XF] public void it_resolves_the_file_path() => _attachment!.FilePath.Must().Satisfy(File.Exists);
+         [XF] public void it_is_an_audio_attachment() => _attachment.Must().BeAssignableTo<AudioAttachment>();
       }
 
       public class and_resolving_a_notes_reference_to_an_audio_file : over_a_directory_with_media_files

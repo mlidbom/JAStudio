@@ -93,7 +93,7 @@ public class When_renaming_or_deleting_a_tag_branch : SpecificationStartingWithA
       {
          public after_applying_it() => Apply(_rename);
 
-         [XF] public void the_notes_of_both_have_the_same_tag() => _sentenceAboutSchool.Tags.Contains(_vocab.Tags.Single()).Must().BeTrue();
+         [XF] public void the_notes_of_both_have_the_same_tag() => _sentenceAboutSchool.Tags.Must().Contain(_vocab.Tags.Single());
       }
    }
 

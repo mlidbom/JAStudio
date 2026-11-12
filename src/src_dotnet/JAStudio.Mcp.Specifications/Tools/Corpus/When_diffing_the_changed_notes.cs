@@ -66,7 +66,7 @@ public class When_diffing_the_changed_notes : CorpusRepositorySpecification
       [XF] public void one_vocab_is_counted_as_added() => _diff.Vocab.Added.Must().Be(1);
 
       [XF] public void the_vocab_来る_whose_file_was_written_differently_is_counted_as_changed_only_in_its_file() => _diff.Vocab.ChangedOnlyInTheirFiles.Must().Be(1);
-      [XF] public void the_vocab_来る_is_not_listed() => _diff.Vocab.Notes.Any(it => it.Question == "来る").Must().BeFalse();
+      [XF] public void the_vocab_来る_is_not_listed() => _diff.Vocab.Notes.Must().Satisfy(notes => !notes.Any(it => it.Question == "来る"));
 
       [XF] public void the_forms_are_the_one_property_of_vocab_counted_as_changed_in_one_vocab() =>
          _diff.Vocab.PropertiesChanged.Select(it => (it.Property, it.Notes)).Must().SequenceEqual([("forms", 1)]);

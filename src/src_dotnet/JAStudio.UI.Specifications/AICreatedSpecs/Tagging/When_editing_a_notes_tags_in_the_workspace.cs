@@ -43,7 +43,6 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
 
    List<string> TagsShownInTheEditor() => [.._tagsEditor.Tags.Select(it => it.Name)];
 
-   bool TheSentenceHas(string tagPath) => _sentence.Tags.Contains(Tag.FromName(tagPath));
 
    /// <summary>Picks <paramref name="tagPath"/> in the tag picker dialog, as a person would.</summary>
    static Func<TagPickerDialogViewModel, Task<string?>> Picking(string tagPath) => _ => Task.FromResult<string?>(tagPath);
@@ -56,7 +55,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, SourceTag]);
 
    [XF] public void the_tag_JAStudio_maintains_cannot_be_removed_by_hand() => TheTagShown(Tags.Sentence.Uses.HiddenMatches.Name).CanBeRemovedByHand.Must().BeFalse();
-   [XF] public void the_tags_a_person_manages_can() => (TheTagShown(SourceTag).CanBeRemovedByHand && TheTagShown(Label).CanBeRemovedByHand).Must().BeTrue();
+   [XF] public void the_tags_a_person_manages_can() => new[] { SourceTag, Label }.Must().Satisfy(tagPaths => tagPaths.All(it => TheTagShown(it).CanBeRemovedByHand));
 
    public class when_removing_a_tag_with_its_button : When_editing_a_notes_tags_in_the_workspace
    {
@@ -74,7 +73,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
          public that_is_not_a_source_tag() => RemoveWithItsButton(Label, answerToTheQuestion: false);
 
          [XF] public void it_asks_nothing() => _questionsAsked.Must().BeEmpty();
-         [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(Label).Must().BeFalse();
+         [XF] public void the_sentence_no_longer_has_it() => _sentence.Tags.Must().Satisfy(it => !it.Contains(Tag.FromName(Label)));
          [XF] public void the_editor_no_longer_shows_it() => TagsShownInTheEditor().Must().SequenceEqual([Tags.Sentence.Uses.HiddenMatches.Name, SourceTag]);
       }
 
@@ -84,15 +83,15 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
 
          [XF] public void it_asks_first_saying_it_changes_the_notes_source() =>
             _questionsAsked.Must().SequenceEqual([$"{SourceTag} is a source tag: removing it changes the note's source. Remove it?"]);
-         [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(SourceTag).Must().BeFalse();
-         [XF] public void the_tag_JAStudio_maintains_stays() => _sentence.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
+         [XF] public void the_sentence_no_longer_has_it() => _sentence.Tags.Must().Satisfy(it => !it.Contains(Tag.FromName(SourceTag)));
+         [XF] public void the_tag_JAStudio_maintains_stays() => _sentence.Tags.Must().Contain(Tags.Sentence.Uses.HiddenMatches);
       }
 
       public class that_is_a_source_tag_declining_it : when_removing_a_tag_with_its_button
       {
          public that_is_a_source_tag_declining_it() => RemoveWithItsButton(SourceTag, answerToTheQuestion: false);
 
-         [XF] public void the_sentence_still_has_it() => TheSentenceHas(SourceTag).Must().BeTrue();
+         [XF] public void the_sentence_still_has_it() => _sentence.Tags.Must().Contain(Tag.FromName(SourceTag));
       }
    }
 
@@ -100,7 +99,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    {
       public after_adding_a_new_tag_through_the_editor() => _tagsEditor.AddATag(Picking(NewTag));
 
-      [XF] public void the_sentence_has_it() => TheSentenceHas(NewTag).Must().BeTrue();
+      [XF] public void the_sentence_has_it() => _sentence.Tags.Must().Contain(Tag.FromName(NewTag));
       [XF] public void the_editor_shows_it_in_alphabetical_order() => TagsShownInTheEditor().Must().SequenceEqual([Label, Tags.Sentence.Uses.HiddenMatches.Name, NewTag, SourceTag]);
    }
 
@@ -108,7 +107,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    {
       public after_adding_a_tag_to_the_note_on_the_shown_tab_as_ctrl_t_does() => ShownTab().AddATagToTheShownNote(Picking(NewTag));
 
-      [XF] public void the_sentence_has_it() => TheSentenceHas(NewTag).Must().BeTrue();
+      [XF] public void the_sentence_has_it() => _sentence.Tags.Must().Contain(Tag.FromName(NewTag));
       [XF] public void the_editor_shows_it() => TagsShownInTheEditor().Must().Contain(NewTag);
    }
 
@@ -116,7 +115,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
    {
       public after_removing_a_tag_from_the_note_on_the_shown_tab_as_ctrl_shift_t_does() => ShownTab().RemoveATagFromTheShownNote(Picking(SourceTag));
 
-      [XF] public void the_sentence_no_longer_has_it() => TheSentenceHas(SourceTag).Must().BeFalse();
+      [XF] public void the_sentence_no_longer_has_it() => _sentence.Tags.Must().Satisfy(it => !it.Contains(Tag.FromName(SourceTag)));
    }
 
    /// <summary>
@@ -156,7 +155,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       }
 
       [XF] public void its_study_note_has_it_in_Anki() => GetService<PretendAnki>().TagsOf(_sentence).Must().SequenceEqual(["flagged"]);
-      [XF] public void it_is_not_one_of_the_notes_own_tags() => _sentence.Tags.Any(it => it.IsAnAnkiTag).Must().BeFalse();
+      [XF] public void it_is_not_one_of_the_notes_own_tags() => _sentence.Tags.Must().Satisfy(tags => !tags.Any(it => it.IsAnAnkiTag));
    }
 
    /// <summary>A change to an Anki tag is made in the background: waits until <paramref name="itIsMade"/> says it's shown.</summary>

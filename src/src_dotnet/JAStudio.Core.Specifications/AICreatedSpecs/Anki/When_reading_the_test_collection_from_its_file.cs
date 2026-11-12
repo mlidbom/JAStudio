@@ -37,7 +37,7 @@ public class When_reading_the_test_collection_from_its_file : SpecificationReadi
       IEnumerable<string> CardTypesOfTheStudyNotesOf(string noteType) => _read.StudyingStatuses.Where(it => it.NoteTypeName == noteType).Select(it => it.CardType).Distinct().Order();
 
       [XF] public void every_card_has_a_studying_status() => _read.StudyingStatuses.Count.Must().Be(1749);
-      [XF] public void no_card_is_suspended() => _read.StudyingStatuses.Any(it => it.IsSuspended).Must().BeFalse();
+      [XF] public void no_card_is_suspended() => _read.StudyingStatuses.Must().Satisfy(studyingStatuses => !studyingStatuses.Any(it => it.IsSuspended));
       [XF] public void the_vocabs_cards_are_of_the_templates_Listening_and_Reading() => CardTypesOfTheStudyNotesOf(NoteTypes.Vocab).Must().SequenceEqual([CardTypes.Listening, CardTypes.Reading]);
       [XF] public void the_kanjis_cards_are_of_the_template_Reading() => CardTypesOfTheStudyNotesOf(NoteTypes.Kanji).Must().SequenceEqual([CardTypes.Reading]);
       [XF] public void every_study_note_has_its_tags() => _read.StudyNoteTags.Count.Must().Be(1217);

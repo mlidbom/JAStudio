@@ -44,7 +44,7 @@ public class When_a_deck_is_imported_into_the_reservoir : IAIGeneratedSpec, IDis
 
    [XF] public void the_manifest_gives_the_formats_version() => Json("text", "manifest.json").GetProperty("formatVersion").GetInt32().Must().Be(Manifest.CurrentFormatVersion);
 
-   [XF] public void the_collection_database_is_stored_as_the_package_has_it() => File.Exists(Path.Combine(_deckFolder.FullName, "collection.anki2")).Must().BeTrue();
+   [XF] public void the_collection_database_is_stored_as_the_package_has_it() => Path.Combine(_deckFolder.FullName, "collection.anki2").Must().Satisfy(File.Exists);
 
    [XF] public void the_companion_file_maps_the_note_types_fields() =>
       Json("text", "decks", "show", "deck.json").GetProperty("noteTypes")[0].GetProperty("japaneseField").Text().Must().Be("Expression");
@@ -58,14 +58,14 @@ public class When_a_deck_is_imported_into_the_reservoir : IAIGeneratedSpec, IDis
       NoteLines()[0].GetProperty("sourceData").GetProperty("screenshots")[0].GetProperty("hash").Text().Must().Be(Sha256Of(AScreenshot));
 
    [XF] public void a_reference_to_a_file_the_package_lacks_has_no_hash() =>
-      NoteLines()[0].GetProperty("sourceData").GetProperty("audio")[0].TryGetProperty("hash", out _).Must().BeFalse();
+      NoteLines()[0].GetProperty("sourceData").GetProperty("audio")[0].TryGetProperty("hash", out _).Must().BeFalse(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
 
    [XF] public void the_same_content_under_two_names_is_stored_once() => $"{_imported.Media.Files.Count} files, {_imported.Media.FilesNewToTheStore} new".Must().Be("3 files, 2 new");
 
    [XF] public void a_file_is_stored_under_its_hash_in_a_folder_by_the_hashs_first_two_bytes()
    {
       var hash = Sha256Of(AnotherScreenshot);
-      File.Exists(Path.Combine(_mediaFolder.FullName, hash[..2], hash[2..4], hash + ".jpg")).Must().BeTrue();
+      Path.Combine(_mediaFolder.FullName, hash[..2], hash[2..4], hash + ".jpg").Must().Satisfy(File.Exists);
    }
 
    [XF] public void the_reference_to_the_audio_the_package_lacks_is_counted() => _imported.MediaReferencesToFilesThePackageLacks.Must().Be(1);
@@ -73,7 +73,7 @@ public class When_a_deck_is_imported_into_the_reservoir : IAIGeneratedSpec, IDis
    [XF] public void each_notes_line_has_an_id_of_its_own() => NoteLines().Select(it => it.GetProperty("id").GetGuid()).Distinct().Count().Must().Be(2);
 
    [XF] public void its_lines_end_with_a_line_feed_alone_on_every_platform() =>
-      new[] { "deck.json", "notes.jsonl" }.Any(it => File.ReadAllText(Path.Combine(_deckFolder.FullName, it)).Contains('\r')).Must().BeFalse();
+      new[] { "deck.json", "notes.jsonl" }.Must().Satisfy(files => !files.Any(it => File.ReadAllText(Path.Combine(_deckFolder.FullName, it)).Contains('\r')));
 
    [XF] public void the_deck_is_imported_already_for_a_later_run() => ImporterInto("text").HasImported(_package).Must().BeTrue();
 

@@ -27,7 +27,7 @@ public class When_editing_a_sentence_in_the_workspace : SpecificationUsingAWorks
 
    public class before_its_question_is_changed : When_editing_a_sentence_in_the_workspace
    {
-      [XF] public void the_sentence_does_not_match_the_vocab() => _vocab.Sentences.All().Contains(_sentence).Must().BeFalse();
+      [XF] public void the_sentence_does_not_match_the_vocab() => _vocab.Sentences.All().Select(it => it.GetId()).Must().Satisfy(it => !it.Contains(_sentence.GetId())); //todo:compze: Must's failure message crashes the test process serializing notes; Satisfy on the notes themselves once it doesn't
    }
 
    public class after_typing_a_question_containing_the_vocab : When_editing_a_sentence_in_the_workspace

@@ -22,7 +22,7 @@ public class When_running_a_universal_note_action : McpServerSpecification
 
    protected CallToolResult Delete(string? ankiNote) => CallTool("delete_a_note", new Dictionary<string, object?> { ["noteId"] = Vocab.GetId().ToString(), ["ankiNote"] = ankiNote });
 
-   protected bool TheVocabIsInTheCollection() => GetService<JPCollection>().Vocab.WithIdOrNone(Vocab.GetId()) != null;
+   protected bool TheVocabIsInTheCollection() => GetService<JPCollection>().Vocab.WithIdOrNone(Vocab.GetId()) != null; //todo:compze: assert on the lookup itself once Must's failure message can serialize a note without crashing the test process
 
    public class deleting_the_vocab_which_has_an_Anki_note
    {

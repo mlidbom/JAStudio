@@ -61,8 +61,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    protected void WaitForAnExecutedRun() => SpinWait.SpinUntil(() => !_executedRuns.IsEmpty, TimeToWaitForTheRun).Must().BeTrue();
    protected void WaitForARunStoppedByProblems() => SpinWait.SpinUntil(() => !_profilesStoppedByProblems.IsEmpty, TimeToWaitForTheRun).Must().BeTrue();
 
-   protected bool TheSentenceCardWasImported() => Sentences.All().Any(it => it.SourceData.Question.Value == "ずっと1人で生きていくんだ");
-   protected bool TheSubs2srsNoteWasImported() => Sentences.All().Any(it => it.SourceData.Question.Value == "猫が好きだ");
+   protected IEnumerable<string> TheQuestionsOfTheImportedSentences() => Sentences.All().Select(it => it.SourceData.Question.Value);
 
    public class with_the_subs2srs_profile_not_running_automatically : When_import_profiles_run_automatically
    {
@@ -76,10 +75,10 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
             WaitForAnExecutedRun();
          }
 
-         [XF] public void the_sentence_card_is_imported() => TheSentenceCardWasImported().Must().BeTrue();
+         [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
          [XF] public void the_sentence_card_is_tagged_as_imported_in_Anki() => AnkiRawNotes.IsTaggedAsImported(SentenceCard).Must().BeTrue();
          [XF] public void the_run_of_the_Immersion_Kit_profile_is_notified_with_the_sentence_it_imported() => ExecutedRuns.Single().ImportedSentences.Count.Must().Be(1);
-         [XF] public void the_subs2srs_note_is_not_imported() => TheSubs2srsNoteWasImported().Must().BeFalse();
+         [XF] public void the_subs2srs_note_is_not_imported() => TheQuestionsOfTheImportedSentences().Must().Satisfy(it => !it.Contains("猫が好きだ"));
          [XF] public void the_subs2srs_note_is_not_tagged_as_imported() => AnkiRawNotes.IsTaggedAsImported(Subs2srsNote).Must().BeFalse();
       }
    }
@@ -100,8 +99,8 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
             SpinWait.SpinUntil(() => ExecutedRuns.Count == 2, TimeToWaitForTheRun).Must().BeTrue();
          }
 
-         [XF] public void the_sentence_card_is_imported() => TheSentenceCardWasImported().Must().BeTrue();
-         [XF] public void the_subs2srs_note_is_imported() => TheSubs2srsNoteWasImported().Must().BeTrue();
+         [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
+         [XF] public void the_subs2srs_note_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("猫が好きだ");
       }
 
       public class after_a_note_of_the_Immersion_Kit_note_type_was_added_in_Anki : with_the_subs2srs_profile_running_automatically_too
@@ -112,8 +111,8 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
             WaitForAnExecutedRun();
          }
 
-         [XF] public void the_sentence_card_is_imported() => TheSentenceCardWasImported().Must().BeTrue();
-         [XF] public void the_subs2srs_profile_does_not_run_so_its_note_is_not_imported() => TheSubs2srsNoteWasImported().Must().BeFalse();
+         [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
+         [XF] public void the_subs2srs_profile_does_not_run_so_its_note_is_not_imported() => TheQuestionsOfTheImportedSentences().Must().Satisfy(it => !it.Contains("猫が好きだ"));
          [XF] public void only_the_run_of_the_Immersion_Kit_profile_is_notified() => ExecutedRuns.Select(it => it.Profile.Name).Must().SequenceEqual(["Immersion Kit"]);
       }
    }
@@ -132,7 +131,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
          }
 
          [XF] public void that_profile_does_not_run_so_the_missing_note_type_does_not_stop_it_with_a_problem() => ProfilesStoppedByProblems.Must().BeEmpty();
-         [XF] public void the_sentence_card_is_imported() => TheSentenceCardWasImported().Must().BeTrue();
+         [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
       }
    }
 
