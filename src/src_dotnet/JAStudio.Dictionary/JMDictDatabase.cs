@@ -8,9 +8,9 @@ namespace JAStudio.Dictionary;
 
 public sealed class JMDictDatabase : IDisposable
 {
-   readonly string _dbPath;
+   readonly DataOptions _readOnlyOptions;
 
-   JMDictDatabase(string dbPath) => _dbPath = dbPath;
+   JMDictDatabase(string dbPath) => _readOnlyOptions = JMDictDb.ReadOnlyOptionsFor(dbPath);
 
    public static JMDictDatabase Open(string dbPath) => new(dbPath);
 
@@ -44,7 +44,7 @@ public sealed class JMDictDatabase : IDisposable
       return result;
    }
 
-   JMDictDb OpenDb() => JMDictDb.OpenReadOnly(_dbPath);
+   JMDictDb OpenDb() => JMDictDb.Open(_readOnlyOptions);
 
    public List<WordEntry> LookupWord(string text)
    {
