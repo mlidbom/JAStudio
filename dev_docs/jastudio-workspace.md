@@ -94,7 +94,8 @@ apply here.
   act on the note being viewed.
 - **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press, and the tab asks the
   window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O,
-  Ctrl+E, Ctrl+W, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the keyboard is outside the page.
+  Ctrl+E, Ctrl+W, Ctrl+T, Ctrl+Shift+T, Ctrl+M, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the
+  keyboard is outside the page. Ctrl+M opens the match-condition window of the vocab the shown tab shows.
   Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
   editors to come.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
@@ -175,7 +176,8 @@ apply here.
      resized by dragging its edge. It shows the editors of the shown tab's note, so it stays open as links are
      followed and tabs are switched. Each tab keeps its own editors, for the note it shows.
    - **A vocab's editors are tabs:** "Text" is its text fields, forms and parts of speech (`VocabTextEditorViewModel`);
-     "Matching" is the rest of the matching config, everything else that affects parsing; "Metadata" is what doesn't,
+     "Matching" is the rest of the matching config, everything else that affects parsing, with the match-condition
+     shown read-only and edited in a window of its own (see `matching-configuration.md`); "Metadata" is what doesn't,
      such as the register; "Related" is its relationships to other words, such as its synonyms, each added with a picker
      of the corpus's vocab (`VocabRelatedEditorViewModel`, since 2026-11-09).
    - **Every change is written to the note at once.** A change to what the vocab matches, on the "Matching" tab or to

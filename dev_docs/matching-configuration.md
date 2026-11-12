@@ -4,7 +4,8 @@
 > the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
 > definitions were, through an operation that stays, and creating and editing them in JAStudio: a definition is
 > edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree,
-> renamed and deleted. Next, step 4, the rule editors go:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> renamed and deleted. A vocab's match-condition is edited in a window of its own too, which the Matching tab, now showing
+> it read-only, opens. Next, step 4, the rule editors go:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -1018,14 +1019,11 @@ PrecedingToken.IsInAnIrrealisForm
 !PrecedingToken.IsAnIchidanVerb
 PrecedingToken.Surface.EndsWithOneOf("ん")
 !FollowingToken.Surface.StartsWithOneOf("湧", "わ")
-AnyOf(
-   !Surface.In("本の"),
-   FollowingToken.PartOfSpeech.Is(名詞・数))     // noun › numeric
-!LastToken.AllOf(
-   PartOfSpeech.Is(動詞),                        // verb
-   InflectedForm.In(
-      連用形,                                    // continuative
-      連用タ接続))                                // continuative, ta-connection
+AnyOf(!Surface.In("本の"),
+      FollowingToken.PartOfSpeech.Is(名詞・数))   // noun › numeric
+!LastToken.AllOf(PartOfSpeech.Is(動詞),   // verb
+                 InflectedForm.In(連用形,   // continuative
+                                  連用タ接続))   // continuative, ta-connection
 ```
 
 - **Each top-level line must hold.** The root "all of" isn't shown.
@@ -1035,6 +1033,14 @@ AnyOf(
   `StartsWithOneOf`, `EndsWithOneOf` and `ContainsOneOf` keep their names (Magnus: "a bit clearer to me. We can polish
   later though").
 - **Groups are `AnyOf(...)` and `AllOf(...)`,** with commas and closing parentheses (Magnus: "Keep them").
+- **Indented as code is: what a parenthesis opens, a group's conditions or a list's values, starts at the column right
+  after it** (Magnus, 2026-11-12: "What makes it read well to me is mostly the indentation. I am super used to code
+  indenting like that."). Where the code is only read, as above, the first starts on the opening line: on the Matching
+  tab, in the window listing the shared-conditions, in a shared-condition's definition shown on hover or expanded, and
+  in the MCP server's output (`CodeLayout.ForReading`). In the tree editor, where each condition is a line of its own
+  that can be selected, the first starts on the next line, at the same column (`CodeLayout.ForTheTreeEditor`):
+  `AnyOf(`, then `!Surface.In("本の"),` and the next under the column after its parenthesis. A comment comes three
+  spaces after its code, not in a column: Japanese is wider than a monospace cell.
 - **Negation is `!`, as in C#** (Magnus). It's shown in a color that stands out, since a `!` at the start of a line is
   easy to miss. With the empty token (below), a `!` means the same wherever it sits, so one form is enough: in front of
   what it negates.
@@ -1408,6 +1414,34 @@ shared-conditions window [and] the editor for a shared condition", together with
    collection's vocab through a `Lazy<VocabCollection>`, the first time a change needs them, since the collection is
    made after the shared-conditions and loads them before its notes. Magnus picked this of three options
    (2026-11-12): the others were to move the four operations to the vocab collection, or to keep the parameter.
+
+### Increment 6, step 3, then: the match-condition window, and code indented as code is
+
+Asked for by Magnus, 2026-11-12: "the condition editor is very small and almost instantly runs out of room so you cannot
+see what is going on when you add conditions to it", and, of the editor he wanted instead: "no editing in place at all
+I'd say. Just the expression rendering in the optimal form. To edit double click it and you get the editor window."
+
+1. **Code is indented as code is** (`CodeLayout`), as the section on how conditions display says: the first of what a
+   parenthesis opens on its line where the code is only read, on the next line in the tree editor. The tree indents
+   each line by the spaces it starts with, in characters of the code's monospace font
+   (`ConditionTreeLineViewModel.CodeColumn`), and the tree itself indents no level (the Fluent theme's
+   `TreeViewItemIndent`, 0 in the tree), so the expand arrows keep a column of their own at the left.
+2. **The Matching tab shows the match-condition read-only** (`ConditionCodeView`), laid out for reading. A double-click
+   on it, or Ctrl+M anywhere in the workspace, opens the vocab's **match-condition window** (`MatchConditionWindow`),
+   where it's edited in the tree editor as before. Ctrl+click on a shared-condition's name in the read-only code opens
+   its window, and hovering over a name, there or in a tree, shows its definition: the name's piece of code carries its
+   shared-condition (`CodePiece.SharedCondition`).
+3. **The window** is one per vocab, as a shared-condition's window is: opening it again brings it to the front. It opens
+   at 1400×1000 the first time, and then where and as large as it was last left, as every window opened through
+   `ShowWhereItWasLast` does, by its type: so the shared-condition windows already remembered their size. It shows the
+   match-condition as it is now whenever it's activated, as after a rule changed on the Matching tab, and closes when
+   the collection reloads or the vocab is gone. Each change reparses the vocab's sentences, then reloads the workspace's
+   pages of the vocab (`WorkspaceWindow.ShowTheSentencesReparsedFor`), as the tab's own reparse did; a shared-condition
+   window's reparse now does that too, for the vocab depending on it.
+
+**Not handled:** the window's reparse and the Matching tab's are separate, so a rule changed on the tab while the
+window's reparse reads the vocab, or the other way around, changes the vocab under it. A shared-condition's window has
+had the same since step 3. Step 4 removes the tab's rule editors, which leaves the Text tab's forms.
 
 ### Naming and design questions: `review:matching:` comments
 
