@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using JAStudio.Core.Batches;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -29,11 +31,13 @@ public class AnalysisTools
 
    readonly AnalysisServices _analysisServices;
    readonly JPCollection _collection;
+   readonly LocalNoteUpdater _localNoteUpdater;
 
-   public AnalysisTools(AnalysisServices analysisServices, JPCollection collection)
+   public AnalysisTools(AnalysisServices analysisServices, JPCollection collection, LocalNoteUpdater localNoteUpdater)
    {
       _analysisServices = analysisServices;
       _collection = collection;
+      _localNoteUpdater = localNoteUpdater;
    }
 
    [McpServerTool(Name = "analyze_sentence", ReadOnly = true, Idempotent = true)]
@@ -85,6 +89,38 @@ public class AnalysisTools
          var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
          var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
          return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
+      }
+   }
+
+   [McpServerTool(Name = "time_reparsing_the_sentences_of_a_vocab", Destructive = false, Idempotent = true)]
+   [Description("""
+                Times the reparse the vocab editor runs after each change to a vocab, for the vocab with the given id: it reparses the sentences
+                that may contain the vocab, and those it's matched in now, on the reanalysis threads, and updates the vocab's generated data
+                before and after. Reports how many sentences it reparsed, how long finding them took, how long the whole reparse took, and the
+                processor time it used and the machine's other processes used meanwhile. For telling how long editing a vocab keeps the editor
+                waiting, and why: run it on a vocab with few sentences and on one with many, right after a start and again. On a corpus that's
+                up to date it changes no note; a sentence or vocab it does change is saved, as the editor's reparse saves it. A call made while
+                another parse of the corpus runs, such as time_parsing_every_sentence, waits for it to finish.
+                """)]
+   public TimeToReparseTheSentencesOfAVocab TimeReparsingTheSentencesOfAVocab(
+      [Description("The id of the vocab note, as search_notes lists it.")] string vocabNoteId)
+   {
+      return OneParseOfTheWholeCorpusAtATime.Locked(TimeIt);
+
+      TimeToReparseTheSentencesOfAVocab TimeIt()
+      {
+         var vocab = _collection.Vocab.WithIdOrNone(NoteId.Parse(vocabNoteId)) ?? throw new ArgumentException($"No vocab note has the id {vocabNoteId}.", nameof(vocabNoteId));
+
+         var finding = Stopwatch.StartNew();
+         var sentences = _localNoteUpdater.SentencesToReparseAfterAChangeTo(vocab).Count;
+         var secondsFindingTheSentences = finding.Elapsed.TotalSeconds;
+
+         var processorTimeUsedSinceTheStart = ProcessorTimeUsed.MeasuringFromNow();
+         var reparsing = Stopwatch.StartNew();
+         _localNoteUpdater.ReparseSentencesForVocabWithoutProgressDialog(vocab);
+         var secondsTheReparseTook = reparsing.Elapsed.TotalSeconds;
+
+         return new TimeToReparseTheSentencesOfAVocab(vocab.Question.DisambiguationName, sentences, secondsFindingTheSentences, secondsTheReparseTook, processorTimeUsedSinceTheStart());
       }
    }
 

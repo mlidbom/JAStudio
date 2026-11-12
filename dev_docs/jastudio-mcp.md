@@ -242,6 +242,11 @@ the headless JAStudio.
   form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid match. It showed
   that 80% of the candidate words the analysis built were compounds that couldn't match anything, which it no longer
   builds (`dev_docs/parsing-speed.md`).
+- **The reparse after a vocab edit, built (2026-11-12):** `time_reparsing_the_sentences_of_a_vocab` runs, for one
+  vocab, the reparse the vocab editor runs after each change (`LocalNoteUpdater.ReparseSentencesForVocab`), and reports
+  how many sentences it reparsed, how long finding them took, how long the whole reparse took, and the processor time
+  used, the other processes' included. Run right after a start and again, it tells the warm-up from the work. It found
+  that finding a small vocab's sentences took longer than reparsing them (`dev_docs/parsing-speed.md`).
 - **What parsing allocates, built (2026-11-12):** `sample_what_analyzing_every_sentence_allocates` analyzes every
   sentence of the corpus while an `EventListener` in the process sums the runtime's allocation events,
   `GCAllocationTick`, by type: one about every 100 KB each heap allocates, with the type it was allocating. It reports
