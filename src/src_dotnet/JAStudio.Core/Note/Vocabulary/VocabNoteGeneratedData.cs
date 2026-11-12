@@ -10,7 +10,6 @@ public class VocabNoteGeneratedData
    public void UpdateGeneratedData(VocabNote vocab)
    {
       vocab.MetaData.SetSentenceCount(vocab.Sentences.All().Count);
-      vocab.RelatedNotes.PerfectSynonyms.PushAnswerToOtherSynonyms();
 
       var question = vocab.Question.WithoutNoiseCharacters.Trim();
       var readings = string.Join(",", vocab.GetReadings());

@@ -42,6 +42,19 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
       [XF] public void the_web_is_unchanged() => PerfectSynonymsOf(Teyoroshii).Must().SequenceEqual(["ていい", "んでいい"]);
    }
 
+   /// <summary>Emptying てよろしい's answer empties the whole web's, so てよろしい then shows its source's answer, which this sets.</summary>
+   public class emptying_the_answer_of_てよろしい_and_then_giving_it_a_source_answer : When_changing_a_vocabs_perfect_synonyms
+   {
+      public emptying_the_answer_of_てよろしい_and_then_giving_it_a_source_answer()
+      {
+         Teyoroshii.CorpusAnswer.Empty();
+         Teyoroshii.SourceData.Answer.Set("may, be allowed to");
+      }
+
+      [XF] public void ていい_and_んでいい_show_the_source_answer_of_てよろしい() =>
+         new[] { Teii.GetAnswer(), Ndeii.GetAnswer() }.Must().SequenceEqual(["may, be allowed to", "may, be allowed to"]);
+   }
+
    public class deleting_ていい : When_changing_a_vocabs_perfect_synonyms
    {
       public deleting_ていい() => GetService<JPCollection>().Delete(Teii, ItsAnkiNote.IsDeleted);
