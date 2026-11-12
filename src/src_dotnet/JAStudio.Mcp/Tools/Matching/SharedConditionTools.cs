@@ -51,15 +51,43 @@ public class SharedConditionTools
       string definition) =>
       Listed(_sharedConditions.DefineFrom(LevelOfTheSubjectNamed(subject), name, JsonObjectIn(definition)));
 
-   ListedSharedCondition Listed(ISharedCondition sharedCondition)
+   [McpServerTool(Name = "use_a_shared_condition_wherever_its_definition_is", Destructive = false)]
+   [Description("""
+                Uses a shared-condition by name wherever its definition is: in every vocab's match-condition, and in the definitions of the other
+                shared-conditions, saving each vocab and shared-condition it changes. Each condition that means the same as the definition is replaced
+                by the shared-condition, whatever the order of the conditions in its groups. When the definition is a group of two or more conditions,
+                such as AllOf(A, B), a group of the same kind that holds them among others has them replaced by it: AllOf(A, B, C) becomes
+                AllOf(Shared, C). What it changes means the same as before, so no vocab matches other words, or weighs other than it did: a full
+                rebuild after it changes nothing more. Reports the shared-condition as listed, and the vocab and shared-conditions it made use it.
+                """)]
+   public SharedConditionPutToUse UseASharedConditionWhereverItsDefinitionIs(
+      [Description("What it's about, as code names it in front of its name: Word, Token or Text.")]
+      string subject,
+      [Description("Its name, such as FollowsAPastTenseStem.")]
+      string name)
    {
-      return new ListedSharedCondition(sharedCondition.FullName, ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)), TheVocabUsingIt(), TheSharedConditionsUsingIt());
+      var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
+      var listedBefore = Listed(sharedCondition);
 
-      IReadOnlyList<string> TheVocabUsingIt() =>
-         [.. _collection.Vocab.All().Where(vocab => vocab.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).Select(it => it.GetQuestion()).Order(StringComparer.Ordinal)];
+      _sharedConditions.UseWhereverItsDefinitionIs(sharedCondition, _collection.Vocab.All());
 
-      IReadOnlyList<string> TheSharedConditionsUsingIt() => [.. _sharedConditions.All.Where(other => other.Definition.Uses(sharedCondition)).Select(it => it.FullName)];
+      return SharedConditionPutToUse.Between(before: listedBefore, after: Listed(sharedCondition));
    }
+
+   ListedSharedCondition Listed(ISharedCondition sharedCondition) =>
+      new(sharedCondition.FullName, ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)), TheVocabUsing(sharedCondition), TheSharedConditionsUsing(sharedCondition));
+
+   /// <summary>The questions of the vocab whose match-condition uses <paramref name="sharedCondition"/>, in ordinal order.</summary>
+   IReadOnlyList<string> TheVocabUsing(ISharedCondition sharedCondition) =>
+      [.. _collection.Vocab.All().Where(vocab => vocab.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).Select(it => it.GetQuestion()).Order(StringComparer.Ordinal)];
+
+   /// <summary>The full names of the shared-conditions whose definition uses <paramref name="sharedCondition"/>, as they're listed.</summary>
+   IReadOnlyList<string> TheSharedConditionsUsing(ISharedCondition sharedCondition) =>
+      [.. _sharedConditions.All.Where(other => other.Definition.Uses(sharedCondition)).Select(it => it.FullName)];
+
+   ISharedCondition SharedConditionNamed(IConditionLevel level, string name) =>
+      _sharedConditions.On(level).SingleOrDefault(it => it.Name == name)
+      ?? throw new ArgumentException($"There's no shared-condition {level.SubjectNameInCode}.{name}: there are {string.Join(", ", _sharedConditions.All.Select(it => it.FullName))}.");
 
    static IConditionLevel LevelOfTheSubjectNamed(string subject) =>
       SharedConditions.LevelOfTheSubjectNamed(subject)
