@@ -18,19 +18,16 @@ public class SentenceCollection
       Cache = new SentenceCache(noteServices);
    }
 
+   /// <summary>
+   /// The sentences that may contain <paramref name="vocab"/>: those whose question contains one of its forms or their stems<br/>
+   /// (<see cref="VocabNote.TextsASentenceItCanMatchInContainsOneOf"/>). A change to the vocab may change how they parse.
+   /// </summary>
    public List<SentenceNote> PotentiallyMatchingVocab(VocabNote vocab)
    {
       var searchStrings = vocab.TextsASentenceItCanMatchInContainsOneOf();
-      var questions = All().Select(it => it.GetQuestion()).ToList();
-      var matching = questions
-                    .Where(q => searchStrings.Any(s => q.Contains(s)))
-                    .Distinct()
-                    .ToList();
+      return [.. All().AsParallel().AsOrdered().Where(sentence => ContainsOneOf(sentence.GetQuestion()))];
 
-      return matching
-            .SelectMany(q => Cache.WithQuestion(q))
-            .Distinct()
-            .ToList();
+      bool ContainsOneOf(string question) => searchStrings.Any(question.Contains);
    }
 
    public List<SentenceNote> SentencesWithSubstring(string substring)

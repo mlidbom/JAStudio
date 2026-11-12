@@ -246,13 +246,20 @@ public class LocalNoteUpdater
       vocab.UpdateGeneratedData();
       using var scope = _taskRunner.Current("Reanalysing sentences for vocab");
 
-      var sentences = scope.RunIndeterminate(
-         "Fetching sentences to reparse",
-         () => _sentences.PotentiallyMatchingVocab(vocab).ToHashSet());
-
-      sentences.UnionWith(vocab.Sentences.All());
+      var sentences = scope.RunIndeterminate("Fetching sentences to reparse", () => SentencesToReparseAfterAChangeTo(vocab));
       ReparseSentences([.. sentences]);
       vocab.UpdateGeneratedData();
+   }
+
+   /// <summary>
+   /// The sentences whose parsing a change to <paramref name="vocab"/> may change, which <see cref="ReparseSentencesForVocab"/> reparses: those<br/>
+   /// that may contain it, by its forms, and those it's matched in now, which a changed form may lose.
+   /// </summary>
+   public HashSet<SentenceNote> SentencesToReparseAfterAChangeTo(VocabNote vocab)
+   {
+      var sentences = _sentences.PotentiallyMatchingVocab(vocab).ToHashSet();
+      sentences.UnionWith(vocab.Sentences.All());
+      return sentences;
    }
 
    /// <summary>

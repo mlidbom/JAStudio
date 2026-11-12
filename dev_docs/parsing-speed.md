@@ -173,6 +173,26 @@ processes used meanwhile, and the headless log has each step's time (`TaskLogEnt
 - **The headless JAStudio on a worktree reads the worktree's copy of `meta.json`,** which can be stale: one from May
   made it reparse on 4 threads. See the `review:` comment in the gateway's `HeadlessJAStudioSetup`.
 
+## The reparse after a vocab edit (2026-11-12)
+
+The vocab editor reparses after each change to a vocab: the sentences that may contain it, by its forms and their stems,
+and those it's matched in now (`LocalNoteUpdater.ReparseSentencesForVocab`). `time_reparsing_the_sentences_of_a_vocab`
+times it, warm, on 16 threads:
+
+| Vocab | Sentences | Finding them, before → after | The whole reparse, before → after |
+|---|---|---|---|
+| 瞬間 | 18 | 29 ms → 8 ms | 25-36 ms → 14 ms |
+| 食べる | 594 | 39-47 ms | 39 ms |
+| いる | 22,293 | 75 ms | 0.6 s, under load |
+| する | 20,574 | 73-83 ms → 21 ms | 0.84-1.1 s, under load |
+
+- **Finding a small vocab's sentences took longer than reparsing them:** `SentenceCollection.PotentiallyMatchingVocab`
+  searched every sentence's question on one thread, then looked each matching question up in the cache again, 20,574
+  times for する. Now it filters the sentences themselves, on every core, keeping their order.
+- **A vocab in 40% of the corpus costs half a full rebuild,** at about what a full rebuild costs a sentence: only
+  analyzing less would change that.
+- **The first reparse after a start takes about a quarter of a second more,** warming up.
+
 ## What limits parsing now (2026-11-12)
 
 Still the processor, and nothing big is left that a small change would remove. The sampling profile after step 5, of the
