@@ -74,7 +74,7 @@ public sealed class TextAnalysis
       }
 
       IndexingWordVariants = [.. Locations.SelectMany(location => location.IndexingVariants)];
-      DisplayWordVariants = [.. Locations.SelectMany(location => location.DisplayVariants)];
+      DisplayWordVariants = [.. Locations.Select(location => location.DisplayVariant).OfType<CandidateWordVariant>()];
       ValidMatches = [.. IndexingWordVariants.SelectMany(variant => variant.ValidMatches)];
       DisplayMatches = [.. DisplayWordVariants.SelectMany(variant => variant.DisplayMatches)];
    }

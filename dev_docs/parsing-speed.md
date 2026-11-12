@@ -134,6 +134,9 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
      pass: checking a match's requirements (now `Match.NoneFail`), telling whether a candidate word's display variants
      changed (now `SequenceEqual`), `WordExclusionSet.ExcludesAtIndex`, and `Where` followed by `ToList` on a list (now
      `FindAll`). Analyzing every sentence allocates 4,881 MB instead of 5,894.
+   - **A candidate word, and a location, has one display variant or none** (`CandidateWord.DisplayVariant`,
+     `TextAnalysisLocation.DisplayVariant`), as it always had, instead of a list made anew at every display pass
+     (Magnus: "if there can't be, by all means change it"). Analyzing every sentence allocates 4,621 MB.
 
    The display analysis's steps take half the time they did. A full rebuild changes no notes. Analyzing every sentence,
    measured in one sitting, with little other work on the machine:
@@ -181,8 +184,6 @@ analysis's 13.1 processor-seconds in two passes on 16 threads:
 - **Looking vocab up by form** (`NoteIndex.NotesWith` and `HasNotesWith`): about 1 s. Of it, 0.67 s is the concurrent
   dictionary's lookups, and 0.2 s copying each lookup's notes into a new list. Every note cache lookup returns a list;
   returning the published set itself would save the copy, at the cost of changing what every lookup returns.
-- **The candidate words' lists:** each candidate word holds three lists of variants, made when it's built, and its
-  display variants get a new list at every display pass, though a word displays one variant at most. With the analysis's
-  lists of matches, lists are about a fifth of what it allocates. A `CandidateWord` with one display variant, or none,
-  would say what's true and allocate less.
+- **The analysis's lists,** of matches above all, are about a sixth of what it allocates: each candidate word variant's
+  matches, valid matches and display matches, the last made anew at every display pass.
 - **The rest is the analysis's own logic,** spread over the matches' requirements and the display passes.

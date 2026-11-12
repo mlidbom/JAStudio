@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
@@ -17,7 +18,15 @@ public sealed class CandidateWord
 
    public List<CandidateWordVariant> IndexingVariants { get; private set; }
    public List<CandidateWordVariant> ValidVariants { get; private set; }
-   public List<CandidateWordVariant> DisplayVariants { get; private set; }
+
+   /// <summary>
+   /// The variant the word is displayed as, if any: its <see cref="SurfaceVariant"/> when that has matches to display, or else its <see cref="BaseVariant"/><br/>
+   /// when that has. Each display pass decides it anew (<see cref="RunDisplayAnalysisPassTrueIfThereWereChanges"/>).
+   /// </summary>
+   public CandidateWordVariant? DisplayVariant { get; private set; }
+
+   /// <summary>Whether the word is displayed: whether it has a <see cref="DisplayVariant"/>.</summary>
+   public bool IsDisplayed => DisplayVariant != null;
 
    public CandidateWord(List<TextAnalysisLocation> locations)
    {
@@ -32,7 +41,6 @@ public sealed class CandidateWord
 
       IndexingVariants = [];
       ValidVariants = [];
-      DisplayVariants = [];
    }
 
    public bool HasBaseVariantWithValidMatch => BaseVariant != null && BaseVariant.HasValidMatch;
@@ -78,18 +86,14 @@ public sealed class CandidateWord
       if(BaseVariant != null) BaseVariant.RunVisibilityAnalysis();
       SurfaceVariant.RunVisibilityAnalysis();
 
-      var oldDisplayWordVariants = DisplayVariants;
-      DisplayVariants = [];
+      var displayVariantBefore = DisplayVariant;
+      DisplayVariant = TheVariantToDisplay();
+      return DisplayVariant != displayVariantBefore;
 
-      if(SurfaceVariant.DisplayMatches.Any())
-      {
-         DisplayVariants.Add(SurfaceVariant);
-      } else if(BaseVariant != null && BaseVariant.DisplayMatches.Any())
-      {
-         DisplayVariants.Add(BaseVariant);
-      }
-
-      return !DisplayVariants.SequenceEqual(oldDisplayWordVariants);
+      CandidateWordVariant? TheVariantToDisplay() =>
+         SurfaceVariant.DisplayMatches.Any() ? SurfaceVariant
+         : BaseVariant != null && BaseVariant.DisplayMatches.Any() ? BaseVariant
+         : null;
    }
 
    public bool HasValidWords() => ValidVariants.Count > 0;
@@ -125,7 +129,7 @@ public sealed class CandidateWord
          var startLocation = StartLocation;
          if(startLocation.IsShadowedBy.Any())
          {
-            var shadowedBy = startLocation.IsShadowedBy[0].DisplayVariants[0];
+            var shadowedBy = startLocation.IsShadowedBy[0].DisplayVariant ?? throw new InvalidOperationException("A location shadows others only while it displays a variant.");
             // special exception to allow dictionary form endings to be displayed in spite of starting at the same token as the end of the compound including the dictionary ending. This logic is mirrored in ForbidsHasDisplayedOverlappingFollowingCompound
             if(!(startLocation.Token.IsDictionaryVerbInflection && shadowedBy.Word.EndLocation.TokenIndex == startLocation.TokenIndex))
             {
@@ -133,10 +137,9 @@ public sealed class CandidateWord
             }
          }
 
-         if(startLocation.DisplayVariants.Any() &&
-            startLocation.DisplayVariants[0].Word.LocationCount > LocationCount)
+         if(startLocation.DisplayVariant is {} displayedAtTheStart && displayedAtTheStart.Word.LocationCount > LocationCount)
          {
-            return startLocation.DisplayVariants[0].Form;
+            return displayedAtTheStart.Form;
          }
 
          return "";
