@@ -38,6 +38,9 @@ public interface ISharedCondition
    /// <summary>Gives it <paramref name="definition"/>, a condition on its subject, in place of its definition: what it means changes.</summary>
    internal void Redefine(Condition definition);
 
+   /// <summary>Gives it <paramref name="name"/> in place of its name: every tree using it then uses it by that name, since they all hold it.</summary>
+   internal void Rename(string name);
+
    /// <summary>
    /// Whether its definition uses <paramref name="other"/>, directly or through the definitions of the shared-conditions it uses: whether what it means<br/>
    /// depends on what <paramref name="other"/> means.

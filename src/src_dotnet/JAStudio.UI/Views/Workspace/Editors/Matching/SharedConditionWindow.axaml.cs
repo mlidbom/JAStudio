@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -30,7 +33,9 @@ partial class SharedConditionWindow : Window
 
    SharedConditionWindow(ISharedCondition sharedCondition, TemporaryServiceCollection services)
    {
-      DataContext = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services));
+      var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services));
+      viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel));
+      DataContext = viewModel;
       InitializeComponent();
 
       var uiThread = services.Resolve<IUIThreadDispatcher>();
@@ -40,6 +45,12 @@ partial class SharedConditionWindow : Window
          closingOnTheNextReload.Dispose();
          OpenWindows.Remove(sharedCondition);
       };
+   }
+
+   async Task RenameAsync(SharedConditionWindowViewModel viewModel)
+   {
+      if(await SharedConditionRenameDialog.ShowAsync(this, viewModel.RenameDialog(), Position + new PixelPoint(40, 40)) is {} newName)
+         viewModel.RenameTo(newName);
    }
 
    /// <summary>Opens <paramref name="sharedCondition"/>'s window where it was last, or brings it to the front when it's open already, and returns it.</summary>

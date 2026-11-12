@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.TaskRunners;
@@ -37,6 +38,9 @@ partial class ConditionTreeEditorViewModel : ObservableObject
    readonly Action _changeMade;
    readonly Action<ISharedCondition> _openTheDefinitionOf;
    readonly EditableCondition _tree;
+
+   /// <summary>The code of the tree as the <see cref="Lines"/> show it: when a shared-condition it uses is renamed, the code changes though the tree doesn't.</summary>
+   string _shownCode = "";
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while a condition's dialog is open.</param>
    /// <param name="edited">The condition edited, and where each change is stored.</param>
@@ -80,14 +84,14 @@ partial class ConditionTreeEditorViewModel : ObservableObject
 
    /// <summary>
    /// Shows the condition as it's stored now, when something else may have changed it, such as a rule edited rule by rule on the same tab: a change<br/>
-   /// like the tree editor's own, which undo takes back.
+   /// like the tree editor's own, which undo takes back. And shows it anew when only its code changed, as when a shared-condition it uses was renamed.
    /// </summary>
    public void Refresh()
    {
-      if(_edited.Stored == _tree.Current) return;
-
       var selected = Selected.Position;
-      _tree.ChangedElsewhere(_edited.Stored);
+      if(_edited.Stored != _tree.Current) _tree.ChangedElsewhere(_edited.Stored);
+      else if(CodeOfTheTree() == _shownCode) return;
+
       ShowTheTree(selected);
    }
 
@@ -279,9 +283,12 @@ partial class ConditionTreeEditorViewModel : ObservableObject
 
    void ShowTheTree(ConditionPosition positionToSelect)
    {
+      _shownCode = CodeOfTheTree();
       Lines = [ConditionTreeLineViewModel.RootOf(_tree, _edited)];
       SelectedLine = Root.ThisAndAllBelow().FirstOrDefault(it => it.IsAt(positionToSelect)) ?? Root;
    }
+
+   string CodeOfTheTree() => ConditionCode.AsText(_edited.LinesOf(_tree.Current));
 
    /// <summary>The removed line's next sibling, which now has its position, or else its previous sibling, or else its group.</summary>
    ConditionPosition PositionToSelectAfterRemoving(ConditionPosition removed)

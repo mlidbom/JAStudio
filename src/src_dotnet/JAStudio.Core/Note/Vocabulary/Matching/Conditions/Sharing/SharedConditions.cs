@@ -143,6 +143,31 @@ public sealed class SharedConditions
    public void RedefineFrom(ISharedCondition sharedCondition, JsonObject definition) => Redefine(sharedCondition, sharedCondition.Level.ConditionFrom(definition, this));
 
    /// <summary>
+   /// Renames <paramref name="sharedCondition"/>, one of these, <paramref name="newName"/>, with its file, and saves each definition and each match-condition of<br/>
+   /// <paramref name="vocab"/> that uses it, since the corpus stores the shared-conditions they use by name. What each means is unchanged.
+   /// </summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <paramref name="newName"/> can't name it (<see cref="WhyItCannotNameANewOne"/>).</exception>
+   public void Rename(ISharedCondition sharedCondition, string newName, IEnumerable<VocabNote> vocab)
+   {
+      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      var whyItCannotBeNamedSo = WhyItCannotNameANewOne(sharedCondition.Level, newName);
+      Contract.Argument.Assert(whyItCannotBeNamedSo is null, () => $"{whyItCannotBeNamedSo}");
+
+      var definitionsUsingIt = All.Where(it => it.Definition.Uses(sharedCondition)).ToList();
+      var vocabUsingIt = vocab.Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).ToList();
+      _monitor.Locked(() =>
+      {
+         _byLevelAndName.Remove(KeyOf(sharedCondition));
+         _folder.Delete(sharedCondition);
+         sharedCondition.Rename(newName);
+         _byLevelAndName.Add(KeyOf(sharedCondition), sharedCondition);
+         _folder.Save(sharedCondition);
+         definitionsUsingIt.ForEach(_folder.Save);
+      });
+      vocabUsingIt.ForEach(it => it.MatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed());
+   }
+
+   /// <summary>
    /// Uses <paramref name="sharedCondition"/>, one of these, by name wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>): in the<br/>
    /// match-condition of each of <paramref name="vocab"/>, saving each vocab that changes, and in the definitions of the other shared-conditions,<br/>
    /// saving each that changes in its file.

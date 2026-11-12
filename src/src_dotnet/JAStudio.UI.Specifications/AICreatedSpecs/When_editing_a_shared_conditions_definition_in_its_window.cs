@@ -7,9 +7,11 @@ using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
+using JAStudio.UI.ViewModels.Workspace.Editors;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
 
@@ -26,6 +28,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 {
    readonly SharedCondition<IAnalysisToken> _isAVerb;
    readonly SharedCondition<CandidateWordVariant> _followsAVerb;
+   readonly VocabNote _ます;
    readonly List<string> _definitionsOpened = [];
 
    protected When_editing_a_shared_conditions_definition_in_its_window()
@@ -33,7 +36,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
       var sharedConditions = GetService<SharedConditions>();
       _isAVerb = sharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
       _followsAVerb = sharedConditions.Define(Level, "FollowsAVerb", PrecedingToken.Meets(_isAVerb));
-      CreateVocab("ます", "polite ending", "ます").MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb));
+      _ます = CreateVocab("ます", "polite ending", "ます");
+      _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb));
    }
 
    private protected SharedConditionWindowViewModel WindowOf(ISharedCondition sharedCondition) =>
@@ -98,6 +102,35 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 
             [XF] public void the_definition_is_as_before() => _followsAVerb.Definition.ToString().Must().Be("PrecedingToken.IsAVerb");
          }
+      }
+   }
+
+   public class the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab : When_editing_a_shared_conditions_definition_in_its_window
+   {
+      readonly SharedConditionWindowViewModel _window;
+      readonly VocabEditorSectionViewModel _ますsEditor;
+
+      public the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab()
+      {
+         _ますsEditor = Edit<VocabEditorSectionViewModel>(_ます);
+         _window = WindowOf(_followsAVerb);
+      }
+
+      [XF] public void its_rename_dialog_starts_with_its_name_which_it_cannot_be_renamed() =>
+         _window.RenameDialog().Must().Satisfy(it => it.TypedName == "FollowsAVerb" && it.WhyItCannotBeRenamed == "That's its name now.");
+
+      public class after_renaming_it_FollowsAVerbOfEitherKind : the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab
+      {
+         public after_renaming_it_FollowsAVerbOfEitherKind() => _window.RenameTo("FollowsAVerbOfEitherKind");
+
+         [XF] public void the_window_is_titled_by_the_new_name() => _window.Title.Must().Be("Word.FollowsAVerbOfEitherKind - shared-condition");
+
+         [XF] public void the_heading_of_the_definition_has_the_new_name() =>
+            LinesOf(_window)[0].Must().Be("// A word meets Word.FollowsAVerbOfEitherKind when each of these holds:");
+
+         [XF] public void the_vocabs_tree_on_its_Matching_tab_shows_it_by_the_new_name() =>
+            _ますsEditor.MatchingConfig.MatchConditionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)
+                       .Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "FollowsAVerbOfEitherKind"]);
       }
    }
 

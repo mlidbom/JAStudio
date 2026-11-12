@@ -15,8 +15,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 /// condition on that subject goes: one on a token under any token, as <c>PrecedingToken.IsAdverbLike</c>. The corpus's are <see cref="SharedConditions"/>.
 /// </summary>
 /// <remarks>
-/// Every match-condition that uses it holds this same object, so a word is tested against its definition as it is now. Two are equal when their<br/>
-/// names are, since a name is defined once on each kind of subject. Its definition may use other shared-conditions, but never itself, directly or<br/>
+/// Every match-condition that uses it holds this same object, so a word is tested against its definition as it is now, and a rename reaches every one.<br/>
+/// Two are equal when their names are, since a name is defined once on each kind of subject. Its definition may use other shared-conditions, but never itself, directly or<br/>
 /// through others.
 /// </remarks>
 public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCondition where TSubject : class
@@ -30,7 +30,7 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
       Level = level;
    }
 
-   public string Name { get; }
+   public string Name { get; private set; }
 
    public string FullName => $"{Level.SubjectNameInCode}.{Name}";
 
@@ -60,6 +60,8 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
    Condition ISharedCondition.DefinitionAsAnAllOf => ConditionGroup.AsAnAllOf(Definition);
 
    void ISharedCondition.Redefine(Condition definition) => Define(definition.AsAConditionOn<TSubject>());
+
+   void ISharedCondition.Rename(string name) => Name = name;
 
    bool ISharedCondition.IsDefinedThrough(ISharedCondition other)
    {

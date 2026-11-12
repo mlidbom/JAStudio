@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -42,6 +43,23 @@ partial class SharedConditionWindowViewModel : ObservableObject
 
    /// <summary>The window's title: the shared-condition's full name, such as <c>Word.FollowsAPastTenseStem</c>.</summary>
    public string Title => $"{SharedCondition.FullName} - shared-condition";
+
+   /// <summary>Opens the dialog that renames the shared-condition, and renames it the name it closes with. Set by the <see cref="SharedConditionWindow"/>.</summary>
+   public IRelayCommand? RenameCommand { get; set; }
+
+   /// <summary>The dialog that renames the shared-condition.</summary>
+   internal SharedConditionRenameDialogViewModel RenameDialog() => new(SharedCondition, _services.NoteServices.SharedConditions);
+
+   /// <summary>
+   /// Renames the shared-condition <paramref name="newName"/> (<see cref="SharedConditions.Rename"/>): every vocab and definition using it then uses it by<br/>
+   /// that name. The window shows it.
+   /// </summary>
+   internal void RenameTo(string newName)
+   {
+      _services.NoteServices.SharedConditions.Rename(SharedCondition, newName, _services.CoreApp.Collection.Vocab.All());
+      OnPropertyChanged(nameof(Title));
+      Definition.Refresh();
+   }
 
    /// <summary>The shared-condition's definition, edited in the tree editor.</summary>
    public ConditionTreeEditorViewModel Definition { get; }

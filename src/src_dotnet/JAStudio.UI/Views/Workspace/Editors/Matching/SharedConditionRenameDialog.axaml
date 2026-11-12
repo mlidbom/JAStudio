@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.SharedConditionRenameDialog"
+        x:DataType="matching:SharedConditionRenameDialogViewModel"
+        Title="{Binding Title}"
+        SizeToContent="Height"
+        Width="560"
+        CanResize="False"
+        ShowInTaskbar="False">
+
+    <StackPanel Margin="10" Spacing="8">
+        <TextBlock Text="Its new name:" />
+        <Grid ColumnDefinitions="Auto,*">
+            <TextBlock Grid.Column="0" Text="{Binding SubjectInFront}" FontFamily="{StaticResource CodeFont}" VerticalAlignment="Center" Margin="0,0,2,0" />
+            <TextBox Grid.Column="1" Classes="initialFocus" Text="{Binding TypedName}" FontFamily="{StaticResource CodeFont}" />
+        </Grid>
+
+        <TextBlock Text="{Binding WhyItCannotBeRenamed}" TextWrapping="Wrap" Foreground="Gray"
+                   IsVisible="{Binding WhyItCannotBeRenamed, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        <TextBlock Text="{Binding WhatItDoes}" TextWrapping="Wrap" Opacity="0.7" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button Content="Rename" IsDefault="True" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanRename}" />
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

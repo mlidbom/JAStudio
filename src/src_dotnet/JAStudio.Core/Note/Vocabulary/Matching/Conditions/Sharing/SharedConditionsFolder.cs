@@ -29,6 +29,9 @@ sealed class SharedConditionsFolder
    internal IReadOnlyList<StoredSharedCondition> ReadEveryFile() =>
       Directory.Exists(_path) ? [.. Directory.EnumerateFiles(_path, "*.json").Order(StringComparer.Ordinal).Select(Read)] : [];
 
+   /// <summary>Deletes the file that keeps <paramref name="sharedCondition"/>, as it's named now: before a rename, since the file is named by its full name.</summary>
+   internal void Delete(ISharedCondition sharedCondition) => File.Delete(Path.Combine(_path, FileNameOf(sharedCondition)));
+
    /// <summary>Saves <paramref name="sharedCondition"/> in its file, making the folder when there's none yet.</summary>
    internal void Save(ISharedCondition sharedCondition)
    {

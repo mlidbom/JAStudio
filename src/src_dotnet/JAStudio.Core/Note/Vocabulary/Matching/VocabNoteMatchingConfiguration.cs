@@ -47,6 +47,12 @@ public class VocabNoteMatchingConfiguration
    public void SetMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) => _guard.Update(() => MatchCondition = matchCondition);
 
    /// <summary>
+   /// Saves the vocab after a shared-condition its <see cref="MatchCondition"/> uses was renamed (<see cref="SharedConditions.Rename"/>): the match-condition<br/>
+   /// holds the shared-condition itself, so it's unchanged, but the corpus stores it by the shared-condition's name.
+   /// </summary>
+   internal void SaveAfterASharedConditionItUsesWasRenamed() => SetMatchCondition(MatchCondition);
+
+   /// <summary>
    /// Uses <paramref name="sharedCondition"/> by name in the <see cref="MatchCondition"/> wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>),<br/>
    /// and saves the vocab when that changes it. It then means the same, so the vocab matches the same words, and weighs the same.
    /// </summary>
