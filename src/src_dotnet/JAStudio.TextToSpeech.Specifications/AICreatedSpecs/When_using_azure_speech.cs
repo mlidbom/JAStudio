@@ -53,7 +53,7 @@ public class When_using_azure_speech : IAIGeneratedSpec
          _voices.Select(it => it.ShortName).Must().SequenceEqual(["DaichiNeural", "Nanami:DragonHDLatestNeural", "Daichi:DragonHDOmniLatestNeural"]);
       [XF] public void a_voice_has_the_gender_azure_gives_it_or_its_standard_version() =>
          _voices.Select(it => it.Gender).Must().SequenceEqual([TextToSpeechVoiceGender.Male, TextToSpeechVoiceGender.Female, TextToSpeechVoiceGender.Male]);
-      [XF] public void a_voice_belongs_to_azure() => _voices.All(it => ReferenceEquals(it.Provider, _azure)).Must().BeTrue(); //todo:compze: not Satisfy on the voices: Must's failure message would serialize their providers, services and all, and can crash the test process doing so. Satisfy on the voices once it can't
+      [XF] public void a_voice_belongs_to_azure() => _voices.Select(it => new { it.Name, BelongsToAzure = ReferenceEquals(it.Provider, _azure) }).Must().Satisfy(voices => voices.All(it => it.BelongsToAzure));
    }
 
    public class speaking_a_text_holding_characters_that_are_markup_in_ssml : When_using_azure_speech

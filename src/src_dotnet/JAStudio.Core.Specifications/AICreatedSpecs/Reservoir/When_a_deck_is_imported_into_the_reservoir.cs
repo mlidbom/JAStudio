@@ -47,18 +47,18 @@ public class When_a_deck_is_imported_into_the_reservoir : IAIGeneratedSpec, IDis
    [XF] public void the_collection_database_is_stored_as_the_package_has_it() => Path.Combine(_deckFolder.FullName, "collection.anki2").Must().Satisfy(File.Exists);
 
    [XF] public void the_companion_file_maps_the_note_types_fields() =>
-      Json("text", "decks", "show", "deck.json").GetProperty("noteTypes")[0].GetProperty("japaneseField").Text().Must().Be("Expression");
+      Json("text", "decks", "show", "deck.json").GetProperty("noteTypes")[0].GetProperty("japaneseField").GetString().Must().Be("Expression");
 
    [XF] public void every_note_is_a_line_with_its_fields_as_they_are() =>
-      NoteLines().Select(it => it.GetProperty("fields").GetProperty("Expression").Text()).Must().SequenceEqual(["（夏目）友人帳を 寄越せ", "いやだ、渡さない"]);
+      NoteLines().Select(it => it.GetProperty("fields").GetProperty("Expression").GetString()).Must().SequenceEqual(new string?[] { "（夏目）友人帳を 寄越せ", "いやだ、渡さない" }); //todo:compze: SequenceEqual infers its element type from the expected values, so string ones make a subject of string? elements break its constraint (CS8631). Infer it from the subject; then the expected values need no string?
 
-   [XF] public void a_notes_line_gives_its_sentence_cleaned() => NoteLines()[0].GetProperty("sourceData").GetProperty("question").Text().Must().Be("友人帳を 寄越せ");
+   [XF] public void a_notes_line_gives_its_sentence_cleaned() => NoteLines()[0].GetProperty("sourceData").GetProperty("question").GetString().Must().Be("友人帳を 寄越せ");
 
    [XF] public void a_media_reference_has_the_hash_its_file_is_stored_under() =>
-      NoteLines()[0].GetProperty("sourceData").GetProperty("screenshots")[0].GetProperty("hash").Text().Must().Be(Sha256Of(AScreenshot));
+      NoteLines()[0].GetProperty("sourceData").GetProperty("screenshots")[0].GetProperty("hash").GetString().Must().Be(Sha256Of(AScreenshot));
 
    [XF] public void a_reference_to_a_file_the_package_lacks_has_no_hash() =>
-      NoteLines()[0].GetProperty("sourceData").GetProperty("audio")[0].TryGetProperty("hash", out _).Must().BeFalse(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+      NoteLines()[0].GetProperty("sourceData").GetProperty("audio")[0].Must().Satisfy(audio => !audio.TryGetProperty("hash", out _));
 
    [XF] public void the_same_content_under_two_names_is_stored_once() => $"{_imported.Media.Files.Count} files, {_imported.Media.FilesNewToTheStore} new".Must().Be("3 files, 2 new");
 

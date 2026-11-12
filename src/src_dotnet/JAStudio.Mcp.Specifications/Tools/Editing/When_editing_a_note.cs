@@ -53,9 +53,9 @@ public class When_editing_a_note : McpServerSpecification
 
       [XF] public void the_edit_names_the_vocab() => _edit.Note.Must().Be("行った");
       [XF] public void the_edit_reports_each_field_that_changed_in_the_order_of_the_vocabs_fields() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.rules.surface", "matching.condition"]);
-      [XF] public void the_edit_reports_the_readings_before() => JsonNode.DeepEquals(_edit.Changes[0].Before, new JsonArray("いいた")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
-      [XF] public void the_edit_reports_the_readings_after() => JsonNode.DeepEquals(_edit.Changes[0].After, new JsonArray("いった", "おこなった")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
-      [XF] public void the_edit_reports_the_surface_rule_before_as_unset() => JsonNode.DeepEquals(_edit.Changes[2].Before, JsonValue.Create("unset")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+      [XF] public void the_edit_reports_the_readings_before() => _edit.Changes[0].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("いいた")));
+      [XF] public void the_edit_reports_the_readings_after() => _edit.Changes[0].After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("いった", "おこなった")));
+      [XF] public void the_edit_reports_the_surface_rule_before_as_unset() => _edit.Changes[2].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("unset")));
       [XF] public void the_vocab_has_the_readings() => Vocab.GetReadings().Must().SequenceEqual(["いった", "おこなった"]);
       [XF] public void the_vocab_has_the_answer() => Vocab.CorpusAnswer.Value.Must().Be("went/left");
       [XF] public void the_vocab_requires_the_surface() => Vocab.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Surface).Must().Be(RequireForbidChoice.Required);
@@ -127,7 +127,7 @@ public class When_editing_a_note : McpServerSpecification
 
       public of_a_sentence_writing_its_answer() => _edit = ResultOf<NoteEdit>(Edit(Sentence, new JsonObject { ["corpusAnswer"] = "I went to meet them." }));
 
-      [XF] public void the_edit_reports_the_answer_before_as_empty() => JsonNode.DeepEquals(_edit.Changes.Single().Before, JsonValue.Create("")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+      [XF] public void the_edit_reports_the_answer_before_as_empty() => _edit.Changes.Single().Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("")));
       [XF] public void the_sentence_has_the_answer() => Sentence.CorpusAnswer.Value.Must().Be("I went to meet them.");
    }
 
@@ -147,7 +147,7 @@ public class When_editing_a_note : McpServerSpecification
       [XF] public void the_synonym_has_the_vocab_as_its_synonym_too_as_when_a_person_adds_it() => _synonym.RelatedNotes.Synonyms.Words.Must().SequenceEqual([new WordReference("行った")]);
 
       [XF] public void the_edit_reports_the_synonyms_after_as_word_references_with_an_empty_disambiguation() =>
-         JsonNode.DeepEquals(_edit.Changes.Single().After, new JsonArray(new JsonObject { ["text"] = "行く", ["disambiguation"] = "" })).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+         _edit.Changes.Single().After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray(new JsonObject { ["text"] = "行く", ["disambiguation"] = "" })));
    }
 
    /// <summary>Another vocab, 往った, with the answer "gone".</summary>
@@ -180,7 +180,7 @@ public class When_editing_a_note : McpServerSpecification
       [XF] public void the_sentence_matched_the_vocab_before() => _theSentencesParsedWordsBefore.Must().Satisfy(words => words.Any(it => it.VocabId == Vocab.GetId()));
       [XF] public void the_sentence_is_reparsed_and_no_longer_matches_the_vocab() => TheSentencesParsedWords().Must().Satisfy(words => !words.Any(it => it.VocabId == Vocab.GetId()));
       [XF] public void the_edit_reports_the_incorrect_match_wherever_it_is_as_at_the_index_minus_one() =>
-         JsonNode.DeepEquals(_edit.Changes.Single().After, new JsonArray(new JsonObject { ["word"] = "行った", ["index"] = -1 })).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+         _edit.Changes.Single().After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray(new JsonObject { ["word"] = "行った", ["index"] = -1 })));
    }
 
    public class of_a_vocab_with_a_part_of_speech_JAStudio_does_not_know : When_editing_a_note

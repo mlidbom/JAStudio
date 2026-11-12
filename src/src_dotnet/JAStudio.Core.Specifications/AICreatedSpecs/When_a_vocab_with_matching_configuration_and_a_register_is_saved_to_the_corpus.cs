@@ -52,7 +52,7 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to
       Matching.GetProperty("requiredOrForbidden").EnumerateObject().Select(it => $"{it.Name}: {it.Value}").Must().SequenceEqual(["dictionaryFormStart: forbidden"]);
 
    [XF] public void the_corpus_json_stores_the_names_of_the_matching_flags_that_are_set() => Matching.GetProperty("flags").EnumerateArray().Select(it => it.ToString()).Must().SequenceEqual(["isInflectingWord"]);
-   [XF] public void the_corpus_json_stores_no_rules_in_the_format_from_before_match_conditions() => Matching.TryGetProperty("rules", out _).Must().BeFalse(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+   [XF] public void the_corpus_json_stores_no_rules_in_the_format_from_before_match_conditions() => Matching.Must().Satisfy(it => !it.TryGetProperty("rules", out _));
    [XF] public void the_corpus_json_stores_the_names_of_the_registers() => _json.GetProperty("register").EnumerateArray().Select(it => it.ToString()).Must().SequenceEqual(["humble"]);
    [XF] public void the_corpus_json_stores_no_tags() => _json.GetProperty("tags").EnumerateArray().Must().BeEmpty();
 

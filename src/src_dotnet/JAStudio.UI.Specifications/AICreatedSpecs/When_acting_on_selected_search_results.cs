@@ -60,6 +60,10 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
 
    List<SentenceSearchResultViewModel> FoundSentences() => [.._search.Results.Sentences.Results];
 
+   /// <summary>Each row before acting, by its sentence, and whether it told the grid to read its values again: data a failure message shows.</summary>
+   List<(string Sentence, bool ToldTheGrid)> RowsAndWhetherTheyToldTheGridToReadTheirValuesAgain() =>
+      [.. _rowsBeforeActing.Select(it => (it.Note.GetQuestion(), _rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey(it)))];
+
    /// <remarks>
    /// The specifications have no UI thread, so a search's end runs on a thread of its own, at the same time as the next change.<br/>
    /// Each change waits for its search, as a person would, or an earlier search could replace the rows of a later one.
@@ -111,7 +115,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
       [XF] public void the_rows_tags_column_shows_it() =>
          FoundSentences().Select(it => it.Tags.Text).Must().SequenceEqual([$"{NewTag} source::anime", $"{NewTag} source::anime"]);
       [XF] public void the_dialog_said_it_adds_a_tag_to_2_notes() => DialogShown.Title.Must().Be("Add a tag to 2 notes");
-      [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue(); //todo:compze: not Satisfy on the rows: Must's failure message serializes them, notes and all, which crashes the test process. Satisfy on the rows once it doesn't
+      [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => RowsAndWhetherTheyToldTheGridToReadTheirValuesAgain().Must().Satisfy(rows => rows.All(it => it.ToldTheGrid));
 
       public class and_removing_it_again_through_the_menu : after_adding_a_new_tag_through_the_menu
       {
@@ -153,7 +157,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
          }
 
          [XF] public void both_sentences_are_studying_reading() => _rowsBeforeActing.Select(it => it.Note.IsStudyingRead()).Must().SequenceEqual([true, true]);
-         [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue(); //todo:compze: not Satisfy on the rows: Must's failure message serializes them, notes and all, which crashes the test process. Satisfy on the rows once it doesn't
+         [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => RowsAndWhetherTheyToldTheGridToReadTheirValuesAgain().Must().Satisfy(rows => rows.All(it => it.ToldTheGrid));
          [XF] public void the_results_still_show_the_same_rows_although_the_search_would_no_longer_find_them() => TheSameRows(FoundSentences(), _rowsBeforeActing).Must().BeTrue();
          [XF] public void the_rows_show_both_sentences_as_studying_reading() => FoundSentences().Select(it => it.IsStudyingReading).Must().SequenceEqual([true, true]);
 

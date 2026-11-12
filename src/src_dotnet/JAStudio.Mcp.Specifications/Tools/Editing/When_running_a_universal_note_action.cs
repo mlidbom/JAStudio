@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Editing;
@@ -22,7 +23,8 @@ public class When_running_a_universal_note_action : McpServerSpecification
 
    protected CallToolResult Delete(string? ankiNote) => CallTool("delete_a_note", new Dictionary<string, object?> { ["noteId"] = Vocab.GetId().ToString(), ["ankiNote"] = ankiNote });
 
-   protected bool TheVocabIsInTheCollection() => GetService<JPCollection>().Vocab.WithIdOrNone(Vocab.GetId()) != null; //todo:compze: assert on the lookup itself once Must's failure message can serialize a note without crashing the test process
+   /// <summary>The id of the vocab the collection holds by <see cref="Vocab"/>'s id, or null when it holds none: data a failure message shows.</summary>
+   protected NoteId? TheIdOfTheVocabTheCollectionHolds() => GetService<JPCollection>().Vocab.WithIdOrNone(Vocab.GetId())?.GetId();
 
    public class deleting_the_vocab_which_has_an_Anki_note
    {
@@ -34,14 +36,14 @@ public class When_running_a_universal_note_action : McpServerSpecification
 
          [XF] public void the_vocab_had_an_Anki_note() => Vocab.HasAnAnkiNote().Must().BeTrue();
          [XF] public void the_vocab_deleted_is_reported() => _deleted.Question.Must().Be("勉強");
-         [XF] public void the_vocab_is_no_longer_in_the_collection() => TheVocabIsInTheCollection().Must().BeFalse();
+         [XF] public void the_vocab_is_no_longer_in_the_collection() => TheIdOfTheVocabTheCollectionHolds().Must().BeNull();
       }
 
       public class deleting_its_Anki_note_too : When_running_a_universal_note_action
       {
          public deleting_its_Anki_note_too() => ResultOf<NoteSummary>(Delete("delete"));
 
-         [XF] public void the_vocab_is_no_longer_in_the_collection() => TheVocabIsInTheCollection().Must().BeFalse();
+         [XF] public void the_vocab_is_no_longer_in_the_collection() => TheIdOfTheVocabTheCollectionHolds().Must().BeNull();
       }
 
       public class without_saying_what_to_do_with_its_Anki_note : When_running_a_universal_note_action
@@ -52,7 +54,7 @@ public class When_running_a_universal_note_action : McpServerSpecification
 
          [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
          [XF] public void the_error_asks_whether_to_keep_or_delete_the_Anki_note() => TextOf(_result).Must().Contain("has an Anki note, which holds its cards and their review history. Say what to do with it");
-         [XF] public void the_vocab_is_still_in_the_collection() => TheVocabIsInTheCollection().Must().BeTrue();
+         [XF] public void the_vocab_is_still_in_the_collection() => TheIdOfTheVocabTheCollectionHolds().Must().NotBeNull();
       }
    }
 
