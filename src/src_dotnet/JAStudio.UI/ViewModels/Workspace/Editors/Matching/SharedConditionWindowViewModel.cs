@@ -42,7 +42,7 @@ partial class SharedConditionWindowViewModel : ObservableObject, IEditorWindowVi
       _showInTheWorkspace = showInTheWorkspace;
       SharedCondition = sharedCondition;
       _vocabDependingOnIt = TheVocabDependingOnIt();
-      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => sentencesReparsedFor(VocabDependingOnIt));
+      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsedFor);
       SentencesReparser.PropertyChanged += (_, changed) =>
       {
          if(changed.PropertyName != nameof(SentencesReparser.IsReparsingSentences)) return;

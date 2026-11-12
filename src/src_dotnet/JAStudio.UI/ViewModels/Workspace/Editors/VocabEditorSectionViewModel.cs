@@ -35,7 +35,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
       _services = services;
       _vocabId = vocabId;
       var fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
-      SentencesReparser = new VocabSentencesReparserViewModel(services, () => [CurrentVocab()], sentencesReparsed);
+      SentencesReparser = new VocabSentencesReparserViewModel(services, () => [CurrentVocab()], _ => sentencesReparsed());
       Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser, () => TextToSpeechDialog.OpenFor(CurrentVocab(), services), services.Resolve<MediaFileIndex>());
       MatchingConfig = new VocabMatchingConfigEditorViewModel(fatalErrorHandler,
                                                               CurrentVocab,

@@ -28,19 +28,22 @@ partial class VocabSentencesReparserViewModel : ObservableObject
    readonly TemporaryServiceCollection _services;
    readonly IUIThreadDispatcher _uiThread;
    readonly Func<IReadOnlyCollection<VocabNote>> _vocab;
-   readonly Action _sentencesReparsed;
+   readonly Action<IReadOnlyCollection<VocabNote>> _sentencesReparsedFor;
 
    /// <param name="services">The application's services.</param>
    /// <param name="vocab">Finds the vocab whose sentences to reparse, as the collection holds them now: the vocab being edited, for a vocab's editors.</param>
-   /// <param name="sentencesReparsed">Called on the UI thread after a reparse has finished, so the vocab's page can show the sentences it now matches.</param>
-   public VocabSentencesReparserViewModel(TemporaryServiceCollection services, Func<IReadOnlyCollection<VocabNote>> vocab, Action sentencesReparsed)
+   /// <param name="sentencesReparsedFor">
+   /// Called on the UI thread after a reparse has finished, with the vocab whose sentences it reparsed, as they were found when it started, so their<br/>
+   /// pages can show the sentences they now match. Not found again: one may have been deleted meanwhile.
+   /// </param>
+   public VocabSentencesReparserViewModel(TemporaryServiceCollection services, Func<IReadOnlyCollection<VocabNote>> vocab, Action<IReadOnlyCollection<VocabNote>> sentencesReparsedFor)
    {
       //review:matching: SharedConditionWindowViewModel reparsed the sentences of the vocab depending on its shared-condition as this does a vocab's,
       //   in a copy of ReparseSentences of its own. This reparses the sentences of the vocab it's given, now one or several, for both.
       _services = services;
       _uiThread = services.Resolve<IUIThreadDispatcher>();
       _vocab = vocab;
-      _sentencesReparsed = sentencesReparsed;
+      _sentencesReparsedFor = sentencesReparsedFor;
    }
 
    /// <summary>Whether the vocab's sentences are being reparsed after a change. What they match can't be changed meanwhile.</summary>
@@ -59,14 +62,14 @@ partial class VocabSentencesReparserViewModel : ObservableObject
          }
          finally
          {
-            _uiThread.PostToUIThread(ReparseFinished);
+            _uiThread.PostToUIThread(() => ReparseFinishedFor(vocab));
          }
       });
    }
 
-   void ReparseFinished()
+   void ReparseFinishedFor(IReadOnlyCollection<VocabNote> vocab)
    {
       IsReparsingSentences = false;
-      _sentencesReparsed();
+      _sentencesReparsedFor(vocab);
    }
 }
