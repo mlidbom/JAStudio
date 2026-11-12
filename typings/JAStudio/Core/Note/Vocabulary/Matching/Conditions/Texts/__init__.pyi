@@ -1,7 +1,7 @@
 import typing, abc
-from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1, Condition, Fact_1, ConditionLevel_1
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1, Condition, Fact_1, ConditionLevel_1, IConditionPath_2
 from System import IEquatable_1, Array_1
-from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
+from System.Collections.Generic import IReadOnlyList_1
 
 class TextComparison(Condition_1[str], IEquatable_1[TextComparison]):
     @property
@@ -10,7 +10,6 @@ class TextComparison(Condition_1[str], IEquatable_1[TextComparison]):
     def IsEmpty(self) -> bool: ...
     @property
     def Texts(self) -> TextSet: ...
-    def DescriptionLines(self) -> IEnumerable_1[str]: ...
     def GetHashCode(self) -> int: ...
     def IsMetBy(self, subject: str) -> bool: ...
     def __eq__(self, left: TextComparison, right: TextComparison) -> bool: ...
@@ -29,18 +28,151 @@ class TextComparison(Condition_1[str], IEquatable_1[TextComparison]):
 
 
 class TextConditions(abc.ABC):
-    IsEmptyText : Fact_1[str]
+    IsEmpty : Fact_1[str]
     Level : ConditionLevel_1[str]
     @staticmethod
     def ContainsOneOf(texts: Array_1[str]) -> TextContainsOneOf: ...
     @staticmethod
     def EndsWithOneOf(texts: Array_1[str]) -> TextEndsWithOneOf: ...
     @staticmethod
-    def IsOneOf(texts: Array_1[str]) -> TextIsOneOf: ...
+    def In(texts: Array_1[str]) -> TextIsOneOf: ...
     @staticmethod
     def MatchesRegularExpression(pattern: str) -> TextMatchesRegularExpression: ...
     @staticmethod
     def StartsWithOneOf(texts: Array_1[str]) -> TextStartsWithOneOf: ...
+
+
+class TextConditionsInCode(abc.ABC):
+    # Skipped AllOf due to it being static, abstract and generic.
+
+    AllOf : AllOf_MethodGroup
+    class AllOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[AllOf_1_T1]) -> AllOf_1[AllOf_1_T1]: ...
+
+        AllOf_1_T1 = typing.TypeVar('AllOf_1_T1')
+        class AllOf_1(typing.Generic[AllOf_1_T1]):
+            AllOf_1_TFrom = TextConditionsInCode.AllOf_MethodGroup.AllOf_1_T1
+            def __call__(self, text: IConditionPath_2[AllOf_1_TFrom, str], conditions: Array_1[Condition_1[str]]) -> Condition_1[AllOf_1_TFrom]:...
+
+
+    # Skipped AnyOf due to it being static, abstract and generic.
+
+    AnyOf : AnyOf_MethodGroup
+    class AnyOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[AnyOf_1_T1]) -> AnyOf_1[AnyOf_1_T1]: ...
+
+        AnyOf_1_T1 = typing.TypeVar('AnyOf_1_T1')
+        class AnyOf_1(typing.Generic[AnyOf_1_T1]):
+            AnyOf_1_TFrom = TextConditionsInCode.AnyOf_MethodGroup.AnyOf_1_T1
+            def __call__(self, text: IConditionPath_2[AnyOf_1_TFrom, str], conditions: Array_1[Condition_1[str]]) -> Condition_1[AnyOf_1_TFrom]:...
+
+
+    # Skipped ContainsOneOf due to it being static, abstract and generic.
+
+    ContainsOneOf : ContainsOneOf_MethodGroup
+    class ContainsOneOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[ContainsOneOf_1_T1]) -> ContainsOneOf_1[ContainsOneOf_1_T1]: ...
+
+        ContainsOneOf_1_T1 = typing.TypeVar('ContainsOneOf_1_T1')
+        class ContainsOneOf_1(typing.Generic[ContainsOneOf_1_T1]):
+            ContainsOneOf_1_TFrom = TextConditionsInCode.ContainsOneOf_MethodGroup.ContainsOneOf_1_T1
+            def __call__(self, text: IConditionPath_2[ContainsOneOf_1_TFrom, str], texts: Array_1[str]) -> Condition_1[ContainsOneOf_1_TFrom]:...
+
+
+    # Skipped EndsWithOneOf due to it being static, abstract and generic.
+
+    EndsWithOneOf : EndsWithOneOf_MethodGroup
+    class EndsWithOneOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[EndsWithOneOf_1_T1]) -> EndsWithOneOf_1[EndsWithOneOf_1_T1]: ...
+
+        EndsWithOneOf_1_T1 = typing.TypeVar('EndsWithOneOf_1_T1')
+        class EndsWithOneOf_1(typing.Generic[EndsWithOneOf_1_T1]):
+            EndsWithOneOf_1_TFrom = TextConditionsInCode.EndsWithOneOf_MethodGroup.EndsWithOneOf_1_T1
+            def __call__(self, text: IConditionPath_2[EndsWithOneOf_1_TFrom, str], texts: Array_1[str]) -> Condition_1[EndsWithOneOf_1_TFrom]:...
+
+
+    # Skipped get_IsEmpty due to it being static, abstract and generic.
+
+    get_IsEmpty : get_IsEmpty_MethodGroup
+    class get_IsEmpty_MethodGroup:
+        def __getitem__(self, t:typing.Type[get_IsEmpty_1_T1]) -> get_IsEmpty_1[get_IsEmpty_1_T1]: ...
+
+        get_IsEmpty_1_T1 = typing.TypeVar('get_IsEmpty_1_T1')
+        class get_IsEmpty_1(typing.Generic[get_IsEmpty_1_T1]):
+            get_IsEmpty_1_TFrom = TextConditionsInCode.get_IsEmpty_MethodGroup.get_IsEmpty_1_T1
+            def __call__(self, text: IConditionPath_2[get_IsEmpty_1_TFrom, str]) -> Condition_1[get_IsEmpty_1_TFrom]:...
+
+
+    # Skipped In due to it being static, abstract and generic.
+
+    In : In_MethodGroup
+    class In_MethodGroup:
+        def __getitem__(self, t:typing.Type[In_1_T1]) -> In_1[In_1_T1]: ...
+
+        In_1_T1 = typing.TypeVar('In_1_T1')
+        class In_1(typing.Generic[In_1_T1]):
+            In_1_TFrom = TextConditionsInCode.In_MethodGroup.In_1_T1
+            def __call__(self, text: IConditionPath_2[In_1_TFrom, str], texts: Array_1[str]) -> Condition_1[In_1_TFrom]:...
+
+
+    # Skipped MatchesRegularExpression due to it being static, abstract and generic.
+
+    MatchesRegularExpression : MatchesRegularExpression_MethodGroup
+    class MatchesRegularExpression_MethodGroup:
+        def __getitem__(self, t:typing.Type[MatchesRegularExpression_1_T1]) -> MatchesRegularExpression_1[MatchesRegularExpression_1_T1]: ...
+
+        MatchesRegularExpression_1_T1 = typing.TypeVar('MatchesRegularExpression_1_T1')
+        class MatchesRegularExpression_1(typing.Generic[MatchesRegularExpression_1_T1]):
+            MatchesRegularExpression_1_TFrom = TextConditionsInCode.MatchesRegularExpression_MethodGroup.MatchesRegularExpression_1_T1
+            def __call__(self, text: IConditionPath_2[MatchesRegularExpression_1_TFrom, str], pattern: str) -> Condition_1[MatchesRegularExpression_1_TFrom]:...
+
+
+    # Skipped StartsWithOneOf due to it being static, abstract and generic.
+
+    StartsWithOneOf : StartsWithOneOf_MethodGroup
+    class StartsWithOneOf_MethodGroup:
+        def __getitem__(self, t:typing.Type[StartsWithOneOf_1_T1]) -> StartsWithOneOf_1[StartsWithOneOf_1_T1]: ...
+
+        StartsWithOneOf_1_T1 = typing.TypeVar('StartsWithOneOf_1_T1')
+        class StartsWithOneOf_1(typing.Generic[StartsWithOneOf_1_T1]):
+            StartsWithOneOf_1_TFrom = TextConditionsInCode.StartsWithOneOf_MethodGroup.StartsWithOneOf_1_T1
+            def __call__(self, text: IConditionPath_2[StartsWithOneOf_1_TFrom, str], texts: Array_1[str]) -> Condition_1[StartsWithOneOf_1_TFrom]:...
+
+
+
+    class <G>$9A759E6619F8A6B84895B23D524F54AB_GenericClasses(abc.ABCMeta):
+        Generic_<G>$9A759E6619F8A6B84895B23D524F54AB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0 = typing.TypeVar('Generic_<G>$9A759E6619F8A6B84895B23D524F54AB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0')
+        def __getitem__(self, types : typing.Type[Generic_<G>$9A759E6619F8A6B84895B23D524F54AB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]) -> typing.Type[TextConditionsInCode.<G>$9A759E6619F8A6B84895B23D524F54AB_1[Generic_<G>$9A759E6619F8A6B84895B23D524F54AB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]]: ...
+
+    <G>$9A759E6619F8A6B84895B23D524F54AB : <G>$9A759E6619F8A6B84895B23D524F54AB_GenericClasses
+
+    <G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0 = typing.TypeVar('<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0')
+    class <G>$9A759E6619F8A6B84895B23D524F54AB_1(typing.Generic[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]):
+        <G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0 = TextConditionsInCode.<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0
+        @property
+        def IsEmpty(self) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def AllOf(self, conditions: Array_1[Condition_1[str]]) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def AnyOf(self, conditions: Array_1[Condition_1[str]]) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def ContainsOneOf(self, texts: Array_1[str]) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def EndsWithOneOf(self, texts: Array_1[str]) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def In(self, texts: Array_1[str]) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def MatchesRegularExpression(self, pattern: str) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+        def StartsWithOneOf(self, texts: Array_1[str]) -> Condition_1[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+
+        <M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0 = typing.TypeVar('<M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0')
+        class <M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses(typing.Generic[<M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0], abc.ABCMeta):
+            <M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0 = TextConditionsInCode.<G>$9A759E6619F8A6B84895B23D524F54AB_1.<M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0
+            def __call__(self) -> TextConditionsInCode.<G>$9A759E6619F8A6B84895B23D524F54AB_1.<M>$892C3E7EE65E728CB98CC2F72D903CBB_1[<M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses_<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]: ...
+
+        <M>$892C3E7EE65E728CB98CC2F72D903CBB : <M>$892C3E7EE65E728CB98CC2F72D903CBB_GenericClasses[<G>$9A759E6619F8A6B84895B23D524F54AB_1_$T0]
+
+        <M>$892C3E7EE65E728CB98CC2F72D903CBB_1_TFrom = typing.TypeVar('<M>$892C3E7EE65E728CB98CC2F72D903CBB_1_TFrom')
+        class <M>$892C3E7EE65E728CB98CC2F72D903CBB_1(typing.Generic[<M>$892C3E7EE65E728CB98CC2F72D903CBB_1_TFrom], abc.ABC):
+            <M>$892C3E7EE65E728CB98CC2F72D903CBB_1_TFrom = TextConditionsInCode.<G>$9A759E6619F8A6B84895B23D524F54AB_1.<M>$892C3E7EE65E728CB98CC2F72D903CBB_1_TFrom
+            @staticmethod
+            def <Extension>$(text: IConditionPath_2[<M>$892C3E7EE65E728CB98CC2F72D903CBB_1_TFrom, str]) -> None: ...
+
+
 
 
 class TextContainsOneOf(TextComparison, IEquatable_1[TextContainsOneOf]):
@@ -119,7 +251,6 @@ class TextMatchesRegularExpression(Condition_1[str], IEquatable_1[TextMatchesReg
     def IsEmpty(self) -> bool: ...
     @property
     def Pattern(self) -> str: ...
-    def DescriptionLines(self) -> IEnumerable_1[str]: ...
     def GetHashCode(self) -> int: ...
     def IsMetBy(self, subject: str) -> bool: ...
     def __eq__(self, left: TextMatchesRegularExpression, right: TextMatchesRegularExpression) -> bool: ...
