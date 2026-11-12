@@ -1,36 +1,21 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Compze.Internals.SystemCE;
-using Compze.Threading;
 using MeCab;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 public sealed class JNTokenizer
 {
-   static readonly LazyCE<JNTokenizer> Instance = new(() => new JNTokenizer());
+   static readonly JNTokenizer Instance = new();
 
-   public static JNTokenizer GetInstance() => Instance.Value;
+   public static JNTokenizer GetInstance() => Instance;
 
    static readonly HashSet<string> CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces =
       ["!", "！", "|", "（", "）", " "];
 
-   readonly MeCabTagger _tagger;
-   readonly IMonitor _monitor = IMonitor.New();
+   readonly MeCabTaggerPool _taggers = new();
 
-   JNTokenizer()
-   {
-      // MeCab defaults to looking for dic/ relative to CWD which doesn't work when hosted inside Anki.
-      // Resolve relative to the assembly location instead.
-      var assemblyDir = Path.GetDirectoryName(typeof(JNTokenizer).Assembly.Location)
-                        ?? throw new InvalidOperationException("Cannot determine assembly directory");
-      var dicDir = Path.Combine(assemblyDir, "dic");
-
-      var param = new MeCabParam { DicDir = dicDir };
-      _tagger = MeCabTagger.Create(param);
-   }
+   JNTokenizer() {}
 
    public JNTokenizedText Tokenize(string text)
    {
@@ -86,39 +71,38 @@ public sealed class JNTokenizer
    }
 
    List<JNToken> TokenizeToTokenList(string text) =>
-      _monitor.Locked(() =>
-      {
-         var result = new List<JNToken>();
+      _taggers.LendATaggerTo(tagger => tagger.ParseToNodes(text)
+                                             .Where(it => !IsTheBeginningOrEndOfTheSentence(it))
+                                             .Select(TokenOf)
+                                             .ToList());
 
-         foreach(var node in _tagger.ParseToNodes(text))
-         {
-            if(node.CharType == 0) continue; // Skip BOS/EOS nodes
+   static bool IsTheBeginningOrEndOfTheSentence(MeCabNode node) =>
+      //bug: this is true of more than the BOS/EOS nodes. MeCab gives every node of a character in its DEFAULT character category CharType 0,
+      //   so such a token is dropped from the sentence: 雨だ♪★😀ね tokenizes as 雨, だ, ♪★, ね, without 😀 (analyze_sentence, 2026-11-12).
+      //   MeCabNode.Stat tells the BOS/EOS nodes apart. Fixing it changes what sentences parse as, so it needs a full rebuild and its analysis.
+      node.CharType == 0;
 
-            var features = node.Feature.Split(',');
+   static JNToken TokenOf(MeCabNode node)
+   {
+      var features = node.Feature.Split(',');
 
-            // IPAdic feature CSV format: POS,sub1,sub2,sub3,inflType,inflForm,baseForm,reading,phonetic
-            var partOfSpeech = string.Join(",", features.Take(4));
-            var inflType = GetFeatureOrEmpty(features, 4);
-            var inflForm = GetFeatureOrEmpty(features, 5);
-            var baseForm = GetFeatureOrEmpty(features, 6);
-            var reading = GetFeatureOrEmpty(features, 7);
-            var phonetic = GetFeatureOrEmpty(features, 8);
+      // IPAdic feature CSV format: POS,sub1,sub2,sub3,inflType,inflForm,baseForm,reading,phonetic
+      var partOfSpeech = string.Join(",", features.Take(4));
+      var inflType = GetFeatureOrEmpty(features, 4);
+      var inflForm = GetFeatureOrEmpty(features, 5);
+      var baseForm = GetFeatureOrEmpty(features, 6);
+      var reading = GetFeatureOrEmpty(features, 7);
+      var phonetic = GetFeatureOrEmpty(features, 8);
 
-            var partsOfSpeech = JNPartsOfSpeech.Fetch(partOfSpeech);
-
-            result.Add(new JNToken(
-                          partsOfSpeech,
-                          baseForm: Sanitize(baseForm),
-                          surface: Sanitize(node.Surface),
-                          inflectionType: Sanitize(inflType),
-                          inflectedForm: Sanitize(inflForm),
-                          reading: Sanitize(reading),
-                          phonetic: Sanitize(phonetic)
-                       ));
-         }
-
-         return result;
-      });
+      return new JNToken(
+         JNPartsOfSpeech.Fetch(partOfSpeech),
+         baseForm: Sanitize(baseForm),
+         surface: Sanitize(node.Surface),
+         inflectionType: Sanitize(inflType),
+         inflectedForm: Sanitize(inflForm),
+         reading: Sanitize(reading),
+         phonetic: Sanitize(phonetic));
+   }
 
    static string GetFeatureOrEmpty(string[] features, int index) =>
       index < features.Length ? features[index] : "";

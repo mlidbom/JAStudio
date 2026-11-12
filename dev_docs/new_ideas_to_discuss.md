@@ -33,3 +33,10 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
+- **(Claude, 2026-11-12) Find out why analyzing on more than 8 threads gets slower.** `time_parsing_every_sentence` on
+  the 49,162 corpus sentences, after each parse got a MeCab tagger of its own: analyzing takes 8.0 s on 1 thread, 2.5 on
+  4, 1.9 on 8 and 3.7 on 32. Tokenizing alone now scales, 0.89 s on 1 thread and 0.115 on 32, so the tokenizer no longer
+  holds analysis back. Two suspects, neither checked: the garbage collector, which the headless host runs in its
+  workstation mode, where every collection stops all 32 allocating threads (setting `DOTNET_gcServer=1` would tell); and
+  another lock analysis shares, such as in the dictionary lookups. A dotTrace profile of the headless JAStudio during a
+  32-thread run would show which.
