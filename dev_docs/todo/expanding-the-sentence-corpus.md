@@ -1,6 +1,7 @@
 # Expanding the sentence corpus, intelligently
 
-> **Status: a to-do of high importance (Magnus, 2026-11-11). Not started.** In his words: "We want our sentence corpus to
+> **Status: a to-do of high importance (Magnus, 2026-11-11). The reservoir is built and merged into main (2026-11-11);
+> no sentence has been taken from it into the corpus yet.** In his words: "We want our sentence corpus to
 > be about as big and diverse in type of sentences as we can make it, so expanding on it, and doing so intelligently,
 > bringing in high value sentences, is a super important TODO item."
 
@@ -47,9 +48,32 @@ vocab reparses those it can affect, and says at once what it broke and what it f
 **What the numbers say so far:**
 - **Parsing:** a full rebuild of today's 49,162 sentences takes 6.5 seconds, so about 0.13 ms a sentence. Ten times as
   many would take about a minute, and a hundred times about 11 minutes: fine for a selection run now and then.
-- **Memory, not time, is the limit:** today every sentence is a note held in memory. Millions wouldn't fit as notes, so
-  the reservoir is probably best kept as plain sentences with their source, without parse results, and without media
-  until a sentence joins the working set.
+- **Memory, as sentence notes, is the limit:** today every sentence is a note held in memory, and a sentence note costs
+  about 15.5 KB of process memory (measured 2026-11-11: 10.9 KB of live objects, about 4 KB of it each field's own lock,
+  observable and actions). So 80 GB would hold about 5 million sentence notes, and the reservoir's 16.3 million would
+  need about 250 GB.
+- **A compact form for the reservoir holds it all in 4.5 GB, and loads in about a second** (measured 2026-11-12, with a
+  throwaway prototype). Magnus asked how many sentences memory-efficient types could hold, with duplicate strings
+  interned. The prototype held the reservoir in a few large arrays rather than an object per sentence: every sentence's
+  text in one array of characters, its translation in one of UTF-8 bytes, and numbers for the rest, with media file
+  names, subtitle file names, the words' forms and the sets of rejection reasons interned.
+  - **Everything the reservoir file holds of the sentences** (text, translation, source, position, audio and image file
+    names, occurrences): **1.74 GB, about 107 bytes a sentence.** The Japanese is 285 million characters, 17.5 a
+    sentence, and UTF-16 suits it: two bytes a character, where UTF-8 takes three.
+  - **With their bulk analyses as well** (195 million words and 126 million rejected vocab matches; 437,873 distinct
+    forms, 406 distinct sets of reasons): **4.5 GB, about 277 bytes a sentence**, against the 7 GB the analyses take as
+    MemoryPack records in the reservoir file.
+  - **So 80 GB would hold about 290 million sentences with their analyses,** 18 times the reservoir, or about 750
+    million without them. The raw tokens the value measure below would need aren't in the bulk analysis; at about ten
+    a sentence, as numbers of distinct tokens, they'd add roughly 40 bytes a sentence (an estimate, not measured).
+  - **Loading:** written as one file of those arrays (4.5 GB), it was read back into a fresh process in 1.2 seconds.
+    The file had just been written, so the operating system probably served it from memory; from the NVMe disk, which
+    reads several GB a second, it should take a few seconds. Built from the reservoir's SQLite file instead, it takes
+    about a minute: 32 seconds for the sentences, 31 for the analyses.
+  - **What it means:** memory stops being the limit once the reservoir's sentences are a read-only type of their own
+    rather than sentence notes, and a sentence becomes a sentence note only when it joins the working set. The limit is
+    then the time to analyze: 40 minutes for all 16 million today, of which 60% of the threads' time is spent waiting
+    on two locks, the tokenizer's single shared tagger and the note caches' reads.
 - **A second after each edit is within reach:** an edit to a vocab already reparses only the sentences that could
   contain its forms.
 
@@ -83,7 +107,8 @@ upper bounds.
 
 <https://www.mediafire.com/folder/p17g5uk4phb41/User_Uploaded_Anki_Decks>. Its listing, through MediaFire's public API
 on 2026-11-11 (`folder/get_content.php?folder_key=p17g5uk4phb41`): **1,404 files, 517 GB, 1,382 of them .apkg decks.**
-Nothing was downloaded yet.
+Magnus downloaded the whole folder on 2026-11-11 (with JDownloader and a MediaFire account), into his Dropbox
+(`KEEP\Anki\SUBS2SRS\JLAB Decks Mediafire`) and a local folder.
 
 - **168 audiobooks:** novels and some non-fiction, a sentence a note with the narrator's audio. Narration and written
   Japanese, the registers the corpus lacks most: 狼と香辛料 1–8, 本好きの下剋上, 無職転生, Overlord, コンビニ人間, 君の名は。,
@@ -96,11 +121,11 @@ Nothing was downloaded yet.
   downloads allow range requests, as download managers' resuming suggests, a deck's database can be read without its
   media, about 4 GB for all 1,382 rather than 517. Not tried yet.
 
-## The reservoir, as built on the branch `corpus-reservoir` (Claude, the night of 2026-11-11)
+## The reservoir, as built (Claude, the night of 2026-11-11)
 
-Built on a branch of its own, in the worktree `C:\Dev\JAStudio.worktrees\corpus-reservoir`, so that Magnus can choose
-whether to merge it. The data lives outside git, in `C:\Dev\_JAReservoir\`, a few GB in all: the reservoir, the fetched databases, the tools
-and the reports. The full decks, hundreds of GB, are to live where Magnus puts his download of the MediaFire folder.
+Built on the branch `corpus-reservoir`, and merged into main on 2026-11-11. The data lives outside git, in
+`C:\Dev\_JAReservoir\`, a few GB in all: the reservoir, the fetched databases, the tools and the reports. The full
+decks, hundreds of GB, are to live where Magnus puts his download of the MediaFire folder.
 
 - **Reading the sources, with no Anki** (`JAStudio.Core.Reservoir.Sources`):
   - `AnkiPackageDatabase` reads an .apkg's collection database, or one taken out of its package, in all three of Anki's
@@ -144,8 +169,10 @@ and the reports. The full decks, hundreds of GB, are to live where Magnus puts h
 
 ## Keeping the reservoir safe (agreed with Magnus, 2026-11-11)
 
-The reservoir file is rebuilt from sources that sit in Dropbox, on MediaFire and on a USB drive, so the data isn't safe
-until it's stored as JAStudio's own. Agreed:
+The reservoir file is rebuilt from sources that sit in Dropbox, on MediaFire and on a USB drive. **There's no hurry,
+though** (Magnus, 2026-11-12): every MediaFire deck is in three places, on MediaFire, where the folder has been for
+many years, in his Dropbox and in a local folder. Storing the sources as JAStudio's own is about having them in a form
+JAStudio and git can work with. Agreed:
 
 - **The text goes in git, as the source of truth; the reservoir's SQLite file is an index derived from it.** Each
   source's sentences are kept faithfully, a line of JSON each, in a sentence note's shape without configuration or
@@ -194,7 +221,52 @@ until it's stored as JAStudio's own. Agreed:
     same file name, as two uploaders' decks can have, is refused rather than imported over. The media are listed in the
     media map's order, and every line ends with LF, on every platform.
 
+## Magnus's direction for importing (2026-11-12)
+
+- **A mind in the loop for every import, not a fully automatic one.** The reservoir's import so far detects each deck's
+  layout and imports it unseen. Magnus: "I think I want a mind in the loop for every import." For each deck, someone,
+  Claude or Magnus, looks at it with good tooling and decides:
+  - whether it's essentially a duplicate of a deck imported already;
+  - whether it holds data worth keeping that the automatic import doesn't handle;
+  - whether the columns are mapped right;
+  - whether some of its data needs adjusting to fit the data already imported.
+
+  A deck that's a problem is set aside for discussion rather than imported in a way that may be wrong. About a thousand
+  decks is a lot one at a time, but not an unreasonable amount of work with tooling, even for a human, and much less of
+  one for Claude. The tooling is
+  part of the work: the deck check (`reservoir check-decks`) and the field-layout mappings proposed on 2026-11-11 (the
+  1,317 decks checked use only 187 distinct lists of fields; the top 40 give 88% of the sentences) are a start.
+  Detection then only proposes; what is imported is what someone looked at.
+- **Normalize the media on demand rather than at import.** Reconsiders the agreement above that the media is stored
+  normalized. Magnus: "maybe do normalization on demand instead, caching the files if that is required for good
+  latency behavior." The media would be stored as the decks have it, and a clip normalized when it's used, such as when
+  its sentence joins the working set or is played, with the normalized file cached if that's needed for latency. What
+  it would change, to weigh when it's decided:
+  - The import gets much faster: measuring the MP3s' loudness, which normalizing needs, is what made the trial bound by
+    the CPU, about 6.5 hours for the 515 GB.
+  - The stored media is then the original, byte for byte, so a hash of it can be checked against the deck it came from.
+  - The normalizing code and its decisions stay changeable, as nothing stored depends on them.
+- **Sentences without a translation: find out, think it over, discuss later.** Magnus's first thought was to import only
+  sentences that have both the Japanese and a translation; his second, that we may want them after all, as long as
+  they're easy to filter out. What the reservoir holds (measured 2026-11-12): **1,874,063 of its 16,293,250 sentences
+  have a translation.**
+  - The subtitles have none: kitsunekko's 10,815,323 and the Dropbox folder's other 50,281.
+  - The MediaFire decks: 1,717,598 of 5,271,175, a third.
+  - The Dropbox folder's decks: 156,465 of 156,471.
+
+  Some of the untranslated deck sentences may come from note types whose translation field wasn't recognized, rather
+  than from decks without translations; the deck-by-deck review above would tell.
+
 ## What "intelligently" could mean (ideas, to work out with Magnus)
+
+- **A sentence's value is in how rare what it holds is** (Magnus, 2026-11-12, brainstorming). The rarer the tokens and
+  matches found in a sentence, the more valuable it is. Two things to look at, at least:
+  1. **The tokens the tokenizer gives, without any processing by JAStudio's code:** rare parts of speech, inflection
+     types and forms, and rare sequences of them.
+  2. **The matches the full parsing makes:** rare vocab, rare kinds of match, and rare reasons for rejecting a match.
+
+  The bulk analysis keeps the second (the words and the rejected vocab matches), but not the first: the raw tokens would
+  have to be kept as well. The ideas below are ways of making it concrete.
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion
   Kit). Other registers and genres would test the rules where they're weakest: conversation, narration, news, writing.
