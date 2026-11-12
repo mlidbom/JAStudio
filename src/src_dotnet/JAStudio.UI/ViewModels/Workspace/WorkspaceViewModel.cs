@@ -7,6 +7,7 @@ using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
@@ -111,6 +112,15 @@ partial class WorkspaceViewModel : ObservableObject
          index + 1 < Tabs.Count ? Tabs[index + 1]
          : index > 0            ? Tabs[index - 1]
                                 : null;
+   }
+
+   /// <summary>
+   /// Reloads the pages of the tabs that show one of <paramref name="vocab"/>, whose sentences were reparsed after a change made outside the workspace,<br/>
+   /// as in a vocab's match-condition window: a vocab's page shows the sentences it matches.
+   /// </summary>
+   internal void ShowTheSentencesReparsedFor(IReadOnlyCollection<VocabNote> vocab)
+   {
+      foreach(var tab in Tabs) tab.ShowTheSentencesReparsedFor(vocab);
    }
 
    public void CloseSelectedTab()

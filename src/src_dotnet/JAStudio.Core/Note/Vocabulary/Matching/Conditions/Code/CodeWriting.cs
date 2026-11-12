@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JAStudio.Core.Note.ConditionTrees;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
@@ -32,9 +33,9 @@ sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Posi
    /// <summary>A condition's line, the whole of it: what's in front, <paramref name="code"/>, and what's after.</summary>
    internal CodeLine LineOf(string code) => new(LinePosition, Depth, [.. InFront, CodePiece.Of(code + After)]);
 
-   /// <summary>The line of a shared-condition that a condition uses: what's in front, its <paramref name="name"/>, and what's after.</summary>
-   internal CodeLine LineOfASharedCondition(string name) =>
-      new(LinePosition, Depth, [.. InFront, CodePiece.SharedConditionName(name), .. PiecesAfter]);
+   /// <summary>The line of <paramref name="sharedCondition"/>, as a condition uses it: what's in front, its name, and what's after.</summary>
+   internal CodeLine LineOf(ISharedCondition sharedCondition) =>
+      new(LinePosition, Depth, [.. InFront, CodePiece.NameOf(sharedCondition), .. PiecesAfter]);
 
    /// <summary>What goes after the condition, as a piece of code of its own: none when nothing does.</summary>
    IEnumerable<CodePiece> PiecesAfter => After.Length > 0 ? [CodePiece.Of(After)] : [];

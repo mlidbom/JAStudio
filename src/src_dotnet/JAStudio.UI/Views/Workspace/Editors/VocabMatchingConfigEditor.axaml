@@ -11,10 +11,11 @@
             <Border Classes="section">
                 <StackPanel Spacing="4">
                     <TextBlock Classes="sectionTitle" Text="Match-condition" />
-                    <matching:ConditionTreeEditor DataContext="{Binding MatchConditionEditor}" />
+                    <matching:ConditionCodeView x:Name="MatchCondition" DataContext="{Binding MatchCondition}" />
+                    <TextBlock Text="{Binding HowToEdit}" TextWrapping="Wrap" Opacity="0.7" />
                     <TextBlock IsVisible="{Binding !CanBeEditedRuleByRule}"
                                TextWrapping="Wrap"
-                               Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it in the tree." />
+                               Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it in its window (Ctrl+M)." />
                 </StackPanel>
             </Border>
 

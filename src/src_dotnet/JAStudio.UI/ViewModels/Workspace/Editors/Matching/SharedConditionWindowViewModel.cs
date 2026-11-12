@@ -28,16 +28,21 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// <param name="sharedCondition">The shared-condition the window is of: one of the corpus's.</param>
    /// <param name="openTheDefinitionOf">Opens another shared-condition's window, such as one the definition uses.</param>
    /// <param name="showInTheWorkspace">Lists notes in the workspace's "List" tab, as the note menus' "Open" items do: the vocab depending on it.</param>
+   /// <param name="sentencesReparsedFor">
+   /// Called on the UI thread after the sentences of the vocab depending on it were reparsed for a change, with those vocab, so their pages can show what<br/>
+   /// they now match.
+   /// </param>
    public SharedConditionWindowViewModel(TemporaryServiceCollection services,
                                          ISharedCondition sharedCondition,
                                          Action<ISharedCondition> openTheDefinitionOf,
-                                         Action<NoteList> showInTheWorkspace)
+                                         Action<NoteList> showInTheWorkspace,
+                                         Action<IReadOnlyCollection<VocabNote>> sentencesReparsedFor)
    {
       _services = services;
       _showInTheWorkspace = showInTheWorkspace;
       SharedCondition = sharedCondition;
       _vocabDependingOnIt = TheVocabDependingOnIt();
-      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => {});
+      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => sentencesReparsedFor(VocabDependingOnIt));
       SentencesReparser.PropertyChanged += (_, changed) =>
       {
          if(changed.PropertyName != nameof(SentencesReparser.IsReparsingSentences)) return;

@@ -76,7 +76,7 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
    public override bool IsMetBy(TSubject subject) => Definition.IsMetBy(subject);
 
    /// <summary>Its name, in the color of a shared-condition's (<see cref="CodePieceKind.SharedConditionName"/>), as a fact's is written: <c>FollowsAPastTenseStem</c>.</summary>
-   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => [writing.LineOfASharedCondition(Name)];
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => [writing.LineOf(this)];
 
    /// <summary>The key the name of a shared-condition that a match-condition uses is stored under in the corpus.</summary>
    internal const string JsonKey = "sharedCondition";

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -20,22 +21,28 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// The tree editor of a vocab's match-condition, on its Matching tab: the add menu's keys pick a subject, then a condition on it, which goes into<br/>
-/// the vocab's match-condition on that subject, and the rules' editors on the same tab show what the tree changed, and the other way around.
+/// The tree editor of a vocab's match-condition, in its match-condition window, with the vocab open in the workspace on its Matching tab: the add menu's<br/>
+/// keys pick a subject, then a condition on it, which goes into the vocab's match-condition on that subject. The Matching tab shows what the tree changed,<br/>
+/// as code and in the rules' editors, and the window shows what a rule's editor changed when it's activated.
 /// </summary>
-public class When_editing_a_vocabs_match_condition_in_the_workspace : SpecificationUsingAWorkspace, IAIGeneratedSpec
+public class When_editing_a_vocabs_match_condition_in_its_window : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
    readonly VocabNote _vocab;
    readonly VocabEditorSectionViewModel _editor;
+   readonly MatchConditionWindowViewModel _window;
+   readonly List<string> _vocabWhoseSentencesWereReparsed = [];
    ConditionTextsEditorViewModel? _editorOpenedByTheMenu;
 
-   protected When_editing_a_vocabs_match_condition_in_the_workspace()
+   protected When_editing_a_vocabs_match_condition_in_its_window()
    {
       _vocab = CreateVocab("てよろしい", "may", "てよろしい");
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
+      _window = new MatchConditionWindowViewModel(GetService<TemporaryServiceCollection>(), _vocab, _ => {}, vocab => _vocabWhoseSentencesWereReparsed.AddRange(vocab.Select(it => it.GetQuestion())));
    }
 
-   ConditionTreeEditorViewModel Tree => _editor.MatchingConfig.MatchConditionEditor;
+   ConditionTreeEditorViewModel Tree => _window.MatchConditionEditor;
+
+   List<string> TheMatchingTabsCode() => [.. _editor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)];
 
    RequireForbidFlagEditorViewModel TheGodanRulesEditor => _editor.MatchingConfig.StemMatchingRules.Single(it => it.Label == "Godan");
 
@@ -64,15 +71,20 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
 
    ConditionTextsEditorViewModel EditorOpenedByTheMenu => _editorOpenedByTheMenu ?? throw new InvalidOperationException("The add menu opened no editor.");
 
-   void WaitForTheReparseToFinish() => SpinWait.SpinUntil(() => !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+   /// <summary>Waits for the reparse after a change, the window's after a change in the tree, or the Matching tab's after one in a rule's editor.</summary>
+   void WaitForTheReparseToFinish() =>
+      SpinWait.SpinUntil(() => !_window.SentencesReparser.IsReparsingSentences && !_editor.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
-   public class for_a_vocab_with_no_match_condition : When_editing_a_vocabs_match_condition_in_the_workspace
+   public class for_a_vocab_with_no_match_condition : When_editing_a_vocabs_match_condition_in_its_window
    {
+      [XF] public void the_window_is_titled_by_the_vocabs_question() => _window.Title.Must().Be("てよろしい - match-condition");
       [XF] public void the_tree_is_the_comment_heading_a_match_condition_alone() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:"]);
       [XF] public void the_root_is_selected() => SelectedLine().Must().Be("// A word matches the vocab when each of these holds:");
+      [XF] public void the_Matching_tab_shows_the_comment_heading_alone() => TheMatchingTabsCode().Must().SequenceEqual(["// A word matches the vocab when each of these holds:"]);
+      [XF] public void it_is_not_gone() => _window.IsGone.Must().BeFalse();
    }
 
-   public class after_picking_the_preceding_token_then_fact_then_godan_verb : When_editing_a_vocabs_match_condition_in_the_workspace
+   public class after_picking_the_preceding_token_then_fact_then_godan_verb : When_editing_a_vocabs_match_condition_in_its_window
    {
       public after_picking_the_preceding_token_then_fact_then_godan_verb()
       {
@@ -86,6 +98,11 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
       [XF] public void the_tree_shows_it_as_code_under_the_root() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAGodanVerb"]);
       [XF] public void the_new_line_is_selected() => SelectedLine().Must().Be("PrecedingToken.IsAGodanVerb");
       [XF] public void the_godan_rules_editor_shows_it_as_the_godan_rule_required() => TheGodanRulesEditor.IsRequired.Must().BeTrue();
+
+      [XF] public void the_Matching_tab_shows_it_as_code() =>
+         TheMatchingTabsCode().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAGodanVerb"]);
+
+      [XF] public void the_pages_of_the_vocab_are_told_its_sentences_were_reparsed() => _vocabWhoseSentencesWereReparsed.Must().SequenceEqual(["てよろしい"]);
 
       public class then_negating_it : after_picking_the_preceding_token_then_fact_then_godan_verb
       {
@@ -124,7 +141,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
       }
    }
 
-   public class after_picking_the_following_token_then_group_then_any_of : When_editing_a_vocabs_match_condition_in_the_workspace
+   public class after_picking_the_following_token_then_group_then_any_of : When_editing_a_vocabs_match_condition_in_its_window
    {
       public after_picking_the_following_token_then_group_then_any_of()
       {
@@ -151,7 +168,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
       }
    }
 
-   public class after_requiring_the_godan_rule_in_its_editor : When_editing_a_vocabs_match_condition_in_the_workspace
+   public class after_requiring_the_godan_rule_in_its_editor : When_editing_a_vocabs_match_condition_in_its_window
    {
       public after_requiring_the_godan_rule_in_its_editor()
       {
@@ -159,12 +176,20 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
          WaitForTheReparseToFinish();
       }
 
-      [XF] public void the_tree_shows_the_rules_condition() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAGodanVerb"]);
+      [XF] public void the_tree_shows_it_only_once_the_window_is_activated() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:"]);
 
-      public class then_undoing_in_the_tree : after_requiring_the_godan_rule_in_its_editor
+      public class then_activating_the_window : after_requiring_the_godan_rule_in_its_editor
       {
-         public then_undoing_in_the_tree()
+         public then_activating_the_window() => _window.ShowItAsItIsNow();
+
+         [XF] public void the_tree_shows_the_rules_condition() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAGodanVerb"]);
+      }
+
+      public class then_activating_the_window_and_undoing_in_the_tree : after_requiring_the_godan_rule_in_its_editor
+      {
+         public then_activating_the_window_and_undoing_in_the_tree()
          {
+            _window.ShowItAsItIsNow();
             Tree.Undo();
             WaitForTheReparseToFinish();
          }

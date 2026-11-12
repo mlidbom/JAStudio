@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -11,7 +12,6 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
-using JAStudio.UI.ViewModels.Workspace.Editors;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
 
@@ -20,15 +20,15 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// The vocab だの, whose match-condition is <c>AllOf(!PrecedingToken.Surface.EndsWithOneOf("ん"), PrecedingToken.IsAGodanVerb)</c>, edited on its Matching<br/>
-/// tab, and んだ, whose match-condition is <c>PrecedingToken.Surface.EndsWithOneOf("ん")</c>. The first line of だの's tree is selected.
+/// The vocab だの, whose match-condition is <c>AllOf(!PrecedingToken.Surface.EndsWithOneOf("ん"), PrecedingToken.IsAGodanVerb)</c>, edited in its match-condition<br/>
+/// window, and んだ, whose match-condition is <c>PrecedingToken.Surface.EndsWithOneOf("ん")</c>. The first line of だの's tree is selected.
 /// </summary>
 public class When_making_a_shared_condition_of_a_line_of_a_vocabs_tree : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
    static readonly Condition<CandidateWordVariant> FollowsASurfaceEndingWithん = PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf("ん")));
 
    readonly VocabNote _んだ;
-   readonly VocabEditorSectionViewModel _editor;
+   readonly MatchConditionWindowViewModel _window;
    readonly NewSharedConditionDialogViewModel _dialog;
 
    public When_making_a_shared_condition_of_a_line_of_a_vocabs_tree()
@@ -37,12 +37,12 @@ public class When_making_a_shared_condition_of_a_line_of_a_vocabs_tree : Specifi
       だの.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(!FollowsASurfaceEndingWithん, PrecedingToken.Meets(TokenConditions.IsAGodanVerb)));
       _んだ = CreateVocab("んだ", "it is that", "んだ");
       _んだ.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(FollowsASurfaceEndingWithん));
-      _editor = Edit<VocabEditorSectionViewModel>(だの);
+      _window = new MatchConditionWindowViewModel(GetService<TemporaryServiceCollection>(), だの, _ => {}, _ => {});
       Tree.SelectedLine = Tree.Lines[0].Children[0];
       _dialog = Tree.DialogMakingASharedConditionOfTheSelectedLine() ?? throw new InvalidOperationException("The first line offers no condition to make a shared-condition of.");
    }
 
-   ConditionTreeEditorViewModel Tree => _editor.MatchingConfig.MatchConditionEditor;
+   ConditionTreeEditorViewModel Tree => _window.MatchConditionEditor;
 
    List<string> Lines() => [.. Tree.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
 

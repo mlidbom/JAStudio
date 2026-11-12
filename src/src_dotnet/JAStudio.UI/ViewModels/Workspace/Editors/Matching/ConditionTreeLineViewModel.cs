@@ -101,16 +101,6 @@ class ConditionTreeLineViewModel
    public bool IsASharedCondition => SharedCondition is not null;
 
    /// <summary>
-   /// The shared-condition the line is, as code as it's defined, which hovering over the line shows: its full name, then its definition under it, such<br/>
-   /// as <c>Word.FollowsAPastTenseStem =</c> then <c>AnyOf(</c> and the rest. None when it isn't one.
-   /// </summary>
-   public string? SharedConditionAsDefined =>
-      //review:matching: SharedConditionAsDefined was DefinitionOfTheSharedCondition, but it's more than the definition: the line with the full
-      //   name, then the definition under it. ShownDefinitionOfTheSharedCondition, the definition alone, was DefinitionOfTheSharedConditionShown:
-      //   Shown comes first, as in ShownCode, the line's own code in pieces as the tree shows it.
-      SharedCondition is {} sharedCondition ? ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)) : null;
-
-   /// <summary>
    /// The definition of the shared-condition the line is, as code in pieces, as it's read, which the line shows under it when expanded, indented under the<br/>
    /// line's code: none when it isn't one.
    /// </summary>

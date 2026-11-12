@@ -38,7 +38,7 @@ partial class SharedConditionWindow : Window
 
    SharedConditionWindow(ISharedCondition sharedCondition, TemporaryServiceCollection services)
    {
-      var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services), WorkspaceWindow.ShowNoteList);
+      var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services), WorkspaceWindow.ShowNoteList, WorkspaceWindow.ShowTheSentencesReparsedFor);
       viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
       viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
       DataContext = viewModel;

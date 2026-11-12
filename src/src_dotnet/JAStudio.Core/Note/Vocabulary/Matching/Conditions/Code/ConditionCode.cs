@@ -67,7 +67,7 @@ public static class ConditionCode
    /// </summary>
    public static IReadOnlyList<CodeLine> LinesOfASharedCondition(ISharedCondition sharedCondition) =>
    [
-      new(ConditionPosition.Root, 0, [CodePiece.SharedConditionName(sharedCondition.FullName), CodePiece.Of(" =")]),
+      new(ConditionPosition.Root, 0, [CodePiece.FullNameOf(sharedCondition), CodePiece.Of(" =")]),
       ..sharedCondition.Definition.CodeLines(CodeWriting.OfADefinition)
    ];
 

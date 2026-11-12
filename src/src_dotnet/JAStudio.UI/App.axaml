@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
              x:Class="JAStudio.UI.UIApp"
              RequestedThemeVariant="Default">
     <Application.Resources>
@@ -7,9 +8,49 @@
         <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Hiragino Sans,Noto Sans CJK JP,Microsoft YaHei UI</FontFamily>
         <!-- Code, such as a vocab's match-condition in its tree editor: monospace, with the Japanese fonts for the Japanese in it. -->
         <FontFamily x:Key="CodeFont">Cascadia Mono,Consolas,Menlo,DejaVu Sans Mono,Meiryo UI,Yu Gothic UI,Hiragino Sans,Noto Sans CJK JP,monospace</FontFamily>
+        <!-- A line of a condition's code, in pieces each shown as its kind should be (the TextBlock.code styles below): a line of the tree editor, or of a
+             condition's code shown read-only. A shared-condition's name shows its definition on hover. -->
+        <DataTemplate x:Key="CodeLine" DataType="matching:CodeLineViewModel">
+            <ItemsControl ItemsSource="{Binding Pieces}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="matching:CodePieceViewModel">
+                        <!-- A transparent background, so that a click anywhere on the piece reaches it, as Ctrl+click on a shared-condition's name does. -->
+                        <TextBlock Classes="code" Text="{Binding Text}" Background="Transparent"
+                                   Classes.negation="{Binding IsNegation}" Classes.comment="{Binding IsComment}"
+                                   Classes.sharedConditionName="{Binding IsSharedConditionName}"
+                                   ToolTip.ServiceEnabled="{Binding IsSharedConditionName}">
+                            <ToolTip.Tip>
+                                <TextBlock Text="{Binding SharedConditionAsDefined}" FontFamily="{StaticResource CodeFont}" />
+                            </ToolTip.Tip>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <!-- The pieces of a condition's code (the CodeLine template above). -->
+        <Style Selector="TextBlock.code">
+            <Setter Property="FontFamily" Value="{StaticResource CodeFont}" />
+        </Style>
+        <!-- A ! at the start of a line is easy to miss. -->
+        <Style Selector="TextBlock.code.negation">
+            <Setter Property="Foreground" Value="#E8590C" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="TextBlock.code.comment">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+        <!-- A shared-condition's name stands for a definition of the corpus's, as an IDE colors the methods you wrote. -->
+        <Style Selector="TextBlock.code.sharedConditionName">
+            <Setter Property="Foreground" Value="#2E8BC0" />
+        </Style>
     </Application.Styles>
 </Application>

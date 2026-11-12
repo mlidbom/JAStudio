@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -150,6 +151,26 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       if(ShownNote() is null) return;
 
       new OneNoteTagging(_services).RemoveATagFrom(TheShownNote, pickATagInADialog);
+   }
+
+   /// <summary>
+   /// Ctrl+M: opens the match-condition window of the vocab on the page through <paramref name="openTheMatchConditionWindowOf"/>. Does nothing when the page<br/>
+   /// shows no vocab.
+   /// </summary>
+   internal void OpenTheMatchConditionWindowOfTheShownVocab(Action<VocabNote> openTheMatchConditionWindowOf)
+   {
+      if(ShownNote() is VocabNote vocab)
+         openTheMatchConditionWindowOf(vocab);
+   }
+
+   /// <summary>
+   /// Reloads the page, now or when the tab is shown next, if it shows one of <paramref name="vocab"/>, whose sentences were reparsed after a change made<br/>
+   /// outside the tab, as in a vocab's match-condition window: a vocab's page shows the sentences it matches.
+   /// </summary>
+   internal void ShowTheSentencesReparsedFor(IReadOnlyCollection<VocabNote> vocab)
+   {
+      if(vocab.Any(IsShowing))
+         PageBecameOutdated();
    }
 
    /// <summary>The page asked for <paramref name="pageUrl"/> to be opened in a new tab, as when a link is middle-clicked.</summary>

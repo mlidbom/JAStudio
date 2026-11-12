@@ -31,6 +31,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
    readonly SharedCondition<CandidateWordVariant> _followsAVerb;
    readonly VocabNote _ます;
    readonly List<string> _definitionsOpened = [];
+   readonly List<string> _vocabWhoseSentencesWereReparsed = [];
 
    protected When_editing_a_shared_conditions_definition_in_its_window()
    {
@@ -42,7 +43,11 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
    }
 
    private protected SharedConditionWindowViewModel WindowOf(ISharedCondition sharedCondition) =>
-      new(GetService<TemporaryServiceCollection>(), sharedCondition, it => _definitionsOpened.Add(it.FullName), Workspace.Navigation.ShowNoteList);
+      new(GetService<TemporaryServiceCollection>(),
+          sharedCondition,
+          it => _definitionsOpened.Add(it.FullName),
+          Workspace.Navigation.ShowNoteList,
+          vocab => _vocabWhoseSentencesWereReparsed.AddRange(vocab.Select(it => it.GetQuestion())));
 
    private protected IReadOnlyList<string> QuestionsOfTheNotesTheWorkspacesListTabLists() =>
       [.. Workspace.Navigation.NoteList.Notes.OfEachType.SelectMany(it => it.Notes).Select(it => it.Question)];
@@ -93,6 +98,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          [XF] public void the_tree_shows_the_negation() =>
             LinesOf(_window).Must().SequenceEqual(["// A word meets Word.FollowsAVerb when each of these holds:", "!PrecedingToken.IsAVerb"]);
 
+         [XF] public void the_pages_of_the_vocab_depending_on_it_are_told_their_sentences_were_reparsed() => _vocabWhoseSentencesWereReparsed.Must().SequenceEqual(["ます"]);
+
          [XF] public void the_vocab_still_depends_on_it() =>
             _window.WhoDependsOnIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
 
@@ -137,8 +144,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 
          [XF] public void it_is_gone_so_that_the_window_closes_when_activated() => _window.IsGone.Must().BeTrue();
 
-         [XF] public void the_vocabs_tree_on_its_Matching_tab_shows_its_definition_written_out() =>
-            _ますsEditor.MatchingConfig.MatchConditionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)
+         [XF] public void the_vocabs_Matching_tab_shows_its_definition_written_out() =>
+            _ますsEditor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)
                        .Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAVerb"]);
       }
 
@@ -151,8 +158,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          [XF] public void the_heading_of_the_definition_has_the_new_name() =>
             LinesOf(_window)[0].Must().Be("// A word meets Word.FollowsAVerbOfEitherKind when each of these holds:");
 
-         [XF] public void the_vocabs_tree_on_its_Matching_tab_shows_it_by_the_new_name() =>
-            _ますsEditor.MatchingConfig.MatchConditionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)
+         [XF] public void the_vocabs_Matching_tab_shows_it_by_the_new_name() =>
+            _ますsEditor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)
                        .Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "FollowsAVerbOfEitherKind"]);
       }
    }
