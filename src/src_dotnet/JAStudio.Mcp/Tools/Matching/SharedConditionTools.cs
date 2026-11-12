@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Batches;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
@@ -18,11 +19,13 @@ public class SharedConditionTools
 {
    readonly SharedConditions _sharedConditions;
    readonly JPCollection _collection;
+   readonly LocalNoteUpdater _localNoteUpdater;
 
-   public SharedConditionTools(SharedConditions sharedConditions, JPCollection collection)
+   public SharedConditionTools(SharedConditions sharedConditions, JPCollection collection, LocalNoteUpdater localNoteUpdater)
    {
       _sharedConditions = sharedConditions;
       _collection = collection;
+      _localNoteUpdater = localNoteUpdater;
    }
 
    [McpServerTool(Name = "list_the_shared_conditions", ReadOnly = true, Idempotent = true)]
@@ -51,6 +54,31 @@ public class SharedConditionTools
       [Description("""Its definition: a condition on the subject, as JSON text, such as {"anyOf": [{"precedingToken": {"fact": "pastTenseStem"}}, ...]}.""")]
       string definition) =>
       Listed(_sharedConditions.DefineFrom(LevelOfTheSubjectNamed(subject), name, JsonObjectIn(definition)));
+
+   [McpServerTool(Name = "redefine_a_shared_condition", Destructive = true)]
+   [Description("""
+                Gives a shared-condition another definition, saves it in its file, and reparses the sentences of every vocab whose match-condition
+                depends on it: those that use it, directly or through other shared-conditions' definitions. What those vocab match can change, as
+                with any change to matching: run a full rebuild and look at what it changed before committing. The definition is in the JSON
+                define_a_shared_condition takes, and can't use the shared-condition itself, directly or through others. Reports the shared-condition
+                as listed with its new definition, and the vocab whose sentences were reparsed.
+                """)]
+   public RedefinedSharedCondition RedefineASharedCondition(
+      [Description("What it's about, as code names it in front of its name: Word, Token or Text.")]
+      string subject,
+      [Description("Its name, such as FollowsAPastTenseStem.")]
+      string name,
+      [Description("""Its new definition: a condition on the subject, as JSON text, such as {"anyOf": [{"precedingToken": {"fact": "pastTenseStem"}}, ...]}.""")]
+      string definition)
+   {
+      var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
+      _sharedConditions.RedefineFrom(sharedCondition, JsonObjectIn(definition));
+
+      var vocabDependingOnIt = _collection.Vocab.WhoseMatchConditionsDependOnTheDefinitionOf(sharedCondition);
+      _localNoteUpdater.ReparseSentencesForVocabWithoutProgressDialog(vocabDependingOnIt);
+
+      return new RedefinedSharedCondition(Listed(sharedCondition), [.. vocabDependingOnIt.Select(it => it.Question.DisambiguationName).Order(StringComparer.Ordinal)]);
+   }
 
    [McpServerTool(Name = "use_a_shared_condition_wherever_its_definition_is", Destructive = false)]
    [Description("""

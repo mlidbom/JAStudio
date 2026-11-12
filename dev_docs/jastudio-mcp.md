@@ -249,7 +249,9 @@ the headless JAStudio.
   more while working on how sentences parse (`dev_docs/matching-configuration.md`, increment 6).
   `use_a_shared_condition_wherever_its_definition_is` uses one by name in every vocab's match-condition and the other
   shared-conditions' definitions wherever its definition is, and reports the vocab and shared-conditions it made use it:
-  built to put the five to use in the corpus. `find_the_conditions_vocab_share` lists the conditions, and the combinations
+  built to put the five to use in the corpus. `redefine_a_shared_condition` gives one another definition and reparses the
+  sentences of every vocab whose match-condition depends on it, as its window in JAStudio does: built for changing them
+  while working on how sentences parse (step 3 of increment 6). `find_the_conditions_vocab_share` lists the conditions, and the combinations
   of a group's conditions, that several vocab's match-conditions hold, as candidates for shared-conditions, each with its
   definition ready for `define_a_shared_condition`: built at Magnus's suggestion, to find what's worth naming (step 2 of
   increment 6). It proposes; a mind names and decides.
