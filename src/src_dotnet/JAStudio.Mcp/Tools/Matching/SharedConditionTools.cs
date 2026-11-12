@@ -77,7 +77,7 @@ public class SharedConditionTools
       var vocabDependingOnIt = _collection.Vocab.WhoseMatchConditionsDependOnTheDefinitionOf(sharedCondition);
       _localNoteUpdater.ReparseSentencesForVocabWithoutProgressDialog(vocabDependingOnIt);
 
-      return new RedefinedSharedCondition(Listed(sharedCondition), [.. vocabDependingOnIt.Select(it => it.Question.DisambiguationName).Order(StringComparer.Ordinal)]);
+      return new RedefinedSharedCondition(Listed(sharedCondition), ListedVocab.Of(vocabDependingOnIt));
    }
 
    [McpServerTool(Name = "rename_a_shared_condition", Destructive = false)]
@@ -170,15 +170,10 @@ public class SharedConditionTools
    }
 
    ListedSharedCondition Listed(ISharedCondition sharedCondition) =>
-      new(sharedCondition.FullName, ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)), TheVocabUsing(sharedCondition), TheSharedConditionsUsing(sharedCondition));
-
-   /// <summary>The questions of the vocab whose match-condition uses <paramref name="sharedCondition"/>, each with its disambiguation, in ordinal order.</summary>
-   IReadOnlyList<string> TheVocabUsing(ISharedCondition sharedCondition) =>
-      [.. _collection.Vocab.All().Where(vocab => vocab.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).Select(it => it.Question.DisambiguationName).Order(StringComparer.Ordinal)];
-
-   /// <summary>The full names of the shared-conditions whose definition uses <paramref name="sharedCondition"/>, as they're listed.</summary>
-   IReadOnlyList<string> TheSharedConditionsUsing(ISharedCondition sharedCondition) =>
-      [.. _sharedConditions.All.Where(other => other.Definition.Uses(sharedCondition)).Select(it => it.FullName)];
+      new(sharedCondition.FullName,
+          ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)),
+          ListedVocab.Of(_collection.Vocab.WhoseMatchConditionsUse(sharedCondition)),
+          [.. _sharedConditions.WhoseDefinitionsUse(sharedCondition).Select(it => it.FullName)]);
 
    ISharedCondition SharedConditionNamed(IConditionLevel level, string name) =>
       _sharedConditions.On(level).SingleOrDefault(it => it.Name == name)

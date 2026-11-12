@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -43,6 +42,6 @@ public sealed record ListedSharedConditionCandidate(
           candidate.DefinitionAsStored.ToJsonString(JsonWithItsTextsAsWritten),
           candidate.IsACombination,
           candidate.Vocab.Count,
-          [.. candidate.Vocab.Select(it => it.Question.DisambiguationName).Order(StringComparer.Ordinal).Take(maxVocabListed)],
+          [.. ListedVocab.Of(candidate.Vocab).Take(maxVocabListed)],
           sharedConditions.WhoseDefinitionMeansTheSameAs(candidate.Condition)?.FullName);
 }
