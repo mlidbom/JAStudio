@@ -52,6 +52,9 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
 
    /// <summary>The notes <paramref name="index"/> holds under <paramref name="key"/>: a lookup, recorded if a <see cref="LookupRecording{TNote}"/> runs.</summary>
    protected List<TNote> LookUp<TKey>(Dictionary<TKey, HashSet<TNote>> index, TKey key) where TKey : notnull =>
+      //performance: every lookup takes the cache's exclusive monitor, so parsing on many threads queues here. Analyzing every corpus sentence
+      //   on 16 threads spent about a third of the threads' time waiting for this lock, nearly all of it in VocabCache.WithForm and
+      //   NoteCache.WithQuestion (dotTrace timeline, 2026-11-12). Reads far outnumber writes: reads that take no lock would remove it.
       _monitor.Locked(() => _lookupRecorder.LookedUp(index.TryGetValue(key, out var notes) ? [.. notes] : []));
 
    /// <summary>Look up a note by its external long ID (uses the shared ExternalNoteIdMap).</summary>
