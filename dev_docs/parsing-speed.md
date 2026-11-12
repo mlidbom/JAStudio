@@ -118,12 +118,17 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
 
 ## The first full rebuild after a start (2026-11-12)
 
-A full rebuild reparses every sentence on `ReanalysisThreads` threads (Magnus's configuration: 16), then updates every
-note's generated data and tags on one thread. `full_rebuild` reports its time and the processor time other processes
-used meanwhile, and the headless log has each step's time (`TaskLogEntry`'s tree, written when the rebuild ends).
+A full rebuild reparses every sentence, then updates every note's generated data and tags, each step on
+`ReanalysisThreads` threads (Magnus's configuration: 16). `full_rebuild` reports its time and the processor time other
+processes used meanwhile, and the headless log has each step's time (`TaskLogEntry`'s tree, written when the rebuild ends).
 
-- **Reparsing is most of it:** of a warm rebuild's 1.4 s, reparsing takes 0.9 s and the rest 0.5 s, 0.3 s of it
-  updating the vocab.
+- **Reparsing is most of it:** of a warm rebuild's 1.4 s, reparsing took 0.9 s and the rest 0.5 s, on one thread, 0.3 s
+  of it updating the vocab.
+- **The updates run on many threads now (2026-11-12): 56 ms instead of 433,** the vocab's 30 ms instead of 336. A warm
+  rebuild takes 0.96 s instead of 1.18, measured minutes apart under similar load, and the first after a start 1.66 s.
+  It can, since `UpdateGeneratedData` changes its own note only: the one update that changed other notes, pushing a
+  vocab's answer to its perfect synonyms, now happens when the answer changes. The steps still run one after another:
+  the kanji's tagging reads the vocab, for one.
 - **The first rebuild after a start took 3.7 s, against 1.4 s warm.** A timeline profile showed why, and it was
   mostly the dictionary, not the JIT:
   - **Its forms loaded at the first lookup,** 1.6 s on one thread inside the reparse, the other threads waiting. Now the

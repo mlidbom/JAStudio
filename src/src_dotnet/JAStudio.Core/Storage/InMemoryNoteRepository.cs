@@ -1,15 +1,16 @@
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.Storage;
 
+/// <summary>The notes the specifications save, held in memory instead of the corpus's files. Notes are saved from many threads at once, as the reparse does.</summary>
 class InMemoryNoteRepository : INoteRepository
 {
-   readonly Dictionary<NoteId, KanjiNote> _kanji = new();
-   readonly Dictionary<NoteId, VocabNote> _vocab = new();
-   readonly Dictionary<NoteId, SentenceNote> _sentences = new();
+   readonly ConcurrentDictionary<NoteId, KanjiNote> _kanji = new();
+   readonly ConcurrentDictionary<NoteId, VocabNote> _vocab = new();
+   readonly ConcurrentDictionary<NoteId, SentenceNote> _sentences = new();
 
    public void Save(KanjiNote note) => _kanji[note.GetId()] = note;
    public void Save(VocabNote note) => _vocab[note.GetId()] = note;
@@ -19,9 +20,9 @@ class InMemoryNoteRepository : INoteRepository
    {
       switch(noteId)
       {
-         case VocabId: _vocab.Remove(noteId); break;
-         case KanjiId: _kanji.Remove(noteId); break;
-         case SentenceId: _sentences.Remove(noteId); break;
+         case VocabId: _vocab.TryRemove(noteId, out _); break;
+         case KanjiId: _kanji.TryRemove(noteId, out _); break;
+         case SentenceId: _sentences.TryRemove(noteId, out _); break;
       }
    }
 

@@ -41,6 +41,12 @@ public class LocalNoteUpdater
       _fileSystemNoteRepository = fileSystemNoteRepository;
    }
 
+   /// <summary>
+   /// The threads each batch of notes runs on, as many as <see cref="JapaneseConfig.ReanalysisThreads"/> says. A batch can run on many, since what it<br/>
+   /// does to a note changes that note only, as <see cref="JPNote.UpdateGeneratedData"/> does. The batches themselves run one after another.
+   /// </summary>
+   ThreadCount TheReanalysisThreads => ThreadCount.WithThreads((int)_config.ReanalysisThreads.Value);
+
    public void UpdateAll()
    {
       using(_taskRunner.Current("Updating everything but sentence reanalysis"))
@@ -72,19 +78,19 @@ public class LocalNoteUpdater
    public void UpdateSentences()
    {
       using var scope = _taskRunner.Current("Updating sentences");
-      scope.RunBatch([.. _sentences.All()], it => { it.UpdateGeneratedData(); }, "Updating sentences");
+      scope.RunBatch([.. _sentences.All()], it => { it.UpdateGeneratedData(); }, "Updating sentences", TheReanalysisThreads);
    }
 
    public void UpdateKanji()
    {
       using var scope = _taskRunner.Current("Updating kanji");
-      scope.RunBatch([.. _kanji.All()], it => { it.UpdateGeneratedData(); }, "Updating kanji");
+      scope.RunBatch([.. _kanji.All()], it => { it.UpdateGeneratedData(); }, "Updating kanji", TheReanalysisThreads);
    }
 
    public void UpdateVocab()
    {
       using var scope = _taskRunner.Current("Updating vocab");
-      scope.RunBatch([.. _vocab.All()], it => { it.UpdateGeneratedData(); }, "Updating vocab");
+      scope.RunBatch([.. _vocab.All()], it => { it.UpdateGeneratedData(); }, "Updating vocab", TheReanalysisThreads);
    }
 
    public void TagNoteMetadata()
@@ -106,7 +112,7 @@ public class LocalNoteUpdater
       }
 
       using var scope = _taskRunner.Current("Tagging sentence notes");
-      scope.RunBatch([.. _sentences.All()], TagSentence, "Tagging sentence notes");
+      scope.RunBatch([.. _sentences.All()], TagSentence, "Tagging sentence notes", TheReanalysisThreads);
    }
 
    public void TagVocabMetadata()
@@ -121,7 +127,7 @@ public class LocalNoteUpdater
       }
 
       using var scope = _taskRunner.Current("Tagging vocab");
-      scope.RunBatch([.. _vocab.All()], TagNote, "Tag vocab notes");
+      scope.RunBatch([.. _vocab.All()], TagNote, "Tag vocab notes", TheReanalysisThreads);
    }
 
    /// <summary>
@@ -178,8 +184,8 @@ public class LocalNoteUpdater
 
       using var scope = _taskRunner.Current("Tagging kanji");
       var allKanji = _kanji.All().ToList();
-      scope.RunBatch(allKanji, TagKanji, "Tagging kanji");
-      scope.RunBatch(allKanji, TagHasSingleKanjiVocabWithReadingDifferentFromKanjiPrimaryReading, "Tagging kanji with single kanji vocab");
+      scope.RunBatch(allKanji, TagKanji, "Tagging kanji", TheReanalysisThreads);
+      scope.RunBatch(allKanji, TagHasSingleKanjiVocabWithReadingDifferentFromKanjiPrimaryReading, "Tagging kanji with single kanji vocab", TheReanalysisThreads);
    }
 
    public void ReparseAllSentences()
@@ -223,7 +229,7 @@ public class LocalNoteUpdater
       runner.RunBatch(sentences,
                       ReparseSentence,
                       "Reanalysing sentences.",
-                      threads: ThreadCount.WithThreads((int)_config.ReanalysisThreads.Value));
+                      threads: TheReanalysisThreads);
    }
 
    /// <summary>
