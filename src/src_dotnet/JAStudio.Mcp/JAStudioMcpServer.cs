@@ -15,6 +15,7 @@ using JAStudio.Mcp.Tools.Collection;
 using JAStudio.Mcp.Tools.Corpus;
 using JAStudio.Mcp.Tools.Dictionary;
 using JAStudio.Mcp.Tools.Editing;
+using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Mcp.Tools.Notes;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reservoir;
@@ -113,7 +114,8 @@ public sealed class JAStudioMcpServer
              .WithTools<NoteCreationTools>(ToolResultJsonOptions)
              .WithTools<UniversalNoteActionTools>(ToolResultJsonOptions)
              .WithTools<StudyNoteTools>(ToolResultJsonOptions)
-             .WithTools<ReservoirTools>(ToolResultJsonOptions);
+             .WithTools<ReservoirTools>(ToolResultJsonOptions)
+             .WithTools<MemoryTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
       builder.Services.AddSingleton<OpenReservoirs>();
 

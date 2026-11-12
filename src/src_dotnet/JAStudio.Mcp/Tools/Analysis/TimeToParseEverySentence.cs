@@ -1,3 +1,5 @@
+using JAStudio.Mcp.Tools.Memory;
+
 namespace JAStudio.Mcp.Tools.Analysis;
 
 /// <summary>
@@ -6,6 +8,7 @@ namespace JAStudio.Mcp.Tools.Analysis;
 /// </summary>
 /// <param name="Sentences">How many sentences were parsed.</param>
 /// <param name="Threads">How many threads they were parsed on.</param>
-/// <param name="SecondsToTokenize">How long tokenizing every sentence's question took.</param>
-/// <param name="SecondsToAnalyze">How long analyzing every sentence took, as its stored parsing result is made.</param>
-public record TimeToParseEverySentence(int Sentences, int Threads, double SecondsToTokenize, double SecondsToAnalyze);
+/// <param name="GarbageCollectorMode">The garbage collector's mode in this process, which decides how its pauses scale with threads.</param>
+/// <param name="Tokenizing">The pass that tokenized every sentence's question.</param>
+/// <param name="Analyzing">The pass that analyzed every sentence, as its stored parsing result is made.</param>
+public record TimeToParseEverySentence(int Sentences, int Threads, GarbageCollectorMode GarbageCollectorMode, TimedPass Tokenizing, TimedPass Analyzing);

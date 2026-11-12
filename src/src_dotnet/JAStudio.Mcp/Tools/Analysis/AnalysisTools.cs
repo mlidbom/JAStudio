@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
@@ -60,16 +59,9 @@ public class AnalysisTools
    {
       var sentences = _collection.Sentences.All().ToList();
       var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
-      var secondsToTokenize = SecondsToParseEach(sentences, threadCount, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace()));
-      var secondsToAnalyze = SecondsToParseEach(sentences, threadCount, it => it.CreateAnalysis());
-      return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, secondsToTokenize, secondsToAnalyze);
-   }
-
-   static double SecondsToParseEach(List<SentenceNote> sentences, ThreadCount threads, Action<SentenceNote> parse)
-   {
-      var stopwatch = Stopwatch.StartNew();
-      Parallel.ForEach(sentences, threads.ParallelOptions, parse);
-      return stopwatch.Elapsed.TotalSeconds;
+      var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
+      var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
+      return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
    }
 
    TextAnalysis AnalysisOf(string? text, string? sentenceNoteId, bool forTheSentenceBreakdown) => (text, sentenceNoteId, forTheSentenceBreakdown) switch

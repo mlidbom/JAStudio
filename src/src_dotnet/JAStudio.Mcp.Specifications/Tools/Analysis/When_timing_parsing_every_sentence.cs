@@ -21,6 +21,6 @@ public class When_timing_parsing_every_sentence : McpServerSpecification
 
    [XF] public void it_reports_that_it_parsed_both_sentences() => _time.Sentences.Must().Be(2);
    [XF] public void it_reports_that_it_parsed_on_two_threads() => _time.Threads.Must().Be(2);
-   [XF] public void it_reports_how_long_tokenizing_took() => _time.SecondsToTokenize.Must().BeGreaterThan(0);
-   [XF] public void it_reports_how_long_analyzing_took() => _time.SecondsToAnalyze.Must().BeGreaterThan(0);
+   [XF] public void it_reports_how_long_tokenizing_took() => _time.Tokenizing.Seconds.Must().BeGreaterThan(0);
+   [XF] public void it_reports_how_long_analyzing_took() => _time.Analyzing.Seconds.Must().BeGreaterThan(0);
 }
