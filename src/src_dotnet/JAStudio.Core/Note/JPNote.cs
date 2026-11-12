@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -214,7 +215,7 @@ public abstract class JPNote
    {
       foreach(var tag in AnkiTags)
       {
-         if(tag.Name.StartsWith(Tagging.Tags.PriorityFolder))
+         if(tag.Name.StartsWithOrdinal(Tagging.Tags.PriorityFolder))
          {
             var numberStr = StringExtensions.FirstNumber(tag.Name);
             if(int.TryParse(numberStr, out var num))
@@ -233,7 +234,7 @@ public abstract class JPNote
 
       foreach(var tag in AnkiTags)
       {
-         if(tag.Name.StartsWith(Tagging.Tags.PriorityFolder))
+         if(tag.Name.StartsWithOrdinal(Tagging.Tags.PriorityFolder))
          {
             if(tag.Name.Contains("high")) tags.Add("high_priority");
             if(tag.Name.Contains("low")) tags.Add("low_priority");
@@ -258,7 +259,7 @@ public abstract class JPNote
    {
       get
       {
-         var sourceTags = Tags.Where(t => t.Name.StartsWith(Tagging.Tags.Source.Folder)).ToList();
+         var sourceTags = Tags.Where(t => t.Name.StartsWithOrdinal(Tagging.Tags.Source.Folder)).ToList();
          if(sourceTags.Any())
          {
             var sorted = sourceTags.OrderBy(t => t.Name.Length).ToList();

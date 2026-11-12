@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ public sealed class DictEntry
 
    public bool IsTransitiveVerb() => _partsOfSpeechBySense.All(it => it.Contains(PartOfSpeech.Transitive));
    public bool IsIntransitiveVerb() => _partsOfSpeechBySense.All(it => it.Contains(PartOfSpeech.Intransitive));
-   public bool IsToBeVerb() => Senses.All(s => s.Glosses.All(g => g.StartsWith("to be ")));
+   public bool IsToBeVerb() => Senses.All(s => s.Glosses.All(g => g.StartsWithOrdinal("to be ")));
 
    /// <summary>The <see cref="PartOfSpeech"/>s of all the entry's senses.</summary>
    public HashSet<PartOfSpeech> PartsOfSpeech() => [.. _partsOfSpeechBySense.SelectMany(it => it)];
@@ -90,7 +91,7 @@ public sealed class DictEntry
                endGroup = "";
             }
 
-            bool AllStart(string prefix) => glosses.All(it => it.StartsWith(prefix));
+            bool AllStart(string prefix) => glosses.All(it => it.StartsWithOrdinal(prefix));
 
             if(AllStart("to-be-"))
                return $"to-be:{startGroup}{string.Join("/", glosses.Select(it => RemovePrefix(it, "to-be-")))}{endGroup}";
@@ -120,5 +121,5 @@ public sealed class DictEntry
       return defaultFormat;
    }
 
-   static string RemovePrefix(string text, string prefix) => text.StartsWith(prefix) ? text.Substring(prefix.Length) : text;
+   static string RemovePrefix(string text, string prefix) => text.StartsWithOrdinal(prefix) ? text.Substring(prefix.Length) : text;
 }

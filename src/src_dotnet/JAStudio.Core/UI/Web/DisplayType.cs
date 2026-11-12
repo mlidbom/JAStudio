@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 
 namespace JAStudio.Core.UI.Web;
@@ -21,5 +22,5 @@ static class DisplayType
 
    public static bool IsDisplayingReviewAnswer(string displayType) => displayType == ReviewAnswer;
 
-   public static bool IsReview(string displayType) => displayType.StartsWith("review");
+   public static bool IsReview(string displayType) => displayType.StartsWithOrdinal("review");
 }

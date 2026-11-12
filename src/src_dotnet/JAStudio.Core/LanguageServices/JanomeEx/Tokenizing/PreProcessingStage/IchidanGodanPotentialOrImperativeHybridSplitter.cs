@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
@@ -63,7 +64,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
 
    static List<IAnalysisToken> SplitGodanPotential(JNToken token, string godanBase)
    {
-      var isDictionaryForm = token.Surface.EndsWith("る");
+      var isDictionaryForm = token.Surface.EndsWithOrdinal("る");
 
       var basePart = token.Surface.TrimEnd('る')[..^1];
       var potentialSurface = token.Surface.Substring(basePart.Length);
@@ -109,7 +110,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
 
    static bool IsPotentialGodan(VocabCollection vocabs, DictLookup dictLookup, JNToken token, string godanBase)
    {
-      if(token.Surface.EndsWith("る") || (token.Next != null && token.Next.IsValidGodanPotentialFormInflection()))
+      if(token.Surface.EndsWithOrdinal("る") || (token.Next != null && token.Next.IsValidGodanPotentialFormInflection()))
       {
          var godanDictEntry = WordInfo.LookupGodan(vocabs, dictLookup, godanBase);
          if(godanDictEntry == null)

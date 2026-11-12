@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -46,7 +47,7 @@ public class VocabNotePartsOfSpeech
    public bool IsSuruVerbIncluded()
    {
       var question = Vocab.Question.WithoutNoiseCharacters;
-      return question.Length > 2 && question.EndsWith("する");
+      return question.Length > 2 && question.EndsWithOrdinal("する");
    }
 
    static readonly HashSet<string> GaSuruNiSuruEndings = ["がする", "にする", "くする"];
@@ -85,7 +86,7 @@ public class VocabNotePartsOfSpeech
 
    public bool IsCausativeVerbCompound() => Vocab.CompoundParts.LastPrimaryPartIsAPlainWordAmong(AnalysisConstants.CausativeVerbEndings);
 
-   public bool IsCompleteNaAdjective() => Vocab.Question.Text.EndsWith("な") && Contains(PartOfSpeech.NaAdjective);
+   public bool IsCompleteNaAdjective() => Vocab.Question.Text.EndsWithOrdinal("な") && Contains(PartOfSpeech.NaAdjective);
 
    internal List<string> ToDto() => [.. _partsOfSpeech.Select(it => it.Name)];
 

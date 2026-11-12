@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
@@ -95,7 +96,7 @@ public class JNToken : IAnalysisToken
 
    public override bool IsAdverb =>
       Equals(PartsOfSpeech, JNPOS.Adverb.General) ||
-      (JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech) && Surface.EndsWith("く"));
+      (JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech) && Surface.EndsWithOrdinal("く"));
 
    public override string Surface => _surface;
    public override string BaseForm => _baseForm;

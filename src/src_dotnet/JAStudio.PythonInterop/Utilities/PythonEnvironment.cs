@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.IO;
 using System.Linq;
@@ -123,7 +124,7 @@ public static class PythonEnvironment
    static string? GetBasePythonFromConfig(string pyvenvCfgPath)
    {
       return File.ReadAllLines(pyvenvCfgPath)
-                 .Where(line => line.StartsWith("home = "))
+                 .Where(line => line.StartsWithOrdinal("home = "))
                  .Select(line => line[7..].Trim())
                  .FirstOrDefault();
    }
@@ -131,7 +132,7 @@ public static class PythonEnvironment
    static string GetPythonVersionFromConfig(string pyvenvCfgPath)
    {
       var versionLine = File.ReadAllLines(pyvenvCfgPath)
-                            .Where(line => line.StartsWith("version = "))
+                            .Where(line => line.StartsWithOrdinal("version = "))
                             .Select(line => line[10..].Trim())
                             .FirstOrDefault();
 
@@ -208,7 +209,7 @@ public static class PythonEnvironment
       {
          var exeName = Path.GetFileName(pythonExe);
          // "python3.12" → "3.12"
-         if(exeName.StartsWith("python"))
+         if(exeName.StartsWithOrdinal("python"))
             versionSuffix = exeName["python".Length..];
       }
 
@@ -226,7 +227,7 @@ public static class PythonEnvironment
 
          // Fallback: find any libpython3.X.so (not the unversioned libpython3.so)
          var so = Directory.GetFiles(dir, "libpython3.*.so")
-                           .Where(f => !f.EndsWith(".a"))
+                           .Where(f => !f.EndsWithOrdinal(".a"))
                            .OrderByDescending(f => f)
                            .FirstOrDefault();
 

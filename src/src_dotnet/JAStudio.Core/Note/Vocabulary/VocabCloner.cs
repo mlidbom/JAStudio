@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,7 +89,7 @@ public class VocabCloner
 
    void CopyVocabTagsTo(VocabNote target)
    {
-      foreach(var tag in Note.Tags.Where(t => t.Name.StartsWith(Tags.Vocab.Root)))
+      foreach(var tag in Note.Tags.Where(t => t.Name.StartsWithOrdinal(Tags.Vocab.Root)))
       {
          target.Tags.Set(tag);
       }
@@ -100,7 +101,7 @@ public class VocabCloner
    /// </summary>
    void CopySourceTagsTo(VocabNote clone)
    {
-      foreach(var tag in Note.Tags.Where(it => it.Name.StartsWith(Tags.Source.Folder)))
+      foreach(var tag in Note.Tags.Where(it => it.Name.StartsWithOrdinal(Tags.Source.Folder)))
          clone.Tags.Set(tag);
    }
 
