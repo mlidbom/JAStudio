@@ -11,7 +11,8 @@ few thousand large `byte[]`s come and go: right after a start, they held 1.1 MB 
 time. Pooled buffers, presumably, not notes: compare the types that are notes'.
 
 The first measurement, below, came before that tool: `describe_memory` with `alsoAfterCollectingGarbage`, 1,108 MB on
-the managed heap after the most thorough collection. Then a heap dump (`dotnet-dump collect -p <pid> --type Heap`, 1.4 GB) summed by type (`dotnet-dump analyze` with
+the managed heap after the most thorough collection, in megabytes of 1024 × 1024 bytes, which that tool counted then:
+1,162 MB as every tool counts now. Then a heap dump (`dotnet-dump collect -p <pid> --type Heap`, 1.4 GB) summed by type (`dotnet-dump analyze` with
 `dumpheap -stat -live`) and by string value (`dumpheap -strings`), and `gcroot` for who holds an object. `objsize` on a
 note is no use: from a sentence, the references reach nearly the whole heap.
 

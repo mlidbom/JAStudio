@@ -10,7 +10,7 @@ namespace JAStudio.Mcp.Tools.Memory;
 /// </remarks>
 /// <param name="PrivateMegabytes">The highest private memory sampled: the memory committed for the process alone, as the operating system counts it.</param>
 /// <param name="CommittedByTheGarbageCollectorMegabytes">The most memory sampled that the garbage collector had committed for its heap.</param>
-public record PeakMemoryUse(long PrivateMegabytes, long CommittedByTheGarbageCollectorMegabytes)
+public record PeakMemoryUse(double PrivateMegabytes, double CommittedByTheGarbageCollectorMegabytes)
 {
    /// <summary>How often the memory is sampled.</summary>
    public static readonly TimeSpan TimeBetweenSamples = TimeSpan.FromMilliseconds(100);

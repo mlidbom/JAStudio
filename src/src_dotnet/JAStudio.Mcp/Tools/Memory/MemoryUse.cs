@@ -13,17 +13,15 @@ namespace JAStudio.Mcp.Tools.Memory;
 /// </param>
 /// <param name="WorkingSetMegabytes">The process's memory that is in physical memory, as the operating system counts it, shared pages included.</param>
 /// <param name="PrivateMegabytes">The memory committed for the process alone, as the operating system counts it.</param>
-public record MemoryUse(long AllocatedOnTheManagedHeapMegabytes, long CommittedByTheGarbageCollectorMegabytes, long WorkingSetMegabytes, long PrivateMegabytes)
+public record MemoryUse(double AllocatedOnTheManagedHeapMegabytes, double CommittedByTheGarbageCollectorMegabytes, double WorkingSetMegabytes, double PrivateMegabytes)
 {
-   const long BytesPerMegabyte = 1024 * 1024;
-
    /// <summary>The memory this process uses at this moment.</summary>
    public static MemoryUse Now()
    {
       using var process = Process.GetCurrentProcess();
-      return new MemoryUse(GC.GetTotalMemory(forceFullCollection: false) / BytesPerMegabyte,
-                           GC.GetGCMemoryInfo().TotalCommittedBytes / BytesPerMegabyte,
-                           process.WorkingSet64 / BytesPerMegabyte,
-                           process.PrivateMemorySize64 / BytesPerMegabyte);
+      return new MemoryUse(Megabytes.Of(GC.GetTotalMemory(forceFullCollection: false)),
+                           Megabytes.Of(GC.GetGCMemoryInfo().TotalCommittedBytes),
+                           Megabytes.Of(process.WorkingSet64),
+                           Megabytes.Of(process.PrivateMemorySize64));
    }
 }

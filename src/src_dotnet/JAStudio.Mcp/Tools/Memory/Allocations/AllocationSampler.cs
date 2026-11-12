@@ -33,10 +33,10 @@ sealed class AllocationSampler : EventListener
    {
       Dispose();
       var sampledBytes = _bytesByType.Values.Sum();
-      return new SampledAllocations(Megabytes(sampledBytes),
+      return new SampledAllocations(Megabytes.Of(sampledBytes),
                                     [.. _bytesByType.OrderByDescending(it => it.Value)
                                                     .Take(maxTypesListed)
-                                                    .Select(it => new AllocatedType(it.Key, Megabytes(it.Value), Math.Round(100.0 * it.Value / sampledBytes, 1)))]);
+                                                    .Select(it => new AllocatedType(it.Key, Megabytes.Of(it.Value), Math.Round(100.0 * it.Value / sampledBytes, 1)))]);
    }
 
    protected override void OnEventSourceCreated(EventSource eventSource)
@@ -54,6 +54,4 @@ sealed class AllocationSampler : EventListener
 
       object? PayloadValue(string name) => runtimeEvent.Payload![runtimeEvent.PayloadNames!.IndexOf(name)];
    }
-
-   static double Megabytes(long bytes) => Math.Round(bytes / 1_000_000.0, 1);
 }

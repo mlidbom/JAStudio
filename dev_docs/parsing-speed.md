@@ -35,6 +35,9 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
   physical core with another process's runs slower, and its time counts on.
 - **Compare in one sitting:** start the old code and the new one after each other, rather than comparing with numbers
   from earlier.
+- **A megabyte is 1,000,000 bytes** in every tool's report, as `dotnet-dump` counts. Until 2026-11-12,
+  `time_parsing_every_sentence` and `describe_memory` counted 1024 × 1024 bytes, and reported 4.9% less for the same
+  memory: compare their figures from before with figures from after with that in mind.
 - **The machine these numbers come from** has 16 cores, 32 with hyperthreading, and the corpus 49,162 sentences.
 
 ## What limited parsing on many threads, in the order found

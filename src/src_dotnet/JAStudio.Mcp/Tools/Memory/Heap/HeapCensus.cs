@@ -94,25 +94,23 @@ sealed class HeapCensus
    }
 
    WhatTheHeapHolds Described(int maxTypesListed, string? typesNamed, int maxRepeatedStringsListed) =>
-      new(Megabytes(_everything.Bytes),
+      new(Megabytes.Of(_everything.Bytes),
           _everything.Objects,
           _objectsThatCouldNotBeRead,
           [.. _types.Where(it => typesNamed == null || it.Key.Contains(typesNamed, StringComparison.OrdinalIgnoreCase))
                     .OrderByDescending(it => it.Value.Bytes)
                     .Take(maxTypesListed)
-                    .Select(it => new HeapType(it.Key, it.Value.Objects, Megabytes(it.Value.Bytes), Percent(it.Value.Bytes)))],
+                    .Select(it => new HeapType(it.Key, it.Value.Objects, Megabytes.Of(it.Value.Bytes), Percent(it.Value.Bytes)))],
           new StringsOnTheHeap(_strings.Objects,
-                               Megabytes(_strings.Bytes),
+                               Megabytes.Of(_strings.Bytes),
                                _stringsByValue.Count,
-                               Megabytes(_stringsByValue.Values.Sum(it => it.BytesOfTheCopies)),
+                               Megabytes.Of(_stringsByValue.Values.Sum(it => it.BytesOfTheCopies)),
                                [.. _stringsByValue.Where(it => it.Value.Objects > 1)
                                                   .OrderByDescending(it => it.Value.BytesOfTheCopies)
                                                   .Take(maxRepeatedStringsListed)
-                                                  .Select(it => new RepeatedString(RepeatedString.Shown(it.Key), it.Value.Objects, Megabytes(it.Value.BytesOfTheCopies)))]));
+                                                  .Select(it => new RepeatedString(RepeatedString.Shown(it.Key), it.Value.Objects, Megabytes.Of(it.Value.BytesOfTheCopies)))]));
 
    double Percent(long bytes) => Math.Round(100.0 * bytes / _everything.Bytes, 2);
-
-   static double Megabytes(long bytes) => Math.Round(bytes / 1_000_000.0, 2);
 
    static ObjectTally TallyOf(Dictionary<string, ObjectTally> tallies, string key)
    {

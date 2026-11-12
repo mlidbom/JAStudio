@@ -41,7 +41,7 @@ public record TimedPass(
                            processorTimeUsedSinceTheStart(),
                            (GC.GetTotalPauseDuration() - pausedByTheGarbageCollectorBefore).TotalSeconds,
                            GC.CollectionCount(0) - garbageCollectionsBefore,
-                           Math.Round((GC.GetTotalAllocatedBytes(precise: true) - allocatedBytesBefore) / (1024.0 * 1024.0), 1),
+                           Megabytes.Of(GC.GetTotalAllocatedBytes(precise: true) - allocatedBytesBefore),
                            peakMemoryUse);
    }
 }

@@ -149,7 +149,7 @@ public class AnalysisTools
          using var sampler = new AllocationSampler();
          Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis());
          var sampled = sampler.StopSampling(maxTypesListed);
-         var allocatedMegabytes = Math.Round((GC.GetTotalAllocatedBytes(precise: true) - allocatedBytesBefore) / 1_000_000.0, 1);
+         var allocatedMegabytes = Megabytes.Of(GC.GetTotalAllocatedBytes(precise: true) - allocatedBytesBefore);
          return new WhatAnalyzingEverySentenceAllocates(sentences.Count, threadCount.Threads, allocatedMegabytes, sampled);
       }
    }
