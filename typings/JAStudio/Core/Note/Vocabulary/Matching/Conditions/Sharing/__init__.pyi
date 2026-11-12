@@ -3,6 +3,7 @@ from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition, ICondit
 from System import IEquatable_1
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from System.Text.Json.Nodes import JsonObject
+from JAStudio.Core.Note.Vocabulary import VocabNote
 
 class ISharedCondition(typing.Protocol):
     @property
@@ -67,6 +68,7 @@ class SharedConditions:
     @staticmethod
     def LevelOfTheSubjectNamed(subjectNameInCode: str) -> IConditionLevel: ...
     def On(self, level: IConditionLevel) -> IReadOnlyList_1[ISharedCondition]: ...
+    def UseWhereverItsDefinitionIs(self, sharedCondition: ISharedCondition, vocab: IEnumerable_1[VocabNote]) -> None: ...
     # Skipped Define due to it being static, abstract and generic.
 
     Define : Define_MethodGroup

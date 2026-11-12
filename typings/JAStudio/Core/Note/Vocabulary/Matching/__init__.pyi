@@ -3,6 +3,7 @@ from JAStudio.Core.Note.NoteFields import FlagField
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules import MatchConditionAsRules
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
 from System.Collections.Generic import IReadOnlySet_1
 
 class IsInflectingWord(FlagField):
@@ -87,6 +88,7 @@ class VocabNoteMatchingConfiguration:
     @property
     def YieldToSurface(self) -> VocabYieldToSurface: ...
     def SetMatchCondition(self, matchCondition: AllOfGroup_1[CandidateWordVariant]) -> None: ...
+    def UseWhereverItsDefinitionIs(self, sharedCondition: ISharedCondition) -> None: ...
 
 
 class VocabYieldToSurface:
