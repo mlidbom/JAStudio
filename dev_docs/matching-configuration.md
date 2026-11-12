@@ -1,8 +1,9 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 5 of the core are built, and step 1 of increment 6, shared-conditions: the
-> model, their storage, their display, and the first five in the corpus. Under way, step 2, the vocab using them by name,
-> wherever their definitions are:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 and 2 of increment 6, shared-conditions:
+> the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
+> definitions were, through an operation that stays. Next, naming the conditions vocab share that the new finder found,
+> then step 3:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -747,7 +748,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
    code):
    1. **The model and its storage, their display, and the five in the corpus:** built 2026-11-12, see
       [Increment 6, step 1, as built](#increment-6-step-1-as-built).
-   2. **The vocab using the five by name,** in place of their conditions written out, through an operation that stays:
+   2. **The vocab using the five by name,** built 2026-11-12, see
+      [Increment 6, step 2, as built](#increment-6-step-2-as-built). In place of their conditions written out, through an operation that stays:
       using a shared-condition wherever its definition is (revised with Magnus, 2026-11-12, see
       [Step 2: naming a condition never changes what a vocab does](#step-2-naming-a-condition-never-changes-what-a-vocab-does)).
       A change to the corpus's format, so Anki is closed for the fast-forward.
@@ -1213,6 +1215,53 @@ none.
 
 **Not built yet:** opening a shared-condition's definition from the tree (step 3). The hover's tooltip is the one part
 the headless JAStudio's tools can't show, so it's unchecked by eye.
+
+### Increment 6, step 2, as built
+
+Built 2026-11-12, as planned in
+[Step 2: naming a condition never changes what a vocab does](#step-2-naming-a-condition-never-changes-what-a-vocab-does).
+
+1. **Comparing by meaning** (`Condition.MeansTheSameAs`): two conditions mean the same when they're built of the same
+   conditions, but for the order of those in a group, with a group of the same kind in a group taken as the conditions it
+   holds (`ConditionGroup<TSubject>.FlattenedConditions`), and with a shared-condition taken as its definition. Equality
+   is unchanged, order and names included, since the tree editor relies on it.
+2. **Weighing by meaning:** the rules recognize a condition that means the same as theirs (`RequireForbidMatchingRule`,
+   `TextsMatchingRule`), and a vocab's priority weighs the match-condition's flattened conditions
+   (`MatchConditionAsRules.MatchWeight`). So a shared-condition weighs what its definition weighs, a negated one what the
+   forbidden rule does, and a combination put in a shared-condition weighs what its conditions did. No file holds a
+   weight. A shared-condition's compared texts are its definition's, so a texts rule's condition given a name is still
+   that rule's, for its weight and for the tags below `Tags.Vocab.Matching.Uses`. Godan potential built by hand with its
+   two facts the other way round now weighs what the rule does.
+3. **Using a shared-condition wherever its definition is** (`Condition.WithSharedConditionUsed`,
+   `VocabNoteMatchingConfiguration.UseWhereverItsDefinitionIs`, `SharedConditions.UseWhereverItsDefinitionIs`): in every
+   vocab's match-condition and the other shared-conditions' definitions, saving what changes. The MCP server's
+   `use_a_shared_condition_wherever_its_definition_is` runs it and reports what it changed.
+4. **The rule editors keep working on a vocab that uses one of the five:** its shared-condition reads as the rule's
+   condition, so the vocab is still made of rules only. Changing that rule's choice on the Matching tab writes the rule's
+   condition out again in place of the name; the rule editors go in step 4.
+5. **The five used in the corpus:** 87 vocab. Sentence start in 38, godan potential in 36, godan imperative in 16, past
+   tense stem in 6 and ichidan imperative in 4, the forbidden ones negated. No vocab holds any of their definitions written
+   out anymore. Only those 87 vocab's match-conditions changed, each a written-out condition replaced by the name in its
+   place: a full rebuild after it changed nothing more, and no sentence. Full rebuilds before the code and after it changed
+   nothing.
+
+**Then, finding the conditions vocab share** (`Sharing.Candidates.SharedConditionCandidates`, the MCP server's
+`find_the_conditions_vocab_share`): every condition in the vocab's trees, and every combination of two or more of the
+conditions of a group of three to eight, counted by meaning (`ConditionMeaningComparer`, with a hash of what a condition
+means, `Condition.HashCodeOfItsMeaning`). Left out: what's a name already, a fact or a shared-condition, on a subject or
+negated; a negation, since naming what it negates names it too, and what it negates counts as held by the vocab holding
+the negation; and a condition only ever found within a larger one held by the same vocab. Each candidate comes with the
+shared-condition whose definition means the same, if there's one, to be used rather than defined.
+
+**Found on the corpus after the five were used, 2026-11-12:** 19 conditions held by three vocab or more, the first:
+- `PrecedingToken.Surface.EndsWithOneOf("ん")`, 44 vocab: 37 require it and 7 forbid it.
+- `AllOf(PrecedingToken.IsInAnIrrealisForm, !PrecedingToken.IsAnIchidanVerb)`, 20 vocab, such as あせる.
+- `AllOf(PrecedingToken.Surface.EndsWithOneOf("ん"), FirstToken.HasATeFormStem)`, 13 vocab, such as んで and んでしまう.
+- `AllOf(!IsAtTheSentencesStart, StartsInAGodanPotentialForm)`, 11 vocab, such as えた and えない.
+- `PrecedingToken.Surface.EndsWithOneOf("く")`, 10 vocab: 4 require it, such as くなる, and 6 forbid it.
+- `AllOf(IsAtTheSentencesStart, LastToken.EndsAStatement)`, 9 vocab, interjections such as あのな and そうだな.
+
+None is defined yet: they wait for Magnus to name them and decide that each is one concept.
 
 ### Naming and design questions: `review:matching:` comments
 
