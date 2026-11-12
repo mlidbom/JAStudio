@@ -77,9 +77,9 @@ public class SharedConditionTools
    ListedSharedCondition Listed(ISharedCondition sharedCondition) =>
       new(sharedCondition.FullName, ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)), TheVocabUsing(sharedCondition), TheSharedConditionsUsing(sharedCondition));
 
-   /// <summary>The questions of the vocab whose match-condition uses <paramref name="sharedCondition"/>, in ordinal order.</summary>
+   /// <summary>The questions of the vocab whose match-condition uses <paramref name="sharedCondition"/>, each with its disambiguation, in ordinal order.</summary>
    IReadOnlyList<string> TheVocabUsing(ISharedCondition sharedCondition) =>
-      [.. _collection.Vocab.All().Where(vocab => vocab.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).Select(it => it.GetQuestion()).Order(StringComparer.Ordinal)];
+      [.. _collection.Vocab.All().Where(vocab => vocab.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).Select(it => it.Question.DisambiguationName).Order(StringComparer.Ordinal)];
 
    /// <summary>The full names of the shared-conditions whose definition uses <paramref name="sharedCondition"/>, as they're listed.</summary>
    IReadOnlyList<string> TheSharedConditionsUsing(ISharedCondition sharedCondition) =>

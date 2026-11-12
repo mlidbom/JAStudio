@@ -8,7 +8,7 @@ namespace JAStudio.Mcp.Tools.Matching;
 /// changed.
 /// </summary>
 /// <param name="SharedCondition">The shared-condition as listed after it was used, with everything that uses it now.</param>
-/// <param name="VocabMadeToUseIt">The questions of the vocab whose match-condition was changed to use it, in ordinal order.</param>
+/// <param name="VocabMadeToUseIt">The questions of the vocab whose match-condition was changed to use it, each with its disambiguation, in ordinal order.</param>
 /// <param name="SharedConditionsMadeToUseIt">The full names of the shared-conditions whose definition was changed to use it.</param>
 public sealed record SharedConditionPutToUse(ListedSharedCondition SharedCondition, IReadOnlyList<string> VocabMadeToUseIt, IReadOnlyList<string> SharedConditionsMadeToUseIt)
 {
