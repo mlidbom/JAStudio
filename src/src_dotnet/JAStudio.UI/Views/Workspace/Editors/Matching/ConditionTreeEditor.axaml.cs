@@ -176,18 +176,22 @@ public partial class ConditionTreeEditor : UserControl
 
    void ChangeTheSelectedCondition() => ViewModel.ChangeTheSelectedConditionThroughAnEditor(EditInADialog);
 
-   void MakeASharedConditionOfTheSelectedLine() => ViewModel.MakeASharedConditionOfTheSelectedLineThroughADialog(async dialog =>
-   {
-      var toMake = await NewSharedConditionDialog.ShowAsync(OwnerWindow, dialog, BelowTheSelectedLine());
-      Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Loaded);
-      return toMake;
-   });
+   void MakeASharedConditionOfTheSelectedLine() =>
+      ViewModel.MakeASharedConditionOfTheSelectedLineThroughADialog(dialog => ShowADialogBelowTheSelectedLine((owner, topLeft) => NewSharedConditionDialog.ShowAsync(owner, dialog, topLeft)));
 
-   async Task<Condition?> EditInADialog(ConditionTextsEditorViewModel editor)
+   Task<Condition?> EditInADialog(ConditionTextsEditorViewModel editor) =>
+      ShowADialogBelowTheSelectedLine((owner, topLeft) => ConditionTextsDialog.ShowAsync(owner, editor, topLeft));
+
+   /// <summary>
+   /// Shows a modal dialog through <paramref name="showDialog"/>, over the window, with its top left corner below the selected line, and returns what it<br/>
+   /// closed with. The keyboard then goes back to the selected line.
+   /// </summary>
+   async Task<TClosedWith> ShowADialogBelowTheSelectedLine<TClosedWith>(Func<Window, PixelPoint, Task<TClosedWith>> showDialog)
    {
-      var condition = await ConditionTextsDialog.ShowAsync(OwnerWindow, editor, BelowTheSelectedLine());
+      //review:matching: ShowADialogBelowTheSelectedLine was written out in EditInADialog and MakeASharedConditionOfTheSelectedLine each.
+      var closedWith = await showDialog(OwnerWindow, BelowTheSelectedLine());
       Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Loaded);
-      return condition;
+      return closedWith;
    }
 
    /// <remarks>
@@ -220,7 +224,7 @@ public partial class ConditionTreeEditor : UserControl
    /// <summary>Where menus and dialogs opened from the keyboard go: just below the selected line, with the lines of a group under it, or below the tree.</summary>
    PixelPoint BelowTheSelectedLine()
    {
-      Visual below = SelectedLineItem() is {} selectedLine ? selectedLine : ConditionTree;
+      Visual below = SelectedLineItem() ?? (Visual)ConditionTree;
       return below.PointToScreen(new Point(0, below.Bounds.Height));
    }
 }
