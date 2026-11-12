@@ -35,7 +35,8 @@ public class WorkspaceMainMenu
                            new List<SpecMenuItem>
                            {
                               SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+O)"), WorkspaceWindow.ToggleNoteSearch),
-                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), getClipboardContent)
+                              WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), getClipboardContent),
+                              SpecMenuItem.Command(ShortcutFinger.Home3(MainMenuWindows.SharedConditions.Name), () => MainMenuWindows.SharedConditions.Open(_services))
                            }
       ),
       SpecMenuItem.Submenu(ShortcutFinger.Home3("Local Actions"),
