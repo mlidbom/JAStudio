@@ -126,6 +126,12 @@ are estimates from the counts by type, unless they say measured. Largest first:
 
 Together about 230 MB of the 713. Of a sentence's estimated 5 KB, items 1, 4, 6, 7, 8 and 9 would take about 1.5 KB.
 
+**Status: enough for now (Magnus, 2026-11-12).** At about 5 KB a sentence note, a million sentences would take about 5 GB
+of live objects: "5GB is no problem at all, I'd start feeling pain at 20GB maybe", and the working set will likely stay
+far below a million. So none of the wins below is being made. One thing stays true at any size: every change to a note
+copies the whole set of each index key it touches, so importing many sentences into the working set has to add them in
+one change (`AddAllToCache`), not one at a time.
+
 **What scales with the sentences (Magnus, 2026-11-12):** only what each sentence note costs matters for a working set of
 hundreds of thousands of sentences, or a million; the vocab's, the kanji's and the dictionary's costs stay as they are.
 What a sentence note costs, by part, estimated from the counts by type over the 49,162 sentences:

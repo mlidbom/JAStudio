@@ -77,6 +77,44 @@ vocab reparses those it can affect, and says at once what it broke and what it f
 - **A second after each edit is within reach:** an edit to a vocab already reparses only the sentences that could
   contain its forms.
 
+## How large the working set needs to be (Claude's thoughts, to discuss, 2026-11-12)
+
+Magnus asked how large the corpus must be to build the vocab and the matching rules with confidence that the parsing
+results are representative, given that too large a corpus could make a parsing change touch too many sentences to judge.
+
+**The sentences per vocab, today** (each vocab's `sentenceCount`, 28,004 vocab, 585,368 vocab-sentence pairs):
+
+| Sentences | Vocab |
+|---|---|
+| 0 | 2,669 (9.5%) |
+| 1 | 10,314 (36.8%) |
+| 2–4 | 7,276 (26.0%) |
+| 5–9 | 3,263 (11.7%) |
+| 10–29 | 2,573 (9.2%) |
+| 30–99 | 1,200 (4.3%) |
+| 100–999 | 636 (2.3%) |
+| 1,000 or more | 73 (0.3%), up to 16,332 sentences, holding 45% of the pairs |
+
+- **What decides confidence is the sentences per vocab, not the corpus's size.** 72% of the vocab have fewer than five
+  sentences, too few to tell how their matching behaves; 73 have more than anyone can read. Words in text follow
+  Zipf's law, so adding sentences at random grows both ends alike: ten times the sentences gives the 73 ten times as
+  many, and most of the 10,314 vocab with one sentence still a handful.
+- **So choose the working set from the reservoir by coverage:** a floor of sentences per vocab, where the reservoir has
+  them, chosen to differ (forms, inflections, the words around them, sources), and the sentences where a vocab's form
+  appears but must not match, which the reservoir's rejected matches find. The floor can follow the risk: a long kanji
+  compound matches the same everywhere, and a few sentences show it; a short kana word, or one sharing its form with
+  others, needs tens. With n sentences and no error seen, the error rate is likely below 3/n: 10 sentences show only
+  that it's under 30%, 30 under 10%, 100 under 3%.
+- **Representative frequencies come from the reservoir, not the working set:** the working set exercises each vocab and
+  holds the confirmed answers; how often a change's effect occurs in real text is a question to ask the reservoir per
+  change, as `what_a_vocab_does_in_the_reservoir` does for a vocab.
+- **Judging a change depends on grouping, not on how many sentences changed.** Every added sentence holds particles and
+  auxiliaries, so the frequent vocab grow with any growth, and they already have up to 16,332 sentences. A change to one
+  of them is judged by its kinds of change, with counts and a few examples of each, and by the confirmed sentences, where
+  any change is suspect. The kinds grow far more slowly than the sentences.
+- **A guess at the size:** a floor of about ten for the vocab the reservoir has sentences for might take the working set
+  to 100,000–200,000 sentences, two to four times today's; a selection over the reservoir's analyses would say exactly.
+
 ## The first sources: Magnus's subs2srs folder (surveyed 2026-11-11)
 
 Magnus's `Dropbox\KEEP\Anki\SUBS2SRS`, 29 GB. Sentences are counted after removing whitespace and markup, and against
