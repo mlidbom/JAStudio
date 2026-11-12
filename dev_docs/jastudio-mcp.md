@@ -287,6 +287,14 @@ the headless JAStudio.
   1.4 GB and minutes of `dotnet-dump`. The snapshot can catch memory being made into objects, which reads as objects that
   aren't, such as strings of length -1 at the end of a region of the heap: only objects that end within their region, and
   strings of a length that isn't negative, are counted. See `dev_docs/memory-use.md`.
+- **What holds a type's objects, built (2026-11-12):** `describe_what_holds_the_objects_of_a_type` counts, for one type,
+  the types of the objects that reference its objects (`HolderCensus`): how many of them do, how many of the type's
+  objects they reference, and those objects' megabytes; and how many only a root holds. Built to tell what holds the
+  heap's 117 MB of strings and 106 MB of `byte[]`s, which a count by type can't. It counts direct references only: a
+  list's strings are held by its array, and asking about the array's type tells what holds the arrays. It and
+  `describe_what_the_heap_holds` read the same `HeapSnapshot`, one at a time. In the specifications they run in a
+  collection of their own, after every other specification: a census of the specifications' process took over 100
+  seconds while every other specification ran, a second alone.
 - **The reservoir, built on the branch `corpus-reservoir` (2026-11-11):** `what_a_vocab_does_in_the_reservoir` tells what
   a vocab, as JAStudio has it now, does in a reservoir's millions of sentences (`WhatAVocabDoesInTheReservoir`): where it
   matches, which sentences reject it and why, and where its matching changed since the reservoir's bulk analysis, which
