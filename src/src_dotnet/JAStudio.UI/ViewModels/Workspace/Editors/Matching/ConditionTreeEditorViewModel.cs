@@ -193,7 +193,7 @@ partial class ConditionTreeEditorViewModel : ObservableObject
       {
          if(await inADialog(dialog) is not {} toMake) return;
 
-         _noteServices.SharedConditions.MakeOf(toMake.Definition, toMake.Name, _noteServices.Collection.Vocab.All());
+         _noteServices.SharedConditions.MakeOf(toMake.Definition, toMake.Name);
          Refresh();
       });
    }

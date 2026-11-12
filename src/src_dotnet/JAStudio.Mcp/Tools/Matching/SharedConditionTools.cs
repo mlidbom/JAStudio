@@ -97,7 +97,7 @@ public class SharedConditionTools
       string newName)
    {
       var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
-      _sharedConditions.Rename(sharedCondition, newName, _collection.Vocab.All());
+      _sharedConditions.Rename(sharedCondition, newName);
       return Listed(sharedCondition);
    }
 
@@ -118,7 +118,7 @@ public class SharedConditionTools
    {
       var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
       var listedBeforeItWasDeleted = Listed(sharedCondition);
-      _sharedConditions.Delete(sharedCondition, _collection.Vocab.All());
+      _sharedConditions.Delete(sharedCondition);
       return listedBeforeItWasDeleted;
    }
 
@@ -140,7 +140,7 @@ public class SharedConditionTools
       var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
       var listedBefore = Listed(sharedCondition);
 
-      _sharedConditions.UseWhereverItsDefinitionIs(sharedCondition, _collection.Vocab.All());
+      _sharedConditions.UseWhereverItsDefinitionIs(sharedCondition);
 
       return SharedConditionPutToUse.Between(before: listedBefore, after: Listed(sharedCondition));
    }

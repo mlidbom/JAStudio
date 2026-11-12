@@ -58,10 +58,10 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
    protected When_using_a_shared_condition_wherever_its_definition_is()
    {
       _sharedConditions = GetService<SharedConditions>();
-      _startsInAGodanPotentialForm = _sharedConditions.Define(WordConditions.Level, "StartsInAGodanPotentialForm", MatchingRules.GodanPotential.WhenRequired);
-      _followsAnIrrealisFormOfNoIchidanVerb = _sharedConditions.Define(WordConditions.Level, "FollowsAnIrrealisFormOfNoIchidanVerb", AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.Ichidan.WhenForbidden));
+      _startsInAGodanPotentialForm = _sharedConditions.Define(Level, "StartsInAGodanPotentialForm", MatchingRules.GodanPotential.WhenRequired);
+      _followsAnIrrealisFormOfNoIchidanVerb = _sharedConditions.Define(Level, "FollowsAnIrrealisFormOfNoIchidanVerb", AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.Ichidan.WhenForbidden));
       _isAVerb = _sharedConditions.Define(TokenConditions.Level, "IsAVerb", AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
-      _followsAVerb = _sharedConditions.Define(WordConditions.Level, "FollowsAVerb", PrecedingToken.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
+      _followsAVerb = _sharedConditions.Define(Level, "FollowsAVerb", PrecedingToken.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
 
       _godanPotentialInTheOtherOrder = VocabWith("える", FirstToken.AnyOf(TokenConditions.IsAGodanPotentialInflection, TokenConditions.IsAGodanPotentialStem));
       _godanPotentialForbidden = VocabWith("れる", MatchingRules.GodanPotential.WhenForbidden);
@@ -101,7 +101,7 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
       public after_using_each_of_them()
       {
          foreach(var sharedCondition in new ISharedCondition[] { _isAVerb, _startsInAGodanPotentialForm, _followsAnIrrealisFormOfNoIchidanVerb, _followsAVerb })
-            _sharedConditions.UseWhereverItsDefinitionIs(sharedCondition, GetService<JPCollection>().Vocab.All());
+            _sharedConditions.UseWhereverItsDefinitionIs(sharedCondition);
       }
 
       [XF] public void the_godan_potential_in_the_other_order_uses_its_shared_condition() =>

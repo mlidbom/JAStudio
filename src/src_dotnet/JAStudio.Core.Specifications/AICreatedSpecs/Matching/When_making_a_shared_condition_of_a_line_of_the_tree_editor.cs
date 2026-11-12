@@ -5,7 +5,6 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.ConditionTrees;
-using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
@@ -73,7 +72,7 @@ public class When_making_a_shared_condition_of_a_line_of_the_tree_editor : Speci
    public class after_making_Token_EndsInN_of_what_the_negated_line_holds_on_a_token : When_making_a_shared_condition_of_a_line_of_the_tree_editor
    {
       public after_making_Token_EndsInN_of_what_the_negated_line_holds_on_a_token() =>
-         SharedConditions.MakeOf(_treeOfだの.ConditionsToMakeASharedConditionOfAt(TheLineAt(0))[1], "EndsInN", GetService<JPCollection>().Vocab.All());
+         SharedConditions.MakeOf(_treeOfだの.ConditionsToMakeASharedConditionOfAt(TheLineAt(0))[1], "EndsInN");
 
       [XF] public void it_is_defined_as_that_condition() =>
          SharedConditions.All.Select(it => $"{it.FullName} = {it.Definition}").Must().SequenceEqual(["""Token.EndsInN = Surface.EndsWithOneOf("ん")"""]);

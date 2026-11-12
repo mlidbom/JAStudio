@@ -1,3 +1,4 @@
+using System;
 using Compze.Contracts;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
@@ -71,7 +72,7 @@ public static class AppBootstrapper
                                                            new AutomaticImportRuns(savedProfiles, importer, backgroundTaskManager)),
 
          // Matching
-         Singleton.For<SharedConditions>().CreatedBy((IEnvironmentPaths paths) => new SharedConditions(paths)),
+         Singleton.For<SharedConditions>().CreatedBy((IEnvironmentPaths paths, IRootResolver resolver) => new SharedConditions(paths, new Lazy<VocabCollection>(resolver.Resolve<VocabCollection>))),
 
          // Core services
          Singleton.For<Settings>().CreatedBy((JapaneseConfig config) => new Settings(config)),

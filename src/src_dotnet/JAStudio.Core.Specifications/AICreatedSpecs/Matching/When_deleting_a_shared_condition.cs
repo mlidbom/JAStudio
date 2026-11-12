@@ -30,14 +30,14 @@ public class When_deleting_a_shared_condition : When_sharing_a_condition
 
    public When_deleting_a_shared_condition()
    {
-      _followsAVerbAsASingleToken = _sharedConditions.Define(WordConditions.Level, "FollowsAVerbAsASingleToken", ConditionGroup.AllOf(_followsAVerb, IsASingleToken));
+      _followsAVerbAsASingleToken = _sharedConditions.Define(Level, "FollowsAVerbAsASingleToken", ConditionGroup.AllOf(_followsAVerb, IsASingleToken));
       _ます = CreateVocab("ます", "polite ending", "ます");
       _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerbAsASingleToken, IsMatchedByItsSurface));
       _を = CreateVocab("を", "object marker", "を");
       _を.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(PrecedingToken.Meets(_isAVerb)));
    }
 
-   void Delete(ISharedCondition sharedCondition) => _sharedConditions.Delete(sharedCondition, GetService<JPCollection>().Vocab.All());
+   void Delete(ISharedCondition sharedCondition) => _sharedConditions.Delete(sharedCondition);
 
    public class after_deleting_FollowsAVerbAsASingleToken : When_deleting_a_shared_condition
    {
@@ -56,7 +56,7 @@ public class When_deleting_a_shared_condition : When_sharing_a_condition
 
       public class and_defining_one_anew_by_its_name : after_deleting_FollowsAVerbAsASingleToken
       {
-         public and_defining_one_anew_by_its_name() => _sharedConditions.Define(WordConditions.Level, "FollowsAVerbAsASingleToken", IsASingleToken);
+         public and_defining_one_anew_by_its_name() => _sharedConditions.Define(Level, "FollowsAVerbAsASingleToken", IsASingleToken);
 
          [XF] public void the_deleted_one_is_not_held_though_one_has_its_name() => _sharedConditions.Holds(_followsAVerbAsASingleToken).Must().BeFalse();
 

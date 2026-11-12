@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
 using Compze.Threading;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
@@ -34,10 +35,21 @@ public sealed class SharedConditions
    }
 
    readonly SharedConditionsFolder _folder;
+
+   /// <summary>
+   /// The collection's vocab, whose match-conditions use the shared-conditions: those that making, renaming and deleting one change. Got the first time<br/>
+   /// they're needed, since the collection is made after the shared-conditions, and loads them before its notes.
+   /// </summary>
+   readonly Lazy<VocabCollection> _vocab;
+
    readonly IMonitor _monitor = IMonitor.New();
    Dictionary<(IConditionLevel Level, string Name), ISharedCondition> _byLevelAndName = [];
 
-   internal SharedConditions(IEnvironmentPaths paths) => _folder = new SharedConditionsFolder(paths);
+   internal SharedConditions(IEnvironmentPaths paths, Lazy<VocabCollection> vocab)
+   {
+      _folder = new SharedConditionsFolder(paths);
+      _vocab = vocab;
+   }
 
    /// <summary>Every shared-condition: those on a word first, then a token's, then a text's, each kind by name.</summary>
    public IReadOnlyList<ISharedCondition> All =>
@@ -100,16 +112,16 @@ public sealed class SharedConditions
 
    /// <summary>
    /// Makes a shared-condition named <paramref name="name"/> of <paramref name="condition"/>, on its level's subject, as a line of the tree editor is made one,<br/>
-   /// saves it in its file, and uses it wherever its definition is (<see cref="UseWhereverItsDefinitionIs"/>): in the match-condition of each of<br/>
-   /// <paramref name="vocab"/>, and in the definitions of the other shared-conditions. None of them then means anything else.
+   /// saves it in its file, and uses it wherever its definition is (<see cref="UseWhereverItsDefinitionIs"/>): in the match-condition of each vocab, and<br/>
+   /// in the definitions of the other shared-conditions. None of them then means anything else.
    /// </summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <paramref name="name"/> can't name it (<see cref="WhyItCannotNameANewOne"/>).</exception>
-   public ISharedCondition MakeOf(ConditionWithItsLevel condition, string name, IEnumerable<VocabNote> vocab)
+   public ISharedCondition MakeOf(ConditionWithItsLevel condition, string name)
    {
       var sharedCondition = condition.Level.NewSharedCondition(name);
       sharedCondition.Redefine(condition.Condition);
       AddAndSave(sharedCondition);
-      UseWhereverItsDefinitionIs(sharedCondition, vocab);
+      UseWhereverItsDefinitionIs(sharedCondition);
       return sharedCondition;
    }
 
@@ -153,17 +165,17 @@ public sealed class SharedConditions
    public void RedefineFrom(ISharedCondition sharedCondition, JsonObject definition) => Redefine(sharedCondition, sharedCondition.Level.ConditionFrom(definition, this));
 
    /// <summary>
-   /// Renames <paramref name="sharedCondition"/>, one of these, <paramref name="newName"/>, with its file, and saves each definition and each match-condition of<br/>
-   /// <paramref name="vocab"/> that uses it, since the corpus stores the shared-conditions they use by name. What each means is unchanged.
+   /// Renames <paramref name="sharedCondition"/>, one of these, <paramref name="newName"/>, with its file, and saves each definition and each vocab's<br/>
+   /// match-condition that uses it, since the corpus stores the shared-conditions they use by name. What each means is unchanged.
    /// </summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <paramref name="newName"/> can't name it (<see cref="WhyItCannotNameANewOne"/>).</exception>
-   public void Rename(ISharedCondition sharedCondition, string newName, IEnumerable<VocabNote> vocab)
+   public void Rename(ISharedCondition sharedCondition, string newName)
    {
       AssertIsOneOfThese(sharedCondition);
       AssertItCanNameANewOne(sharedCondition.Level, newName);
 
       var definitionsUsingIt = WhoseDefinitionsUse(sharedCondition);
-      var vocabUsingIt = vocab.Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).ToList();
+      var vocabUsingIt = _vocab.Value.WhoseMatchConditionsUse(sharedCondition);
       _monitor.Locked(() =>
       {
          RemoveWithItsFile(sharedCondition);
@@ -176,14 +188,14 @@ public sealed class SharedConditions
 
    /// <summary>
    /// Deletes <paramref name="sharedCondition"/>, one of these, and its file, with its definition written out wherever it's used<br/>
-   /// (<see cref="Condition.WithTheDefinitionWrittenOutOf"/>): in each match-condition of <paramref name="vocab"/> and each other definition that uses it,<br/>
-   /// saving each. None of them then means anything else, so no vocab matches other words. The reverse of making it (<see cref="MakeOf"/>).
+   /// (<see cref="Condition.WithTheDefinitionWrittenOutOf"/>): in each vocab's match-condition and each other definition that uses it, saving each. None<br/>
+   /// of them then means anything else, so no vocab matches other words. The reverse of making it (<see cref="MakeOf"/>).
    /// </summary>
-   public void Delete(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
+   public void Delete(ISharedCondition sharedCondition)
    {
       AssertIsOneOfThese(sharedCondition);
       foreach(var definitionUsingIt in WhoseDefinitionsUse(sharedCondition)) WriteItOutInTheDefinitionOf(definitionUsingIt);
-      vocab.ToList().ForEach(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition));
+      _vocab.Value.WhoseMatchConditionsUse(sharedCondition).ForEach(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition));
       _monitor.Locked(() => RemoveWithItsFile(sharedCondition));
       return;
 
@@ -195,22 +207,19 @@ public sealed class SharedConditions
    }
 
    /// <summary>
-   /// Uses <paramref name="sharedCondition"/>, one of these, by name wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>): in the<br/>
-   /// match-condition of each of <paramref name="vocab"/>, saving each vocab that changes, and in the definitions of the other shared-conditions,<br/>
-   /// saving each that changes in its file.
+   /// Uses <paramref name="sharedCondition"/>, one of these, by name wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>): in each<br/>
+   /// vocab's match-condition, saving each vocab that changes, and in the definitions of the other shared-conditions, saving each that changes in its<br/>
+   /// file.
    /// </summary>
    /// <remarks>
    /// Each changes only to mean the same, so the vocab match the same words, and weigh the same, as before. Its own definition isn't changed, which would<br/>
    /// make it use itself.
    /// </remarks>
-   public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
+   public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition)
    {
-      //review:matching: this, MakeOf, Rename and Delete each take the vocab whose match-conditions they change, and every caller passes all of the
-      //   collection's (VocabCollection.All). The shared-conditions don't know the collection, which loads them before its notes. Since each of these
-      //   always reaches every vocab, they could be given the collection's vocab once rather than at every call. Not changed: a design call for you.
       AssertIsOneOfThese(sharedCondition);
       All.Where(it => !it.Equals(sharedCondition)).ToList().ForEach(UseItInTheDefinitionOf);
-      vocab.ToList().ForEach(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition));
+      _vocab.Value.All().ForEach(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition));
       return;
 
       void UseItInTheDefinitionOf(ISharedCondition other)

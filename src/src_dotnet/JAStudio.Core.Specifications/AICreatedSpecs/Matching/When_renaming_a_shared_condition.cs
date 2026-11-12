@@ -28,7 +28,7 @@ public class When_renaming_a_shared_condition : When_sharing_a_condition
       _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerb, PrecedingToken.Meets(_isAVerb)));
    }
 
-   void RenameIsAVerb(string newName) => _sharedConditions.Rename(_isAVerb, newName, GetService<JPCollection>().Vocab.All());
+   void RenameIsAVerb(string newName) => _sharedConditions.Rename(_isAVerb, newName);
 
    [XF] public void renaming_it_its_own_name_throws_since_a_shared_condition_on_a_token_has_it() => Invoking(() => RenameIsAVerb("IsAVerb")).Must().Throw<ArgumentAssertionFailedException>();
 
