@@ -32,6 +32,18 @@ public interface ISharedCondition
    /// </summary>
    internal void RewriteItsDefinitionAs(Condition definition);
 
+   /// <summary>Its <see cref="Definition"/> as the tree editor edits it, with an "all of" group at the root: the definition itself when it's one, else a group holding it.</summary>
+   Condition DefinitionAsAnAllOf { get; }
+
+   /// <summary>Gives it <paramref name="definition"/>, a condition on its subject, in place of its definition: what it means changes.</summary>
+   internal void Redefine(Condition definition);
+
+   /// <summary>
+   /// Whether its definition uses <paramref name="other"/>, directly or through the definitions of the shared-conditions it uses: whether what it means<br/>
+   /// depends on what <paramref name="other"/> means.
+   /// </summary>
+   internal bool IsDefinedThrough(ISharedCondition other);
+
    /// <summary>Whether its definition uses it, directly or through the definitions of the shared-conditions it uses: what no shared-condition may do.</summary>
-   internal bool UsesItself { get; }
+   internal bool UsesItself => IsDefinedThrough(this);
 }

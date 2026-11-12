@@ -3,55 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.ConditionTrees;
-using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.Views.Workspace.Editors.MatchConditions;
+using JAStudio.UI.Views.Workspace.Editors.Matching;
 
-namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
-/// The tree editor of a vocab's match-condition, on its Matching tab (<see cref="MatchConditionEditor"/>): the match-condition being edited (an<br/>
-/// <see cref="EditableMatchCondition"/>), shown as a tree of <see cref="Lines"/>, and written to the vocab after every change.
+/// The tree editor (<see cref="ConditionTreeEditor"/>) of a vocab's match-condition, on its Matching tab, or of a shared-condition's definition, in its<br/>
+/// window: the condition being edited (an <see cref="EditableCondition"/>), shown as a tree of <see cref="Lines"/>, and stored where it's kept<br/>
+/// (<see cref="IEditedCondition"/>) after every change.
 /// </summary>
 /// <remarks>
 /// It's edited as the note search's tree is: the operations act on the <see cref="SelectedLine"/>, and the view calls them from its keys and menus.<br/>
-/// The add menu offers the conditions there are where a condition goes: on a word at the root, and on a token inside <c>PrecedingToken.AnyOf(</c>.
+/// The add menu offers the conditions there are where a condition goes: on a word at the root of a match-condition, and on a token inside<br/>
+/// <c>PrecedingToken.AnyOf(</c>.
 /// </remarks>
-partial class MatchConditionEditorViewModel : ObservableObject
+partial class ConditionTreeEditorViewModel : ObservableObject
 {
    const string HowToEditTheTree = "+ adds a condition or a group, or type its key from the + menu, such as p for PrecedingToken. "
-                                 + "- negates, Del removes, Enter or a double-click changes the texts, Ctrl+Z undoes. Right-click for more.";
+                                 + "- negates, Del removes, Enter or a double-click changes the texts, Ctrl+Z undoes. "
+                                 + "F12 or Ctrl+click opens a shared-condition's definition. Right-click for more.";
 
    readonly IFatalErrorHandler _fatalErrorHandler;
-   readonly Func<VocabNote> _currentVocab;
+   readonly IEditedCondition _edited;
    readonly Action _changeMade;
-   readonly EditableMatchCondition _matchCondition;
+   readonly Action<ISharedCondition> _openTheDefinitionOf;
+   readonly EditableCondition _tree;
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while a condition's dialog is open.</param>
-   /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
-   /// <param name="changeMade">Called after every change the tree editor writes to the vocab.</param>
-   public MatchConditionEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, Action changeMade)
+   /// <param name="edited">The condition edited, and where each change is stored.</param>
+   /// <param name="changeMade">Called after every change the tree editor stores.</param>
+   /// <param name="openTheDefinitionOf">Opens a shared-condition's window, where its definition is edited.</param>
+   public ConditionTreeEditorViewModel(IFatalErrorHandler fatalErrorHandler, IEditedCondition edited, Action changeMade, Action<ISharedCondition> openTheDefinitionOf)
    {
       _fatalErrorHandler = fatalErrorHandler;
-      _currentVocab = currentVocab;
+      _edited = edited;
       _changeMade = changeMade;
-      _matchCondition = new EditableMatchCondition(VocabsMatchCondition);
-      ShowTheMatchCondition(ConditionPosition.Root);
+      _openTheDefinitionOf = openTheDefinitionOf;
+      _tree = new EditableCondition(edited.Stored, edited.Level);
+      ShowTheTree(ConditionPosition.Root);
    }
 
    /// <summary>The tree's lines: just the root, with every other line under it.</summary>
-   [ObservableProperty] IReadOnlyList<MatchConditionLineViewModel> _lines = [];
+   [ObservableProperty] IReadOnlyList<ConditionTreeLineViewModel> _lines = [];
 
    /// <summary>The selected line, which the keys and the right-click menu act on. The tree sets it when a line is clicked.</summary>
-   [ObservableProperty] MatchConditionLineViewModel? _selectedLine;
+   [ObservableProperty] ConditionTreeLineViewModel? _selectedLine;
 
    /// <summary>
    /// Raised after every change the tree editor made, with the tree shown anew, but not after one made elsewhere, such as by a rule's editor: the view<br/>
@@ -62,31 +65,26 @@ partial class MatchConditionEditorViewModel : ObservableObject
    /// <summary>How to edit the tree, shown under it.</summary>
    public string HowToEdit => HowToEditTheTree;
 
-   MatchConditionLineViewModel Root => Lines[0];
+   ConditionTreeLineViewModel Root => Lines[0];
 
    /// <summary>The line the operations act on: the selected one, or the root when none is.</summary>
-   MatchConditionLineViewModel Selected => SelectedLine ?? Root;
-
-   AllOfGroup<CandidateWordVariant> VocabsMatchCondition => _currentVocab().MatchingConfiguration.MatchCondition;
-
-   /// <summary>The corpus's shared-conditions, which the add menu offers.</summary>
-   SharedConditions SharedConditions => _currentVocab().Services.SharedConditions;
+   ConditionTreeLineViewModel Selected => SelectedLine ?? Root;
 
    /// <summary>
-   /// Shows the vocab's match-condition as it is now, when something else may have changed it, such as a rule edited rule by rule on the same tab:<br/>
-   /// a change like the tree editor's own, which undo takes back.
+   /// Shows the condition as it's stored now, when something else may have changed it, such as a rule edited rule by rule on the same tab: a change<br/>
+   /// like the tree editor's own, which undo takes back.
    /// </summary>
    public void Refresh()
    {
-      if(VocabsMatchCondition == _matchCondition.Current) return;
+      if(_edited.Stored == _tree.Current) return;
 
       var selected = Selected.Position;
-      _matchCondition.ChangedElsewhere(VocabsMatchCondition);
-      ShowTheMatchCondition(selected);
+      _tree.ChangedElsewhere(_edited.Stored);
+      ShowTheTree(selected);
    }
 
    /// <summary>Adds <paramref name="condition"/> to the selected group, or to the group the selected line is in, and selects it.</summary>
-   internal void AddCondition(Condition condition) => ChangeTheMatchCondition(_matchCondition.AddCondition(Selected.GroupToAddTo.ConditionPosition, condition));
+   internal void AddCondition(Condition condition) => StoreTheChangedTree(_tree.AddCondition(Selected.GroupToAddTo.ConditionPosition, condition));
 
    /// <summary>Opens <paramref name="editor"/>, for a new condition, through <paramref name="editInADialog"/>, and adds the condition it returns, if any.</summary>
    internal void AddAConditionThroughAnEditor(ConditionTextsEditorViewModel editor, Func<ConditionTextsEditorViewModel, Task<Condition?>> editInADialog) =>
@@ -118,8 +116,8 @@ partial class MatchConditionEditorViewModel : ObservableObject
       {
          if(await editInADialog(editor) is not {} changed) return;
 
-         _matchCondition.ReplaceCondition(selected.ConditionPosition, changed);
-         ChangeTheMatchCondition(selected.Position);
+         _tree.ReplaceCondition(selected.ConditionPosition, changed);
+         StoreTheChangedTree(selected.Position);
       });
    }
 
@@ -129,8 +127,8 @@ partial class MatchConditionEditorViewModel : ObservableObject
       if(Selected.IsRoot) return;
 
       var removed = Selected.Position;
-      _matchCondition.RemoveCondition(removed);
-      ChangeTheMatchCondition(PositionToSelectAfterRemoving(removed));
+      _tree.RemoveCondition(removed);
+      StoreTheChangedTree(PositionToSelectAfterRemoving(removed));
    }
 
    /// <summary>Negates the selected line's whole condition, or takes its negation away. The root is never negated, so negating it does nothing.</summary>
@@ -139,8 +137,8 @@ partial class MatchConditionEditorViewModel : ObservableObject
       if(Selected.IsRoot) return;
 
       var selected = Selected.Position;
-      _matchCondition.ToggleNegation(selected);
-      ChangeTheMatchCondition(selected);
+      _tree.ToggleNegation(selected);
+      StoreTheChangedTree(selected);
    }
 
    /// <summary>Switches the selected group between "all of" and "any of". Does nothing when the selected line isn't a group, or is the root, which is always "all of".</summary>
@@ -149,18 +147,25 @@ partial class MatchConditionEditorViewModel : ObservableObject
       if(!CanSwitchTheSelectedGroup) return;
 
       var selected = Selected;
-      _matchCondition.SwitchGroup(selected.ConditionPosition);
-      ChangeTheMatchCondition(selected.Position);
+      _tree.SwitchGroup(selected.ConditionPosition);
+      StoreTheChangedTree(selected.Position);
    }
 
-   /// <summary>Undoes the last change to the match-condition, if there is one.</summary>
+   /// <summary>Undoes the last change to the condition, if there is one.</summary>
    internal void Undo()
    {
-      if(!_matchCondition.CanUndo) return;
+      if(!_tree.CanUndo) return;
 
       var selected = Selected.Position;
-      _matchCondition.Undo();
-      ChangeTheMatchCondition(selected);
+      _tree.Undo();
+      StoreTheChangedTree(selected);
+   }
+
+   /// <summary>Opens the window of the shared-condition the selected line is, where its definition is edited. Does nothing when the line isn't one.</summary>
+   internal void OpenTheDefinitionOfTheSelectedLine()
+   {
+      if(Selected.SharedCondition is {} sharedCondition)
+         _openTheDefinitionOf(sharedCondition);
    }
 
    /// <summary>
@@ -189,7 +194,7 @@ partial class MatchConditionEditorViewModel : ObservableObject
          List<SpecMenuItem> TheFacts() => AutomaticMnemonics.WithKeysPicked([..level.Facts.Select(fact => SpecMenuItem.Command(fact.ToString(), () => AddCondition(placed(fact))))]);
 
          IEnumerable<SpecMenuItem> TheSharedConditionsSubmenuIfThereAreAny() =>
-            SharedConditions.On(level) is { Count: > 0 } sharedConditions ? [SpecMenuItem.Submenu("Shared", TheSharedConditions(sharedConditions))] : [];
+            _edited.SharedConditionsOfferedOn(level) is { Count: > 0 } sharedConditions ? [SpecMenuItem.Submenu("Shared", TheSharedConditions(sharedConditions))] : [];
 
          List<SpecMenuItem> TheSharedConditions(IReadOnlyList<ISharedCondition> sharedConditions) =>
             AutomaticMnemonics.WithKeysPicked([..sharedConditions.Select(it => SpecMenuItem.Command(it.Name, () => AddCondition(placed(it.AsACondition))))]);
@@ -215,36 +220,37 @@ partial class MatchConditionEditorViewModel : ObservableObject
    [
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', "Add a condition (+)"), openTheAddMenu, 'a'),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('c', "Change the texts (Enter, double-click)"), changeTheSelectedCondition, 'c', enabled: EditorForTheSelectedCondition() is not null),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('d', "Open its definition (F12, Ctrl+click)"), OpenTheDefinitionOfTheSelectedLine, 'd', enabled: Selected.IsASharedCondition),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('n', Selected.IsNegated ? "Remove the negation (-)" : "Negate (-)"), ToggleNegationOfTheSelectedLine, 'n', enabled: !Selected.IsRoot),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', Selected.IsAnAnyOfGroup ? "Switch to all of" : "Switch to any of"), SwitchTheSelectedGroup, 's',
                            enabled: CanSwitchTheSelectedGroup),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', "Remove (Del)"), RemoveTheSelectedLine, 'r', enabled: !Selected.IsRoot),
       SpecMenuItem.Separator(),
-      SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Undo (Ctrl+Z)"), Undo, 'u', enabled: _matchCondition.CanUndo)
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Undo (Ctrl+Z)"), Undo, 'u', enabled: _tree.CanUndo)
    ];
 
    /// <summary>Whether the selected line is a group that can be switched between "all of" and "any of": any but the root, which is always "all of".</summary>
    bool CanSwitchTheSelectedGroup => Selected is { IsGroup: true, IsRoot: false };
 
-   /// <summary>Writes the changed match-condition to the vocab, shows it with the line at <paramref name="positionToSelect"/> selected, and says a change was made.</summary>
-   void ChangeTheMatchCondition(ConditionPosition positionToSelect)
+   /// <summary>Stores the changed tree where the condition is kept, shows it with the line at <paramref name="positionToSelect"/> selected, and says a change was made.</summary>
+   void StoreTheChangedTree(ConditionPosition positionToSelect)
    {
-      _currentVocab().MatchingConfiguration.SetMatchCondition(_matchCondition.Current);
-      ShowTheMatchCondition(positionToSelect);
+      _edited.Store(_tree.Current);
+      ShowTheTree(positionToSelect);
       ChangedByTheTreeEditor?.Invoke();
       _changeMade();
    }
 
-   void ShowTheMatchCondition(ConditionPosition positionToSelect)
+   void ShowTheTree(ConditionPosition positionToSelect)
    {
-      Lines = [MatchConditionLineViewModel.RootOf(_matchCondition)];
+      Lines = [ConditionTreeLineViewModel.RootOf(_tree, _edited)];
       SelectedLine = Root.ThisAndAllBelow().FirstOrDefault(it => it.IsAt(positionToSelect)) ?? Root;
    }
 
    /// <summary>The removed line's next sibling, which now has its position, or else its previous sibling, or else its group.</summary>
    ConditionPosition PositionToSelectAfterRemoving(ConditionPosition removed)
    {
-      var group = _matchCondition.Current.ConditionAt(removed.Parent);
+      var group = _tree.Current.ConditionAt(removed.Parent);
       return removed.IndexInParent < group.Children.Count ? removed
              : removed.IndexInParent > 0                  ? removed.Parent.Child(removed.IndexInParent - 1)
                                                           : removed.Parent;

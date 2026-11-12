@@ -83,6 +83,8 @@ public sealed partial class ConditionLevel<TSubject> : IConditionLevel where TSu
    /// <paramref name="sharedConditions"/>.
    /// </summary>
    /// <exception cref="FormatException">When it isn't a condition on this level's subject, or uses a shared-condition there's none of.</exception>
+   Condition IConditionLevel.ConditionFrom(JsonObject json, SharedConditions sharedConditions) => ConditionFrom(json, sharedConditions);
+
    internal Condition<TSubject> ConditionFrom(JsonObject json, SharedConditions sharedConditions)
    {
       if(json.Count != 1) throw new FormatException($"A condition on {SubjectName} is an object with one key, which says what kind of condition it is: {json.ToJsonString()}");

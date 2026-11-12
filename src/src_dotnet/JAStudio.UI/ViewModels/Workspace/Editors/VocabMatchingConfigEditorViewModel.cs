@@ -4,9 +4,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
-using JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 using JAStudio.UI.Views.Workspace.Editors;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
@@ -14,7 +16,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 /// <summary>
 /// The "Matching" tab of a vocab's <see cref="VocabEditorSectionViewModel"/> (<see cref="VocabMatchingConfigEditor"/>):<br/>
 /// the vocab's matching config, everything that decides how sentences are parsed into words and which words match this vocab: its match-condition,<br/>
-/// edited as a tree (<see cref="MatchConditionEditor"/>), or through the matching rules it's made of, and the rules and flags outside it.<br/>
+/// edited as a tree (<see cref="ConditionTreeEditor"/>), or through the matching rules it's made of, and the rules and flags outside it.<br/>
 /// Every change is written to the note at once, and the vocab's sentences are then reparsed to reflect it. Each rule and flag is one of the<br/>
 /// <see cref="VocabEditableFields"/>.
 /// </summary>
@@ -33,7 +35,11 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a change.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
    /// <param name="sentencesReparser">Reparses the vocab's sentences after every change.</param>
-   public VocabMatchingConfigEditorViewModel(IFatalErrorHandler fatalErrorHandler, Func<VocabNote> currentVocab, VocabSentencesReparserViewModel sentencesReparser)
+   /// <param name="openTheDefinitionOf">Opens a shared-condition's window, where its definition is edited.</param>
+   public VocabMatchingConfigEditorViewModel(IFatalErrorHandler fatalErrorHandler,
+                                             Func<VocabNote> currentVocab,
+                                             VocabSentencesReparserViewModel sentencesReparser,
+                                             Action<ISharedCondition> openTheDefinitionOf)
    {
       _fatalErrorHandler = fatalErrorHandler;
       _currentVocab = currentVocab;
@@ -82,12 +88,12 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
          TextSetRule(VocabEditableFields.SuffixIsNot),
          TextSetRule(VocabEditableFields.SurfaceIsNot)
       ];
-      MatchConditionEditor = new MatchConditionEditorViewModel(fatalErrorHandler, currentVocab, ChangeMade);
+      MatchConditionEditor = new ConditionTreeEditorViewModel(fatalErrorHandler, new EditedMatchCondition(currentVocab), ChangeMade, openTheDefinitionOf);
       ShowWhetherTheMatchConditionCanBeEditedRuleByRule();
    }
 
    /// <summary>The vocab's match-condition, edited as a tree.</summary>
-   public MatchConditionEditorViewModel MatchConditionEditor { get; }
+   public ConditionTreeEditorViewModel MatchConditionEditor { get; }
 
    public RequireForbidFlagEditorViewModel YieldLastToken { get; }
    public TextSetEditorViewModel YieldToSurface { get; }

@@ -8,50 +8,53 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
-namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
-/// One line in the tree editor of a vocab's match-condition: a condition, or a group with its conditions under it, written as code<br/>
+/// One line in the tree editor (<see cref="ConditionTreeEditorViewModel"/>): a condition, or a group with its conditions under it, written as code<br/>
 /// (<see cref="ConditionCode"/>). Negations and conditions on a subject aren't lines of their own: they're shown in front of what they hold, on its<br/>
 /// line, as in <c>!PrecedingToken.IsAGodanVerb</c> or <c>FollowingToken.AnyOf(</c>.
 /// </summary>
-class MatchConditionLineViewModel
+class ConditionTreeLineViewModel
 {
-   readonly MatchConditionLineViewModel? _parent;
+   readonly ConditionTreeLineViewModel? _parent;
 
    /// <param name="shownCondition">The condition shown on this line, with the negations and conditions on subjects around it.</param>
    /// <param name="position">Where <paramref name="shownCondition"/> is in the match-condition.</param>
-   /// <param name="matchCondition">The match-condition the line is in.</param>
-   /// <param name="codeLines">The match-condition's code, by the position of the condition each line is of.</param>
+   /// <param name="tree">The tree the line is in.</param>
+   /// <param name="codeLines">The tree's code, by the position of the condition each line is of.</param>
    /// <param name="parent">The group this line is in, or null for the root.</param>
-   MatchConditionLineViewModel(Condition shownCondition,
+   ConditionTreeLineViewModel(Condition shownCondition,
                                ConditionPosition position,
-                               EditableMatchCondition matchCondition,
+                               EditableCondition tree,
                                ILookup<ConditionPosition, CodeLine> codeLines,
-                               MatchConditionLineViewModel? parent)
+                               ConditionTreeLineViewModel? parent)
    {
       _parent = parent;
       Position = position;
       CodeLines = [.. codeLines[position]];
       IsNegated = shownCondition is INegatedCondition;
       (Condition, ConditionPosition) = TheConditionInsideWhatHoldsOnlyIt(shownCondition, position);
-      Level = matchCondition.LevelAt(ConditionPosition);
+      Level = tree.LevelAt(ConditionPosition);
       Children = Condition is IConditionGroup group
-                    ? [..group.Conditions.Select((condition, index) => new MatchConditionLineViewModel(condition, ConditionPosition.Child(index), matchCondition, codeLines, this))]
+                    ? [..group.Conditions.Select((condition, index) => new ConditionTreeLineViewModel(condition, ConditionPosition.Child(index), tree, codeLines, this))]
                     : [];
    }
 
-   /// <summary>The root line of <paramref name="matchCondition"/>'s <see cref="EditableMatchCondition.Current"/> tree, with every other line under it.</summary>
-   public static MatchConditionLineViewModel RootOf(EditableMatchCondition matchCondition) =>
-      new(matchCondition.Current,
+   /// <summary>
+   /// The root line of <paramref name="tree"/>'s <see cref="EditableCondition.Current"/> tree, with every other line under it, its code written as<br/>
+   /// <paramref name="edited"/> writes it.
+   /// </summary>
+   public static ConditionTreeLineViewModel RootOf(EditableCondition tree, IEditedCondition edited) =>
+      new(tree.Current,
           ConditionPosition.Root,
-          matchCondition,
-          ConditionCode.LinesOfAMatchCondition(matchCondition.Current).ToLookup(it => it.Position),
+          tree,
+          edited.LinesOf(tree.Current).ToLookup(it => it.Position),
           parent: null);
 
    /// <summary>
    /// The line's code, such as <c>!PrecedingToken.IsAGodanVerb</c> or <c>AnyOf(</c>: one line of code, or several for a condition that lists values one to a<br/>
-   /// line. The root's is the comment heading the match-condition (<see cref="ConditionCode.MatchConditionHeading"/>).
+   /// line. The root's is the comment heading the tree, saying what it is (<see cref="IEditedCondition.LinesOf"/>).
    /// </summary>
    public IReadOnlyList<CodeLine> CodeLines { get; }
 
@@ -65,7 +68,7 @@ class MatchConditionLineViewModel
    public IReadOnlyList<CodeLineViewModel> ShownCode => CodeLineViewModel.LinesOf(CodeLines);
 
    /// <summary>The lines of the conditions in this line's group. None unless <see cref="IsGroup"/>.</summary>
-   public IReadOnlyList<MatchConditionLineViewModel> Children { get; }
+   public IReadOnlyList<ConditionTreeLineViewModel> Children { get; }
 
    /// <summary>Where the line's whole condition is, with the negations and conditions on subjects around it: what removing the line, or negating it, works on.</summary>
    public ConditionPosition Position { get; }
@@ -82,7 +85,7 @@ class MatchConditionLineViewModel
    public bool IsGroup => Condition is IConditionGroup;
 
    /// <summary>The line's condition when it's a shared-condition, used by its name, such as <c>FollowsAPastTenseStem</c>: none when it isn't one.</summary>
-   ISharedCondition? SharedCondition => Condition as ISharedCondition;
+   public ISharedCondition? SharedCondition => Condition as ISharedCondition;
 
    /// <summary>Whether the line's condition is a shared-condition, used by its name, such as <c>FollowsAPastTenseStem</c>, whose definition the line can show.</summary>
    public bool IsASharedCondition => SharedCondition is not null;
@@ -113,10 +116,10 @@ class MatchConditionLineViewModel
    public bool IsAt(ConditionPosition position) => Position == position || ConditionPosition == position;
 
    /// <summary>The group a condition added on this line goes into: this line's group, or the group this line is in.</summary>
-   public MatchConditionLineViewModel GroupToAddTo => IsGroup ? this : _parent ?? throw new InvalidOperationException("A match-condition's root is always a group.");
+   public ConditionTreeLineViewModel GroupToAddTo => IsGroup ? this : _parent ?? throw new InvalidOperationException("A match-condition's root is always a group.");
 
    /// <summary>This line and every line under it, in the order the tree shows them.</summary>
-   public IEnumerable<MatchConditionLineViewModel> ThisAndAllBelow() => [this, ..Children.SelectMany(it => it.ThisAndAllBelow())];
+   public IEnumerable<ConditionTreeLineViewModel> ThisAndAllBelow() => [this, ..Children.SelectMany(it => it.ThisAndAllBelow())];
 
    /// <summary><paramref name="shownCondition"/>, or the condition inside the negations and conditions on subjects around it, with its position.</summary>
    static (Condition Condition, ConditionPosition Position) TheConditionInsideWhatHoldsOnlyIt(Condition shownCondition, ConditionPosition position)

@@ -65,7 +65,7 @@ public class LocalNoteUpdater
    /// <remarks>
    /// One run reaches the result a second run would leave unchanged, because nothing in a note's generated data is read by parsing. If something<br/>
    /// is, the reparse reads it as the previous run left it, and the specification <c>When_running_a_full_rebuild</c> fails: then update the vocab's<br/>
-   /// generated data before the reparse too, as <see cref="ReparseSentencesForVocab"/> does for one vocab.
+   /// generated data before the reparse too, as <see cref="ReparseSentencesForVocab(VocabNote)"/> does for one vocab.
    /// </remarks>
    public void FullRebuild()
    {
@@ -241,25 +241,43 @@ public class LocalNoteUpdater
    /// The vocab's generated data is updated before the reparse, which uses its forms,<br/>
    /// and again after it, because its stored sentence count depends on which sentences the reparse matched.
    /// </summary>
-   public void ReparseSentencesForVocab(VocabNote vocab)
+   public void ReparseSentencesForVocab(VocabNote vocab) => ReparseSentencesForVocab([vocab]);
+
+   /// <summary>
+   /// Reparses the sentences that may contain any of <paramref name="vocab"/>, each once, as after a change to a shared-condition's definition that their<br/>
+   /// match-conditions depend on. As <see cref="ReparseSentencesForVocab(VocabNote)"/> does for one vocab.
+   /// </summary>
+   public void ReparseSentencesForVocab(IReadOnlyCollection<VocabNote> vocab)
    {
-      vocab.UpdateGeneratedData();
+      UpdateTheGeneratedDataOfTheVocab();
       using var scope = _taskRunner.Current("Reanalysing sentences for vocab");
 
       var sentences = scope.RunIndeterminate(
          "Fetching sentences to reparse",
-         () => _sentences.PotentiallyMatchingVocab(vocab).ToHashSet());
+         () => vocab.SelectMany(_sentences.PotentiallyMatchingVocab).ToHashSet());
 
-      sentences.UnionWith(vocab.Sentences.All());
+      sentences.UnionWith(vocab.SelectMany(it => it.Sentences.All()));
       ReparseSentences([.. sentences]);
-      vocab.UpdateGeneratedData();
+      UpdateTheGeneratedDataOfTheVocab();
+      return;
+
+      void UpdateTheGeneratedDataOfTheVocab()
+      {
+         foreach(var it in vocab) it.UpdateGeneratedData();
+      }
    }
 
    /// <summary>
-   /// <see cref="ReparseSentencesForVocab"/> without the progress dialog, for a caller that shows its progress itself,<br/>
+   /// <see cref="ReparseSentencesForVocab(VocabNote)"/> without the progress dialog, for a caller that shows its progress itself,<br/>
    /// such as an editor that reparses after every change, which would otherwise pop the dialog up every time.
    /// </summary>
-   public void ReparseSentencesForVocabWithoutProgressDialog(VocabNote vocab)
+   public void ReparseSentencesForVocabWithoutProgressDialog(VocabNote vocab) => ReparseSentencesForVocabWithoutProgressDialog([vocab]);
+
+   /// <summary>
+   /// <see cref="ReparseSentencesForVocab(IReadOnlyCollection{VocabNote})"/> without the progress dialog, for a caller that shows its progress itself, such as<br/>
+   /// a shared-condition's window, which reparses after every change to its definition.
+   /// </summary>
+   public void ReparseSentencesForVocabWithoutProgressDialog(IReadOnlyCollection<VocabNote> vocab)
    {
       using var hiddenScope = _taskRunner.Current("Reanalysing sentences for vocab without a progress dialog", forceHide: true);
       ReparseSentencesForVocab(vocab);

@@ -4,7 +4,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
-using JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 // ReSharper disable InconsistentNaming
 

@@ -47,6 +47,13 @@ public sealed class SharedConditions
    public IReadOnlyList<ISharedCondition> On(IConditionLevel level) => [.. All.Where(it => it.Level == level)];
 
    /// <summary>
+   /// The shared-conditions on <paramref name="level"/>'s subject, by name, that <paramref name="sharedCondition"/>'s definition can use: those the tree<br/>
+   /// editor offers in it. Not <paramref name="sharedCondition"/> itself, nor one defined through it, which would make it use itself.
+   /// </summary>
+   public IReadOnlyList<ISharedCondition> UsableInTheDefinitionOf(ISharedCondition sharedCondition, IConditionLevel level) =>
+      [.. On(level).Where(it => !it.AsACondition.DependsOnTheDefinitionOf(sharedCondition))];
+
+   /// <summary>
    /// The first shared-condition, as they're listed (<see cref="All"/>), whose definition means the same as <paramref name="condition"/><br/>
    /// (<see cref="Condition.MeansTheSameAs"/>), or none: the one to use in its place, rather than define another.
    /// </summary>
@@ -87,6 +94,30 @@ public sealed class SharedConditions
       AddAndSave(sharedCondition);
       return sharedCondition;
    }
+
+   /// <summary>
+   /// Gives <paramref name="sharedCondition"/>, one of these, <paramref name="definition"/>, a condition on its subject, in place of its definition, and<br/>
+   /// saves it in its file. What it means changes, and with it what every match-condition that depends on its definition means<br/>
+   /// (<see cref="Condition.DependsOnTheDefinitionOf"/>): the sentences of those vocab need reparsing.
+   /// </summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">
+   /// When <paramref name="definition"/> depends on <paramref name="sharedCondition"/>'s definition, which would make it use itself.
+   /// </exception>
+   public void Redefine(ISharedCondition sharedCondition, Condition definition)
+   {
+      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      Contract.Argument.Assert(!definition.DependsOnTheDefinitionOf(sharedCondition), () => $"{sharedCondition.FullName} defined as {definition} would use itself.");
+      sharedCondition.Redefine(definition);
+      _monitor.Locked(() => _folder.Save(sharedCondition));
+   }
+
+   /// <summary>
+   /// Gives <paramref name="sharedCondition"/>, one of these, the definition <paramref name="definition"/> holds, as the corpus stores conditions, in place<br/>
+   /// of its definition, and saves it in its file, as <see cref="Redefine"/> does.
+   /// </summary>
+   /// <exception cref="FormatException">When <paramref name="definition"/> isn't a condition on the subject, or uses a shared-condition there's none of.</exception>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When the definition would make it use itself.</exception>
+   public void RedefineFrom(ISharedCondition sharedCondition, JsonObject definition) => Redefine(sharedCondition, sharedCondition.Level.ConditionFrom(definition, this));
 
    /// <summary>
    /// Uses <paramref name="sharedCondition"/>, one of these, by name wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>): in the<br/>

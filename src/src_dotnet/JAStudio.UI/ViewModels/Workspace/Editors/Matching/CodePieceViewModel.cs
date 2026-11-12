@@ -1,6 +1,6 @@
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
-namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
 /// A piece of a line of code in the match-condition's tree editor (<see cref="CodeLineViewModel"/>), shown as its kind should be: a negation in a color<br/>

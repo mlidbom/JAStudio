@@ -33,10 +33,28 @@ public static class ConditionCode
    /// The lines of a vocab's <paramref name="matchCondition"/>: <see cref="MatchConditionHeading"/> as a comment, on the line of its root, then each of its<br/>
    /// conditions, a statement of its own.
    /// </summary>
-   public static IReadOnlyList<CodeLine> LinesOfAMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) =>
+   public static IReadOnlyList<CodeLine> LinesOfAMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) => LinesOfStatementsUnder(MatchConditionHeading, matchCondition);
+
+   /// <summary>
+   /// The comment heading <paramref name="sharedCondition"/>'s definition, as the tree editor shows it in the shared-condition's window, such as<br/>
+   /// "A word meets Word.FollowsAPastTenseStem when each of these holds:".
+   /// </summary>
+   public static string HeadingOfTheDefinitionOf(ISharedCondition sharedCondition) =>
+      $"{char.ToUpperInvariant(sharedCondition.Level.SubjectName[0])}{sharedCondition.Level.SubjectName[1..]} meets {sharedCondition.FullName} when each of these holds:";
+
+   /// <summary>
+   /// The lines of <paramref name="sharedCondition"/>'s definition as the tree editor shows it, <paramref name="definitionAsAnAllOf"/>: the definition's<br/>
+   /// conditions when it's an "all of" group, else the definition alone. <see cref="HeadingOfTheDefinitionOf"/> as a comment on the root's line, then each<br/>
+   /// condition a statement of its own, as a vocab's match-condition is written.
+   /// </summary>
+   public static IReadOnlyList<CodeLine> LinesOfADefinitionAsStatements(ISharedCondition sharedCondition, IConditionGroup definitionAsAnAllOf) =>
+      LinesOfStatementsUnder(HeadingOfTheDefinitionOf(sharedCondition), definitionAsAnAllOf);
+
+   /// <summary><paramref name="heading"/> as a comment, on the line of the root, <paramref name="allOf"/>, then each of its conditions, a statement of its own.</summary>
+   static IReadOnlyList<CodeLine> LinesOfStatementsUnder(string heading, IConditionGroup allOf) =>
    [
-      new(ConditionPosition.Root, 0, [CodePiece.Comment(MatchConditionHeading)]),
-      ..matchCondition.Conditions.SelectMany((condition, index) => condition.CodeLines(CodeWriting.OfAStatementOfAMatchCondition(index)))
+      new(ConditionPosition.Root, 0, [CodePiece.Comment(heading)]),
+      ..allOf.Conditions.SelectMany((condition, index) => condition.CodeLines(CodeWriting.OfAStatement(index)))
    ];
 
    /// <summary>

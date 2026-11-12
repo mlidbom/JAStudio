@@ -12,24 +12,26 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
-using JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
-namespace JAStudio.UI.Views.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
-/// The view of a <see cref="MatchConditionEditorViewModel"/>: a vocab's match-condition as a tree, on its Matching tab. It turns keys, clicks and menus<br/>
-/// into the view model's operations, and shows a condition's texts in a <see cref="ConditionTextsDialog"/>.
+/// The view of a <see cref="ConditionTreeEditorViewModel"/>: a vocab's match-condition as a tree, on its Matching tab, or a shared-condition's definition,<br/>
+/// in its <see cref="SharedConditionWindow"/>. It turns keys, clicks and menus into the view model's operations, and shows a condition's texts in a<br/>
+/// <see cref="ConditionTextsDialog"/>.
 /// </summary>
 /// <remarks>
 /// The keys on the tree are the note search's: <c>+</c> or Ctrl++ opens the add menu, and a key from the add menu does what it does there, so <c>p</c><br/>
 /// opens the add menu with the preceding token's submenu open. <c>-</c> negates the selected line, Del removes it, Enter or a double-click changes<br/>
-/// its texts, and Ctrl+Z undoes. The right-click menu, also on the menu key, has the rest.
+/// its texts, and Ctrl+Z undoes. F12 or Ctrl+click on a shared-condition opens its definition, in its window, as an IDE goes to a definition. The<br/>
+/// right-click menu, also on the menu key, has the rest.
 /// </remarks>
-public partial class MatchConditionEditor : UserControl
+public partial class ConditionTreeEditor : UserControl
 {
    bool _theKeyboardGoesBackToTheSelectedLineWhenTheTreeIsEnabled;
 
-   public MatchConditionEditor()
+   public ConditionTreeEditor()
    {
       //refactor: the keys, menus and focus handling here are NoteSearchView's, for another tree of conditions. A tree editor control both views use
       //   could hold them once.
@@ -37,15 +39,16 @@ public partial class MatchConditionEditor : UserControl
       ConditionTree.PropertyChanged += OnTreePropertyChanged;
       ConditionTree.AddHandler(KeyDownEvent, OnKeyDownInTheTree, RoutingStrategies.Tunnel);
       ConditionTree.AddHandler(DoubleTappedEvent, OnDoubleTappedInTheTree, RoutingStrategies.Bubble, handledEventsToo: true);
+      ConditionTree.AddHandler(TappedEvent, OnTappedInTheTree, RoutingStrategies.Bubble, handledEventsToo: true);
       ConditionTree.ContextRequested += OnContextRequestedInTheTree;
       DataContextChanged += (_, _) =>
       {
-         if(DataContext is MatchConditionEditorViewModel viewModel)
+         if(DataContext is ConditionTreeEditorViewModel viewModel)
             viewModel.ChangedByTheTreeEditor += PutTheKeyboardOnTheSelectedLine;
       };
    }
 
-   MatchConditionEditorViewModel ViewModel => DataContext as MatchConditionEditorViewModel ?? throw new InvalidOperationException("A MatchConditionEditor shows a MatchConditionEditorViewModel.");
+   ConditionTreeEditorViewModel ViewModel => DataContext as ConditionTreeEditorViewModel ?? throw new InvalidOperationException("A MatchConditionEditor shows a ConditionTreeEditorViewModel.");
 
    Window OwnerWindow => TopLevel.GetTopLevel(this) as Window ?? throw new InvalidOperationException("The match-condition editor is only shown in a window.");
 
@@ -84,6 +87,9 @@ public partial class MatchConditionEditor : UserControl
          case { Key: Key.Z, KeyModifiers: KeyModifiers.Control }:
             ViewModel.Undo();
             break;
+         case { Key: Key.F12, KeyModifiers: KeyModifiers.None }:
+            ViewModel.OpenTheDefinitionOfTheSelectedLine();
+            break;
          case { Key: Key.OemPlus or Key.Add, KeyModifiers: KeyModifiers.Control }
            or { KeyModifiers: KeyModifiers.None or KeyModifiers.Shift, KeySymbol: "+" }:
             Dispatcher.UIThread.Post(ShowTheAddMenu);
@@ -112,6 +118,16 @@ public partial class MatchConditionEditor : UserControl
       ChangeTheSelectedCondition();
    }
 
+   /// <summary>Ctrl+click on a shared-condition opens its definition, as in an IDE.</summary>
+   void OnTappedInTheTree(object? sender, TappedEventArgs e)
+   {
+      if(!e.KeyModifiers.HasFlag(KeyModifiers.Control) || TheLineTheEventIsOn(e) is not { IsASharedCondition: true } line) return;
+
+      e.Handled = true;
+      ViewModel.SelectedLine = line;
+      ViewModel.OpenTheDefinitionOfTheSelectedLine();
+   }
+
    void OnContextRequestedInTheTree(object? sender, ContextRequestedEventArgs e)
    {
       if(TheLineTheEventIsOn(e) is {} line)
@@ -126,7 +142,7 @@ public partial class MatchConditionEditor : UserControl
 
    void OnAddButtonClicked(object? sender, RoutedEventArgs e)
    {
-      if(sender is Control { DataContext: MatchConditionLineViewModel group })
+      if(sender is Control { DataContext: ConditionTreeLineViewModel group })
          ViewModel.SelectedLine = group;
       Dispatcher.UIThread.Post(ShowTheAddMenu);
    }
@@ -187,8 +203,8 @@ public partial class MatchConditionEditor : UserControl
    }
 
    /// <summary>The line whose item in the tree <paramref name="e"/> came from, such as the line clicked, or null when it came from no line's item.</summary>
-   static MatchConditionLineViewModel? TheLineTheEventIsOn(RoutedEventArgs e) =>
-      (e.Source as Visual)?.FindAncestorOfType<TreeViewItem>(includeSelf: true)?.DataContext as MatchConditionLineViewModel;
+   static ConditionTreeLineViewModel? TheLineTheEventIsOn(RoutedEventArgs e) =>
+      (e.Source as Visual)?.FindAncestorOfType<TreeViewItem>(includeSelf: true)?.DataContext as ConditionTreeLineViewModel;
 
    TreeViewItem? SelectedLineItem() => ConditionTree.GetVisualDescendants().OfType<TreeViewItem>().FirstOrDefault(it => it.DataContext == ViewModel.SelectedLine);
 

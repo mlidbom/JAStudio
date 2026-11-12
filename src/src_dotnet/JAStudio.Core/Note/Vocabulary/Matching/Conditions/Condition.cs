@@ -85,6 +85,13 @@ public abstract record Condition
    public bool Uses(ISharedCondition sharedCondition) => SharedConditionsUsed().Contains(sharedCondition);
 
    /// <summary>
+   /// Whether what this condition means depends on <paramref name="sharedCondition"/>'s definition: whether it uses it by name, or uses a shared-condition<br/>
+   /// defined through it. A change to that definition can change which words meet this condition then.
+   /// </summary>
+   public bool DependsOnTheDefinitionOf(ISharedCondition sharedCondition) =>
+      SharedConditionsUsed().Any(used => used.Equals(sharedCondition) || used.IsDefinedThrough(sharedCondition));
+
+   /// <summary>
    /// Whether this condition means the same as <paramref name="other"/>: whether the two are built of the same conditions, but for the order of those in<br/>
    /// a group, and with each shared-condition taken as its definition. So a group's conditions can be put in any order, and a condition given a name,<br/>
    /// without changing what it weighs in a vocab's priority, or where <see cref="WithSharedConditionUsed"/> finds a shared-condition's definition.

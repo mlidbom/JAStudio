@@ -6,9 +6,9 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.UI.Utils;
-using JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
-namespace JAStudio.UI.Views.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
 /// The small modal dialog the match-condition's tree editor edits a condition's texts in, such as the endings of <c>EndsWithOneOf</c>, for a new<br/>

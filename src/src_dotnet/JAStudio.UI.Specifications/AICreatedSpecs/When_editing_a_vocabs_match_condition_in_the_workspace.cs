@@ -12,7 +12,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.UI.Controls.NoteFields;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.ViewModels.Workspace.Editors;
-using JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
 
 // ReSharper disable InconsistentNaming
@@ -35,7 +35,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
       _editor = Edit<VocabEditorSectionViewModel>(_vocab);
    }
 
-   MatchConditionEditorViewModel Tree => _editor.MatchingConfig.MatchConditionEditor;
+   ConditionTreeEditorViewModel Tree => _editor.MatchingConfig.MatchConditionEditor;
 
    RequireForbidFlagEditorViewModel TheGodanRulesEditor => _editor.MatchingConfig.StemMatchingRules.Single(it => it.Label == "Godan");
 

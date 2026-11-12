@@ -1,12 +1,12 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:matchConditions="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions"
-             x:Class="JAStudio.UI.Views.Workspace.Editors.MatchConditions.MatchConditionEditor"
-             x:DataType="matchConditions:MatchConditionEditorViewModel">
+             xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.ConditionTreeEditor"
+             x:DataType="matching:ConditionTreeEditorViewModel">
 
     <UserControl.Resources>
         <!-- A line of code, in pieces each shown as its kind should be. -->
-        <DataTemplate x:Key="CodeLine" DataType="matchConditions:CodeLineViewModel">
+        <DataTemplate x:Key="CodeLine" DataType="matching:CodeLineViewModel">
             <ItemsControl ItemsSource="{Binding Pieces}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -14,7 +14,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="matchConditions:CodePieceViewModel">
+                    <DataTemplate DataType="matching:CodePieceViewModel">
                         <TextBlock Classes="code" Text="{Binding Text}"
                                    Classes.negation="{Binding IsNegation}" Classes.comment="{Binding IsComment}"
                                    Classes.sharedConditionName="{Binding IsSharedConditionName}" />
@@ -60,7 +60,7 @@
                 </Style>
             </TreeView.Styles>
             <TreeView.ItemTemplate>
-                <TreeDataTemplate DataType="matchConditions:MatchConditionLineViewModel" ItemsSource="{Binding Children}">
+                <TreeDataTemplate DataType="matching:ConditionTreeLineViewModel" ItemsSource="{Binding Children}">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <ItemsControl ItemsSource="{Binding ShownCode}" ItemTemplate="{StaticResource CodeLine}" VerticalAlignment="Center"

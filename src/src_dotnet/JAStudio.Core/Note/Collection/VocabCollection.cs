@@ -3,6 +3,8 @@ using Compze.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -28,6 +30,13 @@ public class VocabCollection
 
    public bool IsWord(string form) => Cache.WithForm(form).Count > 0;
    public List<VocabNote> All() => Cache.All();
+
+   /// <summary>
+   /// The vocab whose match-conditions depend on <paramref name="sharedCondition"/>'s definition (<see cref="Condition.DependsOnTheDefinitionOf"/>): those a<br/>
+   /// change to it can make match other words, whose sentences it reparses.
+   /// </summary>
+   public List<VocabNote> WhoseMatchConditionsDependOnTheDefinitionOf(ISharedCondition sharedCondition) =>
+      [.. All().Where(it => it.MatchingConfiguration.MatchCondition.DependsOnTheDefinitionOf(sharedCondition))];
    public VocabNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
    public VocabNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
    public List<VocabNote> WithForm(string form) => Cache.WithForm(form);

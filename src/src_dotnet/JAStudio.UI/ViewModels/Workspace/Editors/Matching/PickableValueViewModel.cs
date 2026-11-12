@@ -2,7 +2,7 @@ using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
-namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
 /// One of the tokenizer's values in a condition's editor (<see cref="ConditionTextsEditorViewModel"/>), such as a part of speech, with its English: picked<br/>

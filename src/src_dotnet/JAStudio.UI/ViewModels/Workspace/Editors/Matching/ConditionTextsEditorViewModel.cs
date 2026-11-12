@@ -4,9 +4,9 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
-using JAStudio.UI.Views.Workspace.Editors.MatchConditions;
+using JAStudio.UI.Views.Workspace.Editors.Matching;
 
-namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
+namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
 /// The editor for the texts of a condition in a vocab's match-condition, such as the endings of <c>EndsWithOneOf</c>, shown in a<br/>

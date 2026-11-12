@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+        xmlns:matchingViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors.Matching"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.SharedConditionWindow"
+        x:DataType="matching:SharedConditionWindowViewModel"
+        Title="{Binding Title}"
+        Width="760"
+        Height="520">
+
+    <DockPanel Margin="10">
+        <TextBlock DockPanel.Dock="Top" Text="{Binding WhoUsesIt}" TextWrapping="Wrap" Margin="0,0,0,8" />
+        <ScrollViewer>
+            <!-- The definition can't be changed while the sentences are reparsed for the last change. -->
+            <Panel IsEnabled="{Binding !IsReparsingSentences}">
+                <matchingViews:ConditionTreeEditor DataContext="{Binding Definition}" />
+            </Panel>
+        </ScrollViewer>
+    </DockPanel>
+
+</Window>

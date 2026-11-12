@@ -17,8 +17,11 @@ sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Posi
    /// <summary>The definition of a shared-condition, under the line that names it: one deeper, with nothing in front or after it.</summary>
    internal static CodeWriting OfADefinition { get; } = new(ConditionPosition.Root, ConditionPosition.Root, 1, [], "");
 
-   /// <summary>The condition at <paramref name="index"/> in a vocab's match-condition: a statement of its own, with nothing after it.</summary>
-   internal static CodeWriting OfAStatementOfAMatchCondition(int index) => new(ConditionPosition.Root.Child(index), ConditionPosition.Root.Child(index), 0, [], "");
+   /// <summary>
+   /// The condition at <paramref name="index"/> in a tree written as statements under a heading, a vocab's match-condition or a definition as the tree<br/>
+   /// editor shows it: a statement of its own, with nothing after it.
+   /// </summary>
+   internal static CodeWriting OfAStatement(int index) => new(ConditionPosition.Root.Child(index), ConditionPosition.Root.Child(index), 0, [], "");
 
    /// <summary>The condition that a negation or a condition on a subject holds: on the same line, with <paramref name="inFront"/> in front of it too.</summary>
    internal CodeWriting ForTheConditionHeldWith(CodePiece inFront) => this with { Position = Position.Child(0), InFront = [.. InFront, inFront] };

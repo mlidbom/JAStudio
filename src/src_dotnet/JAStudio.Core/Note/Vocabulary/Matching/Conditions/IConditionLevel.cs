@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -29,6 +31,10 @@ public interface IConditionLevel
 
    /// <summary>A new, empty "any of" group of conditions on this level's subject.</summary>
    Condition NewAnyOfGroup();
+
+   /// <summary>The condition on this level's subject that <paramref name="json"/> holds, as the corpus stores conditions, its shared-conditions found in <paramref name="sharedConditions"/>.</summary>
+   /// <exception cref="FormatException">When it isn't a condition on the subject, or uses a shared-condition there's none of.</exception>
+   internal Condition ConditionFrom(JsonObject json, SharedConditions sharedConditions);
 
    /// <summary>A new shared-condition named <paramref name="name"/> on this level's subject, without its definition yet: <see cref="SharedConditions"/> defines it.</summary>
    internal ISharedCondition NewSharedCondition(string name);

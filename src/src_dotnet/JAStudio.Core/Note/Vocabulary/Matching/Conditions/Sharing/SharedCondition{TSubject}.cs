@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -56,15 +57,16 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
       Define(definition.AsAConditionOn<TSubject>());
    }
 
-   bool ISharedCondition.UsesItself
-   {
-      get
-      {
-         return UsedIn(Definition, lookedInto: []);
+   Condition ISharedCondition.DefinitionAsAnAllOf => ConditionGroup.AsAnAllOf(Definition);
 
-         bool UsedIn(Condition condition, HashSet<ISharedCondition> lookedInto) =>
-            condition.SharedConditionsUsed().Any(used => used.Equals(this) || lookedInto.Add(used) && UsedIn(used.Definition, lookedInto));
-      }
+   void ISharedCondition.Redefine(Condition definition) => Define(definition.AsAConditionOn<TSubject>());
+
+   bool ISharedCondition.IsDefinedThrough(ISharedCondition other)
+   {
+      return UsedIn(Definition, lookedInto: []);
+
+      bool UsedIn(Condition condition, HashSet<ISharedCondition> lookedInto) =>
+         condition.SharedConditionsUsed().Any(used => used.Equals(other) || lookedInto.Add(used) && UsedIn(used.Definition, lookedInto));
    }
 
    public override bool IsEmpty => Definition.IsEmpty;
