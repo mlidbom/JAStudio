@@ -35,7 +35,7 @@ public partial class SentenceDto : CorpusNoteDto
       d.Index == -1 ? WordExclusion.Global(d.Word) : WordExclusion.AtIndex(d.Word, d.Index);
 
    static ParsedMatch FromParsedMatchDto(ParsedMatchDto d) =>
-      new(d.Variant, d.StartIndex, d.IsDisplayed, d.ParsedForm, d.VocabId.HasValue ? new VocabId(d.VocabId.Value) : null);
+      new(d.Variant, d.StartIndex, d.IsDisplayed, d.ParsedForm, d.VocabId.HasValue ? VocabId.Shared(d.VocabId.Value) : null);
 
    public static ParsingResult CreateParsingResult(SentenceParsingResultDto? data)
    {
