@@ -28,8 +28,3 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
-- **(Claude, 2026-11-12) `[ObservableProperty]` on partial properties instead of fields.** CommunityToolkit.Mvvm's
-  analyzer (MVVMTK0042) recommends it for every one of the 108 fields in 36 files that carry the attribute: the property
-  is then declared in our code, so its doc comment, and analyzers and other source generators, see it as a property, as
-  they can't the generated one. C# 14, which .NET 10 compiles, supports it. A mechanical change, file by file, with the
-  quick fix Rider offers; it changes no behavior.

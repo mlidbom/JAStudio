@@ -17,8 +17,12 @@ quick-fixes, so it is not documented here. This file holds only JAStudio's archi
 - ViewModels must not reference Avalonia types — keep them testable and UI-framework-agnostic.
 - Use **CommunityToolkit.Mvvm** for change notification (`[ObservableProperty]`) and commands
   (`RelayCommand`, `AsyncRelayCommand`).
-- `[ObservableProperty]` fields are `_camelCase`; the source generator creates the PascalCase property
-  without the underscore (`_isInflectingWord` → `IsInflectingWord`).
+- `[ObservableProperty]` goes on a partial property, which the source generator implements, not on a field:
+  `[ObservableProperty] public partial bool IsInflectingWord { get; set; }`. Its doc comment, and analyzers, then see
+  the property itself.
+  - **The backing field can only be reached through the property,** so a constructor that sets it runs the generated
+    setter, and the property's `On…Changed` hook with it. When the starting value must not run the hook, give it as the
+    property's initializer, from a primary constructor's parameter (`PickableValueViewModel`).
 
 ### Business logic — `JAStudio.Core`
 - Pure domain logic: no UI, Anki, or Python dependencies. Prefer dependency injection and immutable types

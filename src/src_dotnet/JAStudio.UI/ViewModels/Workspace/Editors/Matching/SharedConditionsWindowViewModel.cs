@@ -30,10 +30,10 @@ partial class SharedConditionsWindowViewModel : ObservableObject
    /// <summary>The shared-conditions, as they're listed (<see cref="Core.Note.Vocabulary.Matching.Conditions.Sharing.SharedConditions.All"/>).</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(HowManyThereAre))]
-   IReadOnlyList<ListedSharedConditionViewModel> _sharedConditions = [];
+   public partial IReadOnlyList<ListedSharedConditionViewModel> SharedConditions { get; set; } = [];
 
    /// <summary>The selected shared-condition, which Enter opens.</summary>
-   [ObservableProperty] ListedSharedConditionViewModel? _selected;
+   [ObservableProperty] public partial ListedSharedConditionViewModel? Selected { get; set; }
 
    /// <summary>How many shared-conditions there are, and how to open one.</summary>
    public string HowManyThereAre => $"{SharedConditions.Count} shared-conditions. Enter or a double-click opens one, to edit, rename or delete it.";

@@ -63,10 +63,10 @@ partial class ConditionTreeEditorViewModel : ObservableObject
    }
 
    /// <summary>The tree's lines: just the root, with every other line under it.</summary>
-   [ObservableProperty] IReadOnlyList<ConditionTreeLineViewModel> _lines = [];
+   [ObservableProperty] public partial IReadOnlyList<ConditionTreeLineViewModel> Lines { get; set; } = [];
 
    /// <summary>The selected line, which the keys and the right-click menu act on. The tree sets it when a line is clicked.</summary>
-   [ObservableProperty] ConditionTreeLineViewModel? _selectedLine;
+   [ObservableProperty] public partial ConditionTreeLineViewModel? SelectedLine { get; set; }
 
    /// <summary>
    /// Raised after every change the tree editor made, with the tree shown anew, but not after one made elsewhere, such as by a rule's editor: the view<br/>

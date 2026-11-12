@@ -26,7 +26,7 @@ partial class ListedNotesOfOneTypeViewModel : ObservableObject
 
    public ObservableCollection<ListedNoteViewModel> Notes { get; } = [];
 
-   [ObservableProperty] ListedNoteViewModel? _selectedNote;
+   [ObservableProperty] public partial ListedNoteViewModel? SelectedNote { get; set; }
 
    public bool HasNotes => Notes.Count > 0;
 

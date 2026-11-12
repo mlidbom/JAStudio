@@ -41,7 +41,7 @@ partial class SharedConditionWindowViewModel : ObservableObject, IEditorWindowVi
       _services = services;
       _showInTheWorkspace = showInTheWorkspace;
       SharedCondition = sharedCondition;
-      _vocabDependingOnIt = TheVocabDependingOnIt();
+      VocabDependingOnIt = TheVocabDependingOnIt();
       SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsedFor);
       SentencesReparser.PropertyChanged += (_, changed) =>
       {
@@ -133,7 +133,7 @@ partial class SharedConditionWindowViewModel : ObservableObject, IEditorWindowVi
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(WhoDependsOnIt))]
    [NotifyCanExecuteChangedFor(nameof(OpenTheVocabDependingOnItCommand))]
-   IReadOnlyList<VocabNote> _vocabDependingOnIt;
+   public partial IReadOnlyList<VocabNote> VocabDependingOnIt { get; set; }
 
    /// <summary>
    /// Lists the vocab whose match-conditions depend on the definition, directly or through other shared-conditions, as the collection holds them now, in<br/>

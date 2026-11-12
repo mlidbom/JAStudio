@@ -36,156 +36,156 @@ partial class OptionsDialogViewModel : ObservableObject
 
    // --- Numeric Values ---
 
-   [ObservableProperty] double _autoadvanceVocabStartingSeconds;
+   [ObservableProperty] public partial double AutoadvanceVocabStartingSeconds { get; set; }
 
    partial void OnAutoadvanceVocabStartingSecondsChanged(double value) =>
       _config.AutoadvanceVocabStartingSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceVocabHiraganaSeconds;
+   [ObservableProperty] public partial double AutoadvanceVocabHiraganaSeconds { get; set; }
 
    partial void OnAutoadvanceVocabHiraganaSecondsChanged(double value) =>
       _config.AutoadvanceVocabHiraganaSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceVocabKatakanaSeconds;
+   [ObservableProperty] public partial double AutoadvanceVocabKatakanaSeconds { get; set; }
 
    partial void OnAutoadvanceVocabKatakanaSecondsChanged(double value) =>
       _config.AutoadvanceVocabKatakanaSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceVocabKanjiSeconds;
+   [ObservableProperty] public partial double AutoadvanceVocabKanjiSeconds { get; set; }
 
    partial void OnAutoadvanceVocabKanjiSecondsChanged(double value) =>
       _config.AutoadvanceVocabKanjiSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceSentenceStartingSeconds;
+   [ObservableProperty] public partial double AutoadvanceSentenceStartingSeconds { get; set; }
 
    partial void OnAutoadvanceSentenceStartingSecondsChanged(double value) =>
       _config.AutoadvanceSentenceStartingSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceSentenceHiraganaSeconds;
+   [ObservableProperty] public partial double AutoadvanceSentenceHiraganaSeconds { get; set; }
 
    partial void OnAutoadvanceSentenceHiraganaSecondsChanged(double value) =>
       _config.AutoadvanceSentenceHiraganaSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceSentenceKatakanaSeconds;
+   [ObservableProperty] public partial double AutoadvanceSentenceKatakanaSeconds { get; set; }
 
    partial void OnAutoadvanceSentenceKatakanaSecondsChanged(double value) =>
       _config.AutoadvanceSentenceKatakanaSeconds.Value = (float)value;
 
-   [ObservableProperty] double _autoadvanceSentenceKanjiSeconds;
+   [ObservableProperty] public partial double AutoadvanceSentenceKanjiSeconds { get; set; }
 
    partial void OnAutoadvanceSentenceKanjiSecondsChanged(double value) =>
       _config.AutoadvanceSentenceKanjiSeconds.Value = (float)value;
 
-   [ObservableProperty] double _boostFailedCardAllowedTimeByFactor;
+   [ObservableProperty] public partial double BoostFailedCardAllowedTimeByFactor { get; set; }
 
    partial void OnBoostFailedCardAllowedTimeByFactorChanged(double value) =>
       _config.BoostFailedCardAllowedTimeByFactor.Value = (float)value;
 
-   [ObservableProperty] long _decreaseFailedCardIntervalsInterval;
+   [ObservableProperty] public partial long DecreaseFailedCardIntervalsInterval { get; set; }
 
    partial void OnDecreaseFailedCardIntervalsIntervalChanged(long value) =>
       _config.DecreaseFailedCardIntervalsInterval.Value = value;
 
-   [ObservableProperty] long _timeboxSentenceRead;
+   [ObservableProperty] public partial long TimeboxSentenceRead { get; set; }
 
    partial void OnTimeboxSentenceReadChanged(long value) =>
       _config.TimeboxSentenceRead.Value = value;
 
-   [ObservableProperty] long _timeboxSentenceListen;
+   [ObservableProperty] public partial long TimeboxSentenceListen { get; set; }
 
    partial void OnTimeboxSentenceListenChanged(long value) =>
       _config.TimeboxSentenceListen.Value = value;
 
-   [ObservableProperty] long _timeboxVocabRead;
+   [ObservableProperty] public partial long TimeboxVocabRead { get; set; }
 
    partial void OnTimeboxVocabReadChanged(long value) =>
       _config.TimeboxVocabRead.Value = value;
 
-   [ObservableProperty] long _timeboxVocabListen;
+   [ObservableProperty] public partial long TimeboxVocabListen { get; set; }
 
    partial void OnTimeboxVocabListenChanged(long value) =>
       _config.TimeboxVocabListen.Value = value;
 
-   [ObservableProperty] long _timeboxKanjiRead;
+   [ObservableProperty] public partial long TimeboxKanjiRead { get; set; }
 
    partial void OnTimeboxKanjiReadChanged(long value) =>
       _config.TimeboxKanjiRead.Value = value;
 
-   [ObservableProperty] double _minimumTimeViewingQuestion;
+   [ObservableProperty] public partial double MinimumTimeViewingQuestion { get; set; }
 
    partial void OnMinimumTimeViewingQuestionChanged(double value) =>
       _config.MinimumTimeViewingQuestion.Value = (float)value;
 
-   [ObservableProperty] double _minimumTimeViewingAnswer;
+   [ObservableProperty] public partial double MinimumTimeViewingAnswer { get; set; }
 
    partial void OnMinimumTimeViewingAnswerChanged(double value) =>
       _config.MinimumTimeViewingAnswer.Value = (float)value;
 
    // --- Sentence Display Toggles ---
 
-   [ObservableProperty] bool _showKanjiInSentenceBreakdown;
+   [ObservableProperty] public partial bool ShowKanjiInSentenceBreakdown { get; set; }
 
    partial void OnShowKanjiInSentenceBreakdownChanged(bool value) =>
       _config.ShowKanjiInSentenceBreakdown.Value = value;
 
-   [ObservableProperty] bool _showCompoundPartsInSentenceBreakdown;
+   [ObservableProperty] public partial bool ShowCompoundPartsInSentenceBreakdown { get; set; }
 
    partial void OnShowCompoundPartsInSentenceBreakdownChanged(bool value) =>
       _config.ShowCompoundPartsInSentenceBreakdown.Value = value;
 
-   [ObservableProperty] bool _showKanjiMnemonicsInSentenceBreakdown;
+   [ObservableProperty] public partial bool ShowKanjiMnemonicsInSentenceBreakdown { get; set; }
 
    partial void OnShowKanjiMnemonicsInSentenceBreakdownChanged(bool value) =>
       _config.ShowKanjiMnemonicsInSentenceBreakdown.Value = value;
 
-   [ObservableProperty] bool _hideCompositionallyTransparentCompounds;
+   [ObservableProperty] public partial bool HideCompositionallyTransparentCompounds { get; set; }
 
    partial void OnHideCompositionallyTransparentCompoundsChanged(bool value) =>
       _config.HideCompositionallyTransparentCompounds.Value = value;
 
-   [ObservableProperty] bool _automaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound;
+   [ObservableProperty] public partial bool AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound { get; set; }
 
    partial void OnAutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompoundChanged(bool value) =>
       _config.AutomaticallyYieldLastTokenInSuruVerbCompoundsToOverlappingCompound.Value = value;
 
-   [ObservableProperty] bool _automaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound;
+   [ObservableProperty] public partial bool AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound { get; set; }
 
    partial void OnAutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompoundChanged(bool value) =>
       _config.AutomaticallyYieldLastTokenInPassiveVerbCompoundsToOverlappingCompound.Value = value;
 
-   [ObservableProperty] bool _automaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound;
+   [ObservableProperty] public partial bool AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound { get; set; }
 
    partial void OnAutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompoundChanged(bool value) =>
       _config.AutomaticallyYieldLastTokenInCausativeVerbCompoundsToOverlappingCompound.Value = value;
 
-   [ObservableProperty] bool _hideAllCompounds;
+   [ObservableProperty] public partial bool HideAllCompounds { get; set; }
 
    partial void OnHideAllCompoundsChanged(bool value) =>
       _config.HideAllCompounds.Value = value;
 
-   [ObservableProperty] bool _showSentenceBreakdownInEditMode;
+   [ObservableProperty] public partial bool ShowSentenceBreakdownInEditMode { get; set; }
 
    partial void OnShowSentenceBreakdownInEditModeChanged(bool value) =>
       _config.ShowSentenceBreakdownInEditMode.Value = value;
 
    // --- Misc Toggles ---
 
-   [ObservableProperty] bool _yomitanIntegrationCopyAnswerToClipboard;
+   [ObservableProperty] public partial bool YomitanIntegrationCopyAnswerToClipboard { get; set; }
 
    partial void OnYomitanIntegrationCopyAnswerToClipboardChanged(bool value) =>
       _config.YomitanIntegrationCopyAnswerToClipboard.Value = value;
 
-   [ObservableProperty] bool _decreaseFailedCardIntervals;
+   [ObservableProperty] public partial bool DecreaseFailedCardIntervals { get; set; }
 
    partial void OnDecreaseFailedCardIntervalsChanged(bool value) =>
       _config.DecreaseFailedCardIntervals.Value = value;
 
-   [ObservableProperty] bool _preventDoubleClicks;
+   [ObservableProperty] public partial bool PreventDoubleClicks { get; set; }
 
    partial void OnPreventDoubleClicksChanged(bool value) =>
       _config.PreventDoubleClicks.Value = value;
 
-   [ObservableProperty] bool _boostFailedCardAllowedTime;
+   [ObservableProperty] public partial bool BoostFailedCardAllowedTime { get; set; }
 
    partial void OnBoostFailedCardAllowedTimeChanged(bool value) =>
       _config.BoostFailedCardAllowedTime.Value = value;
@@ -193,34 +193,34 @@ partial class OptionsDialogViewModel : ObservableObject
 
    // --- Performance and Memory Toggles ---
 
-   [ObservableProperty] bool _loadStudioInForeground;
+   [ObservableProperty] public partial bool LoadStudioInForeground { get; set; }
 
    partial void OnLoadStudioInForegroundChanged(bool value) =>
       _config.LoadStudioInForeground.Value = value;
 
-   [ObservableProperty] bool _preCacheCardStudyingStatus;
+   [ObservableProperty] public partial bool PreCacheCardStudyingStatus { get; set; }
 
    partial void OnPreCacheCardStudyingStatusChanged(bool value) =>
       _config.PreCacheCardStudyingStatus.Value = value;
 
-   [ObservableProperty] long _reanalysisThreads;
+   [ObservableProperty] public partial long ReanalysisThreads { get; set; }
 
    partial void OnReanalysisThreadsChanged(long value) =>
       _config.ReanalysisThreads.Value = value;
 
    // --- Developer Only Toggles ---
 
-   [ObservableProperty] bool _enableTraceMalloc;
+   [ObservableProperty] public partial bool EnableTraceMalloc { get; set; }
 
    partial void OnEnableTraceMallocChanged(bool value) =>
       _config.EnableTraceMalloc.Value = value;
 
-   [ObservableProperty] bool _trackInstancesInMemory;
+   [ObservableProperty] public partial bool TrackInstancesInMemory { get; set; }
 
    partial void OnTrackInstancesInMemoryChanged(bool value) =>
       _config.TrackInstancesInMemory.Value = value;
 
-   [ObservableProperty] bool _logWhenFlushingNotes;
+   [ObservableProperty] public partial bool LogWhenFlushingNotes { get; set; }
 
    partial void OnLogWhenFlushingNotesChanged(bool value) =>
       _config.LogWhenFlushingNotes.Value = value;

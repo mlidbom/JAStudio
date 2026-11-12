@@ -23,13 +23,13 @@ partial class TextConditionEditorViewModel : ConditionEditorViewModel
    public IReadOnlyList<TextMatchChoice> MatchChoices { get; } = TextMatchChoice.All;
 
    /// <summary>How the text is compared.</summary>
-   [ObservableProperty] TextMatchChoice _matchChoice = TextMatchChoice.Contains;
+   [ObservableProperty] public partial TextMatchChoice MatchChoice { get; set; } = TextMatchChoice.Contains;
 
    /// <summary>The text, or pattern, to compare with.</summary>
-   [ObservableProperty] string _text = "";
+   [ObservableProperty] public partial string Text { get; set; } = "";
 
    /// <summary>Why the inputs don't describe a condition, such as a regular expression that isn't valid. Null when there's no problem to show.</summary>
-   [ObservableProperty] string? _problem;
+   [ObservableProperty] public partial string? Problem { get; set; }
 
    public override NoteCondition? Condition => _condition;
 

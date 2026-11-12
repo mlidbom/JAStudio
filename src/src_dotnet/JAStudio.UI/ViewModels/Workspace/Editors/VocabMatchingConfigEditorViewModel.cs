@@ -34,7 +34,7 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
    /// Whether the match-condition is made of matching rules only, so that the rules' editors can edit it. One with other conditions can only be<br/>
    /// edited as a tree.
    /// </summary>
-   [ObservableProperty] bool _canBeEditedRuleByRule;
+   [ObservableProperty] public partial bool CanBeEditedRuleByRule { get; set; }
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while writing a change.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>

@@ -14,9 +14,9 @@ partial class ReadingsMappingsDialogViewModel : ObservableObject
    readonly Window _window;
    readonly Core.TemporaryServiceCollection _services;
 
-   [ObservableProperty] string _mappingsText;
+   [ObservableProperty] public partial string MappingsText { get; set; }
 
-   [ObservableProperty] string _searchText = string.Empty;
+   [ObservableProperty] public partial string SearchText { get; set; } = string.Empty;
 
    public RelayCommand SaveCommand { get; }
    public RelayCommand CancelCommand { get; }
@@ -26,7 +26,7 @@ partial class ReadingsMappingsDialogViewModel : ObservableObject
       _window = window;
       _services = services;
 
-      _mappingsText = "\n" + _services.CoreApp.Config.ReadReadingsMappingsFile();
+      MappingsText = "\n" + _services.CoreApp.Config.ReadReadingsMappingsFile();
 
       SaveCommand = new RelayCommand(Save);
       CancelCommand = new RelayCommand(Cancel);

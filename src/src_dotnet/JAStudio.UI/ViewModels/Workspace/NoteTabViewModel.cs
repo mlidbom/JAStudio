@@ -48,17 +48,17 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    bool _pageOutdatedWhileHidden;
 
    /// <summary>The question of the note on the page, shown on the tab and in the window title.</summary>
-   [ObservableProperty] string _header = NoNoteHeader;
+   [ObservableProperty] public partial string Header { get; set; } = NoNoteHeader;
 
-   [ObservableProperty] bool _canGoBack;
-   [ObservableProperty] bool _canGoForward;
+   [ObservableProperty] public partial bool CanGoBack { get; set; }
+   [ObservableProperty] public partial bool CanGoForward { get; set; }
 
    /// <summary>
    /// What the workspace's editor section shows for this tab: the editors of the note it shows.<br/>
    /// Each tab has its own, for the note it shows, and the section shows the shown tab's.<br/>
    /// Null when the tab shows no note.
    /// </summary>
-   [ObservableProperty] INoteEditorSectionViewModel? _editorSection;
+   [ObservableProperty] public partial INoteEditorSectionViewModel? EditorSection { get; set; }
 
    public NoteTabViewModel(WorkspaceViewModel workspace, TemporaryServiceCollection services, Uri firstPageUrl)
    {

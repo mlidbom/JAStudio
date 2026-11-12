@@ -54,19 +54,19 @@ partial class WorkspaceViewModel : ObservableObject
    public ObservableCollection<NoteTabViewModel> Tabs { get; } = [];
 
    /// <summary>The tab being shown. Null only when no tab is open.</summary>
-   [ObservableProperty] NoteTabViewModel? _selectedTab;
+   [ObservableProperty] public partial NoteTabViewModel? SelectedTab { get; set; }
 
    /// <summary>The shown tab's <see cref="NoteTabViewModel.Header"/>, followed by the application's name.</summary>
-   [ObservableProperty] string _title = AppTitle;
+   [ObservableProperty] public partial string Title { get; set; } = AppTitle;
 
    /// <summary>
    /// Whether the editor section, on the right of the tabs, is open. It shows the editors of the shown tab's note,<br/>
    /// so it stays open as links are followed and tabs are switched.
    /// </summary>
-   [ObservableProperty] bool _isEditorSectionOpen;
+   [ObservableProperty] public partial bool IsEditorSectionOpen { get; set; }
 
    /// <summary>The editor section's width, as its edge was last dragged. Bound to the section, so that it's kept between sessions.</summary>
-   [ObservableProperty] double _editorSectionWidth = 480;
+   [ObservableProperty] public partial double EditorSectionWidth { get; set; } = 480;
 
    /// <summary>Saves what the workspace shows (<see cref="WorkspaceState"/>), to show it again after a restart. The window calls it whenever it's left.</summary>
    internal void SaveTheState()

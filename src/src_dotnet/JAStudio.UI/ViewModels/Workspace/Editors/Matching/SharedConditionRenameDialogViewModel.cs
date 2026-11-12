@@ -20,7 +20,7 @@ sealed partial class SharedConditionRenameDialogViewModel : ObservableObject
    {
       _sharedCondition = sharedCondition;
       _sharedConditions = sharedConditions;
-      _typedName = sharedCondition.Name;
+      TypedName = sharedCondition.Name;
    }
 
    public string Title => $"Rename {_sharedCondition.FullName}";
@@ -31,7 +31,7 @@ sealed partial class SharedConditionRenameDialogViewModel : ObservableObject
    /// <summary>Its new name, as typed, without its subject's in front: its name to start with.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(WhyItCannotBeRenamed), nameof(CanRename))]
-   string _typedName;
+   public partial string TypedName { get; set; }
 
    /// <summary>What renaming it does besides.</summary>
    public string WhatItDoes => "Every vocab and shared-condition using it then uses it by the new name, and is saved with it. None of them means anything else.";

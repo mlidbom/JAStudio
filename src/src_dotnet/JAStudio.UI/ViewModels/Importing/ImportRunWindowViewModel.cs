@@ -65,31 +65,31 @@ partial class ImportRunWindowViewModel : ObservableObject, IDisposable
    public string Title => $"Import run: {_profile.Name}";
 
    /// <summary>The summary of the last check or run: the problems with the profile, and what running does.</summary>
-   [ObservableProperty] string _summary = "";
+   [ObservableProperty] public partial string Summary { get; set; } = "";
 
    /// <summary>A row for each raw note the last check selected, of the outcomes the <see cref="OutcomeFilters"/> show.</summary>
-   [ObservableProperty] IReadOnlyList<CheckedRawNoteRow> _rows = [];
+   [ObservableProperty] public partial IReadOnlyList<CheckedRawNoteRow> Rows { get; set; } = [];
 
    /// <summary>A check box per outcome, with its count, that shows or hides its rows. None before a check.</summary>
-   [ObservableProperty] IReadOnlyList<OutcomeFilterViewModel> _outcomeFilters = [];
+   [ObservableProperty] public partial IReadOnlyList<OutcomeFilterViewModel> OutcomeFilters { get; set; } = [];
 
    /// <summary>The field mapping the report is of, which decides the columns it shows: those of the mapped fields. Null without a report.</summary>
-   [ObservableProperty] SentenceFieldMapping? _reportedFieldMapping;
+   [ObservableProperty] public partial SentenceFieldMapping? ReportedFieldMapping { get; set; }
 
    /// <summary>Whether a check or a run is under way.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(CheckCommand))]
    [NotifyCanExecuteChangedFor(nameof(RunCommand))]
-   bool _isBusy;
+   public partial bool IsBusy { get; set; }
 
    /// <summary>
    /// The run the last check prepared, which <see cref="Run"/> executes. Cleared when the profile changes, so a run never does more than its report said,<br/>
    /// and replaced by checking again when it's out of date.
    /// </summary>
-   [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(RunCommand))] ImportRun? _checkedRun;
+   [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(RunCommand))] public partial ImportRun? CheckedRun { get; set; }
 
    /// <summary>The last run executed, whose imported sentences <see cref="ShowTheImportedSentences"/> shows again.</summary>
-   [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ShowTheImportedSentencesCommand))] ImportRun? _executedRun;
+   [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ShowTheImportedSentencesCommand))] public partial ImportRun? ExecutedRun { get; set; }
 
    bool IsIdle() => !IsBusy;
 

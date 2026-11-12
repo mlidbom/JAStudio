@@ -47,7 +47,7 @@ partial class VocabSentencesReparserViewModel : ObservableObject
    }
 
    /// <summary>Whether the vocab's sentences are being reparsed after a change. What they match can't be changed meanwhile.</summary>
-   [ObservableProperty] bool _isReparsingSentences;
+   [ObservableProperty] public partial bool IsReparsingSentences { get; set; }
 
    /// <summary>Reparses the sentences that may contain the vocab, each once, in the background. Called after a change to what the vocab match.</summary>
    public void ReparseSentences()

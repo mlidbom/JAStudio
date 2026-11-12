@@ -43,19 +43,19 @@ partial class TextToSpeechDialogViewModel : ObservableObject
       _player = player;
       _usingASpeech = new UsingASpeech(services);
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
-      _chosenVoices = chosenVoices;
-      _textToSpeak = note.TextToSpeak;
+      ChosenVoices = chosenVoices;
+      TextToSpeak = note.TextToSpeak;
       CurrentAudio = CurrentAudioViewModel.Of(note, services.Resolve<MediaFileIndex>());
-      _status = WhyThereIsNothingToGenerateWith(chosenVoices);
+      Status = WhyThereIsNothingToGenerateWith(chosenVoices);
    }
 
    public string Title => $"Text-to-speech audio for {_note.TextToSpeak}";
 
    /// <summary>The text the voices speak: the note's text to speak at first, and editable. Editing it changes only what's spoken, not the note.</summary>
-   [ObservableProperty] string _textToSpeak;
+   [ObservableProperty] public partial string TextToSpeak { get; set; }
 
    /// <summary>The voices offered, in priority order. The first is the default.</summary>
-   [ObservableProperty] IReadOnlyList<TextToSpeechVoice> _chosenVoices;
+   [ObservableProperty] public partial IReadOnlyList<TextToSpeechVoice> ChosenVoices { get; set; }
 
    /// <summary>Offers <paramref name="chosenVoices"/> from now on, as after choosing the voices again from the dialog. The attempts stay.</summary>
    internal void Offer(IReadOnlyList<TextToSpeechVoice> chosenVoices)
@@ -72,13 +72,13 @@ partial class TextToSpeechDialogViewModel : ObservableObject
    /// <summary>The selected attempt, which the "Use" button uses. Selecting one plays it.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(CanUse), nameof(UseText))]
-   SpeechAttemptViewModel? _selectedAttempt;
+   public partial SpeechAttemptViewModel? SelectedAttempt { get; set; }
 
    /// <summary>What went wrong with the last generation, or why there's nothing to generate with. Empty when all is well.</summary>
-   [ObservableProperty] string _status;
+   [ObservableProperty] public partial string Status { get; set; }
 
    /// <summary>Whether a voice is speaking the text right now. Several may be at once.</summary>
-   [ObservableProperty] bool _isGenerating;
+   [ObservableProperty] public partial bool IsGenerating { get; set; }
 
    /// <summary>The note's TTS audio as it was when the dialog opened, to listen to and to compare the attempts with.</summary>
    public CurrentAudioViewModel CurrentAudio { get; }

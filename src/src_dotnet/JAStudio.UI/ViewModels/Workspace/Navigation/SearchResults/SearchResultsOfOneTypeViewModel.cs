@@ -36,7 +36,7 @@ abstract partial class SearchResultsOfOneTypeViewModel : ObservableObject
    public string Header => $"{NoteType} ({Count})";
 
    /// <summary>Whether these are the results shown, the grid of the other types being hidden. Set by the <see cref="SearchResultsViewModel"/>.</summary>
-   [ObservableProperty] bool _isShown;
+   [ObservableProperty] public partial bool IsShown { get; set; }
 
    /// <summary>
    /// Shows the notes of this type among <paramref name="found"/>, the notes a changed search found, instead of the rows shown so far.<br/>

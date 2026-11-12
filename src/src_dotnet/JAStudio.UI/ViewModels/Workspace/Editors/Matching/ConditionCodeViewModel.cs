@@ -25,7 +25,7 @@ partial class ConditionCodeViewModel : ObservableObject
    }
 
    /// <summary>The code's lines as they're shown.</summary>
-   [ObservableProperty] IReadOnlyList<CodeLineViewModel> _lines = [];
+   [ObservableProperty] public partial IReadOnlyList<CodeLineViewModel> Lines { get; set; } = [];
 
    /// <summary>Shows <paramref name="lines"/>, the lines of the condition's code as it is now, in place of those shown.</summary>
    public void Show(IReadOnlyList<CodeLine> lines) => Lines = CodeLineViewModel.LinesOf(lines, CodeLayout.ForReading);

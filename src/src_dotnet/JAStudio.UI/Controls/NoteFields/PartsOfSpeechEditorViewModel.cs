@@ -37,12 +37,12 @@ partial class PartsOfSpeechEditorViewModel : ObservableObject
    /// <summary>The names of the parts of speech the vocab doesn't have yet: what the box for adding one offers.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
-   IReadOnlyList<string> _addable = [];
+   public partial IReadOnlyList<string> Addable { get; set; } = [];
 
    /// <summary>The text in the box for adding a part of speech. Only the name of one of the <see cref="Addable"/> can be added.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
-   string _newPartOfSpeech = string.Empty;
+   public partial string NewPartOfSpeech { get; set; } = string.Empty;
 
    /// <summary>Shows the parts of speech as the vocab has them now, after a change made elsewhere.</summary>
    public void Refresh()

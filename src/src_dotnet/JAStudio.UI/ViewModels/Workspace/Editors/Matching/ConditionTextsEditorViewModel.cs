@@ -60,16 +60,16 @@ partial class ConditionTextsEditorViewModel : ObservableObject
    /// <summary>What finds the values shown: text in their Japanese or their English, such as 接尾 or suffix.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(ShownValues))]
-   string _filter = "";
+   public partial string Filter { get; set; } = "";
 
    /// <summary>The values the <see cref="Filter"/> finds, in order: every one while it's empty.</summary>
    public IReadOnlyList<PickableValueViewModel> ShownValues => [.. PickableValues.Where(it => it.IsFoundBy(Filter))];
 
    /// <summary>The texts as typed, or as the values picked type them: separated by spaces.</summary>
-   [ObservableProperty] string _text = "";
+   [ObservableProperty] public partial string Text { get; set; } = "";
 
    /// <summary>Why what's typed makes no condition, such as a part of speech the tokenizer never gives. Null when there's no problem to show.</summary>
-   [ObservableProperty] string? _problem;
+   [ObservableProperty] public partial string? Problem { get; set; }
 
    /// <summary>The condition what's typed makes, placed as it goes into the match-condition, or null while it makes none.</summary>
    public Condition? Condition { get; private set; }
