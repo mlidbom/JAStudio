@@ -28,7 +28,3 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
-- **(Claude, 2026-11-12) Easy wins for the memory a sentence takes: from about 10 KB to about 4.5 KB.** A lock per
-  note field's change notifier, which nothing subscribes to on a sentence, takes a third of it; each note's last saved
-  snapshot, and the strings and ids every stored match repeats, most of the rest. The measurements and the changes are
-  in `dev_docs/memory-use.md`.
