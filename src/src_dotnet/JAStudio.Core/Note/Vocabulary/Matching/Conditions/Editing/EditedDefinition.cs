@@ -37,7 +37,12 @@ public sealed class EditedDefinition : IEditedCondition
    public IReadOnlyList<ISharedCondition> SharedConditionsOfferedOn(IConditionLevel level) => _sharedConditions.UsableInTheDefinitionOf(SharedCondition, level);
 
    /// <summary>The definition <paramref name="tree"/> stands for: the one condition of its group at the root, when it has one, else the tree itself.</summary>
-   static Condition DefinitionIn(Condition tree) => GroupAtTheRootOf(tree).Conditions is [var onlyCondition] ? onlyCondition : tree;
+   static Condition DefinitionIn(Condition tree) =>
+      //bug: a tree whose root holds one "all of" group, such as one just added, AllOf(AllOf()), stores the inner group, and Stored then gives that
+      //   group as the tree, AllOf(), which isn't the tree the editor holds. The next ConditionTreeEditorViewModel.Refresh, as when the window is
+      //   activated again after a condition's dialog closed over it, takes it in as a change made elsewhere: the group the user just added is gone
+      //   from the tree, and undo has a step more. What the definition means is the same either way.
+      GroupAtTheRootOf(tree).Conditions is [var onlyCondition] ? onlyCondition : tree;
 
    static IConditionGroup GroupAtTheRootOf(Condition tree) => (IConditionGroup)tree;
 }

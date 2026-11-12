@@ -36,6 +36,10 @@ partial class SharedConditionWindow : Window
    SharedConditionWindow(ISharedCondition sharedCondition, TemporaryServiceCollection services)
    {
       var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services));
+      //bug: Rename and Delete can be run while the sentences of the vocab depending on it are reparsed after a change to its definition: only the tree
+      //   is disabled meanwhile (SentencesReparser.IsReparsingSentences). Delete then sets, and saves, the match-conditions of the vocab using it on the
+      //   UI thread while the reparse reads those vocab, which VocabSentencesReparserViewModel says nothing may do. Their commands could be disabled while
+      //   it runs, as the tree is.
       viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel));
       viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel));
       DataContext = viewModel;

@@ -70,6 +70,9 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// </summary>
    internal void ShowItAsItIsNow()
    {
+      //bug: when the shared-condition was deleted elsewhere, through the MCP server's delete_a_shared_condition, the window stays open and shows it as
+      //   it was: the next change to its definition fails, since SharedConditions.Redefine asserts it's one of the corpus's. The window could close, as
+      //   it does after its own Delete.
       OnPropertyChanged(nameof(Title));
       VocabDependingOnIt = TheVocabDependingOnIt();
       DefinitionEditor.Refresh();
