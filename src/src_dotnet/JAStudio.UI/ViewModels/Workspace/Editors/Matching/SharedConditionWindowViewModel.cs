@@ -9,25 +9,32 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.TaskRunners;
+using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace.Editors.Matching;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
 /// A shared-condition's window (<see cref="SharedConditionWindow"/>): its definition, edited in the tree editor, and the vocab whose match-conditions<br/>
-/// depend on it (<see cref="Condition.DependsOnTheDefinitionOf"/>). Every change to the definition is saved in its file, and those vocab's sentences are<br/>
-/// then reparsed, as a vocab's own are after a change on its Matching tab.
+/// depend on it (<see cref="Condition.DependsOnTheDefinitionOf"/>), which it can open in the workspace. Every change to the definition is saved in its<br/>
+/// file, and those vocab's sentences are then reparsed, as a vocab's own are after a change on its Matching tab.
 /// </summary>
 partial class SharedConditionWindowViewModel : ObservableObject
 {
    readonly TemporaryServiceCollection _services;
+   readonly Action<NoteList> _showInTheWorkspace;
 
    /// <param name="services">The application's services.</param>
    /// <param name="sharedCondition">The shared-condition the window is of: one of the corpus's.</param>
    /// <param name="openTheDefinitionOf">Opens another shared-condition's window, such as one the definition uses.</param>
-   public SharedConditionWindowViewModel(TemporaryServiceCollection services, ISharedCondition sharedCondition, Action<ISharedCondition> openTheDefinitionOf)
+   /// <param name="showInTheWorkspace">Lists notes in the workspace's "List" tab, as the note menus' "Open" items do: the vocab depending on it.</param>
+   public SharedConditionWindowViewModel(TemporaryServiceCollection services,
+                                         ISharedCondition sharedCondition,
+                                         Action<ISharedCondition> openTheDefinitionOf,
+                                         Action<NoteList> showInTheWorkspace)
    {
       _services = services;
+      _showInTheWorkspace = showInTheWorkspace;
       SharedCondition = sharedCondition;
       _vocabDependingOnIt = TheVocabDependingOnIt();
       SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => {});
@@ -84,7 +91,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
     + "shared-conditions. None of them then means anything else.";
 
    /// <summary>Deletes the shared-condition, with its definition written out wherever it's used (<see cref="SharedConditions.Delete"/>).</summary>
-   internal void Delete() => SharedConditions.Delete(SharedCondition, Vocab.All());
+   internal void Delete() => SharedConditions.Delete(SharedCondition);
 
    /// <summary>
    /// Shows the shared-condition as it is now, when something else may have changed it or what uses it, such as a rename through the MCP server, or a<br/>
@@ -106,7 +113,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// </summary>
    internal void RenameTo(string newName)
    {
-      SharedConditions.Rename(SharedCondition, newName, Vocab.All());
+      SharedConditions.Rename(SharedCondition, newName);
       ShowItAsItIsNow();
    }
 
@@ -119,7 +126,17 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// <summary>The vocab whose match-conditions depend on the definition: those whose sentences a change to it reparses.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(WhoDependsOnIt))]
+   [NotifyCanExecuteChangedFor(nameof(OpenTheVocabDependingOnItCommand))]
    IReadOnlyList<VocabNote> _vocabDependingOnIt;
+
+   /// <summary>
+   /// Lists the vocab whose match-conditions depend on the definition, directly or through other shared-conditions, as the collection holds them now, in<br/>
+   /// the workspace's "List" tab (<see cref="NoteList.OfTheVocabDependingOn"/>). It can run when any vocab does.
+   /// </summary>
+   [RelayCommand(CanExecute = nameof(AnyVocabDependsOnIt))]
+   void OpenTheVocabDependingOnIt() => _showInTheWorkspace(NoteList.OfTheVocabDependingOn(SharedCondition, Vocab));
+
+   bool AnyVocabDependsOnIt() => VocabDependingOnIt.Count > 0;
 
    /// <summary>How many vocab's match-conditions depend on the definition, which a change to it affects, or that their sentences are being reparsed.</summary>
    public string WhoDependsOnIt =>

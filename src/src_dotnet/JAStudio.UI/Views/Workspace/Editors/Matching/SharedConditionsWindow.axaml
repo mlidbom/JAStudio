@@ -16,7 +16,11 @@
                 <DataTemplate DataType="matching:ListedSharedConditionViewModel">
                     <StackPanel Spacing="2" Margin="0,4">
                         <TextBlock Text="{Binding Code}" FontFamily="{StaticResource CodeFont}" />
-                        <TextBlock Text="{Binding WhoDependsOnIt}" Opacity="0.6" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Binding WhoDependsOnIt}" Opacity="0.6" VerticalAlignment="Center" />
+                            <Button Content="Open the vocab depending on it" Command="{Binding OpenTheVocabDependingOnItCommand}"
+                                    ToolTip.Tip="Lists them in the workspace's List tab" Padding="6,1" />
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

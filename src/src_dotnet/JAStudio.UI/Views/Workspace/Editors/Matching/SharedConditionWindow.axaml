@@ -16,6 +16,8 @@
         <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
             <Button DockPanel.Dock="Right" Content="Delete…" Command="{Binding DeleteCommand}" Margin="8,0,0,0" />
             <Button DockPanel.Dock="Right" Content="Rename… (F2)" Command="{Binding RenameCommand}" Margin="8,0,0,0" />
+            <Button DockPanel.Dock="Right" Content="Open the vocab depending on it" Command="{Binding OpenTheVocabDependingOnItCommand}"
+                    ToolTip.Tip="Lists them in the workspace's List tab" Margin="8,0,0,0" />
             <TextBlock Text="{Binding WhoDependsOnIt}" TextWrapping="Wrap" VerticalAlignment="Center" />
         </DockPanel>
         <ScrollViewer>

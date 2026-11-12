@@ -10,8 +10,8 @@ namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
 /// The window listing every one of the corpus's shared-conditions, showing a <see cref="SharedConditionsWindowViewModel"/>, as the workspace's main menu<br/>
-/// opens it. Enter or a double-click opens the selected one's <see cref="SharedConditionWindow"/>. It lists them as they are now whenever it's activated,<br/>
-/// as after a change in one's window.
+/// opens it. Enter or a double-click opens the selected one's <see cref="SharedConditionWindow"/>, and each one's button lists the vocab depending on it in<br/>
+/// the workspace's "List" tab. It lists them as they are now whenever it's activated, as after a change in one's window.
 /// </summary>
 partial class SharedConditionsWindow : Window
 {
@@ -26,7 +26,7 @@ partial class SharedConditionsWindow : Window
    SharedConditionsWindow(TemporaryServiceCollection services)
    {
       _services = services;
-      DataContext = _viewModel = new SharedConditionsWindowViewModel(services);
+      DataContext = _viewModel = new SharedConditionsWindowViewModel(services, WorkspaceWindow.ShowNoteList);
       InitializeComponent();
       Activated += (_, _) => _viewModel.ShowThemAsTheyAreNow();
       SharedConditionList.AddHandler(KeyDownEvent, OnKeyDownInTheList, RoutingStrategies.Tunnel);

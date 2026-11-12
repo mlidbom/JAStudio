@@ -1,24 +1,29 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
+using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace.Editors.Matching;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
 /// The window listing every one of the corpus's shared-conditions (<see cref="SharedConditionsWindow"/>), as the workspace's main menu opens it: each as<br/>
-/// it's defined, with how many vocab's match-conditions depend on it, those on a word first, then a token's, then a text's. Opening one opens its own<br/>
-/// window (<see cref="SharedConditionWindow"/>), where it's edited, renamed or deleted.
+/// it's defined, with how many vocab's match-conditions depend on it, which each can open in the workspace, those on a word first, then a token's, then<br/>
+/// a text's. Opening one opens its own window (<see cref="SharedConditionWindow"/>), where it's edited, renamed or deleted.
 /// </summary>
 partial class SharedConditionsWindowViewModel : ObservableObject
 {
    readonly TemporaryServiceCollection _services;
+   readonly Action<NoteList> _showInTheWorkspace;
 
    /// <param name="services">The application's services.</param>
-   public SharedConditionsWindowViewModel(TemporaryServiceCollection services)
+   /// <param name="showInTheWorkspace">Lists notes in the workspace's "List" tab, as the note menus' "Open" items do: the vocab depending on one.</param>
+   public SharedConditionsWindowViewModel(TemporaryServiceCollection services, Action<NoteList> showInTheWorkspace)
    {
       _services = services;
+      _showInTheWorkspace = showInTheWorkspace;
       ShowThemAsTheyAreNow();
    }
 
@@ -41,7 +46,7 @@ partial class SharedConditionsWindowViewModel : ObservableObject
    {
       var selected = Selected?.SharedCondition;
       var vocab = _services.CoreApp.Collection.Vocab;
-      SharedConditions = [.. _services.NoteServices.SharedConditions.All.Select(it => new ListedSharedConditionViewModel(it, vocab))];
+      SharedConditions = [.. _services.NoteServices.SharedConditions.All.Select(it => new ListedSharedConditionViewModel(it, vocab, _showInTheWorkspace))];
       Selected = SharedConditions.FirstOrDefault(it => ReferenceEquals(it.SharedCondition, selected)) ?? SharedConditions.FirstOrDefault();
    }
 }

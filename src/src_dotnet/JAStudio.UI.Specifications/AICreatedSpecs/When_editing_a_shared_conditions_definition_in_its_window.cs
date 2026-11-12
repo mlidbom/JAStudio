@@ -13,6 +13,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.UI.ViewModels.Workspace.Editors;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
+using JAStudio.UI.ViewModels.Workspace.Navigation;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
 
 // ReSharper disable InconsistentNaming
@@ -41,7 +42,10 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
    }
 
    private protected SharedConditionWindowViewModel WindowOf(ISharedCondition sharedCondition) =>
-      new(GetService<TemporaryServiceCollection>(), sharedCondition, it => _definitionsOpened.Add(it.FullName));
+      new(GetService<TemporaryServiceCollection>(), sharedCondition, it => _definitionsOpened.Add(it.FullName), Workspace.Navigation.ShowNoteList);
+
+   private protected IReadOnlyList<string> QuestionsOfTheNotesTheWorkspacesListTabLists() =>
+      [.. Workspace.Navigation.NoteList.Notes.OfEachType.SelectMany(it => it.Notes).Select(it => it.Question)];
 
    private protected static List<string> LinesOf(SharedConditionWindowViewModel window) => [.. window.DefinitionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
 
@@ -117,7 +121,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
       }
 
       [XF] public void its_rename_dialog_starts_with_its_name_which_it_cannot_be_renamed() =>
-         _window.RenameDialog().Must().Satisfy(it => it.TypedName == "FollowsAVerb" && it.WhyItCannotBeRenamed == "That's its name now.");
+         _window.RenameDialog().Must().Satisfy(it => it is { TypedName: "FollowsAVerb", WhyItCannotBeRenamed: "That's its name now." });
 
       [XF] public void deleting_it_says_where_its_definition_is_written_out() =>
          _window.WhatDeletingItDoes().Must().Be("Delete Word.FollowsAVerb? Its definition is written out in its place wherever it's used: in the match-conditions of 1 vocab, "
@@ -155,7 +159,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 
    public class the_window_of_IsAVerb : When_editing_a_shared_conditions_definition_in_its_window
    {
-      readonly SharedConditionWindowViewModel _window;
+      private protected readonly SharedConditionWindowViewModel _window;
 
       public the_window_of_IsAVerb() => _window = WindowOf(_isAVerb);
 
@@ -167,5 +171,18 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 
       [XF] public void its_add_menu_offers_no_shared_condition_since_the_only_one_on_a_token_is_itself() =>
          _window.DefinitionEditor.AddConditionMenu(_ => {}).Select(it => it.Name).Must().Satisfy(names => !names.Any(it => it.Contains("Shared")));
+
+      [XF] public void the_vocab_depending_on_it_can_be_opened() => _window.OpenTheVocabDependingOnItCommand.CanExecute(null).Must().BeTrue();
+
+      public class after_opening_the_vocab_depending_on_it : the_window_of_IsAVerb
+      {
+         public after_opening_the_vocab_depending_on_it() => _window.OpenTheVocabDependingOnItCommand.Execute(null);
+
+         [XF] public void the_workspace_shows_its_List_tab() => Workspace.Navigation.ShownTab.Must().Be(NavigationPaneTab.NoteList);
+
+         [XF] public void the_List_tab_is_titled_by_the_shared_condition_and_counts_them() => Workspace.Navigation.NoteList.Title.Must().Be("Vocab depending on Token.IsAVerb (1)");
+
+         [XF] public void it_lists_ます_which_uses_it_through_FollowsAVerb() => QuestionsOfTheNotesTheWorkspacesListTabLists().Must().SequenceEqual(["ます"]);
+      }
    }
 }

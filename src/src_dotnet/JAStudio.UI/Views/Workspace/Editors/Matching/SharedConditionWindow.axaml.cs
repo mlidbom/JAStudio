@@ -16,7 +16,8 @@ using JAStudio.UI.WindowPlaces;
 namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
-/// A shared-condition's window, showing a <see cref="SharedConditionWindowViewModel"/>: its definition in the tree editor, with Rename and Delete. F12 or<br/>
+/// A shared-condition's window, showing a <see cref="SharedConditionWindowViewModel"/>: its definition in the tree editor, with Rename and Delete, and a<br/>
+/// button that lists the vocab depending on it in the workspace's "List" tab. F12 or<br/>
 /// Ctrl+click on a shared-condition in any tree opens it. Each shared-condition has one window at most: opening it again brings it to the front. It<br/>
 /// shows the shared-condition as it is now whenever it's activated, since another window or the MCP server may have changed it or what it uses, and<br/>
 /// closes then if it was deleted. Rename and Delete wait for the reparse after a change to the definition, as the tree does.
@@ -37,7 +38,7 @@ partial class SharedConditionWindow : Window
 
    SharedConditionWindow(ISharedCondition sharedCondition, TemporaryServiceCollection services)
    {
-      var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services));
+      var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services), WorkspaceWindow.ShowNoteList);
       viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
       viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
       DataContext = viewModel;
