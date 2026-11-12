@@ -220,6 +220,10 @@ the headless JAStudio.
   It replaces the throwaway tokenizer programs, and answers questions such as why a word doesn't match a vocab: it
   showed at once why まかれる parses as まかる + える + う (MeCab reads まかれる as one ichidan verb, and the preprocessing
   splits it as a godan potential).
+- **Parsing speed, built (2026-11-12):** `time_parsing_every_sentence` times tokenizing every sentence of the corpus, and
+  then analyzing every one, on a given number of threads, by default one per logical core, and saves nothing. It's for
+  telling whether a change made parsing faster, and how parsing scales with threads: compare runs at the same thread
+  count, and discard the first after a start, which includes warming up.
 - **The reservoir, built on the branch `corpus-reservoir` (2026-11-11):** `what_a_vocab_does_in_the_reservoir` tells what
   a vocab, as JAStudio has it now, does in a reservoir's millions of sentences (`WhatAVocabDoesInTheReservoir`): where it
   matches, which sentences reject it and why, and where its matching changed since the reservoir's bulk analysis, which

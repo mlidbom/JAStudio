@@ -1,7 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using JAStudio.Core.LanguageServices.JanomeEx;
+using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
@@ -39,6 +45,30 @@ public class AnalysisTools
                    analyzes as the sentence's stored parsing result is made.
                    """)] bool asTheSentenceBreakdownShowsIt = true) =>
       AnalyzedSentence.Of(AnalysisOf(text, sentenceNoteId, asTheSentenceBreakdownShowsIt));
+
+   [McpServerTool(Name = "time_parsing_every_sentence", ReadOnly = true, Idempotent = true)]
+   [Description("""
+                Times parsing every sentence of the corpus on the given number of threads, twice: tokenizing each sentence's question, the
+                tokenizer's share of the work, and then analyzing each sentence as its stored parsing result is made, which includes the
+                tokenizing. Nothing is saved. For telling whether a change made parsing faster, and how parsing scales with threads: compare
+                runs on the same corpus at the same thread count, and discard the first run after a start, which includes warming up.
+                """)]
+   public TimeToParseEverySentence TimeParsingEverySentence(
+      [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null)
+   {
+      var sentences = _collection.Sentences.All().ToList();
+      var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
+      var secondsToTokenize = SecondsToParseEach(sentences, threadCount, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace()));
+      var secondsToAnalyze = SecondsToParseEach(sentences, threadCount, it => it.CreateAnalysis());
+      return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, secondsToTokenize, secondsToAnalyze);
+   }
+
+   static double SecondsToParseEach(List<SentenceNote> sentences, ThreadCount threads, Action<SentenceNote> parse)
+   {
+      var stopwatch = Stopwatch.StartNew();
+      Parallel.ForEach(sentences, threads.ParallelOptions, parse);
+      return stopwatch.Elapsed.TotalSeconds;
+   }
 
    TextAnalysis AnalysisOf(string? text, string? sentenceNoteId, bool forTheSentenceBreakdown) => (text, sentenceNoteId, forTheSentenceBreakdown) switch
    {
