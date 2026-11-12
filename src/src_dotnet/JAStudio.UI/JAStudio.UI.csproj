@@ -41,7 +41,7 @@
 
    <ItemGroup>
       <PackageReference Include="Compze.Underscore" Version="0.6.0-beta" />
-      <PackageReference Include="Compze.Internals.Logging" Version="0.4.1-alpha" />
+      <PackageReference Include="Compze.Internals.Logging" Version="0.6.0-alpha" />
       <PackageReference Include="Compze.Internals.SystemCE" Version="0.6.1-internal" />
    </ItemGroup>
 

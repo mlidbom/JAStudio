@@ -24,7 +24,7 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Must" Version="0.4.1-alpha" />
+      <PackageReference Include="Compze.Must" Version="0.7.0-alpha" />
    </ItemGroup>
 
 </Project>
