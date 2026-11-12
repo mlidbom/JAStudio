@@ -225,8 +225,9 @@ the headless JAStudio.
   telling whether a change made parsing faster, and how parsing scales with threads: compare runs at the same thread
   count, and discard the first after a start, which includes warming up. Each pass also reports how long the garbage
   collector paused the threads, and the most memory the process used meanwhile, sampled every 100 ms; and the run reports
-  the process's garbage collector mode. By default it first collects all garbage, so each run's peak is its own. Call it
-  once at a time: runs in parallel compete for the cores.
+  the process's garbage collector mode. By default it first collects all garbage, so each run's peak is its own. Runs
+  at the same time would compete for the cores, so a call made while it or `count_the_candidate_words` runs waits for
+  that one to finish (2026-11-12): several calls in one message may run at once, and did, making the times nonsense.
 - **Candidate words, built (2026-11-12):** `count_the_candidate_words` analyzes every sentence of the corpus and counts
   the candidate words the analysis built, in all and by how many tokens each spans: how many were built, how many have a
   form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid match. It showed

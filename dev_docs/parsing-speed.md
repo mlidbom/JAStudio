@@ -7,7 +7,10 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
 
 - **`time_parsing_every_sentence`,** a tool of JAStudio's MCP server, times tokenizing and then analyzing every
   sentence of the corpus on a given number of threads. Each pass reports how long the garbage collector paused the
-  threads, and the peak memory. Call it once at a time, never in parallel, and discard the first run after a start.
+  threads, how much memory it allocated, and the peak memory. Calls made at the same time run one after the other.
+  Discard the first run after a start, which is several times slower than the next ones. The times of the same code
+  vary by about a third from one start to the next (2026-11-12), so compare several starts. The memory allocated is the
+  same in every start, within 0.1%: it shows a change to allocation that the times can't.
   By default it first collects all garbage, so every run starts from the same memory.
 - **`describe_memory`** reports the garbage collector's mode and settings and the process's memory, optionally also
   after the most thorough collection there is.

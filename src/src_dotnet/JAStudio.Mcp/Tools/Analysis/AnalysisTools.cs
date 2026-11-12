@@ -10,6 +10,7 @@ using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using Compze.Threading;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Analysis;
@@ -18,6 +19,13 @@ namespace JAStudio.Mcp.Tools.Analysis;
 [McpServerToolType]
 public class AnalysisTools
 {
+   /// <summary>
+   /// Makes the tools that parse every sentence of the corpus on every core run one at a time: a call made while another runs waits for it.<br/>
+   /// Runs at the same time compete for the cores, so their times say nothing, and agents make such calls without meaning to: several calls in one<br/>
+   /// message may run at once (2026-11-12).
+   /// </summary>
+   static readonly IMonitor OneParseOfTheWholeCorpusAtATime = IMonitor.New(LockTimeout.Minutes(10));
+
    readonly AnalysisServices _analysisServices;
    readonly JPCollection _collection;
 
@@ -49,10 +57,12 @@ public class AnalysisTools
    [Description("""
                 Times parsing every sentence of the corpus on the given number of threads, twice: tokenizing each sentence's question, the
                 tokenizer's share of the work, and then analyzing each sentence as its stored parsing result is made, which includes the
-                tokenizing. Nothing is saved. Each pass reports how long the garbage collector paused the threads, and the most memory the
-                process used meanwhile. For telling whether a change made parsing faster, and how parsing scales with threads: compare runs on
-                the same corpus at the same thread count, and discard the first run after a start, which includes warming up. Call it once at
-                a time, never in parallel with another call of it: runs at the same time compete for the cores, and their times say nothing.
+                tokenizing. Nothing is saved. Each pass reports how long the garbage collector paused the threads, how much memory it
+                allocated, and the most memory the process used meanwhile. For telling whether a change made parsing faster, and how parsing
+                scales with threads: compare runs on the same corpus at the same thread count, and discard the first run after a start, which
+                includes warming up. The times of the same code vary by about a third from one start of JAStudio to the next, and much less
+                within one, so compare several starts; the memory allocated doesn't vary. A call made while another call of it, or of
+                count_the_candidate_words, runs waits for that one to finish, since runs at the same time would compete for the cores.
                 """)]
    public TimeToParseEverySentence TimeParsingEverySentence(
       [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null,
@@ -61,12 +71,17 @@ public class AnalysisTools
                    its peak memory use is its own rather than left over from an earlier run.
                    """)] bool collectAllGarbageFirst = true)
    {
-      if(collectAllGarbageFirst) TheGarbageCollector.CollectAllGarbage();
-      var sentences = _collection.Sentences.All().ToList();
-      var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
-      var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
-      var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
-      return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
+      return OneParseOfTheWholeCorpusAtATime.Locked(TimeIt);
+
+      TimeToParseEverySentence TimeIt()
+      {
+         if(collectAllGarbageFirst) TheGarbageCollector.CollectAllGarbage();
+         var sentences = _collection.Sentences.All().ToList();
+         var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
+         var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
+         var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
+         return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
+      }
    }
 
    [McpServerTool(Name = "count_the_candidate_words", ReadOnly = true, Idempotent = true)]
@@ -80,13 +95,18 @@ public class AnalysisTools
                 """)]
    public CandidateWordCounts CountTheCandidateWords()
    {
-      var sentences = _collection.Sentences.All().ToList();
-      var tally = sentences.AsParallel()
-                           .Aggregate(() => new CandidateWordTally(),
-                                      (threadsTally, sentence) => threadsTally.AddEveryCandidateWordOf(sentence.CreateAnalysis()),
-                                      (tally, otherTally) => tally.Add(otherTally),
-                                      it => it);
-      return new CandidateWordCounts(sentences.Count, tally.ByTokensSpanned());
+      return OneParseOfTheWholeCorpusAtATime.Locked(CountThem);
+
+      CandidateWordCounts CountThem()
+      {
+         var sentences = _collection.Sentences.All().ToList();
+         var tally = sentences.AsParallel()
+                              .Aggregate(() => new CandidateWordTally(),
+                                         (threadsTally, sentence) => threadsTally.AddEveryCandidateWordOf(sentence.CreateAnalysis()),
+                                         (tally, otherTally) => tally.Add(otherTally),
+                                         it => it);
+         return new CandidateWordCounts(sentences.Count, tally.ByTokensSpanned());
+      }
    }
 
    TextAnalysis AnalysisOf(string? text, string? sentenceNoteId, bool forTheSentenceBreakdown) => (text, sentenceNoteId, forTheSentenceBreakdown) switch
