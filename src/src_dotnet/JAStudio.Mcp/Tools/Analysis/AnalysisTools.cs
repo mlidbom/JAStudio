@@ -49,14 +49,19 @@ public class AnalysisTools
    [Description("""
                 Times parsing every sentence of the corpus on the given number of threads, twice: tokenizing each sentence's question, the
                 tokenizer's share of the work, and then analyzing each sentence as its stored parsing result is made, which includes the
-                tokenizing. Nothing is saved. For telling whether a change made parsing faster, and how parsing scales with threads: compare
-                runs on the same corpus at the same thread count, and discard the first run after a start, which includes warming up. Call
-                it once at a time, never in parallel with another call of it: runs at the same time compete for the cores, and their times
-                say nothing.
+                tokenizing. Nothing is saved. Each pass reports how long the garbage collector paused the threads, and the most memory the
+                process used meanwhile. For telling whether a change made parsing faster, and how parsing scales with threads: compare runs on
+                the same corpus at the same thread count, and discard the first run after a start, which includes warming up. Call it once at
+                a time, never in parallel with another call of it: runs at the same time compete for the cores, and their times say nothing.
                 """)]
    public TimeToParseEverySentence TimeParsingEverySentence(
-      [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null)
+      [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null,
+      [Description("""
+                   True, the default, first collects all garbage, as describe_memory does, so that every run starts from the same memory, and
+                   its peak memory use is its own rather than left over from an earlier run.
+                   """)] bool collectAllGarbageFirst = true)
    {
+      if(collectAllGarbageFirst) TheGarbageCollector.CollectAllGarbage();
       var sentences = _collection.Sentences.All().ToList();
       var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
       var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));

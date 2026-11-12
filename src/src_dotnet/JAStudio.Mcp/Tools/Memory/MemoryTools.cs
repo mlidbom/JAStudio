@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Runtime;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Memory;
@@ -29,8 +28,7 @@ public class MemoryTools
 
    static MemoryUse MemoryUseAfterCollectingAllGarbage()
    {
-      GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-      GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, blocking: true, compacting: true);
+      TheGarbageCollector.CollectAllGarbage();
       return MemoryUse.Now();
    }
 }
