@@ -116,6 +116,28 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
 
    The garbage collector collects 4 times a pass instead of 12.
 
+## The first full rebuild after a start (2026-11-12)
+
+A full rebuild reparses every sentence on `ReanalysisThreads` threads (Magnus's configuration: 16), then updates every
+note's generated data and tags on one thread. `full_rebuild` reports its time and the processor time other processes
+used meanwhile, and the headless log has each step's time (`TaskLogEntry`'s tree, written when the rebuild ends).
+
+- **Reparsing is most of it:** of a warm rebuild's 1.4 s, reparsing takes 0.9 s and the rest 0.5 s, 0.3 s of it
+  updating the vocab.
+- **The first rebuild after a start took 3.7 s, against 1.4 s warm.** A timeline profile showed why, and it was
+  mostly the dictionary, not the JIT:
+  - **Its forms loaded at the first lookup,** 1.6 s on one thread inside the reparse, the other threads waiting. Now the
+    collection's load starts it at startup, alongside the notes, which take longer, so startup is no slower.
+  - **LinqToDB looked for its SQLite provider at every connection,** and the dictionary opens one per lookup: it tried
+    System.Data.SQLite, which JAStudio doesn't use, and caught the `FileNotFoundException`, 2,032 times. The
+    connection options now name Microsoft.Data.Sqlite, and are made once.
+  - **Every word's first lookup goes to SQLite,** five queries through LinqToDB, until `DictLookup`'s cache holds it:
+    3.6 of the reparse's 15.8 processor-seconds. Half of it is LinqToDB's own work. Still so.
+  - **The JIT:** about 1.5 processor-seconds compiling.
+- **Now the first rebuild takes 2.2 s,** at comparable load from other work: about 0.8 s more than a warm one.
+- **The headless JAStudio on a worktree reads the worktree's copy of `meta.json`,** which can be stale: one from May
+  made it reparse on 4 threads. See the `review:` comment in the gateway's `HeadlessJAStudioSetup`.
+
 ## What limits parsing now (2026-11-12)
 
 Still the processor. The profile made before building only the candidate words that can match also showed, across the
