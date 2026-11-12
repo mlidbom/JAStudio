@@ -19,6 +19,9 @@ Hybrid **Python + .NET** addon for **Anki** (Japanese-language study).
   separate workflow). Its API is pre-1.0 and may change between versions, so bumping Compze is a deliberate
   version raise, not automatic. For its API surface use the `sherlock` MCP, not source navigation — see
   [070-csharp-code-intelligence-in-jastudio.md](070-csharp-code-intelligence-in-jastudio.md).
+  - **Any project in the solution may depend on Compze.** When Compze has what you need, such as `StringCE`'s ordinal
+    comparisons, add the package reference and use it. Never write it again, or use something clumsier, just to keep a
+    project free of Compze (Magnus, 2026-11-12).
 
 ## Worktrees
 

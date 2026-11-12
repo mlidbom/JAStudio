@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Compze.Internals.SystemCE;
 
 namespace JAStudio.TextToSpeech.Azure;
 
@@ -94,7 +94,7 @@ public sealed class AzureSpeechProvider : ITextToSpeechProvider
    /// Whether <paramref name="voice"/> is a standard neural voice, such as <c>ja-JP-DaichiNeural</c>,<br/>
    /// rather than an HD voice, whose name holds the HD model after a colon, such as <c>ja-JP-Nanami:DragonHDLatestNeural</c>.
    /// </summary>
-   static bool IsAStandardNeuralVoice(TextToSpeechVoice voice) => !voice.Name.Contains(HdModelSeparator) && voice.Name.EndsWith(StandardNeuralSuffix, StringComparison.Ordinal);
+   static bool IsAStandardNeuralVoice(TextToSpeechVoice voice) => !voice.Name.Contains(HdModelSeparator) && voice.Name.EndsWithOrdinal(StandardNeuralSuffix);
 
    /// <summary>The Dragon HD Omni version of <paramref name="standardVoice"/>: <c>ja-JP-Daichi:DragonHDOmniLatestNeural</c> for <c>ja-JP-DaichiNeural</c>, with its gender.</summary>
    static TextToSpeechVoice TheDragonHdOmniVersionOf(TextToSpeechVoice standardVoice) =>
