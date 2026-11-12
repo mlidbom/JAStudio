@@ -139,6 +139,15 @@ public static class TokenConditions
              [Tokens.InflectedFormIsOneOf.JsonKey] = json => new InflectedFormIsOneOf(TextSet.From(json))
           });
 
+   /// <summary>The token's part of speech, for writing a condition on a token as its code reads, inside a group on it: <c>PartOfSpeech.Is("動詞")</c>.</summary>
+   public static PartOfSpeechTest<IAnalysisToken> PartOfSpeech => new(ConditionPath.Itself<IAnalysisToken>());
+
+   /// <summary>The token's inflection type, for writing a condition on a token as its code reads: <c>InflectionType.In("五段")</c>.</summary>
+   public static InflectionTypeTest<IAnalysisToken> InflectionType => new(ConditionPath.Itself<IAnalysisToken>());
+
+   /// <summary>The token's inflected form, for writing a condition on a token as its code reads: <c>InflectedForm.In("連用形")</c>.</summary>
+   public static InflectedFormTest<IAnalysisToken> InflectedForm => new(ConditionPath.Itself<IAnalysisToken>());
+
    /// <summary>A condition that the token's part of speech is <paramref name="japaneseLevels"/>, or a kind of it, such as 名詞, 接尾 and 人名. See <see cref="PartOfSpeechIs"/>.</summary>
    public static PartOfSpeechIs PartOfSpeechIs(params string[] japaneseLevels) => new(japaneseLevels);
 

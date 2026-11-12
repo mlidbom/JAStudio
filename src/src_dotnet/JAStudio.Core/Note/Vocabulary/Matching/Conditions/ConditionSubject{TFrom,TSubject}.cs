@@ -10,7 +10,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 /// after it, a token's surface, and so on. Each is defined once, in <see cref="WordConditions"/> or <see cref="TokenConditions"/>.<br/>
 /// A condition on it (<see cref="Meets"/>) is a condition on the subject it's found from.
 /// </summary>
-public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom> where TFrom : class where TSubject : class
+public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>, IConditionPath<TFrom, TSubject> where TFrom : class where TSubject : class
 {
    //review:matching: ConditionSubject and SubjectCondition are mirror images, easy to mix up. This is what a condition can be on, such as
    //   a word's preceding token, the design document's condition-subject; a SubjectCondition is the condition that it meets another.
@@ -39,6 +39,8 @@ public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>
 
    /// <summary>A condition that this subject meets <paramref name="condition"/>.</summary>
    public SubjectCondition<TFrom, TSubject> Meets(Condition<TSubject> condition) => new(this, condition);
+
+   Condition<TFrom> IConditionPath<TFrom, TSubject>.Placed(Condition<TSubject> condition) => Meets(condition);
 
    /// <summary>This subject of <paramref name="from"/>: the empty token (<see cref="Tokens.EmptyToken"/>) as the preceding token of a sentence's first word.</summary>
    internal TSubject FoundIn(TFrom from) => _foundIn(from);

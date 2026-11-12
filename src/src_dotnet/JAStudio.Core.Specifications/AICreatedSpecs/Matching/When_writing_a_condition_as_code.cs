@@ -8,6 +8,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
+using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping.ConditionGroup;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
 
 // ReSharper disable InconsistentNaming
@@ -23,18 +24,19 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
 {
    public class a_vocabs_match_condition : When_writing_a_condition_as_code
    {
+      /// <summary>Written in C# as its code reads (<see cref="TokenConditionsInCode"/>), so the C# and the code it's written as can be read side by side.</summary>
       static readonly AllOfGroup<CandidateWordVariant> MatchCondition =
-         ConditionGroup.AllOf(
-            PrecedingToken.Meets(TokenConditions.IsInAnIrrealisForm),
-            ConditionGroup.Not(PrecedingToken.Meets(TokenConditions.IsAnIchidanVerb)),
-            PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf("ん"))),
-            ConditionGroup.AnyOf(
-               ConditionGroup.Not(Surface.Meets(TextConditions.In("本の"))),
-               FollowingToken.Meets(TokenConditions.PartOfSpeechIs("名詞", "数"))),
-            ConditionGroup.Not(LastToken.Meets(ConditionGroup.AllOf(
-                                                  TokenConditions.PartOfSpeechIs("動詞"),
-                                                  TokenConditions.InflectedFormIsOneOf("連用形", "連用タ接続")))),
-            FollowingText.Meets(TextConditions.MatchesRegularExpression("^よ\"$")),
+         AllOf(
+            PrecedingToken.IsInAnIrrealisForm,
+            !PrecedingToken.IsAnIchidanVerb,
+            PrecedingToken.Surface.EndsWithOneOf("ん"),
+            AnyOf(
+               !Surface.In("本の"),
+               FollowingToken.PartOfSpeech.Is("名詞", "数")),
+            !LastToken.AllOf(
+               TokenConditions.PartOfSpeech.Is("動詞"),
+               TokenConditions.InflectedForm.In("連用形", "連用タ接続")),
+            FollowingText.MatchesRegularExpression("^よ\"$"),
             IsASingleToken);
 
       readonly string _code = ConditionCode.AsText(ConditionCode.LinesOfAMatchCondition(MatchCondition));
