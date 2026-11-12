@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
 
@@ -49,7 +50,7 @@ public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>
 
    Condition IConditionSubject.Meets(Condition condition) => Meets(condition.AsAConditionOn<TSubject>());
 
-   Condition<TFrom> IConditionSubject<TFrom>.ConditionFrom(JsonObject json) => Meets(Level.ConditionFrom(json));
+   Condition<TFrom> IConditionSubject<TFrom>.ConditionFrom(JsonObject json, SharedConditions sharedConditions) => Meets(Level.ConditionFrom(json, sharedConditions));
 
    public override string ToString() => Name;
 }

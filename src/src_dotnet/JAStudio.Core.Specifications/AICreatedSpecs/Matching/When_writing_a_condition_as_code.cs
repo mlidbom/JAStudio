@@ -82,6 +82,12 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
       [XF] public void is_a_string_literal_with_both_escaped() => Surface.Meets(TextConditions.In("a\"b\\c")).ToString().Must().Be("Surface.In(\"a\\\"b\\\\c\")");
    }
 
+   public class a_tab_and_a_zero_width_space : When_writing_a_condition_as_code
+   {
+      [XF] public void are_written_as_CSharp_escapes_them() =>
+         Surface.Meets(TextConditions.In("\t", "\u200B")).ToString().Must().Be("Surface.In(\"\\t\", \"\\u200B\")");
+   }
+
    public class an_inflection_type_family : When_writing_a_condition_as_code
    {
       [XF] public void says_in_english_that_it_is_every_type_of_the_family() =>

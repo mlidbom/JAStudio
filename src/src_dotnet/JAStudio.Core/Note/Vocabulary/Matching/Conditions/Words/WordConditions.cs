@@ -70,6 +70,7 @@ public static class WordConditions
    /// <summary>The conditions on a word, and how they're read back from the corpus.</summary>
    public static readonly ConditionLevel<CandidateWordVariant> Level =
       new("a word",
+          "Word",
           [IsASingleToken, IsMatchedByItsSurface, IsMatchedByAnInflectedSurface],
           [PrecedingToken, FirstToken, LastToken, FollowingToken, PrecedingText, FollowingText, Surface, BaseForm],
           [],

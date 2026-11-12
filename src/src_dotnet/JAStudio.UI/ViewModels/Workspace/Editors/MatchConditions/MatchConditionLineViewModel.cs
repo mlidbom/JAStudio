@@ -6,6 +6,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 
@@ -79,6 +80,26 @@ class MatchConditionLineViewModel
    public IConditionLevel Level { get; }
 
    public bool IsGroup => Condition is IConditionGroup;
+
+   /// <summary>The line's condition when it's a shared-condition, used by its name, such as <c>FollowsAPastTenseStem</c>: none when it isn't one.</summary>
+   ISharedCondition? SharedCondition => Condition as ISharedCondition;
+
+   /// <summary>Whether the line's condition is a shared-condition, used by its name, such as <c>FollowsAPastTenseStem</c>, whose definition the line can show.</summary>
+   public bool IsASharedCondition => SharedCondition is not null;
+
+   /// <summary>
+   /// The shared-condition the line is, as code as it's defined, which hovering over the line shows: its full name, then its definition under it, such<br/>
+   /// as <c>Word.FollowsAPastTenseStem =</c> then <c>AnyOf(</c> and the rest. None when it isn't one.
+   /// </summary>
+   public string? SharedConditionAsDefined =>
+      //review:matching: SharedConditionAsDefined was DefinitionOfTheSharedCondition, but it's more than the definition: the line with the full
+      //   name, then the definition under it. ShownDefinitionOfTheSharedCondition, the definition alone, was DefinitionOfTheSharedConditionShown:
+      //   Shown comes first, as in ShownCode, the line's own code in pieces as the tree shows it.
+      SharedCondition is {} sharedCondition ? ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)) : null;
+
+   /// <summary>The definition of the shared-condition the line is, as code in pieces, which the line shows under it when expanded: none when it isn't one.</summary>
+   public IReadOnlyList<CodeLineViewModel> ShownDefinitionOfTheSharedCondition =>
+      SharedCondition is {} sharedCondition ? CodeLineViewModel.LinesOf(ConditionCode.LinesOf(sharedCondition.Definition)) : [];
 
    /// <summary>Whether the line is an "any of" group, so that switching it makes it an "all of" group.</summary>
    public bool IsAnAnyOfGroup => Condition is IConditionGroup { IsAnyOf: true };

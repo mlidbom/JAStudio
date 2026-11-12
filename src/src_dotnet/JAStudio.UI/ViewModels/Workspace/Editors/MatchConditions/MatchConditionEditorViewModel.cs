@@ -9,6 +9,7 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
@@ -67,6 +68,9 @@ partial class MatchConditionEditorViewModel : ObservableObject
    MatchConditionLineViewModel Selected => SelectedLine ?? Root;
 
    AllOfGroup<CandidateWordVariant> VocabsMatchCondition => _currentVocab().MatchingConfiguration.MatchCondition;
+
+   /// <summary>The corpus's shared-conditions, which the add menu offers.</summary>
+   SharedConditions SharedConditions => _currentVocab().Services.SharedConditions;
 
    /// <summary>
    /// Shows the vocab's match-condition as it is now, when something else may have changed it, such as a rule edited rule by rule on the same tab:<br/>
@@ -162,7 +166,7 @@ partial class MatchConditionEditorViewModel : ObservableObject
    /// <summary>
    /// The add menu: the conditions there are where a condition added on the selected line goes, each picked by a single key. Under a subject,<br/>
    /// such as <c>PrecedingToken</c>, the conditions on it, so p, f, g adds <c>PrecedingToken.IsAGodanVerb</c>. A condition that takes texts,<br/>
-   /// such as <c>EndsWithOneOf</c>, opens its editor.
+   /// such as <c>EndsWithOneOf</c>, opens its editor. The corpus's shared-conditions on the subject are a submenu of their own.
    /// </summary>
    /// <param name="addAConditionThrough">Opens the editor for the picked condition, and adds the condition it returns.</param>
    internal List<SpecMenuItem> AddConditionMenu(Action<ConditionTextsEditorViewModel> addAConditionThrough)
@@ -174,6 +178,7 @@ partial class MatchConditionEditorViewModel : ObservableObject
          return AutomaticMnemonics.WithKeysPicked(
          [
             ..TheFactsSubmenuIfThereAreAny(),
+            ..TheSharedConditionsSubmenuIfThereAreAny(),
             SpecMenuItem.Submenu("Group", TheGroups()),
             ..level.Subjects.Select(TheConditionsOnTheSubject),
             ..level.TestsWithTexts.Select(TheEditorFor)
@@ -182,6 +187,12 @@ partial class MatchConditionEditorViewModel : ObservableObject
          IEnumerable<SpecMenuItem> TheFactsSubmenuIfThereAreAny() => level.Facts.Count > 0 ? [SpecMenuItem.Submenu("Fact", TheFacts())] : [];
 
          List<SpecMenuItem> TheFacts() => AutomaticMnemonics.WithKeysPicked([..level.Facts.Select(fact => SpecMenuItem.Command(fact.ToString(), () => AddCondition(placed(fact))))]);
+
+         IEnumerable<SpecMenuItem> TheSharedConditionsSubmenuIfThereAreAny() =>
+            SharedConditions.On(level) is { Count: > 0 } sharedConditions ? [SpecMenuItem.Submenu("Shared", TheSharedConditions(sharedConditions))] : [];
+
+         List<SpecMenuItem> TheSharedConditions(IReadOnlyList<ISharedCondition> sharedConditions) =>
+            AutomaticMnemonics.WithKeysPicked([..sharedConditions.Select(it => SpecMenuItem.Command(it.Name, () => AddCondition(placed(it.AsACondition))))]);
 
          List<SpecMenuItem> TheGroups() =>
          [

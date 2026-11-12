@@ -4,6 +4,26 @@
              x:Class="JAStudio.UI.Views.Workspace.Editors.MatchConditions.MatchConditionEditor"
              x:DataType="matchConditions:MatchConditionEditorViewModel">
 
+    <UserControl.Resources>
+        <!-- A line of code, in pieces each shown as its kind should be. -->
+        <DataTemplate x:Key="CodeLine" DataType="matchConditions:CodeLineViewModel">
+            <ItemsControl ItemsSource="{Binding Pieces}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="matchConditions:CodePieceViewModel">
+                        <TextBlock Classes="code" Text="{Binding Text}"
+                                   Classes.negation="{Binding IsNegation}" Classes.comment="{Binding IsComment}"
+                                   Classes.sharedConditionName="{Binding IsSharedConditionName}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <StackPanel Spacing="4">
         <TreeView x:Name="ConditionTree"
                   ItemsSource="{Binding Lines}"
@@ -23,32 +43,41 @@
                 <Style Selector="TextBlock.code.comment">
                     <Setter Property="Opacity" Value="0.6" />
                 </Style>
+                <!-- A shared-condition's name stands for a definition of the corpus's, as an IDE colors the methods you wrote. -->
+                <Style Selector="TextBlock.code.sharedConditionName">
+                    <Setter Property="Foreground" Value="#2E8BC0" />
+                </Style>
+                <!-- The selection's blue hides it: on the selected line, the selection's own color, and the highlight sets the line apart. The line's
+                     content is the item's child, and the lines under it are items of their own, so they keep the color. -->
+                <Style Selector="TreeViewItem:selected > StackPanel TextBlock.code.sharedConditionName">
+                    <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundSelected}" />
+                </Style>
+                <Style Selector="ToggleButton.definition">
+                    <Setter Property="Content" Value="▸" />
+                </Style>
+                <Style Selector="ToggleButton.definition:checked">
+                    <Setter Property="Content" Value="▾" />
+                </Style>
             </TreeView.Styles>
             <TreeView.ItemTemplate>
                 <TreeDataTemplate DataType="matchConditions:MatchConditionLineViewModel" ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <ItemsControl ItemsSource="{Binding ShownCode}" VerticalAlignment="Center">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="matchConditions:CodeLineViewModel">
-                                    <ItemsControl ItemsSource="{Binding Pieces}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate DataType="matchConditions:CodePieceViewModel">
-                                                <TextBlock Classes="code" Text="{Binding Text}"
-                                                           Classes.negation="{Binding IsNegation}" Classes.comment="{Binding IsComment}" />
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <Button Content="+" Padding="6,0" IsVisible="{Binding IsGroup}"
-                                ToolTip.Tip="Add a condition (+)"
-                                Click="OnAddButtonClicked" />
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <ItemsControl ItemsSource="{Binding ShownCode}" ItemTemplate="{StaticResource CodeLine}" VerticalAlignment="Center"
+                                          ToolTip.ServiceEnabled="{Binding IsASharedCondition}">
+                                <ToolTip.Tip>
+                                    <TextBlock Text="{Binding SharedConditionAsDefined}" FontFamily="{StaticResource CodeFont}" />
+                                </ToolTip.Tip>
+                            </ItemsControl>
+                            <ToggleButton x:Name="ShowTheDefinition" Classes="definition" Padding="4,0" Focusable="False"
+                                          IsVisible="{Binding IsASharedCondition}"
+                                          ToolTip.Tip="Show the shared-condition's definition here" />
+                            <Button Content="+" Padding="6,0" IsVisible="{Binding IsGroup}"
+                                    ToolTip.Tip="Add a condition (+)"
+                                    Click="OnAddButtonClicked" />
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ShownDefinitionOfTheSharedCondition}" ItemTemplate="{StaticResource CodeLine}"
+                                      IsVisible="{Binding #ShowTheDefinition.IsChecked}" Opacity="0.6" Margin="24,2,0,2" />
                     </StackPanel>
                 </TreeDataTemplate>
             </TreeView.ItemTemplate>

@@ -4,6 +4,7 @@ using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
@@ -36,6 +37,16 @@ public static class ConditionCode
    [
       new(ConditionPosition.Root, 0, [CodePiece.Comment(MatchConditionHeading)]),
       ..matchCondition.Conditions.SelectMany((condition, index) => condition.CodeLines(CodeWriting.OfAStatementOfAMatchCondition(index)))
+   ];
+
+   /// <summary>
+   /// The lines of <paramref name="sharedCondition"/> as it's defined: its full name, then its definition under it, such as<br/>
+   /// <c>Word.FollowsAPastTenseStem =</c> then <c>AnyOf(</c> and the rest, one deeper.
+   /// </summary>
+   public static IReadOnlyList<CodeLine> LinesOfASharedCondition(ISharedCondition sharedCondition) =>
+   [
+      new(ConditionPosition.Root, 0, [CodePiece.SharedConditionName(sharedCondition.FullName), CodePiece.Of(" =")]),
+      ..sharedCondition.Definition.CodeLines(CodeWriting.OfADefinition)
    ];
 
    /// <summary>The lines of <paramref name="condition"/> as a whole: a group's conditions on lines of their own.</summary>

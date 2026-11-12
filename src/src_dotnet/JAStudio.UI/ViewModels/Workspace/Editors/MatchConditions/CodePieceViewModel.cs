@@ -4,7 +4,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 
 /// <summary>
 /// A piece of a line of code in the match-condition's tree editor (<see cref="CodeLineViewModel"/>), shown as its kind should be: a negation in a color<br/>
-/// that stands out, since a <c>!</c> at the start of a line is easy to miss, and a comment dimmed.
+/// that stands out, since a <c>!</c> at the start of a line is easy to miss, a shared-condition's name in a color of its own, and a comment dimmed.
 /// </summary>
 class CodePieceViewModel
 {
@@ -20,4 +20,6 @@ class CodePieceViewModel
    public bool IsNegation => _piece.Kind == CodePieceKind.Negation;
 
    public bool IsComment => _piece.Kind == CodePieceKind.Comment;
+
+   public bool IsSharedConditionName => _piece.Kind == CodePieceKind.SharedConditionName;
 }

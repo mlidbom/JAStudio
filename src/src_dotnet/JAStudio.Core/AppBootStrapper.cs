@@ -13,6 +13,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
@@ -68,6 +69,9 @@ public static class AppBootstrapper
                                                 new Importer(ankiRawNotes, noteServices, mediaFileIndex, mediaStorage, paths, taskRunner)),
          Singleton.For<AutomaticImportRuns>().CreatedBy((SavedImportProfiles savedProfiles, Importer importer, BackgroundTaskManager backgroundTaskManager) =>
                                                            new AutomaticImportRuns(savedProfiles, importer, backgroundTaskManager)),
+
+         // Matching
+         Singleton.For<SharedConditions>().CreatedBy((IEnvironmentPaths paths) => new SharedConditions(paths)),
 
          // Core services
          Singleton.For<Settings>().CreatedBy((JapaneseConfig config) => new Settings(config)),

@@ -14,6 +14,9 @@ sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Posi
    /// <summary>A whole condition, on lines of its own, with nothing in front or after it.</summary>
    internal static CodeWriting OfAWholeCondition { get; } = new(ConditionPosition.Root, ConditionPosition.Root, 0, [], "");
 
+   /// <summary>The definition of a shared-condition, under the line that names it: one deeper, with nothing in front or after it.</summary>
+   internal static CodeWriting OfADefinition { get; } = new(ConditionPosition.Root, ConditionPosition.Root, 1, [], "");
+
    /// <summary>The condition at <paramref name="index"/> in a vocab's match-condition: a statement of its own, with nothing after it.</summary>
    internal static CodeWriting OfAStatementOfAMatchCondition(int index) => new(ConditionPosition.Root.Child(index), ConditionPosition.Root.Child(index), 0, [], "");
 
@@ -25,6 +28,13 @@ sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Posi
 
    /// <summary>A condition's line, the whole of it: what's in front, <paramref name="code"/>, and what's after.</summary>
    internal CodeLine LineOf(string code) => new(LinePosition, Depth, [.. InFront, CodePiece.Of(code + After)]);
+
+   /// <summary>The line of a shared-condition that a condition uses: what's in front, its <paramref name="name"/>, and what's after.</summary>
+   internal CodeLine LineOfASharedCondition(string name) =>
+      new(LinePosition, Depth, [.. InFront, CodePiece.SharedConditionName(name), .. PiecesAfter]);
+
+   /// <summary>What goes after the condition, as a piece of code of its own: none when nothing does.</summary>
+   IEnumerable<CodePiece> PiecesAfter => After.Length > 0 ? [CodePiece.Of(After)] : [];
 
    /// <summary>A group's line, which opens it with <paramref name="code"/>: what's after it goes after the group's last condition instead.</summary>
    internal CodeLine OpeningLineOf(string code) => new(LinePosition, Depth, [.. InFront, CodePiece.Of(code)]);

@@ -9,6 +9,12 @@ public enum CodePieceKind
    /// <summary>A negation, <c>!</c>, which the editor shows in a color that stands out, since one at the start of a line is easy to miss.</summary>
    Negation,
 
+   /// <summary>
+   /// The name of a shared-condition (<see cref="Sharing.SharedCondition{TSubject}"/>), such as <c>FollowsAPastTenseStem</c>, which the editor shows in a color of<br/>
+   /// its own, as an IDE colors the methods you wrote: it stands for a definition of the corpus's, not for one of JAStudio's conditions.
+   /// </summary>
+   SharedConditionName,
+
    /// <summary>A comment, such as the English of a part of speech after its Japanese, <c>// noun › numeric</c>, which the editor shows dimmed.</summary>
    Comment
 }

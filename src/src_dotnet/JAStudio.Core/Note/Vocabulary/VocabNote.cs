@@ -102,7 +102,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
       MetaData = new VocabNoteMetaData(this, data, Guard);
       Register = new VocabNoteRegister(data?.Register ?? [], Guard);
       UsuallyWrittenInKana = new VocabNoteUsuallyWrittenInKana(data?.UsuallyWrittenInKana, Guard);
-      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
+      MatchingConfiguration = new VocabNoteMatchingConfiguration(PartsOfSpeech, data?.Matching, services.SharedConditions, new NoteGuard(FlushAfterTheMatchingConfigurationChanged));
       Cloner = new VocabCloner(this);
    }
 

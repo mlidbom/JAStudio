@@ -3,6 +3,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching;
@@ -17,11 +18,12 @@ public class VocabNoteMatchingConfiguration
 
    /// <param name="partsOfSpeech">The vocab's parts of speech, which some rules and flags take into account.</param>
    /// <param name="data">The configuration as the corpus stores it, or null for a new vocab.</param>
+   /// <param name="sharedConditions">The corpus's shared-conditions, which its match-condition uses by name.</param>
    /// <param name="guard">Saves the vocab after a change.</param>
-   internal VocabNoteMatchingConfiguration(VocabNotePartsOfSpeech partsOfSpeech, VocabMatchingDto? data, NoteGuard guard)
+   internal VocabNoteMatchingConfiguration(VocabNotePartsOfSpeech partsOfSpeech, VocabMatchingDto? data, SharedConditions sharedConditions, NoteGuard guard)
    {
       _guard = guard;
-      MatchCondition = MatchConditionJson.VocabsMatchConditionFrom(data?.Condition);
+      MatchCondition = MatchConditionJson.VocabsMatchConditionFrom(data?.Condition, sharedConditions);
       RequiresForbids = new VocabMatchingRequireForbidFlags(partsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>(), guard);
       Flags = new VocabMatchingFlags(partsOfSpeech, data?.Flags ?? [], guard);
       YieldToSurface = new VocabYieldToSurface(data?.YieldToSurface ?? [], guard);

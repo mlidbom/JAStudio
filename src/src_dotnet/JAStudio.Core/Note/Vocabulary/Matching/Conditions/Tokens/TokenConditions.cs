@@ -105,6 +105,7 @@ public static class TokenConditions
    /// <summary>The conditions on a token, and how they're read back from the corpus.</summary>
    public static readonly ConditionLevel<IAnalysisToken> Level =
       new("a token",
+          "Token",
           [
              Exists, IsAGodanVerb, IsAnIchidanVerb, IsInAnIrrealisForm, IsAMasuStem, IsAnAdverb, HasATeFormStem, IsADictionaryVerbFormStem, IsADictionaryVerbInflection,
              IsAGodanPotentialStem, IsAGodanPotentialInflection, IsAGodanImperativeStem, IsAGodanImperativeInflection, IsAnIchidanImperativeStem,

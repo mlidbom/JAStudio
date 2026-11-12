@@ -9,6 +9,9 @@ public sealed record CodePiece(string Text, CodePieceKind Kind)
    /// <summary>The negation of what follows it on the line, <c>!</c>.</summary>
    internal static CodePiece Negation { get; } = new("!", CodePieceKind.Negation);
 
+   /// <summary>The name of a shared-condition, such as <c>FollowsAPastTenseStem</c>, or <c>Word.FollowsAPastTenseStem</c> where it's defined.</summary>
+   internal static CodePiece SharedConditionName(string name) => new(name, CodePieceKind.SharedConditionName);
+
    /// <summary>A comment saying <paramref name="text"/>, such as the English of the value the line ends with.</summary>
    internal static CodePiece Comment(string text) => new($"// {text}", CodePieceKind.Comment);
 }

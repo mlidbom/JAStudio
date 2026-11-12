@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -72,6 +74,15 @@ public abstract record Condition
    /// else those of the conditions it holds. None for a condition that compares no text.
    /// </summary>
    internal virtual IEnumerable<TextSet> ComparedTextSets() => [];
+
+   /// <summary>
+   /// The shared-conditions this condition uses by name: itself when it is one, else those the conditions it holds use, each as often as it's used. Not<br/>
+   /// those a shared-condition's definition uses: its own <see cref="ISharedCondition.Definition"/> says those.
+   /// </summary>
+   public virtual IEnumerable<ISharedCondition> SharedConditionsUsed() => Children.SelectMany(it => it.SharedConditionsUsed());
+
+   /// <summary>Whether this condition uses <paramref name="sharedCondition"/> by name: whether it's among its <see cref="SharedConditionsUsed"/>.</summary>
+   public bool Uses(ISharedCondition sharedCondition) => SharedConditionsUsed().Contains(sharedCondition);
 
    /// <summary>The condition as code on one line, such as <c>!PrecedingToken.IsAGodanVerb</c>, as a failure reason shows it (<see cref="ConditionCode.OnOneLine(Condition)"/>).</summary>
    public sealed override string ToString() => ConditionCode.OnOneLine(this);

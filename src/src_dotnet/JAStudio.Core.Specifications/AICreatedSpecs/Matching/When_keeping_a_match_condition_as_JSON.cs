@@ -8,6 +8,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
@@ -19,11 +20,16 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 
 /// <summary>A vocab's match-condition, as the corpus stores it, is read back as the same match-condition.</summary>
-public class When_keeping_a_match_condition_as_JSON : IAIGeneratedSpec
+public class When_keeping_a_match_condition_as_JSON : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
+   /// <summary>The corpus's shared-conditions, which a match-condition read back uses by name.</summary>
+   protected SharedConditions SharedConditions => GetService<SharedConditions>();
+
    /// <summary><paramref name="matchCondition"/> written as JSON text, as the corpus keeps it, and read back from that text.</summary>
-   static Condition<CandidateWordVariant> ReadBack(Condition<CandidateWordVariant> matchCondition) =>
-      MatchConditionJson.MatchConditionFrom(Parsed(MatchConditionJson.Of(matchCondition).ToJsonString()));
+   protected Condition<CandidateWordVariant> ReadBack(Condition<CandidateWordVariant> matchCondition) =>
+      MatchConditionJson.MatchConditionFrom(Parsed(MatchConditionJson.Of(matchCondition).ToJsonString()), SharedConditions);
+
+   Condition<CandidateWordVariant> Read(string json) => MatchConditionJson.MatchConditionFrom(Parsed(json), SharedConditions);
 
    static JsonObject Parsed(string json) => JsonNode.Parse(json) as JsonObject ?? throw new InvalidOperationException("The JSON isn't an object.");
 
@@ -79,19 +85,39 @@ public class When_keeping_a_match_condition_as_JSON : IAIGeneratedSpec
    [XF] public void every_fact_about_a_text_is_read_back_as_itself() => FactsNotReadBackAsThemselves<string>(typeof(TextConditions), FollowingText.Meets).Must().Be("");
 
    [XF] public void reading_a_condition_that_names_a_fact_there_is_none_of_throws() =>
-      Invoking(() => MatchConditionJson.MatchConditionFrom(Parsed("""{"precedingToken": {"fact": "noSuchFact"}}"""))).Must().Throw<FormatException>();
+      Invoking(() => Read("""{"precedingToken": {"fact": "noSuchFact"}}""")).Must().Throw<FormatException>();
 
    [XF] public void reading_a_condition_on_a_token_where_a_condition_on_the_word_belongs_throws() =>
-      Invoking(() => MatchConditionJson.MatchConditionFrom(Parsed("""{"partOfSpeech": "名詞"}"""))).Must().Throw<FormatException>();
+      Invoking(() => Read("""{"partOfSpeech": "名詞"}""")).Must().Throw<FormatException>();
 
    [XF] public void reading_a_condition_object_with_more_than_one_key_throws() =>
-      Invoking(() => MatchConditionJson.MatchConditionFrom(Parsed("""{"fact": "singleToken", "not": {"fact": "matchedByItsSurface"}}"""))).Must().Throw<FormatException>();
+      Invoking(() => Read("""{"fact": "singleToken", "not": {"fact": "matchedByItsSurface"}}""")).Must().Throw<FormatException>();
+
+   [XF] public void reading_a_condition_that_uses_a_shared_condition_there_is_none_of_throws() =>
+      Invoking(() => Read("""{"sharedCondition": "NoSuchSharedCondition"}""")).Must().Throw<FormatException>();
+
+   /// <summary>The corpus has the shared-condition <c>Token.IsAVerb</c>, <c>AnyOf(IsAGodanVerb, IsAnIchidanVerb)</c>.</summary>
+   public class with_a_shared_condition_on_the_preceding_token : When_keeping_a_match_condition_as_JSON
+   {
+      readonly Condition<CandidateWordVariant> _matchCondition;
+
+      public with_a_shared_condition_on_the_preceding_token()
+      {
+         var isAVerb = SharedConditions.Define(TokenConditions.Level, "IsAVerb", ConditionGroup.AnyOf(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb));
+         _matchCondition = ConditionGroup.AllOf(PrecedingToken.Meets(isAVerb));
+      }
+
+      [XF] public void it_is_stored_by_its_name() =>
+         MatchConditionJson.Of(_matchCondition).ToJsonString().Must().Be("""{"allOf":[{"precedingToken":{"sharedCondition":"IsAVerb"}}]}""");
+
+      [XF] public void it_is_read_back_as_the_same_match_condition() => ReadBack(_matchCondition).Must().Be(_matchCondition);
+   }
 
    /// <summary>
    /// The names of the facts <paramref name="facts"/> defines that aren't read back as themselves, each put in a match-condition by<br/>
    /// <paramref name="inAMatchCondition"/>: a fact left out of its level's list can't be read back from the corpus.
    /// </summary>
-   static string FactsNotReadBackAsThemselves<TSubject>(Type facts, Func<Fact<TSubject>, Condition<CandidateWordVariant>> inAMatchCondition) where TSubject : class =>
+   string FactsNotReadBackAsThemselves<TSubject>(Type facts, Func<Fact<TSubject>, Condition<CandidateWordVariant>> inAMatchCondition) where TSubject : class =>
       string.Join(", ",
                   facts.GetFields(BindingFlags.Public | BindingFlags.Static)
                        .Select(it => it.GetValue(null))

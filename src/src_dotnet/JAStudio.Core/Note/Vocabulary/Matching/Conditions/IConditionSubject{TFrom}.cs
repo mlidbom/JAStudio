@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
@@ -11,6 +12,9 @@ interface IConditionSubject<TFrom> : IConditionSubject where TFrom : class
    /// <summary>The key a condition on this subject is stored under in the corpus, such as <c>precedingToken</c>.</summary>
    string JsonKey { get; }
 
-   /// <summary>The condition that this subject meets the condition <paramref name="json"/> holds, as the corpus stores it.</summary>
-   Condition<TFrom> ConditionFrom(JsonObject json);
+   /// <summary>
+   /// The condition that this subject meets the condition <paramref name="json"/> holds, as the corpus stores it, its shared-conditions found by name in<br/>
+   /// <paramref name="sharedConditions"/>.
+   /// </summary>
+   Condition<TFrom> ConditionFrom(JsonObject json, SharedConditions sharedConditions);
 }

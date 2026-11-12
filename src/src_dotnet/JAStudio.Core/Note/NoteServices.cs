@@ -4,6 +4,7 @@ using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 
@@ -32,4 +33,5 @@ public class NoteServices
    public TaskRunner TaskRunner => _resolver.Resolve<TaskRunner>();
    public ExternalNoteIdMap ExternalNoteIdMap => _resolver.Resolve<ExternalNoteIdMap>();
    public MediaFileIndex MediaFileIndex => _resolver.Resolve<MediaFileIndex>();
+   public SharedConditions SharedConditions => _resolver.Resolve<SharedConditions>();
 }

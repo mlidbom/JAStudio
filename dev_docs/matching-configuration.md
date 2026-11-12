@@ -1,7 +1,8 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 5 of the core are built. Next, shared-conditions, with the rule editors
-> going:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> **Status (2026-11-12): increments 1 to 5 of the core are built, and step 1 of increment 6, shared-conditions: the
+> model, their storage, their display, and the first five in the corpus. Next, step 2, the vocab using them by name:** see
+> [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -741,6 +742,17 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
    What still reads the rules then reads the shared-conditions: the priority weights, the four tags below
    `Tags.Vocab.Matching.Uses`, and narrowing a reparse when the surface is required.
 
+   In four steps, each committed with its full rebuild (agreed with Magnus, 2026-11-12, with the five as corpus data, not
+   code):
+   1. **The model and its storage, their display, and the five in the corpus:** built 2026-11-12, see
+      [Increment 6, step 1, as built](#increment-6-step-1-as-built).
+   2. **The vocab using the five by name,** in place of their conditions written out: a change to the corpus's format,
+      so Anki is closed for the fast-forward. Each shared-condition's priority weight is stored in its file, and new ones
+      weigh nothing until priority is designed (open question 2).
+   3. **Creating and editing shared-conditions in JAStudio,** and opening one's definition from a vocab's tree (F12 or
+      Ctrl+click).
+   4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
+
 After the core: the yardstick, rules-for-many-vocab, conditions on display, the tree checked against a word in a
 sentence (decided: see [The tree checked against a word](#decided-on-the-backlog-the-tree-checked-against-a-word-in-a-sentence)),
 and vocab given conditions that use the new power.
@@ -1119,6 +1131,47 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
 **Not built yet:**
 - **Moving from the picker's filter to its list takes Tab;** there's no arrow key into the list.
 - **A shared-condition's hover and expansion,** which come with shared-conditions (increment 6).
+
+### Increment 6, step 1, as built
+
+Built 2026-11-12. No note changed: a full rebuild before and after the code, and after the five were defined, changed
+none.
+
+1. **A shared-condition is a condition, as a fact is** (`Conditions.Sharing.SharedCondition<TSubject>`): a leaf of the
+   tree, used by its name, met when its `Definition` is. Every tree that uses one holds the same object, the one the
+   collection loaded, so a word is tested against its definition as it is. Two are equal when their names are, as two
+   facts are. It's on one kind of subject, and offered wherever a condition on that subject goes: one on a token under
+   any token. `ISharedCondition` is one whatever its subject, for the editor, and `Condition.SharedConditionsUsed` says
+   which a condition uses, and `Condition.Uses` whether it uses one.
+2. **The corpus keeps them, one file each** (`SharedConditionsFolder`), in the corpus checkout's folder
+   `shared-conditions`, named by the full name, such as `Word.FollowsAPastTenseStem.json`: the subject, the name, and the
+   definition, in the JSON a match-condition is stored in (`StoredSharedCondition`, a file's content, which makes the
+   shared-condition it keeps). A match-condition stores one as `{"sharedCondition": "FollowsAPastTenseStem"}`.
+3. **`SharedConditions` holds the corpus's,** and the collection loads them before its notes, at every load and reload
+   (`JPCollection.LoadFromBackend`), since a vocab's match-condition uses them by name: reading one finds them in it
+   (`MatchConditionJson`, which now takes them). Each is made by name first, then defined, so that definitions can use
+   one another. Loading fails, loud, when a file isn't a shared-condition's, is named for another, or a definition uses
+   one there's none of or uses itself, directly or through others (`ISharedCondition.UsesItself`). Defining one
+   (`SharedConditions.Define`) checks its name: a name in code, not one a shared-condition on the subject has, nor one
+   of the subject's facts, subjects or tests, since the code shows them alike
+   (`IConditionLevel.WhyItCannotNameASharedCondition`). Each level has the name code gives its subject, in front of a
+   shared-condition's (`IConditionLevel.SubjectNameInCode`): `Word`, `Token`, `Text`.
+4. **As code,** a shared-condition is its name, in a color of its own (`CodePieceKind.SharedConditionName`), and as it's
+   defined, its full name, `=`, and its definition under it (`ConditionCode.LinesOfASharedCondition`).
+5. **In the tree editor,** the add menu has a submenu "Shared" with those on the subject, one pick each. Hovering over
+   one shows its definition, and an arrow beside it expands the definition in place, greyed. On the selected line its
+   name takes the selection's color, since the selection's blue hid it.
+6. **The first five, in the corpus,** made from the matching rules that are small trees, each its rule's condition exactly,
+   as the vocab store it: `Word.FollowsAPastTenseStem`, `Word.StartsInAGodanPotentialForm`, `Word.StartsInAGodanImperative`,
+   `Word.StartsInAnIchidanImperative` and `Word.IsAtTheSentencesStart`. "StartsIn": the word's first token is a piece of
+   that form, its stem or its inflection. Names for Magnus's naming pass. They were defined through the MCP server's new
+   `define_a_shared_condition`.
+
+**Found on the way:** the code wrote a text's tab as a tab, and sentence start's zero-width space as itself, invisible.
+`StringLiteral` now writes what shows as nothing as C# escapes it: `"\t"`, and a zero-width space by its code point.
+
+**Not built yet:** opening a shared-condition's definition from the tree (step 3). The hover's tooltip is the one part
+the headless JAStudio's tools can't show, so it's unchecked by eye.
 
 ### Naming and design questions: `review:matching:` comments
 

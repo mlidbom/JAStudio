@@ -120,7 +120,7 @@ public static class VocabEditableFields
           "Match-condition",
           TextFieldFormat.Paragraphs,
           it => MatchConditionJson.AsJsonText(it.MatchingConfiguration.MatchCondition),
-          (it, text) => it.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText(text)),
+          (it, text) => it.MatchingConfiguration.SetMatchCondition(MatchConditionJson.VocabsMatchConditionFromJsonText(text, it.Services.SharedConditions)),
           changesHowSentencesParse: true);
 
    public static readonly EditableUsuallyWrittenInKanaField UsuallyWrittenInKana = new();

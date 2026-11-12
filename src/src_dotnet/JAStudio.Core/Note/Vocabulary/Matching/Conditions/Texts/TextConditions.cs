@@ -17,6 +17,7 @@ public static class TextConditions
    /// <summary>The conditions on a text, and how they're read back from the corpus.</summary>
    public static readonly ConditionLevel<string> Level =
       new("a text",
+          "Text",
           [IsEmpty],
           [],
           [
