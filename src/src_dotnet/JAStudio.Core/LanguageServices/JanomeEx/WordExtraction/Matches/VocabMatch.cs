@@ -51,8 +51,7 @@ public sealed class VocabMatch : Match
    protected override List<FailedMatchRequirement> CreateStaticDisplayRequirementFailures() =>
       [.. VocabStaticDisplayRequirementsListCombined.Select(requirement => requirement(VocabInspector)).OfType<FailedMatchRequirement>()];
 
-   protected override bool StaticDisplayRequirementsFulfilledInternal() =>
-      VocabStaticDisplayRequirementsListCombined.Select(requirement => requirement(VocabInspector)).All(failure => failure == null);
+   protected override bool StaticDisplayRequirementsFulfilledInternal() => NoneFail(VocabStaticDisplayRequirementsListCombined, VocabInspector);
 
    protected override IEnumerable<MatchRequirement?> CreateDynamicDisplayRequirements() => [ForbidsHasDisplayedOverlappingFollowingCompound.ApplyTo(VocabInspector)];
 
@@ -62,9 +61,7 @@ public sealed class VocabMatch : Match
       .. MatchCondition.ConditionsNotMetBy(Variant).Select(FailedMatchRequirement.NotMet)
    ];
 
-   protected override bool IsPrimarilyValid() =>
-      CombinedRequirements.Select(requirement => requirement(VocabInspector)).All(failure => failure == null) &&
-      MatchCondition.IsMetBy(Variant);
+   protected override bool IsPrimarilyValid() => NoneFail(CombinedRequirements, VocabInspector) && MatchCondition.IsMetBy(Variant);
 
    /// <summary>The vocab's match-condition (<see cref="VocabNoteMatchingConfiguration.MatchCondition"/>): a word matches the vocab only when it meets it.</summary>
    public AllOfGroup<CandidateWordVariant> MatchCondition => Vocab.MatchingConfiguration.MatchCondition;

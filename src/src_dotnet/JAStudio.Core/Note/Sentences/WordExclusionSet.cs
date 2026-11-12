@@ -74,9 +74,15 @@ public class WordExclusionSet
       _saveCallback();
    }
 
+   /// <remarks>A loop, not LINQ's <c>Any</c>, whose lambda would allocate a closure at every call, exclusions or not: parsing calls it millions of times a pass.</remarks>
    public bool ExcludesAtIndex(string word, int index)
    {
-      return _exclusions.Any(exclusion => exclusion.ExcludesFormAtIndex(word, index));
+      foreach(var exclusion in _exclusions)
+      {
+         if(exclusion.ExcludesFormAtIndex(word, index)) return true;
+      }
+
+      return false;
    }
 
    public override string ToString()

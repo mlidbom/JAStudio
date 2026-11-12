@@ -72,11 +72,20 @@ public abstract class Match
             .ToList();
    }
 
-   protected virtual bool IsPrimarilyValid()
+   protected virtual bool IsPrimarilyValid() => NoneFail(MatchPrimaryValidityRequirements, Inspector);
+
+   /// <summary>
+   /// Whether none of <paramref name="requirements"/> fails for the match <paramref name="inspector"/> inspects. Allocates nothing: parsing checks<br/>
+   /// requirements millions of times a pass, and a LINQ chain allocated a delegate and an iterator for each check (2026-11-12).
+   /// </summary>
+   protected static bool NoneFail<TInspector>(List<Func<TInspector, FailedMatchRequirement?>> requirements, TInspector inspector)
    {
-      return !MatchPrimaryValidityRequirements
-             .Select(requirement => requirement(Inspector))
-             .Any(failure => failure != null);
+      foreach(var requirement in requirements)
+      {
+         if(requirement(inspector) != null) return false;
+      }
+
+      return true;
    }
 
    protected virtual bool IsInterdependentlyValid() => true;
@@ -105,12 +114,7 @@ public abstract class Match
       }
    }
 
-   protected virtual bool StaticDisplayRequirementsFulfilledInternal()
-   {
-      return !MatchStaticDisplayRequirements
-             .Select(requirement => requirement(Inspector))
-             .Any(failure => failure != null);
-   }
+   protected virtual bool StaticDisplayRequirementsFulfilledInternal() => NoneFail(MatchStaticDisplayRequirements, Inspector);
 
    protected virtual IEnumerable<MatchRequirement?> CreateDynamicDisplayRequirements() => [];
 

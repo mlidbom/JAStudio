@@ -89,17 +89,7 @@ public sealed class CandidateWord
          DisplayVariants.Add(BaseVariant);
       }
 
-      bool DisplayWordsWereChanged()
-      {
-         if(oldDisplayWordVariants.Count != DisplayVariants.Count)
-            return true;
-
-         return oldDisplayWordVariants
-               .Where((t, index) => t != DisplayVariants[index])
-               .Any();
-      }
-
-      return DisplayWordsWereChanged();
+      return !DisplayVariants.SequenceEqual(oldDisplayWordVariants);
    }
 
    public bool HasValidWords() => ValidVariants.Count > 0;
