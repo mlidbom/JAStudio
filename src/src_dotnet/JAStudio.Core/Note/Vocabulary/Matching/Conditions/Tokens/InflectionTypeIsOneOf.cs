@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -35,6 +36,10 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
    /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no type of, or null when they make one.</summary>
    internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
       TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectionTypes(TextSet.FromTyped(typedNames));
+
+   /// <summary>Every inflection type the tokenizer gives, and every family of them, each with its English, in ordinal order: what the match-condition editor offers to pick from.</summary>
+   internal static IReadOnlyList<PickableValue> PickableValues() =>
+      [.. InflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(name => new PickableValue(name, InflectionTypes.EnglishOf(name)))];
 
    /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflection types, or families of them, or null when they are.</summary>
    static string? WhyTheyAreNoInflectionTypes(TextSet names)

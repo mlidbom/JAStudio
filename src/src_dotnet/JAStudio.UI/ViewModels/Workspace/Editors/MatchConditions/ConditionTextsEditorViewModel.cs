@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -25,6 +27,8 @@ partial class ConditionTextsEditorViewModel : ObservableObject
       Title = title;
       _test = test;
       _placed = placed;
+      var valuesTyped = typedText.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToHashSet();
+      PickableValues = [.. test.PickableValues.Select(value => new PickableValueViewModel(value, valuesTyped.Contains(value.Value), PickedOrUnpicked))];
       Text = typedText;
    }
 
@@ -45,7 +49,24 @@ partial class ConditionTextsEditorViewModel : ObservableObject
    /// <summary>What to type, such as "The texts, separated by spaces".</summary>
    public string HowToType => _test.HowToTypeTheTexts;
 
-   /// <summary>The texts as typed.</summary>
+   /// <summary>
+   /// Whether the condition's texts are picked from the tokenizer's values, such as parts of speech, found by their Japanese or English, rather than<br/>
+   /// typed: picking them types them.
+   /// </summary>
+   public bool PicksValues => PickableValues.Count > 0;
+
+   /// <summary>The tokenizer's values to pick from, each picked or not, in order: none when the texts are typed.</summary>
+   public IReadOnlyList<PickableValueViewModel> PickableValues { get; }
+
+   /// <summary>What finds the values shown: text in their Japanese or their English, such as 接尾 or suffix.</summary>
+   [ObservableProperty]
+   [NotifyPropertyChangedFor(nameof(ShownValues))]
+   string _filter = "";
+
+   /// <summary>The values the <see cref="Filter"/> finds, in order: every one while it's empty.</summary>
+   public IReadOnlyList<PickableValueViewModel> ShownValues => [.. PickableValues.Where(it => it.IsFoundBy(Filter))];
+
+   /// <summary>The texts as typed, or as the values picked type them: separated by spaces.</summary>
    [ObservableProperty] string _text = "";
 
    /// <summary>Why what's typed makes no condition, such as a part of speech the tokenizer never gives. Null when there's no problem to show.</summary>
@@ -62,6 +83,19 @@ partial class ConditionTextsEditorViewModel : ObservableObject
 
    /// <summary>Gives up on the condition. Set by the <see cref="ConditionTextsDialog"/>, which closes without one.</summary>
    public IRelayCommand? CancelCommand { get; set; }
+
+   /// <summary>
+   /// Types the values picked, after <paramref name="value"/> was picked or unpicked: for a test that picks only one, such as a part of speech, picking<br/>
+   /// one unpicks the one picked before.
+   /// </summary>
+   void PickedOrUnpicked(PickableValueViewModel value)
+   {
+      if(_test.PicksOne && value.IsPicked)
+         foreach(var other in PickableValues.Where(it => it != value && it.IsPicked))
+            other.IsPicked = false;
+
+      Text = string.Join(' ', PickableValues.Where(it => it.IsPicked).Select(it => it.Value));
+   }
 
    partial void OnTextChanged(string value)
    {

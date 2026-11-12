@@ -8,9 +8,27 @@
         CanResize="False"
         ShowInTaskbar="False">
 
-    <StackPanel Margin="10" Spacing="6" Width="420">
+    <StackPanel Margin="10" Spacing="6" Width="560">
         <TextBlock Text="{Binding HowToType}" TextWrapping="Wrap" />
-        <TextBox Classes="initialFocus" Text="{Binding Text}" />
+        <TextBox Classes="initialFocus" Text="{Binding Text}" IsVisible="{Binding !PicksValues}" />
+        <StackPanel Spacing="6" IsVisible="{Binding PicksValues}">
+            <TextBox Classes="initialFocus" Text="{Binding Filter}" Watermark="Find by its Japanese or its English" />
+            <ScrollViewer MaxHeight="420" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding ShownValues}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="matchConditions:PickableValueViewModel">
+                            <CheckBox IsChecked="{Binding IsPicked}">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <TextBlock Text="{Binding Value}" FontFamily="{StaticResource JapaneseFont}" />
+                                    <TextBlock Text="{Binding English}" Opacity="0.7" />
+                                </StackPanel>
+                            </CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <TextBlock Text="{Binding Text, StringFormat='Picked: {0}'}" TextWrapping="Wrap" Opacity="0.8" />
+        </StackPanel>
         <TextBlock Text="{Binding Problem}" Foreground="Red" TextWrapping="Wrap"
                    IsVisible="{Binding Problem, Converter={x:Static ObjectConverters.IsNotNull}}" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,4,0,0">

@@ -13,8 +13,8 @@ using static Compze.Must.MustActions;
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 
 /// <summary>
-/// A condition made from what's typed into the Matching tab's tree editor, by a <see cref="ConditionTestWithTexts"/> such as "ends with one of", and what<br/>
-/// the editor shows typed when a condition is changed.
+/// A condition made from what's typed into the Matching tab's tree editor, by a <see cref="ConditionTestWithTexts"/> such as <c>EndsWithOneOf</c>, what<br/>
+/// the editor shows typed when a condition is changed, and the tokenizer's values a test offers to pick from, each with its English.
 /// </summary>
 public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
 {
@@ -43,6 +43,7 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
       [XF] public void texts_typed_have_no_reason_against_them() => EndsWithOneOf.WhyItMakesNoConditionFrom("ん").Must().BeNull();
       [XF] public void nothing_typed_says_a_comparison_needs_a_text() => TheReason(EndsWithOneOf.WhyItMakesNoConditionFrom(" ")).Must().Be("A condition needs at least one text to compare with.");
       [XF] public void making_one_from_nothing_typed_throws_since_the_editor_never_does() => Invoking(() => EndsWithOneOf.MadeFrom(" ")).Must().Throw<ArgumentAssertionFailedException>();
+      [XF] public void it_offers_no_values_to_pick_since_its_texts_are_typed() => EndsWithOneOf.PickableValues.Must().BeEmpty();
    }
 
    public class for_part_of_speech_is : When_typing_a_condition_into_the_tree_editor
@@ -57,6 +58,32 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
 
       [XF] public void making_one_the_tokenizer_never_gives_throws_since_the_editor_never_does() =>
          Invoking(() => PartOfSpeechIs.MadeFrom("存在しない")).Must().Throw<ArgumentAssertionFailedException>();
+
+      [XF] public void it_offers_a_part_of_speech_with_its_english() => PartOfSpeechIs.PickableValues.Must().Contain(new PickableValue("名詞・接尾・人名", "noun › suffix › person-name"));
+      [XF] public void it_offers_each_kind_of_part_of_speech_too() => PartOfSpeechIs.PickableValues.Must().Contain(new PickableValue("名詞・接尾", "noun › suffix"));
+      [XF] public void it_offers_a_top_level_alone_too() => PartOfSpeechIs.PickableValues.Must().Contain(new PickableValue("名詞", "noun"));
+      [XF] public void it_offers_each_value_once() => PartOfSpeechIs.PickableValues.Must().Satisfy(values => values.Select(it => it.Value).Distinct().Count() == values.Count);
+      [XF] public void each_value_it_offers_makes_a_condition() => PartOfSpeechIs.PickableValues.Must().Satisfy(values => values.All(it => PartOfSpeechIs.WhyItMakesNoConditionFrom(it.Value) == null));
+      [XF] public void only_one_is_picked() => PartOfSpeechIs.PicksOne.Must().BeTrue();
+   }
+
+   public class for_inflected_form_in : When_typing_a_condition_into_the_tree_editor
+   {
+      static readonly ConditionTestWithTexts InflectedFormIn = TokenTest("InflectedForm.In");
+
+      [XF] public void it_offers_an_inflected_form_with_its_english() => InflectedFormIn.PickableValues.Must().Contain(new PickableValue("連用タ接続", "Continuative ta-connection"));
+      [XF] public void it_offers_no_unknown_form() => InflectedFormIn.PickableValues.Must().Satisfy(values => values.All(it => it.Value != "*"));
+      [XF] public void each_value_it_offers_makes_a_condition() => InflectedFormIn.PickableValues.Must().Satisfy(values => values.All(it => InflectedFormIn.WhyItMakesNoConditionFrom(it.Value) == null));
+      [XF] public void any_number_are_picked() => InflectedFormIn.PicksOne.Must().BeFalse();
+   }
+
+   public class for_inflection_type_in : When_typing_a_condition_into_the_tree_editor
+   {
+      static readonly ConditionTestWithTexts InflectionTypeIn = TokenTest("InflectionType.In");
+
+      [XF] public void it_offers_an_inflection_type_with_its_english() => InflectionTypeIn.PickableValues.Must().Contain(new PickableValue("五段・ラ行", "Godan verb with 'ru' ending"));
+      [XF] public void it_offers_a_family_of_them_in_english_as_every_type_of_it() => InflectionTypeIn.PickableValues.Must().Contain(new PickableValue("五段", "every godan type"));
+      [XF] public void each_value_it_offers_makes_a_condition() => InflectionTypeIn.PickableValues.Must().Satisfy(values => values.All(it => InflectionTypeIn.WhyItMakesNoConditionFrom(it.Value) == null));
    }
 
    public class for_matches_the_regular_expression : When_typing_a_condition_into_the_tree_editor

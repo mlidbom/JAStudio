@@ -69,6 +69,10 @@ public static class InflectionTypes
    /// <summary>Whether <paramref name="family"/> is the family of one or more inflection types, the part of their names before ・, such as 五段 for 五段・ラ行.</summary>
    public static bool IsKnownFamily(string family) => AllDict.Values.Any(it => it.Family == family);
 
+   /// <summary>The names of every inflection type the tokenizer gives, and of every family of them, each once: all but <see cref="Unknown"/>'s.</summary>
+   internal static IEnumerable<string> NamesOfTheTypesAndTheirFamilies =>
+      AllDict.Values.Where(it => !Equals(it, Unknown)).SelectMany(it => new[] { it.Name, it.Family }).Distinct();
+
    /// <summary>
    /// The English of <paramref name="name"/>, an inflection type or a family of them: a type's <see cref="InflectionType.Description"/>, such as "Godan verb<br/>
    /// with 'ru' ending" for 五段・ラ行, and a family's as "every godan type" for 五段.

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
@@ -14,14 +15,19 @@ public sealed class ConditionTestWithTexts
    readonly Func<string, string?> _whyTypedTextMakesNoCondition;
    readonly Func<string, Condition> _madeFromTypedText;
    readonly Func<Condition, string?> _typedTextOf;
+   readonly Func<IReadOnlyList<PickableValue>> _pickableValues;
 
    ConditionTestWithTexts(string name,
                           string howToTypeTheTexts,
                           Func<string, string?> whyTypedTextMakesNoCondition,
                           Func<string, Condition> madeFromTypedText,
-                          Func<Condition, string?> typedTextOf)
+                          Func<Condition, string?> typedTextOf,
+                          Func<IReadOnlyList<PickableValue>> pickableValues,
+                          bool picksOne)
    {
       Name = name;
+      _pickableValues = pickableValues;
+      PicksOne = picksOne;
       HowToTypeTheTexts = howToTypeTheTexts;
       _whyTypedTextMakesNoCondition = whyTypedTextMakesNoCondition;
       _madeFromTypedText = madeFromTypedText;
@@ -30,6 +36,15 @@ public sealed class ConditionTestWithTexts
 
    /// <summary>The test's name in code, as the editor shows it, such as <c>EndsWithOneOf</c>.</summary>
    public string Name { get; }
+
+   /// <summary>
+   /// The values to pick the texts from, for a test whose texts are the tokenizer's values, such as <c>PartOfSpeech.Is</c>: picking them types them,<br/>
+   /// separated by spaces. None for a test whose texts are typed freely, such as <c>EndsWithOneOf</c>.
+   /// </summary>
+   public IReadOnlyList<PickableValue> PickableValues => _pickableValues();
+
+   /// <summary>Whether only one of the <see cref="PickableValues"/> is picked, as a part of speech is, rather than any number of them, as inflected forms are.</summary>
+   public bool PicksOne { get; }
 
    /// <summary>What to type, as the editor tells it, such as "The texts, separated by spaces".</summary>
    public string HowToTypeTheTexts { get; }
@@ -55,13 +70,22 @@ public sealed class ConditionTestWithTexts
 
    /// <summary>
    /// The test whose conditions are the <typeparamref name="TCondition"/>s: <paramref name="whyTypedTextMakesNoCondition"/> says why what's typed<br/>
-   /// makes none, <paramref name="madeFromTypedText"/> makes one from what's typed, and <paramref name="typedTextOf"/> gives back what typing makes it.
+   /// makes none, <paramref name="madeFromTypedText"/> makes one from what's typed, and <paramref name="typedTextOf"/> gives back what typing makes it.<br/>
+   /// <paramref name="pickableValues"/> lists the values to pick from, if they're the tokenizer's, and <paramref name="picksOne"/> says whether only one is picked.
    /// </summary>
    internal static ConditionTestWithTexts Of<TCondition>(string name,
                                                          string howToTypeTheTexts,
                                                          Func<string, string?> whyTypedTextMakesNoCondition,
                                                          Func<string, TCondition> madeFromTypedText,
-                                                         Func<TCondition, string> typedTextOf)
+                                                         Func<TCondition, string> typedTextOf,
+                                                         Func<IReadOnlyList<PickableValue>>? pickableValues = null,
+                                                         bool picksOne = false)
       where TCondition : Condition =>
-      new(name, howToTypeTheTexts, whyTypedTextMakesNoCondition, madeFromTypedText, condition => condition is TCondition ofThisTest ? typedTextOf(ofThisTest) : null);
+      new(name,
+          howToTypeTheTexts,
+          whyTypedTextMakesNoCondition,
+          madeFromTypedText,
+          condition => condition is TCondition ofThisTest ? typedTextOf(ofThisTest) : null,
+          pickableValues ?? (() => []),
+          picksOne);
 }

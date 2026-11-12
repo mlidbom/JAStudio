@@ -38,6 +38,19 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedLevelsAreNoPartOfSpeech"/> says why they're none.</exception>
    internal static PartOfSpeechIs FromTyped(string typedLevels) => new(TheLevelsTyped(typedLevels));
 
+   /// <summary>
+   /// Every part of speech the tokenizer gives, and every kind of one, such as 名詞, 名詞・接尾 and 名詞・接尾・人名, each with its English, in ordinal order:<br/>
+   /// what the match-condition editor offers to pick from.
+   /// </summary>
+   internal static IReadOnlyList<PickableValue> PickableValues() =>
+   [
+      ..JNPartsOfSpeech.All
+                       .SelectMany(partOfSpeech => Enumerable.Range(1, partOfSpeech.Levels.Count).Select(count => partOfSpeech.Levels.Take(count).ToList()))
+                       .Select(levels => new PickableValue(string.Join(LevelSeparator, levels.Select(it => it.Japanese)), string.Join(" › ", levels.Select(it => it.English))))
+                       .DistinctBy(it => it.Value)
+                       .OrderBy(it => it.Value, StringComparer.Ordinal)
+   ];
+
    /// <summary>Why the levels typed into the match-condition editor are no part of speech the tokenizer gives, or null when they are one.</summary>
    internal static string? WhyTypedLevelsAreNoPartOfSpeech(string typedLevels) => WhyTheyAreNoPartOfSpeech(TheLevelsTyped(typedLevels));
 

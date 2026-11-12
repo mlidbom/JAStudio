@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBeInternal
@@ -49,6 +50,9 @@ public static class InflectionForms
 
    /// <summary>Whether <paramref name="name"/> is the name of an inflected form the tokenizer gives, such as 連用タ接続.</summary>
    public static bool IsKnown(string name) => AllDict.ContainsKey(name);
+
+   /// <summary>Every inflected form the tokenizer gives: all but <see cref="Unknown"/>.</summary>
+   internal static IEnumerable<InflectionForm> All => AllDict.Values.Where(it => !Equals(it, Unknown));
 
    public static readonly InflectionForm Unknown = AddForm("*", "Unknown");
 

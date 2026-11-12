@@ -113,20 +113,24 @@ public static class TokenConditions
           [Surface, BaseForm, Reading],
           [
              ConditionTestWithTexts.Of("PartOfSpeech.Is",
-                                       "Its levels from the top, in Japanese, separated by spaces or ・, such as 名詞 接尾",
+                                       "Pick the part of speech, or the kind of one, finding it by its Japanese or its English, such as 接尾 or suffix",
                                        Tokens.PartOfSpeechIs.WhyTypedLevelsAreNoPartOfSpeech,
                                        Tokens.PartOfSpeechIs.FromTyped,
-                                       it => it.JapaneseLevels),
+                                       it => it.JapaneseLevels,
+                                       Tokens.PartOfSpeechIs.PickableValues,
+                                       picksOne: true),
              ConditionTestWithTexts.Of("InflectionType.In",
-                                       "Inflection types or their families, in Japanese, separated by spaces, such as 五段・ラ行 一段",
+                                       "Pick the inflection types, or their families, finding each by its Japanese or its English, such as 五段 or godan",
                                        Tokens.InflectionTypeIsOneOf.WhyTypedNamesMakeNoCondition,
                                        Tokens.InflectionTypeIsOneOf.FromTyped,
-                                       it => it.Names.AsTyped),
+                                       it => it.Names.AsTyped,
+                                       Tokens.InflectionTypeIsOneOf.PickableValues),
              ConditionTestWithTexts.Of("InflectedForm.In",
-                                       "Inflected forms, in Japanese, separated by spaces, such as 連用形 連用タ接続",
+                                       "Pick the inflected forms, finding each by its Japanese or its English, such as 連用タ接続 or ta-connection",
                                        Tokens.InflectedFormIsOneOf.WhyTypedNamesMakeNoCondition,
                                        Tokens.InflectedFormIsOneOf.FromTyped,
-                                       it => it.Names.AsTyped)
+                                       it => it.Names.AsTyped,
+                                       Tokens.InflectedFormIsOneOf.PickableValues)
           ],
           new Dictionary<string, Func<JsonNode, Condition<IAnalysisToken>>>
           {
