@@ -281,11 +281,12 @@ public class JPCollection
 
       var repoLoad = TaskCE.Run(LoadFromRepository);
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
+      var dictionaryLoad = TaskCE.Run(() => runner.RunIndeterminate("Loading the dictionary", DictLookup.LoadTheDictionary));
 
       var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
       var backendDataTask = Task.Run(() => _backendDataLoader.Load(NoteServices.TaskRunner));
 
-      Task.WaitAll(repoLoad, mediaIndexBuild, backendDataTask);
+      Task.WaitAll(repoLoad, mediaIndexBuild, backendDataTask, dictionaryLoad);
 
       runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(backendDataTask.Result, ankiNoteIdsHeldWhenTheReadBegan));
 

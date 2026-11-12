@@ -20,6 +20,12 @@ public class DictLookup
 
    public static void ShutDownJamdict() => DictionaryProvider.ShutDown();
 
+   /// <summary>
+   /// Loads the dictionary now, unless it's loaded already, rather than at the first lookup: opening the database and reading every word and<br/>
+   /// name form takes about 1.6 seconds, and the first full rebuild after a start waited for it, its other threads blocked meanwhile (2026-11-12).
+   /// </summary>
+   public static void LoadTheDictionary() => DictionaryProvider.GetInstance();
+
    readonly LazyCE<DictionaryProvider> _dictionaryProvider;
 
    // Cache dictionaries for @cache decorator equivalent
