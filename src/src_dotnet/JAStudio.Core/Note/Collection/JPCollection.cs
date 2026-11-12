@@ -192,17 +192,24 @@ public class JPCollection
    /// <summary>
    /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
    /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its Anki note, if it has one in this Anki profile,<br/>
-   /// is kept or deleted as <paramref name="itsAnkiNote"/> says. Deleting a note in Anki instead only forgets its Anki note<br/>
-   /// (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
+   /// is kept or deleted as <paramref name="itsAnkiNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as<br/>
+   /// a synonym (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note in Anki instead only forgets<br/>
+   /// its Anki note (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
    /// </summary>
    public void Delete(JPNote note, ItsAnkiNote itsAnkiNote)
    {
+      TakeItOutOfItsWebOfPerfectSynonyms();
       if(itsAnkiNote == ItsAnkiNote.IsDeleted) NoteServices.CardOperations.DeleteNote(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
       DeleteTheMediaNoOtherNoteUses();
       _noteDeleted.OnNext(note);
       return;
+
+      void TakeItOutOfItsWebOfPerfectSynonyms()
+      {
+         if(note is VocabNote vocab) vocab.RelatedNotes.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted();
+      }
 
       void DeleteTheMediaNoOtherNoteUses()
       {

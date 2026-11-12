@@ -151,7 +151,7 @@ public static class VocabEditableFields
 
    /// <summary>
    /// Perfect synonyms share one answer: adding one gives it the vocab's answer, and links every vocab of the two webs of perfect synonyms to every other,<br/>
-   /// as perfect synonyms and as synonyms (<see cref="RelatedVocab.PerfectSynonyms"/>).
+   /// as perfect synonyms and as synonyms (<see cref="RelatedVocab.PerfectSynonyms"/>). Only a word a vocab is named by can be one.
    /// </summary>
    public static readonly EditableSetField<VocabNote, WordReference> PerfectSynonyms =
       new("relatedVocab.perfectSynonyms",
@@ -159,7 +159,8 @@ public static class VocabEditableFields
           it => it.RelatedNotes.PerfectSynonyms.Words,
           (it, synonym) => it.RelatedNotes.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym(synonym),
           (it, synonym) => it.RelatedNotes.PerfectSynonyms.Remove(synonym),
-          WordReference.InAFixedOrder);
+          WordReference.InAFixedOrder,
+          accepts: (it, synonym) => it.RelatedNotes.PerfectSynonyms.Accepts(synonym));
 
    /// <summary>The vocab's <see cref="Vocabulary.RelatedVocab.RelatedVocab.Antonyms"/>, linked both ways as synonyms are.</summary>
    public static readonly EditableSetField<VocabNote, WordReference> Antonyms = Relationship("relatedVocab.antonyms", "Antonyms", it => it.Antonyms);

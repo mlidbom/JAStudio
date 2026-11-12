@@ -28,7 +28,8 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
    /// <param name="services">The application's services.</param>
    /// <param name="vocabId">The vocab to edit.</param>
    /// <param name="sentencesReparsed">Called on the UI thread after the sentences were reparsed for a change to what the vocab matches.</param>
-   public VocabEditorSectionViewModel(TemporaryServiceCollection services, NoteId vocabId, Action sentencesReparsed)
+   /// <param name="editNote">Opens a note in the workspace with its editors showing, such as a vocab the related tab created.</param>
+   public VocabEditorSectionViewModel(TemporaryServiceCollection services, NoteId vocabId, Action sentencesReparsed, Action<JPNote> editNote)
    {
       _services = services;
       _vocabId = vocabId;
@@ -37,7 +38,7 @@ class VocabEditorSectionViewModel : INoteEditorSectionViewModel
       Text = new VocabTextEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser, () => TextToSpeechDialog.OpenFor(CurrentVocab(), services), services.Resolve<MediaFileIndex>());
       MatchingConfig = new VocabMatchingConfigEditorViewModel(fatalErrorHandler, CurrentVocab, SentencesReparser);
       Metadata = new VocabMetadataEditorViewModel(services, CurrentVocab);
-      Related = new VocabRelatedEditorViewModel(services, CurrentVocab);
+      Related = new VocabRelatedEditorViewModel(services, CurrentVocab, editNote);
    }
 
    /// <summary>Reparses the vocab's sentences after a change to what it matches. No editor can be changed while it runs.</summary>

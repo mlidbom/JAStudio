@@ -42,6 +42,11 @@ public class MutualWordRelationship : WordRelationship
          otherSide.RemoveTheWord(Vocab.Question.Reference);
    }
 
-   /// <summary>The same relationship in each vocab <paramref name="word"/> refers to: the other side of the relationship, for that word.</summary>
-   IEnumerable<MutualWordRelationship> OtherSidesOf(WordReference word) => Collection.ReferredToBy(word).Select(it => _theSameRelationshipIn(it.RelatedNotes));
+   /// <summary>
+   /// The same relationship in each vocab <paramref name="word"/> refers to, but this one: the other side of the relationship, for that word. A word that<br/>
+   /// names no vocab exactly refers to the vocab with it as a form, which can be this vocab, as る is a form of <c>う:non-past</c>, and this vocab would<br/>
+   /// otherwise become its own synonym.
+   /// </summary>
+   IEnumerable<MutualWordRelationship> OtherSidesOf(WordReference word) =>
+      Collection.ReferredToBy(word).Where(it => it.GetId() != Vocab.GetId()).Select(it => _theSameRelationshipIn(it.RelatedNotes));
 }

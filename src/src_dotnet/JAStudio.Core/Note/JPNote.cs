@@ -166,10 +166,16 @@ public abstract class JPNote
 
    public NoteId GetId() => _id;
 
-   public virtual void UpdateGeneratedData()
-   {
-      // Override in subclasses
-   }
+   /// <summary>
+   /// Recomputes the note's generated data: what JAStudio derives from the note and the rest of the corpus, such as a vocab's sentence count or a<br/>
+   /// sentence's parsing result.
+   /// </summary>
+   /// <remarks>
+   /// It changes this note only, never another, so that the full rebuild (<see cref="Batches.LocalNoteUpdater.FullRebuild"/>) can run it for many notes<br/>
+   /// at once, on many threads: a change to another note would race with that note's own update, and the result would depend on the order. A change<br/>
+   /// that must reach other notes is made when what causes it changes, as a perfect synonym's answer is (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms"/>).
+   /// </remarks>
+   public virtual void UpdateGeneratedData() {}
 
    /// <summary>Every media file the note references: its source's and the corpus's own, of every kind.</summary>
    public abstract IEnumerable<MediaReference> MediaReferences { get; }

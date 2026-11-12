@@ -202,7 +202,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    void CreateTheEditorSectionForTheShownNote() =>
       EditorSection = ShownNote() switch
       {
-         VocabNote vocab => new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated),
+         VocabNote vocab => new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated, _workspace.EditNote),
          KanjiNote kanji => new KanjiEditorSectionViewModel(_services, kanji.GetId()),
          SentenceNote sentence => new SentenceEditorSectionViewModel(_services, sentence.GetId()),
          null => null,

@@ -7,6 +7,8 @@
         <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
         <DockPanel>
             <Button DockPanel.Dock="Right" Content="Add" Command="{Binding AddCommand}" Margin="6,0,0,0" />
+            <Button DockPanel.Dock="Right" Content="Create and add" Command="{Binding CreateAndAddCommand}" IsVisible="{Binding OffersToCreateTheVocab}"
+                    Margin="6,0,0,0" ToolTip.Tip="No vocab has this word: create its vocab, from the dictionary when it has the word, add it, and open it for editing" />
             <AutoCompleteBox x:Name="WordBox" ItemsSource="{Binding Pickable}" Text="{Binding NewWord, Mode=TwoWay}"
                              ValueMemberBinding="{Binding Name, x:DataType=relatedWords:PickableVocab}"
                              FilterMode="Custom" MinimumPrefixLength="1" MaxDropDownHeight="300"

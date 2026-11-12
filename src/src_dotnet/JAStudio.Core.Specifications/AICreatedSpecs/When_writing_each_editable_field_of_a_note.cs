@@ -33,7 +33,11 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
    {
       readonly IReadOnlyList<string> _fieldsWhoseNameIsNotWhereTheStoredVocabChanged;
 
-      public of_a_vocab() => _fieldsWhoseNameIsNotWhereTheStoredVocabChanged = FieldsWhoseNameIsNotWhereTheStoredNoteChanged(VocabEditableFields.All, index => CreateVocab($"行く{index}", "to go", "いく"));
+      public of_a_vocab()
+      {
+         CreateVocab("another word", "another", "あなざー"); //The word the word-set fields are written with: a perfect synonym must be a vocab.
+         _fieldsWhoseNameIsNotWhereTheStoredVocabChanged = FieldsWhoseNameIsNotWhereTheStoredNoteChanged(VocabEditableFields.All, index => CreateVocab($"行く{index}", "to go", "いく"));
+      }
 
       [XF] public void the_stored_vocab_changes_where_each_fields_name_says() => _fieldsWhoseNameIsNotWhereTheStoredVocabChanged.Must().BeEmpty();
    }
