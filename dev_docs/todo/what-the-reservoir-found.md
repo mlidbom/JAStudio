@@ -93,6 +93,38 @@ half are of a reading with one entry, half of a reading with several. Options, f
 
 Any of the first two changes parsing, so it needs a full rebuild and its diff looked at.
 
+**Tried (Magnus, 2026-11-12), with names matched too:** on the branch `experiment/kana-readings-and-names`, never merged,
+over a copy of the reservoir. Kana words were looked up by reading in hiragana and in katakana, and a single token that
+neither a vocab nor the dictionary has became a name match (`NameMatch`, displayed and never valid, as a missing match
+is) when the names dictionary has it. Two versions of the lookup:
+
+- **Any kana word, by any reading:** 20 of the 230 parsing cases broke. A run of kana spanning several tokens is too
+  often the reading of an unrelated kanji word, which then beats the vocab: たから (宝), ないよう (内容), えて (得手),
+  だったん (韃靼), がよく, たいん, えたり.
+- **Only a word that is one whole token, by any reading;** a longer run keeps the kana-only filter, in either kana: 6
+  cases changed, mostly matches nobody sees, as single-token base forms such as しれる, したがう and とぶ now find kanji
+  words by reading. One shows: with compounds hidden, かもしれない breaks into かも and しれる.
+
+| Words no vocab has, shown in enough works | Today | Any kana word | One whole token |
+|---|---|---|---|
+| Dictionary words (three works) | 68,514 | 86,185 | 78,463 |
+| Missing words (five works) | 30,137 | 15,933 | 16,087 |
+| Names (five works) | | 6,383 | 6,415 |
+
+- **The missing words halve.** The names take 6,415 of them: mostly real ones, 咲, 太郎, ハリー, 戦場ヶ原, コナン, 甲子園,
+  鈴木, and products such as ウルトラマン; but some fragments the names dictionary happens to hold, ていう, 思, 違, 教, and
+  さがせ. The kana readings make about 10,000 more dictionary words: ボク, ひとつ, いま, きょう, いいかげん, アタシ, ムリ,
+  オマエ, におい, but also fragments and cries a reading happens to fit, れ, そ, ほ, ス, うう, ハッ, ふっ, ハハ, and names,
+  ナルト, ナツ, ハル.
+- **What stays missing** is now mostly not words: small kana and fragments (っ, ぇ, ぁ, ッ), punctuation (—, 〜, ％),
+  cries and laughter (フフッ, ハハッ, ぐっ, クッ), numbers, Chinese and English text, and a few franchises' names
+  (プリキュア, ラディッツ); with some real words in spellings nothing finds (てめぇ, 呆然と, に関する).
+- **The working set it would take** grows by about a tenth, as more words get a floor: with the vocab and the dictionary
+  words at 3, 5, 10 and 20 sentences each, 204,236, 308,558, 537,881 and 913,966 sentences with the one-token version,
+  against 188,014, 282,132, 490,163 and 833,632 today.
+- **Analyzing the whole reservoir took 6.5 to 8 minutes,** about 34,000 sentences a second, against 40 minutes and 6,000
+  a second on 2026-11-11: the parsing speedups of the branch `parser-performance`.
+
 ### Vocab that never match, though their form is everywhere
 
 30 vocab match no sentence of the 16 million, though at least ten sentences have their form. The top: たの (696,063
