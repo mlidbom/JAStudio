@@ -101,6 +101,27 @@ public class SharedConditionTools
       return Listed(sharedCondition);
    }
 
+   [McpServerTool(Name = "delete_a_shared_condition", Destructive = true)]
+   [Description("""
+                Deletes a shared-condition and its file, with its definition written out in its place wherever it's used: in every vocab's
+                match-condition and every other shared-condition's definition that uses it, saving each. In a group of the same kind as the definition,
+                the definition's conditions take its place, so AllOf(Shared, C) with a definition AllOf(A, B) becomes AllOf(A, B, C). None of them then
+                means anything else, so no vocab matches other words: a full rebuild after it changes nothing more. The reverse of making one and using it
+                wherever its definition is. Reports the shared-condition as listed before it was deleted, with the vocab and shared-conditions that used it,
+                where its definition is now written out.
+                """)]
+   public ListedSharedCondition DeleteASharedCondition(
+      [Description("What it's about, as code names it in front of its name: Word, Token or Text.")]
+      string subject,
+      [Description("Its name, such as FollowsAPastTenseStem.")]
+      string name)
+   {
+      var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
+      var listedBeforeItWasDeleted = Listed(sharedCondition);
+      _sharedConditions.Delete(sharedCondition, _collection.Vocab.All());
+      return listedBeforeItWasDeleted;
+   }
+
    [McpServerTool(Name = "use_a_shared_condition_wherever_its_definition_is", Destructive = false)]
    [Description("""
                 Uses a shared-condition by name wherever its definition is: in every vocab's match-condition, and in the definitions of the other

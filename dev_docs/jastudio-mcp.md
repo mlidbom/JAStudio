@@ -253,6 +253,7 @@ the headless JAStudio.
   sentences of every vocab whose match-condition depends on it, as its window in JAStudio does: built for changing them
   while working on how sentences parse (step 3 of increment 6). `rename_a_shared_condition` renames one, with its file, and
   saves every vocab and shared-condition using it by the new name: built for the naming pass (step 3 of increment 6).
+  `delete_a_shared_condition` deletes one, with its definition written out wherever it's used, the reverse of making one.
   `find_the_conditions_vocab_share` lists the conditions, and the combinations
   of a group's conditions, that several vocab's match-conditions hold, as candidates for shared-conditions, each with its
   definition ready for `define_a_shared_condition`: built at Magnus's suggestion, to find what's worth naming (step 2 of
