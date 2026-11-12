@@ -33,15 +33,15 @@ public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
       Contract.Argument.Assert(whyTheyAreNoInflectedForms is null, () => $"{whyTheyAreNoInflectedForms}");
    }
 
-   /// <summary>The condition typed into the match-condition editor: the names separated by spaces.</summary>
+   /// <summary>The condition typed into the tree editor: the names separated by spaces.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedNamesMakeNoCondition"/> says why they make none.</exception>
    internal static InflectedFormIsIn FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
 
-   /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no form of, or null when they make one.</summary>
+   /// <summary>Why the names typed into the tree editor make no condition, such as a name the tokenizer has no form of, or null when they make one.</summary>
    internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
       TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectedForms(TextSet.FromTyped(typedNames));
 
-   /// <summary>Every inflected form the tokenizer gives, with its English, in ordinal order: what the match-condition editor offers to pick from.</summary>
+   /// <summary>Every inflected form the tokenizer gives, with its English, in ordinal order: what the tree editor offers to pick from.</summary>
    internal static IReadOnlyList<TokenizerValue> PickableValues() =>
       [.. InflectionForms.All.OrderBy(it => it.Name, StringComparer.Ordinal).Select(ValueOf)];
 

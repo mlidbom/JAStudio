@@ -20,7 +20,7 @@ class ConditionTreeLineViewModel
    readonly ConditionTreeLineViewModel? _parent;
 
    /// <param name="shownCondition">The condition shown on this line, with the negations and conditions on subjects around it.</param>
-   /// <param name="position">Where <paramref name="shownCondition"/> is in the match-condition.</param>
+   /// <param name="position">Where <paramref name="shownCondition"/> is in the tree.</param>
    /// <param name="tree">The tree the line is in.</param>
    /// <param name="codeLines">The tree's code, by the position of the condition each line is of.</param>
    /// <param name="parent">The group this line is in, or null for the root.</param>
@@ -76,7 +76,7 @@ class ConditionTreeLineViewModel
    /// <summary>The line's condition inside the negations and conditions on subjects around it: what changing the line changes, and a group's conditions go into.</summary>
    public Condition Condition { get; }
 
-   /// <summary>Where <see cref="Condition"/> is in the match-condition.</summary>
+   /// <summary>Where <see cref="Condition"/> is in the tree.</summary>
    public ConditionPosition ConditionPosition { get; }
 
    /// <summary>The conditions there are on the subject of <see cref="Condition"/>: those the add menu offers in this line's group, if it is one.</summary>
@@ -116,7 +116,7 @@ class ConditionTreeLineViewModel
    public bool IsAt(ConditionPosition position) => Position == position || ConditionPosition == position;
 
    /// <summary>The group a condition added on this line goes into: this line's group, or the group this line is in.</summary>
-   public ConditionTreeLineViewModel GroupToAddTo => IsGroup ? this : _parent ?? throw new InvalidOperationException("A match-condition's root is always a group.");
+   public ConditionTreeLineViewModel GroupToAddTo => IsGroup ? this : _parent ?? throw new InvalidOperationException("The tree's root is always a group.");
 
    /// <summary>This line and every line under it, in the order the tree shows them.</summary>
    public IEnumerable<ConditionTreeLineViewModel> ThisAndAllBelow() => [this, ..Children.SelectMany(it => it.ThisAndAllBelow())];

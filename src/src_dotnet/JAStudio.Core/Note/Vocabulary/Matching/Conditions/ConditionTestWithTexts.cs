@@ -5,7 +5,7 @@ using System.Linq;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
-/// A condition-test that takes texts: a kind of condition the match-condition editor makes from what's typed into it, such as <c>EndsWithOneOf</c> from<br/>
+/// A condition-test that takes texts: a kind of condition the tree editor makes from what's typed into it, such as <c>EndsWithOneOf</c> from<br/>
 /// the endings, or <c>PartOfSpeech.Is</c> from the part of speech's levels. Each is defined once, with the conditions on its subject, in<br/>
 /// <see cref="Tokens.TokenConditions"/> or <see cref="Texts.TextConditions"/>, and offered by the subject's <see cref="IConditionLevel"/>.
 /// </summary>

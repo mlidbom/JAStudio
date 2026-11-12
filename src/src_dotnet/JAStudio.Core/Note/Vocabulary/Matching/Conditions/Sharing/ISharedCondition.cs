@@ -4,7 +4,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 /// <summary>
 /// A <see cref="SharedCondition{TSubject}"/>, whatever its subject: a condition with a name, defined once in the corpus and used by name in any vocab's<br/>
-/// match-condition, as the match-condition editor and <see cref="SharedConditions"/> work with it.
+/// match-condition, as the tree editor and <see cref="SharedConditions"/> work with it.
 /// </summary>
 public interface ISharedCondition
 {

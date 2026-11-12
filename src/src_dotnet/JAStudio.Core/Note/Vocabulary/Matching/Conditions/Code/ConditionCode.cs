@@ -9,7 +9,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 /// <summary>
-/// Conditions written as code, as the match-condition editor, the failure reasons and the specifications show them, such as<br/>
+/// Conditions written as code, as the tree editor, the failure reasons and the specifications show them, such as<br/>
 /// <c>!PrecedingToken.Surface.EndsWithOneOf("ん")</c> (Magnus, 2026-11-12: "it is a logical boolean condition. I would like it to display very similarly<br/>
 /// to how such a condition displays in a programming language").
 /// </summary>

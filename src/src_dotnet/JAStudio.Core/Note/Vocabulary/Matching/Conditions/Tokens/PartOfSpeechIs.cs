@@ -37,13 +37,13 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">As the other constructor.</exception>
    internal PartOfSpeechIs(string japaneseLevels) : this(japaneseLevels.Split(LevelSeparator)) {}
 
-   /// <summary>The condition typed into the match-condition editor: the levels from the top, separated by spaces or ・, such as 名詞 接尾.</summary>
+   /// <summary>The condition typed into the tree editor: the levels from the top, separated by spaces or ・, such as 名詞 接尾.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedLevelsAreNoPartOfSpeech"/> says why they're none.</exception>
    internal static PartOfSpeechIs FromTyped(string typedLevels) => new(TheLevelsTyped(typedLevels));
 
    /// <summary>
    /// Every part of speech the tokenizer gives, and every kind of one, such as 名詞, 名詞・接尾 and 名詞・接尾・人名, each with its English, in ordinal order:<br/>
-   /// what the match-condition editor offers to pick from.
+   /// what the tree editor offers to pick from.
    /// </summary>
    internal static IReadOnlyList<TokenizerValue> PickableValues()
    {
@@ -64,7 +64,7 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    static TokenizerValue ValueOf(IReadOnlyList<string> japaneseLevels) =>
       new(string.Join(LevelSeparator, japaneseLevels), string.Join(EnglishLevelSeparator, japaneseLevels.Select(JNPartsOfSpeech.EnglishNameOf)));
 
-   /// <summary>Why the levels typed into the match-condition editor are no part of speech the tokenizer gives, or null when they are one.</summary>
+   /// <summary>Why the levels typed into the tree editor are no part of speech the tokenizer gives, or null when they are one.</summary>
    internal static string? WhyTypedLevelsAreNoPartOfSpeech(string typedLevels) => WhyTheyAreNoPartOfSpeech(TheLevelsTyped(typedLevels));
 
    static string[] TheLevelsTyped(string typedLevels) => typedLevels.Split([" ", LevelSeparator], StringSplitOptions.RemoveEmptyEntries);

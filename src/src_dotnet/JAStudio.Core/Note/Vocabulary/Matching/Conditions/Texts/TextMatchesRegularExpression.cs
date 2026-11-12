@@ -21,7 +21,7 @@ public sealed record TextMatchesRegularExpression : Condition<string>
       _regex = new Regex(pattern, TheRegexOptions);
    }
 
-   /// <summary>Why <paramref name="pattern"/>, typed into the match-condition editor, is no valid regular expression, or null when it is one.</summary>
+   /// <summary>Why <paramref name="pattern"/>, typed into the tree editor, is no valid regular expression, or null when it is one.</summary>
    /// <remarks>
    /// .NET has no way to check a pattern but to parse it, which throws <see cref="RegexParseException"/> for one that isn't valid. So that exception is<br/>
    /// caught here, around the parsing alone: a pattern being typed is invalid on its way to a valid one, and saying why is the point.

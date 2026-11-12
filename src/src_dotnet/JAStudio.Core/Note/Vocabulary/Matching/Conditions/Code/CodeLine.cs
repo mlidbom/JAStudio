@@ -32,7 +32,7 @@ public sealed class CodeLine
    }
 
    /// <summary>
-   /// Where the condition this is a line of is in the tree: the whole condition the match-condition editor shows on one line of its own, with the<br/>
+   /// Where the condition this is a line of is in the tree: the whole condition the tree editor shows on one line of its own, with the<br/>
    /// negations and subjects in front of it, such as <c>!PrecedingToken.IsAGodanVerb</c>.
    /// </summary>
    public ConditionPosition Position { get; }

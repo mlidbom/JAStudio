@@ -5,7 +5,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
-/// One line of code of a line in the match-condition's tree editor (<see cref="ConditionTreeLineViewModel"/>), in pieces each shown as its kind should be<br/>
+/// One line of code of a line in the tree editor (<see cref="ConditionTreeLineViewModel"/>), in pieces each shown as its kind should be<br/>
 /// (<see cref="CodePieceViewModel"/>): indented under the first line of its condition as much deeper as it is, its comment after its code<br/>
 /// (<see cref="CodeLine.PiecesShownUnder"/>).
 /// </summary>

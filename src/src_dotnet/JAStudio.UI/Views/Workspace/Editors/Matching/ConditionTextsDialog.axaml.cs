@@ -11,7 +11,7 @@ using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
-/// The small modal dialog the match-condition's tree editor edits a condition's texts in, such as the endings of <c>EndsWithOneOf</c>, for a new<br/>
+/// The small modal dialog the tree editor edits a condition's texts in, such as the endings of <c>EndsWithOneOf</c>, for a new<br/>
 /// condition or one being changed. It opens with the keyboard in the text box. Enter, or OK, closes it with the condition, Esc or Cancel without one.
 /// </summary>
 partial class ConditionTextsDialog : Window

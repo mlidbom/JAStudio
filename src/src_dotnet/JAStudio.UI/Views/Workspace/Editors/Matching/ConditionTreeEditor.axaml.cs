@@ -48,16 +48,17 @@ public partial class ConditionTreeEditor : UserControl
       };
    }
 
-   ConditionTreeEditorViewModel ViewModel => DataContext as ConditionTreeEditorViewModel ?? throw new InvalidOperationException("A MatchConditionEditor shows a ConditionTreeEditorViewModel.");
+   ConditionTreeEditorViewModel ViewModel => DataContext as ConditionTreeEditorViewModel ?? throw new InvalidOperationException("A ConditionTreeEditor shows a ConditionTreeEditorViewModel.");
 
-   Window OwnerWindow => TopLevel.GetTopLevel(this) as Window ?? throw new InvalidOperationException("The match-condition editor is only shown in a window.");
+   Window OwnerWindow => TopLevel.GetTopLevel(this) as Window ?? throw new InvalidOperationException("The tree editor is only shown in a window.");
 
    /// <summary>The tree's lines are made anew on every change, so after one made in the tree, the keyboard is put on the selected line.</summary>
    void PutTheKeyboardOnTheSelectedLine() => Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Loaded);
 
    /// <summary>
-   /// Every change reparses the vocab's sentences, and the tab is disabled meanwhile, which takes the keyboard off the tree. Once it's enabled again,<br/>
-   /// the keyboard goes back to the selected line, so that the next key acts on it.
+   /// Every change reparses sentences, those of the vocab on its Matching tab, or of the vocab depending on a shared-condition in its window, and the<br/>
+   /// tree is disabled meanwhile, which takes the keyboard off it. Once it's enabled again, the keyboard goes back to the selected line, so that the<br/>
+   /// next key acts on it.
    /// </summary>
    void OnTreePropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
    {
@@ -192,7 +193,7 @@ public partial class ConditionTreeEditor : UserControl
    /// <remarks>
    /// It's always posted, so a condition's dialog may have opened meanwhile. Then it does nothing:<br/>
    /// focusing the line would take the keyboard from the dialog, and the dialog puts it back on the line when it closes.<br/>
-   /// While the tab is disabled, as while the vocab's sentences are reparsed, it's done when the tab is enabled again.
+   /// While the tree is disabled, as while sentences are reparsed after a change, it's done when the tree is enabled again.
    /// </remarks>
    void FocusTheSelectedLine()
    {

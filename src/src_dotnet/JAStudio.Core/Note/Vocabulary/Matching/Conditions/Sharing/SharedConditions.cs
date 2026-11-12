@@ -43,7 +43,7 @@ public sealed class SharedConditions
    public IReadOnlyList<ISharedCondition> All =>
       _monitor.Locked(() => _byLevelAndName.Values.OrderBy(it => ListingOrderOf(it.Level)).ThenBy(it => it.Name, StringComparer.Ordinal).ToList());
 
-   /// <summary>The shared-conditions on <paramref name="level"/>'s subject, by name: those the match-condition editor offers where a condition on it goes.</summary>
+   /// <summary>The shared-conditions on <paramref name="level"/>'s subject, by name: those the tree editor offers where a condition on it goes.</summary>
    public IReadOnlyList<ISharedCondition> On(IConditionLevel level) => [.. All.Where(it => it.Level == level)];
 
    /// <summary>

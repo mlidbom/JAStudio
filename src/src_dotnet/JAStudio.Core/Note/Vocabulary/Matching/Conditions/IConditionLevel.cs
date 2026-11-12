@@ -6,7 +6,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
-/// A <see cref="ConditionLevel{TSubject}"/> as the match-condition editor offers it, whatever its subject: the conditions there are on a word, a token or<br/>
+/// A <see cref="ConditionLevel{TSubject}"/> as the tree editor offers it, whatever its subject: the conditions there are on a word, a token or<br/>
 /// a text, which the editor's add menu offers where a condition on that subject goes.
 /// </summary>
 public interface IConditionLevel

@@ -6,7 +6,7 @@ using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 namespace JAStudio.UI.Utils;
 
 /// <summary>
-/// Picks the keys of a menu whose items come from a catalog rather than being written out, such as the match-condition editor's add menu, which<br/>
+/// Picks the keys of a menu whose items come from a catalog rather than being written out, such as the tree editor's add menu, which<br/>
 /// offers the conditions there are on a subject. An item gets the first letter of a word in its name that no item before it took, skipping words<br/>
 /// such as "the" and "is", else the first such letter in those words, else anywhere in its name, else no key.
 /// </summary>

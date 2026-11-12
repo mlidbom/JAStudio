@@ -35,15 +35,15 @@ public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
       Contract.Argument.Assert(whyTheyAreNoInflectionTypes is null, () => $"{whyTheyAreNoInflectionTypes}");
    }
 
-   /// <summary>The condition typed into the match-condition editor: the names separated by spaces.</summary>
+   /// <summary>The condition typed into the tree editor: the names separated by spaces.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedNamesMakeNoCondition"/> says why they make none.</exception>
    internal static InflectionTypeIsIn FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
 
-   /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no type of, or null when they make one.</summary>
+   /// <summary>Why the names typed into the tree editor make no condition, such as a name the tokenizer has no type of, or null when they make one.</summary>
    internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
       TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectionTypes(TextSet.FromTyped(typedNames));
 
-   /// <summary>Every inflection type the tokenizer gives, and every family of them, each with its English, in ordinal order: what the match-condition editor offers to pick from.</summary>
+   /// <summary>Every inflection type the tokenizer gives, and every family of them, each with its English, in ordinal order: what the tree editor offers to pick from.</summary>
    internal static IReadOnlyList<TokenizerValue> PickableValues() =>
       [.. InflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(ValueOf)];
 

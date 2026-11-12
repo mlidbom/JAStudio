@@ -1,6 +1,6 @@
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
-/// <summary>What a piece of a condition's code is (<see cref="CodePiece"/>), so that the match-condition editor can show each kind as it should be.</summary>
+/// <summary>What a piece of a condition's code is (<see cref="CodePiece"/>), so that the tree editor can show each kind as it should be.</summary>
 public enum CodePieceKind
 {
    /// <summary>The code itself, such as <c>PrecedingToken.IsAGodanVerb</c>.</summary>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 /// <summary>
-/// A group of conditions, <see cref="AllOfGroup{TSubject}"/> or <see cref="AnyOfGroup{TSubject}"/>, as the match-condition editor changes it, whatever the<br/>
+/// A group of conditions, <see cref="AllOfGroup{TSubject}"/> or <see cref="AnyOfGroup{TSubject}"/>, as the tree editor changes it, whatever the<br/>
 /// subject of its conditions.
 /// </summary>
 public interface IConditionGroup

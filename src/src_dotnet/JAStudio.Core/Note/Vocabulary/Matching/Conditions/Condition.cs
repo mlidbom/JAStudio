@@ -11,8 +11,9 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
-/// A node in a vocab's match-condition, whatever its subject: a word, a token or a text. What a condition is met by is <see cref="Condition{TSubject}"/>'s;<br/>
-/// this is the tree's shape, as the match-condition editor walks and changes it: each condition's <see cref="Children"/>, and the tree with a<br/>
+/// A node in a tree of conditions, such as a vocab's match-condition or a shared-condition's definition, whatever its subject: a word, a token or a<br/>
+/// text. What a condition is met by is <see cref="Condition{TSubject}"/>'s;<br/>
+/// this is the tree's shape, as the tree editor walks and changes it: each condition's <see cref="Children"/>, and the tree with a<br/>
 /// condition at a <see cref="ConditionPosition"/> replaced.
 /// </summary>
 /// <remarks>
@@ -97,7 +98,7 @@ public abstract record Condition
    /// without changing what it weighs in a vocab's priority, or where <see cref="WithSharedConditionUsed"/> finds a shared-condition's definition.
    /// </summary>
    /// <remarks>
-   /// Equality says more: that the two are built the same way, in the same order, of the same names. The match-condition editor relies on it, since<br/>
+   /// Equality says more: that the two are built the same way, in the same order, of the same names. The tree editor relies on it, since<br/>
    /// putting a group's conditions in another order is a change to the match-condition.
    /// </remarks>
    public bool MeansTheSameAs(Condition other) => other is ISharedCondition sharedCondition ? MeansTheSameAs(sharedCondition.Definition) : MeansTheSameAsAConditionNotShared(other);

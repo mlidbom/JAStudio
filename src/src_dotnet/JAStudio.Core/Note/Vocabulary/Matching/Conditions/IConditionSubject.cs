@@ -1,7 +1,7 @@
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
-/// A <see cref="ConditionSubject{TFrom,TSubject}"/> as the match-condition editor offers it, whatever it's found from and whatever it is: a subject a<br/>
+/// A <see cref="ConditionSubject{TFrom,TSubject}"/> as the tree editor offers it, whatever it's found from and whatever it is: a subject a<br/>
 /// condition can be on, such as a word's preceding token, with the conditions there are on it.
 /// </summary>
 public interface IConditionSubject
