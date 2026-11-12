@@ -6,11 +6,11 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
 ## How to measure it
 
 - **`time_parsing_every_sentence`,** a tool of JAStudio's MCP server, times tokenizing and then analyzing every
-  sentence of the corpus on a given number of threads. Each pass reports how long the garbage collector paused the
-  threads, how much memory it allocated, and the peak memory. Calls made at the same time run one after the other.
-  Discard the first run after a start, which is several times slower than the next ones. The times of the same code
-  vary by about a third from one start to the next (2026-11-12), so compare several starts. The memory allocated is the
-  same in every start, within 0.1%: it shows a change to allocation that the times can't.
+  sentence of the corpus on a given number of threads. Each pass reports the processor time it used and the machine's
+  other processes used meanwhile, how long the garbage collector paused the threads, how much memory it allocated, and
+  the peak memory. Calls made at the same time run one after the other. Discard the first run after a start, which is
+  several times slower than the next ones. The memory allocated is the same in every run, within 0.1%, whatever else
+  runs: it shows a change to allocation that the times can't.
   By default it first collects all garbage, so every run starts from the same memory.
 - **`describe_memory`** reports the garbage collector's mode and settings and the process's memory, optionally also
   after the most thorough collection there is.
@@ -20,8 +20,13 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
   runs, and read the snapshot with the Rider MCP's dotTrace tools. Its "Lock contention" subsystem shows which locks
   the threads wait for.
   `ConsoleProfiler.exe attach <process id> --profiling-type=Timeline --save-to=<file>.dtt --timeout=40s`
-- **Compare in one sitting:** the same code at the same thread count varies by 10-20% between one start of the process
-  and the next. Start the old code and the new one after each other, rather than comparing with numbers from earlier.
+- **Other development work often runs on this machine** (Magnus, 2026-11-12), such as other sessions' builds and tests.
+  It takes cores from the runs, and made the same code's times vary by up to a factor of 2.5 that day. A run during which
+  the other processes used more than a little processor time was disturbed: repeat it when they're quiet. Check that
+  before reading anything into a difference. The process's own processor time doesn't escape it: a thread sharing a
+  physical core with another process's runs slower, and its time counts on.
+- **Compare in one sitting:** start the old code and the new one after each other, rather than comparing with numbers
+  from earlier.
 - **The machine these numbers come from** has 16 cores, 32 with hyperthreading, and the corpus 49,162 sentences.
 
 ## What limited parsing on many threads, in the order found
@@ -122,8 +127,8 @@ analysis's steps:
 - **`LazyCE` in `CandidateWordVariant`,** for the lookup in the dictionary: about 1 s, with three times the variants
   there are now. Each one created a monitor of its own, and the first read took the lock. Since Compze.Internals.SystemCE
   0.4.2, a `LazyCE` locks on itself, 32 bytes instead of 424 (2026-11-12): analyzing every sentence allocates 5,894 MB
-  instead of 6,414, and the garbage collector collects 3 times a pass instead of 6. The times changed less than they
-  vary from one start of JAStudio to the next.
+  instead of 6,414, and the garbage collector collects 3 times a pass instead of 6. The times showed no change: other
+  work on the machine made them vary more than that.
 - **`string.Join` in `CandidateWord`'s constructor:** 0.9 s, most of it on candidate words no longer built.
 - **Looking vocab up by form** (`NoteIndex.NotesWith`): 0.5 s; **the dictionary's `MightBeWord`:** 0.55 s.
 

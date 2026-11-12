@@ -6,6 +6,7 @@ using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Mcp.Tools.Analysis.Timing;
 using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -57,11 +58,12 @@ public class AnalysisTools
    [Description("""
                 Times parsing every sentence of the corpus on the given number of threads, twice: tokenizing each sentence's question, the
                 tokenizer's share of the work, and then analyzing each sentence as its stored parsing result is made, which includes the
-                tokenizing. Nothing is saved. Each pass reports how long the garbage collector paused the threads, how much memory it
-                allocated, and the most memory the process used meanwhile. For telling whether a change made parsing faster, and how parsing
-                scales with threads: compare runs on the same corpus at the same thread count, and discard the first run after a start, which
-                includes warming up. The times of the same code vary by about a third from one start of JAStudio to the next, and much less
-                within one, so compare several starts; the memory allocated doesn't vary. A call made while another call of it, or of
+                tokenizing. Nothing is saved. Each pass reports the processor time it used and the machine's other processes used meanwhile,
+                how long the garbage collector paused the threads, how much memory it allocated, and the most memory the process used
+                meanwhile. For telling whether a change made parsing faster, and how parsing scales with threads: compare runs on the same
+                corpus at the same thread count, and discard the first run after a start, which includes warming up. Other development work
+                often runs on the machine: a pass during which the other processes used more than a little processor time was disturbed, and
+                its time says little. The memory allocated is the same whatever else runs. A call made while another call of it, or of
                 count_the_candidate_words, runs waits for that one to finish, since runs at the same time would compete for the cores.
                 """)]
    public TimeToParseEverySentence TimeParsingEverySentence(

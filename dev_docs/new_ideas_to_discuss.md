@@ -39,5 +39,5 @@ piece of code, or that would otherwise be lost in a long response.
   with nothing else busy, so the extra is work the process does, most likely the JIT's tiers (the first runs execute
   unoptimized code while the optimized code is compiled on a background thread that 32 busy threads starve), maybe
   also caches filling. A full rebuild in Anki runs once, perhaps cold, so it may pay that warm-up in full. Worth
-  measuring a cold full rebuild, and if it's so, trying ReadyToRun or the runtime's tiering settings. Also, the times of
-  the same code vary by about a third from one start to the next while steady within a start, and why is unknown.
+  measuring a cold full rebuild, and if it's so, trying ReadyToRun or the runtime's tiering settings. Confirmed by the
+  process's own processor time since: 29 seconds for the first analyzing pass, against 10.5-11 for later ones.

@@ -223,8 +223,10 @@ the headless JAStudio.
 - **Parsing speed, built (2026-11-12):** `time_parsing_every_sentence` times tokenizing every sentence of the corpus, and
   then analyzing every one, on a given number of threads, by default one per logical core, and saves nothing. It's for
   telling whether a change made parsing faster, and how parsing scales with threads: compare runs at the same thread
-  count, and discard the first after a start, which includes warming up. Each pass also reports how long the garbage
-  collector paused the threads, and the most memory the process used meanwhile, sampled every 100 ms; and the run reports
+  count, and discard the first after a start, which includes warming up. Each pass also reports the processor time it
+  used and the machine's other processes used meanwhile, which shows whether other work on the machine disturbed it (read
+  on Windows only: .NET has no way that works everywhere); how long the garbage collector paused the threads; how much
+  memory it allocated, the same in every run; and the most memory the process used, sampled every 100 ms. The run reports
   the process's garbage collector mode. By default it first collects all garbage, so each run's peak is its own. Runs
   at the same time would compete for the cores, so a call made while it or `count_the_candidate_words` runs waits for
   that one to finish (2026-11-12): several calls in one message may run at once, and did, making the times nonsense.

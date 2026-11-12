@@ -1,6 +1,6 @@
 using JAStudio.Mcp.Tools.Memory;
 
-namespace JAStudio.Mcp.Tools.Analysis;
+namespace JAStudio.Mcp.Tools.Analysis.Timing;
 
 /// <summary>
 /// What <see cref="AnalysisTools.TimeParsingEverySentence"/> reports: how long parsing every sentence of the corpus took, on how many threads.<br/>
