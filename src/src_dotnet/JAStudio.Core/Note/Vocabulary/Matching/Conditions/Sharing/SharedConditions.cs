@@ -205,6 +205,9 @@ public sealed class SharedConditions
    /// </remarks>
    public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
    {
+      //review:matching: this, MakeOf, Rename and Delete each take the vocab whose match-conditions they change, and every caller passes all of the
+      //   collection's (VocabCollection.All). The shared-conditions don't know the collection, which loads them before its notes. Since each of these
+      //   always reaches every vocab, they could be given the collection's vocab once rather than at every call. Not changed: a design call for you.
       AssertIsOneOfThese(sharedCondition);
       All.Where(it => !it.Equals(sharedCondition)).ToList().ForEach(UseItInTheDefinitionOf);
       vocab.ToList().ForEach(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition));
