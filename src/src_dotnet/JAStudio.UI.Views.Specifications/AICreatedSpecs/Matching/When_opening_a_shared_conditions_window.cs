@@ -37,7 +37,7 @@ public class When_opening_a_shared_conditions_window : SpecificationOpeningWindo
    [XF] public void it_is_titled_by_the_shared_conditions_full_name() => OnTheUIThread(() => _window.Title ?? "").Must().Be("Word.FollowsAVerb - shared-condition");
 
    [XF] public void it_says_how_many_vocabs_match_conditions_depend_on_it() =>
-      OnTheUIThread(() => ViewModelOf<SharedConditionWindowViewModel>(_window).WhoUsesIt)
+      OnTheUIThread(() => ViewModelOf<SharedConditionWindowViewModel>(_window).WhoDependsOnIt)
          .Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
 
    public class then_opening_it_again : When_opening_a_shared_conditions_window

@@ -21,7 +21,6 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 partial class SharedConditionWindowViewModel : ObservableObject
 {
    readonly TemporaryServiceCollection _services;
-   readonly IUIThreadDispatcher _uiThread;
 
    /// <param name="services">The application's services.</param>
    /// <param name="sharedCondition">The shared-condition the window is of: one of the corpus's.</param>
@@ -29,14 +28,19 @@ partial class SharedConditionWindowViewModel : ObservableObject
    public SharedConditionWindowViewModel(TemporaryServiceCollection services, ISharedCondition sharedCondition, Action<ISharedCondition> openTheDefinitionOf)
    {
       _services = services;
-      _uiThread = services.Resolve<IUIThreadDispatcher>();
       SharedCondition = sharedCondition;
-      Definition = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
-                                                    new EditedDefinition(sharedCondition, services.NoteServices.SharedConditions),
-                                                    services.NoteServices,
-                                                    ReparseTheSentencesOfTheVocabDependingOnIt,
-                                                    openTheDefinitionOf);
       _vocabDependingOnIt = TheVocabDependingOnIt();
+      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => {});
+      SentencesReparser.PropertyChanged += (_, changed) =>
+      {
+         if(changed.PropertyName == nameof(SentencesReparser.IsReparsingSentences)) OnPropertyChanged(nameof(WhoDependsOnIt));
+      };
+      //review:matching: DefinitionEditor was Definition, but it's the definition's tree editor, as a vocab's Matching tab has its MatchConditionEditor.
+      DefinitionEditor = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
+                                                          new EditedDefinition(sharedCondition, services.NoteServices.SharedConditions),
+                                                          services.NoteServices,
+                                                          ReparseTheSentencesOfTheVocabDependingOnIt,
+                                                          openTheDefinitionOf);
    }
 
    /// <summary>The shared-condition the window is of.</summary>
@@ -68,7 +72,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
    {
       OnPropertyChanged(nameof(Title));
       VocabDependingOnIt = TheVocabDependingOnIt();
-      Definition.Refresh();
+      DefinitionEditor.Refresh();
    }
 
    /// <summary>The dialog that renames the shared-condition.</summary>
@@ -76,32 +80,32 @@ partial class SharedConditionWindowViewModel : ObservableObject
 
    /// <summary>
    /// Renames the shared-condition <paramref name="newName"/> (<see cref="SharedConditions.Rename"/>): every vocab and definition using it then uses it by<br/>
-   /// that name. The window shows it.
+   /// that name. The window shows it as it is now.
    /// </summary>
    internal void RenameTo(string newName)
    {
       SharedConditions.Rename(SharedCondition, newName, Vocab.All());
-      OnPropertyChanged(nameof(Title));
-      Definition.Refresh();
+      ShowItAsItIsNow();
    }
 
-   /// <summary>The shared-condition's definition, edited in the tree editor.</summary>
-   public ConditionTreeEditorViewModel Definition { get; }
+   /// <summary>The tree editor of the shared-condition's definition.</summary>
+   public ConditionTreeEditorViewModel DefinitionEditor { get; }
+
+   /// <summary>Reparses the sentences of the vocab depending on the definition after a change to it. The definition can't be changed while it runs.</summary>
+   public VocabSentencesReparserViewModel SentencesReparser { get; }
 
    /// <summary>The vocab whose match-conditions depend on the definition: those whose sentences a change to it reparses.</summary>
    [ObservableProperty]
-   [NotifyPropertyChangedFor(nameof(WhoUsesIt))]
+   [NotifyPropertyChangedFor(nameof(WhoDependsOnIt))]
    IReadOnlyList<VocabNote> _vocabDependingOnIt;
 
-   /// <summary>Whether the sentences of the vocab depending on it are being reparsed after a change. The definition can't be changed meanwhile.</summary>
-   [ObservableProperty]
-   [NotifyPropertyChangedFor(nameof(WhoUsesIt))]
-   bool _isReparsingSentences;
-
    /// <summary>How many vocab's match-conditions depend on the definition, which a change to it affects, or that their sentences are being reparsed.</summary>
-   public string WhoUsesIt => IsReparsingSentences
-                                 ? $"Reparsing the sentences of {VocabDependingOnIt.Count} vocab…"
-                                 : $"The match-conditions of {VocabDependingOnIt.Count} vocab depend on it: a change to its definition reparses their sentences.";
+   public string WhoDependsOnIt =>
+      //review:matching: WhoDependsOnIt was WhoUsesIt, but it counts the vocab depending on it, those that use it through other shared-conditions too,
+      //   as its text says.
+      SentencesReparser.IsReparsingSentences
+         ? $"Reparsing the sentences of {VocabDependingOnIt.Count} vocab…"
+         : $"The match-conditions of {VocabDependingOnIt.Count} vocab depend on it: a change to its definition reparses their sentences.";
 
    /// <summary>The vocab whose match-conditions depend on the definition, as the collection holds them now.</summary>
    IReadOnlyList<VocabNote> TheVocabDependingOnIt() => Vocab.WhoseMatchConditionsDependOnTheDefinitionOf(SharedCondition);
@@ -110,22 +114,10 @@ partial class SharedConditionWindowViewModel : ObservableObject
 
    VocabCollection Vocab => _services.CoreApp.Collection.Vocab;
 
-   /// <summary>Reparses the sentences of the vocab depending on the definition, in the background, after it changed.</summary>
+   /// <summary>Reparses the sentences of the vocab depending on the definition, as it is after it changed, in the background.</summary>
    void ReparseTheSentencesOfTheVocabDependingOnIt()
    {
       VocabDependingOnIt = TheVocabDependingOnIt();
-      IsReparsingSentences = true;
-      var vocab = VocabDependingOnIt;
-      _services.BackgroundTaskManager.Run(() =>
-      {
-         try
-         {
-            _services.LocalNoteUpdater.ReparseSentencesForVocabWithoutProgressDialog(vocab);
-         }
-         finally
-         {
-            _uiThread.PostToUIThread(() => IsReparsingSentences = false);
-         }
-      });
+      SentencesReparser.ReparseSentences();
    }
 }

@@ -43,12 +43,12 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
    private protected SharedConditionWindowViewModel WindowOf(ISharedCondition sharedCondition) =>
       new(GetService<TemporaryServiceCollection>(), sharedCondition, it => _definitionsOpened.Add(it.FullName));
 
-   private protected static List<string> LinesOf(SharedConditionWindowViewModel window) => [.. window.Definition.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
+   private protected static List<string> LinesOf(SharedConditionWindowViewModel window) => [.. window.DefinitionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
 
-   private protected static void SelectTheFirstLineUnderTheRoot(SharedConditionWindowViewModel window) => window.Definition.SelectedLine = window.Definition.Lines[0].Children[0];
+   private protected static void SelectTheFirstLineUnderTheRoot(SharedConditionWindowViewModel window) => window.DefinitionEditor.SelectedLine = window.DefinitionEditor.Lines[0].Children[0];
 
    private protected static void WaitForTheReparseToFinish(SharedConditionWindowViewModel window) =>
-      SpinWait.SpinUntil(() => !window.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
+      SpinWait.SpinUntil(() => !window.SentencesReparser.IsReparsingSentences, TimeSpan.FromMinutes(1)).Must().BeTrue();
 
    public class the_window_of_FollowsAVerb : When_editing_a_shared_conditions_definition_in_its_window
    {
@@ -62,14 +62,14 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          LinesOf(_window).Must().SequenceEqual(["// A word meets Word.FollowsAVerb when each of these holds:", "PrecedingToken.IsAVerb"]);
 
       [XF] public void says_how_many_vocabs_match_conditions_depend_on_it() =>
-         _window.WhoUsesIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
+         _window.WhoDependsOnIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
 
       public class after_pressing_F12_on_the_line_using_IsAVerb : the_window_of_FollowsAVerb
       {
          public after_pressing_F12_on_the_line_using_IsAVerb()
          {
             SelectTheFirstLineUnderTheRoot(_window);
-            _window.Definition.OpenTheDefinitionOfTheSelectedLine();
+            _window.DefinitionEditor.OpenTheDefinitionOfTheSelectedLine();
          }
 
          [XF] public void IsAVerbs_window_is_opened() => _definitionsOpened.Must().SequenceEqual(["Token.IsAVerb"]);
@@ -80,7 +80,7 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          public after_negating_the_line_using_IsAVerb()
          {
             SelectTheFirstLineUnderTheRoot(_window);
-            _window.Definition.ToggleNegationOfTheSelectedLine();
+            _window.DefinitionEditor.ToggleNegationOfTheSelectedLine();
             WaitForTheReparseToFinish(_window);
          }
 
@@ -90,13 +90,13 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
             LinesOf(_window).Must().SequenceEqual(["// A word meets Word.FollowsAVerb when each of these holds:", "!PrecedingToken.IsAVerb"]);
 
          [XF] public void the_vocab_still_depends_on_it() =>
-            _window.WhoUsesIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
+            _window.WhoDependsOnIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
 
          public class then_undoing : after_negating_the_line_using_IsAVerb
          {
             public then_undoing()
             {
-               _window.Definition.Undo();
+               _window.DefinitionEditor.Undo();
                WaitForTheReparseToFinish(_window);
             }
 
@@ -157,9 +157,9 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          LinesOf(_window).Must().SequenceEqual(["// A token meets Token.IsAVerb when each of these holds:", "AnyOf(", "IsAGodanVerb,", "IsAnIchidanVerb)"]);
 
       [XF] public void counts_the_vocab_using_it_through_FollowsAVerb() =>
-         _window.WhoUsesIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
+         _window.WhoDependsOnIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
 
       [XF] public void its_add_menu_offers_no_shared_condition_since_the_only_one_on_a_token_is_itself() =>
-         _window.Definition.AddConditionMenu(_ => {}).Select(it => it.Name).Must().Satisfy(names => !names.Any(it => it.Contains("Shared")));
+         _window.DefinitionEditor.AddConditionMenu(_ => {}).Select(it => it.Name).Must().Satisfy(names => !names.Any(it => it.Contains("Shared")));
    }
 }

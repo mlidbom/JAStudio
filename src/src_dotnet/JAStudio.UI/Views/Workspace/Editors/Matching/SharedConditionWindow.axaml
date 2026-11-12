@@ -16,12 +16,12 @@
         <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
             <Button DockPanel.Dock="Right" Content="Delete…" Command="{Binding DeleteCommand}" Margin="8,0,0,0" />
             <Button DockPanel.Dock="Right" Content="Rename… (F2)" Command="{Binding RenameCommand}" Margin="8,0,0,0" />
-            <TextBlock Text="{Binding WhoUsesIt}" TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding WhoDependsOnIt}" TextWrapping="Wrap" VerticalAlignment="Center" />
         </DockPanel>
         <ScrollViewer>
             <!-- The definition can't be changed while the sentences are reparsed for the last change. -->
-            <Panel IsEnabled="{Binding !IsReparsingSentences}">
-                <matchingViews:ConditionTreeEditor DataContext="{Binding Definition}" />
+            <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                <matchingViews:ConditionTreeEditor DataContext="{Binding DefinitionEditor}" />
             </Panel>
         </ScrollViewer>
     </DockPanel>
