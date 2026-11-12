@@ -83,11 +83,15 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
 
       protected override CandidateWordVariant Word { get; }
 
-      [XF] public void a_condition_on_its_preceding_token_is_not_met_since_it_has_none() =>
-         Meets(PrecedingToken.Meets(ConditionGroup.Not(TokenConditions.IsAGodanVerb))).Must().BeFalse();
-
-      [XF] public void the_negation_of_a_condition_on_its_preceding_token_is_met() => Meets(ConditionGroup.Not(PrecedingToken.Meets(TokenConditions.IsAGodanVerb))).Must().BeTrue();
+      [XF] public void its_preceding_token_does_not_exist() => Meets(PrecedingToken.Meets(TokenConditions.Exists)).Must().BeFalse();
+      [XF] public void its_preceding_token_is_no_godan_verb() => Meets(PrecedingToken.Meets(TokenConditions.IsAGodanVerb)).Must().BeFalse();
+      [XF] public void its_preceding_token_meets_a_negated_fact_as_the_empty_token_has_no_facts() => Meets(PrecedingToken.Meets(ConditionGroup.Not(TokenConditions.IsAGodanVerb))).Must().BeTrue();
+      [XF] public void the_negation_of_a_fact_about_its_preceding_token_is_met_too() => Meets(ConditionGroup.Not(PrecedingToken.Meets(TokenConditions.IsAGodanVerb))).Must().BeTrue();
+      [XF] public void its_preceding_token_has_no_part_of_speech() => Meets(PrecedingToken.Meets(TokenConditions.PartOfSpeechIs("名詞"))).Must().BeFalse();
+      [XF] public void its_preceding_tokens_surface_is_empty() => Meets(PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.IsEmptyText))).Must().BeTrue();
+      [XF] public void its_preceding_tokens_reading_is_empty() => Meets(PrecedingToken.Meets(TokenConditions.Reading.Meets(TextConditions.IsEmptyText))).Must().BeTrue();
       [XF] public void a_condition_on_its_preceding_token_that_adds_nothing_is_met() => Meets(PrecedingToken.Meets(ConditionGroup.AllOf<IAnalysisToken>())).Must().BeTrue();
+      [XF] public void its_first_token_exists() => Meets(FirstToken.Meets(TokenConditions.Exists)).Must().BeTrue();
       [XF] public void the_text_preceding_it_is_empty() => Meets(PrecedingText.Meets(TextConditions.IsEmptyText)).Must().BeTrue();
       [XF] public void it_is_a_single_token() => Meets(IsASingleToken).Must().BeTrue();
    }
@@ -98,7 +102,9 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
 
       protected override CandidateWordVariant Word { get; }
 
-      [XF] public void a_condition_on_its_following_token_is_not_met_since_it_has_none() => Meets(FollowingToken.Meets(TokenConditions.IsANonWordCharacter)).Must().BeFalse();
+      [XF] public void its_following_token_does_not_exist() => Meets(FollowingToken.Meets(TokenConditions.Exists)).Must().BeFalse();
+      [XF] public void its_following_token_is_no_non_word_character() => Meets(FollowingToken.Meets(TokenConditions.IsANonWordCharacter)).Must().BeFalse();
+      [XF] public void its_following_token_does_not_end_a_statement_as_the_empty_token_has_no_facts() => Meets(FollowingToken.Meets(TokenConditions.EndsAStatement)).Must().BeFalse();
       [XF] public void the_text_following_it_is_empty() => Meets(FollowingText.Meets(TextConditions.IsEmptyText)).Must().BeTrue();
       [XF] public void its_last_token_ends_a_statement() => Meets(LastToken.Meets(TokenConditions.EndsAStatement)).Must().BeTrue();
    }
@@ -125,6 +131,7 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
       protected override CandidateWordVariant Word { get; }
 
       [XF] public void its_preceding_token_is_a_dictionary_form_verbs_ending() => Meets(PrecedingToken.Meets(TokenConditions.IsADictionaryVerbInflection)).Must().BeTrue();
+      [XF] public void its_preceding_token_exists() => Meets(PrecedingToken.Meets(TokenConditions.Exists)).Must().BeTrue();
    }
 
    public class the_surface_of_the_word_食べ_in_もう食べた : When_testing_a_word_in_its_sentence_against_a_condition

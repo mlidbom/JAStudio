@@ -14,13 +14,13 @@ public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>
 {
    //review:matching: ConditionSubject and SubjectCondition are mirror images, easy to mix up. This is what a condition can be on, such as
    //   a word's preceding token, the design document's condition-subject; a SubjectCondition is the condition that it meets another.
-   readonly Func<TFrom, TSubject?> _foundIn;
+   readonly Func<TFrom, TSubject> _foundIn;
 
    /// <param name="name">The <see cref="Name"/>.</param>
    /// <param name="jsonKey">The <see cref="JsonKey"/>.</param>
-   /// <param name="foundIn">Finds this subject of a subject, or null when it has none.</param>
+   /// <param name="foundIn">Finds this subject of a subject, which every subject has: where there's no token, it's the empty token (<see cref="Tokens.EmptyToken"/>).</param>
    /// <param name="level">The <see cref="Level"/>.</param>
-   internal ConditionSubject(string name, string jsonKey, Func<TFrom, TSubject?> foundIn, ConditionLevel<TSubject> level)
+   internal ConditionSubject(string name, string jsonKey, Func<TFrom, TSubject> foundIn, ConditionLevel<TSubject> level)
    {
       Name = name;
       JsonKey = jsonKey;
@@ -40,8 +40,8 @@ public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>
    /// <summary>A condition that this subject meets <paramref name="condition"/>.</summary>
    public SubjectCondition<TFrom, TSubject> Meets(Condition<TSubject> condition) => new(this, condition);
 
-   /// <summary>This subject of <paramref name="from"/>, or null when it has none, as the sentence's first token has no preceding token.</summary>
-   internal TSubject? FoundIn(TFrom from) => _foundIn(from);
+   /// <summary>This subject of <paramref name="from"/>: the empty token (<see cref="Tokens.EmptyToken"/>) as the preceding token of a sentence's first word.</summary>
+   internal TSubject FoundIn(TFrom from) => _foundIn(from);
 
    IConditionLevel IConditionSubject.Level => Level;
 

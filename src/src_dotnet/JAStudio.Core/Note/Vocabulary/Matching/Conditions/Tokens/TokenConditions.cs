@@ -27,6 +27,12 @@ public static class TokenConditions
    //   dictionary-form verb's ending. Kept: language processing calls a tokenizer's output tokens, and the code says token everywhere
    //   (IAnalysisToken, JNToken), so a rename would span the whole tokenizer.
 
+   /// <summary>
+   /// The token is there: it's not the empty token (<see cref="EmptyToken"/>) a match-condition sees where there is none, as before a sentence's first<br/>
+   /// word. Written where a token is required, such as before a suffix: "the preceding token exists, and isn't a non-word character".
+   /// </summary>
+   public static readonly Fact<IAnalysisToken> Exists = new("exists", "exists", it => it is not EmptyToken);
+
    /// <summary>A godan verb, such as 読む (<see cref="IAnalysisToken.IsGodanVerb"/>).</summary>
    public static readonly Fact<IAnalysisToken> IsAGodanVerb = new("is a godan verb", "godanVerb", it => it.IsGodanVerb);
 
@@ -100,7 +106,7 @@ public static class TokenConditions
    public static readonly ConditionLevel<IAnalysisToken> Level =
       new("a token",
           [
-             IsAGodanVerb, IsAnIchidanVerb, IsInAnIrrealisForm, IsAMasuStem, IsAnAdverb, HasATeFormStem, IsADictionaryVerbFormStem, IsADictionaryVerbInflection,
+             Exists, IsAGodanVerb, IsAnIchidanVerb, IsInAnIrrealisForm, IsAMasuStem, IsAnAdverb, HasATeFormStem, IsADictionaryVerbFormStem, IsADictionaryVerbInflection,
              IsAGodanPotentialStem, IsAGodanPotentialInflection, IsAGodanImperativeStem, IsAGodanImperativeInflection, IsAnIchidanImperativeStem,
              IsAnIchidanImperativeInflection, IsAPastTenseStem, IsAPastTenseMarker, EndsAStatement, IsANonWordCharacter, IsAnInflectableWord
           ],

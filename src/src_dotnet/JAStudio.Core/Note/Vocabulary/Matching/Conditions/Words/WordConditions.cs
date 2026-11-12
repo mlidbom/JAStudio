@@ -35,9 +35,9 @@ public static class WordConditions
    public static readonly Fact<CandidateWordVariant> IsMatchedByAnInflectedSurface =
       new("is matched by an inflected surface", "matchedByAnInflectedSurface", it => it.IsSurface && it.Word.SurfaceForm != it.Word.BaseForm);
 
-   /// <summary>The token before the word's first token. The sentence's first token has none.</summary>
+   /// <summary>The token before the word's first token: the empty token (<see cref="EmptyToken"/>) before the sentence's first token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> PrecedingToken =
-      new("The preceding token", "precedingToken", it => it.Word.StartLocation.Previous?.Token, TokenConditions.Level);
+      new("The preceding token", "precedingToken", it => it.Word.StartLocation.Previous?.Token ?? EmptyToken.Instance, TokenConditions.Level);
 
    /// <summary>The word's first token, its only one if it's a single token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> FirstToken =
@@ -47,9 +47,9 @@ public static class WordConditions
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> LastToken =
       new("The last token", "lastToken", it => it.Word.EndLocation.Token, TokenConditions.Level);
 
-   /// <summary>The token after the word's last token. The sentence's last token has none.</summary>
+   /// <summary>The token after the word's last token: the empty token (<see cref="EmptyToken"/>) after the sentence's last token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> FollowingToken =
-      new("The following token", "followingToken", it => it.Word.EndLocation.Next?.Token, TokenConditions.Level);
+      new("The following token", "followingToken", it => it.Word.EndLocation.Next?.Token ?? EmptyToken.Instance, TokenConditions.Level);
 
    /// <summary>The sentence's text before the word, from the sentence's start (<see cref="CandidateWord.PrecedingText"/>).</summary>
    public static readonly ConditionSubject<CandidateWordVariant, string> PrecedingText =
