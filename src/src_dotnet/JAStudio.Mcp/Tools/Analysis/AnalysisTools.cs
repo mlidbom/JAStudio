@@ -51,7 +51,9 @@ public class AnalysisTools
                 Times parsing every sentence of the corpus on the given number of threads, twice: tokenizing each sentence's question, the
                 tokenizer's share of the work, and then analyzing each sentence as its stored parsing result is made, which includes the
                 tokenizing. Nothing is saved. For telling whether a change made parsing faster, and how parsing scales with threads: compare
-                runs on the same corpus at the same thread count, and discard the first run after a start, which includes warming up.
+                runs on the same corpus at the same thread count, and discard the first run after a start, which includes warming up. Call
+                it once at a time, never in parallel with another call of it: runs at the same time compete for the cores, and their times
+                say nothing.
                 """)]
    public TimeToParseEverySentence TimeParsingEverySentence(
       [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null)
