@@ -31,7 +31,7 @@ public class SharedConditionTools
    [McpServerTool(Name = "list_the_shared_conditions", ReadOnly = true, Idempotent = true)]
    [Description("""
                 Lists the corpus's shared-conditions: conditions with a name, defined once in the corpus checkout's folder shared-conditions and used
-                by name in any vocab's match-condition, as a fact is. Each comes with its definition as code, as the match-condition editor shows it,
+                by name in any vocab's match-condition, as a fact is. Each comes with its definition as code, as the tree editor shows it,
                 such as "Word.FollowsAPastTenseStem =" then its definition under it, and with the vocab and the shared-conditions that use it.
                 Those on a word come first, then a token's, then a text's.
                 """)]
