@@ -31,7 +31,6 @@ public sealed class HeadlessUI
 
    static int _startedInThisProcess;
 
-   /// <summary>The dispatcher of the UI thread, which every window lives on.</summary>
    readonly Dispatcher _uiThread;
 
    readonly FailuresNoCallWaitedFor _failuresNoCallWaitedFor;
@@ -50,6 +49,9 @@ public sealed class HeadlessUI
       WebPageImages = webPageImages;
       _howLongBackgroundWorkIsWaitedFor = howLongBackgroundWorkIsWaitedFor;
    }
+
+   /// <summary>The dispatcher of the UI thread, which every window lives on, and which the work JAStudio posts to its UI thread runs on.</summary>
+   public Dispatcher UIThread => _uiThread;
 
    /// <summary>How the headless UI renders web pages, which it has no native web view to show in.</summary>
    public IWebPageImages WebPageImages { get; }

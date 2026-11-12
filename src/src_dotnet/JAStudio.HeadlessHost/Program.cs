@@ -49,6 +49,7 @@ static class Program
 
       using var webPageImages = new PlaywrightWebPageImages();
       var headlessUI = HeadlessUI.Start(webPageImages, HowLongBackgroundWorkIsWaitedFor);
+      loaded.UIThreadDispatcher.UseTheThreadOf(headlessUI);
       headlessUI.CreateTheWorkspaceWindow(services);
 
       var mcpServer = JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, arguments.McpServerPort, headlessUI);

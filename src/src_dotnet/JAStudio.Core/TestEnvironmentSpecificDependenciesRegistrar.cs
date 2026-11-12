@@ -30,7 +30,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
          Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
          Singleton.For<IFatalErrorHandler>().Instance(new RethrowingFatalErrorHandler()),
-         Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
+         Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().Instance(new TestConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
          Singleton.For<ICardOperations>().Instance(new NoOpCardOperations()),

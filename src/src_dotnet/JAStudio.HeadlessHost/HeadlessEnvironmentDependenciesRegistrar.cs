@@ -20,8 +20,13 @@ namespace JAStudio.HeadlessHost;
 class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenciesRegistrar
 {
    readonly HeadlessJAStudioSetup _setup;
+   readonly HeadlessJAStudioUIThreadDispatcher _uiThreadDispatcher;
 
-   public HeadlessEnvironmentDependenciesRegistrar(HeadlessJAStudioSetup setup) => _setup = setup;
+   public HeadlessEnvironmentDependenciesRegistrar(HeadlessJAStudioSetup setup, HeadlessJAStudioUIThreadDispatcher uiThreadDispatcher)
+   {
+      _setup = setup;
+      _uiThreadDispatcher = uiThreadDispatcher;
+   }
 
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar) =>
       registrar.Register(
@@ -32,7 +37,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
-         Singleton.For<IUIThreadDispatcher>().Instance(new HeadlessUIThreadDispatcher()),
+         Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
          Singleton.For<IConfigDictSource>().Instance(new AddonConfigFile(_setup.AddonFolder)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ICardOperations>().Instance(new HeadlessCardOperations()),
