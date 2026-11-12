@@ -20,4 +20,10 @@ public class AnalysisServices
       DictLookup = dictLookup;
       Settings = settings;
    }
+
+   /// <summary>
+   /// Whether a vocab form or a word form of the dictionary starts with <paramref name="text"/>, or is it: those are the forms a candidate word<br/>
+   /// can match, so a text no such form starts with can't grow into a word that matches anything.
+   /// </summary>
+   public bool AVocabOrDictionaryWordFormStartsWith(string text) => Vocab.HasAFormStartingWith(text) || DictLookup.HasAWordFormStartingWith(text);
 }

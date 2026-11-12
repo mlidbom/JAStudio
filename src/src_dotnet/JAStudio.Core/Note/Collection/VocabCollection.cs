@@ -32,6 +32,9 @@ public class VocabCollection
    public VocabNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
    public List<VocabNote> WithForm(string form) => Cache.WithForm(form);
 
+   /// <summary>Whether any vocab has a form that starts with <paramref name="text"/>, or is it.</summary>
+   public bool HasAFormStartingWith(string text) => Cache.HasAFormStartingWith(text);
+
    /// <summary>The vocab <paramref name="reference"/> names exactly: whose question has its text and its disambiguation. At most one, as no two vocab share a question.</summary>
    public List<VocabNote> NamedExactlyBy(WordReference reference) => Cache.NamedExactlyBy(reference);
 

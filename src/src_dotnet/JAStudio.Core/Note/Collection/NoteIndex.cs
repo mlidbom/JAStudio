@@ -44,6 +44,13 @@ sealed class NoteIndex<TKey, TNote, TSnapshot> : INoteIndex<TNote, TSnapshot>
    /// <summary>The notes filed under <paramref name="key"/>: a lookup, recorded if a <see cref="LookupRecording{TNote}"/> runs.</summary>
    public List<TNote> NotesWith(TKey key) => _lookupRecorder.LookedUp(_published.TryGetValue(key, out var notes) ? [.. notes] : []);
 
+   /// <summary>
+   /// Whether any note is filed under <paramref name="key"/>. It returns no notes, so it isn't a lookup a <see cref="LookupRecording{TNote}"/><br/>
+   /// records.
+   /// </summary>
+   /// <remarks>A key whose last note was removed keeps an empty set, so the set's count decides.</remarks>
+   public bool HasNotesWith(TKey key) => _published.TryGetValue(key, out var notes) && notes.Count > 0;
+
    public void Add(TNote note, TSnapshot snapshot) => _keysOf(snapshot).ForEach(key => ChangedCopyOfTheNotesWith(key).Add(note));
 
    public void Remove(TNote note, TSnapshot snapshot) => _keysOf(snapshot).ForEach(key => ChangedCopyOfTheNotesWith(key).Remove(note));

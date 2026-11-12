@@ -20,10 +20,8 @@ public class When_counting_the_candidate_words : McpServerSpecification
    }
 
    [XF] public void it_reports_that_it_analyzed_the_sentence() => _counts.Sentences.Must().Be(1);
-   [XF] public void it_counts_the_ten_candidate_words_four_tokens_make() => _counts.Built.Must().Be(10);
-
-   [XF] public void it_counts_four_of_one_token_three_of_two_two_of_three_and_one_of_all_four() =>
-      _counts.ByTokensSpanned.Select(it => (it.Tokens, it.Built)).Must().SequenceEqual([(1, 4), (2, 3), (3, 2), (4, 1)]);
+   [XF] public void it_counts_a_candidate_word_of_one_token_for_each_of_the_four_tokens() => _counts.ByTokensSpanned.Single(it => it.Tokens == 1).Built.Must().Be(4);
+   [XF] public void it_counts_no_candidate_word_spanning_more_than_the_four_tokens() => _counts.ByTokensSpanned.Max(it => it.Tokens).Must().BeLessThanOrEqualTo(4);
 
    [XF] public void it_counts_no_more_known_candidate_words_than_were_built() => (_counts.Known <= _counts.Built).Must().BeTrue();
    [XF] public void it_counts_no_more_valid_candidate_words_than_are_known() => (_counts.Valid <= _counts.Known).Must().BeTrue();

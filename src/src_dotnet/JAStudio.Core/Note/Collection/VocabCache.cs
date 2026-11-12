@@ -7,6 +7,7 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
 {
    readonly NoteIndex<WordReference, VocabNote, VocabSnapshot> _byReferenceNamingIt;
    readonly NoteIndex<string, VocabNote, VocabSnapshot> _byForm;
+   readonly NoteIndex<string, VocabNote, VocabSnapshot> _byFormPrefix;
    readonly NoteIndex<string, VocabNote, VocabSnapshot> _byKanjiInMainForm;
    readonly NoteIndex<string, VocabNote, VocabSnapshot> _byKanjiInAnyForm;
    readonly NoteIndex<WordReference, VocabNote, VocabSnapshot> _byCompoundPart;
@@ -17,6 +18,7 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
    public VocabCache(NoteServices noteServices) : base(noteServices)
    {
       _byForm = NewIndex(snapshot => snapshot.Forms);
+      _byFormPrefix = NewIndex(snapshot => snapshot.FormPrefixes);
       _byCompoundPart = NewIndex(snapshot => snapshot.CompoundParts);
       _byDerivedFrom = NewIndex(snapshot => snapshot.DerivedFrom);
       _byReferenceNamingIt = NewIndex(snapshot => snapshot.ReferenceNamingIt);
@@ -27,6 +29,9 @@ class VocabCache : NoteCache<VocabNote, VocabSnapshot>
    }
 
    public List<VocabNote> WithForm(string form) => _byForm.NotesWith(form);
+
+   /// <summary>Whether any vocab has a form that starts with <paramref name="text"/>, or is it.</summary>
+   public bool HasAFormStartingWith(string text) => _byFormPrefix.HasNotesWith(text);
 
    /// <summary>The vocab whose question <paramref name="reference"/> names exactly (<see cref="VocabNoteQuestion.Reference"/>).</summary>
    public List<VocabNote> NamedExactlyBy(WordReference reference) => _byReferenceNamingIt.NotesWith(reference);
