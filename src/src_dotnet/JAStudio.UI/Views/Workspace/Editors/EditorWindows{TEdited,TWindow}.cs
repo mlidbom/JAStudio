@@ -28,6 +28,9 @@ sealed class EditorWindows<TEdited, TWindow>(IEqualityComparer<TEdited>? whatIsE
    {
       if(_openWindows.TryGetValue(edited, out var open))
       {
+         //review:matching: ImportRunWindow.BringToFront restores a minimized window before it activates it; this only activates it, as both editor
+         //   windows did. Whether Activate brings a minimized window back on every platform I couldn't verify here. ImportRunWindow keeps one window
+         //   for each import profile too, and could use EditorWindows once its bringing to the front is the same.
          open.Activate();
          return open;
       }

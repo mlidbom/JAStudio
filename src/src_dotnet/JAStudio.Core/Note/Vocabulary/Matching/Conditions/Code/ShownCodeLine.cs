@@ -12,7 +12,12 @@ public sealed class ShownCodeLine
    ShownCodeLine(IReadOnlyList<CodePiece> pieces) => Pieces = pieces;
 
    /// <summary><paramref name="line"/> shown on a line of its own, starting at <paramref name="column"/>: indented by as many spaces.</summary>
-   internal static ShownCodeLine StartingAt(int column, CodeLine line) => new([.. IndentationTo(column), .. line.PiecesWithTheCommentApart]);
+   internal static ShownCodeLine StartingAt(int column, CodeLine line)
+   {
+      //review:matching: StartingAt and FollowedBy, for the two ways CodeLayout puts a CodeLine on screen: on a line of its own at a column, or after the
+      //   parenthesis on the line before. CodeLayout built lists of pieces for both before, and wrapped one in a ShownCodeLine only to measure its Width.
+      return new([.. IndentationTo(column), .. line.PiecesWithTheCommentApart]);
+   }
 
    /// <summary>
    /// This line with <paramref name="line"/> after it on the same line, as where the code is read a group's first condition follows the group's<br/>

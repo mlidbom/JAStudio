@@ -47,7 +47,16 @@ public sealed class CodeLine
    /// Whether the line opens what the lines after it hold with a parenthesis, such as <c>AnyOf(</c> a group's conditions, or <c>InflectedForm.In(</c> a<br/>
    /// list's values: they're shown starting at the column right after it (<see cref="CodeLayout"/>).
    /// </summary>
-   public bool OpensWhatFollows => Code.EndsWith('(');
+   public bool OpensWhatFollows
+   {
+      get
+      {
+         //review:matching: read off the code's last character, which holds since a text is always a quoted literal, so only a line that opens
+         //   something ends in an opening parenthesis. CodeWriting.OpeningLineOf, which writes every line that opens something, could instead say so on the line it makes, so that
+         //   it's a fact of the line rather than of how its code happens to be written. Left as it is, since it's true now and simple.
+         return Code.EndsWith('(');
+      }
+   }
 
    /// <summary>The line's pieces, with its comment kept apart from the code before it.</summary>
    internal IEnumerable<CodePiece> PiecesWithTheCommentApart
