@@ -242,6 +242,11 @@ the headless JAStudio.
   profile here shows allocations, dotTrace's timeline included, so this is how to find what parsing could allocate less
   of: it found LINQ delegates, iterators and closures, a sixth of it, that the analysis no longer allocates. It waits for any other parse of every
   sentence, as the timing tool does.
+- **Shared-conditions, built (2026-11-12):** `list_the_shared_conditions` lists the corpus's shared-conditions, each with its
+  definition as code and the vocab and shared-conditions that use it. `define_a_shared_condition` defines one, from its
+  subject, its name and its definition in the JSON a vocab's match-condition is stored in, and saves it in its own file in
+  the corpus checkout. Built to define the first five, made from the matching rules that are small trees, and for defining
+  more while working on how sentences parse (`dev_docs/matching-configuration.md`, increment 6).
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed
   heap, what the garbage collector has committed, and the process's working set and private memory; optionally also
   after the most thorough collection there is, which shows what the process keeps when it must give back all it can.
