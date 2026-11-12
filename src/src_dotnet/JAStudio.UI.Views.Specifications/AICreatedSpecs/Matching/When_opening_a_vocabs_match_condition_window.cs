@@ -46,4 +46,17 @@ public class When_opening_a_vocabs_match_condition_window : SpecificationOpening
 
       [XF] public void the_window_already_open_is_brought_to_the_front_rather_than_another_opened() => (_openedAgain == _window).Must().BeTrue();
    }
+
+   public class then_closing_it_and_opening_it_again : When_opening_a_vocabs_match_condition_window
+   {
+      readonly MatchConditionWindow _openedAgain;
+
+      public then_closing_it_and_opening_it_again()
+      {
+         OnTheUIThread(_window.Close);
+         _openedAgain = Open(() => MatchConditionWindow.Open(_ます, Services));
+      }
+
+      [XF] public void a_new_window_is_opened_rather_than_the_closed_one_brought_to_the_front() => (_openedAgain == _window).Must().BeFalse();
+   }
 }

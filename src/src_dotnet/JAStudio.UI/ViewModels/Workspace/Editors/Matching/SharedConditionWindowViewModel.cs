@@ -19,7 +19,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 /// depend on it (<see cref="Condition.DependsOnTheDefinitionOf"/>), which it can open in the workspace. Every change to the definition is saved in its<br/>
 /// file, and those vocab's sentences are then reparsed, as a vocab's own are after a change to its match-condition.
 /// </summary>
-partial class SharedConditionWindowViewModel : ObservableObject
+partial class SharedConditionWindowViewModel : ObservableObject, IEditorWindowViewModel
 {
    readonly TemporaryServiceCollection _services;
    readonly Action<NoteList> _showInTheWorkspace;
@@ -103,7 +103,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// Shows the shared-condition as it is now, when something else may have changed it or what uses it, such as a rename through the MCP server, or a<br/>
    /// shared-condition its definition uses made or deleted in another window: its title, the vocab depending on it, and its definition.
    /// </summary>
-   internal void ShowItAsItIsNow()
+   public void ShowItAsItIsNow()
    {
       OnPropertyChanged(nameof(Title));
       VocabDependingOnIt = TheVocabDependingOnIt();

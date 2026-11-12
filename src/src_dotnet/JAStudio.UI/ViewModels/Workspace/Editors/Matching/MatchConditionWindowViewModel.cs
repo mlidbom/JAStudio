@@ -19,7 +19,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 /// It holds the vocab's id, not the note object, since the collection replaces a note's object when Anki edits the note: the tree reads and stores the<br/>
 /// vocab as the collection holds it now, as the vocab's editors do (<see cref="VocabEditorSectionViewModel"/>).
 /// </remarks>
-sealed class MatchConditionWindowViewModel : ObservableObject
+sealed class MatchConditionWindowViewModel : ObservableObject, IEditorWindowViewModel
 {
    readonly TemporaryServiceCollection _services;
    readonly NoteId _vocabId;
@@ -40,7 +40,9 @@ sealed class MatchConditionWindowViewModel : ObservableObject
       //review:matching: this reparse and the vocab's Matching tab's are separate (VocabEditorSectionViewModel.SentencesReparser), so a rule changed
       //   on the tab while this one reads the vocab, or the other way around, changes the vocab under it, as a shared-condition's window's reparse
       //   already could. One reparser per vocab, which both disable their editors on, would close it. Step 4 removes the tab's rule editors.
-      SentencesReparser =new VocabSentencesReparserViewModel(services, () => [CurrentVocab()], sentencesReparsed: () => sentencesReparsedFor([CurrentVocab()]));
+      SentencesReparser = new VocabSentencesReparserViewModel(services,
+                                                              () => [CurrentVocab()],
+                                                              sentencesReparsed: () => sentencesReparsedFor([CurrentVocab()]));
       MatchConditionEditor = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
                                                               new EditedMatchCondition(CurrentVocab),
                                                               services.NoteServices,
@@ -58,19 +60,22 @@ sealed class MatchConditionWindowViewModel : ObservableObject
    public VocabSentencesReparserViewModel SentencesReparser { get; }
 
    /// <summary>Whether the vocab is no longer in the collection, as after it was deleted. The window then closes, since every change to it would fail.</summary>
-   public bool IsGone => _services.CoreApp.Collection.Vocab.WithIdOrNone(_vocabId) is null;
+   public bool IsGone => TheVocabInTheCollection is null;
 
    /// <summary>
    /// Shows the match-condition as it is now, when something else may have changed it, such as a rule's editor on the vocab's Matching tab, or the MCP<br/>
    /// server: a change like the tree editor's own, which undo takes back.
    /// </summary>
-   internal void ShowItAsItIsNow()
+   public void ShowItAsItIsNow()
    {
       OnPropertyChanged(nameof(Title));
       MatchConditionEditor.Refresh();
    }
 
    /// <summary>The vocab whose match-condition the window edits, as the collection holds it now.</summary>
-   VocabNote CurrentVocab() => _services.CoreApp.Collection.Vocab.WithIdOrNone(_vocabId)
-                            ?? throw new InvalidOperationException($"The vocab whose match-condition is edited, {_vocabId}, is no longer in the collection.");
+   VocabNote CurrentVocab() =>
+      TheVocabInTheCollection ?? throw new InvalidOperationException($"The vocab whose match-condition is edited, {_vocabId}, is no longer in the collection.");
+
+   /// <summary>The vocab whose match-condition the window edits, as the collection holds it now, or none when it's gone.</summary>
+   VocabNote? TheVocabInTheCollection => _services.CoreApp.Collection.Vocab.WithIdOrNone(_vocabId);
 }

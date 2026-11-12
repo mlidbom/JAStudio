@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Avalonia.Controls;
-using Avalonia.Threading;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.TaskRunners;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
-using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
@@ -25,7 +20,7 @@ namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 partial class MatchConditionWindow : Window
 {
    /// <summary>The open windows, by the id of the vocab each is of.</summary>
-   static readonly Dictionary<NoteId, MatchConditionWindow> OpenWindows = [];
+   static readonly EditorWindows<NoteId, MatchConditionWindow> OpenWindows = new();
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
@@ -40,37 +35,10 @@ partial class MatchConditionWindow : Window
                                                         WorkspaceWindow.ShowTheSentencesReparsedFor);
       DataContext = viewModel;
       InitializeComponent();
-      Activated += (_, _) => ShowItAsItIsNowOrCloseIfItIsGone(viewModel);
-
-      var uiThread = services.Resolve<IUIThreadDispatcher>();
-      var closingOnTheNextReload = services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(Close));
-      var vocabId = vocab.GetId();
-      Closed += (_, _) =>
-      {
-         closingOnTheNextReload.Dispose();
-         OpenWindows.Remove(vocabId);
-      };
-   }
-
-   void ShowItAsItIsNowOrCloseIfItIsGone(MatchConditionWindowViewModel viewModel)
-   {
-      if(viewModel.IsGone)
-         Dispatcher.UIThread.Post(Close);
-      else
-         viewModel.ShowItAsItIsNow();
+      this.KeepShowingWhatItEditsAsItIsNow(viewModel, services);
    }
 
    /// <summary>Opens <paramref name="vocab"/>'s match-condition window where it was last, or brings it to the front when it's open already, and returns it.</summary>
-   internal static MatchConditionWindow Open(VocabNote vocab, TemporaryServiceCollection services)
-   {
-      if(OpenWindows.TryGetValue(vocab.GetId(), out var open))
-      {
-         open.Activate();
-         return open;
-      }
-
-      var window = new MatchConditionWindow(vocab, services).ShowWhereItWasLast(services);
-      OpenWindows.Add(vocab.GetId(), window);
-      return window;
-   }
+   internal static MatchConditionWindow Open(VocabNote vocab, TemporaryServiceCollection services) =>
+      OpenWindows.Open(vocab.GetId(), () => new MatchConditionWindow(vocab, services), services);
 }

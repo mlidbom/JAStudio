@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
-using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
-using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
-using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
@@ -29,7 +25,7 @@ namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 partial class SharedConditionWindow : Window
 {
    /// <summary>The open windows, by the shared-condition each is of: the object itself, since a rename changes what it equals.</summary>
-   static readonly Dictionary<ISharedCondition, SharedConditionWindow> OpenWindows = new(ReferenceEqualityComparer.Instance);
+   static readonly EditorWindows<ISharedCondition, SharedConditionWindow> OpenWindows = new(ReferenceEqualityComparer.Instance);
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
@@ -43,23 +39,7 @@ partial class SharedConditionWindow : Window
       viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
       DataContext = viewModel;
       InitializeComponent();
-      Activated += (_, _) => ShowItAsItIsNowOrCloseIfItIsGone(viewModel);
-
-      var uiThread = services.Resolve<IUIThreadDispatcher>();
-      var closingOnTheNextReload = services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(Close));
-      Closed += (_, _) =>
-      {
-         closingOnTheNextReload.Dispose();
-         OpenWindows.Remove(sharedCondition);
-      };
-   }
-
-   void ShowItAsItIsNowOrCloseIfItIsGone(SharedConditionWindowViewModel viewModel)
-   {
-      if(viewModel.IsGone)
-         Dispatcher.UIThread.Post(Close);
-      else
-         viewModel.ShowItAsItIsNow();
+      this.KeepShowingWhatItEditsAsItIsNow(viewModel, services);
    }
 
    async Task RenameAsync(SharedConditionWindowViewModel viewModel)
@@ -77,16 +57,6 @@ partial class SharedConditionWindow : Window
    }
 
    /// <summary>Opens <paramref name="sharedCondition"/>'s window where it was last, or brings it to the front when it's open already, and returns it.</summary>
-   internal static SharedConditionWindow Open(ISharedCondition sharedCondition, TemporaryServiceCollection services)
-   {
-      if(OpenWindows.TryGetValue(sharedCondition, out var open))
-      {
-         open.Activate();
-         return open;
-      }
-
-      var window = new SharedConditionWindow(sharedCondition, services).ShowWhereItWasLast(services);
-      OpenWindows.Add(sharedCondition, window);
-      return window;
-   }
+   internal static SharedConditionWindow Open(ISharedCondition sharedCondition, TemporaryServiceCollection services) =>
+      OpenWindows.Open(sharedCondition, () => new SharedConditionWindow(sharedCondition, services), services);
 }
