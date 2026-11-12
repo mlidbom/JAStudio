@@ -11,6 +11,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// </summary>
 sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Position, int Depth, IReadOnlyList<CodeText> InFront, string After)
 {
+   //review:matching: "CodeWriting", for where a condition is being written as code and what surrounds it there. "CodeContext" was the other candidate.
    /// <summary>A whole condition, on lines of its own, with nothing in front or after it.</summary>
    internal static CodeWriting OfAWholeCondition { get; } = new(ConditionPosition.Root, ConditionPosition.Root, 0, [], "");
 

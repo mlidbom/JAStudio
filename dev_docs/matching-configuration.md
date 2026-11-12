@@ -1,7 +1,7 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 4 of the core are built. Next, conditions shown as code, then
-> shared-conditions:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> **Status (2026-11-12): increments 1 to 5 of the core are built. Next, shared-conditions, with the rule editors
+> going:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -725,7 +725,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
    The full rebuild must change nothing.
 4. **The tree editor** on the Matching tab: built 2026-11-11, see [Increment 4, as built](#increment-4-as-built).
 5. **Conditions shown as code,** with the tokenizer's values in English too, and a missing token as the empty token:
-   see [How conditions display: as code](#how-conditions-display-as-code-agreed-with-magnus-2026-11-12).
+   see [How conditions display: as code](#how-conditions-display-as-code-agreed-with-magnus-2026-11-12). Built
+   2026-11-12, see [Increment 5, as built](#increment-5-as-built).
 6. **Shared-conditions, and the rule editors go** (agreed with Magnus, 2026-11-12). The five rules that are small trees
    become shared-conditions under their names: past tense stem, godan potential, godan imperative, ichidan imperative
    and sentence start. The other 16 are one line each already, such as `PrecedingToken.IsAMasuStem`. Then the Matching
@@ -1070,6 +1071,48 @@ any way?" What it would risk, and how that's guarded:
 
 Claude's recommendation: decide after the naming pass, so that renames aren't migrations. Nothing in the display depends
 on it.
+
+### Increment 5, as built
+
+Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after each changed no notes.
+
+1. **The empty token** (`Conditions.Tokens.EmptyToken`). `WordConditions.PrecedingToken` and `FollowingToken` find it where
+   there's no token, so every subject is found (`ConditionSubject.FoundIn` never gives null) and every condition is tested
+   on it as written. Its part of speech is `JNPartsOfSpeech.None`, which has no levels and isn't among the tokenizer's.
+   `TokenConditions.Exists` is the first fact on a token.
+2. **Conditions written as code** (`Conditions.Code`). Each condition writes its own lines (`Condition.CodeLines`), each
+   tagged with the position in the tree of the line it's on, made of pieces of three kinds: code, negation and comment
+   (`CodeText`). `ConditionCode` writes a vocab's match-condition, a whole condition, or a condition on one line for
+   `ToString`, which the failure reasons use: `not_met::!PrecedingToken.IsAGodanVerb`.
+   - **The root's line is a comment heading,** `// A word matches the vocab when each of these holds:`, rather than no
+     line: the root needs a line for its `+` button and the keyboard.
+   - **Names:** facts and subjects are named by the fields that define them (`nameof`). `TextConditions.IsOneOf` became
+     `In` and `IsEmptyText` became `IsEmpty`. The tests with texts are named in code, such as `EndsWithOneOf` and
+     `PartOfSpeech.Is`, and the add menu picks its keys from the words of a code name (`AutomaticMnemonics`).
+   - **Values are in ordinal order,** as a condition's set of texts keeps them, so `InflectedForm.In(連用形, 連用タ接続)`
+     shows as `InflectedForm.In(連用タ接続, 連用形)`.
+   - **A comment is three spaces after its code,** not aligned in a column: Japanese is wider than a monospace cell.
+   - **The families of inflection types have English names** (`InflectionTypes.EnglishOf`), such as "every godan type"
+     for 五段.
+3. **The tree shows the code in pieces,** in a monospace font (`CodeFont` in `App.axaml`): a `!` in orange and bold, a
+   comment dimmed. A condition's lines after its first are indented under it.
+4. **The tokenizer's values are picked, not typed.** `PartOfSpeech.Is`, `InflectionType.In` and `InflectedForm.In` offer
+   their values (`ConditionTestWithTexts.PickableValues`): every part of speech and every kind of one, every inflection
+   type and every family of them, every inflected form, each with its English, the tokenizer's unknown `*` left out. The
+   dialog filters them by Japanese or English, whatever the case. Picking types the values into the typed text the editor
+   already made conditions from, so making, checking and changing a condition work as before. A part of speech is picked
+   alone (`PicksOne`). A dialog's keyboard goes to the first visible input marked `initialFocus`
+   (`DialogInitialFocus`), so the dialog marks both its text box and its filter.
+5. **C# builds a condition as its code reads.** A subject is a way to what a condition can be on (`IConditionPath`), and
+   C# 14 extension members give what leads to a token the token's conditions (`TokenConditionsInCode`) and what leads to
+   a text the text's (`TextConditionsInCode`), each forwarding to the condition that defines it. `!` is an operator on
+   conditions. Inside a group on a token, its conditions are `TokenConditions`', such as
+   `TokenConditions.PartOfSpeech.Is("動詞")`, since a word and a token both have a `Surface`. `MatchingRules` is written
+   so, and a specification checks that every fact about a token and every test of a text can be.
+
+**Not built yet:**
+- **Moving from the picker's filter to its list takes Tab;** there's no arrow key into the list.
+- **A shared-condition's hover and expansion,** which come with shared-conditions (increment 6).
 
 ### Naming and design questions: `review:matching:` comments
 

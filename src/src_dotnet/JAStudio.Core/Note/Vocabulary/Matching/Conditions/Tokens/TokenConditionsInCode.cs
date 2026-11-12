@@ -11,6 +11,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// </summary>
 public static class TokenConditionsInCode
 {
+   //review:matching: "InCode", for the conditions as C# writes them, beside TokenConditions, which defines them, and the code the editor shows
+   //   (ConditionCode). TextConditionsInCode is named alike. "Fluent" would say how, not what.
    extension<TFrom>(IConditionPath<TFrom, IAnalysisToken> token) where TFrom : class
    {
       /// <summary>The token meets <see cref="TokenConditions.Exists"/>.</summary>

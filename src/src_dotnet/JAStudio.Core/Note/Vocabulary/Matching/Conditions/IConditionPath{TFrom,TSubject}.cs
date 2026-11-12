@@ -8,6 +8,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 /// </summary>
 public interface IConditionPath<TFrom, TSubject> where TFrom : class where TSubject : class
 {
+   //review:matching: "path", for the way from a word to its preceding token's surface, and "Placed", for the condition on where it leads
+   //   made a condition on where it starts. A ConditionSubject is the one-step path.
    /// <summary>The condition on where the path starts that what it leads to meets <paramref name="condition"/>.</summary>
    Condition<TFrom> Placed(Condition<TSubject> condition);
 }
