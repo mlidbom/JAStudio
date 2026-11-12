@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace JAStudio.Mcp.Tools.Analysis.Timing;
+namespace JAStudio.Mcp.Tools.Timing;
 
 /// <summary>
 /// The processor time every process on the machine has used together, read from the operating system: this process's, and that of any other<br/>

@@ -6,7 +6,7 @@ using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.TaskRunners;
-using JAStudio.Mcp.Tools.Analysis.Timing;
+using JAStudio.Mcp.Tools.Timing;
 using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;

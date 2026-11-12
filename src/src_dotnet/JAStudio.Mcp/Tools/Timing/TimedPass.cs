@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using JAStudio.Mcp.Tools.Memory;
 
-namespace JAStudio.Mcp.Tools.Analysis.Timing;
+namespace JAStudio.Mcp.Tools.Timing;
 
 /// <summary>
 /// How long one pass of parsing over every sentence took, how much processor time it and the machine's other processes used, how much of the<br/>

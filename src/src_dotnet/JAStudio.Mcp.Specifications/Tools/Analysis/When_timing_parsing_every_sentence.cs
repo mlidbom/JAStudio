@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Mcp.Tools.Analysis.Timing;
+using JAStudio.Mcp.Tools.Timing;
 
 // ReSharper disable InconsistentNaming
 
