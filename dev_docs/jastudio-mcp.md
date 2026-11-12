@@ -235,6 +235,13 @@ the headless JAStudio.
   form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid match. It showed
   that 80% of the candidate words the analysis built were compounds that couldn't match anything, which it no longer
   builds (`dev_docs/parsing-speed.md`).
+- **What parsing allocates, built (2026-11-12):** `sample_what_analyzing_every_sentence_allocates` analyzes every
+  sentence of the corpus while an `EventListener` in the process sums the runtime's allocation events,
+  `GCAllocationTick`, by type: one about every 100 KB each heap allocates, with the type it was allocating. It reports
+  how much the pass allocated, counted exactly, how much of it the samples cover, and the types that took the most. No
+  profile here shows allocations, dotTrace's timeline included, so this is how to find what parsing could allocate less
+  of: it found LINQ delegates, iterators and closures, a sixth of it, that the analysis no longer allocates. It waits for any other parse of every
+  sentence, as the timing tool does.
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed
   heap, what the garbage collector has committed, and the process's working set and private memory; optionally also
   after the most thorough collection there is, which shows what the process keeps when it must give back all it can.
