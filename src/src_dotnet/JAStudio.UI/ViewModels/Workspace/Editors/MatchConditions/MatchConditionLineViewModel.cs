@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 
 /// <summary>
-/// One line in the tree editor of a vocab's match-condition: a condition, or a group with its conditions under it.<br/>
-/// Negations and conditions on a subject aren't lines of their own: they're shown in front of what they hold, on its line, as in<br/>
-/// "Not: The preceding token: is a godan verb" or "The preceding token: Any of:".
+/// One line in the tree editor of a vocab's match-condition: a condition, or a group with its conditions under it, written as code<br/>
+/// (<see cref="ConditionCode"/>). Negations and conditions on a subject aren't lines of their own: they're shown in front of what they hold, on its<br/>
+/// line, as in <c>!PrecedingToken.IsAGodanVerb</c> or <c>FollowingToken.AnyOf(</c>.
 /// </summary>
 class MatchConditionLineViewModel
 {
@@ -20,26 +21,41 @@ class MatchConditionLineViewModel
    /// <param name="shownCondition">The condition shown on this line, with the negations and conditions on subjects around it.</param>
    /// <param name="position">Where <paramref name="shownCondition"/> is in the match-condition.</param>
    /// <param name="matchCondition">The match-condition the line is in.</param>
+   /// <param name="codeLines">The match-condition's code, by the position of the condition each line is of.</param>
    /// <param name="parent">The group this line is in, or null for the root.</param>
-   MatchConditionLineViewModel(Condition shownCondition, ConditionPosition position, EditableMatchCondition matchCondition, MatchConditionLineViewModel? parent)
+   MatchConditionLineViewModel(Condition shownCondition,
+                               ConditionPosition position,
+                               EditableMatchCondition matchCondition,
+                               ILookup<ConditionPosition, CodeLine> codeLines,
+                               MatchConditionLineViewModel? parent)
    {
       _parent = parent;
       Position = position;
-      Description = shownCondition.DescriptionLines().First();
+      CodeLines = [.. codeLines[position]];
       IsNegated = shownCondition is INegatedCondition;
       (Condition, ConditionPosition) = TheConditionInsideWhatHoldsOnlyIt(shownCondition, position);
       Level = matchCondition.LevelAt(ConditionPosition);
       Children = Condition is IConditionGroup group
-                    ? [..group.Conditions.Select((condition, index) => new MatchConditionLineViewModel(condition, ConditionPosition.Child(index), matchCondition, this))]
+                    ? [..group.Conditions.Select((condition, index) => new MatchConditionLineViewModel(condition, ConditionPosition.Child(index), matchCondition, codeLines, this))]
                     : [];
    }
 
    /// <summary>The root line of <paramref name="matchCondition"/>'s <see cref="EditableMatchCondition.Current"/> tree, with every other line under it.</summary>
    public static MatchConditionLineViewModel RootOf(EditableMatchCondition matchCondition) =>
-      new(matchCondition.Current, ConditionPosition.Root, matchCondition, parent: null);
+      new(matchCondition.Current,
+          ConditionPosition.Root,
+          matchCondition,
+          ConditionCode.LinesOfAMatchCondition(matchCondition.Current).ToLookup(it => it.Position),
+          parent: null);
 
-   /// <summary>The line as the editor shows it, such as "Not: The preceding token: is a godan verb" or "All of:".</summary>
-   public string Description { get; }
+   /// <summary>
+   /// The line's code, such as <c>!PrecedingToken.IsAGodanVerb</c> or <c>AnyOf(</c>: one line of code, or several for a condition that lists values one to a<br/>
+   /// line. The root's is the comment heading the match-condition (<see cref="ConditionCode.MatchConditionHeading"/>).
+   /// </summary>
+   public IReadOnlyList<CodeLine> CodeLines { get; }
+
+   /// <summary>The line's code as text, each line of it indented under the first as deep as it is, with its comment.</summary>
+   public string Text => ConditionCode.AsText(CodeLines);
 
    /// <summary>The lines of the conditions in this line's group. None unless <see cref="IsGroup"/>.</summary>
    public IReadOnlyList<MatchConditionLineViewModel> Children { get; }

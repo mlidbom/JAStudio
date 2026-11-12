@@ -19,25 +19,25 @@ public sealed record Fact<TSubject> : Condition<TSubject> where TSubject : class
    //   or only the tokenizer's fields. And "fact" sounds like something true, where this may or may not hold of a subject.
    readonly Func<TSubject, bool> _isTrueOf;
 
-   /// <param name="description">The <see cref="Description"/>.</param>
+   /// <param name="name">The <see cref="Name"/>.</param>
    /// <param name="jsonName">The <see cref="JsonName"/>.</param>
    /// <param name="isTrueOf">Whether the fact is true of a subject.</param>
-   internal Fact(string description, string jsonName, Func<TSubject, bool> isTrueOf)
+   internal Fact(string name, string jsonName, Func<TSubject, bool> isTrueOf)
    {
-      Description = description;
+      Name = name;
       JsonName = jsonName;
       _isTrueOf = isTrueOf;
    }
 
-   /// <summary>The fact as the editor shows it, after its subject's name, such as "is a godan verb".</summary>
-   public string Description { get; }
+   /// <summary>The fact's name in code, after its subject's, such as <c>IsAGodanVerb</c> in <c>PrecedingToken.IsAGodanVerb</c>: the name of the field defining it.</summary>
+   public string Name { get; }
 
    /// <summary>The fact's name in the corpus, such as <c>godanVerb</c>.</summary>
    public string JsonName { get; }
 
    public override bool IsMetBy(TSubject subject) => _isTrueOf(subject);
 
-   public override IEnumerable<string> DescriptionLines() => [Description];
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => [writing.LineOf(Name)];
 
    /// <summary>The key a fact's <see cref="JsonName"/> is stored under in the corpus.</summary>
    internal const string JsonKey = "fact";

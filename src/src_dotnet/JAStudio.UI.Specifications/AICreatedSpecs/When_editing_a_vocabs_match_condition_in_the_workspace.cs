@@ -39,9 +39,9 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
 
    RequireForbidFlagEditorViewModel TheGodanRulesEditor => _editor.MatchingConfig.StemMatchingRules.Single(it => it.Label == "Godan");
 
-   List<string> Lines() => [..Tree.Lines[0].ThisAndAllBelow().Select(it => it.Description)];
+   List<string> Lines() => [..Tree.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
 
-   string SelectedLine() => Tree.SelectedLine?.Description ?? throw new InvalidOperationException("No line is selected.");
+   string SelectedLine() => Tree.SelectedLine?.Text ?? throw new InvalidOperationException("No line is selected.");
 
    /// <summary>Types <paramref name="keys"/> in the add menu, one menu down for each, and does what the last one picks.</summary>
    void PickInTheAddMenu(params char[] keys)
@@ -68,8 +68,8 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
 
    public class for_a_vocab_with_no_match_condition : When_editing_a_vocabs_match_condition_in_the_workspace
    {
-      [XF] public void the_tree_is_an_empty_all_of_group() => Lines().Must().SequenceEqual(["All of:"]);
-      [XF] public void the_root_is_selected() => SelectedLine().Must().Be("All of:");
+      [XF] public void the_tree_is_the_comment_heading_a_match_condition_alone() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:"]);
+      [XF] public void the_root_is_selected() => SelectedLine().Must().Be("// A word matches the vocab when each of these holds:");
    }
 
    public class after_picking_the_preceding_token_then_fact_then_godan_verb : When_editing_a_vocabs_match_condition_in_the_workspace
@@ -83,8 +83,8 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
       [XF] public void the_vocabs_match_condition_is_that_the_preceding_token_is_a_godan_verb() =>
          _vocab.MatchingConfiguration.MatchCondition.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.IsAGodanVerb)));
 
-      [XF] public void the_tree_shows_it_under_the_root() => Lines().Must().SequenceEqual(["All of:", "The preceding token: is a godan verb"]);
-      [XF] public void the_new_line_is_selected() => SelectedLine().Must().Be("The preceding token: is a godan verb");
+      [XF] public void the_tree_shows_it_as_code_under_the_root() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAGodanVerb"]);
+      [XF] public void the_new_line_is_selected() => SelectedLine().Must().Be("PrecedingToken.IsAGodanVerb");
       [XF] public void the_godan_rules_editor_shows_it_as_the_godan_rule_required() => TheGodanRulesEditor.IsRequired.Must().BeTrue();
 
       public class then_negating_it : after_picking_the_preceding_token_then_fact_then_godan_verb
@@ -95,7 +95,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
             WaitForTheReparseToFinish();
          }
 
-         [XF] public void the_tree_shows_the_negation_in_front_of_it_on_the_same_line() => Lines().Must().SequenceEqual(["All of:", "Not: The preceding token: is a godan verb"]);
+         [XF] public void the_tree_shows_the_negation_in_front_of_it_on_the_same_line() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "!PrecedingToken.IsAGodanVerb"]);
          [XF] public void the_godan_rules_editor_shows_it_as_the_godan_rule_forbidden() => TheGodanRulesEditor.IsForbidden.Must().BeTrue();
 
          public class and_undoing : then_negating_it
@@ -120,7 +120,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
          }
 
          [XF] public void the_vocab_has_no_match_condition() => _vocab.MatchingConfiguration.MatchCondition.IsEmpty.Must().BeTrue();
-         [XF] public void the_root_is_selected() => SelectedLine().Must().Be("All of:");
+         [XF] public void the_root_is_selected() => SelectedLine().Must().Be("// A word matches the vocab when each of these holds:");
       }
    }
 
@@ -132,8 +132,8 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
          WaitForTheReparseToFinish();
       }
 
-      [XF] public void the_tree_shows_the_group_on_the_following_token() => Lines().Must().SequenceEqual(["All of:", "The following token: Any of:"]);
-      [XF] public void the_group_is_selected() => SelectedLine().Must().Be("The following token: Any of:");
+      [XF] public void the_tree_shows_the_empty_group_on_the_following_token() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "FollowingToken.AnyOf()"]);
+      [XF] public void the_group_is_selected() => SelectedLine().Must().Be("FollowingToken.AnyOf()");
 
       public class then_picking_part_of_speech_is_in_its_add_menu_and_typing_a_noun : after_picking_the_following_token_then_group_then_any_of
       {
@@ -147,7 +147,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
          [XF] public void the_condition_goes_into_the_group_as_a_condition_on_a_token() =>
             _vocab.MatchingConfiguration.MatchCondition.Must().Be(ConditionGroup.AllOf(FollowingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>(TokenConditions.PartOfSpeechIs("名詞")))));
 
-         [XF] public void the_editor_was_titled_with_the_condition_test_alone_since_the_group_shows_its_subject() => EditorOpenedByTheMenu.Title.Must().Be("part of speech is");
+         [XF] public void the_editor_was_titled_with_the_condition_test_alone_since_the_group_shows_its_subject() => EditorOpenedByTheMenu.Title.Must().Be("PartOfSpeech.Is");
       }
    }
 
@@ -159,7 +159,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
          WaitForTheReparseToFinish();
       }
 
-      [XF] public void the_tree_shows_the_rules_condition() => Lines().Must().SequenceEqual(["All of:", "The preceding token: is a godan verb"]);
+      [XF] public void the_tree_shows_the_rules_condition() => Lines().Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAGodanVerb"]);
 
       public class then_undoing_in_the_tree : after_requiring_the_godan_rule_in_its_editor
       {

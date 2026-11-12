@@ -60,8 +60,8 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
       //   and reading: so the ending る of 食べる is a verb. My call on the design document's open question 4.
       subject.SourceToken.PartsOfSpeech.IsWithin(_levels);
 
-   /// <summary>The condition with the levels' English names, such as "part of speech is noun › suffix › person-name (名詞・接尾・人名)".</summary>
-   public override IEnumerable<string> DescriptionLines() => [$"part of speech is {EnglishLevels} ({JapaneseLevels})"];
+   /// <summary>The condition in code, with the levels' English names as a comment: <c>PartOfSpeech.Is(名詞・接尾・人名)  // noun › suffix › person-name</c>.</summary>
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => writing.LinesListing("PartOfSpeech.Is", [(JapaneseLevels, EnglishLevels)]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "partOfSpeech";

@@ -6,25 +6,25 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 /// <summary>
 /// The conditions there are on a text, such as a word's surface or the text preceding it: comparisons with texts (<see cref="TextComparison"/>),<br/>
-/// a regular expression (<see cref="TextMatchesRegularExpression"/>), and whether it's empty (<see cref="IsEmptyText"/>). Every comparison is ordinal:<br/>
+/// a regular expression (<see cref="TextMatchesRegularExpression"/>), and whether it's empty (<see cref="IsEmpty"/>). Every comparison is ordinal:<br/>
 /// exact, character by character.
 /// </summary>
 public static class TextConditions
 {
    /// <summary>The text is empty, as the text preceding a word at the sentence's start is.</summary>
-   public static readonly Fact<string> IsEmptyText = new("is empty", "empty", it => it.Length == 0);
+   public static readonly Fact<string> IsEmpty = new(nameof(IsEmpty), "empty", it => it.Length == 0);
 
    /// <summary>The conditions on a text, and how they're read back from the corpus.</summary>
    public static readonly ConditionLevel<string> Level =
       new("a text",
-          [IsEmptyText],
+          [IsEmpty],
           [],
           [
-             ConditionTestWithTexts.Of("is one of", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextIsOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
-             ConditionTestWithTexts.Of("starts with one of", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextStartsWithOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
-             ConditionTestWithTexts.Of("ends with one of", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextEndsWithOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
-             ConditionTestWithTexts.Of("contains one of", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextContainsOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
-             ConditionTestWithTexts.Of("matches the regular expression",
+             ConditionTestWithTexts.Of("In", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextIsOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("StartsWithOneOf", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextStartsWithOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("EndsWithOneOf", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextEndsWithOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("ContainsOneOf", TextSet.HowToTypeThem, TextSet.WhyTypedTextsMakeNoSet, typed => new TextContainsOneOf(TextSet.FromTyped(typed)), it => it.Texts.AsTyped),
+             ConditionTestWithTexts.Of("MatchesRegularExpression",
                                        "A regular expression in .NET's syntax: ^ and $ anchor it to the whole text",
                                        TextMatchesRegularExpression.WhyItIsNoRegularExpression,
                                        typed => new TextMatchesRegularExpression(typed),
@@ -39,8 +39,8 @@ public static class TextConditions
              [TextMatchesRegularExpression.JsonKey] = json => new TextMatchesRegularExpression(json.GetValue<string>())
           });
 
-   /// <summary>A condition that the text is one of <paramref name="texts"/>.</summary>
-   public static TextIsOneOf IsOneOf(params string[] texts) => new(new TextSet(texts));
+   /// <summary>A condition that the text is one of <paramref name="texts"/>, <c>In("a", "b")</c> in code.</summary>
+   public static TextIsOneOf In(params string[] texts) => new(new TextSet(texts));
 
    /// <summary>A condition that the text starts with one of <paramref name="texts"/>.</summary>
    public static TextStartsWithOneOf StartsWithOneOf(params string[] texts) => new(new TextSet(texts));

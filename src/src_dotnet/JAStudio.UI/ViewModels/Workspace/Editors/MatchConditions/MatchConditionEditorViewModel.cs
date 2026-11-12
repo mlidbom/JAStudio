@@ -22,11 +22,11 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 /// </summary>
 /// <remarks>
 /// It's edited as the note search's tree is: the operations act on the <see cref="SelectedLine"/>, and the view calls them from its keys and menus.<br/>
-/// The add menu offers the conditions there are where a condition goes: on a word at the root, and on a token inside "The preceding token: Any of:".
+/// The add menu offers the conditions there are where a condition goes: on a word at the root, and on a token inside <c>PrecedingToken.AnyOf(</c>.
 /// </remarks>
 partial class MatchConditionEditorViewModel : ObservableObject
 {
-   const string HowToEditTheTree = "+ adds a condition or a group, or type its key from the + menu, such as p for the preceding token. "
+   const string HowToEditTheTree = "+ adds a condition or a group, or type its key from the + menu, such as p for PrecedingToken. "
                                  + "- negates, Del removes, Enter or a double-click changes the texts, Ctrl+Z undoes. Right-click for more.";
 
    readonly IFatalErrorHandler _fatalErrorHandler;
@@ -97,7 +97,7 @@ partial class MatchConditionEditorViewModel : ObservableObject
    {
       var selected = Selected;
       return selected.Level.TestsWithTexts.FirstOrDefault(it => it.Made(selected.Condition)) is {} test
-                ? ConditionTextsEditorViewModel.ForChanging(selected.Condition, test, title: selected.Description)
+                ? ConditionTextsEditorViewModel.ForChanging(selected.Condition, test, title: selected.Text)
                 : null;
    }
 
@@ -161,8 +161,8 @@ partial class MatchConditionEditorViewModel : ObservableObject
 
    /// <summary>
    /// The add menu: the conditions there are where a condition added on the selected line goes, each picked by a single key. Under a subject,<br/>
-   /// such as "The preceding token", the conditions on it, so p, f, g adds "The preceding token: is a godan verb". A condition that takes texts,<br/>
-   /// such as "ends with one of", opens its editor.
+   /// such as <c>PrecedingToken</c>, the conditions on it, so p, f, g adds <c>PrecedingToken.IsAGodanVerb</c>. A condition that takes texts,<br/>
+   /// such as <c>EndsWithOneOf</c>, opens its editor.
    /// </summary>
    /// <param name="addAConditionThrough">Opens the editor for the picked condition, and adds the condition it returns.</param>
    internal List<SpecMenuItem> AddConditionMenu(Action<ConditionTextsEditorViewModel> addAConditionThrough)
@@ -190,7 +190,7 @@ partial class MatchConditionEditorViewModel : ObservableObject
          ];
 
          SpecMenuItem TheConditionsOnTheSubject(IConditionSubject subject) =>
-            SpecMenuItem.Submenu(subject.Name, TheConditionsOn(subject.Level, it => placed(subject.Meets(it)), $"{subjectsSoFar}{subject.Name}: "));
+            SpecMenuItem.Submenu(subject.Name, TheConditionsOn(subject.Level, it => placed(subject.Meets(it)), $"{subjectsSoFar}{subject.Name}."));
 
          SpecMenuItem TheEditorFor(ConditionTestWithTexts test) =>
             SpecMenuItem.Command(test.Name, () => addAConditionThrough(ConditionTextsEditorViewModel.ForANewCondition(subjectsSoFar + test.Name, test, placed)));

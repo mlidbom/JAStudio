@@ -34,7 +34,7 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
 
    public class for_ends_with_one_of : When_typing_a_condition_into_the_tree_editor
    {
-      static readonly ConditionTestWithTexts EndsWithOneOf = TextTest("ends with one of");
+      static readonly ConditionTestWithTexts EndsWithOneOf = TextTest("EndsWithOneOf");
 
       [XF] public void texts_separated_by_spaces_make_one_ending_each() => EndsWithOneOf.MadeFrom("ん  い").Must().Be(TextConditions.EndsWithOneOf("い", "ん"));
       [XF] public void the_condition_shows_typed_as_its_texts_separated_by_spaces() => EndsWithOneOf.TypedTextOf(TextConditions.EndsWithOneOf("ん", "い")).Must().Be("い ん");
@@ -47,7 +47,7 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
 
    public class for_part_of_speech_is : When_typing_a_condition_into_the_tree_editor
    {
-      static readonly ConditionTestWithTexts PartOfSpeechIs = TokenTest("part of speech is");
+      static readonly ConditionTestWithTexts PartOfSpeechIs = TokenTest("PartOfSpeech.Is");
 
       [XF] public void levels_separated_by_spaces_are_the_levels_from_the_top() => PartOfSpeechIs.MadeFrom("名詞 接尾").Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
       [XF] public void levels_separated_by_a_middle_dot_are_too() => PartOfSpeechIs.MadeFrom("名詞・接尾").Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
@@ -61,7 +61,7 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
 
    public class for_matches_the_regular_expression : When_typing_a_condition_into_the_tree_editor
    {
-      static readonly ConditionTestWithTexts MatchesTheRegularExpression = TextTest("matches the regular expression");
+      static readonly ConditionTestWithTexts MatchesTheRegularExpression = TextTest("MatchesRegularExpression");
 
       [XF] public void the_whole_text_is_the_pattern_spaces_included() => MatchesTheRegularExpression.MadeFrom("^a b$").Must().Be(TextConditions.MatchesRegularExpression("^a b$"));
       [XF] public void a_valid_pattern_has_no_reason_against_it() => MatchesTheRegularExpression.WhyItMakesNoConditionFrom("^a+$").Must().BeNull();

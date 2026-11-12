@@ -40,15 +40,15 @@ public class When_keeping_a_match_condition_as_JSON : IAIGeneratedSpec
                                     TokenConditions.InflectionTypeIsOneOf("五段・ラ行", "一段"),
                                     TokenConditions.InflectedFormIsOneOf("連用タ接続"),
                                     TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf("ん")),
-                                    TokenConditions.BaseForm.Meets(TextConditions.IsOneOf("する")),
+                                    TokenConditions.BaseForm.Meets(TextConditions.In("する")),
                                     TokenConditions.Reading.Meets(TextConditions.ContainsOneOf("ス")))),
             FirstToken.Meets(TokenConditions.HasATeFormStem),
             LastToken.Meets(TokenConditions.EndsAStatement),
             FollowingToken.Meets(ConditionGroup.Not(TokenConditions.IsANonWordCharacter)),
-            PrecedingText.Meets(TextConditions.IsEmptyText),
+            PrecedingText.Meets(TextConditions.IsEmpty),
             FollowingText.Meets(TextConditions.StartsWithOneOf("湧", "わ")),
             Surface.Meets(TextConditions.MatchesRegularExpression("^本の$")),
-            BaseForm.Meets(TextConditions.IsOneOf("本の")));
+            BaseForm.Meets(TextConditions.In("本の")));
 
       [XF] public void it_is_read_back_as_the_same_match_condition() => ReadBack(MatchCondition).Must().Be(MatchCondition);
    }

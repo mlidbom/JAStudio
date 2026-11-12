@@ -62,7 +62,7 @@ public class EditableMatchCondition
 
    /// <summary>
    /// Removes the condition at <paramref name="position"/>, a group with everything in it, and the negations and conditions on subjects that hold<br/>
-   /// only it: removing "is a godan verb" from "Not: The preceding token: is a godan verb" removes the whole line. The root can't be removed.
+   /// only it: removing <c>IsAGodanVerb</c> from <c>!PrecedingToken.IsAGodanVerb</c> removes the whole line. The root can't be removed.
    /// </summary>
    public void RemoveCondition(ConditionPosition position)
    {

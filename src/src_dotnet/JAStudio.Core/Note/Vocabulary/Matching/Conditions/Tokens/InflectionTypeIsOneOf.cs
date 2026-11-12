@@ -53,17 +53,10 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
    }
 
    /// <summary>
-   /// The condition with each type's description, such as "inflection type is one of 五段・ラ行 (Godan verb with 'ru' ending)", and a family's as<br/>
-   /// "五段 (every 五段 type)".
+   /// The condition in code, each type with its English as a comment, one to a line when there are several: <c>InflectionType.In(五段・ラ行)  // Godan<br/>
+   /// verb with 'ru' ending</c>, and a family's as <c>五段  // every godan type</c>.
    /// </summary>
-   public override IEnumerable<string> DescriptionLines()
-   {
-      return [$"inflection type is one of {string.Join(", ", Names.Texts.Select(Described))}"];
-
-      static string Described(string name) => $"{name} ({DescriptionOf(name)})";
-
-      static string DescriptionOf(string name) => InflectionTypes.IsKnown(name) ? InflectionTypes.GetByName(name).Description : $"every {name} type";
-   }
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => writing.LinesListing("InflectionType.In", [.. Names.Texts.Select(name => (name, InflectionTypes.EnglishOf(name)))]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "inflectionTypeIsOneOf";

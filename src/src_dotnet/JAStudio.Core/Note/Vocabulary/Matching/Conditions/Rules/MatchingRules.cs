@@ -47,7 +47,7 @@ public static class MatchingRules
    public static readonly RequireForbidMatchingRule PastTenseStem =
       new("pastTenseStem",
           ConditionGroup.AnyOf(PrecedingToken.Meets(TokenConditions.IsAPastTenseStem),
-                               ConditionGroup.AllOf(ConditionGroup.Not(PrecedingText.Meets(TextConditions.IsEmptyText)), FirstToken.Meets(TokenConditions.IsAPastTenseMarker))),
+                               ConditionGroup.AllOf(ConditionGroup.Not(PrecedingText.Meets(TextConditions.IsEmpty)), FirstToken.Meets(TokenConditions.IsAPastTenseMarker))),
           requiredWeight: 30);
 
    /// <summary>The word follows the inflection of a godan verb's imperative.</summary>
@@ -90,7 +90,7 @@ public static class MatchingRules
    public static readonly RequireForbidMatchingRule SingleToken = new("singleToken", IsASingleToken, requiredWeight: 30);
 
    /// <summary>The word's surface isn't one of the texts.</summary>
-   public static readonly TextsMatchingRule SurfaceIsNot = new("surfaceIsNot", texts => ConditionGroup.Not(WordConditions.Surface.Meets(TextConditions.IsOneOf(texts))), weight: 2);
+   public static readonly TextsMatchingRule SurfaceIsNot = new("surfaceIsNot", texts => ConditionGroup.Not(WordConditions.Surface.Meets(TextConditions.In(texts))), weight: 2);
 
    /// <summary>Every rule, in the order a vocab's match-condition holds their conditions: the order matching tested the rules in before match-conditions.</summary>
    public static readonly IReadOnlyList<MatchingRule> All =
@@ -109,6 +109,6 @@ public static class MatchingRules
       //review:matching: not quite the rule before match-conditions, which read the preceding token's surface: an empty one counted as the sentence's
       //   start. The stem JAStudio splits off the く of 寄ってく is one, so the old rule found a sentence start mid-sentence. In the corpus that was 25
       //   matches, such as おう on such a う, which its required prefix rejects anyway: the full rebuild changed nothing.
-      PrecedingText.Meets(ConditionGroup.AnyOf(TextConditions.IsEmptyText,
+      PrecedingText.Meets(ConditionGroup.AnyOf(TextConditions.IsEmpty,
                                                TextConditions.EndsWithOneOf([.. AnalysisConstants.SentenceStartCharacters.Select(it => it.ToString())])));
 }

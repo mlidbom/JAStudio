@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 
 namespace JAStudio.UI.Utils;
@@ -36,8 +37,15 @@ static class AutomaticMnemonics
 
    static IEnumerable<char> LettersOfTheWordsThatSaySomething(string itemName) => WordsThatSaySomething(itemName).SelectMany(it => it).Where(IsAKey);
 
+   /// <summary>
+   /// The words of <paramref name="itemName"/> that say something, lowercased: those that spaces separate, and in a name from code, those its dots and<br/>
+   /// capitals separate, so that <c>PrecedingToken</c> is "preceding" and "token", and <c>IsAGodanVerb</c> says "godan" and "verb".
+   /// </summary>
    static IEnumerable<string> WordsThatSaySomething(string itemName) =>
-      itemName.ToLowerInvariant().Split(' ').Where(it => it.Length > 0 && !WordsThatSayNothing.Contains(it));
+      WordBoundaryInCode.Replace(itemName, " ").ToLowerInvariant().Split([' ', '.']).Where(it => it.Length > 0 && !WordsThatSayNothing.Contains(it));
+
+   /// <summary>Where a new word starts in a name from code: before a capital that follows a lowercase letter, or that starts a word of more than one letter.</summary>
+   static readonly Regex WordBoundaryInCode = new("(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", RegexOptions.CultureInvariant);
 
    static IEnumerable<char> LettersOf(string itemName) => itemName.ToLowerInvariant().Where(IsAKey);
 

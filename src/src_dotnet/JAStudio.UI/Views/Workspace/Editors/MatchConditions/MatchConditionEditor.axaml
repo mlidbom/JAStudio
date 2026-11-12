@@ -16,7 +16,7 @@
             <TreeView.ItemTemplate>
                 <TreeDataTemplate DataType="matchConditions:MatchConditionLineViewModel" ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Text}" VerticalAlignment="Center" />
                         <Button Content="+" Padding="6,0" IsVisible="{Binding IsGroup}"
                                 ToolTip.Tip="Add a condition (+)"
                                 Click="OnAddButtonClicked" />

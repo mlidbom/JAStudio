@@ -38,10 +38,20 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    /// <summary>The conditions that decide whether a subject meets this group: all but the empty ones.</summary>
    protected IEnumerable<Condition<TSubject>> ConditionsThatAddSomething => Conditions.Where(it => !it.IsEmpty);
 
-   /// <summary>The line the editor shows for the group itself, above its conditions, such as "All of:".</summary>
-   protected abstract string Heading { get; }
+   /// <summary>The group's name in code, such as <c>AllOf</c>.</summary>
+   public abstract string Name { get; }
 
-   public override IEnumerable<string> DescriptionLines() => [Heading, ..Conditions.SelectMany(it => it.DescriptionLines()).Select(Indented)];
+   /// <summary>
+   /// The group's code: its name and an opening parenthesis on its line, such as <c>AnyOf(</c>, then each of its conditions on a line of its own, a comma<br/>
+   /// after each but the last, which closes the group. An empty group is <c>AnyOf()</c>.
+   /// </summary>
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) =>
+      Conditions.Count == 0
+         ? [writing.LineOf($"{Name}()")]
+         : [writing.OpeningLineOf($"{Name}("), ..Conditions.SelectMany((condition, index) => condition.CodeLines(writing.ForTheConditionInTheGroupAt(index, AfterTheConditionAt(index, writing))))];
+
+   /// <summary>What goes after the condition at <paramref name="index"/>: a comma, or after the last, the closing parenthesis and what goes after the group.</summary>
+   string AfterTheConditionAt(int index, Code.CodeWriting writing) => index < Conditions.Count - 1 ? "," : ")" + writing.After;
 
    /// <summary>The group as the corpus stores it: its conditions under <paramref name="jsonKey"/>, such as <c>allOf</c>.</summary>
    protected JsonObject ToJsonUnder(string jsonKey) => new() { [jsonKey] = new JsonArray([.. Conditions.Select(JsonNode (it) => it.ToJson())]) };

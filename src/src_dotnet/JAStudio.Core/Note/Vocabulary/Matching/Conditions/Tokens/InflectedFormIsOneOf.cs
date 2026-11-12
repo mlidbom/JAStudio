@@ -50,13 +50,12 @@ public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
 
    public override bool IsMetBy(IAnalysisToken subject) => Names.Texts.Contains(subject.SourceToken.InflectedForm.Name);
 
-   /// <summary>The condition with each form's description, such as "inflected form is one of 連用タ接続 (Continuative ta-connection)".</summary>
-   public override IEnumerable<string> DescriptionLines()
-   {
-      return [$"inflected form is one of {string.Join(", ", Names.Texts.Select(Described))}"];
-
-      static string Described(string name) => $"{name} ({InflectionForms.GetByName(name).Description})";
-   }
+   /// <summary>
+   /// The condition in code, each form with its English as a comment, one to a line when there are several:<br/>
+   /// <c>InflectedForm.In(連用タ接続)  // Continuative ta-connection</c>.
+   /// </summary>
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) =>
+      writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(name => (name, InflectionForms.GetByName(name).Description))]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "inflectedFormIsOneOf";

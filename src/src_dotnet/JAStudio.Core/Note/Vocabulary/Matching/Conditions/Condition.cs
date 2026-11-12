@@ -20,8 +20,6 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 /// </remarks>
 public abstract record Condition
 {
-   const string Indentation = "   ";
-
    /// <summary>
    /// Whether this condition adds nothing: a group with no conditions in it, or only empty ones, or a condition on an empty one.<br/>
    /// The group it's in ignores it, as the note search ignores an empty group (<see cref="JAStudio.Core.Note.Search.NoteCondition.IsEmpty"/>), so that a<br/>
@@ -29,8 +27,11 @@ public abstract record Condition
    /// </summary>
    public virtual bool IsEmpty => false;
 
-   /// <summary>The condition as the editor would show it: one line per condition, with each group's conditions indented under it.</summary>
-   public abstract IEnumerable<string> DescriptionLines();
+   /// <summary>
+   /// The condition written as code, where <paramref name="writing"/> says: its line, or lines, with what goes in front of it and after it. See<br/>
+   /// <see cref="Code.ConditionCode"/>.
+   /// </summary>
+   internal abstract IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing);
 
    /// <summary>
    /// The conditions directly under this one in the tree: a group's conditions, the one a <see cref="NegatedCondition{TSubject}"/> negates, or the one a<br/>
@@ -63,16 +64,6 @@ public abstract record Condition
    internal Condition<TSubject> AsAConditionOn<TSubject>() where TSubject : class =>
       this as Condition<TSubject> ?? throw new ArgumentException($"Not a condition on a {typeof(TSubject).Name}: {this}");
 
-   /// <summary>
-   /// The <see cref="DescriptionLines"/> with <paramref name="prefix"/> in front of the first, as a condition holding this one shows it on the same line<br/>
-   /// as itself, such as "Not: " or "The preceding token: ".
-   /// </summary>
-   internal IEnumerable<string> DescriptionLinesPrefixedWith(string prefix)
-   {
-      var lines = DescriptionLines().ToList();
-      return [prefix + lines[0], ..lines.Skip(1)];
-   }
-
    /// <summary>The condition as the corpus stores it: an object whose key says what kind of condition it is. <see cref="ConditionLevel{TSubject}"/> reads it back.</summary>
    internal abstract JsonObject ToJson();
 
@@ -82,8 +73,6 @@ public abstract record Condition
    /// </summary>
    internal virtual IEnumerable<TextSet> ComparedTextSets() => [];
 
-   public sealed override string ToString() => string.Join(Environment.NewLine, DescriptionLines());
-
-   /// <summary><paramref name="line"/> indented one level, for a condition shown under the group it's in.</summary>
-   protected static string Indented(string line) => Indentation + line;
+   /// <summary>The condition as code on one line, such as <c>!PrecedingToken.IsAGodanVerb</c>, as a failure reason shows it (<see cref="Code.ConditionCode.OnOneLine"/>).</summary>
+   public sealed override string ToString() => Code.ConditionCode.OnOneLine(this);
 }

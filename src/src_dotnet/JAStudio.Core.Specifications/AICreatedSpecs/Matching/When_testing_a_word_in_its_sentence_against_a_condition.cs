@@ -50,14 +50,14 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
       [XF] public void its_last_token_has_an_inflection_type_in_the_family_of_the_special_ones() => Meets(LastToken.Meets(TokenConditions.InflectionTypeIsOneOf("特殊"))).Must().BeTrue();
       [XF] public void its_last_token_has_no_godan_inflection_type() => Meets(LastToken.Meets(TokenConditions.InflectionTypeIsOneOf("五段"))).Must().BeFalse();
       [XF] public void its_following_token_is_a_sentence_ending_particle() => Meets(FollowingToken.Meets(TokenConditions.PartOfSpeechIs("助詞", "終助詞"))).Must().BeTrue();
-      [XF] public void the_text_preceding_it_is_夏目() => Meets(PrecedingText.Meets(TextConditions.IsOneOf("夏目"))).Must().BeTrue();
+      [XF] public void the_text_preceding_it_is_夏目() => Meets(PrecedingText.Meets(TextConditions.In("夏目"))).Must().BeTrue();
       [XF] public void the_text_following_it_starts_with_one_of_よ_and_か() => Meets(FollowingText.Meets(TextConditions.StartsWithOneOf("よ", "か"))).Must().BeTrue();
       [XF] public void the_text_following_it_ends_with_ね() => Meets(FollowingText.Meets(TextConditions.EndsWithOneOf("ね"))).Must().BeTrue();
       [XF] public void the_text_following_it_contains_よ() => Meets(FollowingText.Meets(TextConditions.ContainsOneOf("よ"))).Must().BeTrue();
-      [XF] public void the_text_following_it_is_not_よ_alone() => Meets(FollowingText.Meets(TextConditions.IsOneOf("よ"))).Must().BeFalse();
+      [XF] public void the_text_following_it_is_not_よ_alone() => Meets(FollowingText.Meets(TextConditions.In("よ"))).Must().BeFalse();
       [XF] public void the_text_following_it_is_matched_by_the_regular_expression_for_よ_and_one_more_character() => Meets(FollowingText.Meets(TextConditions.MatchesRegularExpression("^よ.$"))).Must().BeTrue();
-      [XF] public void the_text_following_it_is_not_empty() => Meets(FollowingText.Meets(TextConditions.IsEmptyText)).Must().BeFalse();
-      [XF] public void its_surface_is_様です() => Meets(Surface.Meets(TextConditions.IsOneOf("様です"))).Must().BeTrue();
+      [XF] public void the_text_following_it_is_not_empty() => Meets(FollowingText.Meets(TextConditions.IsEmpty)).Must().BeFalse();
+      [XF] public void its_surface_is_様です() => Meets(Surface.Meets(TextConditions.In("様です"))).Must().BeTrue();
       [XF] public void it_is_not_a_single_token() => Meets(IsASingleToken).Must().BeFalse();
       [XF] public void it_is_matched_by_its_surface() => Meets(IsMatchedByItsSurface).Must().BeTrue();
 
@@ -88,11 +88,11 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
       [XF] public void its_preceding_token_meets_a_negated_fact_as_the_empty_token_has_no_facts() => Meets(PrecedingToken.Meets(ConditionGroup.Not(TokenConditions.IsAGodanVerb))).Must().BeTrue();
       [XF] public void the_negation_of_a_fact_about_its_preceding_token_is_met_too() => Meets(ConditionGroup.Not(PrecedingToken.Meets(TokenConditions.IsAGodanVerb))).Must().BeTrue();
       [XF] public void its_preceding_token_has_no_part_of_speech() => Meets(PrecedingToken.Meets(TokenConditions.PartOfSpeechIs("名詞"))).Must().BeFalse();
-      [XF] public void its_preceding_tokens_surface_is_empty() => Meets(PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.IsEmptyText))).Must().BeTrue();
-      [XF] public void its_preceding_tokens_reading_is_empty() => Meets(PrecedingToken.Meets(TokenConditions.Reading.Meets(TextConditions.IsEmptyText))).Must().BeTrue();
+      [XF] public void its_preceding_tokens_surface_is_empty() => Meets(PrecedingToken.Meets(TokenConditions.Surface.Meets(TextConditions.IsEmpty))).Must().BeTrue();
+      [XF] public void its_preceding_tokens_reading_is_empty() => Meets(PrecedingToken.Meets(TokenConditions.Reading.Meets(TextConditions.IsEmpty))).Must().BeTrue();
       [XF] public void a_condition_on_its_preceding_token_that_adds_nothing_is_met() => Meets(PrecedingToken.Meets(ConditionGroup.AllOf<IAnalysisToken>())).Must().BeTrue();
       [XF] public void its_first_token_exists() => Meets(FirstToken.Meets(TokenConditions.Exists)).Must().BeTrue();
-      [XF] public void the_text_preceding_it_is_empty() => Meets(PrecedingText.Meets(TextConditions.IsEmptyText)).Must().BeTrue();
+      [XF] public void the_text_preceding_it_is_empty() => Meets(PrecedingText.Meets(TextConditions.IsEmpty)).Must().BeTrue();
       [XF] public void it_is_a_single_token() => Meets(IsASingleToken).Must().BeTrue();
    }
 
@@ -105,7 +105,7 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
       [XF] public void its_following_token_does_not_exist() => Meets(FollowingToken.Meets(TokenConditions.Exists)).Must().BeFalse();
       [XF] public void its_following_token_is_no_non_word_character() => Meets(FollowingToken.Meets(TokenConditions.IsANonWordCharacter)).Must().BeFalse();
       [XF] public void its_following_token_does_not_end_a_statement_as_the_empty_token_has_no_facts() => Meets(FollowingToken.Meets(TokenConditions.EndsAStatement)).Must().BeFalse();
-      [XF] public void the_text_following_it_is_empty() => Meets(FollowingText.Meets(TextConditions.IsEmptyText)).Must().BeTrue();
+      [XF] public void the_text_following_it_is_empty() => Meets(FollowingText.Meets(TextConditions.IsEmpty)).Must().BeTrue();
       [XF] public void its_last_token_ends_a_statement() => Meets(LastToken.Meets(TokenConditions.EndsAStatement)).Must().BeTrue();
    }
 
@@ -118,9 +118,9 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
       [XF] public void its_first_token_is_a_dictionary_form_verbs_stem() => Meets(FirstToken.Meets(TokenConditions.IsADictionaryVerbFormStem)).Must().BeTrue();
       [XF] public void its_last_token_is_a_dictionary_form_verbs_ending() => Meets(LastToken.Meets(TokenConditions.IsADictionaryVerbInflection)).Must().BeTrue();
       [XF] public void its_ending_has_the_part_of_speech_of_the_verb_it_was_split_from() => Meets(LastToken.Meets(TokenConditions.PartOfSpeechIs("動詞"))).Must().BeTrue();
-      [XF] public void its_stems_surface_is_食べ() => Meets(FirstToken.Meets(TokenConditions.Surface.Meets(TextConditions.IsOneOf("食べ")))).Must().BeTrue();
-      [XF] public void its_stems_base_form_is_食べる() => Meets(FirstToken.Meets(TokenConditions.BaseForm.Meets(TextConditions.IsOneOf("食べる")))).Must().BeTrue();
-      [XF] public void its_stems_reading_is_that_of_the_whole_verb() => Meets(FirstToken.Meets(TokenConditions.Reading.Meets(TextConditions.IsOneOf("タベル")))).Must().BeTrue();
+      [XF] public void its_stems_surface_is_食べ() => Meets(FirstToken.Meets(TokenConditions.Surface.Meets(TextConditions.In("食べ")))).Must().BeTrue();
+      [XF] public void its_stems_base_form_is_食べる() => Meets(FirstToken.Meets(TokenConditions.BaseForm.Meets(TextConditions.In("食べる")))).Must().BeTrue();
+      [XF] public void its_stems_reading_is_that_of_the_whole_verb() => Meets(FirstToken.Meets(TokenConditions.Reading.Meets(TextConditions.In("タベル")))).Must().BeTrue();
       [XF] public void it_is_not_matched_by_an_inflected_surface() => Meets(IsMatchedByAnInflectedSurface).Must().BeFalse();
    }
 
@@ -146,7 +146,7 @@ public abstract class When_testing_a_word_in_its_sentence_against_a_condition : 
       [XF] public void its_last_token_is_a_masu_stem() => Meets(LastToken.Meets(TokenConditions.IsAMasuStem)).Must().BeTrue();
       [XF] public void its_last_token_has_the_ichidan_inflection_type() => Meets(LastToken.Meets(TokenConditions.InflectionTypeIsOneOf("一段"))).Must().BeTrue();
       [XF] public void its_following_token_is_a_past_tense_marker() => Meets(FollowingToken.Meets(TokenConditions.IsAPastTenseMarker)).Must().BeTrue();
-      [XF] public void its_base_form_is_食べる() => Meets(BaseForm.Meets(TextConditions.IsOneOf("食べる"))).Must().BeTrue();
+      [XF] public void its_base_form_is_食べる() => Meets(BaseForm.Meets(TextConditions.In("食べる"))).Must().BeTrue();
    }
 
    public class the_base_form_of_the_word_食べ_in_もう食べた : When_testing_a_word_in_its_sentence_against_a_condition

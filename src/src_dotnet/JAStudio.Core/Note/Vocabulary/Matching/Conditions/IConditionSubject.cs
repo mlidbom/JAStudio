@@ -6,7 +6,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 /// </summary>
 public interface IConditionSubject
 {
-   /// <summary>The subject's name as the editor shows it, such as "The preceding token".</summary>
+   /// <summary>The subject's name as the editor shows it, such as <c>PrecedingToken</c>.</summary>
    string Name { get; }
 
    /// <summary>The conditions there are on this subject.</summary>

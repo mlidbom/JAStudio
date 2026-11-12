@@ -28,7 +28,7 @@ public sealed class ConditionSubject<TFrom, TSubject> : IConditionSubject<TFrom>
       Level = level;
    }
 
-   /// <summary>The subject's name as the editor shows it, such as "The preceding token".</summary>
+   /// <summary>The subject's name as the editor shows it, such as <c>PrecedingToken</c>.</summary>
    public string Name { get; }
 
    /// <summary>The key a condition on this subject is stored under in the corpus, such as <c>precedingToken</c>.</summary>

@@ -7,7 +7,7 @@ using JAStudio.UI.Views.Workspace.Editors.MatchConditions;
 namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 
 /// <summary>
-/// The editor for the texts of a condition in a vocab's match-condition, such as the endings of "ends with one of", shown in a<br/>
+/// The editor for the texts of a condition in a vocab's match-condition, such as the endings of <c>EndsWithOneOf</c>, shown in a<br/>
 /// <see cref="ConditionTextsDialog"/>: for a new condition, or one being changed. Its <see cref="ConditionTestWithTexts"/> makes the condition from<br/>
 /// what's typed.
 /// </summary>
@@ -39,7 +39,7 @@ partial class ConditionTextsEditorViewModel : ObservableObject
    public static ConditionTextsEditorViewModel ForChanging(Condition condition, ConditionTestWithTexts test, string title) =>
       new(title, test, placed: it => it, test.TypedTextOf(condition));
 
-   /// <summary>The dialog's title, such as "The preceding token: Surface: ends with one of".</summary>
+   /// <summary>The dialog's title, the code of the condition being made, such as <c>PrecedingToken.Surface.EndsWithOneOf</c>.</summary>
    public string Title { get; }
 
    /// <summary>What to type, such as "The texts, separated by spaces".</summary>

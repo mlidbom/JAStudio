@@ -17,7 +17,7 @@ public interface IConditionLevel
    /// <summary>The subjects found from this one, such as a word's preceding token, each with the conditions on it.</summary>
    IReadOnlyList<IConditionSubject> Subjects { get; }
 
-   /// <summary>The kinds of condition made from texts typed into the editor, such as "ends with one of".</summary>
+   /// <summary>The kinds of condition made from texts typed into the editor, such as <c>EndsWithOneOf</c>.</summary>
    IReadOnlyList<ConditionTestWithTexts> TestsWithTexts { get; }
 
    /// <summary>A new, empty "all of" group of conditions on this level's subject.</summary>

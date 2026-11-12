@@ -10,7 +10,7 @@ public sealed record TextStartsWithOneOf : TextComparison
 
    protected override bool Compares(string subject, string text) => subject.StartsWith(text, StringComparison.Ordinal);
 
-   protected override string Description => "starts with one of";
+   protected override string Name => "StartsWithOneOf";
 
    /// <summary>The key this comparison is stored under in the corpus.</summary>
    internal const string JsonKey = "startsWithOneOf";

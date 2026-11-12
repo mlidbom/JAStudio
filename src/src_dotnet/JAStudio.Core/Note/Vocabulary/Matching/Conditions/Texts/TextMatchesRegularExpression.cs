@@ -43,7 +43,8 @@ public sealed record TextMatchesRegularExpression : Condition<string>
 
    public override bool IsMetBy(string subject) => _regex.IsMatch(subject);
 
-   public override IEnumerable<string> DescriptionLines() => [$"matches the regular expression {Pattern}"];
+   /// <summary>The condition in code, the pattern a verbatim string literal as C# writes one: <c>MatchesRegularExpression(@"^よ.$")</c>.</summary>
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => [writing.LineOf($"MatchesRegularExpression({Code.CodeWriting.VerbatimStringLiteral(Pattern)})")];
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "matchesRegularExpression";

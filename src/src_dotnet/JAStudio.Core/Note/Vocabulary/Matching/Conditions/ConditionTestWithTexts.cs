@@ -3,8 +3,8 @@ using System;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
-/// A condition-test that takes texts: a kind of condition the match-condition editor makes from what's typed into it, such as "ends with one of" from<br/>
-/// the endings, or "part of speech is" from the part of speech's levels. Each is defined once, with the conditions on its subject, in<br/>
+/// A condition-test that takes texts: a kind of condition the match-condition editor makes from what's typed into it, such as <c>EndsWithOneOf</c> from<br/>
+/// the endings, or <c>PartOfSpeech.Is</c> from the part of speech's levels. Each is defined once, with the conditions on its subject, in<br/>
 /// <see cref="Tokens.TokenConditions"/> or <see cref="Texts.TextConditions"/>, and offered by the subject's <see cref="IConditionLevel"/>.
 /// </summary>
 public sealed class ConditionTestWithTexts
@@ -28,7 +28,7 @@ public sealed class ConditionTestWithTexts
       _typedTextOf = typedTextOf;
    }
 
-   /// <summary>The test as the editor shows it, such as "ends with one of".</summary>
+   /// <summary>The test's name in code, as the editor shows it, such as <c>EndsWithOneOf</c>.</summary>
    public string Name { get; }
 
    /// <summary>What to type, as the editor tells it, such as "The texts, separated by spaces".</summary>

@@ -25,6 +25,9 @@ public sealed class TextSet : IEquatable<TextSet>
    /// <summary>The texts, each once, in ordinal order.</summary>
    public IReadOnlyList<string> Texts { get; }
 
+   /// <summary>The texts as C# string literals, separated by commas, as a condition's code has them: <c>"ん", "い"</c>.</summary>
+   internal string AsStringLiterals => string.Join(", ", Texts.Select(Code.CodeWriting.StringLiteral));
+
    /// <summary>The texts as they're typed into the match-condition editor: separated by spaces. <see cref="FromTyped"/> reads them back.</summary>
    public string AsTyped => string.Join(TypedSeparator, Texts);
 

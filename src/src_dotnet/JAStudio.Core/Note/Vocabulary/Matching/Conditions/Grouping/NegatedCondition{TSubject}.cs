@@ -10,8 +10,6 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 /// </summary>
 public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedCondition where TSubject : class
 {
-   const string Prefix = "Not: ";
-
    internal NegatedCondition(Condition<TSubject> condition) => Condition = condition;
 
    /// <summary>The condition a subject must not meet.</summary>
@@ -25,8 +23,8 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedC
 
    public override bool IsMetBy(TSubject subject) => IsEmpty || !Condition.IsMetBy(subject);
 
-   /// <summary>The negated condition's own lines, with "Not: " in front of the first, so a negation shows on the same line as what it negates.</summary>
-   public override IEnumerable<string> DescriptionLines() => Condition.DescriptionLinesPrefixedWith(Prefix);
+   /// <summary>The negated condition's code, with <c>!</c> in front of it, on its line, such as <c>!PrecedingToken.IsAGodanVerb</c>.</summary>
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(Code.CodeText.Negation));
 
    /// <summary>The key a negation is stored under in the corpus.</summary>
    internal const string JsonKey = "not";

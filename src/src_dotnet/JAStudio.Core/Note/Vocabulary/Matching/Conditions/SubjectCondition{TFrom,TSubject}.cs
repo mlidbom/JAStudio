@@ -37,8 +37,8 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
 
    public override bool IsMetBy(TFrom subject) => IsEmpty || Condition.IsMetBy(Subject.FoundIn(subject));
 
-   /// <summary>The <see cref="Condition"/>'s own lines, with the subject's name in front of the first, such as "The preceding token: is a godan verb".</summary>
-   public override IEnumerable<string> DescriptionLines() => Condition.DescriptionLinesPrefixedWith($"{Subject.Name}: ");
+   /// <summary>The <see cref="Condition"/>'s code, with the subject's name and a dot in front of it, such as <c>PrecedingToken.IsAGodanVerb</c>.</summary>
+   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(Code.CodeText.Of($"{Subject.Name}.")));
 
    internal override JsonObject ToJson() => new() { [Subject.JsonKey] = Condition.ToJson() };
 
