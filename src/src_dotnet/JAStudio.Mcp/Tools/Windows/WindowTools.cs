@@ -27,7 +27,7 @@ public class WindowTools
    /// The windows <see cref="RenderWindow"/> renders. Not <see cref="MainMenuWindows.TextToSpeechVoices"/>: opening it lists the voices of the<br/>
    /// text-to-speech services online, with Magnus's keys, and opens an audio player.
    /// </summary>
-   static readonly MainMenuWindow[] WindowsRendered = [MainMenuWindows.Options, MainMenuWindows.ReadingsMappings, MainMenuWindows.ImportProfiles];
+   static readonly MainMenuWindow[] WindowsRendered = [MainMenuWindows.Options, MainMenuWindows.ReadingsMappings, MainMenuWindows.ImportProfiles, MainMenuWindows.SharedConditions];
 
    readonly HeadlessUI _headlessUI;
    readonly TemporaryServiceCollection _services;
@@ -44,7 +44,7 @@ public class WindowTools
    [Description("""
                 Renders one of the windows of their own that the workspace's main menu opens: opens it in the headless JAStudio as the menu
                 does, with the corpus and the add-on's configuration, draws it as on a screen, closes it, and gives its image. The windows:
-                "Options", "Readings mappings" and "Import profiles".
+                "Options", "Readings mappings", "Import profiles" and "Shared-conditions".
                 """)]
    public IEnumerable<ContentBlock> RenderWindow([Description("The window's name, as the main menu names it, such as \"Options\".")] string window)
    {
