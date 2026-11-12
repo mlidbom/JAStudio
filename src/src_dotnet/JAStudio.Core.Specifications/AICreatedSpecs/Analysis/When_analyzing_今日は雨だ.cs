@@ -25,7 +25,7 @@ public class When_analyzing_今日は雨だ : SpecificationStartingWithAnEmptyCo
       public with_no_vocab() => _candidateWords = SurfacesOfTheCandidateWords();
 
       [XF] public void it_builds_a_candidate_word_of_each_token() => _candidateWords.Must().Contain("今日").Contain("は").Contain("雨").Contain("だ");
-      [XF] public void it_builds_no_candidate_word_は雨だ() => _candidateWords.Contains("は雨だ").Must().BeFalse(); //todo:compze: Compze.Must has no NotContain for collections, only for strings; use it once it does
+      [XF] public void it_builds_no_candidate_word_は雨だ() => _candidateWords.Must().Satisfy(it => !it.Contains("は雨だ"));
    }
 
    public class with_a_vocab_は雨だ : When_analyzing_今日は雨だ
@@ -51,7 +51,7 @@ public class When_analyzing_今日は雨だ : SpecificationStartingWithAnEmptyCo
             _candidateWordsAfterTheDeletion = SurfacesOfTheCandidateWords();
          }
 
-         [XF] public void it_builds_no_candidate_word_は雨だ() => _candidateWordsAfterTheDeletion.Contains("は雨だ").Must().BeFalse(); //todo:compze: Compze.Must has no NotContain for collections, only for strings; use it once it does
+         [XF] public void it_builds_no_candidate_word_は雨だ() => _candidateWordsAfterTheDeletion.Must().Satisfy(it => !it.Contains("は雨だ"));
       }
    }
 }

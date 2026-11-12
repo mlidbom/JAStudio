@@ -23,6 +23,6 @@ public class When_counting_the_candidate_words : McpServerSpecification
    [XF] public void it_counts_a_candidate_word_of_one_token_for_each_of_the_four_tokens() => _counts.ByTokensSpanned.Single(it => it.Tokens == 1).Built.Must().Be(4);
    [XF] public void it_counts_no_candidate_word_spanning_more_than_the_four_tokens() => _counts.ByTokensSpanned.Max(it => it.Tokens).Must().BeLessThanOrEqualTo(4);
 
-   [XF] public void it_counts_no_more_known_candidate_words_than_were_built() => (_counts.Known <= _counts.Built).Must().BeTrue();
-   [XF] public void it_counts_no_more_valid_candidate_words_than_are_known() => (_counts.Valid <= _counts.Known).Must().BeTrue();
+   [XF] public void it_counts_no_more_known_candidate_words_than_were_built() => _counts.Must().Satisfy(it => it.Known <= it.Built);
+   [XF] public void it_counts_no_more_valid_candidate_words_than_are_known() => _counts.Must().Satisfy(it => it.Valid <= it.Known);
 }
