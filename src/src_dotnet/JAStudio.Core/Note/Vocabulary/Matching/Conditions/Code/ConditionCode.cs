@@ -37,7 +37,7 @@ public static class ConditionCode
    /// </summary>
    public static IReadOnlyList<CodeLine> LinesOfAMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) =>
    [
-      new CodeLine(ConditionPosition.Root, 0, [CodeText.Comment(MatchConditionHeading)]),
+      new(ConditionPosition.Root, 0, [CodeText.Comment(MatchConditionHeading)]),
       ..matchCondition.Conditions.SelectMany((condition, index) => condition.CodeLines(CodeWriting.OfAStatementOfAMatchCondition(index)))
    ];
 

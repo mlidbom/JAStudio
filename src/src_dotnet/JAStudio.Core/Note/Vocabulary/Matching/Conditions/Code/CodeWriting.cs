@@ -9,7 +9,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// the line is, what goes in front of it on the line, such as the negations and subjects that hold it, and what goes after it, such as the comma<br/>
 /// before the next condition of its group, or the parentheses that close the groups it ends.
 /// </summary>
-internal sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Position, int Depth, IReadOnlyList<CodeText> InFront, string After)
+sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Position, int Depth, IReadOnlyList<CodeText> InFront, string After)
 {
    /// <summary>A whole condition, on lines of its own, with nothing in front or after it.</summary>
    internal static CodeWriting OfAWholeCondition { get; } = new(ConditionPosition.Root, ConditionPosition.Root, 0, [], "");

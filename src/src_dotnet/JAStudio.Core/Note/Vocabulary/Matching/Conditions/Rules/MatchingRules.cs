@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
