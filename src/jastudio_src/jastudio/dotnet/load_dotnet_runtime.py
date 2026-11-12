@@ -9,6 +9,7 @@ from jastudio import mylog
 from jastudio.dotnet.copy_runtime_binaries import copy_binaries
 from pythonnet import load, unload
 
+# runtimeconfig.json also runs .NET's garbage collector in server mode, with DATAS off: see dev_docs/parsing-speed.md
 config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "runtimeconfig.json")
 
 

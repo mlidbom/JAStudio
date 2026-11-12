@@ -9,6 +9,9 @@
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
       <SelfContained>false</SelfContained>
+      <!-- The garbage collector in server mode, with DATAS off, as in Anki: parsing on many threads allocates fast. See dev_docs/parsing-speed.md. -->
+      <ServerGarbageCollection>true</ServerGarbageCollection>
+      <GarbageCollectionAdaptationMode>0</GarbageCollectionAdaptationMode>
    </PropertyGroup>
 
    <ItemGroup>
