@@ -10,8 +10,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// <summary>
 /// The conditions there are on a token, such as a word's preceding token:
 /// <list type="bullet">
-/// <item>its part of speech, inflection type and inflected form, as the tokenizer gives them: <see cref="PartOfSpeechIs"/>, <see cref="InflectionTypeIsOneOf"/><br/>
-/// and <see cref="InflectedFormIsOneOf"/>;</item>
+/// <item>its part of speech, inflection type and inflected form, as the tokenizer gives them: <see cref="PartOfSpeechIs"/>, <see cref="InflectionTypeIsIn"/><br/>
+/// and <see cref="InflectedFormIsIn"/>;</item>
 /// <item>its texts: its <see cref="Surface"/>, <see cref="BaseForm"/> and <see cref="Reading"/>;</item>
 /// <item>JAStudio's own facts about it, such as <see cref="IsAMasuStem"/>, or <see cref="IsADictionaryVerbInflection"/>, the ending JAStudio split off a<br/>
 /// dictionary-form verb.</item>
@@ -114,29 +114,29 @@ public static class TokenConditions
           [
              ConditionTestWithTexts.Of("PartOfSpeech.Is",
                                        "Pick the part of speech, or the kind of one, finding it by its Japanese or its English, such as 接尾 or suffix",
-                                       Tokens.PartOfSpeechIs.WhyTypedLevelsAreNoPartOfSpeech,
-                                       Tokens.PartOfSpeechIs.FromTyped,
+                                       PartOfSpeechIs.WhyTypedLevelsAreNoPartOfSpeech,
+                                       PartOfSpeechIs.FromTyped,
                                        it => it.JapaneseLevels,
-                                       Tokens.PartOfSpeechIs.PickableValues,
+                                       PartOfSpeechIs.PickableValues,
                                        picksOne: true),
              ConditionTestWithTexts.Of("InflectionType.In",
                                        "Pick the inflection types, or their families, finding each by its Japanese or its English, such as 五段 or godan",
-                                       Tokens.InflectionTypeIsOneOf.WhyTypedNamesMakeNoCondition,
-                                       Tokens.InflectionTypeIsOneOf.FromTyped,
+                                       InflectionTypeIsIn.WhyTypedNamesMakeNoCondition,
+                                       InflectionTypeIsIn.FromTyped,
                                        it => it.Names.AsTyped,
-                                       Tokens.InflectionTypeIsOneOf.PickableValues),
+                                       InflectionTypeIsIn.PickableValues),
              ConditionTestWithTexts.Of("InflectedForm.In",
                                        "Pick the inflected forms, finding each by its Japanese or its English, such as 連用タ接続 or ta-connection",
-                                       Tokens.InflectedFormIsOneOf.WhyTypedNamesMakeNoCondition,
-                                       Tokens.InflectedFormIsOneOf.FromTyped,
+                                       InflectedFormIsIn.WhyTypedNamesMakeNoCondition,
+                                       InflectedFormIsIn.FromTyped,
                                        it => it.Names.AsTyped,
-                                       Tokens.InflectedFormIsOneOf.PickableValues)
+                                       InflectedFormIsIn.PickableValues)
           ],
           new Dictionary<string, Func<JsonNode, Condition<IAnalysisToken>>>
           {
-             [Tokens.PartOfSpeechIs.JsonKey] = json => new PartOfSpeechIs(json.GetValue<string>()),
-             [Tokens.InflectionTypeIsOneOf.JsonKey] = json => new InflectionTypeIsOneOf(TextSet.From(json)),
-             [Tokens.InflectedFormIsOneOf.JsonKey] = json => new InflectedFormIsOneOf(TextSet.From(json))
+             [PartOfSpeechIs.JsonKey] = json => new PartOfSpeechIs(json.GetValue<string>()),
+             [InflectionTypeIsIn.JsonKey] = json => new InflectionTypeIsIn(TextSet.From(json)),
+             [InflectedFormIsIn.JsonKey] = json => new InflectedFormIsIn(TextSet.From(json))
           });
 
    /// <summary>The token's part of speech, for writing a condition on a token as its code reads, inside a group on it: <c>PartOfSpeech.Is("動詞")</c>.</summary>
@@ -147,13 +147,4 @@ public static class TokenConditions
 
    /// <summary>The token's inflected form, for writing a condition on a token as its code reads: <c>InflectedForm.In("連用形")</c>.</summary>
    public static InflectedFormTest<IAnalysisToken> InflectedForm => new(ConditionPath.Itself<IAnalysisToken>());
-
-   /// <summary>A condition that the token's part of speech is <paramref name="japaneseLevels"/>, or a kind of it, such as 名詞, 接尾 and 人名. See <see cref="PartOfSpeechIs"/>.</summary>
-   public static PartOfSpeechIs PartOfSpeechIs(params string[] japaneseLevels) => new(japaneseLevels);
-
-   /// <summary>A condition that the token's inflection type is one of <paramref name="names"/>, or in the family of one. See <see cref="InflectionTypeIsOneOf"/>.</summary>
-   public static InflectionTypeIsOneOf InflectionTypeIsOneOf(params string[] names) => new(new TextSet(names));
-
-   /// <summary>A condition that the token's inflected form is one of <paramref name="names"/>. See <see cref="InflectedFormIsOneOf"/>.</summary>
-   public static InflectedFormIsOneOf InflectedFormIsOneOf(params string[] names) => new(new TextSet(names));
 }

@@ -10,5 +10,5 @@ public sealed class PartOfSpeechTest<TFrom> where TFrom : class
    internal PartOfSpeechTest(IConditionPath<TFrom, IAnalysisToken> token) => _token = token;
 
    /// <summary>The token's part of speech is <paramref name="japaneseLevels"/>, its levels from the top, or a kind of it (<see cref="PartOfSpeechIs"/>).</summary>
-   public Condition<TFrom> Is(params string[] japaneseLevels) => _token.Placed(TokenConditions.PartOfSpeechIs(japaneseLevels));
+   public Condition<TFrom> Is(params string[] japaneseLevels) => _token.Placed(new PartOfSpeechIs(japaneseLevels));
 }

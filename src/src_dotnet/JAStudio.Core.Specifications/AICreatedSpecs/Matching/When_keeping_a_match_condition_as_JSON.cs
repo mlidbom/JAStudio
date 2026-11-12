@@ -36,9 +36,9 @@ public class When_keeping_a_match_condition_as_JSON : IAIGeneratedSpec
             ConditionGroup.AnyOf(IsMatchedByAnInflectedSurface),
             PrecedingToken.Meets(ConditionGroup.AllOf(
                                     TokenConditions.IsAGodanVerb,
-                                    TokenConditions.PartOfSpeechIs("動詞", "自立"),
-                                    TokenConditions.InflectionTypeIsOneOf("五段・ラ行", "一段"),
-                                    TokenConditions.InflectedFormIsOneOf("連用タ接続"),
+                                    TokenConditions.PartOfSpeech.Is("動詞", "自立"),
+                                    TokenConditions.InflectionType.In("五段・ラ行", "一段"),
+                                    TokenConditions.InflectedForm.In("連用タ接続"),
                                     TokenConditions.Surface.Meets(TextConditions.EndsWithOneOf("ん")),
                                     TokenConditions.BaseForm.Meets(TextConditions.In("する")),
                                     TokenConditions.Reading.Meets(TextConditions.ContainsOneOf("ス")))),

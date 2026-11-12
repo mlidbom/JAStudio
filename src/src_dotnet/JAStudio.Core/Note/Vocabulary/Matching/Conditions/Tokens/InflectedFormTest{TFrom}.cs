@@ -1,4 +1,5 @@
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
@@ -9,6 +10,6 @@ public sealed class InflectedFormTest<TFrom> where TFrom : class
 
    internal InflectedFormTest(IConditionPath<TFrom, IAnalysisToken> token) => _token = token;
 
-   /// <summary>The token's inflected form is one of <paramref name="names"/> (<see cref="InflectedFormIsOneOf"/>).</summary>
-   public Condition<TFrom> In(params string[] names) => _token.Placed(TokenConditions.InflectedFormIsOneOf(names));
+   /// <summary>The token's inflected form is one of <paramref name="names"/> (<see cref="InflectedFormIsIn"/>).</summary>
+   public Condition<TFrom> In(params string[] names) => _token.Placed(new InflectedFormIsIn(new TextSet(names)));
 }

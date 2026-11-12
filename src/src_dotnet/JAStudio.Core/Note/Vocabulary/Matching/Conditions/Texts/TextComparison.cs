@@ -6,7 +6,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 /// <summary>
-/// A condition that a text compares in one way with one of the <see cref="Texts"/>: <see cref="TextIsOneOf"/>, <see cref="TextStartsWithOneOf"/>,<br/>
+/// A condition that a text compares in one way with one of the <see cref="Texts"/>: <see cref="TextIsIn"/>, <see cref="TextStartsWithOneOf"/>,<br/>
 /// <see cref="TextEndsWithOneOf"/> or <see cref="TextContainsOneOf"/>. Every comparison is ordinal: exact, character by character.
 /// </summary>
 public abstract record TextComparison : Condition<string>

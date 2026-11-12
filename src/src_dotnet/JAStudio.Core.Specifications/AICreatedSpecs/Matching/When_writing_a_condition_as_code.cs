@@ -64,7 +64,7 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
       static readonly Condition<CandidateWordVariant> Condition =
          ConditionGroup.AnyOf(
             ConditionGroup.Not(Surface.Meets(TextConditions.In("本の"))),
-            FollowingToken.Meets(TokenConditions.InflectedFormIsOneOf("連用形", "連用タ接続")));
+            FollowingToken.Meets(TokenConditions.InflectedForm.In("連用形", "連用タ接続")));
 
       [XF] public void joins_its_lines_without_their_comments_with_a_space_after_each_comma() =>
          ConditionCode.OnOneLine(Condition).Must().Be("AnyOf(!Surface.In(\"本の\"), FollowingToken.InflectedForm.In(連用タ接続, 連用形))");
@@ -85,6 +85,6 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
    public class an_inflection_type_family : When_writing_a_condition_as_code
    {
       [XF] public void says_in_english_that_it_is_every_type_of_the_family() =>
-         ConditionCode.AsText(ConditionCode.LinesOf(TokenConditions.InflectionTypeIsOneOf("五段"))).Must().Be("InflectionType.In(五段)   // every godan type");
+         ConditionCode.AsText(ConditionCode.LinesOf(TokenConditions.InflectionType.In("五段"))).Must().Be("InflectionType.In(五段)   // every godan type");
    }
 }

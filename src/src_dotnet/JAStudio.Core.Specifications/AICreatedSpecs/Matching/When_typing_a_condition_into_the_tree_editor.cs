@@ -50,9 +50,9 @@ public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec
    {
       static readonly ConditionTestWithTexts PartOfSpeechIs = TokenTest("PartOfSpeech.Is");
 
-      [XF] public void levels_separated_by_spaces_are_the_levels_from_the_top() => PartOfSpeechIs.MadeFrom("名詞 接尾").Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
-      [XF] public void levels_separated_by_a_middle_dot_are_too() => PartOfSpeechIs.MadeFrom("名詞・接尾").Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
-      [XF] public void the_condition_shows_typed_as_its_levels_separated_by_a_middle_dot() => PartOfSpeechIs.TypedTextOf(TokenConditions.PartOfSpeechIs("名詞", "接尾")).Must().Be("名詞・接尾");
+      [XF] public void levels_separated_by_spaces_are_the_levels_from_the_top() => PartOfSpeechIs.MadeFrom("名詞 接尾").Must().Be(TokenConditions.PartOfSpeech.Is("名詞", "接尾"));
+      [XF] public void levels_separated_by_a_middle_dot_are_too() => PartOfSpeechIs.MadeFrom("名詞・接尾").Must().Be(TokenConditions.PartOfSpeech.Is("名詞", "接尾"));
+      [XF] public void the_condition_shows_typed_as_its_levels_separated_by_a_middle_dot() => PartOfSpeechIs.TypedTextOf(TokenConditions.PartOfSpeech.Is("名詞", "接尾")).Must().Be("名詞・接尾");
       [XF] public void a_part_of_speech_the_tokenizer_never_gives_says_so() =>
          TheReason(PartOfSpeechIs.WhyItMakesNoConditionFrom("名詞 存在しない")).Must().Be("The tokenizer gives no part of speech that is, or is a kind of, 名詞・存在しない.");
 

@@ -91,11 +91,11 @@ public class When_editing_a_match_condition_in_the_tree_editor : IAIGeneratedSpe
       {
          _theGroup = _matchCondition.AddCondition(Root, PrecedingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>())).Child(0);
          _matchCondition.AddCondition(_theGroup, TokenConditions.IsAnAdverb);
-         _matchCondition.AddCondition(_theGroup, TokenConditions.PartOfSpeechIs("形容詞"));
+         _matchCondition.AddCondition(_theGroup, TokenConditions.PartOfSpeech.Is("形容詞"));
       }
 
       [XF] public void the_group_holds_both_in_the_order_they_were_added() =>
-         _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAnAdverb, TokenConditions.PartOfSpeechIs("形容詞")))));
+         _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAnAdverb, TokenConditions.PartOfSpeech.Is("形容詞")))));
 
       [XF] public void the_conditions_in_the_group_are_those_on_a_token() => _matchCondition.LevelAt(_theGroup.Child(1)).Must().Be(TokenConditions.Level);
 
@@ -110,15 +110,15 @@ public class When_editing_a_match_condition_in_the_tree_editor : IAIGeneratedSpe
          public then_switching_the_group() => _matchCondition.SwitchGroup(_theGroup);
 
          [XF] public void it_is_an_all_of_group_with_the_same_conditions() =>
-            _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AllOf(TokenConditions.IsAnAdverb, TokenConditions.PartOfSpeechIs("形容詞")))));
+            _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AllOf(TokenConditions.IsAnAdverb, TokenConditions.PartOfSpeech.Is("形容詞")))));
       }
 
       public class then_replacing_the_second_condition_in_it : after_adding_an_any_of_group_on_the_preceding_token_with_two_conditions_in_it
       {
-         public then_replacing_the_second_condition_in_it() => _matchCondition.ReplaceCondition(_theGroup.Child(1), TokenConditions.PartOfSpeechIs("副詞"));
+         public then_replacing_the_second_condition_in_it() => _matchCondition.ReplaceCondition(_theGroup.Child(1), TokenConditions.PartOfSpeech.Is("副詞"));
 
          [XF] public void the_replacement_takes_its_place() =>
-            _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAnAdverb, TokenConditions.PartOfSpeechIs("副詞")))));
+            _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAnAdverb, TokenConditions.PartOfSpeech.Is("副詞")))));
       }
 
       public class then_removing_the_first_condition_in_it : after_adding_an_any_of_group_on_the_preceding_token_with_two_conditions_in_it
@@ -126,7 +126,7 @@ public class When_editing_a_match_condition_in_the_tree_editor : IAIGeneratedSpe
          public then_removing_the_first_condition_in_it() => _matchCondition.RemoveCondition(_theGroup.Child(0));
 
          [XF] public void only_the_second_is_left_in_the_group() =>
-            _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.PartOfSpeechIs("形容詞")))));
+            _matchCondition.Current.Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(ConditionGroup.AnyOf(TokenConditions.PartOfSpeech.Is("形容詞")))));
       }
    }
 

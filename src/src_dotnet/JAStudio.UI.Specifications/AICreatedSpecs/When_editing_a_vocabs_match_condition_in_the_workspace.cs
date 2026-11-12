@@ -145,7 +145,7 @@ public class When_editing_a_vocabs_match_condition_in_the_workspace : Specificat
          }
 
          [XF] public void the_condition_goes_into_the_group_as_a_condition_on_a_token() =>
-            _vocab.MatchingConfiguration.MatchCondition.Must().Be(ConditionGroup.AllOf(FollowingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>(TokenConditions.PartOfSpeechIs("名詞")))));
+            _vocab.MatchingConfiguration.MatchCondition.Must().Be(ConditionGroup.AllOf(FollowingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>(TokenConditions.PartOfSpeech.Is("名詞")))));
 
          [XF] public void the_editor_was_titled_with_the_condition_test_alone_since_the_group_shows_its_subject() => EditorOpenedByTheMenu.Title.Must().Be("PartOfSpeech.Is");
       }

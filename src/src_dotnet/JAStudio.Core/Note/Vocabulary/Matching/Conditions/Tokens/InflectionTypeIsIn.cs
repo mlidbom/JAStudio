@@ -11,19 +11,24 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
 /// <summary>
 /// A condition that a token's inflection type, as the tokenizer gives it, is one of <see cref="Names"/>, or in the family of one of them: 五段 is met<br/>
-/// by every godan type, such as 五段・ラ行, and 特殊 by every special one, such as 特殊・タ. Made by <see cref="TokenConditions.InflectionTypeIsOneOf"/>.
+/// by every godan type, such as 五段・ラ行, and 特殊 by every special one, such as 特殊・タ. Written <c>InflectionType.In(...)</c>: made by<br/>
+/// <see cref="InflectionTypeTest{TFrom}.In"/>, on <see cref="TokenConditions.InflectionType"/> or on a way to a token, such as <c>LastToken.InflectionType</c>.
 /// </summary>
 /// <remarks>
 /// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the inflection type of the token it was split from<br/>
 /// (<see cref="IAnalysisToken.SourceToken"/>).
 /// </remarks>
-public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
+public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
 {
    //review:matching: "inflection type" and "inflected form" for 活用型 and 活用形, after Janome's infl_type and infl_form. English grammars
    //   of Japanese mostly say conjugation type and conjugation form, as UniDic's documentation does. Linguistics uses both words.
 
+   //review:matching: InflectionTypeIsIn, InflectedFormIsIn and TextIsIn, for the conditions whose code is InflectionType.In, InflectedForm.In
+   //   and Surface.In: they were ...IsOneOf, a second word for the code's In. "IsIn" rather than the code's bare "In", since TextIn or
+   //   InflectionTypeIn reads as no sentence, as PartOfSpeechIs and TextStartsWithOneOf do. Their keys in the corpus keep the old names.
+
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When a name is neither one of the tokenizer's inflection types nor one of their families.</exception>
-   internal InflectionTypeIsOneOf(TextSet names)
+   internal InflectionTypeIsIn(TextSet names)
    {
       Names = names;
       var whyTheyAreNoInflectionTypes = WhyTheyAreNoInflectionTypes(names);
@@ -32,7 +37,7 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
 
    /// <summary>The condition typed into the match-condition editor: the names separated by spaces.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedNamesMakeNoCondition"/> says why they make none.</exception>
-   internal static InflectionTypeIsOneOf FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
+   internal static InflectionTypeIsIn FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
 
    /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no type of, or null when they make one.</summary>
    internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
@@ -70,7 +75,10 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
    /// </summary>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => writing.LinesListing("InflectionType.In", [.. Names.Texts.Select(ValueOf)]);
 
-   /// <summary>The key this condition is stored under in the corpus.</summary>
+   /// <summary>
+   /// The key this condition is stored under in the corpus. It keeps the name the condition had before its code was written <c>In</c>: a new key would change<br/>
+   /// every note that stores one, and the stored notes are migrated only when there's more to gain.
+   /// </summary>
    internal const string JsonKey = "inflectionTypeIsOneOf";
 
    internal override JsonObject ToJson() => new() { [JsonKey] = Names.ToJson() };

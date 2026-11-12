@@ -1,4 +1,5 @@
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
@@ -9,6 +10,6 @@ public sealed class InflectionTypeTest<TFrom> where TFrom : class
 
    internal InflectionTypeTest(IConditionPath<TFrom, IAnalysisToken> token) => _token = token;
 
-   /// <summary>The token's inflection type is one of <paramref name="names"/>, or in the family of one (<see cref="InflectionTypeIsOneOf"/>).</summary>
-   public Condition<TFrom> In(params string[] names) => _token.Placed(TokenConditions.InflectionTypeIsOneOf(names));
+   /// <summary>The token's inflection type is one of <paramref name="names"/>, or in the family of one (<see cref="InflectionTypeIsIn"/>).</summary>
+   public Condition<TFrom> In(params string[] names) => _token.Placed(new InflectionTypeIsIn(new TextSet(names)));
 }

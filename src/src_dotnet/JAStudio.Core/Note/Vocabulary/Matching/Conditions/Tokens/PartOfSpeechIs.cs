@@ -11,7 +11,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// <summary>
 /// A condition that a token's part of speech is <see cref="JapaneseLevels"/>, or a kind of it: the tokenizer's part of speech, IPADIC's, which has up<br/>
 /// to four levels, such as 名詞・接尾・人名 for a suffix to a person's name. 名詞・接尾 is met by every kind of suffix noun, 名詞 by every kind of noun.<br/>
-/// Made by <see cref="TokenConditions.PartOfSpeechIs"/>.
+/// Written <c>PartOfSpeech.Is(...)</c>: made by <see cref="PartOfSpeechTest{TFrom}.Is"/>, on <see cref="TokenConditions.PartOfSpeech"/> or on a way to a token,<br/>
+/// such as <c>FollowingToken.PartOfSpeech</c>.
 /// </summary>
 /// <remarks>
 /// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the part of speech of the token it was split from<br/>

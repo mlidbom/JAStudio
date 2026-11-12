@@ -11,21 +11,22 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
 /// <summary>
 /// A condition that a token's inflected form, as the tokenizer gives it, is one of <see cref="Names"/>, such as 連用タ接続, the continuative form before<br/>
-/// た. Made by <see cref="TokenConditions.InflectedFormIsOneOf"/>.
+/// た. Written <c>InflectedForm.In(...)</c>: made by <see cref="InflectedFormTest{TFrom}.In"/>, on <see cref="TokenConditions.InflectedForm"/> or on a way to<br/>
+/// a token, such as <c>LastToken.InflectedForm</c>.
 /// </summary>
 /// <remarks>
 /// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the inflected form of the token it was split from<br/>
 /// (<see cref="IAnalysisToken.SourceToken"/>).
 /// </remarks>
-public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
+public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
 {
    //review:matching: "inflected form", after JNToken.InflectedForm, whose type is InflectionForm: two names for one concept. The value,
    //   such as 連用タ接続, is a kind of form, not the inflected word itself, so "inflection form" tells the truth better. Not renamed yet,
-   //   since the question beside InflectionTypeIsOneOf, inflection or conjugation, may rename it again: one rename for both, across the
+   //   since the question beside InflectionTypeIsIn, inflection or conjugation, may rename it again: one rename for both, across the
    //   tokenizer, the MCP's AnalyzedToken and this model.
 
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When a name isn't one of the tokenizer's inflected forms.</exception>
-   internal InflectedFormIsOneOf(TextSet names)
+   internal InflectedFormIsIn(TextSet names)
    {
       Names = names;
       var whyTheyAreNoInflectedForms = WhyTheyAreNoInflectedForms(names);
@@ -34,7 +35,7 @@ public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
 
    /// <summary>The condition typed into the match-condition editor: the names separated by spaces.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedNamesMakeNoCondition"/> says why they make none.</exception>
-   internal static InflectedFormIsOneOf FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
+   internal static InflectedFormIsIn FromTyped(string typedNames) => new(TextSet.FromTyped(typedNames));
 
    /// <summary>Why the names typed into the match-condition editor make no condition, such as a name the tokenizer has no form of, or null when they make one.</summary>
    internal static string? WhyTypedNamesMakeNoCondition(string typedNames) =>
@@ -66,7 +67,10 @@ public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) =>
       writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(InflectionForms.GetByName).Select(ValueOf)]);
 
-   /// <summary>The key this condition is stored under in the corpus.</summary>
+   /// <summary>
+   /// The key this condition is stored under in the corpus. It keeps the name the condition had before its code was written <c>In</c>: a new key would change<br/>
+   /// every note that stores one, and the stored notes are migrated only when there's more to gain.
+   /// </summary>
    internal const string JsonKey = "inflectedFormIsOneOf";
 
    internal override JsonObject ToJson() => new() { [JsonKey] = Names.ToJson() };

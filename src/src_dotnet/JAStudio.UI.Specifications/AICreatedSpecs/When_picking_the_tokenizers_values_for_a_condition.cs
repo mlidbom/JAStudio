@@ -54,13 +54,13 @@ public class When_picking_the_tokenizers_values_for_a_condition : IAIGeneratedSp
             TheValue(_editor, "連用タ接続").IsPicked = true;
          }
 
-         [XF] public void its_condition_has_both() => _editor.Condition.Must().Be(TokenConditions.InflectedFormIsOneOf("連用形", "連用タ接続"));
+         [XF] public void its_condition_has_both() => _editor.Condition.Must().Be(TokenConditions.InflectedForm.In("連用形", "連用タ接続"));
 
          public class then_unpicking_one : after_picking_two
          {
             public then_unpicking_one() => TheValue(_editor, "連用形").IsPicked = false;
 
-            [XF] public void its_condition_has_the_other_alone() => _editor.Condition.Must().Be(TokenConditions.InflectedFormIsOneOf("連用タ接続"));
+            [XF] public void its_condition_has_the_other_alone() => _editor.Condition.Must().Be(TokenConditions.InflectedForm.In("連用タ接続"));
          }
       }
    }
@@ -78,13 +78,13 @@ public class When_picking_the_tokenizers_values_for_a_condition : IAIGeneratedSp
          }
 
          [XF] public void the_first_is_unpicked_since_a_condition_has_one_part_of_speech() => TheValue(_editor, "名詞").IsPicked.Must().BeFalse();
-         [XF] public void its_condition_is_the_one_picked_last() => _editor.Condition.Must().Be(TokenConditions.PartOfSpeechIs("名詞", "接尾"));
+         [XF] public void its_condition_is_the_one_picked_last() => _editor.Condition.Must().Be(TokenConditions.PartOfSpeech.Is("名詞", "接尾"));
       }
    }
 
    public class changing_a_condition_on_two_inflected_forms : When_picking_the_tokenizers_values_for_a_condition
    {
-      static readonly Condition TheCondition = TokenConditions.InflectedFormIsOneOf("連用形", "連用タ接続");
+      static readonly Condition TheCondition = TokenConditions.InflectedForm.In("連用形", "連用タ接続");
 
       readonly ConditionTextsEditorViewModel _editor = ConditionTextsEditorViewModel.ForChanging(TheCondition, TokenTest("InflectedForm.In"), title: "InflectedForm.In");
 

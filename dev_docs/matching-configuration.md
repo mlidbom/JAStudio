@@ -1087,7 +1087,9 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
    - **The root's line is a comment heading,** `// A word matches the vocab when each of these holds:`, rather than no
      line: the root needs a line for its `+` button and the keyboard.
    - **Names:** facts and subjects are named by the fields that define them (`nameof`). `TextConditions.IsOneOf` became
-     `In` and `IsEmptyText` became `IsEmpty`. The tests with texts are named in code, such as `EndsWithOneOf` and
+     `In` and `IsEmptyText` became `IsEmpty`. The conditions are named for their code too: `TextIsIn`, `InflectionTypeIsIn`
+     and `InflectedFormIsIn` were `...IsOneOf`, beside `PartOfSpeechIs`. Their keys in the corpus keep the old names, so
+     no stored note changed. The tests with texts are named in code, such as `EndsWithOneOf` and
      `PartOfSpeech.Is`, and the add menu picks its keys from the words of a code name (`AutomaticMnemonics`).
    - **Values are in ordinal order,** as a condition's set of texts keeps them, so `InflectedForm.In(連用形, 連用タ接続)`
      shows as `InflectedForm.In(連用タ接続, 連用形)`.
@@ -1110,6 +1112,9 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
    conditions. Inside a group on a token, its conditions are `TokenConditions`', such as
    `TokenConditions.PartOfSpeech.Is("動詞")`, since a word and a token both have a `Surface`. `MatchingRules` is written
    so, and a specification checks that every fact about a token and every test of a text can be.
+   - **One spelling:** the factories from increment 1, `TokenConditions.PartOfSpeechIs(...)`, `InflectionTypeIsOneOf(...)`
+     and `InflectedFormIsOneOf(...)`, are gone, so C# writes these conditions only as the tree shows them (Magnus,
+     2026-11-12).
 
 **Not built yet:**
 - **Moving from the picker's filter to its list takes Tab;** there's no arrow key into the list.
