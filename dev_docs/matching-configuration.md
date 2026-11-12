@@ -3,8 +3,8 @@
 > **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 and 2 of increment 6, shared-conditions:
 > the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
 > definitions were, through an operation that stays. Under way, step 3, creating and editing them in JAStudio: a
-> definition is edited in the shared-condition's own window, which F12 opens from any tree. Next, making one from a
-> line of a tree:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> definition is edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line
+> of a tree. Next, renaming one:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -759,7 +759,7 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
    3. **Creating and editing shared-conditions in JAStudio,** and opening one's definition from a vocab's tree (F12 or
       Ctrl+click). In four parts, each committed on its own: see [Increment 6, step 3](#increment-6-step-3).
       1. **Editing a definition in the shared-condition's window,** opened from any tree: built 2026-11-12.
-      2. **Making a shared-condition of a line of a tree,** then used wherever its definition is.
+      2. **Making a shared-condition of a line of a tree,** then used wherever its definition is: built 2026-11-12.
       3. **Renaming one,** in every vocab and definition that uses it, and its file.
       4. **Deleting one,** its definition written out wherever it's used.
    4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
@@ -1319,6 +1319,25 @@ Built 2026-11-12. No note changed: nothing that decides what a vocab matches cha
 4. **F12, Ctrl+click and the right-click menu's "Open its definition"** open it from any tree.
 5. **The MCP server's `redefine_a_shared_condition`** does the same: it redefines, and reparses the sentences of the vocab
    depending on it.
+
+### Increment 6, step 3, part 2, as built
+
+Built 2026-11-12. No note changed, since no shared-condition was made in the corpus.
+
+1. **A line's right-click menu has "Make a shared-condition of it…"** (key `m`), in a vocab's tree and in a definition's.
+   It opens a dialog (`NewSharedConditionDialog`) offering the conditions on the line worth naming, from the outermost
+   in, each on its subject (`EditableCondition.ConditionsToMakeASharedConditionOfAt`): the condition there and each that
+   the negations and conditions on subjects around it hold. Worth naming is what the finder counts
+   (`ConditionWithItsLevel.IsWorthNaming`, which moved from `Sharing.Candidates` to `Sharing` for both): not a name
+   already, a fact or a shared-condition, on a subject or negated, nor a negation, nor a group of fewer than two
+   conditions. So `PrecedingToken.IsAGodanVerb` offers none, and the menu item is disabled there. The root offers itself
+   when it holds two conditions or more.
+2. **The name is typed after its subject's,** such as `Word.`, and the dialog says why it can't be used, if it can't
+   (`SharedConditions.WhyItCannotNameANewOne`): a name in code, none of the other conditions' on the subject, none another
+   shared-condition there has.
+3. **Making it** (`SharedConditions.MakeOf`) defines it, saves its file, and uses it wherever its definition is, in every
+   vocab's match-condition and every other definition, the line too: the tree shows its name in the line's place. Undo
+   in the tree writes the line's condition out again in that tree only.
 
 ### Naming and design questions: `review:matching:` comments
 
