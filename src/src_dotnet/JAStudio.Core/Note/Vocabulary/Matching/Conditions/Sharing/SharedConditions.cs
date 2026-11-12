@@ -80,6 +80,32 @@ public sealed class SharedConditions
    }
 
    /// <summary>
+   /// Uses <paramref name="sharedCondition"/>, one of these, by name wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>): in the<br/>
+   /// match-condition of each of <paramref name="vocab"/>, saving each vocab that changes, and in the definitions of the other shared-conditions,<br/>
+   /// saving each that changes in its file.
+   /// </summary>
+   /// <remarks>
+   /// Each changes only to mean the same, so the vocab match the same words, and weigh the same, as before. Its own definition isn't changed, which would<br/>
+   /// make it use itself.
+   /// </remarks>
+   public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
+   {
+      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      All.Where(it => !it.Equals(sharedCondition)).ToList().ForEach(UseItInTheDefinitionOf);
+      vocab.ToList().ForEach(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition));
+      return;
+
+      void UseItInTheDefinitionOf(ISharedCondition other)
+      {
+         var withItUsed = other.Definition.WithSharedConditionUsed(sharedCondition);
+         if(withItUsed.Equals(other.Definition)) return;
+         other.RewriteItsDefinitionAs(withItUsed);
+         Contract.State.Assert(!other.UsesItself, () => $"Using {sharedCondition.FullName} in {other.FullName}'s definition made {other.FullName} use itself: {other.Definition}");
+         _monitor.Locked(() => _folder.Save(other));
+      }
+   }
+
+   /// <summary>
    /// Loads the shared-conditions from the corpus checkout anew, in place of those held, as the collection loads its notes. Each is first made by name,<br/>
    /// then defined, so that a definition can use any of them.
    /// </summary>

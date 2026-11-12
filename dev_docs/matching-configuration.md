@@ -1,8 +1,8 @@
 # The matching configuration as a tree of conditions
 
 > **Status (2026-11-12): increments 1 to 5 of the core are built, and step 1 of increment 6, shared-conditions: the
-> model, their storage, their display, and the first five in the corpus. Next, step 2, the vocab using them by name:** see
-> [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> model, their storage, their display, and the first five in the corpus. Under way, step 2, the vocab using them by name,
+> wherever their definitions are:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -740,18 +740,59 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
      nothing, which can change which of two vocab wins, silently. A shared-condition's weight can belong to its name.
 
    What still reads the rules then reads the shared-conditions: the priority weights, the four tags below
-   `Tags.Vocab.Matching.Uses`, and narrowing a reparse when the surface is required.
+   `Tags.Vocab.Matching.Uses`, and narrowing a reparse when the surface is required. (Revised in step 2: a
+   shared-condition weighs what its definition weighs, so the rules stay the weights until priority is designed.)
 
    In four steps, each committed with its full rebuild (agreed with Magnus, 2026-11-12, with the five as corpus data, not
    code):
    1. **The model and its storage, their display, and the five in the corpus:** built 2026-11-12, see
       [Increment 6, step 1, as built](#increment-6-step-1-as-built).
-   2. **The vocab using the five by name,** in place of their conditions written out: a change to the corpus's format,
-      so Anki is closed for the fast-forward. Each shared-condition's priority weight is stored in its file, and new ones
-      weigh nothing until priority is designed (open question 2).
+   2. **The vocab using the five by name,** in place of their conditions written out, through an operation that stays:
+      using a shared-condition wherever its definition is (revised with Magnus, 2026-11-12, see
+      [Step 2: naming a condition never changes what a vocab does](#step-2-naming-a-condition-never-changes-what-a-vocab-does)).
+      A change to the corpus's format, so Anki is closed for the fast-forward.
+      - **Then, finding the conditions vocab share:** an MCP tool that lists the subtrees, and the combinations of
+        conditions in a group, that several vocab hold, for a mind to name and decide on.
    3. **Creating and editing shared-conditions in JAStudio,** and opening one's definition from a vocab's tree (F12 or
       Ctrl+click).
    4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
+
+#### Step 2: naming a condition never changes what a vocab does
+
+Agreed with Magnus, 2026-11-12, after he asked whether replacing the five's conditions by their names would be done by
+hand or by JAStudio, and whether it would stay: "when we find that other subtrees are used often we should created
+shared-conditions for them, and if those can be auto-inserted in the relevant vocab that would be very nice. Also, since
+conditions are values, that should mean that we could mine existing matching configs in the future to find common
+subtrees, right? And maybe created shared conditions straight from that?"
+
+**The rule that makes using one everywhere safe: giving a condition a name never changes what a vocab does,** neither
+which words it matches nor what it weighs. What it matches can't change, since a shared-condition is met exactly when its
+definition is; a full rebuild checks it. Two things broke the rule, and step 2 fixes both:
+1. **A group's conditions were compared in order** (`ConditionGroup<TSubject>.Equals`): godan potential with its two facts
+   the other way round wasn't the rule's condition, so it weighed nothing, and wouldn't be found to be a shared-condition's
+   definition. So conditions are also compared by what they mean: in any order within a group, and with a
+   shared-condition taken as its definition. Not as their equality, which the editor relies on: it ignores an edit equal to
+   the tree it has (`EditableMatchCondition`), and reordering is a change.
+2. **Only a condition that is exactly a rule's weighed,** so a rule's condition replaced by its name lost its weight. The
+   plan was to store a weight in each shared-condition's file; instead a shared-condition weighs what its definition
+   weighs. No file holds a weight, and a forbidden one weighs the 1 a forbidden rule does. And since a combination of the
+   match-condition's conditions can become one shared-condition, weighing takes an "all of" in the match-condition's "all
+   of", or a shared-condition defined as one, as the conditions it holds.
+
+**Using a shared-condition wherever its definition is** replaces, in every vocab's match-condition and every other
+shared-condition's definition, each condition that means the same as the definition with the shared-condition, by name.
+When the definition is a group of two or more conditions, a group of the same kind that holds them all among others
+has them replaced by it: `AllOf(A, B, C)` with a definition `AllOf(A, B)` becomes `AllOf(Shared, C)`.
+
+**Making a shared-condition takes a mind; using it everywhere doesn't.** Finding the conditions vocab share proposes,
+and someone names each and decides: a shared-condition is mostly its name, and two vocab holding the same condition may
+hold it for different reasons, which one shared-condition then ties together. Once decided, using it everywhere is
+mechanical. For the five, tying them together is right by construction: each was one rule.
+
+**Counted when deciding, 2026-11-12:** 421 of the 28,004 vocab have a match-condition, 345 distinct subtrees in all.
+Sentence start is in 38 vocab (19 forbid it), godan potential in 36 (16), godan imperative in 16 (11), past tense stem in
+7 and ichidan imperative in 5. `PrecedingToken.Surface.EndsWithOneOf("ん")` is in 44, more than any of the five. A
+combination: following an irrealis form and not an ichidan verb is the whole match-condition of 14 vocab.
 
 After the core: the yardstick, rules-for-many-vocab, conditions on display, the tree checked against a word in a
 sentence (decided: see [The tree checked against a word](#decided-on-the-backlog-the-tree-checked-against-a-word-in-a-sentence)),

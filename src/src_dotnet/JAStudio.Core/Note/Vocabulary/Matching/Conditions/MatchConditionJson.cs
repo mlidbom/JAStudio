@@ -36,7 +36,7 @@ public static class MatchConditionJson
    /// </summary>
    /// <exception cref="FormatException">When <paramref name="json"/> isn't a condition on a word, or uses a shared-condition there's none of.</exception>
    public static AllOfGroup<CandidateWordVariant> VocabsMatchConditionFrom(JsonObject? json, SharedConditions sharedConditions) =>
-      json is null ? ConditionGroup.AllOf<CandidateWordVariant>() : AsAnAllOf(MatchConditionFrom(json, sharedConditions));
+      json is null ? ConditionGroup.AllOf<CandidateWordVariant>() : ConditionGroup.AsAnAllOf(MatchConditionFrom(json, sharedConditions));
 
    /// <summary>A vocab's <paramref name="matchCondition"/> as indented JSON text, as a person edits it as a whole: empty for none.</summary>
    public static string AsJsonText(AllOfGroup<CandidateWordVariant> matchCondition) => AsAVocabStoresIt(matchCondition)?.ToJsonString(IndentedJson) ?? "";
@@ -48,8 +48,6 @@ public static class MatchConditionJson
    /// <exception cref="FormatException">When it isn't a condition on a word, or uses a shared-condition there's none of.</exception>
    public static AllOfGroup<CandidateWordVariant> VocabsMatchConditionFromJsonText(string text, SharedConditions sharedConditions) =>
       VocabsMatchConditionFrom(text.Trim().Length == 0 ? null : JsonObjectIn(text), sharedConditions);
-
-   static AllOfGroup<CandidateWordVariant> AsAnAllOf(Condition<CandidateWordVariant> condition) => condition as AllOfGroup<CandidateWordVariant> ?? ConditionGroup.AllOf(condition);
 
    static JsonObject JsonObjectIn(string text) => JsonNode.Parse(text) as JsonObject ?? throw new FormatException($"A match-condition is a JSON object: {text}");
 }

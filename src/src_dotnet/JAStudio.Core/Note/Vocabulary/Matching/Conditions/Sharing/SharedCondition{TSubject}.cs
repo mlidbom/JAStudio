@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using Compze.Contracts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
@@ -48,6 +50,12 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
 
    void ISharedCondition.DefineFrom(JsonObject json, SharedConditions sharedConditions) => Define(Level.ConditionFrom(json, sharedConditions));
 
+   void ISharedCondition.RewriteItsDefinitionAs(Condition definition)
+   {
+      Contract.Argument.Assert(definition.MeansTheSameAs(Definition), () => $"{FullName}'s definition rewritten as {definition}, which doesn't mean the same as {Definition}.");
+      Define(definition.AsAConditionOn<TSubject>());
+   }
+
    bool ISharedCondition.UsesItself
    {
       get
@@ -72,6 +80,12 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
    internal override JsonObject ToJson() => new() { [JsonKey] = Name };
 
    public override IEnumerable<ISharedCondition> SharedConditionsUsed() => [this];
+
+   /// <summary>Its definition's: a shared-condition means what its definition does (<see cref="Condition.MeansTheSameAs"/>).</summary>
+   protected override bool MeansTheSameAsAConditionNotShared(Condition other) => Definition.MeansTheSameAs(other);
+
+   /// <summary>Its definition's, so that a matching rule whose condition is a shared-condition's definition sees its texts in the shared-condition too.</summary>
+   internal override IEnumerable<TextSet> ComparedTextSets() => Definition.ComparedTextSets();
 
    /// <summary>Each name is defined once on each kind of subject, so two are the same shared-condition when their names are.</summary>
    public bool Equals(SharedCondition<TSubject>? other) => other is not null && Name == other.Name;

@@ -49,10 +49,10 @@ public sealed class RequireForbidMatchingRule : MatchingRule
       _ => throw new ArgumentOutOfRangeException(nameof(choice), choice, null)
    };
 
-   /// <summary>The choice <paramref name="condition"/> stands for: required, forbidden, or unset when it isn't this rule's.</summary>
+   /// <summary>The choice <paramref name="condition"/> stands for, meaning the same as one of the rule's conditions: required, forbidden, or unset when it isn't this rule's.</summary>
    internal RequireForbidChoice ChoiceOf(Condition<CandidateWordVariant> condition) =>
-      condition.Equals(WhenRequired) ? RequireForbidChoice.Required
-      : condition.Equals(WhenForbidden) ? RequireForbidChoice.Forbidden
+      condition.MeansTheSameAs(WhenRequired) ? RequireForbidChoice.Required
+      : condition.MeansTheSameAs(WhenForbidden) ? RequireForbidChoice.Forbidden
       : RequireForbidChoice.Unset;
 
    internal override bool Recognizes(Condition<CandidateWordVariant> condition) => ChoiceOf(condition) != RequireForbidChoice.Unset;

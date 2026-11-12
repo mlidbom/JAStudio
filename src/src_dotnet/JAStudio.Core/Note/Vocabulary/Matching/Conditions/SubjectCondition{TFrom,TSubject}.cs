@@ -46,4 +46,8 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
    internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 
    protected override Conditions.Condition WithChildReplaced(int index, Conditions.Condition replacement) => Subject.Meets(replacement.AsAConditionOn<TSubject>());
+
+   /// <summary>Whether <paramref name="other"/> is a condition on the same subject, which it must meet a condition meaning the same as this one's.</summary>
+   protected override bool MeansTheSameAsAConditionNotShared(Conditions.Condition other) =>
+      other is SubjectCondition<TFrom, TSubject> onASubject && onASubject.Subject == Subject && Condition.MeansTheSameAs(onASubject.Condition);
 }

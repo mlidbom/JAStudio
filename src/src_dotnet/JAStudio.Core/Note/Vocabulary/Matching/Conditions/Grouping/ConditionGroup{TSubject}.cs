@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -16,6 +17,14 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    /// <summary>The conditions in this group, in the order the editor shows them.</summary>
    public IReadOnlyList<Condition<TSubject>> Conditions { get; }
 
+   /// <summary>
+   /// The group's conditions, flattened: a group of the same kind among them, or a shared-condition defined as one, taken as the conditions it holds,<br/>
+   /// all the way down. <c>AllOf(A, AllOf(B, C))</c> holds <c>A</c>, <c>B</c> and <c>C</c>, as <c>AllOf(A, B, C)</c> does, and means the same<br/>
+   /// (<see cref="Condition.MeansTheSameAs"/>). A vocab's priority weighs these (<see cref="Rules.MatchConditionAsRules"/>), so that putting some of a<br/>
+   /// match-condition's conditions in a shared-condition of their own changes nothing it weighs.
+   /// </summary>
+   public IEnumerable<Condition<TSubject>> FlattenedConditions => Conditions.SelectMany(FlattenedIntoThisGroup);
+
    IReadOnlyList<Condition> IConditionGroup.Conditions => Conditions;
 
    public override IReadOnlyList<Condition> Children => Conditions;
@@ -24,9 +33,24 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
 
    public abstract bool IsAnyOf { get; }
 
+   /// <summary>Whether <paramref name="group"/> is of the same kind as this one: both "all of", or both "any of".</summary>
+   bool IsOfTheSameKindAs(ConditionGroup<TSubject> group) => group.IsAnyOf == IsAnyOf;
+
    public Condition WithConditionAdded(Condition condition) => WithConditions([..Conditions, condition.AsAConditionOn<TSubject>()]);
 
    public Condition WithoutConditionAt(int index) => WithConditions([..Conditions.Where((_, conditionIndex) => conditionIndex != index)]);
+
+   /// <summary>
+   /// This group with <paramref name="replacement"/> in place of its conditions at <paramref name="indexes"/>: in the place of the first of them, and the<br/>
+   /// others gone.
+   /// </summary>
+   ConditionGroup<TSubject> WithConditionsAtReplacedBy(IReadOnlyList<int> indexes, Condition<TSubject> replacement)
+   {
+      var placeOfTheReplacement = indexes.Min();
+      return WithConditions([.. Conditions.Index().Where(it => !IsGone(it.Index)).Select(it => it.Index == placeOfTheReplacement ? replacement : it.Item)]);
+
+      bool IsGone(int index) => index != placeOfTheReplacement && indexes.Contains(index);
+   }
 
    public abstract Condition SwitchedBetweenAllOfAndAnyOf();
 
@@ -58,6 +82,46 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    protected JsonObject ToJsonUnder(string jsonKey) => new() { [jsonKey] = new JsonArray([.. Conditions.Select(JsonNode (it) => it.ToJson())]) };
 
    internal override IEnumerable<TextSet> ComparedTextSets() => Conditions.SelectMany(it => it.ComparedTextSets());
+
+   /// <summary>
+   /// Whether <paramref name="other"/> is a group of the same kind whose <see cref="FlattenedConditions"/>, in whatever order, each mean the same as one of<br/>
+   /// this group's.
+   /// </summary>
+   protected override bool MeansTheSameAsAConditionNotShared(Condition other) =>
+      other is ConditionGroup<TSubject> group && IsOfTheSameKindAs(group) && FlattenedConditions.MeanTheSameInAnyOrderAs(group.FlattenedConditions);
+
+   /// <summary>
+   /// <paramref name="condition"/>, one of this group's, flattened into it (<see cref="FlattenedConditions"/>): the conditions it holds, flattened, when<br/>
+   /// it's a group of this group's kind, or a shared-condition defined as one, else itself.
+   /// </summary>
+   IEnumerable<Condition<TSubject>> FlattenedIntoThisGroup(Condition<TSubject> condition) => condition switch
+   {
+      //review:matching: FlattenedIntoThisGroup was ConditionsHeldFlattened, which didn't say that what it gives depends on this group's kind:
+      //   an "any of" in an "all of" stays as it is.
+      ConditionGroup<TSubject> group when IsOfTheSameKindAs(group) => group.FlattenedConditions,
+      SharedCondition<TSubject> { Definition: ConditionGroup<TSubject> definition } when IsOfTheSameKindAs(definition) => definition.FlattenedConditions,
+      _ => [condition]
+   };
+
+   /// <summary>The group with <paramref name="sharedCondition"/> used in each of its conditions, then in place of some of them when they're its definition's.</summary>
+   protected override Condition WithSharedConditionUsedInTheConditionsItHolds(ISharedCondition sharedCondition) =>
+      WithConditions([.. Conditions.Select(it => it.WithSharedConditionUsed(sharedCondition).AsAConditionOn<TSubject>())]).WithSharedConditionInPlaceOfTheConditionsOfItsDefinition(sharedCondition);
+
+   /// <summary>
+   /// This group with <paramref name="sharedCondition"/> in place of the conditions that are its definition's, when the definition is a group of the same<br/>
+   /// kind with two or more conditions, and this group holds conditions meaning the same as each of them: <c>AllOf(A, B, C)</c> with a definition<br/>
+   /// <c>AllOf(A, B)</c> is <c>AllOf(Shared, C)</c>. The shared-condition takes the place of the first of them. Else this group as it is.
+   /// </summary>
+   ConditionGroup<TSubject> WithSharedConditionInPlaceOfTheConditionsOfItsDefinition(ISharedCondition sharedCondition)
+   {
+      return sharedCondition.Definition is ConditionGroup<TSubject> definition
+             && IsOfTheSameKindAndHoldsTwoOrMore(definition)
+             && Conditions.IndexesOfConditionsMeaningTheSameAsEachOf(definition.Conditions) is {} indexesOfTheDefinitionsConditions
+                ? WithConditionsAtReplacedBy(indexesOfTheDefinitionsConditions, sharedCondition.AsACondition.AsAConditionOn<TSubject>())
+                : this;
+
+      bool IsOfTheSameKindAndHoldsTwoOrMore(ConditionGroup<TSubject> group) => IsOfTheSameKindAs(group) && group.Conditions.Count >= 2;
+   }
 
    public virtual bool Equals(ConditionGroup<TSubject>? other) => other is not null && base.Equals(other) && Conditions.SequenceEqual(other.Conditions);
 

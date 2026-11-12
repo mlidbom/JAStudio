@@ -18,7 +18,7 @@ public abstract class MatchingRule
    /// <summary>The rule's name, such as <c>masuStem</c>: the name the corpus stored it under before match-conditions, and its editable field's.</summary>
    public string Name { get; }
 
-   /// <summary>Whether <paramref name="condition"/>, one of the conditions of a vocab's match-condition, is this rule's.</summary>
+   /// <summary>Whether <paramref name="condition"/>, one of the conditions of a vocab's match-condition, is this rule's: means the same as its condition (<see cref="Condition.MeansTheSameAs"/>).</summary>
    internal abstract bool Recognizes(Condition<CandidateWordVariant> condition);
 
    /// <summary>What <paramref name="condition"/>, this rule's, adds to the vocab's priority; nothing when it isn't this rule's.</summary>

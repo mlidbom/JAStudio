@@ -38,8 +38,12 @@ public sealed class MatchConditionAsRules
    /// <summary>Removes <paramref name="text"/> from the texts <paramref name="rule"/> has in the match-condition, and saves the vocab: with none left, the match-condition no longer holds the rule.</summary>
    public void RemoveText(TextsMatchingRule rule, string text) => SetTexts(rule, [.. TextsOf(rule).Where(it => it != text)]);
 
-   /// <summary>What the match-condition's conditions add to the vocab's priority: what each rule's weighs, as the rule did before match-conditions.</summary>
-   internal int MatchWeight => Conditions.Sum(condition => MatchingRules.All.Sum(rule => rule.WeightOf(condition)));
+   /// <summary>
+   /// What the match-condition's conditions add to the vocab's priority: what each rule's weighs, as the rule did before match-conditions. Each of the<br/>
+   /// match-condition's flattened conditions is weighed (<see cref="ConditionGroup{TSubject}.FlattenedConditions"/>), and each that means the same as a<br/>
+   /// rule's (<see cref="Condition.MeansTheSameAs"/>) is that rule's, so a shared-condition weighs what its definition weighs.
+   /// </summary>
+   internal int MatchWeight => _configuration.MatchCondition.FlattenedConditions.Sum(condition => MatchingRules.All.Sum(rule => rule.WeightOf(condition)));
 
    IReadOnlyList<Condition<CandidateWordVariant>> Conditions => _configuration.MatchCondition.Conditions;
 

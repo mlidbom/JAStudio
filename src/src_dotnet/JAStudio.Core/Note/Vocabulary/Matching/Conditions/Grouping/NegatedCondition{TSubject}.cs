@@ -35,4 +35,7 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedC
    internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 
    protected override Conditions.Condition WithChildReplaced(int index, Conditions.Condition replacement) => new NegatedCondition<TSubject>(replacement.AsAConditionOn<TSubject>());
+
+   /// <summary>Whether <paramref name="other"/> negates a condition meaning the same as the one this negates.</summary>
+   protected override bool MeansTheSameAsAConditionNotShared(Conditions.Condition other) => other is NegatedCondition<TSubject> negation && Condition.MeansTheSameAs(negation.Condition);
 }

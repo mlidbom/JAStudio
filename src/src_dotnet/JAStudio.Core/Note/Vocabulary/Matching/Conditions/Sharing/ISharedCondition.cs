@@ -26,6 +26,12 @@ public interface ISharedCondition
    /// <summary>Gives it the definition <paramref name="json"/> holds, as the corpus stores it, its shared-conditions found by name in <paramref name="sharedConditions"/>.</summary>
    internal void DefineFrom(JsonObject json, SharedConditions sharedConditions);
 
+   /// <summary>
+   /// Gives it <paramref name="definition"/> in place of its definition, which <paramref name="definition"/> must mean the same as<br/>
+   /// (<see cref="Condition.MeansTheSameAs"/>): its definition written another way, such as with another shared-condition used in it.
+   /// </summary>
+   internal void RewriteItsDefinitionAs(Condition definition);
+
    /// <summary>Whether its definition uses it, directly or through the definitions of the shared-conditions it uses: what no shared-condition may do.</summary>
    internal bool UsesItself { get; }
 }

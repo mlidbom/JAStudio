@@ -47,6 +47,16 @@ public class VocabNoteMatchingConfiguration
    public void SetMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) => _guard.Update(() => MatchCondition = matchCondition);
 
    /// <summary>
+   /// Uses <paramref name="sharedCondition"/> by name in the <see cref="MatchCondition"/> wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>),<br/>
+   /// and saves the vocab when that changes it. It then means the same, so the vocab matches the same words, and weighs the same.
+   /// </summary>
+   public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition)
+   {
+      var withItUsed = ConditionGroup.AsAnAllOf(MatchCondition.WithSharedConditionUsed(sharedCondition).AsAConditionOn<CandidateWordVariant>());
+      if(!withItUsed.Equals(MatchCondition)) SetMatchCondition(withItUsed);
+   }
+
+   /// <summary>
    /// What the vocab's configuration weighs: of two vocab that match the same word, and both or neither own the form matched, the one that weighs<br/>
    /// more wins. Each rule set weighs what it did before match-conditions, so the more specific a vocab's configuration, the more it weighs.
    /// </summary>
