@@ -85,6 +85,15 @@ are estimates from the counts by type, unless they say measured. Largest first:
    publishes it. So the published sets could be arrays: `PublishChanges` would turn each changed copy into one, and the
    changes would go on working on `HashSet`s. `NotesWith` copies the notes into a list either way. A full rebuild would
    check that the notes still come in the order they did.
+   - **What it does to adding and removing (Magnus asked):** loading adds every note in one change, publishing once, so
+     each set is built once either way. But every later change to a note publishes on its own (`JpNoteUpdated`, and
+     creating a note, `AddToCache`), and copies the whole set of each key whose notes it changed. Today that copy is a
+     `HashSet`'s clone of its arrays; from an array, it would be a `HashSet` built anew, hashing every note, and an array
+     again when publishing: the same order of work, a few times more of it per copy (not measured).
+   - **At a million sentences, the copying is the problem either way:** a common form's key would hold hundreds of
+     thousands of sentences, so every sentence created, or changed in what it matches there, would copy megabytes,
+     on the large object heap. Adding 100,000 sentences one at a time would copy such a set 100,000 times. The sentence
+     indexes have to be designed for that scale, for time and memory together.
 2. **The names dictionary's every form, kept in memory: about 49 MB, not per sentence.** `DictionaryProvider.AllNameForms`
    holds 952,653 forms, so that `DictLookup.MightBeName` can answer "no such name" without a SQLite query. Names are
    looked up only to set a vocab's parts of speech from the dictionary
@@ -116,6 +125,25 @@ are estimates from the counts by type, unless they say measured. Largest first:
    asked for.
 
 Together about 230 MB of the 713. Of a sentence's estimated 5 KB, items 1, 4, 6, 7, 8 and 9 would take about 1.5 KB.
+
+**What scales with the sentences (Magnus, 2026-11-12):** only what each sentence note costs matters for a working set of
+hundreds of thousands of sentences, or a million; the vocab's, the kanji's and the dictionary's costs stay as they are.
+What a sentence note costs, by part, estimated from the counts by type over the 49,162 sentences:
+
+| Part | Bytes a sentence |
+|---|---|
+| The sentence indexes' sets (`NoteIndex`) | ~1,040 |
+| The snapshot they're compared against (`SentenceSnapshot`, its `NoteId[]` and string) | ~240 |
+| The parsed matches (13 `ParsedMatch`es of 48 bytes, and their array) | ~750 |
+| The nine fields (`WritableStringValue`s and their notifiers) | ~580 |
+| The note's bookkeeping: tags (a `HashSet` and a `List`), card statuses, guards, the Anki id maps, two `SentenceId`s, the source data | ~860 |
+| The word exclusions (two `WordExclusionSet`s, their `HashSet`s and a delegate) | ~270 |
+| The media lists and audio references | ~450 |
+| The `SentenceNote` itself, its `ParsingResult` and the parser version string | ~300 |
+| The text | a few hundred |
+
+The easy wins above that are per sentence (4, 6, 7, 8 and 9) come to about 0.8 KB of the 5; the indexes to about 0.8 KB
+more, but they need the redesign above.
 
 **Not a win:**
 - **The 106 MB of `byte[]`s are the shared `ArrayPool`'s arrays:** 60 arrays in the per-thread caches of 7 threads,
