@@ -2,7 +2,9 @@
 
 > **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 and 2 of increment 6, shared-conditions:
 > the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
-> definitions were, through an operation that stays. Next, step 3:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> definitions were, through an operation that stays. Under way, step 3, creating and editing them in JAStudio: a
+> definition is edited in the shared-condition's own window, which F12 opens from any tree. Next, making one from a
+> line of a tree:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -755,7 +757,11 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
       - **Then, finding the conditions vocab share:** an MCP tool that lists the subtrees, and the combinations of
         conditions in a group, that several vocab hold, for a mind to name and decide on.
    3. **Creating and editing shared-conditions in JAStudio,** and opening one's definition from a vocab's tree (F12 or
-      Ctrl+click).
+      Ctrl+click). In four parts, each committed on its own: see [Increment 6, step 3](#increment-6-step-3).
+      1. **Editing a definition in the shared-condition's window,** opened from any tree: built 2026-11-12.
+      2. **Making a shared-condition of a line of a tree,** then used wherever its definition is.
+      3. **Renaming one,** in every vocab and definition that uses it, and its file.
+      4. **Deleting one,** its definition written out wherever it's used.
    4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
 
 #### Step 2: naming a condition never changes what a vocab does
@@ -1264,6 +1270,55 @@ None is defined yet. **Naming them is put off (Magnus, 2026-11-12):** "They need
 meaning, what they are for, rather than what they do." A shared-condition's name says what the condition is for in
 Japanese, such as the form of a verb a word follows, not what it tests; names proposed from the code alone, such as
 `FollowsASurfaceEndingInN`, don't help. So each needs its vocab and sentences studied first, by Magnus or Claude.
+
+### Increment 6, step 3
+
+Designed by Claude, 2026-11-12, after Magnus's go-ahead for step 3 ("continue with step 3"), within the plan he agreed:
+"Go with your recommendations for all of it."
+
+**A shared-condition is edited in a window of its own, in the same tree editor as a vocab's match-condition.** F12 or
+Ctrl+click on a shared-condition in any tree opens it, as an IDE goes to a definition: from a vocab's Matching tab, and
+from another shared-condition's window. A window, not a tab of the workspace: the workspace's tabs show notes' pages,
+and the editor section the shown note's editors, and a shared-condition is neither. Each has one window at most.
+
+**Every change to a definition is saved in its file at once, and the sentences of the vocab depending on it are
+reparsed,** as a vocab's are after a change on its Matching tab: those whose match-conditions use it, directly or
+through other shared-conditions. The window says how many there are, since a change reaches them all.
+
+**Creating one, from a line of a tree** (part 2): a shared-condition is mostly its name, and a condition is first built
+and seen to work in some vocab's tree. So it's made from a line, as an IDE extracts a method: named in a dialog, on the
+subject its definition is on, then used wherever its definition is, in every vocab and definition, which changes no
+vocab's meaning (step 2). A line `PrecedingToken.Surface.EndsWithOneOf("ん")` can make one on a word, of the whole line,
+one on a token, `Surface.EndsWithOneOf("ん")`, or one on a text, `EndsWithOneOf("ん")`: the dialog offers each. Not a
+negation, nor what's a name already.
+
+**Renaming** (part 3) is for the naming pass to come: the five's names are first drafts, and the conditions the finder
+found have none yet. **Deleting** (part 4) undoes making one: its definition goes back wherever it's used.
+
+### Increment 6, step 3, part 1, as built
+
+Built 2026-11-12. No note changed: nothing that decides what a vocab matches changed.
+
+1. **The tree editor edits what it's given** (`Conditions.Editing.IEditedCondition`): a vocab's match-condition
+   (`EditedMatchCondition`), or a shared-condition's definition (`EditedDefinition`). Either is a tree with an "all of"
+   group at its root (`EditableCondition`, which was `EditableMatchCondition`): the definition itself when it's one,
+   else a group holding it, and a tree of one condition is stored as that condition. A definition's root line is the
+   comment heading `// A word meets Word.FollowsAPastTenseStem when each of these holds:`
+   (`ConditionCode.HeadingOfTheDefinitionOf`), as a match-condition's is `// A word matches the vocab when each of these
+   holds:`. In the UI the editor's types are named for what they edit, a tree of conditions (`ConditionTreeEditor`,
+   `ConditionTreeEditorViewModel`, `ConditionTreeLineViewModel`), in the namespace `Editors.Matching`, which was
+   `Editors.MatchConditions`.
+2. **A definition can't come to use itself:** the add menu offers in it the shared-conditions that aren't defined through
+   it (`SharedConditions.UsableInTheDefinitionOf`, `ISharedCondition.IsDefinedThrough`), and `SharedConditions.Redefine`
+   asserts it.
+3. **The shared-condition's window** (`SharedConditionWindow`): its full name in the title, how many vocab's
+   match-conditions depend on it (`Condition.DependsOnTheDefinitionOf`, `VocabCollection.WhoseMatchConditionsDependOnTheDefinitionOf`),
+   and the tree, disabled while their sentences are reparsed (`LocalNoteUpdater.ReparseSentencesForVocab` of several
+   vocab, each sentence once). It closes when the collection is loaded anew, since the shared-conditions are loaded anew
+   too and it would edit the one loaded before.
+4. **F12, Ctrl+click and the right-click menu's "Open its definition"** open it from any tree.
+5. **The MCP server's `redefine_a_shared_condition`** does the same: it redefines, and reparses the sentences of the vocab
+   depending on it.
 
 ### Naming and design questions: `review:matching:` comments
 
