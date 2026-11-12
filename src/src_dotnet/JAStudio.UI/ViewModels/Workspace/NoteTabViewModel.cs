@@ -42,9 +42,6 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    readonly NoteViewShortcuts _noteViewShortcuts;
    readonly List<IDisposable> _subscriptions;
 
-   /// <summary>The note on the page, as last reported by the page. Null for a page that shows no note.</summary>
-   NoteId? _shownNoteId;
-
    /// <summary>Whether the tab has been shown, and so has loaded its page. Until then there is no page to become outdated.</summary>
    bool _hasBeenShown;
 
@@ -120,8 +117,8 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    public void PageShown(Uri pageUrl)
    {
       var shownNoteId = CardServerUrl.NoteIdOfPage(pageUrl);
-      var showsAnotherNote = !Equals(shownNoteId, _shownNoteId);
-      _shownNoteId = shownNoteId;
+      var showsAnotherNote = !Equals(shownNoteId, ShownNoteId);
+      ShownNoteId = shownNoteId;
       Header = ShownNote()?.GetQuestion() ?? NoNoteHeader;
       _workspace.TabHeaderChanged(this);
       if(showsAnotherNote)
@@ -182,10 +179,10 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    /// <summary>Unsubscribes from the notifications that tell the tab its page is outdated. Called when the tab is closed.</summary>
    public void Dispose() => _subscriptions.ForEach(it => it.Dispose());
 
-   internal bool IsShowing(JPNote note) => note.GetId().Equals(_shownNoteId);
+   internal bool IsShowing(JPNote note) => note.GetId().Equals(ShownNoteId);
 
-   /// <summary>The id of the note the tab's page shows, or null for a page that shows no note.</summary>
-   internal NoteId? ShownNoteId => _shownNoteId;
+   /// <summary>The id of the note the tab's page shows, as last reported by the page, or null for a page that shows no note.</summary>
+   internal NoteId? ShownNoteId { get; private set; }
 
    /// <summary>Called by the workspace when this tab became, or stopped being, its <see cref="WorkspaceViewModel.SelectedTab"/>.</summary>
    internal void SelectionChanged()
@@ -230,7 +227,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
          var note => throw new InvalidOperationException($"No editors exist for notes of type {note.GetType().Name}.")
       };
 
-   JPNote? ShownNote() => _shownNoteId is {} noteId ? _services.CoreApp.Collection.NoteFromNoteId(noteId) : null;
+   JPNote? ShownNote() => ShownNoteId is {} noteId ? _services.CoreApp.Collection.NoteFromNoteId(noteId) : null;
 
    /// <summary>The note on the page, as the collection holds it now, for an action that started while the page showed one.</summary>
    JPNote TheShownNote() => ShownNote() ?? throw new InvalidOperationException("The page no longer shows a note in the collection.");

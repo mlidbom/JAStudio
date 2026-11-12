@@ -224,7 +224,7 @@ public partial class ConditionTreeEditor : UserControl
    /// <summary>Where menus and dialogs opened from the keyboard go: just below the selected line, with the lines of a group under it, or below the tree.</summary>
    PixelPoint BelowTheSelectedLine()
    {
-      Visual below = SelectedLineItem() ?? (Visual)ConditionTree;
+      var below = SelectedLineItem() ?? (Visual)ConditionTree;
       return below.PointToScreen(new Point(0, below.Bounds.Height));
    }
 }
