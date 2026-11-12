@@ -43,9 +43,10 @@ measurement of one sentence. They come to about 10 KB a sentence.
      subscribers. That alone saves 384 bytes of the 416. And `MonitorCE` itself could be lighter, which helps every
      lock: the list of timeout exceptions could start as a shared empty one, and the wrapper could lock on itself.
    - **In JAStudio:** `WritableStringValue` could make its notifier on the first `Subscribe`, the rest of the 416.
-   - **Status (2026-11-12):** Magnus is making the Compze change: `SimpleObservable` with no lock, and `IMonitor` down to
-     40% of the memory it takes now. Once released, upgrading Compze takes it in. The JAStudio half isn't worth it then:
-     32 bytes a field, 23 MB in all, for one more lazy special case.
+   - **Done (2026-11-12), in Compze:** Compze.Internals.SystemCE 0.6.1-internal's `SimpleObservable` takes no lock and is
+     24 bytes, and Compze.Threading 0.10.1-alpha's monitor 144 bytes instead of 384. Right after a start, the heap went
+     from 1,017 MB to 733.5 MB, its objects from 19.2 million to 12.7 million, and the `System.Action`s from 1.6 million,
+     101.9 MB, to 157,226, 10.1 MB. The JAStudio half isn't worth it now: the 717,480 notifiers take 17.2 MB.
 2. **Keep a hash of the last saved snapshot instead of the snapshot: about 78 MB, 0.9 KB a sentence.** A 128-bit hash,
    such as `XxHash128`, is 16 bytes. `Flush` and `HasTheSameStoredDataAs` compare the hashes instead of the bytes. A
    collision would make a change go unsaved; at 128 bits, that won't happen.
@@ -67,8 +68,9 @@ measurement of one sentence. They come to about 10 KB a sentence.
 
 Together, the first three would take a sentence from about 10 KB to about 4.5 KB.
 
-**Items 2 and 3 took the heap, right after a start, from 1,243 MB to 1,017 MB** (2026-11-12), the large `byte[]`s that
-come and go aside. The Compze change of item 1 should take about 270 MB more.
+**The three took the heap, right after a start, from 1,243 MB to 733.5 MB** (2026-11-12), the large `byte[]`s that come
+and go aside: items 2 and 3 to 1,017 MB, then the Compze upgrade of item 1. A sentence takes about 5 KB now, an estimate
+as the 10 KB was.
 
 ## What the heap holds besides the notes
 
