@@ -4,7 +4,7 @@
 > the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
 > definitions were, through an operation that stays. Under way, step 3, creating and editing them in JAStudio: a
 > definition is edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line
-> of a tree. Next, renaming one:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> of a tree, and renamed. Next, deleting one:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -760,7 +760,7 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
       Ctrl+click). In four parts, each committed on its own: see [Increment 6, step 3](#increment-6-step-3).
       1. **Editing a definition in the shared-condition's window,** opened from any tree: built 2026-11-12.
       2. **Making a shared-condition of a line of a tree,** then used wherever its definition is: built 2026-11-12.
-      3. **Renaming one,** in every vocab and definition that uses it, and its file.
+      3. **Renaming one,** in every vocab and definition that uses it, and its file: built 2026-11-12.
       4. **Deleting one,** its definition written out wherever it's used.
    4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
 
@@ -1338,6 +1338,21 @@ Built 2026-11-12. No note changed, since no shared-condition was made in the cor
 3. **Making it** (`SharedConditions.MakeOf`) defines it, saves its file, and uses it wherever its definition is, in every
    vocab's match-condition and every other definition, the line too: the tree shows its name in the line's place. Undo
    in the tree writes the line's condition out again in that tree only.
+
+### Increment 6, step 3, part 3, as built
+
+Built 2026-11-12. No note changed, since no shared-condition was renamed in the corpus.
+
+1. **A shared-condition is renamed in place** (`SharedConditions.Rename`): every tree holds the one object, so every tree
+   then uses it by the new name, the trees in undo too, which a copy under the new name would have left naming one that
+   no longer exists. Its file is renamed with it, and every definition and vocab using it is saved, since the corpus
+   stores them by name (`VocabNoteMatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed`). The new name must be
+   one a new shared-condition could have there (`SharedConditions.WhyItCannotNameANewOne`).
+2. **In its window,** the button "Rename… (F2)" opens a dialog for the new name (`SharedConditionRenameDialog`), typed
+   after its subject's. The window's title and the definition's heading show the new name, and so does every tree open,
+   such as a vocab's Matching tab: the tree editor shows itself anew when its code changed though its tree didn't
+   (`ConditionTreeEditorViewModel.Refresh`).
+3. **The MCP server's `rename_a_shared_condition`** does the same, for the naming pass to come.
 
 ### Naming and design questions: `review:matching:` comments
 
