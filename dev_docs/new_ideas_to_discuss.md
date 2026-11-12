@@ -28,3 +28,15 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
+- **(Claude, 2026-11-13) A tokenizer dictionary that knows which word a kana spelling is: UniDic.** JAStudio's MeCab
+  reads with IPADIC, which gives ひとつ as a noun whose base form is ひとつ, and no more. UniDic, the dictionary MeCab is
+  mostly used with today, gives each token a lemma (語彙素) that unites a word's spellings, chosen in context: ひとつ → 一つ,
+  ボク → 僕, きょう → 今日. Switching would be a very large change, since every part of speech, inflection type and
+  tokenizer condition in the matching configuration speaks IPADIC; running UniDic beside IPADIC for its lemmas alone
+  would cost a second tokenization and a large dictionary. Not verified: how well it does on anime dialogue, and how it
+  fits the .NET MeCab JAStudio uses. Worth an experiment over the reservoir, as the kana-readings one was.
+- **(Claude, 2026-11-13) Keep what JMdict and JMnedict say that `jmdict.db` drops.** The database keeps a word's
+  spellings, readings, priorities and senses, and a name's spellings, readings and translations. It drops what tells a
+  kana spelling's standing (a reading's irregular, outdated or search-only use; that it isn't a true reading of the
+  kanji; which kanji spellings it belongs to), which spellings a sense is restricted to, and a name's type (surname,
+  given name, place, company, product). Kana forms and names would both use them.
