@@ -33,6 +33,7 @@ static class ReservoirCommands
                         reservoir analyze --reservoir-file <file> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         reservoir vocab --reservoir-file <file> --vocab <questions, separated by commas> --most-sentences <count> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         reservoir report --reservoir-file <file> --report-folder <folder> --sentences-to-pick <count> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
+                        reservoir working-set-sizes --reservoir-file <file> --sentences-for-each-vocab <counts, separated by commas> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         """;
 
    public static int Run(string[] args) => args switch
@@ -44,6 +45,7 @@ static class ReservoirCommands
       ["analyze", .. var values] => Analyze(CommandLineValues.From(values)),
       ["vocab", .. var values] => TellWhatEachVocabDoes(CommandLineValues.From(values)),
       ["report", .. var values] => Report(CommandLineValues.From(values)),
+      ["working-set-sizes", .. var values] => TellTheWorkingSetSizes(CommandLineValues.From(values)),
       _ => throw new ArgumentException($"Unknown reservoir command: {string.Join(' ', args)}{Environment.NewLine}{Usage}")
    };
 
@@ -146,9 +148,35 @@ static class ReservoirCommands
       Console.WriteLine("Measuring the reservoir...");
       var measures = ReservoirMeasures.Of(reservoir);
       Console.WriteLine("Picking the sentences worth taking in...");
-      var picks = SentencesWorthTakingIn.PickedFrom(reservoir, measures, corpus, values.Integer("sentences-to-pick"));
+      var picks = SentencesWorthTakingIn.PickedFrom(reservoir, measures, corpus, SentencesWanted.AFewOfEach, values.Integer("sentences-to-pick"));
       Console.WriteLine("Writing the report...");
       ReservoirReport.WriteTo(new DirectoryInfo(values.Value("report-folder")), reservoir, measures, corpus, collection, picks);
+      return 0;
+   }
+
+   /// <summary>
+   /// Tells how large the working set would be if it gave each vocab the sentences named by <c>--sentences-for-each-vocab</c>, such as <c>5,10,20</c>:<br/>
+   /// for each count, how many sentences of the reservoir picking would take in, as <see cref="Report"/> picks them but for vocab alone, and how<br/>
+   /// many vocab the reservoir couldn't give that many. The corpus's own sentences count towards each vocab's.
+   /// </summary>
+   static int TellTheWorkingSetSizes(CommandLineValues values)
+   {
+      using var reservoir = ExistingReservoir(values);
+      using var jastudio = LoadedHeadlessJAStudio.From(HeadlessJAStudioSetup.From(values));
+      var collection = jastudio.Root.Resolve<JPCollection>();
+      Console.WriteLine("Counting what the corpus has...");
+      var corpus = WhatTheCorpusHas.In(collection);
+      Console.WriteLine("Measuring the reservoir...");
+      var measures = ReservoirMeasures.Of(reservoir);
+      var sentencesInTheCorpus = collection.Sentences.All().Count;
+      foreach(var sentencesForEachVocab in values.Value("sentences-for-each-vocab").Split(',').Select(it => int.Parse(it.Trim())))
+      {
+         var watch = Stopwatch.StartNew();
+         var picks = SentencesWorthTakingIn.PickedFrom(reservoir, measures, corpus, SentencesWanted.ForEachVocab(sentencesForEachVocab), int.MaxValue);
+         Console.WriteLine($"{sentencesForEachVocab} sentences for each vocab: {picks.Picked.Count:N0} sentences taken in, a working set of {sentencesInTheCorpus + picks.Picked.Count:N0}; " +
+                           $"{picks.VocabStillLackingSentences:N0} vocab the reservoir has too few sentences of ({watch.Elapsed.TotalSeconds:F0} s)");
+      }
+
       return 0;
    }
 

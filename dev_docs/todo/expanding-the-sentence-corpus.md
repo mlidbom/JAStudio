@@ -114,8 +114,21 @@ results are representative, given that too large a corpus could make a parsing c
   of them is judged by its kinds of change, with counts and a few examples of each, and by the confirmed sentences, where
   any change is suspect. The kinds grow far more slowly than the sentences. Sentences whose matches are marked, confirmed
   right or wrong and with their sense, come first when the results are analyzed (Magnus, 2026-11-12).
-- **A guess at the size:** a floor of about ten for the vocab the reservoir has sentences for might take the working set
-  to 100,000–200,000 sentences, two to four times today's; a selection over the reservoir's analyses would say exactly.
+- **The size, measured (2026-11-12):** `reservoir working-set-sizes` picks, greedily, the fewest reservoir sentences of
+  up to 50 characters that give every vocab a floor of sentences, the corpus's own counting, as the report's picking does
+  but for vocab alone:
+
+  | Sentences per vocab | Taken in from the reservoir | Working set | Vocab the reservoir can't fill |
+  |---|---|---|---|
+  | 3 | 15,058 | 64,220 | 231 |
+  | 5 | 31,287 | 80,449 | 616 |
+  | 10 | 75,988 | 125,150 | 1,392 |
+  | 20 | 170,328 | 219,490 | 2,559 |
+
+  These are floors: each pick is the sentence giving the most vocab still lacking, so they take no account of varied
+  contexts, senses or rejections, which would take more sentences. They come from the analyses of 2026-11-11, with the
+  vocab as they were then, and leave out vocab the reservoir doesn't match at all. Even the 219,490 of a floor of 20
+  would take about 1.1 GB as sentence notes (`dev_docs/memory-use.md`) and a full rebuild of about 30 seconds.
 
 ## The first sources: Magnus's subs2srs folder (surveyed 2026-11-11)
 
@@ -193,14 +206,16 @@ decks, hundreds of GB, are to live where Magnus puts his download of the MediaFi
   `SentencesWorthTakingIn` then picks, greedily, among sentences of up to 50 characters, the fewest giving the corpus
   what it lacks of each feature
   (`SentenceFeatures`): three sentences for each vocab, two for each vocab and rejection reason, one for each frequent
-  word no vocab has. `ReservoirReport` writes `report.md` and a .tsv per list (`ReportFolder`).
+  word no vocab has (`SentencesWanted.AFewOfEach`). `ReservoirReport` writes `report.md` and a .tsv per list
+  (`ReportFolder`). `working-set-sizes` picks the same way for a floor of sentences per vocab alone, and tells how many
+  sentences each floor takes in.
 - **Checking decks before filling** (`WhatADeckGives`, `DeckCheckReport`): what each note type of each deck in a
   folder would give, the fields recognized, the sentences, their length and examples, and which note types give
   nothing or hold words; to look at before filling the reservoir from decks nobody has looked at.
 - **The analyses' format** is recorded in the reservoir file (`ReservoirFile.AnalysisFormat`): when it changes,
   analyzing forgets the analyses of the older one and makes them all anew, and nothing reads them meanwhile.
 - **Run as batch commands of the headless JAStudio** (`ReservoirCommands`), from a copy of its build:
-  `JAStudio.HeadlessHost reservoir check-decks | fill-decks | fill-subtitles | analyze | vocab | report`, with
+  `JAStudio.HeadlessHost reservoir check-decks | fill-decks | fill-subtitles | analyze | vocab | report | working-set-sizes`, with
   `--name value` arguments.
 - **Fetching the MediaFire folder's databases only:** MediaFire answers range requests (HTTP 206), so a deck's
   collection database is read out of its zip without the media, a few MB of a deck's hundreds. A script did it for all

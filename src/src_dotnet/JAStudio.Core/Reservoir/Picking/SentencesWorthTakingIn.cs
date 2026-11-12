@@ -23,9 +23,9 @@ public sealed partial class SentencesWorthTakingIn
    /// </summary>
    public const int LongestSentenceWorthTakingIn = 50;
 
-   SentencesWorthTakingIn(ReservoirFile reservoir, ReservoirMeasures measures, WhatTheCorpusHas corpus, int maximum)
+   SentencesWorthTakingIn(ReservoirFile reservoir, ReservoirMeasures measures, WhatTheCorpusHas corpus, SentencesWanted wanted, int maximum)
    {
-      var features = new SentenceFeatures(measures, corpus);
+      var features = new SentenceFeatures(measures, corpus, wanted);
       var candidates = reservoir.AnalyzedSentences()
                                 .Where(it => it.Text.Length <= LongestSentenceWorthTakingIn)
                                 .Select(it => Candidate.Of(it, features))
@@ -33,6 +33,7 @@ public sealed partial class SentencesWorthTakingIn
                                 .ToList();
       GainsBySource = candidates.GroupBy(it => it.SourceId).ToDictionary(it => it.Key, it => it.Sum(candidate => candidate.FeaturesStillLacking.Length));
       Picked = PickGreedily(candidates, features, maximum);
+      VocabStillLackingSentences = features.VocabStillLackingSentences;
    }
 
    /// <summary>The sentences picked, in the order they were picked: the most valuable first.</summary>
@@ -41,9 +42,18 @@ public sealed partial class SentencesWorthTakingIn
    /// <summary>For each source, by its id, how many features still lacking its sentences of a sentence's length give, before any pick: how much the source has to give.</summary>
    public IReadOnlyDictionary<long, int> GainsBySource { get; }
 
-   /// <summary>Picks up to <paramref name="maximum"/> sentences of <paramref name="reservoir"/>, by what they'd give the corpus.</summary>
-   public static SentencesWorthTakingIn PickedFrom(ReservoirFile reservoir, ReservoirMeasures measures, WhatTheCorpusHas corpus, int maximum) =>
-      new(reservoir, measures, corpus, maximum);
+   /// <summary>
+   /// How many of the vocab the reservoir's sentences match still lack sentences after the picking: the reservoir has too few sentences of a<br/>
+   /// sentence's length matching them to give them the sentences wanted, or the picking stopped at its maximum first.
+   /// </summary>
+   public int VocabStillLackingSentences { get; }
+
+   /// <summary>
+   /// Picks up to <paramref name="maximum"/> sentences of <paramref name="reservoir"/>, by what they'd give the corpus, until it has the sentences<br/>
+   /// <paramref name="wanted"/> of each feature, or the reservoir has no more to give.
+   /// </summary>
+   public static SentencesWorthTakingIn PickedFrom(ReservoirFile reservoir, ReservoirMeasures measures, WhatTheCorpusHas corpus, SentencesWanted wanted, int maximum) =>
+      new(reservoir, measures, corpus, wanted, maximum);
 
    static List<SentenceWorthTakingIn> PickGreedily(IEnumerable<Candidate> candidates, SentenceFeatures features, int maximum)
    {
