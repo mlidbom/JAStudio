@@ -5,6 +5,7 @@ from System import IEquatable_1
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
 
 class CodeLine:
     @property
@@ -56,7 +57,8 @@ class CodePieceKind(typing.SupportsInt):
     # Values:
     Code : CodePieceKind # 0
     Negation : CodePieceKind # 1
-    Comment : CodePieceKind # 2
+    SharedConditionName : CodePieceKind # 2
+    Comment : CodePieceKind # 3
 
 
 class ConditionCode(abc.ABC):
@@ -67,6 +69,8 @@ class ConditionCode(abc.ABC):
     def LinesOf(condition: Condition) -> IReadOnlyList_1[CodeLine]: ...
     @staticmethod
     def LinesOfAMatchCondition(matchCondition: AllOfGroup_1[CandidateWordVariant]) -> IReadOnlyList_1[CodeLine]: ...
+    @staticmethod
+    def LinesOfASharedCondition(sharedCondition: ISharedCondition) -> IReadOnlyList_1[CodeLine]: ...
     # Skipped OnOneLine due to it being static, abstract and generic.
 
     OnOneLine : OnOneLine_MethodGroup
