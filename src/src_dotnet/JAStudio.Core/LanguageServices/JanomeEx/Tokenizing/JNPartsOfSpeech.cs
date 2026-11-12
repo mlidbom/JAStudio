@@ -60,6 +60,21 @@ public class JNPartsOfSpeech
 
    public static JNPartsOfSpeech Fetch(string unparsed) => FullPartsOfSpeechDictionary[unparsed];
 
+   /// <summary>Every part of speech the tokenizer gives, with all its levels.</summary>
+   internal static IEnumerable<JNPartsOfSpeech> All => FullPartsOfSpeechDictionary.Values;
+
+   /// <summary>
+   /// No part of speech at all: it has no levels, so it's within none (<see cref="IsWithin"/>). The tokenizer never gives it: it's the part of speech of<br/>
+   /// the empty token a match-condition sees where there is no token (<see cref="Note.Vocabulary.Matching.Conditions.Tokens.EmptyToken"/>).
+   /// </summary>
+   internal static JNPartsOfSpeech None => NoPartOfSpeech.Instance;
+
+   /// <summary>Holds <see cref="None"/>, made at its first use, after the levels' descriptions it's made of exist, and never among the tokenizer's.</summary>
+   static class NoPartOfSpeech
+   {
+      internal static readonly JNPartsOfSpeech Instance = new("*");
+   }
+
    /// <summary>The levels this part of speech has, from the top, such as 名詞, 接尾 and 人名 for a suffix to a person's name: four at most, without the unused ones.</summary>
    public IReadOnlyList<PartOfSpeechDescription> Levels { get; }
 

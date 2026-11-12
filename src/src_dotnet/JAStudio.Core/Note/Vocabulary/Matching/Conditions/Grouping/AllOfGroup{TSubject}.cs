@@ -20,7 +20,7 @@ public sealed record AllOfGroup<TSubject> : ConditionGroup<TSubject> where TSubj
 
    protected override ConditionGroup<TSubject> WithConditions(IReadOnlyList<Condition<TSubject>> conditions) => new AllOfGroup<TSubject>(conditions);
 
-   protected override string Heading => "All of:";
+   public override string Name => "AllOf";
 
    /// <summary>The key an "all of" group is stored under in the corpus.</summary>
    internal const string JsonKey = "allOf";

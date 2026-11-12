@@ -10,7 +10,7 @@ public sealed record TextEndsWithOneOf : TextComparison
 
    protected override bool Compares(string subject, string text) => subject.EndsWith(text, StringComparison.Ordinal);
 
-   protected override string Description => "ends with one of";
+   protected override string Name => "EndsWithOneOf";
 
    /// <summary>The key this comparison is stored under in the corpus.</summary>
    internal const string JsonKey = "endsWithOneOf";

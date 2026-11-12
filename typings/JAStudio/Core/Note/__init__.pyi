@@ -16,6 +16,7 @@ from JAStudio.Core.Note.NoteFields import WritableStringValue
 from Compze.Abstractions import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import SharedConditions
 from JAStudio.Core.TaskRunners import TaskRunner
 
 class Builtin(abc.ABC):
@@ -295,6 +296,8 @@ class NoteServices:
     def MediaFileIndex(self) -> MediaFileIndex: ...
     @property
     def Settings(self) -> Settings: ...
+    @property
+    def SharedConditions(self) -> SharedConditions: ...
     @property
     def TaskRunner(self) -> TaskRunner: ...
     @property

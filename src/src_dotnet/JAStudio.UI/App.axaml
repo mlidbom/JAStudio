@@ -5,6 +5,8 @@
     <Application.Resources>
         <!-- Japanese text: Windows', macOS's and Linux's Japanese fonts, then Windows' Chinese one, which has the kanji too. Fonts that aren't installed are skipped. -->
         <FontFamily x:Key="JapaneseFont">Meiryo UI,Yu Gothic UI,Hiragino Sans,Noto Sans CJK JP,Microsoft YaHei UI</FontFamily>
+        <!-- Code, such as a vocab's match-condition in its tree editor: monospace, with the Japanese fonts for the Japanese in it. -->
+        <FontFamily x:Key="CodeFont">Cascadia Mono,Consolas,Menlo,DejaVu Sans Mono,Meiryo UI,Yu Gothic UI,Hiragino Sans,Noto Sans CJK JP,monospace</FontFamily>
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />

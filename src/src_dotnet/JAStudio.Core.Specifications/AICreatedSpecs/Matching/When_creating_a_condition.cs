@@ -14,13 +14,13 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 public class When_creating_a_condition : IAIGeneratedSpec
 {
    [XF] public void one_on_a_part_of_speech_the_tokenizer_never_gives_throws() =>
-      Invoking(() => TokenConditions.PartOfSpeechIs("名詞", "存在しない")).Must().Throw<ArgumentAssertionFailedException>();
+      Invoking(() => TokenConditions.PartOfSpeech.Is("名詞", "存在しない")).Must().Throw<ArgumentAssertionFailedException>();
 
    [XF] public void one_on_an_inflection_type_the_tokenizer_has_none_of_throws() =>
-      Invoking(() => TokenConditions.InflectionTypeIsOneOf("五段", "存在しない")).Must().Throw<ArgumentAssertionFailedException>();
+      Invoking(() => TokenConditions.InflectionType.In("五段", "存在しない")).Must().Throw<ArgumentAssertionFailedException>();
 
    [XF] public void one_on_an_inflected_form_the_tokenizer_has_none_of_throws() =>
-      Invoking(() => TokenConditions.InflectedFormIsOneOf("存在しない")).Must().Throw<ArgumentAssertionFailedException>();
+      Invoking(() => TokenConditions.InflectedForm.In("存在しない")).Must().Throw<ArgumentAssertionFailedException>();
 
    [XF] public void a_text_comparison_with_no_texts_throws() => Invoking(() => TextConditions.StartsWithOneOf()).Must().Throw<ArgumentAssertionFailedException>();
 

@@ -13,8 +13,8 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 public class When_comparing_match_conditions : IAIGeneratedSpec
 {
    [XF] public void two_built_the_same_are_equal() =>
-      ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.PartOfSpeechIs("名詞")), ConditionGroup.Not(IsASingleToken))
-                    .Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.PartOfSpeechIs("名詞")), ConditionGroup.Not(IsASingleToken)));
+      ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.PartOfSpeech.Is("名詞")), ConditionGroup.Not(IsASingleToken))
+                    .Must().Be(ConditionGroup.AllOf(PrecedingToken.Meets(TokenConditions.PartOfSpeech.Is("名詞")), ConditionGroup.Not(IsASingleToken)));
 
    [XF] public void the_same_conditions_in_another_order_are_not_equal() =>
       ConditionGroup.AllOf(IsASingleToken, IsMatchedByItsSurface).Must().NotBe(ConditionGroup.AllOf(IsMatchedByItsSurface, IsASingleToken));

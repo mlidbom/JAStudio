@@ -286,6 +286,8 @@ public class JPCollection
    {
       using var runner = NoteServices.TaskRunner.Current("=== Populating JAStudio data from file system ===");
 
+      runner.RunIndeterminate("Loading the shared-conditions", NoteServices.SharedConditions.Load); // before the notes: a vocab's match-condition uses them by name
+
       var repoLoad = TaskCE.Run(LoadFromRepository);
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
       var dictionaryLoad = TaskCE.Run(() => runner.RunIndeterminate("Loading the dictionary", DictLookup.LoadTheDictionary));

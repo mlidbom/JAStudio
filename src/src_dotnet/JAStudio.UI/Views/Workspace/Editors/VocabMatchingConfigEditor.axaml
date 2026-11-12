@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:editors="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors"
-             xmlns:matchConditions="clr-namespace:JAStudio.UI.Views.Workspace.Editors.MatchConditions"
+             xmlns:matching="clr-namespace:JAStudio.UI.Views.Workspace.Editors.Matching"
              x:Class="JAStudio.UI.Views.Workspace.Editors.VocabMatchingConfigEditor"
              x:DataType="editors:VocabMatchingConfigEditorViewModel">
 
@@ -11,7 +11,7 @@
             <Border Classes="section">
                 <StackPanel Spacing="4">
                     <TextBlock Classes="sectionTitle" Text="Match-condition" />
-                    <matchConditions:MatchConditionEditor DataContext="{Binding MatchConditionEditor}" />
+                    <matching:ConditionTreeEditor DataContext="{Binding MatchConditionEditor}" />
                     <TextBlock IsVisible="{Binding !CanBeEditedRuleByRule}"
                                TextWrapping="Wrap"
                                Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it in the tree." />

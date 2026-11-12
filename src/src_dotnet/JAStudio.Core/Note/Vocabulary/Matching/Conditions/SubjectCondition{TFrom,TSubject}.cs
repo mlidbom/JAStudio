@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -9,8 +11,9 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 /// Made by <see cref="ConditionSubject{TFrom,TSubject}.Meets"/>.
 /// </summary>
 /// <remarks>
-/// A subject can be absent, as the sentence's first token has no preceding token. Then the condition isn't met: "the preceding token: not a<br/>
-/// godan verb" isn't met at the sentence's start, while "not: the preceding token: a godan verb" is.
+/// Every subject is found, so the condition is tested on it as written: where there's no token, such as before a sentence's first word, the subject<br/>
+/// is the empty token (<see cref="Tokens.EmptyToken"/>), which has no part of speech and no facts. So "the preceding token isn't a godan verb" and<br/>
+/// "it's not so that the preceding token is a godan verb" mean the same, and are both met at a sentence's start.
 /// </remarks>
 public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubjectCondition where TFrom : class where TSubject : class
 {
@@ -28,23 +31,26 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
 
    IConditionSubject ISubjectCondition.Subject => Subject;
 
-   Conditions.Condition ISubjectCondition.Condition => Condition;
+   Condition ISubjectCondition.Condition => Condition;
 
-   public override IReadOnlyList<Conditions.Condition> Children => [Condition];
+   public override IReadOnlyList<Condition> Children => [Condition];
 
    public override bool IsEmpty => Condition.IsEmpty;
 
-   public override bool IsMetBy(TFrom subject) => IsEmpty || SubjectIsFoundAndMeetsTheCondition(subject);
+   public override bool IsMetBy(TFrom subject) => IsEmpty || Condition.IsMetBy(Subject.FoundIn(subject));
 
-   /// <summary>The <see cref="Condition"/>'s own lines, with the subject's name in front of the first, such as "The preceding token: is a godan verb".</summary>
-   public override IEnumerable<string> DescriptionLines() => Condition.DescriptionLinesPrefixedWith($"{Subject.Name}: ");
+   /// <summary>The <see cref="Condition"/>'s code, with the subject's name and a dot in front of it, such as <c>PrecedingToken.IsAGodanVerb</c>.</summary>
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(CodePiece.Of($"{Subject.Name}.")));
 
    internal override JsonObject ToJson() => new() { [Subject.JsonKey] = Condition.ToJson() };
 
    internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 
-   protected override Conditions.Condition WithChildReplaced(int index, Conditions.Condition replacement) => Subject.Meets(replacement.AsAConditionOn<TSubject>());
+   protected override Condition WithChildReplaced(int index, Condition replacement) => Subject.Meets(replacement.AsAConditionOn<TSubject>());
 
-   /// <summary>Whether the <see cref="Subject"/> is found in <paramref name="from"/> and meets the <see cref="Condition"/>: an absent subject meets no condition.</summary>
-   bool SubjectIsFoundAndMeetsTheCondition(TFrom from) => Subject.FoundIn(from) is {} found && Condition.IsMetBy(found);
+   /// <summary>Whether <paramref name="other"/> is a condition on the same subject, which it must meet a condition meaning the same as this one's.</summary>
+   protected override bool MeansTheSameAsAConditionNotShared(Condition other) =>
+      other is SubjectCondition<TFrom, TSubject> onASubject && onASubject.Subject == Subject && Condition.MeansTheSameAs(onASubject.Condition);
+
+   internal override int HashCodeOfItsMeaning() => HashCode.Combine(Subject, Condition.HashCodeOfItsMeaning());
 }

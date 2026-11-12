@@ -17,7 +17,7 @@ public sealed record AnyOfGroup<TSubject> : ConditionGroup<TSubject> where TSubj
 
    protected override ConditionGroup<TSubject> WithConditions(IReadOnlyList<Condition<TSubject>> conditions) => new AnyOfGroup<TSubject>(conditions);
 
-   protected override string Heading => "Any of:";
+   public override string Name => "AnyOf";
 
    /// <summary>The key an "any of" group is stored under in the corpus.</summary>
    internal const string JsonKey = "anyOf";

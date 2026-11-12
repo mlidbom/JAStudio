@@ -83,7 +83,7 @@ public class When_editing_a_vocabs_match_condition_rule_by_rule : SpecificationS
    public class after_giving_the_match_condition_a_condition_that_is_no_rules : When_editing_a_vocabs_match_condition_rule_by_rule
    {
       public after_giving_the_match_condition_a_condition_that_is_no_rules() =>
-         Configuration.SetMatchCondition(ConditionGroup.AllOf(FirstToken.Meets(TokenConditions.PartOfSpeechIs("名詞"))));
+         Configuration.SetMatchCondition(ConditionGroup.AllOf(FirstToken.Meets(TokenConditions.PartOfSpeech.Is("名詞"))));
 
       [XF] public void it_is_not_made_of_rules_only() => Configuration.Rules.IsMadeOfRulesOnly.Must().BeFalse();
       [XF] public void choosing_a_rule_throws_since_it_can_only_be_edited_as_a_whole() =>

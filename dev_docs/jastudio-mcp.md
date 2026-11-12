@@ -260,6 +260,23 @@ the headless JAStudio.
   profile here shows allocations, dotTrace's timeline included, so this is how to find what parsing could allocate less
   of: it found LINQ delegates, iterators and closures, a sixth of it, that the analysis no longer allocates. It waits for any other parse of every
   sentence, as the timing tool does.
+- **Shared-conditions, built (2026-11-12):** `list_the_shared_conditions` lists the corpus's shared-conditions, each with its
+  definition as code and the vocab and shared-conditions that use it. `define_a_shared_condition` defines one, from its
+  subject, its name and its definition in the JSON a vocab's match-condition is stored in, and saves it in its own file in
+  the corpus checkout. Built to define the first five, made from the matching rules that are small trees, and for defining
+  more while working on how sentences parse (`dev_docs/matching-configuration.md`, increment 6).
+  `use_a_shared_condition_wherever_its_definition_is` uses one by name in every vocab's match-condition and the other
+  shared-conditions' definitions wherever its definition is, and reports the vocab and shared-conditions it made use it:
+  built to put the five to use in the corpus. `redefine_a_shared_condition` gives one another definition and reparses the
+  sentences of every vocab whose match-condition depends on it, as its window in JAStudio does: built for changing them
+  while working on how sentences parse (step 3 of increment 6). `rename_a_shared_condition` renames one, with its file, and
+  saves every vocab and shared-condition using it by the new name: built for the naming pass (step 3 of increment 6).
+  `delete_a_shared_condition` deletes one, with its definition written out wherever it's used, the reverse of making one.
+  `render_window` renders the window listing them, "Shared-conditions".
+  `find_the_conditions_vocab_share` lists the conditions, and the combinations
+  of a group's conditions, that several vocab's match-conditions hold, as candidates for shared-conditions, each with its
+  definition ready for `define_a_shared_condition`: built at Magnus's suggestion, to find what's worth naming (step 2 of
+  increment 6). It proposes; a mind names and decides.
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed
   heap, what the garbage collector has committed, and the process's working set and private memory; optionally also
   after the most thorough collection there is, which shows what the process keeps when it must give back all it can.

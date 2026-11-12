@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.SharedConditionsWindow"
+        x:DataType="matching:SharedConditionsWindowViewModel"
+        Title="Shared-conditions"
+        Width="900"
+        Height="700">
+
+    <DockPanel Margin="10">
+        <TextBlock DockPanel.Dock="Top" Text="{Binding HowManyThereAre}" TextWrapping="Wrap" Margin="0,0,0,8" />
+        <ListBox x:Name="SharedConditionList"
+                 ItemsSource="{Binding SharedConditions}"
+                 SelectedItem="{Binding Selected}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="matching:ListedSharedConditionViewModel">
+                    <StackPanel Spacing="2" Margin="0,4">
+                        <TextBlock Text="{Binding Code}" FontFamily="{StaticResource CodeFont}" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Binding WhoDependsOnIt}" Opacity="0.6" VerticalAlignment="Center" />
+                            <Button Content="Open the vocab depending on it" Command="{Binding OpenTheVocabDependingOnItCommand}"
+                                    ToolTip.Tip="Lists them in the workspace's List tab" Padding="6,1" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+
+</Window>

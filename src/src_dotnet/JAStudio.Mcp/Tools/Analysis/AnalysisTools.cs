@@ -113,7 +113,7 @@ public class AnalysisTools
          var vocab = _collection.Vocab.WithIdOrNone(NoteId.Parse(vocabNoteId)) ?? throw new ArgumentException($"No vocab note has the id {vocabNoteId}.", nameof(vocabNoteId));
 
          var finding = Stopwatch.StartNew();
-         var sentences = _localNoteUpdater.SentencesToReparseAfterAChangeTo(vocab).Count;
+         var sentences = _localNoteUpdater.SentencesToReparseAfterAChangeTo([vocab]).Count;
          var secondsFindingTheSentences = finding.Elapsed.TotalSeconds;
 
          var processorTimeUsedSinceTheStart = ProcessorTimeUsed.MeasuringFromNow();

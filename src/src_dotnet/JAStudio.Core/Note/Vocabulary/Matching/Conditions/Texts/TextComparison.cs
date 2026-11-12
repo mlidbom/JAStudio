@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 /// <summary>
-/// A condition that a text compares in one way with one of the <see cref="Texts"/>: <see cref="TextIsOneOf"/>, <see cref="TextStartsWithOneOf"/>,<br/>
+/// A condition that a text compares in one way with one of the <see cref="Texts"/>: <see cref="TextIsIn"/>, <see cref="TextStartsWithOneOf"/>,<br/>
 /// <see cref="TextEndsWithOneOf"/> or <see cref="TextContainsOneOf"/>. Every comparison is ordinal: exact, character by character.
 /// </summary>
 public abstract record TextComparison : Condition<string>
@@ -17,13 +18,14 @@ public abstract record TextComparison : Condition<string>
 
    public override bool IsMetBy(string subject) => Texts.Texts.Any(it => Compares(subject, it));
 
-   public override IEnumerable<string> DescriptionLines() => [$"{Description} {Texts}"];
+   /// <summary>The comparison in code, such as <c>EndsWithOneOf("ん", "い")</c>: its name, then its texts as string literals.</summary>
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => [writing.LineOf($"{Name}({Texts.AsStringLiterals})")];
 
    /// <summary>Whether <paramref name="subject"/> compares with <paramref name="text"/> as this condition requires.</summary>
    protected abstract bool Compares(string subject, string text);
 
-   /// <summary>The comparison as the editor shows it, before the texts, such as "ends with one of".</summary>
-   protected abstract string Description { get; }
+   /// <summary>The comparison's name in code, before the texts, such as <c>EndsWithOneOf</c>.</summary>
+   protected abstract string Name { get; }
 
    internal override IEnumerable<TextSet> ComparedTextSets() => [Texts];
 

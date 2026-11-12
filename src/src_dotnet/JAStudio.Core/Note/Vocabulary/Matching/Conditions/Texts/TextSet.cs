@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -25,17 +26,20 @@ public sealed class TextSet : IEquatable<TextSet>
    /// <summary>The texts, each once, in ordinal order.</summary>
    public IReadOnlyList<string> Texts { get; }
 
-   /// <summary>The texts as they're typed into the match-condition editor: separated by spaces. <see cref="FromTyped"/> reads them back.</summary>
+   /// <summary>The texts as C# string literals, separated by commas, as a condition's code has them: <c>"ん", "い"</c>.</summary>
+   internal string AsStringLiterals => string.Join(", ", Texts.Select(StringLiteral.Of));
+
+   /// <summary>The texts as they're typed into the tree editor: separated by spaces. <see cref="FromTyped"/> reads them back.</summary>
    public string AsTyped => string.Join(TypedSeparator, Texts);
 
-   /// <summary>The texts typed into the match-condition editor, separated by spaces, as <see cref="AsTyped"/> has them.</summary>
+   /// <summary>The texts typed into the tree editor, separated by spaces, as <see cref="AsTyped"/> has them.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedTextsMakeNoSet"/> says why they make none.</exception>
    internal static TextSet FromTyped(string typedTexts) => new(TheTextsTyped(typedTexts));
 
-   /// <summary>Why the texts typed into the match-condition editor make no set, such as when nothing is typed, or null when they make one.</summary>
+   /// <summary>Why the texts typed into the tree editor make no set, such as when nothing is typed, or null when they make one.</summary>
    internal static string? WhyTypedTextsMakeNoSet(string typedTexts) => WhyTheyMakeNoSet(TheTextsTyped(typedTexts));
 
-   /// <summary>What to type for texts, as the match-condition editor tells it.</summary>
+   /// <summary>What to type for texts, as the tree editor tells it.</summary>
    internal const string HowToTypeThem = "The texts, separated by spaces";
 
    internal JsonArray ToJson() => [.. Texts.Select(JsonNode (it) => it)];

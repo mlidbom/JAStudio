@@ -1,6 +1,7 @@
 using JAStudio.UI.Views;
 using JAStudio.UI.Views.Importing;
 using JAStudio.UI.Views.TextToSpeech;
+using JAStudio.UI.Views.Workspace.Editors.Matching;
 using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Menus;
@@ -15,4 +16,5 @@ public static class MainMenuWindows
    public static readonly MainMenuWindow ReadingsMappings = new("Readings mappings", services => new ReadingsMappingsDialog(services).ShowWhereItWasLast(services));
    public static readonly MainMenuWindow TextToSpeechVoices = new("Text-to-speech voices", ChosenVoicesDialog.Open);
    public static readonly MainMenuWindow ImportProfiles = new("Import profiles", ImportProfilesWindow.Open);
+   public static readonly MainMenuWindow SharedConditions = new("Shared-conditions", SharedConditionsWindow.Open);
 }

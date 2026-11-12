@@ -72,6 +72,8 @@ public class When_searching_notes : McpServerSpecification
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
 
       [XF] public void the_whole_exception_is_reported_with_its_type_and_message() =>
+         //bug: failed once in a dotnet test run of the whole solution (2026-11-12), and passed alone three times and in two runs of the whole project
+         //   just after. Its failure message wasn't kept, so what the reported text held is unknown: rerun it under load to catch it.
          TextOf(_result).Must().Contain("System.FormatException: A condition of the unknown kind nonsense");
    }
 }

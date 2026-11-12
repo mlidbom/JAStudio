@@ -26,50 +26,51 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
 public static class WordConditions
 {
    /// <summary>The word is one token, not a compound of several.</summary>
-   public static readonly Fact<CandidateWordVariant> IsASingleToken = new("is a single token", "singleToken", it => !it.Word.IsCompound);
+   public static readonly Fact<CandidateWordVariant> IsASingleToken = new(nameof(IsASingleToken), "singleToken", it => !it.Word.IsCompound);
 
    /// <summary>The word is matched by its surface, inflected or not, rather than by its base form (<see cref="CandidateWordVariant.IsSurface"/>).</summary>
-   public static readonly Fact<CandidateWordVariant> IsMatchedByItsSurface = new("is matched by its surface", "matchedByItsSurface", it => it.IsSurface);
+   public static readonly Fact<CandidateWordVariant> IsMatchedByItsSurface = new(nameof(IsMatchedByItsSurface), "matchedByItsSurface", it => it.IsSurface);
 
    /// <summary>The word is matched by its surface, and the surface is inflected: it differs from the word's base form.</summary>
    public static readonly Fact<CandidateWordVariant> IsMatchedByAnInflectedSurface =
-      new("is matched by an inflected surface", "matchedByAnInflectedSurface", it => it.IsSurface && it.Word.SurfaceForm != it.Word.BaseForm);
+      new(nameof(IsMatchedByAnInflectedSurface), "matchedByAnInflectedSurface", it => it.IsSurface && it.Word.SurfaceForm != it.Word.BaseForm);
 
-   /// <summary>The token before the word's first token. The sentence's first token has none.</summary>
+   /// <summary>The token before the word's first token: the empty token (<see cref="EmptyToken"/>) before the sentence's first token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> PrecedingToken =
-      new("The preceding token", "precedingToken", it => it.Word.StartLocation.Previous?.Token, TokenConditions.Level);
+      new(nameof(PrecedingToken), "precedingToken", it => it.Word.StartLocation.Previous?.Token ?? EmptyToken.Instance, TokenConditions.Level);
 
    /// <summary>The word's first token, its only one if it's a single token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> FirstToken =
-      new("The first token", "firstToken", it => it.Word.StartLocation.Token, TokenConditions.Level);
+      new(nameof(FirstToken), "firstToken", it => it.Word.StartLocation.Token, TokenConditions.Level);
 
    /// <summary>The word's last token, its only one if it's a single token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> LastToken =
-      new("The last token", "lastToken", it => it.Word.EndLocation.Token, TokenConditions.Level);
+      new(nameof(LastToken), "lastToken", it => it.Word.EndLocation.Token, TokenConditions.Level);
 
-   /// <summary>The token after the word's last token. The sentence's last token has none.</summary>
+   /// <summary>The token after the word's last token: the empty token (<see cref="EmptyToken"/>) after the sentence's last token.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> FollowingToken =
-      new("The following token", "followingToken", it => it.Word.EndLocation.Next?.Token, TokenConditions.Level);
+      new(nameof(FollowingToken), "followingToken", it => it.Word.EndLocation.Next?.Token ?? EmptyToken.Instance, TokenConditions.Level);
 
    /// <summary>The sentence's text before the word, from the sentence's start (<see cref="CandidateWord.PrecedingText"/>).</summary>
    public static readonly ConditionSubject<CandidateWordVariant, string> PrecedingText =
-      new("The preceding text", "precedingText", it => it.Word.PrecedingText, TextConditions.Level);
+      new(nameof(PrecedingText), "precedingText", it => it.Word.PrecedingText, TextConditions.Level);
 
    /// <summary>The sentence's text after the word, to the sentence's end (<see cref="CandidateWord.FollowingText"/>).</summary>
    public static readonly ConditionSubject<CandidateWordVariant, string> FollowingText =
-      new("The following text", "followingText", it => it.Word.FollowingText, TextConditions.Level);
+      new(nameof(FollowingText), "followingText", it => it.Word.FollowingText, TextConditions.Level);
 
    /// <summary>The word's surface, its text as the sentence has it.</summary>
    public static readonly ConditionSubject<CandidateWordVariant, string> Surface =
-      new("The surface", "surface", it => it.Word.SurfaceForm, TextConditions.Level);
+      new(nameof(Surface), "surface", it => it.Word.SurfaceForm, TextConditions.Level);
 
    /// <summary>The word's base form: its surface, with its last token's base form in place of the last token's surface (<see cref="CandidateWord.BaseForm"/>).</summary>
    public static readonly ConditionSubject<CandidateWordVariant, string> BaseForm =
-      new("The base form", "baseForm", it => it.Word.BaseForm, TextConditions.Level);
+      new(nameof(BaseForm), "baseForm", it => it.Word.BaseForm, TextConditions.Level);
 
    /// <summary>The conditions on a word, and how they're read back from the corpus.</summary>
    public static readonly ConditionLevel<CandidateWordVariant> Level =
       new("a word",
+          "Word",
           [IsASingleToken, IsMatchedByItsSurface, IsMatchedByAnInflectedSurface],
           [PrecedingToken, FirstToken, LastToken, FollowingToken, PrecedingText, FollowingText, Surface, BaseForm],
           [],

@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.NewSharedConditionDialog"
+        x:DataType="matching:NewSharedConditionDialogViewModel"
+        Title="{Binding Title}"
+        SizeToContent="Height"
+        Width="640"
+        CanResize="False"
+        ShowInTaskbar="False">
+
+    <StackPanel Margin="10" Spacing="8">
+        <TextBlock Text="Its definition:" />
+        <ListBox ItemsSource="{Binding Definitions}" SelectedItem="{Binding Chosen}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="matching:OfferedDefinitionViewModel">
+                    <TextBlock Text="{Binding Text}" FontFamily="{StaticResource CodeFont}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Text="Its name:" />
+        <Grid ColumnDefinitions="Auto,*">
+            <TextBlock Grid.Column="0" Text="{Binding SubjectInFront}" FontFamily="{StaticResource CodeFont}" VerticalAlignment="Center" Margin="0,0,2,0" />
+            <TextBox Grid.Column="1" Classes="initialFocus" Text="{Binding TypedName}" FontFamily="{StaticResource CodeFont}" />
+        </Grid>
+
+        <TextBlock Text="{Binding WhyItCannotBeMade}" TextWrapping="Wrap" Foreground="Gray"
+                   IsVisible="{Binding WhyItCannotBeMade, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        <TextBlock Text="{Binding WhatItDoes}" TextWrapping="Wrap" Opacity="0.7" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button Content="Make" IsDefault="True" Command="{Binding AcceptCommand}" IsEnabled="{Binding CanMake}" />
+            <Button Content="Cancel" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

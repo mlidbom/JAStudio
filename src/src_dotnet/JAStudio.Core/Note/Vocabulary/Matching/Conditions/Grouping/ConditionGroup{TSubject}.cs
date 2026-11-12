@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
+using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -15,6 +18,14 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    /// <summary>The conditions in this group, in the order the editor shows them.</summary>
    public IReadOnlyList<Condition<TSubject>> Conditions { get; }
 
+   /// <summary>
+   /// The group's conditions, flattened: a group of the same kind among them, or a shared-condition defined as one, taken as the conditions it holds,<br/>
+   /// all the way down. <c>AllOf(A, AllOf(B, C))</c> holds <c>A</c>, <c>B</c> and <c>C</c>, as <c>AllOf(A, B, C)</c> does, and means the same<br/>
+   /// (<see cref="Condition.MeansTheSameAs"/>). A vocab's priority weighs these (<see cref="Rules.MatchConditionAsRules"/>), so that putting some of a<br/>
+   /// match-condition's conditions in a shared-condition of their own changes nothing it weighs.
+   /// </summary>
+   public IEnumerable<Condition<TSubject>> FlattenedConditions => Conditions.SelectMany(FlattenedIntoThisGroup);
+
    IReadOnlyList<Condition> IConditionGroup.Conditions => Conditions;
 
    public override IReadOnlyList<Condition> Children => Conditions;
@@ -23,9 +34,24 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
 
    public abstract bool IsAnyOf { get; }
 
+   /// <summary>Whether <paramref name="group"/> is of the same kind as this one: both "all of", or both "any of".</summary>
+   bool IsOfTheSameKindAs(ConditionGroup<TSubject> group) => group.IsAnyOf == IsAnyOf;
+
    public Condition WithConditionAdded(Condition condition) => WithConditions([..Conditions, condition.AsAConditionOn<TSubject>()]);
 
    public Condition WithoutConditionAt(int index) => WithConditions([..Conditions.Where((_, conditionIndex) => conditionIndex != index)]);
+
+   /// <summary>
+   /// This group with <paramref name="replacement"/> in place of its conditions at <paramref name="indexes"/>: in the place of the first of them, and the<br/>
+   /// others gone.
+   /// </summary>
+   ConditionGroup<TSubject> WithConditionsAtReplacedBy(IReadOnlyList<int> indexes, Condition<TSubject> replacement)
+   {
+      var placeOfTheReplacement = indexes.Min();
+      return WithConditions([.. Conditions.Index().Where(it => !IsGone(it.Index)).Select(it => it.Index == placeOfTheReplacement ? replacement : it.Item)]);
+
+      bool IsGone(int index) => index != placeOfTheReplacement && indexes.Contains(index);
+   }
 
    public abstract Condition SwitchedBetweenAllOfAndAnyOf();
 
@@ -38,15 +64,97 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    /// <summary>The conditions that decide whether a subject meets this group: all but the empty ones.</summary>
    protected IEnumerable<Condition<TSubject>> ConditionsThatAddSomething => Conditions.Where(it => !it.IsEmpty);
 
-   /// <summary>The line the editor shows for the group itself, above its conditions, such as "All of:".</summary>
-   protected abstract string Heading { get; }
+   /// <summary>The group's name in code, such as <c>AllOf</c>.</summary>
+   public abstract string Name { get; }
 
-   public override IEnumerable<string> DescriptionLines() => [Heading, ..Conditions.SelectMany(it => it.DescriptionLines()).Select(Indented)];
+   /// <summary>
+   /// The group's code: its name and an opening parenthesis on its line, such as <c>AnyOf(</c>, then each of its conditions on a line of its own, a comma<br/>
+   /// after each but the last, which closes the group. An empty group is <c>AnyOf()</c>.
+   /// </summary>
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) =>
+      Conditions.Count == 0
+         ? [writing.LineOf($"{Name}()")]
+         : [writing.OpeningLineOf($"{Name}("), ..Conditions.SelectMany((condition, index) => condition.CodeLines(writing.ForTheConditionInTheGroupAt(index, AfterTheConditionAt(index, writing))))];
+
+   /// <summary>What goes after the condition at <paramref name="index"/>: a comma, or after the last, the closing parenthesis and what goes after the group.</summary>
+   string AfterTheConditionAt(int index, CodeWriting writing) => index < Conditions.Count - 1 ? "," : ")" + writing.After;
 
    /// <summary>The group as the corpus stores it: its conditions under <paramref name="jsonKey"/>, such as <c>allOf</c>.</summary>
    protected JsonObject ToJsonUnder(string jsonKey) => new() { [jsonKey] = new JsonArray([.. Conditions.Select(JsonNode (it) => it.ToJson())]) };
 
    internal override IEnumerable<TextSet> ComparedTextSets() => Conditions.SelectMany(it => it.ComparedTextSets());
+
+   /// <summary>
+   /// Whether <paramref name="other"/> is a group of the same kind whose <see cref="FlattenedConditions"/>, in whatever order, each mean the same as one of<br/>
+   /// this group's.
+   /// </summary>
+   protected override bool MeansTheSameAsAConditionNotShared(Condition other) =>
+      other is ConditionGroup<TSubject> group && IsOfTheSameKindAs(group) && FlattenedConditions.MeanTheSameInAnyOrderAs(group.FlattenedConditions);
+
+   /// <summary>Of its kind, and of what its <see cref="FlattenedConditions"/> mean, whatever their order (<see cref="HashCodeOfWhatItsFlattenedConditionsMeanInAnyOrder"/>).</summary>
+   internal override int HashCodeOfItsMeaning() => HashCode.Combine(IsAnyOf, typeof(TSubject), HashCodeOfWhatItsFlattenedConditionsMeanInAnyOrder);
+
+   /// <summary>The hash codes of what its <see cref="FlattenedConditions"/> mean (<see cref="Condition.HashCodeOfItsMeaning"/>) added up, so that it's the same whatever their order.</summary>
+   int HashCodeOfWhatItsFlattenedConditionsMeanInAnyOrder => FlattenedConditions.Aggregate(0, (sum, it) => unchecked(sum + it.HashCodeOfItsMeaning()));
+
+   /// <summary>
+   /// <paramref name="condition"/>, one of this group's, flattened into it (<see cref="FlattenedConditions"/>): the conditions it holds, flattened, when<br/>
+   /// it's a group of this group's kind, or a shared-condition defined as one, else itself.
+   /// </summary>
+   IEnumerable<Condition<TSubject>> FlattenedIntoThisGroup(Condition<TSubject> condition) => condition switch
+   {
+      //review:matching: FlattenedIntoThisGroup was ConditionsHeldFlattened, which didn't say that what it gives depends on this group's kind:
+      //   an "any of" in an "all of" stays as it is.
+      ConditionGroup<TSubject> group when IsOfTheSameKindAs(group) => group.FlattenedConditions,
+      SharedCondition<TSubject> { Definition: ConditionGroup<TSubject> definition } when IsOfTheSameKindAs(definition) => definition.FlattenedConditions,
+      _ => [condition]
+   };
+
+   /// <summary>The group with <paramref name="sharedCondition"/> used in each of its conditions, then in place of some of them when they're its definition's.</summary>
+   protected override Condition WithSharedConditionUsedInTheConditionsItHolds(ISharedCondition sharedCondition) =>
+      WithConditions([.. Conditions.Select(it => it.WithSharedConditionUsed(sharedCondition).AsAConditionOn<TSubject>())]).WithSharedConditionInPlaceOfTheConditionsOfItsDefinition(sharedCondition);
+
+   /// <summary>
+   /// This group with <paramref name="sharedCondition"/> in place of the conditions that are its definition's, when the definition is a group of the same<br/>
+   /// kind with two or more conditions, and this group holds conditions meaning the same as each of them: <c>AllOf(A, B, C)</c> with a definition<br/>
+   /// <c>AllOf(A, B)</c> is <c>AllOf(Shared, C)</c>. The shared-condition takes the place of the first of them. Else this group as it is.
+   /// </summary>
+   ConditionGroup<TSubject> WithSharedConditionInPlaceOfTheConditionsOfItsDefinition(ISharedCondition sharedCondition)
+   {
+      return sharedCondition.Definition is ConditionGroup<TSubject> definition
+             && IsOfTheSameKindAndHoldsTwoOrMore(definition)
+             && Conditions.IndexesOfConditionsMeaningTheSameAsEachOf(definition.Conditions) is {} indexesOfTheDefinitionsConditions
+                ? WithConditionsAtReplacedBy(indexesOfTheDefinitionsConditions, sharedCondition.AsACondition.AsAConditionOn<TSubject>())
+                : this;
+
+      bool IsOfTheSameKindAndHoldsTwoOrMore(ConditionGroup<TSubject> group) => IsOfTheSameKindAs(group) && group.Conditions.Count >= 2;
+   }
+
+   /// <summary>
+   /// The group with <paramref name="sharedCondition"/>'s definition written out in each of its conditions, and a use of it among them replaced by the<br/>
+   /// definition's conditions, when the definition is a group of this group's kind.
+   /// </summary>
+   protected override Condition WithTheDefinitionWrittenOutOfItInTheConditionsItHolds(ISharedCondition sharedCondition)
+   {
+      return WithConditions([.. Conditions.SelectMany(WrittenOut)]);
+
+      IEnumerable<Condition<TSubject>> WrittenOut(Condition<TSubject> condition) =>
+         condition.Equals(sharedCondition) && sharedCondition.Definition is ConditionGroup<TSubject> definition && IsOfTheSameKindAs(definition)
+            ? definition.Conditions
+            : [condition.WithTheDefinitionWrittenOutOf(sharedCondition).AsAConditionOn<TSubject>()];
+   }
+
+   bool IConditionGroup.HoldsTheConditionsOf(Condition condition) =>
+      condition is ConditionGroup<TSubject> group && IsOfTheSameKindAs(group) && Conditions.IndexesOfConditionsMeaningTheSameAsEachOf(group.Conditions) is not null;
+
+   IEnumerable<Condition> IConditionGroup.CombinationsOfSomeOfItsConditions()
+   {
+      //review:matching: the combinations were made in SharedConditionCandidates, each from a bit mask, by removing the group's conditions the mask left
+      //   out one at a time with WithoutConditionAt. A group makes the groups of its kind, so it makes these too, from its conditions' subsets.
+      return Conditions.Subsets().Where(IsTwoOrMoreButNotAll).Select(WithConditions);
+
+      bool IsTwoOrMoreButNotAll(IReadOnlyList<Condition<TSubject>> someOfItsConditions) => someOfItsConditions.Count >= 2 && someOfItsConditions.Count < Conditions.Count;
+   }
 
    public virtual bool Equals(ConditionGroup<TSubject>? other) => other is not null && base.Equals(other) && Conditions.SequenceEqual(other.Conditions);
 

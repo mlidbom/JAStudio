@@ -10,7 +10,7 @@ public sealed record TextContainsOneOf : TextComparison
 
    protected override bool Compares(string subject, string text) => subject.Contains(text, StringComparison.Ordinal);
 
-   protected override string Description => "contains one of";
+   protected override string Name => "ContainsOneOf";
 
    /// <summary>The key this comparison is stored under in the corpus.</summary>
    internal const string JsonKey = "containsOneOf";

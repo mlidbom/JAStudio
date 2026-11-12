@@ -99,5 +99,5 @@ From the matching redesign's study of the engine and its checks (2026-11-10 and 
   - The だ of だーめ is read as the past-tense marker (特殊・タ).
   - うるせぇ comes out as う, る, せ and ぇよ.
 - **Rules no vocab exercises:** godan and godan imperative (head) were set only on vocab that never match in the corpus.
-- **The tools:** a full rebuild takes 6 to 8 seconds. `analyze_sentence` shows every step of one sentence's analysis.
+- **The tools:** a full rebuild takes about 2 seconds ([parsing-speed.md](parsing-speed.md)). `analyze_sentence` shows every step of one sentence's analysis.
   `diff_the_changed_notes` shows what a change did, word by word across the corpus.

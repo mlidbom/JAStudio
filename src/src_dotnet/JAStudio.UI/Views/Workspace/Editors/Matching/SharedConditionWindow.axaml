@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+        xmlns:matchingViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors.Matching"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.SharedConditionWindow"
+        x:DataType="matching:SharedConditionWindowViewModel"
+        Title="{Binding Title}"
+        Width="760"
+        Height="520">
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="F2" Command="{Binding RenameCommand}" />
+    </Window.KeyBindings>
+
+    <DockPanel Margin="10">
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <Button DockPanel.Dock="Right" Content="Delete…" Command="{Binding DeleteCommand}" Margin="8,0,0,0" />
+            <Button DockPanel.Dock="Right" Content="Rename… (F2)" Command="{Binding RenameCommand}" Margin="8,0,0,0" />
+            <Button DockPanel.Dock="Right" Content="Open the vocab depending on it" Command="{Binding OpenTheVocabDependingOnItCommand}"
+                    ToolTip.Tip="Lists them in the workspace's List tab" Margin="8,0,0,0" />
+            <TextBlock Text="{Binding WhoDependsOnIt}" TextWrapping="Wrap" VerticalAlignment="Center" />
+        </DockPanel>
+        <ScrollViewer>
+            <!-- The definition can't be changed while the sentences are reparsed for the last change. -->
+            <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                <matchingViews:ConditionTreeEditor DataContext="{Binding DefinitionEditor}" />
+            </Panel>
+        </ScrollViewer>
+    </DockPanel>
+
+</Window>

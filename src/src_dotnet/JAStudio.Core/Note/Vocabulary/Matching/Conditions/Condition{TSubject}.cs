@@ -19,4 +19,7 @@ public abstract record Condition<TSubject> : Condition where TSubject : class
    public abstract bool IsMetBy(TSubject subject);
 
    public override Condition Negated() => ConditionGroup.Not(this);
+
+   /// <summary>The negation of <paramref name="condition"/>, written in C# as its code reads: <c>!PrecedingToken.IsAGodanVerb</c> (<see cref="ConditionGroup.Not{TSubject}"/>).</summary>
+   public static Condition<TSubject> operator !(Condition<TSubject> condition) => ConditionGroup.Not(condition);
 }
