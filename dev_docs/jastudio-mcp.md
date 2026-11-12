@@ -227,6 +227,10 @@ the headless JAStudio.
   collector paused the threads, and the most memory the process used meanwhile, sampled every 100 ms; and the run reports
   the process's garbage collector mode. By default it first collects all garbage, so each run's peak is its own. Call it
   once at a time: runs in parallel compete for the cores.
+- **Candidate words, built (2026-11-12):** `count_the_candidate_words` analyzes every sentence of the corpus and counts
+  the candidate words the analysis built, in all and by how many tokens each spans: how many were built, how many have a
+  form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid match. It showed
+  that 80% of the candidate words the analysis builds are compounds that can't match anything (`dev_docs/parsing-speed.md`).
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed
   heap, what the garbage collector has committed, and the process's working set and private memory; optionally also
   after the most thorough collection there is, which shows what the process keeps when it must give back all it can.
