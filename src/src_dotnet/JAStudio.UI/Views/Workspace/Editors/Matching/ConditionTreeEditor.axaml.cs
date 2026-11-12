@@ -135,7 +135,8 @@ public partial class ConditionTreeEditor : UserControl
 
       var menuTopLeft = e.TryGetPosition(this, out var pointer) ? this.PointToScreen(pointer) : BelowTheSelectedLine();
       var menu = ViewModel.SelectedLineMenu(openTheAddMenu: () => Dispatcher.UIThread.Post(ShowTheAddMenu),
-                                            changeTheSelectedCondition: () => Dispatcher.UIThread.Post(ChangeTheSelectedCondition));
+                                            changeTheSelectedCondition: () => Dispatcher.UIThread.Post(ChangeTheSelectedCondition),
+                                            makeASharedConditionOfTheSelectedLine: () => Dispatcher.UIThread.Post(MakeASharedConditionOfTheSelectedLine));
       Dispatcher.UIThread.Post(() => ShowAMenu(menu, menuTopLeft));
       e.Handled = true;
    }
@@ -173,6 +174,13 @@ public partial class ConditionTreeEditor : UserControl
    void PutTheKeyboardBackOnTheSelectedLine() => Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Background);
 
    void ChangeTheSelectedCondition() => ViewModel.ChangeTheSelectedConditionThroughAnEditor(EditInADialog);
+
+   void MakeASharedConditionOfTheSelectedLine() => ViewModel.MakeASharedConditionOfTheSelectedLineThroughADialog(async dialog =>
+   {
+      var toMake = await NewSharedConditionDialog.ShowAsync(OwnerWindow, dialog, BelowTheSelectedLine());
+      Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Loaded);
+      return toMake;
+   });
 
    async Task<Condition?> EditInADialog(ConditionTextsEditorViewModel editor)
    {

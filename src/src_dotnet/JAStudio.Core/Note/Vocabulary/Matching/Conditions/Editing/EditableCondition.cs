@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Compze.Contracts;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 
@@ -55,6 +57,27 @@ public class EditableCondition
       }
 
       return level;
+   }
+
+   /// <summary>
+   /// The conditions a shared-condition can be made of on the line of the condition at <paramref name="position"/>, from the outermost in: the condition<br/>
+   /// there, and each that the negations and conditions on subjects around it hold, each on its subject, those worth naming<br/>
+   /// (<see cref="ConditionWithItsLevel.IsWorthNaming"/>). <c>!PrecedingToken.Surface.EndsWithOneOf("ん")</c> gives <c>PrecedingToken.Surface.EndsWithOneOf("ん")</c><br/>
+   /// on a word, <c>Surface.EndsWithOneOf("ん")</c> on a token and <c>EndsWithOneOf("ん")</c> on a text, and <c>PrecedingToken.IsAGodanVerb</c> none, since it's a<br/>
+   /// name already. The root gives itself when it holds two conditions or more.
+   /// </summary>
+   public IReadOnlyList<ConditionWithItsLevel> ConditionsToMakeASharedConditionOfAt(ConditionPosition position)
+   {
+      return [.. ThePositionsInward().Select(it => new ConditionWithItsLevel(Current.ConditionAt(it), LevelAt(it))).Where(it => it.IsWorthNaming)];
+
+      IEnumerable<ConditionPosition> ThePositionsInward()
+      {
+         for(var inward = position;; inward = inward.Child(0))
+         {
+            yield return inward;
+            if(Current.ConditionAt(inward) is not (INegatedCondition or ISubjectCondition)) yield break;
+         }
+      }
    }
 
    /// <summary>Adds <paramref name="condition"/> after the other conditions in the group at <paramref name="groupPosition"/>. It must be a condition on the group's subject.</summary>

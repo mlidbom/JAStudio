@@ -31,6 +31,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
       SharedCondition = sharedCondition;
       Definition = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
                                                     new EditedDefinition(sharedCondition, services.NoteServices.SharedConditions),
+                                                    services.NoteServices,
                                                     ReparseTheSentencesOfTheVocabDependingOnIt,
                                                     openTheDefinitionOf);
       _vocabDependingOnIt = TheVocabDependingOnIt();

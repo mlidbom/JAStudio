@@ -82,6 +82,29 @@ public sealed class SharedConditions
    }
 
    /// <summary>
+   /// Why <paramref name="name"/> can't name a new shared-condition on <paramref name="level"/>'s subject, or null when it can: it must be a name in code, none<br/>
+   /// of the other conditions' there (<see cref="IConditionLevel.WhyItCannotNameASharedCondition"/>), and none another shared-condition there has.
+   /// </summary>
+   public string? WhyItCannotNameANewOne(IConditionLevel level, string name) =>
+      level.WhyItCannotNameASharedCondition(name)
+      ?? (On(level).Any(it => it.Name == name) ? $"There's a shared-condition {level.SubjectNameInCode}.{name} already." : null);
+
+   /// <summary>
+   /// Makes a shared-condition named <paramref name="name"/> of <paramref name="condition"/>, on its level's subject, as a line of the tree editor is made one,<br/>
+   /// saves it in its file, and uses it wherever its definition is (<see cref="UseWhereverItsDefinitionIs"/>): in the match-condition of each of<br/>
+   /// <paramref name="vocab"/>, and in the definitions of the other shared-conditions. None of them then means anything else.
+   /// </summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <paramref name="name"/> can't name it (<see cref="WhyItCannotNameANewOne"/>).</exception>
+   public ISharedCondition MakeOf(ConditionWithItsLevel condition, string name, IEnumerable<VocabNote> vocab)
+   {
+      var sharedCondition = condition.Level.NewSharedCondition(name);
+      sharedCondition.Redefine(condition.Condition);
+      AddAndSave(sharedCondition);
+      UseWhereverItsDefinitionIs(sharedCondition, vocab);
+      return sharedCondition;
+   }
+
+   /// <summary>
    /// Defines a shared-condition on <paramref name="level"/>'s subject, named <paramref name="name"/>, that stands for the condition <paramref name="definition"/><br/>
    /// holds, as the corpus stores conditions, and saves it in the corpus.
    /// </summary>

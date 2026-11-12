@@ -88,7 +88,7 @@ partial class VocabMatchingConfigEditorViewModel : ObservableObject
          TextSetRule(VocabEditableFields.SuffixIsNot),
          TextSetRule(VocabEditableFields.SurfaceIsNot)
       ];
-      MatchConditionEditor = new ConditionTreeEditorViewModel(fatalErrorHandler, new EditedMatchCondition(currentVocab), ChangeMade, openTheDefinitionOf);
+      MatchConditionEditor = new ConditionTreeEditorViewModel(fatalErrorHandler, new EditedMatchCondition(currentVocab), currentVocab().Services, ChangeMade, openTheDefinitionOf);
       ShowWhetherTheMatchConditionCanBeEditedRuleByRule();
    }
 

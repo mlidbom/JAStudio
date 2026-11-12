@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
-namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing.Candidates;
+namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 
 /// <summary>
 /// A condition in a tree of conditions, such as a vocab's match-condition, with its <see cref="Level"/>: the conditions on the subject it's on, which<br/>
-/// tell whether it's a fact, and which a shared-condition defined as it would be on. <see cref="SharedConditionCandidates"/> looks for the conditions<br/>
-/// vocab share among these.
+/// tell whether it's a fact, and which a shared-condition defined as it would be on. <see cref="Candidates.SharedConditionCandidates"/> looks for the<br/>
+/// conditions vocab share among these, and a line of the tree editor can be made a shared-condition of one (<see cref="SharedConditions.MakeOf"/>).
 /// </summary>
 /// <param name="Condition">The condition.</param>
 /// <param name="Level">The conditions on the subject <paramref name="Condition"/> is on.</param>
-sealed record ConditionWithItsLevel(Condition Condition, IConditionLevel Level)
+public sealed record ConditionWithItsLevel(Condition Condition, IConditionLevel Level)
 {
    /// <summary>This condition and every condition it holds, all the way down, each with its level.</summary>
    internal IEnumerable<ConditionWithItsLevel> ItAndEveryConditionItHolds => [this, .. TheConditionsItHolds.SelectMany(it => it.ItAndEveryConditionItHolds)];
@@ -24,7 +24,7 @@ sealed record ConditionWithItsLevel(Condition Condition, IConditionLevel Level)
 
    /// <summary>
    /// The combinations of some of the conditions of each group in its tree (<see cref="IConditionGroup.CombinationsOfSomeOfItsConditions"/>), itself among<br/>
-   /// them, each on its group's level: those of each group of at most <see cref="SharedConditionCandidates.MostConditionsOfAGroupToCombine"/>.
+   /// them, each on its group's level: those of each group of at most <see cref="Candidates.SharedConditionCandidates.MostConditionsOfAGroupToCombine"/>.
    /// </summary>
    internal IEnumerable<ConditionWithItsLevel> CombinationsOfSomeOfTheConditionsOfEachGroupInIt => ItAndEveryConditionItHolds.SelectMany(it => it.CombinationsOfSomeOfItsConditions);
 
@@ -40,7 +40,7 @@ sealed record ConditionWithItsLevel(Condition Condition, IConditionLevel Level)
    /// Whether it's worth giving a name: not empty, not a name already (<see cref="IsAName"/>), not a negation, since naming what it negates names it too,<br/>
    /// and not a group of fewer than two conditions.
    /// </summary>
-   bool IsWorthNaming => !Condition.IsEmpty && !IsAName && Condition is not (INegatedCondition or IConditionGroup { Conditions.Count: < 2 });
+   public bool IsWorthNaming => !Condition.IsEmpty && !IsAName && Condition is not (INegatedCondition or IConditionGroup { Conditions.Count: < 2 });
 
    /// <summary>Whether it's a name already: a fact or a shared-condition, on a subject or negated, such as <c>!PrecedingToken.IsAnIchidanVerb</c>.</summary>
    bool IsAName => Condition switch
@@ -51,11 +51,11 @@ sealed record ConditionWithItsLevel(Condition Condition, IConditionLevel Level)
    };
 
    /// <summary>
-   /// When it's a group of at most <see cref="SharedConditionCandidates.MostConditionsOfAGroupToCombine"/> conditions, the combinations of some of them<br/>
+   /// When it's a group of at most <see cref="Candidates.SharedConditionCandidates.MostConditionsOfAGroupToCombine"/> conditions, the combinations of some of them<br/>
    /// (<see cref="IConditionGroup.CombinationsOfSomeOfItsConditions"/>) but the empty ones, on its level: none for any other condition.
    /// </summary>
    IEnumerable<ConditionWithItsLevel> CombinationsOfSomeOfItsConditions =>
-      Condition is IConditionGroup { Conditions.Count: <= SharedConditionCandidates.MostConditionsOfAGroupToCombine } group
+      Condition is IConditionGroup { Conditions.Count: <= Candidates.SharedConditionCandidates.MostConditionsOfAGroupToCombine } group
          ? group.CombinationsOfSomeOfItsConditions().Where(it => !it.IsEmpty).Select(it => new ConditionWithItsLevel(it, Level))
          : [];
 

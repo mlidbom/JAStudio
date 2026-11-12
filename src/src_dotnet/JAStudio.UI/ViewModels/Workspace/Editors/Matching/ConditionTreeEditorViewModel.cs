@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
@@ -32,18 +33,25 @@ partial class ConditionTreeEditorViewModel : ObservableObject
 
    readonly IFatalErrorHandler _fatalErrorHandler;
    readonly IEditedCondition _edited;
+   readonly NoteServices _noteServices;
    readonly Action _changeMade;
    readonly Action<ISharedCondition> _openTheDefinitionOf;
    readonly EditableCondition _tree;
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while a condition's dialog is open.</param>
    /// <param name="edited">The condition edited, and where each change is stored.</param>
+   /// <param name="noteServices">The corpus's notes and shared-conditions, which making a shared-condition of a line changes.</param>
    /// <param name="changeMade">Called after every change the tree editor stores.</param>
    /// <param name="openTheDefinitionOf">Opens a shared-condition's window, where its definition is edited.</param>
-   public ConditionTreeEditorViewModel(IFatalErrorHandler fatalErrorHandler, IEditedCondition edited, Action changeMade, Action<ISharedCondition> openTheDefinitionOf)
+   public ConditionTreeEditorViewModel(IFatalErrorHandler fatalErrorHandler,
+                                       IEditedCondition edited,
+                                       NoteServices noteServices,
+                                       Action changeMade,
+                                       Action<ISharedCondition> openTheDefinitionOf)
    {
       _fatalErrorHandler = fatalErrorHandler;
       _edited = edited;
+      _noteServices = noteServices;
       _changeMade = changeMade;
       _openTheDefinitionOf = openTheDefinitionOf;
       _tree = new EditableCondition(edited.Stored, edited.Level);
@@ -161,6 +169,31 @@ partial class ConditionTreeEditorViewModel : ObservableObject
       StoreTheChangedTree(selected);
    }
 
+   /// <summary>
+   /// The dialog that makes a shared-condition of the selected line, offering the conditions on it worth naming<br/>
+   /// (<see cref="EditableCondition.ConditionsToMakeASharedConditionOfAt"/>), or null when there are none, as on a line that's a name already.
+   /// </summary>
+   internal NewSharedConditionDialogViewModel? DialogMakingASharedConditionOfTheSelectedLine() =>
+      _tree.ConditionsToMakeASharedConditionOfAt(Selected.Position) is { Count: > 0 } definitions ? new NewSharedConditionDialogViewModel(definitions, _noteServices.SharedConditions) : null;
+
+   /// <summary>
+   /// Opens the dialog that makes a shared-condition of the selected line through <paramref name="inADialog"/>, then makes the shared-condition it closes<br/>
+   /// with, if any, and uses it wherever its definition is, in every vocab and definition (<see cref="SharedConditions.MakeOf"/>): the line too. Does nothing<br/>
+   /// when the line has no condition to make one of.
+   /// </summary>
+   internal void MakeASharedConditionOfTheSelectedLineThroughADialog(Func<NewSharedConditionDialogViewModel, Task<NewSharedCondition?>> inADialog)
+   {
+      if(DialogMakingASharedConditionOfTheSelectedLine() is not {} dialog) return;
+
+      _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
+      {
+         if(await inADialog(dialog) is not {} toMake) return;
+
+         _noteServices.SharedConditions.MakeOf(toMake.Definition, toMake.Name, _noteServices.Collection.Vocab.All());
+         Refresh();
+      });
+   }
+
    /// <summary>Opens the window of the shared-condition the selected line is, where its definition is edited. Does nothing when the line isn't one.</summary>
    internal void OpenTheDefinitionOfTheSelectedLine()
    {
@@ -216,11 +249,14 @@ partial class ConditionTreeEditorViewModel : ObservableObject
    /// <summary>The selected line's right-click menu: everything the editor can do to it, each picked by a single key.</summary>
    /// <param name="openTheAddMenu">Opens the <see cref="AddConditionMenu"/>.</param>
    /// <param name="changeTheSelectedCondition">Opens the editor filled in with the texts of the selected line's condition.</param>
-   internal List<SpecMenuItem> SelectedLineMenu(Action openTheAddMenu, Action changeTheSelectedCondition) =>
+   /// <param name="makeASharedConditionOfTheSelectedLine">Opens the dialog that makes a shared-condition of the selected line.</param>
+   internal List<SpecMenuItem> SelectedLineMenu(Action openTheAddMenu, Action changeTheSelectedCondition, Action makeASharedConditionOfTheSelectedLine) =>
    [
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', "Add a condition (+)"), openTheAddMenu, 'a'),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('c', "Change the texts (Enter, double-click)"), changeTheSelectedCondition, 'c', enabled: EditorForTheSelectedCondition() is not null),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('d', "Open its definition (F12, Ctrl+click)"), OpenTheDefinitionOfTheSelectedLine, 'd', enabled: Selected.IsASharedCondition),
+      SpecMenuItem.Command(ShortcutFinger.Mnemonic('m', "Make a shared-condition of it…"), makeASharedConditionOfTheSelectedLine, 'm',
+                           enabled: DialogMakingASharedConditionOfTheSelectedLine() is not null),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('n', Selected.IsNegated ? "Remove the negation (-)" : "Negate (-)"), ToggleNegationOfTheSelectedLine, 'n', enabled: !Selected.IsRoot),
       SpecMenuItem.Command(ShortcutFinger.Mnemonic('s', Selected.IsAnAnyOfGroup ? "Switch to all of" : "Switch to any of"), SwitchTheSelectedGroup, 's',
                            enabled: CanSwitchTheSelectedGroup),
