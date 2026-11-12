@@ -17,8 +17,8 @@ using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
-/// The view of a <see cref="ConditionTreeEditorViewModel"/>: a vocab's match-condition as a tree, on its Matching tab, or a shared-condition's definition,<br/>
-/// in its <see cref="SharedConditionWindow"/>. It turns keys, clicks and menus into the view model's operations, and shows a condition's texts in a<br/>
+/// The view of a <see cref="ConditionTreeEditorViewModel"/>: a vocab's match-condition as a tree, in its <see cref="MatchConditionWindow"/>, or a<br/>
+/// shared-condition's definition, in its <see cref="SharedConditionWindow"/>. It turns keys, clicks and menus into the view model's operations, and shows a condition's texts in a<br/>
 /// <see cref="ConditionTextsDialog"/>.
 /// </summary>
 /// <remarks>
@@ -56,9 +56,9 @@ public partial class ConditionTreeEditor : UserControl
    void PutTheKeyboardOnTheSelectedLine() => Dispatcher.UIThread.Post(FocusTheSelectedLine, DispatcherPriority.Loaded);
 
    /// <summary>
-   /// Every change reparses sentences, those of the vocab on its Matching tab, or of the vocab depending on a shared-condition in its window, and the<br/>
-   /// tree is disabled meanwhile, which takes the keyboard off it. Once it's enabled again, the keyboard goes back to the selected line, so that the<br/>
-   /// next key acts on it.
+   /// Every change reparses sentences, those of the vocab in its match-condition window, or of the vocab depending on a shared-condition in its window,<br/>
+   /// and the tree is disabled meanwhile, which takes the keyboard off it. Once it's enabled again, the keyboard goes back to the selected line, so that<br/>
+   /// the next key acts on it.
    /// </summary>
    void OnTreePropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
    {

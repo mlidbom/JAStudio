@@ -17,8 +17,8 @@ using JAStudio.UI.Views.Workspace.Editors.Matching;
 namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 
 /// <summary>
-/// The tree editor (<see cref="ConditionTreeEditor"/>) of a vocab's match-condition, on its Matching tab, or of a shared-condition's definition, in its<br/>
-/// window: the condition being edited (an <see cref="EditableCondition"/>), shown as a tree of <see cref="Lines"/>, and stored where it's kept<br/>
+/// The tree editor (<see cref="ConditionTreeEditor"/>) of a vocab's match-condition, in its <see cref="MatchConditionWindow"/>, or of a shared-condition's<br/>
+/// definition, in its window: the condition being edited (an <see cref="EditableCondition"/>), shown as a tree of <see cref="Lines"/>, and stored where it's kept<br/>
 /// (<see cref="IEditedCondition"/>) after every change.
 /// </summary>
 /// <remarks>
@@ -83,7 +83,7 @@ partial class ConditionTreeEditorViewModel : ObservableObject
    ConditionTreeLineViewModel Selected => SelectedLine ?? Root;
 
    /// <summary>
-   /// Shows the condition as it's stored now, when something else may have changed it, such as a rule edited rule by rule on the same tab: a change<br/>
+   /// Shows the condition as it's stored now, when something else may have changed it, such as a rule's editor on the vocab's Matching tab: a change<br/>
    /// like the tree editor's own, which undo takes back. And shows it anew when only its code changed, as when a shared-condition it uses was renamed.
    /// </summary>
    public void Refresh()

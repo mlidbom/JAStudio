@@ -7,8 +7,8 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 
 /// <summary>
-/// A vocab's match-condition as the tree editor on its Matching tab edits it: the match-condition is an "all of" group on a word already, so the tree is<br/>
-/// the match-condition, and each change is stored in the vocab, which saves it.
+/// A vocab's match-condition as the tree editor in its match-condition window edits it: the match-condition is an "all of" group on a word already, so<br/>
+/// the tree is the match-condition, and each change is stored in the vocab, which saves it.
 /// </summary>
 public sealed class EditedMatchCondition : IEditedCondition
 {

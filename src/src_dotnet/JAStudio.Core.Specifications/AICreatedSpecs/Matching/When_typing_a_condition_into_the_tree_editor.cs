@@ -13,7 +13,7 @@ using static Compze.Must.MustActions;
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 
 /// <summary>
-/// A condition made from what's typed into the Matching tab's tree editor, by a <see cref="ConditionTestWithTexts"/> such as <c>EndsWithOneOf</c>, what<br/>
+/// A condition made from what's typed into the tree editor, by a <see cref="ConditionTestWithTexts"/> such as <c>EndsWithOneOf</c>, what<br/>
 /// the editor shows typed when a condition is changed, and the tokenizer's values a test offers to pick from, each with its English.
 /// </summary>
 public class When_typing_a_condition_into_the_tree_editor : IAIGeneratedSpec

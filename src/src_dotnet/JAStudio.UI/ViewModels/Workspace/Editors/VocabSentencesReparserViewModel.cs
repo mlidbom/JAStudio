@@ -11,8 +11,9 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors;
 
 /// <summary>
 /// Reparses the sentences of some vocab after a change to what they match, so the sentences match the vocab as they are now: a vocab's after a change<br/>
-/// to its matching config or its forms, shared by the tabs of its <see cref="VocabEditorSectionViewModel"/>, or those of the vocab depending on a<br/>
-/// shared-condition after a change to its definition, in its <see cref="SharedConditionWindowViewModel"/>.
+/// to its matching config or its forms, shared by the tabs of its <see cref="VocabEditorSectionViewModel"/>, or after a change to its match-condition in<br/>
+/// its <see cref="MatchConditionWindowViewModel"/>, or those of the vocab depending on a shared-condition after a change to its definition, in its<br/>
+/// <see cref="SharedConditionWindowViewModel"/>.
 /// </summary>
 /// <remarks>
 /// The reparse runs in the background and without the progress dialog: the <see cref="VocabEditorSection"/> shows <see cref="IsReparsingSentences"/>,<br/>

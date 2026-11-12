@@ -16,7 +16,7 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 
 /// <summary>
-/// A condition is written as code (<see cref="ConditionCode"/>), as the Matching tab's tree editor, the failure reasons and a failing specification show<br/>
+/// A condition is written as code (<see cref="ConditionCode"/>), as the tree editor, the Matching tab, the failure reasons and a failing specification show<br/>
 /// it: the dots going from the word to what's tested, <c>!</c> for a negation, <c>AllOf(...)</c> and <c>AnyOf(...)</c> with their conditions on lines<br/>
 /// of their own, texts as string literals, and the tokenizer's values in Japanese with their English as a comment.
 /// </summary>

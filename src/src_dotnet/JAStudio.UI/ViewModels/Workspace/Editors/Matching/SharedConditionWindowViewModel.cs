@@ -17,7 +17,7 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 /// <summary>
 /// A shared-condition's window (<see cref="SharedConditionWindow"/>): its definition, edited in the tree editor, and the vocab whose match-conditions<br/>
 /// depend on it (<see cref="Condition.DependsOnTheDefinitionOf"/>), which it can open in the workspace. Every change to the definition is saved in its<br/>
-/// file, and those vocab's sentences are then reparsed, as a vocab's own are after a change on its Matching tab.
+/// file, and those vocab's sentences are then reparsed, as a vocab's own are after a change to its match-condition.
 /// </summary>
 partial class SharedConditionWindowViewModel : ObservableObject
 {
@@ -51,7 +51,8 @@ partial class SharedConditionWindowViewModel : ObservableObject
          RenameCommand?.NotifyCanExecuteChanged();
          DeleteCommand?.NotifyCanExecuteChanged();
       };
-      //review:matching: DefinitionEditor was Definition, but it's the definition's tree editor, as a vocab's Matching tab has its MatchConditionEditor.
+      //review:matching: DefinitionEditor was Definition, but it's the definition's tree editor, as a vocab's match-condition window has its
+      //   MatchConditionEditor.
       DefinitionEditor = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
                                                           new EditedDefinition(sharedCondition, services.NoteServices.SharedConditions),
                                                           services.NoteServices,

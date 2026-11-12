@@ -11,7 +11,7 @@ using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// The editor of a condition on the tokenizer's values, such as <c>InflectedForm.In</c> or <c>PartOfSpeech.Is</c>, in the Matching tab's tree editor: the<br/>
+/// The editor of a condition on the tokenizer's values, such as <c>InflectedForm.In</c> or <c>PartOfSpeech.Is</c>, in the tree editor: the<br/>
 /// values are picked rather than typed, each shown with its English, and found by its Japanese or its English.
 /// </summary>
 public class When_picking_the_tokenizers_values_for_a_condition : IAIGeneratedSpec

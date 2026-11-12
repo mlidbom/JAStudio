@@ -16,7 +16,7 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 
 /// <summary>
-/// The changes the Matching tab's tree editor makes to a vocab's match-condition (<see cref="EditableCondition"/>), and undoing them. Unlike a<br/>
+/// The changes the tree editor in a vocab's match-condition window makes to its match-condition (<see cref="EditableCondition"/>), and undoing them. Unlike a<br/>
 /// search's tree, a match-condition holds conditions on several subjects: a condition on a word holds one on its preceding token.
 /// </summary>
 public class When_editing_a_match_condition_in_the_tree_editor : IAIGeneratedSpec
