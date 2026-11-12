@@ -22,9 +22,10 @@ class HeadlessJAStudioTools
                 """)]
    public Task<string> StartHeadlessJAStudio(
       [Description("""
-                   The corpus checkout to work on. By default the headless JAStudio's own git worktree of the corpus repository, which is created
-                   at the corpus repository's checked out commit the first time. Never the checkout JAStudio inside Anki works on, src/jas_database,
-                   while Anki runs.
+                   The corpus checkout to work on. By default, in a linked worktree of the source repository, the worktree's own corpus
+                   checkout, src/jas_database; in the main checkout, whose src/jas_database JAStudio inside Anki works on, the headless
+                   JAStudio's own git worktree of the corpus repository, created at the commit checked out there the first time. Never the
+                   checkout JAStudio inside Anki works on while Anki runs.
                    """)] string? corpusFolder = null,
       [Description("The Anki profile whose collection the notes' studying statuses are read from. By default the profile used last.")] string? ankiProfile = null,
       CancellationToken cancellationToken = default) =>

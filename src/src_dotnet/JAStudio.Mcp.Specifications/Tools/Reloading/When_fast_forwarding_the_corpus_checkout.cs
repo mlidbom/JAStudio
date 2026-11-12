@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Reloading;
@@ -39,6 +41,9 @@ public abstract class When_fast_forwarding_the_corpus_checkout : CorpusRepositor
    protected CallToolResult FastForwardTo(string commit) =>
       CallTool("fast_forward_the_corpus_checkout", new Dictionary<string, object?> { ["commit"] = commit });
 
+   protected CallToolResult FastForwardFetchingFrom(DirectoryInfo otherClone, string commit) =>
+      CallTool("fast_forward_the_corpus_checkout", new Dictionary<string, object?> { ["commit"] = commit, ["fetchingItFrom"] = otherClone.FullName });
+
    public class to_a_branch_ahead_of_the_checkouts_head : When_fast_forwarding_the_corpus_checkout
    {
       readonly FastForwardResult _result;
@@ -49,6 +54,28 @@ public abstract class When_fast_forwarding_the_corpus_checkout : CorpusRepositor
       [XF] public void the_commit_before_is_reported() => _result.CommitBefore.Must().Be(_commitBefore);
       [XF] public void the_commit_after_is_reported() => _result.CommitAfter.Must().Be(_commitAhead);
       [XF] public void the_vocab_whose_file_changed_is_the_one_note_listed() => _result.ChangedNotes.Vocab.Notes.Select(it => it.Question).Must().SequenceEqual(["行く"]);
+   }
+
+   /// <summary>A clone of the corpus repository, as a linked worktree has, in which 来る's file changed in a commit made with no branch.</summary>
+   public class to_a_commit_made_in_another_clone_fetching_it_from_there : When_fast_forwarding_the_corpus_checkout
+   {
+      readonly string _commitInTheOtherClone;
+      readonly FastForwardResult _result;
+
+      public to_a_commit_made_in_another_clone_fetching_it_from_there()
+      {
+         var otherClone = new DirectoryInfo(Path.Combine(GetService<IEnvironmentPaths>().AddonRootDir, "another-corpus-clone"));
+         Git("clone", "--quiet", ".", otherClone.FullName);
+         Git("-C", otherClone.FullName, "checkout", "--quiet", "--detach");
+         File.WriteAllText(Path.Combine(otherClone.FullName, Path.GetRelativePath(GetService<IEnvironmentPaths>().DatabaseDir, FileOf(_vocab来る).FullName)), """{"changed": true}""");
+         Git("-C", otherClone.FullName, "-c", "user.name=Specification", "-c", "user.email=specification@localhost", "commit", "--quiet", "--all", "--message", "来る changed");
+         _commitInTheOtherClone = Git("-C", otherClone.FullName, "rev-parse", "HEAD").Trim();
+
+         _result = ResultOf<FastForwardResult>(FastForwardFetchingFrom(otherClone, _commitInTheOtherClone));
+      }
+
+      [XF] public void the_checkout_is_at_the_commit_made_in_the_other_clone() => HeadCommit().Must().Be(_commitInTheOtherClone);
+      [XF] public void the_vocab_whose_file_changed_is_the_one_note_listed() => _result.ChangedNotes.Vocab.Notes.Select(it => it.Question).Must().SequenceEqual(["来る"]);
    }
 
    /// <summary>Since the branch <c>ahead</c> was made, 来る's file changed in a commit on the branch checked out, so <c>ahead</c> isn't ahead of it.</summary>

@@ -140,9 +140,16 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
     gateway's tool list sends Claude Code `notifications/tools/list_changed`, and Claude Code fetches the new list.
   - **Each run's output** is logged in `%LOCALAPPDATA%\JAStudio\headless\logs`. A run that fails to start, or a build
     that fails, fails the tool call with the end of the log or the build's output.
-  - **The default corpus checkout** is the headless JAStudio's own worktree of the corpus repository, next to the source
-    checkout's worktrees: `C:\Dev\JAStudio.worktrees\headless-corpus` for `C:\Dev\JAStudio`. It's created the
-    first time it's needed. The Anki profile is by default the one whose collection file was written last.
+  - **The default corpus checkout** depends on the source checkout (2026-11-12):
+    - **In a linked worktree of the source repository,** the worktree's own corpus checkout, `src/jas_database`, at the
+      commit its branch records. No JAStudio inside Anki works on it, and git keeps it in step with the branch.
+    - **In the main checkout,** whose `src/jas_database` JAStudio inside Anki works on, the headless JAStudio's own
+      worktree of the corpus repository, next to the source checkout's worktrees:
+      `C:\Dev\JAStudio.worktrees\headless-corpus` for `C:\Dev\JAStudio`. It's created the first time it's needed.
+
+    Before, every source checkout got such a worktree, made from its own corpus clone: a linked worktree's clone isn't
+    Magnus's, so its commits never reached his checkout without a fetch. The Anki profile is by default the one whose
+    collection file was written last.
   - **Restarting takes about 7 seconds** when the build is up to date. The first load on a corpus checkout takes about
     20, since it builds the checkout's `snapshot.bin` caches.
 

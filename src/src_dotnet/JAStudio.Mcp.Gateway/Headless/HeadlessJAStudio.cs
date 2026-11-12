@@ -26,7 +26,7 @@ sealed class HeadlessJAStudio : IAsyncDisposable
    }
 
    /// <summary>Builds the headless JAStudio and starts it on <paramref name="corpusFolder"/>, stopping the one running first. Returns a report of what runs.</summary>
-   /// <param name="corpusFolder">The corpus checkout to work on, or none for <see cref="SourceCheckout.DefaultHeadlessCorpusWorktreeAsync"/>.</param>
+   /// <param name="corpusFolder">The corpus checkout to work on, or none for <see cref="SourceCheckout.DefaultHeadlessCorpusFolderAsync"/>.</param>
    /// <param name="ankiProfile">The Anki profile to read studying statuses from, or none for the one used last.</param>
    /// <param name="cancellationToken">Cancels the build and the wait for the headless JAStudio to start.</param>
    public Task<string> StartAsync(string? corpusFolder, string? ankiProfile, CancellationToken cancellationToken) => _startsAndStops.RunAsync(async () =>

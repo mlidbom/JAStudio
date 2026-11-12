@@ -15,7 +15,7 @@ record HeadlessJAStudioSetup(DirectoryInfo AddonFolder, DirectoryInfo CorpusFold
 {
    /// <summary>
    /// The setup Claude chose when starting the headless JAStudio from <paramref name="sourceCheckout"/>: on the corpus checkout <paramref name="corpusFolder"/>,<br/>
-   /// or with none named on <see cref="SourceCheckout.DefaultHeadlessCorpusWorktreeAsync"/>, and with the collection of the Anki profile<br/>
+   /// or with none named on <see cref="SourceCheckout.DefaultHeadlessCorpusFolderAsync"/>, and with the collection of the Anki profile<br/>
    /// <paramref name="ankiProfile"/>, or with none named of the profile used last.
    /// </summary>
    public static async Task<HeadlessJAStudioSetup> ChosenAsync(SourceCheckout sourceCheckout, string? corpusFolder, string? ankiProfile, CancellationToken cancellationToken) =>
@@ -23,7 +23,7 @@ record HeadlessJAStudioSetup(DirectoryInfo AddonFolder, DirectoryInfo CorpusFold
       //   untracked copies that go stale: one from May 29 made the headless JAStudio reparse on 4 threads while Anki's configuration says 16
       //   (2026-11-12). Should they come from the add-on folder Anki loads (addons21/jastudio_module, Magnus's main checkout) instead?
       new(sourceCheckout.AddonFolder,
-          corpusFolder == null ? await sourceCheckout.DefaultHeadlessCorpusWorktreeAsync(cancellationToken) : new DirectoryInfo(corpusFolder),
+          corpusFolder == null ? await sourceCheckout.DefaultHeadlessCorpusFolderAsync(cancellationToken) : new DirectoryInfo(corpusFolder),
           AnkiProfiles.CollectionFileOf(ankiProfile));
 
    /// <summary>

@@ -31,7 +31,10 @@ class SourceCheckout
    /// <summary>The <c>src</c> folder, which Anki loads JAStudio from, with JAStudio's configuration (<c>meta.json</c>) and the user files.</summary>
    public DirectoryInfo AddonFolder => new(Path.Combine(Folder.FullName, "src"));
 
-   /// <summary>The corpus repository's checkout in this source checkout, the submodule <c>src/jas_database</c>, which JAStudio inside Anki works on.</summary>
+   /// <summary>
+   /// The corpus repository's checkout in this source checkout, the submodule <c>src/jas_database</c>. In the main checkout it's the one JAStudio<br/>
+   /// inside Anki works on; in a linked worktree, the worktree's own, which git keeps a clone of the corpus repository of its own for.
+   /// </summary>
    public DirectoryInfo CorpusRepository => new(Path.Combine(AddonFolder.FullName, "jas_database"));
 
    /// <summary>The folder of the headless JAStudio's project, <see cref="HeadlessHostProject"/>, which its build output is in.</summary>
@@ -41,15 +44,35 @@ class SourceCheckout
    public FileInfo HeadlessHostProject => new(Path.Combine(HeadlessHostProjectFolder.FullName, "JAStudio.HeadlessHost.csproj"));
 
    /// <summary>
-   /// The corpus checkout the headless JAStudio works on unless told otherwise: a git worktree of the <see cref="CorpusRepository"/> of its own, so<br/>
-   /// that it never writes to the checkout JAStudio inside Anki works on. It sits with the source checkout's worktrees: for <c>C:\Dev\JAStudio</c>,<br/>
+   /// The corpus checkout the headless JAStudio works on unless told otherwise. In a linked worktree of the source repository, the worktree's own<br/>
+   /// <see cref="CorpusRepository"/>, at the commit its branch records: no JAStudio inside Anki works on it. In the main checkout, whose corpus<br/>
+   /// checkout JAStudio inside Anki works on, a git worktree of the corpus repository of its own (<see cref="TheMainCheckoutsHeadlessCorpusWorktreeAsync"/>).
+   /// </summary>
+   public async Task<DirectoryInfo> DefaultHeadlessCorpusFolderAsync(CancellationToken cancellationToken) =>
+      IsTheMainCheckout ? await TheMainCheckoutsHeadlessCorpusWorktreeAsync(cancellationToken) : TheLinkedWorktreesCorpusCheckout();
+
+   /// <summary>
+   /// Whether this is the source repository's main checkout, such as <c>C:\Dev\JAStudio</c>, rather than one of its linked worktrees: the main<br/>
+   /// checkout's <c>.git</c> is a folder, and a linked worktree's a file naming the folder git keeps for it.
+   /// </summary>
+   bool IsTheMainCheckout => Directory.Exists(Path.Combine(Folder.FullName, ".git"));
+
+   /// <summary>A linked worktree's <see cref="CorpusRepository"/>, which must be initialized: a submodule never initialized is an empty folder.</summary>
+   DirectoryInfo TheLinkedWorktreesCorpusCheckout() =>
+      Path.Exists(Path.Combine(CorpusRepository.FullName, ".git"))
+         ? CorpusRepository
+         : throw new InvalidOperationException($"This worktree's corpus checkout, {CorpusRepository.FullName}, isn't initialized: run 'git submodule update --init src/jas_database' in {Folder.FullName}, or start the headless JAStudio with a corpusFolder.");
+
+   /// <summary>
+   /// The main checkout's headless corpus checkout: a git worktree of the <see cref="CorpusRepository"/> of its own, so that the headless JAStudio<br/>
+   /// never writes to the checkout JAStudio inside Anki works on. It sits with the source checkout's worktrees: for <c>C:\Dev\JAStudio</c>,<br/>
    /// <c>C:\Dev\JAStudio.worktrees\headless-corpus</c>.
    /// </summary>
    /// <remarks>
    /// It's created the first time it's needed, at the commit the corpus repository has checked out, and after that left as the work leaves it:<br/>
    /// moving it is a git operation like any other.
    /// </remarks>
-   public async Task<DirectoryInfo> DefaultHeadlessCorpusWorktreeAsync(CancellationToken cancellationToken)
+   async Task<DirectoryInfo> TheMainCheckoutsHeadlessCorpusWorktreeAsync(CancellationToken cancellationToken)
    {
       var worktree = new DirectoryInfo(Path.Combine(FolderOfItsWorktrees.FullName, "headless-corpus"));
       if(!worktree.Exists)

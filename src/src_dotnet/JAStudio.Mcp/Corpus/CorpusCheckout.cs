@@ -38,6 +38,17 @@ public class CorpusCheckout
    public void FastForwardTo(CorpusCommit commit) => Git(["merge", "--ff-only", "--quiet", commit.Name]);
 
    /// <summary>
+   /// Fetches <paramref name="commit"/>, by its hash or the name of a branch at it there, from the corpus checkout <paramref name="otherClone"/> into<br/>
+   /// this checkout's repository, without making a branch for it, and gives it by its hash. For a commit made in another clone of the corpus<br/>
+   /// repository, such as a linked worktree's <c>src/jas_database</c>: git keeps a clone of its own for each worktree's submodule.
+   /// </summary>
+   public CorpusCommit FetchedFrom(DirectoryInfo otherClone, CorpusCommit commit)
+   {
+      Git(["fetch", "--quiet", otherClone.FullName, commit.Name]);
+      return new CorpusCommit(Git(["rev-parse", "FETCH_HEAD"]).Trim());
+   }
+
+   /// <summary>
    /// The ids of the notes whose files differ from the checkout's <c>HEAD</c>: changed, added or deleted, staged or not. A note file is named by<br/>
    /// the note's id, such as <c>vocab/81/81020a41-d636-4ee9-a158-2443d8750482.json</c>.
    /// </summary>
