@@ -130,6 +130,7 @@ public sealed class SharedConditions
    {
       Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
       Contract.Argument.Assert(!definition.DependsOnTheDefinitionOf(sharedCondition), () => $"{sharedCondition.FullName} defined as {definition} would use itself.");
+      AssertHoldsEachUsedBy(definition);
       sharedCondition.Redefine(definition);
       _monitor.Locked(() => _folder.Save(sharedCondition));
    }
@@ -168,6 +169,30 @@ public sealed class SharedConditions
    }
 
    /// <summary>
+   /// Deletes <paramref name="sharedCondition"/>, one of these, and its file, with its definition written out wherever it's used<br/>
+   /// (<see cref="Condition.WithTheDefinitionWrittenOutOf"/>): in each match-condition of <paramref name="vocab"/> and each other definition that uses it,<br/>
+   /// saving each. None of them then means anything else, so no vocab matches other words. The reverse of making it (<see cref="MakeOf"/>).
+   /// </summary>
+   public void Delete(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
+   {
+      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      All.Where(it => it.Definition.Uses(sharedCondition)).ToList().ForEach(WriteItOutInTheDefinitionOf);
+      vocab.ToList().ForEach(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition));
+      _monitor.Locked(() =>
+      {
+         _byLevelAndName.Remove(KeyOf(sharedCondition));
+         _folder.Delete(sharedCondition);
+      });
+      return;
+
+      void WriteItOutInTheDefinitionOf(ISharedCondition other)
+      {
+         other.RewriteItsDefinitionAs(other.Definition.WithTheDefinitionWrittenOutOf(sharedCondition));
+         _monitor.Locked(() => _folder.Save(other));
+      }
+   }
+
+   /// <summary>
    /// Uses <paramref name="sharedCondition"/>, one of these, by name wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>): in the<br/>
    /// match-condition of each of <paramref name="vocab"/>, saving each vocab that changes, and in the definitions of the other shared-conditions,<br/>
    /// saving each that changes in its file.
@@ -191,6 +216,18 @@ public sealed class SharedConditions
          Contract.State.Assert(!other.UsesItself, () => $"Using {sharedCondition.FullName} in {other.FullName}'s definition made {other.FullName} use itself: {other.Definition}");
          _monitor.Locked(() => _folder.Save(other));
       }
+   }
+
+   /// <summary>
+   /// Asserts that each shared-condition <paramref name="condition"/> uses is one of these, the very object, as a condition the corpus stores must use: a<br/>
+   /// tree can still hold one that was deleted since, such as in a tree editor's undo, and storing it would name a shared-condition there's none of.
+   /// </summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When it uses one that isn't.</exception>
+   internal void AssertHoldsEachUsedBy(Condition condition)
+   {
+      var held = All;
+      var notHeld = condition.SharedConditionsUsed().FirstOrDefault(used => !held.Any(it => ReferenceEquals(it, used)));
+      Contract.Argument.Assert(notHeld is null, () => $"{condition} uses the shared-condition {notHeld?.FullName}, which was deleted, or loaded before the collection was loaded anew.");
    }
 
    /// <summary>

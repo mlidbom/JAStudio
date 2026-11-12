@@ -119,6 +119,19 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
       [XF] public void its_rename_dialog_starts_with_its_name_which_it_cannot_be_renamed() =>
          _window.RenameDialog().Must().Satisfy(it => it.TypedName == "FollowsAVerb" && it.WhyItCannotBeRenamed == "That's its name now.");
 
+      [XF] public void deleting_it_says_where_its_definition_is_written_out() =>
+         _window.WhatDeletingItDoes().Must().Be("Delete Word.FollowsAVerb? Its definition is written out in its place wherever it's used: in the match-conditions of 1 vocab, "
+                                              + "and the definitions of 0 other shared-conditions. None of them then means anything else.");
+
+      public class after_deleting_it : the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab
+      {
+         public after_deleting_it() => _window.Delete();
+
+         [XF] public void the_vocabs_tree_on_its_Matching_tab_shows_its_definition_written_out() =>
+            _ますsEditor.MatchingConfig.MatchConditionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)
+                       .Must().SequenceEqual(["// A word matches the vocab when each of these holds:", "PrecedingToken.IsAVerb"]);
+      }
+
       public class after_renaming_it_FollowsAVerbOfEitherKind : the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab
       {
          public after_renaming_it_FollowsAVerbOfEitherKind() => _window.RenameTo("FollowsAVerbOfEitherKind");

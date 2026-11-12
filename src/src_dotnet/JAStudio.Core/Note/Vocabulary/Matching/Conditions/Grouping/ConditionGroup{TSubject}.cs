@@ -130,6 +130,20 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
       bool IsOfTheSameKindAndHoldsTwoOrMore(ConditionGroup<TSubject> group) => IsOfTheSameKindAs(group) && group.Conditions.Count >= 2;
    }
 
+   /// <summary>
+   /// The group with <paramref name="sharedCondition"/>'s definition written out in each of its conditions, and a use of it among them replaced by the<br/>
+   /// definition's conditions, when the definition is a group of this group's kind.
+   /// </summary>
+   protected override Condition WithTheDefinitionWrittenOutOfItInTheConditionsItHolds(ISharedCondition sharedCondition)
+   {
+      return WithConditions([.. Conditions.SelectMany(WrittenOut)]);
+
+      IEnumerable<Condition<TSubject>> WrittenOut(Condition<TSubject> condition) =>
+         condition.Equals(sharedCondition) && sharedCondition.Definition is ConditionGroup<TSubject> definition && IsOfTheSameKindAs(definition)
+            ? definition.Conditions
+            : [condition.WithTheDefinitionWrittenOutOf(sharedCondition).AsAConditionOn<TSubject>()];
+   }
+
    bool IConditionGroup.HoldsTheConditionsOf(Condition condition) =>
       condition is ConditionGroup<TSubject> group && IsOfTheSameKindAs(group) && Conditions.IndexesOfConditionsMeaningTheSameAsEachOf(group.Conditions) is not null;
 

@@ -8,14 +8,16 @@ using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.TaskRunners;
+using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 using JAStudio.UI.WindowPlaces;
 
 namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 
 /// <summary>
-/// A shared-condition's window, showing a <see cref="SharedConditionWindowViewModel"/>: its definition in the tree editor. F12 or Ctrl+click on a<br/>
-/// shared-condition in any tree opens it. Each shared-condition has one window at most: opening it again brings it to the front.
+/// A shared-condition's window, showing a <see cref="SharedConditionWindowViewModel"/>: its definition in the tree editor, with Rename and Delete. F12 or<br/>
+/// Ctrl+click on a shared-condition in any tree opens it. Each shared-condition has one window at most: opening it again brings it to the front. It<br/>
+/// shows the shared-condition as it is now whenever it's activated, since another window or the MCP server may have changed it or what it uses.
 /// </summary>
 /// <remarks>
 /// It closes when the collection is loaded anew, as after a sync, since the shared-conditions are then loaded anew too, and it would edit the one<br/>
@@ -35,8 +37,10 @@ partial class SharedConditionWindow : Window
    {
       var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services));
       viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel));
+      viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel));
       DataContext = viewModel;
       InitializeComponent();
+      Activated += (_, _) => viewModel.ShowItAsItIsNow();
 
       var uiThread = services.Resolve<IUIThreadDispatcher>();
       var closingOnTheNextReload = services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(Close));
@@ -51,6 +55,14 @@ partial class SharedConditionWindow : Window
    {
       if(await SharedConditionRenameDialog.ShowAsync(this, viewModel.RenameDialog(), Position + new PixelPoint(40, 40)) is {} newName)
          viewModel.RenameTo(newName);
+   }
+
+   async Task DeleteAsync(SharedConditionWindowViewModel viewModel)
+   {
+      if(!await ConfirmDialog.ShowOverAsync(this, $"Delete {viewModel.SharedCondition.FullName}", viewModel.WhatDeletingItDoes())) return;
+
+      viewModel.Delete();
+      Close();
    }
 
    /// <summary>Opens <paramref name="sharedCondition"/>'s window where it was last, or brings it to the front when it's open already, and returns it.</summary>

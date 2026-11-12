@@ -14,6 +14,7 @@
 
     <DockPanel Margin="10">
         <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <Button DockPanel.Dock="Right" Content="Delete…" Command="{Binding DeleteCommand}" Margin="8,0,0,0" />
             <Button DockPanel.Dock="Right" Content="Rename… (F2)" Command="{Binding RenameCommand}" Margin="8,0,0,0" />
             <TextBlock Text="{Binding WhoUsesIt}" TextWrapping="Wrap" VerticalAlignment="Center" />
         </DockPanel>

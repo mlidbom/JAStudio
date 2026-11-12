@@ -15,6 +15,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching;
 public class VocabNoteMatchingConfiguration
 {
    readonly NoteGuard _guard;
+   readonly SharedConditions _sharedConditions;
 
    /// <param name="partsOfSpeech">The vocab's parts of speech, which some rules and flags take into account.</param>
    /// <param name="data">The configuration as the corpus stores it, or null for a new vocab.</param>
@@ -23,6 +24,7 @@ public class VocabNoteMatchingConfiguration
    internal VocabNoteMatchingConfiguration(VocabNotePartsOfSpeech partsOfSpeech, VocabMatchingDto? data, SharedConditions sharedConditions, NoteGuard guard)
    {
       _guard = guard;
+      _sharedConditions = sharedConditions;
       MatchCondition = MatchConditionJson.VocabsMatchConditionFrom(data?.Condition, sharedConditions);
       RequiresForbids = new VocabMatchingRequireForbidFlags(partsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>(), guard);
       Flags = new VocabMatchingFlags(partsOfSpeech, data?.Flags ?? [], guard);
@@ -43,8 +45,25 @@ public class VocabNoteMatchingConfiguration
 
    public VocabYieldToSurface YieldToSurface { get; }
 
-   /// <summary>Makes <paramref name="matchCondition"/> the vocab's <see cref="MatchCondition"/>, and saves the vocab.</summary>
-   public void SetMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) => _guard.Update(() => MatchCondition = matchCondition);
+   /// <summary>
+   /// Makes <paramref name="matchCondition"/> the vocab's <see cref="MatchCondition"/>, and saves the vocab. Each shared-condition it uses must be one of the<br/>
+   /// corpus's (<see cref="SharedConditions.AssertHoldsEachUsedBy"/>).
+   /// </summary>
+   public void SetMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition)
+   {
+      _sharedConditions.AssertHoldsEachUsedBy(matchCondition);
+      _guard.Update(() => MatchCondition = matchCondition);
+   }
+
+   /// <summary>
+   /// Writes <paramref name="sharedCondition"/>'s definition out in the <see cref="MatchCondition"/> wherever it uses it (<see cref="Condition.WithTheDefinitionWrittenOutOf"/>),<br/>
+   /// as when the shared-condition is deleted, and saves the vocab when that changes it. It then means the same, so the vocab matches the same words.
+   /// </summary>
+   internal void WriteOutTheDefinitionOf(ISharedCondition sharedCondition)
+   {
+      var writtenOut = ConditionGroup.AsAnAllOf(MatchCondition.WithTheDefinitionWrittenOutOf(sharedCondition).AsAConditionOn<CandidateWordVariant>());
+      if(!writtenOut.Equals(MatchCondition)) SetMatchCondition(writtenOut);
+   }
 
    /// <summary>
    /// Saves the vocab after a shared-condition its <see cref="MatchCondition"/> uses was renamed (<see cref="SharedConditions.Rename"/>): the match-condition<br/>

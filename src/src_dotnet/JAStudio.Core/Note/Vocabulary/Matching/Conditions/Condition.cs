@@ -134,6 +134,20 @@ public abstract record Condition
    protected virtual Condition WithSharedConditionUsedInTheConditionsItHolds(ISharedCondition sharedCondition) =>
       Children.Index().Aggregate(this, (condition, child) => condition.WithChildReplaced(child.Index, child.Item.WithSharedConditionUsed(sharedCondition)));
 
+   /// <summary>
+   /// This condition with <paramref name="sharedCondition"/>'s definition written out wherever it uses it by name, as when the shared-condition is deleted:<br/>
+   /// each use is replaced by the definition, and in a group of the same kind as the definition, by the definition's conditions, so that<br/>
+   /// <c>AllOf(Shared, C)</c> with a definition <c>AllOf(A, B)</c> becomes <c>AllOf(A, B, C)</c>, the reverse of <see cref="WithSharedConditionUsed"/>.<br/>
+   /// Conditions are values, so this is a new tree, which means the same as this one.
+   /// </summary>
+   /// <remarks>Another shared-condition's definition isn't looked into: only what uses the shared-condition by name.</remarks>
+   public Condition WithTheDefinitionWrittenOutOf(ISharedCondition sharedCondition) =>
+      Equals(sharedCondition) ? sharedCondition.Definition : WithTheDefinitionWrittenOutOfItInTheConditionsItHolds(sharedCondition);
+
+   /// <summary>This condition, which isn't <paramref name="sharedCondition"/>, with its definition written out in the conditions it holds (<see cref="WithTheDefinitionWrittenOutOf"/>).</summary>
+   protected virtual Condition WithTheDefinitionWrittenOutOfItInTheConditionsItHolds(ISharedCondition sharedCondition) =>
+      Children.Index().Aggregate(this, (condition, child) => condition.WithChildReplaced(child.Index, child.Item.WithTheDefinitionWrittenOutOf(sharedCondition)));
+
    /// <summary>The condition as code on one line, such as <c>!PrecedingToken.IsAGodanVerb</c>, as a failure reason shows it (<see cref="ConditionCode.OnOneLine(Condition)"/>).</summary>
    public sealed override string ToString() => ConditionCode.OnOneLine(this);
 }

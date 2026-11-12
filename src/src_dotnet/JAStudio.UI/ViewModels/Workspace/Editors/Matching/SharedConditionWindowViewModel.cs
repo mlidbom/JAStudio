@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
@@ -47,8 +49,34 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// <summary>Opens the dialog that renames the shared-condition, and renames it the name it closes with. Set by the <see cref="SharedConditionWindow"/>.</summary>
    public IRelayCommand? RenameCommand { get; set; }
 
+   /// <summary>Asks whether to delete the shared-condition, and deletes it and closes the window if so. Set by the <see cref="SharedConditionWindow"/>.</summary>
+   public IRelayCommand? DeleteCommand { get; set; }
+
+   /// <summary>What deleting the shared-condition does, as the dialog confirming it says: its definition is written out wherever it's used.</summary>
+   internal string WhatDeletingItDoes()
+   {
+      var vocabUsingIt = Vocab.All().Count(it => it.MatchingConfiguration.MatchCondition.Uses(SharedCondition));
+      var definitionsUsingIt = SharedConditions.All.Count(it => it.Definition.Uses(SharedCondition));
+      return $"Delete {SharedCondition.FullName}? Its definition is written out in its place wherever it's used: in the match-conditions of {vocabUsingIt} vocab, "
+           + $"and the definitions of {definitionsUsingIt} other shared-conditions. None of them then means anything else.";
+   }
+
+   /// <summary>Deletes the shared-condition, with its definition written out wherever it's used (<see cref="SharedConditions.Delete"/>).</summary>
+   internal void Delete() => SharedConditions.Delete(SharedCondition, Vocab.All());
+
+   /// <summary>
+   /// Shows the shared-condition as it is now, when something else may have changed it or what uses it, such as a rename through the MCP server, or a<br/>
+   /// shared-condition its definition uses made or deleted in another window: its title, the vocab depending on it, and its definition.
+   /// </summary>
+   internal void ShowItAsItIsNow()
+   {
+      OnPropertyChanged(nameof(Title));
+      VocabDependingOnIt = TheVocabDependingOnIt();
+      Definition.Refresh();
+   }
+
    /// <summary>The dialog that renames the shared-condition.</summary>
-   internal SharedConditionRenameDialogViewModel RenameDialog() => new(SharedCondition, _services.NoteServices.SharedConditions);
+   internal SharedConditionRenameDialogViewModel RenameDialog() => new(SharedCondition, SharedConditions);
 
    /// <summary>
    /// Renames the shared-condition <paramref name="newName"/> (<see cref="SharedConditions.Rename"/>): every vocab and definition using it then uses it by<br/>
@@ -56,7 +84,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// </summary>
    internal void RenameTo(string newName)
    {
-      _services.NoteServices.SharedConditions.Rename(SharedCondition, newName, _services.CoreApp.Collection.Vocab.All());
+      SharedConditions.Rename(SharedCondition, newName, Vocab.All());
       OnPropertyChanged(nameof(Title));
       Definition.Refresh();
    }
@@ -80,7 +108,11 @@ partial class SharedConditionWindowViewModel : ObservableObject
                                  : $"The match-conditions of {VocabDependingOnIt.Count} vocab depend on it: a change to its definition reparses their sentences.";
 
    /// <summary>The vocab whose match-conditions depend on the definition, as the collection holds them now.</summary>
-   IReadOnlyList<VocabNote> TheVocabDependingOnIt() => _services.CoreApp.Collection.Vocab.WhoseMatchConditionsDependOnTheDefinitionOf(SharedCondition);
+   IReadOnlyList<VocabNote> TheVocabDependingOnIt() => Vocab.WhoseMatchConditionsDependOnTheDefinitionOf(SharedCondition);
+
+   SharedConditions SharedConditions => _services.NoteServices.SharedConditions;
+
+   VocabCollection Vocab => _services.CoreApp.Collection.Vocab;
 
    /// <summary>Reparses the sentences of the vocab depending on the definition, in the background, after it changed.</summary>
    void ReparseTheSentencesOfTheVocabDependingOnIt()
