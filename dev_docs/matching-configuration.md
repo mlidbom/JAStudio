@@ -1372,6 +1372,21 @@ Built 2026-11-12. No note changed, since no shared-condition was deleted in the 
    it's activated, since another window or the MCP server may have changed it, or what its definition uses.
 4. **The MCP server's `delete_a_shared_condition`** does the same.
 
+### Increment 6, step 3, then: the window listing them
+
+Asked for by Magnus, 2026-11-12: "could we have a window listing all the shared-condition definitions as well?" Built the
+same day, after the review of step 3 against the code standards, which found four defects, fixed with it.
+
+1. **The window "Shared-conditions"** (`SharedConditionsWindow`), from the workspace's main menu, under Lookup, lists every
+   one of the corpus's shared-conditions as it's defined, as code, with how many vocab's match-conditions depend on it:
+   those on a word first, then a token's, then a text's. Enter or a double-click opens one's own window. It lists them as
+   they are now whenever it's activated. The MCP server's `render_window` renders it.
+2. **The four defects:** a definition's tree holding one "all of" group, such as one just added, lost it on the next
+   refresh, so it's now stored whole. Rename and Delete wait for the reparse after a change to the definition, as the tree
+   does. A shared-condition's window closes when activated if its shared-condition was deleted elsewhere, as through the
+   MCP server. And a change to a shared-condition asks that it be the very object one of the corpus's is
+   (`SharedConditions.Holds`), not one deleted and defined anew under its name.
+
 **Not built:** making a shared-condition of some of a group's conditions, as `find_the_conditions_vocab_share` finds
 them (a combination such as following an irrealis form and not an ichidan verb): the tree selects one line at a time.
 `define_a_shared_condition` then `use_a_shared_condition_wherever_its_definition_is` do it through the MCP server.
