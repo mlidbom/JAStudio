@@ -36,6 +36,7 @@ class MainMenuWindows(abc.ABC):
     ImportProfiles : MainMenuWindow
     Options : MainMenuWindow
     ReadingsMappings : MainMenuWindow
+    SharedConditions : MainMenuWindow
     TextToSpeechVoices : MainMenuWindow
 
 
