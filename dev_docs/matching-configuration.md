@@ -1,6 +1,7 @@
 # The matching configuration as a tree of conditions
 
-> **Status: a survey, and thinking in progress with Magnus, 2026-11-10. Nothing is decided or built.** Magnus wants the
+> **Status (2026-11-12): increments 1 to 4 of the core are built. Next, conditions shown as code, then
+> shared-conditions:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -718,10 +719,25 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
 
    The full rebuild must change nothing.
 4. **The tree editor** on the Matching tab: built 2026-11-11, see [Increment 4, as built](#increment-4-as-built).
-5. **Shared-conditions.**
+5. **Conditions shown as code,** with the tokenizer's values in English too: see
+   [How conditions display: as code](#how-conditions-display-as-code-agreed-with-magnus-2026-11-12).
+6. **Shared-conditions, and the rule editors go** (agreed with Magnus, 2026-11-12). The five rules that are small trees
+   become shared-conditions under their names: past tense stem, godan potential, godan imperative, ichidan imperative
+   and sentence start. The other 16 are one line each already, such as `PrecedingToken.IsAMasuStem`. Then the Matching
+   tab's rule editors go, with the rule-by-rule editing (`MatchConditionAsRules`) and the MCP server's
+   `matching.rules.*` fields. They have two reasons to stay until then:
+   - **A rule is one click,** where its condition built in the tree takes several steps, and sentence start means typing
+     the characters that start a sentence. A shared-condition is one pick in the add menu.
+   - **A condition weighs only when it's exactly a rule's,** and the comparison depends on order (`ConditionGroup`'s
+     equality). Godan potential built by hand with its two facts the other way round matches the same words and weighs
+     nothing, which can change which of two vocab wins, silently. A shared-condition's weight can belong to its name.
 
-After the core: the yardstick, rules-for-many-vocab, conditions on display, and vocab given conditions that use the new
-power.
+   What still reads the rules then reads the shared-conditions: the priority weights, the four tags below
+   `Tags.Vocab.Matching.Uses`, and narrowing a reparse when the surface is required.
+
+After the core: the yardstick, rules-for-many-vocab, conditions on display, the tree checked against a word in a
+sentence (decided: see [The tree checked against a word](#decided-on-the-backlog-the-tree-checked-against-a-word-in-a-sentence)),
+and vocab given conditions that use the new power.
 
 ### Increment 1, as built
 
@@ -923,6 +939,114 @@ able to see the tree :)".
   parsing is caught, around itself alone, since .NET has no other way to check a pattern.
 - **The headless JAStudio passes no keys into a menu opened with a submenu showing,** the note search's as well, so the
   MCP server drives those menus by clicks.
+
+## How conditions display: as code (agreed with Magnus, 2026-11-12)
+
+The sentence-like lines of increment 4, such as "Not: The preceding token: Surface: ends with one of ん", go. Magnus:
+"it is a logical boolean condition. I would like it to display very similarly to how such a condition displays in a
+programming language."
+
+```
+PrecedingToken.IsInAnIrrealisForm
+Not(PrecedingToken.IsAnIchidanVerb)
+PrecedingToken.Surface.EndsWithOneOf("ん")
+Not(FollowingToken.Surface.StartsWithOneOf("湧", "わ"))
+AnyOf(
+   Not(Surface.In("本の")),
+   FollowingToken.PartOfSpeech.Is(名詞・数))     // noun › numeric
+Not(LastToken.AllOf(
+   PartOfSpeech.Is(動詞),                        // verb
+   InflectedForm.In(
+      連用形,                                    // continuative
+      連用タ接続)))                               // continuative, ta-connection
+```
+
+- **Each top-level line must hold.** The root "all of" isn't shown.
+- **The dots go from the word to what's tested:** the preceding token, its surface, the test. A line is about what the
+  line it's under is about, and a top-level line is about the word: `Surface` there is the word's.
+- **The names are the code's,** and the code is renamed where the display needs another. `In` is "is one of";
+  `StartsWithOneOf`, `EndsWithOneOf` and `ContainsOneOf` keep their names (Magnus: "a bit clearer to me. We can polish
+  later though").
+- **Groups and negation are `AnyOf(...)`, `AllOf(...)` and `Not(...)`,** with commas and closing parentheses (Magnus:
+  "Keep them"). `Not` rather than `!`, which is easy to miss and can't go inside a subject (below).
+- **Texts are in quotes.**
+- **Values from the tokenizer's fixed lists are unquoted,** in Japanese with their English beside them: parts of
+  speech, inflection types and inflected forms. Several values go one to a line (Magnus). The selectors show both, and
+  find a value by either. The same goes for anything else the editor shows in Japanese only (Magnus). The English is
+  in the code already: `JNPartsOfSpeech`, `InflectionTypes`, `InflectionForms`.
+- **The same text wherever a condition shows:** the tree, the failure reasons in the sentence breakdown and in
+  `analyze_sentence` (`not_met::Not(PrecedingToken.IsAGodanVerb)`), and the specs' failure messages.
+- **The C# that builds a condition reads the same, as far as C# allows** (Magnus: "If that is not hard, by all means do
+  it"). C# 14's extension members can give each subject the conditions on it, so `PrecedingToken.Surface.EndsWithOneOf("ん")`
+  is C# as it stands. Inside a subject's group the bare names clash in C#, since the word and a token both have a
+  `Surface`, so there the C# needs a prefix.
+
+### Where Not sits
+
+`Not(PrecedingToken.IsAGodanVerb)` and `PrecedingToken.Not(IsAGodanVerb)` agree on every word but one at the very start
+of a sentence, which has no preceding token:
+- **`Not(PrecedingToken.IsAGodanVerb)`** asks "does the word follow a godan verb?" and turns the answer around. At the
+  start it follows nothing, so the answer is no, and the condition is met.
+- **`PrecedingToken.Not(IsAGodanVerb)`** asks "is there a token before the word, and is it something other than a godan
+  verb?" At the start there's none, so the condition isn't met.
+
+In C#, with the preceding token null at the start, they're `!(PrecedingToken != null && PrecedingToken.IsAGodanVerb)`
+and `PrecedingToken != null && !PrecedingToken.IsAGodanVerb`. The second is what a suffix needs, such as うる, which
+needs a word before it: `PrecedingToken.Not(IsANonWordCharacter)` rejects the うる at the start of うるせぇよ, where
+`Not(PrecedingToken.IsANonWordCharacter)` lets it match.
+
+### Shared-conditions, as they display
+
+Defined once, with what it's about in front of its name, so it's offered where that is: a token's under any token.
+
+```
+Word.FollowsAPastTenseStem =
+   AnyOf(
+      PrecedingToken.IsAPastTenseStem,
+      AllOf(
+         Not(PrecedingText.IsEmpty),
+         FirstToken.IsAPastTenseMarker))
+
+Token.IsAdverbLike =
+   AnyOf(
+      PartOfSpeech.Is(副詞),                     // adverb
+      AllOf(
+         PartOfSpeech.Is(形容詞),                // i-adjective
+         Surface.EndsWithOneOf("く")))
+```
+
+Used by name, as a built-in fact is, such as `FollowsAPastTenseStem` or `PrecedingToken.IsAdverbLike`. The name has a
+color of its own, as Rider colors the methods you wrote. Hovering over it shows its definition, an arrow expands the
+definition in place, greyed, and F12 or Ctrl+click opens it for editing. Magnus asked for hover or expanding; this
+proposes both.
+
+### Decided, on the backlog: the tree checked against a word in a sentence
+
+Magnus, 2026-11-12: "Seeing matching failures that way is definitely something I want." First an idea of Claude's
+(2026-11-11). When a vocab matches a word it shouldn't, or misses one it should, the question is which of its conditions
+decided it. The tree editor takes a sentence and a place in it, such as from the word's line in the sentence's
+breakdown, and marks each line of the tree ✓ or ✗ for that word. Editing a condition then shows at once whether the word
+matches now, much faster than reading the failure reasons in the breakdown.
+
+### To consider soon: storing a match-condition as its text
+
+An idea of Claude's (2026-11-12). The corpus could store `matching.condition` as the lines the editor shows, a list of
+strings in the vocab's JSON, instead of nested JSON objects. A vocab file and its diff in git would read as the editor
+does, and the MCP server and the specs would take the same text. Magnus: "Stored data is sacred, would that risk it in
+any way?" What it would risk, and how that's guarded:
+- **A new parser reads the data,** where JSON's reader is mature. A bug that reads a line as another condition than the
+  one written would change parsing without failing. The guards: each condition, as it's written, is parsed back and
+  asserted equal to what was written; a line that doesn't parse stops the load, never skipped; and the migration is
+  checked as increment 3's was: a full rebuild changes nothing, and every vocab reads back as before.
+- **Hand edits become easy,** in a text editor or a merge. A typo that doesn't parse fails loudly. One that parses to
+  another valid condition is as possible as in JSON.
+- **The cost: the stored names are the displayed names.** Each rename of a condition, including the naming pass still to
+  come, rewrites every vocab file that uses it: a migration each time, checked by a rebuild, and churn in git. JSON
+  keys let the display's names be polished freely.
+- **The English is display only:** the files store the Japanese values.
+
+Claude's recommendation: decide after the naming pass, so that renames aren't migrations. Nothing in the display depends
+on it.
 
 ### Naming and design questions: `review:matching:` comments
 

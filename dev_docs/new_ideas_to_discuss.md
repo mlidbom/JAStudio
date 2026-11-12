@@ -9,11 +9,6 @@ piece of code, or that would otherwise be lost in a long response.
 
 ## Ideas
 
-- **(Claude, 2026-11-11) The match-condition's tree, checked against a word in a sentence.** When a vocab matches a word
-  it shouldn't, or misses one it should, the question is which of its conditions decided it. The tree editor could take
-  a sentence and a place in it, such as from the word's line in the sentence's breakdown, and mark each line of the tree
-  met or not met for that word. Editing a condition then shows at once whether that word now matches. It would make
-  editing conditions while studying much faster than reading the failure reasons in the breakdown.
 - **(Claude, 2026-11-11) Read .apkg files directly, with no Anki profile for importing.** An .apkg is a zip of a SQLite
   database and the media files, with a map from their numbered names to their real ones. An `IAnkiRawNotes` that reads
   one would let the import profiles take a deck file as they take the open collection. The 26 decks of the subs2srs
@@ -33,8 +28,3 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
-- **(Claude, 2026-11-12) Store a match-condition as the text the editor shows.** Once the Matching tab shows conditions
-  as code, such as `Not(PrecedingToken.Surface.EndsWith("ん"))` (discussed with Magnus, 2026-11-12), the corpus could
-  store `matching.condition` as those same lines instead of nested JSON objects. A vocab file and its diff in git would
-  then read as the editor does, and the MCP server, the specs and the failure reasons would all take and give the same
-  text. The cost is a parser for it, whose errors say where a line went wrong; JSON's structure is checked for free.
