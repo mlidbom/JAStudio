@@ -72,11 +72,11 @@ public class AnalysisTools
    [McpServerTool(Name = "count_the_candidate_words", ReadOnly = true, Idempotent = true)]
    [Description("""
                 Analyzes every sentence of the corpus as its stored parsing result is made, on every core, and counts the candidate words the
-                analysis built: at each token, one for each number of tokens it may span, up to the longest compound the analysis looks for.
-                It counts, in all and by how many tokens the words span: how many were built, how many have a form a vocab or a dictionary
-                entry has, the only ones that can get a match, and how many got a valid match. A compound none of whose forms a vocab or a
-                dictionary entry has is analyzed for nothing. For telling how much of the analysis's work goes to such candidate words, and
-                how a change to which candidate words are built changes it. Nothing is saved.
+                analysis built: at each token, one for each number of tokens it may span, as long as a vocab form or a dictionary word form
+                starts with the surface of all its tokens but the last. It counts, in all and by how many tokens the words span: how many were
+                built, how many have a form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid
+                match. A compound none of whose forms a vocab or a dictionary entry has is analyzed for nothing. For telling how much of the
+                analysis's work goes to such candidate words, and how a change to which candidate words are built changes it. Nothing is saved.
                 """)]
    public CandidateWordCounts CountTheCandidateWords()
    {
