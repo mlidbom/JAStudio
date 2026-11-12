@@ -59,11 +59,7 @@ public class VocabNoteMatchingConfiguration
    /// Writes <paramref name="sharedCondition"/>'s definition out in the <see cref="MatchCondition"/> wherever it uses it (<see cref="Condition.WithTheDefinitionWrittenOutOf"/>),<br/>
    /// as when the shared-condition is deleted, and saves the vocab when that changes it. It then means the same, so the vocab matches the same words.
    /// </summary>
-   internal void WriteOutTheDefinitionOf(ISharedCondition sharedCondition)
-   {
-      var writtenOut = ConditionGroup.AsAnAllOf(MatchCondition.WithTheDefinitionWrittenOutOf(sharedCondition).AsAConditionOn<CandidateWordVariant>());
-      if(!writtenOut.Equals(MatchCondition)) SetMatchCondition(writtenOut);
-   }
+   internal void WriteOutTheDefinitionOf(ISharedCondition sharedCondition) => SetMatchConditionWhenItIsAnother(MatchCondition.WithTheDefinitionWrittenOutOf(sharedCondition));
 
    /// <summary>
    /// Saves the vocab after a shared-condition its <see cref="MatchCondition"/> uses was renamed (<see cref="SharedConditions.Rename"/>): the match-condition<br/>
@@ -75,11 +71,23 @@ public class VocabNoteMatchingConfiguration
    /// Uses <paramref name="sharedCondition"/> by name in the <see cref="MatchCondition"/> wherever its definition is (<see cref="Condition.WithSharedConditionUsed"/>),<br/>
    /// and saves the vocab when that changes it. It then means the same, so the vocab matches the same words, and weighs the same.
    /// </summary>
-   public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition)
+   public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition) => SetMatchConditionWhenItIsAnother(MatchCondition.WithSharedConditionUsed(sharedCondition));
+
+   /// <summary>
+   /// Makes <paramref name="condition"/>, a condition on a word, the vocab's <see cref="MatchCondition"/> (<see cref="AsAMatchCondition"/>), and saves the<br/>
+   /// vocab, when it's another than the one it has: a vocab that a change elsewhere, such as to a shared-condition, leaves as it was isn't saved.
+   /// </summary>
+   void SetMatchConditionWhenItIsAnother(Condition condition)
    {
-      var withItUsed = ConditionGroup.AsAnAllOf(MatchCondition.WithSharedConditionUsed(sharedCondition).AsAConditionOn<CandidateWordVariant>());
-      if(!withItUsed.Equals(MatchCondition)) SetMatchCondition(withItUsed);
+      //review:matching: SetMatchConditionWhenItIsAnother and AsAMatchCondition were written out in WriteOutTheDefinitionOf and
+      //   UseWhereverItsDefinitionIs each, and AsAMatchCondition in EditedMatchCondition too.
+      var matchCondition = AsAMatchCondition(condition);
+      if(!matchCondition.Equals(MatchCondition)) SetMatchCondition(matchCondition);
    }
+
+   /// <summary><paramref name="condition"/>, a condition on a word, as a vocab's match-condition: itself when it's an "all of" group, else a group holding it.</summary>
+   /// <exception cref="System.ArgumentException">When it's a condition on another subject.</exception>
+   internal static AllOfGroup<CandidateWordVariant> AsAMatchCondition(Condition condition) => ConditionGroup.AsAnAllOf(condition.AsAConditionOn<CandidateWordVariant>());
 
    /// <summary>
    /// What the vocab's configuration weighs: of two vocab that match the same word, and both or neither own the form matched, the one that weighs<br/>

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
 
@@ -23,14 +21,12 @@ public sealed class EditedMatchCondition : IEditedCondition
 
    public Condition Stored => MatchingConfiguration.MatchCondition;
 
-   public void Store(Condition tree) => MatchingConfiguration.SetMatchCondition(MatchConditionOf(tree));
+   public void Store(Condition tree) => MatchingConfiguration.SetMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree));
 
-   public IReadOnlyList<CodeLine> LinesOf(Condition tree) => ConditionCode.LinesOfAMatchCondition(MatchConditionOf(tree));
+   public IReadOnlyList<CodeLine> LinesOf(Condition tree) => ConditionCode.LinesOfAMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree));
 
    /// <summary>Every shared-condition on <paramref name="level"/>'s subject: a match-condition can use any.</summary>
    public IReadOnlyList<ISharedCondition> SharedConditionsOfferedOn(IConditionLevel level) => _currentVocab().Services.SharedConditions.On(level);
 
    VocabNoteMatchingConfiguration MatchingConfiguration => _currentVocab().MatchingConfiguration;
-
-   static AllOfGroup<CandidateWordVariant> MatchConditionOf(Condition tree) => ConditionGroup.AsAnAllOf(tree.AsAConditionOn<CandidateWordVariant>());
 }
