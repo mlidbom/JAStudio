@@ -230,7 +230,8 @@ the headless JAStudio.
 - **Candidate words, built (2026-11-12):** `count_the_candidate_words` analyzes every sentence of the corpus and counts
   the candidate words the analysis built, in all and by how many tokens each spans: how many were built, how many have a
   form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid match. It showed
-  that 80% of the candidate words the analysis builds are compounds that can't match anything (`dev_docs/parsing-speed.md`).
+  that 80% of the candidate words the analysis built were compounds that couldn't match anything, which it no longer
+  builds (`dev_docs/parsing-speed.md`).
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed
   heap, what the garbage collector has committed, and the process's working set and private memory; optionally also
   after the most thorough collection there is, which shows what the process keeps when it must give back all it can.
