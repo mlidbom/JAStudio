@@ -19,6 +19,9 @@ record HeadlessJAStudioSetup(DirectoryInfo AddonFolder, DirectoryInfo CorpusFold
    /// <paramref name="ankiProfile"/>, or with none named of the profile used last.
    /// </summary>
    public static async Task<HeadlessJAStudioSetup> ChosenAsync(SourceCheckout sourceCheckout, string? corpusFolder, string? ankiProfile, CancellationToken cancellationToken) =>
+      //review: On a worktree, the configuration and the user files come from the worktree's src folder, where meta.json and user_files are
+      //   untracked copies that go stale: one from May 29 made the headless JAStudio reparse on 4 threads while Anki's configuration says 16
+      //   (2026-11-12). Should they come from the add-on folder Anki loads (addons21/jastudio_module, Magnus's main checkout) instead?
       new(sourceCheckout.AddonFolder,
           corpusFolder == null ? await sourceCheckout.DefaultHeadlessCorpusWorktreeAsync(cancellationToken) : new DirectoryInfo(corpusFolder),
           AnkiProfiles.CollectionFileOf(ankiProfile));
