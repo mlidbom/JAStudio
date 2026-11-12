@@ -2,10 +2,10 @@ import typing, clr, abc
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.ConditionTrees import ConditionPosition
 from System import IEquatable_1
-from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition
-from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition
+from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import IConditionGroup, AllOfGroup_1
+from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
 
 class CodeLine:
     @property
@@ -66,7 +66,11 @@ class ConditionCode(abc.ABC):
     @staticmethod
     def AsText(lines: IReadOnlyList_1[CodeLine]) -> str: ...
     @staticmethod
+    def HeadingOfTheDefinitionOf(sharedCondition: ISharedCondition) -> str: ...
+    @staticmethod
     def LinesOf(condition: Condition) -> IReadOnlyList_1[CodeLine]: ...
+    @staticmethod
+    def LinesOfADefinitionAsStatements(sharedCondition: ISharedCondition, definitionAsAnAllOf: IConditionGroup) -> IReadOnlyList_1[CodeLine]: ...
     @staticmethod
     def LinesOfAMatchCondition(matchCondition: AllOfGroup_1[CandidateWordVariant]) -> IReadOnlyList_1[CodeLine]: ...
     @staticmethod

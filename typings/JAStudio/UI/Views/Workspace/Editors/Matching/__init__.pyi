@@ -14,7 +14,7 @@ from Avalonia.Controls.Presenters import ContentPresenter
 from Avalonia.Animation import Transitions
 from Avalonia.Data import IndexerDescriptor, BindingBase
 
-class MatchConditionEditor(UserControl):
+class ConditionTreeEditor(UserControl):
     def __init__(self) -> None: ...
     @property
     def ActualThemeVariant(self) -> ThemeVariant: ...
