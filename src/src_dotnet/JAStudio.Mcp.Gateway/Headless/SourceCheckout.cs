@@ -28,7 +28,7 @@ class SourceCheckout
                 : throw new ArgumentException($"--source-checkout {checkout.FullName} is no JAStudio source checkout: it has no JAStudio.slnx.");
    }
 
-   /// <summary>The <c>src</c> folder, which Anki loads JAStudio from, with JAStudio's configuration (<c>meta.json</c>) and the user files.</summary>
+   /// <summary>The <c>src</c> folder, which Anki loads JAStudio from, with the user files.</summary>
    public DirectoryInfo AddonFolder => new(Path.Combine(Folder.FullName, "src"));
 
    /// <summary>

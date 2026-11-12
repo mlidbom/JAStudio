@@ -21,7 +21,7 @@ sealed class HeadlessJAStudioSetup
    /// <summary>The setup given as <c>--addon-folder</c>, <c>--corpus-folder</c> and <c>--anki-collection-file</c> in <paramref name="values"/>.</summary>
    public static HeadlessJAStudioSetup From(CommandLineValues values) => new(values);
 
-   /// <summary>The source checkout's <c>src</c> folder: the folder Anki loads JAStudio from, with the add-on's configuration and the user files.</summary>
+   /// <summary>The source checkout's <c>src</c> folder: the folder Anki loads JAStudio from, with the user files.</summary>
    public DirectoryInfo AddonFolder { get; }
 
    /// <summary>The checkout of the corpus repository to load the notes from, and save them to.</summary>

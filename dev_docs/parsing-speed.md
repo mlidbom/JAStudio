@@ -170,8 +170,9 @@ processes used meanwhile, and the headless log has each step's time (`TaskLogEnt
     3.6 of the reparse's 15.8 processor-seconds. Half of it is LinqToDB's own work. Still so.
   - **The JIT:** about 1.5 processor-seconds compiling.
 - **Now the first rebuild takes 2.2 s,** at comparable load from other work: about 0.8 s more than a warm one.
-- **The headless JAStudio on a worktree reads the worktree's copy of `meta.json`,** which can be stale: one from May
-  made it reparse on 4 threads. See the `review:` comment in the gateway's `HeadlessJAStudioSetup`.
+- **The headless JAStudio on a worktree read the worktree's copy of `meta.json`,** which can be stale: one from May
+  made it reparse on 4 threads. It now reads no `meta.json`, and runs the batches on one thread per logical core
+  (`HeadlessConfigDictSource`).
 
 ## The reparse after a vocab edit (2026-11-12)
 

@@ -68,7 +68,12 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
   - **The studying statuses and Anki note ids** come from an Anki profile's `collection.anki2`, read as JAStudio inside
     Anki reads it. While Anki runs, its latest changes may still be in the database's write-ahead log, which reading
     the file doesn't see.
-  - **The configuration** is read from the add-on's `meta.json`, never written: Anki owns it.
+  - **Its configuration is the same at every start, in every checkout** (`HeadlessConfigDictSource`): JAStudio's
+    defaults, except that the batches run on one thread per logical core. A setting changed while it runs, such as a
+    sentence breakdown's setting toggled with its hotkey, is kept in memory only. It never reads Magnus's configuration,
+    the add-on's `meta.json`, which Anki keeps: he toggles the sentence breakdown's settings from second to second as he
+    studies, so read at the start it made results depend on when the headless JAStudio was started (Magnus,
+    2026-11-12). What he sees right now is the live JAStudio's to show.
   - **The user files are a copy of its own** (`HeadlessUserFiles`), of the add-on's, made as it starts: the add-on's are
     the live JAStudio's, where the window places and the workspace's state are saved.
   - **Its UI runs on Avalonia's headless platform** (`HeadlessUI`, in `JAStudio.Mcp`), on a thread of its own, as the UI

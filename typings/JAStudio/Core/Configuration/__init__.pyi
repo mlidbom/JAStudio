@@ -57,6 +57,7 @@ class IReadingsMappingsSource(typing.Protocol):
 
 class JapaneseConfig:
     def __init__(self, store: ConfigurationStore) -> None: ...
+    ReanalysisThreadsName : str
     @property
     def AutoadvanceSentenceHiraganaSeconds(self) -> ConfigurationValue_1[float]: ...
     @property

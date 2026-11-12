@@ -38,7 +38,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
          Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
-         Singleton.For<IConfigDictSource>().Instance(new AddonConfigFile(_setup.AddonFolder)),
+         Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ICardOperations>().Instance(new HeadlessCardOperations()),
          Singleton.For<IAnkiTagOperations>().Instance(new HeadlessAnkiTagOperations()),

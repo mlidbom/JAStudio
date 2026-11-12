@@ -62,6 +62,9 @@ public class JapaneseConfig
    public ConfigurationValue<bool> LoadStudioInForeground { get; }
    public ConfigurationValue<long> ReanalysisThreads { get; }
 
+   /// <summary>The name <see cref="ReanalysisThreads"/> is stored under in the configuration, as <see cref="ConfigurationValue{T}.Name"/> gives it.</summary>
+   public const string ReanalysisThreadsName = "reanalysis_threads";
+
    // Developer only toggles
    public ConfigurationValue<bool> TrackInstancesInMemory { get; }
    public ConfigurationValue<bool> EnableTraceMalloc { get; }
@@ -137,7 +140,7 @@ public class JapaneseConfig
       // performance toggles
       PreCacheCardStudyingStatus = Add(New("pre_cache_card_studying_status", "Cache card studying status on startup. Only disable for dev/testing purposes. [Requires restart]", false, To.Bool));
       LoadStudioInForeground = Add(New("load_studio_in_foreground", "Load Studio in foreground. Makes it clear when done. Anki will be responsive when done. But you can't use anki while loading.", true, To.Bool));
-      ReanalysisThreads = Add(New("reanalysis_threads", "Reanalysis threads (number of threads to use when reanalysing sentences and updating the notes' generated data and tags). 1 = sequential.", 4, To.Long));
+      ReanalysisThreads = Add(New(ReanalysisThreadsName, "Reanalysis threads (number of threads to use when reanalysing sentences and updating the notes' generated data and tags). 1 = sequential.", 4, To.Long));
 
       // developer only toggles
       TrackInstancesInMemory = Add(New("track_instances_in_memory", "Track instances in memory. [Requires restart.. Only useful to developers and will use extra memory.]", false, To.Bool));
