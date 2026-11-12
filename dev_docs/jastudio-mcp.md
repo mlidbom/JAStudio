@@ -251,7 +251,9 @@ the headless JAStudio.
   shared-conditions' definitions wherever its definition is, and reports the vocab and shared-conditions it made use it:
   built to put the five to use in the corpus. `redefine_a_shared_condition` gives one another definition and reparses the
   sentences of every vocab whose match-condition depends on it, as its window in JAStudio does: built for changing them
-  while working on how sentences parse (step 3 of increment 6). `find_the_conditions_vocab_share` lists the conditions, and the combinations
+  while working on how sentences parse (step 3 of increment 6). `rename_a_shared_condition` renames one, with its file, and
+  saves every vocab and shared-condition using it by the new name: built for the naming pass (step 3 of increment 6).
+  `find_the_conditions_vocab_share` lists the conditions, and the combinations
   of a group's conditions, that several vocab's match-conditions hold, as candidates for shared-conditions, each with its
   definition ready for `define_a_shared_condition`: built at Magnus's suggestion, to find what's worth naming (step 2 of
   increment 6). It proposes; a mind names and decides.

@@ -80,6 +80,27 @@ public class SharedConditionTools
       return new RedefinedSharedCondition(Listed(sharedCondition), [.. vocabDependingOnIt.Select(it => it.Question.DisambiguationName).Order(StringComparer.Ordinal)]);
    }
 
+   [McpServerTool(Name = "rename_a_shared_condition", Destructive = false)]
+   [Description("""
+                Renames a shared-condition, with its file in the corpus checkout's folder shared-conditions, and saves every vocab and shared-condition
+                that uses it, since the corpus stores the shared-conditions a condition uses by name. What each means is unchanged, so no vocab matches
+                other words: a full rebuild after it changes nothing more. Fails when the new name can't name one on its subject: not a name in code, a
+                fact's, a subject's or a test's name there, or another shared-condition's. Reports the shared-condition as listed by its new name, with
+                what uses it.
+                """)]
+   public ListedSharedCondition RenameASharedCondition(
+      [Description("What it's about, as code names it in front of its name: Word, Token or Text.")]
+      string subject,
+      [Description("Its name now, such as FollowsAPastTenseStem.")]
+      string name,
+      [Description("Its new name in code: a capital letter, then letters and digits.")]
+      string newName)
+   {
+      var sharedCondition = SharedConditionNamed(LevelOfTheSubjectNamed(subject), name);
+      _sharedConditions.Rename(sharedCondition, newName, _collection.Vocab.All());
+      return Listed(sharedCondition);
+   }
+
    [McpServerTool(Name = "use_a_shared_condition_wherever_its_definition_is", Destructive = false)]
    [Description("""
                 Uses a shared-condition by name wherever its definition is: in every vocab's match-condition, and in the definitions of the other
