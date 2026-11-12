@@ -1,10 +1,10 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 and 2 of increment 6, shared-conditions:
+> **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 to 3 of increment 6, shared-conditions:
 > the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
-> definitions were, through an operation that stays. Under way, step 3, creating and editing them in JAStudio: a
-> definition is edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line
-> of a tree, and renamed. Next, deleting one:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> definitions were, through an operation that stays, and creating and editing them in JAStudio: a definition is
+> edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree,
+> renamed and deleted. Next, step 4, the rule editors go:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -761,7 +761,7 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
       1. **Editing a definition in the shared-condition's window,** opened from any tree: built 2026-11-12.
       2. **Making a shared-condition of a line of a tree,** then used wherever its definition is: built 2026-11-12.
       3. **Renaming one,** in every vocab and definition that uses it, and its file: built 2026-11-12.
-      4. **Deleting one,** its definition written out wherever it's used.
+      4. **Deleting one,** its definition written out wherever it's used: built 2026-11-12.
    4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
 
 #### Step 2: naming a condition never changes what a vocab does
@@ -1353,6 +1353,28 @@ Built 2026-11-12. No note changed, since no shared-condition was renamed in the 
    such as a vocab's Matching tab: the tree editor shows itself anew when its code changed though its tree didn't
    (`ConditionTreeEditorViewModel.Refresh`).
 3. **The MCP server's `rename_a_shared_condition`** does the same, for the naming pass to come.
+
+### Increment 6, step 3, part 4, as built
+
+Built 2026-11-12. No note changed, since no shared-condition was deleted in the corpus.
+
+1. **Deleting a shared-condition writes its definition out wherever it's used** (`SharedConditions.Delete`,
+   `Condition.WithTheDefinitionWrittenOutOf`): in every vocab's match-condition and every other definition that uses it,
+   then its file goes. In a group of the same kind as the definition, the definition's conditions take its place, so
+   `AllOf(Shared, C)` with a definition `AllOf(A, B)` becomes `AllOf(A, B, C)`: the reverse of using it wherever its
+   definition is. None of them means anything else after.
+2. **A tree can't store a shared-condition there's none of:** a tree editor's undo can still hold a deleted one, so a
+   vocab's match-condition and a definition assert, when set, that each shared-condition they use is the corpus's, the
+   very object (`SharedConditions.AssertHoldsEachUsedBy`). An undo that would bring a deleted one back fails, loud,
+   rather than saving a vocab its load would then fail on.
+3. **In its window,** "Delete…" asks first, saying how many vocab and definitions its definition is written out in,
+   then deletes it and closes the window. A shared-condition's window shows the shared-condition as it is now whenever
+   it's activated, since another window or the MCP server may have changed it, or what its definition uses.
+4. **The MCP server's `delete_a_shared_condition`** does the same.
+
+**Not built:** making a shared-condition of some of a group's conditions, as `find_the_conditions_vocab_share` finds
+them (a combination such as following an irrealis form and not an ichidan verb): the tree selects one line at a time.
+`define_a_shared_condition` then `use_a_shared_condition_wherever_its_definition_is` do it through the MCP server.
 
 ### Naming and design questions: `review:matching:` comments
 
