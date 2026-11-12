@@ -166,11 +166,9 @@ public sealed class SharedConditions
       var vocabUsingIt = vocab.Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).ToList();
       _monitor.Locked(() =>
       {
-         _byLevelAndName.Remove(KeyOf(sharedCondition));
-         _folder.Delete(sharedCondition);
+         RemoveWithItsFile(sharedCondition);
          sharedCondition.Rename(newName);
-         _byLevelAndName.Add(KeyOf(sharedCondition), sharedCondition);
-         _folder.Save(sharedCondition);
+         AddWithItsFile(sharedCondition);
          foreach(var definitionUsingIt in definitionsUsingIt) _folder.Save(definitionUsingIt);
       });
       vocabUsingIt.ForEach(it => it.MatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed());
@@ -186,11 +184,7 @@ public sealed class SharedConditions
       AssertIsOneOfThese(sharedCondition);
       foreach(var definitionUsingIt in WhoseDefinitionsUse(sharedCondition)) WriteItOutInTheDefinitionOf(definitionUsingIt);
       vocab.ToList().ForEach(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition));
-      _monitor.Locked(() =>
-      {
-         _byLevelAndName.Remove(KeyOf(sharedCondition));
-         _folder.Delete(sharedCondition);
-      });
+      _monitor.Locked(() => RemoveWithItsFile(sharedCondition));
       return;
 
       void WriteItOutInTheDefinitionOf(ISharedCondition other)
@@ -264,11 +258,23 @@ public sealed class SharedConditions
    {
       //review:matching: AddAndSave was Add, which hid that it saves the shared-condition in the corpus, as Define and DefineFrom say they do.
       AssertItCanNameANewOne(sharedCondition.Level, sharedCondition.Name);
-      _monitor.Locked(() =>
-      {
-         _byLevelAndName.Add(KeyOf(sharedCondition), sharedCondition);
-         _folder.Save(sharedCondition);
-      });
+      _monitor.Locked(() => AddWithItsFile(sharedCondition));
+   }
+
+   /// <summary>Adds <paramref name="sharedCondition"/> to those held, by its name, and saves it in its file. Called under the monitor.</summary>
+   void AddWithItsFile(ISharedCondition sharedCondition)
+   {
+      _byLevelAndName.Add(KeyOf(sharedCondition), sharedCondition);
+      _folder.Save(sharedCondition);
+   }
+
+   /// <summary>Removes <paramref name="sharedCondition"/> from those held, by its name, and deletes its file. Called under the monitor.</summary>
+   void RemoveWithItsFile(ISharedCondition sharedCondition)
+   {
+      //review:matching: AddWithItsFile and RemoveWithItsFile name what AddAndSave, Delete and Rename each wrote out, so that Rename reads as what it
+      //   does: removes it by its old name, renames it, adds it by its new one.
+      _byLevelAndName.Remove(KeyOf(sharedCondition));
+      _folder.Delete(sharedCondition);
    }
 
    /// <summary>Asserts that <paramref name="name"/> can name a new shared-condition on <paramref name="level"/>'s subject (<see cref="WhyItCannotNameANewOne"/>).</summary>
