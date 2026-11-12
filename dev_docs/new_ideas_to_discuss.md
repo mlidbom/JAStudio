@@ -33,10 +33,3 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
-- **(Claude, 2026-11-12) Parsing on many threads: the garbage collector's mode, and the note caches' lock.** Measured
-  with `time_parsing_every_sentence` on the 49,162 corpus sentences, after each parse got a MeCab tagger of its own.
-  The workstation garbage collector, JAStudio's today, paused the threads for almost half of analyzing on 32 threads;
-  in server mode with DATAS off, the pauses all but vanish, and analyzing takes about 1.4-1.8 s from 8 threads up,
-  against 2.2-3.8 s, for about 2 GB more memory at peak (DATAS on is in between on both). Undecided, under discussion
-  with Magnus. Past 8 threads, the next limit is `NoteCacheBase.LookUp`'s exclusive lock: about a third of the
-  threads' time on 16 threads went to waiting for it (dotTrace timeline). Its `performance:` comment has the detail.

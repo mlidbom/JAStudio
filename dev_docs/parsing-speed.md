@@ -15,6 +15,8 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
   runs, and read the snapshot with the Rider MCP's dotTrace tools. Its "Lock contention" subsystem shows which locks
   the threads wait for.
   `ConsoleProfiler.exe attach <process id> --profiling-type=Timeline --save-to=<file>.dtt --timeout=40s`
+- **Compare in one sitting:** the same code at the same thread count varies by 10-20% between one start of the process
+  and the next. Start the old code and the new one after each other, rather than comparing with numbers from earlier.
 - **The machine these numbers come from** has 16 cores, 32 with hyperthreading, and the corpus 49,162 sentences.
 
 ## What limited parsing on many threads, in the order found
@@ -44,6 +46,24 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
      a start peaked at 5.6 GB. Inside Anki, Python doesn't feel the memory .NET uses (Magnus).
    - **DATAS** adapts the number of heaps and the budgets to the load, starting from one heap after a full collection.
      It was in between on both speed and memory, and erratic.
-   - **One thread is slower in server mode:** analyzing on 1 thread took 9.2 s, against 8.0 s in workstation mode.
-     Its allocation budget is far larger than the processor's cache, so allocating touches memory the cache doesn't
-     hold. Parsing in bulk runs on many threads.
+   - **One thread is slower in server mode:** analyzing on 1 thread, with the caches' lock of step 3 still in place,
+     took 11.6 s, against 8.0 s in workstation mode, and tokenizing 1.4 s against 0.9 (in different sittings). Its
+     allocation budget is far larger than the processor's cache, which is likely why: allocating touches memory the
+     cache doesn't hold. From 4 threads up, server mode is faster, and parsing in bulk runs on many threads.
+3. **The note caches' lock.** Every lookup in a note cache, such as `VocabCache.WithForm` for each candidate word, took
+   the cache's exclusive lock, and copied the notes it found while holding it. On 16 threads, the threads spent about a
+   third of their time waiting for it (dotTrace timeline). Now lookups take no lock: each index, a `NoteIndex`, and the
+   notes by id, `NotesById`, are changed on copies under the cache's lock, and published when the change is done
+   (`NoteCacheBase.Change`). A lookup sees the cache before or after a change, never in the middle of one.
+
+   Analyzing every sentence, both in server mode with DATAS off, measured in one sitting:
+
+   | Threads | With the lock | Lookups without a lock |
+   |---|---|---|
+   | 1 | 11.6 s | 9.2 s |
+   | 8 | 1.87 s | 1.63 s |
+   | 16 | 1.87 s | 0.98 s |
+   | 32 | 1.87 s | 0.68-0.70 s |
+
+   Even one thread got faster: the lock cost something on every lookup, contended or not. Parsing now scales past the
+   16 cores into the hyperthreads.
