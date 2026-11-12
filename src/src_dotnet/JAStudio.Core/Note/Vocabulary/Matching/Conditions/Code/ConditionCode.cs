@@ -80,12 +80,15 @@ public static class ConditionCode
    /// </summary>
    public static string OnOneLine(Condition condition) => OnOneLine(LinesOf(condition));
 
-   /// <summary><paramref name="lines"/>, the lines of a condition, on one line, without their comments: joined, a space after each comma.</summary>
+   /// <summary>
+   /// <paramref name="lines"/>, the lines of a condition, on one line, without their comments: joined, a space before each but the first and those right<br/>
+   /// after the parenthesis of a line that opens them (<see cref="CodeLine.OpensWhatFollows"/>).
+   /// </summary>
    public static string OnOneLine(IReadOnlyList<CodeLine> lines)
    {
-      return lines.Select(it => it.Code).Aggregate(JoinedOnOneLine);
+      return string.Concat(lines.Select((line, index) => SpaceBeforeTheLineAt(index) + line.Code));
 
-      static string JoinedOnOneLine(string code, string nextLine) => code.EndsWith('(') ? code + nextLine : $"{code} {nextLine}";
+      string SpaceBeforeTheLineAt(int index) => index == 0 || lines[index - 1].OpensWhatFollows ? "" : " ";
    }
 
    /// <summary>
