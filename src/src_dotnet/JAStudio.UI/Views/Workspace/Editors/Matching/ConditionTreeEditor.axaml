@@ -29,11 +29,22 @@
                 <Style Selector="ToggleButton.definition:checked">
                     <Setter Property="Content" Value="▾" />
                 </Style>
+                <Style Selector="TextBlock.checkMark.met">
+                    <Setter Property="Foreground" Value="#2E9E4F" />
+                </Style>
+                <Style Selector="TextBlock.checkMark.notMet">
+                    <Setter Property="Foreground" Value="#D9534F" />
+                </Style>
             </TreeView.Styles>
             <TreeView.ItemTemplate>
                 <TreeDataTemplate DataType="matching:ConditionTreeLineViewModel" ItemsSource="{Binding Children}">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="6">
+                            <!-- While the tree is checked, such as against a word in a sentence, whether each line's condition is met: a column of its
+                                 own at the left, since each line is indented by the spaces in front of its code. -->
+                            <TextBlock Classes="checkMark" Text="{Binding CheckMark}" Width="14" FontWeight="Bold" VerticalAlignment="Center"
+                                       Classes.met="{Binding IsMetWhereTheTreeIsChecked}" Classes.notMet="{Binding IsNotMetWhereTheTreeIsChecked}"
+                                       IsVisible="{Binding Check, Converter={x:Static ObjectConverters.IsNotNull}}" />
                             <ItemsControl ItemsSource="{Binding ShownCode}" ItemTemplate="{StaticResource CodeLine}" VerticalAlignment="Center" />
                             <ToggleButton x:Name="ShowTheDefinition" Classes="definition" Padding="4,0" Focusable="False"
                                           IsVisible="{Binding IsASharedCondition}"

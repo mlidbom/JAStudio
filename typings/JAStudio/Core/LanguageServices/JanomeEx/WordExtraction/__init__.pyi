@@ -1,10 +1,11 @@
 import typing, clr
 from System import IEquatable_1
-from System.Collections.Generic import List_1, IEnumerable_1, Dictionary_2
+from System.Collections.Generic import List_1, IEnumerable_1, IReadOnlyList_1, Dictionary_2
 from JAStudio.Core.Note.Sentences import SentenceConfiguration
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match, VocabMatch
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.LanguageServices.JanomeEx.Tokenizing import IAnalysisToken, JNTokenizedText
+from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.SysUtils.Json import JsonReader
 
 class BreakdownParsingOptions(IEquatable_1[BreakdownParsingOptions]):
@@ -186,6 +187,7 @@ class TextAnalysis:
     def AllWordsStrings(self) -> List_1[str]: ...
     @staticmethod
     def FromText(services: AnalysisServices, text: str) -> TextAnalysis: ...
+    def MatchesOf(self, vocab: VocabNote) -> IReadOnlyList_1[VocabMatch]: ...
     def ToString(self) -> str: ...
 
 

@@ -1,5 +1,7 @@
+using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -17,6 +19,12 @@ public abstract record Condition<TSubject> : Condition where TSubject : class
 {
    /// <summary>Whether <paramref name="subject"/> meets this condition. An empty condition (<see cref="Condition.IsEmpty"/>) is met by every subject.</summary>
    public abstract bool IsMetBy(TSubject subject);
+
+   /// <summary>
+   /// This condition checked against <paramref name="subject"/>: whether it meets it, and each of the conditions it holds checked against the same subject,<br/>
+   /// but for a condition on another subject (<see cref="SubjectCondition{TFrom,TSubject}"/>), whose condition is checked against that subject.
+   /// </summary>
+   public virtual CheckedCondition CheckedAgainst(TSubject subject) => new(IsMetBy(subject), [.. Children.Select(it => it.AsAConditionOn<TSubject>().CheckedAgainst(subject))]);
 
    public override Condition Negated() => ConditionGroup.Not(this);
 

@@ -21,7 +21,8 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// <summary>
 /// The tree editor of a vocab's match-condition, in its match-condition window, with the vocab open in the workspace on its Matching tab: the add menu's<br/>
 /// keys pick a subject, then a condition on it, which goes into the vocab's match-condition on that subject. The Matching tab shows what the tree changed,<br/>
-/// as code, and the window shows a change made elsewhere, such as by the MCP server, when it's activated.
+/// as code, and the window shows a change made elsewhere, such as by the MCP server, when it's activated. Checked against the vocab's word in a sentence<br/>
+/// typed in the window, each line of the tree is marked by whether the word meets its condition.
 /// </summary>
 public class When_editing_a_vocabs_match_condition_in_its_window : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
@@ -43,6 +44,11 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
    List<string> TheMatchingTabsCode() => [.. _editor.MatchingConfig.MatchCondition.Lines.Select(it => it.Text)];
 
    List<string> Lines() => [..Tree.Lines[0].ThisAndAllBelow().Select(it => it.Text)];
+
+   /// <summary>The tree's lines, each with the mark in front of it while the tree is checked against a word: ✓ when the word meets its condition, ✗ when not.</summary>
+   List<string> LinesWithTheirCheckMarks() => [..Tree.Lines[0].ThisAndAllBelow().Select(it => $"{it.CheckMark} {it.Text}")];
+
+   List<string> TheWordsListedInTheSentence() => [.. _window.WordToCheckAgainst.Words.Select(it => it.Text)];
 
    string SelectedLine() => Tree.SelectedLine?.Text ?? throw new InvalidOperationException("No line is selected.");
 
@@ -162,6 +168,53 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
             _vocab.MatchingConfiguration.MatchCondition.Must().Be(ConditionGroup.AllOf(FollowingToken.Meets(ConditionGroup.AnyOf(TokenConditions.PartOfSpeech.Is("名詞")))));
 
          [XF] public void the_editor_was_titled_with_the_condition_test_alone_since_the_group_shows_its_subject() => EditorOpenedByTheMenu.Title.Must().Be("PartOfSpeech.Is");
+      }
+   }
+
+   public class after_typing_a_sentence_with_the_vocab_in_it_after_the_ichidan_verb_食べる : When_editing_a_vocabs_match_condition_in_its_window
+   {
+      public after_typing_a_sentence_with_the_vocab_in_it_after_the_ichidan_verb_食べる() => _window.WordToCheckAgainst.Sentence = "食べてよろしい。";
+
+      [XF] public void the_vocabs_word_in_it_is_listed_as_matching_the_vocab() => TheWordsListedInTheSentence().Must().SequenceEqual(["てよろしい, at 2: matches the vocab"]);
+      [XF] public void the_word_is_picked() => _window.WordToCheckAgainst.Picked?.Text.Must().Be("てよろしい, at 2: matches the vocab");
+      [XF] public void the_root_line_is_marked_as_met_by_it() => LinesWithTheirCheckMarks().Must().SequenceEqual(["✓ // A word matches the vocab when each of these holds:"]);
+
+      public class then_requiring_the_preceding_token_to_be_a_godan_verb : after_typing_a_sentence_with_the_vocab_in_it_after_the_ichidan_verb_食べる
+      {
+         public then_requiring_the_preceding_token_to_be_a_godan_verb()
+         {
+            PickInTheAddMenu('p', 'f', 'g');
+            WaitForTheReparseToFinish();
+         }
+
+         [XF] public void both_lines_are_marked_as_not_met_by_it() =>
+            LinesWithTheirCheckMarks().Must().SequenceEqual(["✗ // A word matches the vocab when each of these holds:", "✗ PrecedingToken.IsAGodanVerb"]);
+
+         [XF] public void the_word_is_listed_as_not_matching_the_vocab_once_its_sentences_were_reparsed() =>
+            TheWordsListedInTheSentence().Must().Satisfy(it => it.Single().StartsWith("てよろしい, at 2: doesn't match: ", StringComparison.Ordinal));
+
+         public class and_negating_it : then_requiring_the_preceding_token_to_be_a_godan_verb
+         {
+            public and_negating_it()
+            {
+               Tree.ToggleNegationOfTheSelectedLine();
+               WaitForTheReparseToFinish();
+            }
+
+            [XF] public void both_lines_are_marked_as_met_by_it() =>
+               LinesWithTheirCheckMarks().Must().SequenceEqual(["✓ // A word matches the vocab when each of these holds:", "✓ !PrecedingToken.IsAGodanVerb"]);
+
+            [XF] public void the_word_is_listed_as_matching_the_vocab_again() => TheWordsListedInTheSentence().Must().SequenceEqual(["てよろしい, at 2: matches the vocab"]);
+         }
+      }
+
+      public class then_typing_a_sentence_without_the_vocab_in_it : after_typing_a_sentence_with_the_vocab_in_it_after_the_ichidan_verb_食べる
+      {
+         public then_typing_a_sentence_without_the_vocab_in_it() => _window.WordToCheckAgainst.Sentence = "食べた。";
+
+         [XF] public void no_word_is_listed() => TheWordsListedInTheSentence().Must().BeEmpty();
+         [XF] public void it_says_no_word_in_the_sentence_is_one_of_the_vocabs_forms() => _window.WordToCheckAgainst.NoWordIsOneOfTheVocabsForms.Must().BeTrue();
+         [XF] public void the_tree_is_no_longer_checked() => LinesWithTheirCheckMarks().Must().SequenceEqual([" // A word matches the vocab when each of these holds:"]);
       }
    }
 

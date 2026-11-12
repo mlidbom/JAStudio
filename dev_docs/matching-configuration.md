@@ -5,8 +5,9 @@
 > through an operation that stays, and creating and editing them in JAStudio: a definition is edited in the
 > shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree, renamed and deleted.
 > A vocab's match-condition is edited in a window of its own too, which the Matching tab, showing it read-only, opens,
-> and the tab's rule editors are gone. Next, the tree checked against a word in a sentence, and Magnus's pass over the
-> names:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> and the tab's rule editors are gone. The tree is checked against a word in a sentence typed in the match-condition
+> window, each line marked ✓ or ✗ for it. Next, opening that from a word in the sentence breakdown, and Magnus's pass over
+> the names:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -1114,7 +1115,9 @@ color of its own, as Rider colors the methods you wrote. Hovering over it shows 
 definition in place, greyed, and F12 or Ctrl+click opens it for editing. Magnus asked for hover or expanding; this
 proposes both.
 
-### Decided, on the backlog: the tree checked against a word in a sentence
+### Decided: the tree checked against a word in a sentence
+
+*The first part is built (2026-11-12): see [The tree checked against a word in a sentence, as built](#the-tree-checked-against-a-word-in-a-sentence-as-built).*
 
 Magnus, 2026-11-12: "Seeing matching failures that way is definitely something I want." First an idea of Claude's
 (2026-11-11). When a vocab matches a word it shouldn't, or misses one it should, the question is which of its conditions
@@ -1477,6 +1480,36 @@ faster way only if he finds he misses the one click.
   Each reads the match-condition's conditions as `MatchConditionAsRules` did: the weight its flattened conditions, the
   other two its own conditions.
 - **The full rebuild changed nothing,** as it must: what the corpus stores never depended on the editors.
+
+### The tree checked against a word in a sentence, as built
+
+Built 2026-11-12, as the first part of [what was decided](#decided-the-tree-checked-against-a-word-in-a-sentence): the
+sentence is typed in the match-condition window, for now.
+
+- **The window has a sentence box above the tree** (`WordToCheckAgainstViewModel`). As a sentence is typed, it's analyzed as
+  a sentence's stored parsing result is made, and the vocab's matches in it are listed, one for each word that is one of
+  its forms (`TextAnalysis.MatchesOf`): "えた, at 4: matches the vocab", or "えた, at 0: doesn't match: " and the
+  match's failure reasons, which include more than the match-condition, such as another vocab owning the form. A word
+  matched by its base form reads "食べ as 食べる". With no such word, a line says so.
+- **The tree is checked against the word picked,** the first until another is: each line is marked ✓ or ✗, in a column
+  of its own at the left, by whether the word meets the line's condition as the line shows it, its negation and subject
+  included (`ConditionTreeLineViewModel.Check`). So `!PrecedingToken.IsAGodanVerb` is ✓ when the token before the word
+  isn't a godan verb, and the lines inside `PrecedingToken.AnyOf(` are each checked against that token.
+- **In Core,** a condition checked against a subject is a `CheckedCondition`: whether it's met, and one checked condition
+  for each of its children, a condition on a subject checked against that subject (`Condition<TSubject>.CheckedAgainst`,
+  overridden by `SubjectCondition`). A tree line finds its own by its position. A shared-condition is one line, checked as
+  its definition is met.
+- **After a change,** the marks follow the tree at once, since the word is the same; once the change's reparse finishes,
+  the words are found anew, so each says whether it matches the vocab now. They're found anew too when the window is
+  activated. The reparser now calls back before it says it has finished (`VocabSentencesReparserViewModel`), so what waits
+  for the end, such as the tree enabled again, or a specification, finds the words already found anew.
+
+**Next, as decided:**
+- **Opening it from a word in the sentence breakdown,** with the sentence and the word picked, which is where a word
+  matched wrongly is seen.
+- **Marking a shared-condition's definition, where it's shown under its line,** so that what decided it shows too.
+- **A sentence where no word is one of the vocab's forms** could show how JAStudio splits it into tokens, which is
+  usually why.
 
 ### Naming and design questions: `review:matching:` comments
 

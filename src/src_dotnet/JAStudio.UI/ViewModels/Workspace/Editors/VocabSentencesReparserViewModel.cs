@@ -67,9 +67,13 @@ partial class VocabSentencesReparserViewModel : ObservableObject
       });
    }
 
+   /// <summary>
+   /// Says the reparse of <paramref name="vocab"/>'s sentences finished, then that it no longer runs: so what waits for it to end, such as an editor<br/>
+   /// disabled meanwhile, finds what the callback shows already shown, such as the sentences the vocab now matches.
+   /// </summary>
    void ReparseFinishedFor(IReadOnlyCollection<VocabNote> vocab)
    {
-      IsReparsingSentences = false;
       _sentencesReparsedFor(vocab);
+      IsReparsingSentences = false;
    }
 }

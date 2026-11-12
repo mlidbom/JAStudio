@@ -3,6 +3,7 @@ using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
@@ -39,6 +40,9 @@ public sealed class TextAnalysis
 
    /// <summary>The vocab matches the analysis rejected, each with why, in its <see cref="Match.FailureReasons"/>.</summary>
    public IEnumerable<VocabMatch> RejectedVocabMatches => EveryMatch.OfType<VocabMatch>().Where(it => !it.IsValid);
+
+   /// <summary>Every match of <paramref name="vocab"/> in the sentence, valid or not: one for each word in it that is one of the vocab's forms.</summary>
+   public IReadOnlyList<VocabMatch> MatchesOf(VocabNote vocab) => [.. EveryMatch.OfType<VocabMatch>().Where(it => it.Vocab.Equals(vocab))];
 
    /// <summary>
    /// Analyzes <paramref name="sentence"/>: for the sentence breakdown under <paramref name="breakdownParsingOptions"/>, or, without them, as a<br/>

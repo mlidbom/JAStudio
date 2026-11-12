@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
@@ -24,6 +26,12 @@ public sealed class EditedMatchCondition : IEditedCondition
    public void Store(Condition tree) => MatchingConfiguration.SetMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree));
 
    public IReadOnlyList<CodeLine> LinesOf(Condition tree) => ConditionCode.LinesOfAMatchCondition(VocabNoteMatchingConfiguration.AsAMatchCondition(tree));
+
+   /// <summary>
+   /// <paramref name="tree"/>, a tree as the editor built it, checked against <paramref name="word"/>, a word in a sentence: which of its conditions the<br/>
+   /// word meets, the root's as matching tests the match-condition.
+   /// </summary>
+   public static CheckedCondition CheckedAgainst(Condition tree, CandidateWordVariant word) => VocabNoteMatchingConfiguration.AsAMatchCondition(tree).CheckedAgainst(word);
 
    /// <summary>Every shared-condition on <paramref name="level"/>'s subject: a match-condition can use any.</summary>
    public IReadOnlyList<ISharedCondition> SharedConditionsOfferedOn(IConditionLevel level) => _currentVocab().Services.SharedConditions.On(level);

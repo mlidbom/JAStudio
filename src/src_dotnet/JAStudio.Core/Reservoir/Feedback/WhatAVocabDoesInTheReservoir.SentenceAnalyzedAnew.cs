@@ -30,10 +30,13 @@ public sealed partial class WhatAVocabDoesInTheReservoir
       }
 
       /// <summary><paramref name="sentence"/>, analyzed anew for <paramref name="vocab"/> as it is now.</summary>
+      /// <param name="vocab">The vocab whose matches in the sentence are wanted.</param>
+      /// <param name="sentence">The reservoir's sentence to analyze.</param>
+      /// <param name="services">Analyzes the sentence, as JAStudio parses sentences.</param>
       /// <param name="bulkAnalysis">The sentence's bulk analysis, or none when the sentence was added to the reservoir after it.</param>
       /// <param name="vocabNumber">The vocab's number in the bulk analyses, or none when they never referred to it, as when it's new.</param>
       public static SentenceAnalyzedAnew For(VocabNote vocab, ReservoirSentence sentence, AnalysisServices services, ReservoirSentenceAnalysis? bulkAnalysis, int? vocabNumber) =>
-         new(sentence, TheVocabsMatchesIn(new TextAnalysis(services, sentence.Text, SentenceConfiguration.Empty()), vocab), bulkAnalysis, vocabNumber);
+         new(sentence, new TextAnalysis(services, sentence.Text, SentenceConfiguration.Empty()).MatchesOf(vocab), bulkAnalysis, vocabNumber);
 
       public ReservoirSentence Sentence { get; }
 
@@ -52,7 +55,5 @@ public sealed partial class WhatAVocabDoesInTheReservoir
       bool WasAnalyzedInBulk => _bulkAnalysis is not null;
 
       bool MatchedInTheBulkAnalysis => _bulkAnalysis is {} bulkAnalysis && _vocabNumber is {} vocabNumber && bulkAnalysis.HasAValidMatchOfTheVocabNumbered(vocabNumber);
-
-      static IReadOnlyList<VocabMatch> TheVocabsMatchesIn(TextAnalysis analysis, VocabNote vocab) => [.. analysis.EveryMatch.OfType<VocabMatch>().Where(it => it.Vocab.Equals(vocab))];
    }
 }

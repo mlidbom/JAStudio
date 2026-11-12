@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -23,35 +24,54 @@ class ConditionTreeLineViewModel
    /// <param name="position">Where <paramref name="shownCondition"/> is in the tree.</param>
    /// <param name="tree">The tree the line is in.</param>
    /// <param name="codeLines">The tree's code, by the position of the condition each line is of.</param>
+   /// <param name="treeCheck">The tree checked against what it's checked against, such as a word in a sentence, or null while it isn't checked.</param>
    /// <param name="parent">The group this line is in, or null for the root.</param>
    ConditionTreeLineViewModel(Condition shownCondition,
                                ConditionPosition position,
                                EditableCondition tree,
                                ILookup<ConditionPosition, CodeLine> codeLines,
+                               CheckedCondition? treeCheck,
                                ConditionTreeLineViewModel? parent)
    {
       _parent = parent;
       Position = position;
+      Check = treeCheck?.At(position);
       CodeLines = [.. codeLines[position]];
       CodeColumn = parent is { OpensWhatItHolds: true } ? parent.ColumnAfterTheParenthesis : 0;
       IsNegated = shownCondition is INegatedCondition;
       (Condition, ConditionPosition) = TheConditionInsideWhatHoldsOnlyIt(shownCondition, position);
       Level = tree.LevelAt(ConditionPosition);
       Children = Condition is IConditionGroup group
-                    ? [..group.Conditions.Select((condition, index) => new ConditionTreeLineViewModel(condition, ConditionPosition.Child(index), tree, codeLines, this))]
+                    ? [..group.Conditions.Select((condition, index) => new ConditionTreeLineViewModel(condition, ConditionPosition.Child(index), tree, codeLines, treeCheck, this))]
                     : [];
    }
 
    /// <summary>
    /// The root line of <paramref name="tree"/>'s <see cref="EditableCondition.Current"/> tree, with every other line under it, its code written as<br/>
-   /// <paramref name="edited"/> writes it.
+   /// <paramref name="edited"/> writes it, and each line's condition checked as <paramref name="treeCheck"/> checked the tree, while it's checked.
    /// </summary>
-   public static ConditionTreeLineViewModel RootOf(EditableCondition tree, IEditedCondition edited) =>
+   public static ConditionTreeLineViewModel RootOf(EditableCondition tree, IEditedCondition edited, CheckedCondition? treeCheck) =>
       new(tree.Current,
           ConditionPosition.Root,
           tree,
           edited.LinesOf(tree.Current).ToLookup(it => it.Position),
+          treeCheck,
           parent: null);
+
+   /// <summary>
+   /// The line's condition, as the line shows it, its negation and subject included, checked against what the tree is checked against, such as a word<br/>
+   /// in a sentence: null while the tree isn't checked against anything.
+   /// </summary>
+   public CheckedCondition? Check { get; }
+
+   /// <summary>What's shown in front of the line while the tree is checked: ✓ when its condition is met, ✗ when it isn't.</summary>
+   public string CheckMark => Check switch { null => "", { IsMet: true } => "✓", _ => "✗" };
+
+   /// <summary>Whether the tree is checked, and the line's condition is met (<see cref="Check"/>).</summary>
+   public bool IsMetWhereTheTreeIsChecked => Check is { IsMet: true };
+
+   /// <summary>Whether the tree is checked, and the line's condition isn't met (<see cref="Check"/>).</summary>
+   public bool IsNotMetWhereTheTreeIsChecked => Check is { IsMet: false };
 
    /// <summary>
    /// The line's code, such as <c>!PrecedingToken.IsAGodanVerb</c> or <c>AnyOf(</c>: one line of code, or several for a condition that lists values one to a<br/>

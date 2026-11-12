@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -41,6 +42,9 @@ partial class ConditionTreeEditorViewModel : ObservableObject
 
    /// <summary>The code of the tree as the <see cref="Lines"/> show it: when a shared-condition it uses is renamed, the code changes though the tree doesn't.</summary>
    string _shownCode = "";
+
+   /// <summary>Checks the tree each time it's shown, while it's checked against something, such as a word in a sentence (<see cref="CheckTheTreeWith"/>).</summary>
+   Func<Condition, CheckedCondition>? _checkOfTheTree;
 
    /// <param name="fatalErrorHandler">Shows the user an exception thrown while a condition's dialog is open.</param>
    /// <param name="edited">The condition edited, and where each change is stored.</param>
@@ -86,6 +90,16 @@ partial class ConditionTreeEditorViewModel : ObservableObject
    /// Shows the condition as it's stored now, when something else may have changed it, such as a rule's editor on the vocab's Matching tab: a change<br/>
    /// like the tree editor's own, which undo takes back. And shows it anew when only its code changed, as when a shared-condition it uses was renamed.
    /// </summary>
+   /// <summary>
+   /// Checks the tree with <paramref name="checkOfTheTree"/> from now on, each time it's shown, so that each line shows whether its condition is met<br/>
+   /// (<see cref="ConditionTreeLineViewModel.Check"/>): by a word in a sentence, for a vocab's match-condition. Null stops checking it.
+   /// </summary>
+   public void CheckTheTreeWith(Func<Condition, CheckedCondition>? checkOfTheTree)
+   {
+      _checkOfTheTree = checkOfTheTree;
+      ShowTheTree(Selected.Position);
+   }
+
    public void Refresh()
    {
       var selected = Selected.Position;
@@ -284,7 +298,7 @@ partial class ConditionTreeEditorViewModel : ObservableObject
    void ShowTheTree(ConditionPosition positionToSelect)
    {
       _shownCode = CodeOfTheTree();
-      Lines = [ConditionTreeLineViewModel.RootOf(_tree, _edited)];
+      Lines = [ConditionTreeLineViewModel.RootOf(_tree, _edited, _checkOfTheTree?.Invoke(_tree.Current))];
       SelectedLine = Root.ThisAndAllBelow().FirstOrDefault(it => it.IsAt(positionToSelect)) ?? Root;
    }
 
