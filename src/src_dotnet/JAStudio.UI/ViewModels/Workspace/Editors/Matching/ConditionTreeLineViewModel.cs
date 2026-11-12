@@ -33,6 +33,7 @@ class ConditionTreeLineViewModel
       _parent = parent;
       Position = position;
       CodeLines = [.. codeLines[position]];
+      CodeColumn = parent is { OpensWhatItHolds: true } ? parent.ColumnAfterTheParenthesis : 0;
       IsNegated = shownCondition is INegatedCondition;
       (Condition, ConditionPosition) = TheConditionInsideWhatHoldsOnlyIt(shownCondition, position);
       Level = tree.LevelAt(ConditionPosition);
@@ -58,14 +59,23 @@ class ConditionTreeLineViewModel
    /// </summary>
    public IReadOnlyList<CodeLine> CodeLines { get; }
 
-   /// <summary>The line's code as text, each line of it indented under the first as deep as it is, with its comment.</summary>
-   public string Text => ConditionCode.AsText(CodeLines);
+   /// <summary>
+   /// The column, in characters of the code's monospace font, the line's code starts at in the tree: right after the parenthesis of the group it's in, as<br/>
+   /// code is indented (<see cref="CodeLayout.ForTheTreeEditor"/>), or 0 for the root and its conditions, the statements under the heading.
+   /// </summary>
+   public int CodeColumn { get; }
+
+   /// <summary>The line's code as text, as the tree shows it: starting at the <see cref="CodeColumn"/>, with its comment.</summary>
+   public string Text => ConditionCode.AsText(CodeLines, CodeLayout.ForTheTreeEditor, CodeColumn);
 
    /// <summary>The line's code on one line, without its comments, such as <c>!LastToken.InflectedForm.In(連用タ接続, 連用形)</c>: what titles the editor changing it.</summary>
    public string CodeOnOneLine => ConditionCode.OnOneLine(CodeLines);
 
-   /// <summary>The line's code as the tree shows it, in pieces each shown as its kind should be, such as a negation in a color that stands out.</summary>
-   public IReadOnlyList<CodeLineViewModel> ShownCode => CodeLineViewModel.LinesOf(CodeLines);
+   /// <summary>
+   /// The line's code as the tree shows it, starting at the <see cref="CodeColumn"/>, in pieces each shown as its kind should be, such as a negation in a<br/>
+   /// color that stands out.
+   /// </summary>
+   public IReadOnlyList<CodeLineViewModel> ShownCode => CodeLineViewModel.LinesOf(CodeLines, CodeLayout.ForTheTreeEditor, CodeColumn);
 
    /// <summary>The lines of the conditions in this line's group. None unless <see cref="IsGroup"/>.</summary>
    public IReadOnlyList<ConditionTreeLineViewModel> Children { get; }
@@ -100,9 +110,23 @@ class ConditionTreeLineViewModel
       //   Shown comes first, as in ShownCode, the line's own code in pieces as the tree shows it.
       SharedCondition is {} sharedCondition ? ConditionCode.AsText(ConditionCode.LinesOfASharedCondition(sharedCondition)) : null;
 
-   /// <summary>The definition of the shared-condition the line is, as code in pieces, which the line shows under it when expanded: none when it isn't one.</summary>
+   /// <summary>
+   /// The definition of the shared-condition the line is, as code in pieces, as it's read, which the line shows under it when expanded, indented under the<br/>
+   /// line's code: none when it isn't one.
+   /// </summary>
    public IReadOnlyList<CodeLineViewModel> ShownDefinitionOfTheSharedCondition =>
-      SharedCondition is {} sharedCondition ? CodeLineViewModel.LinesOf(ConditionCode.LinesOf(sharedCondition.Definition)) : [];
+      SharedCondition is {} sharedCondition
+         ? CodeLineViewModel.LinesOf(ConditionCode.LinesOf(sharedCondition.Definition), CodeLayout.ForReading, CodeColumn + IndentationOfAShownDefinition)
+         : [];
+
+   /// <summary>How many characters further in than the line's code the definition of the shared-condition it is shows, when expanded.</summary>
+   const int IndentationOfAShownDefinition = 3;
+
+   /// <summary>Whether the line opens the conditions under it with a parenthesis, as a group does, such as <c>PrecedingToken.AnyOf(</c>.</summary>
+   bool OpensWhatItHolds => CodeLines is [{ OpensWhatFollows: true }];
+
+   /// <summary>The column right after the line's parenthesis, where the conditions under it start, when it <see cref="OpensWhatItHolds"/>.</summary>
+   int ColumnAfterTheParenthesis => CodeColumn + CodeLines[0].Code.Length;
 
    /// <summary>Whether the line is an "any of" group, so that switching it makes it an "all of" group.</summary>
    public bool IsAnAnyOfGroup => Condition is IConditionGroup { IsAnyOf: true };

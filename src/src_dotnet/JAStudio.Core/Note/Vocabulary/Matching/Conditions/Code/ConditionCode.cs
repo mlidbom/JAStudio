@@ -17,9 +17,9 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// <list type="bullet">
 /// <item>The dots go from the word to what's tested: <c>PrecedingToken.Surface.EndsWithOneOf("ん")</c>.</item>
 /// <item>Groups are <c>AllOf(...)</c> and <c>AnyOf(...)</c>, with their conditions on lines of their own, commas between them and the closing parenthesis<br/>
-/// after the last. A negation is <c>!</c>.</item>
+/// after the last, each starting at the column right after the group's parenthesis (<see cref="CodeLayout"/>). A negation is <c>!</c>.</item>
 /// <item>Texts are C# string literals. The tokenizer's values, such as parts of speech, are unquoted, in Japanese, with their English as a comment, one to<br/>
-/// a line when there are several.</item>
+/// a line when there are several, laid out as a group's conditions are.</item>
 /// <item>A vocab's match-condition is its conditions, each a statement of its own that must hold, under a comment heading: its "all of" isn't written.<br/>
 /// So is a shared-condition's definition, as the tree editor shows it in the shared-condition's window.</item>
 /// </list>
@@ -63,7 +63,7 @@ public static class ConditionCode
 
    /// <summary>
    /// The lines of <paramref name="sharedCondition"/> as it's defined: its full name, then its definition under it, such as<br/>
-   /// <c>Word.FollowsAPastTenseStem =</c> then <c>AnyOf(</c> and the rest, one deeper.
+   /// <c>Word.FollowsAPastTenseStem =</c> then <c>AnyOf(PrecedingToken.IsAPastTenseStem,</c> and the rest, one deeper.
    /// </summary>
    public static IReadOnlyList<CodeLine> LinesOfASharedCondition(ISharedCondition sharedCondition) =>
    [
@@ -88,6 +88,13 @@ public static class ConditionCode
       static string JoinedOnOneLine(string code, string nextLine) => code.EndsWith('(') ? code + nextLine : $"{code} {nextLine}";
    }
 
-   /// <summary><paramref name="lines"/>, the lines of a condition, as text: each indented under the first as much deeper as it is, its comment after its code.</summary>
-   public static string AsText(IReadOnlyList<CodeLine> lines) => string.Join(Environment.NewLine, lines.Select(it => it.TextUnder(lines[0])));
+   /// <summary>
+   /// <paramref name="lines"/>, the lines of a condition, as text, as it's read (<see cref="CodeLayout.ForReading"/>): the first condition of a group on its<br/>
+   /// line, after the parenthesis, the others under it, and each comment after its code.
+   /// </summary>
+   public static string AsText(IReadOnlyList<CodeLine> lines) => AsText(lines, CodeLayout.ForReading);
+
+   /// <summary><paramref name="lines"/>, the lines of a condition, as text, laid out by <paramref name="layout"/>, starting at <paramref name="column"/>.</summary>
+   public static string AsText(IReadOnlyList<CodeLine> lines, CodeLayout layout, int column = 0) =>
+      string.Join(Environment.NewLine, layout.LinesShowing(lines, column).Select(it => it.Text));
 }

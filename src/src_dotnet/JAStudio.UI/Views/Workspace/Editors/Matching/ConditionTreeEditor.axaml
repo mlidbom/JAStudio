@@ -28,6 +28,11 @@
         <TreeView x:Name="ConditionTree"
                   ItemsSource="{Binding Lines}"
                   SelectedItem="{Binding SelectedLine, Mode=TwoWay}">
+            <TreeView.Resources>
+                <!-- Each line is indented as code is, in characters, by the spaces it starts with (ConditionTreeLineViewModel.CodeColumn), so the tree
+                     itself indents no level: the expand arrows stay in a column of their own, at the left. -->
+                <x:Double x:Key="TreeViewItemIndent">0</x:Double>
+            </TreeView.Resources>
             <TreeView.Styles>
                 <Style Selector="TreeViewItem">
                     <Setter Property="IsExpanded" Value="True" />
@@ -77,7 +82,7 @@
                                     Click="OnAddButtonClicked" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding ShownDefinitionOfTheSharedCondition}" ItemTemplate="{StaticResource CodeLine}"
-                                      IsVisible="{Binding #ShowTheDefinition.IsChecked}" Opacity="0.6" Margin="24,2,0,2" />
+                                      IsVisible="{Binding #ShowTheDefinition.IsChecked}" Opacity="0.6" Margin="0,2" />
                     </StackPanel>
                 </TreeDataTemplate>
             </TreeView.ItemTemplate>

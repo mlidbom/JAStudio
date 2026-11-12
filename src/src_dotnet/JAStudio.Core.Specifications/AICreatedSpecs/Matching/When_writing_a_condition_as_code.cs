@@ -41,20 +41,36 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
 
       readonly string _code = ConditionCode.AsText(ConditionCode.LinesOfAMatchCondition(MatchCondition));
 
-      [XF] public void is_a_comment_heading_then_each_condition_a_statement_with_each_groups_conditions_indented_and_several_values_one_to_a_line_in_ordinal_order_with_their_english() =>
+      readonly string _codeInTheTreeEditor = ConditionCode.AsText(ConditionCode.LinesOfAMatchCondition(MatchCondition), CodeLayout.ForTheTreeEditor);
+
+      [XF] public void in_the_tree_editor_has_a_groups_first_condition_and_a_lists_first_value_on_the_next_line_each_starting_after_the_parenthesis() =>
+         _codeInTheTreeEditor.Must().Be(string.Join(Environment.NewLine,
+                                                    "// A word matches the vocab when each of these holds:",
+                                                    "PrecedingToken.IsInAnIrrealisForm",
+                                                    "!PrecedingToken.IsAnIchidanVerb",
+                                                    "PrecedingToken.Surface.EndsWithOneOf(\"ん\")",
+                                                    "AnyOf(",
+                                                    "      !Surface.In(\"本の\"),",
+                                                    "      FollowingToken.PartOfSpeech.Is(名詞・数))   // noun › numeric",
+                                                    "!LastToken.AllOf(",
+                                                    "                 PartOfSpeech.Is(動詞),   // verb",
+                                                    "                 InflectedForm.In(",
+                                                    "                                  連用タ接続,   // Continuative ta-connection",
+                                                    "                                  連用形))   // Continuative/masu-stem verbs/adjective",
+                                                    "FollowingText.MatchesRegularExpression(@\"^よ\"\"$\")",
+                                                    "IsASingleToken"));
+
+      [XF] public void is_a_comment_heading_then_each_condition_a_statement_with_a_groups_first_condition_after_its_parenthesis_and_the_others_under_it_and_several_values_one_to_a_line_in_ordinal_order_with_their_english() =>
          _code.Must().Be(string.Join(Environment.NewLine,
                                      "// A word matches the vocab when each of these holds:",
                                      "PrecedingToken.IsInAnIrrealisForm",
                                      "!PrecedingToken.IsAnIchidanVerb",
                                      "PrecedingToken.Surface.EndsWithOneOf(\"ん\")",
-                                     "AnyOf(",
-                                     "   !Surface.In(\"本の\"),",
-                                     "   FollowingToken.PartOfSpeech.Is(名詞・数))   // noun › numeric",
-                                     "!LastToken.AllOf(",
-                                     "   PartOfSpeech.Is(動詞),   // verb",
-                                     "   InflectedForm.In(",
-                                     "      連用タ接続,   // Continuative ta-connection",
-                                     "      連用形))   // Continuative/masu-stem verbs/adjective",
+                                     "AnyOf(!Surface.In(\"本の\"),",
+                                     "      FollowingToken.PartOfSpeech.Is(名詞・数))   // noun › numeric",
+                                     "!LastToken.AllOf(PartOfSpeech.Is(動詞),   // verb",
+                                     "                 InflectedForm.In(連用タ接続,   // Continuative ta-connection",
+                                     "                                  連用形))   // Continuative/masu-stem verbs/adjective",
                                      "FollowingText.MatchesRegularExpression(@\"^よ\"\"$\")",
                                      "IsASingleToken"));
    }

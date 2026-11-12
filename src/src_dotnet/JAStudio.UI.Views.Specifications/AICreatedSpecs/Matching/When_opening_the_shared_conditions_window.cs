@@ -36,9 +36,9 @@ public class When_opening_the_shared_conditions_window : SpecificationOpeningWin
 
    SharedConditionsWindowViewModel ViewModel => ViewModelOf<SharedConditionsWindowViewModel>(_window);
 
-   [XF] public void it_lists_each_as_it_is_defined_those_on_a_word_first() =>
+   [XF] public void it_lists_each_as_it_is_defined_with_a_groups_first_condition_after_its_parenthesis_and_the_others_under_it_those_on_a_word_first() =>
       OnTheUIThread(() => ViewModel.SharedConditions.Select(it => it.Code.ReplaceLineEndings("|")).ToList())
-         .Must().SequenceEqual(["Word.FollowsAVerb =|   PrecedingToken.IsAVerb", "Token.IsAVerb =|   AnyOf(|      IsAGodanVerb,|      IsAnIchidanVerb)"]);
+         .Must().SequenceEqual(["Word.FollowsAVerb =|   PrecedingToken.IsAVerb", "Token.IsAVerb =|   AnyOf(IsAGodanVerb,|         IsAnIchidanVerb)"]);
 
    [XF] public void it_says_how_many_vocab_depend_on_each_through_others_too() =>
       OnTheUIThread(() => ViewModel.SharedConditions.Select(it => it.WhoDependsOnIt).ToList())

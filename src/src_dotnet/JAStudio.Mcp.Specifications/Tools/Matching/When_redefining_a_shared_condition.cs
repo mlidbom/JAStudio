@@ -39,7 +39,7 @@ public class When_redefining_a_shared_condition : McpServerSpecification
          _redefined = ResultOf<RedefinedSharedCondition>(Redefine("Token", "IsAVerb", """{"anyOf": [{"fact": "godanVerb"}, {"fact": "ichidanVerb"}]}"""));
 
       [XF] public void it_is_reported_with_its_new_definition() =>
-         _redefined.SharedCondition.Code.Must().Be($"Token.IsAVerb ={System.Environment.NewLine}   AnyOf({System.Environment.NewLine}      IsAGodanVerb,{System.Environment.NewLine}      IsAnIchidanVerb)");
+         _redefined.SharedCondition.Code.Must().Be($"Token.IsAVerb ={System.Environment.NewLine}   AnyOf(IsAGodanVerb,{System.Environment.NewLine}         IsAnIchidanVerb)");
 
       [XF] public void the_sentences_of_ます_were_reparsed_since_its_match_condition_depends_on_it_through_FollowsAVerb() =>
          _redefined.VocabWhoseSentencesWereReparsed.Must().DeepEqual(new List<string> { "ます" });

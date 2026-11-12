@@ -163,8 +163,8 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
 
       public the_window_of_IsAVerb() => _window = WindowOf(_isAVerb);
 
-      [XF] public void shows_the_definition_under_a_comment_heading_saying_what_meets_it() =>
-         LinesOf(_window).Must().SequenceEqual(["// A token meets Token.IsAVerb when each of these holds:", "AnyOf(", "IsAGodanVerb,", "IsAnIchidanVerb)"]);
+      [XF] public void shows_the_definition_under_a_comment_heading_saying_what_meets_it_with_the_groups_conditions_starting_after_its_parenthesis() =>
+         LinesOf(_window).Must().SequenceEqual(["// A token meets Token.IsAVerb when each of these holds:", "AnyOf(", "      IsAGodanVerb,", "      IsAnIchidanVerb)"]);
 
       [XF] public void counts_the_vocab_using_it_through_FollowsAVerb() =>
          _window.WhoDependsOnIt.Must().Be("The match-conditions of 1 vocab depend on it: a change to its definition reparses their sentences.");
