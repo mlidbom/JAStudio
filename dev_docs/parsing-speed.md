@@ -11,6 +11,8 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
   By default it first collects all garbage, so every run starts from the same memory.
 - **`describe_memory`** reports the garbage collector's mode and settings and the process's memory, optionally also
   after the most thorough collection there is.
+- **`count_the_candidate_words`** counts the candidate words analyzing every sentence builds, by how many tokens each
+  spans, and how many of them could get a match, and did.
 - **A profile of the headless JAStudio:** attach dotTrace's timeline profiler to its process while the timing tool
   runs, and read the snapshot with the Rider MCP's dotTrace tools. Its "Lock contention" subsystem shows which locks
   the threads wait for.
@@ -67,3 +69,49 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
 
    Even one thread got faster: the lock cost something on every lookup, contended or not. Parsing now scales past the
    16 cores into the hyperthreads.
+
+## What limits parsing now (2026-11-12)
+
+A timeline profile of analyzing every sentence on 32 threads, with the three limits above removed, finds no lock
+contention, and the garbage collector paused the threads for 0.035 s of the pass's 0.8 s. The threads keep 24 to 28 of
+the 32 logical cores busy for most of the pass, and finish within about 50 ms of each other. **Parsing is limited by the
+processor now: it gets faster only by doing less work.**
+
+Where the 17.4 s of processor time the threads spent analyzing went (under the profiler, which slows it some):
+
+| Part of the analysis | Seconds |
+|---|---|
+| Step 1: building every candidate word (4.3), and the validity of the single-token ones (2.1) | 6.8 |
+| Step 2: the validity of the compounds | 3.3 |
+| Steps 3 to 5: displaying and shadowing | 3.1 |
+| Tokenizing, in MeCab | 2.2 |
+| Native code the profiler can't name, directly under `TextAnalysis`'s constructor; likely the allocator clearing memory | 0.9 |
+| The rest | 1.1 |
+
+Across the steps, by the processor's own time:
+
+- **Allocating:** at least 1.8 s, and likely most of the 0.9 s above. Parsing allocated about 13 GB in the profiled
+  run's two passes, around 270 KB a sentence.
+- **`LazyCE` in `CandidateWordVariant`,** for the lookup in the dictionary: about 1 s. Each one creates a monitor of its
+  own, and the first read takes the lock and publishes the value with an `Interlocked.Exchange`. A variant is never
+  shared between threads while it's analyzed.
+- **`string.Join` in `CandidateWord`'s constructor,** joining the surfaces of its tokens through LINQ: 0.9 s.
+- **Looking vocab up by form** (`NoteIndex.NotesWith`): 0.5 s; **the dictionary's `MightBeWord`:** 0.55 s.
+
+### Most candidate words can't match anything
+
+At each token, the analysis builds a candidate word for each number of tokens it may span, up to 12, and analyzes each.
+`count_the_candidate_words` on the corpus:
+
+| Tokens spanned | Built | With a form a vocab or a dictionary entry has | With a valid match |
+|---|---|---|---|
+| 1 | 523,090 | 464,621 | 463,340 |
+| 2 | 473,928 | 137,252 | 126,875 |
+| 3 | 425,916 | 35,179 | 31,319 |
+| 4 | 379,882 | 5,581 | 5,455 |
+| 5 to 9 | 1,300,948 | 1,160 | 1,149 |
+| 10 to 12 | 417,641 | 0 | 0 |
+| All | 3,521,405 | 643,793 | 628,138 |
+
+A compound gets matches only from the vocab and the dictionary entries that have one of its forms, so the 2.82 million
+compounds without one, 80% of all candidate words built, are analyzed for nothing.
