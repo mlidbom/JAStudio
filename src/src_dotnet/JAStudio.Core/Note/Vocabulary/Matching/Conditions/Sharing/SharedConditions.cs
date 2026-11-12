@@ -54,6 +54,15 @@ public sealed class SharedConditions
       [.. On(level).Where(it => !it.AsACondition.DependsOnTheDefinitionOf(sharedCondition))];
 
    /// <summary>
+   /// The shared-conditions whose definitions use <paramref name="sharedCondition"/> by name (<see cref="Condition.Uses"/>), as they're listed: those<br/>
+   /// renaming it saves by its new name, and deleting it writes its definition out in.
+   /// </summary>
+   public IReadOnlyList<ISharedCondition> WhoseDefinitionsUse(ISharedCondition sharedCondition) =>
+      //review:matching: WhoseDefinitionsUse, as VocabCollection.WhoseMatchConditionsUse and WhoseMatchConditionsDependOnTheDefinitionOf. Rename,
+      //   Delete, the shared-condition's window and the MCP server's listing each worked it out on their own.
+      [.. All.Where(it => it.Definition.Uses(sharedCondition))];
+
+   /// <summary>
    /// The first shared-condition, as they're listed (<see cref="All"/>), whose definition means the same as <paramref name="condition"/><br/>
    /// (<see cref="Condition.MeansTheSameAs"/>), or none: the one to use in its place, rather than define another.
    /// </summary>
@@ -128,11 +137,11 @@ public sealed class SharedConditions
    /// </exception>
    public void Redefine(ISharedCondition sharedCondition, Condition definition)
    {
-      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      AssertIsOneOfThese(sharedCondition);
       Contract.Argument.Assert(!definition.DependsOnTheDefinitionOf(sharedCondition), () => $"{sharedCondition.FullName} defined as {definition} would use itself.");
       AssertHoldsEachUsedBy(definition);
       sharedCondition.Redefine(definition);
-      _monitor.Locked(() => _folder.Save(sharedCondition));
+      Save(sharedCondition);
    }
 
    /// <summary>
@@ -150,11 +159,10 @@ public sealed class SharedConditions
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <paramref name="newName"/> can't name it (<see cref="WhyItCannotNameANewOne"/>).</exception>
    public void Rename(ISharedCondition sharedCondition, string newName, IEnumerable<VocabNote> vocab)
    {
-      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
-      var whyItCannotBeNamedSo = WhyItCannotNameANewOne(sharedCondition.Level, newName);
-      Contract.Argument.Assert(whyItCannotBeNamedSo is null, () => $"{whyItCannotBeNamedSo}");
+      AssertIsOneOfThese(sharedCondition);
+      AssertItCanNameANewOne(sharedCondition.Level, newName);
 
-      var definitionsUsingIt = All.Where(it => it.Definition.Uses(sharedCondition)).ToList();
+      var definitionsUsingIt = WhoseDefinitionsUse(sharedCondition);
       var vocabUsingIt = vocab.Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition)).ToList();
       _monitor.Locked(() =>
       {
@@ -163,7 +171,7 @@ public sealed class SharedConditions
          sharedCondition.Rename(newName);
          _byLevelAndName.Add(KeyOf(sharedCondition), sharedCondition);
          _folder.Save(sharedCondition);
-         definitionsUsingIt.ForEach(_folder.Save);
+         foreach(var definitionUsingIt in definitionsUsingIt) _folder.Save(definitionUsingIt);
       });
       vocabUsingIt.ForEach(it => it.MatchingConfiguration.SaveAfterASharedConditionItUsesWasRenamed());
    }
@@ -175,8 +183,8 @@ public sealed class SharedConditions
    /// </summary>
    public void Delete(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
    {
-      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
-      All.Where(it => it.Definition.Uses(sharedCondition)).ToList().ForEach(WriteItOutInTheDefinitionOf);
+      AssertIsOneOfThese(sharedCondition);
+      foreach(var definitionUsingIt in WhoseDefinitionsUse(sharedCondition)) WriteItOutInTheDefinitionOf(definitionUsingIt);
       vocab.ToList().ForEach(it => it.MatchingConfiguration.WriteOutTheDefinitionOf(sharedCondition));
       _monitor.Locked(() =>
       {
@@ -188,7 +196,7 @@ public sealed class SharedConditions
       void WriteItOutInTheDefinitionOf(ISharedCondition other)
       {
          other.RewriteItsDefinitionAs(other.Definition.WithTheDefinitionWrittenOutOf(sharedCondition));
-         _monitor.Locked(() => _folder.Save(other));
+         Save(other);
       }
    }
 
@@ -203,7 +211,7 @@ public sealed class SharedConditions
    /// </remarks>
    public void UseWhereverItsDefinitionIs(ISharedCondition sharedCondition, IEnumerable<VocabNote> vocab)
    {
-      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      AssertIsOneOfThese(sharedCondition);
       All.Where(it => !it.Equals(sharedCondition)).ToList().ForEach(UseItInTheDefinitionOf);
       vocab.ToList().ForEach(it => it.MatchingConfiguration.UseWhereverItsDefinitionIs(sharedCondition));
       return;
@@ -214,7 +222,7 @@ public sealed class SharedConditions
          if(withItUsed.Equals(other.Definition)) return;
          other.RewriteItsDefinitionAs(withItUsed);
          Contract.State.Assert(!other.UsesItself, () => $"Using {sharedCondition.FullName} in {other.FullName}'s definition made {other.FullName} use itself: {other.Definition}");
-         _monitor.Locked(() => _folder.Save(other));
+         Save(other);
       }
    }
 
@@ -255,15 +263,31 @@ public sealed class SharedConditions
    void AddAndSave(ISharedCondition sharedCondition)
    {
       //review:matching: AddAndSave was Add, which hid that it saves the shared-condition in the corpus, as Define and DefineFrom say they do.
-      var whyItCannotBeNamedSo = sharedCondition.Level.WhyItCannotNameASharedCondition(sharedCondition.Name);
-      Contract.Argument.Assert(whyItCannotBeNamedSo is null, () => $"{whyItCannotBeNamedSo}");
+      AssertItCanNameANewOne(sharedCondition.Level, sharedCondition.Name);
       _monitor.Locked(() =>
       {
-         Contract.Argument.Assert(!_byLevelAndName.ContainsKey(KeyOf(sharedCondition)), () => $"There's a shared-condition {sharedCondition.FullName} already.");
          _byLevelAndName.Add(KeyOf(sharedCondition), sharedCondition);
          _folder.Save(sharedCondition);
       });
    }
+
+   /// <summary>Asserts that <paramref name="name"/> can name a new shared-condition on <paramref name="level"/>'s subject (<see cref="WhyItCannotNameANewOne"/>).</summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When it can't, saying why.</exception>
+   void AssertItCanNameANewOne(IConditionLevel level, string name)
+   {
+      //review:matching: AddAndSave and Rename each asserted the rule for a new one's name, AddAndSave in two parts of its own: both assert it here,
+      //   as WhyItCannotNameANewOne states it once.
+      var whyItCannotBeNamedSo = WhyItCannotNameANewOne(level, name);
+      Contract.Argument.Assert(whyItCannotBeNamedSo is null, () => $"{whyItCannotBeNamedSo}");
+   }
+
+   /// <summary>Asserts that <paramref name="sharedCondition"/> is one of these, as every change to one is asked of the shared-conditions it's one of.</summary>
+   /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When it isn't.</exception>
+   void AssertIsOneOfThese(ISharedCondition sharedCondition) =>
+      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+
+   /// <summary>Saves <paramref name="sharedCondition"/> in its file, under the monitor, as after a change to its definition.</summary>
+   void Save(ISharedCondition sharedCondition) => _monitor.Locked(() => _folder.Save(sharedCondition));
 
    static (IConditionLevel Level, string Name) KeyOf(ISharedCondition sharedCondition) => (sharedCondition.Level, sharedCondition.Name);
 

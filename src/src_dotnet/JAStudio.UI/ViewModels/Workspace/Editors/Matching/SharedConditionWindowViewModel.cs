@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JAStudio.Core;
@@ -53,13 +52,10 @@ partial class SharedConditionWindowViewModel : ObservableObject
    public IRelayCommand? DeleteCommand { get; set; }
 
    /// <summary>What deleting the shared-condition does, as the dialog confirming it says: its definition is written out wherever it's used.</summary>
-   internal string WhatDeletingItDoes()
-   {
-      var vocabUsingIt = Vocab.All().Count(it => it.MatchingConfiguration.MatchCondition.Uses(SharedCondition));
-      var definitionsUsingIt = SharedConditions.All.Count(it => it.Definition.Uses(SharedCondition));
-      return $"Delete {SharedCondition.FullName}? Its definition is written out in its place wherever it's used: in the match-conditions of {vocabUsingIt} vocab, "
-           + $"and the definitions of {definitionsUsingIt} other shared-conditions. None of them then means anything else.";
-   }
+   internal string WhatDeletingItDoes() =>
+      $"Delete {SharedCondition.FullName}? Its definition is written out in its place wherever it's used: in the match-conditions of "
+    + $"{Vocab.WhoseMatchConditionsUse(SharedCondition).Count} vocab, and the definitions of {SharedConditions.WhoseDefinitionsUse(SharedCondition).Count} other "
+    + "shared-conditions. None of them then means anything else.";
 
    /// <summary>Deletes the shared-condition, with its definition written out wherever it's used (<see cref="SharedConditions.Delete"/>).</summary>
    internal void Delete() => SharedConditions.Delete(SharedCondition, Vocab.All());

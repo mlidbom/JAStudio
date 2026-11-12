@@ -37,6 +37,14 @@ public class VocabCollection
    /// </summary>
    public List<VocabNote> WhoseMatchConditionsDependOnTheDefinitionOf(ISharedCondition sharedCondition) =>
       [.. All().Where(it => it.MatchingConfiguration.MatchCondition.DependsOnTheDefinitionOf(sharedCondition))];
+
+   /// <summary>
+   /// The vocab whose match-conditions use <paramref name="sharedCondition"/> by name (<see cref="Condition.Uses"/>): those deleting it writes its definition<br/>
+   /// out in.
+   /// </summary>
+   public List<VocabNote> WhoseMatchConditionsUse(ISharedCondition sharedCondition) =>
+      [.. All().Where(it => it.MatchingConfiguration.MatchCondition.Uses(sharedCondition))];
+
    public VocabNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
    public VocabNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
    public List<VocabNote> WithForm(string form) => Cache.WithForm(form);
