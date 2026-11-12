@@ -12,9 +12,12 @@ class CodeLineViewModel
 {
    CodeLineViewModel(IReadOnlyList<CodePieceViewModel> pieces) => Pieces = pieces;
 
+   /// <summary><paramref name="line"/>, a line of a condition's code as it's shown, in pieces each shown as its kind should be.</summary>
+   public static CodeLineViewModel Of(ShownCodeLine line) => new([.. line.Pieces.Select(CodePieceViewModel.Of)]);
+
    /// <summary><paramref name="lines"/>, the lines of a condition's code, laid out by <paramref name="layout"/>, starting at <paramref name="column"/>.</summary>
    public static IReadOnlyList<CodeLineViewModel> LinesOf(IReadOnlyList<CodeLine> lines, CodeLayout layout, int column = 0) =>
-      [.. layout.LinesShowing(lines, column).Select(line => new CodeLineViewModel([.. line.Pieces.Select(CodePieceViewModel.Of)]))];
+      [.. layout.LinesShowing(lines, column).Select(Of)];
 
    public IReadOnlyList<CodePieceViewModel> Pieces { get; }
 

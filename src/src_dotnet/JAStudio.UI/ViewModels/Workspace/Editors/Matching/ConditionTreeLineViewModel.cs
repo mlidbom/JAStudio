@@ -66,7 +66,7 @@ class ConditionTreeLineViewModel
    public int CodeColumn { get; }
 
    /// <summary>The line's code as text, as the tree shows it: starting at the <see cref="CodeColumn"/>, with its comment.</summary>
-   public string Text => ConditionCode.AsText(CodeLines, CodeLayout.ForTheTreeEditor, CodeColumn);
+   public string Text => string.Join(Environment.NewLine, ShownCodeLines.Select(it => it.Text));
 
    /// <summary>The line's code on one line, without its comments, such as <c>!LastToken.InflectedForm.In(連用タ接続, 連用形)</c>: what titles the editor changing it.</summary>
    public string CodeOnOneLine => ConditionCode.OnOneLine(CodeLines);
@@ -75,7 +75,10 @@ class ConditionTreeLineViewModel
    /// The line's code as the tree shows it, starting at the <see cref="CodeColumn"/>, in pieces each shown as its kind should be, such as a negation in a<br/>
    /// color that stands out.
    /// </summary>
-   public IReadOnlyList<CodeLineViewModel> ShownCode => CodeLineViewModel.LinesOf(CodeLines, CodeLayout.ForTheTreeEditor, CodeColumn);
+   public IReadOnlyList<CodeLineViewModel> ShownCode => [.. ShownCodeLines.Select(CodeLineViewModel.Of)];
+
+   /// <summary>The line's code laid out as the tree shows it (<see cref="CodeLayout.ForTheTreeEditor"/>), starting at the <see cref="CodeColumn"/>.</summary>
+   IReadOnlyList<ShownCodeLine> ShownCodeLines => CodeLayout.ForTheTreeEditor.LinesShowing(CodeLines, CodeColumn);
 
    /// <summary>The lines of the conditions in this line's group. None unless <see cref="IsGroup"/>.</summary>
    public IReadOnlyList<ConditionTreeLineViewModel> Children { get; }
@@ -106,17 +109,14 @@ class ConditionTreeLineViewModel
    /// </summary>
    public IReadOnlyList<CodeLineViewModel> ShownDefinitionOfTheSharedCondition =>
       SharedCondition is {} sharedCondition
-         ? CodeLineViewModel.LinesOf(ConditionCode.LinesOf(sharedCondition.Definition), CodeLayout.ForReading, CodeColumn + IndentationOfAShownDefinition)
+         ? CodeLineViewModel.LinesOf(ConditionCode.LinesOf(sharedCondition.Definition), CodeLayout.ForReading, CodeColumn + CodeLayout.IndentationPerLevel)
          : [];
-
-   /// <summary>How many characters further in than the line's code the definition of the shared-condition it is shows, when expanded.</summary>
-   const int IndentationOfAShownDefinition = 3;
 
    /// <summary>Whether the line opens the conditions under it with a parenthesis, as a group does, such as <c>PrecedingToken.AnyOf(</c>.</summary>
    bool OpensWhatItHolds => CodeLines is [{ OpensWhatFollows: true }];
 
-   /// <summary>The column right after the line's parenthesis, where the conditions under it start, when it <see cref="OpensWhatItHolds"/>.</summary>
-   int ColumnAfterTheParenthesis => CodeColumn + CodeLines[0].Code.Length;
+   /// <summary>The column right after the line's parenthesis, as the tree shows it, where the conditions under it start, when it <see cref="OpensWhatItHolds"/>.</summary>
+   int ColumnAfterTheParenthesis => ShownCodeLines[0].Width;
 
    /// <summary>Whether the line is an "any of" group, so that switching it makes it an "all of" group.</summary>
    public bool IsAnAnyOfGroup => Condition is IConditionGroup { IsAnyOf: true };
