@@ -130,8 +130,14 @@ results are representative, given that too large a corpus could make a parsing c
   - **The words the reservoir can't fill:** of the vocab, 231 at a floor of 3 and 2,559 at 20; of the dictionary words,
     1,596 at 3, 21,794 at 10 and 34,140 at 20. Half the dictionary words have fewer than 20 sentences of up to 50
     characters in all 16 million.
-  - **The missing words aren't worth a floor:** shown in at least five works, they're mostly small kana (っ, ぇ), cries
-    (うう, フフッ), dashes, fragments (そ, れ) and names (阿良, 咲).
+  - **The missing words are a mix:** a missing word is a single token the breakdown displays with no valid vocab match
+    and no dictionary entry the lookup finds (`MissingMatch`, never valid, shown so that no part of the sentence goes
+    missing). Shown in at least five works, they're cries (うう, フフッ, ガハハハハハ), small kana and fragments of
+    colloquial speech (っ, ぇ, そ, れ), punctuation (—, 〜), names (河合, 愛梨, ミッシェル), Latin letters, units and
+    Chinese from bilingual subtitles; but also real words the dictionary lookup doesn't find in their kana spelling
+    (ひとつ, おみやげ, クスリ, マヌケ, オメエ, のぞきこん, さしのべ), a quarter of the missing words' occurrences
+    ([what-the-reservoir-found.md](what-the-reservoir-found.md), "Kana spellings the dictionary doesn't find"). If that
+    lookup changed, those would count as dictionary words, in the middle column.
   - **These are floors:** each pick is the sentence giving the most words still lacking, so they take no account of
     varied contexts, senses or rejections, which would take more sentences. They come from the analyses of 2026-11-11,
     with the vocab as they were then, and leave out words the reservoir doesn't show at all. The words are the
