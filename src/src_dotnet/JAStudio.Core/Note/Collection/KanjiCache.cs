@@ -1,40 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Collection;
 
 class KanjiCache : NoteCache<KanjiNote, KanjiSnapshot>
 {
-   readonly Dictionary<string, HashSet<KanjiNote>> _byRadical = new();
-   readonly Dictionary<string, HashSet<KanjiNote>> _byReading = new();
+   readonly NoteIndex<string, KanjiNote, KanjiSnapshot> _byRadical;
+   readonly NoteIndex<string, KanjiNote, KanjiSnapshot> _byReading;
 
-   public KanjiCache(NoteServices noteServices) : base(noteServices) {}
-
-   protected override void ClearDerivedIndexes()
+   public KanjiCache(NoteServices noteServices) : base(noteServices)
    {
-      _byRadical.Clear();
-      _byReading.Clear();
+      _byRadical = NewIndex(snapshot => snapshot.Radicals);
+      _byReading = NewIndex(snapshot => snapshot.Readings);
    }
-
 
    protected override KanjiSnapshot CreateSnapshot(KanjiNote note) => new(note);
 
-   protected override void InheritorRemoveFromCache(KanjiNote note, KanjiSnapshot snapshot)
-   {
-      _byRadical.RemoveFromSets(snapshot.Radicals, note);
-      _byReading.RemoveFromSets(snapshot.Readings, note);
-   }
+   public List<KanjiNote> WithRadical(string radical) => _byRadical.NotesWith(radical);
 
-   protected override void InheritorAddToCache(KanjiNote note, KanjiSnapshot snapshot)
-   {
-      _byRadical.AddToSets(snapshot.Radicals, note);
-      _byReading.AddToSets(snapshot.Readings, note);
-   }
-
-   public List<KanjiNote> WithRadical(string radical) =>
-      _monitor.Locked(() => _byRadical.TryGetValue(radical, out var notes) ? notes.ToList() : []);
-
-   public HashSet<KanjiNote> WithReading(string reading) =>
-      _monitor.Locked(() => _byReading.TryGetValue(reading, out var notes) ? notes.ToHashSet() : []);
+   public HashSet<KanjiNote> WithReading(string reading) => _byReading.NotesWith(reading).ToHashSet();
 }

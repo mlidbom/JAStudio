@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Compze.Threading;
 
 namespace JAStudio.Core.Note.Collection;
 
@@ -12,20 +13,30 @@ namespace JAStudio.Core.Note.Collection;
 /// sentences looked up. Every lookup then returns the same vocab from either, so each sentence parses the same against both.
 /// </remarks>
 /// <remarks>
-/// It records every lookup made while it runs, from any thread. Read <see cref="NotesLookedUp"/> once it's stopped.
+/// It records every lookup made while it runs, from any thread, under a lock of its own, and nothing once it's stopped. Read<br/>
+/// <see cref="NotesLookedUp"/> once it's stopped.
 /// </remarks>
 public sealed class LookupRecording<TNote> : IDisposable where TNote : JPNote
 {
    readonly HashSet<TNote> _notesLookedUp = [];
+   readonly IMonitor _monitor = IMonitor.New();
    readonly Action _stop;
+   bool _stopped;
 
    internal LookupRecording(Action stop) => _stop = stop;
 
    /// <summary>Every note a lookup returned while this recording ran, each once.</summary>
    public IReadOnlyCollection<TNote> NotesLookedUp => _notesLookedUp;
 
-   internal void Record(IEnumerable<TNote> notesLookedUp) => _notesLookedUp.UnionWith(notesLookedUp);
+   internal void Record(IEnumerable<TNote> notesLookedUp) => _monitor.Locked(() =>
+   {
+      if(!_stopped) _notesLookedUp.UnionWith(notesLookedUp);
+   });
 
    /// <summary>Stops recording.</summary>
-   public void Dispose() => _stop();
+   public void Dispose()
+   {
+      _monitor.Locked(() => _stopped = true);
+      _stop();
+   }
 }
