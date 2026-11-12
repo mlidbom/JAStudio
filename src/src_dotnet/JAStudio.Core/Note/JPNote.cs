@@ -1,6 +1,7 @@
 using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
+using System.IO.Hashing;
 using System.Linq;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note.Collection;
@@ -18,7 +19,13 @@ public abstract class JPNote
    public NoteGuard Guard { get; }
    public NoteServices Services { get; }
    bool _persisted;
-   byte[]? _lastPersistedSnapshot;
+
+   /// <summary>
+   /// The 128-bit hash of the note's snapshot as it was last saved or loaded (<see cref="TakeSnapshot"/>), to tell whether the note changed since.<br/>
+   /// The hash, not the snapshot: the snapshots took 177 MB right after a start, 2.2 KB a note (2026-11-12). Two snapshots with the same<br/>
+   /// 128-bit hash, which would make a change go unsaved, won't happen.
+   /// </summary>
+   UInt128? _hashOfTheLastPersistedSnapshot;
 
    // Dictionary tracks card suspend status: true = active/unsuspended, false = suspended
    Dictionary<string, bool> _cardStatus = new();
@@ -185,10 +192,12 @@ public abstract class JPNote
 
    byte[] TakeSnapshot() => MemoryPackSerializer.Serialize(ToDto());
 
+   UInt128 HashOfASnapshotTakenNow() => XxHash128.HashToUInt128(TakeSnapshot());
+
    internal void MarkAsPersisted()
    {
       _persisted = true;
-      _lastPersistedSnapshot = TakeSnapshot();
+      _hashOfTheLastPersistedSnapshot = HashOfASnapshotTakenNow();
    }
 
    /// <summary>
@@ -196,17 +205,17 @@ public abstract class JPNote
    /// it before reloading: not the same when the note's file changed on disk in between (<see cref="Collection.JPCollection.ReloadFromBackendAfter"/>).
    /// </summary>
    internal bool HasTheSameStoredDataAs(JPNote theNoteAsHeldBefore) =>
-      _lastPersistedSnapshot.AsSpan().SequenceEqual(theNoteAsHeldBefore._lastPersistedSnapshot);
+      _hashOfTheLastPersistedSnapshot == theNoteAsHeldBefore._hashOfTheLastPersistedSnapshot;
 
    public void Flush()
    {
       if(!_persisted) return;
 
-      var currentSnapshot = TakeSnapshot();
-      if(_lastPersistedSnapshot != null && currentSnapshot.AsSpan().SequenceEqual(_lastPersistedSnapshot))
+      var hashOfTheSnapshotNow = HashOfASnapshotTakenNow();
+      if(hashOfTheSnapshotNow == _hashOfTheLastPersistedSnapshot)
          return;
 
-      _lastPersistedSnapshot = currentSnapshot;
+      _hashOfTheLastPersistedSnapshot = hashOfTheSnapshotNow;
       RecursiveFlushGuard.Flush();
    }
 
