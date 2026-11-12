@@ -224,7 +224,7 @@ the headless JAStudio.
   then analyzing every one, on a given number of threads, by default one per logical core, and saves nothing. It's for
   telling whether a change made parsing faster, and how parsing scales with threads: compare runs at the same thread
   count, and discard the first after a start, which includes warming up. Each pass also reports how long the garbage
-  collector paused the threads, and the most memory the process used meanwhile, sampled every 25 ms; and the run reports
+  collector paused the threads, and the most memory the process used meanwhile, sampled every 100 ms; and the run reports
   the process's garbage collector mode. By default it first collects all garbage, so each run's peak is its own. Call it
   once at a time: runs in parallel compete for the cores.
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed

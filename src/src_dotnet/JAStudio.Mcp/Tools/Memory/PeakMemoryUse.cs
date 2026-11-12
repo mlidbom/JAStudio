@@ -3,12 +3,17 @@ using System.Threading;
 
 namespace JAStudio.Mcp.Tools.Memory;
 
-/// <summary>The most memory the process used while some work ran, in megabytes, as sampled every few milliseconds.</summary>
+/// <summary>The most memory the process used while some work ran, in megabytes, as sampled every <see cref="TimeBetweenSamples"/>.</summary>
+/// <remarks>
+/// Not more often: on Windows, reading a process's private memory reads the information of every process on the machine, so sampling every 25 ms<br/>
+/// took about a quarter of a core from the work it measured (dotTrace, 2026-11-12).
+/// </remarks>
 /// <param name="PrivateMegabytes">The highest private memory sampled: the memory committed for the process alone, as the operating system counts it.</param>
 /// <param name="CommittedByTheGarbageCollectorMegabytes">The most memory sampled that the garbage collector had committed for its heap.</param>
 public record PeakMemoryUse(long PrivateMegabytes, long CommittedByTheGarbageCollectorMegabytes)
 {
-   static readonly TimeSpan TimeBetweenSamples = TimeSpan.FromMilliseconds(25);
+   /// <summary>How often the memory is sampled.</summary>
+   public static readonly TimeSpan TimeBetweenSamples = TimeSpan.FromMilliseconds(100);
 
    /// <summary>Runs <paramref name="work"/>, sampling the memory on a thread of its own meanwhile, and returns the peak the samples saw.</summary>
    public static PeakMemoryUse During(Action work)
