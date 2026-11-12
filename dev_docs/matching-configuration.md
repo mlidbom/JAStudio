@@ -524,7 +524,8 @@ question 1 below).
    That links vocab to sentences, and gives a vocab its sentence count. The sentence breakdown analyzes the sentence
    again, under the options.
 7. **After a vocab is edited,** the sentences that contain one of its forms or stems are reparsed, along with the
-   sentences it has now (`LocalNoteUpdater.ReparseSentencesForVocab`). A full rebuild takes about 8 seconds.
+   sentences it has now (`LocalNoteUpdater.ReparseSentencesForVocab`). A full rebuild takes about 2 seconds, since the
+   parsing speed work of 2026-11-12 ([parsing-speed.md](parsing-speed.md)).
 
 ### What it means
 
@@ -567,14 +568,14 @@ question 1 below).
   ending. And a godan verb's split ending has the base form う. A vocab such as う限り matches only because of all three.
   That supports making it a fact about the vocab (open question 1).
 - **Reparsing after an edit.** A vocab's edit reparses the sentences with its forms. A shared-condition or a
-  rule-for-many-vocab changes many vocab at once, so its edit needs a full rebuild, which takes about 8 seconds.
+  rule-for-many-vocab changes many vocab at once, so its edit needs a full rebuild, which takes about 2 seconds.
 - **The parsing cases need to carry them too.** The cases run against a stripped-down corpus of the vocab their
   sentences look up (`LookupRecording`). It must carry the shared-conditions and rules-for-many-vocab too.
 - **Caching:** a match caches its validity, and only the yield check is computed afresh each time
   (`CustomForbidsNoCache`). A condition on validity must therefore depend only on what doesn't change during the
   analysis.
 - **The cost:**
-  - a full rebuild takes about 8 seconds, for 49,162 sentences;
+  - a full rebuild takes about 2 seconds, for 49,162 sentences ([parsing-speed.md](parsing-speed.md));
   - a vocab's rules are tested only on variants whose text is one of its forms;
   - the dictionary lookups dominate the time.
 
