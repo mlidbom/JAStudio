@@ -285,6 +285,8 @@ stem and sentence end. Those would become shared-conditions under today's names,
   token has a part of speech; a text doesn't.
 - **A condition-subject can be absent.** At the sentence's start there's no token before. A test on an absent subject
   is false, so "not: the token before is a godan verb" holds at the start. Whether it's there is a test of its own.
+  *Superseded (2026-11-12): a missing token is the empty token, on which every condition is evaluated as written. See
+  [A missing token: the empty token](#a-missing-token-the-empty-token-agreed-with-magnus-2026-11-12).*
 - **Token or text.** "The token before ends with ん" and "the text before ends with ん" mostly agree. But a test on the
   text doesn't depend on where the tokenizer splits, so it's the sturdier of the two wherever it says enough.
 - **When a condition can be tested is the hardest constraint.**
@@ -453,7 +455,8 @@ The token before:
 
 The inner tree isn't only tidier. Two things need it:
 - **An absent token.** At the sentence's start, "the token before: not a godan verb" is false, since there's no token
-  to test. "Not: the token before: a godan verb" is true.
+  to test. "Not: the token before: a godan verb" is true. *Superseded (2026-11-12): a missing token is the empty token, on which every condition is evaluated as written. See
+  [A missing token: the empty token](#a-missing-token-the-empty-token-agreed-with-magnus-2026-11-12).*
 - **The word's tokens taken together.** "Any token of the word: all of (a verb; in a connective form)" isn't "any token
   is a verb, and any token is in a connective form".
 
@@ -626,7 +629,8 @@ name is checked when the tree is read, and a shared-condition can't use itself, 
 - **The match's inspector provides the condition-subjects:** the token before (`MatchInspector.PreviousLocation`), the
   first and last tokens (`StartLocation`, `EndLocation`), the token after (`NextLocation`) and the texts.
 - **Absent tokens:** the token before the sentence's first token, or after its last, is absent, and conditions on it are
-  false.
+  false. *Superseded (2026-11-12): a missing token is the empty token, on which every condition is evaluated as written. See
+  [A missing token: the empty token](#a-missing-token-the-empty-token-agreed-with-magnus-2026-11-12).*
 
 ### What's stored
 
@@ -719,8 +723,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
 
    The full rebuild must change nothing.
 4. **The tree editor** on the Matching tab: built 2026-11-11, see [Increment 4, as built](#increment-4-as-built).
-5. **Conditions shown as code,** with the tokenizer's values in English too: see
-   [How conditions display: as code](#how-conditions-display-as-code-agreed-with-magnus-2026-11-12).
+5. **Conditions shown as code,** with the tokenizer's values in English too, and a missing token as the empty token:
+   see [How conditions display: as code](#how-conditions-display-as-code-agreed-with-magnus-2026-11-12).
 6. **Shared-conditions, and the rule editors go** (agreed with Magnus, 2026-11-12). The five rules that are small trees
    become shared-conditions under their names: past tense stem, godan potential, godan imperative, ichidan imperative
    and sentence start. The other 16 are one line each already, such as `PrecedingToken.IsAMasuStem`. Then the Matching
@@ -929,6 +933,7 @@ able to see the tree :)".
 - **Negating inside a condition on a subject from the keyboard.** `-` negates a line's whole condition: "Not: The
   preceding token: is a godan verb", which is met at the sentence's start. "The preceding token: Not: is a godan verb",
   which isn't, takes a group under the subject: add "The preceding token: All of:", add the fact in it, and negate that.
+  *With the empty token of increment 5, the two mean the same, so this goes.*
 
 **Found on the way:**
 - **Why what's typed makes no condition is the editor's own question, not a caught contract assertion.** The dialog
@@ -948,17 +953,17 @@ programming language."
 
 ```
 PrecedingToken.IsInAnIrrealisForm
-Not(PrecedingToken.IsAnIchidanVerb)
+!PrecedingToken.IsAnIchidanVerb
 PrecedingToken.Surface.EndsWithOneOf("ん")
-Not(FollowingToken.Surface.StartsWithOneOf("湧", "わ"))
+!FollowingToken.Surface.StartsWithOneOf("湧", "わ")
 AnyOf(
-   Not(Surface.In("本の")),
+   !Surface.In("本の"),
    FollowingToken.PartOfSpeech.Is(名詞・数))     // noun › numeric
-Not(LastToken.AllOf(
+!LastToken.AllOf(
    PartOfSpeech.Is(動詞),                        // verb
    InflectedForm.In(
       連用形,                                    // continuative
-      連用タ接続)))                               // continuative, ta-connection
+      連用タ接続))                                // continuative, ta-connection
 ```
 
 - **Each top-level line must hold.** The root "all of" isn't shown.
@@ -967,33 +972,50 @@ Not(LastToken.AllOf(
 - **The names are the code's,** and the code is renamed where the display needs another. `In` is "is one of";
   `StartsWithOneOf`, `EndsWithOneOf` and `ContainsOneOf` keep their names (Magnus: "a bit clearer to me. We can polish
   later though").
-- **Groups and negation are `AnyOf(...)`, `AllOf(...)` and `Not(...)`,** with commas and closing parentheses (Magnus:
-  "Keep them"). `Not` rather than `!`, which is easy to miss and can't go inside a subject (below).
+- **Groups are `AnyOf(...)` and `AllOf(...)`,** with commas and closing parentheses (Magnus: "Keep them").
+- **Negation is `!`, as in C#** (Magnus). It's shown in a color that stands out, since a `!` at the start of a line is
+  easy to miss. With the empty token (below), a `!` means the same wherever it sits, so one form is enough: in front of
+  what it negates.
 - **Texts are in quotes.**
 - **Values from the tokenizer's fixed lists are unquoted,** in Japanese with their English beside them: parts of
   speech, inflection types and inflected forms. Several values go one to a line (Magnus). The selectors show both, and
   find a value by either. The same goes for anything else the editor shows in Japanese only (Magnus). The English is
   in the code already: `JNPartsOfSpeech`, `InflectionTypes`, `InflectionForms`.
 - **The same text wherever a condition shows:** the tree, the failure reasons in the sentence breakdown and in
-  `analyze_sentence` (`not_met::Not(PrecedingToken.IsAGodanVerb)`), and the specs' failure messages.
+  `analyze_sentence` (`not_met::!PrecedingToken.IsAGodanVerb`), and the specs' failure messages.
 - **The C# that builds a condition reads the same, as far as C# allows** (Magnus: "If that is not hard, by all means do
   it"). C# 14's extension members can give each subject the conditions on it, so `PrecedingToken.Surface.EndsWithOneOf("ん")`
   is C# as it stands. Inside a subject's group the bare names clash in C#, since the word and a token both have a
   `Surface`, so there the C# needs a prefix.
 
-### Where Not sits
+### A missing token: the empty token (agreed with Magnus, 2026-11-12)
 
-`Not(PrecedingToken.IsAGodanVerb)` and `PrecedingToken.Not(IsAGodanVerb)` agree on every word but one at the very start
-of a sentence, which has no preceding token:
-- **`Not(PrecedingToken.IsAGodanVerb)`** asks "does the word follow a godan verb?" and turns the answer around. At the
-  start it follows nothing, so the answer is no, and the condition is met.
-- **`PrecedingToken.Not(IsAGodanVerb)`** asks "is there a token before the word, and is it something other than a godan
-  verb?" At the start there's none, so the condition isn't met.
+**Before a sentence's first word, `PrecedingToken` is the empty token, and after its last, so is `FollowingToken`. The
+empty token has no part of speech and no facts, and its texts are empty. Every condition is evaluated on it exactly as
+written.** The word's first and last tokens always exist, and a text is never missing, only empty, so the empty token is
+all there is to the question of what's missing.
 
-In C#, with the preceding token null at the start, they're `!(PrecedingToken != null && PrecedingToken.IsAGodanVerb)`
-and `PrecedingToken != null && !PrecedingToken.IsAGodanVerb`. The second is what a suffix needs, such as うる, which
-needs a word before it: `PrecedingToken.Not(IsANonWordCharacter)` rejects the うる at the start of うるせぇよ, where
-`Not(PrecedingToken.IsANonWordCharacter)` lets it match.
+- **Where a `!` sits never matters.** "The preceding token isn't a godan verb" and "it's not so that the preceding token
+  is a godan verb" are both met at the sentence's start.
+- **Requiring a token is a line of its own,** `PrecedingToken.Exists`, written only when it's meant. The suffix うる, which
+  needs a word before it:
+  ```
+  PrecedingToken.Exists
+  !PrecedingToken.IsANonWordCharacter
+  ```
+- **A name must say what its definition does on the empty token.** `Token.IsAContentWord = !PartOfSpeech.Is(助詞)` is
+  true of the empty token, since it isn't a particle. If a content word needs a token, its definition says so:
+  `AllOf(Exists, !PartOfSpeech.Is(助詞))`.
+
+**Why not the rule increments 1 to 4 built:** a condition on a missing token was false without looking inside it
+(`SubjectCondition.IsMetBy`: the subject found, `&&` the condition met). So a negation inside the token, written there or
+in a shared-condition's definition, was never evaluated at the sentence's edges, and "the preceding token isn't a godan
+verb" differed from "it's not so that it's a godan verb" only there. Magnus, after a long and confusing discussion: the
+outcomes "literally seem utterly insane to me". Under the empty token, nothing is evaluated other than as written.
+
+**The corpus doesn't change:** of the 421 stored match-conditions (2026-11-12), none has a negation, an empty-text test or
+a regular expression inside the preceding or following token, the only conditions whose result the switch can change. A
+full rebuild checks it when it's built, in increment 5.
 
 ### Shared-conditions, as they display
 
@@ -1004,7 +1026,7 @@ Word.FollowsAPastTenseStem =
    AnyOf(
       PrecedingToken.IsAPastTenseStem,
       AllOf(
-         Not(PrecedingText.IsEmpty),
+         !PrecedingText.IsEmpty,
          FirstToken.IsAPastTenseMarker))
 
 Token.IsAdverbLike =
