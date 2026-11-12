@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
@@ -17,7 +18,8 @@ namespace JAStudio.UI.Views.Workspace.Editors.Matching;
 /// <summary>
 /// A shared-condition's window, showing a <see cref="SharedConditionWindowViewModel"/>: its definition in the tree editor, with Rename and Delete. F12 or<br/>
 /// Ctrl+click on a shared-condition in any tree opens it. Each shared-condition has one window at most: opening it again brings it to the front. It<br/>
-/// shows the shared-condition as it is now whenever it's activated, since another window or the MCP server may have changed it or what it uses.
+/// shows the shared-condition as it is now whenever it's activated, since another window or the MCP server may have changed it or what it uses, and<br/>
+/// closes then if it was deleted. Rename and Delete wait for the reparse after a change to the definition, as the tree does.
 /// </summary>
 /// <remarks>
 /// It closes when the collection is loaded anew, as after a sync, since the shared-conditions are then loaded anew too, and it would edit the one<br/>
@@ -36,15 +38,11 @@ partial class SharedConditionWindow : Window
    SharedConditionWindow(ISharedCondition sharedCondition, TemporaryServiceCollection services)
    {
       var viewModel = new SharedConditionWindowViewModel(services, sharedCondition, it => Open(it, services));
-      //bug: Rename and Delete can be run while the sentences of the vocab depending on it are reparsed after a change to its definition: only the tree
-      //   is disabled meanwhile (SentencesReparser.IsReparsingSentences). Delete then sets, and saves, the match-conditions of the vocab using it on the
-      //   UI thread while the reparse reads those vocab, which VocabSentencesReparserViewModel says nothing may do. Their commands could be disabled while
-      //   it runs, as the tree is.
-      viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel));
-      viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel));
+      viewModel.RenameCommand = new AsyncRelayCommand(() => RenameAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
+      viewModel.DeleteCommand = new AsyncRelayCommand(() => DeleteAsync(viewModel), () => viewModel.CanBeRenamedOrDeleted);
       DataContext = viewModel;
       InitializeComponent();
-      Activated += (_, _) => viewModel.ShowItAsItIsNow();
+      Activated += (_, _) => ShowItAsItIsNowOrCloseIfItIsGone(viewModel);
 
       var uiThread = services.Resolve<IUIThreadDispatcher>();
       var closingOnTheNextReload = services.CoreApp.Collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(Close));
@@ -53,6 +51,14 @@ partial class SharedConditionWindow : Window
          closingOnTheNextReload.Dispose();
          OpenWindows.Remove(sharedCondition);
       };
+   }
+
+   void ShowItAsItIsNowOrCloseIfItIsGone(SharedConditionWindowViewModel viewModel)
+   {
+      if(viewModel.IsGone)
+         Dispatcher.UIThread.Post(Close);
+      else
+         viewModel.ShowItAsItIsNow();
    }
 
    async Task RenameAsync(SharedConditionWindowViewModel viewModel)

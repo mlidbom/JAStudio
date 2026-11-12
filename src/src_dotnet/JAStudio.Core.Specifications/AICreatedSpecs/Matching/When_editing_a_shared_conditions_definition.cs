@@ -68,6 +68,13 @@ public class When_editing_a_shared_conditions_definition : When_sharing_a_condit
       }
    }
 
+   public class after_storing_a_tree_of_one_all_of_group : When_editing_a_shared_conditions_definition
+   {
+      public after_storing_a_tree_of_one_all_of_group() => _definitionOfIsAVerb.Store(ConditionGroup.AllOf(ConditionGroup.AllOf(TokenConditions.IsAGodanVerb)));
+
+      [XF] public void the_tree_is_as_stored_with_the_group_in_it() => _definitionOfIsAVerb.Stored.ToString().Must().Be("AllOf(AllOf(IsAGodanVerb))");
+   }
+
    public class after_storing_a_tree_of_two_conditions : When_editing_a_shared_conditions_definition
    {
       public after_storing_a_tree_of_two_conditions() => _definitionOfIsAVerb.Store(ConditionGroup.AllOf(TokenConditions.IsAGodanVerb, TokenConditions.Exists));

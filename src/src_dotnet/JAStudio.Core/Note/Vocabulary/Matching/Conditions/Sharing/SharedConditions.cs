@@ -224,14 +224,19 @@ public sealed class SharedConditions
    }
 
    /// <summary>
+   /// Whether <paramref name="sharedCondition"/> is one of these, the very object: not one deleted since, nor one loaded before the collection was loaded<br/>
+   /// anew, though one of these may have its name. Two shared-conditions are equal when their names are, so this asks more.
+   /// </summary>
+   public bool Holds(ISharedCondition sharedCondition) => All.Any(it => ReferenceEquals(it, sharedCondition));
+
+   /// <summary>
    /// Asserts that each shared-condition <paramref name="condition"/> uses is one of these, the very object, as a condition the corpus stores must use: a<br/>
    /// tree can still hold one that was deleted since, such as in a tree editor's undo, and storing it would name a shared-condition there's none of.
    /// </summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When it uses one that isn't.</exception>
    internal void AssertHoldsEachUsedBy(Condition condition)
    {
-      var held = All;
-      var notHeld = condition.SharedConditionsUsed().FirstOrDefault(used => !held.Any(it => ReferenceEquals(it, used)));
+      var notHeld = condition.SharedConditionsUsed().FirstOrDefault(used => !Holds(used));
       Contract.Argument.Assert(notHeld is null, () => $"{condition} uses the shared-condition {notHeld?.FullName}, which was deleted, or loaded before the collection was loaded anew.");
    }
 
@@ -290,13 +295,13 @@ public sealed class SharedConditions
       Contract.Argument.Assert(whyItCannotBeNamedSo is null, () => $"{whyItCannotBeNamedSo}");
    }
 
-   /// <summary>Asserts that <paramref name="sharedCondition"/> is one of these, as every change to one is asked of the shared-conditions it's one of.</summary>
+   /// <summary>
+   /// Asserts that <paramref name="sharedCondition"/> is one of these, the very object (<see cref="Holds"/>), as every change to one is asked of the<br/>
+   /// shared-conditions it's one of.
+   /// </summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When it isn't.</exception>
    void AssertIsOneOfThese(ISharedCondition sharedCondition) =>
-      //bug: All.Contains compares by name, as a shared-condition's Equals does, so one deleted and then defined anew by the same name, through the MCP
-      //   server while a window still holds the deleted one, passes: Redefine then gives the deleted object the definition and saves it in the new
-      //   one's file, which the new one held in memory no longer matches. AssertHoldsEachUsedBy compares the very objects, as this could.
-      Contract.Argument.Assert(All.Contains(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions.");
+      Contract.Argument.Assert(Holds(sharedCondition), () => $"{sharedCondition.FullName} isn't one of the corpus's shared-conditions: it was deleted, or loaded before the collection was loaded anew.");
 
    /// <summary>Saves <paramref name="sharedCondition"/> in its file, under the monitor, as after a change to its definition.</summary>
    void Save(ISharedCondition sharedCondition) => _monitor.Locked(() => _folder.Save(sharedCondition));

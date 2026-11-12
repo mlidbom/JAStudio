@@ -33,7 +33,11 @@ partial class SharedConditionWindowViewModel : ObservableObject
       SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => {});
       SentencesReparser.PropertyChanged += (_, changed) =>
       {
-         if(changed.PropertyName == nameof(SentencesReparser.IsReparsingSentences)) OnPropertyChanged(nameof(WhoDependsOnIt));
+         if(changed.PropertyName != nameof(SentencesReparser.IsReparsingSentences)) return;
+
+         OnPropertyChanged(nameof(WhoDependsOnIt));
+         RenameCommand?.NotifyCanExecuteChanged();
+         DeleteCommand?.NotifyCanExecuteChanged();
       };
       //review:matching: DefinitionEditor was Definition, but it's the definition's tree editor, as a vocab's Matching tab has its MatchConditionEditor.
       DefinitionEditor = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
@@ -49,11 +53,29 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// <summary>The window's title: the shared-condition's full name, such as <c>Word.FollowsAPastTenseStem</c>.</summary>
    public string Title => $"{SharedCondition.FullName} - shared-condition";
 
-   /// <summary>Opens the dialog that renames the shared-condition, and renames it the name it closes with. Set by the <see cref="SharedConditionWindow"/>.</summary>
+   /// <summary>
+   /// Opens the dialog that renames the shared-condition, and renames it the name it closes with. Set by the <see cref="SharedConditionWindow"/>, it can run<br/>
+   /// only when <see cref="CanBeRenamedOrDeleted"/>.
+   /// </summary>
    public IRelayCommand? RenameCommand { get; set; }
 
-   /// <summary>Asks whether to delete the shared-condition, and deletes it and closes the window if so. Set by the <see cref="SharedConditionWindow"/>.</summary>
+   /// <summary>
+   /// Asks whether to delete the shared-condition, and deletes it and closes the window if so. Set by the <see cref="SharedConditionWindow"/>, it can run<br/>
+   /// only when <see cref="CanBeRenamedOrDeleted"/>.
+   /// </summary>
    public IRelayCommand? DeleteCommand { get; set; }
+
+   /// <summary>
+   /// Whether the shared-condition can be renamed or deleted now: not while the sentences of the vocab depending on it are reparsed, which reads those<br/>
+   /// vocab, as renaming and deleting change and save them.
+   /// </summary>
+   public bool CanBeRenamedOrDeleted => !SentencesReparser.IsReparsingSentences;
+
+   /// <summary>
+   /// Whether the shared-condition is no longer one of the corpus's (<see cref="SharedConditions.Holds"/>): deleted elsewhere, as through the MCP server.<br/>
+   /// The window then closes, since every change to it would fail.
+   /// </summary>
+   public bool IsGone => !SharedConditions.Holds(SharedCondition);
 
    /// <summary>What deleting the shared-condition does, as the dialog confirming it says: its definition is written out wherever it's used.</summary>
    internal string WhatDeletingItDoes() =>
@@ -70,9 +92,6 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// </summary>
    internal void ShowItAsItIsNow()
    {
-      //bug: when the shared-condition was deleted elsewhere, through the MCP server's delete_a_shared_condition, the window stays open and shows it as
-      //   it was: the next change to its definition fails, since SharedConditions.Redefine asserts it's one of the corpus's. The window could close, as
-      //   it does after its own Delete.
       OnPropertyChanged(nameof(Title));
       VocabDependingOnIt = TheVocabDependingOnIt();
       DefinitionEditor.Refresh();

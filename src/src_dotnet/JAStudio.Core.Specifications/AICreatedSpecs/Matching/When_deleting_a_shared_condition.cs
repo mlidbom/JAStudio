@@ -53,6 +53,16 @@ public class When_deleting_a_shared_condition : When_sharing_a_condition
 
       [XF] public void setting_a_match_condition_using_it_throws_as_an_undo_in_a_tree_editor_would() =>
          Invoking(() => _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(_followsAVerbAsASingleToken))).Must().Throw<ArgumentAssertionFailedException>();
+
+      public class and_defining_one_anew_by_its_name : after_deleting_FollowsAVerbAsASingleToken
+      {
+         public and_defining_one_anew_by_its_name() => _sharedConditions.Define(WordConditions.Level, "FollowsAVerbAsASingleToken", IsASingleToken);
+
+         [XF] public void the_deleted_one_is_not_held_though_one_has_its_name() => _sharedConditions.Holds(_followsAVerbAsASingleToken).Must().BeFalse();
+
+         [XF] public void redefining_the_deleted_one_throws_as_an_edit_in_its_window_would() =>
+            Invoking(() => _sharedConditions.Redefine(_followsAVerbAsASingleToken, IsMatchedByItsSurface)).Must().Throw<ArgumentAssertionFailedException>();
+      }
    }
 
    public class after_deleting_IsAVerb : When_deleting_a_shared_condition

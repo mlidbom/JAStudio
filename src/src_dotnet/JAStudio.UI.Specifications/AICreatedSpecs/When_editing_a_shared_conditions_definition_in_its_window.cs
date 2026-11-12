@@ -123,9 +123,15 @@ public class When_editing_a_shared_conditions_definition_in_its_window : Specifi
          _window.WhatDeletingItDoes().Must().Be("Delete Word.FollowsAVerb? Its definition is written out in its place wherever it's used: in the match-conditions of 1 vocab, "
                                               + "and the definitions of 0 other shared-conditions. None of them then means anything else.");
 
+      [XF] public void it_can_be_renamed_or_deleted_since_no_reparse_runs() => _window.CanBeRenamedOrDeleted.Must().BeTrue();
+
+      [XF] public void it_is_not_gone() => _window.IsGone.Must().BeFalse();
+
       public class after_deleting_it : the_window_of_FollowsAVerb_with_ます_open_on_its_Matching_tab
       {
          public after_deleting_it() => _window.Delete();
+
+         [XF] public void it_is_gone_so_that_the_window_closes_when_activated() => _window.IsGone.Must().BeTrue();
 
          [XF] public void the_vocabs_tree_on_its_Matching_tab_shows_its_definition_written_out() =>
             _ますsEditor.MatchingConfig.MatchConditionEditor.Lines[0].ThisAndAllBelow().Select(it => it.Text)
