@@ -15,8 +15,6 @@ static class SubsetsExtensions
       /// </summary>
       internal IReadOnlyList<IReadOnlyList<T>> Subsets()
       {
-         //todo:compze: a list's subsets belong with Compze.Internals.SystemCE's collection extensions. Once Compze has them, in this order, use them
-         //   and delete this file.
          List<IReadOnlyList<T>> subsets = [[]];
          foreach(var item in @this)
             subsets.AddRange([.. subsets.Select(IReadOnlyList<T> (it) => [.. it, item])]);
