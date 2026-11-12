@@ -79,7 +79,8 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
   - **Its UI runs on Avalonia's headless platform** (`HeadlessUI`, in `JAStudio.Mcp`), on a thread of its own, as the UI
     inside Anki runs on one: windows open and are drawn as on a screen, but on none, for `render_window`. It has a
     workspace window, created as inside Anki, whose tabs show their pages as images (`NoteTabImageView`), since a native
-    web view needs a real window.
+    web view needs a real window. A page takes the keys pressed on it as the web view's does: the note view shortcuts,
+    such as those that toggle the sentence breakdown's settings, work with `press_keys`.
   - **Its screen** (`HeadlessScreen`) is what a person would see of that UI: the windows open and their popups, where
     they are, one over another. The headless platform draws each window and popup on its own and keeps no track of which
     is in front, so the screen does:

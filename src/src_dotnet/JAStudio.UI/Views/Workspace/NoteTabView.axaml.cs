@@ -30,7 +30,7 @@ namespace JAStudio.UI.Views.Workspace;
 /// which raises no <see cref="NativeWebView.NavigationCompleted"/>.<br/>
 /// This code-behind only translates between the web view and the <see cref="NoteTabViewModel"/>.
 /// </remarks>
-public partial class NoteTabView : UserControl
+public partial class NoteTabView : UserControl, INoteTabView
 {
    readonly NoteTabViewModel _viewModel;
 
@@ -92,7 +92,7 @@ public partial class NoteTabView : UserControl
    }
 
    /// <summary>Gives the keyboard to the page, for its keys to act on the note being shown. See <see cref="FocusPageIfShown"/> for why it's posted.</summary>
-   internal void FocusPage() => Dispatcher.UIThread.Post(() => WebView.Focus(), DispatcherPriority.Background);
+   public void FocusPage() => Dispatcher.UIThread.Post(() => WebView.Focus(), DispatcherPriority.Background);
 
    WorkspaceWindow WorkspaceWindow => TopLevel.GetTopLevel(this) as WorkspaceWindow
                                    ?? throw new InvalidOperationException("A note tab is only shown in a workspace window.");

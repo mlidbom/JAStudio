@@ -240,8 +240,8 @@ public partial class WorkspaceWindow : Window
    {
       if(_viewModel.SelectedTab is not {} shownTab) return;
 
-      if(TabViews.ContainerFromItem(shownTab) is not ContentPresenter { Child: NoteTabView shownTabView })
-         throw new InvalidOperationException("The shown tab has no NoteTabView.");
+      if(TabViews.ContainerFromItem(shownTab) is not ContentPresenter { Child: INoteTabView shownTabView })
+         throw new InvalidOperationException($"The shown tab has no {nameof(INoteTabView)}.");
       shownTabView.FocusPage();
    }
 

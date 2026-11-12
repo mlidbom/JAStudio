@@ -11,7 +11,7 @@
             <Button Content="▶" ToolTip.Tip="Forward" IsEnabled="False" />
         </StackPanel>
 
-        <Border x:Name="PageArea">
+        <Border x:Name="PageArea" Focusable="True">
             <Image x:Name="Page" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" />
         </Border>
     </DockPanel>
