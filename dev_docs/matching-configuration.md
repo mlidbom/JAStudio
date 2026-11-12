@@ -1437,7 +1437,10 @@ I'd say. Just the expression rendering in the optimal form. To edit double click
    match-condition as it is now whenever it's activated, as after a rule changed on the Matching tab, and closes when
    the collection reloads or the vocab is gone. Each change reparses the vocab's sentences, then reloads the workspace's
    pages of the vocab (`WorkspaceWindow.ShowTheSentencesReparsedFor`), as the tab's own reparse did; a shared-condition
-   window's reparse now does that too, for the vocab depending on it.
+   window's reparse now does that too, for the vocab depending on it. Both kinds of window are editor windows
+   (`IEditorWindowViewModel`), which do this the same way, in one place: `EditorWindows` keeps one window for each thing
+   edited, and `KeepShowingWhatItEditsAsItIsNow` shows it as it is now when activated, and closes it when it's gone or
+   the collection reloads.
 
 **Not handled:** the window's reparse and the Matching tab's are separate, so a rule changed on the tab while the
 window's reparse reads the vocab, or the other way around, changes the vocab under it. A shared-condition's window has
