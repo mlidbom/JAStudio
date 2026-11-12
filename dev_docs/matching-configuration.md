@@ -2,8 +2,7 @@
 
 > **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 and 2 of increment 6, shared-conditions:
 > the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
-> definitions were, through an operation that stays. Next, naming the conditions vocab share that the new finder found,
-> then step 3:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> definitions were, through an operation that stays. Next, step 3:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -1261,7 +1260,10 @@ shared-condition whose definition means the same, if there's one, to be used rat
 - `PrecedingToken.Surface.EndsWithOneOf("く")`, 10 vocab: 4 require it, such as くなる, and 6 forbid it.
 - `AllOf(IsAtTheSentencesStart, LastToken.EndsAStatement)`, 9 vocab, interjections such as あのな and そうだな.
 
-None is defined yet: they wait for Magnus to name them and decide that each is one concept.
+None is defined yet. **Naming them is put off (Magnus, 2026-11-12):** "They need me or you to research their domain
+meaning, what they are for, rather than what they do." A shared-condition's name says what the condition is for in
+Japanese, such as the form of a verb a word follows, not what it tests; names proposed from the code alone, such as
+`FollowsASurfaceEndingInN`, don't help. So each needs its vocab and sentences studied first, by Magnus or Claude.
 
 ### Naming and design questions: `review:matching:` comments
 
