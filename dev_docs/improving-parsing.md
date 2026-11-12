@@ -65,6 +65,9 @@ mark what's known to be right, so that each acts as a regression test from then 
   [expanding-the-sentence-corpus.md](todo/expanding-the-sentence-corpus.md).
 - **Growing them fast is the point:** an MCP tool for me to confirm a sentence's parse once I've checked it, and an action
   in the sentence's breakdown for Magnus.
+- **A confirmed match could say which sense it has, or that the sense is unusual** (Magnus, 2026-11-12), and matches
+  confirmed right or wrong come first when a change's results are analyzed. To be designed:
+  [todo/annotating-sentences.md](todo/annotating-sentences.md).
 - **Related to, not the same as, making the parsing cases part of the corpus:** confirmed sentences live in the corpus,
   with their sentences; they aren't exported as cases (Magnus).
 - **The name:** a sentence's parse, or a match in it, is "confirmed" (agreed with Magnus, 2026-11-11). "Reviewed" and

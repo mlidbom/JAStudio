@@ -100,8 +100,9 @@ results are representative, given that too large a corpus could make a parsing c
   Zipf's law, so adding sentences at random grows both ends alike: ten times the sentences gives the 73 ten times as
   many, and most of the 10,314 vocab with one sentence still a handful.
 - **So choose the working set from the reservoir by coverage:** a floor of sentences per vocab, where the reservoir has
-  them, chosen to differ (forms, inflections, the words around them, sources), and the sentences where a vocab's form
-  appears but must not match, which the reservoir's rejected matches find. The floor can follow the risk: a long kanji
+  them, chosen to differ (forms, inflections, the words around them, sources) and to cover the vocab's senses, not only
+  its matches (Magnus: see the value of senses below); and the sentences where a vocab's form appears but must not match,
+  which the reservoir's rejected matches find (agreed with Magnus). The floor can follow the risk: a long kanji
   compound matches the same everywhere, and a few sentences show it; a short kana word, or one sharing its form with
   others, needs tens. With n sentences and no error seen, the error rate is likely below 3/n: 10 sentences show only
   that it's under 30%, 30 under 10%, 100 under 3%.
@@ -111,7 +112,8 @@ results are representative, given that too large a corpus could make a parsing c
 - **Judging a change depends on grouping, not on how many sentences changed.** Every added sentence holds particles and
   auxiliaries, so the frequent vocab grow with any growth, and they already have up to 16,332 sentences. A change to one
   of them is judged by its kinds of change, with counts and a few examples of each, and by the confirmed sentences, where
-  any change is suspect. The kinds grow far more slowly than the sentences.
+  any change is suspect. The kinds grow far more slowly than the sentences. Sentences whose matches are marked, confirmed
+  right or wrong and with their sense, come first when the results are analyzed (Magnus, 2026-11-12).
 - **A guess at the size:** a floor of about ten for the vocab the reservoir has sentences for might take the working set
   to 100,000–200,000 sentences, two to four times today's; a selection over the reservoir's analyses would say exactly.
 
@@ -305,6 +307,15 @@ JAStudio and git can work with. Agreed:
 
   The bulk analysis keeps the second (the words and the rejected vocab matches), but not the first: the raw tokens would
   have to be kept as well. The ideas below are ways of making it concrete.
+
+- **Which sense matches, not only which vocab** (Magnus, 2026-11-12): "It is not just about which token or vocab
+  matches, it is which sense matches. Rare sense matches are valuable." The same word in an unusual sense is worth more
+  than another sentence with its common one, and doing this well "requires a mind to look at the sentences in most
+  cases": a vocab's matches picked at random give its common sense over and over. His hand-made highlights often mark
+  such a sense. Marking senses in sentences is to be designed: [annotating-sentences.md](annotating-sentences.md).
+  - **Varied contexts as a proxy at first:** different forms, inflections, surrounding words and sources stand in for
+    different senses well enough for an automatic first selection, before agents go over the sentences in loops and
+    judge by hand what to bring in, which Magnus wants eventually.
 
 - **Diversity of kind.** The corpus is mostly a few anime series and course decks (Core 2000, WaniKani, JLab, Immersion
   Kit). Other registers and genres would test the rules where they're weakest: conversation, narration, news, writing.

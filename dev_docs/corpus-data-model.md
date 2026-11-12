@@ -1701,6 +1701,11 @@ question 4.
     speech, and its answer joins the senses with ` | `. So a vocab can't say that 悠々 is a taru-adjective in one sense
     and something else in another. Real support for senses could fix that, but needs significant design work, and has
     complexities of its own.
+    - **Magnus, 2026-11-12:** "In principle we absolutely should, since types of speech etc really apply to the sense,
+      not the vocab, but this change would be challenging." It would also let a sentence say which sense of a vocab
+      matched there, which is what makes a sentence valuable to the corpus: see
+      [todo/annotating-sentences.md](todo/annotating-sentences.md). A few answers have a `|` within one sense, such as
+      `{a | b}-something`, so the answer text can't simply be split.
 14. **A full rebuild that reaches a stable result in one run.** *Done (2026-11-10): it already does, and a spec now
     checks it.* Running it twice could change more the second time. Filling parts of speech from the dictionary showed
     it, when that was tried as part of generating a vocab's data: the first run filled 268 vocab's parts of speech, and
