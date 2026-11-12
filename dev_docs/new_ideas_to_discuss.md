@@ -33,3 +33,8 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
+- **(Claude, 2026-11-12) Store a match-condition as the text the editor shows.** Once the Matching tab shows conditions
+  as code, such as `Not(PrecedingToken.Surface.EndsWith("ん"))` (discussed with Magnus, 2026-11-12), the corpus could
+  store `matching.condition` as those same lines instead of nested JSON objects. A vocab file and its diff in git would
+  then read as the editor does, and the MCP server, the specs and the failure reasons would all take and give the same
+  text. The cost is a parser for it, whose errors say where a line went wrong; JSON's structure is checked for free.
