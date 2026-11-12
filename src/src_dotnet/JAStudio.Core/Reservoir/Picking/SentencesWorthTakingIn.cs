@@ -33,7 +33,9 @@ public sealed partial class SentencesWorthTakingIn
                                 .ToList();
       GainsBySource = candidates.GroupBy(it => it.SourceId).ToDictionary(it => it.Key, it => it.Sum(candidate => candidate.FeaturesStillLacking.Length));
       Picked = PickGreedily(candidates, features, maximum);
-      VocabStillLackingSentences = features.VocabStillLackingSentences;
+      Vocab = features.CountOf(SentenceFeatureKind.Vocab);
+      DictionaryWords = features.CountOf(SentenceFeatureKind.DictionaryWord);
+      MissingWords = features.CountOf(SentenceFeatureKind.MissingWord);
    }
 
    /// <summary>The sentences picked, in the order they were picked: the most valuable first.</summary>
@@ -42,11 +44,20 @@ public sealed partial class SentencesWorthTakingIn
    /// <summary>For each source, by its id, how many features still lacking its sentences of a sentence's length give, before any pick: how much the source has to give.</summary>
    public IReadOnlyDictionary<long, int> GainsBySource { get; }
 
+   /// <summary>How many vocab the candidate sentences match, and how many of them still lack sentences after the picking.</summary>
+   public FeatureCount Vocab { get; }
+
    /// <summary>
-   /// How many of the vocab the reservoir's sentences match still lack sentences after the picking: the reservoir has too few sentences of a<br/>
-   /// sentence's length matching them to give them the sentences wanted, or the picking stopped at its maximum first.
+   /// How many words the dictionary has and no vocab the candidate sentences display, shown in enough works to be no name, and how many of<br/>
+   /// them still lack sentences after the picking.
    /// </summary>
-   public int VocabStillLackingSentences { get; }
+   public FeatureCount DictionaryWords { get; }
+
+   /// <summary>
+   /// How many words neither a vocab nor the dictionary has the candidate sentences display, shown in enough works to be no name, and how many of<br/>
+   /// them still lack sentences after the picking.
+   /// </summary>
+   public FeatureCount MissingWords { get; }
 
    /// <summary>
    /// Picks up to <paramref name="maximum"/> sentences of <paramref name="reservoir"/>, by what they'd give the corpus, until it has the sentences<br/>

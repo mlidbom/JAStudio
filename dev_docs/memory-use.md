@@ -127,8 +127,10 @@ are estimates from the counts by type, unless they say measured. Largest first:
 Together about 230 MB of the 713. Of a sentence's estimated 5 KB, items 1, 4, 6, 7, 8 and 9 would take about 1.5 KB.
 
 **Status: enough for now (Magnus, 2026-11-12).** At about 5 KB a sentence note, a million sentences would take about 5 GB
-of live objects: "5GB is no problem at all, I'd start feeling pain at 20GB maybe", and the working set will likely stay
-far below a million. So none of the wins below is being made. One thing stays true at any size: every change to a note
+of live objects: "5GB is no problem at all, I'd start feeling pain at 20GB maybe". A working set giving every vocab and
+dictionary word 10 to 20 sentences would hold 490,000 to 830,000 (measured on the reservoir, in
+[expanding-the-sentence-corpus.md](todo/expanding-the-sentence-corpus.md)): 2.5 to 4.2 GB. So none of the wins below is
+being made. One thing stays true at any size: every change to a note
 copies the whole set of each index key it touches, so importing many sentences into the working set has to add them in
 one change (`AddAllToCache`), not one at a time.
 

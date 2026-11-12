@@ -33,7 +33,7 @@ static class ReservoirCommands
                         reservoir analyze --reservoir-file <file> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         reservoir vocab --reservoir-file <file> --vocab <questions, separated by commas> --most-sentences <count> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         reservoir report --reservoir-file <file> --report-folder <folder> --sentences-to-pick <count> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
-                        reservoir working-set-sizes --reservoir-file <file> --sentences-for-each-vocab <counts, separated by commas> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
+                        reservoir working-set-sizes --reservoir-file <file> --words <vocab, vocab-and-dictionary-words or every-word> --sentences-for-each-word <counts, separated by commas> --addon-folder <folder> --corpus-folder <folder> --anki-collection-file <file>
                         """;
 
    public static int Run(string[] args) => args switch
@@ -155,12 +155,16 @@ static class ReservoirCommands
    }
 
    /// <summary>
-   /// Tells how large the working set would be if it gave each vocab the sentences named by <c>--sentences-for-each-vocab</c>, such as <c>5,10,20</c>:<br/>
-   /// for each count, how many sentences of the reservoir picking would take in, as <see cref="Report"/> picks them but for vocab alone, and how<br/>
-   /// many vocab the reservoir couldn't give that many. The corpus's own sentences count towards each vocab's.
+   /// Tells how large the working set would be if it gave each word the sentences named by <c>--sentences-for-each-word</c>, such as <c>5,10,20</c>:<br/>
+   /// for each count, how many sentences of the reservoir picking would take in, as <see cref="Report"/> picks them but for words alone, and how<br/>
+   /// many words the reservoir couldn't give that many. The words are the vocab alone with <c>--words vocab</c>; the vocab and the words the<br/>
+   /// dictionary has with <c>--words vocab-and-dictionary-words</c>; and every word the sentence breakdown displays with <c>--words every-word</c>,<br/>
+   /// the missing words too. A word no vocab has counts only when enough works show it to be no name. The corpus's own sentences count towards<br/>
+   /// each word's.
    /// </summary>
    static int TellTheWorkingSetSizes(CommandLineValues values)
    {
+      var wantedForEach = WantedForEachWordCounted(values.Value("words"));
       using var reservoir = ExistingReservoir(values);
       using var jastudio = LoadedHeadlessJAStudio.From(HeadlessJAStudioSetup.From(values));
       var collection = jastudio.Root.Resolve<JPCollection>();
@@ -169,15 +173,25 @@ static class ReservoirCommands
       Console.WriteLine("Measuring the reservoir...");
       var measures = ReservoirMeasures.Of(reservoir);
       var sentencesInTheCorpus = collection.Sentences.All().Count;
-      foreach(var sentencesForEachVocab in values.Value("sentences-for-each-vocab").Split(',').Select(it => int.Parse(it.Trim())))
+      foreach(var sentencesForEachWord in values.Value("sentences-for-each-word").Split(',').Select(it => int.Parse(it.Trim())))
       {
          var watch = Stopwatch.StartNew();
-         var picks = SentencesWorthTakingIn.PickedFrom(reservoir, measures, corpus, SentencesWanted.ForEachVocab(sentencesForEachVocab), int.MaxValue);
-         Console.WriteLine($"{sentencesForEachVocab} sentences for each vocab: {picks.Picked.Count:N0} sentences taken in, a working set of {sentencesInTheCorpus + picks.Picked.Count:N0}; " +
-                           $"{picks.VocabStillLackingSentences:N0} vocab the reservoir has too few sentences of ({watch.Elapsed.TotalSeconds:F0} s)");
+         var picks = SentencesWorthTakingIn.PickedFrom(reservoir, measures, corpus, wantedForEach(sentencesForEachWord), int.MaxValue);
+         Console.WriteLine($"{sentencesForEachWord} sentences for each word: {picks.Picked.Count:N0} sentences taken in, a working set of {sentencesInTheCorpus + picks.Picked.Count:N0}; " +
+                           $"{picks.Vocab.Found:N0} vocab, {picks.Vocab.StillLackingSentences:N0} of them the reservoir has too few sentences of; " +
+                           $"{picks.DictionaryWords.Found:N0} dictionary words, {picks.DictionaryWords.StillLackingSentences:N0} with too few; " +
+                           $"{picks.MissingWords.Found:N0} missing words, {picks.MissingWords.StillLackingSentences:N0} with too few ({watch.Elapsed.TotalSeconds:F0} s)");
       }
 
       return 0;
+
+      static Func<int, SentencesWanted> WantedForEachWordCounted(string words) => words switch
+      {
+         "vocab" => SentencesWanted.ForEachVocab,
+         "vocab-and-dictionary-words" => SentencesWanted.ForEachVocabAndDictionaryWord,
+         "every-word" => SentencesWanted.ForEveryWord,
+         _ => throw new ArgumentException($"--words: {words} is none of vocab, vocab-and-dictionary-words and every-word")
+      };
    }
 
    /// <summary>The reservoir given as <c>--reservoir-file</c>, created empty when there's no such file yet.</summary>

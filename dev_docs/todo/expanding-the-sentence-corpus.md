@@ -115,20 +115,31 @@ results are representative, given that too large a corpus could make a parsing c
   any change is suspect. The kinds grow far more slowly than the sentences. Sentences whose matches are marked, confirmed
   right or wrong and with their sense, come first when the results are analyzed (Magnus, 2026-11-12).
 - **The size, measured (2026-11-12):** `reservoir working-set-sizes` picks, greedily, the fewest reservoir sentences of
-  up to 50 characters that give every vocab a floor of sentences, the corpus's own counting, as the report's picking does
-  but for vocab alone:
+  up to 50 characters that give every word a floor of sentences, the corpus's own counting, as the report's picking does
+  but for words alone. Magnus asked for the words beyond the vocab too, since 28,004 vocab are few: the words the
+  sentence breakdown displays that only the dictionary has, 68,514 of them shown in at least three works, as many as
+  could become vocab. The working set it comes to, by what gets the floor:
 
-  | Sentences per vocab | Taken in from the reservoir | Working set | Vocab the reservoir can't fill |
+  | Sentences per word | The vocab (27,497) | The vocab and the dictionary words (96,011) | Every word, the 30,137 missing ones too |
   |---|---|---|---|
-  | 3 | 15,058 | 64,220 | 231 |
-  | 5 | 31,287 | 80,449 | 616 |
-  | 10 | 75,988 | 125,150 | 1,392 |
-  | 20 | 170,328 | 219,490 | 2,559 |
+  | 3 | 64,220 | 188,014 | 233,601 |
+  | 5 | 80,449 | 282,132 | 362,626 |
+  | 10 | 125,150 | 490,163 | 648,514 |
+  | 20 | 219,490 | 833,632 | 1,106,134 |
 
-  These are floors: each pick is the sentence giving the most vocab still lacking, so they take no account of varied
-  contexts, senses or rejections, which would take more sentences. They come from the analyses of 2026-11-11, with the
-  vocab as they were then, and leave out vocab the reservoir doesn't match at all. Even the 219,490 of a floor of 20
-  would take about 1.1 GB as sentence notes (`dev_docs/memory-use.md`) and a full rebuild of about 30 seconds.
+  - **The words the reservoir can't fill:** of the vocab, 231 at a floor of 3 and 2,559 at 20; of the dictionary words,
+    1,596 at 3, 21,794 at 10 and 34,140 at 20. Half the dictionary words have fewer than 20 sentences of up to 50
+    characters in all 16 million.
+  - **The missing words aren't worth a floor:** shown in at least five works, they're mostly small kana (っ, ぇ), cries
+    (うう, フフッ), dashes, fragments (そ, れ) and names (阿良, 咲).
+  - **These are floors:** each pick is the sentence giving the most words still lacking, so they take no account of
+    varied contexts, senses or rejections, which would take more sentences. They come from the analyses of 2026-11-11,
+    with the vocab as they were then, and leave out words the reservoir doesn't show at all. The words are the
+    breakdown's, not the tokenizer's raw tokens, which the analyses don't keep.
+  - **What it would cost:** a working set of 490,163 sentences would take about 2.5 GB as sentence notes, and 833,632
+    about 4.2 GB (`dev_docs/memory-use.md`); a full rebuild about a minute, and two. At that size the
+    note caches' index sets would hold hundreds of thousands of sentences for a common form, which every change to a
+    sentence copies whole: see `dev_docs/memory-use.md`.
 
 ## The first sources: Magnus's subs2srs folder (surveyed 2026-11-11)
 
