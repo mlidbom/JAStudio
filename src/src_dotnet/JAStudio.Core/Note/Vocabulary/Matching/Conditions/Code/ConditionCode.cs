@@ -20,7 +20,8 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// after the last. A negation is <c>!</c>.</item>
 /// <item>Texts are C# string literals. The tokenizer's values, such as parts of speech, are unquoted, in Japanese, with their English as a comment, one to<br/>
 /// a line when there are several.</item>
-/// <item>A vocab's match-condition is its conditions, each a statement of its own that must hold, under a comment heading: its "all of" isn't written.</item>
+/// <item>A vocab's match-condition is its conditions, each a statement of its own that must hold, under a comment heading: its "all of" isn't written.<br/>
+/// So is a shared-condition's definition, as the tree editor shows it in the shared-condition's window.</item>
 /// </list>
 /// See <c>dev_docs/matching-configuration.md</c>, "How conditions display: as code".
 /// </remarks>
@@ -40,7 +41,10 @@ public static class ConditionCode
    /// "A word meets Word.FollowsAPastTenseStem when each of these holds:".
    /// </summary>
    public static string HeadingOfTheDefinitionOf(ISharedCondition sharedCondition) =>
-      $"{char.ToUpperInvariant(sharedCondition.Level.SubjectName[0])}{sharedCondition.Level.SubjectName[1..]} meets {sharedCondition.FullName} when each of these holds:";
+      $"{AtTheStartOfASentence(sharedCondition.Level.SubjectName)} meets {sharedCondition.FullName} when each of these holds:";
+
+   /// <summary><paramref name="text"/> with a capital first letter, as at the start of a sentence: "A word" for "a word".</summary>
+   static string AtTheStartOfASentence(string text) => $"{char.ToUpperInvariant(text[0])}{text[1..]}";
 
    /// <summary>
    /// The lines of <paramref name="sharedCondition"/>'s definition as the tree editor shows it, <paramref name="definitionAsAnAllOf"/>: the definition's<br/>
