@@ -1,14 +1,12 @@
 using System;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary.Matching;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 
 namespace JAStudio.Core.Note.Vocabulary.EditableFields;
 
 /// <summary>
-/// One of a vocab's require/forbid rules, such as whether a word must be its surface form to match: required, forbidden, or neither<br/>
-/// (<see cref="RequireForbidChoice"/>). Most are matching rules of the vocab's match-condition (<see cref="MatchConditionAsRules"/>); the others are<br/>
-/// <see cref="VocabMatchingRequireForbidFlags"/>. Every change to one changes how sentences parse.
+/// One of a vocab's require/forbid rules outside its match-condition (<see cref="VocabMatchingRequireForbidFlags"/>), such as whether a word must start<br/>
+/// with the dictionary form's ending: required, forbidden, or neither (<see cref="RequireForbidChoice"/>). Every change to one changes how sentences parse.
 /// </summary>
 public sealed class EditableRequireForbidField : EditableField<VocabNote, RequireForbidChoice>
 {

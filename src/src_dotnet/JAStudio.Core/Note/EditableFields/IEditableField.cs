@@ -18,8 +18,7 @@ namespace JAStudio.Core.Note.EditableFields;
 public interface IEditableField<in TNote> where TNote : JPNote
 {
    /// <summary>
-   /// The field's path in the note as the corpus stores it, such as <c>corpusAnswer</c> or <c>matching.flags.isPoisonWord</c>. But for a vocab's matching rules,<br/>
-   /// such as <c>matching.rules.masuStem</c>, which edit part of its match-condition, stored as a whole at <c>matching.condition</c>.
+   /// The field's path in the note as the corpus stores it, such as <c>corpusAnswer</c> or <c>matching.flags.isPoisonWord</c>.
    /// </summary>
    string Name { get; }
 

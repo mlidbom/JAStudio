@@ -62,16 +62,10 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
 
    bool TheStoredNoteChangesAtTheNameOf<TNote>(IEditableField<TNote> field, TNote note) where TNote : JPNote
    {
-      var before = StoredValueAt(note, WhereStored(field.Name));
+      var before = StoredValueAt(note, field.Name);
       field.WriteValue(note, AnotherValueThanTheNotesFor(field, note));
-      return !JsonNode.DeepEquals(before, StoredValueAt(note, WhereStored(field.Name)));
+      return !JsonNode.DeepEquals(before, StoredValueAt(note, field.Name));
    }
-
-   /// <summary>
-   /// Where in the stored note the field named <paramref name="name"/> is: its name, but for a vocab's matching rules, <c>matching.rules.*</c>, which edit its<br/>
-   /// match-condition, stored at <c>matching.condition</c>.
-   /// </summary>
-   static string WhereStored(string name) => name.StartsWith("matching.rules.", StringComparison.Ordinal) ? "matching.condition" : name;
 
    /// <summary>
    /// The value at <paramref name="name"/>, a path, in <paramref name="note"/> as the corpus stores it. A path that ends in a list's item, as a flag's<br/>

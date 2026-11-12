@@ -5,6 +5,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Storage;
 
@@ -25,8 +26,7 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to
    public When_a_vocab_with_matching_configuration_and_a_register_is_saved_to_the_corpus()
    {
       _vocab = CreateVocab("あれる", "get-_/is-_", "あれる");
-      _vocab.MatchingConfiguration.Rules.Choose(MatchingRules.Irrealis, RequireForbidChoice.Required);
-      _vocab.MatchingConfiguration.Rules.Choose(MatchingRules.GodanPotential, RequireForbidChoice.Forbidden);
+      _vocab.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf(MatchingRules.Irrealis.WhenRequired, MatchingRules.GodanPotential.WhenForbidden));
       _vocab.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choose(RequireForbidChoice.Forbidden);
       _vocab.MatchingConfiguration.Flags.IsInflectingWord.SetTo(true);
       _vocab.Register.Humble.SetTo(true);
@@ -57,9 +57,6 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to
    [XF] public void the_corpus_json_stores_no_tags() => _json.GetProperty("tags").EnumerateArray().Must().BeEmpty();
 
    [XF] public void it_is_read_back_with_the_same_match_condition() => _readBack.MatchingConfiguration.MatchCondition.Must().Be(_vocab.MatchingConfiguration.MatchCondition);
-   [XF] public void it_is_read_back_requiring_the_required_rule() => _readBack.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Irrealis).Must().Be(RequireForbidChoice.Required);
-   [XF] public void it_is_read_back_forbidding_the_forbidden_rule() => _readBack.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.GodanPotential).Must().Be(RequireForbidChoice.Forbidden);
-   [XF] public void it_is_read_back_with_the_other_rules_unset() => _readBack.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Godan).Must().Be(RequireForbidChoice.Unset);
    [XF] public void it_is_read_back_forbidding_dictionary_form_start() => _readBack.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choice.Must().Be(RequireForbidChoice.Forbidden);
    [XF] public void it_is_read_back_with_the_matching_flag_set() => _readBack.MatchingConfiguration.Flags.IsInflectingWord.IsSet().Must().BeTrue();
    [XF] public void it_is_read_back_with_the_other_matching_flags_unset() => _readBack.MatchingConfiguration.Flags.IsPoisonWord.IsSet().Must().BeFalse();

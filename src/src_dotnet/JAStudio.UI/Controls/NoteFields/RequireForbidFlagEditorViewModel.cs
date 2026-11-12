@@ -27,8 +27,6 @@ class RequireForbidFlagEditorViewModel : ObservableObject
    /// <param name="choiceMade">Called after a choice is written to the note, but not when <see cref="Refresh"/> shows a change made elsewhere.</param>
    public RequireForbidFlagEditorViewModel(IFatalErrorHandler fatalErrorHandler, string label, Func<RequireForbidChoice> readTheChoiceOnTheNote, Action<RequireForbidChoice> writeAChoiceToTheNote, Action choiceMade)
    {
-      //review:matching: "Flag" here and in RequireForbidFlagEditor is after RequireForbidFlagField, now only the rules outside the match-condition, but
-      //   this edits the RequireForbidMatchingRules of the match-condition too. RequireForbidRuleEditorViewModel would name what it edits in both cases.
       _fatalErrorHandler = fatalErrorHandler;
       Label = label;
       _readTheChoiceOnTheNote = readTheChoiceOnTheNote;

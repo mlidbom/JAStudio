@@ -1,11 +1,12 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 to 3 of increment 6, shared-conditions:
-> the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
-> definitions were, through an operation that stays, and creating and editing them in JAStudio: a definition is
-> edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree,
-> renamed and deleted. A vocab's match-condition is edited in a window of its own too, which the Matching tab, now showing
-> it read-only, opens. Next, step 4, the rule editors go:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> **Status (2026-11-12): increments 1 to 6 of the core are built. Increment 6 is shared-conditions: the model, their
+> storage and display, the first five in the corpus, and the vocab using them by name wherever their definitions were,
+> through an operation that stays, and creating and editing them in JAStudio: a definition is edited in the
+> shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree, renamed and deleted.
+> A vocab's match-condition is edited in a window of its own too, which the Matching tab, showing it read-only, opens,
+> and the tab's rule editors are gone. Next, the tree checked against a word in a sentence, and Magnus's pass over the
+> names:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -763,7 +764,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
       2. **Making a shared-condition of a line of a tree,** then used wherever its definition is: built 2026-11-12.
       3. **Renaming one,** in every vocab and definition that uses it, and its file: built 2026-11-12.
       4. **Deleting one,** its definition written out wherever it's used: built 2026-11-12.
-   4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
+   4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields: built
+      2026-11-12, see [Increment 6, step 4, as built](#increment-6-step-4-as-built).
 
 #### Step 2: naming a condition never changes what a vocab does
 
@@ -915,11 +917,13 @@ stores match-conditions.
   knows what it weighs.
 - **`MatchConditionAsRules`** reads a vocab's match-condition as rules, and edits it rule by rule while it's made of
   rules only: each condition a rule's, and no rule twice. Every migrated vocab is. Editing keeps the rules' conditions in
-  the order of `MatchingRules.All`, the order the migration wrote them in.
+  the order of `MatchingRules.All`, the order the migration wrote them in. *(Gone in increment 6, step 4.)*
 - **The Matching tab** shows the match-condition as text at its top, and edits it through the rules as before. When it
-  has other conditions, the rules' sections are locked and a line says to edit it as a whole.
+  has other conditions, the rules' sections are locked and a line says to edit it as a whole. *(The rules' editors are
+  gone since increment 6, step 4.)*
 - **The MCP server** edits the rules as `matching.rules.<rule>`, and the whole match-condition as JSON, as
-  `matching.condition`, which can hold any condition.
+  `matching.condition`, which can hold any condition. *(The `matching.rules.<rule>` fields are gone since increment 6,
+  step 4.)*
 
 **Decisions made while building it:**
 - **Priority is computed from the match-condition** (open question 2, (b)): each condition that is a rule's weighs what
@@ -1238,7 +1242,7 @@ Built 2026-11-12, as planned in
    is unchanged, order and names included, since the tree editor relies on it.
 2. **Weighing by meaning:** the rules recognize a condition that means the same as theirs (`RequireForbidMatchingRule`,
    `TextsMatchingRule`), and a vocab's priority weighs the match-condition's flattened conditions
-   (`MatchConditionAsRules.MatchWeight`). So a shared-condition weighs what its definition weighs, a negated one what the
+   (`MatchConditionAsRules.MatchWeight`, since step 4 `VocabNoteMatchingConfiguration.MatchConditionWeight`). So a shared-condition weighs what its definition weighs, a negated one what the
    forbidden rule does, and a combination put in a shared-condition weighs what its conditions did. No file holds a
    weight. A shared-condition's compared texts are its definition's, so a texts rule's condition given a name is still
    that rule's, for its weight and for the tags below `Tags.Vocab.Matching.Uses`. Godan potential built by hand with its
@@ -1444,7 +1448,35 @@ I'd say. Just the expression rendering in the optimal form. To edit double click
 
 **Not handled:** the window's reparse and the Matching tab's are separate, so a rule changed on the tab while the
 window's reparse reads the vocab, or the other way around, changes the vocab under it. A shared-condition's window has
-had the same since step 3. Step 4 removes the tab's rule editors, which leaves the Text tab's forms.
+had the same since step 3. Step 4 removed the tab's rule editors, but the tab still edits the flags and the two rules
+outside the match-condition, and the Text tab the forms, each reparsing through the vocab's editors' reparser.
+
+### Increment 6, step 4, as built
+
+The Matching tab's rule editors are gone, with what only they and the MCP server used: a vocab's match-condition is
+edited as a tree, in its window, and with the MCP server as JSON (`matching.condition`). The plan's two reasons to keep
+them are gone too: a condition weighs when it means the same as a rule's, in any order (step 2), and each of the five
+rules that are small trees is one pick in the add menu, as a shared-condition. The other 16 rules take the add menu's
+usual few picks, such as `p`, `f`, `g` for `PrecedingToken.IsAGodanVerb`: Magnus agreed to that (2026-11-12), and to a
+faster way only if he finds he misses the one click.
+
+- **Gone:** `MatchConditionAsRules`, the rule-by-rule editing; the tab's sections "Misc matching rules", "Stem matching
+  rules" and "String rules", and the line saying the match-condition can't be edited rule by rule; the 21
+  `matching.rules.<rule>` fields of `VocabEditableFields`, which the MCP server's `edit_a_note` wrote; and what only they
+  used, `RequireForbidMatchingRule.ConditionFor` and `TextsMatchingRule`'s condition on a list of texts.
+- **The tab now holds** the match-condition, read-only, then "Display" (yielding the last token, and to a surface), "Is"
+  (inflecting word, poison word) and "Misc", where "Dictionary form (start)", a rule outside the match-condition, joins
+  the two flags.
+- **The rules stay,** as the conditions they became (`MatchingRules`), for what JAStudio reads off them. The vocab's
+  matching configuration reads them now, as `MatchConditionAsRules` did:
+  - **What the match-condition weighs** (`MatchConditionWeight`, private, in `CustomRequirementsWeight`), unchanged;
+  - **whether it holds a rule** (`MatchConditionHolds`), for the four tags below `Tags.Vocab.Matching.Uses`;
+  - **whether it requires one** (`MatchConditionRequires`), for narrowing a reparse to the sentences holding a form
+    when the vocab requires its surface.
+
+  Each reads the match-condition's conditions as `MatchConditionAsRules` did: the weight its flattened conditions, the
+  other two its own conditions.
+- **The full rebuild changed nothing,** as it must: what the corpus stores never depended on the editors.
 
 ### Naming and design questions: `review:matching:` comments
 

@@ -13,9 +13,6 @@
                     <TextBlock Classes="sectionTitle" Text="Match-condition" />
                     <matching:ConditionCodeView x:Name="MatchCondition" DataContext="{Binding MatchCondition}" />
                     <TextBlock Text="{Binding HowToEdit}" TextWrapping="Wrap" Opacity="0.7" />
-                    <TextBlock IsVisible="{Binding !CanBeEditedRuleByRule}"
-                               TextWrapping="Wrap"
-                               Text="It has conditions that aren't matching rules', so the rules below can only show it. Edit it in its window (Ctrl+M)." />
                 </StackPanel>
             </Border>
 
@@ -24,21 +21,6 @@
                     <TextBlock Classes="sectionTitle" Text="Display" />
                     <ContentControl Content="{Binding YieldLastToken}" />
                     <ContentControl Content="{Binding YieldToSurface}" />
-                </StackPanel>
-            </Border>
-
-            <Border Classes="section">
-                <StackPanel IsEnabled="{Binding CanBeEditedRuleByRule}">
-                    <TextBlock Classes="sectionTitle" Text="Misc matching rules" />
-                    <ItemsControl ItemsSource="{Binding MiscMatchingRules}" />
-                </StackPanel>
-            </Border>
-
-            <Border Classes="section">
-                <StackPanel>
-                    <TextBlock Classes="sectionTitle" Text="Stem matching rules" />
-                    <ContentControl Content="{Binding DictionaryFormStart}" />
-                    <ItemsControl ItemsSource="{Binding StemMatchingRules}" IsEnabled="{Binding CanBeEditedRuleByRule}" />
                 </StackPanel>
             </Border>
 
@@ -52,14 +34,8 @@
             <Border Classes="section">
                 <StackPanel>
                     <TextBlock Classes="sectionTitle" Text="Misc" />
+                    <ContentControl Content="{Binding DictionaryFormStart}" />
                     <ItemsControl ItemsSource="{Binding MiscFlags}" />
-                </StackPanel>
-            </Border>
-
-            <Border Classes="section">
-                <StackPanel IsEnabled="{Binding CanBeEditedRuleByRule}">
-                    <TextBlock Classes="sectionTitle" Text="String rules" />
-                    <ItemsControl ItemsSource="{Binding TextSetRules}" />
                 </StackPanel>
             </Border>
         </StackPanel>

@@ -1,5 +1,5 @@
 import typing, abc
-from JAStudio.Core.Note.EditableFields import EditableField_2, EditableTextListField_1, EditableTextField_1, EditableSetField_2, EditableFlagField_1, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
+from JAStudio.Core.Note.EditableFields import EditableField_2, EditableTextListField_1, EditableTextField_1, EditableSetField_2, EditableFlagField_1, EditableTagsField_1, EditableTextSetField_1, IEditableField_1
 from JAStudio.Core.Note.Vocabulary import VocabNote, EnteredForm, UsuallyWrittenInKanaDecision, WordReference
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary.Matching import RequireForbidChoice
@@ -62,7 +62,6 @@ class EditableUsuallyWrittenInKanaField(EditableField_2[VocabNote, UsuallyWritte
 
 
 class VocabEditableFields(abc.ABC):
-    AdverbHead : EditableRequireForbidField
     AlternativeCompoundParts : EditableTextListField_1[VocabNote]
     Answer : EditableTextField_1[VocabNote]
     Antonyms : EditableSetField_2[VocabNote, WordReference]
@@ -72,60 +71,40 @@ class VocabEditableFields(abc.ABC):
     ConfusedWith : EditableSetField_2[VocabNote, WordReference]
     DerivedFrom : EditableTextField_1[VocabNote]
     Derogatory : EditableFlagField_1[VocabNote]
-    DictionaryFormHead : EditableRequireForbidField
     DictionaryFormStart : EditableRequireForbidField
     Disambiguation : EditableTextField_1[VocabNote]
     ErgativeTwins : EditableSetField_2[VocabNote, WordReference]
     Explanation : EditableTextField_1[VocabNote]
     Formal : EditableFlagField_1[VocabNote]
     Forms : EditableFormsField
-    Godan : EditableRequireForbidField
-    GodanImperative : EditableRequireForbidField
-    GodanImperativeHead : EditableRequireForbidField
-    GodanPotential : EditableRequireForbidField
     Honorific : EditableFlagField_1[VocabNote]
     Humble : EditableFlagField_1[VocabNote]
-    Ichidan : EditableRequireForbidField
-    IchidanImperative : EditableRequireForbidField
     Informal : EditableFlagField_1[VocabNote]
-    Irrealis : EditableRequireForbidField
     IsCompositionallyTransparentCompound : EditableFlagField_1[VocabNote]
     IsInflectingWord : EditableFlagField_1[VocabNote]
     IsPoisonWord : EditableFlagField_1[VocabNote]
     Literary : EditableFlagField_1[VocabNote]
     LongExplanation : EditableTextField_1[VocabNote]
-    MasuStem : EditableRequireForbidField
     MatchCondition : EditableTextField_1[VocabNote]
     MatchWithPrecedingVowel : EditableFlagField_1[VocabNote]
     Mnemonic : EditableTextField_1[VocabNote]
     PartsOfSpeech : EditablePartsOfSpeechField
-    PastTenseStem : EditableRequireForbidField
     PerfectSynonyms : EditableSetField_2[VocabNote, WordReference]
     Polite : EditableFlagField_1[VocabNote]
-    PrefixIsNot : EditableTextSetField_1[VocabNote]
     Question : EditableTextField_1[VocabNote]
     QuestionOverridesForm : EditableFlagField_1[VocabNote]
     Readings : EditableTextListField_1[VocabNote]
-    RequiredPrefix : EditableTextSetField_1[VocabNote]
     RoughMasculine : EditableFlagField_1[VocabNote]
     SeeAlso : EditableSetField_2[VocabNote, WordReference]
     Sensitive : EditableFlagField_1[VocabNote]
-    SentenceEnd : EditableRequireForbidField
-    SentenceStart : EditableRequireForbidField
-    SingleToken : EditableRequireForbidField
     Slang : EditableFlagField_1[VocabNote]
     SoftFeminine : EditableFlagField_1[VocabNote]
     SourceAnswer : EditableTextField_1[VocabNote]
     SourceMnemonic : EditableTextField_1[VocabNote]
     SourceReadingMnemonic : EditableTextField_1[VocabNote]
-    SuffixIsNot : EditableTextSetField_1[VocabNote]
-    Surface : EditableRequireForbidField
-    SurfaceIsNot : EditableTextSetField_1[VocabNote]
     Synonyms : EditableSetField_2[VocabNote, WordReference]
     Tags : EditableTagsField_1[VocabNote]
     TechnicalNotes : EditableTextField_1[VocabNote]
-    TeFormStemHead : EditableRequireForbidField
-    TeFormStemStart : EditableRequireForbidField
     UsuallyWrittenInKana : EditableUsuallyWrittenInKanaField
     Vulgar : EditableFlagField_1[VocabNote]
     YieldLastToken : EditableRequireForbidField

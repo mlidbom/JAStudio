@@ -37,9 +37,9 @@ sealed class MatchConditionWindowViewModel : ObservableObject, IEditorWindowView
    {
       _services = services;
       _vocabId = vocab.GetId();
-      //review:matching: this reparse and the vocab's Matching tab's are separate (VocabEditorSectionViewModel.SentencesReparser), so a rule changed
-      //   on the tab while this one reads the vocab, or the other way around, changes the vocab under it, as a shared-condition's window's reparse
-      //   already could. One reparser per vocab, which both disable their editors on, would close it. Step 4 removes the tab's rule editors.
+      //review:matching: this reparse and the vocab's editors' are separate (VocabEditorSectionViewModel.SentencesReparser), so a flag or rule changed
+      //   on the Matching tab, or a form on the Text tab, while this one reads the vocab, or the other way around, changes the vocab under it, as a
+      //   shared-condition's window's reparse already could. One reparser per vocab, which both disable their editors on, would close it.
       SentencesReparser = new VocabSentencesReparserViewModel(services, () => [CurrentVocab()], sentencesReparsedFor);
       MatchConditionEditor = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
                                                               new EditedMatchCondition(CurrentVocab),

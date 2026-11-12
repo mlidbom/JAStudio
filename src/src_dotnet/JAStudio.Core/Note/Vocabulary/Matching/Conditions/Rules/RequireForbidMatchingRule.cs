@@ -1,4 +1,3 @@
-using System;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -39,15 +38,6 @@ public sealed class RequireForbidMatchingRule : MatchingRule
 
    /// <summary>The condition the rule is while a vocab forbids it.</summary>
    public Condition<CandidateWordVariant> WhenForbidden { get; }
-
-   /// <summary>The condition the rule is when <paramref name="choice"/> is made: <see cref="WhenRequired"/>, <see cref="WhenForbidden"/>, or none when it's unset.</summary>
-   internal Condition<CandidateWordVariant>? ConditionFor(RequireForbidChoice choice) => choice switch
-   {
-      RequireForbidChoice.Required => WhenRequired,
-      RequireForbidChoice.Forbidden => WhenForbidden,
-      RequireForbidChoice.Unset => null,
-      _ => throw new ArgumentOutOfRangeException(nameof(choice), choice, null)
-   };
 
    /// <summary>The choice <paramref name="condition"/> stands for, meaning the same as one of the rule's conditions: required, forbidden, or unset when it isn't this rule's.</summary>
    internal RequireForbidChoice ChoiceOf(Condition<CandidateWordVariant> condition) =>

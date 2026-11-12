@@ -66,7 +66,7 @@ public class VocabNote : JPNote, IHasTextToSpeechAudio
    /// only those with one need analyzing when the vocab changes.
    /// </summary>
    public List<string> TextsASentenceItCanMatchInContainsOneOf() =>
-      MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Surface) == RequireForbidChoice.Required
+      MatchingConfiguration.MatchConditionRequires(MatchingRules.Surface)
          ? Forms.MatchedFormsList()
          : [.. Conjugator.GetStemsForAllForms().Concat(Forms.MatchedFormsList())];
 
