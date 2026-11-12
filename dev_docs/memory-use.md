@@ -73,8 +73,61 @@ Together, the first three would take a sentence from about 10 KB to about 4.5 KB
 and go aside: items 2 and 3 to 1,017 MB, then the Compze upgrade of item 1. A sentence takes about 5 KB now, an estimate
 as the 10 KB was.
 
+## The next wins (2026-11-12, after the first three)
+
+Right after a start, the heap held 818.8 MB: 106 MB of it the shared `ArrayPool`'s arrays (below), 713 MB the rest.
+`describe_what_holds_the_objects_of_a_type`, built for this, told what holds the strings and the `byte[]`s. The figures
+are estimates from the counts by type, unless they say measured. Largest first:
+
+1. **The note caches' indexes keep each key's notes as a `HashSet`: about 70 MB, 0.8 KB a sentence.** 329,369 sets,
+   220,044 of vocab and 109,325 of sentences, most of them holding a few notes. A set of one note takes about 180 bytes,
+   an array of one 32. `NoteIndex` never changes a set it has published: a change copies the set, changes the copy and
+   publishes it. So the published sets could be arrays: `PublishChanges` would turn each changed copy into one, and the
+   changes would go on working on `HashSet`s. `NotesWith` copies the notes into a list either way. A full rebuild would
+   check that the notes still come in the order they did.
+2. **The names dictionary's every form, kept in memory: about 49 MB, not per sentence.** `DictionaryProvider.AllNameForms`
+   holds 952,653 forms, so that `DictLookup.MightBeName` can answer "no such name" without a SQLite query. Names are
+   looked up only to set a vocab's parts of speech from the dictionary
+   (`VocabNotePartsOfSpeech.SetAutomaticallyFromDictionary`) and by the MCP tool `look_up_in_the_dictionary`, never in
+   parsing. Without the set, each name looked up the first time would cost a query; `LookupNameRaw` caches the results.
+   Loading the forms is also part of the 1.7 seconds the dictionary's forms take at a start.
+   - The word forms are another matter: parsing asks `MightBeWord` millions of times a pass. `FormsInOrder` holds them
+     sorted as well, so a binary search could replace their set, saving about 8 MB and costing parsing time.
+3. **A `FlagField` object for each flag: about 23 MB, not per sentence.** Each vocab has 18, of 40 bytes, in two arrays:
+   504,072 objects and 5.6 MB of arrays. The flags of one kind could be the bits of one number in their `FlagFieldList`,
+   with a `FlagField` made when one is asked for.
+4. **Each field's change notifier made when it gets its first subscriber: 17.2 MB measured, 0.2 KB a sentence.** The
+   JAStudio half of the first win: 717,480 `SimpleObservable<string>`s of 24 bytes, nine a sentence. Only
+   `PerfectSynonyms` subscribes, to two fields of each vocab.
+5. **`VocabNoteForms`' seven lazy values per vocab: about 14 MB, not per sentence.** Each is a `LazyCE` and a delegate, 96
+   bytes, made anew whenever the forms change: 18.8 MB. The six derived from the vocab's own forms could be one lazy
+   object. The forms no other vocab owns depend on the other vocab, so they'd stay apart.
+6. **Empty collections made only when needed: about 25 MB, part of it per sentence.** Each vocab's six `WordSet`s, and its
+   compound parts' entered alternatives, have a `HashSet<WordReference>` each, nearly all empty (12.5 MB). Each sentence's two `WordExclusionSet`s have a
+   `HashSet<WordExclusion>` each, nearly all empty, and share a delegate (9.4 MB). And there are 311,218 media reference
+   lists for 83,797 audio references and about 36,000 image references (20 MB, about half of it saved).
+7. **A note's card statuses as a `Dictionary<string, bool>`: about 12 MB of its 17, 0.15 KB a note.** A note has a few
+   cards; an array of them, or a number with a bit for each, would do.
+8. **A delegate in each `NoteGuard`: 6.9 MB measured.** 107,724 `System.Action`s of 64 bytes, each saving its note: the
+   guard could hold the note instead.
+9. **Strings repeated as they're loaded: about 5 MB.** The parser version every sentence repeats (`text_analysis_0.1`,
+   2.75 MB) and the audio's voice names (2.3 MB) could be constants or interned, as the parsed forms are. The audio
+   attachments' absolute paths (`FileInfo.FullName`), about 5 MB more, could be made from the media folder's path when
+   asked for.
+
+Together about 230 MB of the 713. Of a sentence's estimated 5 KB, items 1, 4, 6, 7, 8 and 9 would take about 1.5 KB.
+
+**Not a win:**
+- **The 106 MB of `byte[]`s are the shared `ArrayPool`'s arrays:** 60 arrays in the per-thread caches of 7 threads,
+  which presumably rented them while loading. They aren't notes, and their size varies with which threads did the
+  loading: 1.1 MB once, 119 MB another time. As far as I know, the pool lets a thread's arrays go only when memory runs
+  low or the thread ends. What rents them I haven't looked into: if it's code of ours reading large files into a growing
+  buffer, renting less would make the 106 MB go away.
+- **The fields' strings,** 28 MB that `WritableStringValue`s hold, are the notes' own text.
+
 ## What the heap holds besides the notes
 
 The rest of the 1.1 GB is the vocab, which take more each than a sentence, the kanji, the indexes that find notes by
-word, and the dictionary's and the UI's caches. The `byte[]`s aren't MeCab's dictionary: only 9 arrays are over 200 KB,
-2.3 MB in all.
+word, and the dictionary's and the UI's caches. The dictionary's sets of every word form and name form hold 1.36 million
+strings, 42.5 MB, and their entry arrays 23 MB more. The `byte[]`s aren't MeCab's dictionary: only 9 arrays are over
+200 KB, 2.3 MB in all.
