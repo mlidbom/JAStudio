@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
@@ -12,26 +13,28 @@ public sealed class ConditionTestWithTexts
 {
    //review:matching: "condition-test", from the design document's terms: what a single condition checks about its subject. The facts are
    //   condition-tests too, ones that take no value, but they're conditions in themselves, so only those that take texts have a type.
+   const char PickedValuesSeparator = ' ';
+
    readonly Func<string, string?> _whyTypedTextMakesNoCondition;
    readonly Func<string, Condition> _madeFromTypedText;
    readonly Func<Condition, string?> _typedTextOf;
-   readonly Func<IReadOnlyList<PickableValue>> _pickableValues;
+   readonly Func<IReadOnlyList<TokenizerValue>> _pickableValues;
 
    ConditionTestWithTexts(string name,
                           string howToTypeTheTexts,
                           Func<string, string?> whyTypedTextMakesNoCondition,
                           Func<string, Condition> madeFromTypedText,
                           Func<Condition, string?> typedTextOf,
-                          Func<IReadOnlyList<PickableValue>> pickableValues,
+                          Func<IReadOnlyList<TokenizerValue>> pickableValues,
                           bool picksOne)
    {
       Name = name;
-      _pickableValues = pickableValues;
-      PicksOne = picksOne;
       HowToTypeTheTexts = howToTypeTheTexts;
       _whyTypedTextMakesNoCondition = whyTypedTextMakesNoCondition;
       _madeFromTypedText = madeFromTypedText;
       _typedTextOf = typedTextOf;
+      _pickableValues = pickableValues;
+      PicksOne = picksOne;
    }
 
    /// <summary>The test's name in code, as the editor shows it, such as <c>EndsWithOneOf</c>.</summary>
@@ -41,10 +44,16 @@ public sealed class ConditionTestWithTexts
    /// The values to pick the texts from, for a test whose texts are the tokenizer's values, such as <c>PartOfSpeech.Is</c>: picking them types them,<br/>
    /// separated by spaces. None for a test whose texts are typed freely, such as <c>EndsWithOneOf</c>.
    /// </summary>
-   public IReadOnlyList<PickableValue> PickableValues => _pickableValues();
+   public IReadOnlyList<TokenizerValue> PickableValues => _pickableValues();
 
    /// <summary>Whether only one of the <see cref="PickableValues"/> is picked, as a part of speech is, rather than any number of them, as inflected forms are.</summary>
    public bool PicksOne { get; }
+
+   /// <summary>What picking <paramref name="values"/>, of the <see cref="PickableValues"/>, types: the values separated by spaces, which <see cref="MadeFrom"/> reads.</summary>
+   public static string TypedTextPicking(IEnumerable<TokenizerValue> values) => string.Join(PickedValuesSeparator, values.Select(it => it.Value));
+
+   /// <summary>Whether <paramref name="typedText"/> picks <paramref name="value"/>: whether the value is one of those typed in it, as <see cref="TypedTextPicking"/> types them.</summary>
+   public static bool TypedTextPicks(string typedText, TokenizerValue value) => typedText.Split(PickedValuesSeparator, StringSplitOptions.RemoveEmptyEntries).Contains(value.Value);
 
    /// <summary>What to type, as the editor tells it, such as "The texts, separated by spaces".</summary>
    public string HowToTypeTheTexts { get; }
@@ -78,7 +87,7 @@ public sealed class ConditionTestWithTexts
                                                          Func<string, string?> whyTypedTextMakesNoCondition,
                                                          Func<string, TCondition> madeFromTypedText,
                                                          Func<TCondition, string> typedTextOf,
-                                                         Func<IReadOnlyList<PickableValue>>? pickableValues = null,
+                                                         Func<IReadOnlyList<TokenizerValue>>? pickableValues = null,
                                                          bool picksOne = false)
       where TCondition : Condition =>
       new(name,

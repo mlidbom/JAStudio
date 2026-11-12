@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -40,8 +41,11 @@ public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
       TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectedForms(TextSet.FromTyped(typedNames));
 
    /// <summary>Every inflected form the tokenizer gives, with its English, in ordinal order: what the match-condition editor offers to pick from.</summary>
-   internal static IReadOnlyList<PickableValue> PickableValues() =>
-      [.. InflectionForms.All.OrderBy(it => it.Name, StringComparer.Ordinal).Select(form => new PickableValue(form.Name, form.Description))];
+   internal static IReadOnlyList<TokenizerValue> PickableValues() =>
+      [.. InflectionForms.All.OrderBy(it => it.Name, StringComparer.Ordinal).Select(ValueOf)];
+
+   /// <summary>The inflected form <paramref name="form"/> with its English, such as 連用タ接続 with Continuative ta-connection.</summary>
+   static TokenizerValue ValueOf(InflectionForm form) => new(form.Name, form.Description);
 
    /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflected forms, or null when they are.</summary>
    static string? WhyTheyAreNoInflectedForms(TextSet names)
@@ -59,8 +63,8 @@ public sealed record InflectedFormIsOneOf : Condition<IAnalysisToken>
    /// The condition in code, each form with its English as a comment, one to a line when there are several:<br/>
    /// <c>InflectedForm.In(連用タ接続)  // Continuative ta-connection</c>.
    /// </summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) =>
-      writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(name => (name, InflectionForms.GetByName(name).Description))]);
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) =>
+      writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(InflectionForms.GetByName).Select(ValueOf)]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "inflectedFormIsOneOf";

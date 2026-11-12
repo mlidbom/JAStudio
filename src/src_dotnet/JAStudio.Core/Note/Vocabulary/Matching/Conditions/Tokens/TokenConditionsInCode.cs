@@ -1,10 +1,11 @@
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
 /// <summary>
-/// The conditions on a token, written in C# as a condition's code reads (<see cref="Code.ConditionCode"/>), on whatever leads to a token: a word's<br/>
+/// The conditions on a token, written in C# as a condition's code reads (<see cref="ConditionCode"/>), on whatever leads to a token: a word's<br/>
 /// <see cref="Words.WordConditions.PrecedingToken"/> and the other tokens of <see cref="Words.WordConditions"/>, so that<br/>
 /// <c>PrecedingToken.IsAGodanVerb</c>, <c>PrecedingToken.Surface.EndsWithOneOf("ん")</c> and <c>FollowingToken.PartOfSpeech.Is("名詞", "数")</c> are C#<br/>
 /// as they stand. Each forwards to its condition in <see cref="TokenConditions"/>, which defines it.

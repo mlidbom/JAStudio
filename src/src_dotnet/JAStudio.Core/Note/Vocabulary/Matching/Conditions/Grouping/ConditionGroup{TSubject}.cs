@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -45,13 +46,13 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    /// The group's code: its name and an opening parenthesis on its line, such as <c>AnyOf(</c>, then each of its conditions on a line of its own, a comma<br/>
    /// after each but the last, which closes the group. An empty group is <c>AnyOf()</c>.
    /// </summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) =>
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) =>
       Conditions.Count == 0
          ? [writing.LineOf($"{Name}()")]
          : [writing.OpeningLineOf($"{Name}("), ..Conditions.SelectMany((condition, index) => condition.CodeLines(writing.ForTheConditionInTheGroupAt(index, AfterTheConditionAt(index, writing))))];
 
    /// <summary>What goes after the condition at <paramref name="index"/>: a comma, or after the last, the closing parenthesis and what goes after the group.</summary>
-   string AfterTheConditionAt(int index, Code.CodeWriting writing) => index < Conditions.Count - 1 ? "," : ")" + writing.After;
+   string AfterTheConditionAt(int index, CodeWriting writing) => index < Conditions.Count - 1 ? "," : ")" + writing.After;
 
    /// <summary>The group as the corpus stores it: its conditions under <paramref name="jsonKey"/>, such as <c>allOf</c>.</summary>
    protected JsonObject ToJsonUnder(string jsonKey) => new() { [jsonKey] = new JsonArray([.. Conditions.Select(JsonNode (it) => it.ToJson())]) };

@@ -10,24 +10,26 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 /// </summary>
 partial class PickableValueViewModel : ObservableObject
 {
-   readonly Action<PickableValueViewModel> _pickedOrUnpicked;
+   readonly Action<PickableValueViewModel, bool> _pickedOrUnpicked;
 
    /// <param name="value">The value and its English.</param>
    /// <param name="isPicked">Whether it's picked to start with: whether the condition being changed has it.</param>
-   /// <param name="pickedOrUnpicked">Called after the value is picked or unpicked.</param>
-   public PickableValueViewModel(PickableValue value, bool isPicked, Action<PickableValueViewModel> pickedOrUnpicked)
+   /// <param name="pickedOrUnpicked">Called after the value is picked or unpicked, with whether it's picked now.</param>
+   public PickableValueViewModel(TokenizerValue value, bool isPicked, Action<PickableValueViewModel, bool> pickedOrUnpicked)
    {
-      Value = value.Value;
-      English = value.English;
+      TokenizerValue = value;
       _isPicked = isPicked;
       _pickedOrUnpicked = pickedOrUnpicked;
    }
 
+   /// <summary>The value with its English, as the condition's test offers it.</summary>
+   public TokenizerValue TokenizerValue { get; }
+
    /// <summary>The value, in Japanese, as the tokenizer gives it and a condition's code has it, such as 名詞・接尾.</summary>
-   public string Value { get; }
+   public string Value => TokenizerValue.Value;
 
    /// <summary>The value's English, such as noun › suffix.</summary>
-   public string English { get; }
+   public string English => TokenizerValue.English;
 
    /// <summary>Whether the value is picked for the condition.</summary>
    [ObservableProperty] bool _isPicked;
@@ -36,5 +38,5 @@ partial class PickableValueViewModel : ObservableObject
    public bool IsFoundBy(string filter) =>
       Value.Contains(filter, StringComparison.OrdinalIgnoreCase) || English.Contains(filter, StringComparison.OrdinalIgnoreCase);
 
-   partial void OnIsPickedChanged(bool value) => _pickedOrUnpicked(this);
+   partial void OnIsPickedChanged(bool value) => _pickedOrUnpicked(this, value);
 }

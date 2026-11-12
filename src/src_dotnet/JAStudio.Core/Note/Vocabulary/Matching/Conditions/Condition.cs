@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Nodes;
 using JAStudio.Core.Note.ConditionTrees;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -29,9 +29,9 @@ public abstract record Condition
 
    /// <summary>
    /// The condition written as code, where <paramref name="writing"/> says: its line, or lines, with what goes in front of it and after it. See<br/>
-   /// <see cref="Code.ConditionCode"/>.
+   /// <see cref="ConditionCode"/>.
    /// </summary>
-   internal abstract IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing);
+   internal abstract IEnumerable<CodeLine> CodeLines(CodeWriting writing);
 
    /// <summary>
    /// The conditions directly under this one in the tree: a group's conditions, the one a <see cref="NegatedCondition{TSubject}"/> negates, or the one a<br/>
@@ -73,6 +73,6 @@ public abstract record Condition
    /// </summary>
    internal virtual IEnumerable<TextSet> ComparedTextSets() => [];
 
-   /// <summary>The condition as code on one line, such as <c>!PrecedingToken.IsAGodanVerb</c>, as a failure reason shows it (<see cref="Code.ConditionCode.OnOneLine"/>).</summary>
-   public sealed override string ToString() => Code.ConditionCode.OnOneLine(this);
+   /// <summary>The condition as code on one line, such as <c>!PrecedingToken.IsAGodanVerb</c>, as a failure reason shows it (<see cref="ConditionCode.OnOneLine(Condition)"/>).</summary>
+   public sealed override string ToString() => ConditionCode.OnOneLine(this);
 }

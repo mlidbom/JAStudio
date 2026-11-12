@@ -12,7 +12,7 @@
         <TextBlock Text="{Binding HowToType}" TextWrapping="Wrap" />
         <TextBox Classes="initialFocus" Text="{Binding Text}" IsVisible="{Binding !PicksValues}" />
         <StackPanel Spacing="6" IsVisible="{Binding PicksValues}">
-            <TextBox Classes="initialFocus" Text="{Binding Filter}" Watermark="Find by its Japanese or its English" />
+            <TextBox Classes="initialFocus" Text="{Binding Filter}" PlaceholderText="Find by its Japanese or its English" />
             <ScrollViewer MaxHeight="420" HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl ItemsSource="{Binding ShownValues}">
                     <ItemsControl.ItemTemplate>

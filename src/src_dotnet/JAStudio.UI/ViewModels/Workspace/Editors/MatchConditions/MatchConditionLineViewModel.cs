@@ -57,6 +57,9 @@ class MatchConditionLineViewModel
    /// <summary>The line's code as text, each line of it indented under the first as deep as it is, with its comment.</summary>
    public string Text => ConditionCode.AsText(CodeLines);
 
+   /// <summary>The line's code on one line, without its comments, such as <c>!LastToken.InflectedForm.In(連用タ接続, 連用形)</c>: what titles the editor changing it.</summary>
+   public string CodeOnOneLine => ConditionCode.OnOneLine(CodeLines);
+
    /// <summary>The line's code as the tree shows it, in pieces each shown as its kind should be, such as a negation in a color that stands out.</summary>
    public IReadOnlyList<CodeLineViewModel> ShownCode => CodeLineViewModel.LinesOf(CodeLines);
 

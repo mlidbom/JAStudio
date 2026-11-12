@@ -97,7 +97,7 @@ partial class MatchConditionEditorViewModel : ObservableObject
    {
       var selected = Selected;
       return selected.Level.TestsWithTexts.FirstOrDefault(it => it.Made(selected.Condition)) is {} test
-                ? ConditionTextsEditorViewModel.ForChanging(selected.Condition, test, title: selected.Text)
+                ? ConditionTextsEditorViewModel.ForChanging(selected.Condition, test, title: selected.CodeOnOneLine)
                 : null;
    }
 

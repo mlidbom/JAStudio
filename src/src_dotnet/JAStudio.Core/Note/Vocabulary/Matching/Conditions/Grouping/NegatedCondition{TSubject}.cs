@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -24,7 +25,7 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedC
    public override bool IsMetBy(TSubject subject) => IsEmpty || !Condition.IsMetBy(subject);
 
    /// <summary>The negated condition's code, with <c>!</c> in front of it, on its line, such as <c>!PrecedingToken.IsAGodanVerb</c>.</summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(Code.CodeText.Negation));
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(CodePiece.Negation));
 
    /// <summary>The key a negation is stored under in the corpus.</summary>
    internal const string JsonKey = "not";

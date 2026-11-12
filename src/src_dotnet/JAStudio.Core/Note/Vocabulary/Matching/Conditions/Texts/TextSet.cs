@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -26,7 +27,7 @@ public sealed class TextSet : IEquatable<TextSet>
    public IReadOnlyList<string> Texts { get; }
 
    /// <summary>The texts as C# string literals, separated by commas, as a condition's code has them: <c>"ん", "い"</c>.</summary>
-   internal string AsStringLiterals => string.Join(", ", Texts.Select(Code.CodeWriting.StringLiteral));
+   internal string AsStringLiterals => string.Join(", ", Texts.Select(StringLiteral.Of));
 
    /// <summary>The texts as they're typed into the match-condition editor: separated by spaces. <see cref="FromTyped"/> reads them back.</summary>
    public string AsTyped => string.Join(TypedSeparator, Texts);

@@ -27,8 +27,7 @@ partial class ConditionTextsEditorViewModel : ObservableObject
       Title = title;
       _test = test;
       _placed = placed;
-      var valuesTyped = typedText.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToHashSet();
-      PickableValues = [.. test.PickableValues.Select(value => new PickableValueViewModel(value, valuesTyped.Contains(value.Value), PickedOrUnpicked))];
+      PickableValues = [.. test.PickableValues.Select(value => new PickableValueViewModel(value, ConditionTestWithTexts.TypedTextPicks(typedText, value), PickedOrUnpicked))];
       Text = typedText;
    }
 
@@ -85,16 +84,26 @@ partial class ConditionTextsEditorViewModel : ObservableObject
    public IRelayCommand? CancelCommand { get; set; }
 
    /// <summary>
-   /// Types the values picked, after <paramref name="value"/> was picked or unpicked: for a test that picks only one, such as a part of speech, picking<br/>
-   /// one unpicks the one picked before.
+   /// Types the values picked, after <paramref name="value"/> was picked or unpicked, as <paramref name="isPicked"/> says: for a test that picks only one,<br/>
+   /// such as a part of speech, picking one unpicks the one picked before.
    /// </summary>
-   void PickedOrUnpicked(PickableValueViewModel value)
+   void PickedOrUnpicked(PickableValueViewModel value, bool isPicked)
    {
-      if(_test.PicksOne && value.IsPicked)
-         foreach(var other in PickableValues.Where(it => it != value && it.IsPicked))
-            other.IsPicked = false;
+      if(_test.PicksOne && isPicked)
+      {
+         UnpickAllBut(value);
+      }
 
-      Text = string.Join(' ', PickableValues.Where(it => it.IsPicked).Select(it => it.Value));
+      Text = ConditionTestWithTexts.TypedTextPicking(PickableValues.Where(it => it.IsPicked).Select(it => it.TokenizerValue));
+      return;
+
+      void UnpickAllBut(PickableValueViewModel picked)
+      {
+         foreach(var other in PickableValues.Where(it => it != picked && it.IsPicked))
+         {
+            other.IsPicked = false;
+         }
+      }
    }
 
    partial void OnTextChanged(string value)
@@ -102,6 +111,7 @@ partial class ConditionTextsEditorViewModel : ObservableObject
       (Condition, Problem) = TheConditionTypedOrWhyThereIsNone();
       OnPropertyChanged(nameof(Condition));
       OnPropertyChanged(nameof(CanAccept));
+      return;
 
       (Condition? Condition, string? Problem) TheConditionTypedOrWhyThereIsNone() =>
          string.IsNullOrWhiteSpace(value)                    ? (null, null)

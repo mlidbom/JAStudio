@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
@@ -37,7 +38,7 @@ public sealed record Fact<TSubject> : Condition<TSubject> where TSubject : class
 
    public override bool IsMetBy(TSubject subject) => _isTrueOf(subject);
 
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => [writing.LineOf(Name)];
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => [writing.LineOf(Name)];
 
    /// <summary>The key a fact's <see cref="JsonName"/> is stored under in the corpus.</summary>
    internal const string JsonKey = "fact";

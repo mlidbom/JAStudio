@@ -8,23 +8,16 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.MatchConditions;
 /// </summary>
 class CodePieceViewModel
 {
-   readonly CodeTextKind _kind;
+   readonly CodePiece _piece;
 
-   CodePieceViewModel(string text, CodeTextKind kind)
-   {
-      Text = text;
-      _kind = kind;
-   }
+   CodePieceViewModel(CodePiece piece) => _piece = piece;
 
    /// <summary>The piece of the line from a condition's code.</summary>
-   public static CodePieceViewModel Of(CodeText text) => new(text.Text, text.Kind);
+   public static CodePieceViewModel Of(CodePiece piece) => new(piece);
 
-   /// <summary>Spaces of code, such as those that indent a line under the line it continues, or that keep a comment apart from the code before it.</summary>
-   public static CodePieceViewModel Spaces(string spaces) => new(spaces, CodeTextKind.Code);
+   public string Text => _piece.Text;
 
-   public string Text { get; }
+   public bool IsNegation => _piece.Kind == CodePieceKind.Negation;
 
-   public bool IsNegation => _kind == CodeTextKind.Negation;
-
-   public bool IsComment => _kind == CodeTextKind.Comment;
+   public bool IsComment => _piece.Kind == CodePieceKind.Comment;
 }

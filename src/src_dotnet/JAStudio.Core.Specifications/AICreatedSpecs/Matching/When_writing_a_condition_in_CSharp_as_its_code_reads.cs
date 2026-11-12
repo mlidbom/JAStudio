@@ -45,7 +45,7 @@ public class When_writing_a_condition_in_CSharp_as_its_code_reads : IAIGenerated
       (!FollowingToken.Surface.StartsWithOneOf("湧")).ToString().Must().Be("!FollowingToken.Surface.StartsWithOneOf(\"湧\")");
 
    [XF] public void every_fact_about_a_token_can_be_written_on_a_subject_by_its_name() =>
-      TokenConditions.Level.Facts.Select(it => it.ToString()).Must().Satisfy(names => names.All(name => MethodsOf(typeof(TokenConditionsInCode)).Contains($"get_{name}")));
+      TokenConditions.Level.Facts.Select(it => it.Name).Must().Satisfy(names => names.All(name => MethodsOf(typeof(TokenConditionsInCode)).Contains($"get_{name}")));
 
    [XF] public void every_test_of_a_text_can_be_written_on_a_subject_by_its_name() =>
       TextConditions.Level.TestsWithTexts.Select(it => it.Name).Must().Satisfy(names => names.All(name => MethodsOf(typeof(TextConditionsInCode)).Contains(name)));

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -38,7 +39,7 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
    public override bool IsMetBy(TFrom subject) => IsEmpty || Condition.IsMetBy(Subject.FoundIn(subject));
 
    /// <summary>The <see cref="Condition"/>'s code, with the subject's name and a dot in front of it, such as <c>PrecedingToken.IsAGodanVerb</c>.</summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(Code.CodeText.Of($"{Subject.Name}.")));
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(CodePiece.Of($"{Subject.Name}.")));
 
    internal override JsonObject ToJson() => new() { [Subject.JsonKey] = Condition.ToJson() };
 

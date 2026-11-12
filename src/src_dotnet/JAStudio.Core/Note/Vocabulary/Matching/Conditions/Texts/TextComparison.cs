@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -18,7 +19,7 @@ public abstract record TextComparison : Condition<string>
    public override bool IsMetBy(string subject) => Texts.Texts.Any(it => Compares(subject, it));
 
    /// <summary>The comparison in code, such as <c>EndsWithOneOf("ん", "い")</c>: its name, then its texts as string literals.</summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => [writing.LineOf($"{Name}({Texts.AsStringLiterals})")];
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => [writing.LineOf($"{Name}({Texts.AsStringLiterals})")];
 
    /// <summary>Whether <paramref name="subject"/> compares with <paramref name="text"/> as this condition requires.</summary>
    protected abstract bool Compares(string subject, string text);

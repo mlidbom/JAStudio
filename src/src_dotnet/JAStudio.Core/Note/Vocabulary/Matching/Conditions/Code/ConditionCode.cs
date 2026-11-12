@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -26,8 +25,6 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// </remarks>
 public static class ConditionCode
 {
-   const string Indentation = "   ";
-
    /// <summary>The comment heading a vocab's match-condition, on the line of the match-condition itself.</summary>
    public const string MatchConditionHeading = "A word matches the vocab when each of these holds:";
 
@@ -37,7 +34,7 @@ public static class ConditionCode
    /// </summary>
    public static IReadOnlyList<CodeLine> LinesOfAMatchCondition(AllOfGroup<CandidateWordVariant> matchCondition) =>
    [
-      new(ConditionPosition.Root, 0, [CodeText.Comment(MatchConditionHeading)]),
+      new(ConditionPosition.Root, 0, [CodePiece.Comment(MatchConditionHeading)]),
       ..matchCondition.Conditions.SelectMany((condition, index) => condition.CodeLines(CodeWriting.OfAStatementOfAMatchCondition(index)))
    ];
 
@@ -48,19 +45,16 @@ public static class ConditionCode
    /// <paramref name="condition"/> on one line, without the comments, as a failure reason shows it: its lines joined, a space after each comma, such as<br/>
    /// <c>AnyOf(!Surface.In("本の"), FollowingToken.PartOfSpeech.Is(名詞・数))</c>.
    /// </summary>
-   public static string OnOneLine(Condition condition)
-   {
-      var code = new StringBuilder();
-      foreach(var line in LinesOf(condition).Select(it => it.Code))
-      {
-         if(code.Length > 0 && code[^1] != '(') code.Append(' ');
-         code.Append(line);
-      }
+   public static string OnOneLine(Condition condition) => OnOneLine(LinesOf(condition));
 
-      return code.ToString();
+   /// <summary><paramref name="lines"/>, the lines of a condition, on one line, without their comments: joined, a space after each comma.</summary>
+   public static string OnOneLine(IReadOnlyList<CodeLine> lines)
+   {
+      return lines.Select(it => it.Code).Aggregate(JoinedOnOneLine);
+
+      static string JoinedOnOneLine(string code, string nextLine) => code.EndsWith('(') ? code + nextLine : $"{code} {nextLine}";
    }
 
-   /// <summary><paramref name="lines"/> as text, each indented as much deeper as it is than the first, its comment after its code.</summary>
-   public static string AsText(IReadOnlyList<CodeLine> lines) =>
-      string.Join(Environment.NewLine, lines.Select(it => string.Concat(Enumerable.Repeat(Indentation, it.Depth - lines[0].Depth)) + it));
+   /// <summary><paramref name="lines"/>, the lines of a condition, as text: each indented under the first as much deeper as it is, its comment after its code.</summary>
+   public static string AsText(IReadOnlyList<CodeLine> lines) => string.Join(Environment.NewLine, lines.Select(it => it.TextUnder(lines[0])));
 }

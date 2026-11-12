@@ -1082,7 +1082,7 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
    `TokenConditions.Exists` is the first fact on a token.
 2. **Conditions written as code** (`Conditions.Code`). Each condition writes its own lines (`Condition.CodeLines`), each
    tagged with the position in the tree of the line it's on, made of pieces of three kinds: code, negation and comment
-   (`CodeText`). `ConditionCode` writes a vocab's match-condition, a whole condition, or a condition on one line for
+   (`CodePiece`). `ConditionCode` writes a vocab's match-condition, a whole condition, or a condition on one line for
    `ToString`, which the failure reasons use: `not_met::!PrecedingToken.IsAGodanVerb`.
    - **The root's line is a comment heading,** `// A word matches the vocab when each of these holds:`, rather than no
      line: the root needs a line for its `+` button and the keyboard.
@@ -1097,12 +1097,13 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
 3. **The tree shows the code in pieces,** in a monospace font (`CodeFont` in `App.axaml`): a `!` in orange and bold, a
    comment dimmed. A condition's lines after its first are indented under it.
 4. **The tokenizer's values are picked, not typed.** `PartOfSpeech.Is`, `InflectionType.In` and `InflectedForm.In` offer
-   their values (`ConditionTestWithTexts.PickableValues`): every part of speech and every kind of one, every inflection
-   type and every family of them, every inflected form, each with its English, the tokenizer's unknown `*` left out. The
-   dialog filters them by Japanese or English, whatever the case. Picking types the values into the typed text the editor
-   already made conditions from, so making, checking and changing a condition work as before. A part of speech is picked
-   alone (`PicksOne`). A dialog's keyboard goes to the first visible input marked `initialFocus`
-   (`DialogInitialFocus`), so the dialog marks both its text box and its filter.
+   their values (`ConditionTestWithTexts.PickableValues`, each a `TokenizerValue`): every part of speech and every kind
+   of one, every inflection type and every family of them, every inflected form, each with its English, the tokenizer's
+   unknown `*` left out. A condition's code lists its values as the same `TokenizerValue`s. The dialog filters them by
+   Japanese or English, whatever the case. Picking types the values into the typed text the editor already made
+   conditions from (`ConditionTestWithTexts.TypedTextPicking`), so making, checking and changing a condition work as
+   before. A part of speech is picked alone (`PicksOne`). A dialog's keyboard goes to the first visible input marked
+   `initialFocus` (`DialogInitialFocus`), so the dialog marks both its text box and its filter.
 5. **C# builds a condition as its code reads.** A subject is a way to what a condition can be on (`IConditionPath`), and
    C# 14 extension members give what leads to a token the token's conditions (`TokenConditionsInCode`) and what leads to
    a text the text's (`TextConditionsInCode`), each forwarding to the condition that defines it. `!` is an operator on

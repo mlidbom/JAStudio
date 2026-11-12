@@ -4,7 +4,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
 /// A way from a subject to another through more than one <see cref="ConditionSubject{TFrom,TSubject}"/>, such as from a word through its preceding token<br/>
-/// to the token's surface, or the way from a subject to itself, which places a condition as it is. See <see cref="IConditionPath{TFrom,TSubject}"/>.
+/// to the token's surface. See <see cref="IConditionPath{TFrom,TSubject}"/>.
 /// </summary>
 public sealed class ConditionPath<TFrom, TSubject> : IConditionPath<TFrom, TSubject> where TFrom : class where TSubject : class
 {

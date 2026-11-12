@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -44,7 +45,7 @@ public sealed record TextMatchesRegularExpression : Condition<string>
    public override bool IsMetBy(string subject) => _regex.IsMatch(subject);
 
    /// <summary>The condition in code, the pattern a verbatim string literal as C# writes one: <c>MatchesRegularExpression(@"^よ.$")</c>.</summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => [writing.LineOf($"MatchesRegularExpression({Code.CodeWriting.VerbatimStringLiteral(Pattern)})")];
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => [writing.LineOf($"MatchesRegularExpression({StringLiteral.VerbatimOf(Pattern)})")];
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "matchesRegularExpression";

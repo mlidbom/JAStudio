@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -38,8 +39,14 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
       TextSet.WhyTypedTextsMakeNoSet(typedNames) ?? WhyTheyAreNoInflectionTypes(TextSet.FromTyped(typedNames));
 
    /// <summary>Every inflection type the tokenizer gives, and every family of them, each with its English, in ordinal order: what the match-condition editor offers to pick from.</summary>
-   internal static IReadOnlyList<PickableValue> PickableValues() =>
-      [.. InflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(name => new PickableValue(name, InflectionTypes.EnglishOf(name)))];
+   internal static IReadOnlyList<TokenizerValue> PickableValues() =>
+      [.. InflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(ValueOf)];
+
+   /// <summary>
+   /// The inflection type, or family of them, named <paramref name="name"/>, with its English: such as 五段・ラ行 with Godan verb with 'ru' ending, or 五段<br/>
+   /// with every godan type.
+   /// </summary>
+   static TokenizerValue ValueOf(string name) => new(name, InflectionTypes.EnglishOf(name));
 
    /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflection types, or families of them, or null when they are.</summary>
    static string? WhyTheyAreNoInflectionTypes(TextSet names)
@@ -61,7 +68,7 @@ public sealed record InflectionTypeIsOneOf : Condition<IAnalysisToken>
    /// The condition in code, each type with its English as a comment, one to a line when there are several: <c>InflectionType.In(五段・ラ行)  // Godan<br/>
    /// verb with 'ru' ending</c>, and a family's as <c>五段  // every godan type</c>.
    /// </summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => writing.LinesListing("InflectionType.In", [.. Names.Texts.Select(name => (name, InflectionTypes.EnglishOf(name)))]);
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => writing.LinesListing("InflectionType.In", [.. Names.Texts.Select(ValueOf)]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "inflectionTypeIsOneOf";

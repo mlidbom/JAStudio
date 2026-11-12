@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
@@ -19,6 +20,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
 {
    const string LevelSeparator = "・";
+   const string EnglishLevelSeparator = " › ";
    readonly IReadOnlyList<string> _levels;
 
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When no part of speech the tokenizer gives is, or is a kind of, <paramref name="japaneseLevels"/>.</exception>
@@ -42,14 +44,24 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// Every part of speech the tokenizer gives, and every kind of one, such as 名詞, 名詞・接尾 and 名詞・接尾・人名, each with its English, in ordinal order:<br/>
    /// what the match-condition editor offers to pick from.
    /// </summary>
-   internal static IReadOnlyList<PickableValue> PickableValues() =>
-   [
-      ..JNPartsOfSpeech.All
-                       .SelectMany(partOfSpeech => Enumerable.Range(1, partOfSpeech.Levels.Count).Select(count => partOfSpeech.Levels.Take(count).ToList()))
-                       .Select(levels => new PickableValue(string.Join(LevelSeparator, levels.Select(it => it.Japanese)), string.Join(" › ", levels.Select(it => it.English))))
-                       .DistinctBy(it => it.Value)
-                       .OrderBy(it => it.Value, StringComparer.Ordinal)
-   ];
+   internal static IReadOnlyList<TokenizerValue> PickableValues()
+   {
+      return
+      [
+         ..JNPartsOfSpeech.All
+                          .SelectMany(ItAndEachPartOfSpeechItIsAKindOf)
+                          .Select(ValueOf)
+                          .DistinctBy(it => it.Value)
+                          .OrderBy(it => it.Value, StringComparer.Ordinal)
+      ];
+
+      static IEnumerable<IReadOnlyList<string>> ItAndEachPartOfSpeechItIsAKindOf(JNPartsOfSpeech partOfSpeech) =>
+         Enumerable.Range(1, partOfSpeech.Levels.Count).Select(count => partOfSpeech.Levels.Take(count).Select(it => it.Japanese).ToList());
+   }
+
+   /// <summary>The part of speech <paramref name="japaneseLevels"/>, its levels from the top, with their English, such as 名詞・接尾 with noun › suffix.</summary>
+   static TokenizerValue ValueOf(IReadOnlyList<string> japaneseLevels) =>
+      new(string.Join(LevelSeparator, japaneseLevels), string.Join(EnglishLevelSeparator, japaneseLevels.Select(JNPartsOfSpeech.EnglishNameOf)));
 
    /// <summary>Why the levels typed into the match-condition editor are no part of speech the tokenizer gives, or null when they are one.</summary>
    internal static string? WhyTypedLevelsAreNoPartOfSpeech(string typedLevels) => WhyTheyAreNoPartOfSpeech(TheLevelsTyped(typedLevels));
@@ -65,16 +77,13 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・接尾・人名.</summary>
    public string JapaneseLevels { get; }
 
-   /// <summary>The part of speech's levels, from the top, in English, joined by ›, such as noun › suffix › person-name.</summary>
-   string EnglishLevels => string.Join(" › ", _levels.Select(JNPartsOfSpeech.EnglishNameOf));
-
    public override bool IsMetBy(IAnalysisToken subject) =>
       //review:matching: a piece JAStudio split off a token reads the token's part of speech, as it reads its inflection type, inflected form
       //   and reading: so the ending る of 食べる is a verb. My call on the design document's open question 4.
       subject.SourceToken.PartsOfSpeech.IsWithin(_levels);
 
    /// <summary>The condition in code, with the levels' English names as a comment: <c>PartOfSpeech.Is(名詞・接尾・人名)  // noun › suffix › person-name</c>.</summary>
-   internal override IEnumerable<Code.CodeLine> CodeLines(Code.CodeWriting writing) => writing.LinesListing("PartOfSpeech.Is", [(JapaneseLevels, EnglishLevels)]);
+   internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => writing.LinesListing("PartOfSpeech.Is", [ValueOf(_levels)]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
    internal const string JsonKey = "partOfSpeech";

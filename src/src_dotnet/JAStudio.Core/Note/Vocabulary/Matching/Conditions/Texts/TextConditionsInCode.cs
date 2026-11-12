@@ -1,9 +1,10 @@
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
 /// <summary>
-/// The conditions on a text, written in C# as a condition's code reads (<see cref="Code.ConditionCode"/>), on whatever leads to a text: a word's<br/>
+/// The conditions on a text, written in C# as a condition's code reads (<see cref="ConditionCode"/>), on whatever leads to a text: a word's<br/>
 /// <see cref="Words.WordConditions.Surface"/>, its <see cref="Words.WordConditions.FollowingText"/>, a token's surface, so that<br/>
 /// <c>Surface.In("本の")</c> and <c>PrecedingToken.Surface.EndsWithOneOf("ん")</c> are C# as they stand. Each forwards to its condition in<br/>
 /// <see cref="TextConditions"/>, which defines it.
