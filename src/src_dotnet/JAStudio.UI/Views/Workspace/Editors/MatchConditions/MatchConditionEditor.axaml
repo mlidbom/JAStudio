@@ -12,11 +12,40 @@
                 <Style Selector="TreeViewItem">
                     <Setter Property="IsExpanded" Value="True" />
                 </Style>
+                <Style Selector="TextBlock.code">
+                    <Setter Property="FontFamily" Value="{StaticResource CodeFont}" />
+                </Style>
+                <!-- A ! at the start of a line is easy to miss. -->
+                <Style Selector="TextBlock.code.negation">
+                    <Setter Property="Foreground" Value="#E8590C" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+                <Style Selector="TextBlock.code.comment">
+                    <Setter Property="Opacity" Value="0.6" />
+                </Style>
             </TreeView.Styles>
             <TreeView.ItemTemplate>
                 <TreeDataTemplate DataType="matchConditions:MatchConditionLineViewModel" ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <TextBlock Text="{Binding Text}" VerticalAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding ShownCode}" VerticalAlignment="Center">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="matchConditions:CodeLineViewModel">
+                                    <ItemsControl ItemsSource="{Binding Pieces}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="matchConditions:CodePieceViewModel">
+                                                <TextBlock Classes="code" Text="{Binding Text}"
+                                                           Classes.negation="{Binding IsNegation}" Classes.comment="{Binding IsComment}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                         <Button Content="+" Padding="6,0" IsVisible="{Binding IsGroup}"
                                 ToolTip.Tip="Add a condition (+)"
                                 Click="OnAddButtonClicked" />
