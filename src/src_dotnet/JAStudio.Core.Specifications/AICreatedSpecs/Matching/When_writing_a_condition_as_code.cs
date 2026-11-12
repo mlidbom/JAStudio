@@ -75,6 +75,22 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
                                      "IsASingleToken"));
    }
 
+   public class a_group_whose_first_condition_is_a_group : When_writing_a_condition_as_code
+   {
+      static readonly Condition<CandidateWordVariant> Condition =
+         AnyOf(
+            AllOf(
+               PrecedingToken.IsAnIchidanVerb,
+               !PrecedingToken.IsInAnIrrealisForm),
+            IsASingleToken);
+
+      [XF] public void as_it_is_read_has_both_groups_first_conditions_on_the_opening_line_and_each_groups_others_under_its_own_first() =>
+         ConditionCode.AsText(ConditionCode.LinesOf(Condition)).Must().Be(string.Join(Environment.NewLine,
+                                                                                     "AnyOf(AllOf(PrecedingToken.IsAnIchidanVerb,",
+                                                                                     "            !PrecedingToken.IsInAnIrrealisForm),",
+                                                                                     "      IsASingleToken)"));
+   }
+
    public class a_condition_on_one_line : When_writing_a_condition_as_code
    {
       static readonly Condition<CandidateWordVariant> Condition =
