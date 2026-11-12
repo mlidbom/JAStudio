@@ -1,6 +1,6 @@
 import typing, clr, abc
 from System import IEquatable_1
-from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
+from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1, IEqualityComparer_1
 from JAStudio.Core.Note.ConditionTrees import ConditionPosition
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition, SharedConditions
 from System.Text.Json.Nodes import JsonObject
@@ -87,6 +87,14 @@ class ConditionLevel_1(typing.Generic[ConditionLevel_1_TSubject], IConditionLeve
     def TestsWithTexts(self) -> IReadOnlyList_1[ConditionTestWithTexts]: ...
     def NewAllOfGroup(self) -> Condition: ...
     def NewAnyOfGroup(self) -> Condition: ...
+
+
+class ConditionMeaningComparer(IEqualityComparer_1[Condition]):
+    @classmethod
+    @property
+    def Instance(cls) -> ConditionMeaningComparer: ...
+    def Equals(self, condition: Condition, other: Condition) -> bool: ...
+    def GetHashCode(self, condition: Condition) -> int: ...
 
 
 class ConditionPath_GenericClasses(abc.ABCMeta):
