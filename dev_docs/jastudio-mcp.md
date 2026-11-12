@@ -263,6 +263,13 @@ the headless JAStudio.
 - **Memory, built (2026-11-12):** `describe_memory` reports the garbage collector's mode and settings, the managed
   heap, what the garbage collector has committed, and the process's working set and private memory; optionally also
   after the most thorough collection there is, which shows what the process keeps when it must give back all it can.
+- **What the heap holds, built (2026-11-12):** `describe_what_the_heap_holds` collects all garbage, then counts every
+  object on the managed heap from a snapshot of the process, with ClrMD (`HeapCensus`), as `dotnet-dump`'s
+  `dumpheap -stat` and `-strings` count a dump's: the types that take the most, and the string values whose copies take
+  the most. It's how to find what the notes take in memory, and to measure what a change saves: before it, a heap dump of
+  1.4 GB and minutes of `dotnet-dump`. The snapshot can catch memory being made into objects, which reads as objects that
+  aren't, such as strings of length -1 at the end of a region of the heap: only objects that end within their region, and
+  strings of a length that isn't negative, are counted. See `dev_docs/memory-use.md`.
 - **The reservoir, built on the branch `corpus-reservoir` (2026-11-11):** `what_a_vocab_does_in_the_reservoir` tells what
   a vocab, as JAStudio has it now, does in a reservoir's millions of sentences (`WhatAVocabDoesInTheReservoir`): where it
   matches, which sentences reject it and why, and where its matching changed since the reservoir's bulk analysis, which

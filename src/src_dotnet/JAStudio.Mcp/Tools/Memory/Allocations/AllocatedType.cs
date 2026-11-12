@@ -1,4 +1,4 @@
-namespace JAStudio.Mcp.Tools.Memory;
+namespace JAStudio.Mcp.Tools.Memory.Allocations;
 
 /// <summary>A type an <see cref="AllocationSampler"/> sampled, with how much of what was allocated its objects took.</summary>
 /// <param name="Type">The type's name, as the runtime reports it, such as <c>System.String</c> or <c>System.Collections.Generic.List`1[System.Int32]</c>.</param>

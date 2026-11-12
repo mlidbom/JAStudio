@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using JAStudio.Mcp.Tools.Memory.Heap;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Memory;
@@ -25,6 +26,27 @@ public class MemoryTools
                                    memoryUse,
                                    alsoAfterCollectingGarbage ? MemoryUseAfterCollectingAllGarbage() : null);
    }
+
+   [McpServerTool(Name = "describe_what_the_heap_holds", ReadOnly = true, Idempotent = false)]
+   [Description("""
+                Describes what the JAStudio process's managed heap holds, after collecting all garbage, as describe_memory does: every object
+                counted from a snapshot of the process, as dotnet-dump's dumpheap -stat and -strings count a dump's. Reports the heap's
+                megabytes and objects; the types whose objects take the most, each with its objects, megabytes and share of the heap; and the
+                strings, with how many distinct values they have, the megabytes their copies take, strings of the same value that could be
+                one string, and the values whose copies take the most. An object's megabytes are its own, not what it references. For telling
+                what the notes take in memory, and what a change to them saves: compare a call before and after. Takes about half a minute
+                on the whole corpus, as the process goes on. A snapshot can catch parts of the heap that can't be read, as
+                objectsThatCouldNotBeRead tells: with thousands, the counts may be off by up to 1%. On the headless JAStudio, it read every
+                object.
+                """)]
+   public static WhatTheHeapHolds DescribeWhatTheHeapHolds(
+      [Description("The most types to list, the one whose objects take the most first.")] int maxTypesListed = 40,
+      [Description("""
+                   Lists only the types whose name contains this, ignoring case, such as JAStudio or Sentence. The heap's totals stay the
+                   whole heap's. All types if none.
+                   """)] string? typesNamed = null,
+      [Description("The most repeated string values to list, the one whose copies take the most first.")] int maxRepeatedStringsListed = 20) =>
+      HeapCensus.DescribedForThisProcessAfterCollectingAllGarbage(maxTypesListed, typesNamed, maxRepeatedStringsListed);
 
    static MemoryUse MemoryUseAfterCollectingAllGarbage()
    {

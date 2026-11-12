@@ -4,7 +4,7 @@ using System.Diagnostics.Tracing;
 using System.Linq;
 using Compze.Internals.SystemCE;
 
-namespace JAStudio.Mcp.Tools.Memory;
+namespace JAStudio.Mcp.Tools.Memory.Allocations;
 
 /// <summary>
 /// Samples what the process allocates, by type, from when it's made until <see cref="StopSampling"/>: the runtime reports an allocation about<br/>

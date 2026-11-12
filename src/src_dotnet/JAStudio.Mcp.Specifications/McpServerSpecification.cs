@@ -43,9 +43,16 @@ public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyC
    /// <summary>The text a tool answered with: every tool here answers with a single text.</summary>
    protected static string TextOf(CallToolResult result) => result.Content.OfType<TextContentBlock>().Single().Text;
 
-   /// <summary>A tool's answer read back into the type the tool answered with, which the tool wrote as JSON.</summary>
-   protected static TResult ResultOf<TResult>(CallToolResult result) =>
-      JsonSerializer.Deserialize<TResult>(TextOf(result), ToolResultJsonOptions) ?? throw new InvalidOperationException($"The tool answered null: {TextOf(result)}");
+   /// <summary>
+   /// A tool's answer read back into the type the tool answered with, which the tool wrote as JSON. A tool that failed answered with its exception<br/>
+   /// instead, which this throws with, rather than failing to read the exception's text as JSON.
+   /// </summary>
+   protected static TResult ResultOf<TResult>(CallToolResult result)
+   {
+      if(result.IsError == true) throw new InvalidOperationException($"The tool failed: {TextOf(result)}");
+
+      return JsonSerializer.Deserialize<TResult>(TextOf(result), ToolResultJsonOptions) ?? throw new InvalidOperationException($"The tool answered null: {TextOf(result)}");
+   }
 
    public override void Dispose()
    {

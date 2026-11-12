@@ -1,6 +1,6 @@
 using JAStudio.Mcp.Tools.Analysis;
 
-namespace JAStudio.Mcp.Tools.Memory;
+namespace JAStudio.Mcp.Tools.Memory.Allocations;
 
 /// <summary>What <see cref="AnalysisTools.SampleWhatAnalyzingEverySentenceAllocates"/> reports: what analyzing every sentence of the corpus allocated.</summary>
 /// <param name="Sentences">How many sentences were analyzed.</param>

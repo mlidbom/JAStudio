@@ -10,6 +10,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Mcp.Tools.Timing;
 using JAStudio.Mcp.Tools.Memory;
+using JAStudio.Mcp.Tools.Memory.Allocations;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;

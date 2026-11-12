@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JAStudio.Mcp.Tools.Memory;
+namespace JAStudio.Mcp.Tools.Memory.Allocations;
 
 /// <summary>What an <see cref="AllocationSampler"/> sampled: how much it covers, and the types that took the most.</summary>
 /// <param name="SampledMegabytes">The megabytes the samples cover, of every type: about all the process allocated while it sampled.</param>
