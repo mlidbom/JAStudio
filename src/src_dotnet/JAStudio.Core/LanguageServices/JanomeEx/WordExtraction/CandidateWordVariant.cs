@@ -50,7 +50,7 @@ public sealed class CandidateWordVariant
       if(VocabMatches.Any())
       {
          Matches = VocabMatches.Cast<Match>().ToList();
-         ValidVocabMatches = VocabMatches.Where(vm => vm.IsValid).ToList();
+         ValidVocabMatches = VocabMatches.FindAll(vm => vm.IsValid);
       }
 
       if(ValidVocabMatches.Any() || VocabsControlMatchStatus)
@@ -75,7 +75,7 @@ public sealed class CandidateWordVariant
 
    public void RunVisibilityAnalysis()
    {
-      _displayMatches = OnceValidityAnalyzed.Matches.Where(match => match.IsDisplayed).ToList();
+      _displayMatches = OnceValidityAnalyzed.Matches.FindAll(match => match.IsDisplayed);
    }
 
    public int StartIndex => Word.StartLocation.CharacterStartIndex;

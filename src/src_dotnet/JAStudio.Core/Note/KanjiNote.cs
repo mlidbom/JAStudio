@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -246,14 +247,14 @@ public class KanjiNote : JPNote
          return false;
       }
 
-      if(vocabForm.StartsWith(GetQuestion()))
+      if(vocabForm.StartsWithOrdinal(GetQuestion()))
       {
-         return vocabReading.StartsWith(kanjiReading);
+         return vocabReading.StartsWithOrdinal(kanjiReading);
       }
 
-      if(vocabForm.EndsWith(GetQuestion()))
+      if(vocabForm.EndsWithOrdinal(GetQuestion()))
       {
-         return vocabReading.EndsWith(kanjiReading);
+         return vocabReading.EndsWithOrdinal(kanjiReading);
       }
 
       return vocabReading.Length >= 2

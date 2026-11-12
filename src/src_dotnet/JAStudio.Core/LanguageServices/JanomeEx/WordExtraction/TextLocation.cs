@@ -18,7 +18,8 @@ public sealed class TextAnalysisLocation
    public int CharacterStartIndex { get; }
    public int CharacterEndIndex { get; }
 
-   public List<CandidateWordVariant> DisplayVariants { get; set; }
+   /// <summary>The variant displayed from this location, if any: its first display word's (<see cref="CandidateWord.DisplayVariant"/>), as shadowing last left it.</summary>
+   public CandidateWordVariant? DisplayVariant { get; private set; }
    public List<CandidateWordVariant> IndexingVariants { get; set; }
    public List<CandidateWord> CandidateWords { get; set; }
    public List<CandidateWord> DisplayWords { get; set; }
@@ -33,7 +34,6 @@ public sealed class TextAnalysisLocation
       CharacterStartIndex = characterStartIndex;
       CharacterEndIndex = characterStartIndex + token.Surface.Length - 1;
 
-      DisplayVariants = [];
       IndexingVariants = [];
       CandidateWords = [];
       DisplayWords = [];
@@ -114,7 +114,7 @@ TextLocation('{CharacterStartIndex}-{CharacterEndIndex}, {Token.Surface} | {Toke
 
       if(changesMade)
       {
-         DisplayWords = CandidateWords.Where(it => it.DisplayVariants.Any()).ToList();
+         DisplayWords = CandidateWords.FindAll(it => it.IsDisplayed);
       }
 
       return changesMade;
@@ -147,7 +147,7 @@ TextLocation('{CharacterStartIndex}-{CharacterEndIndex}, {Token.Surface} | {Toke
    {
       if(DisplayWords.Any() && !DisplayWords[0].IsShadowed)
       {
-         DisplayVariants = DisplayWords[0].DisplayVariants;
+         DisplayVariant = DisplayWords[0].DisplayVariant;
          var coveringForwardCount = DisplayWords[0].LocationCount - 1;
          foreach(var shadowed in ForwardList(coveringForwardCount).Skip(1))
          {
@@ -157,6 +157,10 @@ TextLocation('{CharacterStartIndex}-{CharacterEndIndex}, {Token.Surface} | {Toke
          }
       } else
       {
+         //review: The location keeps the DisplayVariant an earlier pass gave it, though it displays no word now, and TextAnalysis.DisplayWordVariants
+         //   still lists that variant: the sentence view shows it as a display word, and VocabNoteCompoundParts suggests its form. Should it be
+         //   cleared here? A full rebuild with it cleared changed no sentences, but the stored parsing results are made from the valid matches,
+         //   not the display variants, so that doesn't tell whether it ever happens (2026-11-12).
          ClearShadowed();
       }
    }

@@ -24,7 +24,7 @@ public sealed class DictionaryMatch : Match
    public override string Answer => DictionaryEntry.FormatAnswer();
    public override List<string> Readings => DictionaryEntry.KanaFormsText();
 
-   protected override bool IsPrimarilyValid() => CombinedRequirements.Select(requirement => requirement(Inspector)).All(failure => failure == null);
+   protected override bool IsPrimarilyValid() => NoneFail(CombinedRequirements, Inspector);
 
    protected override List<FailedMatchRequirement> CreatePrimaryValidityFailures() =>
       [.. CombinedRequirements.Select(requirement => requirement(Inspector)).OfType<FailedMatchRequirement>()];

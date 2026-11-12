@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.Linq;
 using JAStudio.Core.Note.KanjiReadings;
@@ -20,7 +21,7 @@ static class KanjiReadingsNotation
       {
          var kana = written.Replace(PrimaryStart, "").Replace(PrimaryEnd, "");
          readings.Add(kana);
-         if(written.StartsWith(PrimaryStart)) readings.MakePrimary(kana);
+         if(written.StartsWithOrdinal(PrimaryStart)) readings.MakePrimary(kana);
       }
    }
 

@@ -63,8 +63,10 @@ public class AnalysisTools
                 meanwhile. For telling whether a change made parsing faster, and how parsing scales with threads: compare runs on the same
                 corpus at the same thread count, and discard the first run after a start, which includes warming up. Other development work
                 often runs on the machine: a pass during which the other processes used more than a little processor time was disturbed, and
-                its time says little. The memory allocated is the same whatever else runs. A call made while another call of it, or of
-                count_the_candidate_words, runs waits for that one to finish, since runs at the same time would compete for the cores.
+                its time says little. The memory allocated is the same whatever else runs: sample_what_analyzing_every_sentence_allocates
+                tells what it goes to. A call made while another call of it, or of count_the_candidate_words or
+                sample_what_analyzing_every_sentence_allocates, runs waits for that one to finish, since runs at the same time would compete
+                for the cores.
                 """)]
    public TimeToParseEverySentence TimeParsingEverySentence(
       [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null,
@@ -83,6 +85,35 @@ public class AnalysisTools
          var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
          var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
          return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
+      }
+   }
+
+   [McpServerTool(Name = "sample_what_analyzing_every_sentence_allocates", ReadOnly = true, Idempotent = true)]
+   [Description("""
+                Analyzes every sentence of the corpus as its stored parsing result is made, on the given number of threads, while sampling what
+                the process allocates, by type: the runtime reports an allocation about every 100 KB each heap allocates, with the type of the
+                object, and the reports are summed by type. Reports how much the pass allocated, counted exactly, how much of it the samples
+                cover, and the types that took the most, each with its megabytes and its share of the sampled. For finding what parsing could
+                allocate less of, which a profiler's times don't show: it allocates gigabytes a pass. A sample, not a count: the share of a type
+                allocated often is right, and one allocated rarely may be missed. Nothing is saved. A call made while another parse of every
+                sentence runs, such as time_parsing_every_sentence, waits for it to finish.
+                """)]
+   public WhatAnalyzingEverySentenceAllocates SampleWhatAnalyzingEverySentenceAllocates(
+      [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null,
+      [Description("The most types to list, the one that took the most first.")] int maxTypesListed = 40)
+   {
+      return OneParseOfTheWholeCorpusAtATime.Locked(SampleIt);
+
+      WhatAnalyzingEverySentenceAllocates SampleIt()
+      {
+         var sentences = _collection.Sentences.All().ToList();
+         var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
+         var allocatedBytesBefore = GC.GetTotalAllocatedBytes(precise: true);
+         using var sampler = new AllocationSampler();
+         Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis());
+         var sampled = sampler.StopSampling(maxTypesListed);
+         var allocatedMegabytes = Math.Round((GC.GetTotalAllocatedBytes(precise: true) - allocatedBytesBefore) / 1_000_000.0, 1);
+         return new WhatAnalyzingEverySentenceAllocates(sentences.Count, threadCount.Threads, allocatedMegabytes, sampled);
       }
    }
 

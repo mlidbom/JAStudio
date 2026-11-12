@@ -7,6 +7,10 @@
    </PropertyGroup>
 
    <ItemGroup>
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.4.2-internal" />
+   </ItemGroup>
+
+   <ItemGroup>
       <!-- Every voice's speech is normalized as mp3gain normalized the TTS audio HyperTTS made: see dev_docs/text-to-speech.md. -->
       <ProjectReference Include="..\Mp3LoudnessNormalization\Mp3LoudnessNormalization.csproj" />
    </ItemGroup>

@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 using System.Linq;
 using Compze.Internals.Logging;
@@ -229,7 +230,7 @@ public static class Conjugator
 
    public static string GetImperative(string word, bool isIchidan = false, bool isGodan = false)
    {
-      if(isGodan || (!isIchidan && !word.EndsWith("る")))
+      if(isGodan || (!isIchidan && !word.EndsWithOrdinal("る")))
       {
          return GetEStem(word, isIchidan, isGodan);
       }

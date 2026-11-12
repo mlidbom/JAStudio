@@ -16,10 +16,18 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
   after the most thorough collection there is.
 - **`count_the_candidate_words`** counts the candidate words analyzing every sentence builds, by how many tokens each
   spans, and how many of them could get a match, and did.
-- **A profile of the headless JAStudio:** attach dotTrace's timeline profiler to its process while the timing tool
-  runs, and read the snapshot with the Rider MCP's dotTrace tools. Its "Lock contention" subsystem shows which locks
-  the threads wait for.
+- **`sample_what_analyzing_every_sentence_allocates`** analyzes every sentence while sampling what the process
+  allocates, by type, from the runtime's own allocation events: what the bytes allocated go to, which no profile here
+  shows. dotTrace's timeline profile records no managed allocations here.
+- **A profile of the headless JAStudio:** attach dotTrace's profiler to its process while the timing tool runs, and read
+  the snapshot with the Rider MCP's dotTrace tools. A timeline profile's "Lock contention" subsystem shows which locks
+  the threads wait for; a sampling profile, summed up by function with `~/.claude/tools/dottrace_hotspots.py`, shows
+  where the processor time goes.
   `ConsoleProfiler.exe attach <process id> --profiling-type=Timeline --save-to=<file>.dtt --timeout=40s`
+  - **Export the call tree with `minTotalTimePercent` 0.002, not 0.02:** the threshold is a share of the whole snapshot,
+    every thread's idle time included, so 0.02% of a 60-second snapshot cut off every call under 270 ms.
+  - **A profile compares two versions under any load** by the time of code neither changed: the analysis took 8.7
+    times MeCab's `Viterbi.DoViterbi` before the change of step 5 below, and 7.0 after.
 - **Other development work often runs on this machine** (Magnus, 2026-11-12), such as other sessions' builds and tests.
   It takes cores from the runs, and made the same code's times vary by up to a factor of 2.5 that day. A run during which
   the other processes used more than a little processor time was disturbed: repeat it when they're quiet. Check that
@@ -116,6 +124,28 @@ limited it, and what was done about it (Magnus and Claude, 2026-11-12).
 
    The garbage collector collects 4 times a pass instead of 12.
 
+5. **Culture-sensitive comparisons and allocating LINQ in the hot paths (2026-11-12).** A sampling profile of analyzing
+   every sentence on 16 threads, and `sample_what_analyzing_every_sentence_allocates`, found two kinds of waste:
+   - **`string.EndsWith` took 5% of the analysis,** nearly all of it in `VocabNotePartsOfSpeech.IsCompleteNaAdjective`.
+     Given a string and no `StringComparison`, it compares culture-sensitively, through ICU. Every such call in the
+     solution, 30 of them, now compares ordinally, with Compze's `StartsWithOrdinal` and `EndsWithOrdinal`, and the
+     analyzer rule CA1310 warns at a new one (`.editorconfig`).
+   - **LINQ that allocated a delegate and an iterator at every call,** in code the analysis calls millions of times a
+     pass: checking a match's requirements (now `Match.NoneFail`), telling whether a candidate word's display variants
+     changed (now `SequenceEqual`), `WordExclusionSet.ExcludesAtIndex`, and `Where` followed by `ToList` on a list (now
+     `FindAll`). Analyzing every sentence allocates 4,881 MB instead of 5,894.
+   - **A candidate word, and a location, has one display variant or none** (`CandidateWord.DisplayVariant`,
+     `TextAnalysisLocation.DisplayVariant`), as it always had, instead of a list made anew at every display pass
+     (Magnus: "if there can't be, by all means change it"). Analyzing every sentence allocates 4,621 MB.
+
+   The display analysis's steps take half the time they did. A full rebuild changes no notes. Analyzing every sentence,
+   measured in one sitting, with little other work on the machine:
+
+   | Threads | Before | After |
+   |---|---|---|
+   | 1 | 6.65-6.66 s | 5.24 s (one run; the others were disturbed) |
+   | 16 | 0.62 s, 9.5 processor-seconds | 0.51 s, 7.4-7.6 processor-seconds |
+
 ## The first full rebuild after a start (2026-11-12)
 
 A full rebuild reparses every sentence, then updates every note's generated data and tags, each step on
@@ -145,18 +175,15 @@ processes used meanwhile, and the headless log has each step's time (`TaskLogEnt
 
 ## What limits parsing now (2026-11-12)
 
-Still the processor. The profile made before building only the candidate words that can match also showed, across the
-analysis's steps:
+Still the processor, and nothing big is left that a small change would remove. The sampling profile after step 5, of the
+analysis's 13.1 processor-seconds in two passes on 16 threads:
 
-- **Tokenizing, in MeCab:** 2.2 s of the 17.4, which the change above doesn't touch, so a larger share now.
-- **Allocating:** at least 1.8 s, and likely most of 0.9 s of native code the profiler couldn't name, directly under
-  `TextAnalysis`'s constructor. Parsing allocated about 13 GB in the profiled run's two passes, around 270 KB a sentence.
-- **`LazyCE` in `CandidateWordVariant`,** for the lookup in the dictionary: about 1 s, with three times the variants
-  there are now. Each one created a monitor of its own, and the first read took the lock. Since Compze.Internals.SystemCE
-  0.4.2, a `LazyCE` locks on itself, 32 bytes instead of 424 (2026-11-12): analyzing every sentence allocates 5,894 MB
-  instead of 6,414, and the garbage collector collects 3 times a pass instead of 6. The times showed no change: other
-  work on the machine made them vary more than that.
-- **`string.Join` in `CandidateWord`'s constructor:** 0.9 s, most of it on candidate words no longer built.
-- **Looking vocab up by form** (`NoteIndex.NotesWith`): 0.5 s; **the dictionary's `MightBeWord`:** 0.55 s.
-
-A new profile would show the shares as they are now.
+- **Tokenizing, in MeCab:** 2.8 s, a fifth, in MeCab.DotNet's own code: the Viterbi search, the dictionary's lookups,
+  and decoding each node's features. Its lattice nodes, `MeCabNode`, are 15% of all that analyzing allocates. Only a
+  faster tokenizer would change that, and a different one might tokenize differently.
+- **Looking vocab up by form** (`NoteIndex.NotesWith` and `HasNotesWith`): about 1 s. Of it, 0.67 s is the concurrent
+  dictionary's lookups, and 0.2 s copying each lookup's notes into a new list. Every note cache lookup returns a list;
+  returning the published set itself would save the copy, at the cost of changing what every lookup returns.
+- **The analysis's lists,** of matches above all, are about a sixth of what it allocates: each candidate word variant's
+  matches, valid matches and display matches, the last made anew at every display pass.
+- **The rest is the analysis's own logic,** spread over the matches' requirements and the display passes.

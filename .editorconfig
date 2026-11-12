@@ -5,3 +5,8 @@ indent_style = space
 indent_size = 3
 insert_final_newline = true
 charset = utf-8
+
+[*.cs]
+# A string comparison without a StringComparison compares culture-sensitively, which is slow and the wrong semantics for
+# Japanese text and for identifiers such as tag names: use Compze's StringCE.StartsWithOrdinal, EndsWithOrdinal and the like.
+dotnet_diagnostic.CA1310.severity = warning

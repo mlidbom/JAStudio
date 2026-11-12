@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -124,7 +125,7 @@ public class EnglishDictionary
       var hits = Words.Where(word => word.LowerCaseWord.Contains(searchString)).ToList();
 
       // Sort by: 1) starts with search (false first = starts with), 2) length, 3) alphabetically
-      return hits.OrderBy(word => !word.LowerCaseWord.StartsWith(searchString))
+      return hits.OrderBy(word => !word.LowerCaseWord.StartsWithOrdinal(searchString))
                  .ThenBy(word => word.LowerCaseWord.Length)
                  .ThenBy(word => word.LowerCaseWord)
                  .ToList();

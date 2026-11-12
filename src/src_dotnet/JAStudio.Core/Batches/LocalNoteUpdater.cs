@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -198,15 +199,18 @@ public class LocalNoteUpdater
 
    public bool ReadingInVocabReading(KanjiNote kanji, string kanjiReading, string vocabReading, string vocabForm)
    {
+      //refactor: KanjiNote.ReadingInVocabReading implements the same thing, except that it also rules out a reading another of the kanji's
+      //   readings covers, such as 生's い within its せい. The kanji's tagging should use KanjiNote's, if that rule is right for it too: then
+      //   the tags of the kanji with such readings change, so it needs a full rebuild and a look at what changed.
       vocabForm = vocabForm.StripHtmlAndBracketMarkupAndNoiseCharacters();
-      if(vocabForm.StartsWith(kanji.GetQuestion()))
+      if(vocabForm.StartsWithOrdinal(kanji.GetQuestion()))
       {
-         return vocabReading.StartsWith(kanjiReading);
+         return vocabReading.StartsWithOrdinal(kanjiReading);
       }
 
-      if(vocabForm.EndsWith(kanji.GetQuestion()))
+      if(vocabForm.EndsWithOrdinal(kanji.GetQuestion()))
       {
-         return vocabReading.EndsWith(kanjiReading);
+         return vocabReading.EndsWithOrdinal(kanjiReading);
       }
 
       return vocabReading.Length >= 2
