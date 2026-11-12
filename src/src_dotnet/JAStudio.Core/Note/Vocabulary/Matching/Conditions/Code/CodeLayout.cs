@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
@@ -16,7 +15,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 public sealed class CodeLayout
 {
    /// <summary>What a line deeper than one that opens nothing is indented by for each level, such as a definition under its shared-condition's name.</summary>
-   const int IndentationPerLevel = 3;
+   public const int IndentationPerLevel = 3;
 
    /// <summary>
    /// Where the code is only read: <c>AnyOf(IsAGodanVerb,</c>, then <c>IsAnIchidanVerb)</c> under <c>IsAGodanVerb</c>. As the window listing the<br/>
@@ -41,7 +40,7 @@ public sealed class CodeLayout
    /// </summary>
    public IReadOnlyList<ShownCodeLine> LinesShowing(IReadOnlyList<CodeLine> lines, int column = 0)
    {
-      List<List<CodePiece>> shown = [];
+      List<ShownCodeLine> shown = [];
       Dictionary<int, int> columnOfEachDepth = [];
       CodeLine? previous = null;
       foreach(var line in lines)
@@ -49,24 +48,23 @@ public sealed class CodeLayout
          if(previous is { OpensWhatFollows: true })
             StartWhatThePreviousLineOpens(line);
          else
-            PutOnALineOfItsOwn(line, columnOfEachDepth.GetValueOrDefault(line.Depth, column + (line.Depth - lines[0].Depth) * IndentationPerLevel));
+            shown.Add(ShownCodeLine.StartingAt(ColumnOnALineOfItsOwn(line), line));
          previous = line;
       }
 
-      return [.. shown.Select(it => new ShownCodeLine(it))];
+      return shown;
 
       void StartWhatThePreviousLineOpens(CodeLine line)
       {
-         var columnAfterTheParenthesis = new ShownCodeLine(shown[^1]).Width;
+         var columnAfterTheParenthesis = shown[^1].Width;
          columnOfEachDepth[line.Depth] = columnAfterTheParenthesis;
          if(_theFirstStartsOnTheOpeningLine)
-            shown[^1].AddRange(line.PiecesWithTheCommentApart);
+            shown[^1] = shown[^1].FollowedBy(line);
          else
-            PutOnALineOfItsOwn(line, columnAfterTheParenthesis);
+            shown.Add(ShownCodeLine.StartingAt(columnAfterTheParenthesis, line));
       }
 
-      void PutOnALineOfItsOwn(CodeLine line, int atColumn) => shown.Add([.. IndentationTo(atColumn), .. line.PiecesWithTheCommentApart]);
-
-      static IEnumerable<CodePiece> IndentationTo(int atColumn) => atColumn > 0 ? [CodePiece.Of(new string(' ', atColumn))] : [];
+      int ColumnOnALineOfItsOwn(CodeLine line) =>
+         columnOfEachDepth.GetValueOrDefault(line.Depth, column + (line.Depth - lines[0].Depth) * IndentationPerLevel);
    }
 }

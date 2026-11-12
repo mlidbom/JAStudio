@@ -9,7 +9,16 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// </summary>
 public sealed class ShownCodeLine
 {
-   internal ShownCodeLine(IReadOnlyList<CodePiece> pieces) => Pieces = pieces;
+   ShownCodeLine(IReadOnlyList<CodePiece> pieces) => Pieces = pieces;
+
+   /// <summary><paramref name="line"/> shown on a line of its own, starting at <paramref name="column"/>: indented by as many spaces.</summary>
+   internal static ShownCodeLine StartingAt(int column, CodeLine line) => new([.. IndentationTo(column), .. line.PiecesWithTheCommentApart]);
+
+   /// <summary>
+   /// This line with <paramref name="line"/> after it on the same line, as where the code is read a group's first condition follows the group's<br/>
+   /// parenthesis.
+   /// </summary>
+   internal ShownCodeLine FollowedBy(CodeLine line) => new([.. Pieces, .. line.PiecesWithTheCommentApart]);
 
    /// <summary>The line's pieces, in order: the spaces it's indented by first, if any, and a comment last, kept apart from the code before it.</summary>
    public IReadOnlyList<CodePiece> Pieces { get; }
@@ -18,5 +27,8 @@ public sealed class ShownCodeLine
    public string Text => string.Concat(Pieces.Select(it => it.Text));
 
    /// <summary>How wide the line is, in characters: the column right after it, such as after the parenthesis of a line that opens a group.</summary>
-   internal int Width => Text.Length;
+   public int Width => Text.Length;
+
+   /// <summary>The spaces that indent a line to start at <paramref name="column"/>, as a piece of code: none at the first column.</summary>
+   static IEnumerable<CodePiece> IndentationTo(int column) => column > 0 ? [CodePiece.Of(new string(' ', column))] : [];
 }
