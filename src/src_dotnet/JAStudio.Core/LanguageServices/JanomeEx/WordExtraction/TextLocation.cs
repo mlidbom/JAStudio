@@ -18,7 +18,10 @@ public sealed class TextAnalysisLocation
    public int CharacterStartIndex { get; }
    public int CharacterEndIndex { get; }
 
-   /// <summary>The variant displayed from this location, if any: its first display word's (<see cref="CandidateWord.DisplayVariant"/>), as shadowing last left it.</summary>
+   /// <summary>
+   /// The variant displayed from this location, if any: its first display word's (<see cref="CandidateWord.DisplayVariant"/>), unless another<br/>
+   /// location's word shadows that word. A location that displays no word has none (<see cref="UpdateShadowing"/>).
+   /// </summary>
    public CandidateWordVariant? DisplayVariant { get; private set; }
    public List<CandidateWordVariant> IndexingVariants { get; set; }
    public List<CandidateWord> CandidateWords { get; set; }
@@ -157,10 +160,7 @@ TextLocation('{CharacterStartIndex}-{CharacterEndIndex}, {Token.Surface} | {Toke
          }
       } else
       {
-         //review: The location keeps the DisplayVariant an earlier pass gave it, though it displays no word now, and TextAnalysis.DisplayWordVariants
-         //   still lists that variant: the sentence view shows it as a display word, and VocabNoteCompoundParts suggests its form. Should it be
-         //   cleared here? A full rebuild with it cleared changed no sentences, but the stored parsing results are made from the valid matches,
-         //   not the display variants, so that doesn't tell whether it ever happens (2026-11-12).
+         DisplayVariant = null;
          ClearShadowed();
       }
    }
