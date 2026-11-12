@@ -49,9 +49,9 @@ public class When_changing_the_notes_Anki_tags : SpecificationStartingWithAnEmpt
    {
       public adding_anki_leech_to_both_sentences() => AnkiTagChanges.AddTo([GoingHome, GoingToTheStation], Tags.Anki.For("leech"));
 
-      [XF] public void the_study_note_of_each_has_leech_in_Anki() => (Anki.TagsOf(GoingHome).Contains("leech") && Anki.TagsOf(GoingToTheStation).Contains("leech")).Must().BeTrue();
-      [XF] public void each_shows_anki_leech_among_its_Anki_tags() => (GoingHome.AnkiTags.Contains(Tags.Anki.For("leech")) && GoingToTheStation.AnkiTags.Contains(Tags.Anki.For("leech"))).Must().BeTrue();
-      [XF] public void their_own_tags_are_unchanged() => (NamesOf(GoingHome.Tags).SequenceEqual(["source::anime::natsume"]) && !GoingToTheStation.Tags.Any()).Must().BeTrue();
+      [XF] public void the_study_note_of_each_has_leech_in_Anki() => new { GoingHome = Anki.TagsOf(GoingHome), GoingToTheStation = Anki.TagsOf(GoingToTheStation) }.Must().Satisfy(it => it.GoingHome.Contains("leech") && it.GoingToTheStation.Contains("leech"));
+      [XF] public void each_shows_anki_leech_among_its_Anki_tags() => new { GoingHome = GoingHome.AnkiTags, GoingToTheStation = GoingToTheStation.AnkiTags }.Must().Satisfy(it => it.GoingHome.Contains(Tags.Anki.For("leech")) && it.GoingToTheStation.Contains(Tags.Anki.For("leech")));
+      [XF] public void their_own_tags_are_unchanged() => new { GoingHome = NamesOf(GoingHome.Tags), GoingToTheStation = NamesOf(GoingToTheStation.Tags) }.Must().Satisfy(it => it.GoingHome.SequenceEqual(["source::anime::natsume"]) && it.GoingToTheStation.Length == 0);
    }
 
    public class removing_anki_marked_from_the_sentence_going_home : When_changing_the_notes_Anki_tags

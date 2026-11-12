@@ -16,10 +16,10 @@ public class When_listing_the_tag_paths_in_use : NoteSearchSpecification
 
    public When_listing_the_tag_paths_in_use() => _tagPaths = GetService<JPCollection>().TagPathsInUse();
 
-   [XF] public void a_tag_a_note_has_is_listed() => _tagPaths.All.Contains("source::anime::natsume::s3::01").Must().BeTrue();
-   [XF] public void a_parent_of_a_tag_is_listed_even_though_no_note_has_it_alone() => _tagPaths.All.Contains("source::anime::natsume").Must().BeTrue();
+   [XF] public void a_tag_a_note_has_is_listed() => _tagPaths.All.Must().Contain("source::anime::natsume::s3::01");
+   [XF] public void a_parent_of_a_tag_is_listed_even_though_no_note_has_it_alone() => _tagPaths.All.Must().Contain("source::anime::natsume");
    [XF] public void a_tag_comes_before_the_tags_in_its_branch() =>
-      (_tagPaths.All.ToList().IndexOf("source::anime") < _tagPaths.All.ToList().IndexOf("source::anime::natsume")).Must().BeTrue();
+      _tagPaths.All.ToList().Must().Satisfy(it => it.IndexOf("source::anime") < it.IndexOf("source::anime::natsume"));
 
    public class when_matching_typed_parts : When_listing_the_tag_paths_in_use
    {

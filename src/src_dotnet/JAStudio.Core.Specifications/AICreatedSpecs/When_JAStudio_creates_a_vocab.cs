@@ -65,16 +65,16 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
       protected readonly VocabNote _vocab;
       public from_the_dictionary_for_a_word_it_has() => _vocab = GetService<VocabNoteFactory>().CreateWithDictionary("書く");
 
-      [XF] public void it_is_tagged_as_the_dictionarys() => _vocab.Tags.Contains(Tags.Source.Jamdict).Must().BeTrue();
-      [XF] public void it_is_not_tagged_as_our_own() => _vocab.Tags.Contains(Tags.Source.Jastudio).Must().BeFalse();
+      [XF] public void it_is_tagged_as_the_dictionarys() => _vocab.Tags.Must().Contain(Tags.Source.Jamdict);
+      [XF] public void it_is_not_tagged_as_our_own() => _vocab.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jastudio));
 
       public class and_then_cloned_with_a_disambiguation : from_the_dictionary_for_a_word_it_has
       {
          readonly VocabNote _clone;
          public and_then_cloned_with_a_disambiguation() => _clone = _vocab.Cloner.CloneWithDisambiguation("clone").Vocab;
 
-         [XF] public void the_clone_is_tagged_as_the_dictionarys_as_the_original_is() => _clone.Tags.Contains(Tags.Source.Jamdict).Must().BeTrue();
-         [XF] public void the_clone_is_not_tagged_as_our_own() => _clone.Tags.Contains(Tags.Source.Jastudio).Must().BeFalse();
+         [XF] public void the_clone_is_tagged_as_the_dictionarys_as_the_original_is() => _clone.Tags.Must().Contain(Tags.Source.Jamdict);
+         [XF] public void the_clone_is_not_tagged_as_our_own() => _clone.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jastudio));
       }
 
       public class and_then_its_suffix_version_created : from_the_dictionary_for_a_word_it_has
@@ -82,8 +82,8 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
          readonly VocabNote _suffixVersion;
          public and_then_its_suffix_version_created() => _suffixVersion = _vocab.Cloner.CreateSuffixVersion("ば").Vocab;
 
-         [XF] public void the_suffix_version_is_tagged_as_our_own() => _suffixVersion.Tags.Contains(Tags.Source.Jastudio).Must().BeTrue();
-         [XF] public void the_suffix_version_is_not_tagged_as_the_dictionarys() => _suffixVersion.Tags.Contains(Tags.Source.Jamdict).Must().BeFalse();
+         [XF] public void the_suffix_version_is_tagged_as_our_own() => _suffixVersion.Tags.Must().Contain(Tags.Source.Jastudio);
+         [XF] public void the_suffix_version_is_not_tagged_as_the_dictionarys() => _suffixVersion.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jamdict));
       }
    }
 
@@ -92,7 +92,7 @@ public class When_JAStudio_creates_a_vocab : SpecificationStartingWithAnEmptyCol
       readonly VocabNote _vocab;
       public from_the_dictionary_for_a_word_it_has_no_entry_for() => _vocab = GetService<VocabNoteFactory>().CreateWithDictionary("ぺぺぺぺ");
 
-      [XF] public void it_is_tagged_as_our_own() => _vocab.Tags.Contains(Tags.Source.Jastudio).Must().BeTrue();
-      [XF] public void it_is_not_tagged_as_the_dictionarys() => _vocab.Tags.Contains(Tags.Source.Jamdict).Must().BeFalse();
+      [XF] public void it_is_tagged_as_our_own() => _vocab.Tags.Must().Contain(Tags.Source.Jastudio);
+      [XF] public void it_is_not_tagged_as_the_dictionarys() => _vocab.Tags.Must().Satisfy(it => !it.Contains(Tags.Source.Jamdict));
    }
 }

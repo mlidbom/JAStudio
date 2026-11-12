@@ -30,7 +30,7 @@ public class When_getting_the_editable_fields_of_a_note : McpServerSpecification
 
       [XF] public void the_fields_are_reported_for_the_vocab() => _fields.Note.Must().Be("行った");
       [XF] public void every_field_the_vocabs_editor_edits_is_listed_by_its_name_in_order() => _fields.Fields.Select(it => it.Name).Must().SequenceEqual(VocabEditableFields.All.Select(it => it.Name));
-      [XF] public void the_readings_are_listed_with_their_value() => JsonNode.DeepEquals(Field("readings").Value, new JsonArray("いった")).Must().BeTrue();
+      [XF] public void the_readings_are_listed_with_their_value() => JsonNode.DeepEquals(Field("readings").Value, new JsonArray("いった")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
       [XF] public void the_readings_take_a_list_of_texts() => Field("readings").Takes.Must().Be("a list of texts");
       [XF] public void the_readings_are_labeled_as_in_the_vocabs_editor() => Field("readings").Label.Must().Be("Readings");
       [XF] public void the_surface_rule_takes_unset_required_or_forbidden() => Field("matching.rules.surface").Takes.Must().Be("one of \"unset\", \"required\", \"forbidden\"");
@@ -49,7 +49,7 @@ public class When_getting_the_editable_fields_of_a_note : McpServerSpecification
 
       [XF] public void every_field_the_kanjis_editor_edits_is_listed_by_its_name_in_order() => _fields.Fields.Select(it => it.Name).Must().SequenceEqual(KanjiEditableFields.All.Select(it => it.Name));
       [XF] public void the_on_readings_take_a_list_of_readings() => Field("readings.on").Takes.Must().Be("a list of readings, each {\"kana\": \"...\", \"isPrimary\": true or false}");
-      [XF] public void the_on_reading_is_listed_in_hiragana() => JsonNode.DeepEquals(Field("readings.on").Value?[0]?["kana"], JsonValue.Create("こう")).Must().BeTrue();
+      [XF] public void the_on_reading_is_listed_in_hiragana() => JsonNode.DeepEquals(Field("readings.on").Value?[0]?["kana"], JsonValue.Create("こう")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
    }
 
    /// <summary>The sentence 行った.</summary>

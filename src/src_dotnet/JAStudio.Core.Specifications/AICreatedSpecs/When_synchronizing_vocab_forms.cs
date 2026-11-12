@@ -28,7 +28,7 @@ public class When_synchronizing_vocab_forms : SpecificationStartingWithAnEmptyCo
          public after_removing_it() => _vocabA.Forms.Remove("食う");
 
          [XF] public void the_other_vocab_no_longer_has_this_vocabs_question_as_a_form() =>
-            _vocabB.Forms.EnteredFormsSet().Contains("食べる").Must().BeFalse();
+            _vocabB.Forms.EnteredFormsSet().Must().Satisfy(it => !it.Contains("食べる"));
       }
    }
 

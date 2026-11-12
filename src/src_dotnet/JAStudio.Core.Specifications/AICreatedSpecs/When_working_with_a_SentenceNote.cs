@@ -41,7 +41,7 @@ public class When_working_with_a_SentenceNote : SpecificationStartingWithAnEmpty
       public given_a_new_sentence_with_default_configuration() => _sentence = new SentenceNote(NoteServices);
 
       [XF] public void HighlightedWords_is_empty() => _sentence.Configuration.HighlightedWords.Must().BeEmpty();
-      [XF] public void IncorrectMatches_is_empty() => _sentence.Configuration.IncorrectMatches.IsEmpty().Must().BeTrue();
-      [XF] public void HiddenMatches_is_empty() => _sentence.Configuration.HiddenMatches.IsEmpty().Must().BeTrue();
+      [XF] public void IncorrectMatches_is_empty() => _sentence.Configuration.IncorrectMatches.Get().Must().BeEmpty();
+      [XF] public void HiddenMatches_is_empty() => _sentence.Configuration.HiddenMatches.Get().Must().BeEmpty();
    }
 }

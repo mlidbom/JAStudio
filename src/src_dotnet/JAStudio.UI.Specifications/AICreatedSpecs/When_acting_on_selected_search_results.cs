@@ -107,11 +107,11 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
          SpinWait.SpinUntil(() => BothSentencesHave(NewTag) && _rowsThatToldTheGridToReadTheirValuesAgain.Count == 2, TimeToWaitForTheSearch);
       }
 
-      [XF] public void both_sentences_have_the_tag() => BothSentencesHave(NewTag).Must().BeTrue();
+      [XF] public void both_sentences_have_the_tag() => _rowsBeforeActing.Select(it => it.Note.Tags).Must().Satisfy(tagsOfEachSentence => tagsOfEachSentence.All(it => it.Contains(Tag.FromName(NewTag))));
       [XF] public void the_rows_tags_column_shows_it() =>
          FoundSentences().Select(it => it.Tags.Text).Must().SequenceEqual([$"{NewTag} source::anime", $"{NewTag} source::anime"]);
       [XF] public void the_dialog_said_it_adds_a_tag_to_2_notes() => DialogShown.Title.Must().Be("Add a tag to 2 notes");
-      [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue();
+      [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue(); //todo:compze: not Satisfy on the rows: Must's failure message serializes them, notes and all, which crashes the test process. Satisfy on the rows once it doesn't
 
       public class and_removing_it_again_through_the_menu : after_adding_a_new_tag_through_the_menu
       {
@@ -121,7 +121,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
             SpinWait.SpinUntil(() => NeitherSentenceHas(NewTag), TimeToWaitForTheSearch);
          }
 
-         [XF] public void neither_sentence_has_the_tag() => NeitherSentenceHas(NewTag).Must().BeTrue();
+         [XF] public void neither_sentence_has_the_tag() => _rowsBeforeActing.Select(it => it.Note.Tags).Must().Satisfy(tagsOfEachSentence => tagsOfEachSentence.All(it => !it.Contains(Tag.FromName(NewTag))));
          [XF] public void the_dialog_offered_the_tags_the_sentences_have() =>
             DialogShown.Picker.Choices.Select(it => it.TagPath).Must().SequenceEqual([NewTag, "source::anime"]);
       }
@@ -153,7 +153,7 @@ public class When_acting_on_selected_search_results : SpecificationUsingAWorkspa
          }
 
          [XF] public void both_sentences_are_studying_reading() => _rowsBeforeActing.Select(it => it.Note.IsStudyingRead()).Must().SequenceEqual([true, true]);
-         [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue();
+         [XF] public void both_rows_tell_the_grid_to_read_their_values_again() => _rowsBeforeActing.All(_rowsThatToldTheGridToReadTheirValuesAgain.ContainsKey).Must().BeTrue(); //todo:compze: not Satisfy on the rows: Must's failure message serializes them, notes and all, which crashes the test process. Satisfy on the rows once it doesn't
          [XF] public void the_results_still_show_the_same_rows_although_the_search_would_no_longer_find_them() => TheSameRows(FoundSentences(), _rowsBeforeActing).Must().BeTrue();
          [XF] public void the_rows_show_both_sentences_as_studying_reading() => FoundSentences().Select(it => it.IsStudyingReading).Must().SequenceEqual([true, true]);
 

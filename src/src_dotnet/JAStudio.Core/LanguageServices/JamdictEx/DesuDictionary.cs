@@ -4,34 +4,26 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Compze.Internals.Logging;
+using Compze.Threading;
 using JAStudio.Dictionary;
 
 namespace JAStudio.Core.LanguageServices.JamdictEx;
 
 class DictionaryProvider
 {
-   static readonly object Lock = new();
+   static readonly IMonitor Monitor = IMonitor.New();
    static DictionaryProvider? _instance;
 
-   public static DictionaryProvider GetInstance()
-   {
-      // ReSharper disable once InconsistentlySynchronizedField
-      if(_instance != null) return _instance;
-      lock(Lock)
-      {
-         return _instance ??= new DictionaryProvider();
-      }
-   }
+   public static DictionaryProvider GetInstance() => Monitor.DoubleCheckedLocking(ref _instance, () => new DictionaryProvider());
 
-   public static void ShutDown()
+   public static void ShutDown() => Monitor.Locked(() =>
    {
-      lock(Lock)
-      {
-         var old = _instance;
-         _instance = null;
-         try { old?._db.Dispose(); } catch { /* Connection may already be closed */ }
-      }
-   }
+      var old = _instance;
+      _instance = null;
+      //refactor: this catch swallows every exception Dispose throws, with no evidence of one that isn't a bug. Delete it, and catch only an
+      //   exception seen in real use, if one turns up.
+      try { old?._db.Dispose(); } catch { /* Connection may already be closed */ }
+   });
 
    readonly JMDictDatabase _db;
 
@@ -57,11 +49,15 @@ class DictionaryProvider
    public HashSet<string> AllWordForms { get; private set; } = null!;
    public HashSet<string> AllNameForms { get; private set; } = null!;
 
+   /// <summary><see cref="AllWordForms"/> in order, for telling whether any word form starts with a text.</summary>
+   public FormsInOrder WordFormsInOrder { get; private set; } = null!;
+
    void LoadAllForms()
    {
       var stopwatch = Stopwatch.StartNew();
       AllWordForms = _db.LoadAllWordForms();
       AllNameForms = _db.LoadAllNameForms();
+      WordFormsInOrder = new FormsInOrder(AllWordForms);
       this.Log().Info($"Loaded {AllWordForms.Count} word forms and {AllNameForms.Count} name forms in {stopwatch.ElapsedMilliseconds}ms");
    }
 }

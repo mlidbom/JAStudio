@@ -28,7 +28,7 @@ public class When_a_vocab_has_alternative_compound_parts : SpecificationStarting
 
    [XF] public void the_primary_parts_keep_their_order() => NamesOf(_vocab.CompoundParts.Primary()).Must().SequenceEqual(["忘れる", "られない"]);
 
-   [XF] public void the_part_that_is_also_a_primary_part_is_not_an_alternative_part() => NamesOf(_vocab.CompoundParts.Alternative()).Contains("られない").Must().BeFalse();
+   [XF] public void the_part_that_is_also_a_primary_part_is_not_an_alternative_part() => NamesOf(_vocab.CompoundParts.Alternative()).Must().Satisfy(it => !it.Contains("られない"));
 
    [XF] public void the_alternative_parts_are_in_a_fixed_order_whatever_order_they_were_entered_in() =>
       NamesOf(_vocab.CompoundParts.Alternative()).Must().SequenceEqual(["ない", "忘れられる"]);

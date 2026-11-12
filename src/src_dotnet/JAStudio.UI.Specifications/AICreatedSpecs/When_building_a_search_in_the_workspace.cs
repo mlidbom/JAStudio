@@ -114,7 +114,7 @@ public class When_building_a_search_in_the_workspace : SpecificationUsingAWorksp
       [XF] public void t_picks_the_tags_item() => ItemFor('t')?.Name.Must().Be("_t Tags");
       [XF] public void q_picks_the_questions_submenu() => ItemFor('q')?.Kind.Must().Be(SpecMenuItemKind.Submenu);
       [XF] public void the_case_of_the_key_is_ignored() => ItemFor('Q')?.Name.Must().Be("_q Question");
-      [XF] public void a_key_no_item_has_picks_nothing() => (ItemFor('x') is null).Must().BeTrue();
+      [XF] public void a_key_no_item_has_picks_nothing() => ItemFor('x')?.Name.Must().BeNull();
    }
 
    /// <summary>A property with only a few values has a submenu of them in the add menu, which adds the condition at once, with no editor.</summary>

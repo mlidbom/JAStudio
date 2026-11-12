@@ -45,9 +45,7 @@ public class When_deleting_a_tag_branch : McpServerSpecification
 
    CallToolResult DeleteATagBranch(string branch) => CallTool("delete_a_tag_branch", new Dictionary<string, object?> { ["branch"] = branch });
 
-   static bool HasATagIn(SentenceNote sentence, string branch) => sentence.Tags.Any(new TagBranch(branch).Contains);
 
-   static bool HasAnAnkiTagIn(SentenceNote sentence, string branch) => sentence.AnkiTags.Any(new TagBranch(branch).Contains);
 
    public class the_branch_above_the_episodes : When_deleting_a_tag_branch
    {
@@ -56,8 +54,8 @@ public class When_deleting_a_tag_branch : McpServerSpecification
       public the_branch_above_the_episodes() => _result = ResultOf<DeletedTagBranch>(DeleteATagBranch("source::anime::violet"));
 
       [XF] public void no_sentence_has_an_episode_left() =>
-         (HasATagIn(_sentenceTaggedWithBothEpisodes, "source::anime::violet") || HasATagIn(_sentenceTaggedWithEpisode08Only, "source::anime::violet")).Must().BeFalse();
-      [XF] public void the_sentences_keep_their_other_tags() => HasATagIn(_sentenceTaggedWithBothEpisodes, "tmp").Must().BeTrue();
+         new { BothEpisodes = _sentenceTaggedWithBothEpisodes.Tags, Episode08Only = _sentenceTaggedWithEpisode08Only.Tags }.Must().Satisfy(it => !it.BothEpisodes.Any(new TagBranch("source::anime::violet").Contains) && !it.Episode08Only.Any(new TagBranch("source::anime::violet").Contains));
+      [XF] public void the_sentences_keep_their_other_tags() => _sentenceTaggedWithBothEpisodes.Tags.Must().Satisfy(it => it.Any(new TagBranch("tmp").Contains));
       [XF] public void the_study_notes_keep_their_tags_in_Anki() => _anki.TagsOf(_sentenceTaggedWithBothEpisodes).Must().SequenceEqual(["marked", "tmp::a"]);
       [XF] public void it_reports_both_sentences() => _result.NotesThatHadATagInIt.Must().Be(2);
       [XF] public void it_reports_no_Anki_notes_for_a_branch_of_the_notes_own_tags() => _result.AnkiNotesThatHadATagInIt.Must().BeNull();
@@ -70,10 +68,10 @@ public class When_deleting_a_tag_branch : McpServerSpecification
       public anki_tmp() => _result = ResultOf<DeletedTagBranch>(DeleteATagBranch("anki::tmp"));
 
       [XF] public void the_study_notes_keep_only_their_other_tags_in_Anki() =>
-         (_anki.TagsOf(_sentenceTaggedWithBothEpisodes).SequenceEqual(["marked"]) && !_anki.TagsOf(_sentenceTaggedWithEpisode08Only).Any()).Must().BeTrue();
+         new { BothEpisodes = _anki.TagsOf(_sentenceTaggedWithBothEpisodes), Episode08Only = _anki.TagsOf(_sentenceTaggedWithEpisode08Only) }.Must().Satisfy(it => it.BothEpisodes.SequenceEqual(["marked"]) && !it.Episode08Only.Any());
       [XF] public void the_sentences_no_longer_show_it() =>
-         (HasAnAnkiTagIn(_sentenceTaggedWithBothEpisodes, "anki::tmp") || HasAnAnkiTagIn(_sentenceTaggedWithEpisode08Only, "anki::tmp")).Must().BeFalse();
-      [XF] public void the_sentences_keep_their_own_tag_of_the_same_name() => HasATagIn(_sentenceTaggedWithBothEpisodes, "tmp").Must().BeTrue();
+         new { BothEpisodes = _sentenceTaggedWithBothEpisodes.AnkiTags, Episode08Only = _sentenceTaggedWithEpisode08Only.AnkiTags }.Must().Satisfy(it => !it.BothEpisodes.Any(new TagBranch("anki::tmp").Contains) && !it.Episode08Only.Any(new TagBranch("anki::tmp").Contains));
+      [XF] public void the_sentences_keep_their_own_tag_of_the_same_name() => _sentenceTaggedWithBothEpisodes.Tags.Must().Satisfy(it => it.Any(new TagBranch("tmp").Contains));
       [XF] public void it_reports_both_sentences() => _result.NotesThatHadATagInIt.Must().Be(2);
       [XF] public void it_reports_the_Anki_notes_it_was_deleted_from() => _result.AnkiNotesThatHadATagInIt.Must().Be(2);
    }

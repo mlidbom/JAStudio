@@ -59,7 +59,7 @@ public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : Specificat
 
       [XF] public void the_vocab_has_it() => _vocab.PartsOfSpeech.All().Must().SequenceEqual([PartOfSpeech.GodanVerb, PartOfSpeech.Intransitive, PartOfSpeech.Transitive]);
       [XF] public void the_editor_shows_it_as_a_chip() => PartsOfSpeech.Items.Select(it => it.Name).Must().SequenceEqual(["godan verb", "intransitive", "transitive"]);
-      [XF] public void the_box_no_longer_offers_it() => PartsOfSpeech.Addable.Contains("transitive").Must().BeFalse();
+      [XF] public void the_box_no_longer_offers_it() => PartsOfSpeech.Addable.Must().Satisfy(it => !it.Contains("transitive"));
       [XF] public void the_box_is_emptied() => PartsOfSpeech.NewPartOfSpeech.Must().Be("");
    }
 
@@ -72,6 +72,6 @@ public class When_editing_a_vocabs_parts_of_speech_in_the_workspace : Specificat
       }
 
       [XF] public void the_vocab_has_only_the_other() => _vocab.PartsOfSpeech.All().Must().SequenceEqual([PartOfSpeech.GodanVerb]);
-      [XF] public void the_box_offers_it_again() => PartsOfSpeech.Addable.Contains("intransitive").Must().BeTrue();
+      [XF] public void the_box_offers_it_again() => PartsOfSpeech.Addable.Must().Contain("intransitive");
    }
 }

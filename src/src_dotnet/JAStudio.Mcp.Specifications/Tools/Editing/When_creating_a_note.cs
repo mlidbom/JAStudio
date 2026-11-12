@@ -34,7 +34,7 @@ public class When_creating_a_note : McpServerSpecification
       [XF] public void the_vocab_created_is_reported() => _created.Must().Be(NoteSummary.Of(Collection.Vocab.WithQuestion("要する").Single()));
       [XF] public void the_vocab_has_the_dictionarys_reading() => Collection.Vocab.WithQuestion("要する").Single().GetReadings().Must().SequenceEqual(["ようする"]);
       [XF] public void the_sentence_that_contains_it_is_reparsed_and_matches_it() =>
-         _sentence.GetParsingResult().ParsedWords.Any(it => it.VocabId == Collection.Vocab.WithQuestion("要する").Single().GetId()).Must().BeTrue();
+         _sentence.GetParsingResult().ParsedWords.Must().Satisfy(parsedWords => parsedWords.Any(it => it.VocabId == Collection.Vocab.WithQuestion("要する").Single().GetId()));
    }
 
    public class a_sentence : When_creating_a_note

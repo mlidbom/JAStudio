@@ -63,7 +63,7 @@ public class When_getting_the_tag_tree : McpServerSpecification
       [XF] public void it_counts_the_one_tagged_vocab_studied() => _source.Vocab.Must().Be(new NoteCounts(Notes: 1, Studying: 1));
       [XF] public void it_counts_the_one_kanji() => _source.Kanji.Must().Be(new NoteCounts(Notes: 1, Studying: 0));
       [XF] public void it_lists_anime_and_wani_below_it() => ChildrenOf(_source).Select(it => it.TagPath).Must().SequenceEqual(["source::anime", "source::wani"]);
-      [XF] public void anime_leaves_out_vocab_and_kanji_since_none_are_in_its_branch() => (Anime.Vocab is null && Anime.Kanji is null).Must().BeTrue();
+      [XF] public void anime_leaves_out_vocab_and_kanji_since_none_are_in_its_branch() => Anime.Must().Satisfy(it => it.Vocab is null && it.Kanji is null);
       [XF] public void anime_lists_no_children_since_they_are_below_the_level_listed() => Anime.Children.Must().BeNull();
       [XF] public void anime_says_four_paths_are_below_it_natsume_s3_01_and_02() => Anime.PathsBelowNotListed.Must().Be(4);
    }

@@ -101,6 +101,6 @@ public class When_running_a_command_on_a_note : McpServerSpecification
       public splitting_a_word_of_a_sentence_with_a_word_break_tag() => _run = ResultOf<NoteCommandRun>(Run(CreateSentence("会いに行った"), "splitWithAWordBreakTag", "行った"));
 
       [XF] public void the_question_has_a_word_break_tag_after_the_words_first_character() =>
-         JsonNode.DeepEquals(_run.Changes.Single().After, JsonValue.Create("会いに行<wbr>った")).Must().BeTrue();
+         JsonNode.DeepEquals(_run.Changes.Single().After, JsonValue.Create("会いに行<wbr>った")).Must().BeTrue(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
    }
 }

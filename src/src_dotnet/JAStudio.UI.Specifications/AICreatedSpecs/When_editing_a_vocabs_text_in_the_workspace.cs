@@ -109,7 +109,7 @@ public class When_editing_a_vocabs_text_in_the_workspace : SpecificationUsingAWo
 
       public with_a_sentence_containing_another_form_of_it() => _sentence = CreateSentence("毎日駆ける。");
 
-      [XF] public void the_sentence_does_not_match_the_vocab() => _vocab.Sentences.All().Contains(_sentence).Must().BeFalse();
+      [XF] public void the_sentence_does_not_match_the_vocab() => _vocab.Sentences.All().Select(it => it.GetId()).Must().Satisfy(it => !it.Contains(_sentence.GetId())); //todo:compze: Must's failure message crashes the test process serializing notes; Satisfy on the notes themselves once it doesn't
 
       public class after_adding_that_form : with_a_sentence_containing_another_form_of_it
       {

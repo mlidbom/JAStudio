@@ -176,6 +176,9 @@ public class DictLookup
 
    public bool MightBeWord(string word) => _dictionaryProvider.Value.AllWordForms.Contains(word);
 
+   /// <summary>Whether any word form of the dictionary starts with <paramref name="text"/>, or is it.</summary>
+   public bool HasAWordFormStartingWith(string text) => _dictionaryProvider.Value.WordFormsInOrder.AnyStartsWith(text);
+
    public bool MightBeName(string word) => _dictionaryProvider.Value.AllNameForms.Contains(word);
 
    public bool MightBeEntry(string word) => MightBeWord(word) || MightBeName(word);

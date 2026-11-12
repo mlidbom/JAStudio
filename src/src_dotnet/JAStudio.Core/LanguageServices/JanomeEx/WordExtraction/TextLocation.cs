@@ -58,12 +58,35 @@ TextLocation('{CharacterStartIndex}-{CharacterEndIndex}, {Token.Surface} | {Toke
 
    public void AnalysisStep1AnalyzeNonCompoundValidity()
    {
-      var lookaheadMax = System.Math.Min(MaxLookahead, ForwardList(MaxLookahead).Count);
-      CandidateWords = Enumerable.Range(0, lookaheadMax)
+      CandidateWords = Enumerable.Range(0, MostTokensACandidateWordStartingHereCanSpan())
                                  .Reverse()
                                  .Select(index => new CandidateWord(ForwardList(index)))
                                  .ToList();
       CandidateWords[^1].RunValidityAnalysis(); // the non-compound part needs to be completed first
+   }
+
+   /// <summary>
+   /// The most tokens a candidate word starting at this location is built for: as many as the sentence has left, up to <see cref="MaxLookahead"/>,<br/>
+   /// but no more than a word that can match anything spans.
+   /// </summary>
+   /// <remarks>
+   /// A candidate word gets matches only from the vocab and the dictionary words that have one of its forms, and each of its forms, its surface<br/>
+   /// and its base form, starts with the surface of all its tokens but the last. So once no vocab or dictionary word form starts with the surface<br/>
+   /// of the tokens so far, no longer candidate word here can match anything. Building them all, 80% of the candidate words the analysis<br/>
+   /// built were compounds that matched nothing (dev_docs/parsing-speed.md).
+   /// </remarks>
+   int MostTokensACandidateWordStartingHereCanSpan()
+   {
+      var mostTokensTheSentenceHasLeft = System.Math.Min(MaxLookahead, Analysis.Locations.Count - TokenIndex);
+      var tokens = 1;
+      var surfaceOfTheTokens = Token.Surface;
+      while(tokens < mostTokensTheSentenceHasLeft && Analysis.Services.AVocabOrDictionaryWordFormStartsWith(surfaceOfTheTokens))
+      {
+         surfaceOfTheTokens += Analysis.Locations[TokenIndex + tokens].Token.Surface;
+         tokens++;
+      }
+
+      return tokens;
    }
 
    public void AnalysisStep2AnalyzeCompoundValidity()

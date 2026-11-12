@@ -16,5 +16,5 @@ public class When_analyzing_a_godan_e_stem_followed_by_an_ending_that_can_follow
    [InlineData("食うとか飲めとか言うな", "飲め")] // a quoted imperative
    [InlineData("一発で盛り上げろ 行け夏目", "行け")] // an imperative followed by a noun
    public void the_e_stem_is_left_a_godan_verb(string sentence, string eStem) =>
-      TokensOf(sentence).Any(it => it.Surface == eStem && it.IsGodanVerb).Must().BeTrue();
+      TokensOf(sentence).Must().Satisfy(tokens => tokens.Any(it => it.Surface == eStem && it.IsGodanVerb));
 }

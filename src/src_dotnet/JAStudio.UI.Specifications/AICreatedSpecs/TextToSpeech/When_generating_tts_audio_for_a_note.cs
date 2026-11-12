@@ -127,10 +127,10 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
       string UsedFile => Path.Combine(GetService<IEnvironmentPaths>().MediaDir, "free", "TTS", "sentences", "jastudio", _fileName);
 
-      [XF] public void the_file_is_named_after_the_voice_and_made_unique() => Regex.IsMatch(_fileName, "^jastudio-tts-fake-steady-[0-9a-f]{32}\\.mp3$").Must().BeTrue();
+      [XF] public void the_file_is_named_after_the_voice_and_made_unique() => _fileName.Must().Satisfy(it => Regex.IsMatch(it, "^jastudio-tts-fake-steady-[0-9a-f]{32}\\.mp3$"));
       [XF] public void it_is_the_corpuss_own_audio_of_the_note_as_tts_audio_of_ours_with_its_voice_and_the_voices_gender() =>
          _sentence.Audio.All.Must().SequenceEqual([new AudioReference(_fileName) { IsOurs = true, IsTextToSpeech = true, TextToSpeechVoice = "Fake ja-JP-Steady", VoiceGender = VoiceGender.Female }]);
-      [XF] public void it_is_in_the_media_layers_folder_for_the_tts_audio_of_sentences() => File.ReadAllBytes(UsedFile).SequenceEqual(Attempt(1).Speech.Mp3).Must().BeTrue();
+      [XF] public void it_is_in_the_media_layers_folder_for_the_tts_audio_of_sentences() => File.ReadAllBytes(UsedFile).Must().SequenceEqual(Attempt(1).Speech.Mp3);
       [XF] public void the_note_finds_it_in_the_media_layer() => (_sentence.PreferredAudio?.FilePath ?? "").Must().Be(UsedFile);
 
       public class and_opening_the_dialog_again_and_generating_with_both_voices : after_using_attempt_1_when_attempt_2_was_selected

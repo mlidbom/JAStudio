@@ -39,7 +39,7 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
    protected CallToolResult RemoveATagFromTheNotesFound(JsonObject search, string tag) =>
       CallTool("remove_a_tag_from_the_notes_found", new Dictionary<string, object?> { ["search"] = search, ["tag"] = tag });
 
-   protected static bool HasTheTag(SentenceNote sentence, string tag) => sentence.Tags.Contains(Tag.FromName(tag));
+   protected static string[] TagNamesOf(SentenceNote sentence) => [.. sentence.Tags.Select(it => it.Name)];
 
    public class episode_08_from_the_notes_tagged_with_both_episodes : When_removing_a_tag_from_the_notes_found
    {
@@ -50,9 +50,9 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
                                                           new JsonObject { ["allOf"] = new JsonArray(new JsonObject { ["tagsInclude"] = Episode07 }, new JsonObject { ["tagsInclude"] = Episode08 }) },
                                                           Episode08));
 
-      [XF] public void the_sentence_tagged_with_both_no_longer_has_episode_08() => HasTheTag(_sentenceTaggedWithBothEpisodes, Episode08).Must().BeFalse();
-      [XF] public void the_sentence_tagged_with_both_keeps_episode_07() => HasTheTag(_sentenceTaggedWithBothEpisodes, Episode07).Must().BeTrue();
-      [XF] public void the_sentence_the_search_did_not_find_keeps_episode_08() => HasTheTag(_sentenceTaggedWithEpisode08Only, Episode08).Must().BeTrue();
+      [XF] public void the_sentence_tagged_with_both_no_longer_has_episode_08() => TagNamesOf(_sentenceTaggedWithBothEpisodes).Must().Satisfy(it => !it.Contains(Episode08));
+      [XF] public void the_sentence_tagged_with_both_keeps_episode_07() => TagNamesOf(_sentenceTaggedWithBothEpisodes).Must().Contain(Episode07);
+      [XF] public void the_sentence_the_search_did_not_find_keeps_episode_08() => TagNamesOf(_sentenceTaggedWithEpisode08Only).Must().Contain(Episode08);
       [XF] public void it_reports_one_note_changed() => _result.NotesChanged.Must().Be(1);
       [XF] public void it_lists_the_sentence_it_changed() => _result.Notes.Select(it => it.Question).Must().SequenceEqual(["明日学校に行く"]);
    }
@@ -65,7 +65,7 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
          _result = ResultOf<NotesTheTagChangedOn>(RemoveATagFromTheNotesFound(new JsonObject { ["allOf"] = new JsonArray() }, "source::anime::violet"));
 
       [XF] public void it_reports_no_note_changed_since_no_note_has_that_tag_itself() => _result.NotesChanged.Must().Be(0);
-      [XF] public void the_tags_below_it_stay() => HasTheTag(_sentenceTaggedWithEpisode08Only, Episode08).Must().BeTrue();
+      [XF] public void the_tags_below_it_stay() => TagNamesOf(_sentenceTaggedWithEpisode08Only).Must().Contain(Episode08);
    }
 
    public class a_tag_JAStudio_defines : When_removing_a_tag_from_the_notes_found
@@ -80,7 +80,7 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
       [XF] public void the_tool_call_fails() => _result.IsError.Must().Be(true);
       [XF] public void the_failure_names_the_tag() => TextOf(_result).Must().Contain(Tags.Sentence.Uses.HiddenMatches.Name);
-      [XF] public void the_note_keeps_the_tag() => _sentenceTaggedWithEpisode08Only.Tags.Contains(Tags.Sentence.Uses.HiddenMatches).Must().BeTrue();
+      [XF] public void the_note_keeps_the_tag() => _sentenceTaggedWithEpisode08Only.Tags.Must().Contain(Tags.Sentence.Uses.HiddenMatches);
    }
 
    /// <summary>A tag below <c>anki::</c>, one of the notes' tags in Anki: the study-note of each sentence is tagged <c>marked</c> in Anki, here the pretend Anki.</summary>
@@ -98,7 +98,7 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
       [XF] public void the_study_notes_no_longer_have_it_in_Anki() =>
          (GetService<PretendAnki>().TagsOf(_sentenceTaggedWithBothEpisodes).Count + GetService<PretendAnki>().TagsOf(_sentenceTaggedWithEpisode08Only).Count).Must().Be(0);
-      [XF] public void the_sentences_no_longer_show_it() => (_sentenceTaggedWithBothEpisodes.AnkiTags.Any() || _sentenceTaggedWithEpisode08Only.AnkiTags.Any()).Must().BeFalse();
+      [XF] public void the_sentences_no_longer_show_it() => new { BothEpisodes = _sentenceTaggedWithBothEpisodes.AnkiTags, Episode08Only = _sentenceTaggedWithEpisode08Only.AnkiTags }.Must().Satisfy(it => !it.BothEpisodes.Any() && !it.Episode08Only.Any());
       [XF] public void it_reports_both_sentences_changed() => _result.NotesChanged.Must().Be(2);
    }
 }

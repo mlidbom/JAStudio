@@ -44,8 +44,8 @@ public class When_a_sentence_with_media_is_deleted_in_JAStudio : SpecificationSt
       collection.Delete(_deleted, ItsAnkiNote.IsDeleted);
    }
 
-   [XF] public void its_audio_file_that_no_other_note_uses_is_deleted_from_the_media_layer() => File.Exists(_ownAudioPath).Must().BeFalse();
+   [XF] public void its_audio_file_that_no_other_note_uses_is_deleted_from_the_media_layer() => _ownAudioPath.Must().Satisfy(it => !File.Exists(it));
    [XF] public void the_media_file_index_no_longer_has_its_audio_file() => GetService<MediaFileIndex>().ContainsByOriginalFileName("own-audio.mp3").Must().BeFalse();
-   [XF] public void its_screenshot_that_another_sentence_uses_stays() => File.Exists(_sharedScreenshotPath).Must().BeTrue();
+   [XF] public void its_screenshot_that_another_sentence_uses_stays() => _sharedScreenshotPath.Must().Satisfy(File.Exists);
    [XF] public void the_deletion_is_notified() => _notifiedAsDeleted.Select(it => it.GetId()).Must().SequenceEqual([_deleted.GetId()]);
 }

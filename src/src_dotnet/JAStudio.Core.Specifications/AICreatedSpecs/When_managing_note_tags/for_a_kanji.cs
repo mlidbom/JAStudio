@@ -20,7 +20,7 @@ public class for_a_kanji : SpecificationStartingWithAnEmptyCollection, IAIGenera
          _kanji.Tags.Set(Tags.Kanji.InVocabMainForm);
       }
 
-      [XF] public void the_IsRadical_tag_is_present() => _kanji.Tags.Contains(Tags.Kanji.IsRadical).Must().BeTrue();
-      [XF] public void the_InVocabMainForm_tag_is_present() => _kanji.Tags.Contains(Tags.Kanji.InVocabMainForm).Must().BeTrue();
+      [XF] public void the_IsRadical_tag_is_present() => _kanji.Tags.Must().Contain(Tags.Kanji.IsRadical);
+      [XF] public void the_InVocabMainForm_tag_is_present() => _kanji.Tags.Must().Contain(Tags.Kanji.InVocabMainForm);
    }
 }

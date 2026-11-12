@@ -6,10 +6,12 @@ using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Mcp.Tools.Analysis.Timing;
 using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using Compze.Threading;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Analysis;
@@ -18,6 +20,13 @@ namespace JAStudio.Mcp.Tools.Analysis;
 [McpServerToolType]
 public class AnalysisTools
 {
+   /// <summary>
+   /// Makes the tools that parse every sentence of the corpus on every core run one at a time: a call made while another runs waits for it.<br/>
+   /// Runs at the same time compete for the cores, so their times say nothing, and agents make such calls without meaning to: several calls in one<br/>
+   /// message may run at once (2026-11-12).
+   /// </summary>
+   static readonly IMonitor OneParseOfTheWholeCorpusAtATime = IMonitor.New(LockTimeout.Minutes(10));
+
    readonly AnalysisServices _analysisServices;
    readonly JPCollection _collection;
 
@@ -49,10 +58,13 @@ public class AnalysisTools
    [Description("""
                 Times parsing every sentence of the corpus on the given number of threads, twice: tokenizing each sentence's question, the
                 tokenizer's share of the work, and then analyzing each sentence as its stored parsing result is made, which includes the
-                tokenizing. Nothing is saved. Each pass reports how long the garbage collector paused the threads, and the most memory the
-                process used meanwhile. For telling whether a change made parsing faster, and how parsing scales with threads: compare runs on
-                the same corpus at the same thread count, and discard the first run after a start, which includes warming up. Call it once at
-                a time, never in parallel with another call of it: runs at the same time compete for the cores, and their times say nothing.
+                tokenizing. Nothing is saved. Each pass reports the processor time it used and the machine's other processes used meanwhile,
+                how long the garbage collector paused the threads, how much memory it allocated, and the most memory the process used
+                meanwhile. For telling whether a change made parsing faster, and how parsing scales with threads: compare runs on the same
+                corpus at the same thread count, and discard the first run after a start, which includes warming up. Other development work
+                often runs on the machine: a pass during which the other processes used more than a little processor time was disturbed, and
+                its time says little. The memory allocated is the same whatever else runs. A call made while another call of it, or of
+                count_the_candidate_words, runs waits for that one to finish, since runs at the same time would compete for the cores.
                 """)]
    public TimeToParseEverySentence TimeParsingEverySentence(
       [Description("The threads to parse on. By default one per logical core of the machine.")] int? threads = null,
@@ -61,12 +73,42 @@ public class AnalysisTools
                    its peak memory use is its own rather than left over from an earlier run.
                    """)] bool collectAllGarbageFirst = true)
    {
-      if(collectAllGarbageFirst) TheGarbageCollector.CollectAllGarbage();
-      var sentences = _collection.Sentences.All().ToList();
-      var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
-      var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
-      var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
-      return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
+      return OneParseOfTheWholeCorpusAtATime.Locked(TimeIt);
+
+      TimeToParseEverySentence TimeIt()
+      {
+         if(collectAllGarbageFirst) TheGarbageCollector.CollectAllGarbage();
+         var sentences = _collection.Sentences.All().ToList();
+         var threadCount = ThreadCount.WithThreads(threads ?? Environment.ProcessorCount);
+         var tokenizing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => JNTokenizer.GetInstance().Tokenize(it.Question.WithInvisibleSpace())));
+         var analyzing = TimedPass.Of(() => Parallel.ForEach(sentences, threadCount.ParallelOptions, it => it.CreateAnalysis()));
+         return new TimeToParseEverySentence(sentences.Count, threadCount.Threads, TheGarbageCollector.Mode, tokenizing, analyzing);
+      }
+   }
+
+   [McpServerTool(Name = "count_the_candidate_words", ReadOnly = true, Idempotent = true)]
+   [Description("""
+                Analyzes every sentence of the corpus as its stored parsing result is made, on every core, and counts the candidate words the
+                analysis built: at each token, one for each number of tokens it may span, as long as a vocab form or a dictionary word form
+                starts with the surface of all its tokens but the last. It counts, in all and by how many tokens the words span: how many were
+                built, how many have a form a vocab or a dictionary entry has, the only ones that can get a match, and how many got a valid
+                match. A compound none of whose forms a vocab or a dictionary entry has is analyzed for nothing. For telling how much of the
+                analysis's work goes to such candidate words, and how a change to which candidate words are built changes it. Nothing is saved.
+                """)]
+   public CandidateWordCounts CountTheCandidateWords()
+   {
+      return OneParseOfTheWholeCorpusAtATime.Locked(CountThem);
+
+      CandidateWordCounts CountThem()
+      {
+         var sentences = _collection.Sentences.All().ToList();
+         var tally = sentences.AsParallel()
+                              .Aggregate(() => new CandidateWordTally(),
+                                         (threadsTally, sentence) => threadsTally.AddEveryCandidateWordOf(sentence.CreateAnalysis()),
+                                         (tally, otherTally) => tally.Add(otherTally),
+                                         it => it);
+         return new CandidateWordCounts(sentences.Count, tally.ByTokensSpanned());
+      }
    }
 
    TextAnalysis AnalysisOf(string? text, string? sentenceNoteId, bool forTheSentenceBreakdown) => (text, sentenceNoteId, forTheSentenceBreakdown) switch

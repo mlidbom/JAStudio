@@ -16,19 +16,19 @@ namespace JAStudio.Mcp.Specifications.Tools.Rebuilding;
 public class When_running_a_full_rebuild : CorpusRepositorySpecification
 {
    readonly KanjiNote _kanji行;
-   readonly bool _theKanjiWasTaggedAsInAVocabsMainFormBefore;
+   readonly List<Tag> _theKanjisTagsBefore;
    readonly FullRebuildResult _result;
 
    public When_running_a_full_rebuild()
    {
       _kanji行 = CreateKanji("行", "go", "コウ", "い");
       CreateVocab("行く", "to go", "いく");
-      _theKanjiWasTaggedAsInAVocabsMainFormBefore = _kanji行.Tags.Contains(Tags.Kanji.InVocabMainForm);
+      _theKanjisTagsBefore = [.. _kanji行.Tags];
 
       _result = ResultOf<FullRebuildResult>(CallTool("full_rebuild", new Dictionary<string, object?>()));
    }
 
-   [XF] public void the_kanji_was_not_tagged_as_in_a_vocabs_main_form_before() => _theKanjiWasTaggedAsInAVocabsMainFormBefore.Must().BeFalse();
-   [XF] public void the_kanji_is_tagged_as_in_a_vocabs_main_form() => _kanji行.Tags.Contains(Tags.Kanji.InVocabMainForm).Must().BeTrue();
+   [XF] public void the_kanji_was_not_tagged_as_in_a_vocabs_main_form_before() => _theKanjisTagsBefore.Must().Satisfy(it => !it.Contains(Tags.Kanji.InVocabMainForm));
+   [XF] public void the_kanji_is_tagged_as_in_a_vocabs_main_form() => _kanji行.Tags.Must().Contain(Tags.Kanji.InVocabMainForm);
    [XF] public void it_reports_how_long_it_took() => _result.SecondsTaken.Must().BeGreaterThan(0);
 }

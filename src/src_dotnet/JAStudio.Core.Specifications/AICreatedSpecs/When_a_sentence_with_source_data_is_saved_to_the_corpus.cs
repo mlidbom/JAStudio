@@ -38,8 +38,8 @@ public class When_a_sentence_with_source_data_is_saved_to_the_corpus : Specifica
    [XF] public void the_external_id_is_stored_in_the_source_data() => SourceDataProperty("externalId").Must().Be("anime_the_garden_of_words_000000346");
    [XF] public void the_corpus_answer_is_stored_on_the_sentence() => _json.GetProperty("corpusAnswer").ToString().Must().Be("go to the river");
    [XF] public void the_corpus_comments_are_stored_on_the_sentence() => _json.GetProperty("comments").ToString().Must().Be("A comment of the corpus's own");
-   [XF] public void the_answer_shown_is_not_stored() => _json.TryGetProperty("activeAnswer", out _).Must().BeFalse();
-   [XF] public void the_question_shown_is_not_stored() => _json.TryGetProperty("activeQuestion", out _).Must().BeFalse();
+   [XF] public void the_answer_shown_is_not_stored() => _json.TryGetProperty("activeAnswer", out _).Must().BeFalse(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
+   [XF] public void the_question_shown_is_not_stored() => _json.TryGetProperty("activeQuestion", out _).Must().BeFalse(); //todo:compze: Satisfy on the JSON once Must's failure message can serialize System.Text.Json values
 
    [XF] public void it_is_read_back_showing_the_corpus_answer() => _readBack.GetAnswer().Must().Be("go to the river");
    [XF] public void it_is_read_back_with_the_source_answer() => _readBack.SourceData.Answer.Value.Must().Be("I go to the river");

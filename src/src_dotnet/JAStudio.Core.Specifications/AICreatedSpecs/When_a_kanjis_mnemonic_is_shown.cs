@@ -24,7 +24,7 @@ public class When_a_kanjis_mnemonic_is_shown : SpecificationStartingWithAnEmptyC
    public class and_the_corpus_has_no_mnemonic_for_it : When_a_kanjis_mnemonic_is_shown
    {
       [XF] public void the_default_mnemonic_is_shown() => _kanji.ShownMnemonic.Must().StartWith("# ");
-      [XF] public void the_source_mnemonic_is_not_shown() => _kanji.ShownMnemonic.Contains(SourceMnemonic).Must().BeFalse();
+      [XF] public void the_source_mnemonic_is_not_shown() => _kanji.ShownMnemonic.Must().NotContain(SourceMnemonic);
    }
 
    public class and_the_corpus_has_a_mnemonic_for_it : When_a_kanjis_mnemonic_is_shown

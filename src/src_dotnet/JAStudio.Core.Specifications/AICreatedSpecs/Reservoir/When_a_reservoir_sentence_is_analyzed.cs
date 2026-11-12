@@ -28,5 +28,5 @@ public class When_a_reservoir_sentence_is_analyzed(JAStudioWithTheStrippedDownCo
 
    [XF] public void a_rejected_match_the_breakdown_displays_is_kept_as_not_valid() => TheFirstだけど.IsValid.Must().BeFalse();
 
-   [XF] public void the_sentences_valid_matches_are_kept_as_valid() => _analysis.Words.Any(it => it is { Kind: ReservoirWordKind.Vocab, IsValid: true }).Must().BeTrue();
+   [XF] public void the_sentences_valid_matches_are_kept_as_valid() => _analysis.Words.Must().Satisfy(words => words.Any(it => it is { Kind: ReservoirWordKind.Vocab, IsValid: true }));
 }

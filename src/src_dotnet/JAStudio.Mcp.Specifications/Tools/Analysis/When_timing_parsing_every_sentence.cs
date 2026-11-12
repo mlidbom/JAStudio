@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Mcp.Tools.Analysis;
+using JAStudio.Mcp.Tools.Analysis.Timing;
 
 // ReSharper disable InconsistentNaming
 
@@ -23,5 +23,6 @@ public class When_timing_parsing_every_sentence : McpServerSpecification
    [XF] public void it_reports_that_it_parsed_on_two_threads() => _time.Threads.Must().Be(2);
    [XF] public void it_reports_how_long_tokenizing_took() => _time.Tokenizing.Seconds.Must().BeGreaterThan(0);
    [XF] public void it_reports_how_long_analyzing_took() => _time.Analyzing.Seconds.Must().BeGreaterThan(0);
+   [XF] public void it_reports_how_much_memory_analyzing_allocated() => _time.Analyzing.AllocatedMegabytes.Must().BeGreaterThan(0);
    [XF] public void it_reports_the_most_private_memory_the_process_used_while_analyzing() => _time.Analyzing.PeakMemoryUse.PrivateMegabytes.Must().BeGreaterThan(0);
 }

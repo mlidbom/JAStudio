@@ -32,7 +32,7 @@ public class When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictiona
    [XF] public void JAStudio_knows_every_inflected_form_in_the_dictionary() =>
       FeaturesOfEveryWord.Select(it => it[5]).Distinct().Where(it => !InflectionForms.IsKnown(it)).Must().BeEmpty();
 
-   [XF] public void the_dictionary_was_read_with_its_hundreds_of_thousands_of_words() => (FeaturesOfEveryWord.Count > 300_000).Must().BeTrue();
+   [XF] public void the_dictionary_was_read_with_its_hundreds_of_thousands_of_words() => FeaturesOfEveryWord.Count.Must().BeGreaterThan(300_000);
 
    [XF] public void a_sentence_with_a_classical_lower_bigrade_verb_is_tokenized() =>
       _tokenizer.Tokenize("君に捧ぐ").Tokens.Select(it => it.InflectionType.Name).Must().Contain("下二・ガ行");

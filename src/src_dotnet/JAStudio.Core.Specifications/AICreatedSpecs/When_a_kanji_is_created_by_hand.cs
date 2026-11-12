@@ -14,5 +14,5 @@ public class When_a_kanji_is_created_by_hand : SpecificationStartingWithAnEmptyC
 
    public When_a_kanji_is_created_by_hand() => _kanji = KanjiNote.CreateByHand(NoteServices, "⺌", "TODO");
 
-   [XF] public void it_is_tagged_as_our_own() => _kanji.Tags.Contains(Tags.Source.Jastudio).Must().BeTrue();
+   [XF] public void it_is_tagged_as_our_own() => _kanji.Tags.Must().Contain(Tags.Source.Jastudio);
 }

@@ -78,5 +78,4 @@ public abstract class ImportingSpecification : SpecificationStartingWithAnEmptyC
    /// <summary>What <paramref name="run"/>'s check found about <paramref name="rawNote"/>.</summary>
    protected static CheckedRawNote CheckOf(ImportRun run, RawNote rawNote) => run.CheckedRawNotes.Single(it => it.RawNote.AnkiNoteId == rawNote.AnkiNoteId);
 
-   protected static bool WhatIsWrongSays(CheckedRawNote checkedRawNote, string text) => checkedRawNote.WhatIsWrong.Any(it => it.Contains(text));
 }
