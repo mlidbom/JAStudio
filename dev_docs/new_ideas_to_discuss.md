@@ -33,3 +33,11 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
+- **(Claude, 2026-11-12) Parsing's first run after a start is about 4 times slower: does the full rebuild pay that?**
+  In the headless JAStudio, analyzing every sentence on 32 threads takes 2.1-2.7 s the first time after a start, and
+  0.42-0.59 s from then on. The process used 65 processor-seconds for the first run against about 19 for a later one,
+  with nothing else busy, so the extra is work the process does, most likely the JIT's tiers (the first runs execute
+  unoptimized code while the optimized code is compiled on a background thread that 32 busy threads starve), maybe
+  also caches filling. A full rebuild in Anki runs once, perhaps cold, so it may pay that warm-up in full. Worth
+  measuring a cold full rebuild, and if it's so, trying ReadyToRun or the runtime's tiering settings. Also, the times of
+  the same code vary by about a third from one start to the next while steady within a start, and why is unknown.
