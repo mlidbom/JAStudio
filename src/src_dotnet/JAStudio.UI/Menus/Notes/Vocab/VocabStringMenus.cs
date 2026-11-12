@@ -48,7 +48,9 @@ class VocabStringMenus
                      SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
                      Adding(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Add),
                      Adding(ShortcutFinger.Up2("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Add),
-                     Adding(ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"), related.PerfectSynonyms.Contains, related.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym)
+                     ForTheWord(word, ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"),
+                                it => !related.PerfectSynonyms.Contains(it) && related.PerfectSynonyms.Accepts(it),
+                                related.PerfectSynonyms.AddOverwritingTheAnswerOfTheAddedSynonym)
                   };
 
       return SpecMenuItem.Submenu(ShortcutFinger.Home1("Add"), items);

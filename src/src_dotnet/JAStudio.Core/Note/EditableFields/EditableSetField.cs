@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Contracts;
 
 namespace JAStudio.Core.Note.EditableFields;
 
@@ -18,6 +19,7 @@ public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList
    readonly Action<TNote, TItem> _add;
    readonly Action<TNote, TItem> _remove;
    readonly Func<IEnumerable<TItem>, IEnumerable<TItem>> _inOrder;
+   readonly Func<TNote, TItem, bool> _accepts;
 
    /// <param name="name">The field's <see cref="IEditableField{TNote}.Name"/>: its path in the note as the corpus stores it.</param>
    /// <param name="label">What the note's editor shows above the set.</param>
@@ -26,19 +28,31 @@ public class EditableSetField<TNote, TItem> : EditableField<TNote, IReadOnlyList
    /// <param name="remove">Removes an item from the set on a note, and saves the note.</param>
    /// <param name="inOrder">Puts items in the order they have in the field's value.</param>
    /// <param name="changesHowSentencesParse">See <see cref="IEditableField{TNote}.ChangesHowSentencesParse"/>.</param>
-   public EditableSetField(string name, string label, Func<TNote, IEnumerable<TItem>> itemsOn, Action<TNote, TItem> add, Action<TNote, TItem> remove, Func<IEnumerable<TItem>, IEnumerable<TItem>> inOrder, bool changesHowSentencesParse = false)
+   /// <param name="accepts">See <see cref="Accepts"/>. By default the set takes any item.</param>
+   public EditableSetField(string name, string label, Func<TNote, IEnumerable<TItem>> itemsOn, Action<TNote, TItem> add, Action<TNote, TItem> remove, Func<IEnumerable<TItem>, IEnumerable<TItem>> inOrder, bool changesHowSentencesParse = false, Func<TNote, TItem, bool>? accepts = null)
       : base(name, label, changesHowSentencesParse)
    {
       _itemsOn = itemsOn;
       _add = add;
       _remove = remove;
       _inOrder = inOrder;
+      _accepts = accepts ?? ((_, _) => true);
    }
 
    public bool HoldsEachItemOnce => true;
 
-   /// <summary>Adds <paramref name="item"/> to the set on <paramref name="note"/>, and saves the note.</summary>
-   public void Add(TNote note, TItem item) => _add(note, item);
+   /// <summary>
+   /// Whether the set on <paramref name="note"/> can hold <paramref name="item"/> at all: some sets take only certain items, such as a vocab's perfect<br/>
+   /// synonyms, which must be vocab that exist. Adding an item it doesn't accept fails.
+   /// </summary>
+   public bool Accepts(TNote note, TItem item) => _accepts(note, item);
+
+   /// <summary>Adds <paramref name="item"/>, which the set must accept (<see cref="Accepts"/>), to the set on <paramref name="note"/>, and saves the note.</summary>
+   public void Add(TNote note, TItem item)
+   {
+      Contract.Argument.Assert(Accepts(note, item), () => $"{item} can't be added to \"{Label}\".");
+      _add(note, item);
+   }
 
    /// <summary>Removes <paramref name="item"/> from the set on <paramref name="note"/>, and saves the note.</summary>
    public void Remove(TNote note, TItem item) => _remove(note, item);

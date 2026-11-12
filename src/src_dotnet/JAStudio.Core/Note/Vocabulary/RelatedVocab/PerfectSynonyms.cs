@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Contracts;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core.Note.Collection;
 
@@ -9,6 +10,10 @@ namespace JAStudio.Core.Note.Vocabulary.RelatedVocab;
 /// A vocab's perfect synonyms: words that mean exactly the same, so they share one answer. They form a web: each one is a perfect synonym of every other,<br/>
 /// and a synonym too (<see cref="Synonyms"/>), and a change to any one's answer is pushed to the others.
 /// </summary>
+/// <remarks>
+/// Each perfect synonym is a vocab that exists, since only vocab can share an answer: adding one requires it, and a deleted vocab leaves its<br/>
+/// web (<see cref="LeaveTheWebAsTheVocabIsDeleted"/>).
+/// </remarks>
 /// <remarks>A perfect synonym is the vocab its word names exactly (<see cref="VocabCollection.NamedExactlyBy"/>), never one it would only match by a form.</remarks>
 public class PerfectSynonyms
 {
@@ -29,6 +34,9 @@ public class PerfectSynonyms
 
    public bool Contains(WordReference word) => _words.Contains(word);
 
+   /// <summary>Whether <paramref name="word"/> can be a perfect synonym: whether it names a vocab, since only vocab can share an answer.</summary>
+   public bool Accepts(WordReference word) => Collection.NamedExactlyBy(word).Any();
+
    /// <summary>The vocab notes the <see cref="Words"/> name exactly: the vocab's perfect synonyms.</summary>
    public List<VocabNote> Notes() => Collection.NamedExactlyByAny(Words);
 
@@ -39,9 +47,14 @@ public class PerfectSynonyms
          synonym.CorpusAnswer.Set(_vocab.GetAnswer());
    }
 
-   /// <summary>Adds <paramref name="added"/>, joining the two webs of perfect synonyms into one, and gives every vocab in it this vocab's answer.</summary>
+   /// <summary>
+   /// Adds <paramref name="added"/>, which must name a vocab, joining the two webs of perfect synonyms into one, and gives every vocab in it this<br/>
+   /// vocab's answer.
+   /// </summary>
    public void AddOverwritingTheAnswerOfTheAddedSynonym(WordReference added)
    {
+      Contract.Argument.Assert(Accepts(added),
+                               () => $"No vocab is named {added.DisambiguationName}, and a perfect synonym must be a vocab: perfect synonyms share one answer.");
       if(_vocab.Question.IsNamedBy(added)) return;
       AddKeepingItAsASynonymToo(added);
       ConnectTheWholeWeb();
@@ -62,6 +75,16 @@ public class PerfectSynonyms
    internal void Rename(WordReference oldName, WordReference newName) => _words.Rename(oldName, newName);
 
    void LeaveTheWeb() => _words.Clear();
+
+   /// <summary>
+   /// Takes this vocab out of its web, as it's deleted: none of the others has it as a perfect synonym any more, but each keeps it as a synonym,<br/>
+   /// which may name a word no vocab has.
+   /// </summary>
+   internal void LeaveTheWebAsTheVocabIsDeleted()
+   {
+      foreach(var synonym in Notes())
+         synonym.RelatedNotes.PerfectSynonyms.RemoveKeepingItAsASynonym(_vocab.Question.Reference);
+   }
 
    void RemoveKeepingItAsASynonym(WordReference synonym)
    {

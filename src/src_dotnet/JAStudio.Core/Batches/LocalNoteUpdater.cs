@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Compze.Contracts;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
@@ -258,6 +259,23 @@ public class LocalNoteUpdater
    {
       var sentencesToUpdate = _sentences.SentencesWithSubstring(questionSubstring);
       ReparseSentences([.. sentencesToUpdate]);
+   }
+
+   /// <summary>
+   /// The vocab <paramref name="question"/> names, or else one created for it from the dictionary (<see cref="VocabNoteFactory.CreateWithDictionary"/>), with<br/>
+   /// the sentences that may contain it reparsed. <paramref name="question"/> has no disambiguation: a vocab that needs one is made by cloning another.
+   /// </summary>
+   public CreatedOrExistingVocab TheVocabNamedOrCreatedFromTheDictionary(WordReference question)
+   {
+      Contract.Argument.Assert(!question.IsDisambiguated, () => $"{question.DisambiguationName} has a disambiguation, and a vocab made from the dictionary has none.");
+      return _vocab.NamedExactlyByOrCreated(question, CreatedFromTheDictionary);
+
+      VocabNote CreatedFromTheDictionary()
+      {
+         var created = _vocabNoteFactory.CreateWithDictionary(question.Text);
+         ReparseSentencesForVocab(created);
+         return created;
+      }
    }
 
    public void CreateMissingVocabWithDictionaryEntries()

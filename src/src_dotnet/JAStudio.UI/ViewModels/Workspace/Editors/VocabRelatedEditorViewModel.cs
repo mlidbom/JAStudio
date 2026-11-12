@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core;
+using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.EditableFields;
@@ -20,7 +21,8 @@ class VocabRelatedEditorViewModel
 {
    /// <param name="services">The application's services.</param>
    /// <param name="currentVocab">Finds the vocab being edited, as the collection holds it now.</param>
-   public VocabRelatedEditorViewModel(TemporaryServiceCollection services, Func<VocabNote> currentVocab)
+   /// <param name="editNote">Opens a note in the workspace with its editors showing, such as a vocab created to be added to a relationship.</param>
+   public VocabRelatedEditorViewModel(TemporaryServiceCollection services, Func<VocabNote> currentVocab, Action<JPNote> editNote)
    {
       var pickable = new Lazy<IReadOnlyList<PickableVocab>>(() => PickableVocab.AllIn(services.CoreApp.Collection.Vocab));
       Relationships =
@@ -41,7 +43,16 @@ class VocabRelatedEditorViewModel
                                                  name => derivedFrom.Write(currentVocab(), name));
       return;
 
-      WordSetEditorViewModel EditorOf(EditableSetField<VocabNote, WordReference> relationship) => new(relationship, currentVocab, pickable);
+      WordSetEditorViewModel EditorOf(EditableSetField<VocabNote, WordReference> relationship) =>
+         new(relationship, currentVocab, pickable, word => CreateTheVocabAndAddItTo(relationship, word));
+
+      void CreateTheVocabAndAddItTo(EditableSetField<VocabNote, WordReference> relationship, WordReference word) =>
+         services.BackgroundTaskManager.Run(() =>
+         {
+            var created = services.LocalNoteUpdater.TheVocabNamedOrCreatedFromTheDictionary(word);
+            relationship.Add(currentVocab(), word);
+            services.Resolve<IUIThreadDispatcher>().PostToUIThread(() => editNote(created.Vocab));
+         });
    }
 
    /// <summary>The vocab's relationships to sets of words: synonyms, perfect synonyms, antonyms, ergative twins, see also and confused with.</summary>
