@@ -120,8 +120,10 @@ analysis's steps:
 - **Allocating:** at least 1.8 s, and likely most of 0.9 s of native code the profiler couldn't name, directly under
   `TextAnalysis`'s constructor. Parsing allocated about 13 GB in the profiled run's two passes, around 270 KB a sentence.
 - **`LazyCE` in `CandidateWordVariant`,** for the lookup in the dictionary: about 1 s, with three times the variants
-  there are now. Each one creates a monitor of its own, and the first read takes the lock and publishes the value with an
-  `Interlocked.Exchange`. Magnus is making `LazyCE` cheap in Compze (2026-11-12).
+  there are now. Each one created a monitor of its own, and the first read took the lock. Since Compze.Internals.SystemCE
+  0.4.2, a `LazyCE` locks on itself, 32 bytes instead of 424 (2026-11-12): analyzing every sentence allocates 5,894 MB
+  instead of 6,414, and the garbage collector collects 3 times a pass instead of 6. The times changed less than they
+  vary from one start of JAStudio to the next.
 - **`string.Join` in `CandidateWord`'s constructor:** 0.9 s, most of it on candidate words no longer built.
 - **Looking vocab up by form** (`NoteIndex.NotesWith`): 0.5 s; **the dictionary's `MightBeWord`:** 0.55 s.
 
