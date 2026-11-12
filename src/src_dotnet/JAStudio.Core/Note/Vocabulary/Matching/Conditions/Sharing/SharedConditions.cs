@@ -46,6 +46,15 @@ public sealed class SharedConditions
    /// <summary>The shared-conditions on <paramref name="level"/>'s subject, by name: those the match-condition editor offers where a condition on it goes.</summary>
    public IReadOnlyList<ISharedCondition> On(IConditionLevel level) => [.. All.Where(it => it.Level == level)];
 
+   /// <summary>
+   /// The first shared-condition, as they're listed (<see cref="All"/>), whose definition means the same as <paramref name="condition"/><br/>
+   /// (<see cref="Condition.MeansTheSameAs"/>), or none: the one to use in its place, rather than define another.
+   /// </summary>
+   public ISharedCondition? WhoseDefinitionMeansTheSameAs(Condition condition) =>
+      //review:matching: was a lookup of SharedConditionTools' own, listing what find_the_conditions_vocab_share finds. Which shared-condition a condition
+      //   already has a name in is a question about the shared-conditions, so it's theirs.
+      All.FirstOrDefault(it => it.Definition.MeansTheSameAs(condition));
+
    /// <summary>The shared-condition on <paramref name="level"/>'s subject named <paramref name="name"/>, as a match-condition read from the corpus uses it.</summary>
    /// <exception cref="FormatException">When there's none.</exception>
    internal SharedCondition<TSubject> Named<TSubject>(ConditionLevel<TSubject> level, string name) where TSubject : class =>

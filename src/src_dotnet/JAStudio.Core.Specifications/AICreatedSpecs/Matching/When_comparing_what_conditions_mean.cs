@@ -45,4 +45,8 @@ public class When_comparing_what_conditions_mean : IAIGeneratedSpec
       PrecedingToken.Meets(TokenConditions.IsAGodanVerb).MeansTheSameAs(FollowingToken.Meets(TokenConditions.IsAGodanVerb)).Must().BeFalse();
 
    [XF] public void a_condition_and_its_negation_do_not_mean_the_same() => IsASingleToken.MeansTheSameAs(!IsASingleToken).Must().BeFalse();
+
+   [XF] public void groups_meaning_the_same_in_another_order_and_flattened_have_the_same_hash_code_by_meaning() =>
+      ConditionMeaningComparer.Instance.GetHashCode(!PrecedingToken.AnyOf(TokenConditions.IsAGodanVerb, AnyOf(TokenConditions.IsAnIchidanVerb, TokenConditions.IsAnAdverb)))
+                              .Must().Be(ConditionMeaningComparer.Instance.GetHashCode(!PrecedingToken.AnyOf(TokenConditions.IsAnAdverb, TokenConditions.IsAnIchidanVerb, TokenConditions.IsAGodanVerb)));
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
@@ -16,9 +17,9 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedC
    /// <summary>The condition a subject must not meet.</summary>
    public Condition<TSubject> Condition { get; }
 
-   Conditions.Condition INegatedCondition.Condition => Condition;
+   Condition INegatedCondition.Condition => Condition;
 
-   public override IReadOnlyList<Conditions.Condition> Children => [Condition];
+   public override IReadOnlyList<Condition> Children => [Condition];
 
    public override bool IsEmpty => Condition.IsEmpty;
 
@@ -34,8 +35,10 @@ public sealed record NegatedCondition<TSubject> : Condition<TSubject>, INegatedC
 
    internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 
-   protected override Conditions.Condition WithChildReplaced(int index, Conditions.Condition replacement) => new NegatedCondition<TSubject>(replacement.AsAConditionOn<TSubject>());
+   protected override Condition WithChildReplaced(int index, Condition replacement) => new NegatedCondition<TSubject>(replacement.AsAConditionOn<TSubject>());
 
    /// <summary>Whether <paramref name="other"/> negates a condition meaning the same as the one this negates.</summary>
-   protected override bool MeansTheSameAsAConditionNotShared(Conditions.Condition other) => other is NegatedCondition<TSubject> negation && Condition.MeansTheSameAs(negation.Condition);
+   protected override bool MeansTheSameAsAConditionNotShared(Condition other) => other is NegatedCondition<TSubject> negation && Condition.MeansTheSameAs(negation.Condition);
+
+   internal override int HashCodeOfItsMeaning() => HashCode.Combine(typeof(NegatedCondition<TSubject>), Condition.HashCodeOfItsMeaning());
 }

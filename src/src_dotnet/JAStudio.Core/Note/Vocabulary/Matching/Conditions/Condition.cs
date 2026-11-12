@@ -102,6 +102,12 @@ public abstract record Condition
    protected virtual bool MeansTheSameAsAConditionNotShared(Condition other) => Equals(other);
 
    /// <summary>
+   /// A hash code of what this condition means: the same for two conditions that mean the same (<see cref="MeansTheSameAs"/>), so that conditions can be<br/>
+   /// kept and counted by what they mean (<see cref="ConditionMeaningComparer"/>). Its equality's hash code, for a condition that holds no others.
+   /// </summary>
+   internal virtual int HashCodeOfItsMeaning() => GetHashCode();
+
+   /// <summary>
    /// This condition with <paramref name="sharedCondition"/> used, by name, wherever its definition is in it: each condition that means the same as the<br/>
    /// definition (<see cref="MeansTheSameAs"/>) is replaced by the shared-condition, this one too. And when the definition is a group of two or more<br/>
    /// conditions, a group of the same kind that holds conditions meaning the same as each of them, among others, has them replaced by it:<br/>

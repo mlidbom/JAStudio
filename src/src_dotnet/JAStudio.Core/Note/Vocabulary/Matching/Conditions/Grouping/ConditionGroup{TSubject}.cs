@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
+using JAStudio.Core.SysUtils.Collections.Generic;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -90,6 +91,12 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    protected override bool MeansTheSameAsAConditionNotShared(Condition other) =>
       other is ConditionGroup<TSubject> group && IsOfTheSameKindAs(group) && FlattenedConditions.MeanTheSameInAnyOrderAs(group.FlattenedConditions);
 
+   /// <summary>Of its kind, and of what its <see cref="FlattenedConditions"/> mean, whatever their order (<see cref="HashCodeOfWhatItsFlattenedConditionsMeanInAnyOrder"/>).</summary>
+   internal override int HashCodeOfItsMeaning() => HashCode.Combine(IsAnyOf, typeof(TSubject), HashCodeOfWhatItsFlattenedConditionsMeanInAnyOrder);
+
+   /// <summary>The hash codes of what its <see cref="FlattenedConditions"/> mean (<see cref="Condition.HashCodeOfItsMeaning"/>) added up, so that it's the same whatever their order.</summary>
+   int HashCodeOfWhatItsFlattenedConditionsMeanInAnyOrder => FlattenedConditions.Aggregate(0, (sum, it) => unchecked(sum + it.HashCodeOfItsMeaning()));
+
    /// <summary>
    /// <paramref name="condition"/>, one of this group's, flattened into it (<see cref="FlattenedConditions"/>): the conditions it holds, flattened, when<br/>
    /// it's a group of this group's kind, or a shared-condition defined as one, else itself.
@@ -121,6 +128,18 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
                 : this;
 
       bool IsOfTheSameKindAndHoldsTwoOrMore(ConditionGroup<TSubject> group) => IsOfTheSameKindAs(group) && group.Conditions.Count >= 2;
+   }
+
+   bool IConditionGroup.HoldsTheConditionsOf(Condition condition) =>
+      condition is ConditionGroup<TSubject> group && IsOfTheSameKindAs(group) && Conditions.IndexesOfConditionsMeaningTheSameAsEachOf(group.Conditions) is not null;
+
+   IEnumerable<Condition> IConditionGroup.CombinationsOfSomeOfItsConditions()
+   {
+      //review:matching: the combinations were made in SharedConditionCandidates, each from a bit mask, by removing the group's conditions the mask left
+      //   out one at a time with WithoutConditionAt. A group makes the groups of its kind, so it makes these too, from its conditions' subsets.
+      return Conditions.Subsets().Where(IsTwoOrMoreButNotAll).Select(WithConditions);
+
+      bool IsTwoOrMoreButNotAll(IReadOnlyList<Condition<TSubject>> someOfItsConditions) => someOfItsConditions.Count >= 2 && someOfItsConditions.Count < Conditions.Count;
    }
 
    public virtual bool Equals(ConditionGroup<TSubject>? other) => other is not null && base.Equals(other) && Conditions.SequenceEqual(other.Conditions);

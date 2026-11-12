@@ -84,6 +84,9 @@ public sealed record SharedCondition<TSubject> : Condition<TSubject>, ISharedCon
    /// <summary>Its definition's: a shared-condition means what its definition does (<see cref="Condition.MeansTheSameAs"/>).</summary>
    protected override bool MeansTheSameAsAConditionNotShared(Condition other) => Definition.MeansTheSameAs(other);
 
+   /// <summary>Its definition's, since it means what its definition does.</summary>
+   internal override int HashCodeOfItsMeaning() => Definition.HashCodeOfItsMeaning();
+
    /// <summary>Its definition's, so that a matching rule whose condition is a shared-condition's definition sees its texts in the shared-condition too.</summary>
    internal override IEnumerable<TextSet> ComparedTextSets() => Definition.ComparedTextSets();
 

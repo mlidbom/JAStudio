@@ -7,6 +7,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing.Candidates;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Matching;
@@ -72,6 +73,30 @@ public class SharedConditionTools
       _sharedConditions.UseWhereverItsDefinitionIs(sharedCondition, _collection.Vocab.All());
 
       return SharedConditionPutToUse.Between(before: listedBefore, after: Listed(sharedCondition));
+   }
+
+   [McpServerTool(Name = "find_the_conditions_vocab_share", ReadOnly = true, Idempotent = true)]
+   [Description("""
+                Finds the conditions that the match-conditions of several vocab hold, each a candidate for a shared-condition: a condition in their
+                trees, or a combination of some of the conditions of a group, such as two conditions several match-conditions require among others.
+                Conditions are compared by what they mean, so the order of a group's conditions doesn't matter. Left out: what's a name already, a
+                fact or a shared-condition, on a subject or negated, such as !PrecedingToken.IsAnIchidanVerb; a negation, since naming what it
+                negates names it too, and what it negates counts as held by the vocab holding the negation; and a condition only ever found within
+                a larger one held by the same vocab. Those held by the most vocab come first, then the largest. Each comes with its subject, its code,
+                its definition as define_a_shared_condition takes it, and the vocab holding it; one whose meaning a shared-condition has already is
+                named so, to be used with use_a_shared_condition_wherever_its_definition_is instead. It proposes; a mind decides: a shared-condition is
+                mostly its name, and vocab holding the same condition may hold it for different reasons, which one shared-condition would tie together.
+                """)]
+   public FoundSharedConditionCandidates FindTheConditionsVocabShare(
+      [Description("The fewest vocab whose match-conditions must hold a condition for it to be found.")]
+      int heldByAtLeast = 3,
+      [Description("The most conditions to list. Every one found is counted either way.")]
+      int maxListed = 30,
+      [Description("The most vocab to list for each condition. Every one holding it is counted either way.")]
+      int maxVocabListedForEach = 10)
+   {
+      var found = SharedConditionCandidates.FoundIn(_collection.Vocab.All(), heldByAtLeast);
+      return new FoundSharedConditionCandidates(found.Count, [.. found.Take(maxListed).Select(it => ListedSharedConditionCandidate.Of(it, _sharedConditions, maxVocabListedForEach))]);
    }
 
    ListedSharedCondition Listed(ISharedCondition sharedCondition) =>

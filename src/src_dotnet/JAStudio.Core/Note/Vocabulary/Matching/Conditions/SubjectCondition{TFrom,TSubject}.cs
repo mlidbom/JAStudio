@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
@@ -30,9 +31,9 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
 
    IConditionSubject ISubjectCondition.Subject => Subject;
 
-   Conditions.Condition ISubjectCondition.Condition => Condition;
+   Condition ISubjectCondition.Condition => Condition;
 
-   public override IReadOnlyList<Conditions.Condition> Children => [Condition];
+   public override IReadOnlyList<Condition> Children => [Condition];
 
    public override bool IsEmpty => Condition.IsEmpty;
 
@@ -45,9 +46,11 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
 
    internal override IEnumerable<TextSet> ComparedTextSets() => Condition.ComparedTextSets();
 
-   protected override Conditions.Condition WithChildReplaced(int index, Conditions.Condition replacement) => Subject.Meets(replacement.AsAConditionOn<TSubject>());
+   protected override Condition WithChildReplaced(int index, Condition replacement) => Subject.Meets(replacement.AsAConditionOn<TSubject>());
 
    /// <summary>Whether <paramref name="other"/> is a condition on the same subject, which it must meet a condition meaning the same as this one's.</summary>
-   protected override bool MeansTheSameAsAConditionNotShared(Conditions.Condition other) =>
+   protected override bool MeansTheSameAsAConditionNotShared(Condition other) =>
       other is SubjectCondition<TFrom, TSubject> onASubject && onASubject.Subject == Subject && Condition.MeansTheSameAs(onASubject.Condition);
+
+   internal override int HashCodeOfItsMeaning() => HashCode.Combine(Subject, Condition.HashCodeOfItsMeaning());
 }
