@@ -2,6 +2,7 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
@@ -25,6 +26,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new AnkiRawNotes(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
+         Singleton.For<IAnkiWindows>().Instance(new AnkisOwnWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),

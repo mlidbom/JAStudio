@@ -24,6 +24,6 @@ class NoteLinkOpener : INoteLinkOpener
    {
       var externalId = _services.ExternalNoteIdMap.ToExternalId(noteId);
       if(externalId.HasValue)
-         AnkiFacade.Browser.ExecuteLookupAndShowPreviewer($"{Builtin.NoteId}:{externalId.Value}");
+         _services.AnkiWindows.OpenThePreviewerOn($"{Builtin.NoteId}:{externalId.Value}");
    }
 }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -197,7 +196,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          label,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.AnkiWindows.Exist),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
@@ -230,8 +229,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    // Action handlers
    void OnOpenInPreviewer(JPNote note)
    {
-      var query = _services.QueryBuilder().NotesLookup([note]);
-      AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(query);
+      _services.AnkiWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
    }
 
    void OnDeleteNote(JPNote note)
@@ -267,8 +265,8 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseMatchingSentences(text);
-         AnkiFacade.UIUtils.Refresh();
-         AnkiFacade.UIUtils.ShowTooltip($"Reparsed sentences matching: {text}");
+         _services.AnkiWindows.Refresh();
+         _services.AnkiWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }
 

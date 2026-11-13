@@ -1,5 +1,6 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
@@ -30,6 +31,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
          Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
          Singleton.For<IFatalErrorHandler>().Instance(new RethrowingFatalErrorHandler()),
+         Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),

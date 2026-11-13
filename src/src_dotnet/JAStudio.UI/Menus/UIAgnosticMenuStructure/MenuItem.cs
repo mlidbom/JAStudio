@@ -114,6 +114,8 @@ public abstract class SpecMenuItem
                      () =>
                      {
                         action();
+                        //refactor: Whether Python runs stands in for whether JAStudio runs inside Anki. The refresh should go through
+                        //   IAnkiWindows.Refresh, which every host registers, but this static factory has no services to resolve it from.
                         if(PythonEngine.IsInitialized)
                         {
                            AnkiFacade.UIUtils.Refresh();

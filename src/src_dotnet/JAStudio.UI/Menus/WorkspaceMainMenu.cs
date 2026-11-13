@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JAStudio.Anki;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
 using JAStudio.UI.Views.Workspace;
@@ -70,7 +69,7 @@ public class WorkspaceMainMenu
                               () => _services.BackgroundTaskManager.Run(() =>
                               {
                                  action();
-                                 AnkiFacade.UIUtils.Refresh();
+                                 _services.AnkiWindows.Refresh();
                               }),
                               acceleratorKey,
                               shortcut,
