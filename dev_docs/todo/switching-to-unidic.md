@@ -1,8 +1,8 @@
 # Switching the tokenizer dictionary from IPADIC to UniDic
 
 > **Status: under way on the branch `unidic` (Magnus, 2026-11-13).** Step 1, comparing how the two tokenize, is done. Step 2,
-> the port, is in progress: the tokenizer reads with the spoken-language UniDic, and 34 of the 230 parsing cases parse differently,
-> each listed below with what's to be done. Open for Magnus: how the dictionary ships (Claude recommends downloading it on
+> the port, is in progress: the tokenizer reads with the spoken-language UniDic, and 48 of the 230 parsing cases parse differently,
+> listed below with what's to be done. Open for Magnus: how the dictionary ships (Claude recommends downloading it on
 > first use, from NINJAL: below).
 
 JAStudio's tokenizer, MeCab (MeCab.DotNet), reads with a **tokenizer dictionary** (`TokenizerDictionary`): the words it
@@ -122,8 +122,13 @@ examples. A million sentences take 15 seconds, plus a minute reading them from t
 
 ## The parsing cases that parse differently (spoken UniDic, 2026-11-13)
 
-34 of 230, after the fixes of step 2 so far. "Not displayed" means the sentence breakdown shows the same words; only the
+48 of 230, after the fixes of step 2 so far. "Not displayed" means the sentence breakdown shows the same words; only the
 parsed words, which include every candidate, changed.
+
+- **Counted wrong at first:** 51 differed when this section said 34. The script that listed the failing cases dropped the
+  17 whose names xUnit cut short at 50 characters (the だって cases and others). The specifications' runner prints them
+  whole with `-printMaxStringLength 0`.
+- **Fixed since:** ら抜き (食べれる, 寝れない), by `RaNukiPotentialTheTokenizerGivesAsOneToken`, below.
 
 - **Better than IPADIC, to accept:** 待ってました (て is the contracted ている's, as UniDic says), 服を引き出しの中に (引き出し,
   the drawer, not the verb 引き出す), お構いなく and いえ (いえ the interjection, not 言う's imperative), 行ったって話 (above).
@@ -137,10 +142,19 @@ parsed words, which include every candidate, changed.
   great. We change whatever we need to change to make the result come out well. [...] we don't go breaking correct
   tokenizing to fit our hacks designed to deal with bad tokenizing". The same goes for every case where UniDic tokenizes
   right and JAStudio's workarounds for IPADIC no longer fit: the workarounds change.
+- **Fixed:** ら抜き: 食べれる and 寝れない are one token in UniDic (base 食べれる, lemma 食べる), where JAStudio expects the
+  verb and れる. `RaNukiPotentialTheTokenizerGivesAsOneToken` splits a token whose lemma is its base form with る for れる, and
+  an ichidan verb or 来る as UniDic tokenizes the lemma alone: so 走れる (走る, godan) and 忘れる (lemma 忘れる) stay whole.
+- **The vocab that require a single token (`singleToken`), 48 in the corpus:** the condition said "IPADIC gave this as one
+  token". UniDic, cutting short units, gives some of those words as several: だって is always だ|って, ので always の|で (行く|の|で,
+  雨|な|の|で), において に|おい|て. Such a vocab no longer matches anywhere: ので has 489 sentences, だって 346. Others keep
+  their meaning, a guard against matching across tokens by coincidence (たか, たね, にお). Each needs deciding, on the full
+  rebuild's diff. For だって the distinction the condition stood for, the particle "even" against the copula and the quoting
+  って before a verb of saying, was made in code for IPADIC (`MisTokenizedQuotativeDatte`, removed by the port), and its
+  vocab's `yieldLastTokenToOverlappingCompound` may now make it on its own: だって yields its って to って言う.
 - **To fix:**
-  - ら抜き: 食べれる and 寝れない are one token (base 食べれる, lemma 食べる), where JAStudio expects the verb and れる. Telling
-    them from a godan verb's potential (帰れる, lemma 帰る) needs the dictionary, so it's for the preprocessing stage.
-  - たって (見えなくなったって): UniDic cuts た|って; the vocab たって no longer matches.
+  - たって (見えなくなったって): UniDic cuts た|って here, where 行ったって gets たって as one token; the vocab たって requires a
+    single token.
   - すぎ (考えすぎ): UniDic has すぎ as a suffix (接尾辞,形状詞的), so the vocab すぎる doesn't match it.
   - てらっしゃい (下りてらっしゃい) is one auxiliary in UniDic; the vocab て and らっしゃる don't match.
   - くる's dictionary-form split gives its う as a surface match, where it was a base match.

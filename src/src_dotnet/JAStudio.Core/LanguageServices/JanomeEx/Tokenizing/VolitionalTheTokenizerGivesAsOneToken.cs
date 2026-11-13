@@ -25,7 +25,7 @@ static class VolitionalTheTokenizerGivesAsOneToken
 
    static JNToken[] StemAndUOf(JNToken volitional) =>
    [
-      new(volitional.PartsOfSpeech,
+      new JNToken(volitional.PartsOfSpeech,
           baseForm: volitional.BaseForm,
           surface: volitional.Surface[..^1],
           inflectionType: volitional.InflectionType,
@@ -33,7 +33,7 @@ static class VolitionalTheTokenizerGivesAsOneToken
           reading: WithoutItsLastKana(volitional.Reading),
           phonetic: WithoutItsLastKana(volitional.Phonetic),
           lemma: volitional.Lemma),
-      new(JNPOS.BoundAuxiliary,
+      new JNToken(JNPOS.BoundAuxiliary,
           baseForm: U,
           surface: U,
           inflectionType: InflectionTypes.Uninflecting,
