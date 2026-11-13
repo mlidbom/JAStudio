@@ -18,7 +18,7 @@ partial class PickableValueViewModel(TokenizerValue value, bool isPicked, Action
    /// <summary>The value with its English, as the condition's test offers it.</summary>
    public TokenizerValue TokenizerValue { get; } = value;
 
-   /// <summary>The value, in Japanese, as the tokenizer gives it and a condition's code has it, such as 名詞・接尾.</summary>
+   /// <summary>The value, in Japanese, as the tokenizer gives it and a condition's code has it, such as 名詞・固有名詞.</summary>
    public string Value => TokenizerValue.Value;
 
    /// <summary>The value's English, such as noun › suffix.</summary>

@@ -10,7 +10,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 /// </summary>
 /// <remarks>
 /// A condition takes more than one line when it's a group, whose conditions go on lines of their own under it, or when it lists values with their<br/>
-/// English, one to a line, such as <c>InflectedForm.In(</c> with <c>連用形,</c> and <c>連用タ接続)</c> under it.
+/// English, one to a line, such as <c>InflectedForm.In(</c> with <c>連用形-一般,</c> and <c>連用形-促音便)</c> under it.
 /// </remarks>
 public sealed class CodeLine
 {

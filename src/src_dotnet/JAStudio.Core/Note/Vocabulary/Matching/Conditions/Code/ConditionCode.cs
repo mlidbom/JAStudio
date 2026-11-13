@@ -76,7 +76,7 @@ public static class ConditionCode
 
    /// <summary>
    /// <paramref name="condition"/> on one line, without the comments, as a failure reason shows it: its lines joined, a space after each comma, such as<br/>
-   /// <c>AnyOf(!Surface.In("本の"), FollowingToken.PartOfSpeech.Is(名詞・数))</c>.
+   /// <c>AnyOf(!Surface.In("本の"), FollowingToken.PartOfSpeech.Is(名詞・数詞))</c>.
    /// </summary>
    public static string OnOneLine(Condition condition) => OnOneLine(LinesOf(condition));
 

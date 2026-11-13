@@ -45,7 +45,7 @@ sealed record CodeWriting(ConditionPosition LinePosition, ConditionPosition Posi
 
    /// <summary>
    /// The lines of a condition that lists <paramref name="values"/> after <paramref name="head"/>, each with its English as a comment: all on one line when<br/>
-   /// there's one, such as <c>PartOfSpeech.Is(名詞・数)  // noun › numeric</c>, and else one to a line under the head.
+   /// there's one, such as <c>PartOfSpeech.Is(名詞・数詞)  // noun › numeral</c>, and else one to a line under the head.
    /// </summary>
    internal IEnumerable<CodeLine> LinesListing(string head, IReadOnlyList<TokenizerValue> values)
    {

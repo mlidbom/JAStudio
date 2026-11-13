@@ -11,7 +11,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
 /// <summary>
 /// A condition that a token's inflection type, as the tokenizer gives it, is one of <see cref="Names"/>, or in the family of one of them: 五段 is met<br/>
-/// by every godan type, such as 五段・ラ行, and 特殊 by every special one, such as 特殊・タ. Written <c>InflectionType.In(...)</c>: made by<br/>
+/// by every godan type, such as 五段-ラ行, and 助動詞 by every auxiliary's, such as 助動詞-タ. Written <c>InflectionType.In(...)</c>: made by<br/>
 /// <see cref="InflectionTypeTest{TFrom}.In"/>, on <see cref="TokenConditions.InflectionType"/> or on a way to a token, such as <c>LastToken.InflectionType</c>.
 /// </summary>
 /// <remarks>
@@ -48,7 +48,7 @@ public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
       [.. InflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(ValueOf)];
 
    /// <summary>
-   /// The inflection type, or family of them, named <paramref name="name"/>, with its English: such as 五段・ラ行 with Godan verb with 'ru' ending, or 五段<br/>
+   /// The inflection type, or family of them, named <paramref name="name"/>, with its English: such as 五段-ラ行 with Godan verb with 'ru' ending, or 五段<br/>
    /// with every godan type.
    /// </summary>
    static TokenizerValue ValueOf(string name) => new(name, InflectionTypes.EnglishOf(name));
@@ -60,7 +60,7 @@ public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
       return unknownNames.Count == 0 ? null : $"The tokenizer has no inflection types, nor families of them, named {string.Join(", ", unknownNames)}.";
    }
 
-   /// <summary>The inflection types' names, in Japanese, as the tokenizer gives them, such as 五段・ラ行, or the family's, such as 五段.</summary>
+   /// <summary>The inflection types' names, in Japanese, as the tokenizer gives them, such as 五段-ラ行, or the family's, such as 五段.</summary>
    public TextSet Names { get; }
 
    public override bool IsMetBy(IAnalysisToken subject)
@@ -70,7 +70,7 @@ public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
    }
 
    /// <summary>
-   /// The condition in code, each type with its English as a comment, one to a line when there are several: <c>InflectionType.In(五段・ラ行)  // Godan<br/>
+   /// The condition in code, each type with its English as a comment, one to a line when there are several: <c>InflectionType.In(五段-ラ行)  // Godan<br/>
    /// verb with 'ru' ending</c>, and a family's as <c>五段  // every godan type</c>.
    /// </summary>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => writing.LinesListing("InflectionType.In", [.. Names.Texts.Select(ValueOf)]);

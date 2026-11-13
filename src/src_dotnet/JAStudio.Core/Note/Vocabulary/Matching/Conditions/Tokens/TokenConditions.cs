@@ -75,7 +75,7 @@ public static class TokenConditions
    /// <summary>The inflection of an ichidan verb's imperative. Only a piece JAStudio split off a token is one (<see cref="IAnalysisToken.IsIchidanImperativeInflection"/>).</summary>
    public static readonly Fact<IAnalysisToken> IsAnIchidanImperativeInflection = new(nameof(IsAnIchidanImperativeInflection), "ichidanImperativeInflection", it => it.IsIchidanImperativeInflection);
 
-   /// <summary>A token in the continuative form before た, 連用タ接続 (<see cref="IAnalysisToken.IsPastTenseStem"/>).</summary>
+   /// <summary>A token in a continuative form before た with its sound change, such as 連用形-促音便 (<see cref="IAnalysisToken.IsPastTenseStem"/>).</summary>
    public static readonly Fact<IAnalysisToken> IsAPastTenseStem = new(nameof(IsAPastTenseStem), "pastTenseStem", it => it.IsPastTenseStem);
 
    /// <summary>The た of a past tense, or its だ, as in 読んだ: inflection type 特殊・タ (<see cref="IAnalysisToken.IsPastTenseMarker"/>).</summary>
@@ -114,7 +114,7 @@ public static class TokenConditions
           [Surface, BaseForm, Reading],
           [
              ConditionTestWithTexts.Of("PartOfSpeech.Is",
-                                       "Pick the part of speech, or the kind of one, finding it by its Japanese or its English, such as 接尾 or suffix",
+                                       "Pick the part of speech, or the kind of one, finding it by its Japanese or its English, such as 接尾辞 or suffix",
                                        PartOfSpeechIs.WhyTypedLevelsAreNoPartOfSpeech,
                                        PartOfSpeechIs.FromTyped,
                                        it => it.JapaneseLevels,
@@ -127,7 +127,7 @@ public static class TokenConditions
                                        it => it.Names.AsTyped,
                                        InflectionTypeIsIn.PickableValues),
              ConditionTestWithTexts.Of("InflectedForm.In",
-                                       "Pick the inflected forms, finding each by its Japanese or its English, such as 連用タ接続 or ta-connection",
+                                       "Pick the inflected forms, finding each by its Japanese or its English, such as 連用形-促音便 or sound change",
                                        InflectedFormIsIn.WhyTypedNamesMakeNoCondition,
                                        InflectedFormIsIn.FromTyped,
                                        it => it.Names.AsTyped,

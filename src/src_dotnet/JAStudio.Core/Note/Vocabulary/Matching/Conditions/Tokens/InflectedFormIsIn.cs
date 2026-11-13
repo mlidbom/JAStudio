@@ -10,8 +10,8 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
 /// <summary>
-/// A condition that a token's inflected form, as the tokenizer gives it, is one of <see cref="Names"/>, such as 連用タ接続, the continuative form before<br/>
-/// た. Written <c>InflectedForm.In(...)</c>: made by <see cref="InflectedFormTest{TFrom}.In"/>, on <see cref="TokenConditions.InflectedForm"/> or on a way to<br/>
+/// A condition that a token's inflected form, as the tokenizer gives it, is one of <see cref="Names"/>, such as 連用形-促音便, the continuative form<br/>
+/// whose ending sound becomes っ before た, as in 待った. Written <c>InflectedForm.In(...)</c>: made by <see cref="InflectedFormTest{TFrom}.In"/>, on <see cref="TokenConditions.InflectedForm"/> or on a way to<br/>
 /// a token, such as <c>LastToken.InflectedForm</c>.
 /// </summary>
 /// <remarks>
@@ -21,7 +21,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
 {
    //review:matching: "inflected form", after JNToken.InflectedForm, whose type is InflectionForm: two names for one concept. The value,
-   //   such as 連用タ接続, is a kind of form, not the inflected word itself, so "inflection form" tells the truth better. Not renamed yet,
+   //   such as 連用形-促音便, is a kind of form, not the inflected word itself, so "inflection form" tells the truth better. Not renamed yet,
    //   since the question beside InflectionTypeIsIn, inflection or conjugation, may rename it again: one rename for both, across the
    //   tokenizer, the MCP's AnalyzedToken and this model.
 
@@ -45,7 +45,7 @@ public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
    internal static IReadOnlyList<TokenizerValue> PickableValues() =>
       [.. InflectionForms.All.OrderBy(it => it.Name, StringComparer.Ordinal).Select(ValueOf)];
 
-   /// <summary>The inflected form <paramref name="form"/> with its English, such as 連用タ接続 with Continuative ta-connection.</summary>
+   /// <summary>The inflected form <paramref name="form"/> with its English, such as 連用形-促音便 with Continuative with っ sound change.</summary>
    static TokenizerValue ValueOf(InflectionForm form) => new(form.Name, form.Description);
 
    /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflected forms, or null when they are.</summary>
@@ -55,14 +55,14 @@ public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
       return unknownNames.Count == 0 ? null : $"The tokenizer has no inflected forms named {string.Join(", ", unknownNames)}.";
    }
 
-   /// <summary>The inflected forms' names, in Japanese, as the tokenizer gives them, such as 連用タ接続.</summary>
+   /// <summary>The inflected forms' names, in Japanese, as the tokenizer gives them, such as 連用形-促音便.</summary>
    public TextSet Names { get; }
 
    public override bool IsMetBy(IAnalysisToken subject) => Names.Texts.Contains(subject.SourceToken.InflectedForm.Name);
 
    /// <summary>
    /// The condition in code, each form with its English as a comment, one to a line when there are several:<br/>
-   /// <c>InflectedForm.In(連用タ接続)  // Continuative ta-connection</c>.
+   /// <c>InflectedForm.In(連用形-促音便)  // Continuative with っ sound change</c>.
    /// </summary>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) =>
       writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(InflectionForms.GetByName).Select(ValueOf)]);

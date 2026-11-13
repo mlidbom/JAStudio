@@ -88,7 +88,7 @@ class ConditionTreeLineViewModel
    /// <summary>The line's code as text, as the tree shows it: starting at the <see cref="CodeColumn"/>, with its comment.</summary>
    public string Text => ConditionCode.AsText(CodeLines, CodeLayout.ForTheTreeEditor, CodeColumn);
 
-   /// <summary>The line's code on one line, without its comments, such as <c>!LastToken.InflectedForm.In(連用タ接続, 連用形)</c>: what titles the editor changing it.</summary>
+   /// <summary>The line's code on one line, without its comments, such as <c>!LastToken.InflectedForm.In(連用形-一般, 連用形-促音便)</c>: what titles the editor changing it.</summary>
    public string CodeOnOneLine => ConditionCode.OnOneLine(CodeLines);
 
    /// <summary>

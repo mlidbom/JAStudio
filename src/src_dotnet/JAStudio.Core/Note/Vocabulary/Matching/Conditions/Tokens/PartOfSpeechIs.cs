@@ -9,8 +9,8 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
 /// <summary>
-/// A condition that a token's part of speech is <see cref="JapaneseLevels"/>, or a kind of it: the tokenizer's part of speech, IPADIC's, which has up<br/>
-/// to four levels, such as 名詞・接尾・人名 for a suffix to a person's name. 名詞・接尾 is met by every kind of suffix noun, 名詞 by every kind of noun.<br/>
+/// A condition that a token's part of speech is <see cref="JapaneseLevels"/>, or a kind of it: the tokenizer's part of speech, UniDic's, which has up<br/>
+/// to four levels, such as 名詞・固有名詞・人名 for a person's name. 名詞・固有名詞 is met by every kind of proper noun, 名詞 by every kind of noun.<br/>
 /// Written <c>PartOfSpeech.Is(...)</c>: made by <see cref="PartOfSpeechTest{TFrom}.Is"/>, on <see cref="TokenConditions.PartOfSpeech"/> or on a way to a token,<br/>
 /// such as <c>FollowingToken.PartOfSpeech</c>.
 /// </summary>
@@ -37,12 +37,12 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">As the other constructor.</exception>
    internal PartOfSpeechIs(string japaneseLevels) : this(japaneseLevels.Split(LevelSeparator)) {}
 
-   /// <summary>The condition typed into the tree editor: the levels from the top, separated by spaces or ・, such as 名詞 接尾.</summary>
+   /// <summary>The condition typed into the tree editor: the levels from the top, separated by spaces or ・, such as 名詞 固有名詞.</summary>
    /// <exception cref="Compze.Contracts.Exceptions.ArgumentAssertionFailedException">When <see cref="WhyTypedLevelsAreNoPartOfSpeech"/> says why they're none.</exception>
    internal static PartOfSpeechIs FromTyped(string typedLevels) => new(TheLevelsTyped(typedLevels));
 
    /// <summary>
-   /// Every part of speech the tokenizer gives, and every kind of one, such as 名詞, 名詞・接尾 and 名詞・接尾・人名, each with its English, in ordinal order:<br/>
+   /// Every part of speech the tokenizer gives, and every kind of one, such as 名詞, 名詞・固有名詞 and 名詞・固有名詞・人名, each with its English, in ordinal order:<br/>
    /// what the tree editor offers to pick from.
    /// </summary>
    internal static IReadOnlyList<TokenizerValue> PickableValues()
@@ -60,7 +60,7 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
          Enumerable.Range(1, partOfSpeech.Levels.Count).Select(count => partOfSpeech.Levels.Take(count).Select(it => it.Japanese).ToList());
    }
 
-   /// <summary>The part of speech <paramref name="japaneseLevels"/>, its levels from the top, with their English, such as 名詞・接尾 with noun › suffix.</summary>
+   /// <summary>The part of speech <paramref name="japaneseLevels"/>, its levels from the top, with their English, such as 名詞・固有名詞 with noun › proper-noun.</summary>
    static TokenizerValue ValueOf(IReadOnlyList<string> japaneseLevels) =>
       new(string.Join(LevelSeparator, japaneseLevels), string.Join(EnglishLevelSeparator, japaneseLevels.Select(JNPartsOfSpeech.EnglishNameOf)));
 
@@ -75,7 +75,7 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
       : !JNPartsOfSpeech.AnyIsWithin(levels) ? $"The tokenizer gives no part of speech that is, or is a kind of, {string.Join(LevelSeparator, levels)}."
                                              : null;
 
-   /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・接尾・人名.</summary>
+   /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・固有名詞・人名.</summary>
    public string JapaneseLevels { get; }
 
    public override bool IsMetBy(IAnalysisToken subject) =>
@@ -83,7 +83,7 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
       //   and reading: so the ending る of 食べる is a verb. My call on the design document's open question 4.
       subject.SourceToken.PartsOfSpeech.IsWithin(_levels);
 
-   /// <summary>The condition in code, with the levels' English names as a comment: <c>PartOfSpeech.Is(名詞・接尾・人名)  // noun › suffix › person-name</c>.</summary>
+   /// <summary>The condition in code, with the levels' English names as a comment: <c>PartOfSpeech.Is(名詞・固有名詞・人名)  // noun › proper-noun › person-name</c>.</summary>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => writing.LinesListing("PartOfSpeech.Is", [ValueOf(_levels)]);
 
    /// <summary>The key this condition is stored under in the corpus.</summary>
