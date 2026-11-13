@@ -505,10 +505,15 @@ question 1 below).
    `JNTokenizer` only translates MeCab's tokens into JNTokens and changes nothing: what the tokenizer gave stays visible,
    and the sentence breakdown's edit mode shows it beside what the preprocessing made of it (Magnus, 2026-11-13). A
    `<wbr>` hint becomes a splitter that forces a token boundary.
-2. **Preprocessing (`PreProcessingStage`)** first corrects the tokenizer's mistakes, putting tokens of its own in place
-   of the tokenizer's (`CorrectedToken`): an ichidan verb the dictionary lacks, which the tokenizer cuts into a godan
-   e-stem and an ending (`MisTokenizedIchidanVerbUnknownToTheTokenizer`). Then it splits tokens into JAStudio's own
-   pieces, each a type of its own that records the token it came from, in an order that matters:
+
+   The facts JAStudio reads from a token, such as `IsIchidanVerb`, are its reading of the token in its place, its
+   neighbours included. Where the tokenizer cuts an ichidan verb its dictionary lacks into a godan e-stem and an ending
+   (磨げ|る for 磨げる), both tokens' facts are the verb's (`IchidanVerbUnknownToTheTokenizer`), while their tags stay
+   the tokenizer's. Nothing joins tokens: joining is what the matching does.
+2. **Preprocessing (`PreProcessingStage`)** splits tokens into JAStudio's own pieces, each a type of its own that
+   records the one token it was split off, in an order that matters:
+   - an ichidan verb the dictionary lacks, its e-stem and its own ending, into the pieces a verb the dictionary knows
+     is split into (`IchidanVerbUnknownToTheTokenizerSplitter`): 磨げ|る into 磨, げ and る, as 泳げる;
    - volitionals the tokenizer gives as one token (書こう, だろう), into the stem and う;
    - ら抜き potentials (食べれる, 寝れない), into the verb's stem and れる;
    - godan imperatives;

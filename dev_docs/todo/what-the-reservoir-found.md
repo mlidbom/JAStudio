@@ -192,8 +192,9 @@ leave a second or two for the scan and the reads. A profile would tell.
 - **たまえ, the imperative of the auxiliary 給う, is often tokenized as a person's name.** 「落ち着きたまえ」 tokenizes as
   落ち着き (名詞・一般) + たまえ (名詞・固有名詞・人名・名), and 「従いたまえ」 as に従い (助詞・格助詞・連語) + たまえ. The
   match-condition of たまえ and 給え, "the preceding token is a masu stem", is right, but sees no masu stem: of 6,442
-  reservoir sentences with たまえ, 1,061 reject it so. A preprocessing stage, as for the tokenizer's other known mistakes
-  (`MisTokenizedIchidanVerbUnknownToTheTokenizer`), could split such a pair back into the masu stem and たまえ.
+  reservoir sentences with たまえ, 1,061 reject it so. A reading of the pair's tokens, as for the ichidan verbs the
+  tokenizer's dictionary lacks (`IchidanVerbUnknownToTheTokenizer`), could make the first a masu stem. (Found with
+  IPADIC; UniDic may cut these differently.)
 - **A noun vocab matches the base form of a verb token.** The interjection うっ tokenizes as the verb うつ (五段・タ行,
   連用タ接続), and the vocab 鬱 (うつ) matches its base form, valid and in the parsing result: in 3,823 of 20,000
   sampled sentences containing its texts, such as 「紅葉 てめえ いいかげんなこと… うっ…」. A rule that a vocab that doesn't

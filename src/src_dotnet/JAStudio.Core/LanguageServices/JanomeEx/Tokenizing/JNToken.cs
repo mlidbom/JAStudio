@@ -6,11 +6,15 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 /// <summary>
-/// A token described as the tokenizer's dictionary, UniDic, describes the words it knows: its surface, base form, lemma, reading, parts of speech,<br/>
-/// inflection type and inflected form, with what JAStudio's analysis reads from them. The tokenizer (<see cref="JNTokenizer"/>) gives one for each<br/>
-/// word it cuts a text into, translating MeCab's (<see cref="TokenizerDictionaries.MeCabToken"/>) and changing nothing. Where it got a word wrong,<br/>
-/// the pre-processing stage puts one of its own in place (<see cref="CorrectedToken"/>).
+/// A token the tokenizer gave: its surface, base form, lemma, reading, parts of speech, inflection type and inflected form, as the tokenizer's<br/>
+/// dictionary, UniDic, describes the word, translated from MeCab's (<see cref="TokenizerDictionaries.MeCabToken"/>) and never changed. The tokenizer<br/>
+/// (<see cref="JNTokenizer"/>) gives one for each word it cuts a text into.
 /// </summary>
+/// <remarks>
+/// The facts JAStudio's analysis reads from it, such as <see cref="IsIchidanVerb"/>, are JAStudio's reading of the token in its place in the text,<br/>
+/// its neighbours included: where the tokenizer cut an ichidan verb its dictionary lacks into two tokens, they're the verb's<br/>
+/// (<see cref="IchidanVerbUnknownToTheTokenizer"/>), while the token's description stays the tokenizer's.
+/// </remarks>
 public class JNToken : IAnalysisToken
 {
    public const string SplitterTokenText = "removethissplittertoken";
@@ -90,10 +94,10 @@ public class JNToken : IAnalysisToken
    public override int GetHashCode() => HashCode.Combine(BaseForm, Surface, InflectionType, InflectedForm, PartsOfSpeech);
 
    // <IAnalysisToken implementation>
-   public override bool IsPastTenseStem => InflectionForms.IsAPastTenseStem(InflectedForm);
+   public override bool IsPastTenseStem => TheIchidanVerbUnknownToTheTokenizerItIsPartOf?.IsPastTenseStem ?? InflectionForms.IsAPastTenseStem(InflectedForm);
    public override bool IsPastTenseMarker => Equals(InflectionType, InflectionTypes.Auxiliary.Ta);
 
-   public override bool IsMasuStem => Equals(InflectedForm, InflectionForms.Continuative) && IsVerb;
+   public override bool IsMasuStem => TheIchidanVerbUnknownToTheTokenizerItIsPartOf?.IsMasuStem ?? (Equals(InflectedForm, InflectionForms.Continuative) && IsVerb);
 
    public override bool IsAdverb =>
       Equals(PartsOfSpeech, JNPOS.Adverb) ||
@@ -108,16 +112,28 @@ public class JNToken : IAnalysisToken
       IsVerb || IsAdjective || PseudoVerbsForInflectionPurposes.Contains(BaseForm);
 
    public override bool IsNonWordCharacter => PartsOfSpeech.IsNonWordCharacter();
-   public override bool IsIrrealis => InflectionForms.IsIrrealis(InflectedForm);
+   public override bool IsIrrealis => TheIchidanVerbUnknownToTheTokenizerItIsPartOf?.IsIrrealis ?? InflectionForms.IsIrrealis(InflectedForm);
    public override JNToken SourceToken => this;
    public override bool IsTheTokenizersOwn => true;
    // </IAnalysisToken implementation>
 
    /// <summary>
-   /// A copy of one of the tokenizer's tokens, linked to no neighbours, for a sequence of tokens of its own: the pre-processing stage links a<br/>
-   /// correction's tokens as neighbours without changing the links between the tokenizer's tokens.
+   /// The ichidan verb the tokenizer's dictionary lacks that this token is part of, as its e-stem or its own ending, or null: the facts JAStudio<br/>
+   /// reads from the token are then the verb's. Looked for the first time it's asked, once the token is linked to its neighbours.
    /// </summary>
-   internal JNToken Copy() => new(PartsOfSpeech, BaseForm, Surface, InflectionType, InflectedForm, Reading, Phonetic, Lemma);
+   internal IchidanVerbUnknownToTheTokenizer? TheIchidanVerbUnknownToTheTokenizerItIsPartOf
+   {
+      get
+      {
+         if(_hasLookedForTheIchidanVerbUnknownToTheTokenizerItIsPartOf) return field;
+
+         field = IchidanVerbUnknownToTheTokenizer.ThatHasAsAPart(this);
+         _hasLookedForTheIchidanVerbUnknownToTheTokenizerItIsPartOf = true;
+         return field;
+      }
+   }
+
+   bool _hasLookedForTheIchidanVerbUnknownToTheTokenizerItIsPartOf;
 
    /// <summary>Links each of <paramref name="tokens"/> to the tokens before and after it, its <see cref="Previous"/> and <see cref="Next"/>.</summary>
    internal static void LinkAsNeighbours(IReadOnlyList<JNToken> tokens)
@@ -144,9 +160,12 @@ public class JNToken : IAnalysisToken
    /// <summary>An i-adjective, or a suffix that makes one, such as っぽい.</summary>
    public bool IsAdjective => JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech) || Equals(PartsOfSpeech, JNPOS.Suffix.AdjectiveLike);
 
-   public override bool IsIchidanVerb => InflectionTypes.Ichidan.Includes(InflectionType);
+   public override bool IsIchidanVerb => TheIchidanVerbUnknownToTheTokenizerItIsPartOf != null || InflectionTypes.Ichidan.Includes(InflectionType);
 
-   public override bool IsGodanVerb => InflectionType.Family == InflectionTypes.Godan.Family;
+   public override bool IsGodanVerb => TheIchidanVerbUnknownToTheTokenizerItIsPartOf == null && IsTaggedAsAGodanVerb;
+
+   /// <summary>Whether the tokenizer's tags make the token a godan verb's, whatever JAStudio reads it as in its place in the text (<see cref="IsGodanVerb"/>).</summary>
+   internal bool IsTaggedAsAGodanVerb => InflectionType.Family == InflectionTypes.Godan.Family;
 
    public bool IsKuruVerb => InflectionType.Family == InflectionTypes.Kahen.Family;
 
@@ -219,6 +238,10 @@ public class JNToken : IAnalysisToken
       (Surface == "いる" && Previous != null && Previous.IsTeForm);
 
    public override bool IsEndOfStatement =>
+      TheIchidanVerbUnknownToTheTokenizerItIsPartOf is {} verb && ReferenceEquals(verb.EStem, this) ? verb.EndsAStatement : EndsAStatementBeforeTheTokenAfterIt;
+
+   /// <summary>Whether the token after this one, its <see cref="Next"/>, makes this one end a statement: there's none, or it's a sentence-ending particle or mark.</summary>
+   internal bool EndsAStatementBeforeTheTokenAfterIt =>
       Next == null ||
       Equals(Next.PartsOfSpeech, JNPOS.Particle.SentenceEnding) ||
       AnalysisConstants.SentenceEndCharacters.Contains(Next.Surface) ||

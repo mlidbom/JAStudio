@@ -34,8 +34,8 @@ public abstract class IAnalysisToken
    public abstract JNToken SourceToken { get; }
 
    /// <summary>
-   /// Whether the token is one the tokenizer gave, as it gave it, rather than one of JAStudio's own: a piece the pre-processing stage split off a<br/>
-   /// token (<see cref="SplitTokenBase"/>), or a token it put in place of the tokenizer's where the tokenizer got a word wrong (<see cref="CorrectedToken"/>).
+   /// Whether the token is one the tokenizer gave, as it gave it, rather than one of JAStudio's own, a piece the pre-processing stage split off a<br/>
+   /// token (<see cref="SplitTokenBase"/>).
    /// </summary>
    public virtual bool IsTheTokenizersOwn => false;
 }

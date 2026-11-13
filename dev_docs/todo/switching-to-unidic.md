@@ -206,8 +206,11 @@ displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,9
    **Every correction and split is the pre-processing stage's (Magnus, 2026-11-13):** the volitional and ら抜き splits
    were first written in `JNTokenizer`, beside the older correction of ichidan verbs the dictionary lacks, each giving
    JNTokens indistinguishable from MeCab's, so nothing kept what MeCab gave, and the breakdown's edit mode showed the
-   corrected tokens as the tokenizer's. Now `JNTokenizer` only translates; the pre-processing stage corrects first
-   (`CorrectedToken`, recording the tokenizer's tokens it replaces), then splits, each piece a type of its own.
+   corrected tokens as the tokenizer's. Now `JNTokenizer` only translates, and the pre-processing stage only splits, each
+   piece a type of its own with one source token. The ichidan verb the dictionary lacks isn't joined any more: the facts
+   of its two tokens are the verb's (`IchidanVerbUnknownToTheTokenizer`), and they're split into the pieces of a verb the
+   dictionary knows. Magnus: "joining tokens is what the parser excels at". A rebuild after both changes matched the one
+   before them, sentence for sentence.
    What was planned: JAStudio's token (`JNToken`), its parts of speech (`JNPartsOfSpeech`,
    `JNPOS`), inflection types and forms are IPADIC's. They become UniDic's, read from the dictionary's own words as
    `When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictionary_has` reads IPADIC's, and every use of them in

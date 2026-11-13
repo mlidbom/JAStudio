@@ -1,8 +1,6 @@
 using System.Linq;
 using Compze.Must;
-using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using Xunit;
 
 // ReSharper disable InconsistentNaming
@@ -21,14 +19,17 @@ public class When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer : Ic
 
    [Theory]
    [MemberData(nameof(Endings))]
-   public void the_pre_processing_stage_made_them_from_tokens_it_corrected(string ending) =>
-      PreProcessedTokensOf(StemOfAPotentialFormUnknownToTheTokenizer + ending).Must().Satisfy(tokens => tokens.Any(it => it.SourceToken is CorrectedToken));
+   public void the_tokenizers_e_stem_is_read_as_an_ichidan_verb_while_its_tags_stay_a_godan_verbs(string ending) =>
+      TheTokenizersTokensOf(StemOfAPotentialFormUnknownToTheTokenizer + ending)[0]
+        .Must().Satisfy(eStem => eStem.Surface == StemOfAPotentialFormUnknownToTheTokenizer &&
+                                 eStem.IsIchidanVerb && !eStem.IsGodanVerb &&
+                                 eStem.InflectionType.Family == InflectionTypes.Godan.Family);
 
    [Theory]
    [MemberData(nameof(Endings))]
    public void the_tokenizers_tokens_are_left_as_it_gave_them_linked_to_each_other(string ending) =>
-      TextAnalysis.FromText(GetService<AnalysisServices>(), StemOfAPotentialFormUnknownToTheTokenizer + ending).TokenizedText.Tokens
-                  .Must().Satisfy(tokens => tokens[0].Surface == StemOfAPotentialFormUnknownToTheTokenizer &&
-                                            tokens.All(it => it.IsTheTokenizersOwn) &&
-                                            tokens.Zip(tokens.Skip(1)).All(neighbours => neighbours.First.Next == neighbours.Second));
+      TheTokenizersTokensOf(StemOfAPotentialFormUnknownToTheTokenizer + ending)
+        .Must().Satisfy(tokens => tokens[0].Surface == StemOfAPotentialFormUnknownToTheTokenizer &&
+                                  tokens.All(it => it.IsTheTokenizersOwn) &&
+                                  tokens.Zip(tokens.Skip(1)).All(neighbours => neighbours.First.Next == neighbours.Second));
 }

@@ -17,12 +17,11 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
          return null;
       }
 
-      var hiddenGodan = TryFindGodanHiddenInIchidanUsingDictionary(vocabs, dictLookup, token) ??
-                        TryFindVocabBasedPotentialOrImperativeGodanCompound(token, vocabs, dictLookup);
+      var hiddenGodan = TheGodanHiddenIn(token.BaseForm, token.IsIchidanVerb, vocabs, dictLookup);
 
       if(hiddenGodan != null)
       {
-         if(IsPotentialGodan(vocabs, dictLookup, token, hiddenGodan))
+         if(IsPotentialGodan(vocabs, dictLookup, token.BaseForm, EndsInRuOrIsFollowedByAPotentialFormsInflection(token), token.Previous, hiddenGodan))
          {
             return SplitGodanPotential(token, hiddenGodan);
          }
@@ -77,9 +76,32 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
       ];
    }
 
-   static string? TryFindVocabBasedPotentialOrImperativeGodanCompound(JNToken token, VocabCollection vocabs, DictLookup dictLookup)
+   /// <summary>
+   /// The godan verb whose potential form the ichidan verb <paramref name="ichidanBaseForm"/> is, as <see cref="TrySplit"/> decides it for a token: 磨ぐ<br/>
+   /// for 磨げる. Null when it's no godan verb's potential. For an ichidan verb the tokenizer cut in two (<see cref="IchidanVerbUnknownToTheTokenizer"/>).
+   /// </summary>
+   /// <param name="ichidanBaseForm">The ichidan verb's base form, such as 磨げる.</param>
+   /// <param name="endsInRuOrIsFollowedByAPotentialFormsInflection">Whether the verb ends in its dictionary form's る, or is followed by an ending a potential form takes.</param>
+   /// <param name="preceding">The token before the verb, which tells an intransitive godan verb's potential from the ichidan verb after を.</param>
+   /// <param name="vocabs">The vocab, which can name a verb the dictionary doesn't, as JAStudio's word lookups (<see cref="WordInfo"/>) take them.</param>
+   /// <param name="dictLookup">The dictionary JAStudio looks words up in.</param>
+   internal static string? TheGodanVerbWhosePotentialFormIs(string ichidanBaseForm, bool endsInRuOrIsFollowedByAPotentialFormsInflection, JNToken? preceding, VocabCollection vocabs, DictLookup dictLookup) =>
+      TheGodanHiddenIn(ichidanBaseForm, isIchidanVerb: true, vocabs, dictLookup) is {} godan &&
+      IsPotentialGodan(vocabs, dictLookup, ichidanBaseForm, endsInRuOrIsFollowedByAPotentialFormsInflection, preceding, godan)
+         ? godan
+         : null;
+
+   /// <summary>The godan verb an ichidan verb, or a vocab compound, named <paramref name="baseForm"/> may be the potential or imperative of, or null.</summary>
+   static string? TheGodanHiddenIn(string baseForm, bool isIchidanVerb, VocabCollection vocabs, DictLookup dictLookup) =>
+      TryFindGodanHiddenInIchidanUsingDictionary(vocabs, dictLookup, baseForm, isIchidanVerb) ??
+      TryFindVocabBasedPotentialOrImperativeGodanCompound(baseForm, vocabs, dictLookup);
+
+   static bool EndsInRuOrIsFollowedByAPotentialFormsInflection(JNToken token) =>
+      token.Surface.EndsWithOrdinal("る") || (token.Next != null && token.Next.IsValidGodanPotentialFormInflection());
+
+   static string? TryFindVocabBasedPotentialOrImperativeGodanCompound(string baseForm, VocabCollection vocabs, DictLookup dictLookup)
    {
-      foreach(var vocab in vocabs.WithQuestion(token.BaseForm))
+      foreach(var vocab in vocabs.WithQuestion(baseForm))
       {
          var compoundParts = vocab.CompoundParts.Primary();
          //review: A last part of え:imperative, as in 引け (引く + え:imperative) and 11 other vocab, doesn't count here, since only the plain える and え
@@ -97,9 +119,9 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
       return null;
    }
 
-   static bool IsPotentialGodan(VocabCollection vocabs, DictLookup dictLookup, JNToken token, string godanBase)
+   static bool IsPotentialGodan(VocabCollection vocabs, DictLookup dictLookup, string ichidanBaseForm, bool endsInRuOrIsFollowedByAPotentialFormsInflection, JNToken? preceding, string godanBase)
    {
-      if(token.Surface.EndsWithOrdinal("る") || (token.Next != null && token.Next.IsValidGodanPotentialFormInflection()))
+      if(endsInRuOrIsFollowedByAPotentialFormsInflection)
       {
          var godanDictEntry = WordInfo.LookupGodan(vocabs, dictLookup, godanBase);
          if(godanDictEntry == null)
@@ -108,8 +130,8 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
          }
 
          // Intransitive verbs don't take を so this is most likely actually the ichidan verb
-         if(godanDictEntry.IsIntransitive && token.Previous != null && token.Previous.Surface == "を" &&
-            WordInfo.IsIchidan(vocabs, dictLookup, token.BaseForm))
+         if(godanDictEntry.IsIntransitive && preceding != null && preceding.Surface == "を" &&
+            WordInfo.IsIchidan(vocabs, dictLookup, ichidanBaseForm))
          {
             return false;
          }
@@ -161,13 +183,13 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
       return Conjugator.GodanPotentialVerbEndingToDictionaryFormEndings.ContainsKey(ending);
    }
 
-   static string? TryFindGodanHiddenInIchidanUsingDictionary(VocabCollection vocabs, DictLookup dictLookup, JNToken token)
+   static string? TryFindGodanHiddenInIchidanUsingDictionary(VocabCollection vocabs, DictLookup dictLookup, string baseForm, bool isIchidanVerb)
    {
-      if(token.BaseForm.Length >= 2 &&
-         BaseFormHasGodanPotentialEnding(token.BaseForm) &&
-         token.IsIchidanVerb)
+      if(baseForm.Length >= 2 &&
+         BaseFormHasGodanPotentialEnding(baseForm) &&
+         isIchidanVerb)
       {
-         var possibleGodanForm = Conjugator.ConstructRootVerbForPossiblyPotentialGodanVerbDictionaryForm(token.BaseForm);
+         var possibleGodanForm = Conjugator.ConstructRootVerbForPossiblyPotentialGodanVerbDictionaryForm(baseForm);
          if(WordInfo.IsGodan(vocabs, dictLookup, possibleGodanForm))
          {
             return possibleGodanForm;
