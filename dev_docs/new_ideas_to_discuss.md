@@ -35,6 +35,16 @@ piece of code, or that would otherwise be lost in a long response.
   tokenizer condition in the matching configuration speaks IPADIC; running UniDic beside IPADIC for its lemmas alone
   would cost a second tokenization and a large dictionary. Not verified: how well it does on anime dialogue, and how it
   fits the .NET MeCab JAStudio uses. Worth an experiment over the reservoir, as the kana-readings one was.
+  - **Checked (2026-11-13), with unidic-lite, UniDic 2.1.2:** MeCab.DotNet 1.2.0, JAStudio's engine, loads it and
+    parses as fast as with IPADIC. Its lemmas unite kana and colloquial spellings: ボク → 僕, きょう → 今日, いま → 今,
+    いっしょ → 一緒, しずか → 静か, アタシ → 私, ムリ → 無理, みやげ → 土産, すげえ → 凄い. It tags names with their
+    reading (河合: surname, カワイ; 翔: given name; 戦場ヶ原: place). But not by meaning: かみ is always 髪, にる always
+    煮る, even in 父ににている; 渡さん came out as the verb 渡す. It segments more finely: ひと + つ, お + みやげ. Each token
+    also has the word's origin (native, Sino-Japanese, foreign, proper noun) and its pitch accent type.
+  - **IPADIC hasn't changed since 2007;** UniDic is NINJAL's, the one maintained, at 3.1 (2021), about 770 MB on disk
+    (unidic-lite: 249 MB). JAStudio has IPADIC presumably from its roots in Janome, which bundles it.
+  - **Magnus, 2026-11-13:** "it sure as f-ing hell sounds like we are using the wrong dictionary with MeCab"; no time
+    will be easier than now. Under discussion.
 - **(Claude, 2026-11-13) Keep what JMdict and JMnedict say that `jmdict.db` drops.** The database keeps a word's
   spellings, readings, priorities and senses, and a name's spellings, readings and translations. It drops what tells a
   kana spelling's standing (a reading's irregular, outdated or search-only use; that it isn't a true reading of the
