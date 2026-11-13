@@ -1,13 +1,13 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 6 of the core are built. Increment 6 is shared-conditions: the model, their
+> **Status (2026-11-13): increments 1 to 6 of the core are built. Increment 6 is shared-conditions: the model, their
 > storage and display, the first five in the corpus, and the vocab using them by name wherever their definitions were,
 > through an operation that stays, and creating and editing them in JAStudio: a definition is edited in the
 > shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree, renamed and deleted.
 > A vocab's match-condition is edited in a window of its own too, which the Matching tab, showing it read-only, opens,
 > and the tab's rule editors are gone. The tree is checked against a word in a sentence typed in the match-condition
-> window, each line marked ✓ or ✗ for it. Next, opening that from a word in the sentence breakdown, and Magnus's pass over
-> the names:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> window, each line marked ✓ or ✗ for it, and opened from a word in the sentence breakdown, checked against that word.
+> Next, Magnus's pass over the names:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -1506,7 +1506,8 @@ sentence is typed in the match-condition window, for now.
 
 **Next, as decided:**
 - **Opening it from a word in the sentence breakdown,** with the sentence and the word picked, which is where a word
-  matched wrongly is seen.
+  matched wrongly is seen. *Built 2026-11-13: the breakdown entry's right-click menu has "Match-condition of 食べる,
+  checked against this word" (`jastudio-workspace.md`, "The right-click menu by what's right-clicked").*
 - **Marking a shared-condition's definition, where it's shown under its line,** so that what decided it shows too.
 - **A sentence where no word is one of the vocab's forms** could show how JAStudio splits it into tokens, which is
   usually why.

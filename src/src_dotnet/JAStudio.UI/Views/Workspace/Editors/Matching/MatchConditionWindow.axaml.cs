@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls;
 using JAStudio.Core;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.ViewModels.Workspace.Editors.Matching;
@@ -22,6 +23,8 @@ partial class MatchConditionWindow : Window
    /// <summary>The open windows, by the id of the vocab each is of.</summary>
    static readonly EditorWindows<NoteId, MatchConditionWindow> OpenWindows = new();
 
+   readonly MatchConditionWindowViewModel _viewModel;
+
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
    public MatchConditionWindow() => InitializeComponent();
@@ -29,16 +32,23 @@ partial class MatchConditionWindow : Window
 
    MatchConditionWindow(VocabNote vocab, TemporaryServiceCollection services)
    {
-      var viewModel = new MatchConditionWindowViewModel(services,
-                                                        vocab,
-                                                        sharedCondition => SharedConditionWindow.Open(sharedCondition, services),
-                                                        WorkspaceWindow.ShowTheSentencesReparsedFor);
-      DataContext = viewModel;
+      _viewModel = new MatchConditionWindowViewModel(services,
+                                                     vocab,
+                                                     sharedCondition => SharedConditionWindow.Open(sharedCondition, services),
+                                                     WorkspaceWindow.ShowTheSentencesReparsedFor);
+      DataContext = _viewModel;
       InitializeComponent();
-      this.KeepShowingWhatItEditsAsItIsNow(viewModel, services);
+      this.KeepShowingWhatItEditsAsItIsNow(_viewModel, services);
    }
 
    /// <summary>Opens <paramref name="vocab"/>'s match-condition window where it was last, or brings it to the front when it's open already, and returns it.</summary>
    internal static MatchConditionWindow Open(VocabNote vocab, TemporaryServiceCollection services) =>
       OpenWindows.Open(vocab.GetId(), () => new MatchConditionWindow(vocab, services), services);
+
+   /// <summary>
+   /// Opens the match-condition window of <paramref name="match"/>'s vocab, as <see cref="Open"/> does, checking the tree against the word matched, in its<br/>
+   /// sentence: a word right-clicked in a sentence's breakdown.
+   /// </summary>
+   internal static void OpenCheckingTheTreeAgainst(VocabMatch match, TemporaryServiceCollection services) =>
+      Open(match.Vocab, services)._viewModel.WordToCheckAgainst.CheckAgainst(match.Variant);
 }

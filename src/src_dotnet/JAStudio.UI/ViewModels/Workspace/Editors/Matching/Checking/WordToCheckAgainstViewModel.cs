@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Compze.Contracts;
 using JAStudio.Core.LanguageServices.JanomeEx;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
@@ -51,6 +52,18 @@ sealed partial class WordToCheckAgainstViewModel : ObservableObject
    /// </summary>
    public void ShowTheWordsOf(VocabNote vocab) => ShowTheWordsIn(Sentence, vocab);
 
+   /// <summary>
+   /// Checks the tree against <paramref name="word"/>, a word in a sentence that is one of the vocab's forms, such as one right-clicked in a sentence's<br/>
+   /// breakdown: its sentence becomes the <see cref="Sentence"/>, and the word is picked among the <see cref="Words"/>.
+   /// </summary>
+   public void CheckAgainst(CandidateWordVariant word)
+   {
+      Sentence = word.Word.Analysis.Text;
+      var theWordListed = Words.SingleOrDefault(it => it.IsTheSameWordAs(word));
+      Contract.Argument.Assert(theWordListed is not null, () => $"{word.Form}, at {word.StartIndex}, is no word of the vocab in {Sentence}.");
+      Picked = theWordListed;
+   }
+
    partial void OnSentenceChanged(string value) => ShowTheWordsIn(value, _currentVocab());
 
    /// <summary>Lists the words of <paramref name="vocab"/> in <paramref name="sentence"/>, keeping the same word picked if it's still there.</summary>
@@ -58,7 +71,7 @@ sealed partial class WordToCheckAgainstViewModel : ObservableObject
    {
       var picked = Picked;
       Words = string.IsNullOrWhiteSpace(sentence) ? [] : [.. TextAnalysis.FromText(_analysisServices, sentence).MatchesOf(vocab).Select(it => new WordInTheSentenceViewModel(it))];
-      Picked = Words.FirstOrDefault(it => picked is not null && it.IsTheSameWordAs(picked)) ?? Words.FirstOrDefault();
+      Picked = Words.FirstOrDefault(it => picked is not null && it.IsTheSameWordAs(picked.Word)) ?? Words.FirstOrDefault();
    }
 
    partial void OnPickedChanged(WordInTheSentenceViewModel? value) => _checkTheTreeAgainst(value?.Word);

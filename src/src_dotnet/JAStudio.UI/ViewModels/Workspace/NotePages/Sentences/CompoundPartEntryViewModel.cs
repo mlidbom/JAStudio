@@ -5,9 +5,10 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 
 /// <summary>
 /// One part of a compound in a sentence's breakdown, under the compound's entry (<see cref="CompoundPartViewModel"/>): the part's vocab, with its audio,<br/>
-/// readings, meta tags and answer, indented by how deep it is in the compound, since a part may be a compound with parts of its own.
+/// readings, meta tags and answer, indented by how deep it is in the compound, since a part may be a compound with parts of its own. A right-click on<br/>
+/// it gives the part's menu.
 /// </summary>
-sealed class CompoundPartEntryViewModel
+sealed class CompoundPartEntryViewModel : INotePageElement
 {
    /// <summary>How far the entry is indented for each level the part is below the compound, in pixels, as the cards indent it.</summary>
    const double IndentationPerLevel = 30;

@@ -122,6 +122,12 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       return menuItems;
    }
 
+   /// <summary>
+   /// The submenu of what can be done with <paramref name="selection"/>, text selected on <paramref name="sentence"/>'s page, titled <paramref name="title"/><br/>
+   /// followed by the text: the one the sentence's menu has for its selection.
+   /// </summary>
+   internal SpecMenuItem BuildSelectionMenuSpec(string title, string selection, SentenceNote sentence) => BuildStringMenuSpec(title, selection, "sentence", sentence);
+
    // String menu builders (for selection/clipboard)
    SpecMenuItem BuildStringMenuSpec(string title, string text, string? noteType, JPNote? note) =>
       SpecMenuItem.Submenu(title + $" \"{TruncateText(text, 40)}\"",

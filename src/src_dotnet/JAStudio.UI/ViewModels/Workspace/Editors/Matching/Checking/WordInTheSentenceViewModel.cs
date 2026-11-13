@@ -23,8 +23,8 @@ sealed class WordInTheSentenceViewModel
    /// </summary>
    public string Text => $"{TheWordAsTheVocabsForm}, at {Word.StartIndex}: {WhetherItMatchesTheVocab}";
 
-   /// <summary>Whether this is the same word as <paramref name="other"/>, in another analysis of the sentence: the same form at the same place.</summary>
-   internal bool IsTheSameWordAs(WordInTheSentenceViewModel other) => Word.StartIndex == other.Word.StartIndex && Word.Form == other.Word.Form;
+   /// <summary>Whether this is the same word as <paramref name="word"/>, in another analysis of the sentence: the same form at the same place.</summary>
+   internal bool IsTheSameWordAs(CandidateWordVariant word) => Word.StartIndex == word.StartIndex && Word.Form == word.Form;
 
    string TheWordAsTheVocabsForm => Word.IsSurface ? Word.Form : $"{Word.Word.SurfaceForm} as {Word.Form}";
 

@@ -144,20 +144,21 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
   and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
   `forbids::configured_hidden`, so the styles never applied.
 
-## Proposed: the right-click menu by what's right-clicked
+## The right-click menu by what's right-clicked
 
-*An analysis for discussion, 2026-11-13. Magnus: "I'm rather eager to make the menu understand context rather than do
+*Analysed and agreed with Magnus, 2026-11-13: "I'm rather eager to make the menu understand context rather than do
 string magic. So that you immediately get the options you should be getting for that element, not everything under the
-sun."*
+sun." Built in three increments, the first done: see [As built](#as-built-increment-1).*
 
-### How it works now: from a string
+### Before: from a string
 
-A right-click on a note's page passes `NoteContextMenu` the note shown and two strings: the text right-clicked (the text
+Still how a right-click on no element of a page works, and how Anki's reviewer's menu works. A right-click on a note's
+page passes `NoteContextMenu` the note shown and two strings: the text right-clicked (the text
 selected, or else the whole text of the block under the mouse) and the clipboard's text. Each string gets a submenu of
 everything a string might be for. The menu then works out from the string what was meant. For example, "Add > Incorrect
 matches" analyses the sentence again and finds every match whose form is the string; when the word occurs twice, a
-submenu asks which, by its position. The Avalonia sentence page knows exactly which element was clicked (each control's
-`DataContext` is its `BreakdownEntryViewModel`, with the `Match` behind it), but it hands the menu only the text.
+submenu asks which, by its position. The Avalonia sentence page knew exactly which element was clicked (each control's
+`DataContext` is its `BreakdownEntryViewModel`, with the `Match` behind it), but it handed the menu only the text.
 
 The strings do two different jobs:
 - **Naming an element on the page:** the match to mark incorrect or hidden, the sentence to highlight a vocab in, the
@@ -165,7 +166,7 @@ The strings do two different jobs:
 - **Input:** a word to add as a synonym, a text to search the web for or to create a note from, where to split the
   sentence with a word-break tag. A selection does this job well, as it does now.
 
-### The proposal
+### The design
 
 The right-click hands the menu the element clicked: its view model, and through it the domain objects (a `Match`, a
 compound part's `VocabNote`, a kanji's `KanjiNote`). The menu is then:
@@ -232,22 +233,64 @@ Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 
 
 ### Found along the way
 
-- **"Incorrect" and "invalid" name one thing.** By hand it's an incorrect match (`IncorrectMatches`,
-  `configured_incorrect`), but the vocab's menu lists the sentences as "Marked invalid in sentences"
-  (`vocab.Sentences.InvalidIn`). And a match is invalid (`Match.IsValid`) for many more reasons than being marked so.
+- **"Incorrect" and "invalid" named one thing.** By hand it's an incorrect match (`IncorrectMatches`,
+  `configured_incorrect`), but the vocab's menu listed the sentences as "Marked invalid in sentences". And a match is
+  invalid (`Match.IsValid`) for many more reasons than being marked so. *Decided: "incorrect", below. Renamed
+  (`VocabNoteSentences.MarkedIncorrectIn`, `VocabSentencesMarkedIncorrect.razor`, the menu's and the card's texts), all
+  but the card's CSS ids, `invalidInSentencesSection` and `invalid_in_sentences`, compiled from two copies of
+  `vocab.scss`.*
 - **"Highlighted Vocab" names two things:** a sentence's highlighted words (`HighlightedWords`), and, in the kanji's string
   menu, the kanji's primary vocab (`KanjiStringMenus`).
 - **The vocab's "Sentence > Add Highlight" highlights in the first sentence with the question text only,** while "Remove
   highlight" and "Mark as incorrect match" act on all of them (`VocabStringMenus.BuildSentenceMenuSpec`). It goes away
   with the move to the sentence rows.
 
-### Open questions
+### Decided (Magnus, 2026-11-13)
 
-1. Leave out what doesn't apply, rather than show it disabled, with a fixed key for each item?
-2. Mark incorrect and hide at the word's position only, or also offer "everywhere in this sentence" (a `WordExclusion`
-   with no position)?
-3. Leave the clipboard out of the elements' menus, keeping it in the sentence's menu (a right-click on empty space)?
-4. One word for a match marked by hand, "incorrect" or "invalid"?
+1. **What doesn't apply is left out,** rather than shown disabled, and each item has a fixed key.
+2. **Marking incorrect and hiding is at the word's position only.** "Everywhere in this sentence" (a `WordExclusion` with
+   no position) can come later if it's missed. Unmarking a match marked everywhere unmarks it everywhere, and says so.
+3. **The clipboard is left out of the elements' menus.** The sentence's menu, from a right-click on no element, keeps it.
+4. **A match marked by hand is "incorrect".** "Invalid" is a match that fails any requirement (`Match.IsValid`).
+
+The increments: 1. the plumbing, and a breakdown entry's marking items, with step 4's match-condition item; 2. a word only
+the dictionary has, a token nothing has, and the shadowing and winning matches; 3. compound parts' and kanji's own items.
+
+### As built: increment 1
+
+Built 2026-11-13.
+
+- **The element right-clicked** is the nearest one shown by the control right-clicked or by one around it
+  (`INotePageElement`): a breakdown entry (`BreakdownEntryViewModel`, holding its `Match`), a compound part under one, or
+  a kanji under one. A right-click on a meta tag is about its entry, one on a compound part about the part. A
+  right-click on no element gets the sentence's menu, as before.
+- **The menus** are `SentencePageElementMenus`, which the page picks among by the element (`SentencePageViewModel.MenuOf`).
+  The selection is the text selected on the element, never its whole text.
+- **The keys,** whichever element's menu shows the item:
+
+  | Key | Item |
+  |---|---|
+  | u | Match-condition of 食べる, checked against this word |
+  | e | Mark incorrect here / Unmark incorrect |
+  | o | Hide here / Unhide |
+  | a | Highlight / Remove the highlight |
+  | i | Open 食べる |
+  | p | Open 食べる in a background tab |
+  | k | Vocab: 食べる ▸ / Kanji: 食 ▸ |
+  | j | Sentence ▸ |
+  | q | Selection: "…" ▸ |
+
+- **A breakdown entry** has the marking items for any match, a vocab's or not: "Mark incorrect here" when the match is
+  valid, "Hide here" when it's shown, "Unmark incorrect" and "Unhide" when the sentence marks it so, and the highlight
+  either way. A vocab's match adds the match-condition item and the vocab's items. The marks act on the match itself,
+  in Core: `WordExclusionSet.Add(Match)`, `Contains(Match)`, `Remove(Match)`, and `SentenceConfiguration.Highlights(Match)`,
+  which `Match.IsHighlighted` uses too.
+- **The match-condition item** opens the vocab's window with the sentence typed in and the word picked
+  (`MatchConditionWindow.OpenCheckingTheTreeAgainst`). The window analyses the sentence's text alone, as it does a
+  sentence typed, so its list of words says whether each matches by the vocab's match-condition and the general rules,
+  not by the sentence's own marks.
+- **A compound part and a kanji** have, for now, only their note's items: Open, Open in a background tab, and their
+  note's menu.
 
 ## Keyboard shortcuts
 
@@ -398,7 +441,8 @@ Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 
 
        *Built 2026-11-13*, as described in [The sentence page in Avalonia, as built](#the-sentence-page-in-avalonia-as-built).
     4. **Opening a vocab's match-condition window from a word in the breakdown,** checked against that word (see
-       `matching-configuration.md`).
+       `matching-configuration.md`). *Built 2026-11-13, as an item of the breakdown entry's own right-click menu: see
+       [The right-click menu by what's right-clicked](#the-right-click-menu-by-whats-right-clicked).*
     5. **The vocab page, then the kanji page.** Then the web view leaves the workspace.
     6. **The reviewer's right-click menu goes,** with what else of the Blazor pages reviewing doesn't need.
 
