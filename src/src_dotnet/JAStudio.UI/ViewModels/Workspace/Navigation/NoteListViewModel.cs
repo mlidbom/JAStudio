@@ -34,7 +34,7 @@ partial class NoteListViewModel : ObservableObject
    }
 
    /// <summary>What the listed notes are, with how many there are.</summary>
-   [ObservableProperty] string _title = "No list shown yet";
+   [ObservableProperty] public partial string Title { get; set; } = "No list shown yet";
 
    public ListedNotesViewModel Notes { get; }
 

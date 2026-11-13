@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -38,6 +39,9 @@ public sealed record SubjectCondition<TFrom, TSubject> : Condition<TFrom>, ISubj
    public override bool IsEmpty => Condition.IsEmpty;
 
    public override bool IsMetBy(TFrom subject) => IsEmpty || Condition.IsMetBy(Subject.FoundIn(subject));
+
+   /// <summary>This condition checked against <paramref name="subject"/>, with the <see cref="Condition"/> checked against the <see cref="Subject"/> found in it.</summary>
+   public override CheckedCondition CheckedAgainst(TFrom subject) => new(IsMetBy(subject), [Condition.CheckedAgainst(Subject.FoundIn(subject))]);
 
    /// <summary>The <see cref="Condition"/>'s code, with the subject's name and a dot in front of it, such as <c>PrecedingToken.IsAGodanVerb</c>.</summary>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) => Condition.CodeLines(writing.ForTheConditionHeldWith(CodePiece.Of($"{Subject.Name}.")));

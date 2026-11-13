@@ -17,8 +17,9 @@ stops making sense. Search results, the note you're viewing and its editors belo
 ## The shape
 
 - **Workspaces.** A workspace is a window. Several can be open at once.
-- **Tabs.** A workspace holds any number of tabs, and each tab shows one note's page (its card's answer side,
-  rendered by the `CardServer`) in a web view, with its own back and forward history.
+- **Tabs.** A workspace holds any number of tabs, and each tab shows one note's page, with its own back and forward
+  history. For now that's the card's answer side, rendered by the `CardServer`, in a web view. The pages move to
+  Avalonia one note type at a time, sentences first: see [Technology](#technology-avalonia-the-notes-pages-included).
 - **The editor section,** collapsible, on the right, shows the editors of the shown tab's note. There's one per
   workspace, opened or closed for all tabs at once.
 - **The navigation pane,** on the left, holds ways to find notes, as tabs of their own, whose notes open in the
@@ -31,16 +32,42 @@ Defaults, unless something changes them:
   require it.
 - A link clicked in Anki's reviewer opens in the most recently used workspace.
 
-## Technology: Avalonia, with the web view only showing the note
+## Technology: Avalonia, the notes' pages included
 
-- **Avalonia** for the workspace and everything structured: the window, tabs, the navigation pane, editors, menus
-  and dialogs.
-- **The web view (Blazor) only shows the note's page**, follows its links and passes on right-clicks. HTML is the
-  best tool for that richly formatted text, and the card pages already exist.
+**Decided 2026-11-13 (Magnus): the notes' pages move to Avalonia too, and Blazor stays only where a web view is
+required: the cards in Anki's reviewer.** Until then, the decision of 2026-11-06 was that the web view only showed
+the note's page, followed its links and passed on right-clicks, since HTML is good at richly formatted text and the
+card pages existed.
 
 Magnus's experience is that building significant applications on web technology costs far more effort than a
-proper UI framework, and the boundary between native UI and a web page costs effort at every edge. So the
-boundary stays this narrow.
+proper UI framework, and the boundary between native UI and a web page costs effort at every edge. The note's page
+is now becoming the kind of UI that boundary taxes most: complex logic to edit and display, such as a vocab's
+match-condition checked against a word in a sentence's breakdown.
+
+- **Avalonia for the whole workspace:** the window, tabs, the navigation pane, editors, menus, dialogs, and the
+  notes' pages.
+- **The pages move one note type at a time, sentences first,** where words matched wrongly are seen. Until a type's
+  page is built, its notes show as before: the card page in a web view. Once the last type's is built, the workspace
+  has no web view, and the three things tying JAStudio to Windows that the web view brings go with it (see
+  `multiplatform.md`).
+- **Why it pays:**
+  - An Avalonia page knows what was clicked: a breakdown entry holds its match, and can open the vocab's
+    match-condition window checked against that very word. Through a web view, each such action is a message from the
+    page's script, and what was clicked has to be found again from what the message says, the way the right-click
+    menu guesses it from the text selected.
+  - The headless JAStudio can show, click and read an Avalonia page, as it does the rest of the workspace. A web
+    view's page is only an image there (`NoteTabImageView`), since a native web view needs a real window.
+- **The cards in Anki's reviewer keep their Blazor pages,** to read while reviewing. Once the workspace's pages do
+  what the reviewer's right-click menu does, the menu goes, with whatever else of the Blazor pages reviewing doesn't
+  need: the workspace is a click or a shortcut away.
+- **So the sentence breakdown is shown twice, for good:** by Blazor in the reviewer, and by Avalonia in the workspace.
+  Both are views of the same view models in Core (`SentenceViewModel`, `MatchViewModel`, `CompoundPartViewModel`), so
+  what the breakdown shows is decided once. The workspace's will grow editing; the reviewer's stays for reading.
+- **The look (Magnus, 2026-11-13):** the same information and a similar feel as the cards, the same colours, but no
+  aim at matching them pixel for pixel: the workspace's pages are built for editing.
+- **The notes' texts hold markup,** which the pages show as styled text: HTML, such as `<b>` in a sentence's source
+  question, and JAStudio's own tags, such as `<kanji>`, `<vocabulary>` and `<read>` in a vocab's answer or a kanji's
+  mnemonic. A quarter of the vocab have some (7,258 of 28,004, counted 2026-11-13).
 
 ## MVVM
 
@@ -87,6 +114,141 @@ apply here.
 - **Inactive tabs aren't refreshed in the background.** A tab refreshes when it's shown, if anything changed
   while it was hidden.
 
+## The sentence page in Avalonia, as built
+
+Built 2026-11-13, as step 3 of [increment 10](#increments).
+
+- **A tab shows a sentence's page in Avalonia** (`NoteTabViewModel.NotePage`, a `SentencePageViewModel`), and the other
+  notes' card pages in its web view as before (`ShowsTheCardPage`). The view shows one or the other: the page in a
+  `NotePagePresenter`, which scrolls it, and the card page in the `NativeWebView`, or as an image in the headless
+  JAStudio. Which view shows which page model is the application's data template for it, in `App.axaml`.
+- **The page is built from the same view models in Core as the card's** (`SentenceViewModel`, `MatchViewModel`,
+  `CompoundPartViewModel`, and now `SentenceViewToggleViewModel` and `TokenTableViewModel`, which the card's razor
+  components use too), so what the breakdown shows is decided once. A vocab's meta tags are a list
+  (`VocabNoteMetaData.MetaTags`), which the card's HTML is made from.
+- **A page shows the note as it was when it was made:** the tab makes it anew when the note or a setting changes, as the
+  web view reloads a card's page, keeping the keyboard on it if it had it. A page of another note starts at the top.
+- **Links:** a word's vocab, a compound's parts and a word's kanji are links (`NoteLinkViewModel`). A click shows the
+  note in the tab, a middle-click opens it in a background tab.
+- **Audio:** the ▶ buttons play the note's audio through `WorkspaceAudioPlayer`, and the sentence's own plays when the
+  tab is first shown with it, as the card's page does. The headless JAStudio plays nothing
+  (`WorkspaceAudioPlayer.PlayNothingFromNowOn`): an agent drives it, on Magnus's computer.
+- **Keys:** the note view shortcuts work on the page as on a card's page (`NoteViewKeyGesture`), and the page scrolls as
+  a browser's does: the arrows, Page Up and Page Down, Home and End.
+- **Right-click** opens the note's menu (`NoteContextMenu`), for the text right-clicked: the text selected there, or the
+  whole text, such as a word of the breakdown.
+- **The layout:** a breakdown entry's answer stands beside the word, or below it when there's less than 250 pixels left
+  beside it (`BesideOrBelowPanel`), rather than being squeezed into a sliver. The token tables, wider than most pages,
+  scroll sideways on their own, so the rest of the page keeps wrapping at its width.
+- **Left out of the card's styles:** those for a breakdown entry's `secondary_match`, `shadowed`, `configured_hidden`
+  and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
+  `forbids::configured_hidden`, so the styles never applied.
+
+## Proposed: the right-click menu by what's right-clicked
+
+*An analysis for discussion, 2026-11-13. Magnus: "I'm rather eager to make the menu understand context rather than do
+string magic. So that you immediately get the options you should be getting for that element, not everything under the
+sun."*
+
+### How it works now: from a string
+
+A right-click on a note's page passes `NoteContextMenu` the note shown and two strings: the text right-clicked (the text
+selected, or else the whole text of the block under the mouse) and the clipboard's text. Each string gets a submenu of
+everything a string might be for. The menu then works out from the string what was meant. For example, "Add > Incorrect
+matches" analyses the sentence again and finds every match whose form is the string; when the word occurs twice, a
+submenu asks which, by its position. The Avalonia sentence page knows exactly which element was clicked (each control's
+`DataContext` is its `BreakdownEntryViewModel`, with the `Match` behind it), but it hands the menu only the text.
+
+The strings do two different jobs:
+- **Naming an element on the page:** the match to mark incorrect or hidden, the sentence to highlight a vocab in, the
+  vocab to make one of a kanji's primary vocab, the reading to make primary. The element itself should do this job.
+- **Input:** a word to add as a synonym, a text to search the web for or to create a note from, where to split the
+  sentence with a word-break tag. A selection does this job well, as it does now.
+
+### The proposal
+
+The right-click hands the menu the element clicked: its view model, and through it the domain objects (a `Match`, a
+compound part's `VocabNote`, a kanji's `KanjiNote`). The menu is then:
+
+```
+<the element's own items: only those that apply to it as it is>
+Vocab: 食べる ▸        the vocab's own note menu, as on its page (for an element with a vocab)
+Sentence ▸             the sentence's note menu, as now
+Selection: "…" ▸       only when text is selected
+```
+
+- **A fixed key for each item,** whichever element shows it, and the two halves of a toggle on the same key (mark
+  incorrect and unmark, hide and unhide, highlight and remove the highlight), so that the keys stay muscle memory.
+- **What doesn't apply is left out,** not shown disabled: a shown match has no "Unhide".
+
+### What each element offers
+
+**A breakdown entry for a vocab's match (`VocabMatch`).** Edit mode lists every match of every candidate word, so the
+entry is one of these:
+
+| The match | Its items |
+|---|---|
+| Any | "Match-condition of 食べる, checked against this word" (step 4 of increment 10). "Open 食べる", also in a background tab, for the keyboard. |
+| Shown | "Mark incorrect here" (`IncorrectMatches`, at the word's position: `Match.ToExclusion`). "Hide here" (`HiddenMatches`, likewise). "Highlight" or "Remove the highlight" (`HighlightedWords`). |
+| Hidden by hand (`configured_hidden`) | "Unhide": removes the exclusion that hides it. When that one is for the whole sentence (no position), the item says so, since it unhides the word everywhere in the sentence. |
+| Hidden, shadowed by a longer word | The shadowing word's items: "Open 食べ物", "Mark 食べ物 incorrect here". That's usually what's wrong when a right word doesn't show. |
+| Hidden by the vocab's flags (compositionally transparent compound, yields to a surface) or the setting that hides compounds | The vocab's matching flags, or the view toggle. |
+| Invalid, marked incorrect by hand (`configured_incorrect`) | "Unmark incorrect", with the same caveat as "Unhide". |
+| Invalid, its match-condition not met (`not_met`) | The match-condition item, first. "Highlight": a highlighted match is valid whatever fails (`Match.IsValid`), so it's the by-hand "it does match here". |
+| Invalid, another match owns the form or wins by priority | The winning vocab's items: "Open 食べる", "Mark 食べる incorrect here". |
+| Invalid for other reasons (poison word, dictionary form, inflection rules) | The vocab's matching flags. |
+
+**A breakdown entry for a word only the dictionary has (`DictionaryMatch`):** "Create the vocab from the dictionary"
+(`TheVocabNamedOrCreatedFromTheDictionary`), "Mark incorrect here", "Hide here", web searches for the word.
+
+**A breakdown entry for a token nothing has (`MissingMatch`):** "Create a vocab", web searches, and "Show the tokens"
+(edit mode's token tables), since how the tokenizer split the sentence is usually why.
+
+**A compound part, under an entry:** "Open", "Remove from 食べ物's compound parts" (the compound right above it), and
+"Vocab: 食べ ▸". No match-condition item: a compound part isn't matched in the sentence.
+
+**A kanji, under an entry:** "Open", "Make 食べる one of 食's primary vocab" (last, or at a position) or "Remove 食べる from
+食's primary vocab" (`KanjiNote.PrimaryVocab`), and "Kanji: 食 ▸". Today this takes selecting the vocab's text on the
+kanji's page.
+
+**The rest of the page** (question, answer, comments, empty space): the sentence's note menu, as now, with the selection
+first when there is one. The audio buttons: "Text-to-speech audio…".
+
+### Where today's string items go
+
+- **The sentence's string menu:** adding and removing highlighted, hidden and incorrect matches go to the breakdown
+  entries. Splitting with a word-break tag stays with the selection: the text is the input.
+- **The vocab's string menu:** "Sentence > Add highlight / Remove highlight / Mark as incorrect match in sentence", which
+  find the sentence by its whole question text, go to the sentence rows of the vocab's page (step 5). Removing a synonym,
+  antonym, see-also and the like go to those rows on the vocab's page. Adding them, and creating combined vocab, stay with
+  the selection and the clipboard: the text is the input.
+- **The kanji's string menu:** the primary vocab go to the kanji's vocab rows and to the sentence page's kanji rows; the
+  primary readings to the kanji's reading elements. Adding a similar-meaning or confused-with kanji stays with the
+  selection.
+- **The generic items** (web searches, exactly matching notes, create a note, reparse matching sentences) stay with the
+  selection.
+
+Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 10).
+
+### Found along the way
+
+- **"Incorrect" and "invalid" name one thing.** By hand it's an incorrect match (`IncorrectMatches`,
+  `configured_incorrect`), but the vocab's menu lists the sentences as "Marked invalid in sentences"
+  (`vocab.Sentences.InvalidIn`). And a match is invalid (`Match.IsValid`) for many more reasons than being marked so.
+- **"Highlighted Vocab" names two things:** a sentence's highlighted words (`HighlightedWords`), and, in the kanji's string
+  menu, the kanji's primary vocab (`KanjiStringMenus`).
+- **The vocab's "Sentence > Add Highlight" highlights in the first sentence with the question text only,** while "Remove
+  highlight" and "Mark as incorrect match" act on all of them (`VocabStringMenus.BuildSentenceMenuSpec`). It goes away
+  with the move to the sentence rows.
+
+### Open questions
+
+1. Leave out what doesn't apply, rather than show it disabled, with a fixed key for each item?
+2. Mark incorrect and hide at the word's position only, or also offer "everywhere in this sentence" (a `WordExclusion`
+   with no position)?
+3. Leave the clipboard out of the elements' menus, keeping it in the sentence's menu (a right-click on empty space)?
+4. One word for a match marked by hand, "incorrect" or "invalid"?
+
 ## Keyboard shortcuts
 
 - **Note view shortcuts** (`NoteViewShortcuts`, in C#) are defined once and shared with Anki's reviewer and
@@ -94,13 +256,17 @@ apply here.
   act on the note being viewed.
 - **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press, and the tab asks the
   window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O,
-  Ctrl+E, Ctrl+W, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the keyboard is outside the page.
+  Ctrl+E, Ctrl+W, Ctrl+T, Ctrl+Shift+T, Ctrl+M, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the
+  keyboard is outside the page. Ctrl+M opens the match-condition window of the vocab the shown tab shows.
   Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
   editors to come.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
   Anki sync. A hidden tab reloads when it's shown instead.
-- **Back and forward** are the page's history (Alt+Left, Alt+Right), per tab and not saved. Anki's saved
-  history of recently shown cards may come back later, as a "recently viewed" list.
+- **Back and forward** (Alt+Left, Alt+Right, and the buttons) go through the tab's history of the notes it showed
+  (`NoteTabHistory`), per tab and not saved. The tab keeps it, not the web view, so that one note's page can be shown
+  in Avalonia and the next one's in the web view. Notes that leave the collection, deleted or gone after a reload, are
+  forgotten, and a tab closes when the note it shows leaves. Anki's saved history of recently shown cards may come
+  back later, as a "recently viewed" list.
 
 ## Known technical points
 
@@ -175,7 +341,8 @@ apply here.
      resized by dragging its edge. It shows the editors of the shown tab's note, so it stays open as links are
      followed and tabs are switched. Each tab keeps its own editors, for the note it shows.
    - **A vocab's editors are tabs:** "Text" is its text fields, forms and parts of speech (`VocabTextEditorViewModel`);
-     "Matching" is the rest of the matching config, everything else that affects parsing; "Metadata" is what doesn't,
+     "Matching" is the rest of the matching config, everything else that affects parsing, with the match-condition
+     shown read-only and edited in a window of its own (see `matching-configuration.md`); "Metadata" is what doesn't,
      such as the register; "Related" is its relationships to other words, such as its synonyms, each added with a picker
      of the corpus's vocab (`VocabRelatedEditorViewModel`, since 2026-11-09).
    - **Every change is written to the note at once.** A change to what the vocab matches, on the "Matching" tab or to
@@ -202,8 +369,7 @@ apply here.
 8. **The workspace comes back after a restart.** *(Built 2026-11-08, Magnus: "immensely helpful".)* When the
    workspace window is left (`WorkspaceViewModel.SaveTheState`), its `WorkspaceState` is saved in
    `workspace-state.json` in the user files folder (`SavedWorkspaceState`), per machine and not versioned:
-   - the notes the tabs show, and which tab is shown, though not each tab's back and forward history, which lives in
-     its web view;
+   - the notes the tabs show, and which tab is shown, though not each tab's back and forward history;
    - the search (`NoteConditionJson`), the List tab's list, which navigation tab is shown, and whether the navigation
      pane and the editor section are open, with their widths.
 
@@ -212,6 +378,29 @@ apply here.
    Where the window was is kept separately (`WindowPlaceKeeper`, `multiplatform.md`).
 9. **A deleted note leaves the workspace.** *(Built 2026-11-08.)* `JPCollection.NoteDeleted` closes the tabs showing
    the note, and takes it out of the search results and the List tab.
+
+10. **The notes' pages in Avalonia.** *(Decided 2026-11-13: see
+    [Technology](#technology-avalonia-the-notes-pages-included).)*
+    1. **The tab keeps its own history,** of the notes it showed, rather than the web view's: a tab can then show
+       one note's page in Avalonia and the next one's in the web view, and go back and forward between them.
+       *(Built 2026-11-13: `NoteTabHistory`. The page reports a note link clicked, and the browser's own back and
+       forward, and the tab has its web view load the page of the note it shows.)*
+    2. **The notes' texts' markup as styled text in Avalonia.** *(Built 2026-11-13: `StyledText` in Core reads a text's
+       HTML and JAStudio's own tags into styled runs, and `StyledTextBlock` shows them, in the cards' light colours, the
+       note pages' brushes in `App.axaml`.)*
+    3. **The sentence page in Avalonia,** with what the card's page has:
+       - the screenshots, the question with its audio, the answer, and the comments;
+       - the breakdown, with its view settings, each word's vocab with its audio, readings, meta tags and answer, its
+         compound parts and its kanji, and in edit mode the reasons a match is incorrect or hidden;
+       - in edit mode, the token tables;
+       - following a note's link, and opening it in a background tab with a middle-click;
+       - the note view shortcuts, and the note's right-click menu, for the word right-clicked.
+
+       *Built 2026-11-13*, as described in [The sentence page in Avalonia, as built](#the-sentence-page-in-avalonia-as-built).
+    4. **Opening a vocab's match-condition window from a word in the breakdown,** checked against that word (see
+       `matching-configuration.md`).
+    5. **The vocab page, then the kanji page.** Then the web view leaves the workspace.
+    6. **The reviewer's right-click menu goes,** with what else of the Blazor pages reviewing doesn't need.
 
 The order after step 1 is tentative. Steps 6 and 7 are parked because they free nothing from Anki, and the
 workspace exists for the goal in `corpus-data-model.md`, where import and organizing come next.

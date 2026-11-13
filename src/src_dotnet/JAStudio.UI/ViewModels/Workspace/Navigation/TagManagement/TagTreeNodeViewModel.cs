@@ -21,7 +21,7 @@ partial class TagTreeNodeViewModel : ObservableObject
    {
       _node = node;
       _expandedPaths = expandedPaths;
-      _isExpanded = expandedPaths.Contains(node.TagPath);
+      IsExpanded = expandedPaths.Contains(node.TagPath);
       Children = [..node.Children.Select(it => new TagTreeNodeViewModel(it, expandedPaths))];
    }
 
@@ -36,7 +36,7 @@ partial class TagTreeNodeViewModel : ObservableObject
    public IReadOnlyList<TagTreeNodeViewModel> Children { get; }
 
    /// <summary>Whether the line shows its <see cref="Children"/>. Bound to the line's expander.</summary>
-   [ObservableProperty] bool _isExpanded;
+   [ObservableProperty] public partial bool IsExpanded { get; set; }
 
    partial void OnIsExpandedChanged(bool value)
    {

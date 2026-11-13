@@ -10,7 +10,7 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 
 /// <summary>
-/// The matching rules the Matching tab of a vocab offers (<see cref="MatchingRule"/>), each with the condition it is in a vocab's match-condition.<br/>
+/// The matching rules a vocab had before match-conditions (<see cref="MatchingRule"/>), each with the condition it is in a vocab's match-condition.<br/>
 /// They're the rules a vocab had before match-conditions, and the corpus's vocab were migrated from them, so each condition is exactly what its rule<br/>
 /// tested, but for <see cref="SentenceStart"/>.
 /// </summary>

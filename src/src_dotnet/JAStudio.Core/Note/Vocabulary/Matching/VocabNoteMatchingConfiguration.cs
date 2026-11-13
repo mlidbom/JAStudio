@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -29,17 +30,22 @@ public class VocabNoteMatchingConfiguration
       RequiresForbids = new VocabMatchingRequireForbidFlags(partsOfSpeech, data?.RequiredOrForbidden ?? new Dictionary<string, RequiredOrForbiddenDto>(), guard);
       Flags = new VocabMatchingFlags(partsOfSpeech, data?.Flags ?? [], guard);
       YieldToSurface = new VocabYieldToSurface(data?.YieldToSurface ?? [], guard);
-      Rules = new MatchConditionAsRules(this);
    }
 
    /// <summary>The condition a word must meet to match the vocab: all of its conditions, none when it has none.</summary>
    public AllOfGroup<CandidateWordVariant> MatchCondition { get; private set; }
 
-   /// <summary>The <see cref="MatchCondition"/> as the matching rules its conditions are, as the Matching tab shows and edits it.</summary>
-   public MatchConditionAsRules Rules { get; }
-
    /// <summary>The require/forbid rules that aren't conditions in the <see cref="MatchCondition"/>: dictionary form (start), and yielding the last token.</summary>
    public VocabMatchingRequireForbidFlags RequiresForbids { get; }
+
+   /// <summary>
+   /// Whether one of the <see cref="MatchCondition"/>'s conditions is <paramref name="rule"/>'s: means the same as one of its conditions, as the conditions<br/>
+   /// of the vocab migrated from the rule do. The tags below <see cref="Tagging.Tags.Vocab.Matching.Uses"/> say which vocab hold the rules that take texts.
+   /// </summary>
+   public bool MatchConditionHolds(MatchingRule rule) => MatchCondition.Conditions.Any(rule.Recognizes);
+
+   /// <summary>Whether one of the <see cref="MatchCondition"/>'s conditions is <paramref name="rule"/>'s condition while required (<see cref="RequireForbidMatchingRule.WhenRequired"/>).</summary>
+   public bool MatchConditionRequires(RequireForbidMatchingRule rule) => MatchCondition.Conditions.Any(it => rule.ChoiceOf(it) == RequireForbidChoice.Required);
 
    public VocabMatchingFlags Flags { get; }
 
@@ -96,7 +102,14 @@ public class VocabNoteMatchingConfiguration
    public int CustomRequirementsWeight =>
       //review:matching: a condition that isn't a matching rule's weighs nothing, so priority knows only the rules. Priority once conditions can say
       //   more is open question 2 in dev_docs/matching-configuration.md.
-      RequiresForbids.MatchWeight + Rules.MatchWeight + YieldToSurface.MatchWeight;
+      RequiresForbids.MatchWeight + MatchConditionWeight + YieldToSurface.MatchWeight;
+
+   /// <summary>
+   /// What the <see cref="MatchCondition"/>'s conditions add to the vocab's priority: what each rule's weighs, as the rule did before match-conditions. Each<br/>
+   /// of the match-condition's flattened conditions is weighed (<see cref="ConditionGroup{TSubject}.FlattenedConditions"/>), and each that means the same as<br/>
+   /// a rule's (<see cref="Condition.MeansTheSameAs"/>) is that rule's, so a shared-condition weighs what its definition weighs.
+   /// </summary>
+   int MatchConditionWeight => MatchCondition.FlattenedConditions.Sum(condition => MatchingRules.All.Sum(rule => rule.WeightOf(condition)));
 
    internal VocabMatchingDto ToDto() => new()
    {

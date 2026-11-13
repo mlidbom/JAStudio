@@ -1,0 +1,10 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.ConditionCodeView"
+             x:DataType="matching:ConditionCodeViewModel">
+
+    <!-- A transparent background, so that a click between the pieces reaches the view too, as a double-click to edit the condition does. -->
+    <ItemsControl x:Name="CodeLines" ItemsSource="{Binding Lines}" ItemTemplate="{StaticResource CodeLine}" Background="Transparent" />
+
+</UserControl>

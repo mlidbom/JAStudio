@@ -21,7 +21,7 @@ public abstract record ConditionGroup<TSubject> : Condition<TSubject>, IConditio
    /// <summary>
    /// The group's conditions, flattened: a group of the same kind among them, or a shared-condition defined as one, taken as the conditions it holds,<br/>
    /// all the way down. <c>AllOf(A, AllOf(B, C))</c> holds <c>A</c>, <c>B</c> and <c>C</c>, as <c>AllOf(A, B, C)</c> does, and means the same<br/>
-   /// (<see cref="Condition.MeansTheSameAs"/>). A vocab's priority weighs these (<see cref="Rules.MatchConditionAsRules"/>), so that putting some of a<br/>
+   /// (<see cref="Condition.MeansTheSameAs"/>). A vocab's priority weighs these (<see cref="VocabNoteMatchingConfiguration.CustomRequirementsWeight"/>), so that putting some of a<br/>
    /// match-condition's conditions in a shared-condition of their own changes nothing it weighs.
    /// </summary>
    public IEnumerable<Condition<TSubject>> FlattenedConditions => Conditions.SelectMany(FlattenedIntoThisGroup);

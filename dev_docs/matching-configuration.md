@@ -1,10 +1,13 @@
 # The matching configuration as a tree of conditions
 
-> **Status (2026-11-12): increments 1 to 5 of the core are built, and steps 1 to 3 of increment 6, shared-conditions:
-> the model, their storage and display, the first five in the corpus, and the vocab using them by name wherever their
-> definitions were, through an operation that stays, and creating and editing them in JAStudio: a definition is
-> edited in the shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree,
-> renamed and deleted. Next, step 4, the rule editors go:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
+> **Status (2026-11-12): increments 1 to 6 of the core are built. Increment 6 is shared-conditions: the model, their
+> storage and display, the first five in the corpus, and the vocab using them by name wherever their definitions were,
+> through an operation that stays, and creating and editing them in JAStudio: a definition is edited in the
+> shared-condition's own window, which F12 opens from any tree, and one is made of a line of a tree, renamed and deleted.
+> A vocab's match-condition is edited in a window of its own too, which the Matching tab, showing it read-only, opens,
+> and the tab's rule editors are gone. The tree is checked against a word in a sentence typed in the match-condition
+> window, each line marked ✓ or ✗ for it. Next, opening that from a word in the sentence breakdown, and Magnus's pass over
+> the names:** see [Increments](#increments). It started as a survey with Magnus, 2026-11-10. Magnus wants the
 > matching configuration refactored "to not use hardcoded conditions that only support AND conditions via checkboxes"
 > (2026-11-10), into "a flexible tree structure resembling how we implement the note search" (2026-11-08):
 > [note-search.md](note-search.md). The goal (Magnus, 2026-11-10): "to be able to craft matching rules for vocab that
@@ -762,7 +765,8 @@ The MCP server gets a tool to set a vocab's match-condition as JSON.
       2. **Making a shared-condition of a line of a tree,** then used wherever its definition is: built 2026-11-12.
       3. **Renaming one,** in every vocab and definition that uses it, and its file: built 2026-11-12.
       4. **Deleting one,** its definition written out wherever it's used: built 2026-11-12.
-   4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields.
+   4. **The rule editors go,** with the rule-by-rule editing and the MCP server's `matching.rules.*` fields: built
+      2026-11-12, see [Increment 6, step 4, as built](#increment-6-step-4-as-built).
 
 #### Step 2: naming a condition never changes what a vocab does
 
@@ -914,11 +918,13 @@ stores match-conditions.
   knows what it weighs.
 - **`MatchConditionAsRules`** reads a vocab's match-condition as rules, and edits it rule by rule while it's made of
   rules only: each condition a rule's, and no rule twice. Every migrated vocab is. Editing keeps the rules' conditions in
-  the order of `MatchingRules.All`, the order the migration wrote them in.
+  the order of `MatchingRules.All`, the order the migration wrote them in. *(Gone in increment 6, step 4.)*
 - **The Matching tab** shows the match-condition as text at its top, and edits it through the rules as before. When it
-  has other conditions, the rules' sections are locked and a line says to edit it as a whole.
+  has other conditions, the rules' sections are locked and a line says to edit it as a whole. *(The rules' editors are
+  gone since increment 6, step 4.)*
 - **The MCP server** edits the rules as `matching.rules.<rule>`, and the whole match-condition as JSON, as
-  `matching.condition`, which can hold any condition.
+  `matching.condition`, which can hold any condition. *(The `matching.rules.<rule>` fields are gone since increment 6,
+  step 4.)*
 
 **Decisions made while building it:**
 - **Priority is computed from the match-condition** (open question 2, (b)): each condition that is a rule's weighs what
@@ -1018,14 +1024,11 @@ PrecedingToken.IsInAnIrrealisForm
 !PrecedingToken.IsAnIchidanVerb
 PrecedingToken.Surface.EndsWithOneOf("ん")
 !FollowingToken.Surface.StartsWithOneOf("湧", "わ")
-AnyOf(
-   !Surface.In("本の"),
-   FollowingToken.PartOfSpeech.Is(名詞・数))     // noun › numeric
-!LastToken.AllOf(
-   PartOfSpeech.Is(動詞),                        // verb
-   InflectedForm.In(
-      連用形,                                    // continuative
-      連用タ接続))                                // continuative, ta-connection
+AnyOf(!Surface.In("本の"),
+      FollowingToken.PartOfSpeech.Is(名詞・数))   // noun › numeric
+!LastToken.AllOf(PartOfSpeech.Is(動詞),   // verb
+                 InflectedForm.In(連用形,   // continuative
+                                  連用タ接続))   // continuative, ta-connection
 ```
 
 - **Each top-level line must hold.** The root "all of" isn't shown.
@@ -1035,6 +1038,14 @@ AnyOf(
   `StartsWithOneOf`, `EndsWithOneOf` and `ContainsOneOf` keep their names (Magnus: "a bit clearer to me. We can polish
   later though").
 - **Groups are `AnyOf(...)` and `AllOf(...)`,** with commas and closing parentheses (Magnus: "Keep them").
+- **Indented as code is: what a parenthesis opens, a group's conditions or a list's values, starts at the column right
+  after it** (Magnus, 2026-11-12: "What makes it read well to me is mostly the indentation. I am super used to code
+  indenting like that."). Where the code is only read, as above, the first starts on the opening line: on the Matching
+  tab, in the window listing the shared-conditions, in a shared-condition's definition shown on hover or expanded, and
+  in the MCP server's output (`CodeLayout.ForReading`). In the tree editor, where each condition is a line of its own
+  that can be selected, the first starts on the next line, at the same column (`CodeLayout.ForTheTreeEditor`):
+  `AnyOf(`, then `!Surface.In("本の"),` and the next under the column after its parenthesis. A comment comes three
+  spaces after its code, not in a column: Japanese is wider than a monospace cell.
 - **Negation is `!`, as in C#** (Magnus). It's shown in a color that stands out, since a `!` at the start of a line is
   easy to miss. With the empty token (below), a `!` means the same wherever it sits, so one form is enough: in front of
   what it negates.
@@ -1104,7 +1115,9 @@ color of its own, as Rider colors the methods you wrote. Hovering over it shows 
 definition in place, greyed, and F12 or Ctrl+click opens it for editing. Magnus asked for hover or expanding; this
 proposes both.
 
-### Decided, on the backlog: the tree checked against a word in a sentence
+### Decided: the tree checked against a word in a sentence
+
+*The first part is built (2026-11-12): see [The tree checked against a word in a sentence, as built](#the-tree-checked-against-a-word-in-a-sentence-as-built).*
 
 Magnus, 2026-11-12: "Seeing matching failures that way is definitely something I want." First an idea of Claude's
 (2026-11-11). When a vocab matches a word it shouldn't, or misses one it should, the question is which of its conditions
@@ -1232,7 +1245,7 @@ Built 2026-11-12, as planned in
    is unchanged, order and names included, since the tree editor relies on it.
 2. **Weighing by meaning:** the rules recognize a condition that means the same as theirs (`RequireForbidMatchingRule`,
    `TextsMatchingRule`), and a vocab's priority weighs the match-condition's flattened conditions
-   (`MatchConditionAsRules.MatchWeight`). So a shared-condition weighs what its definition weighs, a negated one what the
+   (`MatchConditionAsRules.MatchWeight`, since step 4 `VocabNoteMatchingConfiguration.MatchConditionWeight`). So a shared-condition weighs what its definition weighs, a negated one what the
    forbidden rule does, and a combination put in a shared-condition weighs what its conditions did. No file holds a
    weight. A shared-condition's compared texts are its definition's, so a texts rule's condition given a name is still
    that rule's, for its weight and for the tags below `Tags.Vocab.Matching.Uses`. Godan potential built by hand with its
@@ -1408,6 +1421,95 @@ shared-conditions window [and] the editor for a shared condition", together with
    collection's vocab through a `Lazy<VocabCollection>`, the first time a change needs them, since the collection is
    made after the shared-conditions and loads them before its notes. Magnus picked this of three options
    (2026-11-12): the others were to move the four operations to the vocab collection, or to keep the parameter.
+
+### Increment 6, step 3, then: the match-condition window, and code indented as code is
+
+Asked for by Magnus, 2026-11-12: "the condition editor is very small and almost instantly runs out of room so you cannot
+see what is going on when you add conditions to it", and, of the editor he wanted instead: "no editing in place at all
+I'd say. Just the expression rendering in the optimal form. To edit double click it and you get the editor window."
+
+1. **Code is indented as code is** (`CodeLayout`), as the section on how conditions display says: the first of what a
+   parenthesis opens on its line where the code is only read, on the next line in the tree editor. The tree indents
+   each line by the spaces it starts with, in characters of the code's monospace font
+   (`ConditionTreeLineViewModel.CodeColumn`), and the tree itself indents no level (the Fluent theme's
+   `TreeViewItemIndent`, 0 in the tree), so the expand arrows keep a column of their own at the left.
+2. **The Matching tab shows the match-condition read-only** (`ConditionCodeView`), laid out for reading. A double-click
+   on it, or Ctrl+M anywhere in the workspace, opens the vocab's **match-condition window** (`MatchConditionWindow`),
+   where it's edited in the tree editor as before. Ctrl+click on a shared-condition's name in the read-only code opens
+   its window, and hovering over a name, there or in a tree, shows its definition: the name's piece of code carries its
+   shared-condition (`CodePiece.SharedCondition`).
+3. **The window** is one per vocab, as a shared-condition's window is: opening it again brings it to the front. It opens
+   at 1400×1000 the first time, and then where and as large as it was last left, as every window opened through
+   `ShowWhereItWasLast` does, by its type: so the shared-condition windows already remembered their size. It shows the
+   match-condition as it is now whenever it's activated, as after a rule changed on the Matching tab, and closes when
+   the collection reloads or the vocab is gone. Each change reparses the vocab's sentences, then reloads the workspace's
+   pages of the vocab (`WorkspaceWindow.ShowTheSentencesReparsedFor`), as the tab's own reparse did; a shared-condition
+   window's reparse now does that too, for the vocab depending on it. Both kinds of window are editor windows
+   (`IEditorWindowViewModel`), which do this the same way, in one place: `EditorWindows` keeps one window for each thing
+   edited, and `KeepShowingWhatItEditsAsItIsNow` shows it as it is now when activated, and closes it when it's gone or
+   the collection reloads.
+
+**Not handled:** the window's reparse and the Matching tab's are separate, so a rule changed on the tab while the
+window's reparse reads the vocab, or the other way around, changes the vocab under it. A shared-condition's window has
+had the same since step 3. Step 4 removed the tab's rule editors, but the tab still edits the flags and the two rules
+outside the match-condition, and the Text tab the forms, each reparsing through the vocab's editors' reparser.
+
+### Increment 6, step 4, as built
+
+The Matching tab's rule editors are gone, with what only they and the MCP server used: a vocab's match-condition is
+edited as a tree, in its window, and with the MCP server as JSON (`matching.condition`). The plan's two reasons to keep
+them are gone too: a condition weighs when it means the same as a rule's, in any order (step 2), and each of the five
+rules that are small trees is one pick in the add menu, as a shared-condition. The other 16 rules take the add menu's
+usual few picks, such as `p`, `f`, `g` for `PrecedingToken.IsAGodanVerb`: Magnus agreed to that (2026-11-12), and to a
+faster way only if he finds he misses the one click.
+
+- **Gone:** `MatchConditionAsRules`, the rule-by-rule editing; the tab's sections "Misc matching rules", "Stem matching
+  rules" and "String rules", and the line saying the match-condition can't be edited rule by rule; the 21
+  `matching.rules.<rule>` fields of `VocabEditableFields`, which the MCP server's `edit_a_note` wrote; and what only they
+  used, `RequireForbidMatchingRule.ConditionFor` and `TextsMatchingRule`'s condition on a list of texts.
+- **The tab now holds** the match-condition, read-only, then "Display" (yielding the last token, and to a surface), "Is"
+  (inflecting word, poison word) and "Misc", where "Dictionary form (start)", a rule outside the match-condition, joins
+  the two flags.
+- **The rules stay,** as the conditions they became (`MatchingRules`), for what JAStudio reads off them. The vocab's
+  matching configuration reads them now, as `MatchConditionAsRules` did:
+  - **What the match-condition weighs** (`MatchConditionWeight`, private, in `CustomRequirementsWeight`), unchanged;
+  - **whether it holds a rule** (`MatchConditionHolds`), for the four tags below `Tags.Vocab.Matching.Uses`;
+  - **whether it requires one** (`MatchConditionRequires`), for narrowing a reparse to the sentences holding a form
+    when the vocab requires its surface.
+
+  Each reads the match-condition's conditions as `MatchConditionAsRules` did: the weight its flattened conditions, the
+  other two its own conditions.
+- **The full rebuild changed nothing,** as it must: what the corpus stores never depended on the editors.
+
+### The tree checked against a word in a sentence, as built
+
+Built 2026-11-12, as the first part of [what was decided](#decided-the-tree-checked-against-a-word-in-a-sentence): the
+sentence is typed in the match-condition window, for now.
+
+- **The window has a sentence box above the tree** (`WordToCheckAgainstViewModel`). As a sentence is typed, it's analyzed as
+  a sentence's stored parsing result is made, and the vocab's matches in it are listed, one for each word that is one of
+  its forms (`TextAnalysis.MatchesOf`): "えた, at 4: matches the vocab", or "えた, at 0: doesn't match: " and the
+  match's failure reasons, which include more than the match-condition, such as another vocab owning the form. A word
+  matched by its base form reads "食べ as 食べる". With no such word, a line says so.
+- **The tree is checked against the word picked,** the first until another is: each line is marked ✓ or ✗, in a column
+  of its own at the left, by whether the word meets the line's condition as the line shows it, its negation and subject
+  included (`ConditionTreeLineViewModel.Check`). So `!PrecedingToken.IsAGodanVerb` is ✓ when the token before the word
+  isn't a godan verb, and the lines inside `PrecedingToken.AnyOf(` are each checked against that token.
+- **In Core,** a condition checked against a subject is a `CheckedCondition`: whether it's met, and one checked condition
+  for each of its children, a condition on a subject checked against that subject (`Condition<TSubject>.CheckedAgainst`,
+  overridden by `SubjectCondition`). A tree line finds its own by its position. A shared-condition is one line, checked as
+  its definition is met.
+- **After a change,** the marks follow the tree at once, since the word is the same; once the change's reparse finishes,
+  the words are found anew, so each says whether it matches the vocab now. They're found anew too when the window is
+  activated. The reparser now calls back before it says it has finished (`VocabSentencesReparserViewModel`), so what waits
+  for the end, such as the tree enabled again, or a specification, finds the words already found anew.
+
+**Next, as decided:**
+- **Opening it from a word in the sentence breakdown,** with the sentence and the word picked, which is where a word
+  matched wrongly is seen.
+- **Marking a shared-condition's definition, where it's shown under its line,** so that what decided it shows too.
+- **A sentence where no word is one of the vocab's forms** could show how JAStudio splits it into tokens, which is
+  usually why.
 
 ### Naming and design questions: `review:matching:` comments
 

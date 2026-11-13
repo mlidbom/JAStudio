@@ -18,9 +18,6 @@ public sealed class CodeLine
    //   doesn't: Code.Line, Code.Piece, Code.PieceKind. Kept, since outside the namespace, as in the tree editor's view models, a bare Line or Piece
    //   says less. CodePiece was CodeText: every comment and the view models already called them pieces.
 
-   /// <summary>What a line is indented by for each level it's deeper than the first line of its condition.</summary>
-   const string Indentation = "   ";
-
    /// <summary>What keeps a comment apart from the code before it: three spaces, not a column, since Japanese is wider than a monospace cell.</summary>
    const string BeforeTheComment = "   ";
 
@@ -47,23 +44,32 @@ public sealed class CodeLine
    public string Code => string.Concat(Pieces.Where(it => it.Kind != CodePieceKind.Comment).Select(it => it.Text));
 
    /// <summary>
-   /// The line's pieces as they're shown under <paramref name="firstLine"/>, the first line of its condition: indented as much deeper as it is, and its<br/>
-   /// comment kept apart from the code before it.
+   /// Whether the line opens what the lines after it hold with a parenthesis, such as <c>AnyOf(</c> a group's conditions, or <c>InflectedForm.In(</c> a<br/>
+   /// list's values: they're shown starting at the column right after it (<see cref="CodeLayout"/>).
    /// </summary>
-   public IReadOnlyList<CodePiece> PiecesShownUnder(CodeLine firstLine)
+   public bool OpensWhatFollows
    {
-      return [.. TheIndentation(), .. Pieces.SelectMany(WithTheSpaceBeforeACommentAfterCode)];
-
-      IEnumerable<CodePiece> TheIndentation() =>
-         Depth > firstLine.Depth ? [CodePiece.Of(string.Concat(Enumerable.Repeat(Indentation, Depth - firstLine.Depth)))] : [];
-
-      static IEnumerable<CodePiece> WithTheSpaceBeforeACommentAfterCode(CodePiece piece, int index) =>
-         piece.Kind == CodePieceKind.Comment && index > 0 ? [CodePiece.Of(BeforeTheComment), piece] : [piece];
+      get
+      {
+         //review:matching: read off the code's last character, which holds since a text is always a quoted literal, so only a line that opens
+         //   something ends in an opening parenthesis. CodeWriting.OpeningLineOf, which writes every line that opens something, could instead say so on the line it makes, so that
+         //   it's a fact of the line rather than of how its code happens to be written. Left as it is, since it's true now and simple.
+         return Code.EndsWith('(');
+      }
    }
 
-   /// <summary>The line as text under <paramref name="firstLine"/>, the first line of its condition: its <see cref="PiecesShownUnder"/> it, joined.</summary>
-   public string TextUnder(CodeLine firstLine) => string.Concat(PiecesShownUnder(firstLine).Select(it => it.Text));
+   /// <summary>The line's pieces, with its comment kept apart from the code before it.</summary>
+   internal IEnumerable<CodePiece> PiecesWithTheCommentApart
+   {
+      get
+      {
+         return Pieces.SelectMany(WithTheSpaceBeforeACommentAfterCode);
+
+         static IEnumerable<CodePiece> WithTheSpaceBeforeACommentAfterCode(CodePiece piece, int index) =>
+            piece.Kind == CodePieceKind.Comment && index > 0 ? [CodePiece.Of(BeforeTheComment), piece] : [piece];
+      }
+   }
 
    /// <summary>The line as text, its comment after its code.</summary>
-   public override string ToString() => TextUnder(this);
+   public override string ToString() => string.Concat(PiecesWithTheCommentApart.Select(it => it.Text));
 }

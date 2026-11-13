@@ -1,17 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
+             xmlns:notePages="clr-namespace:JAStudio.UI.Views.Workspace.NotePages"
              x:Class="JAStudio.UI.Views.Workspace.NoteTabView"
              x:DataType="vm:NoteTabViewModel"
              IsVisible="{Binding IsSelected}">
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="4" Margin="4">
-            <Button Content="◀" ToolTip.Tip="Back" IsEnabled="{Binding CanGoBack}" Click="OnBackClick" />
-            <Button Content="▶" ToolTip.Tip="Forward" IsEnabled="{Binding CanGoForward}" Click="OnForwardClick" />
+            <Button Content="◀" ToolTip.Tip="Back (Alt+Left)" Command="{Binding GoBackCommand}" />
+            <Button Content="▶" ToolTip.Tip="Forward (Alt+Right)" Command="{Binding GoForwardCommand}" />
         </StackPanel>
 
-        <NativeWebView x:Name="WebView" />
+        <Panel>
+            <NativeWebView x:Name="WebView" IsVisible="{Binding ShowsTheCardPage}" />
+            <notePages:NotePagePresenter x:Name="NotePagePresenter" IsVisible="{Binding !ShowsTheCardPage}" />
+        </Panel>
     </DockPanel>
 
 </UserControl>

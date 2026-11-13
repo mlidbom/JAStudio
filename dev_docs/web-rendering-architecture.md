@@ -7,6 +7,10 @@
   enough for that. See
   [Card Templates Installed in Anki](#card-templates-installed-in-anki-status-2026-11-05).
 - The corpus browser (Phase 2) has not been started. The only Blazor pages are the three `/card/...` pages.
+  JAStudio's workspace took its place, in Avalonia (`jastudio-workspace.md`).
+
+**Direction since 2026-11-13:** the workspace's notes' pages move to Avalonia, one note type at a time, and Blazor
+stays for the cards in Anki's reviewer. See `jastudio-workspace.md`, "Technology".
 
 ## Completed Work
 
@@ -86,6 +90,9 @@ Anki processes `{{Audio_*}}` tags and queues audio playback **before** the `card
 
 ## Notes in JAStudio's Workspace (2026-11-06)
 
+*Moving to Avalonia, one note type at a time, since 2026-11-13: see `jastudio-workspace.md`, "Technology". A sentence's
+page is in Avalonia since then; this section describes the card pages the web view still shows.*
+
 JAStudio's own window for viewing notes, replacing Anki's previewer. It's the first step in
 `corpus-data-model.md` towards not needing Anki's browser and previewer. Where the workspace is heading (tabs,
 search, editors) is in `jastudio-workspace.md`.
@@ -99,7 +106,9 @@ search, editors) is in `jastudio-workspace.md`.
   - Ctrl+Click opens the note in Anki's previewer.
   - Shift+Click opens it in the system browser.
   - A plain click inside Anki's reviewer opens it in the workspace.
-  - A plain click anywhere else follows the link in place.
+  - A plain click in the workspace has the tab show the note: the tab keeps the history of the notes it showed
+    (`NoteTabHistory`), and tells its web view which page to load.
+  - A plain click anywhere else, as in the system browser, follows the link in place.
   - A middle-click in the workspace opens the note in a new tab in the background. Its page loads, and its audio
     plays, when the tab is first shown.
 
@@ -115,9 +124,16 @@ search, editors) is in `jastudio-workspace.md`.
 - **Audio:** vocab and sentence pages show the note's own audio with a ▶ button in front of the question
   (`AudioPlayButton`, which also serves the related notes' audio). The workspace plays it as soon as the page shows
   it, as Anki does on a card. Inside Anki's reviewer, Anki plays it instead.
-- **The page talks to its tab** through the web view's message channel. It reports every page it shows, because
-  following a link is Blazor client-side routing, which the web view doesn't report as a navigation. It also
-  reports the selected text when right-clicked.
+- **The page talks to its tab** through the web view's message channel. It reports the note link clicked, for the tab
+  to show, and the browser's own back and forward: Alt+Left and Alt+Right as keys, and the mouse's back and forward
+  buttons. It also reports every page it shows, in case it goes to another page by itself, which the tab then
+  follows, and the selected text when right-clicked.
+  - The web view keeps no history of its own: the first page is navigated to, and each after it replaces the one before
+    (`location.replace`). With a history of its own, the browser's own Back, on Alt+Left or the mouse's back button, went
+    back through it while the tab went back through its own, to another page (found by Magnus, 2026-11-13).
+  - Since the tab keeps the history (2026-11-13), every link followed loads the page anew, where it used to be Blazor's
+    client-side routing within the page. If that's noticeably slower, it's temporary: the web view leaves the
+    workspace once the notes' pages are in Avalonia.
 - **Keyboard shortcuts:** the page reports every key press, and the workspace runs its own shortcuts and the
   `NoteViewShortcuts` it shares with Anki. See `jastudio-workspace.md`, "Keyboard shortcuts".
 - **The page reloads** when the note it shows is updated, a setting changes, or the collection is reloaded after an Anki

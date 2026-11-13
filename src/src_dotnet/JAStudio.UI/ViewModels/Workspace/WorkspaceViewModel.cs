@@ -7,8 +7,8 @@ using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
+using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
-using JAStudio.Core.UI.Web;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.UI.Views.Workspace.Navigation;
@@ -53,19 +53,19 @@ partial class WorkspaceViewModel : ObservableObject
    public ObservableCollection<NoteTabViewModel> Tabs { get; } = [];
 
    /// <summary>The tab being shown. Null only when no tab is open.</summary>
-   [ObservableProperty] NoteTabViewModel? _selectedTab;
+   [ObservableProperty] public partial NoteTabViewModel? SelectedTab { get; set; }
 
    /// <summary>The shown tab's <see cref="NoteTabViewModel.Header"/>, followed by the application's name.</summary>
-   [ObservableProperty] string _title = AppTitle;
+   [ObservableProperty] public partial string Title { get; set; } = AppTitle;
 
    /// <summary>
    /// Whether the editor section, on the right of the tabs, is open. It shows the editors of the shown tab's note,<br/>
    /// so it stays open as links are followed and tabs are switched.
    /// </summary>
-   [ObservableProperty] bool _isEditorSectionOpen;
+   [ObservableProperty] public partial bool IsEditorSectionOpen { get; set; }
 
    /// <summary>The editor section's width, as its edge was last dragged. Bound to the section, so that it's kept between sessions.</summary>
-   [ObservableProperty] double _editorSectionWidth = 480;
+   [ObservableProperty] public partial double EditorSectionWidth { get; set; } = 480;
 
    /// <summary>Saves what the workspace shows (<see cref="WorkspaceState"/>), to show it again after a restart. The window calls it whenever it's left.</summary>
    internal void SaveTheState()
@@ -86,13 +86,25 @@ partial class WorkspaceViewModel : ObservableObject
    public void ToggleEditorSection() => IsEditorSectionOpen = !IsEditorSectionOpen;
 
    /// <summary>
-   /// Opens a new tab for the page at <paramref name="pageUrl"/> without showing it, as a browser does with a middle-clicked link.<br/>
-   /// The page loads when the tab is first shown, so it doesn't play its note's audio unseen.
+   /// Opens a new tab for <paramref name="note"/> without showing it, as a browser does with a middle-clicked link.<br/>
+   /// Its page loads when the tab is first shown, so it doesn't play its note's audio unseen.
    /// </summary>
-   public void OpenPageInBackgroundTab(Uri pageUrl) => AddTab(pageUrl);
+   public void OpenNoteInBackgroundTab(JPNote note) => OpenNoteInBackgroundTab(note.GetId());
 
-   /// <summary>Opens a new tab for <paramref name="note"/> without showing it. See <see cref="OpenPageInBackgroundTab"/>.</summary>
-   public void OpenNoteInBackgroundTab(JPNote note) => OpenPageInBackgroundTab(CardServerUrl.NotePageUrl(note));
+   /// <summary>Opens a new tab for the note with the id <paramref name="note"/> without showing it. See <see cref="OpenNoteInBackgroundTab(JPNote)"/>.</summary>
+   internal void OpenNoteInBackgroundTab(NoteId note) => AddTab(note);
+
+   /// <summary>Alt+Left: the shown tab shows the note it showed before, if there is one, as a browser's Alt+Left does.</summary>
+   public void GoBackInTheShownTab()
+   {
+      if(SelectedTab?.GoBackCommand is {} goBack && goBack.CanExecute(null)) goBack.Execute(null);
+   }
+
+   /// <summary>Alt+Right: the shown tab shows the note it showed after the shown one, if there is one, as a browser's Alt+Right does.</summary>
+   public void GoForwardInTheShownTab()
+   {
+      if(SelectedTab?.GoForwardCommand is {} goForward && goForward.CanExecute(null)) goForward.Execute(null);
+   }
 
    /// <summary>Closes <paramref name="tab"/>. If it was the one shown, the tab after it is shown, or else the one before it.</summary>
    public void CloseTab(NoteTabViewModel tab)
@@ -111,6 +123,15 @@ partial class WorkspaceViewModel : ObservableObject
          index + 1 < Tabs.Count ? Tabs[index + 1]
          : index > 0            ? Tabs[index - 1]
                                 : null;
+   }
+
+   /// <summary>
+   /// Reloads the pages of the tabs that show one of <paramref name="vocab"/>, whose sentences were reparsed after a change made outside the workspace,<br/>
+   /// as in a vocab's match-condition window: a vocab's page shows the sentences it matches.
+   /// </summary>
+   internal void ShowTheSentencesReparsedFor(IReadOnlyCollection<VocabNote> vocab)
+   {
+      foreach(var tab in Tabs) tab.ShowTheSentencesReparsedFor(vocab);
    }
 
    public void CloseSelectedTab()
@@ -172,8 +193,8 @@ partial class WorkspaceViewModel : ObservableObject
    }
 
    WorkspaceState State() =>
-      new(TabNoteIds: [.. Tabs.Select(it => it.ShownNoteId).OfType<NoteId>().Select(it => it.ToString())],
-          ShownTabNoteId: SelectedTab?.ShownNoteId?.ToString(),
+      new(TabNoteIds: [.. Tabs.Select(it => it.ShownNoteId.ToString())],
+          ShownTabNoteId: SelectedTab?.ShownNoteId.ToString(),
           IsNavigationPaneOpen: Navigation.IsOpen,
           ShownNavigationPaneTab: Navigation.ShownTab,
           NavigationPaneWidth: Navigation.Width,
@@ -188,7 +209,7 @@ partial class WorkspaceViewModel : ObservableObject
    {
       foreach(var note in NotesWithTheIds(saved.TabNoteIds))
          OpenNoteInBackgroundTab(note);
-      SelectedTab = Tabs.FirstOrDefault(it => it.ShownNoteId?.ToString() == saved.ShownTabNoteId) ?? Tabs.FirstOrDefault();
+      SelectedTab = Tabs.FirstOrDefault(it => it.ShownNoteId.ToString() == saved.ShownTabNoteId) ?? Tabs.FirstOrDefault();
       IsEditorSectionOpen = saved.IsEditorSectionOpen;
       EditorSectionWidth = saved.EditorSectionWidth;
 
@@ -207,14 +228,14 @@ partial class WorkspaceViewModel : ObservableObject
 
    NoteTabViewModel ShowTabFor(JPNote note)
    {
-      var tab = Tabs.FirstOrDefault(it => it.IsShowing(note)) ?? AddTab(CardServerUrl.NotePageUrl(note));
+      var tab = Tabs.FirstOrDefault(it => it.IsShowing(note)) ?? AddTab(note.GetId());
       SelectedTab = tab;
       return tab;
    }
 
-   NoteTabViewModel AddTab(Uri pageUrl)
+   NoteTabViewModel AddTab(NoteId note)
    {
-      var tab = new NoteTabViewModel(this, _services, pageUrl);
+      var tab = new NoteTabViewModel(this, _services, note);
       Tabs.Add(tab);
       return tab;
    }

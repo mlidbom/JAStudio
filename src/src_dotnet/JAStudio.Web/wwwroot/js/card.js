@@ -51,7 +51,8 @@ document.addEventListener('ended', function (e) {
 // - Ctrl+Click opens the note in Anki's previewer.
 // - Shift+Click opens the note in the system browser.
 // - A plain click inside Anki's reviewer (the page is in an iframe) opens the note in JAStudio's workspace.
-// - A plain click anywhere else (the workspace, the system browser) follows the link in place.
+// - A plain click in JAStudio's workspace has the tab show the note (setupWorkspace).
+// - A plain click anywhere else (the system browser) follows the link in place.
 function setupNoteLinks() {
    const isInIframe = window.parent !== window;
 
@@ -70,6 +71,9 @@ function setupNoteLinks() {
       } else if (isInIframe) {
          event.preventDefault();
          fetch('/api/open-in-workspace/' + noteId);
+      } else if (postToWorkspace) {
+         event.preventDefault();
+         postToWorkspace(JSON.stringify({ request: 'showNote', noteId: link.dataset.noteId }));
       }
    });
 }
@@ -79,13 +83,16 @@ setupNoteLinks();
 // Talking to JAStudio's workspace (WorkspaceWindow), when the page is shown in one of its tabs (NoteTabView).
 // Each tab hosts its page in a web view that injects a channel for posting messages to it;
 // a page shown anywhere else has no such channel, and none of this applies.
-// - Every page shown is reported, because following a link is Blazor client-side routing, which the
-//   workspace can't see by itself. The Navigation API reports those, and Back and Forward too.
+// - The tab keeps its own back and forward history (NoteTabHistory), and the web view only shows the page of
+//   the note the tab shows, keeping no history of its own: each page replaces the one before (NoteTabView).
+//   So a note link clicked is reported for the tab to show (setupNoteLinks), and so are back and forward:
+//   Alt+Left and Alt+Right, reported as keys, and the mouse's back and forward buttons.
+// - Every page shown is reported too, in case the page goes to another by itself, which the tab then follows.
 // - Right-click shows the same note menu as in Anki.
 //   Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
 // - Every key press is reported, because keys pressed on the page go to the web view, not to the workspace.
 //   The workspace decides which are shortcuts (NoteViewShortcuts and its own), and the browser still
-//   handles its own keys, such as Alt+Left, Alt+Right and F5.
+//   handles its own keys, such as F5.
 // - The shown note's audio plays as soon as the page shows it (AudioPlayButton calls playWhenShown).
 //   Inside Anki's reviewer, Anki plays it instead.
 //   A reload shows the same note again, after an edit or a setting change, so it doesn't replay the audio.
@@ -125,9 +132,18 @@ function setupWorkspace() {
       postToWorkspace(JSON.stringify({ request: 'keyPressed', keyGesture: keyGestureOf(event) }));
    });
 
-   // Written the way NoteViewShortcut.KeyGesture is: the modifiers in the order Ctrl, Shift, Alt, then the key in lower case.
+   // The mouse's back and forward buttons are buttons 3 and 4.
+   document.addEventListener('mouseup', function(event) {
+      if (event.button !== 3 && event.button !== 4) return;
+
+      postToWorkspace(JSON.stringify({ request: event.button === 3 ? 'goBack' : 'goForward' }));
+   });
+
+   // Written the way NoteViewShortcut.KeyGesture is: the modifiers in the order Ctrl, Shift, Alt, then the key in lower case,
+   // the arrow keys as Avalonia names them (Left, Right, Up, Down).
    function keyGestureOf(event) {
-      return (event.ctrlKey ? 'Ctrl+' : '') + (event.shiftKey ? 'Shift+' : '') + (event.altKey ? 'Alt+' : '') + event.key.toLowerCase();
+      const key = event.key.toLowerCase().replace(/^arrow/, '');
+      return (event.ctrlKey ? 'Ctrl+' : '') + (event.shiftKey ? 'Shift+' : '') + (event.altKey ? 'Alt+' : '') + key;
    }
 }
 

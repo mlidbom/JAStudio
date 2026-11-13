@@ -17,9 +17,9 @@ namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching;
 /// <summary>
 /// A shared-condition's window (<see cref="SharedConditionWindow"/>): its definition, edited in the tree editor, and the vocab whose match-conditions<br/>
 /// depend on it (<see cref="Condition.DependsOnTheDefinitionOf"/>), which it can open in the workspace. Every change to the definition is saved in its<br/>
-/// file, and those vocab's sentences are then reparsed, as a vocab's own are after a change on its Matching tab.
+/// file, and those vocab's sentences are then reparsed, as a vocab's own are after a change to its match-condition.
 /// </summary>
-partial class SharedConditionWindowViewModel : ObservableObject
+partial class SharedConditionWindowViewModel : ObservableObject, IEditorWindowViewModel
 {
    readonly TemporaryServiceCollection _services;
    readonly Action<NoteList> _showInTheWorkspace;
@@ -28,16 +28,21 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// <param name="sharedCondition">The shared-condition the window is of: one of the corpus's.</param>
    /// <param name="openTheDefinitionOf">Opens another shared-condition's window, such as one the definition uses.</param>
    /// <param name="showInTheWorkspace">Lists notes in the workspace's "List" tab, as the note menus' "Open" items do: the vocab depending on it.</param>
+   /// <param name="sentencesReparsedFor">
+   /// Called on the UI thread after the sentences of the vocab depending on it were reparsed for a change, with those vocab, so their pages can show what<br/>
+   /// they now match.
+   /// </param>
    public SharedConditionWindowViewModel(TemporaryServiceCollection services,
                                          ISharedCondition sharedCondition,
                                          Action<ISharedCondition> openTheDefinitionOf,
-                                         Action<NoteList> showInTheWorkspace)
+                                         Action<NoteList> showInTheWorkspace,
+                                         Action<IReadOnlyCollection<VocabNote>> sentencesReparsedFor)
    {
       _services = services;
       _showInTheWorkspace = showInTheWorkspace;
       SharedCondition = sharedCondition;
-      _vocabDependingOnIt = TheVocabDependingOnIt();
-      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsed: () => {});
+      VocabDependingOnIt = TheVocabDependingOnIt();
+      SentencesReparser = new VocabSentencesReparserViewModel(services, () => VocabDependingOnIt, sentencesReparsedFor);
       SentencesReparser.PropertyChanged += (_, changed) =>
       {
          if(changed.PropertyName != nameof(SentencesReparser.IsReparsingSentences)) return;
@@ -46,7 +51,8 @@ partial class SharedConditionWindowViewModel : ObservableObject
          RenameCommand?.NotifyCanExecuteChanged();
          DeleteCommand?.NotifyCanExecuteChanged();
       };
-      //review:matching: DefinitionEditor was Definition, but it's the definition's tree editor, as a vocab's Matching tab has its MatchConditionEditor.
+      //review:matching: DefinitionEditor was Definition, but it's the definition's tree editor, as a vocab's match-condition window has its
+      //   MatchConditionEditor.
       DefinitionEditor = new ConditionTreeEditorViewModel(services.Resolve<IFatalErrorHandler>(),
                                                           new EditedDefinition(sharedCondition, services.NoteServices.SharedConditions),
                                                           services.NoteServices,
@@ -97,7 +103,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
    /// Shows the shared-condition as it is now, when something else may have changed it or what uses it, such as a rename through the MCP server, or a<br/>
    /// shared-condition its definition uses made or deleted in another window: its title, the vocab depending on it, and its definition.
    /// </summary>
-   internal void ShowItAsItIsNow()
+   public void ShowItAsItIsNow()
    {
       OnPropertyChanged(nameof(Title));
       VocabDependingOnIt = TheVocabDependingOnIt();
@@ -127,7 +133,7 @@ partial class SharedConditionWindowViewModel : ObservableObject
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(WhoDependsOnIt))]
    [NotifyCanExecuteChangedFor(nameof(OpenTheVocabDependingOnItCommand))]
-   IReadOnlyList<VocabNote> _vocabDependingOnIt;
+   public partial IReadOnlyList<VocabNote> VocabDependingOnIt { get; set; }
 
    /// <summary>
    /// Lists the vocab whose match-conditions depend on the definition, directly or through other shared-conditions, as the collection holds them now, in<br/>

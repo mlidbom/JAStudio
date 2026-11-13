@@ -24,7 +24,7 @@ sealed partial class NewSharedConditionDialogViewModel : ObservableObject
       Contract.Argument.Assert(definitions.Count > 0, () => "A shared-condition is made of one of a line's conditions, and this line has none to make one of.");
       _sharedConditions = sharedConditions;
       Definitions = [.. definitions.Select(it => new OfferedDefinitionViewModel(it))];
-      _chosen = Definitions[0];
+      Chosen = Definitions[0];
    }
 
    public string Title => "Make a shared-condition";
@@ -35,12 +35,12 @@ sealed partial class NewSharedConditionDialogViewModel : ObservableObject
    /// <summary>The condition it's made of.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(SubjectInFront), nameof(WhyItCannotBeMade), nameof(CanMake))]
-   OfferedDefinitionViewModel _chosen;
+   public partial OfferedDefinitionViewModel Chosen { get; set; }
 
    /// <summary>Its name, as typed, without its subject's in front.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(WhyItCannotBeMade), nameof(CanMake))]
-   string _typedName = "";
+   public partial string TypedName { get; set; } = "";
 
    /// <summary>Its subject's name as code names it, shown in front of the typed name, such as <c>Word.</c>.</summary>
    public string SubjectInFront => $"{Chosen.Definition.Level.SubjectNameInCode}.";

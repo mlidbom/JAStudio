@@ -50,7 +50,7 @@ public class When_using_a_shared_condition_wherever_its_definition_is : McpServe
 
       [XF] public void it_is_reported_as_listed_with_what_uses_it() =>
          _putToUse.SharedCondition.Must().DeepEqual(new ListedSharedCondition("Token.IsAVerb",
-                                                                               $"Token.IsAVerb ={System.Environment.NewLine}   AnyOf({System.Environment.NewLine}      IsAGodanVerb,{System.Environment.NewLine}      IsAnIchidanVerb)",
+                                                                               $"Token.IsAVerb ={System.Environment.NewLine}   AnyOf(IsAGodanVerb,{System.Environment.NewLine}         IsAnIchidanVerb)",
                                                                                new List<string> { "ます", "ます:polite" },
                                                                                new List<string> { "Word.FollowsAVerb" }));
 

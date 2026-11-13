@@ -26,14 +26,14 @@ partial class NavigationPaneViewModel : ObservableObject
    public TagManagementViewModel TagManagement { get; }
 
    /// <summary>Whether the pane is open. Closing it gives its space back to the tabs.</summary>
-   [ObservableProperty] bool _isOpen = true;
+   [ObservableProperty] public partial bool IsOpen { get; set; } = true;
 
    /// <summary>The pane's width, as its edge was last dragged. Bound to the pane, so that it's kept between sessions.</summary>
-   [ObservableProperty] double _width = 420;
+   [ObservableProperty] public partial double Width { get; set; } = 420;
 
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(IsSearchShown), nameof(IsNoteListShown), nameof(IsTagManagementShown))]
-   NavigationPaneTab _shownTab = NavigationPaneTab.Search;
+   public partial NavigationPaneTab ShownTab { get; set; } = NavigationPaneTab.Search;
 
    /// <summary>The <see cref="TagManagement"/>'s tag tree is computed from the notes' tags each time its tab is shown, so it shows the tags as they are then.</summary>
    partial void OnShownTabChanged(NavigationPaneTab value)

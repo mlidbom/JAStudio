@@ -39,7 +39,7 @@ partial class NoteTagsEditorViewModel : ObservableObject
    }
 
    /// <summary>The note's tags, its Anki tags among them, in alphabetical order.</summary>
-   [ObservableProperty] IReadOnlyList<TagOnTheNoteViewModel> _tags = [];
+   [ObservableProperty] public partial IReadOnlyList<TagOnTheNoteViewModel> Tags { get; set; } = [];
 
    /// <summary>Picks a tag through <paramref name="pickATagInADialog"/>, any tag in use or a new one, and adds it to the note.</summary>
    public void AddATag(Func<TagPickerDialogViewModel, Task<string?>> pickATagInADialog) => _tagging.AddATagTo(_currentNote, pickATagInADialog);

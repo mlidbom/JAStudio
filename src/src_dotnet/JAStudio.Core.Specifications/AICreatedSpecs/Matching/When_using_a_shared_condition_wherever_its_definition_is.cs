@@ -6,13 +6,11 @@ using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
-using JAStudio.Core.Note.Vocabulary.Matching;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
 using JAStudio.Core.Storage;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping.ConditionGroup;
 using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditions;
@@ -90,7 +88,7 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
       [XF] public void godan_potentials_condition_with_its_facts_in_the_other_order_weighs_what_the_rule_does_since_it_means_the_same() =>
          _godanPotentialInTheOtherOrder.MatchingConfiguration.CustomRequirementsWeight.Must().Be(30);
 
-      [XF] public void and_reads_as_the_rule_required() => _godanPotentialInTheOtherOrder.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.GodanPotential).Must().Be(RequireForbidChoice.Required);
+      [XF] public void and_reads_as_the_rule_required() => _godanPotentialInTheOtherOrder.MatchingConfiguration.MatchConditionRequires(MatchingRules.GodanPotential).Must().BeTrue();
 
       [XF] public void the_combination_with_single_token_weighs_what_its_three_rules_do_50_30_and_1() =>
          _irrealisSingleTokenAndNoIchidan.MatchingConfiguration.CustomRequirementsWeight.Must().Be(81);
@@ -131,7 +129,7 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
          TheVocab.Select(it => it.MatchingConfiguration.CustomRequirementsWeight).Must().SequenceEqual(TheVocab.Select(it => _weightsBefore[it]));
 
       [XF] public void the_godan_potential_reads_as_the_rule_required_still() =>
-         _godanPotentialInTheOtherOrder.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.GodanPotential).Must().Be(RequireForbidChoice.Required);
+         _godanPotentialInTheOtherOrder.MatchingConfiguration.MatchConditionRequires(MatchingRules.GodanPotential).Must().BeTrue();
 
       [XF] public void the_vocab_as_stored_and_read_back_uses_the_shared_condition_by_name() =>
          MatchConditionOf(AsStoredAndReadBack(_irrealisAndNoIchidan)).Must().Be(AllOf(_followsAnIrrealisFormOfNoIchidanVerb));

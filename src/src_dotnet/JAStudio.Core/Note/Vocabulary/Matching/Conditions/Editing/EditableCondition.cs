@@ -122,8 +122,8 @@ public class EditableCondition
    }
 
    /// <summary>
-   /// Takes in the condition as something else changed it, such as the Matching tab's rule-by-rule editors, or making a shared-condition: a change like<br/>
-   /// the editor's own, which undo takes back. Nothing, when it's the <see cref="Current"/> tree.
+   /// Takes in the condition as something else changed it, such as making a shared-condition, or the MCP server: a change like the editor's own, which<br/>
+   /// undo takes back. Nothing, when it's the <see cref="Current"/> tree.
    /// </summary>
    /// <param name="tree">The condition as it is now, an "all of" group on the <see cref="Level"/>'s subject.</param>
    public void ChangedElsewhere(Condition tree)

@@ -55,16 +55,16 @@ partial class TagManagementViewModel : ObservableObject
    }
 
    /// <summary>Parts of a tag path typed to narrow the tree, separated by spaces, as in the tag picker: <c>nat s3</c> leaves the paths that contain both.</summary>
-   [ObservableProperty] string _filter = "";
+   [ObservableProperty] public partial string Filter { get; set; } = "";
 
    /// <summary>
    /// The tree's top-level lines, of the tree as the <see cref="Filter"/> narrows it.<br/>
    /// While there's a filter, the lines above the matching paths are expanded, so the matches show, collapsed.
    /// </summary>
-   [ObservableProperty] IReadOnlyList<TagTreeNodeViewModel> _topLevelLines = [];
+   [ObservableProperty] public partial IReadOnlyList<TagTreeNodeViewModel> TopLevelLines { get; set; } = [];
 
    /// <summary>The selected line, which searching, renaming and deleting act on. The tree sets it when a line is clicked.</summary>
-   [ObservableProperty] TagTreeNodeViewModel? _selectedLine;
+   [ObservableProperty] public partial TagTreeNodeViewModel? SelectedLine { get; set; }
 
    partial void OnFilterChanged(string value) => ShowTheTreeFilteredBy(new TypedTagPathParts(value), SelectedLine?.TagPath);
 

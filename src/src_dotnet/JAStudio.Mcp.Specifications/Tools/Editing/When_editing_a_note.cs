@@ -8,9 +8,7 @@ using JAStudio.Core.Note.KanjiReadings;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching;
-using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 using JAStudio.Core.Storage;
-using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Editing.Fields;
 using ModelContextProtocol.Protocol;
 
@@ -39,28 +37,28 @@ public class When_editing_a_note : McpServerSpecification
 
    protected List<ParsedMatch> TheSentencesParsedWords() => [.. Sentence.GetParsingResult().ParsedWords];
 
-   public class of_a_vocab_writing_its_readings_its_answer_and_its_surface_rule : When_editing_a_note
+   public class of_a_vocab_writing_its_readings_its_answer_and_its_yield_last_token_rule : When_editing_a_note
    {
       readonly NoteEdit _edit;
 
-      public of_a_vocab_writing_its_readings_its_answer_and_its_surface_rule() =>
+      public of_a_vocab_writing_its_readings_its_answer_and_its_yield_last_token_rule() =>
          _edit = ResultOf<NoteEdit>(Edit(new JsonObject
          {
             ["readings"] = new JsonArray("いった", "おこなった"),
             ["corpusAnswer"] = "went/left",
-            ["matching.rules.surface"] = "required"
+            ["matching.requiredOrForbidden.yieldLastTokenToOverlappingCompound"] = "required"
          }));
 
       [XF] public void the_edit_names_the_vocab() => _edit.Note.Must().Be("行った");
-      [XF] public void the_edit_reports_each_field_that_changed_in_the_order_of_the_vocabs_fields() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.rules.surface", "matching.condition"]);
+      [XF] public void the_edit_reports_each_field_that_changed_in_the_order_of_the_vocabs_fields() => _edit.Changes.Select(it => it.Field).Must().SequenceEqual(["readings", "corpusAnswer", "matching.requiredOrForbidden.yieldLastTokenToOverlappingCompound"]);
       [XF] public void the_edit_reports_the_readings_before() => _edit.Changes[0].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("いいた")));
       [XF] public void the_edit_reports_the_readings_after() => _edit.Changes[0].After.Must().Satisfy(it => JsonNode.DeepEquals(it, new JsonArray("いった", "おこなった")));
-      [XF] public void the_edit_reports_the_surface_rule_before_as_unset() => _edit.Changes[2].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("unset")));
+      [XF] public void the_edit_reports_the_yield_last_token_rule_before_as_unset() => _edit.Changes[2].Before.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("unset")));
       [XF] public void the_vocab_has_the_readings() => Vocab.GetReadings().Must().SequenceEqual(["いった", "おこなった"]);
       [XF] public void the_vocab_has_the_answer() => Vocab.CorpusAnswer.Value.Must().Be("went/left");
-      [XF] public void the_vocab_requires_the_surface() => Vocab.MatchingConfiguration.Rules.ChoiceOf(MatchingRules.Surface).Must().Be(RequireForbidChoice.Required);
+      [XF] public void the_vocab_requires_yielding_its_last_token() => Vocab.MatchingConfiguration.RequiresForbids.YieldLastToken.Choice.Must().Be(RequireForbidChoice.Required);
       [XF] public void the_vocab_is_saved_with_the_answer() => VocabStored().CorpusAnswer.Value.Must().Be("went/left");
-      [XF] public void the_sentences_that_may_contain_the_vocab_are_reparsed_since_the_surface_rule_changes_how_sentences_parse() => _edit.SentencesReparsed.Must().BeTrue();
+      [XF] public void the_sentences_that_may_contain_the_vocab_are_reparsed_since_the_yield_last_token_rule_changes_how_sentences_parse() => _edit.SentencesReparsed.Must().BeTrue();
    }
 
    public class of_a_vocab_writing_only_its_answer : When_editing_a_note

@@ -44,7 +44,7 @@ partial class TextSetEditorViewModel : ObservableObject
    /// <summary>The text typed in to be added.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
-   string _newValue = string.Empty;
+   public partial string NewValue { get; set; } = string.Empty;
 
    /// <summary>Shows the set as the note has it now, after a change made elsewhere.</summary>
    public void Refresh()

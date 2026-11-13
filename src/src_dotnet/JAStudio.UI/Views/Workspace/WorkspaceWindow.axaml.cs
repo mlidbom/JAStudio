@@ -20,6 +20,7 @@ using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
+using JAStudio.UI.Views.Workspace.Editors.Matching;
 using JAStudio.UI.Views.Workspace.Tagging;
 using JAStudio.UI.WindowPlaces;
 
@@ -51,6 +52,12 @@ public partial class WorkspaceWindow : Window
    /// </summary>
    readonly Dictionary<string, Action> _windowShortcuts;
 
+   /// <summary>The shortcut for back in the shown tab, which a page also reports for the mouse's back button.</summary>
+   internal const string GoBackKeyGesture = "Alt+left";
+
+   /// <summary>The shortcut for forward in the shown tab, which a page also reports for the mouse's forward button.</summary>
+   internal const string GoForwardKeyGesture = "Alt+right";
+
    [Obsolete("For XAML designer/previewer only")]
 #pragma warning disable CS8618 // The XAML designer needs a parameterless constructor, and only the real constructor has the services for the view model.
    public WorkspaceWindow() => InitializeComponent();
@@ -77,8 +84,11 @@ public partial class WorkspaceWindow : Window
                             ["Ctrl+w"] = _viewModel.CloseSelectedTab,
                             ["Ctrl+t"] = AddATagToTheShownNote,
                             ["Ctrl+Shift+t"] = RemoveATagFromTheShownNote,
+                            ["Ctrl+m"] = () => OpenTheMatchConditionWindowOfTheShownVocab(services),
                             ["Ctrl+tab"] = _viewModel.SelectNextTab,
-                            ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab
+                            ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab,
+                            [GoBackKeyGesture] = _viewModel.GoBackInTheShownTab,
+                            [GoForwardKeyGesture] = _viewModel.GoForwardInTheShownTab
                          };
       foreach(var (keyGesture, action) in SpecMenuItem.KeyboardShortcutsIn(mainMenuSpec))
          _windowShortcuts.Add(keyGesture, action);
@@ -170,6 +180,14 @@ public partial class WorkspaceWindow : Window
    /// </summary>
    internal static void ShowNoteList(NoteList noteList) => Dispatcher.UIThread.Post(() => Instance.ShowNoteListInThisWindow(noteList));
 
+   /// <summary>
+   /// Reloads the pages that show one of <paramref name="vocab"/>, whose sentences were reparsed after a change made outside the workspace, as in a<br/>
+   /// vocab's match-condition window or a shared-condition's: a vocab's page shows the sentences it matches. There are none to reload before the workspace<br/>
+   /// was ever opened. Can be called from any thread.
+   /// </summary>
+   internal static void ShowTheSentencesReparsedFor(IReadOnlyCollection<VocabNote> vocab) =>
+      Dispatcher.UIThread.Post(() => _instance?._viewModel.ShowTheSentencesReparsedFor(vocab));
+
    /// <summary>Runs the window's shortcut bound to <paramref name="keyGesture"/>, if there is one, and says whether there was.</summary>
    internal bool TryRunWindowShortcut(string keyGesture)
    {
@@ -206,6 +224,10 @@ public partial class WorkspaceWindow : Window
 
    /// <summary>Ctrl+Shift+T: removes one of the tags of the note the shown tab shows, picked in a dialog over the window.</summary>
    void RemoveATagFromTheShownNote() => _viewModel.SelectedTab?.RemoveATagFromTheShownNote(PickATagInADialogOverTheWindow);
+
+   /// <summary>Ctrl+M: opens the match-condition window of the vocab the shown tab shows, where its match-condition is edited as a tree.</summary>
+   void OpenTheMatchConditionWindowOfTheShownVocab(TemporaryServiceCollection services) =>
+      _viewModel.SelectedTab?.OpenTheMatchConditionWindowOfTheShownVocab(vocab => MatchConditionWindow.Open(vocab, services));
 
    Task<string?> PickATagInADialogOverTheWindow(TagPickerDialogViewModel dialog) => TagPickerDialog.ShowCenteredOverAsync(this, dialog);
 

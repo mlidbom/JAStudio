@@ -5,23 +5,31 @@ using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;
 
-class VocabMetaTag
-{
-   public string Name { get; set; }
-   public string Display { get; set; }
-   public string Tooltip { get; set; }
-
-   public VocabMetaTag(string name, string display, string tooltip)
-   {
-      Name = name;
-      Display = display;
-      Tooltip = tooltip;
-   }
-}
+/// <summary>
+/// A short tag shown beside a vocab, in its page's header and in sentence breakdowns, that says something about it at a glance, such as its part of<br/>
+/// speech, 名 for a noun, or how many sentences it's in.
+/// </summary>
+/// <param name="Name">What it says, as a name, such as <c>noun</c> or <c>in_no_sentences</c>, which the cards' styles colour it by.</param>
+/// <param name="Display">What it shows, such as <c>名</c>.</param>
+/// <param name="Tooltip">What it means, in words, shown when the pointer is over it.</param>
+public sealed record VocabMetaTag(string Name, string Display, string Tooltip);
 
 static class VocabNoteMetaTagFormatter
 {
    public static string GetMetaTagsHtml(VocabNote vocab, bool displayExtendedSentenceStatistics = true, bool noSentenceStatistics = false)
+   {
+      var sb = new StringBuilder("<ol class=\"vocab_tag_list\">");
+      foreach(var tag in GetMetaTags(vocab, displayExtendedSentenceStatistics, noSentenceStatistics))
+      {
+         sb.Append($"<li class=\"vocab_tag vocab_tag_{tag.Name}\" title=\"{tag.Tooltip}\">{tag.Display}</li>");
+      }
+
+      sb.Append("</ol>");
+
+      return sb.ToString();
+   }
+
+   public static List<VocabMetaTag> GetMetaTags(VocabNote vocab, bool displayExtendedSentenceStatistics = true, bool noSentenceStatistics = false)
    {
       var tags = vocab.Tags;
       var meta = new List<VocabMetaTag>();
@@ -47,7 +55,7 @@ static class VocabNoteMetaTagFormatter
                {
                   string CreateDisplayText()
                   {
-                     if(counts.StudyingListening > 9 && counts.StudyingReading > 9)
+                     if(counts is { StudyingListening: > 9, StudyingReading: > 9 })
                         return "+";
                      return $"{MaxNineNumber(counts.StudyingListening)}:{MaxNineNumber(counts.StudyingReading)}/{MaxNineNumber(counts.Total)}";
                   }
@@ -123,25 +131,15 @@ static class VocabNoteMetaTagFormatter
       if(register.Literary.IsSet()) meta.Add(new VocabMetaTag("register-literary", "L", "literary, apt to stand out in speech"));
 
       // other
-      if(tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential))
-      {
-         var hiddenGodan = IchidanGodanPotentialOrImperativeHybridSplitter.TryGetGodanHiddenByIchidan(vocab);
-         var word = hiddenGodan?.Word ?? "unknown";
-         var answer = hiddenGodan?.Answer ?? "unknown";
-         meta.Add(new VocabMetaTag("is-ichidan-hiding-godan-potential",
-                                   "HG",
-                                   $"Ichidan verb hiding godan potential form of the verb:\n{word}:\n{answer}\nMark the ichidan as an incorrect match to see the godan potential in the breakdown. The parser cannot tell which it is on its own."));
-      }
+      if(!tags.Contains(Tags.Vocab.IsIchidanHidingGodanPotential)) return meta;
 
-      var sb = new StringBuilder("<ol class=\"vocab_tag_list\">");
-      foreach(var tag in meta)
-      {
-         sb.Append($"<li class=\"vocab_tag vocab_tag_{tag.Name}\" title=\"{tag.Tooltip}\">{tag.Display}</li>");
-      }
-
-      sb.Append("</ol>");
-
-      return sb.ToString();
+      var hiddenGodan = IchidanGodanPotentialOrImperativeHybridSplitter.TryGetGodanHiddenByIchidan(vocab);
+      var word = hiddenGodan?.Word ?? "unknown";
+      var answer = hiddenGodan?.Answer ?? "unknown";
+      meta.Add(new VocabMetaTag("is-ichidan-hiding-godan-potential",
+                                "HG",
+                                $"Ichidan verb hiding godan potential form of the verb:\n{word}:\n{answer}\nMark the ichidan as an incorrect match to see the godan potential in the breakdown. The parser cannot tell which it is on its own."));
+      return meta;
    }
 
    static VocabMetaTag CreateVerbMetaTag(string name, string display, string tooltip, VocabNotePartsOfSpeech partsOfSpeech)
@@ -149,16 +147,10 @@ static class VocabNoteMetaTagFormatter
       var tag = new VocabMetaTag(name, display, tooltip);
 
       if(partsOfSpeech.IsIntransitive())
-      {
-         tag.Display += "i";
-         tag.Tooltip = "intransitive " + tag.Tooltip;
-      }
+         tag = tag with { Display = tag.Display + "i", Tooltip = "intransitive " + tag.Tooltip };
 
       if(partsOfSpeech.IsTransitive())
-      {
-         tag.Display += "t";
-         tag.Tooltip = "transitive " + tag.Tooltip;
-      }
+         tag = tag with { Display = tag.Display + "t", Tooltip = "transitive " + tag.Tooltip };
 
       return tag;
    }

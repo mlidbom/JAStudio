@@ -8,7 +8,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 
 /// <summary>
 /// A matching rule that a vocab gives texts, such as the prefixes a word mustn't follow: with texts, it's the condition<br/>
-/// <see cref="ConditionOn(IReadOnlyCollection{string})"/> makes of them, and without any, it's no condition.
+/// <see cref="ConditionOn"/> makes of them, and without any, it's no condition.
 /// </summary>
 public sealed class TextsMatchingRule : MatchingRule
 {
@@ -24,9 +24,6 @@ public sealed class TextsMatchingRule : MatchingRule
       _weight = weight;
    }
 
-   /// <summary>The rule's condition on <paramref name="texts"/>: none when there are none.</summary>
-   internal Condition<CandidateWordVariant>? ConditionOn(IReadOnlyCollection<string> texts) => texts.Count == 0 ? null : _conditionOn([.. texts]);
-
    /// <summary>The rule's condition on the <paramref name="texts"/>, of which a <see cref="TextSet"/> always has at least one.</summary>
    Condition<CandidateWordVariant> ConditionOn(TextSet texts) => _conditionOn([.. texts.Texts]);
 
@@ -35,8 +32,6 @@ public sealed class TextsMatchingRule : MatchingRule
    {
       return condition.ComparedTextSets().ToList() is [var theOnlyComparedTexts] && IsThisRulesConditionOn(theOnlyComparedTexts) ? theOnlyComparedTexts.Texts : [];
 
-      //review:matching: ConditionOn(TextSet) is new, for the texts of a TextSet, which is never empty: comparing by meaning needs a condition, and
-      //   ConditionOn(IReadOnlyCollection<string>) gives none for no texts, so it was checked for a null that can't come.
       bool IsThisRulesConditionOn(TextSet texts) => condition.MeansTheSameAs(ConditionOn(texts));
    }
 

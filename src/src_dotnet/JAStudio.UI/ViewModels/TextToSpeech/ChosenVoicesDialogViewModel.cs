@@ -43,7 +43,7 @@ partial class ChosenVoicesDialogViewModel : ObservableObject
       _player = player;
       _fatalErrorHandler = fatalErrorHandler;
       Chosen = [..settings.ChosenVoicesOf(providers).Select(it => new VoiceChoiceViewModel(it))];
-      _status = providers.Count == 0 ? $"No tts-provider has a key: put them in {TextToSpeechSettings.FileInTheUserProfile}." : "";
+      Status = providers.Count == 0 ? $"No tts-provider has a key: put them in {TextToSpeechSettings.FileInTheUserProfile}." : "";
    }
 
    /// <summary>The chosen voices, in priority order. The first is the default.</summary>
@@ -52,12 +52,12 @@ partial class ChosenVoicesDialogViewModel : ObservableObject
    /// <summary>The voices not chosen, of every tts-provider with a key, in the order the tts-providers list them.</summary>
    public ObservableCollection<VoiceChoiceViewModel> Available { get; } = [];
 
-   [ObservableProperty] VoiceChoiceViewModel? _selectedChosen;
+   [ObservableProperty] public partial VoiceChoiceViewModel? SelectedChosen { get; set; }
 
-   [ObservableProperty] VoiceChoiceViewModel? _selectedAvailable;
+   [ObservableProperty] public partial VoiceChoiceViewModel? SelectedAvailable { get; set; }
 
    /// <summary>What went wrong, such as a tts-provider refusing to list its voices. Empty when all is well.</summary>
-   [ObservableProperty] string _status;
+   [ObservableProperty] public partial string Status { get; set; }
 
    /// <summary>Asks every tts-provider for its voices, and offers those not chosen. The dialog does this as it opens.</summary>
    internal void ListTheVoices() =>

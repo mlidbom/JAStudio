@@ -42,7 +42,7 @@ partial class ImportProfilesWindowViewModel : ObservableObject
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(DeleteProfileCommand))]
    [NotifyCanExecuteChangedFor(nameof(CheckCommand))]
-   ImportProfileEditorViewModel? _selectedProfile;
+   public partial ImportProfileEditorViewModel? SelectedProfile { get; set; }
 
    ImportProfileEditorViewModel TheSelectedProfile => SelectedProfile ?? throw new InvalidOperationException("No import profile is selected.");
 

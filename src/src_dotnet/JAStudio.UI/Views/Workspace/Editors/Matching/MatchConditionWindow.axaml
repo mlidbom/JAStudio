@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+        xmlns:checking="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching.Checking"
+        xmlns:matchingViews="clr-namespace:JAStudio.UI.Views.Workspace.Editors.Matching"
+        x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.MatchConditionWindow"
+        x:DataType="matching:MatchConditionWindowViewModel"
+        Title="{Binding Title}"
+        Width="1400"
+        Height="1000">
+
+    <ScrollViewer Margin="10">
+        <StackPanel Spacing="12">
+            <StackPanel x:Name="WordToCheckAgainst" Spacing="4" DataContext="{Binding WordToCheckAgainst}" x:DataType="checking:WordToCheckAgainstViewModel">
+                <TextBlock Text="Check it against a word in a sentence" FontWeight="SemiBold" />
+                <TextBox x:Name="Sentence" Text="{Binding Sentence}" PlaceholderText="Type or paste a sentence with one of the vocab's forms in it" />
+                <ListBox ItemsSource="{Binding Words}" SelectedItem="{Binding Picked}" IsVisible="{Binding HasWords}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="checking:WordInTheSentenceViewModel">
+                            <TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock Text="No word in the sentence is one of the vocab's forms, as JAStudio splits it into words."
+                           IsVisible="{Binding NoWordIsOneOfTheVocabsForms}" Opacity="0.7" />
+            </StackPanel>
+            <!-- The match-condition can't be changed while the vocab's sentences are reparsed for the last change. -->
+            <Panel IsEnabled="{Binding !SentencesReparser.IsReparsingSentences}">
+                <matchingViews:ConditionTreeEditor DataContext="{Binding MatchConditionEditor}" />
+            </Panel>
+        </StackPanel>
+    </ScrollViewer>
+
+</Window>

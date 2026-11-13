@@ -3,7 +3,9 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using JAStudio.Core;
+using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
+using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI;
@@ -31,12 +33,16 @@ public class UIApp : Application
 
    /// <summary>Creates JAStudio's workspace window, whose tabs show their pages in native web views (<see cref="NoteTabView"/>), as inside Anki.</summary>
    public static void InitializeWorkspaceWindow(TemporaryServiceCollection services) =>
-      WorkspaceWindow.CreateAndRegister(services, tab => new NoteTabView(tab));
+      WorkspaceWindow.CreateAndRegister(services, tab => new NoteTabView(tab, services.Resolve<IFatalErrorHandler>()));
 
    /// <summary>
-   /// Creates JAStudio's workspace window for a JAStudio with no screen, the headless JAStudio: its tabs show their pages as images<br/>
-   /// (<see cref="NoteTabImageView"/>), which <paramref name="webPageImages"/> renders.
+   /// Creates JAStudio's workspace window for a JAStudio with no screen, the headless JAStudio: its tabs show the cards' pages as images<br/>
+   /// (<see cref="NoteTabImageView"/>), which <paramref name="webPageImages"/> renders. Its workspace plays no audio, since an agent drives it<br/>
+   /// (<see cref="WorkspaceAudioPlayer.PlayNothingFromNowOn"/>).
    /// </summary>
-   public static void InitializeWorkspaceWindowShowingPagesAsImages(TemporaryServiceCollection services, IWebPageImages webPageImages) =>
+   public static void InitializeWorkspaceWindowShowingPagesAsImages(TemporaryServiceCollection services, IWebPageImages webPageImages)
+   {
+      WorkspaceAudioPlayer.PlayNothingFromNowOn();
       WorkspaceWindow.CreateAndRegister(services, tab => new NoteTabImageView(tab, webPageImages));
+   }
 }

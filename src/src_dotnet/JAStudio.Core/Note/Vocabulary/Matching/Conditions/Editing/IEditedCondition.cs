@@ -5,9 +5,9 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 
 /// <summary>
-/// What the tree editor edits, and where it stores each change: a vocab's match-condition (<see cref="EditedMatchCondition"/>), on its Matching tab, or a<br/>
-/// shared-condition's definition (<see cref="EditedDefinition"/>), in the shared-condition's window. Either is edited as a tree with an "all of" group at<br/>
-/// its root, as <see cref="EditableCondition"/> builds it.
+/// What the tree editor edits, and where it stores each change: a vocab's match-condition (<see cref="EditedMatchCondition"/>), in its match-condition<br/>
+/// window, or a shared-condition's definition (<see cref="EditedDefinition"/>), in the shared-condition's window. Either is edited as a tree with an<br/>
+/// "all of" group at its root, as <see cref="EditableCondition"/> builds it.
 /// </summary>
 public interface IEditedCondition
 {

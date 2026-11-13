@@ -1,0 +1,417 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:pages="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages"
+             xmlns:sentences="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages.Sentences"
+             xmlns:breakdown="clr-namespace:JAStudio.Core.UI.Web.Sentence;assembly=JAStudio.Core"
+             xmlns:markup="clr-namespace:JAStudio.UI.Controls.Markup"
+             xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
+             xmlns:controls="clr-namespace:JAStudio.UI.Controls"
+             x:Class="JAStudio.UI.Views.Workspace.NotePages.SentencePageView"
+             x:DataType="sentences:SentencePageViewModel"
+             Focusable="True"
+             Background="{StaticResource NotePage.Background}"
+             Foreground="{StaticResource NotePage.Text}"
+             FontFamily="{StaticResource JapaneseFont}"
+             FontSize="14.7">
+
+    <!-- The sizes are the card's, as shares of its 11pt text: a question 200%, a breakdown's word 180%, an answer 150%, and so on. -->
+    <UserControl.Resources>
+        <x:Double x:Key="QuestionSize">29.3</x:Double>
+        <x:Double x:Key="OverriddenQuestionSize">19</x:Double>
+        <x:Double x:Key="AnswerSize">22</x:Double>
+        <x:Double x:Key="OverriddenAnswerSize">17.6</x:Double>
+        <x:Double x:Key="WordSize">26.4</x:Double>
+        <x:Double x:Key="WordReadingsSize">22</x:Double>
+        <x:Double x:Key="KanjiSize">29.3</x:Double>
+        <x:Double x:Key="KanjiTextSize">17.6</x:Double>
+        <x:Double x:Key="SectionTitleSize">13.3</x:Double>
+        <x:Double x:Key="ReasonSize">11.7</x:Double>
+        <x:Double x:Key="TokenJapaneseSize">20.5</x:Double>
+        <x:Double x:Key="ScreenshotHeight">300</x:Double>
+
+        <!-- A section of the page, with its title on its border, as the cards' page sections. -->
+        <ControlTheme x:Key="PageSection" TargetType="HeaderedContentControl">
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.SectionBorder}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel Margin="0,14,0,0">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding Background}"
+                                Padding="4,12,4,4">
+                            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Header}" Margin="10,-9,0,0" Padding="2,0"
+                                          HorizontalAlignment="Left" VerticalAlignment="Top"
+                                          Background="{StaticResource NotePage.Background}"
+                                          Foreground="{StaticResource NotePage.SectionTitle}" FontSize="{StaticResource SectionTitleSize}" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!-- A ▶ button playing a note's audio, as the cards'. -->
+        <DataTemplate x:Key="AudioButton" x:DataType="pages:AudioButtonViewModel">
+            <Button Classes="audio" Content="▶" Command="{Binding PlayCommand}" ToolTip.Tip="Play" />
+        </DataTemplate>
+
+        <!-- A vocab's meta tags in a row, separated by bars. -->
+        <DataTemplate x:Key="MetaTags" x:DataType="pages:MetaTagViewModel">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="metaTag" Classes.warning="{Binding IsAWarning}" Classes.faint="{Binding IsFaint}"
+                           Text="{Binding Display}" ToolTip.Tip="{Binding Tooltip}" />
+                <TextBlock Text="|" Foreground="{StaticResource NotePage.ReadingsSeparator}" IsVisible="{Binding !IsTheLast}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <!-- A StyledTextBlock is styled as the SelectableTextBlock it is, by class. -->
+        <Style Selector="SelectableTextBlock.question">
+            <Setter Property="FontSize" Value="{StaticResource QuestionSize}" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Question}" />
+        </Style>
+        <Style Selector="SelectableTextBlock.question.overridden">
+            <Setter Property="FontSize" Value="{StaticResource OverriddenQuestionSize}" />
+        </Style>
+        <Style Selector="SelectableTextBlock.answer">
+            <Setter Property="FontSize" Value="{StaticResource AnswerSize}" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Meaning}" />
+        </Style>
+        <Style Selector="SelectableTextBlock.answer.overridden">
+            <Setter Property="FontSize" Value="{StaticResource OverriddenAnswerSize}" />
+        </Style>
+        <Style Selector="SelectableTextBlock.wordsAnswer">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Meaning}" />
+            <Setter Property="Margin" Value="13,0,0,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="TextBlock.noteLink">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="TextBlock.word">
+            <Setter Property="FontSize" Value="{StaticResource WordSize}" />
+        </Style>
+        <Style Selector="TextBlock.word.highlighted">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Bold}" />
+        </Style>
+        <Style Selector="Border.studyBar.reading">
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.Reading}" />
+        </Style>
+        <Style Selector="Border.studyBar.listening">
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="BorderBrush" Value="White" />
+        </Style>
+        <Style Selector="Border.studyBar.reading.listening">
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.Green}" />
+        </Style>
+        <Style Selector="TextBlock.metaTag">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Green}" />
+        </Style>
+        <Style Selector="TextBlock.metaTag.warning">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.WarningRed}" />
+        </Style>
+        <Style Selector="TextBlock.metaTag.faint">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.ReadingsSeparator}" />
+        </Style>
+        <Style Selector="TextBlock.reason">
+            <Setter Property="FontSize" Value="{StaticResource ReasonSize}" />
+        </Style>
+        <Style Selector="TextBlock.reason.incorrect">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.WarningRed}" />
+        </Style>
+        <Style Selector="TextBlock.reason.configured">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextDecorations" Value="Underline" />
+        </Style>
+        <Style Selector="TextBlock.viewToggle">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Green}" />
+        </Style>
+        <Style Selector="TextBlock.viewToggle.changesParsing">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Italic}" />
+        </Style>
+        <Style Selector="TextBlock.viewToggle.worthNoticing">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.WarningRed}" />
+        </Style>
+        <Style Selector="Border.kanji">
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.Bold}" />
+        </Style>
+        <Style Selector="Border.kanji.beingStudied">
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.Green}" />
+        </Style>
+        <Style Selector="Button.audio">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinWidth" Value="26" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.PlayButton}" />
+        </Style>
+        <Style Selector="Button.audio:pointerover /template/ ContentPresenter#PART_ContentPresenter, Button.audio:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Bold}" />
+        </Style>
+        <Style Selector="Button.audio.ofThePagesNote">
+            <Setter Property="FontSize" Value="36.7" />
+        </Style>
+        <Style Selector="ItemsControl.tokenRows ContentPresenter:nth-child(odd) Grid.tokenRow">
+            <Setter Property="Background" Value="{StaticResource NotePage.EntryBackground}" />
+        </Style>
+        <Style Selector="ItemsControl.tokenRows ContentPresenter:nth-child(even) Grid.tokenRow">
+            <Setter Property="Background" Value="{StaticResource NotePage.AlternateRowBackground}" />
+        </Style>
+        <Style Selector="Grid.tokenRow > TextBlock, Grid.tokenRow > StackPanel">
+            <Setter Property="Margin" Value="4,1" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel Margin="13,13,13,13">
+
+        <!-- The screenshots, and beside them the question with its audio and the answer. -->
+        <Grid ColumnDefinitions="Auto,*">
+            <ItemsControl Grid.Column="0" ItemsSource="{Binding ScreenshotFiles}" Margin="0,0,10,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Image Source="{Binding Converter={x:Static noteFields:ImageFileConverter.Preview}}" Height="{StaticResource ScreenshotHeight}" Stretch="Uniform" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <DockPanel IsVisible="{Binding HasACorpusQuestion}">
+                    <ContentControl DockPanel.Dock="Left" Content="{Binding AudioOfTheCorpusQuestion}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate x:DataType="pages:AudioButtonViewModel">
+                                <Button Classes="audio ofThePagesNote" Content="▶" Command="{Binding PlayCommand}" ToolTip.Tip="Play" />
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                    <markup:StyledTextBlock Classes="question" Markup="{Binding CorpusQuestion}" ShowsBoldAsColourOnly="True" TextWrapping="Wrap" VerticalAlignment="Center" />
+                </DockPanel>
+                <DockPanel>
+                    <ContentControl DockPanel.Dock="Left" Content="{Binding AudioOfTheSourceQuestion}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate x:DataType="pages:AudioButtonViewModel">
+                                <Button Classes="audio ofThePagesNote" Content="▶" Command="{Binding PlayCommand}" ToolTip.Tip="Play" />
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                    <markup:StyledTextBlock Classes="question" Classes.overridden="{Binding HasACorpusQuestion}" Markup="{Binding SourceQuestion}"
+                                            ShowsBoldAsColourOnly="True" TextWrapping="Wrap" VerticalAlignment="Center" />
+                </DockPanel>
+
+                <markup:StyledTextBlock Classes="answer" Markup="{Binding CorpusAnswer}" IsVisible="{Binding HasACorpusAnswer}" TextWrapping="Wrap"
+                                        Background="{StaticResource NotePage.EntryBackground}" Margin="0,6,0,0" />
+                <markup:StyledTextBlock Classes="answer" Classes.overridden="{Binding HasACorpusAnswer}" Markup="{Binding SourceAnswer}" TextWrapping="Wrap"
+                                        Margin="0,6,0,0" />
+            </StackPanel>
+        </Grid>
+
+        <!-- The comments. -->
+        <HeaderedContentControl Theme="{StaticResource PageSection}" Header="user comments" IsVisible="{Binding Comments, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Background="{StaticResource NotePage.EntryBackground}" BorderBrush="{StaticResource NotePage.UserCommentsBorder}">
+            <markup:StyledTextBlock Markup="{Binding Comments}" TextWrapping="Wrap" />
+        </HeaderedContentControl>
+        <HeaderedContentControl Theme="{StaticResource PageSection}" Header="source comments" IsVisible="{Binding SourceComments, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <markup:StyledTextBlock Markup="{Binding SourceComments}" TextWrapping="Wrap" />
+        </HeaderedContentControl>
+
+        <!-- The breakdown: the words found in the sentence, each with what it matched. -->
+        <HeaderedContentControl Theme="{StaticResource PageSection}">
+            <HeaderedContentControl.Header>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="sentence breakdown   #   settings:" />
+                    <ItemsControl ItemsSource="{Binding ViewToggles}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="breakdown:SentenceViewToggleViewModel">
+                                <TextBlock Classes="viewToggle" Classes.changesParsing="{Binding ChangesParsing}" Classes.worthNoticing="{Binding IsWorthNoticing}"
+                                           Text="{Binding Abbreviation}" ToolTip.Tip="{Binding Title}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </HeaderedContentControl.Header>
+
+            <ItemsControl ItemsSource="{Binding Entries}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="sentences:BreakdownEntryViewModel">
+                        <StackPanel Margin="0,0,0,2">
+                            <ItemsControl ItemsSource="{Binding Reasons}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="sentences:MatchReasonViewModel">
+                                        <TextBlock Classes="reason" Classes.incorrect="{Binding MakesTheMatchIncorrect}" Classes.configured="{Binding IsConfigured}"
+                                                   Text="{Binding Text}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <controls:BesideOrBelowPanel Background="{StaticResource NotePage.EntryBackground}">
+                                <StackPanel Orientation="Horizontal">
+                                <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
+                                <Border Classes="studyBar" Classes.reading="{Binding IsStudyingReading}" Classes.listening="{Binding IsStudyingListening}"
+                                        VerticalAlignment="Center">
+                                    <Panel>
+                                        <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
+                                                   Tag="{Binding WordLinkedToItsVocab}" Text="{Binding WordLinkedToItsVocab.Text}"
+                                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                   PointerReleased="OnNoteLinkReleased" />
+                                        <TextBlock Classes="word" Classes.highlighted="{Binding IsHighlighted}" Text="{Binding Word}"
+                                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNull}}" />
+                                    </Panel>
+                                </Border>
+                                <TextBlock Text="{Binding VocabForm}" IsVisible="{Binding VocabForm, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                           FontSize="{StaticResource WordSize}" Foreground="{StaticResource NotePage.Green}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                           FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                                <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                </StackPanel>
+                                <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
+                            </controls:BesideOrBelowPanel>
+
+                            <ItemsControl ItemsSource="{Binding CompoundParts}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="sentences:CompoundPartEntryViewModel">
+                                        <DockPanel>
+                                        <Border DockPanel.Dock="Left" Width="{Binding Indentation}" />
+                                        <controls:BesideOrBelowPanel Background="{StaticResource NotePage.CompoundPartBackground}">
+                                            <StackPanel Orientation="Horizontal">
+                                            <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
+                                            <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
+                                                       Tag="{Binding Question}" Text="{Binding Question.Text}" VerticalAlignment="Center" PointerReleased="OnNoteLinkReleased" />
+                                            <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                       FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                                            <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                            </StackPanel>
+                                            <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
+                                        </controls:BesideOrBelowPanel>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl ItemsSource="{Binding Kanji}" Margin="50,0,0,0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="sentences:BreakdownKanjiViewModel">
+                                        <Border Classes="kanji" Classes.beingStudied="{Binding IsBeingStudied}" Margin="0,1">
+                                            <StackPanel>
+                                                <WrapPanel ItemSpacing="13">
+                                                    <TextBlock Classes="noteLink" Tag="{Binding Kanji}" Text="{Binding Kanji.Text}"
+                                                               FontSize="{StaticResource KanjiSize}" Foreground="{StaticResource NotePage.Green}" VerticalAlignment="Center"
+                                                               PointerReleased="OnNoteLinkReleased" />
+                                                    <markup:StyledTextBlock Markup="{Binding Answer}" FontSize="{StaticResource KanjiTextSize}"
+                                                                            Foreground="{StaticResource NotePage.Meaning}" VerticalAlignment="Center" />
+                                                    <markup:StyledTextBlock Markup="{Binding Readings}" FontSize="{StaticResource KanjiTextSize}"
+                                                                            Foreground="{StaticResource NotePage.Reading}" VerticalAlignment="Center" />
+                                                </WrapPanel>
+                                                <markup:StyledTextBlock Markup="{Binding Mnemonic}" IsVisible="{Binding Mnemonic, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                                        TextWrapping="Wrap" Background="{StaticResource NotePage.EntryBackground}" Margin="26,6,0,0" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </HeaderedContentControl>
+
+        <!-- In edit mode, the sentence's tokens. -->
+        <ItemsControl ItemsSource="{Binding TokenTables}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="breakdown:TokenTableViewModel">
+                    <HeaderedContentControl Theme="{StaticResource PageSection}" Header="{Binding Title}">
+                        <!-- A table wider than the page scrolls on its own, so that the page's text keeps wrapping at the page's width. -->
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Grid.IsSharedSizeScope="True">
+                            <Grid TextElement.FontWeight="Bold">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="Surface" />
+                                    <ColumnDefinition SharedSizeGroup="Base" />
+                                    <ColumnDefinition SharedSizeGroup="Flags" />
+                                    <ColumnDefinition SharedSizeGroup="Class" />
+                                    <ColumnDefinition SharedSizeGroup="Pos1" />
+                                    <ColumnDefinition SharedSizeGroup="Pos2" />
+                                    <ColumnDefinition SharedSizeGroup="Pos3" />
+                                    <ColumnDefinition SharedSizeGroup="Pos4" />
+                                    <ColumnDefinition SharedSizeGroup="Inflected" />
+                                    <ColumnDefinition SharedSizeGroup="Inflection" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Surface" Margin="4,1" />
+                                <TextBlock Grid.Column="1" Text="Base" Margin="4,1" />
+                                <TextBlock Grid.Column="2" Text="Boolean flags" Margin="4,1" />
+                                <TextBlock Grid.Column="3" Text="Token class" Margin="4,1" />
+                                <TextBlock Grid.Column="4" Text="POS1" ToolTip.Tip="Parts of speech" Margin="4,1" />
+                                <TextBlock Grid.Column="5" Text="POS2" ToolTip.Tip="Parts of speech" Margin="4,1" />
+                                <TextBlock Grid.Column="6" Text="POS3" ToolTip.Tip="Parts of speech" Margin="4,1" />
+                                <TextBlock Grid.Column="7" Text="POS4" ToolTip.Tip="Parts of speech" Margin="4,1" />
+                                <TextBlock Grid.Column="8" Text="Inflected Form" Margin="4,1" />
+                                <TextBlock Grid.Column="9" Text="Inflection Type" Margin="4,1" />
+                            </Grid>
+                            <ItemsControl Classes="tokenRows" ItemsSource="{Binding Tokens}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="breakdown:TokenViewModel">
+                                        <Grid Classes="tokenRow">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="Surface" />
+                                                <ColumnDefinition SharedSizeGroup="Base" />
+                                                <ColumnDefinition SharedSizeGroup="Flags" />
+                                                <ColumnDefinition SharedSizeGroup="Class" />
+                                                <ColumnDefinition SharedSizeGroup="Pos1" />
+                                                <ColumnDefinition SharedSizeGroup="Pos2" />
+                                                <ColumnDefinition SharedSizeGroup="Pos3" />
+                                                <ColumnDefinition SharedSizeGroup="Pos4" />
+                                                <ColumnDefinition SharedSizeGroup="Inflected" />
+                                                <ColumnDefinition SharedSizeGroup="Inflection" />
+                                            </Grid.ColumnDefinitions>
+                                            <SelectableTextBlock Grid.Column="0" Text="{Binding Surface}" FontSize="{StaticResource TokenJapaneseSize}" Foreground="{StaticResource NotePage.Green}" Margin="4,1" />
+                                            <SelectableTextBlock Grid.Column="1" Text="{Binding BaseForm}" FontSize="{StaticResource TokenJapaneseSize}" Foreground="{StaticResource NotePage.Green}" Margin="4,1" />
+                                            <TextBlock Grid.Column="2" Text="{Binding TrueFlagsListed}" />
+                                            <TextBlock Grid.Column="3" Text="{Binding TokenClass}" Classes.ownClass="{Binding IsJAStudiosOwn}">
+                                                <TextBlock.Styles>
+                                                    <Style Selector="TextBlock.ownClass">
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                        <Setter Property="Foreground" Value="{StaticResource NotePage.Italic}" />
+                                                    </Style>
+                                                </TextBlock.Styles>
+                                            </TextBlock>
+                                            <TextBlock Grid.Column="4" Text="{Binding PartsOfSpeech[0].InJapaneseAndEnglish}" />
+                                            <TextBlock Grid.Column="5" Text="{Binding PartsOfSpeech[1].InJapaneseAndEnglish}" />
+                                            <TextBlock Grid.Column="6" Text="{Binding PartsOfSpeech[2].InJapaneseAndEnglish}" />
+                                            <TextBlock Grid.Column="7" Text="{Binding PartsOfSpeech[3].InJapaneseAndEnglish}" />
+                                            <TextBlock Grid.Column="8" Text="{Binding InflectedForm}" />
+                                            <TextBlock Grid.Column="9" Text="{Binding InflectionType}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                        </ScrollViewer>
+                    </HeaderedContentControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

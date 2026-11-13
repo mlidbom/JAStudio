@@ -4,6 +4,7 @@ using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Vocabulary;
 
 namespace JAStudio.Core.UI.Web.Sentence;
 
@@ -24,6 +25,9 @@ public class MatchViewModel
    public bool IsHighlighted { get; }
    public string Readings { get; }
    public string MetaTagsHtml { get; }
+
+   /// <summary>The meta tags of the vocab matched, as <see cref="MetaTagsHtml"/> shows them; none for a match of no vocab.</summary>
+   public IReadOnlyList<VocabMetaTag> MetaTags { get; }
    public bool DisplayVocabForm { get; }
    public bool MatchOwnsForm { get; }
    public bool DisplayReadings { get; }
@@ -44,6 +48,7 @@ public class MatchViewModel
       IsHighlighted = config.HighlightedWords.Contains(ParsedForm) || config.HighlightedWords.Contains(VocabForm);
       Readings = string.Join(", ", match.Readings);
       MetaTagsHtml = string.Empty;
+      MetaTags = [];
       _metaTags = [];
       DisplayVocabForm = ParsedForm != VocabForm;
       MatchOwnsForm = ParsedForm == VocabForm;
@@ -54,6 +59,7 @@ public class MatchViewModel
          CompoundParts = CompoundPartViewModel.GetCompoundPartsRecursive(this, VocabMatch.Vocab, config, settings, vocab);
          _metaTags = VocabMatch.Vocab.GetMetaTags().ToList();
          MetaTagsHtml = VocabMatch.Vocab.MetaData.MetaTagsHtml(displayExtendedSentenceStatistics: false);
+         MetaTags = VocabMatch.Vocab.MetaData.MetaTags(displayExtendedSentenceStatistics: false);
          MatchOwnsForm = VocabMatch.Vocab.Forms.IsOwnedForm(ParsedForm);
          if(ParsedForm != VocabForm)
          {

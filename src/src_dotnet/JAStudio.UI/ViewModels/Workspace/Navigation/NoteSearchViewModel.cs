@@ -58,14 +58,14 @@ partial class NoteSearchViewModel : ObservableObject
    public SearchResultsViewModel Results { get; }
 
    /// <summary>The condition tree's lines: just the root, with every other line under it.</summary>
-   [ObservableProperty] IReadOnlyList<SearchConditionNodeViewModel> _nodes = [];
+   [ObservableProperty] public partial IReadOnlyList<SearchConditionNodeViewModel> Nodes { get; set; } = [];
 
    /// <summary>The selected line, which the keys and the right-click menu act on. The tree sets it when a line is clicked.</summary>
-   [ObservableProperty] SearchConditionNodeViewModel? _selectedNode;
+   [ObservableProperty] public partial SearchConditionNodeViewModel? SelectedNode { get; set; }
 
-   [ObservableProperty] string _statusText = HowToSearch;
+   [ObservableProperty] public partial string StatusText { get; set; } = HowToSearch;
 
-   [ObservableProperty] bool _isSearching;
+   [ObservableProperty] public partial bool IsSearching { get; set; }
 
    SearchConditionNodeViewModel Root => Nodes[0];
 

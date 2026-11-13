@@ -39,7 +39,7 @@ partial class KanjiReadingListEditorViewModel : ObservableObject
    /// <summary>The reading typed in to be added. An on reading may be typed in katakana: it's kept in hiragana.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
-   string _newReading = string.Empty;
+   public partial string NewReading { get; set; } = string.Empty;
 
    /// <summary>Shows the readings as the kanji has them now, after a change made elsewhere.</summary>
    public void Refresh()

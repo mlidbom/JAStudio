@@ -45,7 +45,7 @@ public class When_defining_a_shared_condition : McpServerSpecification
 
       [XF] public void the_one_on_a_token_is_listed_next_with_the_shared_condition_using_it() =>
          _listed[1].Must().DeepEqual(new ListedSharedCondition("Token.IsAVerb",
-                                                                $"Token.IsAVerb ={Environment.NewLine}   AnyOf({Environment.NewLine}      IsAGodanVerb,{Environment.NewLine}      IsAnIchidanVerb)",
+                                                                $"Token.IsAVerb ={Environment.NewLine}   AnyOf(IsAGodanVerb,{Environment.NewLine}         IsAnIchidanVerb)",
                                                                 new List<string>(),
                                                                 new List<string> { "Word.FollowsAVerb" }));
    }

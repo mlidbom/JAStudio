@@ -28,22 +28,27 @@ partial class TagPickerViewModel : ObservableObject
    {
       _offeredTagPaths = offeredTagPaths;
       _offersTheTypedTextAsANewTag = offersTheTypedTextAsANewTag;
-      _typedParts = typedParts;
-      ShowTheChoicesFor(typedParts);
-      if(Choices.FirstOrDefault(it => !it.IsNew && string.Equals(it.TagPath, typedParts, StringComparison.OrdinalIgnoreCase)) is {} typedPath)
-         Picked = typedPath;
+      TypedParts = typedParts;
+      PickTheOfferedPathTyped();
    }
 
    /// <summary>The parts of a tag's path typed so far, separated by spaces.</summary>
-   [ObservableProperty] string _typedParts;
+   [ObservableProperty] public partial string TypedParts { get; set; }
 
    /// <summary>The offered tag paths that contain every typed part, and the typed text as a new tag when that's offered.</summary>
-   [ObservableProperty] IReadOnlyList<TagPathChoice> _choices = [];
+   [ObservableProperty] public partial IReadOnlyList<TagPathChoice> Choices { get; set; } = [];
 
    /// <summary>The tag path picked from <see cref="Choices"/>. The first one, until another is picked, and null while there are none.</summary>
-   [ObservableProperty] TagPathChoice? _picked;
+   [ObservableProperty] public partial TagPathChoice? Picked { get; set; }
 
    partial void OnTypedPartsChanged(string value) => ShowTheChoicesFor(value);
+
+   /// <summary>Picks the offered path that the <see cref="TypedParts"/> are, ignoring case, rather than the first of the <see cref="Choices"/>, if one is.</summary>
+   void PickTheOfferedPathTyped()
+   {
+      if(Choices.FirstOrDefault(it => !it.IsNew && string.Equals(it.TagPath, TypedParts, StringComparison.OrdinalIgnoreCase)) is {} typedPath)
+         Picked = typedPath;
+   }
 
    void ShowTheChoicesFor(string typedParts)
    {

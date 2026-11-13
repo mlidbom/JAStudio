@@ -120,10 +120,10 @@ public class LocalNoteUpdater
    {
       void TagNote(VocabNote vocab)
       {
-         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.RequiredPrefix, vocab.MatchingConfiguration.Rules.TextsOf(MatchingRules.RequiredPrefix).Any());
-         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.PrefixIsNot, vocab.MatchingConfiguration.Rules.TextsOf(MatchingRules.PrefixIsNot).Any());
-         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.SuffixIsNot, vocab.MatchingConfiguration.Rules.TextsOf(MatchingRules.SuffixIsNot).Any());
-         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.SurfaceIsNot, vocab.MatchingConfiguration.Rules.TextsOf(MatchingRules.SurfaceIsNot).Any());
+         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.RequiredPrefix, vocab.MatchingConfiguration.MatchConditionHolds(MatchingRules.RequiredPrefix));
+         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.PrefixIsNot, vocab.MatchingConfiguration.MatchConditionHolds(MatchingRules.PrefixIsNot));
+         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.SuffixIsNot, vocab.MatchingConfiguration.MatchConditionHolds(MatchingRules.SuffixIsNot));
+         vocab.Tags.Toggle(Tags.Vocab.Matching.Uses.SurfaceIsNot, vocab.MatchingConfiguration.MatchConditionHolds(MatchingRules.SurfaceIsNot));
          vocab.Tags.Toggle(Tags.Vocab.IsIchidanHidingGodanPotential, IchidanGodanPotentialOrImperativeHybridSplitter.IsIchidanHidingGodan(vocab));
       }
 

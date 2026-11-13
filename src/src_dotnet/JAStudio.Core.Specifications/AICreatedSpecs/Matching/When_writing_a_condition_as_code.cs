@@ -16,7 +16,7 @@ using static JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words.WordConditi
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 
 /// <summary>
-/// A condition is written as code (<see cref="ConditionCode"/>), as the Matching tab's tree editor, the failure reasons and a failing specification show<br/>
+/// A condition is written as code (<see cref="ConditionCode"/>), as the tree editor, the Matching tab, the failure reasons and a failing specification show<br/>
 /// it: the dots going from the word to what's tested, <c>!</c> for a negation, <c>AllOf(...)</c> and <c>AnyOf(...)</c> with their conditions on lines<br/>
 /// of their own, texts as string literals, and the tokenizer's values in Japanese with their English as a comment.
 /// </summary>
@@ -41,22 +41,54 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
 
       readonly string _code = ConditionCode.AsText(ConditionCode.LinesOfAMatchCondition(MatchCondition));
 
-      [XF] public void is_a_comment_heading_then_each_condition_a_statement_with_each_groups_conditions_indented_and_several_values_one_to_a_line_in_ordinal_order_with_their_english() =>
+      readonly string _codeInTheTreeEditor = ConditionCode.AsText(ConditionCode.LinesOfAMatchCondition(MatchCondition), CodeLayout.ForTheTreeEditor);
+
+      [XF] public void in_the_tree_editor_has_a_groups_first_condition_and_a_lists_first_value_on_the_next_line_each_starting_after_the_parenthesis() =>
+         _codeInTheTreeEditor.Must().Be(string.Join(Environment.NewLine,
+                                                    "// A word matches the vocab when each of these holds:",
+                                                    "PrecedingToken.IsInAnIrrealisForm",
+                                                    "!PrecedingToken.IsAnIchidanVerb",
+                                                    "PrecedingToken.Surface.EndsWithOneOf(\"ん\")",
+                                                    "AnyOf(",
+                                                    "      !Surface.In(\"本の\"),",
+                                                    "      FollowingToken.PartOfSpeech.Is(名詞・数詞))   // noun › numeral",
+                                                    "!LastToken.AllOf(",
+                                                    "                 PartOfSpeech.Is(動詞),   // verb",
+                                                    "                 InflectedForm.In(",
+                                                    "                                  連用形-一般,   // Continuative (masu stem)",
+                                                    "                                  連用形-促音便))   // Continuative with っ sound change",
+                                                    "FollowingText.MatchesRegularExpression(@\"^よ\"\"$\")",
+                                                    "IsASingleToken"));
+
+      [XF] public void is_a_comment_heading_then_each_condition_a_statement_with_a_groups_first_condition_after_its_parenthesis_and_the_others_under_it_and_several_values_one_to_a_line_in_ordinal_order_with_their_english() =>
          _code.Must().Be(string.Join(Environment.NewLine,
                                      "// A word matches the vocab when each of these holds:",
                                      "PrecedingToken.IsInAnIrrealisForm",
                                      "!PrecedingToken.IsAnIchidanVerb",
                                      "PrecedingToken.Surface.EndsWithOneOf(\"ん\")",
-                                     "AnyOf(",
-                                     "   !Surface.In(\"本の\"),",
-                                     "   FollowingToken.PartOfSpeech.Is(名詞・数詞))   // noun › numeral",
-                                     "!LastToken.AllOf(",
-                                     "   PartOfSpeech.Is(動詞),   // verb",
-                                     "   InflectedForm.In(",
-                                     "      連用形-一般,   // Continuative (masu stem)",
-                                     "      連用形-促音便))   // Continuative with っ sound change",
+                                     "AnyOf(!Surface.In(\"本の\"),",
+                                     "      FollowingToken.PartOfSpeech.Is(名詞・数詞))   // noun › numeral",
+                                     "!LastToken.AllOf(PartOfSpeech.Is(動詞),   // verb",
+                                     "                 InflectedForm.In(連用形-一般,   // Continuative (masu stem)",
+                                     "                                  連用形-促音便))   // Continuative with っ sound change",
                                      "FollowingText.MatchesRegularExpression(@\"^よ\"\"$\")",
                                      "IsASingleToken"));
+   }
+
+   public class a_group_whose_first_condition_is_a_group : When_writing_a_condition_as_code
+   {
+      static readonly Condition<CandidateWordVariant> Condition =
+         AnyOf(
+            AllOf(
+               PrecedingToken.IsAnIchidanVerb,
+               !PrecedingToken.IsInAnIrrealisForm),
+            IsASingleToken);
+
+      [XF] public void as_it_is_read_has_both_groups_first_conditions_on_the_opening_line_and_each_groups_others_under_its_own_first() =>
+         ConditionCode.AsText(ConditionCode.LinesOf(Condition)).Must().Be(string.Join(Environment.NewLine,
+                                                                                     "AnyOf(AllOf(PrecedingToken.IsAnIchidanVerb,",
+                                                                                     "            !PrecedingToken.IsInAnIrrealisForm),",
+                                                                                     "      IsASingleToken)"));
    }
 
    public class a_condition_on_one_line : When_writing_a_condition_as_code

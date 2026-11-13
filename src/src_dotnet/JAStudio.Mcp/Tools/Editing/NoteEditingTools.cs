@@ -42,7 +42,7 @@ public class NoteEditingTools
    [McpServerTool(Name = "edit_a_note", Destructive = true, Idempotent = true)]
    [Description("""
                 Edits a note as its editor in the workspace does: writes each field given through the note's own operations, then does what the
-                editor does after a change. When a field written changes how sentences parse, such as a vocab's forms or matching rules, the
+                editor does after a change. When a field written changes how sentences parse, such as a vocab's forms or match-condition, the
                 sentences that may contain the vocab are reparsed; then the note's generated data is updated. The note is saved to the corpus
                 checkout, and its Anki note updated, as any edit is. Fields are named, and their values given, as
                 get_the_editable_fields_of_a_note lists them. Every name and value is checked before anything is written; a value the note

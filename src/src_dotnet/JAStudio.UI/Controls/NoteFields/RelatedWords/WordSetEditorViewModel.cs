@@ -57,7 +57,7 @@ partial class WordSetEditorViewModel : ObservableObject
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
    [NotifyCanExecuteChangedFor(nameof(CreateAndAddCommand))]
    [NotifyPropertyChangedFor(nameof(OffersToCreateTheVocab))]
-   string _newWord = string.Empty;
+   public partial string NewWord { get; set; } = string.Empty;
 
    /// <summary>Shows the words as the vocab has them now, after a change made elsewhere.</summary>
    public void Refresh()

@@ -27,8 +27,7 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
       FixedPathAbove = fixedPathAbove;
       NumberOfNotesThatChange = numberOfNotesThatChange;
       _renamingTo = renamingTo;
-      _typedName = typedName;
-      _rename = renamingTo(typedName);
+      TypedName = typedName;
    }
 
    /// <summary>A dialog for Rename: only the last level of <paramref name="branch"/>'s path is typed, so the branch stays where it is.</summary>
@@ -57,12 +56,12 @@ sealed partial class TagRenameDialogViewModel : ObservableObject
    public int NumberOfNotesThatChange { get; }
 
    /// <summary>The new name, as typed: the last level, or the whole path for Rename with parents.</summary>
-   [ObservableProperty] string _typedName;
+   [ObservableProperty] public partial string TypedName { get; set; }
 
    /// <summary>The rename the <see cref="TypedName"/> asks for, which the dialog closes with when it's accepted.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(WhyItCannotBeDone), nameof(MergeWarning), nameof(Merges), nameof(AcceptText), nameof(CanAccept), nameof(SourceWarning))]
-   TagBranchRename _rename;
+   public partial TagBranchRename Rename { get; set; }
 
    partial void OnTypedNameChanged(string value) => Rename = _renamingTo(value);
 

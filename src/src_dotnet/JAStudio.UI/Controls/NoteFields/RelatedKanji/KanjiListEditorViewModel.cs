@@ -49,7 +49,7 @@ partial class KanjiListEditorViewModel : ObservableObject
    /// <summary>The kanji to add, as typed or picked.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
-   string _newKanji = string.Empty;
+   public partial string NewKanji { get; set; } = string.Empty;
 
    /// <summary>Shows the list as the kanji has it now, after a change made elsewhere.</summary>
    public void Refresh()

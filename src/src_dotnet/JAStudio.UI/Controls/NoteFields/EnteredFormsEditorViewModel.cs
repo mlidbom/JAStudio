@@ -31,7 +31,7 @@ partial class EnteredFormsEditorViewModel : ObservableObject
    /// <summary>The form typed in to be added.</summary>
    [ObservableProperty]
    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
-   string _newForm = string.Empty;
+   public partial string NewForm { get; set; } = string.Empty;
 
    /// <summary>Shows the forms as the vocab has them now, after a change made elsewhere.</summary>
    public void Refresh()

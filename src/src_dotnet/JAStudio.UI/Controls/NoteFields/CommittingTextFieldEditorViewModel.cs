@@ -34,7 +34,7 @@ partial class CommittingTextFieldEditorViewModel : ObservableObject
       _currentText = currentText;
       _commit = commit;
       _committedText = currentText();
-      _text = _committedText;
+      Text = _committedText;
    }
 
    public string Label { get; }
@@ -42,7 +42,7 @@ partial class CommittingTextFieldEditorViewModel : ObservableObject
    /// <summary>What the text box holds: the field as committed, or what's being typed.</summary>
    [ObservableProperty]
    [NotifyPropertyChangedFor(nameof(HasUncommittedText))]
-   string _text;
+   public partial string Text { get; set; }
 
    /// <summary>Whether <see cref="Text"/> has been typed but not yet committed to the note.</summary>
    public bool HasUncommittedText => Text != _committedText;

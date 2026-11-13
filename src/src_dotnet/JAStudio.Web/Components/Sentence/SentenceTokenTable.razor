@@ -1,7 +1,7 @@
-@using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing
+@using JAStudio.Core.UI.Web.Sentence
 
 <div class="tokens page_section">
-    <div class="page_section_title">@Title</div>
+    <div class="page_section_title">@Table.Title</div>
     <table>
         <thead>
             <tr>
@@ -18,20 +18,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var token in Tokens)
+            @foreach(var token in Table.Tokens)
             {
-                var customTokenClass = token is not JNToken ? "custom_token_class" : "";
                 <tr>
                     <td class="surface"><span class="japanese clipboard">@token.Surface</span></td>
                     <td class="base"><span class="japanese clipboard">@token.BaseForm</span></td>
-                    <td class="token_properties">@((MarkupString)RenderTokenProperties(token))</td>
-                    <td class="token_properties @customTokenClass">@token.GetType().Name</td>
-                    <td class="pos pos1"><span class="japanese clipboard">@token.SourceToken.PartsOfSpeech.Level1.Japanese</span>:@token.SourceToken.PartsOfSpeech.Level1.English</td>
-                    <td class="pos pos2"><span class="japanese clipboard">@token.SourceToken.PartsOfSpeech.Level2.Japanese</span>:@token.SourceToken.PartsOfSpeech.Level2.English</td>
-                    <td class="pos pos3"><span class="japanese clipboard">@token.SourceToken.PartsOfSpeech.Level3.Japanese</span>:@token.SourceToken.PartsOfSpeech.Level3.English</td>
-                    <td class="pos pos4"><span class="japanese clipboard">@token.SourceToken.PartsOfSpeech.Level4.Japanese</span>:@token.SourceToken.PartsOfSpeech.Level4.English</td>
-                    <td class="inflected_form clipboard">@token.SourceToken.InflectedForm</td>
-                    <td class="inflection_type clipboard">@token.SourceToken.InflectionType</td>
+                    <td class="token_properties">@((MarkupString)string.Join(", ", token.TrueFlags.Select(flag => $"""<span class="token_property" title="{flag}">{flag}</span>""")))</td>
+                    <td class="token_properties @(token.IsJAStudiosOwn ? "custom_token_class" : "")">@token.TokenClass</td>
+                    @for(var level = 0; level < token.PartsOfSpeech.Count; level++)
+                    {
+                        var partOfSpeech = token.PartsOfSpeech[level];
+                        <td class="pos pos@(level + 1)"><span class="japanese clipboard">@partOfSpeech.Japanese</span>:@partOfSpeech.English</td>
+                    }
+                    <td class="inflected_form clipboard">@token.InflectedForm</td>
+                    <td class="inflection_type clipboard">@token.InflectionType</td>
                 </tr>
             }
         </tbody>
@@ -39,39 +39,5 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired] public List<IAnalysisToken> Tokens { get; set; } = null!;
-    [Parameter, EditorRequired] public string Title { get; set; } = "";
-
-    static readonly List<(Func<IAnalysisToken, bool> Predicate, string Abbr, string Title)> TokenBooleanFlags =
-    [
-        (t => t.IsPastTenseStem, "PTS", "past_tense_stem"),
-        (t => t.IsPastTenseMarker, "PTM", "past_tense_marker"),
-        (t => t.IsMasuStem, "Masu", "masu_stem"),
-        (t => t.IsAdverb, "Adv", "adverb"),
-        (t => t.IsIrrealis, "Irr", "irrealis"),
-        (t => t.IsEndOfStatement, "EOS", "end_of_statement"),
-        (t => t.HasTeFormStem, "HTFS", "has_te_form_stem"),
-        (t => t.IsNonWordCharacter, "NWC", "non_word_character"),
-        (t => t.IsDictionaryVerbFormStem, "DVS", "dictionary_verb_form_stem"),
-        (t => t.IsDictionaryVerbInflection, "DVI", "dictionary_verb_inflection"),
-        (t => t.IsGodanPotentialStem, "GPS", "godan_potential_stem"),
-        (t => t.IsGodanImperativeStem, "GIS", "godan_imperative_stem"),
-        (t => t.IsIchidanImperativeStem, "IIS", "ichidan_imperative_stem"),
-        (t => t.IsGodanPotentialInflection, "GPI", "godan_potential_inflection"),
-        (t => t.IsGodanImperativeInflection, "GII", "godan_imperative_inflection"),
-        (t => t.IsIchidanImperativeInflection, "III", "ichidan_imperative_inflection"),
-        (t => t.IsInflectableWord, "Infl", "inflectable_word"),
-        (t => t.IsIchidanVerb, "一段", "ichidan_verb"),
-        (t => t.IsGodanVerb, "五弾", "godan_verb")
-    ];
-
-    static string RenderTokenProperties(IAnalysisToken token)
-    {
-        var properties = TokenBooleanFlags
-            .Where(flag => flag.Predicate(token))
-            .Select(flag => $"""<span class="token_property" title="{flag.Title}">{flag.Title}</span>""")
-            .ToList();
-
-        return properties.Count > 0 ? string.Join(", ", properties) : "";
-    }
+    [Parameter, EditorRequired] public TokenTableViewModel Table { get; set; } = null!;
 }

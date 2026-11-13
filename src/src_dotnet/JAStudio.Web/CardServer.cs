@@ -105,6 +105,7 @@ public class CardServer
                       .AddInteractiveServerComponents();
 
       builder.Services.AddMudServices();
+      builder.Services.AddSingleton<WebRootFiles>();
 
       builder.Services.AddCors(options =>
          options.AddDefaultPolicy(policy =>

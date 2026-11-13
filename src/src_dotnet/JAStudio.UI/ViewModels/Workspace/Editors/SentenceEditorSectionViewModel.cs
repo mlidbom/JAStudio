@@ -52,12 +52,12 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       var media = services.Resolve<MediaFileIndex>();
       CorpusMedia =
       [
-         new AudioListEditorViewModel("Audio", () => CurrentSentence().Audio, media, EditorAudioPlayer.Instance, () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
+         new AudioListEditorViewModel("Audio", () => CurrentSentence().Audio, media, WorkspaceAudioPlayer.Instance, () => TextToSpeechDialog.OpenFor(CurrentSentence(), _services)),
          new ImageListEditorViewModel("Screenshots", () => CurrentSentence().Screenshots, media)
       ];
       SourceMedia =
       [
-         new AudioListEditorViewModel("Audio", () => CurrentSentence().SourceData.Audio, media, EditorAudioPlayer.Instance),
+         new AudioListEditorViewModel("Audio", () => CurrentSentence().SourceData.Audio, media, WorkspaceAudioPlayer.Instance),
          new ImageListEditorViewModel("Screenshots", () => CurrentSentence().SourceData.Screenshots, media)
       ];
       OtherFields =
