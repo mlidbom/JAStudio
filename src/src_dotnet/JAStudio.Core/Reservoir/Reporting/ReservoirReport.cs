@@ -6,6 +6,7 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches.StateTests.Head;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Reporting;
 using JAStudio.Core.Reservoir.Analysis;
 using JAStudio.Core.Reservoir.Analysis.Numbering;
 using JAStudio.Core.Reservoir.Measures;

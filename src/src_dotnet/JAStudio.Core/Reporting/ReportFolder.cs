@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using static System.FormattableString;
 
-namespace JAStudio.Core.Reservoir.Reporting;
+namespace JAStudio.Core.Reporting;
 
 /// <summary>
 /// The folder a report is written to: <c>report.md</c>, readable at a glance, built up section by section and saved at the end, and a<br/>

@@ -33,9 +33,12 @@ static class Program
    {
       Console.OutputEncoding = Encoding.UTF8;
       CompzeLogger.LogLevel = LogLevel.Info;
-      return args is [ReservoirCommands.CommandName, .. var reservoirCommand]
-                ? ReservoirCommands.Run(reservoirCommand)
-                : ServeJAStudiosMcpServer(HeadlessHostArguments.From(args));
+      return args switch
+      {
+         [ReservoirCommands.CommandName, .. var reservoirCommand] => ReservoirCommands.Run(reservoirCommand),
+         [TokenizerDictionaryCommands.CommandName, .. var tokenizerDictionaryCommand] => TokenizerDictionaryCommands.Run(tokenizerDictionaryCommand),
+         _ => ServeJAStudiosMcpServer(HeadlessHostArguments.From(args))
+      };
    }
 
    static int ServeJAStudiosMcpServer(HeadlessHostArguments arguments)

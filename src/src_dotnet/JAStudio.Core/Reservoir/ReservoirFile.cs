@@ -183,6 +183,16 @@ public sealed class ReservoirFile : IDisposable
    /// <summary>Every sentence, in the order they were added, read as they're enumerated.</summary>
    public IEnumerable<ReservoirSentence> EverySentence() => _connection.RowsReadAsEnumerated("select id, text from sentence order by id", ReservoirSentenceIn);
 
+   /// <summary>
+   /// Up to <paramref name="count"/> sentences spread evenly over all of them, every so many in the order they were added: a sample that has a<br/>
+   /// little of every collection and work, as a comparison over all of them would, in a fraction of the time.
+   /// </summary>
+   public IEnumerable<ReservoirSentence> SentencesSpreadEvenly(int count)
+   {
+      var everySoMany = Math.Max(1, SentenceCount / count);
+      return EverySentence().Where((_, index) => index % everySoMany == 0).Take(count);
+   }
+
    /// <summary>The analyses of those of the sentences with the ids <paramref name="ids"/> that have one, by the sentence's id.</summary>
    public IReadOnlyDictionary<long, ReservoirSentenceAnalysis> AnalysesOf(IEnumerable<long> ids)
    {

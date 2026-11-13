@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using System.IO;
 using MeCab;
 
-namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+namespace JAStudio.Core.LanguageServices.TokenizerDictionaries;
 
 /// <summary>
-/// The <see cref="MeCabTagger"/>s that <see cref="JNTokenizer"/> parses text with. Each parse gets a tagger no other parse uses while it runs,<br/>
+/// The <see cref="MeCabTagger"/>s that read with one <see cref="TokenizerDictionary"/>. Each parse gets a tagger no other parse uses while it runs,<br/>
 /// so parses on many threads at once never wait for each other.
 /// </summary>
 /// <remarks>
@@ -21,15 +21,11 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 /// </remarks>
 sealed class MeCabTaggerPool
 {
-   /// <summary>
-   /// The folder of MeCab's dictionary, which is copied next to this assembly. MeCab looks for it in <c>dic</c> under the current directory by<br/>
-   /// default, which isn't JAStudio's folder when Anki hosts it.
-   /// </summary>
-   static readonly string DictionaryFolder = Path.Combine(Path.GetDirectoryName(typeof(MeCabTaggerPool).Assembly.Location)
-                                                          ?? throw new InvalidOperationException("Cannot determine the assembly's folder"),
-                                                          "dic");
-
+   readonly DirectoryInfo _dictionaryFolder;
    readonly ConcurrentBag<MeCabTagger> _idleTaggers = [];
+
+   /// <summary>Taggers that read with the tokenizer dictionary in <paramref name="dictionaryFolder"/>.</summary>
+   public MeCabTaggerPool(DirectoryInfo dictionaryFolder) => _dictionaryFolder = dictionaryFolder;
 
    /// <summary>
    /// Lends <paramref name="parse"/> a tagger that no other parse uses until <paramref name="parse"/> returns: an idle one if there is one,<br/>
@@ -48,5 +44,5 @@ sealed class MeCabTaggerPool
       }
    }
 
-   static MeCabTagger CreateTagger() => MeCabTagger.Create(new MeCabParam { DicDir = DictionaryFolder });
+   MeCabTagger CreateTagger() => MeCabTagger.Create(new MeCabParam { DicDir = _dictionaryFolder.FullName });
 }

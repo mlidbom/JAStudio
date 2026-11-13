@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JAStudio.Core.Reporting;
 using JAStudio.Core.Reservoir.Sources.AnkiPackages;
 using static System.FormattableString;
 

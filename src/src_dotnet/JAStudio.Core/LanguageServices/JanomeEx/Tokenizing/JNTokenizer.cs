@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices.TokenizerDictionaries;
 using MeCab;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
@@ -12,8 +13,6 @@ public sealed class JNTokenizer
 
    static readonly HashSet<string> CharactersThatMayConfuseTokenizerSoWeReplaceThemWithOrdinaryFullWidthSpaces =
       ["!", "！", "|", "（", "）", " "];
-
-   readonly MeCabTaggerPool _taggers = new();
 
    JNTokenizer() {}
 
@@ -71,10 +70,10 @@ public sealed class JNTokenizer
    }
 
    List<JNToken> TokenizeToTokenList(string text) =>
-      _taggers.LendATaggerTo(tagger => tagger.ParseToNodes(text)
-                                             .Where(it => !IsTheBeginningOrEndOfTheSentence(it))
-                                             .Select(TokenOf)
-                                             .ToList());
+      TokenizerDictionary.TheBundledIpadic.LendATaggerTo(tagger => tagger.ParseToNodes(text)
+                                                                         .Where(it => !IsTheBeginningOrEndOfTheSentence(it))
+                                                                         .Select(TokenOf)
+                                                                         .ToList());
 
    static bool IsTheBeginningOrEndOfTheSentence(MeCabNode node) =>
       //bug: this is true of more than the BOS/EOS nodes. MeCab gives every node of a character in its DEFAULT character category CharType 0,
