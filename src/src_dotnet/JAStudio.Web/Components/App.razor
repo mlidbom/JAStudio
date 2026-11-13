@@ -1,4 +1,5 @@
 @using Microsoft.AspNetCore.Components.Web
+@inject WebRootFiles Files
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
@@ -7,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <title>JAStudio</title>
-    <link rel="stylesheet" href="/css/vocab-card.css" />
-    <link rel="stylesheet" href="/css/kanji-card.css" />
-    <link rel="stylesheet" href="/css/sentence-card.css" />
+    <link rel="stylesheet" href="@Files.VersionedPath("/css/vocab-card.css")" />
+    <link rel="stylesheet" href="@Files.VersionedPath("/css/kanji-card.css")" />
+    <link rel="stylesheet" href="@Files.VersionedPath("/css/sentence-card.css")" />
     <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 <body>
@@ -18,6 +19,6 @@
     <script src="/_framework/blazor.web.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     @* ReSharper restore Html.PathError *@
-    <script src="/js/card.js"></script>
+    <script src="@Files.VersionedPath("/js/card.js")"></script>
 </body>
 </html>
