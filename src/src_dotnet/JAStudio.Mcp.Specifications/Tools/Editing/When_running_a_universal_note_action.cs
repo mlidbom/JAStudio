@@ -17,7 +17,7 @@ public class When_running_a_universal_note_action : McpServerSpecification
 {
    protected readonly VocabNote Vocab;
 
-   public When_running_a_universal_note_action() => Vocab = CreateVocab("勉強", "study", "べんきょう");
+   public When_running_a_universal_note_action() => Vocab = WithAStudyNote(CreateVocab("勉強", "study", "べんきょう"));
 
    protected CallToolResult Run(string tool) => CallTool(tool, new Dictionary<string, object?> { ["noteId"] = Vocab.GetId().ToString() });
 

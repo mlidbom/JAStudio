@@ -2,8 +2,8 @@ namespace JAStudio.Core.Anki;
 
 /// <summary>
 /// Whether there's an Anki for JAStudio to work with: there is while JAStudio runs inside Anki, and none while it runs without, as the headless<br/>
-/// JAStudio and the standalone JAStudio do. What only Anki can do, such as creating a new note's Anki note, importing Anki's notes, or opening<br/>
-/// Anki's windows (<see cref="IAnkiWindows"/>), is offered only while there is.
+/// JAStudio and the standalone JAStudio do. What acts on what Anki holds, such as importing Anki's notes or opening Anki's windows<br/>
+/// (<see cref="IAnkiWindows"/>), is offered only while there is. Everything else, creating notes included, works the same either way.
 /// </summary>
 public sealed class AnkiAvailability
 {

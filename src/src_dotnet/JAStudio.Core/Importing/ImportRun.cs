@@ -139,7 +139,7 @@ public class ImportRun
       if(Profile.CreatesAnkiNotesToStudy)
          _noteServices.Collection.Sentences.Add(sentence);
       else
-         _noteServices.Collection.Sentences.AddWithoutAnAnkiNote(sentence);
+         _noteServices.Collection.Sentences.Add(sentence);
 
       _importedSentences.Add(sentence);
    }

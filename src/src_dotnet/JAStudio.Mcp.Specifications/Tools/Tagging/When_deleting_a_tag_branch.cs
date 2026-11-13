@@ -29,12 +29,12 @@ public class When_deleting_a_tag_branch : McpServerSpecification
 
    public When_deleting_a_tag_branch()
    {
-      _sentenceTaggedWithBothEpisodes = CreateTestSentence("明日学校に行く", "I'll go to school tomorrow");
+      _sentenceTaggedWithBothEpisodes = WithAStudyNote(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"));
       _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode07));
       _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode08));
       _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName("tmp"));
 
-      _sentenceTaggedWithEpisode08Only = CreateTestSentence("家に帰る", "Go home");
+      _sentenceTaggedWithEpisode08Only = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
       _sentenceTaggedWithEpisode08Only.Tags.Set(Tag.FromName(Episode08));
 
       _anki = GetService<PretendAnki>();

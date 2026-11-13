@@ -26,8 +26,8 @@ public class When_the_study_notes_are_read_from_Anki_again : SpecificationStarti
 
    public When_the_study_notes_are_read_from_Anki_again()
    {
-      var sentenceId = CreateTestSentence("家に帰る", "Go home").GetId();
-      CreateTestSentence("駅に行く", "Go to the station");
+      var sentenceId = WithAStudyNote(CreateTestSentence("家に帰る", "Go home")).GetId();
+      WithAStudyNote(CreateTestSentence("駅に行く", "Go to the station"));
       Collection = GetService<JPCollection>();
       Anki = GetService<PretendAnki>();
       Collection.ReloadFromBackend();

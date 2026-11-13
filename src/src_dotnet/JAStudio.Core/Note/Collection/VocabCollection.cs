@@ -14,16 +14,11 @@ namespace JAStudio.Core.Note.Collection;
 /// </summary>
 public class VocabCollection
 {
-   readonly IBackendNoteCreator _backendNoteCreator;
    internal readonly VocabCache Cache;
    // ReSharper disable once UnusedMember.Global used from python
    public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
-   public VocabCollection(IBackendNoteCreator backendNoteCreator, NoteServices noteServices)
-   {
-      _backendNoteCreator = backendNoteCreator;
-      Cache = new VocabCache(noteServices);
-   }
+   public VocabCollection(NoteServices noteServices) => Cache = new VocabCache(noteServices);
 
    /// <summary>Starts recording every vocab this collection's lookups return, such as the vocab parsing a sentence looks at, until the recording is disposed.</summary>
    public LookupRecording<VocabNote> StartRecordingTheVocabLookedUp() => Cache.StartRecordingTheNotesLookedUp();
@@ -149,11 +144,13 @@ public class VocabCollection
 
    public List<VocabNote> WithAnyFormIn(List<string> forms) => [.. forms.SelectMany(WithForm).Distinct()];
 
-   /// <summary>Adds <paramref name="note"/>, a vocab just created, to the collection and to Anki. Its question must be one no vocab has.</summary>
+   /// <inheritdoc cref="SentenceCollection.Add"/>
+   /// <remarks>Its question must be one no vocab has.</remarks>
    public void Add(VocabNote note)
    {
       Contract.Argument.Assert(NamedExactlyBy(note.Question.Reference).Count == 0, () => $"A vocab named {note.Question.DisambiguationName} exists already, and no two vocab may share a question.");
-      _backendNoteCreator.CreateVocab(note, () => Cache.AddToCache(note));
+      Cache.AddToCache(note);
+      note.UpdateInCache();
    }
 
    List<VocabNote> IncludingTheCompoundsTheyArePartOf(List<VocabNote> compounds)

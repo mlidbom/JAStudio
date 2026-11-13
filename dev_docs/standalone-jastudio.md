@@ -38,8 +38,10 @@ There's no Anki at all (`AnkiAvailability.Unavailable`), not even read-only:
 - **No note has a study-note:** every note shows as not studied, none has Anki tags (`anki::`, the priority tags), a
   kanji has no default primary vocab, and searches on studying find nothing. Nothing saved to the corpus depends on
   these.
-- **Not offered:** creating a note (it creates the note's Anki note), importing, opening a note in Anki's browser or
-  previewer, and suspending or unsuspending cards. Their menu items are greyed out.
+- **Not offered: what acts on what Anki holds,** such as importing, opening a note in Anki's browser or previewer, and
+  suspending or unsuspending cards. Their menu items are greyed out. Everything else works as inside Anki, creating
+  notes included: a note created gets no study-note, inside Anki or not (Magnus, 2026-11-13: "There are already far
+  to many jastudio notes in anki that I do not study").
 - **A change to a note isn't written to its study-note in Anki.** JAStudio inside Anki writes a study-note only as its
   note changes, so a note changed by the standalone JAStudio leaves its study-note behind until it changes again
   inside Anki (see `IAnkiStudyNotes`, and the MCP tools `list_the_study_notes_that_differ` and

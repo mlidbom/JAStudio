@@ -34,7 +34,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
 
    public When_editing_a_notes_tags_in_the_workspace()
    {
-      _sentence = CreateTestSentence("家に帰る", "Go home");
+      _sentence = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
       _sentence.Tags.Set(Tag.FromName(SourceTag));
       _sentence.Tags.Set(Tag.FromName(Label));
       _sentence.Tags.Set(Tags.Sentence.Uses.HiddenMatches);

@@ -21,7 +21,6 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
       registrar.Register(
          Singleton.For<IEnvironmentPaths>().Instance(new AnkiEnvironmentPaths()),
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
-         Singleton.For<IBackendNoteCreator>().Instance(new AnkiBackendNoteCreator()),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkisOwnConnection()),
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new AnkiRawNotes(database)),

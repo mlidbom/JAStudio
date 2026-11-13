@@ -7,16 +7,11 @@ namespace JAStudio.Core.Note.Collection;
 
 public class SentenceCollection
 {
-   readonly IBackendNoteCreator _backendNoteCreator;
    internal readonly SentenceCache Cache;
    // ReSharper disable once UnusedMember.Global used from python
    public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
-   public SentenceCollection(IBackendNoteCreator backendNoteCreator, NoteServices noteServices)
-   {
-      _backendNoteCreator = backendNoteCreator;
-      Cache = new SentenceCache(noteServices);
-   }
+   public SentenceCollection(NoteServices noteServices) => Cache = new SentenceCache(noteServices);
 
    /// <summary>
    /// The sentences that may contain <paramref name="vocab"/>: those whose question contains one of its forms or their stems<br/>
@@ -66,17 +61,12 @@ public class SentenceCollection
 
    public List<SentenceNote> WithHighlightedVocab(string form) => Cache.WithHighlightedVocab(form);
 
-   /// <summary>Adds <paramref name="note"/> to the corpus, and gives it a note in the open Anki profile to study.</summary>
-   public void Add(SentenceNote note)
-   {
-      _backendNoteCreator.CreateSentence(note, () => Cache.AddToCache(note));
-   }
-
    /// <summary>
-   /// Adds <paramref name="note"/> to the corpus only, without a note in Anki: Anki holds the notes being studied, and the corpus holds them all.<br/>
-   /// Saving it to the corpus is what <see cref="JPNote.UpdateInCache"/> does for a note in the collection.
+   /// Adds <paramref name="note"/>, a note just created, to the collection and saves it to the corpus, which <see cref="JPNote.UpdateInCache"/> does for a<br/>
+   /// note in the collection. It gets no study-note in Anki: the corpus holds every note, and Anki only the notes being studied, whether JAStudio<br/>
+   /// runs inside Anki or not (Magnus, 2026-11-13).
    /// </summary>
-   public void AddWithoutAnAnkiNote(SentenceNote note)
+   public void Add(SentenceNote note)
    {
       Cache.AddToCache(note);
       note.UpdateInCache();

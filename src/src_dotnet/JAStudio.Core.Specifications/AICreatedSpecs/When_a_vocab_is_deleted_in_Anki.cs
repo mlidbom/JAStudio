@@ -20,7 +20,7 @@ public class When_a_vocab_is_deleted_in_Anki : SpecificationStartingWithAnEmptyC
    public When_a_vocab_is_deleted_in_Anki()
    {
       _vocab = GetService<VocabCollection>();
-      _deletedInAnki = CreateVocab("部屋", "room", "へや");
+      _deletedInAnki = WithAStudyNote(CreateVocab("部屋", "room", "へや"));
       var ankiNoteId = GetService<ExternalNoteIdMap>().RequireExternalId(_deletedInAnki.GetId());
       GetService<JPCollection>().UpdateCardStudyingStatus(new CardStudyingStatus(ankiNoteId, CardTypes.Reading, isSuspended: false, NoteTypes.Vocab));
       _deletedInAnki.IsStudying().Must().BeTrue();

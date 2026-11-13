@@ -212,9 +212,9 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          title,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OpenTheVocabNamedOrCreatedFromTheDictionary(text), enabled: NotesCanBeCreated),
-            SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text), enabled: NotesCanBeCreated),
-            SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text), enabled: NotesCanBeCreated)
+            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OpenTheVocabNamedOrCreatedFromTheDictionary(text)),
+            SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text)),
+            SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text))
          }
       );
    }
@@ -270,9 +270,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          _services.AnkiWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }
-
-   /// <summary>Creating a note creates its Anki note, so notes are created only while there's an Anki (<see cref="AnkiAvailability"/>).</summary>
-   bool NotesCanBeCreated => _services.AnkiAvailability.IsAvailable;
 
    /// <summary>
    /// Opens the vocab whose question is <paramref name="text"/>, creating it from the dictionary first when there's none: no two vocab may share a question,<br/>
