@@ -25,10 +25,10 @@ public class When_a_note_has_tags_in_Anki : SpecificationStartingWithAnEmptyColl
 
    public When_a_note_has_tags_in_Anki()
    {
-      var sentence = CreateTestSentence("家に帰る", "Go home");
+      var sentence = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
       sentence.Tags.Set(Tag.FromName("source::anime::natsume"));
       sentence.Tags.Set(Tag.FromName("tmp::x"));
-      CreateTestSentence("駅に行く", "Go to the station");
+      WithAStudyNote(CreateTestSentence("駅に行く", "Go to the station"));
       GetService<PretendAnki>().Tag(sentence, "marked", "-::priority::high::5");
       _sentenceId = sentence.GetId();
 

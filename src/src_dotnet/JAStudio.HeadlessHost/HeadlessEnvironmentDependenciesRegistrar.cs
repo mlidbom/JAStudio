@@ -33,7 +33,6 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
       registrar.Register(
          Singleton.For<IEnvironmentPaths>().Instance(new HeadlessEnvironmentPaths(_setup)),
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
-         Singleton.For<IBackendNoteCreator>().Instance(new HeadlessBackendNoteCreator()),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkiCollectionFile(_setup.AnkiCollectionFile)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),

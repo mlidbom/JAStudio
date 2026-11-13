@@ -291,7 +291,7 @@ doesn't matter to lookups.
   `FieldCheck` with a `CheckMark` for its question, external id, audio and screenshot; and `ImportProfileProblem`.
 - **`JAStudio.Core.Importing.RawNotes`:** `RawNote`, `AnkiNoteType`, and `IAnkiRawNotes`, which is Anki's side.
   `AnkiRawNotes` in `JAStudio.Anki` implements it; specifications use `InMemoryAnkiRawNotes`.
-- **Corpus only:** a sentence imported without an Anki note is added with `SentenceCollection.AddWithoutAnAnkiNote`.
+- **Corpus only:** a sentence imported is added with `SentenceCollection.Add`, as every note created is: with no Anki note.
 - **One at a time:** `ChecksAndExecutionsOfImportRuns`, which `Importer` checks through and each `ImportRun` executes
   through, lets one check or execution happen at a time and counts the executed runs, so a run knows when it
   `IsOutOfDate`. `ImportRun.ExecuteUnlessOutOfDate` executes it unless it's out of date, and `Importer.RunExecuted`

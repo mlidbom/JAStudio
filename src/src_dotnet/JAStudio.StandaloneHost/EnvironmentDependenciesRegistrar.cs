@@ -35,7 +35,6 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Unavailable),
          Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IBackendDataLoader>().Instance(new NoAnkiData()),
-         Singleton.For<IBackendNoteCreator>().Instance(new NoAnkiNoteCreator()),
          Singleton.For<ICardOperations>().Instance(new NoAnkiCardOperations()),
          Singleton.For<IAnkiTagOperations>().Instance(new NoAnkiTagOperations()),
          Singleton.For<IAnkiStudyNotes>().Instance(new NoAnkiStudyNotes()),

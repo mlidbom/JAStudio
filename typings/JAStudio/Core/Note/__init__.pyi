@@ -1,8 +1,5 @@
 import typing, abc
 from System.Collections.Generic import IReadOnlyDictionary_2, IReadOnlyList_1, IEnumerable_1, HashSet_1, Dictionary_2, List_1
-from System import Action, Guid, IDisposable, Func_2
-from JAStudio.Core.Note.Sentences import SentenceNote
-from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteFactory, VocabNoteGeneratedData
 from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReference, MediaReferenceList_1, ImageReference
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
@@ -11,8 +8,10 @@ from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDt
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextListField_1, EditableListField_2, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.KanjiReadings import EditableKanjiReadingsField, KanjiNoteReadings
+from System import Guid, IDisposable, Action, Func_2
 from JAStudio.Core.Note.KanjiRelationships import MutualKanjiRelationship, KanjiPrimaryVocab, KanjiRadicals
 from JAStudio.Core.Note.NoteFields import WritableStringValue
+from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteFactory, VocabNoteGeneratedData
 from Compze.Abstractions import EntityId
 from JAStudio.Core.Anki import AnkiAvailability
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
@@ -50,15 +49,6 @@ class ExternalNoteIdMap:
     def TakeIn(self, readFromAnki: IReadOnlyDictionary_2[int, NoteId], heldWhenTheReadBegan: IReadOnlyDictionary_2[int, NoteId]) -> IReadOnlyList_1[NoteId]: ...
     def ToExternalId(self, noteId: NoteId) -> typing.Optional[int]: ...
     def Unregister(self, externalId: int) -> None: ...
-
-
-class IBackendNoteCreator(typing.Protocol):
-    @abc.abstractmethod
-    def CreateKanji(self, note: KanjiNote, callback: Action) -> None: ...
-    @abc.abstractmethod
-    def CreateSentence(self, note: SentenceNote, callback: Action) -> None: ...
-    @abc.abstractmethod
-    def CreateVocab(self, note: VocabNote, callback: Action) -> None: ...
 
 
 class ICardOperations(typing.Protocol):

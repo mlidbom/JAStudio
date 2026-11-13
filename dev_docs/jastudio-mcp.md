@@ -106,8 +106,8 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
     references Playwright, so its driver stays out of what Anki loads.
   - **Its card server is its own** (`CardServer.StartOnAPortTheSystemPicks`), on a port the system picks, leaving alone
     the port the card server inside Anki remembers.
-  - **What needs Anki itself refuses with an exception:** creating a new note's Anki note, changing a note's cards, and
-    importing. The note types for raw notes, which the import profiles window lists, it reads from the collection, as
+  - **What needs Anki itself refuses with an exception:** changing a note's cards, and importing. Creating a note needs no
+    Anki: it never creates a study-note. The note types for raw notes, which the import profiles window lists, it reads from the collection, as
     JAStudio inside Anki does.
   - It loads the collection and starts the MCP server, on a port the system picks, then writes the server's address to
     standard output, and exits when the process it was told to live with, the gateway, exits.

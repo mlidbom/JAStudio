@@ -53,8 +53,8 @@ public static class AppBootstrapper
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
-         Singleton.For<JPCollection>().CreatedBy((IBackendNoteCreator backendNoteCreator, NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, IBackendDataLoader backendDataLoader) =>
-                                                    new JPCollection(backendNoteCreator, noteServices, noteRepository, mediaFileIndex, mediaStorage, backendDataLoader)),
+         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, IBackendDataLoader backendDataLoader) =>
+                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, backendDataLoader)),
          Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, IAnkiTagOperations anki) => new AnkiTagChanges(collection, anki)),
          Singleton.For<VocabCollection>().CreatedBy((JPCollection col) => col.Vocab),
          Singleton.For<KanjiCollection>().CreatedBy((JPCollection col) => col.Kanji),

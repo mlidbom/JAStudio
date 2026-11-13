@@ -4,6 +4,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Specifications.Fixtures;
+using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core.Specifications;
 
@@ -30,6 +31,16 @@ public abstract class SpecificationUsingACollection(DataNeeded data = DataNeeded
       KanjiReadingsNotation.AddTo(kanji.Readings.On, onReadings);
       KanjiReadingsNotation.AddTo(kanji.Readings.Kun, kunReadings);
       return kanji;
+   }
+
+   /// <summary>
+   /// <paramref name="note"/>, given a study-note in the pretend Anki, as a person choosing to study it will (<see cref="PretendAnki.GiveAStudyNoteTo"/>):<br/>
+   /// creating a note gives it none.
+   /// </summary>
+   protected TNote WithAStudyNote<TNote>(TNote note) where TNote : JPNote
+   {
+      GetService<PretendAnki>().GiveAStudyNoteTo(note);
+      return note;
    }
 
    protected SentenceNote CreateSentence(string question) =>

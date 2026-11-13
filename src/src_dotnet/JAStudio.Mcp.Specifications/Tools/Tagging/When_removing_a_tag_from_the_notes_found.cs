@@ -28,11 +28,11 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
 
    public When_removing_a_tag_from_the_notes_found()
    {
-      _sentenceTaggedWithBothEpisodes = CreateTestSentence("明日学校に行く", "I'll go to school tomorrow");
+      _sentenceTaggedWithBothEpisodes = WithAStudyNote(CreateTestSentence("明日学校に行く", "I'll go to school tomorrow"));
       _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode07));
       _sentenceTaggedWithBothEpisodes.Tags.Set(Tag.FromName(Episode08));
 
-      _sentenceTaggedWithEpisode08Only = CreateTestSentence("家に帰る", "Go home");
+      _sentenceTaggedWithEpisode08Only = WithAStudyNote(CreateTestSentence("家に帰る", "Go home"));
       _sentenceTaggedWithEpisode08Only.Tags.Set(Tag.FromName(Episode08));
    }
 

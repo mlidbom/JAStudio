@@ -150,7 +150,6 @@ public class JPCollection
    });
 
    public JPCollection(
-      IBackendNoteCreator backendNoteCreator,
       NoteServices noteServices,
       INoteRepository noteRepository,
       MediaFileIndex mediaFileIndex,
@@ -168,9 +167,9 @@ public class JPCollection
       VocabNoteGeneratedData = new VocabNoteGeneratedData();
       VocabNoteFactory = new VocabNoteFactory(DictLookup, this, noteServices);
 
-      Vocab = new VocabCollection(backendNoteCreator, NoteServices);
-      Kanji = new KanjiCollection(backendNoteCreator, NoteServices);
-      Sentences = new SentenceCollection(backendNoteCreator, NoteServices);
+      Vocab = new VocabCollection(NoteServices);
+      Kanji = new KanjiCollection(NoteServices);
+      Sentences = new SentenceCollection(NoteServices);
 
       Kanji.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));
       Vocab.Cache.NoteUpdated.Subscribe(note => _repository.Save(note));

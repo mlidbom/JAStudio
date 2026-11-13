@@ -55,7 +55,7 @@ public class WorkspaceMainMenu
                               ),
                               SpecMenuItem.Command(ShortcutFinger.Home2(MainMenuWindows.ImportProfiles.Name), () => MainMenuWindows.ImportProfiles.Open(_services), enabled: _services.AnkiAvailability.IsAvailable),
                               BatchCommand(ShortcutFinger.Home3("Update everything except reanalysing sentences"), _services.LocalNoteUpdater.UpdateAll),
-                              BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries, enabled: _services.AnkiAvailability.IsAvailable),
+                              BatchCommand(ShortcutFinger.Home4("Create vocab notes for parsed words"), _services.LocalNoteUpdater.CreateMissingVocabWithDictionaryEntries),
                               BatchCommand(ShortcutFinger.Home5("Regenerate vocab source answers from dictionary"), _services.LocalNoteUpdater.RegenerateJamdictVocabAnswers),
                               BatchCommand(ShortcutFinger.Up1("Force flush all cached notes"), _services.LocalNoteUpdater.ForceFlushAllNotes),
                               BatchCommand(ShortcutFinger.Up2("Reload the collection from disk"), () => _services.CoreApp.Collection.ReloadFromBackend()),

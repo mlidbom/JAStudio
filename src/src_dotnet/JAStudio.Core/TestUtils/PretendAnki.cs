@@ -12,22 +12,19 @@ using JAStudio.Core.TaskRunners;
 namespace JAStudio.Core.TestUtils;
 
 /// <summary>
-/// The student's Anki in specifications, where there's no Anki: it gives each note created a pretend study-note, and loading the collection<br/>
+/// The student's Anki in specifications, where there's no Anki: it gives the notes specifications choose a pretend study-note<br/>
+/// (<see cref="GiveAStudyNoteTo"/>), and loading the collection<br/>
 /// reads from it as from Anki (<see cref="IBackendDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
 /// cards specifications suspended. It has no other cards, and no Anki notes but the study-notes. JAStudio changes its tags as it changes Anki's<br/>
 /// (<see cref="IAnkiTagOperations"/>).
 /// </summary>
-public class PretendAnki : IBackendNoteCreator, IBackendDataLoader, IAnkiTagOperations
+public class PretendAnki : IBackendDataLoader, IAnkiTagOperations
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, NoteId> _noteOfEachStudyNote = [];
    readonly Dictionary<long, IReadOnlyList<string>> _tagsOfEachStudyNote = [];
    readonly Dictionary<long, List<CardStudyingStatus>> _suspendedCardsOfEachStudyNote = [];
    long _lastAnkiNoteId;
-
-   public void CreateKanji(KanjiNote note, Action callback) => CreateTheStudyNoteOf(note, callback);
-   public void CreateVocab(VocabNote note, Action callback) => CreateTheStudyNoteOf(note, callback);
-   public void CreateSentence(SentenceNote note, Action callback) => CreateTheStudyNoteOf(note, callback);
 
    public BackendData Load(TaskRunner taskRunner) => _monitor.Locked(() => new BackendData(new Dictionary<long, NoteId>(_noteOfEachStudyNote),
                                                                                           [.._suspendedCardsOfEachStudyNote.Values.SelectMany(it => it)],
@@ -103,10 +100,11 @@ public class PretendAnki : IBackendNoteCreator, IBackendDataLoader, IAnkiTagOper
    };
 
    /// <summary>
-   /// Registers a new Anki note id for <paramref name="note"/>, as creating its real Anki note does, so that what Anki reports about the Anki note,<br/>
-   /// such as its deletion or its cards' studying status, reaches the note. Then, as in Anki, the note is saved where the corpus keeps notes.
+   /// Gives <paramref name="note"/>, a note in the collection, a study-note in Anki, as a person choosing to study it will: registers a new Anki note id<br/>
+   /// for it, so that what Anki reports about the study-note, such as its deletion or its cards' studying status, reaches the note. Creating a note<br/>
+   /// gives it none (Magnus, 2026-11-13).
    /// </summary>
-   void CreateTheStudyNoteOf(JPNote note, Action callback)
+   public void GiveAStudyNoteTo(JPNote note)
    {
       var ankiNoteId = _monitor.Locked(() =>
       {
@@ -114,7 +112,5 @@ public class PretendAnki : IBackendNoteCreator, IBackendDataLoader, IAnkiTagOper
          return _lastAnkiNoteId;
       });
       note.Services.ExternalNoteIdMap.Register(ankiNoteId, note.GetId());
-      callback();
-      note.UpdateInCache();
    }
 }

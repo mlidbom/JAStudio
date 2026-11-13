@@ -7,16 +7,11 @@ namespace JAStudio.Core.Note.Collection;
 
 public class KanjiCollection
 {
-   readonly IBackendNoteCreator _backendNoteCreator;
    internal readonly KanjiCache Cache;
    // ReSharper disable once UnusedMember.Global used from python
    public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
 
-   public KanjiCollection(IBackendNoteCreator backendNoteCreator, NoteServices noteServices)
-   {
-      _backendNoteCreator = backendNoteCreator;
-      Cache = new KanjiCache(noteServices);
-   }
+   public KanjiCollection(NoteServices noteServices) => Cache = new KanjiCache(noteServices);
 
    public List<KanjiNote> All() => Cache.All();
 
@@ -49,8 +44,10 @@ public class KanjiCollection
       return Cache.WithReading(hiraganaReading);
    }
 
+   /// <inheritdoc cref="SentenceCollection.Add"/>
    public void Add(KanjiNote note)
    {
-      _backendNoteCreator.CreateKanji(note, () => Cache.AddToCache(note));
+      Cache.AddToCache(note);
+      note.UpdateInCache();
    }
 }

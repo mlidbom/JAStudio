@@ -1,8 +1,4 @@
 import typing
-from JAStudio.Core.Note import IBackendNoteCreator, KanjiNote
-from System import Action
-from JAStudio.Core.Note.Sentences import SentenceNote
-from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Collection import JPCollection, IExternalNoteUpdateHandler
 from JAStudio.Core.TaskRunners import BackgroundTaskManager
 from JAStudio.Anki import AnkiLifecycleEvent
@@ -12,13 +8,6 @@ from JAStudio.Core import TemporaryServiceCollection
 from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
 from System.Collections.Generic import List_1
 from JAStudio.UI.Menus import NoteContextMenu
-
-class AnkiBackendNoteCreator(IBackendNoteCreator):
-    def __init__(self) -> None: ...
-    def CreateKanji(self, note: KanjiNote, callback: Action) -> None: ...
-    def CreateSentence(self, note: SentenceNote, callback: Action) -> None: ...
-    def CreateVocab(self, note: VocabNote, callback: Action) -> None: ...
-
 
 class CatchingUpWithAnki:
     def __init__(self, collection: JPCollection, studyNoteWrites: StudyNoteWrites, backgroundTasks: BackgroundTaskManager) -> None: ...

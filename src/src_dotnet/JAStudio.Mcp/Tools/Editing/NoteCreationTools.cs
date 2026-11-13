@@ -33,7 +33,7 @@ public class NoteCreationTools
    [McpServerTool(Name = "create_a_note", Destructive = false)]
    [Description("""
                 Creates a note from a text, as the context menu's "Create" does for the text selected, and adds it to the collection: saved to the
-                corpus checkout and to Anki, as any note created. A vocab is created from the dictionary, with its answer, readings and parts of
+                corpus checkout, as any note created, with no study-note in Anki. A vocab is created from the dictionary, with its answer, readings and parts of
                 speech and the tag source::jamdict when the dictionary has the word, and empty, tagged source::jastudio as our own, when it hasn't;
                 the sentences that may contain it are then reparsed, as the menu does. A sentence is created with the text as its question. A kanji
                 is created with the text as its question, the answer "TODO" and the tag source::jastudio, as the menu creates it. Reports the note

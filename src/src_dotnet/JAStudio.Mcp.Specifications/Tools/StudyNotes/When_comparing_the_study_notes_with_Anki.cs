@@ -24,7 +24,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
    public When_comparing_the_study_notes_with_Anki()
    {
-      Vocab = CreateVocab("勉強", "study", "べんきょう");
+      Vocab = WithAStudyNote(CreateVocab("勉強", "study", "べんきょう"));
       StudyNotesInAnki = GetService<InMemoryAnkiStudyNotes>();
       StudyNotesInAnki.Write(Vocab);
    }
