@@ -45,5 +45,6 @@ snapshot_vocab.json
 /src/user_files/window-places.json
 /src/user_files/workspace-state.json
 /src/user_files/configuration.json
+/src/jas_database.lock
 
 /.idea/.idea.JAStudio/.idea/.name

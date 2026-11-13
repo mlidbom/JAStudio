@@ -48,6 +48,16 @@ There's no Anki at all (`AnkiAvailability.Unavailable`), not even read-only:
 The seams that make this so: `AnkiAvailability`, `IAnkiWindows` (Anki's windows, `NoAnkiWindows` without Anki), and
 the standalone host's `NoAnki…` stand-ins for the rest.
 
+## One JAStudio per corpus checkout
+
+Two JAStudios saving notes to one corpus checkout would each overwrite the other's edits. So every JAStudio, inside
+Anki, standalone or headless, holds the corpus checkout it works on for as long as it runs (`CorpusCheckoutLock`, in
+`CoreApp`), and one started on a checkout another holds refuses to start, saying so. On the main checkout, that means
+the standalone JAStudio runs only while Anki is closed, and Anki's JAStudio won't start while the standalone one runs.
+
+The hold is a file beside the corpus checkout, `src/jas_database.lock`, held open and shared with no one. The system
+deletes it when the process ends, however it ends, so a crash leaves no lock behind.
+
 ## Closing it
 
 Closing the workspace ends the standalone JAStudio, after saving the workspace's state and the window's place. Inside

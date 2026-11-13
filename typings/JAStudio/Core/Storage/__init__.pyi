@@ -3,8 +3,8 @@ from System.Collections.Generic import List_1
 from JAStudio.Core.Note import KanjiNote, NoteId, NoteServices, JPNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Sentences import SentenceNote
+from System import IDisposable, Guid, DateTime
 from JAStudio.Core import IEnvironmentPaths
-from System import Guid, DateTime
 from System.Text.Json import JsonSerializerOptions
 
 class AllNotesData:
@@ -15,6 +15,12 @@ class AllNotesData:
     def Sentences(self) -> List_1[SentenceNote]: ...
     @property
     def Vocab(self) -> List_1[VocabNote]: ...
+
+
+class CorpusCheckoutLock(IDisposable):
+    def Dispose(self) -> None: ...
+    @staticmethod
+    def On(corpusCheckoutFolder: str) -> CorpusCheckoutLock: ...
 
 
 class FileSystemNoteRepository(INoteRepository):
