@@ -31,10 +31,10 @@ public class When_writing_a_condition_in_CSharp_as_its_code_reads : IAIGenerated
                 .Must().Be(FirstToken.Meets(ConditionGroup.AnyOf(TokenConditions.IsAGodanPotentialStem, TokenConditions.IsAGodanPotentialInflection)));
 
    [XF] public void a_tokens_part_of_speech_is_the_part_of_speech_condition_on_the_token() =>
-      FollowingToken.PartOfSpeech.Is("名詞", "数").Must().Be(FollowingToken.Meets(TokenConditions.PartOfSpeech.Is("名詞", "数")));
+      FollowingToken.PartOfSpeech.Is("名詞", "数詞").Must().Be(FollowingToken.Meets(TokenConditions.PartOfSpeech.Is("名詞", "数詞")));
 
    [XF] public void a_tokens_inflected_form_is_the_inflected_form_condition_on_the_token() =>
-      LastToken.InflectedForm.In("連用形").Must().Be(LastToken.Meets(TokenConditions.InflectedForm.In("連用形")));
+      LastToken.InflectedForm.In("連用形-一般").Must().Be(LastToken.Meets(TokenConditions.InflectedForm.In("連用形-一般")));
 
    [XF] public void a_part_of_speech_inside_a_group_on_a_token_is_written_on_the_token_itself() =>
       LastToken.AllOf(TokenConditions.PartOfSpeech.Is("動詞")).Must().Be(LastToken.Meets(ConditionGroup.AllOf(TokenConditions.PartOfSpeech.Is("動詞"))));

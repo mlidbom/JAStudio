@@ -6,8 +6,8 @@ namespace JAStudio.Core.LanguageServices.TokenizerDictionaries;
 
 /// <summary>
 /// A token MeCab cuts from a text, described as its <see cref="TokenizerDictionary"/> describes it, in what IPADIC and UniDic both tell: where<br/>
-/// it is, its part of speech, inflection and base form, and UniDic's lemma. To compare how two dictionaries tokenize, not to parse with:<br/>
-/// JAStudio's parsing reads tokens as <see cref="JanomeEx.Tokenizing.JNToken"/>.
+/// it is, its part of speech, inflection, base form, reading and pronunciation, and UniDic's lemma. JAStudio's parsing reads each as a<br/>
+/// <see cref="JanomeEx.Tokenizing.JNToken"/>.
 /// </summary>
 /// <param name="Start">Where the token starts in the text, counted in <see cref="char"/>s.</param>
 /// <param name="Surface">The token's text, as it is in the text.</param>
@@ -17,6 +17,8 @@ namespace JAStudio.Core.LanguageServices.TokenizerDictionaries;
 /// <param name="InflectionForm">The inflection form, such as IPADIC's <c>連用タ接続</c> or UniDic's <c>連用形-促音便</c>, or <see cref="Nothing"/>.</param>
 /// <param name="BaseForm">The base form, as spelled in the text: 知ら's is 知る.</param>
 /// <param name="Lemma">UniDic's lemma, its word for the token, uniting its spellings; <c>null</c> for IPADIC, which has none.</param>
+/// <param name="Reading">The token's reading, in katakana, as it's written: は's is ハ.</param>
+/// <param name="Pronunciation">The token's pronunciation, in katakana: は's is ワ.</param>
 public sealed record MeCabToken(
    int Start,
    string Surface,
@@ -25,7 +27,9 @@ public sealed record MeCabToken(
    string InflectionType,
    string InflectionForm,
    string BaseForm,
-   string? Lemma)
+   string? Lemma,
+   string Reading,
+   string Pronunciation)
 {
    /// <summary>MeCab's "nothing", for a field with no value.</summary>
    public const string Nothing = "*";

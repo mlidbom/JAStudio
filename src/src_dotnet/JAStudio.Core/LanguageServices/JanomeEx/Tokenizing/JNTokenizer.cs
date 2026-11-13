@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.TokenizerDictionaries;
-using MeCab;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
@@ -18,18 +17,10 @@ public sealed class JNTokenizer
 
    public JNTokenizedText Tokenize(string text)
    {
-      //refactor: the tokenizer is MeCab, with the IPADIC dictionary, but the namespace JanomeEx and the types JNTokenizer, JNToken,
+      //refactor: the tokenizer is MeCab, with the UniDic dictionary, but the namespace JanomeEx and the types JNTokenizer, JNToken,
       //   JNTokenizedText, JNPartsOfSpeech and JNPOS are named for Janome, the Python tokenizer JAStudio used before. So is the comment on
       //   JNTokenizedText.RawTokens. The names should say what they are.
-      var tokenizerInput = ReplaceCharactersThatConfuseTheTokenizer(text);
-      var tokens = TokenizeToLinkedTokenList(tokenizerInput);
-
-      if(MisTokenizedQuotativeDatte.AnyIn(tokens))
-      {
-         tokens = TokenizeToLinkedTokenList(MisTokenizedQuotativeDatte.SplitDaFromTteInEach(tokenizerInput, tokens));
-      }
-
-      return new JNTokenizedText(text, tokens);
+      return new JNTokenizedText(text, TokenizeToLinkedTokenList(ReplaceCharactersThatConfuseTheTokenizer(text)));
    }
 
    static string ReplaceCharactersThatConfuseTheTokenizer(string text)
@@ -46,9 +37,9 @@ public sealed class JNTokenizer
       return tokenizerInput;
    }
 
-   List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput)
+   static List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput)
    {
-      var tokens = MisTokenizedIchidanVerbUnknownToTheTokenizer.CorrectEachIn(TokenizeToTokenList(tokenizerInput));
+      var tokens = MisTokenizedIchidanVerbUnknownToTheTokenizer.CorrectEachIn([.. TokenizerDictionary.UniDic.Tokenize(tokenizerInput).Select(TokenOf)]);
       LinkNeighbouringTokens();
       return tokens;
 
@@ -69,43 +60,18 @@ public sealed class JNTokenizer
       }
    }
 
-   List<JNToken> TokenizeToTokenList(string text) =>
-      TokenizerDictionary.TheBundledIpadic.LendATaggerTo(tagger => tagger.ParseToNodes(text)
-                                                                         .Where(it => !IsTheBeginningOrEndOfTheSentence(it))
-                                                                         .Select(TokenOf)
-                                                                         .ToList());
+   static JNToken TokenOf(MeCabToken token) =>
+      new(JNPartsOfSpeech.Fetch(token.PartOfSpeech),
+          baseForm: Sanitize(token.BaseForm),
+          surface: Sanitize(token.Surface),
+          inflectionType: InflectionTypes.GetByName(token.InflectionType),
+          inflectedForm: InflectionForms.GetByName(token.InflectionForm),
+          reading: ValueOrEmpty(token.Reading),
+          phonetic: ValueOrEmpty(token.Pronunciation),
+          lemma: ValueOrEmpty(token.Lemma));
 
-   static bool IsTheBeginningOrEndOfTheSentence(MeCabNode node) =>
-      //bug: this is true of more than the BOS/EOS nodes. MeCab gives every node of a character in its DEFAULT character category CharType 0,
-      //   so such a token is dropped from the sentence: 雨だ♪★😀ね tokenizes as 雨, だ, ♪★, ね, without 😀 (analyze_sentence, 2026-11-12).
-      //   MeCabNode.Stat tells the BOS/EOS nodes apart. Fixing it changes what sentences parse as, so it needs a full rebuild and its analysis.
-      node.CharType == 0;
+   /// <summary><paramref name="value"/>, or nothing for MeCab's "nothing", <c>*</c>, which a word the tokenizer dictionary lacks has for its reading.</summary>
+   static string ValueOrEmpty(string? value) => value is null or MeCabToken.Nothing ? "" : Sanitize(value);
 
-   static JNToken TokenOf(MeCabNode node)
-   {
-      var features = node.Feature.Split(',');
-
-      // IPAdic feature CSV format: POS,sub1,sub2,sub3,inflType,inflForm,baseForm,reading,phonetic
-      var partOfSpeech = string.Join(",", features.Take(4));
-      var inflType = GetFeatureOrEmpty(features, 4);
-      var inflForm = GetFeatureOrEmpty(features, 5);
-      var baseForm = GetFeatureOrEmpty(features, 6);
-      var reading = GetFeatureOrEmpty(features, 7);
-      var phonetic = GetFeatureOrEmpty(features, 8);
-
-      return new JNToken(
-         JNPartsOfSpeech.Fetch(partOfSpeech),
-         baseForm: Sanitize(baseForm),
-         surface: Sanitize(node.Surface),
-         inflectionType: Sanitize(inflType),
-         inflectedForm: Sanitize(inflForm),
-         reading: Sanitize(reading),
-         phonetic: Sanitize(phonetic));
-   }
-
-   static string GetFeatureOrEmpty(string[] features, int index) =>
-      index < features.Length ? features[index] : "";
-
-   static string Sanitize(string? value) =>
-      string.IsNullOrEmpty(value) ? "" : value.Replace("\n", " ").Replace("\r", " ");
+   static string Sanitize(string value) => value.Replace("\n", " ").Replace("\r", " ");
 }

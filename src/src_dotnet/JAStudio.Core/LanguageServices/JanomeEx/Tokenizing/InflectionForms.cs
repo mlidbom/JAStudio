@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-// ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBeInternal
-// ReSharper disable MemberCanBePrivate.Global
-
-#pragma warning disable IDE0051 //unused members
-
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
+/// <summary>
+/// An inflection form, the form the tokenizer's dictionary, UniDic, says an inflecting word has in the text (<c>cForm</c>): 連用形-促音便 for the<br/>
+/// 書い of 書いた, 終止形-一般 for 書く.
+/// </summary>
 public class InflectionForm(string name, string description)
 {
    public string Name { get; } = name;
@@ -16,31 +14,25 @@ public class InflectionForm(string name, string description)
 
    public override string ToString() => $"{Name} - {Description}";
 
-   public override bool Equals(object? obj)
-   {
-      if(obj is InflectionForm other)
-      {
-         return Name == other.Name;
-      }
-
-      return false;
-   }
+   public override bool Equals(object? obj) => obj is InflectionForm other && Name == other.Name;
 
    public override int GetHashCode() => Name.GetHashCode();
 }
 
+/// <summary>Every inflection form the tokenizer's dictionary, UniDic, gives (<see cref="InflectionForm"/>), and the groups of them JAStudio's analysis asks about.</summary>
 public static class InflectionForms
 {
    static readonly Dictionary<string, InflectionForm> AllDict = new();
 
-   static InflectionForm AddForm(string name, string description)
-   {
-      List<InflectionForm> unused =
-      [
-         Basic.Classical, Continuative.RenyoukeiMasuStem, Misc.GaruConnection, Irrealis.GeneralIrrealisMizenkei,
-         Hypothetical.GeneralHypotheticalKateikei, ImperativeMeireikei.E, NounConnection.GeneralNounConnection
-      ];
+   public static readonly InflectionForm Unknown = Add("*", "Unknown");
 
+   static InflectionForms()
+   {
+      foreach(var (name, description) in EveryFormTheDictionaryHas) Add(name, description);
+   }
+
+   static InflectionForm Add(string name, string description)
+   {
       var form = new InflectionForm(name, description);
       AllDict[name] = form;
       return form;
@@ -48,88 +40,85 @@ public static class InflectionForms
 
    public static InflectionForm GetByName(string name) => AllDict[name];
 
-   /// <summary>Whether <paramref name="name"/> is the name of an inflected form the tokenizer gives, such as 連用タ接続.</summary>
+   /// <summary>Whether <paramref name="name"/> is the name of an inflected form the tokenizer gives, such as 連用形-促音便.</summary>
    public static bool IsKnown(string name) => AllDict.ContainsKey(name);
 
    /// <summary>Every inflected form the tokenizer gives: all but <see cref="Unknown"/>.</summary>
    internal static IEnumerable<InflectionForm> All => AllDict.Values.Where(it => !Equals(it, Unknown));
 
-   public static readonly InflectionForm Unknown = AddForm("*", "Unknown");
+   /// <summary>Whether <paramref name="form"/> is one of the forms named <paramref name="names"/>.</summary>
+   static bool IsOneOf(InflectionForm form, params string[] names) => names.Contains(form.Name);
 
-   public static class Basic
-   {
-      public static readonly InflectionForm DictionaryForm = AddForm("基本形", "Dictionary form");
+   /// <summary>
+   /// The dictionary form: the conclusive (終止形-一般), ending a sentence, and the attributive (連体形-一般), before a noun. They're the same for<br/>
+   /// verbs and i-adjectives; the tokenizer tells them apart by what follows.
+   /// </summary>
+   public static bool IsDictionaryForm(InflectionForm form) => IsOneOf(form, "終止形-一般", "連体形-一般");
 
-      public static readonly InflectionForm
-         Gemination = AddForm("基本形-促音便", "Dictionary form with consonant doubling");
+   /// <summary>The continuative, the stem ます attaches to, such as the 書き of 書きます and the 食べ of 食べた (連用形-一般).</summary>
+   public static InflectionForm Continuative => GetByName("連用形-一般");
 
-      public static readonly InflectionForm Euphonic = AddForm("音便基本形", "Dictionary form with sound changes");
-      public static readonly InflectionForm Classical = AddForm("文語基本形", "Dictionary form in classical Japanese");
-      public static readonly InflectionForm Modern = AddForm("現代基本形", "Dictionary form in modern Japanese, of a word the dictionary also has a classical dictionary form of");
-   }
+   /// <summary>
+   /// A godan verb's or an i-adjective's continuative before た and て, with its sound change: the 書い of 書いた (連用形-イ音便), the 言っ of 言った<br/>
+   /// and the よかっ of よかった (連用形-促音便), the 読ん of 読んだ (連用形-撥音便), the 問う of 問うた (連用形-ウ音便).
+   /// </summary>
+   public static bool IsAPastTenseStem(InflectionForm form) => IsOneOf(form, "連用形-促音便", "連用形-イ音便", "連用形-撥音便", "連用形-ウ音便");
 
-   public static class Continuative
-   {
-      public static readonly InflectionForm RenyoukeiMasuStem =
-         AddForm("連用形", "Continuative/masu-stem verbs/adjective");
+   /// <summary>The irrealis, the stem ない and the passive attach to, such as the 書か of 書かない (未然形), with its variants.</summary>
+   public static bool IsIrrealis(InflectionForm form) => form.Name.StartsWith("未然形", System.StringComparison.Ordinal);
 
-      public static readonly InflectionForm TeConnection = AddForm("連用テ接続", "Continuative te-connection");
-      public static readonly InflectionForm TaConnection = AddForm("連用タ接続", "Continuative ta-connection");
-      public static readonly InflectionForm DeConnection = AddForm("連用デ接続", "Continuative de-connection");
-      public static readonly InflectionForm NiConnection = AddForm("連用ニ接続", "Continuative ni-connection");
-      public static readonly InflectionForm GozaiConnection = AddForm("連用ゴザイ接続", "Continuative gozai connection");
+   /// <summary>The irrealis, such as the 書か of 書かない (未然形-一般).</summary>
+   public static InflectionForm Irrealis => GetByName("未然形-一般");
 
-      public static readonly HashSet<InflectionForm> TeConnectionForms = [TeConnection, DeConnection];
-   }
+   /// <summary>The hypothetical, the stem ば attaches to, such as the 書け of 書けば (仮定形-一般).</summary>
+   public static InflectionForm Hypothetical => GetByName("仮定形-一般");
 
-   public static class Misc
-   {
-      public static readonly InflectionForm GaruConnection = AddForm("ガル接続", "Garu connection");
-   }
+   /// <summary>The imperative, such as 書け and 食べろ (命令形).</summary>
+   public static InflectionForm Imperative => GetByName("命令形");
 
-   public static class Irrealis
-   {
-      public static readonly InflectionForm GeneralIrrealisMizenkei =
-         AddForm("未然形", "Irrealis/a-stem : negatives/auxiliaries");
+   /// <summary>The volitional, such as 書こう and 食べよう, which the tokenizer gives as one token (意志推量形).</summary>
+   public static InflectionForm Volitional => GetByName("意志推量形");
 
-      public static readonly InflectionForm SpecialIrrealis = AddForm("未然特殊", "Irrealis - Special");
-
-      public static readonly InflectionForm
-         UConnection = AddForm("未然ウ接続", "Irrealis u-connection - volitional \"u\"");
-
-      public static readonly InflectionForm NuConnection =
-         AddForm("未然ヌ接続", "Irrealis nu-connection - negative \"nu\"");
-
-      public static readonly InflectionForm ReruConnection =
-         AddForm("未然レル接続", "Irrealis reru-connection - passive/potential \"reru\"");
-
-      public static readonly HashSet<InflectionForm> AllForms = [GeneralIrrealisMizenkei, SpecialIrrealis, UConnection, NuConnection, ReruConnection];
-   }
-
-   public static class Hypothetical
-   {
-      public static readonly InflectionForm GeneralHypotheticalKateikei =
-         AddForm("仮定形", "Hypothetical/potential/e-stem verbs+adjectives.");
-
-      public static readonly InflectionForm Contraction1 = AddForm("仮定縮約１", "Hypothetical contraction version 1");
-      public static readonly InflectionForm Contraction2 = AddForm("仮定縮約２", "Hypothetical contraction version 2");
-   }
-
-   public static class ImperativeMeireikei
-   {
-      public static readonly InflectionForm E = AddForm("命令ｅ", "Imperative/command/meireikei -  e");
-      public static readonly InflectionForm Ro = AddForm("命令ｒｏ", "Imperative/command/meireikei - ro");
-      public static readonly InflectionForm Yo = AddForm("命令ｙｏ", "Imperative/command/meireikei - yo");
-      public static readonly InflectionForm I = AddForm("命令ｉ", "Imperative/command/meireikei - i");
-
-      public static readonly HashSet<InflectionForm> GodanForms = [E, I];
-      public static readonly HashSet<InflectionForm> IchidanForms = [Ro, Yo];
-   }
-
-   public static class NounConnection
-   {
-      public static readonly InflectionForm GeneralNounConnection = AddForm("体言接続", "Noun connection");
-      public static readonly InflectionForm Special1 = AddForm("体言接続特殊", "Special noun connection");
-      public static readonly InflectionForm Special2 = AddForm("体言接続特殊２", "Special noun connection 2");
-   }
+   /// <summary>Every inflection form UniDic 2025.12 (unidic-cwj-202512) gives, with its English.</summary>
+   static readonly (string Name, string Description)[] EveryFormTheDictionaryHas =
+   [
+      ("ク語法", "Ku-nominalization (classical)"),
+      ("仮定形-一般", "Hypothetical"),
+      ("仮定形-融合", "Hypothetical, contracted"),
+      ("命令形", "Imperative"),
+      ("已然形-一般", "Realis (classical)"),
+      ("已然形-補助", "Realis (classical), auxiliary"),
+      ("意志推量形", "Volitional/conjectural"),
+      ("未然形-サ", "Irrealis, sa"),
+      ("未然形-セ", "Irrealis, se"),
+      ("未然形-一般", "Irrealis"),
+      ("未然形-撥音便", "Irrealis with ん sound change"),
+      ("未然形-融合", "Irrealis, contracted"),
+      ("未然形-補助", "Irrealis, auxiliary"),
+      ("終止形-一般", "Conclusive (dictionary form)"),
+      ("終止形-促音便", "Conclusive with っ sound change"),
+      ("終止形-撥音便", "Conclusive with ん sound change"),
+      ("終止形-省略", "Conclusive, shortened"),
+      ("終止形-融合", "Conclusive, contracted"),
+      ("終止形-補助", "Conclusive, auxiliary"),
+      ("語幹-サ", "Stem, sa"),
+      ("語幹-一般", "Stem"),
+      ("連体形-イ音便", "Attributive with い sound change"),
+      ("連体形-ウ音便", "Attributive with う sound change"),
+      ("連体形-一般", "Attributive (dictionary form)"),
+      ("連体形-促音便", "Attributive with っ sound change"),
+      ("連体形-撥音便", "Attributive with ん sound change"),
+      ("連体形-省略", "Attributive, shortened"),
+      ("連体形-補助", "Attributive, auxiliary"),
+      ("連用形-イ音便", "Continuative with い sound change"),
+      ("連用形-ウ音便", "Continuative with う sound change"),
+      ("連用形-ト", "Continuative, to"),
+      ("連用形-ニ", "Continuative, ni"),
+      ("連用形-一般", "Continuative (masu stem)"),
+      ("連用形-促音便", "Continuative with っ sound change"),
+      ("連用形-撥音便", "Continuative with ん sound change"),
+      ("連用形-省略", "Continuative, shortened"),
+      ("連用形-融合", "Continuative, contracted"),
+      ("連用形-補助", "Continuative, auxiliary")
+   ];
 }

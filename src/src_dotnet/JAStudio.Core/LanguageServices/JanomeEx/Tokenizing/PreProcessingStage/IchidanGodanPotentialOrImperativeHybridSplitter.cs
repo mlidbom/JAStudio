@@ -12,7 +12,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
 
    public static List<IAnalysisToken>? TrySplit(JNToken token, VocabCollection vocabs, DictLookup dictLookup)
    {
-      if(Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.Ro))
+      if(IsAnIchidanImperativeInRo(token))
       {
          return null;
       }
@@ -36,30 +36,20 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
       return null;
    }
 
+   /// <summary>An ichidan verb's imperative in ろ, such as 食べろ, which no godan verb's imperative or potential form looks like.</summary>
+   static bool IsAnIchidanImperativeInRo(JNToken token) =>
+      token.IsIchidanVerb && Equals(token.InflectedForm, InflectionForms.Imperative) && token.Surface.EndsWithOrdinal("ろ");
+
    static List<IAnalysisToken> SplitGodanImperative(JNToken token, string godanBase)
    {
-      if(Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.Yo))
-      {
-         // Handles cases like 放せよ which janome turns into a single token and believes is an ichidan よ imperative
-         var godanSurface = token.Surface[..^2];
-         var imperativePart = token.Surface[^2..^1];
-         return
-         [
-            new SplitToken(token, godanSurface, godanBase, isInflectableWord: true, isGodanImperativeStem: true),
-            new SplitToken(token, imperativePart, "え", isInflectableWord: true, isGodanImperativeInflection: true),
-            new SplitToken(token, "よ", "よ", isInflectableWord: false)
-         ];
-      } else
-      {
-         var godanSurface = token.Surface[..^1];
-         var imperativePart = token.Surface[^1..];
-         var imperativeBase = imperativePart == "い" ? "い" : "え";
-         return
-         [
-            new SplitToken(token, godanSurface, godanBase, isInflectableWord: true, isGodanImperativeStem: true),
-            new SplitToken(token, imperativePart, imperativeBase, isInflectableWord: true, isGodanImperativeInflection: true)
-         ];
-      }
+      var godanSurface = token.Surface[..^1];
+      var imperativePart = token.Surface[^1..];
+      var imperativeBase = imperativePart == "い" ? "い" : "え";
+      return
+      [
+         new SplitToken(token, godanSurface, godanBase, isInflectableWord: true, isGodanImperativeStem: true),
+         new SplitToken(token, imperativePart, imperativeBase, isInflectableWord: true, isGodanImperativeInflection: true)
+      ];
    }
 
    static List<IAnalysisToken> SplitGodanPotential(JNToken token, string godanBase)
@@ -133,8 +123,7 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
 
    static bool IsImperativeGodan(VocabCollection vocabs, DictLookup dictLookup, JNToken token, string godanBase)
    {
-      if(!Conjugator.GodanImperativeVerbEndings.Contains(token.Surface[^1..]) &&
-         !Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.Yo))
+      if(!Conjugator.GodanImperativeVerbEndings.Contains(token.Surface[^1..]))
       {
          return false;
       }
@@ -153,10 +142,6 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
          return true;
       } else if(token.Next == null || token.IsEndOfStatement)
       {
-         return true;
-      } else if(Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.Yo))
-      {
-         // Handles cases like 放せよ which janome turns into a single token and believes is an ichidan よ imperative
          return true;
       } else if(token.Next != null && token.Next.IsMoreLikelyToFollowImperativeThanIchidanStem())
       {

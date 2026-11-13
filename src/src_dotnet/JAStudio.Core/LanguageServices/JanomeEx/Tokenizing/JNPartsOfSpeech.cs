@@ -38,14 +38,13 @@ public class JNPartsOfSpeech
    {
       // Initialize all part of speech descriptions
       InitializeDescriptions();
-      // Force initialization of all nested classes
+      // Force initialization of every nested class, so that every part of speech the tokenizer gives is registered: a member of each, since
+      // using a nested class's member initializes that class alone, not the class it's nested in
       List<JNPartsOfSpeech> unused =
       [
-         JNPOS.Filler, JNPOS.Other.Interjection, JNPOS.Adverb.General, JNPOS.Particle.Binding,
-         JNPOS.Particle.CaseMarking.General, JNPOS.Verb.Independent, JNPOS.Noun.General,
-         JNPOS.Noun.Pronoun.General, JNPOS.Noun.ProperNoun.General, JNPOS.Noun.ProperNoun.Person.General,
-         JNPOS.Noun.ProperNoun.Location.General, JNPOS.Noun.Suffix.General, JNPOS.Noun.Special.AuxiliaryVerbStem,
-         JNPOS.Noun.Dependent.General, JNPOS.Adjective.Independent, JNPOS.Prefix.Noun, JNPOS.Symbol.General
+         JNPOS.Pronoun, JNPOS.Noun.Numeral, JNPOS.Noun.Common.General, JNPOS.Noun.Proper.General, JNPOS.Noun.Proper.Person.General, JNPOS.Noun.Proper.Place.General,
+         JNPOS.AdjectivalNoun.General, JNPOS.Interjection.General, JNPOS.Verb.General, JNPOS.Adjective.General, JNPOS.Particle.Binding,
+         JNPOS.Suffix.VerbLike, JNPOS.Suffix.NounLike.General, JNPOS.Symbol.General, JNPOS.SupplementarySymbol.General, JNPOS.SupplementarySymbol.AsciiArt.General
       ];
    }
 
@@ -90,8 +89,11 @@ public class JNPartsOfSpeech
    /// <summary>The English name of the part-of-speech level <paramref name="japaneseLevel"/>, such as "suffix" for 接尾.</summary>
    public static string EnglishNameOf(string japaneseLevel) => JapaneseToPartOfSpeech[japaneseLevel].English;
 
-   public bool IsNonWordCharacter() => Level1.Japanese == "記号";
-   public bool IsNoun() => Level1.Japanese == "名詞";
+   /// <summary>A symbol, punctuation or whitespace: 記号, 補助記号 or 空白.</summary>
+   public bool IsNonWordCharacter() => Level1.Japanese is "記号" or "補助記号" or "空白";
+
+   /// <summary>A noun or a pronoun: UniDic has pronouns as a part of speech of their own, where IPADIC had them as a kind of noun.</summary>
+   public bool IsNoun() => Level1.Japanese is "名詞" or "代名詞";
 
    public override string ToString() =>
       string.Concat(
@@ -118,69 +120,61 @@ public class JNPartsOfSpeech
    {
       // Level 1
       AddDescription(new PartOfSpeechDescription("名詞", "noun", "Names things or ideas"));
-      AddDescription(new PartOfSpeechDescription("形容詞", "i-adjective", "Describes nouns"));
+      AddDescription(new PartOfSpeechDescription("代名詞", "pronoun", "Replaces a noun, e.g., he, she, it"));
+      AddDescription(new PartOfSpeechDescription("形状詞", "adjectival noun", "Na-adjectives, describing nouns with な"));
       AddDescription(new PartOfSpeechDescription("連体詞", "pre-noun adjectival / adnominal-adjective", "Modifies nouns directly"));
-      AddDescription(new PartOfSpeechDescription("接続詞的", "conjunctive", "words or expressions that function in a manner similar to conjunctions"));
-      AddDescription(new PartOfSpeechDescription("動詞", "verb", "Indicates action"));
       AddDescription(new PartOfSpeechDescription("副詞", "adverb", "Modifies verbs/adjectives"));
-      AddDescription(new PartOfSpeechDescription("助動詞", "bound-auxiliary", "Modifies verb tense/mood"));
-      AddDescription(new PartOfSpeechDescription("助詞", "particle", "Functional word indicating relation such as marking direct object, subject etc"));
       AddDescription(new PartOfSpeechDescription("接続詞", "conjunction", "Connects words/clauses"));
       AddDescription(new PartOfSpeechDescription("感動詞", "interjection", "Expresses emotion"));
-      AddDescription(new PartOfSpeechDescription("接頭詞", "prefix", "Added to beginning of words"));
-      AddDescription(new PartOfSpeechDescription("フィラー", "filler", "Sound/word filling a pause"));
-      AddDescription(new PartOfSpeechDescription("記号", "symbol", "Punctuation, special symbols"));
-      AddDescription(new PartOfSpeechDescription("その他", "others", "Miscellaneous, doesn't fit other categories"));
+      AddDescription(new PartOfSpeechDescription("動詞", "verb", "Indicates action"));
+      AddDescription(new PartOfSpeechDescription("形容詞", "i-adjective", "Describes nouns"));
+      AddDescription(new PartOfSpeechDescription("助動詞", "bound-auxiliary", "Modifies verb tense/mood"));
+      AddDescription(new PartOfSpeechDescription("助詞", "particle", "Functional word indicating relation such as marking direct object, subject etc"));
+      AddDescription(new PartOfSpeechDescription("接頭辞", "prefix", "Added to beginning of words"));
+      AddDescription(new PartOfSpeechDescription("接尾辞", "suffix", "Appended to end of words"));
+      AddDescription(new PartOfSpeechDescription("記号", "symbol", "Symbols and characters, such as letters"));
+      AddDescription(new PartOfSpeechDescription("補助記号", "punctuation", "Punctuation, brackets and other supplementary symbols"));
+      AddDescription(new PartOfSpeechDescription("空白", "space", "Whitespace or blank space"));
 
       // Level 2, 3, 4 common
       AddDescription(new PartOfSpeechDescription("*", "*", "Wildcard or general category"));
       AddDescription(new PartOfSpeechDescription("一般", "general", "Generic, non-specific"));
-      AddDescription(new PartOfSpeechDescription("サ変接続", "suru-verb", "Nouns convertible into verbs with 'する'"));
-      AddDescription(new PartOfSpeechDescription("特殊", "special", "Irregular forms"));
-      AddDescription(new PartOfSpeechDescription("副詞可能", "adverbial", "Nouns/verbs that can function as adverbs"));
-      AddDescription(new PartOfSpeechDescription("形容動詞語幹", "na-adjective stem", "Base form of na-adjectives"));
 
       // Level 2
-      AddDescription(new PartOfSpeechDescription("自立", "independent", "Not dependent on other words"));
-      AddDescription(new PartOfSpeechDescription("動詞接続", "verb-connective", "indicates a form or a word that is used to connect with or modify a verb"));
-      AddDescription(new PartOfSpeechDescription("代名詞", "pronoun", "Replaces a noun, e.g., he, she, it"));
-      AddDescription(new PartOfSpeechDescription("係助詞", "binding", "Connects words/clauses, e.g., は, も"));
-      AddDescription(new PartOfSpeechDescription("読点", "comma", "Punctuation to separate elements"));
-      AddDescription(new PartOfSpeechDescription("連体化", "adnominalization", "Turns word into modifier for nouns"));
-      AddDescription(new PartOfSpeechDescription("副助詞", "adverbial", "Adverbial particle, modifies verbs"));
-      AddDescription(new PartOfSpeechDescription("副助詞／並立助詞／終助詞", "adverbial/coordinating-conjunction/ending", "Various particle types"));
-      AddDescription(new PartOfSpeechDescription("形容詞接続", "adjective-connection", "Connects adjectives"));
-      AddDescription(new PartOfSpeechDescription("副詞化", "adverbialization", "Turns word into adverb"));
-      AddDescription(new PartOfSpeechDescription("間投", "interjection", "Expresses emotion or marks a pause"));
-      AddDescription(new PartOfSpeechDescription("非自立", "dependent", "Depends on another word to convey meaning"));
-      AddDescription(new PartOfSpeechDescription("括弧閉", "closing-bracket", "Closing bracket punctuation"));
-      AddDescription(new PartOfSpeechDescription("括弧開", "opening-bracket", "Opening bracket punctuation"));
-      AddDescription(new PartOfSpeechDescription("接尾", "suffix", "Appended to end of words"));
-      AddDescription(new PartOfSpeechDescription("接続助詞", "conjunctive", "Connects clauses or sentences"));
-      AddDescription(new PartOfSpeechDescription("助詞類接続", "particle-connection", "Connects particles"));
-      AddDescription(new PartOfSpeechDescription("数", "numeric", "Numerical expressions"));
-      AddDescription(new PartOfSpeechDescription("動詞非自立的", "auxiliary-verb", "Auxiliary verb form"));
-      AddDescription(new PartOfSpeechDescription("数接続", "numeric-connection", "Numeric connectors"));
-      AddDescription(new PartOfSpeechDescription("句点", "period", "Ending punctuation mark"));
-      AddDescription(new PartOfSpeechDescription("格助詞", "case-particle", "Indicates grammatical case"));
-      AddDescription(new PartOfSpeechDescription("アルファベット", "alphabet", "Alphabetical characters"));
-      AddDescription(new PartOfSpeechDescription("ナイ形容詞語幹", "negative-adjective-stem", "Negative adjective stem form"));
-      AddDescription(new PartOfSpeechDescription("空白", "space", "Whitespace or blank space"));
-      AddDescription(new PartOfSpeechDescription("名詞接続", "noun-connection", "Noun connectors"));
-      AddDescription(new PartOfSpeechDescription("終助詞", "sentence-ending", "Ends the sentence"));
+      AddDescription(new PartOfSpeechDescription("普通名詞", "common-noun", "A noun that isn't a name"));
       AddDescription(new PartOfSpeechDescription("固有名詞", "proper-noun", "Names of specific entities, like Tokyo"));
-      AddDescription(new PartOfSpeechDescription("並立助詞", "coordinating-conjunction", "Connects equal grammatical items, e.g., and, or"));
-      AddDescription(new PartOfSpeechDescription("引用文字列", "quoted-character-string", "quoted-character-string"));
+      AddDescription(new PartOfSpeechDescription("数詞", "numeral", "Numbers"));
+      AddDescription(new PartOfSpeechDescription("助動詞語幹", "auxiliary-verb-stem", "Base form of auxiliary verbs, such as そう and よう"));
+      AddDescription(new PartOfSpeechDescription("非自立可能", "possibly-dependent", "May depend on another word, as an auxiliary does, such as いる after a て-form"));
+      AddDescription(new PartOfSpeechDescription("タリ", "tari", "Classical adjectival noun that takes たる or と, such as 堂々"));
+      AddDescription(new PartOfSpeechDescription("フィラー", "filler", "Sound/word filling a pause"));
+      AddDescription(new PartOfSpeechDescription("係助詞", "binding", "Connects words/clauses, e.g., は, も"));
+      AddDescription(new PartOfSpeechDescription("副助詞", "adverbial", "Adverbial particle, modifies verbs"));
+      AddDescription(new PartOfSpeechDescription("接続助詞", "conjunctive", "Connects clauses or sentences"));
+      AddDescription(new PartOfSpeechDescription("格助詞", "case-particle", "Indicates grammatical case"));
+      AddDescription(new PartOfSpeechDescription("準体助詞", "nominalizing", "Makes what precedes it a noun, such as の and ん"));
+      AddDescription(new PartOfSpeechDescription("終助詞", "sentence-ending", "Ends the sentence"));
+      AddDescription(new PartOfSpeechDescription("名詞的", "noun-like", "Makes a noun"));
+      AddDescription(new PartOfSpeechDescription("動詞的", "verb-like", "Makes a verb"));
+      AddDescription(new PartOfSpeechDescription("形容詞的", "adjective-like", "Makes an i-adjective"));
+      AddDescription(new PartOfSpeechDescription("形状詞的", "adjectival-noun-like", "Makes an adjectival noun"));
+      AddDescription(new PartOfSpeechDescription("文字", "character", "A letter or other character"));
+      AddDescription(new PartOfSpeechDescription("句点", "period", "Ending punctuation mark"));
+      AddDescription(new PartOfSpeechDescription("読点", "comma", "Punctuation to separate elements"));
+      AddDescription(new PartOfSpeechDescription("括弧開", "opening-bracket", "Opening bracket punctuation"));
+      AddDescription(new PartOfSpeechDescription("括弧閉", "closing-bracket", "Closing bracket punctuation"));
+      AddDescription(new PartOfSpeechDescription("ＡＡ", "ascii-art", "Pictures drawn with characters"));
 
       // Level 3
+      AddDescription(new PartOfSpeechDescription("サ変可能", "suru-verb", "Nouns convertible into verbs with 'する'"));
+      AddDescription(new PartOfSpeechDescription("形状詞可能", "adjectival", "Nouns that can be used as adjectival nouns, with な"));
+      AddDescription(new PartOfSpeechDescription("サ変形状詞可能", "suru-verb-or-adjectival", "Nouns that can take する, or be used as adjectival nouns"));
+      AddDescription(new PartOfSpeechDescription("副詞可能", "adverbial", "Nouns that can function as adverbs"));
+      AddDescription(new PartOfSpeechDescription("助数詞可能", "counter-possible", "Nouns that can be used as counters"));
       AddDescription(new PartOfSpeechDescription("助数詞", "counter", "Counting words, e.g., つ, 本"));
-      AddDescription(new PartOfSpeechDescription("連語", "compound", "Compound words, two or more words combined"));
       AddDescription(new PartOfSpeechDescription("人名", "person-name", "Names of people"));
-      AddDescription(new PartOfSpeechDescription("地域", "region", "Names of regions, cities, countries"));
-      AddDescription(new PartOfSpeechDescription("引用", "quotation", "Quotation or citation"));
-      AddDescription(new PartOfSpeechDescription("組織", "organization", "Names of organizations, companies"));
-      AddDescription(new PartOfSpeechDescription("助動詞語幹", "auxiliary-verb-stem", "Base form of auxiliary verbs"));
-      AddDescription(new PartOfSpeechDescription("縮約", "contraction", "Contracted forms, e.g., can't, don't"));
+      AddDescription(new PartOfSpeechDescription("地名", "place-name", "Names of places"));
+      AddDescription(new PartOfSpeechDescription("顔文字", "emoticon", "Faces drawn with characters"));
 
       // Level 4
       AddDescription(new PartOfSpeechDescription("名", "first-name", "Given names"));
@@ -189,75 +183,38 @@ public class JNPartsOfSpeech
    }
 }
 
+/// <summary>
+/// The parts of speech the tokenizer's dictionary, UniDic, gives, each with its levels from the top: every one it has is registered here, so that<br/>
+/// <see cref="JNPartsOfSpeech.Fetch"/> knows it.
+/// </summary>
 public static class JNPOS
 {
-   public static readonly JNPartsOfSpeech Filler = JNPartsOfSpeech.AddFullPartOfSpeech("フィラー");
+   public static readonly JNPartsOfSpeech Pronoun = JNPartsOfSpeech.AddFullPartOfSpeech("代名詞");
+   public static readonly JNPartsOfSpeech Adverb = JNPartsOfSpeech.AddFullPartOfSpeech("副詞");
    public static readonly JNPartsOfSpeech BoundAuxiliary = JNPartsOfSpeech.AddFullPartOfSpeech("助動詞");
    public static readonly JNPartsOfSpeech PreNounAdjectival = JNPartsOfSpeech.AddFullPartOfSpeech("連体詞");
-   public static readonly JNPartsOfSpeech Interjection = JNPartsOfSpeech.AddFullPartOfSpeech("感動詞");
    public static readonly JNPartsOfSpeech Conjunction = JNPartsOfSpeech.AddFullPartOfSpeech("接続詞");
-
-   public static class Other
-   {
-      public static readonly JNPartsOfSpeech Interjection = JNPartsOfSpeech.AddFullPartOfSpeech("その他", "間投");
-   }
-
-   public static class Adverb
-   {
-      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("副詞", "一般");
-      public static readonly JNPartsOfSpeech ParticleConnection = JNPartsOfSpeech.AddFullPartOfSpeech("副詞", "助詞類接続");
-   }
-
-   public static class Particle
-   {
-      public static readonly JNPartsOfSpeech CoordinatingConjunction = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "並立助詞");
-      public static readonly JNPartsOfSpeech Binding = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "係助詞");
-      public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "副助詞");
-      public static readonly JNPartsOfSpeech AdverbialCoordinatingEnding = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "副助詞／並立助詞／終助詞");
-      public static readonly JNPartsOfSpeech Adverbialization = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "副詞化");
-      public static readonly JNPartsOfSpeech Conjunctive = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "接続助詞");
-      public static readonly JNPartsOfSpeech Special = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "特殊");
-      public static readonly JNPartsOfSpeech SentenceEnding = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "終助詞");
-      public static readonly JNPartsOfSpeech Adnominalization = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "連体化");
-
-      public static class CaseMarking
-      {
-         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "格助詞", "一般");
-         public static readonly JNPartsOfSpeech Quotation = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "格助詞", "引用");
-         public static readonly JNPartsOfSpeech Compound = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "格助詞", "連語");
-      }
-   }
-
-   public static class Verb
-   {
-      public static readonly JNPartsOfSpeech Suffix = JNPartsOfSpeech.AddFullPartOfSpeech("動詞", "接尾");
-      public static readonly JNPartsOfSpeech Independent = JNPartsOfSpeech.AddFullPartOfSpeech("動詞", "自立");
-      public static readonly JNPartsOfSpeech Dependent = JNPartsOfSpeech.AddFullPartOfSpeech("動詞", "非自立");
-      public static readonly HashSet<JNPartsOfSpeech> AllTypes = [Independent, Dependent, Suffix];
-   }
+   public static readonly JNPartsOfSpeech Prefix = JNPartsOfSpeech.AddFullPartOfSpeech("接頭辞");
+   public static readonly JNPartsOfSpeech Space = JNPartsOfSpeech.AddFullPartOfSpeech("空白");
 
    public static class Noun
    {
-      public static readonly JNPartsOfSpeech SuruVerb = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "サ変接続");
-      public static readonly JNPartsOfSpeech NegativeAdjectiveStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "ナイ形容詞語幹");
-      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "一般");
-      public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "副詞可能");
-      public static readonly JNPartsOfSpeech AuxiliaryVerb = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "動詞非自立的");
-      public static readonly JNPartsOfSpeech NaAdjectiveStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "形容動詞語幹");
-      public static readonly JNPartsOfSpeech Numeric = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "数");
-      public static readonly JNPartsOfSpeech Conjunctive = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接続詞的");
-      public static readonly JNPartsOfSpeech QuotedCharacterString = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "引用文字列");
+      public static readonly JNPartsOfSpeech Numeral = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "数詞");
+      public static readonly JNPartsOfSpeech AuxiliaryVerbStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "助動詞語幹");
 
-      public static class Pronoun
+      public static class Common
       {
-         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "代名詞", "一般");
-         public static readonly JNPartsOfSpeech Contracted = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "代名詞", "縮約");
+         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "普通名詞", "一般");
+         public static readonly JNPartsOfSpeech SuruVerb = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "普通名詞", "サ変可能");
+         public static readonly JNPartsOfSpeech Adjectival = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "普通名詞", "形状詞可能");
+         public static readonly JNPartsOfSpeech SuruVerbOrAdjectival = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "普通名詞", "サ変形状詞可能");
+         public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "普通名詞", "副詞可能");
+         public static readonly JNPartsOfSpeech CounterPossible = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "普通名詞", "助数詞可能");
       }
 
-      public static class ProperNoun
+      public static class Proper
       {
          public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "一般");
-         public static readonly JNPartsOfSpeech Organization = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "組織");
 
          public static class Person
          {
@@ -266,64 +223,90 @@ public static class JNPOS
             public static readonly JNPartsOfSpeech Surname = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "人名", "姓");
          }
 
-         public static class Location
+         public static class Place
          {
-            public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "地域", "一般");
-            public static readonly JNPartsOfSpeech Country = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "地域", "国");
+            public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "地名", "一般");
+            public static readonly JNPartsOfSpeech Country = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "固有名詞", "地名", "国");
          }
       }
+   }
 
-      public static class Suffix
-      {
-         public static readonly JNPartsOfSpeech SuruVerbConnection = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "サ変接続");
-         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "一般");
-         public static readonly JNPartsOfSpeech PersonsName = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "人名");
-         public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "副詞可能");
-         public static readonly JNPartsOfSpeech AuxiliaryVerbStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "助動詞語幹");
-         public static readonly JNPartsOfSpeech Counter = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "助数詞");
-         public static readonly JNPartsOfSpeech Region = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "地域");
-         public static readonly JNPartsOfSpeech NaAdjectiveStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "形容動詞語幹");
-         public static readonly JNPartsOfSpeech Special = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "接尾", "特殊");
-      }
+   /// <summary>Adjectival nouns, 形状詞: the na-adjectives, such as 静か, and the stems of the auxiliaries そう and よう.</summary>
+   public static class AdjectivalNoun
+   {
+      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("形状詞", "一般");
+      public static readonly JNPartsOfSpeech Tari = JNPartsOfSpeech.AddFullPartOfSpeech("形状詞", "タリ");
+      public static readonly JNPartsOfSpeech AuxiliaryVerbStem = JNPartsOfSpeech.AddFullPartOfSpeech("形状詞", "助動詞語幹");
+   }
 
-      public static class Special
-      {
-         public static readonly JNPartsOfSpeech AuxiliaryVerbStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "特殊", "助動詞語幹");
-      }
+   public static class Interjection
+   {
+      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("感動詞", "一般");
+      public static readonly JNPartsOfSpeech Filler = JNPartsOfSpeech.AddFullPartOfSpeech("感動詞", "フィラー");
+   }
 
-      public static class Dependent
-      {
-         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "非自立", "一般");
-         public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "非自立", "副詞可能");
-         public static readonly JNPartsOfSpeech AuxiliaryVerbStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "非自立", "助動詞語幹");
-         public static readonly JNPartsOfSpeech NaAdjectiveStem = JNPartsOfSpeech.AddFullPartOfSpeech("名詞", "非自立", "形容動詞語幹");
-      }
+   /// <summary>
+   /// Verbs. UniDic doesn't tell a verb used on its own from one used as an auxiliary, as IPADIC's 自立 and 非自立 did: those that can be<br/>
+   /// auxiliaries, such as いる, おく and 来る, are 非自立可能 wherever they are.
+   /// </summary>
+   public static class Verb
+   {
+      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("動詞", "一般");
+      public static readonly JNPartsOfSpeech PossiblyDependent = JNPartsOfSpeech.AddFullPartOfSpeech("動詞", "非自立可能");
+      public static readonly HashSet<JNPartsOfSpeech> AllTypes = [General, PossiblyDependent];
    }
 
    public static class Adjective
    {
-      public static readonly JNPartsOfSpeech Suffix = JNPartsOfSpeech.AddFullPartOfSpeech("形容詞", "接尾");
-      public static readonly JNPartsOfSpeech Independent = JNPartsOfSpeech.AddFullPartOfSpeech("形容詞", "自立");
-      public static readonly JNPartsOfSpeech Dependent = JNPartsOfSpeech.AddFullPartOfSpeech("形容詞", "非自立");
-      public static readonly HashSet<JNPartsOfSpeech> AllTypes = [Independent, Dependent, Suffix];
+      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("形容詞", "一般");
+      public static readonly JNPartsOfSpeech PossiblyDependent = JNPartsOfSpeech.AddFullPartOfSpeech("形容詞", "非自立可能");
+      public static readonly HashSet<JNPartsOfSpeech> AllTypes = [General, PossiblyDependent];
    }
 
-   public static class Prefix
+   public static class Particle
    {
-      public static readonly JNPartsOfSpeech Noun = JNPartsOfSpeech.AddFullPartOfSpeech("接頭詞", "名詞接続");
-      public static readonly JNPartsOfSpeech Adjective = JNPartsOfSpeech.AddFullPartOfSpeech("接頭詞", "形容詞接続");
-      public static readonly JNPartsOfSpeech Number = JNPartsOfSpeech.AddFullPartOfSpeech("接頭詞", "数接続");
-      public static readonly JNPartsOfSpeech VerbConnective = JNPartsOfSpeech.AddFullPartOfSpeech("接頭詞", "動詞接続");
+      public static readonly JNPartsOfSpeech Binding = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "係助詞");
+      public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "副助詞");
+      public static readonly JNPartsOfSpeech Conjunctive = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "接続助詞");
+      public static readonly JNPartsOfSpeech CaseMarking = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "格助詞");
+      public static readonly JNPartsOfSpeech Nominalizing = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "準体助詞");
+      public static readonly JNPartsOfSpeech SentenceEnding = JNPartsOfSpeech.AddFullPartOfSpeech("助詞", "終助詞");
+   }
+
+   public static class Suffix
+   {
+      public static readonly JNPartsOfSpeech VerbLike = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "動詞的");
+      public static readonly JNPartsOfSpeech AdjectiveLike = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "形容詞的");
+      public static readonly JNPartsOfSpeech AdjectivalNounLike = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "形状詞的");
+
+      public static class NounLike
+      {
+         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "名詞的", "一般");
+         public static readonly JNPartsOfSpeech SuruVerb = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "名詞的", "サ変可能");
+         public static readonly JNPartsOfSpeech Adverbial = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "名詞的", "副詞可能");
+         public static readonly JNPartsOfSpeech Counter = JNPartsOfSpeech.AddFullPartOfSpeech("接尾辞", "名詞的", "助数詞");
+      }
    }
 
    public static class Symbol
    {
-      public static readonly JNPartsOfSpeech Alphabet = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "アルファベット");
       public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "一般");
-      public static readonly JNPartsOfSpeech Period = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "句点");
-      public static readonly JNPartsOfSpeech ClosingBracket = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "括弧閉");
-      public static readonly JNPartsOfSpeech OpeningBracket = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "括弧開");
-      public static readonly JNPartsOfSpeech Space = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "空白");
-      public static readonly JNPartsOfSpeech Comma = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "読点");
+      public static readonly JNPartsOfSpeech Character = JNPartsOfSpeech.AddFullPartOfSpeech("記号", "文字");
+   }
+
+   /// <summary>Punctuation, brackets and other supplementary symbols, 補助記号.</summary>
+   public static class SupplementarySymbol
+   {
+      public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "一般");
+      public static readonly JNPartsOfSpeech Period = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "句点");
+      public static readonly JNPartsOfSpeech Comma = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "読点");
+      public static readonly JNPartsOfSpeech OpeningBracket = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "括弧開");
+      public static readonly JNPartsOfSpeech ClosingBracket = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "括弧閉");
+
+      public static class AsciiArt
+      {
+         public static readonly JNPartsOfSpeech General = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "ＡＡ", "一般");
+         public static readonly JNPartsOfSpeech Emoticon = JNPartsOfSpeech.AddFullPartOfSpeech("補助記号", "ＡＡ", "顔文字");
+      }
    }
 }

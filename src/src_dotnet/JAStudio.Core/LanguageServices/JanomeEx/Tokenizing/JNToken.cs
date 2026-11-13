@@ -16,41 +16,37 @@ public class JNToken : IAnalysisToken
       JNPartsOfSpeech partsOfSpeech,
       string baseForm,
       string surface,
-      object? inflectionType = null,
-      object? inflectedForm = null,
+      InflectionType? inflectionType = null,
+      InflectionForm? inflectedForm = null,
       string reading = "",
       string phonetic = "",
-      string nodeType = "")
+      string lemma = "")
    {
       _baseForm = baseForm;
       _surface = surface;
-
-      // Python defaults to "*" when not provided
-      inflectionType ??= "*";
-      inflectedForm ??= "*";
-
-      InflectionType = inflectionType is string str1
-                          ? InflectionTypes.GetByName(str1)
-                          : (InflectionType)inflectionType;
-
-      InflectedForm = inflectedForm is string str2
-                         ? InflectionForms.GetByName(str2)
-                         : (InflectionForm)inflectedForm;
-
+      InflectionType = inflectionType ?? InflectionTypes.Unknown;
+      InflectedForm = inflectedForm ?? InflectionForms.Unknown;
       Reading = reading;
       Phonetic = phonetic;
-      NodeType = nodeType;
+      Lemma = lemma;
       PartsOfSpeech = partsOfSpeech;
    }
 
    public InflectionType InflectionType { get; }
    public InflectionForm InflectedForm { get; }
-   // ReSharper disable once UnusedAutoPropertyAccessor.Global
+
+   /// <summary>The token's reading, in katakana, as it's written: は's is ハ.</summary>
    public string Reading { get; }
-   // ReSharper disable once UnusedAutoPropertyAccessor.Global
+
+   /// <summary>The token's pronunciation, in katakana: は's is ワ.</summary>
    public string Phonetic { get; }
-   // ReSharper disable once UnusedAutoPropertyAccessor.Global
-   public string NodeType { get; }
+
+   /// <summary>
+   /// The tokenizer dictionary's lemma, its word for the token, uniting the word's spellings: ボク's is 僕, and the 書け of 書ける, a potential form, has 書く.<br/>
+   /// Spelled the dictionary's way, sometimes with a sub-classification after a hyphen, such as 僕-代名詞; a proper noun's is its reading in katakana.
+   /// </summary>
+   public string Lemma { get; }
+
    public JNPartsOfSpeech PartsOfSpeech { get; }
 
    public JNToken? Next { get; internal set; }
@@ -88,15 +84,14 @@ public class JNToken : IAnalysisToken
    public override int GetHashCode() => HashCode.Combine(BaseForm, Surface, InflectionType, InflectedForm, PartsOfSpeech);
 
    // <IAnalysisToken implementation>
-   public override bool IsPastTenseStem => Equals(InflectedForm, InflectionForms.Continuative.TaConnection);
-   public override bool IsPastTenseMarker => Equals(InflectionType, InflectionTypes.Special.Ta);
+   public override bool IsPastTenseStem => InflectionForms.IsAPastTenseStem(InflectedForm);
+   public override bool IsPastTenseMarker => Equals(InflectionType, InflectionTypes.Auxiliary.Ta);
 
-   public override bool IsMasuStem =>
-      Equals(InflectedForm, InflectionForms.Continuative.RenyoukeiMasuStem) && IsVerb;
+   public override bool IsMasuStem => Equals(InflectedForm, InflectionForms.Continuative) && IsVerb;
 
    public override bool IsAdverb =>
-      Equals(PartsOfSpeech, JNPOS.Adverb.General) ||
-      (JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech) && Surface.EndsWithOrdinal("く"));
+      Equals(PartsOfSpeech, JNPOS.Adverb) ||
+      (IsAdjective && Surface.EndsWithOrdinal("く"));
 
    public override string Surface => _surface;
    public override string BaseForm => _baseForm;
@@ -107,31 +102,34 @@ public class JNToken : IAnalysisToken
       IsVerb || IsAdjective || PseudoVerbsForInflectionPurposes.Contains(BaseForm);
 
    public override bool IsNonWordCharacter => PartsOfSpeech.IsNonWordCharacter();
-   public override bool IsIrrealis => InflectionForms.Irrealis.AllForms.Contains(InflectedForm);
+   public override bool IsIrrealis => InflectionForms.IsIrrealis(InflectedForm);
    public override JNToken SourceToken => this;
    // </IAnalysisToken implementation>
 
+   /// <summary>
+   /// A verb, or an auxiliary that inflects as one, such as てる, ちゃう, れる and させる, which IPADIC, the tokenizer's former dictionary, had as<br/>
+   /// verbs and UniDic has as auxiliaries, or ます.
+   /// </summary>
    public bool IsVerb =>
       JNPOS.Verb.AllTypes.Contains(PartsOfSpeech) ||
-      Equals(InflectionType, InflectionTypes.Special.Masu);
+      Equals(PartsOfSpeech, JNPOS.Suffix.VerbLike) ||
+      (Equals(PartsOfSpeech, JNPOS.BoundAuxiliary) && InflectsAsAVerb) ||
+      Equals(InflectionType, InflectionTypes.Auxiliary.Masu);
 
-   public bool IsAdjective => JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech);
+   bool InflectsAsAVerb => IsGodanVerb || IsIchidanVerb || IsKuruVerb || IsSuruVerb;
 
-   public override bool IsIchidanVerb => InflectionType.Family == InflectionTypes.Ichidan.Family;
+   /// <summary>An i-adjective, or a suffix that makes one, such as っぽい.</summary>
+   public bool IsAdjective => JNPOS.Adjective.AllTypes.Contains(PartsOfSpeech) || Equals(PartsOfSpeech, JNPOS.Suffix.AdjectiveLike);
 
-   static readonly HashSet<string> ActuallySuruVerbsNotGodan = ["する", "為る"];
+   public override bool IsIchidanVerb => InflectionTypes.Ichidan.Includes(InflectionType);
 
-   public override bool IsGodanVerb =>
-      InflectionType.Family == InflectionTypes.Godan.Family &&
-      !ActuallySuruVerbsNotGodan.Contains(BaseForm);
+   public override bool IsGodanVerb => InflectionType.Family == InflectionTypes.Godan.Family;
 
    public bool IsKuruVerb => InflectionType.Family == InflectionTypes.Kahen.Family;
 
-   public bool IsSuruVerb =>
-      InflectionType.Family == InflectionTypes.Sahen.Family ||
-      ActuallySuruVerbsNotGodan.Contains(BaseForm);
+   public bool IsSuruVerb => InflectionType.Family == InflectionTypes.Sahen.Family;
 
-   public bool IsDictionaryForm() => Equals(InflectedForm, InflectionForms.Basic.DictionaryForm);
+   public bool IsDictionaryForm() => InflectionForms.IsDictionaryForm(InflectedForm);
 
    static readonly HashSet<string> ProgressiveForms = ["でる", "どる", "てる", "とる", "とん"];
    static readonly HashSet<string> TeForms = ["て", "って", "で"];
@@ -158,12 +156,12 @@ public class JNToken : IAnalysisToken
             return false;
          }
 
-         if(Equals(previous.InflectionType, InflectionTypes.Special.Nai))
+         if(Equals(previous.InflectionType, InflectionTypes.Auxiliary.Nai))
          {
             return false;
          }
 
-         if(InflectionForms.Continuative.TeConnectionForms.Contains(previous.InflectedForm))
+         if(previous.IsTheContinuativeOfAnAdjectiveBeforeTe)
          {
             return true;
          }
@@ -183,13 +181,18 @@ public class JNToken : IAnalysisToken
       }
    }
 
+   /// <summary>The く continuative of an i-adjective or of たい, which て follows: the 良く of 良くて, the たく of 食べたくて.</summary>
+   bool IsTheContinuativeOfAnAdjectiveBeforeTe =>
+      (IsAdjective || Equals(InflectionType, InflectionTypes.Auxiliary.Tai)) &&
+      Equals(InflectedForm, InflectionForms.Continuative) &&
+      Surface.EndsWithOrdinal("く");
+
    public bool IsTeForm =>
       Equals(PartsOfSpeech, JNPOS.Particle.Conjunctive) && TeForms.Contains(Surface);
 
    public bool IsProgressiveForm() =>
       Surface == "てる" ||
-      (ProgressiveForms.Contains(Surface) && Previous != null &&
-       Equals(Previous.InflectedForm, InflectionForms.Continuative.TaConnection)) ||
+      (ProgressiveForms.Contains(Surface) && Previous is { IsPastTenseStem: true }) ||
       (Surface == "いる" && Previous != null && Previous.IsTeForm);
 
    public override bool IsEndOfStatement =>
@@ -202,52 +205,27 @@ public class JNToken : IAnalysisToken
 
    public bool CannotFollowIchidanStem() => InvalidIchidanInflectionSurfaces.Contains(Surface);
 
-
-   public bool IsMoreLikelyToFollowImperativeThanIchidanStem()
-   {
-      if(PartsOfSpeech.IsNoun() && !Equals(PartsOfSpeech, JNPOS.Noun.Suffix.General))
-      {
-         return true;
-      }
-
-      return false;
-   }
+   /// <summary>A noun or a pronoun, which follow an imperative, as in 行け夏目, more often than an ichidan verb's stem.</summary>
+   public bool IsMoreLikelyToFollowImperativeThanIchidanStem() => PartsOfSpeech.IsNoun();
 
    static readonly HashSet<string> InvalidGodanPotentialFormSurfaces = ["っ", "う"];
+
+   /// <summary>The coordinating たり and だり, as in 泳げたり, which UniDic has as adverbial particles where IPADIC had coordinating ones.</summary>
+   static readonly HashSet<string> CoordinatingTari = ["たり", "だり"];
 
    // Initialized via property to defer to after JNPOS is initialized
    static HashSet<JNPartsOfSpeech>? _validPotentialFormInflectionsPos;
 
-   static HashSet<JNPartsOfSpeech> ValidPotentialFormInflectionsPos
-   {
-      get
-      {
-         if(_validPotentialFormInflectionsPos == null)
-         {
-            _validPotentialFormInflectionsPos =
-            [
-               JNPOS.BoundAuxiliary,
-               JNPOS.Noun.Suffix.AuxiliaryVerbStem,
-               JNPOS.Verb.Dependent,
-               JNPOS.Particle.Conjunctive,
-               JNPOS.Particle.CoordinatingConjunction
-            ];
-         }
+   static HashSet<JNPartsOfSpeech> ValidPotentialFormInflectionsPos =>
+      _validPotentialFormInflectionsPos ??=
+      [
+         JNPOS.BoundAuxiliary,
+         JNPOS.AdjectivalNoun.AuxiliaryVerbStem,
+         JNPOS.Particle.Conjunctive
+      ];
 
-         return _validPotentialFormInflectionsPos;
-      }
-   }
-
-   public bool IsValidGodanPotentialFormInflection()
-   {
-      if(ValidPotentialFormInflectionsPos.Contains(PartsOfSpeech))
-      {
-         if(!InvalidGodanPotentialFormSurfaces.Contains(Surface))
-         {
-            return true;
-         }
-      }
-
-      return false;
-   }
+   /// <summary>Whether this token can follow the stem of a godan verb's potential form, as ない, そう, て and たり follow 泳げ.</summary>
+   public bool IsValidGodanPotentialFormInflection() =>
+      (ValidPotentialFormInflectionsPos.Contains(PartsOfSpeech) || (Equals(PartsOfSpeech, JNPOS.Particle.Adverbial) && CoordinatingTari.Contains(Surface))) &&
+      !InvalidGodanPotentialFormSurfaces.Contains(Surface);
 }

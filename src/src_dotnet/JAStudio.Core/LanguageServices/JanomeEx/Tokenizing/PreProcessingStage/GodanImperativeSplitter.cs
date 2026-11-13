@@ -15,49 +15,23 @@ static class GodanImperativeSplitter
       return null;
    }
 
-   static bool IsGodanImperative(JNToken token)
-   {
-      if(InflectionForms.ImperativeMeireikei.GodanForms.Contains(token.InflectedForm))
-      {
-         return true;
-      }
-
-      if(token.InflectionType.Family == InflectionTypes.Godan.Family &&
-         Equals(token.InflectedForm, InflectionForms.Hypothetical.GeneralHypotheticalKateikei) &&
-         token.IsEndOfStatement)
-      {
-         return true;
-      }
-
-      return false;
-   }
+   /// <summary>
+   /// A godan verb's imperative, such as 書け and ください, or its hypothetical stem ending a statement, which can only be an imperative there,<br/>
+   /// such as the 書け of 書け！
+   /// </summary>
+   static bool IsGodanImperative(JNToken token) =>
+      token.IsGodanVerb &&
+      (Equals(token.InflectedForm, InflectionForms.Imperative) || (Equals(token.InflectedForm, InflectionForms.Hypothetical) && token.IsEndOfStatement));
 
    static List<IAnalysisToken> SplitGodanImperative(JNToken token, string godanBase)
    {
-      if(Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.Yo))
-      {
-         // Handles cases like 放せよ which janome turns into a single token and believes is an ichidan よ imperative
-         var godanSurface = token.Surface[..^2];
-         var imperativePart = token.Surface[^2..^1];
-         return
-         [
-            new SplitToken(token, godanSurface, godanBase, isInflectableWord: true, isGodanImperativeStem: true),
-            new SplitToken(token, imperativePart, "え", isInflectableWord: true, isGodanImperativeInflection: true),
-            new SplitToken(token, "よ", "よ", isInflectableWord: false)
-         ];
-      } else if(Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.Ro))
-      {
-         throw new Exception("I doubt this ever happens, but let's explode if it does so we can add support");
-      } else
-      {
-         var godanSurface = token.Surface[..^1];
-         var imperativePart = token.Surface[^1..];
-         var imperativeBase = imperativePart == "い" ? "い" : "え";
-         return
-         [
-            new SplitToken(token, godanSurface, godanBase, isInflectableWord: true, isGodanImperativeStem: true),
-            new SplitToken(token, imperativePart, imperativeBase, isInflectableWord: true, isGodanImperativeInflection: true)
-         ];
-      }
+      var godanSurface = token.Surface[..^1];
+      var imperativePart = token.Surface[^1..];
+      var imperativeBase = imperativePart == "い" ? "い" : "え";
+      return
+      [
+         new SplitToken(token, godanSurface, godanBase, isInflectableWord: true, isGodanImperativeStem: true),
+         new SplitToken(token, imperativePart, imperativeBase, isInflectableWord: true, isGodanImperativeInflection: true)
+      ];
    }
 }

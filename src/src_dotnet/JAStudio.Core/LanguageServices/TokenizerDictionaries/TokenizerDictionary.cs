@@ -10,9 +10,9 @@ namespace JAStudio.Core.LanguageServices.TokenizerDictionaries;
 /// which it picks the likeliest way to cut a text into words. Not JMdict, the dictionary JAStudio looks words up in for their meanings.
 /// </summary>
 /// <remarks>
-/// JAStudio's tokenizer reads with IPADIC, which MeCab.DotNet's package comes with (<see cref="TheBundledIpadic"/>): IPADIC hasn't changed since<br/>
-/// 2007. UniDic, from Japan's national language institute (NINJAL), is the one maintained today; switching to it is under way on the branch<br/>
-/// <c>unidic</c> (<c>dev_docs/todo/switching-to-unidic.md</c>).
+/// JAStudio's tokenizer reads with UniDic (<see cref="UniDic"/>), from Japan's national language institute (NINJAL), the one maintained today.<br/>
+/// It used to read with IPADIC, which MeCab.DotNet's package comes with (<see cref="TheBundledIpadic"/>), and which hasn't changed since 2007.<br/>
+/// See <c>dev_docs/todo/switching-to-unidic.md</c>.
 /// </remarks>
 public sealed class TokenizerDictionary
 {
@@ -31,6 +31,25 @@ public sealed class TokenizerDictionary
       new("bundled IPADIC", new DirectoryInfo(Path.Combine(Path.GetDirectoryName(typeof(TokenizerDictionary).Assembly.Location)
                                                            ?? throw new InvalidOperationException("Cannot determine the assembly's folder"),
                                                            "dic")));
+
+   /// <summary>The release of UniDic JAStudio's tokenizer reads with: contemporary written Japanese, 2025.12.</summary>
+   const string UniDicRelease = "unidic-cwj-202512";
+
+   static readonly Lazy<TokenizerDictionary> TheUniDic = new(TheInstalledUniDic);
+
+   /// <summary>
+   /// UniDic for contemporary written Japanese, release 2025.12, which JAStudio's tokenizer reads with: in <c>unidic-cwj-202512</c> in JAStudio's<br/>
+   /// folder of the user's local application data, beside JMdict's database. Opened when first used.
+   /// </summary>
+   public static TokenizerDictionary UniDic => TheUniDic.Value;
+
+   static TokenizerDictionary TheInstalledUniDic()
+   {
+      var folder = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JAStudio", UniDicRelease));
+      return folder.Exists
+                ? new TokenizerDictionary(UniDicRelease, folder)
+                : throw new DirectoryNotFoundException($"UniDic, which JAStudio's tokenizer reads with, isn't in {folder.FullName}. Download {UniDicRelease}.zip from https://clrd.ninjal.ac.jp/unidic/back_number.html and unpack it there.");
+   }
 
    /// <summary>The tokenizer dictionary in <paramref name="folder"/>, named by the folder's name, such as <c>unidic-cwj-202512</c>.</summary>
    public static TokenizerDictionary In(DirectoryInfo folder) => new(folder.Name, folder);

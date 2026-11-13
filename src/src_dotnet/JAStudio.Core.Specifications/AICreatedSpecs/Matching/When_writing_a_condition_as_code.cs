@@ -32,10 +32,10 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
             PrecedingToken.Surface.EndsWithOneOf("ん"),
             AnyOf(
                !Surface.In("本の"),
-               FollowingToken.PartOfSpeech.Is("名詞", "数")),
+               FollowingToken.PartOfSpeech.Is("名詞", "数詞")),
             !LastToken.AllOf(
                TokenConditions.PartOfSpeech.Is("動詞"),
-               TokenConditions.InflectedForm.In("連用形", "連用タ接続")),
+               TokenConditions.InflectedForm.In("連用形-一般", "連用形-促音便")),
             FollowingText.MatchesRegularExpression("^よ\"$"),
             IsASingleToken);
 
@@ -49,12 +49,12 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
                                      "PrecedingToken.Surface.EndsWithOneOf(\"ん\")",
                                      "AnyOf(",
                                      "   !Surface.In(\"本の\"),",
-                                     "   FollowingToken.PartOfSpeech.Is(名詞・数))   // noun › numeric",
+                                     "   FollowingToken.PartOfSpeech.Is(名詞・数詞))   // noun › numeral",
                                      "!LastToken.AllOf(",
                                      "   PartOfSpeech.Is(動詞),   // verb",
                                      "   InflectedForm.In(",
-                                     "      連用タ接続,   // Continuative ta-connection",
-                                     "      連用形))   // Continuative/masu-stem verbs/adjective",
+                                     "      連用形-一般,   // Continuative (masu stem)",
+                                     "      連用形-促音便))   // Continuative with っ sound change",
                                      "FollowingText.MatchesRegularExpression(@\"^よ\"\"$\")",
                                      "IsASingleToken"));
    }
@@ -64,10 +64,10 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
       static readonly Condition<CandidateWordVariant> Condition =
          ConditionGroup.AnyOf(
             ConditionGroup.Not(Surface.Meets(TextConditions.In("本の"))),
-            FollowingToken.Meets(TokenConditions.InflectedForm.In("連用形", "連用タ接続")));
+            FollowingToken.Meets(TokenConditions.InflectedForm.In("連用形-一般", "連用形-促音便")));
 
       [XF] public void joins_its_lines_without_their_comments_with_a_space_after_each_comma() =>
-         ConditionCode.OnOneLine(Condition).Must().Be("AnyOf(!Surface.In(\"本の\"), FollowingToken.InflectedForm.In(連用タ接続, 連用形))");
+         ConditionCode.OnOneLine(Condition).Must().Be("AnyOf(!Surface.In(\"本の\"), FollowingToken.InflectedForm.In(連用形-一般, 連用形-促音便))");
 
       [XF] public void is_the_text_the_condition_is() => Condition.ToString().Must().Be(ConditionCode.OnOneLine(Condition));
    }

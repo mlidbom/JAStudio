@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
 /// <summary>
 /// An ichidan verb missing from the tokenizer's dictionary, which the tokenizer therefore reads as a godan verb's e-stem<br/>
 /// followed by an ending that can only follow an ichidan verb's stem: 磨げる ("can polish") becomes 磨げ, the e-stem of 磨ぐ,<br/>
-/// followed by the classical auxiliary る.<br/>
+/// followed by the classical auxiliary り (文語助動詞-リ) in its form る.<br/>
 /// <see cref="JNTokenizer"/> corrects it into exactly the tokens the tokenizer produces for an ichidan verb in its dictionary, such as 泳げる.
 /// </summary>
 /// <remarks>
@@ -19,19 +20,22 @@ namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 /// <remarks>
 /// Only endings that cannot follow a godan e-stem in modern Japanese trigger the correction. Left alone are the conditional ば (磨げば),<br/>
 /// the classical concessive ど and ども (待てど), the classical り in its own form (極まれり), and whatever follows an imperative (行け夏目, 飲めとか).<br/>
-/// Comparing the tokenizer's output for 泳げる and 磨げる across their forms shows that the endings themselves come out identically,<br/>
-/// with three exceptions this corrects: the dictionary form's る and the hypothetical form's れ become separate tokens,<br/>
-/// and ない after a stem read as an imperative becomes the adjective ない instead of the negative auxiliary.
+/// Comparing the tokenizer's output for 嗅げる, which its dictionary knows, and 磨げる across their forms shows that the endings themselves<br/>
+/// come out identically, with two exceptions this corrects: the dictionary form's る and the hypothetical form's れ become separate tokens.<br/>
+/// The tokenizer's dictionary, UniDic, gives the stem a form it guesses, 未然形 before most endings, so the e-stem is told by its kana.
 /// </remarks>
 static class MisTokenizedIchidanVerbUnknownToTheTokenizer
 {
    const string IchidanDictionaryFormEnding = "る";
 
-   /// <summary>The base forms of the endings that follow an ichidan verb's irrealis stem, as in 泳げない, 泳げまい and 泳げず.</summary>
-   static readonly HashSet<string> BaseFormsOfEndingsAfterTheIrrealisStem = ["ない", "まい", "ぬ"];
+   /// <summary>The base forms of the endings that follow an ichidan verb's irrealis stem, as in 泳げない and 泳げず.</summary>
+   static readonly HashSet<string> BaseFormsOfEndingsAfterTheIrrealisStem = ["ない", "ぬ", "ず"];
 
-   /// <summary>The base forms of the endings that follow an ichidan verb's continuative stem, as in 泳げた, 泳げます, 泳げて, 泳げてる and 泳げそう.</summary>
-   static readonly HashSet<string> BaseFormsOfEndingsAfterTheContinuativeStem = ["た", "ます", "て", "てる", "そう"];
+   /// <summary>
+   /// The base forms of the endings that follow an ichidan verb's continuative stem, as in 泳げた, 泳げます, 泳げて, 泳げてる, 泳げそう and 泳げまい:<br/>
+   /// the tokenizer's dictionary, UniDic, has まい after an ichidan verb's continuative.
+   /// </summary>
+   static readonly HashSet<string> BaseFormsOfEndingsAfterTheContinuativeStem = ["た", "ます", "て", "てる", "そう", "まい"];
 
    /// <summary>
    /// Returns <paramref name="tokens"/> with each mis-tokenized ichidan verb unknown to the tokenizer replaced by<br/>
@@ -43,7 +47,7 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
       var index = 0;
       while(index < tokens.Count)
       {
-         var correction = index + 1 < tokens.Count ? CorrectionOrNull(tokens[index], tokens[index + 1]) : null;
+         var correction = index + 1 < tokens.Count ? CorrectionOrNull(tokens[index], tokens[index + 1], tokens.ElementAtOrDefault(index + 2)) : null;
          if(correction != null)
          {
             corrected.AddRange(correction);
@@ -59,48 +63,46 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
    }
 
    /// <summary>
-   /// The tokens to replace <paramref name="token"/> and the <paramref name="ending"/> following it with,<br/>
-   /// or null if they are not a mis-tokenized ichidan verb unknown to the tokenizer.
+   /// The tokens to replace <paramref name="token"/> and the <paramref name="ending"/> following it with, <paramref name="followingToken"/> after<br/>
+   /// them, or null if they are not a mis-tokenized ichidan verb unknown to the tokenizer.
    /// </summary>
-   static List<JNToken>? CorrectionOrNull(JNToken token, JNToken ending)
+   static List<JNToken>? CorrectionOrNull(JNToken token, JNToken ending, JNToken? followingToken)
    {
       if(!IsGodanEStem(token)) return null;
 
-      if(IsTheRestOfTheVerbItself(ending)) return [TheIchidanVerbMadeOf(token, ending)];
+      if(IsTheRestOfTheVerbItself(ending)) return [TheIchidanVerbMadeOf(token, ending, followingToken)];
 
       if(IchidanStemFormBeforeOrNull(ending) is {} stemForm) return [TheIchidanStem(token, stemForm), AsTheEndingOfAnIchidanStem(ending)];
 
       return null;
    }
 
-   static bool IsGodanEStem(JNToken token) =>
-      token.IsGodanVerb &&
-      (Equals(token.InflectedForm, InflectionForms.Hypothetical.GeneralHypotheticalKateikei) || Equals(token.InflectedForm, InflectionForms.ImperativeMeireikei.E));
+   /// <summary>A godan verb's stem ending in the e-row, such as 磨げ, whatever form the tokenizer guessed it to be in.</summary>
+   static bool IsGodanEStem(JNToken token) => token.IsGodanVerb && Conjugator.GodanImperativeVerbEndings.Contains(token.Surface[^1..]);
 
    /// <summary>
    /// Whether <paramref name="ending"/> is the end of the ichidan verb itself, which the tokenizer only splits off for verbs missing from its dictionary:<br/>
-   /// the dictionary form's る, read as a classical auxiliary, or the hypothetical form's れ, read as the verb る.
+   /// the dictionary form's る, read as the classical auxiliary り, or the hypothetical form's れ, read as the passive auxiliary れる, which can't<br/>
+   /// follow an e-stem: the passive follows the a-stem, as in 書かれる.
    /// </summary>
    static bool IsTheRestOfTheVerbItself(JNToken ending) => IsTheDictionaryFormEnding(ending) || IsTheHypotheticalFormEnding(ending);
 
    static bool IsTheDictionaryFormEnding(JNToken ending) =>
-      ending.Surface == IchidanDictionaryFormEnding &&
-      (Equals(ending.InflectionType, InflectionTypes.Bungo.Ri) || Equals(ending.InflectionType, InflectionTypes.Bungo.Ru));
+      ending.Surface == IchidanDictionaryFormEnding && Equals(ending.InflectionType, InflectionTypes.Classical.Ri);
 
    static bool IsTheHypotheticalFormEnding(JNToken ending) =>
-      ending is { Surface: "れ", BaseForm: IchidanDictionaryFormEnding, IsIchidanVerb: true } &&
-      Equals(ending.InflectedForm, InflectionForms.Hypothetical.GeneralHypotheticalKateikei);
+      ending.Surface == "れ" && Equals(ending.InflectionType, InflectionTypes.Auxiliary.Reru);
 
    static InflectionForm? IchidanStemFormBeforeOrNull(JNToken ending)
    {
       if(IsTheAdjectiveNaiTheTokenizerUsesAfterAnImperative(ending) || IsAnEndingWithABaseFormIn(BaseFormsOfEndingsAfterTheIrrealisStem))
       {
-         return InflectionForms.Irrealis.GeneralIrrealisMizenkei;
+         return InflectionForms.Irrealis;
       }
 
       if(IsAnEndingWithABaseFormIn(BaseFormsOfEndingsAfterTheContinuativeStem))
       {
-         return InflectionForms.Continuative.RenyoukeiMasuStem;
+         return InflectionForms.Continuative;
       }
 
       return null;
@@ -110,26 +112,48 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
 
    static bool IsTheAdjectiveNaiTheTokenizerUsesAfterAnImperative(JNToken ending) => ending is { BaseForm: "ない", IsAdjective: true };
 
-   static JNToken TheIchidanVerbMadeOf(JNToken godanEStem, JNToken ending) =>
+   static JNToken TheIchidanVerbMadeOf(JNToken godanEStem, JNToken ending, JNToken? followingToken) =>
       new(godanEStem.PartsOfSpeech,
           baseForm: godanEStem.Surface + IchidanDictionaryFormEnding,
           surface: godanEStem.Surface + ending.Surface,
-          inflectionType: InflectionTypes.Ichidan.Regular,
-          inflectedForm: IsTheHypotheticalFormEnding(ending) ? InflectionForms.Hypothetical.GeneralHypotheticalKateikei : InflectionForms.Basic.DictionaryForm,
+          inflectionType: ThePotentialFormsTypeOf(godanEStem),
+          inflectedForm: IsTheHypotheticalFormEnding(ending) ? InflectionForms.Hypothetical : TheDictionaryFormBefore(followingToken),
           reading: godanEStem.Reading + ending.Reading,
-          phonetic: godanEStem.Phonetic + ending.Phonetic);
+          phonetic: godanEStem.Phonetic + ending.Phonetic,
+          lemma: godanEStem.Lemma);
 
    static JNToken TheIchidanStem(JNToken godanEStem, InflectionForm stemForm) =>
       new(godanEStem.PartsOfSpeech,
           baseForm: godanEStem.Surface + IchidanDictionaryFormEnding,
           surface: godanEStem.Surface,
-          inflectionType: InflectionTypes.Ichidan.Regular,
+          inflectionType: ThePotentialFormsTypeOf(godanEStem),
           inflectedForm: stemForm,
           reading: godanEStem.Reading,
-          phonetic: godanEStem.Phonetic);
+          phonetic: godanEStem.Phonetic,
+          lemma: godanEStem.Lemma);
+
+   /// <summary>
+   /// The dictionary form the tokenizer gives a verb before <paramref name="followingToken"/>: the attributive (連体形-一般) before a noun, or<br/>
+   /// before の and ん, which make what precedes them a noun, as in 泳げる人 and 泳げるの; otherwise the conclusive (終止形-一般), as in 泳げる and<br/>
+   /// 泳げるか.
+   /// </summary>
+   static InflectionForm TheDictionaryFormBefore(JNToken? followingToken) =>
+      InflectionForms.GetByName(followingToken is {} following && (following.PartsOfSpeech.IsNoun() || Equals(following.PartsOfSpeech, JNPOS.Particle.Nominalizing))
+                                   ? "連体形-一般"
+                                   : "終止形-一般");
+
+   /// <summary>
+   /// The inflection type of the potential form of <paramref name="godanEStem"/>'s verb: a lower ichidan verb of the same row, as the dictionary<br/>
+   /// has the potential forms it knows, such as 嗅げる of 嗅ぐ (下一段-ガ行); the wa-row godan verbs' are of the a-row, such as もらえる (下一段-ア行).
+   /// </summary>
+   static InflectionType ThePotentialFormsTypeOf(JNToken godanEStem)
+   {
+      var row = godanEStem.InflectionType.Name.Split('-')[1];
+      return InflectionTypes.GetByName($"{InflectionTypes.Ichidan.LowerFamily}-{(row == "ワア行" ? "ア行" : row)}");
+   }
 
    static JNToken AsTheEndingOfAnIchidanStem(JNToken ending) =>
       IsTheAdjectiveNaiTheTokenizerUsesAfterAnImperative(ending)
-         ? new JNToken(JNPOS.BoundAuxiliary, ending.BaseForm, ending.Surface, InflectionTypes.Special.Nai, ending.InflectedForm, ending.Reading, ending.Phonetic)
+         ? new JNToken(JNPOS.BoundAuxiliary, ending.BaseForm, ending.Surface, InflectionTypes.Auxiliary.Nai, ending.InflectedForm, ending.Reading, ending.Phonetic, ending.Lemma)
          : ending;
 }

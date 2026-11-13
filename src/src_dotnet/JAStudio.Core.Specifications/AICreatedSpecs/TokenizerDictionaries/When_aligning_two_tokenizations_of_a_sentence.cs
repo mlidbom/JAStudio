@@ -41,7 +41,7 @@ public class When_aligning_two_tokenizations_of_a_sentence : IAIGeneratedSpec
    {
       var tokens = new List<MeCabToken>();
       foreach(var surface in surfaces)
-         tokens.Add(new MeCabToken(tokens.Count == 0 ? 0 : tokens[^1].End, surface, false, "名詞,一般,*,*", MeCabToken.Nothing, MeCabToken.Nothing, surface, null));
+         tokens.Add(new MeCabToken(tokens.Count == 0 ? 0 : tokens[^1].End, surface, false, "名詞,一般,*,*", MeCabToken.Nothing, MeCabToken.Nothing, surface, null, surface, surface));
       return tokens;
    }
 

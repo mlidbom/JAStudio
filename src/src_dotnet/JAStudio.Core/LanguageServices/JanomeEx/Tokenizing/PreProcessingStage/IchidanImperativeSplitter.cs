@@ -14,8 +14,8 @@ static class IchidanImperativeSplitter
       return null;
    }
 
-   static bool IsIchidanImperative(JNToken token) =>
-      InflectionForms.ImperativeMeireikei.IchidanForms.Contains(token.InflectedForm);
+   /// <summary>An ichidan verb's imperative, such as 食べろ.</summary>
+   static bool IsIchidanImperative(JNToken token) => token.IsIchidanVerb && Equals(token.InflectedForm, InflectionForms.Imperative);
 
    static List<IAnalysisToken> SplitIchidanImperative(JNToken token)
    {
