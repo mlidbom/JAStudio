@@ -17,7 +17,7 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 
 /// <summary>
 /// The sentence パンを食べる。, with the vocab 食べる, opened in the workspace, its breakdown in edit mode, which lists every match whatever the sentence<br/>
-/// marks it as. Right-clicking the entry of 食べる's match gives the match's menu (<see cref="SentencePageElementMenus"/>): the items that apply to it as<br/>
+/// marks it as. Right-clicking the entry of 食べる's match gives the match's menu (<see cref="SentenceElementMenus"/>): the items that apply to it as<br/>
 /// it is, each on the key it always has, then the vocab's menu and the sentence's. Its items mark the match by hand in the sentence, at its position.<br/>
 /// パン, which no vocab has, is the dictionary's match, whose menu creates its vocab.
 /// </summary>

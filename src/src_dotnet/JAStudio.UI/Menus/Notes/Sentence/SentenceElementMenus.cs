@@ -7,6 +7,7 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
+using JAStudio.UI.ViewModels.Workspace.Editors.Parsing;
 using JAStudio.UI.ViewModels.Workspace.NotePages;
 using JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 using JAStudio.UI.Views.Workspace.Editors.Matching;
@@ -14,16 +15,17 @@ using JAStudio.UI.Views.Workspace.Editors.Matching;
 namespace JAStudio.UI.Menus.Notes.Sentence;
 
 /// <summary>
-/// The right-click menus of the elements of a sentence's page in a workspace tab (<see cref="SentencePageViewModel"/>): a breakdown entry, a compound<br/>
-/// part under one, and a kanji under one. Each starts with the element's own items, only those that apply to it as it is, such as marking the match an<br/>
-/// entry shows incorrect, then the menu of the element's note, the sentence's menu, and what can be done with the text selected, if any. See<br/>
-/// <c>dev_docs/jastudio-workspace.md</c>, "The right-click menu by what's right-clicked".
+/// The right-click menus of the elements that show a part of a sentence: a match, as a breakdown entry on the sentence's page in a workspace tab<br/>
+/// (<see cref="SentencePageViewModel"/>) or a row of its parsing view (<see cref="SentenceParsingViewModel"/>) shows it, and a compound part or a kanji<br/>
+/// under a breakdown entry. Each starts with the element's own items, only those that apply to it as it is, such as marking a match incorrect, then the<br/>
+/// menu of the element's note, the sentence's menu, and what can be done with the text selected, if any. See <c>dev_docs/jastudio-workspace.md</c>, "The<br/>
+/// right-click menu by what's right-clicked".
 /// </summary>
 /// <remarks>
 /// An item has the same key in whichever element's menu shows it, and the two halves of a toggle share one, such as marking a match incorrect and<br/>
 /// unmarking it, so that the keys become muscle memory. What doesn't apply to the element is left out rather than shown disabled.
 /// </remarks>
-sealed class SentencePageElementMenus
+sealed class SentenceElementMenus
 {
    readonly TemporaryServiceCollection _services;
    readonly SentenceNote _sentence;
@@ -31,9 +33,9 @@ sealed class SentencePageElementMenus
    readonly NoteContextMenu _noteMenus;
 
    /// <param name="services">The application's services.</param>
-   /// <param name="sentence">The sentence whose page the elements are on.</param>
-   /// <param name="host">The workspace tab the page is shown in, which shows the notes the menus open.</param>
-   public SentencePageElementMenus(TemporaryServiceCollection services, SentenceNote sentence, INotePageHost host)
+   /// <param name="sentence">The sentence the elements show a part of.</param>
+   /// <param name="host">The workspace tab showing the sentence, which shows the notes the menus open.</param>
+   public SentenceElementMenus(TemporaryServiceCollection services, SentenceNote sentence, INotePageHost host)
    {
       _services = services;
       _sentence = sentence;
@@ -42,11 +44,11 @@ sealed class SentencePageElementMenus
    }
 
    /// <summary>
-   /// The menu of <paramref name="entry"/>, a breakdown entry, about the <see cref="BreakdownEntryViewModel.Match"/> it shows, with <paramref name="selection"/>,<br/>
-   /// the text selected on it, if any.
+   /// The menu of <paramref name="match"/>, as a breakdown entry or a row of the sentence's parsing view shows it, with <paramref name="selection"/>, the text<br/>
+   /// selected on it, if any.
    /// </summary>
-   public List<SpecMenuItem> OfABreakdownEntry(BreakdownEntryViewModel entry, string selection) =>
-      entry.Match switch
+   public List<SpecMenuItem> OfAMatch(Match match, string selection) =>
+      match switch
       {
          VocabMatch vocabMatch => [CheckingTheMatchConditionAgainst(vocabMatch),
                                    .. MarkingByHand(vocabMatch),
@@ -61,7 +63,7 @@ sealed class SentencePageElementMenus
                                        SearchingTheWebFor(missingMatch),
                                        .. ShowingTheTokens(),
                                        .. TheSentencesAndTheSelectionsMenus(selection)],
-         _ => throw new ArgumentException($"A breakdown entry shows a match of no known kind: {entry.Match}.", nameof(entry))
+         _ => throw new ArgumentException($"A match of no known kind: {match}.", nameof(match))
       };
 
    /// <summary>The menu of <paramref name="part"/>, a compound part under a breakdown entry, about the part's vocab, with <paramref name="selection"/>, the text selected on it, if any.</summary>

@@ -256,7 +256,7 @@ Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 
 The increments: 1. the plumbing, and a breakdown entry's marking items, with step 4's match-condition item; 2. a word only
 the dictionary has, and a token nothing has; 3. compound parts' and kanji's own items. *The shadowing and winning matches'
 items were dropped from increment 2 (Magnus, 2026-11-13): edit mode is to show how the sentence parsed instead, so that
-each match's own menu is right there. See [Proposed: edit mode shows how the sentence parsed](#proposed-edit-mode-shows-how-the-sentence-parsed).*
+each match's own menu is right there. See [Edit mode becomes the sentence's Parsing tab](#edit-mode-becomes-the-sentences-parsing-tab).*
 
 ### As built: increments 1 and 2
 
@@ -266,7 +266,7 @@ Built 2026-11-13.
   (`INotePageElement`): a breakdown entry (`BreakdownEntryViewModel`, holding its `Match`), a compound part under one, or
   a kanji under one. A right-click on a meta tag is about its entry, one on a compound part about the part. A
   right-click on no element gets the sentence's menu, as before.
-- **The menus** are `SentencePageElementMenus`, which the page picks among by the element (`SentencePageViewModel.MenuOf`).
+- **The menus** are `SentenceElementMenus`, which the page picks among by the element (`SentencePageViewModel.MenuOf`).
   The selection is the text selected on the element, never its whole text.
 - **The keys,** whichever element's menu shows the item:
 
@@ -300,9 +300,9 @@ Built 2026-11-13.
 - **A compound part and a kanji** have, for now, only their note's items: Open, Open in a background tab, and their
   note's menu.
 
-### Proposed: edit mode shows how the sentence parsed
+### Edit mode becomes the sentence's Parsing tab
 
-*Under discussion, 2026-11-13.* Magnus: "Rather than show the structure of the breakdown through a fragmented detour
+*Discussed 2026-11-13; the first version is built: see [As built](#the-parsing-tab-as-built).* Magnus: "Rather than show the structure of the breakdown through a fragmented detour
 through many menus, I would like for the edit mode to visually show me what is shown, what is not, and why. [...] Now
 you can see most of the effects of the parsing at a glance and know just which shown word to mark invalid, or hidden
 word to highlight."
@@ -349,6 +349,40 @@ Claude's additions, 2026-11-13:
   cut, at a glance, gaps and overlaps included.
 - **Highlighting doesn't beat shadowing.** A highlighted match is valid, but a longer word shown over it still shadows
   it. The fix for a word wrongly shadowed is to mark the shadowing word incorrect, which the nesting puts right above it.
+
+#### Decided (Magnus, 2026-11-13)
+
+- **Editing and reading are two views.** "It is absolutely NOT required for the edit UI and the display UI to be the
+  same thing. [...] if splitting the editing view into its own thing makes things simpler and/or cleaner, that is A-OK."
+  Nor need they look alike. So how the sentence parsed is a view of its own, built on the analysis's own structure, and
+  the page is to become a reading view only. The Blazor card keeps its edit mode, for the reviewer, until it goes; "if
+  edit mode in blazor gets in your way at all, rip it out."
+- **It's a Parsing tab in the sentence's editor section**, the right-hand pane, beside its fields, so that the page and
+  how it parsed show side by side. It's a view of its own, easy to move to another host.
+- **The reasons are the matching's own strings for now,** such as `forbids::shadowed_by:とする`: programming-language-ish
+  suits Magnus better than prose, as in the condition editor. "Not the vital thing, the vital thing is the visual
+  indentation, greying out, bold red, etc."
+- **Everything expanded:** "the whole point is to see the indentation coloring etc."
+
+#### The Parsing tab, as built
+
+First version, 2026-11-13.
+
+- **`MatchTree`, in Core,** arranges the matches the breakdown's analysis made (those of its indexing variants, as edit
+  mode lists them) by which shown match covers each: the shown matches in sentence order, each with the not-shown matches
+  of the words that start in its place under it, and a not-shown match no shown match covers at its own place, such as a
+  longer compound starting where a shown word does, which comes before it.
+- **`SentenceParsingViewModel`,** the Parsing tab, shows a row for each (`ParsedMatchViewModel`): the word as written,
+  "食べ as 食べる" for a base form, what it matched when that's not the word itself (a vocab's question, "(dictionary)" or
+  "(nothing)"), its readings, its answer, and above it the matching's reasons, styled as the breakdown's. A match not
+  shown is greyed; an invalid one's word is bold red; a highlighted one's has the highlight. Covered matches are
+  indented under the match covering them.
+- **Each row's right-click menu is a breakdown entry's** (`SentenceElementMenus.OfAMatch`), so a greyed match is unmarked,
+  highlighted or checked against its match-condition right where it shows.
+- **It's made anew** whenever the sentence changes, as after a mark, and whenever a setting changes, since the breakdown's
+  settings change how the sentence parses.
+- **Not yet:** the token tables, and the question with its word breaks shown, are still only on the page in edit mode;
+  they move here when edit mode leaves the page. "Show the tokens (edit mode)" still switches the page to edit mode.
 
 ## Keyboard shortcuts
 

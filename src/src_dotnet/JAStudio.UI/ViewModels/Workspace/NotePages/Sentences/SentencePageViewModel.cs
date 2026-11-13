@@ -20,11 +20,11 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 /// </summary>
 sealed class SentencePageViewModel : NotePageViewModel
 {
-   readonly SentencePageElementMenus _elementMenus;
+   readonly SentenceElementMenus _elementMenus;
 
    public SentencePageViewModel(SentenceNote sentence, TemporaryServiceCollection services, INotePageHost host) : base(host)
    {
-      _elementMenus = new SentencePageElementMenus(services, sentence, host);
+      _elementMenus = new SentenceElementMenus(services, sentence, host);
       var settings = services.Resolve<Settings>();
       var media = services.Resolve<MediaFileIndex>();
       var isInEditMode = settings.ShowBreakdownInEditMode();
@@ -101,7 +101,7 @@ sealed class SentencePageViewModel : NotePageViewModel
    public override List<SpecMenuItem> MenuOf(INotePageElement element, string selection) =>
       element switch
       {
-         BreakdownEntryViewModel entry => _elementMenus.OfABreakdownEntry(entry, selection),
+         BreakdownEntryViewModel entry => _elementMenus.OfAMatch(entry.Match, selection),
          CompoundPartEntryViewModel part => _elementMenus.OfACompoundPart(part, selection),
          BreakdownKanjiViewModel kanji => _elementMenus.OfAKanji(kanji, selection),
          _ => throw new ArgumentException($"A sentence's page has no element {element}.", nameof(element))

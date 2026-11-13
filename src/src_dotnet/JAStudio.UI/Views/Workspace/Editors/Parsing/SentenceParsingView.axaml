@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:parsing="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Parsing"
+             xmlns:sentences="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages.Sentences"
+             xmlns:markup="clr-namespace:JAStudio.UI.Controls.Markup"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.Parsing.SentenceParsingView"
+             x:DataType="parsing:SentenceParsingViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="StackPanel.match.notShown">
+            <Setter Property="Opacity" Value="0.45" />
+        </Style>
+        <Style Selector="TextBlock.word">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBlock.word.invalid">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.WarningRed}" />
+        </Style>
+        <Style Selector="TextBlock.word.highlighted">
+            <Setter Property="Background" Value="{StaticResource NotePage.VocabularyBackground}" />
+        </Style>
+        <Style Selector="TextBlock.matched">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Green}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBlock.readings">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Reading}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBlock.reason">
+            <Setter Property="FontSize" Value="11.7" />
+        </Style>
+        <Style Selector="TextBlock.reason.incorrect">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.WarningRed}" />
+        </Style>
+        <Style Selector="TextBlock.reason.configured">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextDecorations" Value="Underline" />
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer>
+        <ItemsControl ItemsSource="{Binding Matches}" Margin="6">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="parsing:ParsedMatchViewModel">
+                    <DockPanel Margin="0,0,0,4" Background="Transparent">
+                        <Border DockPanel.Dock="Left" Width="{Binding Indentation}" />
+                        <StackPanel Classes="match" Classes.notShown="{Binding !IsShown}">
+                            <ItemsControl ItemsSource="{Binding Reasons}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="sentences:MatchReasonViewModel">
+                                        <TextBlock Classes="reason" Classes.incorrect="{Binding MakesTheMatchIncorrect}" Classes.configured="{Binding IsConfigured}"
+                                                   Text="{Binding Text}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <WrapPanel ItemSpacing="10">
+                                <TextBlock Classes="word" Classes.invalid="{Binding IsInvalid}" Classes.highlighted="{Binding IsHighlighted}" Text="{Binding Word}" />
+                                <TextBlock Classes="matched" Text="{Binding Matched}" IsVisible="{Binding Matched, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                <TextBlock Classes="readings" Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                            </WrapPanel>
+                            <markup:StyledTextBlock Markup="{Binding Answer}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+
+</UserControl>

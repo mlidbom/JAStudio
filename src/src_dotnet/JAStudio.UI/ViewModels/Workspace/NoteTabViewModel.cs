@@ -94,7 +94,11 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
             PageBecameOutdated();
             CreateTheEditorSectionForTheShownNote();
          })),
-         services.CoreApp.Config.Changed.Subscribe(_ => PageBecameOutdated())
+         services.CoreApp.Config.Changed.Subscribe(_ =>
+         {
+            PageBecameOutdated();
+            _uiThread.PostToUIThread(() => EditorSection?.Refresh());
+         })
       ];
       return;
 
@@ -322,7 +326,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
       {
          VocabNote vocab => new VocabEditorSectionViewModel(_services, vocab.GetId(), PageBecameOutdated, _workspace.EditNote),
          KanjiNote kanji => new KanjiEditorSectionViewModel(_services, kanji.GetId()),
-         SentenceNote sentence => new SentenceEditorSectionViewModel(_services, sentence.GetId()),
+         SentenceNote sentence => new SentenceEditorSectionViewModel(_services, sentence.GetId(), this),
          var note => throw new InvalidOperationException($"No editors exist for notes of type {note.GetType().Name}.")
       };
 
