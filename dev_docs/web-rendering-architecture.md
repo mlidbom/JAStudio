@@ -128,6 +128,9 @@ search, editors) is in `jastudio-workspace.md`.
   to show, and the browser's own back and forward: Alt+Left and Alt+Right as keys, and the mouse's back and forward
   buttons. It also reports every page it shows, in case it goes to another page by itself, which the tab then
   follows, and the selected text when right-clicked.
+  - The web view keeps no history of its own: the first page is navigated to, and each after it replaces the one before
+    (`location.replace`). With a history of its own, the browser's own Back, on Alt+Left or the mouse's back button, went
+    back through it while the tab went back through its own, to another page (found by Magnus, 2026-11-13).
   - Since the tab keeps the history (2026-11-13), every link followed loads the page anew, where it used to be Blazor's
     client-side routing within the page. If that's noticeably slower, it's temporary: the web view leaves the
     workspace once the notes' pages are in Avalonia.

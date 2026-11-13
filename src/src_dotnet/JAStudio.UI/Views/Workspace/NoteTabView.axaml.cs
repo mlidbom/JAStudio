@@ -8,6 +8,7 @@ using Avalonia.Input.Platform;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using JAStudio.Core.Note;
+using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Utils;
@@ -28,13 +29,14 @@ namespace JAStudio.UI.Views.Workspace;
 /// The CardServer renders the note's page, and a <see cref="NativeWebView"/> (WebView2 on Windows) shows it.<br/>
 /// The page's script, <c>card.js</c>, posts messages to this view through the web view: the note link clicked, which the tab then shows, which page it<br/>
 /// shows after every navigation, the selected text when it is right-clicked, every key pressed on it, and the mouse's back and forward buttons.<br/>
-/// The tab keeps the history (<see cref="NoteTabHistory"/>), so the web view only shows the page of the note the tab shows. A page reports the pages<br/>
-/// it shows in case it goes to another by itself, which the tab then follows.<br/>
+/// The tab keeps the history (<see cref="NoteTabHistory"/>), so the web view only shows the page of the note the tab shows, and keeps no history of its<br/>
+/// own (<see cref="LoadThePageOfTheShownNote"/>). A page reports the pages it shows in case it goes to another by itself, which the tab then follows.<br/>
 /// This code-behind only translates between the web view and the <see cref="NoteTabViewModel"/>.
 /// </remarks>
 public partial class NoteTabView : UserControl, INoteTabView
 {
    readonly NoteTabViewModel _viewModel;
+   readonly IFatalErrorHandler _fatalErrorHandler;
 
    /// <summary>Whether the web view was told to load the page of the note the tab shows, which it is the first time the tab is shown.</summary>
    bool _pageLoadStarted;
@@ -47,9 +49,12 @@ public partial class NoteTabView : UserControl, INoteTabView
    public NoteTabView() => InitializeComponent();
 #pragma warning restore CS8618
 
-   internal NoteTabView(NoteTabViewModel tab)
+   /// <param name="tab">The tab the view shows.</param>
+   /// <param name="fatalErrorHandler">Reports a failure of the web view to show a page, which no caller waits for.</param>
+   internal NoteTabView(NoteTabViewModel tab, IFatalErrorHandler fatalErrorHandler)
    {
       InitializeComponent();
+      _fatalErrorHandler = fatalErrorHandler;
       DataContext = _viewModel = tab;
       NotePagePresenter.Present(tab);
 
@@ -95,12 +100,26 @@ public partial class NoteTabView : UserControl, INoteTabView
       FocusPageIfShown();
    }
 
+   /// <summary>
+   /// Loads the shown note's card page in the web view: the first by navigating to it, each after that by replacing the page shown with it, so that the<br/>
+   /// web view's history only ever holds the page shown.
+   /// </summary>
+   /// <remarks>
+   /// The tab keeps the history. A web view with a history of its own went back through that on the browser's own Back, Alt+Left or the mouse's back<br/>
+   /// button, which the page also reports to the tab, so the two went back each their own way, to different pages (Magnus, 2026-11-13). With nothing<br/>
+   /// in its history, the browser's own Back and Forward do nothing.
+   /// </remarks>
    void LoadThePageOfTheShownNote()
    {
       if(!_viewModel.ShowsTheCardPage) return;
 
+      var isTheFirstPage = _noteThePageShows is null;
       _noteThePageShows = _viewModel.ShownNoteId;
-      WebView.Navigate(_viewModel.ShownPageUrl);
+      var pageUrl = _viewModel.ShownPageUrl;
+      if(isTheFirstPage)
+         WebView.Navigate(pageUrl);
+      else
+         _fatalErrorHandler.StartAndHandleExceptionsFrom(() => WebView.InvokeScript($"location.replace({JsonSerializer.Serialize(pageUrl.ToString())})"));
    }
 
    /// <summary>

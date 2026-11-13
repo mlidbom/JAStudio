@@ -84,9 +84,9 @@ setupNoteLinks();
 // Each tab hosts its page in a web view that injects a channel for posting messages to it;
 // a page shown anywhere else has no such channel, and none of this applies.
 // - The tab keeps its own back and forward history (NoteTabHistory), and the web view only shows the page of
-//   the note the tab shows. So a note link clicked is reported for the tab to show (setupNoteLinks), and so are
-//   the browser's own back and forward: Alt+Left and Alt+Right, reported as keys, and the mouse's back and
-//   forward buttons.
+//   the note the tab shows, keeping no history of its own: each page replaces the one before (NoteTabView).
+//   So a note link clicked is reported for the tab to show (setupNoteLinks), and so are back and forward:
+//   Alt+Left and Alt+Right, reported as keys, and the mouse's back and forward buttons.
 // - Every page shown is reported too, in case the page goes to another by itself, which the tab then follows.
 // - Right-click shows the same note menu as in Anki.
 //   Shift+Right-click keeps the browser's own menu, for "Inspect" and the like.
@@ -129,15 +129,13 @@ function setupWorkspace() {
    document.addEventListener('keydown', function(event) {
       if (event.repeat || ['Control', 'Shift', 'Alt', 'Meta'].includes(event.key)) return;
 
-      if (event.altKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) event.preventDefault();
       postToWorkspace(JSON.stringify({ request: 'keyPressed', keyGesture: keyGestureOf(event) }));
    });
 
-   // The mouse's back and forward buttons are buttons 3 and 4; the browser goes back or forward when they're released.
+   // The mouse's back and forward buttons are buttons 3 and 4.
    document.addEventListener('mouseup', function(event) {
       if (event.button !== 3 && event.button !== 4) return;
 
-      event.preventDefault();
       postToWorkspace(JSON.stringify({ request: event.button === 3 ? 'goBack' : 'goForward' }));
    });
 
