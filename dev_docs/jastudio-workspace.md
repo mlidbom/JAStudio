@@ -114,6 +114,36 @@ apply here.
 - **Inactive tabs aren't refreshed in the background.** A tab refreshes when it's shown, if anything changed
   while it was hidden.
 
+## The sentence page in Avalonia, as built
+
+Built 2026-11-13, as step 3 of [increment 10](#increments).
+
+- **A tab shows a sentence's page in Avalonia** (`NoteTabViewModel.NotePage`, a `SentencePageViewModel`), and the other
+  notes' card pages in its web view as before (`ShowsTheCardPage`). The view shows one or the other: the page in a
+  `NotePagePresenter`, which scrolls it, and the card page in the `NativeWebView`, or as an image in the headless
+  JAStudio. Which view shows which page model is the application's data template for it, in `App.axaml`.
+- **The page is built from the same view models in Core as the card's** (`SentenceViewModel`, `MatchViewModel`,
+  `CompoundPartViewModel`, and now `SentenceViewToggleViewModel` and `TokenTableViewModel`, which the card's razor
+  components use too), so what the breakdown shows is decided once. A vocab's meta tags are a list
+  (`VocabNoteMetaData.MetaTags`), which the card's HTML is made from.
+- **A page shows the note as it was when it was made:** the tab makes it anew when the note or a setting changes, as the
+  web view reloads a card's page, keeping the keyboard on it if it had it. A page of another note starts at the top.
+- **Links:** a word's vocab, a compound's parts and a word's kanji are links (`NoteLinkViewModel`). A click shows the
+  note in the tab, a middle-click opens it in a background tab.
+- **Audio:** the ▶ buttons play the note's audio through `WorkspaceAudioPlayer`, and the sentence's own plays when the
+  tab is first shown with it, as the card's page does. The headless JAStudio plays nothing
+  (`WorkspaceAudioPlayer.PlayNothingFromNowOn`): an agent drives it, on Magnus's computer.
+- **Keys:** the note view shortcuts work on the page as on a card's page (`NoteViewKeyGesture`), and the page scrolls as
+  a browser's does: the arrows, Page Up and Page Down, Home and End.
+- **Right-click** opens the note's menu (`NoteContextMenu`), for the text right-clicked: the text selected there, or the
+  whole text, such as a word of the breakdown.
+- **The layout:** a breakdown entry's answer stands beside the word, or below it when there's less than 250 pixels left
+  beside it (`BesideOrBelowPanel`), rather than being squeezed into a sliver. The token tables, wider than most pages,
+  scroll sideways on their own, so the rest of the page keeps wrapping at its width.
+- **Left out of the card's styles:** those for a breakdown entry's `secondary_match`, `shadowed`, `configured_hidden`
+  and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
+  `forbids::configured_hidden`, so the styles never applied.
+
 ## Keyboard shortcuts
 
 - **Note view shortcuts** (`NoteViewShortcuts`, in C#) are defined once and shared with Anki's reviewer and
@@ -250,7 +280,9 @@ apply here.
        one note's page in Avalonia and the next one's in the web view, and go back and forward between them.
        *(Built 2026-11-13: `NoteTabHistory`. The page reports a note link clicked, and the browser's own back and
        forward, and the tab has its web view load the page of the note it shows.)*
-    2. **The notes' texts' markup as styled text in Avalonia.**
+    2. **The notes' texts' markup as styled text in Avalonia.** *(Built 2026-11-13: `StyledText` in Core reads a text's
+       HTML and JAStudio's own tags into styled runs, and `StyledTextBlock` shows them, in the cards' light colours, the
+       note pages' brushes in `App.axaml`.)*
     3. **The sentence page in Avalonia,** with what the card's page has:
        - the screenshots, the question with its audio, the answer, and the comments;
        - the breakdown, with its view settings, each word's vocab with its audio, readings, meta tags and answer, its
@@ -258,6 +290,8 @@ apply here.
        - in edit mode, the token tables;
        - following a note's link, and opening it in a background tab with a middle-click;
        - the note view shortcuts, and the note's right-click menu, for the word right-clicked.
+
+       *Built 2026-11-13*, as described in [The sentence page in Avalonia, as built](#the-sentence-page-in-avalonia-as-built).
     4. **Opening a vocab's match-condition window from a word in the breakdown,** checked against that word (see
        `matching-configuration.md`).
     5. **The vocab page, then the kanji page.** Then the web view leaves the workspace.

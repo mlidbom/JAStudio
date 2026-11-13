@@ -16,8 +16,9 @@ using JAStudio.UI.ViewModels.Workspace;
 namespace JAStudio.UI.Views.Workspace;
 
 /// <summary>
-/// The view of one workspace tab (<see cref="NoteTabViewModel"/>): back and forward buttons, and the web view showing the page of the note the tab shows.<br/>
-/// Right-clicking the page gives the same menu as a note shown in Anki, editing included.
+/// The view of one workspace tab (<see cref="NoteTabViewModel"/>): back and forward buttons, and the page of the note the tab shows, a sentence's in<br/>
+/// Avalonia (<see cref="NotePagePresenter"/>), the other notes' card pages in a web view. Right-clicking a card's page gives the same menu as a note<br/>
+/// shown in Anki, editing included.
 /// </summary>
 /// <remarks>
 /// Every tab has its own web view, and a hidden tab's view stays in the visual tree, only invisible:<br/>
@@ -50,6 +51,7 @@ public partial class NoteTabView : UserControl, INoteTabView
    {
       InitializeComponent();
       DataContext = _viewModel = tab;
+      NotePagePresenter.Present(tab);
 
       WebView.EnvironmentRequested += ConfigureWebView2Environment;
       WebView.AdapterCreated += (_, _) => FocusPageIfShown();
@@ -82,15 +84,21 @@ public partial class NoteTabView : UserControl, INoteTabView
       LoadThePageOfTheShownNote();
    }
 
-   /// <summary>Shows the page of the note the tab now shows, unless the page isn't loaded yet, since the tab wasn't shown yet, or already shows it.</summary>
+   /// <summary>
+   /// Shows the page of the note the tab now shows, and gives it the keyboard, as following a link in a browser leaves it on the page. A card's page is<br/>
+   /// loaded in the web view, unless it isn't loaded yet, since the tab wasn't shown yet, or the web view already shows it.
+   /// </summary>
    void ShowThePageOfTheShownNote()
    {
-      if(_pageLoadStarted && !_viewModel.ShownNoteId.Equals(_noteThePageShows))
+      if(_pageLoadStarted && _viewModel.ShowsTheCardPage && !_viewModel.ShownNoteId.Equals(_noteThePageShows))
          LoadThePageOfTheShownNote();
+      FocusPageIfShown();
    }
 
    void LoadThePageOfTheShownNote()
    {
+      if(!_viewModel.ShowsTheCardPage) return;
+
       _noteThePageShows = _viewModel.ShownNoteId;
       WebView.Navigate(_viewModel.ShownPageUrl);
    }
@@ -110,7 +118,21 @@ public partial class NoteTabView : UserControl, INoteTabView
    }
 
    /// <summary>Gives the keyboard to the page, for its keys to act on the note being shown. See <see cref="FocusPageIfShown"/> for why it's posted.</summary>
-   public void FocusPage() => Dispatcher.UIThread.Post(() => WebView.Focus(), DispatcherPriority.Background);
+   /// <remarks>
+   /// A page in Avalonia gets it once the window has taken back Windows' keyboard focus from the web view: focusing an Avalonia control in code<br/>
+   /// doesn't take it away from a web view (<see cref="NativeKeyboardFocus"/>).
+   /// </remarks>
+   public void FocusPage()
+   {
+      if(_viewModel.ShowsTheCardPage)
+      {
+         Dispatcher.UIThread.Post(() => WebView.Focus(), DispatcherPriority.Background);
+         return;
+      }
+
+      NativeKeyboardFocus.MoveToWindowItself(WorkspaceWindow);
+      NotePagePresenter.FocusThePage();
+   }
 
    WorkspaceWindow WorkspaceWindow => TopLevel.GetTopLevel(this) as WorkspaceWindow
                                    ?? throw new InvalidOperationException("A note tab is only shown in a workspace window.");

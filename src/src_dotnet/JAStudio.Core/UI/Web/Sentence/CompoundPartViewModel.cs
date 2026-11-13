@@ -16,6 +16,9 @@ public class CompoundPartViewModel
    public string Answer { get; }
    public string Readings { get; }
    public string MetaTagsHtml { get; }
+
+   /// <summary>The meta tags of the part's vocab, as <see cref="MetaTagsHtml"/> shows them.</summary>
+   public IReadOnlyList<VocabMetaTag> MetaTags { get; }
    public bool DisplayReadings { get; }
    public bool IsHighlighted { get; }
    public string MetaTagsString { get; }
@@ -28,6 +31,7 @@ public class CompoundPartViewModel
       Answer = vocabNote.GetAnswer();
       Readings = string.Join(", ", vocabNote.GetReadings());
       MetaTagsHtml = vocabNote.MetaData.MetaTagsHtml(noSentenceStatistics: true);
+      MetaTags = vocabNote.MetaData.MetaTags(noSentenceStatistics: true);
       DisplayReadings = Question != Readings;
       IsHighlighted = config.HighlightedWords.Contains(Question);
 

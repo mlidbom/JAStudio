@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Markup.Xaml;
 using JAStudio.Core;
 using JAStudio.Core.UI.Web;
+using JAStudio.UI.ViewModels.Workspace;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI;
@@ -34,9 +35,13 @@ public class UIApp : Application
       WorkspaceWindow.CreateAndRegister(services, tab => new NoteTabView(tab));
 
    /// <summary>
-   /// Creates JAStudio's workspace window for a JAStudio with no screen, the headless JAStudio: its tabs show their pages as images<br/>
-   /// (<see cref="NoteTabImageView"/>), which <paramref name="webPageImages"/> renders.
+   /// Creates JAStudio's workspace window for a JAStudio with no screen, the headless JAStudio: its tabs show the cards' pages as images<br/>
+   /// (<see cref="NoteTabImageView"/>), which <paramref name="webPageImages"/> renders. Its workspace plays no audio, since an agent drives it<br/>
+   /// (<see cref="WorkspaceAudioPlayer.PlayNothingFromNowOn"/>).
    /// </summary>
-   public static void InitializeWorkspaceWindowShowingPagesAsImages(TemporaryServiceCollection services, IWebPageImages webPageImages) =>
+   public static void InitializeWorkspaceWindowShowingPagesAsImages(TemporaryServiceCollection services, IWebPageImages webPageImages)
+   {
+      WorkspaceAudioPlayer.PlayNothingFromNowOn();
       WorkspaceWindow.CreateAndRegister(services, tab => new NoteTabImageView(tab, webPageImages));
+   }
 }

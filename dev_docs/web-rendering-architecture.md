@@ -90,7 +90,8 @@ Anki processes `{{Audio_*}}` tags and queues audio playback **before** the `card
 
 ## Notes in JAStudio's Workspace (2026-11-06)
 
-*Moving to Avalonia, one note type at a time, since 2026-11-13: see `jastudio-workspace.md`, "Technology".*
+*Moving to Avalonia, one note type at a time, since 2026-11-13: see `jastudio-workspace.md`, "Technology". A sentence's
+page is in Avalonia since then; this section describes the card pages the web view still shows.*
 
 JAStudio's own window for viewing notes, replacing Anki's previewer. It's the first step in
 `corpus-data-model.md` towards not needing Anki's browser and previewer. Where the workspace is heading (tabs,

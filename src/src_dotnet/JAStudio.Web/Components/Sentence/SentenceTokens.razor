@@ -1,17 +1,11 @@
 @using JAStudio.Core.Configuration
-@using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing
 @using JAStudio.Core.UI.Web.Sentence
 
 @if(Settings.ShowBreakdownInEditMode())
 {
-    var tokens = Analysis.Analysis.PreProcessedTokens.ToList();
-
-    <SentenceTokenTable Tokens="tokens" Title="Tokens" />
-
-    @if(tokens.Any(it => it is not JNToken))
+    @foreach(var table in TokenTableViewModel.Of(Analysis.Analysis))
     {
-        var unprocessedTokens = Analysis.Analysis.TokenizedText.Tokens.Cast<IAnalysisToken>().ToList();
-        <SentenceTokenTable Tokens="unprocessedTokens" Title="Unprocessed Tokens" />
+        <SentenceTokenTable Table="table" />
     }
 }
 

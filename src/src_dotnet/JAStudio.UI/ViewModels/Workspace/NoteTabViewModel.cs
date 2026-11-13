@@ -15,6 +15,8 @@ using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Shortcuts;
 using JAStudio.UI.ViewModels.Workspace.Editors;
+using JAStudio.UI.ViewModels.Workspace.NotePages;
+using JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.Workspace;
 
@@ -25,18 +27,20 @@ namespace JAStudio.UI.ViewModels.Workspace;
 /// as a browser tab does. Following a link on the page shows the linked note in the same tab.
 /// </summary>
 /// <remarks>
-/// The tab decides which note it shows, and the view, <see cref="NoteTabView"/>, shows that note's page, in its web view.<br/>
-/// The view reports here the links followed and the keys pressed on the page, and reloads the page when <see cref="PageOutdated"/> says so.
+/// The tab decides which note it shows, and the view, <see cref="NoteTabView"/>, shows that note's page: a sentence's in Avalonia (<see cref="NotePage"/>),<br/>
+/// the other notes' card pages in its web view. The view reports here the links followed and the keys pressed on a card page, and reloads it when<br/>
+/// <see cref="PageOutdated"/> says so. A page in Avalonia the tab makes anew instead. See <c>dev_docs/jastudio-workspace.md</c>, "Technology".
 /// </remarks>
 /// <remarks>
 /// A tab's page loads the first time the tab is shown, so a tab opened in the background has no page until then.<br/>
 /// A hidden tab isn't reloaded in the background. If its page became outdated while it was hidden,<br/>
 /// <see cref="PageOutdated"/> is raised when the tab is shown again.
 /// </remarks>
-partial class NoteTabViewModel : ObservableObject, IDisposable
+partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
 {
    readonly WorkspaceViewModel _workspace;
    readonly TemporaryServiceCollection _services;
+   readonly IUIThreadDispatcher _uiThread;
    readonly NoteViewShortcuts _noteViewShortcuts;
    readonly NoteTabHistory _history;
    readonly List<IDisposable> _subscriptions;
@@ -45,6 +49,9 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    bool _hasBeenShown;
 
    bool _pageOutdatedWhileHidden;
+
+   /// <summary>Whether the shown note's own audio is yet to be played on its page in Avalonia, which it is when the tab is first shown with it.</summary>
+   bool _theShownNotesAudioIsToBePlayed;
 
    /// <summary>The question of the note on the page, shown on the tab and in the window title.</summary>
    [ObservableProperty] public partial string Header { get; set; } = "";
@@ -55,22 +62,33 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
    /// </summary>
    [ObservableProperty] public partial INoteEditorSectionViewModel? EditorSection { get; set; }
 
+   /// <summary>
+   /// The shown note's page in Avalonia, for the notes whose pages are built in Avalonia: sentences, for now. None while the shown note's page is its<br/>
+   /// card's page, which the view shows in its web view.
+   /// </summary>
+   [ObservableProperty]
+   [NotifyPropertyChangedFor(nameof(ShowsTheCardPage))]
+   public partial NotePageViewModel? NotePage { get; set; }
+
+   /// <summary>Whether the shown note's page is its card's page, in the view's web view, rather than a page in Avalonia (<see cref="NotePage"/>).</summary>
+   public bool ShowsTheCardPage => NotePage is null;
+
    public NoteTabViewModel(WorkspaceViewModel workspace, TemporaryServiceCollection services, NoteId firstNote)
    {
       _workspace = workspace;
       _services = services;
       _noteViewShortcuts = new NoteViewShortcuts(services.CoreApp.Config);
       _history = new NoteTabHistory(firstNote);
+      _uiThread = services.Resolve<IUIThreadDispatcher>();
       ShowTheNoteNowShown();
 
-      var uiThread = services.Resolve<IUIThreadDispatcher>();
       var collection = services.CoreApp.Collection;
       _subscriptions =
       [
          collection.NoteUpdated.Subscribe(ShowTheChangeIfItsTheShownNote),
          collection.StudyNoteChanged.Subscribe(ShowTheChangeIfItsTheShownNote),
-         collection.NoteDeleted.Subscribe(note => uiThread.PostToUIThread(() => LeaveTheNotesThatLeftTheCollection(it => it.Equals(note.GetId())))),
-         collection.ReloadedFromBackend.Subscribe(_ => uiThread.PostToUIThread(() =>
+         collection.NoteDeleted.Subscribe(note => _uiThread.PostToUIThread(() => LeaveTheNotesThatLeftTheCollection(it => it.Equals(note.GetId())))),
+         collection.ReloadedFromBackend.Subscribe(_ => _uiThread.PostToUIThread(() =>
          {
             LeaveTheNotesThatLeftTheCollection(it => collection.NoteFromNoteId(it) is null);
             PageBecameOutdated();
@@ -85,7 +103,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
          if(!IsShowing(note)) return;
 
          PageBecameOutdated();
-         uiThread.PostToUIThread(() => EditorSection?.Refresh());
+         _uiThread.PostToUIThread(() => EditorSection?.Refresh());
       }
    }
 
@@ -186,7 +204,10 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
 
    /// <summary>The page asked for <paramref name="pageUrl"/>, a note's page, to be opened in a new tab, as when a link is middle-clicked.</summary>
    public void OpenInBackgroundTab(Uri pageUrl) =>
-      _workspace.OpenNoteInBackgroundTab(CardServerUrl.NoteIdOfPage(pageUrl) ?? throw new ArgumentException($"{pageUrl} is no note's page.", nameof(pageUrl)));
+      OpenNoteInBackgroundTab(CardServerUrl.NoteIdOfPage(pageUrl) ?? throw new ArgumentException($"{pageUrl} is no note's page.", nameof(pageUrl)));
+
+   /// <summary>Opens <paramref name="note"/> in a new tab without showing it, as middle-clicking a link to it on the page does.</summary>
+   public void OpenNoteInBackgroundTab(NoteId note) => _workspace.OpenNoteInBackgroundTab(note);
 
    [RelayCommand]
    public void Close() => _workspace.CloseTab(this);
@@ -207,6 +228,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
 
       _hasBeenShown = true;
       ReloadPageIfItBecameOutdatedWhileHidden();
+      PlayTheShownNotesAudioIfTheTabIsShown();
    }
 
    /// <summary>
@@ -231,7 +253,30 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       _workspace.TabHeaderChanged(this);
       CreateTheEditorSectionForTheShownNote();
       NotifyWhetherItCanGoBackAndForward();
+      NotePage = PageOfTheShownNote();
+      _theShownNotesAudioIsToBePlayed = true;
+      PlayTheShownNotesAudioIfTheTabIsShown();
       ShowsAnotherNote?.Invoke();
+   }
+
+   /// <summary>The shown note's page in Avalonia, as it is now; none for a note whose page is its card's page.</summary>
+   NotePageViewModel? PageOfTheShownNote() =>
+      TheShownNote() switch
+      {
+         SentenceNote sentence => new SentencePageViewModel(sentence, _services, this),
+         _ => null
+      };
+
+   /// <summary>
+   /// Plays the shown note's own audio on its page in Avalonia, once the tab is shown with it, as the card's page does in the web view, and Anki on a<br/>
+   /// card. Only once for each note shown, so a tab shown again doesn't play it again, nor does a page made anew after a change.
+   /// </summary>
+   void PlayTheShownNotesAudioIfTheTabIsShown()
+   {
+      if(!IsSelected || !_theShownNotesAudioIsToBePlayed) return;
+
+      _theShownNotesAudioIsToBePlayed = false;
+      NotePage?.PlayTheNotesAudio();
    }
 
    void NotifyWhetherItCanGoBackAndForward()
@@ -245,7 +290,7 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       if(!_hasBeenShown) return;
 
       if(IsSelected)
-         PageOutdated?.Invoke();
+         ShowThePageAnew();
       else
          _pageOutdatedWhileHidden = true;
    }
@@ -255,7 +300,16 @@ partial class NoteTabViewModel : ObservableObject, IDisposable
       if(!_pageOutdatedWhileHidden) return;
 
       _pageOutdatedWhileHidden = false;
-      PageOutdated?.Invoke();
+      ShowThePageAnew();
+   }
+
+   /// <summary>Shows the page as the note and the settings are now: a page in Avalonia is made anew, on the UI thread, and the view reloads a card's page.</summary>
+   void ShowThePageAnew()
+   {
+      if(NotePage is null)
+         PageOutdated?.Invoke();
+      else
+         _uiThread.PostToUIThread(() => NotePage = PageOfTheShownNote());
    }
 
    /// <summary>

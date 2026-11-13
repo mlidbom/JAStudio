@@ -59,8 +59,8 @@ public sealed class StyledText
             case HtmlTextNode text:
                Add(HtmlEntity.DeEntitize(text.Text), style);
                return;
-            case { NodeType: HtmlNodeType.Element } element:
-               AddTheElement(element, style);
+            case { NodeType: HtmlNodeType.Element }:
+               AddTheElement(node, style);
                return;
          }
       }

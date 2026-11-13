@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:workspace="clr-namespace:JAStudio.UI.ViewModels.Workspace"
+             x:Class="JAStudio.UI.Views.Workspace.NotePages.NotePagePresenter"
+             x:DataType="workspace:NoteTabViewModel">
+
+    <ScrollViewer x:Name="Scroller" HorizontalScrollBarVisibility="Disabled" Background="{StaticResource NotePage.Background}">
+        <ContentControl x:Name="Page" Content="{Binding NotePage}" />
+    </ScrollViewer>
+
+</UserControl>

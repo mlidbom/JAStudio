@@ -55,12 +55,12 @@ class VocabTextEditorViewModel
       ];
       CorpusMedia =
       [
-         new AudioListEditorViewModel("Audio", () => _currentVocab().Audio, media, EditorAudioPlayer.Instance, openTheTextToSpeechDialog),
+         new AudioListEditorViewModel("Audio", () => _currentVocab().Audio, media, WorkspaceAudioPlayer.Instance, openTheTextToSpeechDialog),
          new ImageListEditorViewModel("Images", () => _currentVocab().Images, media)
       ];
       SourceMedia =
       [
-         new AudioListEditorViewModel("Audio", () => _currentVocab().SourceData.Audio, media, EditorAudioPlayer.Instance),
+         new AudioListEditorViewModel("Audio", () => _currentVocab().SourceData.Audio, media, WorkspaceAudioPlayer.Instance),
          new ImageListEditorViewModel("Images", () => _currentVocab().SourceData.Images, media)
       ];
       TechnicalNotes = Field(VocabEditableFields.TechnicalNotes);

@@ -38,11 +38,16 @@ public partial class NoteTabImageView : UserControl, INoteTabView
       InitializeComponent();
       DataContext = _tab = tab;
       _webPageImages = webPageImages;
+      NotePagePresenter.Present(tab);
 
       PageArea.SizeChanged += (_, _) => ShowThePageIfTheTabIsShown();
       PageArea.KeyDown += (_, keyPressed) => RunTheNoteViewShortcutOf(keyPressed);
       tab.PageOutdated += () => Dispatcher.UIThread.Post(ShowThePageIfTheTabIsShown);
-      tab.ShowsAnotherNote += ShowThePageIfTheTabIsShown;
+      tab.ShowsAnotherNote += () =>
+      {
+         ShowThePageIfTheTabIsShown();
+         FocusThePageIfShown();
+      };
    }
 
    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -59,7 +64,7 @@ public partial class NoteTabImageView : UserControl, INoteTabView
 
    /// <summary>
    /// When the tab is shown, the keyboard goes to its page, as <see cref="NoteTabView"/> gives it to its web view: as the tab opens, for one<br/>
-   /// opened shown, and as it's shown again.
+   /// opened shown, as it's shown again, and as it shows another note, as after following a link.
    /// </summary>
    void FocusThePageIfShown()
    {
@@ -67,7 +72,13 @@ public partial class NoteTabImageView : UserControl, INoteTabView
    }
 
    /// <summary>Posted, so that it runs after a click on the tab's header has finished focusing the header.</summary>
-   public void FocusPage() => Dispatcher.UIThread.Post(() => PageArea.Focus(), DispatcherPriority.Background);
+   public void FocusPage()
+   {
+      if(_tab.ShowsTheCardPage)
+         Dispatcher.UIThread.Post(() => PageArea.Focus(), DispatcherPriority.Background);
+      else
+         NotePagePresenter.FocusThePage();
+   }
 
    /// <summary>
    /// Runs the note view shortcut of the key pressed on the page, if any, as <c>card.js</c> has the web view's page report a key to<br/>
@@ -75,27 +86,17 @@ public partial class NoteTabImageView : UserControl, INoteTabView
    /// </summary>
    void RunTheNoteViewShortcutOf(KeyEventArgs keyPressed)
    {
-      if(keyPressed.KeySymbol is not {} keySymbol) return;
-
-      _tab.KeyPressed(KeyGestureAsANoteViewShortcutWritesIt());
-
-      return;
-
-      string KeyGestureAsANoteViewShortcutWritesIt() =>
-         (keyPressed.KeyModifiers.HasFlag(KeyModifiers.Control) ? "Ctrl+" : "")
-       + (keyPressed.KeyModifiers.HasFlag(KeyModifiers.Shift) ? "Shift+" : "")
-       + (keyPressed.KeyModifiers.HasFlag(KeyModifiers.Alt) ? "Alt+" : "")
-       + keySymbol.ToLowerInvariant();
+      if(NoteViewKeyGesture.Of(keyPressed) is {} keyGesture) _tab.KeyPressed(keyGesture);
    }
 
    /// <summary>
-   /// Shows an image of the tab's page as it is now, as large as the area the page has. A hidden tab's page isn't rendered: a tab opened in the<br/>
-   /// background has its page rendered once it's shown, as <see cref="NoteTabView"/> loads it.
+   /// Shows an image of the tab's card page as it is now, as large as the area the page has. A hidden tab's page isn't rendered: a tab opened in the<br/>
+   /// background has its page rendered once it's shown, as <see cref="NoteTabView"/> loads it. Nor is it rendered while the tab shows a page in Avalonia.
    /// </summary>
    void ShowThePageIfTheTabIsShown()
    {
       var viewport = new ViewportSize((int)PageArea.Bounds.Width, (int)PageArea.Bounds.Height);
-      if(!IsVisible || viewport.Width == 0 || viewport.Height == 0) return;
+      if(!IsVisible || !_tab.ShowsTheCardPage || viewport.Width == 0 || viewport.Height == 0) return;
 
       using var png = new MemoryStream(_webPageImages.OfTheViewport(_tab.ShownPageUrl, viewport).Png);
       var imageReplaced = _imageOfThePage;

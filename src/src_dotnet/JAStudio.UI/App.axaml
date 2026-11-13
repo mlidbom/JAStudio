@@ -1,6 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:matching="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching"
+             xmlns:sentencePages="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages.Sentences"
+             xmlns:notePageViews="clr-namespace:JAStudio.UI.Views.Workspace.NotePages"
              x:Class="JAStudio.UI.UIApp"
              RequestedThemeVariant="Default">
     <Application.Resources>
@@ -58,6 +60,12 @@
         <SolidColorBrush x:Key="NotePage.ReadingBackground" Color="#E1A360" />
         <SolidColorBrush x:Key="NotePage.PlayButton" Color="#1D4ED8" />
     </Application.Resources>
+    <!-- The views of the notes' pages in Avalonia, which a workspace tab shows (NotePagePresenter). -->
+    <Application.DataTemplates>
+        <DataTemplate DataType="sentencePages:SentencePageViewModel">
+            <notePageViews:SentencePageView />
+        </DataTemplate>
+    </Application.DataTemplates>
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />

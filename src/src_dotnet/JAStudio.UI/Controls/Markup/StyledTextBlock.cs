@@ -35,6 +35,9 @@ public class StyledTextBlock : SelectableTextBlock
       set => SetValue(ShowsBoldAsColourOnlyProperty, value);
    }
 
+   /// <summary>The text shown, without its styles, such as for the menu of the text right-clicked.</summary>
+   public string PlainText => Markup is {} markup ? StyledText.FromMarkup(markup).ToString() : string.Empty;
+
    /// <summary>Styled as a <see cref="SelectableTextBlock"/> is, by the application's theme.</summary>
    protected override Type StyleKeyOverride => typeof(SelectableTextBlock);
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;
@@ -19,4 +20,7 @@ public class VocabNoteMetaData
    public void SetSentenceCount(int value) => _guard.Update(() => SentenceCount = value);
 
    public string MetaTagsHtml(bool displayExtendedSentenceStatistics = true, bool noSentenceStatistics = false) => VocabNoteMetaTagFormatter.GetMetaTagsHtml(_vocab, displayExtendedSentenceStatistics, noSentenceStatistics);
+
+   /// <summary>The vocab's meta tags, as <see cref="MetaTagsHtml"/> shows them, for a page that isn't HTML.</summary>
+   public List<VocabMetaTag> MetaTags(bool displayExtendedSentenceStatistics = true, bool noSentenceStatistics = false) => VocabNoteMetaTagFormatter.GetMetaTags(_vocab, displayExtendedSentenceStatistics, noSentenceStatistics);
 }

@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:JAStudio.UI.ViewModels.Workspace"
+             xmlns:notePages="clr-namespace:JAStudio.UI.Views.Workspace.NotePages"
              x:Class="JAStudio.UI.Views.Workspace.NoteTabImageView"
              x:DataType="vm:NoteTabViewModel"
              IsVisible="{Binding IsSelected}">
@@ -11,9 +12,12 @@
             <Button Content="▶" ToolTip.Tip="Forward (Alt+Right)" Command="{Binding GoForwardCommand}" />
         </StackPanel>
 
-        <Border x:Name="PageArea" Focusable="True">
-            <Image x:Name="Page" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        </Border>
+        <Panel>
+            <Border x:Name="PageArea" Focusable="True" IsVisible="{Binding ShowsTheCardPage}">
+                <Image x:Name="Page" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            </Border>
+            <notePages:NotePagePresenter x:Name="NotePagePresenter" IsVisible="{Binding !ShowsTheCardPage}" />
+        </Panel>
     </DockPanel>
 
 </UserControl>
