@@ -2,7 +2,8 @@
 
 > **Status: under way on the branch `unidic` (Magnus, 2026-11-13).** Step 1, comparing how the two tokenize, is done. Step 2,
 > the port, is in progress: the tokenizer reads with the spoken-language UniDic, and 34 of the 230 parsing cases parse differently,
-> each listed below with what's to be done. Open for Magnus: how the dictionary ships, and the colloquial contractions (below).
+> each listed below with what's to be done. Open for Magnus: how the dictionary ships (Claude recommends downloading it on
+> first use, from NINJAL: below).
 
 JAStudio's tokenizer, MeCab (MeCab.DotNet), reads with a **tokenizer dictionary** (`TokenizerDictionary`): the words it
 knows, with their parts of speech, inflections and base forms, and the costs by which it picks how to cut a text into
@@ -60,7 +61,7 @@ Compared over the same million reservoir sentences with the comparison below:
 - **MeCab.DotNet reads it:** its features have 29 fields, some with quoted commas, such as the accent `"1,0"`, which
   `MeCabFeatureFields` reads.
 
-## Open: how the dictionary ships (Magnus)
+## Open: how the dictionary ships (Magnus; Claude recommends downloading it on first use, from NINJAL)
 
 IPADIC comes in MeCab.DotNet's NuGet package, copied next to the assemblies. UniDic 2025.12 is 1.3 GB unpacked, 1 GB of it
 one file, the matrix of connection costs, and 0.7 GB zipped. That rules out IPADIC's way: nuget.org takes packages of up to
@@ -69,6 +70,17 @@ one file, the matrix of connection costs, and 0.7 GB zipped. That rules out IPAD
 NINJAL (`https://clrd.ninjal.ac.jp/unidic_archive/2512/unidic-csj-202512.zip`) or from a mirror of our own, as JMdict's
 database is generated on first use into the same folder. Until it's decided, the branch reads it from
 `%LOCALAPPDATA%/JAStudio/unidic-csj-202512`, put there by hand; a missing folder fails saying how to get it.
+
+**Claude's recommendation (2026-11-13): download it on first use, straight from NINJAL,** pinned to the release's URL and
+checked by its SHA-256, unpacked into `%LOCALAPPDATA%/JAStudio/unidic-csj-202512`. Nothing hosted, nothing external changed.
+- NINJAL served 100 MB in 10.7 seconds, so the 710 MB zip takes about 75 seconds, once.
+- A mirror of ours would save about half of that: xz packs the dictionary into 372 MB (`matrix.bin` 346 MB, `sys.dic`
+  27 MB). Not worth hosting for. If NINJAL ever moves the file, the check fails loudly, and a GitHub release asset of the
+  public repository, which downloads without signing in, takes its place.
+- CI (`ci.yml`, `dotnet test` on Ubuntu) needs it too: download on first use works there unchanged, about a minute
+  slower. Caching it in GitHub Actions would change the workflow, which needs Magnus's word.
+- MeCab.DotNet maps `matrix.bin` into memory (`MeCab.Core.Connector`), so its gigabyte isn't Anki's private memory: only
+  the pages a parse touches are read, from the operating system's file cache.
 
 ## The comparison tool
 
@@ -119,9 +131,12 @@ parsed words, which include every candidate, changed.
   １人 and 一人 now one token, ばら撒かれる (ばら撒く one verb), 返せったら (ったら one particle), the copula's に (だ) in
   逆に and 厳密に, 何なんだろうな.
 - **UniDic's mistakes:** 教えにしたがって, 償いきれない (above).
-- **Colloquial contractions, for Magnus to judge:** すげえ and うるせえ come out as one token whose base form is the word,
-  すごい and うるさい, where IPADIC cut すげ|え and うる|せえ and JAStudio's vocab for the sound change (え, せえ) matched.
-  The breakdown now shows すごい and うるさい.
+- **Colloquial contractions, to accept (Magnus, 2026-11-13):** すげえ and うるせえ come out as one token whose base form is
+  the word, すごい and うるさい, where IPADIC cut すげ|え and うる|せえ and JAStudio's vocab for the sound change (え, せえ)
+  matched. The breakdown now shows すごい and うるさい. Magnus: "if the tokenizer get's them right right off the bat that is
+  great. We change whatever we need to change to make the result come out well. [...] we don't go breaking correct
+  tokenizing to fit our hacks designed to deal with bad tokenizing". The same goes for every case where UniDic tokenizes
+  right and JAStudio's workarounds for IPADIC no longer fit: the workarounds change.
 - **To fix:**
   - ら抜き: 食べれる and 寝れない are one token (base 食べれる, lemma 食べる), where JAStudio expects the verb and れる. Telling
     them from a godan verb's potential (帰れる, lemma 帰る) needs the dictionary, so it's for the preprocessing stage.

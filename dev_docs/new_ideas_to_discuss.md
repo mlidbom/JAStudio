@@ -33,3 +33,9 @@ piece of code, or that would otherwise be lost in a long response.
   kana spelling's standing (a reading's irregular, outdated or search-only use; that it isn't a true reading of the
   kanji; which kanji spellings it belongs to), which spellings a sense is restricted to, and a name's type (surname,
   given name, place, company, product). Kana forms and names would both use them.
+- **(Magnus, 2026-11-13) Tokenize each sentence with the UniDic that fits its source.** UniDic comes as a spoken-language
+  dictionary (csj), which JAStudio uses, and a written-language one (cwj). Eventually both, picked by what's known of the
+  sentence's source: anime, spoken; an audiobook, written. A guess: whether it gives better results is to be found out. The
+  comparison tool (`tokenizer-dictionaries compare`) and the parsing cases are where to find out: on the parsing cases the
+  written one read 7 everyday-speech sentences wrong that the spoken one reads right, and 2 right that the spoken one reads
+  wrong (`dev_docs/todo/switching-to-unidic.md`).
