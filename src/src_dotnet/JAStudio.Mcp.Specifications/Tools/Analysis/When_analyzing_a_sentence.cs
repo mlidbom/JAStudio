@@ -36,7 +36,7 @@ public class When_analyzing_a_sentence : McpServerSpecification
       [XF] public void the_tokens_are_明日_学校_に_行_and_く() => _analysis.Tokens.Select(it => it.Surface).Must().SequenceEqual(["明日", "学校", "に", "行", "く"]);
 
       [XF] public void the_tokens_行_and_く_are_split_from_the_tokenizers_token_行く() =>
-         _analysis.Tokens.Where(it => it.SplitFrom != null).Select(it => $"{it.Surface} from {it.SplitFrom}").Must().SequenceEqual(["行 from 行く", "く from 行く"]);
+         _analysis.Tokens.Where(it => it.MadeFrom != null).Select(it => $"{it.Surface} from {it.MadeFrom}").Must().SequenceEqual(["行 from 行く", "く from 行く"]);
 
       [XF] public void 行く_is_among_the_displayed_words() => _analysis.DisplayedWords.Must().Contain("行く");
       [XF] public void the_candidate_word_行く_matches_the_vocab_行く() => IdOfTheVocabMatchedBy(TheMatchOf行くIn(_analysis)).Must().Be(_vocab行く.GetId().ToString());

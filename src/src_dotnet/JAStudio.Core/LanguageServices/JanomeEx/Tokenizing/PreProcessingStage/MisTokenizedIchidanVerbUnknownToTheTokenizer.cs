@@ -1,21 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
 
 /// <summary>
 /// An ichidan verb missing from the tokenizer's dictionary, which the tokenizer therefore reads as a godan verb's e-stem<br/>
 /// followed by an ending that can only follow an ichidan verb's stem: 磨げる ("can polish") becomes 磨げ, the e-stem of 磨ぐ,<br/>
 /// followed by the classical auxiliary り (文語助動詞-リ) in its form る.<br/>
-/// <see cref="JNTokenizer"/> corrects it into exactly the tokens the tokenizer produces for an ichidan verb in its dictionary, such as 泳げる.
+/// The pre-processing stage corrects it, before it splits any token, into exactly the tokens the tokenizer gives an ichidan verb in its dictionary,<br/>
+/// such as 泳げる: tokens of its own (<see cref="CorrectedToken"/>), which record the tokenizer's they're in place of.
 /// </summary>
 /// <remarks>
 /// Nearly all such verbs are the potential forms of godan verbs. The dictionary lists most potential forms as ichidan verbs<br/>
 /// of their own (泳げる, 書ける), but not all of them (磨げる, 嗅げる, 浮ける, 活かせる, しまえる, もらえる).<br/>
 /// Uncorrected, the analysis shows a classical り where the dictionary form's る is, shows an imperative え before ない and まい,<br/>
 /// and loses the potential altogether before た, ます and て.<br/>
-/// Once corrected, telling a potential form from a genuine ichidan verb such as 点ける is left to the
-/// <see cref="PreProcessingStage.IchidanGodanPotentialOrImperativeHybridSplitter"/>, exactly as for the verbs in the dictionary.
+/// Once corrected, telling a potential form from a genuine ichidan verb such as 点ける is left to the<br/>
+/// <see cref="IchidanGodanPotentialOrImperativeHybridSplitter"/>, exactly as for the verbs in the dictionary.
 /// </remarks>
 /// <remarks>
 /// Only endings that cannot follow a godan e-stem in modern Japanese trigger the correction. Left alone are the conditional ば (磨げば),<br/>
@@ -38,12 +39,17 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
    static readonly HashSet<string> BaseFormsOfEndingsAfterTheContinuativeStem = ["た", "ます", "て", "てる", "そう", "まい"];
 
    /// <summary>
-   /// Returns <paramref name="tokens"/> with each mis-tokenized ichidan verb unknown to the tokenizer replaced by<br/>
-   /// the tokens the tokenizer produces for an ichidan verb in its dictionary.
+   /// The tokenizer's <paramref name="tokens"/> with each mis-tokenized ichidan verb unknown to the tokenizer replaced by the tokens the tokenizer<br/>
+   /// gives an ichidan verb in its dictionary: <paramref name="tokens"/> themselves when there's none.
    /// </summary>
+   /// <remarks>
+   /// With a correction, the result is a sequence of its own, linked as neighbours, holding copies of the tokenizer's tokens: the tokenizer's<br/>
+   /// tokens stay linked to each other as the tokenizer gave them, for comparing what it gave with what the pre-processing made of it.
+   /// </remarks>
    public static List<JNToken> CorrectEachIn(List<JNToken> tokens)
    {
       var corrected = new List<JNToken>(tokens.Count);
+      var anyCorrection = false;
       var index = 0;
       while(index < tokens.Count)
       {
@@ -51,6 +57,7 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
          if(correction != null)
          {
             corrected.AddRange(correction);
+            anyCorrection = true;
             index += 2;
          } else
          {
@@ -59,7 +66,15 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
          }
       }
 
-      return corrected;
+      return anyCorrection ? AsASequenceOfItsOwn(corrected) : tokens;
+   }
+
+   /// <summary><paramref name="tokens"/> linked as neighbours, each of the tokenizer's own among them copied, so that its links stay as the tokenizer gave them.</summary>
+   static List<JNToken> AsASequenceOfItsOwn(List<JNToken> tokens)
+   {
+      List<JNToken> sequence = [.. tokens.Select(it => it.IsTheTokenizersOwn ? it.Copy() : it)];
+      JNToken.LinkAsNeighbours(sequence);
+      return sequence;
    }
 
    /// <summary>
@@ -117,8 +132,9 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
 
    static bool IsTheAdjectiveNaiTheTokenizerUsesAfterAnImperative(JNToken ending) => ending is { BaseForm: "ない", IsAdjective: true };
 
-   static JNToken TheIchidanVerbMadeOf(JNToken godanEStem, JNToken ending, JNToken? followingToken) =>
-      new(godanEStem.PartsOfSpeech,
+   static CorrectedToken TheIchidanVerbMadeOf(JNToken godanEStem, JNToken ending, JNToken? followingToken) =>
+      new(tokenizedAs: [godanEStem, ending],
+          godanEStem.PartsOfSpeech,
           baseForm: godanEStem.Surface + IchidanDictionaryFormEnding,
           surface: godanEStem.Surface + ending.Surface,
           inflectionType: ThePotentialFormsTypeOf(godanEStem),
@@ -127,8 +143,9 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
           phonetic: godanEStem.Phonetic + ending.Phonetic,
           lemma: godanEStem.Lemma);
 
-   static JNToken TheIchidanStem(JNToken godanEStem, InflectionForm stemForm) =>
-      new(godanEStem.PartsOfSpeech,
+   static CorrectedToken TheIchidanStem(JNToken godanEStem, InflectionForm stemForm) =>
+      new(tokenizedAs: [godanEStem],
+          godanEStem.PartsOfSpeech,
           baseForm: godanEStem.Surface + IchidanDictionaryFormEnding,
           surface: godanEStem.Surface,
           inflectionType: ThePotentialFormsTypeOf(godanEStem),
@@ -159,6 +176,6 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
 
    static JNToken AsTheEndingOfAnIchidanStem(JNToken ending) =>
       IsTheAdjectiveNaiTheTokenizerUsesAfterAnImperative(ending)
-         ? new JNToken(JNPOS.BoundAuxiliary, ending.BaseForm, ending.Surface, InflectionTypes.Auxiliary.Nai, ending.InflectedForm, ending.Reading, ending.Phonetic, ending.Lemma)
+         ? new CorrectedToken([ending], JNPOS.BoundAuxiliary, ending.BaseForm, ending.Surface, InflectionTypes.Auxiliary.Nai, ending.InflectedForm, ending.Reading, ending.Phonetic, ending.Lemma)
          : ending;
 }

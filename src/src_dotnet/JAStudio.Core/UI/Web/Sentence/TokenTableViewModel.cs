@@ -7,7 +7,7 @@ namespace JAStudio.Core.UI.Web.Sentence;
 
 /// <summary>
 /// A table of a sentence's tokens, which the sentence breakdown shows in edit mode (<see cref="TokenViewModel"/>): the tokens JAStudio's analysis<br/>
-/// works with, and, when it made some of its own from the tokenizer's, the tokenizer's as they came.
+/// works with, and, when the pre-processing stage made some of its own from the tokenizer's, the tokenizer's as it gave them.
 /// </summary>
 public sealed class TokenTableViewModel
 {
@@ -22,14 +22,14 @@ public sealed class TokenTableViewModel
    public List<TokenViewModel> Tokens { get; }
 
    /// <summary>
-   /// The tables of <paramref name="analysis"/>'s tokens: "Tokens", those the analysis works with, and "Unprocessed Tokens", the tokenizer's, when the<br/>
-   /// analysis made some of its own from them, such as by splitting a token.
+   /// The tables of <paramref name="analysis"/>'s tokens: "Tokens", those the analysis works with, and "The tokenizer's tokens", as the tokenizer gave<br/>
+   /// them, when the pre-processing stage made some of its own from them, such as by splitting a token or correcting the tokenizer's mistake.
    /// </summary>
    public static List<TokenTableViewModel> Of(TextAnalysis analysis)
    {
       var tokens = analysis.PreProcessedTokens.ToList();
-      return tokens.Any(it => it is not JNToken)
-                ? [new TokenTableViewModel("Tokens", tokens), new TokenTableViewModel("Unprocessed Tokens", analysis.TokenizedText.Tokens)]
+      return tokens.Any(it => !it.IsTheTokenizersOwn)
+                ? [new TokenTableViewModel("Tokens", tokens), new TokenTableViewModel("The tokenizer's tokens", analysis.TokenizedText.Tokens)]
                 : [new TokenTableViewModel("Tokens", tokens)];
    }
 }

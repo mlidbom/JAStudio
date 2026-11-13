@@ -497,15 +497,20 @@ question 1 below).
 
 ### How a sentence is parsed
 
-1. **Tokenizing (`JNTokenizer`).** MeCab, with the IPADIC dictionary, gives each token:
-   - its surface, base form and reading;
+1. **Tokenizing (`JNTokenizer`).** MeCab, with the UniDic dictionary (IPADIC until 2026-11), gives each token:
+   - its surface, base form, lemma and reading;
    - its part of speech at four levels;
    - its inflection type and inflected form.
 
-   JAStudio corrects the tokenizer twice: a quotative だって is split into だ and って (`MisTokenizedQuotativeDatte`), and
-   an ichidan verb the dictionary lacks is fixed (`MisTokenizedIchidanVerbUnknownToTheTokenizer`). A `<wbr>` hint
-   becomes a splitter that forces a token boundary.
-2. **Preprocessing (`PreProcessingStage`)** splits tokens into JAStudio's own pieces, in an order that matters:
+   `JNTokenizer` only translates MeCab's tokens into JNTokens and changes nothing: what the tokenizer gave stays visible,
+   and the sentence breakdown's edit mode shows it beside what the preprocessing made of it (Magnus, 2026-11-13). A
+   `<wbr>` hint becomes a splitter that forces a token boundary.
+2. **Preprocessing (`PreProcessingStage`)** first corrects the tokenizer's mistakes, putting tokens of its own in place
+   of the tokenizer's (`CorrectedToken`): an ichidan verb the dictionary lacks, which the tokenizer cuts into a godan
+   e-stem and an ending (`MisTokenizedIchidanVerbUnknownToTheTokenizer`). Then it splits tokens into JAStudio's own
+   pieces, each a type of its own that records the token it came from, in an order that matters:
+   - volitionals the tokenizer gives as one token (書こう, だろう), into the stem and う;
+   - ら抜き potentials (食べれる, 寝れない), into the verb's stem and れる;
    - godan imperatives;
    - godan potentials and imperatives hidden in what the tokenizer took for an ichidan verb;
    - ichidan imperatives;

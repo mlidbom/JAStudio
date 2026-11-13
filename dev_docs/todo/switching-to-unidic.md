@@ -128,7 +128,7 @@ parsed words, which include every candidate, changed.
 - **Counted wrong at first:** 51 differed when this section said 34. The script that listed the failing cases dropped the
   17 whose names xUnit cut short at 50 characters (the だって cases and others). The specifications' runner prints them
   whole with `-printMaxStringLength 0`.
-- **Fixed since:** ら抜き (食べれる, 寝れない), by `RaNukiPotentialTheTokenizerGivesAsOneToken`, below.
+- **Fixed since:** ら抜き (食べれる, 寝れない), by `RaNukiPotentialSplitter`, below.
 
 - **Better than IPADIC, to accept:** 待ってました (て is the contracted ている's, as UniDic says), 服を引き出しの中に (引き出し,
   the drawer, not the verb 引き出す), お構いなく and いえ (いえ the interjection, not 言う's imperative), 行ったって話 (above).
@@ -143,7 +143,7 @@ parsed words, which include every candidate, changed.
   tokenizing to fit our hacks designed to deal with bad tokenizing". The same goes for every case where UniDic tokenizes
   right and JAStudio's workarounds for IPADIC no longer fit: the workarounds change.
 - **Fixed:** ら抜き: 食べれる and 寝れない are one token in UniDic (base 食べれる, lemma 食べる), where JAStudio expects the
-  verb and れる. `RaNukiPotentialTheTokenizerGivesAsOneToken` splits a token whose lemma is its base form with る for れる, and
+  verb and れる. `RaNukiPotentialSplitter` splits a token whose lemma is its base form with る for れる, and
   an ichidan verb or 来る as UniDic tokenizes the lemma alone: so 走れる (走る, godan) and 忘れる (lemma 忘れる) stay whole.
 - **The vocab that require a single token (`singleToken`), 48 in the corpus:** the condition said "IPADIC gave this as one
   token". UniDic, cutting short units, gives some of those words as several: だって is always だ|って, ので always の|で (行く|の|で,
@@ -202,7 +202,12 @@ displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,9
 1. **Compare, changing nothing.** Done (2026-11-13): the comparison tool, and the findings above.
 2. **Port the tokenizer layer to UniDic.** In progress: the tokenizer reads with it, the registries are UniDic's, and JAStudio's
    facts about a token, the splitters and the fix for ichidan verbs the dictionary lacks speak UniDic's terms. The volitional,
-   which UniDic gives as one token (書こう, だろう), is split as IPADIC cut it (`VolitionalTheTokenizerGivesAsOneToken`).
+   which UniDic gives as one token (書こう, だろう), is split as IPADIC cut it (`VolitionalSplitter`).
+   **Every correction and split is the pre-processing stage's (Magnus, 2026-11-13):** the volitional and ら抜き splits
+   were first written in `JNTokenizer`, beside the older correction of ichidan verbs the dictionary lacks, each giving
+   JNTokens indistinguishable from MeCab's, so nothing kept what MeCab gave, and the breakdown's edit mode showed the
+   corrected tokens as the tokenizer's. Now `JNTokenizer` only translates; the pre-processing stage corrects first
+   (`CorrectedToken`, recording the tokenizer's tokens it replaces), then splits, each piece a type of its own.
    What was planned: JAStudio's token (`JNToken`), its parts of speech (`JNPartsOfSpeech`,
    `JNPOS`), inflection types and forms are IPADIC's. They become UniDic's, read from the dictionary's own words as
    `When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictionary_has` reads IPADIC's, and every use of them in

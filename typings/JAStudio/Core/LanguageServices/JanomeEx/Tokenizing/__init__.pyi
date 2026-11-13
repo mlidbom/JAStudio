@@ -1,7 +1,89 @@
 import typing, abc
-from System.Collections.Generic import HashSet_1, IReadOnlyList_1, List_1
+from System.Collections.Generic import IReadOnlyList_1, HashSet_1, List_1
+from JAStudio.Core.LanguageServices.TokenizerDictionaries import TokenizerDictionary
 from JAStudio.Core.Note.Collection import VocabCollection
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
+
+class CorrectedToken(JNToken):
+    @property
+    def BaseForm(self) -> str: ...
+    @property
+    def HasTeFormStem(self) -> bool: ...
+    @property
+    def InflectedForm(self) -> InflectionForm: ...
+    @property
+    def InflectionType(self) -> InflectionType: ...
+    @property
+    def IsAdjective(self) -> bool: ...
+    @property
+    def IsAdverb(self) -> bool: ...
+    @property
+    def IsDictionaryVerbFormStem(self) -> bool: ...
+    @property
+    def IsDictionaryVerbInflection(self) -> bool: ...
+    @property
+    def IsEndOfStatement(self) -> bool: ...
+    @property
+    def IsGodanImperativeInflection(self) -> bool: ...
+    @property
+    def IsGodanImperativeStem(self) -> bool: ...
+    @property
+    def IsGodanPotentialInflection(self) -> bool: ...
+    @property
+    def IsGodanPotentialStem(self) -> bool: ...
+    @property
+    def IsGodanVerb(self) -> bool: ...
+    @property
+    def IsIchidanImperativeInflection(self) -> bool: ...
+    @property
+    def IsIchidanImperativeStem(self) -> bool: ...
+    @property
+    def IsIchidanVerb(self) -> bool: ...
+    @property
+    def IsInflectableWord(self) -> bool: ...
+    @property
+    def IsIrrealis(self) -> bool: ...
+    @property
+    def IsKuruVerb(self) -> bool: ...
+    @property
+    def IsMasuStem(self) -> bool: ...
+    @property
+    def IsNonWordCharacter(self) -> bool: ...
+    @property
+    def IsPastTenseMarker(self) -> bool: ...
+    @property
+    def IsPastTenseStem(self) -> bool: ...
+    @property
+    def IsSuruVerb(self) -> bool: ...
+    @property
+    def IsTeForm(self) -> bool: ...
+    @property
+    def IsTheTokenizersOwn(self) -> bool: ...
+    @property
+    def IsVerb(self) -> bool: ...
+    @property
+    def Lemma(self) -> str: ...
+    @property
+    def Next(self) -> JNToken: ...
+    @Next.setter
+    def Next(self, value: JNToken) -> JNToken: ...
+    @property
+    def PartsOfSpeech(self) -> JNPartsOfSpeech: ...
+    @property
+    def Phonetic(self) -> str: ...
+    @property
+    def Previous(self) -> JNToken: ...
+    @Previous.setter
+    def Previous(self, value: JNToken) -> JNToken: ...
+    @property
+    def Reading(self) -> str: ...
+    @property
+    def SourceToken(self) -> JNToken: ...
+    @property
+    def Surface(self) -> str: ...
+    @property
+    def TokenizedAs(self) -> IReadOnlyList_1[JNToken]: ...
+
 
 class IAnalysisToken(abc.ABC):
     @property
@@ -45,6 +127,8 @@ class IAnalysisToken(abc.ABC):
     @property
     def IsPastTenseStem(self) -> bool: ...
     @property
+    def IsTheTokenizersOwn(self) -> bool: ...
+    @property
     def SourceToken(self) -> JNToken: ...
     @property
     def Surface(self) -> str: ...
@@ -63,66 +147,35 @@ class InflectionForm:
 
 class InflectionForms(abc.ABC):
     Unknown : InflectionForm
+    @classmethod
+    @property
+    def Continuative(cls) -> InflectionForm: ...
+    @classmethod
+    @property
+    def Hypothetical(cls) -> InflectionForm: ...
+    @classmethod
+    @property
+    def Imperative(cls) -> InflectionForm: ...
+    @classmethod
+    @property
+    def Irrealis(cls) -> InflectionForm: ...
+    @classmethod
+    @property
+    def Volitional(cls) -> InflectionForm: ...
     @staticmethod
     def GetByName(name: str) -> InflectionForm: ...
     @staticmethod
+    def IsAPastTenseStem(form: InflectionForm) -> bool: ...
+    @staticmethod
+    def IsDictionaryForm(form: InflectionForm) -> bool: ...
+    @staticmethod
+    def IsIrrealis(form: InflectionForm) -> bool: ...
+    @staticmethod
     def IsKnown(name: str) -> bool: ...
-
-    class Basic(abc.ABC):
-        Classical : InflectionForm
-        DictionaryForm : InflectionForm
-        Euphonic : InflectionForm
-        Gemination : InflectionForm
-        Modern : InflectionForm
-
-
-    class Continuative(abc.ABC):
-        DeConnection : InflectionForm
-        GozaiConnection : InflectionForm
-        NiConnection : InflectionForm
-        RenyoukeiMasuStem : InflectionForm
-        TaConnection : InflectionForm
-        TeConnection : InflectionForm
-        TeConnectionForms : HashSet_1[InflectionForm]
-
-
-    class Hypothetical(abc.ABC):
-        Contraction1 : InflectionForm
-        Contraction2 : InflectionForm
-        GeneralHypotheticalKateikei : InflectionForm
-
-
-    class ImperativeMeireikei(abc.ABC):
-        E : InflectionForm
-        GodanForms : HashSet_1[InflectionForm]
-        I : InflectionForm
-        IchidanForms : HashSet_1[InflectionForm]
-        Ro : InflectionForm
-        Yo : InflectionForm
-
-
-    class Irrealis(abc.ABC):
-        AllForms : HashSet_1[InflectionForm]
-        GeneralIrrealisMizenkei : InflectionForm
-        NuConnection : InflectionForm
-        ReruConnection : InflectionForm
-        SpecialIrrealis : InflectionForm
-        UConnection : InflectionForm
-
-
-    class Misc(abc.ABC):
-        GaruConnection : InflectionForm
-
-
-    class NounConnection(abc.ABC):
-        GeneralNounConnection : InflectionForm
-        Special1 : InflectionForm
-        Special2 : InflectionForm
-
 
 
 class InflectionType:
-    def __init__(self, name: str, description: str, family: str) -> None: ...
+    def __init__(self, name: str, description: str) -> None: ...
     @property
     def Description(self) -> str: ...
     @property
@@ -136,6 +189,9 @@ class InflectionType:
 
 class InflectionTypes(abc.ABC):
     Unknown : InflectionType
+    @classmethod
+    @property
+    def Uninflecting(cls) -> InflectionType: ...
     @staticmethod
     def EnglishOf(name: str) -> str: ...
     @staticmethod
@@ -146,107 +202,51 @@ class InflectionTypes(abc.ABC):
     def IsKnownFamily(family: str) -> bool: ...
 
     class Adjective(abc.ABC):
-        AuoEnding : InflectionType
         Family : str
-        IEnding : InflectionType
-        Ii : InflectionType
 
 
-    class Bungo(abc.ABC):
-        Beshi : InflectionType
+    class Auxiliary(abc.ABC):
         Family : str
-        Gotoshi : InflectionType
-        Keri : InflectionType
-        Ki : InflectionType
-        Maji : InflectionType
-        Nari : InflectionType
-        Ri : InflectionType
-        Ru : InflectionType
+        @classmethod
+        @property
+        def Masu(cls) -> InflectionType: ...
+        @classmethod
+        @property
+        def Nai(cls) -> InflectionType: ...
+        @classmethod
+        @property
+        def Reru(cls) -> InflectionType: ...
+        @classmethod
+        @property
+        def Ta(cls) -> InflectionType: ...
+        @classmethod
+        @property
+        def Tai(cls) -> InflectionType: ...
+
+
+    class Classical(abc.ABC):
+        @classmethod
+        @property
+        def Ri(cls) -> InflectionType: ...
 
 
     class Godan(abc.ABC):
-        Bu : InflectionType
         Family : str
-        GuEnding : InflectionType
-        KuGemination : InflectionType
-        KuGeminationYuku : InflectionType
-        KuISound : InflectionType
-        Mu : InflectionType
-        Nu : InflectionType
-        Ru : InflectionType
-        RuEndingAru : InflectionType
-        RuSpecial : InflectionType
-        Su : InflectionType
-        Tsu : InflectionType
-        UGemination : InflectionType
-        UUSound : InflectionType
 
 
     class Ichidan(abc.ABC):
-        Eru : InflectionType
-        Family : str
-        Kureru : InflectionType
-        Regular : InflectionType
+        LowerFamily : str
+        UpperFamily : str
+        @staticmethod
+        def Includes(type: InflectionType) -> bool: ...
 
 
     class Kahen(abc.ABC):
         Family : str
-        KuruKana : InflectionType
-        KuruKanji : InflectionType
-
-
-    class LowerNidan(abc.ABC):
-        Family : str
-        LowerDa : InflectionType
-        LowerGa : InflectionType
-        LowerHa : InflectionType
-        LowerKa : InflectionType
-        LowerMa : InflectionType
-        LowerTa : InflectionType
-        LowerU : InflectionType
-
-
-    class Other(abc.ABC):
-        Indeclinable : InflectionType
-
-
-    class Ruhen(abc.ABC):
-        Family : str
-        RaHen : InflectionType
 
 
     class Sahen(abc.ABC):
         Family : str
-        Suru : InflectionType
-        SuruCompound : InflectionType
-        Zuru : InflectionType
-
-
-    class Special(abc.ABC):
-        Da : InflectionType
-        Desu : InflectionType
-        Family : str
-        Ja : InflectionType
-        Masu : InflectionType
-        Nai : InflectionType
-        Nu : InflectionType
-        Ta : InflectionType
-        Tai : InflectionType
-        Ya : InflectionType
-
-
-    class UpperNidan(abc.ABC):
-        Family : str
-        UpperDa : InflectionType
-        UpperHa : InflectionType
-
-
-    class Yodan(abc.ABC):
-        BaEnding : InflectionType
-        Family : str
-        HaEnding : InflectionType
-        SaEnding : InflectionType
-        TaEnding : InflectionType
 
 
 
@@ -274,55 +274,46 @@ class JNPartsOfSpeech:
 
 
 class JNPOS(abc.ABC):
+    Adverb : JNPartsOfSpeech
     BoundAuxiliary : JNPartsOfSpeech
     Conjunction : JNPartsOfSpeech
-    Filler : JNPartsOfSpeech
-    Interjection : JNPartsOfSpeech
+    Prefix : JNPartsOfSpeech
     PreNounAdjectival : JNPartsOfSpeech
+    Pronoun : JNPartsOfSpeech
+    Space : JNPartsOfSpeech
+
+    class AdjectivalNoun(abc.ABC):
+        AuxiliaryVerbStem : JNPartsOfSpeech
+        General : JNPartsOfSpeech
+        Tari : JNPartsOfSpeech
+
 
     class Adjective(abc.ABC):
         AllTypes : HashSet_1[JNPartsOfSpeech]
-        Dependent : JNPartsOfSpeech
-        Independent : JNPartsOfSpeech
-        Suffix : JNPartsOfSpeech
-
-
-    class Adverb(abc.ABC):
         General : JNPartsOfSpeech
-        ParticleConnection : JNPartsOfSpeech
+        PossiblyDependent : JNPartsOfSpeech
+
+
+    class Interjection(abc.ABC):
+        Filler : JNPartsOfSpeech
+        General : JNPartsOfSpeech
 
 
     class Noun(abc.ABC):
-        Adverbial : JNPartsOfSpeech
-        AuxiliaryVerb : JNPartsOfSpeech
-        Conjunctive : JNPartsOfSpeech
-        General : JNPartsOfSpeech
-        NaAdjectiveStem : JNPartsOfSpeech
-        NegativeAdjectiveStem : JNPartsOfSpeech
-        Numeric : JNPartsOfSpeech
-        QuotedCharacterString : JNPartsOfSpeech
-        SuruVerb : JNPartsOfSpeech
+        AuxiliaryVerbStem : JNPartsOfSpeech
+        Numeral : JNPartsOfSpeech
 
-        class Dependent(abc.ABC):
+        class Common(abc.ABC):
+            Adjectival : JNPartsOfSpeech
             Adverbial : JNPartsOfSpeech
-            AuxiliaryVerbStem : JNPartsOfSpeech
+            CounterPossible : JNPartsOfSpeech
             General : JNPartsOfSpeech
-            NaAdjectiveStem : JNPartsOfSpeech
+            SuruVerb : JNPartsOfSpeech
+            SuruVerbOrAdjectival : JNPartsOfSpeech
 
 
-        class Pronoun(abc.ABC):
-            Contracted : JNPartsOfSpeech
+        class Proper(abc.ABC):
             General : JNPartsOfSpeech
-
-
-        class ProperNoun(abc.ABC):
-            General : JNPartsOfSpeech
-            Organization : JNPartsOfSpeech
-
-            class Location(abc.ABC):
-                Country : JNPartsOfSpeech
-                General : JNPartsOfSpeech
-
 
             class Person(abc.ABC):
                 Firstname : JNPartsOfSpeech
@@ -330,73 +321,62 @@ class JNPOS(abc.ABC):
                 Surname : JNPartsOfSpeech
 
 
-
-        class Special(abc.ABC):
-            AuxiliaryVerbStem : JNPartsOfSpeech
-
-
-        class Suffix(abc.ABC):
-            Adverbial : JNPartsOfSpeech
-            AuxiliaryVerbStem : JNPartsOfSpeech
-            Counter : JNPartsOfSpeech
-            General : JNPartsOfSpeech
-            NaAdjectiveStem : JNPartsOfSpeech
-            PersonsName : JNPartsOfSpeech
-            Region : JNPartsOfSpeech
-            Special : JNPartsOfSpeech
-            SuruVerbConnection : JNPartsOfSpeech
+            class Place(abc.ABC):
+                Country : JNPartsOfSpeech
+                General : JNPartsOfSpeech
 
 
-
-    class Other(abc.ABC):
-        Interjection : JNPartsOfSpeech
 
 
     class Particle(abc.ABC):
-        Adnominalization : JNPartsOfSpeech
         Adverbial : JNPartsOfSpeech
-        AdverbialCoordinatingEnding : JNPartsOfSpeech
-        Adverbialization : JNPartsOfSpeech
         Binding : JNPartsOfSpeech
+        CaseMarking : JNPartsOfSpeech
         Conjunctive : JNPartsOfSpeech
-        CoordinatingConjunction : JNPartsOfSpeech
+        Nominalizing : JNPartsOfSpeech
         SentenceEnding : JNPartsOfSpeech
-        Special : JNPartsOfSpeech
 
-        class CaseMarking(abc.ABC):
-            Compound : JNPartsOfSpeech
+
+    class Suffix(abc.ABC):
+        AdjectivalNounLike : JNPartsOfSpeech
+        AdjectiveLike : JNPartsOfSpeech
+        VerbLike : JNPartsOfSpeech
+
+        class NounLike(abc.ABC):
+            Adverbial : JNPartsOfSpeech
+            Counter : JNPartsOfSpeech
             General : JNPartsOfSpeech
-            Quotation : JNPartsOfSpeech
+            SuruVerb : JNPartsOfSpeech
 
 
 
-    class Prefix(abc.ABC):
-        Adjective : JNPartsOfSpeech
-        Noun : JNPartsOfSpeech
-        Number : JNPartsOfSpeech
-        VerbConnective : JNPartsOfSpeech
-
-
-    class Symbol(abc.ABC):
-        Alphabet : JNPartsOfSpeech
+    class SupplementarySymbol(abc.ABC):
         ClosingBracket : JNPartsOfSpeech
         Comma : JNPartsOfSpeech
         General : JNPartsOfSpeech
         OpeningBracket : JNPartsOfSpeech
         Period : JNPartsOfSpeech
-        Space : JNPartsOfSpeech
+
+        class AsciiArt(abc.ABC):
+            Emoticon : JNPartsOfSpeech
+            General : JNPartsOfSpeech
+
+
+
+    class Symbol(abc.ABC):
+        Character : JNPartsOfSpeech
+        General : JNPartsOfSpeech
 
 
     class Verb(abc.ABC):
         AllTypes : HashSet_1[JNPartsOfSpeech]
-        Dependent : JNPartsOfSpeech
-        Independent : JNPartsOfSpeech
-        Suffix : JNPartsOfSpeech
+        General : JNPartsOfSpeech
+        PossiblyDependent : JNPartsOfSpeech
 
 
 
 class JNToken(IAnalysisToken):
-    def __init__(self, partsOfSpeech: JNPartsOfSpeech, baseForm: str, surface: str, inflectionType: typing.Any = ..., inflectedForm: typing.Any = ..., reading: str = ..., phonetic: str = ..., nodeType: str = ...) -> None: ...
+    def __init__(self, partsOfSpeech: JNPartsOfSpeech, baseForm: str, surface: str, inflectionType: InflectionType = ..., inflectedForm: InflectionForm = ..., reading: str = ..., phonetic: str = ..., lemma: str = ...) -> None: ...
     SplitterTokenText : str
     @property
     def BaseForm(self) -> str: ...
@@ -451,13 +431,15 @@ class JNToken(IAnalysisToken):
     @property
     def IsTeForm(self) -> bool: ...
     @property
+    def IsTheTokenizersOwn(self) -> bool: ...
+    @property
     def IsVerb(self) -> bool: ...
+    @property
+    def Lemma(self) -> str: ...
     @property
     def Next(self) -> JNToken: ...
     @Next.setter
     def Next(self, value: JNToken) -> JNToken: ...
-    @property
-    def NodeType(self) -> str: ...
     @property
     def PartsOfSpeech(self) -> JNPartsOfSpeech: ...
     @property
@@ -483,9 +465,9 @@ class JNToken(IAnalysisToken):
 
 
 class JNTokenizedText:
-    def __init__(self, text: str, tokens: List_1[JNToken], rawTokens: typing.Any = ...) -> None: ...
+    def __init__(self, text: str, tokens: List_1[JNToken], dictionary: TokenizerDictionary) -> None: ...
     @property
-    def RawTokens(self) -> typing.Any: ...
+    def Dictionary(self) -> TokenizerDictionary: ...
     @property
     def Text(self) -> str: ...
     @property
@@ -551,6 +533,8 @@ class SplitTokenBase(IAnalysisToken):
     def IsPastTenseMarker(self) -> bool: ...
     @property
     def IsPastTenseStem(self) -> bool: ...
+    @property
+    def IsTheTokenizersOwn(self) -> bool: ...
     @property
     def SourceToken(self) -> JNToken: ...
     @property

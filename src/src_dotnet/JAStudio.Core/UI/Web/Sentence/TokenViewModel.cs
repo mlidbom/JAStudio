@@ -52,7 +52,7 @@ public sealed class TokenViewModel
    public string TokenClass => _token.GetType().Name;
 
    /// <summary>Whether the token is one of JAStudio's own, made from the tokenizer's, rather than one the tokenizer gave.</summary>
-   public bool IsJAStudiosOwn => _token is not JNToken;
+   public bool IsJAStudiosOwn => !_token.IsTheTokenizersOwn;
 
    /// <summary>The tokenizer's four levels of parts of speech, from the broadest, each in Japanese and in English.</summary>
    public List<TokenPartOfSpeech> PartsOfSpeech

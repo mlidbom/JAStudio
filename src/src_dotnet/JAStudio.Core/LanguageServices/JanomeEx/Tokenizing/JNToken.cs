@@ -5,6 +5,12 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
 
+/// <summary>
+/// A token described as the tokenizer's dictionary, UniDic, describes the words it knows: its surface, base form, lemma, reading, parts of speech,<br/>
+/// inflection type and inflected form, with what JAStudio's analysis reads from them. The tokenizer (<see cref="JNTokenizer"/>) gives one for each<br/>
+/// word it cuts a text into, translating MeCab's (<see cref="TokenizerDictionaries.MeCabToken"/>) and changing nothing. Where it got a word wrong,<br/>
+/// the pre-processing stage puts one of its own in place (<see cref="CorrectedToken"/>).
+/// </summary>
 public class JNToken : IAnalysisToken
 {
    public const string SplitterTokenText = "removethissplittertoken";
@@ -104,7 +110,24 @@ public class JNToken : IAnalysisToken
    public override bool IsNonWordCharacter => PartsOfSpeech.IsNonWordCharacter();
    public override bool IsIrrealis => InflectionForms.IsIrrealis(InflectedForm);
    public override JNToken SourceToken => this;
+   public override bool IsTheTokenizersOwn => true;
    // </IAnalysisToken implementation>
+
+   /// <summary>
+   /// A copy of one of the tokenizer's tokens, linked to no neighbours, for a sequence of tokens of its own: the pre-processing stage links a<br/>
+   /// correction's tokens as neighbours without changing the links between the tokenizer's tokens.
+   /// </summary>
+   internal JNToken Copy() => new(PartsOfSpeech, BaseForm, Surface, InflectionType, InflectedForm, Reading, Phonetic, Lemma);
+
+   /// <summary>Links each of <paramref name="tokens"/> to the tokens before and after it, its <see cref="Previous"/> and <see cref="Next"/>.</summary>
+   internal static void LinkAsNeighbours(IReadOnlyList<JNToken> tokens)
+   {
+      for(var index = 0; index < tokens.Count; index++)
+      {
+         tokens[index].Previous = index > 0 ? tokens[index - 1] : null;
+         tokens[index].Next = index < tokens.Count - 1 ? tokens[index + 1] : null;
+      }
+   }
 
    /// <summary>
    /// A verb, or an auxiliary that inflects as one, such as てる, ちゃう, れる and させる, which IPADIC, the tokenizer's former dictionary, had as<br/>

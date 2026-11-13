@@ -20,7 +20,8 @@ public sealed class JNTokenizer
       //refactor: the tokenizer is MeCab, with the UniDic dictionary, but the namespace JanomeEx and the types JNTokenizer, JNToken,
       //   JNTokenizedText, JNPartsOfSpeech and JNPOS are named for Janome, the Python tokenizer JAStudio used before. So is the comment on
       //   JNTokenizedText.RawTokens. The names should say what they are.
-      return new JNTokenizedText(text, TokenizeToLinkedTokenList(ReplaceCharactersThatConfuseTheTokenizer(text)));
+      var dictionary = TokenizerDictionary.UniDic;
+      return new JNTokenizedText(text, TokenizeToLinkedTokenList(ReplaceCharactersThatConfuseTheTokenizer(text), dictionary), dictionary);
    }
 
    static string ReplaceCharactersThatConfuseTheTokenizer(string text)
@@ -37,33 +38,18 @@ public sealed class JNTokenizer
       return tokenizerInput;
    }
 
-   static List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput)
+   /// <summary>
+   /// The tokens the <paramref name="dictionary"/> cuts <paramref name="tokenizerInput"/> into, each translated from MeCab's and nothing more, linked as<br/>
+   /// neighbours. Correcting and splitting them is the pre-processing stage's (<see cref="PreProcessingStage.PreProcessingStage"/>), which leaves these as they are.
+   /// </summary>
+   static List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput, TokenizerDictionary dictionary)
    {
-      var dictionary = TokenizerDictionary.UniDic;
       List<JNToken> tokens = [.. dictionary.Tokenize(tokenizerInput).Select(TokenOf)];
-      tokens = MisTokenizedIchidanVerbUnknownToTheTokenizer.CorrectEachIn(tokens);
-      tokens = RaNukiPotentialTheTokenizerGivesAsOneToken.SplitEachIn(tokens, dictionary);
-      tokens = VolitionalTheTokenizerGivesAsOneToken.SplitEachIn(tokens);
-      LinkNeighbouringTokens();
+      JNToken.LinkAsNeighbours(tokens);
       return tokens;
-
-      void LinkNeighbouringTokens()
-      {
-         for(var i = 0; i < tokens.Count; i++)
-         {
-            if(i > 0)
-            {
-               tokens[i].Previous = tokens[i - 1];
-            }
-
-            if(i < tokens.Count - 1)
-            {
-               tokens[i].Next = tokens[i + 1];
-            }
-         }
-      }
    }
 
+   /// <summary>MeCab's <paramref name="token"/> as a JNToken: its tags looked up in JAStudio's registries, its texts as they are.</summary>
    static JNToken TokenOf(MeCabToken token) =>
       new(JNPartsOfSpeech.Fetch(token.PartOfSpeech),
           baseForm: Sanitize(token.BaseForm),
