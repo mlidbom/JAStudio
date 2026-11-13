@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace JAStudio.Core.Configuration;
 
@@ -18,11 +17,7 @@ public class ConfigurationStore
 
    internal Dictionary<string, object> GetConfigDict() => _configDict;
 
-   internal void WriteConfigDict()
-   {
-      var json = JsonConvert.SerializeObject(_configDict, Formatting.None);
-      _configSource.Persist(json);
-   }
+   internal void WriteConfigDict() => _configSource.Persist(_configDict);
 
    JapaneseConfig? _config;
 

@@ -29,6 +29,8 @@ class UsingASpeech(TemporaryServiceCollection services)
    {
       var fileName = speech.UniqueFileName();
       var stored = _mediaStorage.StoreNewAudioFile(speech.Mp3, TextToSpeechAudioFolders.For(note), fileName);
+      //refactor: Whether Python runs stands in for whether JAStudio runs inside Anki, which has a media folder to copy the audio into.
+      //   Anki's media folder should be a seam of its own, registered by each host, as Anki's windows are (IAnkiWindows).
       if(PythonEngine.IsInitialized)
          CopyIntoAnkisMediaFolder(stored);
       note.Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(fileName)

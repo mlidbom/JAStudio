@@ -138,7 +138,7 @@ This project is actively porting UI from Python/PyQt6 to C#/Avalonia. **Use Pyth
 - `dev_docs/` - Development progress notes and porting status documents
 - `src/src_dotnet/` - C# source code (Avalonia UI, Core logic, Python interop)
   - `JAStudio.UI/` - Avalonia UI
-  - `JAStudio.UI.DesktopHost/` - Desktop entry point for running Avalonia UI outside Anki
+  - `JAStudio.StandaloneHost/` - The standalone JAStudio: JAStudio with its workspace window, without Anki
   - `JAStudio.Core/` - Domain logic
   - `JAStudio.Anki/` - Anki integration utilities (C# side)
   - `JAStudio.PythonInterop/` - Python ↔ C# bridge

@@ -3,6 +3,7 @@ using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
@@ -37,6 +38,8 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
+         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Unavailable),
+         Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
          Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),

@@ -168,7 +168,7 @@ public abstract class Match
       }
    }
 
-   public bool IsHighlighted => Variant.Configuration.HighlightedWords.Contains(ExclusionForm);
+   public bool IsHighlighted => Variant.Configuration.Highlights(this);
    public bool IsDisplayed => IsValidForDisplay || IsEmergencyDisplayed;
 
    public int StartIndex

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
+using JAStudio.Core.LanguageServices.Parsing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -216,6 +218,17 @@ public class When_editing_a_vocabs_match_condition_in_its_window : Specification
          [XF] public void it_says_no_word_in_the_sentence_is_one_of_the_vocabs_forms() => _window.WordToCheckAgainst.NoWordIsOneOfTheVocabsForms.Must().BeTrue();
          [XF] public void the_tree_is_no_longer_checked() => LinesWithTheirCheckMarks().Must().SequenceEqual([" // A word matches the vocab when each of these holds:"]);
       }
+   }
+
+   public class after_checking_it_against_the_vocabs_second_word_in_a_sentence : When_editing_a_vocabs_match_condition_in_its_window
+   {
+      const string Sentence = "食べてよろしい。見てよろしい。";
+
+      public after_checking_it_against_the_vocabs_second_word_in_a_sentence() =>
+         _window.WordToCheckAgainst.CheckAgainst(TextAnalysis.FromText(GetService<AnalysisServices>(), Sentence).MatchesOf(_vocab)[1].Variant);
+
+      [XF] public void the_sentence_is_typed_in() => _window.WordToCheckAgainst.Sentence.Must().Be(Sentence);
+      [XF] public void the_second_word_is_picked() => _window.WordToCheckAgainst.Picked?.Text.Must().Be("てよろしい, at 9: matches the vocab");
    }
 
    public class after_the_match_condition_is_changed_elsewhere : When_editing_a_vocabs_match_condition_in_its_window

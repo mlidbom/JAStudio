@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
-using JAStudio.Anki;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
-using Python.Runtime;
 
 namespace JAStudio.UI.ViewModels.Workspace;
 
@@ -21,6 +20,7 @@ class BulkNoteChanges(TemporaryServiceCollection services)
 {
    readonly TaskRunner _taskRunner = services.TaskRunner;
    readonly AnkiTagChanges _ankiTagChanges = services.Resolve<AnkiTagChanges>();
+   readonly IAnkiWindows _ankiWindows = services.AnkiWindows;
 
    /// <summary>Does <paramref name="changeANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.</summary>
    public Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
@@ -69,10 +69,6 @@ class BulkNoteChanges(TemporaryServiceCollection services)
          scope.RunIndeterminate(whatIsDone, change);
       });
 
-   /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change notes. There's no Anki when JAStudio runs without it.</summary>
-   static void ShowTheChangeInAnki()
-   {
-      if(PythonEngine.IsInitialized)
-         AnkiFacade.UIUtils.Refresh();
-   }
+   /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change notes.</summary>
+   void ShowTheChangeInAnki() => _ankiWindows.Refresh();
 }

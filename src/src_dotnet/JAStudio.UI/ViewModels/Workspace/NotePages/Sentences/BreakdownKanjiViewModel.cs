@@ -4,9 +4,9 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 
 /// <summary>
 /// A kanji of a word in a sentence's breakdown, under the word's entry, when the breakdown shows the kanji (<see cref="KanjiViewModel"/>): the kanji,<br/>
-/// linked to its note, with its answer and readings, and its mnemonic when the breakdown shows those too.
+/// linked to its note, with its answer and readings, and its mnemonic when the breakdown shows those too. A right-click on it gives the kanji's menu.
 /// </summary>
-sealed class BreakdownKanjiViewModel
+sealed class BreakdownKanjiViewModel : INotePageElement
 {
    public BreakdownKanjiViewModel(KanjiViewModel kanji, bool showsItsMnemonic)
    {

@@ -1,8 +1,8 @@
-using System;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
@@ -14,11 +14,8 @@ using JAStudio.UI.Utils;
 
 namespace JAStudio.Anki.PythonInterop;
 
-class AnkiAddonEnvironmentDependenciesRegistrar(string configJson, Action<string> configUpdateCallback) : IEnvironmentSpecificDependenciesRegistrar
+class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenciesRegistrar
 {
-   readonly string _configJson = configJson;
-   readonly Action<string> _configUpdateCallback = configUpdateCallback;
-
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar)
    {
       registrar.Register(
@@ -29,8 +26,10 @@ class AnkiAddonEnvironmentDependenciesRegistrar(string configJson, Action<string
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new AnkiRawNotes(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
+         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Available),
+         Singleton.For<IAnkiWindows>().Instance(new AnkisOwnWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
-         Singleton.For<IConfigDictSource>().Instance(new AnkiConfigDictSource(_configJson, _configUpdateCallback)),
+         Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ICardOperations>().CreatedBy(ICardOperations (ExternalNoteIdMap idMap) => new AnkiCardOperationsImpl(idMap)),
          Singleton.For<IAnkiTagOperations>().CreatedBy(IAnkiTagOperations (ExternalNoteIdMap ankiNoteIds) => new AnkiTagOperations(ankiNoteIds)),

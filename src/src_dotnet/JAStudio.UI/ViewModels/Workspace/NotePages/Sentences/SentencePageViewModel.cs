@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core;
@@ -7,6 +8,8 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.ViewModels.KanjiList;
+using JAStudio.UI.Menus.Notes.Sentence;
+using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 
 namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 
@@ -17,8 +20,11 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 /// </summary>
 sealed class SentencePageViewModel : NotePageViewModel
 {
+   readonly SentenceElementMenus _elementMenus;
+
    public SentencePageViewModel(SentenceNote sentence, TemporaryServiceCollection services, INotePageHost host) : base(host)
    {
+      _elementMenus = new SentenceElementMenus(services, sentence, host);
       var settings = services.Resolve<Settings>();
       var media = services.Resolve<MediaFileIndex>();
       var isInEditMode = settings.ShowBreakdownInEditMode();
@@ -91,4 +97,13 @@ sealed class SentencePageViewModel : NotePageViewModel
    public IReadOnlyList<TokenTableViewModel> TokenTables { get; }
 
    public override void PlayTheNotesAudio() => Audio?.Play();
+
+   public override List<SpecMenuItem> MenuOf(INotePageElement element, string selection) =>
+      element switch
+      {
+         BreakdownEntryViewModel entry => _elementMenus.OfAMatch(entry.Match, selection),
+         CompoundPartEntryViewModel part => _elementMenus.OfACompoundPart(part, selection),
+         BreakdownKanjiViewModel kanji => _elementMenus.OfAKanji(kanji, selection),
+         _ => throw new ArgumentException($"A sentence's page has no element {element}.", nameof(element))
+      };
 }

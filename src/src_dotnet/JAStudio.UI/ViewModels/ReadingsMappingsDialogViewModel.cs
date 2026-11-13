@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.Logging;
-using JAStudio.Anki;
 
 namespace JAStudio.UI.ViewModels;
 
@@ -43,8 +42,7 @@ partial class ReadingsMappingsDialogViewModel : ObservableObject
       this.Log().Info("Readings mappings saved");
       _window.Close(true);
 
-      // Refresh current note display to pick up new mappings
-      AnkiFacade.UIUtils.Refresh();
+      _services.AnkiWindows.Refresh();
    }
 
    void Cancel()

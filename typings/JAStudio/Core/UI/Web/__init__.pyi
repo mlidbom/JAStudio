@@ -38,6 +38,13 @@ class CardServerUrl(abc.ABC):
     def NotePageUrl(note: JPNote) -> Uri: ...
 
 
+class INoteLinkOpener(typing.Protocol):
+    @abc.abstractmethod
+    def OpenInAnkiPreviewer(self, noteId: NoteId) -> None: ...
+    @abc.abstractmethod
+    def OpenInWorkspace(self, noteId: NoteId) -> None: ...
+
+
 class IWebPageImages(typing.Protocol):
     @abc.abstractmethod
     def OfTheViewport(self, page: Uri, viewport: ViewportSize) -> PngImage: ...

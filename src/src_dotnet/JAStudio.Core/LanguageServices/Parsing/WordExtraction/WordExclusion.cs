@@ -17,7 +17,10 @@ public sealed class WordExclusion
       Index = index;
    }
 
-   public bool ExcludesFormAtIndex(string form, int index) => form == Word && (Index == NoIndex || Index == index);
+   /// <summary>Whether the exclusion is of its <see cref="Word"/> everywhere in the sentence (<see cref="Global"/>), rather than at one position (<see cref="AtIndex"/>).</summary>
+   public bool IsGlobal => Index == NoIndex;
+
+   public bool ExcludesFormAtIndex(string form, int index) => form == Word && (IsGlobal || Index == index);
 
    public static WordExclusion Global(string exclusion) => new(exclusion.Trim(), NoIndex);
 
@@ -54,7 +57,7 @@ public sealed class WordExclusion
 
    public override string ToString() => $"WordExclusion('{Word}', {Index})";
 
-   public bool ExcludesAllWordsExcludedBy(WordExclusion other) => Word == other.Word && (Index == NoIndex || Index == other.Index);
+   public bool ExcludesAllWordsExcludedBy(WordExclusion other) => Word == other.Word && (IsGlobal || Index == other.Index);
 
    public Dictionary<string, object> ToDict() =>
       new()

@@ -3,7 +3,6 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ReactiveCE;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.TaskRunners;
@@ -59,7 +58,7 @@ partial class NoteListViewModel : ObservableObject
 
    /// <summary>Opens Anki's browser on the listed notes, the ones that are in Anki, and no others.</summary>
    [RelayCommand(CanExecute = nameof(AnyListedNoteIsInAnki))]
-   void ShowInAnkisBrowser() => AnkiFacade.Browser.ExecuteLookup(_services.QueryBuilder().NotesLookup(_shownList.Notes));
+   void ShowInAnkisBrowser() => _services.AnkiWindows.OpenTheBrowserOn(_services.QueryBuilder().NotesLookup(_shownList.Notes));
 
    /// <summary>
    /// A note that isn't in Anki has no Anki id to search for. If no listed note is in Anki, the search would be empty,<br/>

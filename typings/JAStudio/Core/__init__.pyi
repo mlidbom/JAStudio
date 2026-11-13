@@ -10,6 +10,7 @@ from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
 from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
+from JAStudio.Core.Anki import AnkiAvailability, IAnkiWindows
 from JAStudio.Core.Batches import LocalNoteUpdater
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory
 
@@ -117,7 +118,11 @@ class StringExtensions(abc.ABC):
 
 class TemporaryServiceCollection:
     @property
+    def AnkiAvailability(self) -> AnkiAvailability: ...
+    @property
     def AnkiHTMLRenderers(self) -> AnkiHTMLRenderers: ...
+    @property
+    def AnkiWindows(self) -> IAnkiWindows: ...
     @property
     def BackgroundTaskManager(self) -> BackgroundTaskManager: ...
     @property

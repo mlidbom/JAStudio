@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 
 namespace JAStudio.Core.Note.Sentences;
 
@@ -16,6 +17,12 @@ public class SentenceConfiguration
       IncorrectMatches = incorrectMatches;
       HiddenMatches = hiddenMatches;
    }
+
+   /// <summary>
+   /// Whether the sentence highlights <paramref name="match"/>: its form is among the <see cref="HighlightedWords"/>, which highlight a form everywhere in<br/>
+   /// the sentence. A highlighted match is valid whatever else it fails (<see cref="Match.IsValid"/>).
+   /// </summary>
+   public bool Highlights(Match match) => HighlightedWords.Contains(match.ExclusionForm);
 
    public static SentenceConfiguration FromIncorrectMatches(List<WordExclusion> incorrectMatches) => FromValues([], incorrectMatches, []);
 

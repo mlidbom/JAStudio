@@ -7,6 +7,8 @@ using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Controls.NoteFields;
+using JAStudio.UI.ViewModels.Workspace.Editors.Parsing;
+using JAStudio.UI.ViewModels.Workspace.NotePages;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Views.Workspace.Editors;
@@ -14,9 +16,9 @@ using JAStudio.UI.Views.Workspace.Editors;
 namespace JAStudio.UI.ViewModels.Workspace.Editors;
 
 /// <summary>
-/// What the workspace's editor section shows for a sentence (<see cref="SentenceEditorSection"/>): its text fields, edited live.<br/>
-/// Every keystroke is written to the note at once, and the sentence's generated data is updated with it:<br/>
-/// a change to its question reparses the sentence, which is quick enough to do on every keystroke.
+/// What the workspace's editor section shows for a sentence (<see cref="SentenceEditorSection"/>): its text fields, edited live, and how it parsed<br/>
+/// (<see cref="Parsing"/>). Every keystroke is written to the note at once, and the sentence's generated data is updated with it: a change to its<br/>
+/// question reparses the sentence, which is quick enough to do on every keystroke.
 /// </summary>
 /// <remarks>
 /// Every field reads and writes through <see cref="CurrentSentence"/>, the sentence as the collection holds it now. See <see cref="INoteEditorSectionViewModel"/>.
@@ -29,7 +31,8 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
 
    /// <param name="services">The application's services.</param>
    /// <param name="sentenceId">The sentence to edit.</param>
-   public SentenceEditorSectionViewModel(TemporaryServiceCollection services, NoteId sentenceId)
+   /// <param name="tab">The workspace tab showing the sentence, which shows the notes the parsing view's menus open.</param>
+   public SentenceEditorSectionViewModel(TemporaryServiceCollection services, NoteId sentenceId, INotePageHost tab)
    {
       _services = services;
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
@@ -65,6 +68,7 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
          Field(SentenceEditableFields.SourceName)
       ];
       Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
+      Parsing = new SentenceParsingViewModel(services, CurrentSentence, tab);
    }
 
    /// <summary>
@@ -86,8 +90,13 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
 
    public NoteTagsEditorViewModel Tags { get; }
 
+   /// <summary>How the sentence parsed: the matches shown, and under each what it covers, its Parsing tab.</summary>
+   public SentenceParsingViewModel Parsing { get; }
+
+   /// <summary>Shows everything as the sentence has it now, and as it parses under the settings as they are now.</summary>
    public void Refresh()
    {
+      Parsing.Refresh();
       foreach(var field in AllFields()) field.Refresh();
       foreach(var list in (IEnumerable<MediaListEditorViewModel>)[..CorpusMedia, ..SourceMedia]) list.Refresh();
       Tags.Refresh();

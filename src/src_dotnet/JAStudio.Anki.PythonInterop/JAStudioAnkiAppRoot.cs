@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Platform;
 using Avalonia.Threading;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
@@ -17,6 +16,7 @@ using JAStudio.Mcp.Live;
 using JAStudio.UI;
 using JAStudio.UI.Shortcuts;
 using JAStudio.UI.Views.Importing;
+using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -72,14 +72,14 @@ public class JAStudioAnkiAppRoot
    }
 
    // ReSharper disable once UnusedMember.Global // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
-   public static JAStudioAnkiAppRoot Initialize(string configJson, Action<string> configUpdateCallback)
+   public static JAStudioAnkiAppRoot Initialize()
    {
       if(!Environment.GetEnvironmentVariable("DEBUG_JASTUDIO").IsNullEmptyOrWhiteSpace())
       {
          Debugger.Launch();
       }
 
-      var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar(configJson, configUpdateCallback));
+      var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar());
 
       var host = Host.CreateDefaultBuilder()
                      .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
@@ -115,9 +115,6 @@ public class JAStudioAnkiAppRoot
       uiThread.Start();
 
       UIApp.WaitForInitialization(TimeSpan.FromSeconds(30));
-#pragma warning disable CS0618 // Type or member is obsolete
-      DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
-#pragma warning restore CS0618 // Type or member is obsolete
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeWorkspaceWindow(coreApp.Services));
       AutomaticImportRunReports.StartShowing(coreApp.Services);
 

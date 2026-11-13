@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
-using JAStudio.Anki;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
@@ -122,6 +122,12 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       return menuItems;
    }
 
+   /// <summary>
+   /// The submenu of what can be done with <paramref name="selection"/>, text selected on <paramref name="sentence"/>'s page, titled <paramref name="title"/><br/>
+   /// followed by the text: the one the sentence's menu has for its selection.
+   /// </summary>
+   internal SpecMenuItem BuildSelectionMenuSpec(string title, string selection, SentenceNote sentence) => BuildStringMenuSpec(title, selection, "sentence", sentence);
+
    // String menu builders (for selection/clipboard)
    SpecMenuItem BuildStringMenuSpec(string title, string text, string? noteType, JPNote? note) =>
       SpecMenuItem.Submenu(title + $" \"{TruncateText(text, 40)}\"",
@@ -191,7 +197,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          label,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note)),
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.AnkiAvailability.IsAvailable),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
@@ -206,9 +212,9 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          title,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OnCreateVocabNote(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text))
+            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OpenTheVocabNamedOrCreatedFromTheDictionary(text), enabled: NotesCanBeCreated),
+            SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text), enabled: NotesCanBeCreated),
+            SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text), enabled: NotesCanBeCreated)
          }
       );
    }
@@ -224,8 +230,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    // Action handlers
    void OnOpenInPreviewer(JPNote note)
    {
-      var query = _services.QueryBuilder().NotesLookup([note]);
-      AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(query);
+      _services.AnkiWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
    }
 
    void OnDeleteNote(JPNote note)
@@ -261,16 +266,19 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseMatchingSentences(text);
-         AnkiFacade.UIUtils.Refresh();
-         AnkiFacade.UIUtils.ShowTooltip($"Reparsed sentences matching: {text}");
+         _services.AnkiWindows.Refresh();
+         _services.AnkiWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }
+
+   /// <summary>Creating a note creates its Anki note, so notes are created only while there's an Anki (<see cref="AnkiAvailability"/>).</summary>
+   bool NotesCanBeCreated => _services.AnkiAvailability.IsAvailable;
 
    /// <summary>
    /// Opens the vocab whose question is <paramref name="text"/>, creating it from the dictionary first when there's none: no two vocab may share a question,<br/>
    /// so a dialog says so when it existed already (<see cref="WorkspaceWindow.OpenTheVocab"/>).
    /// </summary>
-   void OnCreateVocabNote(string text) =>
+   internal void OpenTheVocabNamedOrCreatedFromTheDictionary(string text) =>
       _services.BackgroundTaskManager.Run(() => WorkspaceWindow.OpenTheVocab(_services.LocalNoteUpdater.TheVocabNamedOrCreatedFromTheDictionary(new WordReference(text))));
 
    void OnCreateSentenceNote(string text) =>

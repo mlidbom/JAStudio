@@ -14,6 +14,7 @@ from JAStudio.Core.Note.KanjiReadings import EditableKanjiReadingsField, KanjiNo
 from JAStudio.Core.Note.KanjiRelationships import MutualKanjiRelationship, KanjiPrimaryVocab, KanjiRadicals
 from JAStudio.Core.Note.NoteFields import WritableStringValue
 from Compze.Abstractions import EntityId
+from JAStudio.Core.Anki import AnkiAvailability
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import SharedConditions
@@ -280,6 +281,8 @@ class NoteId(EntityId):
 
 
 class NoteServices:
+    @property
+    def AnkiAvailability(self) -> AnkiAvailability: ...
     @property
     def CardOperations(self) -> ICardOperations: ...
     @property

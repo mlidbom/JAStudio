@@ -8,14 +8,14 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
 {
    readonly NoteIndex<string, SentenceNote, SentenceSnapshot> _byVocabForm;
    readonly NoteIndex<string, SentenceNote, SentenceSnapshot> _byHighlightedVocab;
-   readonly NoteIndex<string, SentenceNote, SentenceSnapshot> _byUserMarkedInvalidVocab;
+   readonly NoteIndex<string, SentenceNote, SentenceSnapshot> _byVocabMarkedIncorrect;
    readonly NoteIndex<NoteId, SentenceNote, SentenceSnapshot> _byVocabId;
 
    public SentenceCache(NoteServices noteServices) : base(noteServices)
    {
       _byVocabForm = NewIndex(snapshot => snapshot.Words);
       _byHighlightedVocab = NewIndex(snapshot => snapshot.HighlightedVocab);
-      _byUserMarkedInvalidVocab = NewIndex(snapshot => snapshot.MarkedIncorrectVocab);
+      _byVocabMarkedIncorrect = NewIndex(snapshot => snapshot.MarkedIncorrectVocab);
       _byVocabId = NewIndex(snapshot => snapshot.DetectedVocab);
    }
 
@@ -27,5 +27,5 @@ class SentenceCache : NoteCache<SentenceNote, SentenceSnapshot>
 
    public List<SentenceNote> WithHighlightedVocab(string form) => _byHighlightedVocab.NotesWith(form);
 
-   public List<SentenceNote> WithUserMarkedInvalidVocab(string form) => _byUserMarkedInvalidVocab.NotesWith(form);
+   public List<SentenceNote> WithVocabMarkedIncorrect(string form) => _byVocabMarkedIncorrect.NotesWith(form);
 }

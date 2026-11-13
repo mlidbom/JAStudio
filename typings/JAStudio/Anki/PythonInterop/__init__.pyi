@@ -1,6 +1,6 @@
 import typing
 from JAStudio.Core.Note import IBackendNoteCreator, KanjiNote
-from System import Action, Action_1
+from System import Action
 from JAStudio.Core.Note.Sentences import SentenceNote
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Collection import JPCollection, IExternalNoteUpdateHandler
@@ -44,7 +44,7 @@ class JAStudioAnkiAppRoot:
     def ANoteWasAddedInAnki(self, ankiNoteType: str) -> None: ...
     def HandleAnkiLifecycleEvent(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
     @staticmethod
-    def Initialize(configJson: str, configUpdateCallback: Action_1[str]) -> JAStudioAnkiAppRoot: ...
+    def Initialize() -> JAStudioAnkiAppRoot: ...
     def ShutDown(self) -> None: ...
 
 

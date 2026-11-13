@@ -68,10 +68,14 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
   - **The studying statuses and Anki note ids** come from an Anki profile's `collection.anki2`, read as JAStudio inside
     Anki reads it. While Anki runs, its latest changes may still be in the database's write-ahead log, which reading
     the file doesn't see.
+  - **It holds its corpus checkout while it runs** (`CorpusCheckoutLock`), as every JAStudio does: a standalone JAStudio
+    on the same corpus checkout, such as a linked worktree's on its own `src/jas_database`, or a reservoir command, is
+    refused until it stops. See `standalone-jastudio.md`.
   - **Its configuration is the same at every start, in every checkout** (`HeadlessConfigDictSource`): JAStudio's
     defaults, except that the batches run on one thread per logical core. A setting changed while it runs, such as a
     sentence breakdown's setting toggled with its hotkey, is kept in memory only. It never reads Magnus's configuration,
-    the add-on's `meta.json`, which Anki keeps: he toggles the sentence breakdown's settings from second to second as he
+    the add-on folder's `user_files/configuration.json` (`ConfigurationFile`; Anki kept it in the add-on's `meta.json` until
+    2026-11-13): he toggles the sentence breakdown's settings from second to second as he
     studies, so read at the start it made results depend on when the headless JAStudio was started (Magnus,
     2026-11-12). What he sees right now is the live JAStudio's to show.
   - **The user files are a copy of its own** (`HeadlessUserFiles`), of the add-on's, made as it starts: the add-on's are

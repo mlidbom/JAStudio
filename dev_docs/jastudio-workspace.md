@@ -144,20 +144,21 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
   and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
   `forbids::configured_hidden`, so the styles never applied.
 
-## Proposed: the right-click menu by what's right-clicked
+## The right-click menu by what's right-clicked
 
-*An analysis for discussion, 2026-11-13. Magnus: "I'm rather eager to make the menu understand context rather than do
+*Analysed and agreed with Magnus, 2026-11-13: "I'm rather eager to make the menu understand context rather than do
 string magic. So that you immediately get the options you should be getting for that element, not everything under the
-sun."*
+sun." Built in three increments, the first two done: see [As built](#as-built-increments-1-and-2).*
 
-### How it works now: from a string
+### Before: from a string
 
-A right-click on a note's page passes `NoteContextMenu` the note shown and two strings: the text right-clicked (the text
+Still how a right-click on no element of a page works, and how Anki's reviewer's menu works. A right-click on a note's
+page passes `NoteContextMenu` the note shown and two strings: the text right-clicked (the text
 selected, or else the whole text of the block under the mouse) and the clipboard's text. Each string gets a submenu of
 everything a string might be for. The menu then works out from the string what was meant. For example, "Add > Incorrect
 matches" analyses the sentence again and finds every match whose form is the string; when the word occurs twice, a
-submenu asks which, by its position. The Avalonia sentence page knows exactly which element was clicked (each control's
-`DataContext` is its `BreakdownEntryViewModel`, with the `Match` behind it), but it hands the menu only the text.
+submenu asks which, by its position. The Avalonia sentence page knew exactly which element was clicked (each control's
+`DataContext` is its `BreakdownEntryViewModel`, with the `Match` behind it), but it handed the menu only the text.
 
 The strings do two different jobs:
 - **Naming an element on the page:** the match to mark incorrect or hidden, the sentence to highlight a vocab in, the
@@ -165,7 +166,7 @@ The strings do two different jobs:
 - **Input:** a word to add as a synonym, a text to search the web for or to create a note from, where to split the
   sentence with a word-break tag. A selection does this job well, as it does now.
 
-### The proposal
+### The design
 
 The right-click hands the menu the element clicked: its view model, and through it the domain objects (a `Match`, a
 compound part's `VocabNote`, a kanji's `KanjiNote`). The menu is then:
@@ -232,22 +233,156 @@ Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 
 
 ### Found along the way
 
-- **"Incorrect" and "invalid" name one thing.** By hand it's an incorrect match (`IncorrectMatches`,
-  `configured_incorrect`), but the vocab's menu lists the sentences as "Marked invalid in sentences"
-  (`vocab.Sentences.InvalidIn`). And a match is invalid (`Match.IsValid`) for many more reasons than being marked so.
+- **"Incorrect" and "invalid" named one thing.** By hand it's an incorrect match (`IncorrectMatches`,
+  `configured_incorrect`), but the vocab's menu listed the sentences as "Marked invalid in sentences". And a match is
+  invalid (`Match.IsValid`) for many more reasons than being marked so. *Decided: "incorrect", below. Renamed
+  (`VocabNoteSentences.MarkedIncorrectIn`, `VocabSentencesMarkedIncorrect.razor`, the menu's and the card's texts), all
+  but the card's CSS ids, `invalidInSentencesSection` and `invalid_in_sentences`, compiled from two copies of
+  `vocab.scss`.*
 - **"Highlighted Vocab" names two things:** a sentence's highlighted words (`HighlightedWords`), and, in the kanji's string
   menu, the kanji's primary vocab (`KanjiStringMenus`).
 - **The vocab's "Sentence > Add Highlight" highlights in the first sentence with the question text only,** while "Remove
   highlight" and "Mark as incorrect match" act on all of them (`VocabStringMenus.BuildSentenceMenuSpec`). It goes away
   with the move to the sentence rows.
 
-### Open questions
+### Decided (Magnus, 2026-11-13)
 
-1. Leave out what doesn't apply, rather than show it disabled, with a fixed key for each item?
-2. Mark incorrect and hide at the word's position only, or also offer "everywhere in this sentence" (a `WordExclusion`
-   with no position)?
-3. Leave the clipboard out of the elements' menus, keeping it in the sentence's menu (a right-click on empty space)?
-4. One word for a match marked by hand, "incorrect" or "invalid"?
+1. **What doesn't apply is left out,** rather than shown disabled, and each item has a fixed key.
+2. **Marking incorrect and hiding is at the word's position only.** "Everywhere in this sentence" (a `WordExclusion` with
+   no position) can come later if it's missed. Unmarking a match marked everywhere unmarks it everywhere, and says so.
+3. **The clipboard is left out of the elements' menus.** The sentence's menu, from a right-click on no element, keeps it.
+4. **A match marked by hand is "incorrect".** "Invalid" is a match that fails any requirement (`Match.IsValid`).
+
+The increments: 1. the plumbing, and a breakdown entry's marking items, with step 4's match-condition item; 2. a word only
+the dictionary has, and a token nothing has; 3. compound parts' and kanji's own items. *The shadowing and winning matches'
+items were dropped from increment 2 (Magnus, 2026-11-13): edit mode is to show how the sentence parsed instead, so that
+each match's own menu is right there. See [Edit mode becomes the sentence's Parsing tab](#edit-mode-becomes-the-sentences-parsing-tab).*
+
+### As built: increments 1 and 2
+
+Built 2026-11-13.
+
+- **The element right-clicked** is the nearest one shown by the control right-clicked or by one around it
+  (`INotePageElement`): a breakdown entry (`BreakdownEntryViewModel`, holding its `Match`), a compound part under one, or
+  a kanji under one. A right-click on a meta tag is about its entry, one on a compound part about the part. A
+  right-click on no element gets the sentence's menu, as before.
+- **The menus** are `SentenceElementMenus`, which the page picks among by the element (`SentencePageViewModel.MenuOf`).
+  The selection is the text selected on the element, never its whole text.
+- **The keys,** whichever element's menu shows the item:
+
+  | Key | Item |
+  |---|---|
+  | u | Match-condition of 食べる, checked against this word |
+  | e | Mark incorrect here / Unmark incorrect |
+  | o | Hide here / Unhide |
+  | a | Highlight / Remove the highlight |
+  | i | Open 食べる |
+  | p | Open 食べる in a background tab |
+  | ö | Create the vocab パン from the dictionary / Create the vocab … |
+  | ä | Web: パン ▸ |
+  | å | Show the tokens (edit mode) |
+  | k | Vocab: 食べる ▸ / Kanji: 食 ▸ |
+  | j | Sentence ▸ |
+  | q | Selection: "…" ▸ |
+
+- **A breakdown entry** has the marking items for any match, a vocab's or not: "Mark incorrect here" when the match is
+  valid, "Hide here" when it's shown, "Unmark incorrect" and "Unhide" when the sentence marks it so, and the highlight
+  either way, except "Highlight" on a token nothing has (`MissingMatch`), which is never valid. A vocab's match adds the
+  match-condition item and the vocab's items. A word only the dictionary has (`DictionaryMatch`) adds creating its vocab
+  from the dictionary's entry and the web searches for it. A token nothing has adds creating its vocab, the web searches,
+  and, outside edit mode, switching to edit mode, which shows the tokens. The marks act on the match itself,
+  in Core: `WordExclusionSet.Add(Match)`, `Contains(Match)`, `Remove(Match)`, and `SentenceConfiguration.Highlights(Match)`,
+  which `Match.IsHighlighted` uses too.
+- **The match-condition item** opens the vocab's window with the sentence typed in and the word picked
+  (`MatchConditionWindow.OpenCheckingTheTreeAgainst`). The window analyses the sentence's text alone, as it does a
+  sentence typed, so its list of words says whether each matches by the vocab's match-condition and the general rules,
+  not by the sentence's own marks.
+- **A compound part and a kanji** have, for now, only their note's items: Open, Open in a background tab, and their
+  note's menu.
+
+### Edit mode becomes the sentence's Parsing tab
+
+*Discussed 2026-11-13; the first version is built: see [As built](#the-parsing-tab-as-built).* Magnus: "Rather than show the structure of the breakdown through a fragmented detour
+through many menus, I would like for the edit mode to visually show me what is shown, what is not, and why. [...] Now
+you can see most of the effects of the parsing at a glance and know just which shown word to mark invalid, or hidden
+word to highlight."
+
+Edit mode now lists every match of every candidate word in one flat list, each with its reasons above it, all looking
+alike. Instead, a tree that follows how the parsing decided:
+
+- **The words shown, in sentence order,** at the top level, as outside edit mode.
+- **Under each shown word, indented and greyed, what lost to it:**
+  - the words it shadows, those that start inside it, each with "shadowed by 食べ物", and under each, the words it
+    shadows in turn;
+  - the other matches of the same word, such as another vocab with the same form or the dictionary's entry, each with why
+    it lost;
+  - the word's other variant, its base form or its surface, with its matches.
+- **A word not shadowed but not shown either,** such as one hidden by hand, a compositionally transparent compound, or
+  one hidden by the setting that hides compounds, greyed, at its place in the sentence, with why.
+- **An invalid match:** greyed, its word in bold red, with why it's invalid.
+- **Every not-shown match is an entry with its own right-click menu,** so unmarking, highlighting or opening the
+  match-condition window is done on it directly.
+
+```
+食べ物    たべもの  food                                         shown
+  食べ as 食べる   to eat     shadowed by 食べ物                   grey
+  物      もの     thing      shadowed by 食べ物                   grey
+が        が       {subject}                                     shown
+  が      (dictionary)       another match owns the form        grey
+好き      すき     liked                                         shown
+  好き:x  すき     ...        ✗ match-condition not met:        grey, the word bold red
+                              !PrecedingToken.IsAParticle
+```
+
+Claude's additions, 2026-11-13:
+
+- **Reasons in words, naming the culprit:** "shadowed by 食べ物", "lost to が: it owns the form", "match-condition not
+  met: !PrecedingToken.IsAParticle", rather than `forbids::...` codes. A shadowed word names its shadow already
+  (`CandidateWord.ShadowedBy`); the match that wins over another isn't named yet.
+- **A reason is a way in:** clicking "match-condition not met" opens the vocab's match-condition window checked against
+  the word.
+- **By hand, apart from by rule:** a mark made by hand (incorrect, hidden, highlighted) looks different from a rule's
+  reason, since unmarking it is the fix.
+- **Collapsed by default:** each shown word with a count of what lost to it ("3 not shown"), opened by a click or a key,
+  so a long sentence stays readable. Or a toggle between everything open and everything closed.
+- **A strip of the sentence's tokens** above the breakdown, with the shown words as spans over them: how the sentence was
+  cut, at a glance, gaps and overlaps included.
+- **Highlighting doesn't beat shadowing.** A highlighted match is valid, but a longer word shown over it still shadows
+  it. The fix for a word wrongly shadowed is to mark the shadowing word incorrect, which the nesting puts right above it.
+
+#### Decided (Magnus, 2026-11-13)
+
+- **Editing and reading are two views.** "It is absolutely NOT required for the edit UI and the display UI to be the
+  same thing. [...] if splitting the editing view into its own thing makes things simpler and/or cleaner, that is A-OK."
+  Nor need they look alike. So how the sentence parsed is a view of its own, built on the analysis's own structure, and
+  the page is to become a reading view only. The Blazor card keeps its edit mode, for the reviewer, until it goes; "if
+  edit mode in blazor gets in your way at all, rip it out."
+- **It's a Parsing tab in the sentence's editor section**, the right-hand pane, beside its fields, so that the page and
+  how it parsed show side by side. It's a view of its own, easy to move to another host.
+- **The reasons are the matching's own strings for now,** such as `forbids::shadowed_by:とする`: programming-language-ish
+  suits Magnus better than prose, as in the condition editor. "Not the vital thing, the vital thing is the visual
+  indentation, greying out, bold red, etc."
+- **Everything expanded:** "the whole point is to see the indentation coloring etc."
+
+#### The Parsing tab, as built
+
+First version, 2026-11-13.
+
+- **`MatchTree`, in Core,** arranges the matches the breakdown's analysis made (those of its indexing variants, as edit
+  mode lists them) by which shown match covers each: the shown matches in sentence order, each with the not-shown matches
+  of the words that start in its place under it, and a not-shown match no shown match covers at its own place, such as a
+  longer compound starting where a shown word does, which comes before it.
+- **`SentenceParsingViewModel`,** the Parsing tab, shows a row for each (`ParsedMatchViewModel`): the word as written,
+  "食べ as 食べる" for a base form, what it matched when that's not the word itself (a vocab's question, "(dictionary)" or
+  "(nothing)"), its readings, its answer, and above it the matching's reasons, styled as the breakdown's. A match not
+  shown is greyed; an invalid one's word is bold red; a highlighted one's has the highlight. Covered matches are
+  indented under the match covering them.
+- **Each row's right-click menu is a breakdown entry's** (`SentenceElementMenus.OfAMatch`), so a greyed match is unmarked,
+  highlighted or checked against its match-condition right where it shows.
+- **It's made anew** whenever the sentence changes, as after a mark, and whenever a setting changes, since the breakdown's
+  settings change how the sentence parses.
+- **Not yet:** the token tables, and the question with its word breaks shown, are still only on the page in edit mode;
+  they move here when edit mode leaves the page. "Show the tokens (edit mode)" still switches the page to edit mode.
 
 ## Keyboard shortcuts
 
@@ -398,7 +533,8 @@ Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 
 
        *Built 2026-11-13*, as described in [The sentence page in Avalonia, as built](#the-sentence-page-in-avalonia-as-built).
     4. **Opening a vocab's match-condition window from a word in the breakdown,** checked against that word (see
-       `matching-configuration.md`).
+       `matching-configuration.md`). *Built 2026-11-13, as an item of the breakdown entry's own right-click menu: see
+       [The right-click menu by what's right-clicked](#the-right-click-menu-by-whats-right-clicked).*
     5. **The vocab page, then the kanji page.** Then the web view leaves the workspace.
     6. **The reviewer's right-click menu goes,** with what else of the Blazor pages reviewing doesn't need.
 

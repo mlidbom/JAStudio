@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Configuration;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.ViewModels.KanjiList;
 
@@ -9,12 +10,13 @@ namespace JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;
 /// <summary>
 /// A word of a sentence's breakdown, as the breakdown lists it (<see cref="MatchViewModel"/>): the word as it's written in the sentence, linked to the<br/>
 /// vocab it matched, if any, with the vocab's audio, form, readings, meta tags and answer; in edit mode, the reasons it doesn't match or isn't shown;<br/>
-/// and below it, the compound's parts and the word's kanji, when the breakdown shows those.
+/// and below it, the compound's parts and the word's kanji, when the breakdown shows those. A right-click on it gives the match's menu.
 /// </summary>
-sealed class BreakdownEntryViewModel
+sealed class BreakdownEntryViewModel : INotePageElement
 {
    public BreakdownEntryViewModel(MatchViewModel match, Settings settings, SentenceKanjiListViewModel kanjiLists)
    {
+      Match = match.Match;
       var vocab = match.VocabMatch?.Vocab;
       Reasons = settings.ShowBreakdownInEditMode()
                    ? [.. match.IncorrectReasons.Select(it => new MatchReasonViewModel(it, MakesTheMatchIncorrect: true)),
@@ -33,6 +35,12 @@ sealed class BreakdownEntryViewModel
       CompoundParts = match.ShowCompoundParts ? [.. match.CompoundParts.Select(it => new CompoundPartEntryViewModel(it))] : [];
       Kanji = match.ShowKanji ? [.. kanjiLists.Create(match.Kanji).KanjiList.Select(it => new BreakdownKanjiViewModel(it, match.ShowKanjiMnemonics))] : [];
    }
+
+   /// <summary>
+   /// The match the entry shows: the word in the sentence, and the vocab or the dictionary's entry it matched, if any, which the entry's right-click<br/>
+   /// menu is about.
+   /// </summary>
+   public Match Match { get; }
 
    /// <summary>In edit mode, the reasons the word doesn't match the vocab, then those it isn't shown; none otherwise.</summary>
    public IReadOnlyList<MatchReasonViewModel> Reasons { get; }
