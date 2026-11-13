@@ -5,8 +5,8 @@ using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -30,7 +30,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 public abstract class When_sharing_a_condition : SpecificationStartingWithAnEmptyCollection, IAIGeneratedSpec
 {
    protected readonly SharedConditions _sharedConditions;
-   protected readonly SharedCondition<IAnalysisToken> _isAVerb;
+   protected readonly SharedCondition<AnalysisToken> _isAVerb;
    protected readonly SharedCondition<CandidateWordVariant> _followsAVerb;
 
    protected When_sharing_a_condition()

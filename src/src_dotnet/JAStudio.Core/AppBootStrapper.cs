@@ -9,7 +9,7 @@ using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.LanguageServices.JamdictEx;
-using JAStudio.Core.LanguageServices.JanomeEx;
+using JAStudio.Core.LanguageServices.Parsing;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Tagging;

@@ -2,7 +2,7 @@ using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
@@ -22,7 +22,7 @@ namespace JAStudio.Core.Specifications.AICreatedSpecs.Matching;
 /// </summary>
 public class When_editing_a_shared_conditions_definition : When_sharing_a_condition
 {
-   protected readonly SharedCondition<IAnalysisToken> _isNotAVerb;
+   protected readonly SharedCondition<AnalysisToken> _isNotAVerb;
    protected readonly EditedDefinition _definitionOfIsAVerb;
 
    public When_editing_a_shared_conditions_definition()

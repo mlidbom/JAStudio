@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 

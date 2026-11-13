@@ -1,7 +1,7 @@
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -29,7 +29,7 @@ public class When_opening_a_vocabs_match_condition_window : SpecificationOpening
       var followsAVerb = GetService<SharedConditions>().Define(WordConditions.Level, "FollowsAVerb", PrecedingToken.Meets(TokenConditions.IsAGodanVerb));
       _ます = CreateVocab("ます", "polite ending", "ます");
       _ます.MatchingConfiguration.SetMatchCondition(ConditionGroup.AllOf<CandidateWordVariant>(
-                                                      PrecedingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb)),
+                                                      PrecedingToken.Meets(ConditionGroup.AnyOf<AnalysisToken>(TokenConditions.IsAGodanVerb, TokenConditions.IsAnIchidanVerb)),
                                                       followsAVerb));
 
       _window = Open(() => MatchConditionWindow.Open(_ます, Services));

@@ -1,5 +1,5 @@
 using Compze.Internals.SystemCE.ReactiveCE;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 
 namespace JAStudio.Core.Configuration;
 

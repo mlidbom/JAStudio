@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Analysis;
 using ModelContextProtocol.Protocol;

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.UI.Web.Sentence;
 
 namespace JAStudio.Core.Specifications.AICreatedSpecs.IchidanVerbsUnknownToTheTokenizer;
@@ -18,10 +18,10 @@ public abstract class IchidanVerbUnknownToTheTokenizerSpecification : Specificat
    protected const string StemOfAPotentialFormKnownToTheTokenizer = "泳げ";
 
    /// <summary>The tokens JAStudio's analysis works with for <paramref name="text"/>: the tokenizer's, as the pre-processing stage split them.</summary>
-   protected List<IAnalysisToken> PreProcessedTokensOf(string text) => TextAnalysis.FromText(GetService<AnalysisServices>(), text).PreProcessedTokens;
+   protected List<AnalysisToken> PreProcessedTokensOf(string text) => TextAnalysis.FromText(GetService<AnalysisServices>(), text).PreProcessedTokens;
 
    /// <summary>The tokens the tokenizer cut <paramref name="text"/> into, as it gave them.</summary>
-   protected List<JNToken> TheTokenizersTokensOf(string text) => TextAnalysis.FromText(GetService<AnalysisServices>(), text).TokenizedText.Tokens;
+   protected List<MeCabToken> TheTokenizersTokensOf(string text) => TextAnalysis.FromText(GetService<AnalysisServices>(), text).TokenizedText.Tokens;
 
    /// <summary>
    /// What the analysis works with of the pre-processed tokens of <paramref name="text"/>: each token's type, surface, base form and facts. Not the<br/>

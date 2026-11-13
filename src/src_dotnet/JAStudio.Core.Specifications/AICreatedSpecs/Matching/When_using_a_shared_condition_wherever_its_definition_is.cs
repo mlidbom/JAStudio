@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
@@ -34,7 +34,7 @@ public abstract class When_using_a_shared_condition_wherever_its_definition_is :
    protected readonly SharedConditions _sharedConditions;
    protected readonly SharedCondition<CandidateWordVariant> _startsInAGodanPotentialForm;
    protected readonly SharedCondition<CandidateWordVariant> _followsAnIrrealisFormOfNoIchidanVerb;
-   protected readonly SharedCondition<IAnalysisToken> _isAVerb;
+   protected readonly SharedCondition<AnalysisToken> _isAVerb;
    protected readonly SharedCondition<CandidateWordVariant> _followsAVerb;
 
    /// <summary>Godan potential required, its two facts the other way round: <c>FirstToken.AnyOf(IsAGodanPotentialInflection, IsAGodanPotentialStem)</c>.</summary>

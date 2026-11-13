@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Reservoir.Analysis.Numbering;
 

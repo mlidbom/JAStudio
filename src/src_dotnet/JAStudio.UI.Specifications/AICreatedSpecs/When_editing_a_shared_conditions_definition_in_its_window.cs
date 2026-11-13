@@ -5,8 +5,8 @@ using System.Threading;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -27,7 +27,7 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// </summary>
 public class When_editing_a_shared_conditions_definition_in_its_window : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
-   readonly SharedCondition<IAnalysisToken> _isAVerb;
+   readonly SharedCondition<AnalysisToken> _isAVerb;
    readonly SharedCondition<CandidateWordVariant> _followsAVerb;
    readonly VocabNote _ます;
    readonly List<string> _definitionsOpened = [];

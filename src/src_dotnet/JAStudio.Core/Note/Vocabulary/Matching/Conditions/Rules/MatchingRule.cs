@@ -1,4 +1,4 @@
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules;
 

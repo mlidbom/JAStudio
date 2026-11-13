@@ -497,12 +497,12 @@ question 1 below).
 
 ### How a sentence is parsed
 
-1. **Tokenizing (`JNTokenizer`).** MeCab, with the UniDic dictionary (IPADIC until 2026-11), gives each token:
+1. **Tokenizing (`MeCabTokenizer`).** MeCab, with the UniDic dictionary (IPADIC until 2026-11), gives each token:
    - its surface, base form, lemma and reading;
    - its part of speech at four levels;
    - its inflection type and inflected form.
 
-   `JNTokenizer` only translates MeCab's tokens into JNTokens and changes nothing: what the tokenizer gave stays visible,
+   `MeCabTokenizer` only translates MeCab's tokens into `MeCabToken`s and changes nothing: what the tokenizer gave stays visible,
    and the sentence breakdown's edit mode shows it beside what the preprocessing made of it (Magnus, 2026-11-13). A
    `<wbr>` hint becomes a splitter that forces a token boundary.
 
@@ -552,9 +552,9 @@ question 1 below).
   "this text isn't a word here". In the tree, that's a condition that always fails. So the model needs an explicit
   "never". In the search, an empty group is ignored, which is the opposite of a "never".
 - **Two kinds of token, and only one has the tokenizer's facts.**
-  - Only a tokenizer token (`JNToken`) has a part of speech, an inflection type and an inflected form.
+  - Only a tokenizer token (`MeCabToken`) has a part of speech, an inflection type and an inflected form.
   - A piece JAStudio split off (`SplitTokenBase`) has only a surface, a base form, and JAStudio's facts, which are
-    yes-or-no. Its other facts come from the token it was split from (`IAnalysisToken.SourceToken`).
+    yes-or-no. Its other facts come from the token it was split from (`AnalysisToken.SourceToken`).
   - Every dictionary-form verb is split, so "the token before" a word that follows one is the verb's ending, such as る.
   - So a test of a split piece's part of speech needs a definition: the token it came from, or not allowed. Open
     question 4.
@@ -614,7 +614,7 @@ own leaves:
 | Level | Tested against | Its leaves |
 |---|---|---|
 | The word | The candidate word as a vocab's match: its tokens, its variant, its place in the sentence | The condition-subject nodes below; "is a single token"; "is matched by its surface"; "is matched by an inflected surface" |
-| A token | One token (`IAnalysisToken`) | Part of speech is (at any of the four levels); inflection type is one of; inflected form is one of; surface, base form or reading (a text condition); each of JAStudio's facts about a token, from `IAnalysisToken` (godan verb, ichidan verb, irrealis, masu stem, adverb, has a て-form stem, the dictionary-form verb's stem or inflection, the godan potential's, the godan and ichidan imperative's, past-tense stem, past-tense marker, ends a statement, non-word character, inflectable word) |
+| A token | One token (`AnalysisToken`) | Part of speech is (at any of the four levels); inflection type is one of; inflected form is one of; surface, base form or reading (a text condition); each of JAStudio's facts about a token, from `IAnalysisToken` (godan verb, ichidan verb, irrealis, masu stem, adverb, has a て-form stem, the dictionary-form verb's stem or inflection, the godan potential's, the godan and ichidan imperative's, past-tense stem, past-tense marker, ends a statement, non-word character, inflectable word) |
 | A text | One string | Is one of; starts with one of; ends with one of; contains; matches a regular expression; is empty |
 
 **All of, any of and not exist at every level,** so the tree structure is generic over what's tested. That much
@@ -828,7 +828,7 @@ JAStudio's analysis finds them. The names are mine until Magnus's pass at the en
 
 **The model:**
 - **One tree for three subjects.** `Condition<TSubject>` is a condition on a word (`CandidateWordVariant`), a token
-  (`IAnalysisToken`) or a text (`string`). `ConditionGroup` makes "all of", "any of" and "not" on any of them.
+  (`AnalysisToken`) or a text (`string`). `ConditionGroup` makes "all of", "any of" and "not" on any of them.
 - **A `Fact<TSubject>`** is a yes-or-no condition defined once, such as `TokenConditions.IsAGodanVerb`.
 - **A `ConditionSubject<TFrom, TSubject>`** is a subject found from another, such as `WordConditions.PrecedingToken` or
   `TokenConditions.Surface`. Its `Meets` makes a `SubjectCondition`.
@@ -1063,7 +1063,7 @@ AnyOf(!Surface.In("本の"),
 - **Values from the tokenizer's fixed lists are unquoted,** in Japanese with their English beside them: parts of
   speech, inflection types and inflected forms. Several values go one to a line (Magnus). The selectors show both, and
   find a value by either. The same goes for anything else the editor shows in Japanese only (Magnus). The English is
-  in the code already: `JNPartsOfSpeech`, `InflectionTypes`, `InflectionForms`.
+  in the code already: `UniDicPartOfSpeech`, `UniDicInflectionTypes`, `UniDicInflectionForms`.
 - **The same text wherever a condition shows:** the tree, the failure reasons in the sentence breakdown and in
   `analyze_sentence` (`not_met::!PrecedingToken.IsAGodanVerb`), and the specs' failure messages.
 - **The C# that builds a condition reads the same, as far as C# allows** (Magnus: "If that is not hard, by all means do
@@ -1161,7 +1161,7 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
 
 1. **The empty token** (`Conditions.Tokens.EmptyToken`). `WordConditions.PrecedingToken` and `FollowingToken` find it where
    there's no token, so every subject is found (`ConditionSubject.FoundIn` never gives null) and every condition is tested
-   on it as written. Its part of speech is `JNPartsOfSpeech.None`, which has no levels and isn't among the tokenizer's.
+   on it as written. Its part of speech is `UniDicPartOfSpeech.None`, which has no levels and isn't among the tokenizer's.
    `TokenConditions.Exists` is the first fact on a token.
 2. **Conditions written as code** (`Conditions.Code`). Each condition writes its own lines (`Condition.CodeLines`), each
    tagged with the position in the tree of the line it's on, made of pieces of three kinds: code, negation and comment
@@ -1177,7 +1177,7 @@ Built 2026-11-12, in five steps, each a commit of its own. A full rebuild after 
    - **Values are in ordinal order,** as a condition's set of texts keeps them, so `InflectedForm.In(連用形, 連用タ接続)`
      shows as `InflectedForm.In(連用タ接続, 連用形)`.
    - **A comment is three spaces after its code,** not aligned in a column: Japanese is wider than a monospace cell.
-   - **The families of inflection types have English names** (`InflectionTypes.EnglishOf`), such as "every godan type"
+   - **The families of inflection types have English names** (`UniDicInflectionTypes.EnglishOf`), such as "every godan type"
      for 五段.
 3. **The tree shows the code in pieces,** in a monospace font (`CodeFont` in `App.axaml`): a `!` in orange and bold, a
    comment dimmed. A condition's lines after its first are indented under it.

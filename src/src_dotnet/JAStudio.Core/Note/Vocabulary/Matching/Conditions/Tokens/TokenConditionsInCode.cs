@@ -1,4 +1,4 @@
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -14,7 +14,7 @@ public static class TokenConditionsInCode
 {
    //review:matching: "InCode", for the conditions as C# writes them, beside TokenConditions, which defines them, and the code the editor shows
    //   (ConditionCode). TextConditionsInCode is named alike. "Fluent" would say how, not what.
-   extension<TFrom>(IConditionPath<TFrom, IAnalysisToken> token) where TFrom : class
+   extension<TFrom>(IConditionPath<TFrom, AnalysisToken> token) where TFrom : class
    {
       /// <summary>The token meets <see cref="TokenConditions.Exists"/>.</summary>
       public Condition<TFrom> Exists => token.Placed(TokenConditions.Exists);
@@ -95,9 +95,9 @@ public static class TokenConditionsInCode
       public InflectedFormTest<TFrom> InflectedForm => new(token);
 
       /// <summary>The token meets all of <paramref name="conditions"/>, conditions on a token.</summary>
-      public Condition<TFrom> AllOf(params Condition<IAnalysisToken>[] conditions) => token.Placed(ConditionGroup.AllOf(conditions));
+      public Condition<TFrom> AllOf(params Condition<AnalysisToken>[] conditions) => token.Placed(ConditionGroup.AllOf(conditions));
 
       /// <summary>The token meets any of <paramref name="conditions"/>, conditions on a token.</summary>
-      public Condition<TFrom> AnyOf(params Condition<IAnalysisToken>[] conditions) => token.Placed(ConditionGroup.AnyOf(conditions));
+      public Condition<TFrom> AnyOf(params Condition<AnalysisToken>[] conditions) => token.Placed(ConditionGroup.AnyOf(conditions));
    }
 }

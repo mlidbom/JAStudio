@@ -1,5 +1,5 @@
 using System;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 using JAStudio.Core.Note.Sentences.Serialization;
 
 namespace JAStudio.Core.Note.Sentences;

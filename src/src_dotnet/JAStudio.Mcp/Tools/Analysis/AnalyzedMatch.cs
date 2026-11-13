@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 
 namespace JAStudio.Mcp.Tools.Analysis;
 

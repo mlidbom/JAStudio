@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx;
+using JAStudio.Core.LanguageServices.Parsing;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
 using ModelContextProtocol.Server;

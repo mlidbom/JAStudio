@@ -4,8 +4,8 @@ using System.Reflection;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
@@ -80,7 +80,7 @@ public class When_keeping_a_match_condition_as_JSON : SpecificationStartingWithA
 
    [XF] public void every_fact_about_a_word_is_read_back_as_itself() => FactsNotReadBackAsThemselves<CandidateWordVariant>(typeof(WordConditions), it => it).Must().Be("");
 
-   [XF] public void every_fact_about_a_token_is_read_back_as_itself() => FactsNotReadBackAsThemselves<IAnalysisToken>(typeof(TokenConditions), FirstToken.Meets).Must().Be("");
+   [XF] public void every_fact_about_a_token_is_read_back_as_itself() => FactsNotReadBackAsThemselves<AnalysisToken>(typeof(TokenConditions), FirstToken.Meets).Must().Be("");
 
    [XF] public void every_fact_about_a_text_is_read_back_as_itself() => FactsNotReadBackAsThemselves<string>(typeof(TextConditions), FollowingText.Meets).Must().Be("");
 

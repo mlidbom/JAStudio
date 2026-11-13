@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.LanguageServices.Parsing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Reservoir.Analysis;

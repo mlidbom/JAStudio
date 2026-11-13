@@ -5,7 +5,7 @@ from System import IEquatable_1
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import IConditionGroup, AllOfGroup_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import CandidateWordVariant
 
 class CodeLayout:
     IndentationPerLevel : int

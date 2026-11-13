@@ -2,9 +2,9 @@ import typing, clr
 from System import IEquatable_1, Array_1, Action_1, ValueTuple_2
 from MemoryPack import IMemoryPackable_1
 from JAStudio.Core.Reservoir import ReservoirFile
-from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
+from JAStudio.Core.LanguageServices.Parsing import AnalysisServices
 from System.Collections.Generic import IEnumerable_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import TextAnalysis
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import TextAnalysis
 from JAStudio.Core.Reservoir.Analysis.Numbering import ReservoirAnalysisNumbers
 
 class AnalyzedReservoirSentence(IEquatable_1[AnalyzedReservoirSentence]):

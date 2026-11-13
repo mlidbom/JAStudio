@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Compze.DependencyInjection;
-using JAStudio.Core.LanguageServices.JanomeEx;
+using JAStudio.Core.LanguageServices.Parsing;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Reservoir;
 using JAStudio.Core.Reservoir.Analysis;

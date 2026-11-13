@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.EditableFields;
 using JAStudio.Core.Note.KanjiReadings;

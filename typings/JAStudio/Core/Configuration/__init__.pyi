@@ -2,7 +2,7 @@ import typing, abc
 from System.Collections.Generic import Dictionary_2, List_1
 from System import Func_2, IObservable_1
 from JAStudio.Core import IEnvironmentPaths
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import BreakdownParsingOptions
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import BreakdownParsingOptions
 
 class ConfigurationStore:
     def Config(self) -> JapaneseConfig: ...

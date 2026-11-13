@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 
 namespace JAStudio.Core.UI.Web.Sentence;
 
@@ -11,7 +11,7 @@ namespace JAStudio.Core.UI.Web.Sentence;
 /// </summary>
 public sealed class TokenTableViewModel
 {
-   TokenTableViewModel(string title, IEnumerable<IAnalysisToken> tokens)
+   TokenTableViewModel(string title, IEnumerable<AnalysisToken> tokens)
    {
       Title = title;
       Tokens = [.. tokens.Select(it => new TokenViewModel(it))];

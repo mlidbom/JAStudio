@@ -6,7 +6,7 @@ from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCon
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking import CheckedCondition
 from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import CandidateWordVariant
 
 class Condition_GenericClasses(abc.ABCMeta):
     Generic_Condition_GenericClasses_Condition_1_TSubject = typing.TypeVar('Generic_Condition_GenericClasses_Condition_1_TSubject')

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
@@ -16,9 +16,9 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// </summary>
 /// <remarks>
 /// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the part of speech of the token it was split from<br/>
-/// (<see cref="IAnalysisToken.SourceToken"/>).
+/// (<see cref="AnalysisToken.SourceToken"/>).
 /// </remarks>
-public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
+public sealed record PartOfSpeechIs : Condition<AnalysisToken>
 {
    const string LevelSeparator = "・";
    const string EnglishLevelSeparator = " › ";
@@ -49,20 +49,20 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    {
       return
       [
-         ..JNPartsOfSpeech.All
+         ..UniDicPartOfSpeech.All
                           .SelectMany(ItAndEachPartOfSpeechItIsAKindOf)
                           .Select(ValueOf)
                           .DistinctBy(it => it.Value)
                           .OrderBy(it => it.Value, StringComparer.Ordinal)
       ];
 
-      static IEnumerable<IReadOnlyList<string>> ItAndEachPartOfSpeechItIsAKindOf(JNPartsOfSpeech partOfSpeech) =>
+      static IEnumerable<IReadOnlyList<string>> ItAndEachPartOfSpeechItIsAKindOf(UniDicPartOfSpeech partOfSpeech) =>
          Enumerable.Range(1, partOfSpeech.Levels.Count).Select(count => partOfSpeech.Levels.Take(count).Select(it => it.Japanese).ToList());
    }
 
    /// <summary>The part of speech <paramref name="japaneseLevels"/>, its levels from the top, with their English, such as 名詞・固有名詞 with noun › proper-noun.</summary>
    static TokenizerValue ValueOf(IReadOnlyList<string> japaneseLevels) =>
-      new(string.Join(LevelSeparator, japaneseLevels), string.Join(EnglishLevelSeparator, japaneseLevels.Select(JNPartsOfSpeech.EnglishNameOf)));
+      new(string.Join(LevelSeparator, japaneseLevels), string.Join(EnglishLevelSeparator, japaneseLevels.Select(UniDicPartOfSpeech.EnglishNameOf)));
 
    /// <summary>Why the levels typed into the tree editor are no part of speech the tokenizer gives, or null when they are one.</summary>
    internal static string? WhyTypedLevelsAreNoPartOfSpeech(string typedLevels) => WhyTheyAreNoPartOfSpeech(TheLevelsTyped(typedLevels));
@@ -72,13 +72,13 @@ public sealed record PartOfSpeechIs : Condition<IAnalysisToken>
    /// <summary>Why <paramref name="levels"/> are no part of speech the tokenizer gives, nor a kind of one, or null when they are.</summary>
    static string? WhyTheyAreNoPartOfSpeech(IReadOnlyList<string> levels) =>
       levels.Count == 0                    ? "A part of speech needs at least its top level, such as 名詞."
-      : !JNPartsOfSpeech.AnyIsWithin(levels) ? $"The tokenizer gives no part of speech that is, or is a kind of, {string.Join(LevelSeparator, levels)}."
+      : !UniDicPartOfSpeech.AnyIsWithin(levels) ? $"The tokenizer gives no part of speech that is, or is a kind of, {string.Join(LevelSeparator, levels)}."
                                              : null;
 
    /// <summary>The part of speech's levels, from the top, in Japanese, joined by ・, such as 名詞・固有名詞・人名.</summary>
    public string JapaneseLevels { get; }
 
-   public override bool IsMetBy(IAnalysisToken subject) =>
+   public override bool IsMetBy(AnalysisToken subject) =>
       //review:matching: a piece JAStudio split off a token reads the token's part of speech, as it reads its inflection type, inflected form
       //   and reading: so the ending る of 食べる is a verb. My call on the design document's open question 4.
       subject.SourceToken.PartsOfSpeech.IsWithin(_levels);

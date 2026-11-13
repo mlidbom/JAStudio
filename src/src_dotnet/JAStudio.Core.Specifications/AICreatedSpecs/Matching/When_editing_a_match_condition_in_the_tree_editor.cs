@@ -1,8 +1,8 @@
 using System;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.ConditionTrees;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Editing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -89,7 +89,7 @@ public class When_editing_a_match_condition_in_the_tree_editor : IAIGeneratedSpe
 
       public after_adding_an_any_of_group_on_the_preceding_token_with_two_conditions_in_it()
       {
-         _theGroup = _matchCondition.AddCondition(Root, PrecedingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>())).Child(0);
+         _theGroup = _matchCondition.AddCondition(Root, PrecedingToken.Meets(ConditionGroup.AnyOf<AnalysisToken>())).Child(0);
          _matchCondition.AddCondition(_theGroup, TokenConditions.IsAnAdverb);
          _matchCondition.AddCondition(_theGroup, TokenConditions.PartOfSpeech.Is("形容詞"));
       }

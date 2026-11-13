@@ -204,15 +204,15 @@ displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,9
    facts about a token, the splitters and the fix for ichidan verbs the dictionary lacks speak UniDic's terms. The volitional,
    which UniDic gives as one token (書こう, だろう), is split as IPADIC cut it (`VolitionalSplitter`).
    **Every correction and split is the pre-processing stage's (Magnus, 2026-11-13):** the volitional and ら抜き splits
-   were first written in `JNTokenizer`, beside the older correction of ichidan verbs the dictionary lacks, each giving
-   JNTokens indistinguishable from MeCab's, so nothing kept what MeCab gave, and the breakdown's edit mode showed the
-   corrected tokens as the tokenizer's. Now `JNTokenizer` only translates, and the pre-processing stage only splits, each
+   were first written in the tokenizer (`MeCabTokenizer`, then named `JNTokenizer`), beside the older correction of ichidan verbs the dictionary lacks, each giving
+   tokens indistinguishable from MeCab's, so nothing kept what MeCab gave, and the breakdown's edit mode showed the
+   corrected tokens as the tokenizer's. Now `MeCabTokenizer` only translates, and the pre-processing stage only splits, each
    piece a type of its own with one source token. The ichidan verb the dictionary lacks isn't joined any more: the facts
    of its two tokens are the verb's (`IchidanVerbUnknownToTheTokenizer`), and they're split into the pieces of a verb the
    dictionary knows. Magnus: "joining tokens is what the parser excels at". A rebuild after both changes matched the one
    before them, sentence for sentence.
-   What was planned: JAStudio's token (`JNToken`), its parts of speech (`JNPartsOfSpeech`,
-   `JNPOS`), inflection types and forms are IPADIC's. They become UniDic's, read from the dictionary's own words as
+   What was planned: JAStudio's token (`MeCabToken`), its parts of speech (`UniDicPartOfSpeech`,
+   `UniDicPartsOfSpeech`), inflection types and forms are IPADIC's. They become UniDic's, read from the dictionary's own words as
    `When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictionary_has` reads IPADIC's, and every use of them in
    the parsing and the matching configuration moves to UniDic's terms, guided by the correspondences the comparison
    counted. The four splitters are checked against UniDic's cuts: what they repair may not happen with UniDic, and

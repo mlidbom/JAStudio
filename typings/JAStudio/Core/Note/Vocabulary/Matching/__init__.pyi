@@ -1,7 +1,7 @@
 import typing
 from JAStudio.Core.Note.NoteFields import FlagField
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping import AllOfGroup_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import CandidateWordVariant
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Rules import MatchingRule, RequireForbidMatchingRule
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import ISharedCondition
 from System.Collections.Generic import IReadOnlySet_1

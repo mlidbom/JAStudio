@@ -1,7 +1,7 @@
 import abc
 from System.Collections.Generic import IReadOnlyList_1
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions import Condition_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import CandidateWordVariant
 
 class MatchingRule(abc.ABC):
     @property

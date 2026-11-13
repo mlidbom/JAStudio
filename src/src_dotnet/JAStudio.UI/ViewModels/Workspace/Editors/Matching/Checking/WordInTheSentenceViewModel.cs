@@ -1,5 +1,5 @@
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches;
 
 namespace JAStudio.UI.ViewModels.Workspace.Editors.Matching.Checking;
 

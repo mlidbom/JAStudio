@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -16,11 +16,11 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// </summary>
 /// <remarks>
 /// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the inflected form of the token it was split from<br/>
-/// (<see cref="IAnalysisToken.SourceToken"/>).
+/// (<see cref="AnalysisToken.SourceToken"/>).
 /// </remarks>
-public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
+public sealed record InflectedFormIsIn : Condition<AnalysisToken>
 {
-   //review:matching: "inflected form", after JNToken.InflectedForm, whose type is InflectionForm: two names for one concept. The value,
+   //review:matching: "inflected form", after MeCabToken.InflectedForm, whose type is UniDicInflectionForm: two names for one concept. The value,
    //   such as 連用形-促音便, is a kind of form, not the inflected word itself, so "inflection form" tells the truth better. Not renamed yet,
    //   since the question beside InflectionTypeIsIn, inflection or conjugation, may rename it again: one rename for both, across the
    //   tokenizer, the MCP's AnalyzedToken and this model.
@@ -43,29 +43,29 @@ public sealed record InflectedFormIsIn : Condition<IAnalysisToken>
 
    /// <summary>Every inflected form the tokenizer gives, with its English, in ordinal order: what the tree editor offers to pick from.</summary>
    internal static IReadOnlyList<TokenizerValue> PickableValues() =>
-      [.. InflectionForms.All.OrderBy(it => it.Name, StringComparer.Ordinal).Select(ValueOf)];
+      [.. UniDicInflectionForms.All.OrderBy(it => it.Name, StringComparer.Ordinal).Select(ValueOf)];
 
    /// <summary>The inflected form <paramref name="form"/> with its English, such as 連用形-促音便 with Continuative with っ sound change.</summary>
-   static TokenizerValue ValueOf(InflectionForm form) => new(form.Name, form.Description);
+   static TokenizerValue ValueOf(UniDicInflectionForm form) => new(form.Name, form.Description);
 
    /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflected forms, or null when they are.</summary>
    static string? WhyTheyAreNoInflectedForms(TextSet names)
    {
-      var unknownNames = names.Texts.Where(it => !InflectionForms.IsKnown(it)).ToList();
+      var unknownNames = names.Texts.Where(it => !UniDicInflectionForms.IsKnown(it)).ToList();
       return unknownNames.Count == 0 ? null : $"The tokenizer has no inflected forms named {string.Join(", ", unknownNames)}.";
    }
 
    /// <summary>The inflected forms' names, in Japanese, as the tokenizer gives them, such as 連用形-促音便.</summary>
    public TextSet Names { get; }
 
-   public override bool IsMetBy(IAnalysisToken subject) => Names.Texts.Contains(subject.SourceToken.InflectedForm.Name);
+   public override bool IsMetBy(AnalysisToken subject) => Names.Texts.Contains(subject.SourceToken.InflectedForm.Name);
 
    /// <summary>
    /// The condition in code, each form with its English as a comment, one to a line when there are several:<br/>
    /// <c>InflectedForm.In(連用形-促音便)  // Continuative with っ sound change</c>.
    /// </summary>
    internal override IEnumerable<CodeLine> CodeLines(CodeWriting writing) =>
-      writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(InflectionForms.GetByName).Select(ValueOf)]);
+      writing.LinesListing("InflectedForm.In", [.. Names.Texts.Select(UniDicInflectionForms.GetByName).Select(ValueOf)]);
 
    /// <summary>
    /// The key this condition is stored under in the corpus. It keeps the name the condition had before its code was written <c>In</c>: a new key would change<br/>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using Compze.Contracts;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 
@@ -16,9 +16,9 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// </summary>
 /// <remarks>
 /// A piece JAStudio split off a token, such as a dictionary-form verb's ending, has the inflection type of the token it was split from<br/>
-/// (<see cref="IAnalysisToken.SourceToken"/>).
+/// (<see cref="AnalysisToken.SourceToken"/>).
 /// </remarks>
-public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
+public sealed record InflectionTypeIsIn : Condition<AnalysisToken>
 {
    //review:matching: "inflection type" and "inflected form" for 活用型 and 活用形, after Janome's infl_type and infl_form. English grammars
    //   of Japanese mostly say conjugation type and conjugation form, as UniDic's documentation does. Linguistics uses both words.
@@ -45,25 +45,25 @@ public sealed record InflectionTypeIsIn : Condition<IAnalysisToken>
 
    /// <summary>Every inflection type the tokenizer gives, and every family of them, each with its English, in ordinal order: what the tree editor offers to pick from.</summary>
    internal static IReadOnlyList<TokenizerValue> PickableValues() =>
-      [.. InflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(ValueOf)];
+      [.. UniDicInflectionTypes.NamesOfTheTypesAndTheirFamilies.Order(StringComparer.Ordinal).Select(ValueOf)];
 
    /// <summary>
    /// The inflection type, or family of them, named <paramref name="name"/>, with its English: such as 五段-ラ行 with Godan verb with 'ru' ending, or 五段<br/>
    /// with every godan type.
    /// </summary>
-   static TokenizerValue ValueOf(string name) => new(name, InflectionTypes.EnglishOf(name));
+   static TokenizerValue ValueOf(string name) => new(name, UniDicInflectionTypes.EnglishOf(name));
 
    /// <summary>Why <paramref name="names"/> aren't all the tokenizer's inflection types, or families of them, or null when they are.</summary>
    static string? WhyTheyAreNoInflectionTypes(TextSet names)
    {
-      var unknownNames = names.Texts.Where(it => !InflectionTypes.IsKnown(it) && !InflectionTypes.IsKnownFamily(it)).ToList();
+      var unknownNames = names.Texts.Where(it => !UniDicInflectionTypes.IsKnown(it) && !UniDicInflectionTypes.IsKnownFamily(it)).ToList();
       return unknownNames.Count == 0 ? null : $"The tokenizer has no inflection types, nor families of them, named {string.Join(", ", unknownNames)}.";
    }
 
    /// <summary>The inflection types' names, in Japanese, as the tokenizer gives them, such as 五段-ラ行, or the family's, such as 五段.</summary>
    public TextSet Names { get; }
 
-   public override bool IsMetBy(IAnalysisToken subject)
+   public override bool IsMetBy(AnalysisToken subject)
    {
       var inflectionType = subject.SourceToken.InflectionType;
       return Names.Texts.Contains(inflectionType.Name) || Names.Texts.Contains(inflectionType.Family);

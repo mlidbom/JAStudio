@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Compze.Contracts;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing.PreProcessingStage;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;

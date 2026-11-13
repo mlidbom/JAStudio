@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.TokenizerDictionaries;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.MeCab;
 
 // ReSharper disable InconsistentNaming
 
@@ -25,13 +25,13 @@ public class When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictiona
    /// </summary>
    static readonly IReadOnlyList<string[]> FeaturesOfEveryWord = ReadTheFeaturesOfEveryWord();
 
-   readonly JNTokenizer _tokenizer = JNTokenizer.GetInstance();
+   readonly MeCabTokenizer _tokenizer = MeCabTokenizer.GetInstance();
 
    [XF] public void JAStudio_knows_every_inflection_type_in_the_dictionary() =>
-      FeaturesOfEveryWord.Select(it => it[4]).Distinct().Where(it => !InflectionTypes.IsKnown(it)).Must().BeEmpty();
+      FeaturesOfEveryWord.Select(it => it[4]).Distinct().Where(it => !UniDicInflectionTypes.IsKnown(it)).Must().BeEmpty();
 
    [XF] public void JAStudio_knows_every_inflected_form_in_the_dictionary() =>
-      FeaturesOfEveryWord.Select(it => it[5]).Distinct().Where(it => !InflectionForms.IsKnown(it)).Must().BeEmpty();
+      FeaturesOfEveryWord.Select(it => it[5]).Distinct().Where(it => !UniDicInflectionForms.IsKnown(it)).Must().BeEmpty();
 
    [XF] public void the_dictionary_was_read_with_its_hundreds_of_thousands_of_words() => FeaturesOfEveryWord.Count.Must().BeGreaterThan(800_000);
 

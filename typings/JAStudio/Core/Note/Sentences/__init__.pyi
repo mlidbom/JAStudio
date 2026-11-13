@@ -2,15 +2,15 @@ import typing, clr, abc
 from JAStudio.Core.Storage.Dto import SentenceConfigDto, SentenceDto, CorpusNoteDto, SentenceSourceDataDto
 from JAStudio.Core.Note import NoteGuard, NoteId, JPNote, IHasTextToSpeechAudio, NoteServices, NoteFlushGuard
 from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1, HashSet_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches import Match
 from System import IEquatable_1, Action
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.Commands import NoteChangingCommandTakingAText_1, INoteCommand_1
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
 from JAStudio.Core.Note.Media import AllAudioOfANote, ImageReference, AudioReferenceList, MediaReference, MediaReferenceList_1
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
-from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
+from JAStudio.Core.LanguageServices.Parsing import AnalysisServices
 from JAStudio.Core.Note.NoteFields import StripHtmlOnReadFallbackStringField, WritableStringValue, SentenceQuestionField
 from JAStudio.Core.Storage.Media import AudioAttachment, SourceTag
 

@@ -1,5 +1,5 @@
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 
 namespace JAStudio.Mcp.Tools.Analysis;
 
@@ -10,7 +10,7 @@ namespace JAStudio.Mcp.Tools.Analysis;
 /// <param name="MadeFrom">The surface of the tokenizer's token JAStudio's pre-processing made this token from, by splitting it. None when it's the tokenizer's own.</param>
 public record AnalyzedToken(string Surface, string BaseForm, string PartsOfSpeech, string InflectionType, string InflectedForm, string? MadeFrom)
 {
-   public static AnalyzedToken Of(IAnalysisToken token)
+   public static AnalyzedToken Of(AnalysisToken token)
    {
       var tokenizerToken = token.SourceToken;
       return new AnalyzedToken(token.Surface,
@@ -21,7 +21,7 @@ public record AnalyzedToken(string Surface, string BaseForm, string PartsOfSpeec
                                token.IsTheTokenizersOwn ? null : tokenizerToken.Surface);
    }
 
-   static string PartsOfSpeechOf(JNPartsOfSpeech partsOfSpeech) =>
+   static string PartsOfSpeechOf(UniDicPartOfSpeech partsOfSpeech) =>
       string.Join("・", new[] { partsOfSpeech.Level1, partsOfSpeech.Level2, partsOfSpeech.Level3, partsOfSpeech.Level4 }
                           .Select(it => it.Japanese)
                           .Where(it => it != "*" && it != ""));

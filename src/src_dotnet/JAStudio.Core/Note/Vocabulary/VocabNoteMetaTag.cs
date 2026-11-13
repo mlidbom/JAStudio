@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing.PreProcessingStage;
 using JAStudio.Core.Note.Tagging;
 
 namespace JAStudio.Core.Note.Vocabulary;

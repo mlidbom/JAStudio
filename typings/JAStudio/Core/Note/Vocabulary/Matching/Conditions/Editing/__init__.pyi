@@ -7,7 +7,7 @@ from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code import CodeLine
 from System import Func_1
 from JAStudio.Core.Note.Vocabulary import VocabNote
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking import CheckedCondition
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import CandidateWordVariant
 
 class EditableCondition:
     def __init__(self, tree: Condition, level: IConditionLevel) -> None: ...

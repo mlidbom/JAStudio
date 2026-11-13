@@ -1,5 +1,5 @@
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Sentences;
 

@@ -1,8 +1,8 @@
 using System;
 using Compze.Must;
 using Compze.xUnitBDD;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Code;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
@@ -106,7 +106,7 @@ public class When_writing_a_condition_as_code : IAIGeneratedSpec
 
    public class an_empty_group : When_writing_a_condition_as_code
    {
-      [XF] public void opens_and_closes_on_its_line() => FollowingToken.Meets(ConditionGroup.AnyOf<IAnalysisToken>()).ToString().Must().Be("FollowingToken.AnyOf()");
+      [XF] public void opens_and_closes_on_its_line() => FollowingToken.Meets(ConditionGroup.AnyOf<AnalysisToken>()).ToString().Must().Be("FollowingToken.AnyOf()");
    }
 
    public class a_text_with_a_quote_and_a_backslash : When_writing_a_condition_as_code

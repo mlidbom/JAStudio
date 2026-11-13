@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Texts;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
@@ -19,7 +19,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Words;
 /// </list>
 /// </summary>
 /// <remarks>
-/// The tokens are those after JAStudio's preprocessing (<see cref="LanguageServices.JanomeEx.Tokenizing.PreProcessingStage.PreProcessingStage"/>), which<br/>
+/// The tokens are those after JAStudio's preprocessing (<see cref="LanguageServices.Parsing.Tokenizing.PreProcessingStage.PreProcessingStage"/>), which<br/>
 /// splits some of the tokenizer's tokens, such as every dictionary-form verb into its stem and its ending. So the token preceding a word after 食べる<br/>
 /// is its ending, る.
 /// </remarks>
@@ -36,19 +36,19 @@ public static class WordConditions
       new(nameof(IsMatchedByAnInflectedSurface), "matchedByAnInflectedSurface", it => it.IsSurface && it.Word.SurfaceForm != it.Word.BaseForm);
 
    /// <summary>The token before the word's first token: the empty token (<see cref="EmptyToken"/>) before the sentence's first token.</summary>
-   public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> PrecedingToken =
+   public static readonly ConditionSubject<CandidateWordVariant, AnalysisToken> PrecedingToken =
       new(nameof(PrecedingToken), "precedingToken", it => it.Word.StartLocation.Previous?.Token ?? EmptyToken.Instance, TokenConditions.Level);
 
    /// <summary>The word's first token, its only one if it's a single token.</summary>
-   public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> FirstToken =
+   public static readonly ConditionSubject<CandidateWordVariant, AnalysisToken> FirstToken =
       new(nameof(FirstToken), "firstToken", it => it.Word.StartLocation.Token, TokenConditions.Level);
 
    /// <summary>The word's last token, its only one if it's a single token.</summary>
-   public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> LastToken =
+   public static readonly ConditionSubject<CandidateWordVariant, AnalysisToken> LastToken =
       new(nameof(LastToken), "lastToken", it => it.Word.EndLocation.Token, TokenConditions.Level);
 
    /// <summary>The token after the word's last token: the empty token (<see cref="EmptyToken"/>) after the sentence's last token.</summary>
-   public static readonly ConditionSubject<CandidateWordVariant, IAnalysisToken> FollowingToken =
+   public static readonly ConditionSubject<CandidateWordVariant, AnalysisToken> FollowingToken =
       new(nameof(FollowingToken), "followingToken", it => it.Word.EndLocation.Next?.Token ?? EmptyToken.Instance, TokenConditions.Level);
 
    /// <summary>The sentence's text before the word, from the sentence's start (<see cref="CandidateWord.PrecedingText"/>).</summary>

@@ -1,7 +1,7 @@
 from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1, IReadOnlyDictionary_2
 from JAStudio.Core.Reservoir import ReservoirSentence, ReservoirFile
 from JAStudio.Core.Note.Vocabulary import VocabNote
-from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
+from JAStudio.Core.LanguageServices.Parsing import AnalysisServices
 
 class ReservoirSentenceTexts:
     @property

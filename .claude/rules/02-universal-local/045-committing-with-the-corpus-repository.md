@@ -38,7 +38,7 @@ generated note files changed two ways. So the corpus gets one line of history, m
 ## The most important and most common case: a change to how matching or analysis works
 
 That is, any change to what parsing a sentence, or a note's generated data, comes out as:
-- tokenizing and word extraction (`LanguageServices/JanomeEx`);
+- tokenizing and word extraction (`LanguageServices/Parsing`);
 - matching vocab to the words of sentences (`VocabNoteMatchingRules`, `VocabNoteMatchingConfiguration`, forms,
   compound parts);
 - what a note's `UpdateGeneratedData` computes.

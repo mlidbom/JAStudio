@@ -2,8 +2,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using JAStudio.Core.LanguageServices.TokenizerDictionaries;
-using JAStudio.Core.LanguageServices.TokenizerDictionaries.Comparing;
+using JAStudio.Core.LanguageServices.MeCab;
+using JAStudio.Core.LanguageServices.MeCab.Comparing;
 using JAStudio.Core.Reservoir;
 
 namespace JAStudio.HeadlessHost;
@@ -57,7 +57,7 @@ static class TokenizerDictionaryCommands
    }
 
    /// <summary>
-   /// Prints each token the tokenizer dictionary <c>--dictionary</c> cuts <c>--text</c> into, as the dictionary gives it (<see cref="MeCabToken"/>),<br/>
+   /// Prints each token the tokenizer dictionary <c>--dictionary</c> cuts <c>--text</c> into, as the dictionary gives it (<see cref="RawMeCabToken"/>),<br/>
    /// before any of JAStudio's corrections: a line each, with its part of speech, inflection, base form, lemma, reading and pronunciation.
    /// </summary>
    static int Tokenize(CommandLineValues values)
@@ -69,13 +69,13 @@ static class TokenizerDictionaryCommands
          Console.WriteLine(LineOf(token));
       return 0;
 
-      static string LineOf(MeCabToken token) =>
+      static string LineOf(RawMeCabToken token) =>
          string.Join('\t',
                      $"   {token.Start,3} {token.Surface}{(token.IsUnknownToTheDictionary ? " (unknown)" : "")}",
                      token.PartOfSpeech,
                      $"{token.InflectionType} {token.InflectionForm}",
                      $"base {token.BaseForm}",
-                     $"lemma {token.Lemma ?? MeCabToken.Nothing}",
+                     $"lemma {token.Lemma ?? RawMeCabToken.Nothing}",
                      $"reading {token.Reading}",
                      $"pronunciation {token.Pronunciation}");
    }

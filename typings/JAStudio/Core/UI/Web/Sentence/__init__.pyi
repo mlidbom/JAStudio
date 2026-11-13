@@ -1,15 +1,15 @@
 import typing, clr
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import CandidateWordVariant, TextAnalysis
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction import CandidateWordVariant, TextAnalysis
 from JAStudio.Core.Configuration import Settings, JapaneseConfig
 from JAStudio.Core.Note.Collection import VocabCollection
 from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1
 from JAStudio.Core.Note.Vocabulary import VocabNote, VocabMetaTag
 from JAStudio.Core.Note.Sentences import SentenceConfiguration, SentenceNote
 from JAStudio.Core.Note import NoteId
-from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction.Matches import Match, VocabMatch
+from JAStudio.Core.LanguageServices.Parsing.WordExtraction.Matches import Match, VocabMatch
 from JAStudio.Core.UI.Web import AppendingPrerenderer_1
 from System import IEquatable_1
-from JAStudio.Core.LanguageServices.JanomeEx.Tokenizing import IAnalysisToken
+from JAStudio.Core.LanguageServices.Parsing.Tokenizing import AnalysisToken
 
 class CandidateWordVariantViewModel:
     def __init__(self, variant: CandidateWordVariant, settings: Settings, vocab: VocabCollection) -> None: ...
@@ -187,7 +187,7 @@ class TokenTableViewModel:
 
 
 class TokenViewModel:
-    def __init__(self, token: IAnalysisToken) -> None: ...
+    def __init__(self, token: AnalysisToken) -> None: ...
     @property
     def BaseForm(self) -> str: ...
     @property

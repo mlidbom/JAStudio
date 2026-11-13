@@ -1,4 +1,4 @@
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 
 namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 
@@ -13,7 +13,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions.Tokens;
 /// was never tested at a sentence's edges. Magnus found the outcomes "utterly insane" (2026-11-12): see <c>dev_docs/matching-configuration.md</c>, "A<br/>
 /// missing token: the empty token".
 /// </remarks>
-public sealed class EmptyToken : IAnalysisToken
+public sealed class EmptyToken : AnalysisToken
 {
    EmptyToken() {}
 
@@ -21,11 +21,11 @@ public sealed class EmptyToken : IAnalysisToken
    public static EmptyToken Instance { get; } = new();
 
    /// <summary>The tokenizer's token the empty token stands for, for the conditions that read one: no part of speech, no inflection and no reading.</summary>
-   static readonly JNToken NoToken = new(JNPartsOfSpeech.None, baseForm: "", surface: "");
+   static readonly MeCabToken NoToken = new(UniDicPartOfSpeech.None, baseForm: "", surface: "");
 
    public override string Surface => "";
    public override string BaseForm => "";
-   public override JNToken SourceToken => NoToken;
+   public override MeCabToken SourceToken => NoToken;
 
    public override bool IsIchidanVerb => false;
    public override bool IsGodanVerb => false;

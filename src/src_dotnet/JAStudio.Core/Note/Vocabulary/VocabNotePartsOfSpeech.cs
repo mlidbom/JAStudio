@@ -1,7 +1,7 @@
 using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Note.Vocabulary;

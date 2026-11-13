@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 
 namespace JAStudio.Core.UI.Web.Sentence;
 
@@ -11,7 +11,7 @@ namespace JAStudio.Core.UI.Web.Sentence;
 /// </summary>
 public sealed class TokenViewModel
 {
-   static readonly List<(Func<IAnalysisToken, bool> IsTrueOf, string Name)> Flags =
+   static readonly List<(Func<AnalysisToken, bool> IsTrueOf, string Name)> Flags =
    [
       (it => it.IsPastTenseStem, "past_tense_stem"),
       (it => it.IsPastTenseMarker, "past_tense_marker"),
@@ -34,9 +34,9 @@ public sealed class TokenViewModel
       (it => it.IsGodanVerb, "godan_verb")
    ];
 
-   readonly IAnalysisToken _token;
+   readonly AnalysisToken _token;
 
-   public TokenViewModel(IAnalysisToken token) => _token = token;
+   public TokenViewModel(AnalysisToken token) => _token = token;
 
    public string Surface => _token.Surface;
 
@@ -48,7 +48,7 @@ public sealed class TokenViewModel
    /// <summary>The <see cref="TrueFlags"/>, separated by commas.</summary>
    public string TrueFlagsListed => string.Join(", ", TrueFlags);
 
-   /// <summary>The token's class, such as <c>JNToken</c>, the tokenizer's own, or one of JAStudio's, made by splitting or joining the tokenizer's.</summary>
+   /// <summary>The token's class, such as <c>MeCabToken</c>, the tokenizer's own, or one of JAStudio's, made by splitting the tokenizer's.</summary>
    public string TokenClass => _token.GetType().Name;
 
    /// <summary>Whether the token is one of JAStudio's own, made from the tokenizer's, rather than one the tokenizer gave.</summary>

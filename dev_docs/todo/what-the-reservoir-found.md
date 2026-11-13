@@ -25,7 +25,7 @@ report takes 5.
 
 - **Analysis crashed on any sentence with a classical verb.** The tokenizer's dictionary, IPADIC, has 58 inflection
   types, and JAStudio knew 48. A token of one of the other ten, such as 下二・ガ行 (捧ぐ, 見上ぐ) or 文語・マジ, threw
-  `KeyNotFoundException` in `InflectionTypes.GetByName`, failing the whole sentence. None of the corpus's sentences has
+  `KeyNotFoundException` in `InflectionTypes.GetByName` (now `UniDicInflectionTypes`), failing the whole sentence. None of the corpus's sentences has
   one; the first bulk analysis of anime subtitles hit one within 80,000 sentences. All ten, and the inflected form
   現代基本形, are added (`LowerNidan`, `UpperNidan`, `Yodan.SaEnding`, `Yodan.TaEnding`, `Bungo.Maji`), and the spec
   `When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictionary_has` reads every type and form from the

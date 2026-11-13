@@ -1,6 +1,6 @@
 using System.Linq;
 using Compze.Must;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
 using Xunit;
 
 // ReSharper disable InconsistentNaming
@@ -23,7 +23,7 @@ public class When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer : Ic
       TheTokenizersTokensOf(StemOfAPotentialFormUnknownToTheTokenizer + ending)[0]
         .Must().Satisfy(eStem => eStem.Surface == StemOfAPotentialFormUnknownToTheTokenizer &&
                                  eStem.IsIchidanVerb && !eStem.IsGodanVerb &&
-                                 eStem.InflectionType.Family == InflectionTypes.Godan.Family);
+                                 eStem.InflectionType.Family == UniDicInflectionTypes.Godan.Family);
 
    [Theory]
    [MemberData(nameof(Endings))]

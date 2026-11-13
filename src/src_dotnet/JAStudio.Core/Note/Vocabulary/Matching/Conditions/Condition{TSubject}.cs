@@ -1,6 +1,6 @@
 using System.Linq;
-using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
-using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
+using JAStudio.Core.LanguageServices.Parsing.Tokenizing;
+using JAStudio.Core.LanguageServices.Parsing.WordExtraction;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Checking;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Grouping;
 
@@ -8,7 +8,7 @@ namespace JAStudio.Core.Note.Vocabulary.Matching.Conditions;
 
 /// <summary>
 /// A condition that a subject either meets or doesn't. The subject is a word in its sentence (<see cref="CandidateWordVariant"/>), a token<br/>
-/// (<see cref="IAnalysisToken"/>), or a text. A vocab's match-condition is a condition on a word: a word can match the vocab only when it meets it.
+/// (<see cref="AnalysisToken"/>), or a text. A vocab's match-condition is a condition on a word: a word can match the vocab only when it meets it.
 /// </summary>
 /// <remarks>
 /// Conditions combine into a tree: <see cref="ConditionGroup"/> makes "all of", "any of" and "not", and a <see cref="SubjectCondition{TFrom,TSubject}"/><br/>
