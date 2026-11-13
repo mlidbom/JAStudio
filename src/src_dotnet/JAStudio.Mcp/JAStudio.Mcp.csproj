@@ -13,6 +13,7 @@
    <ItemGroup>
       <ProjectReference Include="..\JAStudio.Core\JAStudio.Core.csproj" />
       <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj" />
+      <ProjectReference Include="..\JAStudio.Mcp.Discovery\JAStudio.Mcp.Discovery.csproj" />
    </ItemGroup>
 
    <ItemGroup>

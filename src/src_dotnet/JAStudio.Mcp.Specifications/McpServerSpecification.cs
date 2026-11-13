@@ -34,6 +34,9 @@ public abstract class McpServerSpecification : SpecificationStartingWithAnEmptyC
       _client = McpClient.CreateAsync(new HttpClientTransport(new HttpClientTransportOptions { Endpoint = _server.Url })).GetAwaiter().GetResult();
    }
 
+   /// <summary>The address the server listens at.</summary>
+   protected Uri ServerUrl => _server.Url;
+
    /// <summary>The tools the server offers, as the gateway lists them.</summary>
    protected IReadOnlyList<Tool> ListTools() => [.. _client.ListToolsAsync().AsTask().GetAwaiter().GetResult().Select(it => it.ProtocolTool)];
 

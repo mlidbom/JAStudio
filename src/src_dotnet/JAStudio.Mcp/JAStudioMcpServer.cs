@@ -4,11 +4,14 @@ using System.Net;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Compze.Contracts;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Extensions.Hosting;
+using JAStudio.Core;
 using JAStudio.Core.SysUtils.Json;
 using JAStudio.Mcp.Corpus;
+using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Tools.Analysis;
 using JAStudio.Mcp.Tools.Cards;
 using JAStudio.Mcp.Tools.Collection;
@@ -39,22 +42,26 @@ namespace JAStudio.Mcp;
 
 /// <summary>
 /// JAStudio's MCP server: the tools Claude works with JAStudio through, such as <see cref="NoteTools.SearchNotes"/>, served over HTTP to this<br/>
-/// computer only. The same server runs in each JAStudio that starts it: the headless JAStudio (<c>JAStudio.HeadlessHost</c>), and the live one,<br/>
-/// inside Anki (<see cref="Live.LiveJAStudioMcpServer"/>).
+/// computer only. The same server runs in every JAStudio: inside Anki and in the standalone JAStudio (<see cref="Live.LiveJAStudioMcpServer"/>), and<br/>
+/// in the headless JAStudio (<c>JAStudio.HeadlessHost</c>). Each announces it among the <see cref="RunningJAStudios"/> (<see cref="AnnounceAs"/>).
 /// </summary>
 /// <remarks>
-/// Claude Code doesn't connect to it directly: an MCP gateway (<c>JAStudio.Mcp.Gateway</c>) does, one for each of the two, and forwards its tools<br/>
-/// to Claude Code, so the JAStudio behind it can be restarted without Claude Code losing them. The design is in <c>dev_docs/jastudio-mcp.md</c>.
+/// Claude Code doesn't connect to it directly: Claude's MCP gateway (<c>JAStudio.Mcp.Gateway</c>) does, finding it among the running JAStudios,<br/>
+/// and forwards its tools to Claude Code, so the JAStudio behind it can be restarted without Claude Code losing them. The design is in<br/>
+/// <c>dev_docs/jastudio-mcp.md</c>.
 /// </remarks>
-public sealed class JAStudioMcpServer
+public sealed partial class JAStudioMcpServer
 {
    /// <summary>How the tools' results are written as JSON: the SDK's own options, but with Japanese written as is, not escaped.</summary>
    static readonly JsonSerializerOptions ToolResultJsonOptions = new(McpJsonUtilities.DefaultOptions) { Encoder = FullUnicodeJsonEncoder.Instance };
 
+   readonly IRootResolver _jastudio;
    readonly WebApplication _webApplication;
+   AnnouncementOfTheServer? _announcement;
 
-   JAStudioMcpServer(WebApplication startedWebApplication)
+   JAStudioMcpServer(IRootResolver jastudio, WebApplication startedWebApplication)
    {
+      _jastudio = jastudio;
       _webApplication = startedWebApplication;
       Url = new Uri(startedWebApplication.Urls.First());
    }
@@ -79,11 +86,23 @@ public sealed class JAStudioMcpServer
    {
       var webApplication = WebApplicationServingTheTools(jastudio, port, headlessUI);
       webApplication.StartAsync().GetAwaiter().GetResult();
-      return new JAStudioMcpServer(webApplication);
+      return new JAStudioMcpServer(jastudio, webApplication);
    }
 
+   /// <summary>
+   /// Announces the server among the <see cref="RunningJAStudios"/> of this user, as the MCP server of a JAStudio hosted by <paramref name="host"/>,<br/>
+   /// until it stops, for Claude's MCP gateway to find and connect to. Specifications don't: they'd show among the JAStudios really running.
+   /// </summary>
+   public void AnnounceAs(JAStudioHost host)
+   {
+      Contract.State.Assert(_announcement == null, () => "The server is announced already.");
+      _announcement = AnnouncementOfTheServer.Make(host, Url, _jastudio.Resolve<IEnvironmentPaths>());
+   }
+
+   /// <summary>Stops the server, withdrawing its announcement first, if it was announced.</summary>
    public async Task StopAsync()
    {
+      _announcement?.Dispose();
       await _webApplication.StopAsync(CancellationToken.None);
       await _webApplication.DisposeAsync();
    }

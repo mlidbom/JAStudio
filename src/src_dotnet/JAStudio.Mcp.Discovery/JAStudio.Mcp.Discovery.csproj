@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+   <!--
+   The running JAStudios, as each announces itself for Claude's MCP gateway to find: what the JAStudios and the gateway share, so it depends on
+   nothing of JAStudio's. The gateway references it, and no other JAStudio assembly. See dev_docs/jastudio-mcp.md.
+   -->
+
+   <PropertyGroup>
+      <TargetFramework>net10.0</TargetFramework>
+      <ImplicitUsings>disable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <PackageReference Include="Compze.InterprocessObject" Version="0.8.0-alpha" />
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.7.0-internal" />
+   </ItemGroup>
+
+</Project>

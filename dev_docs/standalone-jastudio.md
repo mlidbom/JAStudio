@@ -60,6 +60,12 @@ the standalone JAStudio runs only while Anki is closed, and Anki's JAStudio won'
 The hold is a file beside the corpus checkout, `src/jas_database.lock`, held open and shared with no one. The system
 deletes it when the process ends, however it ends, so a crash leaves no lock behind.
 
+## Its MCP server
+
+As inside Anki, it runs JAStudio's MCP server once the collection has loaded, and announces it among the running
+JAStudios (`RunningJAStudios`), so Claude can connect to it, as `standalone-<branch>`, such as `standalone-unidic`, and
+to several JAStudios at once, such as to compare how two branches parse (Magnus, 2026-11-13). See `jastudio-mcp.md`.
+
 ## Closing it
 
 Closing the workspace ends the standalone JAStudio, after saving the workspace's state and the window's place. Inside

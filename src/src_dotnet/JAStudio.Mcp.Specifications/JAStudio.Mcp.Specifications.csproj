@@ -20,6 +20,7 @@
 
    <ItemGroup>
       <ProjectReference Include="..\JAStudio.Mcp\JAStudio.Mcp.csproj" />
+      <ProjectReference Include="..\JAStudio.Mcp.Gateway\JAStudio.Mcp.Gateway.csproj" />
       <ProjectReference Include="..\JAStudio.Core.Specifications\JAStudio.Core.Specifications.csproj" />
    </ItemGroup>
 

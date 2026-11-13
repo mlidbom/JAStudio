@@ -1,6 +1,6 @@
 # JAStudio's MCP server — Design
 
-> **Status: agreed direction (Magnus, 2026-11-09); steps 1 to 4 are built: the headless JAStudio behind the MCP gateway, the full rebuild and analyzing a sentence as tools, and the same server in the live JAStudio, with reloading the collection and fast-forwarding the corpus checkout.** Details
+> **Status: agreed direction (Magnus, 2026-11-09); steps 1 to 4, 6 and 7 are built: the headless JAStudio behind the MCP gateway, the full rebuild and analyzing a sentence as tools, the same server in the live JAStudio, with reloading the collection and fast-forwarding the corpus checkout, the diff of notes, and one gateway that connects to any running JAStudio, several at once.** Details
 > are settled as each increment needs them. [How it's built](#how-its-built) describes what exists.
 > The corpus data-model work (`corpus-data-model.md`, "Order of work") waits for this: its remaining slices are mostly
 > migrate, rebuild, analyze, tweak and rebuild again, which this makes Claude's own loop instead of a round trip through
@@ -20,9 +20,10 @@ not an occasional one, so it's built as a permanent part of JAStudio, not as thr
 
 ## Principles
 
-- **One MCP server, two ways to start JAStudio.** The tools only use JAStudio's own services (the collection, the
-  dictionary, the analysis, `LocalNoteUpdater`), so the same server runs in both:
-  - **live, inside Anki**, as JAStudio runs now, so Claude can help Magnus with real, live data while JAStudio is open;
+- **One MCP server, in every JAStudio.** The tools only use JAStudio's own services (the collection, the dictionary,
+  the analysis, `LocalNoteUpdater`), so the same server runs in each:
+  - **live, with Magnus working in it:** inside Anki, as JAStudio runs now, or as the standalone JAStudio
+    (`standalone-jastudio.md`), so Claude can help Magnus with real, live data while JAStudio is open;
   - **headless, without Anki or a UI**, a process Claude builds, starts and restarts itself. Anki takes in a new build
     only when it restarts, so after a code change only the headless JAStudio runs the new code without Magnus.
     The test environment's registrar (`TestEnvironmentSpecificDependenciesRegistrar`) shows the seams this needs: the
@@ -55,7 +56,7 @@ not an occasional one, so it's built as a permanent part of JAStudio, not as thr
 
 ## How it's built
 
-Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, and the specifications of the tools
+Four projects, plus each host's part, and the specifications of the tools, of the running JAStudios and of the gateway
 (`JAStudio.Mcp.Specifications`):
 
 - **`JAStudio.Mcp`, the MCP server:** the tools, served over HTTP on the loopback address only, stateless, by
@@ -109,14 +110,13 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
   - **What needs Anki itself refuses with an exception:** changing a note's cards, and importing. Creating a note needs no
     Anki: it never creates a study-note. The note types for raw notes, which the import profiles window lists, it reads from the collection, as
     JAStudio inside Anki does.
-  - It loads the collection and starts the MCP server, on a port the system picks, then writes the server's address to
-    standard output, and exits when the process it was told to live with, the gateway, exits.
-- **The live JAStudio, inside Anki,** runs the same server (`LiveJAStudioMcpServer`, started from
-  `JAStudioAnkiAppRoot`):
+  - It loads the collection and starts the MCP server, on a port the system picks, announces it among the running
+    JAStudios, then writes the server's address to standard output, and exits when the process it was told to live
+    with, the gateway, exits.
+- **The live JAStudio, the one Magnus works in,** runs the same server (`LiveJAStudioMcpServer`), inside Anki (started
+  from `JAStudioAnkiAppRoot`) and in the standalone JAStudio (`StandaloneJAStudio`):
   - **It starts once the collection has loaded for the first time,** on a port the system picks, so its tools never see
-    a collection still loading at startup, and stops as Anki closes.
-  - **It announces itself** in `%LOCALAPPDATA%\JAStudio\live-jastudio.json` (`LiveJAStudioAnnouncement`): the server's
-    address, Anki's process id and the corpus checkout. The file is deleted when the server stops.
+    a collection still loading at startup, and stops as the JAStudio stops.
   - **Anki takes in the server's assemblies** because `JAStudio.Anki.PythonInterop` copies its NuGet assemblies to its
     output (`CopyLocalLockFileAssemblies`), which `copy_runtime_binaries.py` copies Anki's runtime from. That added
     exactly the MCP SDK's assemblies and `JAStudio.Mcp.dll`, and changed none Anki already had (checked 2026-11-09).
@@ -127,27 +127,60 @@ Three projects, plus the live JAStudio's part in `JAStudio.Anki.PythonInterop`, 
     leaves the checkout as git has it: after a fast-forward on the real corpus, `list_changed_notes` showed nothing.
   - **Notes added or deleted on disk** are loaded or dropped, but not passed on: an added note gets no Anki note, and a
     deleted note's Anki note stays. A change that adds or deletes notes is better made through JAStudio.
-- **`JAStudio.Mcp.Gateway`, the MCP gateway:** the stdio MCP server Claude Code starts, once for each JAStudio, chosen by
-  its `--jastudio` argument:
-  - **`jastudio-headless`** in `.mcp.json` (`Headless/`): its own tools start and stop the headless JAStudio, as below.
-  - **`jastudio-live`** (`Live/`): its own tool, `connect_to_live_jastudio`, reads the live JAStudio's announcement,
-    connects to its MCP server and offers its tools. They're withdrawn when Anki's process exits; connecting again
-    after Anki restarts offers them again. Claude Code tells the two gateways' tools apart by the server's name:
-    `mcp__jastudio-live__search_notes` and `mcp__jastudio-headless__search_notes`.
+- **`JAStudio.Mcp.Discovery`, the running JAStudios** (`RunningJAStudios`, 2026-11-13): every JAStudio announces its MCP
+  server there once it listens, and withdraws it as it stops (`JAStudioMcpServer.AnnounceAs`): inside Anki, standalone
+  and headless, built from any source checkout. Magnus: "Any running instance should turn up and be possible for you to
+  connect to".
+  - **What a JAStudio announces** (`RunningJAStudio`): what hosts it (`JAStudioHost`), its MCP server's address, its
+    corpus checkout and add-on folder, links followed, and its process: id and start time.
+  - **They're an object shared between processes,** Compze's `IInterprocessObject`: a memory-mapped file in
+    `%LOCALAPPDATA%\JAStudio`, `running-jastudios.mmf`, which each process sees every change to at once, and whose every
+    change wakes the processes waiting for one, holding no thread (`AwaitAChangeFromAsync`).
+  - **A JAStudio that crashed never withdrew its announcement,** so an announcement whose process no longer runs isn't
+    listed, and the next announcement removes it. Compze.Hosting's `InterprocessEndpointRegistry` does the same for
+    endpoints; JAStudio keeps its own, as Magnus decided: not general enough for a public Compze API.
+  - **A JAStudio is identified by its host and its corpus checkout** (`JAStudioIdentity`): at most one JAStudio runs on a
+    corpus checkout (`CorpusCheckoutLock`), so one announcing itself with the identity of one that ran before, such as
+    Anki's after a restart, is the same JAStudio again.
+  - **Every build reads and writes the announcements,** main's and every branch's, and every session's gateway. So
+    their JSON only gains properties, and what a newer build announced that an older one doesn't know, the older one
+    passes on as it was (`WhatANewerBuildAnnouncedToo`).
+  - It depends on nothing of JAStudio's: the gateway references it, and no other JAStudio assembly.
+- **`JAStudio.Mcp.Gateway`, the MCP gateway:** the stdio MCP server Claude Code starts, `jastudio` in `.mcp.json`
+  (until 2026-11-13 there were two, `jastudio-headless` and `jastudio-live`, each for one JAStudio):
+  - **It connects to any running JAStudio, several at once** (`ConnectedJAStudios`), each under a name of its own, which
+    its tools are offered under: `anki-main__search_notes` and `standalone-unidic__search_notes` are the same tool in
+    two JAStudios, for comparing them, such as how two branches parse the same sentences. Claude Code adds the server's
+    name: `mcp__jastudio__anki-main__search_notes`.
+  - **A connection's name** (`ConnectionName`) is what hosts the JAStudio, then the branch of the source checkout it was
+    started on: `anki-main`, `standalone-unidic`, `headless-main`. A second JAStudio with the same name gets a number:
+    `headless-main-2`.
+  - **Its own tools:** `list_the_running_jastudios`, `connect_to_jastudio` (by name, or with none, the JAStudio on the
+    source checkout's own corpus checkout, `src/jas_database`), `disconnect_from_jastudio`, and
+    `start_headless_jastudio` and `stop_headless_jastudio`, below.
+  - **A connection follows its JAStudio through its restarts** (`JAStudioConnection`): when the JAStudio stops, its
+    tools are withdrawn, and when it runs again, such as when Anki has restarted, they're offered again under the same
+    name, with no call from Claude. The gateway looks at the running JAStudios each time they change, and at least
+    every second, for a JAStudio that crashed. Following that fails, such as on a JAStudio that stopped as the gateway
+    connected to it, fails the next call of one of the gateway's tools with the failure, and starts again.
+  - **Changing the gateway's tool list** sends Claude Code `notifications/tools/list_changed`, and Claude Code fetches the
+    new list.
   - **Claude Code starts it through `start-the-gateway.ps1`,** which builds it into a folder of its own for that start,
     `%LOCALAPPDATA%\JAStudio\mcp-gateway\build-for-process-<process id>`, and runs it from there. Run from its build
     output instead, it would lock that output for the whole session, and every build of the solution that recompiled
     it, in Rider or for the Definition of Done, would fail on the locked file. That happened (2026-11-09) even though
     the gateway hadn't changed: Magnus's rebuild in Rider recompiled it to identical bytes, and the next build failed
-    to copy them over the locked file, since MSBuild copies by timestamp, not content. Claude Code starts both gateways
-    at once, so the script builds one at a time (a named mutex): two builds of one project at once fail on each other's
-    files in its `obj` folder.
-  - **Its own tools** are `start_headless_jastudio` and `stop_headless_jastudio`. Starting builds the headless JAStudio
-    from the source checkout the gateway runs in, so it always runs the checkout's code as it is. It copies the build
-    output to `%LOCALAPPDATA%\JAStudio\headless\runtime-of-gateway-<process id>` and runs it from there, so building
-    JAStudio while it runs never fails on a locked file. Then it connects to the headless JAStudio's MCP server.
-  - **While the headless JAStudio runs,** the gateway offers its tools as its own and forwards their calls. Changing the
-    gateway's tool list sends Claude Code `notifications/tools/list_changed`, and Claude Code fetches the new list.
+    to copy them over the locked file, since MSBuild copies by timestamp, not content. Sessions in other checkouts may
+    start their gateways at the same time, so the script builds one at a time on this computer (a named mutex): two
+    builds of one project at once fail on each other's files in its `obj` folder.
+  - **Trying a change to the gateway before Magnus reconnects it:** `drive-the-gateway.py`, beside it, starts it through
+    the start script, as Claude Code does, and calls its tools in the order given. The specifications of the gateway
+    (`Gateway/`) build it through its own wiring (`GatewayServices`) and drive it against JAStudio's MCP server.
+  - **Its headless JAStudio** (`Headless/`): `start_headless_jastudio` builds it from the source checkout the gateway
+    runs in, so it always runs the checkout's code as it is. It copies the build output to
+    `%LOCALAPPDATA%\JAStudio\headless\runtime-of-gateway-<process id>` and runs it from there, so building JAStudio
+    while it runs never fails on a locked file. Then it connects to it, as `headless-<branch>`.
+    `stop_headless_jastudio` ends the connection and stops it.
   - **Each run's output** is logged in `%LOCALAPPDATA%\JAStudio\headless\logs`. A run that fails to start, or a build
     that fails, fails the tool call with the end of the log or the build's output.
   - **The default corpus checkout** depends on the source checkout (2026-11-12):
@@ -171,13 +204,13 @@ Claude Code can't reconnect an MCP server by itself (its documentation, `code.cl
 - a stdio server that exits does too.
 
 A server Claude restarts to take in a new build would need Magnus every time, so the server Claude Code connects to
-never restarts: the gateway runs for the whole session, and the headless JAStudio behind it restarts at will. Claude
-Code does follow a server's tool list as it changes, which is how the headless JAStudio's tools come and go.
+never restarts: the gateway runs for the whole session, and the JAStudios behind it restart at will. Claude Code does
+follow a server's tool list as it changes, which is how the JAStudios' tools come and go.
 
 **The gateway is the one part that can't change without Magnus.** It runs for the whole session, so a changed gateway
 is taken in only when Claude Code reconnects to it, with `/mcp` or a new session, when the start script builds it
-again. So it references no JAStudio assembly and knows nothing of JAStudio's tools. Everything that changes belongs in
-the headless JAStudio.
+again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it references only the running JAStudios
+(`JAStudio.Mcp.Discovery`), which it shares with them. Everything that changes belongs in the JAStudios.
 
 ## The tools
 
@@ -435,8 +468,9 @@ None at the moment.
 Answered:
 - **How a headless experiment's results reach Magnus's checkout:** fast-forwarded through the live JAStudio, which
   reloads (see [Decided](#decided)).
-- **How the gateway reaches the live JAStudio:** by the file the live JAStudio announces its server in, from a gateway
-  of its own, `jastudio-live` (see [How it's built](#how-its-built)).
+- **How the gateway reaches the live JAStudio:** as any running JAStudio, among the running JAStudios, which every
+  JAStudio announces itself in (see [How it's built](#how-its-built)). Until 2026-11-13, by a file the live JAStudio
+  alone announced its server in, from a gateway of its own, `jastudio-live`.
 - **Rebuilding while the headless JAStudio runs:** it runs from a copy of its build output (see
   [How it's built](#how-its-built)).
 - **Whether Claude Code reconnects to a restarted server:** it doesn't, which is why there's a gateway (see
@@ -482,3 +516,12 @@ Answered:
    - **It found 23 sentences that store the same parsed word twice:** えば, at the same place and matched to the same vocab,
      displayed once and hidden once, as in 触れれば. The comparison counts words as many times as a sentence has them.
      Whether the twice-parsed word is right is a question for the parsing.
+7. **Done:** the running JAStudios, and one gateway that connects to any of them, several at once (2026-11-13). Magnus:
+   "One of the things I will absolutely want you to be able to do is work in more than one running jastudio at a time.
+   Anki hosted, or Standalone or the type that you usually start up on your own." And: "I will want to ask you to compare
+   parsing results between different running versions and trees etc, playing around with changing parsing config in
+   both and comparing results". Checked with the real gateway, started by its start script and driven over stdio
+   (`drive-the-gateway.py`): it listed no JAStudio, started a headless JAStudio and connected to it as `headless-main`,
+   offering its 49 tools under that name; a call through it was answered by the headless JAStudio; disconnecting and
+   connecting withdrew and offered the tools again, and stopping it left the gateway's own five. The specifications
+   check that a connection follows its JAStudio as it stops and runs again.

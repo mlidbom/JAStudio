@@ -6,8 +6,8 @@ namespace JAStudio.Mcp.Gateway;
 
 /// <summary>
 /// Runs asynchronous operations one at a time, each after the one before it has finished, in the order they were asked for: starting and stopping<br/>
-/// the headless JAStudio, or connecting to the live one and ending the connection, which Claude Code and Anki's exit may ask for at the same time,<br/>
-/// and which take long enough, a build and a load or a connection, to overlap if run at once.
+/// the headless JAStudio, or connecting to JAStudios, following them and ending the connections, which Claude Code, a JAStudio's exit and the<br/>
+/// running JAStudios changing may ask for at the same time, and which take long enough, a build and a load or a connection, to overlap if run at once.
 /// </summary>
 /// <remarks>It holds no lock: each operation waits for the task of the one asked for before it, which it swaps itself in for atomically.</remarks>
 class OneAtATime
