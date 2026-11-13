@@ -12,6 +12,7 @@ The design of the gateway is in dev_docs/jastudio-mcp.md.
 
 from __future__ import annotations
 
+import io
 import json
 import queue
 import subprocess
@@ -103,6 +104,8 @@ class Gateway:
 
 
 def run(steps: list[str]) -> None:
+    if isinstance(sys.stdout, io.TextIOWrapper):
+        sys.stdout.reconfigure(encoding="utf-8")  # The answers hold Japanese, which a Windows console's own encoding can't.
     gateway = Gateway()
     gateway.start_the_conversation()
     print(f"The gateway's tools: {gateway.tool_names()}\n")

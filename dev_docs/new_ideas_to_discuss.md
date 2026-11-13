@@ -39,3 +39,10 @@ piece of code, or that would otherwise be lost in a long response.
   comparison tool (`tokenizer-dictionaries compare`) and the parsing cases are where to find out: on the parsing cases the
   written one read 7 everyday-speech sentences wrong that the spoken one reads right, and 2 right that the spoken one reads
   wrong (`dev_docs/todo/switching-to-unidic.md`).
+- **(Claude, 2026-11-13) Compare a tool's answers across connected JAStudios, in the gateway.** Comparing how two
+  branches parse means calling `analyze_sentence` on `anki-main` and on `standalone-unidic` and reading the two answers
+  side by side, sentence by sentence. A gateway tool could call one tool with the same arguments in several connected
+  JAStudios and report what differs, such as the words of a sentence that only one of them matches; and for many
+  sentences at once, only the sentences that parse differently. That is the experiment Magnus described: change the
+  parsing configuration in one, and see at once where the two now disagree. The gateway knows nothing of JAStudio's
+  tools, so it would compare answers as JSON, generally, which suits it.
