@@ -28,3 +28,10 @@ piece of code, or that would otherwise be lost in a long response.
   A middle way: look a kana word up by its reading, katakana as hiragana, when it's a whole token and the reading has
   exactly one entry. The numbers and examples are in `dev_docs/todo/what-the-reservoir-found.md` on the branch
   `corpus-reservoir`.
+- **(Claude, 2026-11-13) Compare a tool's answers across connected JAStudios, in the gateway.** Comparing how two
+  branches parse means calling `analyze_sentence` on `anki-main` and on `standalone-unidic` and reading the two answers
+  side by side, sentence by sentence. A gateway tool could call one tool with the same arguments in several connected
+  JAStudios and report what differs, such as the words of a sentence that only one of them matches; and for many
+  sentences at once, only the sentences that parse differently. That is the experiment Magnus described: change the
+  parsing configuration in one, and see at once where the two now disagree. The gateway knows nothing of JAStudio's
+  tools, so it would compare answers as JSON, generally, which suits it.
