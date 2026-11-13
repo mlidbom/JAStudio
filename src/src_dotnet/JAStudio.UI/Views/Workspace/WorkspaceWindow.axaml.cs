@@ -52,6 +52,12 @@ public partial class WorkspaceWindow : Window
    /// </summary>
    readonly Dictionary<string, Action> _windowShortcuts;
 
+   /// <summary>The shortcut for back in the shown tab, which a page also reports for the mouse's back button.</summary>
+   internal const string GoBackKeyGesture = "Alt+left";
+
+   /// <summary>The shortcut for forward in the shown tab, which a page also reports for the mouse's forward button.</summary>
+   internal const string GoForwardKeyGesture = "Alt+right";
+
    [Obsolete("For XAML designer/previewer only")]
 #pragma warning disable CS8618 // The XAML designer needs a parameterless constructor, and only the real constructor has the services for the view model.
    public WorkspaceWindow() => InitializeComponent();
@@ -80,7 +86,9 @@ public partial class WorkspaceWindow : Window
                             ["Ctrl+Shift+t"] = RemoveATagFromTheShownNote,
                             ["Ctrl+m"] = () => OpenTheMatchConditionWindowOfTheShownVocab(services),
                             ["Ctrl+tab"] = _viewModel.SelectNextTab,
-                            ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab
+                            ["Ctrl+Shift+tab"] = _viewModel.SelectPreviousTab,
+                            [GoBackKeyGesture] = _viewModel.GoBackInTheShownTab,
+                            [GoForwardKeyGesture] = _viewModel.GoForwardInTheShownTab
                          };
       foreach(var (keyGesture, action) in SpecMenuItem.KeyboardShortcutsIn(mainMenuSpec))
          _windowShortcuts.Add(keyGesture, action);

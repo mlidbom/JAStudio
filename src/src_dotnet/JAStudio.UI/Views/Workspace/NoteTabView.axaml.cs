@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
-using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using JAStudio.Core.Note;
+using JAStudio.Core.UI.Web;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Utils;
 using JAStudio.UI.ViewModels.Workspace;
@@ -15,7 +16,7 @@ using JAStudio.UI.ViewModels.Workspace;
 namespace JAStudio.UI.Views.Workspace;
 
 /// <summary>
-/// The view of one workspace tab (<see cref="NoteTabViewModel"/>): back and forward buttons, and the web view showing the tab's page.<br/>
+/// The view of one workspace tab (<see cref="NoteTabViewModel"/>): back and forward buttons, and the web view showing the page of the note the tab shows.<br/>
 /// Right-clicking the page gives the same menu as a note shown in Anki, editing included.
 /// </summary>
 /// <remarks>
@@ -24,18 +25,21 @@ namespace JAStudio.UI.Views.Workspace;
 /// </remarks>
 /// <remarks>
 /// The CardServer renders the note's page, and a <see cref="NativeWebView"/> (WebView2 on Windows) shows it.<br/>
-/// The page's script, <c>card.js</c>, posts messages to this view through the web view:<br/>
-/// which page it shows after every navigation, the selected text when it is right-clicked, and every key pressed on it.<br/>
-/// The page reports navigation itself because following a link is Blazor client-side routing,<br/>
-/// which raises no <see cref="NativeWebView.NavigationCompleted"/>.<br/>
+/// The page's script, <c>card.js</c>, posts messages to this view through the web view: the note link clicked, which the tab then shows, which page it<br/>
+/// shows after every navigation, the selected text when it is right-clicked, every key pressed on it, and the mouse's back and forward buttons.<br/>
+/// The tab keeps the history (<see cref="NoteTabHistory"/>), so the web view only shows the page of the note the tab shows. A page reports the pages<br/>
+/// it shows in case it goes to another by itself, which the tab then follows.<br/>
 /// This code-behind only translates between the web view and the <see cref="NoteTabViewModel"/>.
 /// </remarks>
 public partial class NoteTabView : UserControl, INoteTabView
 {
    readonly NoteTabViewModel _viewModel;
 
-   /// <summary>Whether the web view was told to load <see cref="NoteTabViewModel.FirstPageUrl"/>, which it is the first time the tab is shown.</summary>
+   /// <summary>Whether the web view was told to load the page of the note the tab shows, which it is the first time the tab is shown.</summary>
    bool _pageLoadStarted;
+
+   /// <summary>The note whose page the web view shows, as it was last told to load or reported showing, so that it isn't loaded again for nothing.</summary>
+   NoteId? _noteThePageShows;
 
    [Obsolete("For XAML designer/previewer only")]
 #pragma warning disable CS8618 // The XAML designer needs a parameterless constructor, and only the real constructor has the tab's view model.
@@ -52,6 +56,7 @@ public partial class NoteTabView : UserControl, INoteTabView
       WebView.NewWindowRequested += OpenNewWindowRequestInBackgroundTab;
       WebView.WebMessageReceived += OnPageMessage;
       tab.PageOutdated += () => Dispatcher.UIThread.Post(() => WebView.Refresh());
+      tab.ShowsAnotherNote += ShowThePageOfTheShownNote;
 
       LoadPageTheFirstTimeTheTabIsShown();
    }
@@ -74,7 +79,20 @@ public partial class NoteTabView : UserControl, INoteTabView
       if(_pageLoadStarted || !IsVisible) return;
 
       _pageLoadStarted = true;
-      WebView.Navigate(_viewModel.FirstPageUrl);
+      LoadThePageOfTheShownNote();
+   }
+
+   /// <summary>Shows the page of the note the tab now shows, unless the page isn't loaded yet, since the tab wasn't shown yet, or already shows it.</summary>
+   void ShowThePageOfTheShownNote()
+   {
+      if(_pageLoadStarted && !_viewModel.ShownNoteId.Equals(_noteThePageShows))
+         LoadThePageOfTheShownNote();
+   }
+
+   void LoadThePageOfTheShownNote()
+   {
+      _noteThePageShows = _viewModel.ShownNoteId;
+      WebView.Navigate(_viewModel.ShownPageUrl);
    }
 
    /// <summary>
@@ -105,6 +123,15 @@ public partial class NoteTabView : UserControl, INoteTabView
          case "pageShown":
             OnPageShown(new Uri(StringProperty("url")));
             break;
+         case "showNote":
+            _viewModel.ShowNote(NoteId.Parse(StringProperty("noteId")));
+            break;
+         case "goBack":
+            WorkspaceWindow.TryRunWindowShortcut(WorkspaceWindow.GoBackKeyGesture);
+            break;
+         case "goForward":
+            WorkspaceWindow.TryRunWindowShortcut(WorkspaceWindow.GoForwardKeyGesture);
+            break;
          case "showNoteContextMenu":
             await ShowNoteContextMenuAsync(StringProperty("selection"));
             break;
@@ -130,9 +157,8 @@ public partial class NoteTabView : UserControl, INoteTabView
 
    void OnPageShown(Uri pageUrl)
    {
+      _noteThePageShows = CardServerUrl.NoteIdOfPage(pageUrl);
       _viewModel.PageShown(pageUrl);
-      _viewModel.CanGoBack = WebView.CanGoBack;
-      _viewModel.CanGoForward = WebView.CanGoForward;
    }
 
    /// <summary>Opens the shown note's right-click menu, the same one Anki shows for it, where the mouse cursor is.</summary>
@@ -151,11 +177,10 @@ public partial class NoteTabView : UserControl, INoteTabView
    static void ConfigureWebView2Environment(object? sender, WebViewEnvironmentRequestedEventArgs e)
    {
       e.EnableDevTools = true;
-      if(e is WindowsWebView2EnvironmentRequestedEventArgs webView2)
-      {
-         webView2.UserDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JAStudio", "WorkspaceWebView2");
-         webView2.AdditionalBrowserArguments = "--autoplay-policy=no-user-gesture-required";
-      }
+      if(e is not WindowsWebView2EnvironmentRequestedEventArgs webView2) return;
+
+      webView2.UserDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JAStudio", "WorkspaceWebView2");
+      webView2.AdditionalBrowserArguments = "--autoplay-policy=no-user-gesture-required";
    }
 
    /// <summary>
@@ -167,8 +192,4 @@ public partial class NoteTabView : UserControl, INoteTabView
       e.Handled = true;
       _viewModel.OpenInBackgroundTab(e.Request ?? throw new InvalidOperationException("The page requested a new window without a URL."));
    }
-
-   void OnBackClick(object? sender, RoutedEventArgs e) => WebView.GoBack();
-
-   void OnForwardClick(object? sender, RoutedEventArgs e) => WebView.GoForward();
 }

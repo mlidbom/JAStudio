@@ -127,8 +127,11 @@ apply here.
   editors to come.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
   Anki sync. A hidden tab reloads when it's shown instead.
-- **Back and forward** are the page's history (Alt+Left, Alt+Right), per tab and not saved. Anki's saved
-  history of recently shown cards may come back later, as a "recently viewed" list.
+- **Back and forward** (Alt+Left, Alt+Right, and the buttons) go through the tab's history of the notes it showed
+  (`NoteTabHistory`), per tab and not saved. The tab keeps it, not the web view, so that one note's page can be shown
+  in Avalonia and the next one's in the web view. Notes that leave the collection, deleted or gone after a reload, are
+  forgotten, and a tab closes when the note it shows leaves. Anki's saved history of recently shown cards may come
+  back later, as a "recently viewed" list.
 
 ## Known technical points
 
@@ -231,8 +234,7 @@ apply here.
 8. **The workspace comes back after a restart.** *(Built 2026-11-08, Magnus: "immensely helpful".)* When the
    workspace window is left (`WorkspaceViewModel.SaveTheState`), its `WorkspaceState` is saved in
    `workspace-state.json` in the user files folder (`SavedWorkspaceState`), per machine and not versioned:
-   - the notes the tabs show, and which tab is shown, though not each tab's back and forward history, which lives in
-     its web view;
+   - the notes the tabs show, and which tab is shown, though not each tab's back and forward history;
    - the search (`NoteConditionJson`), the List tab's list, which navigation tab is shown, and whether the navigation
      pane and the editor section are open, with their widths.
 
@@ -246,6 +248,8 @@ apply here.
     [Technology](#technology-avalonia-the-notes-pages-included).)*
     1. **The tab keeps its own history,** of the notes it showed, rather than the web view's: a tab can then show
        one note's page in Avalonia and the next one's in the web view, and go back and forward between them.
+       *(Built 2026-11-13: `NoteTabHistory`. The page reports a note link clicked, and the browser's own back and
+       forward, and the tab has its web view load the page of the note it shows.)*
     2. **The notes' texts' markup as styled text in Avalonia.**
     3. **The sentence page in Avalonia,** with what the card's page has:
        - the screenshots, the question with its audio, the answer, and the comments;

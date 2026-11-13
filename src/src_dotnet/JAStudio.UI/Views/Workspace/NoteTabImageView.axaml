@@ -7,8 +7,8 @@
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="4" Margin="4">
-            <Button Content="◀" ToolTip.Tip="Back" IsEnabled="False" />
-            <Button Content="▶" ToolTip.Tip="Forward" IsEnabled="False" />
+            <Button Content="◀" ToolTip.Tip="Back (Alt+Left)" Command="{Binding GoBackCommand}" />
+            <Button Content="▶" ToolTip.Tip="Forward (Alt+Right)" Command="{Binding GoForwardCommand}" />
         </StackPanel>
 
         <Border x:Name="PageArea" Focusable="True">

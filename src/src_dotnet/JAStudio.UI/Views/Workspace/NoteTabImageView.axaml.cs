@@ -12,9 +12,9 @@ namespace JAStudio.UI.Views.Workspace;
 
 /// <summary>
 /// The view of one workspace tab (<see cref="NoteTabViewModel"/>) where there is no screen to show a native web view on, as in the headless<br/>
-/// JAStudio: the tab's page as an image, rendered by a browser (<see cref="IWebPageImages"/>), where <see cref="NoteTabView"/> shows the page<br/>
-/// in a web view. The page can't be clicked, and doesn't navigate, but its keys act on the note shown as the web view's do: the note view<br/>
-/// shortcuts, such as those that toggle the sentence breakdown's settings.
+/// JAStudio: the page of the note the tab shows as an image, rendered by a browser (<see cref="IWebPageImages"/>), where <see cref="NoteTabView"/><br/>
+/// shows the page in a web view. The page can't be clicked, but its keys act on the note shown as the web view's do: the note view<br/>
+/// shortcuts, such as those that toggle the sentence breakdown's settings. Back and forward show the notes the tab showed before.
 /// </summary>
 /// <remarks>
 /// A <see cref="NativeWebView"/> needs a native window: on Avalonia's headless platform, creating one fails, and the workspace window with it,<br/>
@@ -42,6 +42,7 @@ public partial class NoteTabImageView : UserControl, INoteTabView
       PageArea.SizeChanged += (_, _) => ShowThePageIfTheTabIsShown();
       PageArea.KeyDown += (_, keyPressed) => RunTheNoteViewShortcutOf(keyPressed);
       tab.PageOutdated += () => Dispatcher.UIThread.Post(ShowThePageIfTheTabIsShown);
+      tab.ShowsAnotherNote += ShowThePageIfTheTabIsShown;
    }
 
    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -96,7 +97,7 @@ public partial class NoteTabImageView : UserControl, INoteTabView
       var viewport = new ViewportSize((int)PageArea.Bounds.Width, (int)PageArea.Bounds.Height);
       if(!IsVisible || viewport.Width == 0 || viewport.Height == 0) return;
 
-      using var png = new MemoryStream(_webPageImages.OfTheViewport(_tab.FirstPageUrl, viewport).Png);
+      using var png = new MemoryStream(_webPageImages.OfTheViewport(_tab.ShownPageUrl, viewport).Png);
       var imageReplaced = _imageOfThePage;
       Page.Source = _imageOfThePage = new Bitmap(png);
       imageReplaced?.Dispose();
