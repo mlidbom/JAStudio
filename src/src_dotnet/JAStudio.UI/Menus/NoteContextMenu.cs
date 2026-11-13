@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using JAStudio.Core;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
@@ -196,7 +197,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          label,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.AnkiWindows.Exist),
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.AnkiAvailability.IsAvailable),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
@@ -211,9 +212,9 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          title,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OpenTheVocabNamedOrCreatedFromTheDictionary(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text)),
-            SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text))
+            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OpenTheVocabNamedOrCreatedFromTheDictionary(text), enabled: NotesCanBeCreated),
+            SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text), enabled: NotesCanBeCreated),
+            SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text), enabled: NotesCanBeCreated)
          }
       );
    }
@@ -269,6 +270,9 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          _services.AnkiWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }
+
+   /// <summary>Creating a note creates its Anki note, so notes are created only while there's an Anki (<see cref="AnkiAvailability"/>).</summary>
+   bool NotesCanBeCreated => _services.AnkiAvailability.IsAvailable;
 
    /// <summary>
    /// Opens the vocab whose question is <paramref name="text"/>, creating it from the dictionary first when there's none: no two vocab may share a question,<br/>

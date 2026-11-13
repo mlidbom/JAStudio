@@ -1,5 +1,6 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;
@@ -24,6 +25,7 @@ public class NoteServices
 
    public JPCollection Collection => _resolver.Resolve<JPCollection>();
    public ICardOperations CardOperations => _resolver.Resolve<ICardOperations>();
+   public AnkiAvailability AnkiAvailability => _resolver.Resolve<AnkiAvailability>();
    public Settings Settings => _resolver.Resolve<Settings>();
    public DictLookup DictLookup => _resolver.Resolve<DictLookup>();
    public VocabNoteFactory VocabNoteFactory => _resolver.Resolve<VocabNoteFactory>();

@@ -129,7 +129,7 @@ sealed class SentenceElementMenus
    /// says which. Opens the vocab when it exists already, saying so.
    /// </summary>
    SpecMenuItem CreatingTheVocab(string label, Match match) =>
-      SpecMenuItem.Command(ShortcutFinger.Up2(label), () => _noteMenus.OpenTheVocabNamedOrCreatedFromTheDictionary(match.ParsedForm));
+      SpecMenuItem.Command(ShortcutFinger.Up2(label), () => _noteMenus.OpenTheVocabNamedOrCreatedFromTheDictionary(match.ParsedForm), enabled: _services.AnkiAvailability.IsAvailable);
 
    /// <summary>The web searches for the word <paramref name="match"/> is of, such as its dictionaries' and its sentences'.</summary>
    static SpecMenuItem SearchingTheWebFor(Match match) => WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Up3($"Web: {match.ParsedForm}"), () => match.ParsedForm);

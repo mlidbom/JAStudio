@@ -7,6 +7,7 @@ using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.Mcp;
 using JAStudio.Mcp.UI;
+using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,7 +45,7 @@ static class Program
       var jastudio = loaded.Root;
       var services = jastudio.Resolve<TemporaryServiceCollection>();
 
-      var cardServer = new CardServer(jastudio, new HeadlessNoteLinkOpener(services));
+      var cardServer = new CardServer(jastudio, new NoteLinkOpener(services));
       cardServer.StartOnAPortTheSystemPicks();
 
       using var webPageImages = new PlaywrightWebPageImages();

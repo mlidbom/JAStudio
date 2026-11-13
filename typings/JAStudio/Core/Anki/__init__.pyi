@@ -2,6 +2,13 @@ import typing, abc
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 
+class AnkiAvailability:
+    Available : AnkiAvailability
+    Unavailable : AnkiAvailability
+    @property
+    def IsAvailable(self) -> bool: ...
+
+
 class AnkiFieldNames(abc.ABC):
     JasNoteId : str
     Question : str
@@ -32,8 +39,6 @@ class AnkiMediaMarkup(abc.ABC):
 
 
 class IAnkiWindows(typing.Protocol):
-    @property
-    def Exist(self) -> bool: ...
     @abc.abstractmethod
     def OpenTheBrowserOn(self, ankiSearch: str) -> None: ...
     @abc.abstractmethod
@@ -46,8 +51,6 @@ class IAnkiWindows(typing.Protocol):
 
 class NoAnkiWindows(IAnkiWindows):
     def __init__(self) -> None: ...
-    @property
-    def Exist(self) -> bool: ...
     def OpenTheBrowserOn(self, ankiSearch: str) -> None: ...
     def OpenThePreviewerOn(self, ankiSearch: str) -> None: ...
     def Refresh(self) -> None: ...

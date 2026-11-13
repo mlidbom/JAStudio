@@ -8,8 +8,6 @@ namespace JAStudio.Core.Anki;
 /// </summary>
 public sealed class NoAnkiWindows : IAnkiWindows
 {
-   public bool Exist => false;
-
    public void Refresh() {}
 
    /// <summary>Shows nothing: there is no Anki window to show it in.</summary>
@@ -18,5 +16,5 @@ public sealed class NoAnkiWindows : IAnkiWindows
    public void OpenTheBrowserOn(string ankiSearch) => throw NotOffered();
    public void OpenThePreviewerOn(string ankiSearch) => throw NotOffered();
 
-   static InvalidOperationException NotOffered() => new("JAStudio runs without Anki, so the commands that open Anki's windows aren't offered.");
+   static InvalidOperationException NotOffered() => new($"JAStudio runs without Anki, so the commands that open Anki's windows aren't offered ({nameof(AnkiAvailability)}).");
 }

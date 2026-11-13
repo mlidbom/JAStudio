@@ -3,7 +3,10 @@
 ## .NET — projects under `src/src_dotnet/`, solution `JAStudio.slnx` at the repo root
 
 - `JAStudio.UI/` — Avalonia UI (Views in `.axaml`, ViewModels in `.cs`)
-- `JAStudio.UI.DesktopHost/` — desktop entry point for running the UI outside Anki
+- `JAStudio.StandaloneHost/` — the standalone JAStudio: JAStudio with its workspace window, as inside Anki, with Anki
+  entirely out of the loop, started on a checkout's add-on folder (see `dev_docs/standalone-jastudio.md`)
+- `JAStudio.HeadlessHost/` — the headless JAStudio: JAStudio without Anki or a screen, serving JAStudio's MCP server
+  (see `dev_docs/jastudio-mcp.md`)
 - `JAStudio.Core/` — pure domain logic; no UI / Anki / Python dependencies
 - `JAStudio.PythonInterop/` — the only layer allowed to bridge C# ↔ Python (pythonnet)
 - `JAStudio.Anki/` — C#-side Anki integration utilities (no direct pythonnet — that belongs in PythonInterop)

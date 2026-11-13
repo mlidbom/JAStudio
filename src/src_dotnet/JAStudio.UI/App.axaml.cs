@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Avalonia;
+using Avalonia.Controls.Platform;
 using Avalonia.Markup.Xaml;
 using JAStudio.Core;
 using JAStudio.Core.TaskRunners;
@@ -19,7 +20,16 @@ public class UIApp : Application
    public override void OnFrameworkInitializationCompleted()
    {
       base.OnFrameworkInitializationCompleted();
+      OpenSubmenusAtOnce();
       Initialized.Set();
+   }
+
+   /// <summary>Opens a submenu as soon as the pointer is over its item, instead of after Avalonia's default delay.</summary>
+   static void OpenSubmenusAtOnce()
+   {
+#pragma warning disable CS0618 // Type or member is obsolete
+      DefaultMenuInteractionHandler.MenuShowDelay = TimeSpan.Zero;
+#pragma warning restore CS0618 // Type or member is obsolete
    }
 
    public static void WaitForInitialization(TimeSpan timeout)

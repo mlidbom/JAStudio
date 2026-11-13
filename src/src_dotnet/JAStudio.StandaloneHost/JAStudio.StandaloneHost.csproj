@@ -9,18 +9,20 @@
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
       <SelfContained>false</SelfContained>
+      <ApplicationManifest>app.manifest</ApplicationManifest>
       <!-- The garbage collector in server mode, with DATAS off, as in Anki: parsing on many threads allocates fast. See dev_docs/parsing-speed.md. -->
       <ServerGarbageCollection>true</ServerGarbageCollection>
       <GarbageCollectionAdaptationMode>0</GarbageCollectionAdaptationMode>
    </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Avalonia" Version="12.1.5" />
-      <PackageReference Include="Avalonia.Desktop" Version="12.1.5" />
+      <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj" />
+      <ProjectReference Include="..\JAStudio.Web\JAStudio.Web.csproj" />
    </ItemGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj" />
+      <PackageReference Include="Avalonia" Version="12.1.5" />
+      <PackageReference Include="Avalonia.Desktop" Version="12.1.5" />
       <PackageReference Include="Compze.DependencyInjection" Version="0.8.0-alpha" />
       <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
       <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.4.0-alpha" />

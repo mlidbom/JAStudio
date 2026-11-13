@@ -31,6 +31,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
          Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
          Singleton.For<IFatalErrorHandler>().Instance(new RethrowingFatalErrorHandler()),
+         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Available),
          Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),

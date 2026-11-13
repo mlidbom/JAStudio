@@ -225,19 +225,27 @@ public class CardServer
    }
 
    /// <summary>
-   /// Stops the web server. Call on addon shutdown.
+   /// Stops the web server, as JAStudio stops. The connections still open after <see cref="HowLongOpenConnectionsAreWaitedFor"/> are aborted.
    /// </summary>
    // ReSharper disable once UnusedMember.Global — called from Python
    public async Task StopAsync()
    {
       if(_app != null)
       {
-         await _app.StopAsync(CancellationToken.None);
+         using var waitingForTheOpenConnections = new CancellationTokenSource(HowLongOpenConnectionsAreWaitedFor);
+         await _app.StopAsync(waitingForTheOpenConnections.Token);
          await _app.DisposeAsync();
          _app = null;
          Console.WriteLine("[CardServer] Stopped");
       }
    }
+
+   /// <summary>
+   /// How long stopping waits for the connections still open to close. They're the pages' live connections (Blazor's circuits), which last as long<br/>
+   /// as their pages, and the pages close with JAStudio: waited for until they ended, they held the standalone JAStudio's process for 30 seconds,<br/>
+   /// ASP.NET's own shutdown timeout, after its window closed (2026-11-13).
+   /// </summary>
+   static readonly TimeSpan HowLongOpenConnectionsAreWaitedFor = TimeSpan.FromSeconds(1);
 
    static string PortFilePath => Path.Combine(
       Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

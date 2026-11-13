@@ -1,4 +1,5 @@
 using System;
+using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Commands;
 using JAStudio.Core.Note.Vocabulary;
@@ -36,19 +37,20 @@ static class NoteCommandMenuItem
 
    /// <summary>A menu item labeled <paramref name="label"/> that creates a vocab from <paramref name="vocab"/> with <paramref name="command"/> and opens it in the workspace.</summary>
    public static SpecMenuItem Creating(string label, VocabCreatingCommand command, VocabNote vocab) =>
-      OpeningTheVocab(label, () => command.CreateFrom(vocab));
+      OpeningTheVocab(label, vocab, () => command.CreateFrom(vocab));
 
    /// <summary>
    /// A menu item labeled <paramref name="label"/> that creates a vocab from <paramref name="vocab"/> with <paramref name="command"/> and <paramref name="text"/>,<br/>
    /// and opens it in the workspace.
    /// </summary>
    public static SpecMenuItem Creating(string label, VocabCreatingCommandTakingAText command, VocabNote vocab, string text) =>
-      OpeningTheVocab(label, () => command.CreateFrom(vocab, text));
+      OpeningTheVocab(label, vocab, () => command.CreateFrom(vocab, text));
 
    /// <summary>
    /// A menu item labeled <paramref name="label"/> that opens the vocab <paramref name="createVocab"/> gives in the workspace: the one it created, or the one<br/>
-   /// that had the question already, as no two vocab may share one, which a dialog then says (<see cref="WorkspaceWindow.OpenTheVocab"/>).
+   /// that had the question already, as no two vocab may share one, which a dialog then says (<see cref="WorkspaceWindow.OpenTheVocab"/>). Creating a<br/>
+   /// note creates its Anki note, so it's offered only while there's an Anki for <paramref name="vocab"/>, the vocab it's created from (<see cref="AnkiAvailability"/>).
    /// </summary>
-   static SpecMenuItem OpeningTheVocab(string label, Func<CreatedOrExistingVocab> createVocab) =>
-      SpecMenuItem.Command(label, () => WorkspaceWindow.OpenTheVocab(createVocab()));
+   static SpecMenuItem OpeningTheVocab(string label, VocabNote vocab, Func<CreatedOrExistingVocab> createVocab) =>
+      SpecMenuItem.Command(label, () => WorkspaceWindow.OpenTheVocab(createVocab()), enabled: vocab.Services.AnkiAvailability.IsAvailable);
 }

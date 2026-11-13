@@ -32,7 +32,8 @@ namespace JAStudio.UI.Views.Workspace;
 /// See <c>dev_docs/jastudio-workspace.md</c> for where it's heading: editors, and more workspaces.
 /// </summary>
 /// <remarks>
-/// There is a single workspace for now. Closing it only hides it, so it reopens instantly with its tabs intact.
+/// There is a single workspace for now. Inside Anki, closing it only hides it, so it reopens instantly with its tabs intact. The standalone JAStudio,<br/>
+/// which runs without Anki, ends when it's closed (<see cref="ClosingItEndsJAStudio"/>).
 /// </remarks>
 /// <remarks>
 /// Each tab's view is a <see cref="NoteTabView"/>, created by the item template of <c>TabViews</c>, given its tab's view model.<br/>
@@ -79,7 +80,7 @@ public partial class WorkspaceWindow : Window
       _windowShortcuts = new Dictionary<string, Action>
                          {
                             ["Ctrl+o"] = ToggleNoteSearch,
-                            ["Ctrl+Shift+o"] = Hide,
+                            ["Ctrl+Shift+o"] = HideUnlessClosingItEndsJAStudio,
                             ["Ctrl+e"] = ToggleEditorSection,
                             ["Ctrl+w"] = _viewModel.CloseSelectedTab,
                             ["Ctrl+t"] = AddATagToTheShownNote,
@@ -303,12 +304,30 @@ public partial class WorkspaceWindow : Window
          tab.Close();
    }
 
-   /// <summary>Closing the workspace only hides it, after saving its state.</summary>
+   /// <summary>Closing the workspace saves its state, and then ends JAStudio, or, when that doesn't, only hides the workspace (<see cref="ClosingItEndsJAStudio"/>).</summary>
    protected override void OnClosing(WindowClosingEventArgs e)
    {
       base.OnClosing(e);
-      e.Cancel = true;
       _viewModel.SaveTheState();
+      if(ClosingItEndsJAStudio) return;
+
+      e.Cancel = true;
       Hide();
    }
+
+   /// <summary>
+   /// Hides the workspace, as Ctrl+Shift+O does inside Anki, whose own Ctrl+Shift+O shows it again. The standalone JAStudio has nothing to show it<br/>
+   /// again from, so there it stays.
+   /// </summary>
+   void HideUnlessClosingItEndsJAStudio()
+   {
+      if(!ClosingItEndsJAStudio) Hide();
+   }
+
+   /// <summary>
+   /// Whether closing the workspace ends JAStudio: it does in the standalone JAStudio, whose application shuts down when its main window, the workspace,<br/>
+   /// closes. Inside Anki, JAStudio runs for as long as Anki does, shut down only when Anki closes, and the headless JAStudio has no desktop application.
+   /// </summary>
+   static bool ClosingItEndsJAStudio =>
+      Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { ShutdownMode: ShutdownMode.OnMainWindowClose };
 }

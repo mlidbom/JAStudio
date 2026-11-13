@@ -141,8 +141,10 @@ search, editors) is in `jastudio-workspace.md`.
   sentence's breakdown, appears after F5 or the next navigation.
 - **Opening a note in the workspace:** "Open in workspace" in the note menus' "Universal note actions", newly
   created notes, and a result opened from the workspace's note search pane (Ctrl+O).
-- **Not yet:** the menu items that open a *list* of notes still open Anki's browser. JAStudio running outside
-  Anki (`JAStudio.UI.DesktopHost`) doesn't start the `CardServer`, so its workspace can't show notes.
+- **Not yet:** the menu items that open a *list* of notes still open Anki's browser.
+- **Without Anki:** the standalone JAStudio (`JAStudio.StandaloneHost`, see `standalone-jastudio.md`) and the headless
+  JAStudio each start their own `CardServer`, on a port the system picks, leaving alone the port the one inside Anki
+  remembers.
 
 ## Card Templates Installed in Anki (status 2026-11-05)
 

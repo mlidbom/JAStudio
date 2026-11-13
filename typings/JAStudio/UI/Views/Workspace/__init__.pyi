@@ -1,4 +1,7 @@
 import typing
+from JAStudio.Core.UI.Web import INoteLinkOpener
+from JAStudio.Core import TemporaryServiceCollection
+from JAStudio.Core.Note import NoteId, JPNote
 from Avalonia.Controls import UserControl, Classes, ContextMenu, ITemplate_1, Control, IResourceDictionary, Window, WindowTransparencyLevel, WindowClosingBehavior, WindowIcon, WindowBase, Screens, SizeToContent, WindowDecorations, WindowStartupLocation, WindowState
 from Avalonia.Styling import ThemeVariant, Styles, ControlTheme
 from Avalonia.Media import IBrush, BackgroundSizing, CacheMode, Geometry, IEffect, FlowDirection, FontFamily, FontFeatureCollection, FontStretch, FontStyle, FontWeight, ITransform
@@ -18,8 +21,13 @@ from Avalonia.Controls.Platform import IInputPane, IInsetsManager
 from Avalonia.Platform.Storage import ILauncher, IStorageProvider
 from Avalonia.Platform import IWindowImpl, IWindowBaseImpl, ITopLevelImpl
 from Avalonia.Rendering import RendererDiagnostics
-from JAStudio.Core.Note import JPNote
 from JAStudio.Core.Note.Vocabulary import CreatedOrExistingVocab
+
+class NoteLinkOpener(INoteLinkOpener):
+    def __init__(self, services: TemporaryServiceCollection) -> None: ...
+    def OpenInAnkiPreviewer(self, noteId: NoteId) -> None: ...
+    def OpenInWorkspace(self, noteId: NoteId) -> None: ...
+
 
 class NoteTabImageView(UserControl):
     def __init__(self) -> None: ...

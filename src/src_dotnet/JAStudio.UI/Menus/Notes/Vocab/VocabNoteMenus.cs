@@ -182,7 +182,8 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
          var form = formsWithNoVocab[i];
          items.Add(SpecMenuItem.UICommand(
                       ShortcutFinger.FingerByPriorityOrder(i, form),
-                      () => VocabCommands.CloneToForm.CreateFrom(vocab, form)));
+                      () => VocabCommands.CloneToForm.CreateFrom(vocab, form),
+                      enabled: _services.AnkiAvailability.IsAvailable));
       }
 
       return SpecMenuItem.Submenu(title, items);

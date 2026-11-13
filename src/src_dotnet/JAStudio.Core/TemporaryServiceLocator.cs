@@ -27,6 +27,7 @@ public class TemporaryServiceCollection
    public BackgroundTaskManager BackgroundTaskManager => Services.Resolve<BackgroundTaskManager>();
    public ExternalNoteIdMap ExternalNoteIdMap => Services.Resolve<ExternalNoteIdMap>();
    public IAnkiWindows AnkiWindows => Services.Resolve<IAnkiWindows>();
+   public AnkiAvailability AnkiAvailability => Services.Resolve<AnkiAvailability>();
 
    // Note services
    public NoteServices NoteServices => Services.Resolve<NoteServices>();
