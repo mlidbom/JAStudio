@@ -1,14 +1,6 @@
-import typing, abc
-from JAStudio.Core.Configuration import IConfigDictSource
-from System import Action_1, Exception, Action
-from System.Collections.Generic import Dictionary_2
+import abc
 from JAStudio.Core.TaskRunners import IFatalErrorHandler, IUIThreadDispatcher, TaskProgressDialogViewModel
-
-class AnkiConfigDictSource(IConfigDictSource):
-    def __init__(self, json: str, updateCallback: Action_1[str]) -> None: ...
-    def Load(self) -> Dictionary_2[str, typing.Any]: ...
-    def Persist(self, json: str) -> None: ...
-
+from System import Exception, Action
 
 class AvaloniaFatalErrorHandler(IFatalErrorHandler):
     def __init__(self) -> None: ...

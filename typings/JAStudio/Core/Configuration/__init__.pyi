@@ -1,8 +1,14 @@
 import typing, abc
-from System.Collections.Generic import Dictionary_2, List_1
-from System import Func_2, IObservable_1
 from JAStudio.Core import IEnvironmentPaths
+from System.Collections.Generic import Dictionary_2, IReadOnlyDictionary_2, List_1
+from System import Func_2, IObservable_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import BreakdownParsingOptions
+
+class ConfigurationFile(IConfigDictSource):
+    def __init__(self, paths: IEnvironmentPaths) -> None: ...
+    def Load(self) -> Dictionary_2[str, typing.Any]: ...
+    def Persist(self, configuration: IReadOnlyDictionary_2[str, typing.Any]) -> None: ...
+
 
 class ConfigurationStore:
     def Config(self) -> JapaneseConfig: ...
@@ -43,7 +49,7 @@ class IConfigDictSource(typing.Protocol):
     @abc.abstractmethod
     def Load(self) -> Dictionary_2[str, typing.Any]: ...
     @abc.abstractmethod
-    def Persist(self, json: str) -> None: ...
+    def Persist(self, configuration: IReadOnlyDictionary_2[str, typing.Any]) -> None: ...
 
 
 class IReadingsMappingsSource(typing.Protocol):

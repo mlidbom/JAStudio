@@ -72,14 +72,14 @@ public class JAStudioAnkiAppRoot
    }
 
    // ReSharper disable once UnusedMember.Global // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
-   public static JAStudioAnkiAppRoot Initialize(string configJson, Action<string> configUpdateCallback)
+   public static JAStudioAnkiAppRoot Initialize()
    {
       if(!Environment.GetEnvironmentVariable("DEBUG_JASTUDIO").IsNullEmptyOrWhiteSpace())
       {
          Debugger.Launch();
       }
 
-      var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar(configJson, configUpdateCallback));
+      var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar());
 
       var host = Host.CreateDefaultBuilder()
                      .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
