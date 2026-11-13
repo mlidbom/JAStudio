@@ -16,9 +16,9 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 
 | What | Where | Why it's there | The way out |
 |---|---|---|---|
-| `GetCursorPos` from Windows' `user32` | `MouseCursor`, for the note page's right-click menu in a workspace tab | Avalonia doesn't see the pointer over the page's native web view. | Goes with the menu, which a Blazor UI on the page is to replace. *Until 2026-11-08 every window and popup menu opened at the cursor: see [Placing windows without the cursor](#placing-windows-without-the-cursor).* |
-| `SetFocus` from Windows' `user32` | `NativeKeyboardFocus` | The web view and Avalonia's controls competing for the keyboard. On Windows the web view is a native window of its own, which keeps Windows' keyboard focus when Avalonia's focus moves to a control. So the window takes it back: when Ctrl+O puts the keyboard on the search, when an Avalonia control in the workspace is clicked, when the workspace is activated again (written while Windows' keyboard input was broken system-wide, so perhaps not needed), and when a dialog opens over the workspace (`DialogInitialFocus`, `ConfirmDialog`). | Find out whether the macOS and Linux web views have the same problem. Then a seam with an implementation per platform, or a fix or report upstream in Avalonia. Headless windows have no native window, so specifications of the dialogs need the seam too. |
-| WebView2 settings | `NoteTabView.ConfigureWebView2Environment` | Keeps the web view's profile out of Anki's install folder, and lets a page play audio without a click first. | Already applied on Windows only (it checks the event's type). Find out what WKWebView (macOS) and WebKitGTK (Linux) need instead, if anything. |
+| `GetCursorPos` from Windows' `user32` | `MouseCursor`, for the note page's right-click menu in a workspace tab | Avalonia doesn't see the pointer over the page's native web view. | Goes with the workspace's web view, once the notes' pages are in Avalonia (`jastudio-workspace.md`, "Technology", 2026-11-13). *Until 2026-11-08 every window and popup menu opened at the cursor: see [Placing windows without the cursor](#placing-windows-without-the-cursor).* |
+| `SetFocus` from Windows' `user32` | `NativeKeyboardFocus` | The web view and Avalonia's controls competing for the keyboard. On Windows the web view is a native window of its own, which keeps Windows' keyboard focus when Avalonia's focus moves to a control. So the window takes it back: when Ctrl+O puts the keyboard on the search, when an Avalonia control in the workspace is clicked, when the workspace is activated again (written while Windows' keyboard input was broken system-wide, so perhaps not needed), and when a dialog opens over the workspace (`DialogInitialFocus`, `ConfirmDialog`). | Most likely goes with the workspace's web view, once the notes' pages are in Avalonia: the web view is what keeps Windows' keyboard focus. Check then whether the dialogs still need it. Until then: find out whether the macOS and Linux web views have the same problem. Then a seam with an implementation per platform, or a fix or report upstream in Avalonia. Headless windows have no native window, so specifications of the dialogs need the seam too. |
+| WebView2 settings | `NoteTabView.ConfigureWebView2Environment` | Keeps the web view's profile out of Anki's install folder, and lets a page play audio without a click first. | Goes with the workspace's web view, once the notes' pages are in Avalonia. Until then it's applied on Windows only (it checks the event's type). |
 
 ## Placing windows without the cursor
 
@@ -44,8 +44,10 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
   shortcuts and only shown in the menu. The reviewer's hotkeys open no windows.
 - **The reviewer's right-click menu,** and the note page's menu in the workspace, which is the same menu
   (`NoteContextMenu`), are to go (Magnus, 2026-11-08). They were a hack to get some UI for a rendered note before the
-  cards were rendered with Blazor, and they guess what was clicked from the text JavaScript found selected. A
-  Blazor UI on the page itself, which knows what was clicked, is to replace them.
+  cards were rendered with Blazor, and they guess what was clicked from the text JavaScript found selected. Since
+  2026-11-13, the workspace's notes' pages are to be Avalonia's, which know what was clicked, and the menus go once
+  those pages do what they do (`jastudio-workspace.md`, "Technology"). Until then, the plan was a Blazor UI on the
+  page.
 
 ## Not known yet
 

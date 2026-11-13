@@ -7,6 +7,10 @@
   enough for that. See
   [Card Templates Installed in Anki](#card-templates-installed-in-anki-status-2026-11-05).
 - The corpus browser (Phase 2) has not been started. The only Blazor pages are the three `/card/...` pages.
+  JAStudio's workspace took its place, in Avalonia (`jastudio-workspace.md`).
+
+**Direction since 2026-11-13:** the workspace's notes' pages move to Avalonia, one note type at a time, and Blazor
+stays for the cards in Anki's reviewer. See `jastudio-workspace.md`, "Technology".
 
 ## Completed Work
 
@@ -85,6 +89,8 @@ Anki processes `{{Audio_*}}` tags and queues audio playback **before** the `card
   that guesses is worse than useless.
 
 ## Notes in JAStudio's Workspace (2026-11-06)
+
+*Moving to Avalonia, one note type at a time, since 2026-11-13: see `jastudio-workspace.md`, "Technology".*
 
 JAStudio's own window for viewing notes, replacing Anki's previewer. It's the first step in
 `corpus-data-model.md` towards not needing Anki's browser and previewer. Where the workspace is heading (tabs,

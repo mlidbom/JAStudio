@@ -17,8 +17,9 @@ stops making sense. Search results, the note you're viewing and its editors belo
 ## The shape
 
 - **Workspaces.** A workspace is a window. Several can be open at once.
-- **Tabs.** A workspace holds any number of tabs, and each tab shows one note's page (its card's answer side,
-  rendered by the `CardServer`) in a web view, with its own back and forward history.
+- **Tabs.** A workspace holds any number of tabs, and each tab shows one note's page, with its own back and forward
+  history. For now that's the card's answer side, rendered by the `CardServer`, in a web view. The pages move to
+  Avalonia one note type at a time, sentences first: see [Technology](#technology-avalonia-the-notes-pages-included).
 - **The editor section,** collapsible, on the right, shows the editors of the shown tab's note. There's one per
   workspace, opened or closed for all tabs at once.
 - **The navigation pane,** on the left, holds ways to find notes, as tabs of their own, whose notes open in the
@@ -31,16 +32,42 @@ Defaults, unless something changes them:
   require it.
 - A link clicked in Anki's reviewer opens in the most recently used workspace.
 
-## Technology: Avalonia, with the web view only showing the note
+## Technology: Avalonia, the notes' pages included
 
-- **Avalonia** for the workspace and everything structured: the window, tabs, the navigation pane, editors, menus
-  and dialogs.
-- **The web view (Blazor) only shows the note's page**, follows its links and passes on right-clicks. HTML is the
-  best tool for that richly formatted text, and the card pages already exist.
+**Decided 2026-11-13 (Magnus): the notes' pages move to Avalonia too, and Blazor stays only where a web view is
+required: the cards in Anki's reviewer.** Until then, the decision of 2026-11-06 was that the web view only showed
+the note's page, followed its links and passed on right-clicks, since HTML is good at richly formatted text and the
+card pages existed.
 
 Magnus's experience is that building significant applications on web technology costs far more effort than a
-proper UI framework, and the boundary between native UI and a web page costs effort at every edge. So the
-boundary stays this narrow.
+proper UI framework, and the boundary between native UI and a web page costs effort at every edge. The note's page
+is now becoming the kind of UI that boundary taxes most: complex logic to edit and display, such as a vocab's
+match-condition checked against a word in a sentence's breakdown.
+
+- **Avalonia for the whole workspace:** the window, tabs, the navigation pane, editors, menus, dialogs, and the
+  notes' pages.
+- **The pages move one note type at a time, sentences first,** where words matched wrongly are seen. Until a type's
+  page is built, its notes show as before: the card page in a web view. Once the last type's is built, the workspace
+  has no web view, and the three things tying JAStudio to Windows that the web view brings go with it (see
+  `multiplatform.md`).
+- **Why it pays:**
+  - An Avalonia page knows what was clicked: a breakdown entry holds its match, and can open the vocab's
+    match-condition window checked against that very word. Through a web view, each such action is a message from the
+    page's script, and what was clicked has to be found again from what the message says, the way the right-click
+    menu guesses it from the text selected.
+  - The headless JAStudio can show, click and read an Avalonia page, as it does the rest of the workspace. A web
+    view's page is only an image there (`NoteTabImageView`), since a native web view needs a real window.
+- **The cards in Anki's reviewer keep their Blazor pages,** to read while reviewing. Once the workspace's pages do
+  what the reviewer's right-click menu does, the menu goes, with whatever else of the Blazor pages reviewing doesn't
+  need: the workspace is a click or a shortcut away.
+- **So the sentence breakdown is shown twice, for good:** by Blazor in the reviewer, and by Avalonia in the workspace.
+  Both are views of the same view models in Core (`SentenceViewModel`, `MatchViewModel`, `CompoundPartViewModel`), so
+  what the breakdown shows is decided once. The workspace's will grow editing; the reviewer's stays for reading.
+- **The look (Magnus, 2026-11-13):** the same information and a similar feel as the cards, the same colours, but no
+  aim at matching them pixel for pixel: the workspace's pages are built for editing.
+- **The notes' texts hold markup,** which the pages show as styled text: HTML, such as `<b>` in a sentence's source
+  question, and JAStudio's own tags, such as `<kanji>`, `<vocabulary>` and `<read>` in a vocab's answer or a kanji's
+  mnemonic. A quarter of the vocab have some (7,258 of 28,004, counted 2026-11-13).
 
 ## MVVM
 
@@ -214,6 +241,23 @@ apply here.
    Where the window was is kept separately (`WindowPlaceKeeper`, `multiplatform.md`).
 9. **A deleted note leaves the workspace.** *(Built 2026-11-08.)* `JPCollection.NoteDeleted` closes the tabs showing
    the note, and takes it out of the search results and the List tab.
+
+10. **The notes' pages in Avalonia.** *(Decided 2026-11-13: see
+    [Technology](#technology-avalonia-the-notes-pages-included).)*
+    1. **The tab keeps its own history,** of the notes it showed, rather than the web view's: a tab can then show
+       one note's page in Avalonia and the next one's in the web view, and go back and forward between them.
+    2. **The notes' texts' markup as styled text in Avalonia.**
+    3. **The sentence page in Avalonia,** with what the card's page has:
+       - the screenshots, the question with its audio, the answer, and the comments;
+       - the breakdown, with its view settings, each word's vocab with its audio, readings, meta tags and answer, its
+         compound parts and its kanji, and in edit mode the reasons a match is incorrect or hidden;
+       - in edit mode, the token tables;
+       - following a note's link, and opening it in a background tab with a middle-click;
+       - the note view shortcuts, and the note's right-click menu, for the word right-clicked.
+    4. **Opening a vocab's match-condition window from a word in the breakdown,** checked against that word (see
+       `matching-configuration.md`).
+    5. **The vocab page, then the kanji page.** Then the web view leaves the workspace.
+    6. **The reviewer's right-click menu goes,** with what else of the Blazor pages reviewing doesn't need.
 
 The order after step 1 is tentative. Steps 6 and 7 are parked because they free nothing from Anki, and the
 workspace exists for the goal in `corpus-data-model.md`, where import and organizing come next.
