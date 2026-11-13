@@ -32,6 +32,31 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </DataTemplate>
+        <!-- The note pages' colours: the cards' light colours, as the cards' stylesheets define them (JAStudio.Web/Styles/_010_colors.scss and the
+             notes' own), their colour mixes computed. Code that styles text reads them through NotePageBrushes. -->
+        <SolidColorBrush x:Key="NotePage.Background" Color="#D8C5A3" />
+        <!-- Behind a breakdown's entries, the user's own texts and a kanji's mnemonic: the cards' colorBgOffset1. -->
+        <SolidColorBrush x:Key="NotePage.EntryBackground" Color="#CEBC9C" />
+        <SolidColorBrush x:Key="NotePage.CompoundPartBackground" Color="#C0B092" />
+        <SolidColorBrush x:Key="NotePage.AlternateRowBackground" Color="#D3C09F" />
+        <SolidColorBrush x:Key="NotePage.Text" Color="#3D3931" />
+        <SolidColorBrush x:Key="NotePage.Question" Color="#322F28" />
+        <SolidColorBrush x:Key="NotePage.SectionBorder" Color="#A99A80" />
+        <SolidColorBrush x:Key="NotePage.SectionTitle" Color="#726F69" />
+        <SolidColorBrush x:Key="NotePage.UserCommentsBorder" Color="#C98A58" />
+        <SolidColorBrush x:Key="NotePage.Green" Color="#47803B" />
+        <SolidColorBrush x:Key="NotePage.Underline" Color="#A79EE2" />
+        <SolidColorBrush x:Key="NotePage.Bold" Color="#BD422B" />
+        <SolidColorBrush x:Key="NotePage.WarningRed" Color="#C81707" />
+        <SolidColorBrush x:Key="NotePage.Meaning" Color="#974870" />
+        <SolidColorBrush x:Key="NotePage.Italic" Color="#AC6B1A" />
+        <SolidColorBrush x:Key="NotePage.Reading" Color="#AC6B1A" />
+        <SolidColorBrush x:Key="NotePage.ReadingsSeparator" Color="#A9A9A9" />
+        <SolidColorBrush x:Key="NotePage.RadicalBackground" Color="#7CBCF6" />
+        <SolidColorBrush x:Key="NotePage.KanjiBackground" Color="#FFA0CF" />
+        <SolidColorBrush x:Key="NotePage.VocabularyBackground" Color="#D896FA" />
+        <SolidColorBrush x:Key="NotePage.ReadingBackground" Color="#E1A360" />
+        <SolidColorBrush x:Key="NotePage.PlayButton" Color="#1D4ED8" />
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />
