@@ -26,6 +26,9 @@ public sealed class CorpusCheckoutLock : IDisposable
    public static CorpusCheckoutLock On(string corpusCheckoutFolder)
    {
       var lockFile = LockFileOf(corpusCheckoutFolder);
+      //todo:compze: Compze.Threading.Interprocess has no exclusive hold a process keeps for as long as it runs, let go of from any thread, and by the
+      //   system when the process ends: its IMutex wraps a system mutex, which only the thread that took it may release, and the standalone JAStudio
+      //   stops on a thread of its own. Once Compze has such a hold, use it here instead of this file.
       try
       {
          return new CorpusCheckoutLock(new FileStream(lockFile, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, bufferSize: 1, FileOptions.DeleteOnClose));
