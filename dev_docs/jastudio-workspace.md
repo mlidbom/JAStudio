@@ -254,7 +254,9 @@ Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 
 4. **A match marked by hand is "incorrect".** "Invalid" is a match that fails any requirement (`Match.IsValid`).
 
 The increments: 1. the plumbing, and a breakdown entry's marking items, with step 4's match-condition item; 2. a word only
-the dictionary has, a token nothing has, and the shadowing and winning matches; 3. compound parts' and kanji's own items.
+the dictionary has, and a token nothing has; 3. compound parts' and kanji's own items. *The shadowing and winning matches'
+items were dropped from increment 2 (Magnus, 2026-11-13): edit mode is to show how the sentence parsed instead, so that
+each match's own menu is right there. See [Proposed: edit mode shows how the sentence parsed](#proposed-edit-mode-shows-how-the-sentence-parsed).*
 
 ### As built: increment 1
 
@@ -291,6 +293,56 @@ Built 2026-11-13.
   not by the sentence's own marks.
 - **A compound part and a kanji** have, for now, only their note's items: Open, Open in a background tab, and their
   note's menu.
+
+### Proposed: edit mode shows how the sentence parsed
+
+*Under discussion, 2026-11-13.* Magnus: "Rather than show the structure of the breakdown through a fragmented detour
+through many menus, I would like for the edit mode to visually show me what is shown, what is not, and why. [...] Now
+you can see most of the effects of the parsing at a glance and know just which shown word to mark invalid, or hidden
+word to highlight."
+
+Edit mode now lists every match of every candidate word in one flat list, each with its reasons above it, all looking
+alike. Instead, a tree that follows how the parsing decided:
+
+- **The words shown, in sentence order,** at the top level, as outside edit mode.
+- **Under each shown word, indented and greyed, what lost to it:**
+  - the words it shadows, those that start inside it, each with "shadowed by 食べ物", and under each, the words it
+    shadows in turn;
+  - the other matches of the same word, such as another vocab with the same form or the dictionary's entry, each with why
+    it lost;
+  - the word's other variant, its base form or its surface, with its matches.
+- **A word not shadowed but not shown either,** such as one hidden by hand, a compositionally transparent compound, or
+  one hidden by the setting that hides compounds, greyed, at its place in the sentence, with why.
+- **An invalid match:** greyed, its word in bold red, with why it's invalid.
+- **Every not-shown match is an entry with its own right-click menu,** so unmarking, highlighting or opening the
+  match-condition window is done on it directly.
+
+```
+食べ物    たべもの  food                                         shown
+  食べ as 食べる   to eat     shadowed by 食べ物                   grey
+  物      もの     thing      shadowed by 食べ物                   grey
+が        が       {subject}                                     shown
+  が      (dictionary)       another match owns the form        grey
+好き      すき     liked                                         shown
+  好き:x  すき     ...        ✗ match-condition not met:        grey, the word bold red
+                              !PrecedingToken.IsAParticle
+```
+
+Claude's additions, 2026-11-13:
+
+- **Reasons in words, naming the culprit:** "shadowed by 食べ物", "lost to が: it owns the form", "match-condition not
+  met: !PrecedingToken.IsAParticle", rather than `forbids::...` codes. A shadowed word names its shadow already
+  (`CandidateWord.ShadowedBy`); the match that wins over another isn't named yet.
+- **A reason is a way in:** clicking "match-condition not met" opens the vocab's match-condition window checked against
+  the word.
+- **By hand, apart from by rule:** a mark made by hand (incorrect, hidden, highlighted) looks different from a rule's
+  reason, since unmarking it is the fix.
+- **Collapsed by default:** each shown word with a count of what lost to it ("3 not shown"), opened by a click or a key,
+  so a long sentence stays readable. Or a toggle between everything open and everything closed.
+- **A strip of the sentence's tokens** above the breakdown, with the shown words as spans over them: how the sentence was
+  cut, at a glance, gaps and overlaps included.
+- **Highlighting doesn't beat shadowing.** A highlighted match is valid, but a longer word shown over it still shadows
+  it. The fix for a word wrongly shadowed is to mark the shadowing word incorrect, which the nesting puts right above it.
 
 ## Keyboard shortcuts
 
