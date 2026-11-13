@@ -44,13 +44,6 @@
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
-    "condition": {
-      "allOf": [
-        {
-          "fact": "singleToken"
-        }
-      ]
-    },
     "yieldToSurface": []
   },
   "relatedVocab": {

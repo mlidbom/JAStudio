@@ -163,6 +163,40 @@ parsed words, which include every candidate, changed.
   - 何言っとんだ: とん|だ changed to とる and だ.
   - A parsing case for 行け夏目, which left a token spec (the commit of step 2 says why).
 
+## The full rebuild with UniDic (2026-11-13)
+
+Run in the branch's own corpus checkout, against its recorded commit, `37f3f7fede7`, taken as IPADIC's result: its last
+rebuild changed nothing, and the source commits since are refactorings that change no behavior and the parser-performance merge.
+It changed the parsed words of 20,709 sentences and the sentence count of 4,026 vocab. Most of it is new candidates, not
+displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,954). Looked into with the MCP server's
+`list_the_sentences_where_a_words_parsing_changed`:
+
+- **Better:**
+  - 行う: IPADIC read 行って and 行った as 行う in 99 sentences; UniDic reads 行く.
+  - てくれ: UniDic reads くれ as くれる's imperative, so 219 sentences show 待つ | てくれ, no longer 待つ | てくれ | てくれる.
+  - だってさ, だってこと: with だって's `singleToken` gone (below), 41 sentences show だ | ってさ, だ | ってこと, where IPADIC's single
+    だって was wrong.
+  - Colloquial and unknown words: うまく祓えなくて finds 祓う; すげえ and うるせえ (accepted above).
+- **The single-token vocab, decided:** ので (489 sentences), だって (346) and において (8) lose `singleToken`: UniDic always
+  cuts them (の|で, だ|って, に|おい|て), so the condition said nothing but "never". Without it, ので is back in all its
+  sentences but 4: いいので and のでね now show いいの | で and の | でね, longer vocab claiming its parts, and こんなので見よう
+  shows ので where it's こんなの + で. だって loses nothing; it's displayed in a few quotative sentences where it shouldn't be
+  (女だって思われたい, 美少年だって知ってる).
+- **The single-token vocab, kept:** たって and とも. UniDic cuts them both ways, sometimes wrongly: 見たって ("saw, they say")
+  is now the conditional たって, 当たったって聞いた rightly た + って; 女とも is rightly と + も, but the concessive しようとも is
+  lost. ただ, 話, うまい, もし and かつて change only in candidates.
+- **The corpus edits for the main checkout** (made here only to analyze): remove `singleToken` from the match-conditions
+  of ので (`6c2ff488-df1d-401a-b2b5-33c3a43c4610`), だって (`5cc160fc-9a00-42d0-9931-786832956d0e`) and において
+  (`a2f36dac-3c75-4547-9a5b-2cfa6b4b5ba8`). The parsing cases' stripped-down corpus has the first two edited already.
+- **Still to decide:**
+  - The sentence-initial conjunction だって (だって言ったじゃん): UniDic cuts だ|って there too, so だって yields its って to
+    って言う. A sentence-initial だ can't be the copula, so joining the two into the conjunction in the tokenizer layer would
+    fix UniDic's mistake, not hide it.
+  - だって before a verb of thinking that no quoting vocab matches (思われる, 思い込む): a condition on the following token's
+    base form, as the removed `MisTokenizedQuotativeDatte` listed the verbs of saying, thinking and hearing.
+  - The rest of the diff, word by word: いる (169 removed), ー (294), ち (135), まあ (72), え (71), さ (72), たい (64), なる
+    (57), and the display changes of が, た, は, の, に.
+
 ## The steps
 
 1. **Compare, changing nothing.** Done (2026-11-13): the comparison tool, and the findings above.
