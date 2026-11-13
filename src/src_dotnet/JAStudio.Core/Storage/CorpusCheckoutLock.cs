@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JAStudio.Core.SysUtils.IO;
 
 namespace JAStudio.Core.Storage;
 
@@ -40,18 +41,11 @@ public sealed class CorpusCheckoutLock : IDisposable
       }
    }
 
-   /// <summary>The file beside <paramref name="corpusCheckoutFolder"/> that a JAStudio holds open while it works on it.</summary>
-   static string LockFileOf(string corpusCheckoutFolder) => TheFolderItself(corpusCheckoutFolder) + ".lock";
-
    /// <summary>
-   /// The folder <paramref name="folder"/> is, when it's a link to another, such as a junction: so that every JAStudio on a corpus checkout holds the<br/>
-   /// same lock file, whichever path leads it there. A link to a folder above it, such as Anki's link to the add-on folder, leads to the same file anyway.
+   /// The file beside <paramref name="corpusCheckoutFolder"/> that a JAStudio holds open while it works on it: beside the folder itself, with links<br/>
+   /// followed, so that every JAStudio on a corpus checkout holds the same lock file, whichever path leads it there.
    /// </summary>
-   static string TheFolderItself(string folder)
-   {
-      var folderAsGiven = new DirectoryInfo(Path.TrimEndingDirectorySeparator(Path.GetFullPath(folder)));
-      return folderAsGiven.ResolveLinkTarget(returnFinalTarget: true)?.FullName ?? folderAsGiven.FullName;
-   }
+   static string LockFileOf(string corpusCheckoutFolder) => new DirectoryInfo(corpusCheckoutFolder).TheFolderItself().FullName + ".lock";
 
    /// <summary>Lets go of the corpus checkout, as the JAStudio stops.</summary>
    public void Dispose() => _heldOpen.Dispose();

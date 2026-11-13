@@ -18,6 +18,7 @@
    <ItemGroup>
       <ProjectReference Include="..\JAStudio.UI\JAStudio.UI.csproj" />
       <ProjectReference Include="..\JAStudio.Web\JAStudio.Web.csproj" />
+      <ProjectReference Include="..\JAStudio.Mcp\JAStudio.Mcp.csproj" />
    </ItemGroup>
 
    <ItemGroup>

@@ -12,6 +12,7 @@ using Compze.Internals.SystemCE;
 using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Core.Importing;
+using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Live;
 using JAStudio.UI;
 using JAStudio.UI.Shortcuts;
@@ -120,7 +121,7 @@ public class JAStudioAnkiAppRoot
 
       var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
 
-      var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver);
+      var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Anki);
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer, liveMcpServer) { _uiThread = uiThread };
 

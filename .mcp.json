@@ -7,15 +7,10 @@
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       }
     },
-    "jastudio-headless": {
+    "jastudio": {
       "type": "stdio",
       "command": "pwsh",
-      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1", "-JAStudio", "headless"]
-    },
-    "jastudio-live": {
-      "type": "stdio",
-      "command": "pwsh",
-      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1", "-JAStudio", "live"]
+      "args": ["-NoProfile", "-NonInteractive", "-File", "src/src_dotnet/JAStudio.Mcp.Gateway/start-the-gateway.ps1"]
     },
     "jetbrains-rider": {
       "type": "streamable-http",

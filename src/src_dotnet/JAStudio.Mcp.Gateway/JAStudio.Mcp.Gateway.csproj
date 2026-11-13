@@ -12,4 +12,13 @@
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.14" />
    </ItemGroup>
 
+   <ItemGroup>
+      <!-- The running JAStudios, which the gateway shares with them: the one JAStudio assembly it references. -->
+      <ProjectReference Include="..\JAStudio.Mcp.Discovery\JAStudio.Mcp.Discovery.csproj" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <InternalsVisibleTo Include="JAStudio.Mcp.Specifications" />
+   </ItemGroup>
+
 </Project>

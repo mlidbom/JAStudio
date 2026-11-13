@@ -29,6 +29,9 @@ sealed class HeadlessJAStudioProcess : IAsyncDisposable
       Log = log;
    }
 
+   /// <summary>The id of the headless JAStudio's process.</summary>
+   public int Id => _process.Id;
+
    /// <summary>Everything the headless JAStudio wrote, to standard output and standard error.</summary>
    public HeadlessJAStudioLog Log { get; }
 

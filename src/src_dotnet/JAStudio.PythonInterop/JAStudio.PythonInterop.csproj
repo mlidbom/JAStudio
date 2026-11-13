@@ -11,8 +11,8 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Internals.SystemCE" Version="0.6.1-internal" />
-      <PackageReference Include="Compze.Threading" Version="0.10.1-alpha" />
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.7.0-internal" />
+      <PackageReference Include="Compze.Threading" Version="0.11.0-alpha" />
    </ItemGroup>
 
 </Project>

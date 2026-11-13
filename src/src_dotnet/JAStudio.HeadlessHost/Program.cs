@@ -6,6 +6,7 @@ using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
 using Compze.Internals.Logging;
 using JAStudio.Core;
 using JAStudio.Mcp;
+using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.UI;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
@@ -57,6 +58,7 @@ static class Program
       headlessUI.CreateTheWorkspaceWindow(services);
 
       var mcpServer = JAStudioMcpServer.StartWithTheHeadlessUI(jastudio, arguments.McpServerPort, headlessUI);
+      mcpServer.AnnounceAs(JAStudioHost.Headless);
       Console.WriteLine($"{McpServerListensAt}{mcpServer.Url}");
 
       arguments.ProcessToExitWith.WaitForExit();
