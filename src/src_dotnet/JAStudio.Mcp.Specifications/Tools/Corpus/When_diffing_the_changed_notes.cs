@@ -6,6 +6,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Corpus.NoteDiffs;
+using JAStudio.Mcp.Tools.Corpus.NoteDiffs.ParsedWords;
 using ModelContextProtocol.Protocol;
 
 // ReSharper disable InconsistentNaming
@@ -44,6 +45,9 @@ public class When_diffing_the_changed_notes : CorpusRepositorySpecification
    protected NotesDiff Diff(Dictionary<string, object?> arguments) => ResultOf<NotesDiff>(CallTool("diff_the_changed_notes", arguments));
 
    protected string IdOfTheVocab学校 => Vocab学校.GetId().ToString();
+
+   protected ParsedWordChangesBySentence TheSentencesWhereTheParsingChangedOf(Dictionary<string, object?> arguments) =>
+      ResultOf<ParsedWordChangesBySentence>(CallTool("list_the_sentences_where_a_words_parsing_changed", arguments));
 
    public class comparing_the_head_with_the_working_tree : When_diffing_the_changed_notes
    {
@@ -113,6 +117,46 @@ public class When_diffing_the_changed_notes : CorpusRepositorySpecification
 
       [XF] public void the_parsed_words_changed_by_word_count_one_added_for_the_vocab_学校() =>
          _diff.ParsedWordsChangedByWord.Single(it => it.VocabId == IdOfTheVocab学校).Added.Must().Be(1);
+   }
+
+   public class listing_the_sentences_where_the_parsing_of_学校_changed : When_diffing_the_changed_notes
+   {
+      readonly ParsedWordChangesBySentence _changes;
+
+      public listing_the_sentences_where_the_parsing_of_学校_changed() =>
+         _changes = TheSentencesWhereTheParsingChangedOf(new Dictionary<string, object?> { ["word"] = "学校" });
+
+      [XF] public void the_sentence_is_listed_where_学校_was_added_matched_to_the_vocab_学校() =>
+         _changes.Added.Sentences.Select(it => (it.Sentence, it.Word.VocabId)).Must().SequenceEqual([("明日学校に行く", (string?)IdOfTheVocab学校)]);
+
+      [XF] public void the_sentence_is_listed_where_学校_matched_to_no_vocab_was_removed() =>
+         _changes.Removed.Sentences.Select(it => (it.Sentence, it.Word.VocabId)).Must().SequenceEqual([("明日学校に行く", (string?)null)]);
+
+      [XF] public void it_is_counted_once_as_added() => _changes.Added.Count.Must().Be(1);
+      [XF] public void no_sentence_is_listed_where_学校_is_now_displayed() => _changes.NowDisplayed.Sentences.Must().BeEmpty();
+   }
+
+   public class listing_the_sentences_where_the_parsing_of_学校_matched_to_the_vocab_学校_changed : When_diffing_the_changed_notes
+   {
+      readonly ParsedWordChangesBySentence _changes;
+
+      public listing_the_sentences_where_the_parsing_of_学校_matched_to_the_vocab_学校_changed() =>
+         _changes = TheSentencesWhereTheParsingChangedOf(new Dictionary<string, object?> { ["word"] = "学校", ["vocabId"] = IdOfTheVocab学校 });
+
+      [XF] public void the_sentence_is_listed_where_it_was_added() => _changes.Added.Count.Must().Be(1);
+      [XF] public void no_sentence_is_listed_where_学校_matched_to_no_vocab_was_removed() => _changes.Removed.Count.Must().Be(0);
+   }
+
+   public class listing_the_sentences_where_the_parsing_of_行く_changed : When_diffing_the_changed_notes
+   {
+      readonly SentenceWhereTheWordChanged _sentence;
+
+      public listing_the_sentences_where_the_parsing_of_行く_changed() =>
+         _sentence = TheSentencesWhereTheParsingChangedOf(new Dictionary<string, object?> { ["word"] = "行く" }).NoLongerDisplayed.Sentences.Single();
+
+      [XF] public void the_sentence_where_it_is_no_longer_displayed_is_listed_by_its_text() => _sentence.Sentence.Must().Be("明日学校に行く");
+      [XF] public void the_sentence_displayed_行く_before() => _sentence.DisplayedBefore.Must().Contain("行く");
+      [XF] public void the_sentence_does_not_display_行く_after() => _sentence.DisplayedAfter.Must().Satisfy(displayed => !displayed.Contains("行く"));
    }
 
    public class comparing_from_a_name_that_names_no_commit : When_diffing_the_changed_notes

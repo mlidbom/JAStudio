@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage;
 using JAStudio.Mcp.Corpus;
 using JAStudio.Mcp.Tools.Corpus.NoteDiffs;
+using JAStudio.Mcp.Tools.Corpus.NoteDiffs.ParsedWords;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.Corpus;
@@ -17,6 +19,9 @@ public class CorpusTools
 
    /// <summary>How many words <see cref="DiffTheChangedNotes"/> lists the parsed words changes of unless told otherwise.</summary>
    const int WordsListedByDefault = 30;
+
+   /// <summary>How many sentences of each kind of change <see cref="ListTheSentencesWhereAWordsParsingChanged"/> lists unless told otherwise.</summary>
+   const int SentencesListedPerKindOfChangeByDefault = 10;
 
    /// <summary>The name <see cref="DiffTheChangedNotes"/> gives the working tree, the checkout's files as they are now, as the version compared to.</summary>
    const string TheWorkingTree = "the working tree";
@@ -61,17 +66,39 @@ public class CorpusTools
       [Description("The most notes of each type to show the diffs of. Every note is counted either way.")] int maxNotesListedPerType = NotesListedPerTypeByDefault,
       [Description("The most words to list the changes of the parsed words of. Every word's changes are counted either way.")] int maxWordsListed = WordsListedByDefault)
    {
-      var commitFrom = _corpusCheckout.ByItsHash(new CorpusCommit(from));
-      var commitTo = to == null ? null : _corpusCheckout.ByItsHash(new CorpusCommit(to));
-      var noteFiles = commitTo == null
-                         ? _corpusCheckout.NoteFilesThatDifferFromTheWorkingTree(commitFrom)
-                         : _corpusCheckout.NoteFilesThatDifferBetween(commitFrom, commitTo);
+      var (commitFrom, commitTo) = TheVersions(from, to);
+      return NotesDiff.Of(commitFrom.Name, commitTo?.Name ?? TheWorkingTree, NotesThatDifferBetween(commitFrom, commitTo), _collection, maxNotesListedPerType, maxWordsListed);
+   }
 
-      return NotesDiff.Of(commitFrom.Name,
-                          commitTo?.Name ?? TheWorkingTree,
-                          [.. noteFiles.Select(it => NoteVersions.Read(it, _noteSerializer))],
-                          _collection,
-                          maxNotesListedPerType,
-                          maxWordsListed);
+   [McpServerTool(Name = "list_the_sentences_where_a_words_parsing_changed", ReadOnly = true, Idempotent = true)]
+   [Description("""
+                Lists the sentences where one word's parsed words changed between two versions of the corpus, to look into a word that
+                diff_the_changed_notes counts: the sentences where the word was added, removed, now displayed and no longer displayed, each
+                with the word as it changed and the words the sentence displayed before and after. Counts every change either way.
+                """)]
+   public ParsedWordChangesBySentence ListTheSentencesWhereAWordsParsingChanged(
+      [Description("The word as diff_the_changed_notes lists it: the question of the vocab it's matched to, or for a word matched to no vocab, its form.")] string word,
+      [Description("The id of the vocab the word is matched to, to tell apart vocab with the same question. Every word listed as the word unless given.")]
+      string? vocabId = null,
+      [Description("The version to compare from: a commit, by its hash or the name of a branch at it. The checkout's HEAD unless given.")] string from = "HEAD",
+      [Description("The version to compare to: a commit, by its hash or the name of a branch at it. The checkout's files as they are now unless given.")]
+      string? to = null,
+      [Description("The most sentences of each kind of change to list.")] int maxSentencesPerKindOfChange = SentencesListedPerKindOfChangeByDefault)
+   {
+      var (commitFrom, commitTo) = TheVersions(from, to);
+      return ParsedWordChangesBySentence.Of(word, vocabId, NotesThatDifferBetween(commitFrom, commitTo), _collection, maxSentencesPerKindOfChange);
+   }
+
+   /// <summary>The versions named <paramref name="from"/> and <paramref name="to"/>: <paramref name="to"/> is null for the working tree.</summary>
+   (CorpusCommit From, CorpusCommit? To) TheVersions(string from, string? to) =>
+      (_corpusCheckout.ByItsHash(new CorpusCommit(from)), to == null ? null : _corpusCheckout.ByItsHash(new CorpusCommit(to)));
+
+   /// <summary>Each note whose file differs between <paramref name="from"/> and <paramref name="to"/>, or the working tree if it's null, read in both versions.</summary>
+   IReadOnlyList<NoteVersions> NotesThatDifferBetween(CorpusCommit from, CorpusCommit? to)
+   {
+      var noteFiles = to == null
+                         ? _corpusCheckout.NoteFilesThatDifferFromTheWorkingTree(from)
+                         : _corpusCheckout.NoteFilesThatDifferBetween(from, to);
+      return [.. noteFiles.Select(it => NoteVersions.Read(it, _noteSerializer))];
    }
 }
