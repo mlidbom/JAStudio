@@ -212,7 +212,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          title,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OnCreateVocabNote(text)),
+            SpecMenuItem.Command(ShortcutFinger.Home1("vocab"), () => OpenTheVocabNamedOrCreatedFromTheDictionary(text)),
             SpecMenuItem.Command(ShortcutFinger.Home2("sentence"), () => OnCreateSentenceNote(text)),
             SpecMenuItem.Command(ShortcutFinger.Home3("kanji"), () => OnCreateKanjiNote(text))
          }
@@ -276,7 +276,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    /// Opens the vocab whose question is <paramref name="text"/>, creating it from the dictionary first when there's none: no two vocab may share a question,<br/>
    /// so a dialog says so when it existed already (<see cref="WorkspaceWindow.OpenTheVocab"/>).
    /// </summary>
-   void OnCreateVocabNote(string text) =>
+   internal void OpenTheVocabNamedOrCreatedFromTheDictionary(string text) =>
       _services.BackgroundTaskManager.Run(() => WorkspaceWindow.OpenTheVocab(_services.LocalNoteUpdater.TheVocabNamedOrCreatedFromTheDictionary(new WordReference(text))));
 
    void OnCreateSentenceNote(string text) =>

@@ -148,7 +148,7 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
 
 *Analysed and agreed with Magnus, 2026-11-13: "I'm rather eager to make the menu understand context rather than do
 string magic. So that you immediately get the options you should be getting for that element, not everything under the
-sun." Built in three increments, the first done: see [As built](#as-built-increment-1).*
+sun." Built in three increments, the first two done: see [As built](#as-built-increments-1-and-2).*
 
 ### Before: from a string
 
@@ -258,7 +258,7 @@ the dictionary has, and a token nothing has; 3. compound parts' and kanji's own 
 items were dropped from increment 2 (Magnus, 2026-11-13): edit mode is to show how the sentence parsed instead, so that
 each match's own menu is right there. See [Proposed: edit mode shows how the sentence parsed](#proposed-edit-mode-shows-how-the-sentence-parsed).*
 
-### As built: increment 1
+### As built: increments 1 and 2
 
 Built 2026-11-13.
 
@@ -278,13 +278,19 @@ Built 2026-11-13.
   | a | Highlight / Remove the highlight |
   | i | Open 食べる |
   | p | Open 食べる in a background tab |
+  | ö | Create the vocab パン from the dictionary / Create the vocab … |
+  | ä | Web: パン ▸ |
+  | å | Show the tokens (edit mode) |
   | k | Vocab: 食べる ▸ / Kanji: 食 ▸ |
   | j | Sentence ▸ |
   | q | Selection: "…" ▸ |
 
 - **A breakdown entry** has the marking items for any match, a vocab's or not: "Mark incorrect here" when the match is
   valid, "Hide here" when it's shown, "Unmark incorrect" and "Unhide" when the sentence marks it so, and the highlight
-  either way. A vocab's match adds the match-condition item and the vocab's items. The marks act on the match itself,
+  either way, except "Highlight" on a token nothing has (`MissingMatch`), which is never valid. A vocab's match adds the
+  match-condition item and the vocab's items. A word only the dictionary has (`DictionaryMatch`) adds creating its vocab
+  from the dictionary's entry and the web searches for it. A token nothing has adds creating its vocab, the web searches,
+  and, outside edit mode, switching to edit mode, which shows the tokens. The marks act on the match itself,
   in Core: `WordExclusionSet.Add(Match)`, `Contains(Match)`, `Remove(Match)`, and `SentenceConfiguration.Highlights(Match)`,
   which `Match.IsHighlighted` uses too.
 - **The match-condition item** opens the vocab's window with the sentence typed in and the word picked

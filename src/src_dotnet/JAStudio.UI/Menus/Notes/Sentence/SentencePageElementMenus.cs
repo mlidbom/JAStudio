@@ -46,13 +46,23 @@ sealed class SentencePageElementMenus
    /// the text selected on it, if any.
    /// </summary>
    public List<SpecMenuItem> OfABreakdownEntry(BreakdownEntryViewModel entry, string selection) =>
-      entry.Match is VocabMatch vocabMatch
-         ? [CheckingTheMatchConditionAgainst(vocabMatch),
-            .. MarkingByHand(vocabMatch),
-            .. LinkedNoteItems(TheLinkTo(vocabMatch.Vocab), TheVocabsMenu),
-            .. TheSentencesAndTheSelectionsMenus(selection)]
-         : [.. MarkingByHand(entry.Match),
-            .. TheSentencesAndTheSelectionsMenus(selection)];
+      entry.Match switch
+      {
+         VocabMatch vocabMatch => [CheckingTheMatchConditionAgainst(vocabMatch),
+                                   .. MarkingByHand(vocabMatch),
+                                   .. LinkedNoteItems(TheLinkTo(vocabMatch.Vocab), TheVocabsMenu),
+                                   .. TheSentencesAndTheSelectionsMenus(selection)],
+         DictionaryMatch dictionaryMatch => [.. MarkingByHand(dictionaryMatch),
+                                             CreatingTheVocab($"Create the vocab {dictionaryMatch.ParsedForm} from the dictionary", dictionaryMatch),
+                                             SearchingTheWebFor(dictionaryMatch),
+                                             .. TheSentencesAndTheSelectionsMenus(selection)],
+         MissingMatch missingMatch => [.. MarkingByHand(missingMatch),
+                                       CreatingTheVocab($"Create the vocab {missingMatch.ParsedForm}", missingMatch),
+                                       SearchingTheWebFor(missingMatch),
+                                       .. ShowingTheTokens(),
+                                       .. TheSentencesAndTheSelectionsMenus(selection)],
+         _ => throw new ArgumentException($"A breakdown entry shows a match of no known kind: {entry.Match}.", nameof(entry))
+      };
 
    /// <summary>The menu of <paramref name="part"/>, a compound part under a breakdown entry, about the part's vocab, with <paramref name="selection"/>, the text selected on it, if any.</summary>
    public List<SpecMenuItem> OfACompoundPart(CompoundPartEntryViewModel part, string selection) =>
@@ -100,11 +110,37 @@ sealed class SentencePageElementMenus
    static string TheLabelOfUnmarking(string unmarking, WordExclusionSet marks, Match match) =>
       marks.ContainsItsFormEverywhereInTheSentence(match) ? $"{unmarking}, everywhere in the sentence" : unmarking;
 
-   /// <summary>Highlights <paramref name="match"/>, or removes its highlight. A highlighted match is valid whatever else it fails, so this also makes it match here.</summary>
-   SpecMenuItem HighlightingOrRemovingTheHighlight(Match match) =>
-      _sentence.Configuration.Highlights(match)
-         ? SpecMenuItem.UICommand(ShortcutFinger.Home4("Remove the highlight"), () => _sentence.Configuration.RemoveTheHighlightOf(match))
-         : SpecMenuItem.UICommand(ShortcutFinger.Home4("Highlight"), () => _sentence.Configuration.Highlight(match));
+   /// <summary>
+   /// Removes the highlight of <paramref name="match"/>, or highlights it. A highlighted match is valid whatever else it fails, so highlighting also makes<br/>
+   /// it match here; a token nothing has (<see cref="MissingMatch"/>) is never valid, so it isn't offered there.
+   /// </summary>
+   SpecMenuItem? HighlightingOrRemovingTheHighlight(Match match)
+   {
+      if(_sentence.Configuration.Highlights(match))
+         return SpecMenuItem.UICommand(ShortcutFinger.Home4("Remove the highlight"), () => _sentence.Configuration.RemoveTheHighlightOf(match));
+
+      return match is MissingMatch ? null : SpecMenuItem.UICommand(ShortcutFinger.Home4("Highlight"), () => _sentence.Configuration.Highlight(match));
+   }
+
+   /// <summary>
+   /// Creates the vocab of the word <paramref name="match"/> is of, with the dictionary's entry for it if it has one, and opens it: <paramref name="label"/><br/>
+   /// says which. Opens the vocab when it exists already, saying so.
+   /// </summary>
+   SpecMenuItem CreatingTheVocab(string label, Match match) =>
+      SpecMenuItem.Command(ShortcutFinger.Up2(label), () => _noteMenus.OpenTheVocabNamedOrCreatedFromTheDictionary(match.ParsedForm));
+
+   /// <summary>The web searches for the word <paramref name="match"/> is of, such as its dictionaries' and its sentences'.</summary>
+   static SpecMenuItem SearchingTheWebFor(Match match) => WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Up3($"Web: {match.ParsedForm}"), () => match.ParsedForm);
+
+   /// <summary>
+   /// Switches the sentence breakdown to edit mode, which shows the sentence's tokens: how the tokenizer split the sentence is usually why a token<br/>
+   /// matched nothing. Only offered outside edit mode.
+   /// </summary>
+   List<SpecMenuItem> ShowingTheTokens()
+   {
+      var editMode = _services.CoreApp.Config.ShowSentenceBreakdownInEditMode;
+      return editMode.Value ? [] : [SpecMenuItem.UICommand(ShortcutFinger.Up4("Show the tokens (edit mode)"), () => editMode.Value = true)];
+   }
 
    /// <summary>
    /// The items of the note <paramref name="link"/> links to: opening it in the tab, opening it in a background tab, and its own menu, made by<br/>

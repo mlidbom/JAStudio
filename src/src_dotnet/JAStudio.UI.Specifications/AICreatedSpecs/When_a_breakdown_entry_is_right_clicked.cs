@@ -18,7 +18,8 @@ namespace JAStudio.UI.Specifications.AICreatedSpecs;
 /// <summary>
 /// The sentence パンを食べる。, with the vocab 食べる, opened in the workspace, its breakdown in edit mode, which lists every match whatever the sentence<br/>
 /// marks it as. Right-clicking the entry of 食べる's match gives the match's menu (<see cref="SentencePageElementMenus"/>): the items that apply to it as<br/>
-/// it is, each on the key it always has, then the vocab's menu and the sentence's. Its items mark the match by hand in the sentence, at its position.
+/// it is, each on the key it always has, then the vocab's menu and the sentence's. Its items mark the match by hand in the sentence, at its position.<br/>
+/// パン, which no vocab has, is the dictionary's match, whose menu creates its vocab.
 /// </summary>
 public class When_a_breakdown_entry_is_right_clicked : SpecificationUsingAWorkspace, IAIGeneratedSpec
 {
@@ -43,6 +44,9 @@ public class When_a_breakdown_entry_is_right_clicked : SpecificationUsingAWorksp
 
    List<string> TheItemsOf食べる() => [.. TheMenuOf食べる().Select(it => it.Name)];
 
+   List<string> TheItemsOfTheDictionarysパン() =>
+      [.. Page.MenuOf(Page.Entries.First(it => it.Match is DictionaryMatch { ParsedForm: "パン" }), "").Select(it => it.Name)];
+
    void Pick(string item) => TheMenuOf食べる().Single(it => it.Name == item).Action();
 
    List<string> IncorrectMatches() => [.. _sentence.Configuration.IncorrectMatches.Get().Select(it => it.ToString())];
@@ -58,6 +62,14 @@ public class When_a_breakdown_entry_is_right_clicked : SpecificationUsingAWorksp
                                                "_p Open 食べる in a background tab",
                                                "_k Vocab: 食べる",
                                                "_j Sentence"]);
+
+   [XF] public void the_menu_of_パン_which_only_the_dictionary_has_marks_it_creates_its_vocab_and_searches_the_web_for_it() =>
+      TheItemsOfTheDictionarysパン().Must().SequenceEqual(["_e Mark incorrect here",
+                                                           "_o Hide here",
+                                                           "_a Highlight",
+                                                           "_ö Create the vocab パン from the dictionary",
+                                                           "_ä Web: パン",
+                                                           "_j Sentence"]);
 
    [XF] public void with_text_selected_on_it_its_menu_ends_with_what_can_be_done_with_the_text() =>
       TheMenuOf食べる("食べ").Last().Name.Must().Be("_q Selection: \"食べ\"");
