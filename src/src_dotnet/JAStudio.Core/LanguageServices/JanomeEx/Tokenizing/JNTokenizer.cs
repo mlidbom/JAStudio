@@ -39,7 +39,8 @@ public sealed class JNTokenizer
 
    static List<JNToken> TokenizeToLinkedTokenList(string tokenizerInput)
    {
-      var tokens = MisTokenizedIchidanVerbUnknownToTheTokenizer.CorrectEachIn([.. TokenizerDictionary.UniDic.Tokenize(tokenizerInput).Select(TokenOf)]);
+      var tokens = VolitionalTheTokenizerGivesAsOneToken.SplitEachIn(
+         MisTokenizedIchidanVerbUnknownToTheTokenizer.CorrectEachIn([.. TokenizerDictionary.UniDic.Tokenize(tokenizerInput).Select(TokenOf)]));
       LinkNeighbouringTokens();
       return tokens;
 

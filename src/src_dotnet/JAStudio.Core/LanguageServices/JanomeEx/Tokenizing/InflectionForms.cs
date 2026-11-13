@@ -79,7 +79,7 @@ public static class InflectionForms
    /// <summary>The volitional, such as 書こう and 食べよう, which the tokenizer gives as one token (意志推量形).</summary>
    public static InflectionForm Volitional => GetByName("意志推量形");
 
-   /// <summary>Every inflection form UniDic 2025.12 (unidic-cwj-202512) gives, with its English.</summary>
+   /// <summary>Every inflection form UniDic 2025.12 gives, with its English: the same in the spoken (unidic-csj-202512) and the written (unidic-cwj-202512).</summary>
    static readonly (string Name, string Description)[] EveryFormTheDictionaryHas =
    [
       ("ク語法", "Ku-nominalization (classical)"),

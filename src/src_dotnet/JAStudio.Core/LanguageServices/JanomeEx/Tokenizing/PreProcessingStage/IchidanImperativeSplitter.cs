@@ -1,3 +1,4 @@
+using Compze.Internals.SystemCE;
 using System.Collections.Generic;
 
 namespace JAStudio.Core.LanguageServices.JanomeEx.Tokenizing.PreProcessingStage;
@@ -14,8 +15,16 @@ static class IchidanImperativeSplitter
       return null;
    }
 
-   /// <summary>An ichidan verb's imperative, such as 食べろ.</summary>
-   static bool IsIchidanImperative(JNToken token) => token.IsIchidanVerb && Equals(token.InflectedForm, InflectionForms.Imperative);
+   /// <summary>
+   /// An imperative ending in ろ or よ, as an ichidan verb's does, such as 食べろ, and as する's does, しろ; or an ichidan verb's classical imperative<br/>
+   /// in よ, such as 食べよ, which the tokenizer's dictionary, UniDic, gives as a volitional.
+   /// </summary>
+   static bool IsIchidanImperative(JNToken token) =>
+      (Equals(token.InflectedForm, InflectionForms.Imperative) && EndsAsAnIchidanImperative(token)) ||
+      (Equals(token.InflectedForm, InflectionForms.Volitional) && token.IsIchidanVerb && token.Surface.EndsWithOrdinal("よ"));
+
+   /// <summary>Whether <paramref name="imperative"/> ends in ろ or よ, as an ichidan verb's imperative does.</summary>
+   internal static bool EndsAsAnIchidanImperative(JNToken imperative) => imperative.Surface.EndsWithOrdinal("ろ") || imperative.Surface.EndsWithOrdinal("よ");
 
    static List<IAnalysisToken> SplitIchidanImperative(JNToken token)
    {

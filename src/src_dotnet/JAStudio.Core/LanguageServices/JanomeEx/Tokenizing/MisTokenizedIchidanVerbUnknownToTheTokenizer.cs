@@ -82,13 +82,18 @@ static class MisTokenizedIchidanVerbUnknownToTheTokenizer
 
    /// <summary>
    /// Whether <paramref name="ending"/> is the end of the ichidan verb itself, which the tokenizer only splits off for verbs missing from its dictionary:<br/>
-   /// the dictionary form's る, read as the classical auxiliary り, or the hypothetical form's れ, read as the passive auxiliary れる, which can't<br/>
+   /// the dictionary form's る, read as an auxiliary, or the hypothetical form's れ, read as the passive auxiliary れる, which can't<br/>
    /// follow an e-stem: the passive follows the a-stem, as in 書かれる.
    /// </summary>
    static bool IsTheRestOfTheVerbItself(JNToken ending) => IsTheDictionaryFormEnding(ending) || IsTheHypotheticalFormEnding(ending);
 
+   /// <summary>
+   /// The dictionary form's る, which the written-language UniDic reads as the classical auxiliary り, and the spoken-language one as an<br/>
+   /// uninflecting auxiliary.
+   /// </summary>
    static bool IsTheDictionaryFormEnding(JNToken ending) =>
-      ending.Surface == IchidanDictionaryFormEnding && Equals(ending.InflectionType, InflectionTypes.Classical.Ri);
+      ending.Surface == IchidanDictionaryFormEnding &&
+      (Equals(ending.InflectionType, InflectionTypes.Classical.Ri) || (Equals(ending.PartsOfSpeech, JNPOS.BoundAuxiliary) && Equals(ending.InflectionType, InflectionTypes.Uninflecting)));
 
    static bool IsTheHypotheticalFormEnding(JNToken ending) =>
       ending.Surface == "れ" && Equals(ending.InflectionType, InflectionTypes.Auxiliary.Reru);

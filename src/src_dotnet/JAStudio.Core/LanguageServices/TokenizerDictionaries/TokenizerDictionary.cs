@@ -32,13 +32,17 @@ public sealed class TokenizerDictionary
                                                            ?? throw new InvalidOperationException("Cannot determine the assembly's folder"),
                                                            "dic")));
 
-   /// <summary>The release of UniDic JAStudio's tokenizer reads with: contemporary written Japanese, 2025.12.</summary>
-   const string UniDicRelease = "unidic-cwj-202512";
+   /// <summary>
+   /// The release of UniDic JAStudio's tokenizer reads with: contemporary spoken Japanese, 2025.12. It reads colloquial speech, such as an<br/>
+   /// imperative followed by よ, better than the one for written Japanese (unidic-cwj-202512), and JAStudio's sentences are mostly speech: see<br/>
+   /// <c>dev_docs/todo/switching-to-unidic.md</c>.
+   /// </summary>
+   const string UniDicRelease = "unidic-csj-202512";
 
    static readonly Lazy<TokenizerDictionary> TheUniDic = new(TheInstalledUniDic);
 
    /// <summary>
-   /// UniDic for contemporary written Japanese, release 2025.12, which JAStudio's tokenizer reads with: in <c>unidic-cwj-202512</c> in JAStudio's<br/>
+   /// UniDic for contemporary spoken Japanese, release 2025.12, which JAStudio's tokenizer reads with: in <c>unidic-csj-202512</c> in JAStudio's<br/>
    /// folder of the user's local application data, beside JMdict's database. Opened when first used.
    /// </summary>
    public static TokenizerDictionary UniDic => TheUniDic.Value;

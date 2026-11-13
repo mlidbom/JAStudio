@@ -224,8 +224,17 @@ public class JNToken : IAnalysisToken
          JNPOS.Particle.Conjunctive
       ];
 
-   /// <summary>Whether this token can follow the stem of a godan verb's potential form, as ない, そう, て and たり follow 泳げ.</summary>
+   /// <summary>
+   /// Whether this token can follow the stem of a godan verb's potential form, as ない, そう, て and たり follow 泳げ. Not the passive れる and られる,<br/>
+   /// nor the causative せる and させる: they follow a verb's irrealis, as in 清められ, and IPADIC, the tokenizer's former dictionary, had them as<br/>
+   /// verb suffixes, which this never took, where UniDic has them as auxiliaries.
+   /// </summary>
    public bool IsValidGodanPotentialFormInflection() =>
       (ValidPotentialFormInflectionsPos.Contains(PartsOfSpeech) || (Equals(PartsOfSpeech, JNPOS.Particle.Adverbial) && CoordinatingTari.Contains(Surface))) &&
-      !InvalidGodanPotentialFormSurfaces.Contains(Surface);
+      !InvalidGodanPotentialFormSurfaces.Contains(Surface) &&
+      !IsThePassiveOrTheCausative;
+
+   static readonly HashSet<string> TheCausatives = ["せる", "させる"];
+
+   bool IsThePassiveOrTheCausative => Equals(InflectionType, InflectionTypes.Auxiliary.Reru) || TheCausatives.Contains(BaseForm);
 }

@@ -127,13 +127,16 @@ public static class InflectionTypes
       public static InflectionType Tai => GetByName("助動詞-タイ");
    }
 
+   /// <summary>The type of what doesn't inflect, such as the volitional's う.</summary>
+   public static InflectionType Uninflecting => GetByName("無変化型");
+
    public static class Classical
    {
       /// <summary>The classical perfective り, which the tokenizer reads the る of an ichidan verb it doesn't know as, such as 磨げる's.</summary>
       public static InflectionType Ri => GetByName("文語助動詞-リ");
    }
 
-   /// <summary>Every inflection type UniDic 2025.12 (unidic-cwj-202512) gives, with its English.</summary>
+   /// <summary>Every inflection type UniDic 2025.12 gives, with its English: the same in the spoken (unidic-csj-202512) and the written (unidic-cwj-202512).</summary>
    static readonly (string Name, string Description)[] EveryTypeTheDictionaryHas =
    [
       ("カ行変格", "Kuru verb"),

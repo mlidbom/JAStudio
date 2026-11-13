@@ -16,12 +16,13 @@ static class GodanImperativeSplitter
    }
 
    /// <summary>
-   /// A godan verb's imperative, such as 書け and ください, or its hypothetical stem ending a statement, which can only be an imperative there,<br/>
-   /// such as the 書け of 書け！
+   /// An imperative that ends as a godan verb's does, in the e-row or in い, such as 書け, ください and 来い, and also くれ, which IPADIC, the<br/>
+   /// tokenizer's former dictionary, gave godan imperative forms; or a godan verb's hypothetical stem ending a statement, which can only be an<br/>
+   /// imperative there, such as the 書け of 書け！
    /// </summary>
    static bool IsGodanImperative(JNToken token) =>
-      token.IsGodanVerb &&
-      (Equals(token.InflectedForm, InflectionForms.Imperative) || (Equals(token.InflectedForm, InflectionForms.Hypothetical) && token.IsEndOfStatement));
+      (Equals(token.InflectedForm, InflectionForms.Imperative) && !IchidanImperativeSplitter.EndsAsAnIchidanImperative(token)) ||
+      (token.IsGodanVerb && Equals(token.InflectedForm, InflectionForms.Hypothetical) && token.IsEndOfStatement);
 
    static List<IAnalysisToken> SplitGodanImperative(JNToken token, string godanBase)
    {

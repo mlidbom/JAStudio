@@ -1,7 +1,8 @@
 # Switching the tokenizer dictionary from IPADIC to UniDic
 
-> **Status: under way on the branch `unidic` (Magnus, 2026-11-13).** Step 1, comparing how the two tokenize, is done.
-> Open for Magnus: how the dictionary ships (below).
+> **Status: under way on the branch `unidic` (Magnus, 2026-11-13).** Step 1, comparing how the two tokenize, is done. Step 2,
+> the port, is in progress: the tokenizer reads with the spoken-language UniDic, and 34 of the 230 parsing cases parse differently,
+> each listed below with what's to be done. Open for Magnus: how the dictionary ships, and the colloquial contractions (below).
 
 JAStudio's tokenizer, MeCab (MeCab.DotNet), reads with a **tokenizer dictionary** (`TokenizerDictionary`): the words it
 knows, with their parts of speech, inflections and base forms, and the costs by which it picks how to cut a text into
@@ -26,7 +27,20 @@ scary. BUT, no time will be easier than now." Go-ahead the same day: "go right a
 - **It tags names,** with their kind and reading: 河合 is a surname, カワイ; 翔 a given name; 戦場ヶ原 a place.
 - **Each token also has** the word's origin (native, Sino-Japanese, foreign, proper noun) and its pitch accent.
 
-## Which UniDic: written Japanese, 2025.12 (unidic-cwj-202512)
+## Which UniDic: spoken Japanese, 2025.12 (unidic-csj-202512)
+
+**Chosen on the parsing cases (2026-11-13), over the written-language one the counts below first pointed to.** JAStudio's
+sentences are mostly subtitles: speech. With the written-language UniDic, 50 of the 230 parsing cases parsed differently from
+IPADIC; with the spoken-language one, 46, before any fix. The spoken one reads right what the written one reads wrong, in
+7 cases, and they're everyday speech: imperatives followed by よ or って (聞けよ, 言えよ, 金貸せって, 放せよ, 返せったら,
+which the written one reads as potential forms, 聞けよ as one token), しろ on its own (the written one: 白, "white"),
+未練たらしい, 他人を気遣い (the written one: the noun 気遣い), こわっ and おっせぇ. It reads wrong in 2 the written one reads
+right: 教えにしたがって (教え as a verb) and 償いきれない (償い as a noun); and in 行ったって話 it reads った + って, the quotative,
+where the written one reads the conditional たって, which I believe is wrong there. Its one oddity met so far: katakana オレ's
+lemma is `オレ-au lait` (café au lait), which matters only once lemmas are used. Switching back is one constant,
+`TokenizerDictionary.UniDicRelease`.
+
+### The first comparison: written Japanese (unidic-cwj-202512)
 
 Compared over the same million reservoir sentences with the comparison below:
 
@@ -48,9 +62,13 @@ Compared over the same million reservoir sentences with the comparison below:
 
 ## Open: how the dictionary ships (Magnus)
 
-IPADIC comes in MeCab.DotNet's NuGet package, copied next to the assemblies. 1.3 GB of UniDic could be committed to the
-repository (in git's history forever), packed as a NuGet package of our own, or downloaded on first use. Until it's
-decided, the branch reads it from a folder outside the repository.
+IPADIC comes in MeCab.DotNet's NuGet package, copied next to the assemblies. UniDic 2025.12 is 1.3 GB unpacked, 1 GB of it
+one file, the matrix of connection costs, and 0.7 GB zipped. That rules out IPADIC's way: nuget.org takes packages of up to
+250 MB, and GitHub refuses files over 100 MB (Git LFS would take it, beyond the free quota). The NuGet package
+`Alissa.UniDic-CWJ.binary` is unofficial and stuck at UniDic 2.3.0 (2020). What's left is downloading it on first use, from
+NINJAL (`https://clrd.ninjal.ac.jp/unidic_archive/2512/unidic-csj-202512.zip`) or from a mirror of our own, as JMdict's
+database is generated on first use into the same folder. Until it's decided, the branch reads it from
+`%LOCALAPPDATA%/JAStudio/unidic-csj-202512`, put there by hand; a missing folder fails saying how to get it.
 
 ## The comparison tool
 
@@ -90,10 +108,39 @@ examples. A million sentences take 15 seconds, plus a minute reading them from t
   此の, ちょっと → 一寸. Some carry a sub-classification: 僕-代名詞, そう-様態. So a lemma maps to a vocab through
   JMdict, which has those spellings among a word's forms, by spelling and reading.
 
+## The parsing cases that parse differently (spoken UniDic, 2026-11-13)
+
+34 of 230, after the fixes of step 2 so far. "Not displayed" means the sentence breakdown shows the same words; only the
+parsed words, which include every candidate, changed.
+
+- **Better than IPADIC, to accept:** 待ってました (て is the contracted ている's, as UniDic says), 服を引き出しの中に (引き出し,
+  the drawer, not the verb 引き出す), お構いなく and いえ (いえ the interjection, not 言う's imperative), 行ったって話 (above).
+- **Extra or fewer candidates, nothing displayed changes, to accept:** の|に, それなのに, 日本|語, 教科|書, か|も, お|金, 一|波,
+  １人 and 一人 now one token, ばら撒かれる (ばら撒く one verb), 返せったら (ったら one particle), the copula's に (だ) in
+  逆に and 厳密に, 何なんだろうな.
+- **UniDic's mistakes:** 教えにしたがって, 償いきれない (above).
+- **Colloquial contractions, for Magnus to judge:** すげえ and うるせえ come out as one token whose base form is the word,
+  すごい and うるさい, where IPADIC cut すげ|え and うる|せえ and JAStudio's vocab for the sound change (え, せえ) matched.
+  The breakdown now shows すごい and うるさい.
+- **To fix:**
+  - ら抜き: 食べれる and 寝れない are one token (base 食べれる, lemma 食べる), where JAStudio expects the verb and れる. Telling
+    them from a godan verb's potential (帰れる, lemma 帰る) needs the dictionary, so it's for the preprocessing stage.
+  - たって (見えなくなったって): UniDic cuts た|って; the vocab たって no longer matches.
+  - すぎ (考えすぎ): UniDic has すぎ as a suffix (接尾辞,形状詞的), so the vocab すぎる doesn't match it.
+  - てらっしゃい (下りてらっしゃい) is one auxiliary in UniDic; the vocab て and らっしゃる don't match.
+  - くる's dictionary-form split gives its う as a surface match, where it was a base match.
+  - 捕まえよ, 見つけよ, 離れよ: the classical imperative in よ, which UniDic gives as a volitional; the よ now matches, but
+    differs from the expected in a way still to look at, and 離れよ shows 離れ rather than 離れる.
+  - 何言っとんだ: とん|だ changed to とる and だ.
+  - A parsing case for 行け夏目, which left a token spec (the commit of step 2 says why).
+
 ## The steps
 
 1. **Compare, changing nothing.** Done (2026-11-13): the comparison tool, and the findings above.
-2. **Port the tokenizer layer to UniDic.** JAStudio's token (`JNToken`), its parts of speech (`JNPartsOfSpeech`,
+2. **Port the tokenizer layer to UniDic.** In progress: the tokenizer reads with it, the registries are UniDic's, and JAStudio's
+   facts about a token, the splitters and the fix for ichidan verbs the dictionary lacks speak UniDic's terms. The volitional,
+   which UniDic gives as one token (書こう, だろう), is split as IPADIC cut it (`VolitionalTheTokenizerGivesAsOneToken`).
+   What was planned: JAStudio's token (`JNToken`), its parts of speech (`JNPartsOfSpeech`,
    `JNPOS`), inflection types and forms are IPADIC's. They become UniDic's, read from the dictionary's own words as
    `When_the_tokenizer_gives_a_word_of_any_inflection_type_its_dictionary_has` reads IPADIC's, and every use of them in
    the parsing and the matching configuration moves to UniDic's terms, guided by the correspondences the comparison

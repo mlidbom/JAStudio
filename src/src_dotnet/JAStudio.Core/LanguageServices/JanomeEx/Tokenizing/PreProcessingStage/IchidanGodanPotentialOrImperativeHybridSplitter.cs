@@ -36,9 +36,8 @@ static class IchidanGodanPotentialOrImperativeHybridSplitter
       return null;
    }
 
-   /// <summary>An ichidan verb's imperative in ろ, such as 食べろ, which no godan verb's imperative or potential form looks like.</summary>
-   static bool IsAnIchidanImperativeInRo(JNToken token) =>
-      token.IsIchidanVerb && Equals(token.InflectedForm, InflectionForms.Imperative) && token.Surface.EndsWithOrdinal("ろ");
+   /// <summary>An imperative in ろ, such as 食べろ, which no godan verb's imperative or potential form looks like.</summary>
+   static bool IsAnIchidanImperativeInRo(JNToken token) => Equals(token.InflectedForm, InflectionForms.Imperative) && token.Surface.EndsWithOrdinal("ろ");
 
    static List<IAnalysisToken> SplitGodanImperative(JNToken token, string godanBase)
    {
