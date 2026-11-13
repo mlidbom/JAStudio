@@ -60,7 +60,7 @@ public class SentenceCollection
                       .ToList();
    }
 
-   public List<SentenceNote> WithVocabMarkedInvalid(VocabNote vocabNote) => Cache.WithUserMarkedInvalidVocab(vocabNote.Question.DisambiguationName);
+   public List<SentenceNote> WithVocabMarkedIncorrect(VocabNote vocabNote) => Cache.WithVocabMarkedIncorrect(vocabNote.Question.DisambiguationName);
 
    public List<SentenceNote> WithForm(string form) => Cache.WithVocabForm(form);
 

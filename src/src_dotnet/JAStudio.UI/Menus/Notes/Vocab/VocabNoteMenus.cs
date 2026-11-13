@@ -65,7 +65,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home3("Sentences with primary form"), $"Sentences with the primary form of {vocab.GetQuestion()}", vocab.Sentences.WithPrimaryForm),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home4("Sentences with this word highlighted"), $"Sentences with {vocab.GetQuestion()} highlighted", vocab.Sentences.Highlighted),
                                                             NoteListMenuItem.Showing(ShortcutFinger.Home5("Potentially matching sentences"), $"Sentences that may match {vocab.GetQuestion()}", () => Collection.Sentences.PotentiallyMatchingVocab(vocab)),
-                                                            NoteListMenuItem.Showing(ShortcutFinger.Up1("Marked invalid in sentences"), $"Sentences where {vocab.GetQuestion()} is marked invalid", vocab.Sentences.InvalidIn)
+                                                            NoteListMenuItem.Showing(ShortcutFinger.Up1("Marked incorrect in sentences"), $"Sentences where {vocab.GetQuestion()} is marked incorrect", vocab.Sentences.MarkedIncorrectIn)
                                                          }),
                                     NoteListMenuItem.Showing(ShortcutFinger.Home3("Kanji"), $"Kanji in {vocab.GetQuestion()}", () => KanjiIn(vocab.GetQuestion())),
                                     BuildOpenErgativeTwinsMenuSpec(ShortcutFinger.Home4("Ergative twins"), vocab)

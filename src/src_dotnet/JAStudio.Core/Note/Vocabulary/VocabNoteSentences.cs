@@ -77,7 +77,7 @@ public class VocabNoteSentences
 
    public List<SentenceNote> All() => Vocab.Services.Collection.Sentences.WithVocab(Vocab);
 
-   public List<SentenceNote> InvalidIn() => Vocab.Services.Collection.Sentences.WithVocabMarkedInvalid(Vocab);
+   public List<SentenceNote> MarkedIncorrectIn() => Vocab.Services.Collection.Sentences.WithVocabMarkedIncorrect(Vocab);
 
    public List<SentenceNote> WithOwnedForm() => Vocab.Services.Collection.Sentences.WithVocabOwnedForm(Vocab);
 
