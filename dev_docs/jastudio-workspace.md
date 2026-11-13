@@ -144,6 +144,111 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
   and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
   `forbids::configured_hidden`, so the styles never applied.
 
+## Proposed: the right-click menu by what's right-clicked
+
+*An analysis for discussion, 2026-11-13. Magnus: "I'm rather eager to make the menu understand context rather than do
+string magic. So that you immediately get the options you should be getting for that element, not everything under the
+sun."*
+
+### How it works now: from a string
+
+A right-click on a note's page passes `NoteContextMenu` the note shown and two strings: the text right-clicked (the text
+selected, or else the whole text of the block under the mouse) and the clipboard's text. Each string gets a submenu of
+everything a string might be for. The menu then works out from the string what was meant. For example, "Add > Incorrect
+matches" analyses the sentence again and finds every match whose form is the string; when the word occurs twice, a
+submenu asks which, by its position. The Avalonia sentence page knows exactly which element was clicked (each control's
+`DataContext` is its `BreakdownEntryViewModel`, with the `Match` behind it), but it hands the menu only the text.
+
+The strings do two different jobs:
+- **Naming an element on the page:** the match to mark incorrect or hidden, the sentence to highlight a vocab in, the
+  vocab to make one of a kanji's primary vocab, the reading to make primary. The element itself should do this job.
+- **Input:** a word to add as a synonym, a text to search the web for or to create a note from, where to split the
+  sentence with a word-break tag. A selection does this job well, as it does now.
+
+### The proposal
+
+The right-click hands the menu the element clicked: its view model, and through it the domain objects (a `Match`, a
+compound part's `VocabNote`, a kanji's `KanjiNote`). The menu is then:
+
+```
+<the element's own items: only those that apply to it as it is>
+Vocab: 食べる ▸        the vocab's own note menu, as on its page (for an element with a vocab)
+Sentence ▸             the sentence's note menu, as now
+Selection: "…" ▸       only when text is selected
+```
+
+- **A fixed key for each item,** whichever element shows it, and the two halves of a toggle on the same key (mark
+  incorrect and unmark, hide and unhide, highlight and remove the highlight), so that the keys stay muscle memory.
+- **What doesn't apply is left out,** not shown disabled: a shown match has no "Unhide".
+
+### What each element offers
+
+**A breakdown entry for a vocab's match (`VocabMatch`).** Edit mode lists every match of every candidate word, so the
+entry is one of these:
+
+| The match | Its items |
+|---|---|
+| Any | "Match-condition of 食べる, checked against this word" (step 4 of increment 10). "Open 食べる", also in a background tab, for the keyboard. |
+| Shown | "Mark incorrect here" (`IncorrectMatches`, at the word's position: `Match.ToExclusion`). "Hide here" (`HiddenMatches`, likewise). "Highlight" or "Remove the highlight" (`HighlightedWords`). |
+| Hidden by hand (`configured_hidden`) | "Unhide": removes the exclusion that hides it. When that one is for the whole sentence (no position), the item says so, since it unhides the word everywhere in the sentence. |
+| Hidden, shadowed by a longer word | The shadowing word's items: "Open 食べ物", "Mark 食べ物 incorrect here". That's usually what's wrong when a right word doesn't show. |
+| Hidden by the vocab's flags (compositionally transparent compound, yields to a surface) or the setting that hides compounds | The vocab's matching flags, or the view toggle. |
+| Invalid, marked incorrect by hand (`configured_incorrect`) | "Unmark incorrect", with the same caveat as "Unhide". |
+| Invalid, its match-condition not met (`not_met`) | The match-condition item, first. "Highlight": a highlighted match is valid whatever fails (`Match.IsValid`), so it's the by-hand "it does match here". |
+| Invalid, another match owns the form or wins by priority | The winning vocab's items: "Open 食べる", "Mark 食べる incorrect here". |
+| Invalid for other reasons (poison word, dictionary form, inflection rules) | The vocab's matching flags. |
+
+**A breakdown entry for a word only the dictionary has (`DictionaryMatch`):** "Create the vocab from the dictionary"
+(`TheVocabNamedOrCreatedFromTheDictionary`), "Mark incorrect here", "Hide here", web searches for the word.
+
+**A breakdown entry for a token nothing has (`MissingMatch`):** "Create a vocab", web searches, and "Show the tokens"
+(edit mode's token tables), since how the tokenizer split the sentence is usually why.
+
+**A compound part, under an entry:** "Open", "Remove from 食べ物's compound parts" (the compound right above it), and
+"Vocab: 食べ ▸". No match-condition item: a compound part isn't matched in the sentence.
+
+**A kanji, under an entry:** "Open", "Make 食べる one of 食's primary vocab" (last, or at a position) or "Remove 食べる from
+食's primary vocab" (`KanjiNote.PrimaryVocab`), and "Kanji: 食 ▸". Today this takes selecting the vocab's text on the
+kanji's page.
+
+**The rest of the page** (question, answer, comments, empty space): the sentence's note menu, as now, with the selection
+first when there is one. The audio buttons: "Text-to-speech audio…".
+
+### Where today's string items go
+
+- **The sentence's string menu:** adding and removing highlighted, hidden and incorrect matches go to the breakdown
+  entries. Splitting with a word-break tag stays with the selection: the text is the input.
+- **The vocab's string menu:** "Sentence > Add highlight / Remove highlight / Mark as incorrect match in sentence", which
+  find the sentence by its whole question text, go to the sentence rows of the vocab's page (step 5). Removing a synonym,
+  antonym, see-also and the like go to those rows on the vocab's page. Adding them, and creating combined vocab, stay with
+  the selection and the clipboard: the text is the input.
+- **The kanji's string menu:** the primary vocab go to the kanji's vocab rows and to the sentence page's kanji rows; the
+  primary readings to the kanji's reading elements. Adding a similar-meaning or confused-with kanji stays with the
+  selection.
+- **The generic items** (web searches, exactly matching notes, create a note, reparse matching sentences) stay with the
+  selection.
+
+Anki's reviewer keeps the string menus until its menu goes (step 6 of increment 10).
+
+### Found along the way
+
+- **"Incorrect" and "invalid" name one thing.** By hand it's an incorrect match (`IncorrectMatches`,
+  `configured_incorrect`), but the vocab's menu lists the sentences as "Marked invalid in sentences"
+  (`vocab.Sentences.InvalidIn`). And a match is invalid (`Match.IsValid`) for many more reasons than being marked so.
+- **"Highlighted Vocab" names two things:** a sentence's highlighted words (`HighlightedWords`), and, in the kanji's string
+  menu, the kanji's primary vocab (`KanjiStringMenus`).
+- **The vocab's "Sentence > Add Highlight" highlights in the first sentence with the question text only,** while "Remove
+  highlight" and "Mark as incorrect match" act on all of them (`VocabStringMenus.BuildSentenceMenuSpec`). It goes away
+  with the move to the sentence rows.
+
+### Open questions
+
+1. Leave out what doesn't apply, rather than show it disabled, with a fixed key for each item?
+2. Mark incorrect and hide at the word's position only, or also offer "everywhere in this sentence" (a `WordExclusion`
+   with no position)?
+3. Leave the clipboard out of the elements' menus, keeping it in the sentence's menu (a right-click on empty space)?
+4. One word for a match marked by hand, "incorrect" or "invalid"?
+
 ## Keyboard shortcuts
 
 - **Note view shortcuts** (`NoteViewShortcuts`, in C#) are defined once and shared with Anki's reviewer and
