@@ -44,3 +44,5 @@ snapshot_vocab.json
 *.lscache
 /src/user_files/window-places.json
 /src/user_files/workspace-state.json
+
+/.idea/.idea.JAStudio/.idea/.name
