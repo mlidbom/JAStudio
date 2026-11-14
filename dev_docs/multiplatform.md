@@ -68,8 +68,7 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 - **Placing windows:** see above.
 - **The Japanese fonts** in the Avalonia UI: one `JapaneseFont` in `App.axaml`, listing Windows', macOS's (Hiragino
   Sans) and Linux's (Noto Sans CJK JP). Fonts that aren't installed are skipped.
-- **The window specifications** run on every platform. *Whether headless Skia works in CI on Linux shows on the next
-  push.*
+- **The window specifications** run on every platform, and pass in CI on Linux since the linux-ci merge (2026-11-14).
 
 - **The Python layer:** no Windows-specific code found.
 - **Audio:** SoundFlow plays it (`text-to-speech.md`). Mp3 normalization is plain C#.
