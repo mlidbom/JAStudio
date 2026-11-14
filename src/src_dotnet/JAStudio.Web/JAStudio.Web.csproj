@@ -10,6 +10,7 @@
       <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
       <!-- Copy all dependencies to output for pythonnet consumption -->
       <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+      <NoWarn>$(NoWarn);BL0016</NoWarn> <!-- BL0016 asks for a try/catch around every JS interop call: a catch without evidence of the exception, which the defensive-coding standard forbids (Magnus, 2026-11-14). -->
    </PropertyGroup>
 
    <ItemGroup>
