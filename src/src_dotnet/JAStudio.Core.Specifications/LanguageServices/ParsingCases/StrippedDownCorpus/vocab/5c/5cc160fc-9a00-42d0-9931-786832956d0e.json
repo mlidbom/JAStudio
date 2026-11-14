@@ -40,6 +40,27 @@
       "yieldLastTokenToOverlappingCompound": "required"
     },
     "flags": [],
+    "condition": {
+      "allOf": [
+        {
+          "not": {
+            "followingToken": {
+              "baseForm": {
+                "startsWithOneOf": [
+                  "いう",
+                  "思い込む",
+                  "思う",
+                  "思える",
+                  "聞く",
+                  "言う",
+                  "言える"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
     "yieldToSurface": []
   },
   "relatedVocab": {

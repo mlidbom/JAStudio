@@ -185,15 +185,41 @@ displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,9
 - **The single-token vocab, kept:** たって and とも. UniDic cuts them both ways, sometimes wrongly: 見たって ("saw, they say")
   is now the conditional たって, 当たったって聞いた rightly た + って; 女とも is rightly と + も, but the concessive しようとも is
   lost. ただ, 話, うまい, もし and かつて change only in candidates.
-- **The corpus edits for the main checkout** (made here only to analyze): remove `singleToken` from the match-conditions
-  of ので (`6c2ff488-df1d-401a-b2b5-33c3a43c4610`), だって (`5cc160fc-9a00-42d0-9931-786832956d0e`) and において
-  (`a2f36dac-3c75-4547-9a5b-2cfa6b4b5ba8`). The parsing cases' stripped-down corpus has the first two edited already.
+- **だって, decided (2026-11-14), with the parsing rules only** (Magnus, 2026-11-13: "no tokenizer hack"; a vocab per
+  meaning, each with its meanings ordered by what its match-configuration makes likely):
+  - **The sentence-initial conjunction (だって言ったじゃん) is a vocab of its own, `だって:s.start`,** as `で:s.start` is:
+    a clone of だって that requires `IsAtTheSentencesStart` and doesn't yield its って, so って言う doesn't take it. It wins at
+    the sentence's start by its condition's weight, as `で:s.start` does over で. Its answer is だって's, whose order already
+    puts "because/after-all | but" first.
+  - **だって isn't matched before a verb of saying, thinking or hearing:** its match-condition, in place of `singleToken`,
+    is that the following token's base form doesn't start with 言う, いう, 言える, 思う, 思える, 思い込む or 聞く, the
+    verbs the removed `MisTokenizedQuotativeDatte` listed. That one left out 分かる, 知る and 信じる, which the "even"
+    particle commonly precedes (子供だって知ってる). So 無敵な女だって思われたい shows だ | って | 思われる, where no って-compound
+    matches 思われる, as 友達だって言えば shows だ | って言う. The yield stays, for the って-compounds other verbs may have.
+  - **For Magnus to consider:** だって's meanings put "because/after-all | but" first, the conjunction's, which the
+    `だって:s.start` vocab now covers. In the middle of a sentence "even/too/as-well/also" is the likelier.
+- **"Hide all compounds" follows UniDic's cuts, to accept:** it hides a compound whose parts all match, and UniDic cuts
+  words IPADIC gave as one token, so with the setting on such a word shows the words of its tokens, which are the compound
+  parts its vocab declares:
+  だって shows だ | って, のに の | に, それなのに それ | な | の | に, 日本語 日本 | 語, っていう って | いう, 本当に 本当 | に. And the
+  other way: 一人, １人 and ばら撒く are one token in UniDic, so they're no compounds, and show whole.
+- **Found on the way:**
+  - 本当に's compound parts are 本当 and 当に; they should be 本当 and に.
+  - UniDic reads 信じ before られ as the サ変 verb 信ずる (信じられない), so the vocab 信じる doesn't match it there. A form
+    信ずる on 信じる would. Other じる verbs with a ずる twin may do the same: the full rebuild's diff will tell.
+- **The corpus edits for the main checkout** (made here only to analyze):
+  - Remove `singleToken` from the match-conditions of ので (`6c2ff488-df1d-401a-b2b5-33c3a43c4610`) and において
+    (`a2f36dac-3c75-4547-9a5b-2cfa6b4b5ba8`).
+  - だって (`5cc160fc-9a00-42d0-9931-786832956d0e`): its match-condition, in place of `singleToken`,
+    `{"allOf": [{"not": {"followingToken": {"baseForm": {"startsWithOneOf": ["言う", "いう", "言える", "思う", "思える", "思い込む", "聞く"]}}}}]}`.
+  - A new vocab `だって:s.start`: だって's "Clone with the disambiguation" `s.start`, then its match-condition
+    `{"allOf": [{"sharedCondition": "IsAtTheSentencesStart"}]}` and its yield to the overlapping compound unset. The
+    stripped-down corpus has it as `48336fe0-c86e-441a-8202-384fa3186ab9`.
+  - 本当に's compound parts: 本当 and に.
+
+  The parsing cases' stripped-down corpus has the edits of ので, だって and `だって:s.start`. It holds no において, and 本当に's
+  compound parts change no parsing.
 - **Still to decide:**
-  - The sentence-initial conjunction だって (だって言ったじゃん): UniDic cuts だ|って there too, so だって yields its って to
-    って言う. A sentence-initial だ can't be the copula, so joining the two into the conjunction in the tokenizer layer would
-    fix UniDic's mistake, not hide it.
-  - だって before a verb of thinking that no quoting vocab matches (思われる, 思い込む): a condition on the following token's
-    base form, as the removed `MisTokenizedQuotativeDatte` listed the verbs of saying, thinking and hearing.
   - The rest of the diff, word by word: いる (169 removed), ー (294), ち (135), まあ (72), え (71), さ (72), たい (64), なる
     (57), and the display changes of が, た, は, の, に.
 
