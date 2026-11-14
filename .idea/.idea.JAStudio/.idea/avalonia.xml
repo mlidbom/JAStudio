@@ -17,6 +17,7 @@
         <entry key="src/src_dotnet/JAStudio.UI/Views/VocabEditorDialog.axaml" value="src/src_dotnet/JAStudio.StandaloneHost/JAStudio.StandaloneHost.csproj" />
         <entry key="src/src_dotnet/JAStudio.UI/Views/VocabFlagsDialog.axaml" value="src/src_dotnet/JAStudio.StandaloneHost/JAStudio.StandaloneHost.csproj" />
         <entry key="src/src_dotnet/JAStudio.UI/Views/Workspace/Editors/KanjiEditorSection.axaml" value="src/src_dotnet/JAStudio.StandaloneHost/JAStudio.StandaloneHost.csproj" />
+        <entry key="src/src_dotnet/JAStudio.UI/Views/Workspace/Editors/Matching/MatchConditionWindow.axaml" value="src/src_dotnet/JAStudio.StandaloneHost/JAStudio.StandaloneHost.csproj" />
       </map>
     </option>
   </component>
