@@ -1,0 +1,16 @@
+{
+  "subject": "Word",
+  "name": "StartsInAGodanImperative",
+  "definition": {
+    "firstToken": {
+      "anyOf": [
+        {
+          "fact": "godanImperativeStem"
+        },
+        {
+          "fact": "godanImperativeInflection"
+        }
+      ]
+    }
+  }
+}

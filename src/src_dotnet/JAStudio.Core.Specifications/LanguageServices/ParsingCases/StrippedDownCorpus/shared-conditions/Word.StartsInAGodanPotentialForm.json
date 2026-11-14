@@ -1,0 +1,16 @@
+{
+  "subject": "Word",
+  "name": "StartsInAGodanPotentialForm",
+  "definition": {
+    "firstToken": {
+      "anyOf": [
+        {
+          "fact": "godanPotentialStem"
+        },
+        {
+          "fact": "godanPotentialInflection"
+        }
+      ]
+    }
+  }
+}

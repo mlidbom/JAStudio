@@ -54,10 +54,7 @@ public static class CollectionFactory
 
       if(data.HasFlag(DataNeeded.Vocabulary))
       {
-         foreach(var vocab in ParsingCasesFolder.StrippedDownCorpus.ReadTheVocab(app.Services.Resolve<NoteSerializer>()))
-         {
-            app.Collection.Vocab.Add(vocab);
-         }
+         ParsingCasesFolder.StrippedDownCorpus.AddTheVocabTo(app);
       }
 
       if(data.HasFlag(DataNeeded.Sentences))
