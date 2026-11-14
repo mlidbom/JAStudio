@@ -66,17 +66,22 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    /// <summary>Waits for the automatic runs to have done what <paramref name="condition"/> asks, and fails showing what they did when they haven't in time.</summary>
    void WaitUntilTheRuns(Func<WhatTheRunsDid, bool> condition)
    {
-      SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun);
-      WhatTheRunsHaveDone.Must().Satisfy(condition);
+      if(SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun)) return;
+
+      //wip: a diagnostic of the Linux CI failure of with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile,
+      //   to be removed (2026-11-14). Only after the wait: run in its loop, the checks changed the timing, and the failure didn't happen.
+      new
+      {
+         Runs = WhatTheRunsHaveDone,
+         SavedProfiles = SavedProfiles.All.Select(it => $"{it.Name} (runs automatically: {it.RunsAutomatically}, note type {it.AnkiNoteType})").ToList(),
+         NoteTypesForRawNotes = Importer.NoteTypesForRawNotes().Select(it => it.Name).ToList(),
+         WhatACheckOfEachAutomaticProfileFindsNow = SavedProfiles.All.Where(it => it.RunsAutomatically).Select(WhatACheckFindsNow).ToList()
+      }.Must().Satisfy(it => condition(it.Runs));
    }
 
    WhatTheRunsDid WhatTheRunsHaveDone => new([.. ExecutedRuns.Select(it => it.Profile.Name)],
                                              [.. ProfilesStoppedByProblems.Select(it => it.Name)],
-                                             [.. GetService<RethrowingFatalErrorHandler>().HandledExceptions.Select(it => it.ToString())],
-                                             //wip: a diagnostic of the Linux CI failure of with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile, to be removed (2026-11-14).
-                                             [.. SavedProfiles.All.Select(it => $"{it.Name} (runs automatically: {it.RunsAutomatically}, note type {it.AnkiNoteType})")],
-                                             [.. Importer.NoteTypesForRawNotes().Select(it => it.Name)],
-                                             [.. SavedProfiles.All.Where(it => it.RunsAutomatically).Select(WhatACheckFindsNow)]);
+                                             [.. GetService<RethrowingFatalErrorHandler>().HandledExceptions.Select(it => it.ToString())]);
 
    string WhatACheckFindsNow(ImportProfile profile)
    {
@@ -88,12 +93,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    /// The automatic runs so far, by the names of their profiles: those executed, and those stopped by problems. And the exceptions background tasks<br/>
    /// threw, such as a run's: the runs happen in a background task.
    /// </summary>
-   record WhatTheRunsDid(IReadOnlyList<string> Executed,
-                         IReadOnlyList<string> StoppedByProblems,
-                         IReadOnlyList<string> BackgroundExceptions,
-                         IReadOnlyList<string> SavedProfiles,
-                         IReadOnlyList<string> NoteTypesForRawNotes,
-                         IReadOnlyList<string> WhatACheckOfEachAutomaticProfileFindsNow);
+   record WhatTheRunsDid(IReadOnlyList<string> Executed, IReadOnlyList<string> StoppedByProblems, IReadOnlyList<string> BackgroundExceptions);
 
    protected IEnumerable<string> TheQuestionsOfTheImportedSentences() => Sentences.All().Select(it => it.SourceData.Question.Value);
 
