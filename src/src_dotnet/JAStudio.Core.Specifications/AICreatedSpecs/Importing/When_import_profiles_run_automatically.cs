@@ -85,10 +85,12 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
       //wip: a diagnostic of the Linux CI failure of with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile,
       //   to be removed (2026-11-14). Only after the wait: run in its loop, the checks changed the timing, and the failure didn't happen.
       var runsWhenTheWaitFailed = WhatTheRunsHaveDone;
+      var threadPoolWhenTheWaitFailed = new { ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, Environment.ProcessorCount };
       SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeSpan.FromMinutes(2));
       new
       {
          Runs = runsWhenTheWaitFailed,
+         ThreadPoolWhenTheWaitFailed = threadPoolWhenTheWaitFailed,
          RunsTwoMinutesLaterAtTheMost = WhatTheRunsHaveDone,
          SecondsAfterAnkiSignalledThatRunsWereExecuted = _whenRunsWereExecuted.Select(it => it.TotalSeconds).ToList(),
          SavedProfiles = SavedProfiles.All.Select(it => $"{it.Name} (runs automatically: {it.RunsAutomatically}, note type {it.AnkiNoteType})").ToList(),
