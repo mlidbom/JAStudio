@@ -58,8 +58,21 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    protected IReadOnlyList<ImportRun> ExecutedRuns => [.. _executedRuns];
    protected IReadOnlyList<ImportProfile> ProfilesStoppedByProblems => [.. _profilesStoppedByProblems];
 
-   protected void WaitForAnExecutedRun() => SpinWait.SpinUntil(() => !_executedRuns.IsEmpty, TimeToWaitForTheRun).Must().BeTrue();
-   protected void WaitForARunStoppedByProblems() => SpinWait.SpinUntil(() => !_profilesStoppedByProblems.IsEmpty, TimeToWaitForTheRun).Must().BeTrue();
+   protected void WaitForAnExecutedRun() => WaitUntilTheRuns(it => it.Executed.Count > 0);
+   protected void WaitForARunStoppedByProblems() => WaitUntilTheRuns(it => it.StoppedByProblems.Count > 0);
+   protected void WaitForExecutedRuns(int count) => WaitUntilTheRuns(it => it.Executed.Count == count);
+
+   /// <summary>Waits for the automatic runs to have done what <paramref name="condition"/> asks, and fails showing what they did when they haven't in time.</summary>
+   void WaitUntilTheRuns(Func<WhatTheRunsDid, bool> condition)
+   {
+      SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun);
+      WhatTheRunsHaveDone.Must().Satisfy(condition);
+   }
+
+   WhatTheRunsDid WhatTheRunsHaveDone => new([.. ExecutedRuns.Select(it => it.Profile.Name)], [.. ProfilesStoppedByProblems.Select(it => it.Name)]);
+
+   /// <summary>The automatic runs so far, by the names of their profiles: those executed, and those stopped by problems.</summary>
+   record WhatTheRunsDid(IReadOnlyList<string> Executed, IReadOnlyList<string> StoppedByProblems);
 
    protected IEnumerable<string> TheQuestionsOfTheImportedSentences() => Sentences.All().Select(it => it.SourceData.Question.Value);
 
@@ -96,7 +109,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
          public after_Anki_imported_a_file()
          {
             AnkiImportedAFile();
-            SpinWait.SpinUntil(() => ExecutedRuns.Count == 2, TimeToWaitForTheRun).Must().BeTrue();
+            WaitForExecutedRuns(2);
          }
 
          [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
