@@ -8,6 +8,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.TaskRunners;
 
 // ReSharper disable InconsistentNaming
 
@@ -69,10 +70,15 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
       WhatTheRunsHaveDone.Must().Satisfy(condition);
    }
 
-   WhatTheRunsDid WhatTheRunsHaveDone => new([.. ExecutedRuns.Select(it => it.Profile.Name)], [.. ProfilesStoppedByProblems.Select(it => it.Name)]);
+   WhatTheRunsDid WhatTheRunsHaveDone => new([.. ExecutedRuns.Select(it => it.Profile.Name)],
+                                             [.. ProfilesStoppedByProblems.Select(it => it.Name)],
+                                             [.. GetService<RethrowingFatalErrorHandler>().HandledExceptions.Select(it => it.ToString())]);
 
-   /// <summary>The automatic runs so far, by the names of their profiles: those executed, and those stopped by problems.</summary>
-   record WhatTheRunsDid(IReadOnlyList<string> Executed, IReadOnlyList<string> StoppedByProblems);
+   /// <summary>
+   /// The automatic runs so far, by the names of their profiles: those executed, and those stopped by problems. And the exceptions background tasks<br/>
+   /// threw, such as a run's: the runs happen in a background task.
+   /// </summary>
+   record WhatTheRunsDid(IReadOnlyList<string> Executed, IReadOnlyList<string> StoppedByProblems, IReadOnlyList<string> BackgroundExceptions);
 
    protected IEnumerable<string> TheQuestionsOfTheImportedSentences() => Sentences.All().Select(it => it.SourceData.Question.Value);
 
