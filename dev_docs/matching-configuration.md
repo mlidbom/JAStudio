@@ -1517,9 +1517,14 @@ sentence is typed in the match-condition window, for now.
 Magnus polishes the names and design at the end of the work, into a language that's intuitive to him and to everyone
 working on the corpus (Magnus, 2026-11-10). Waiting for him at each step would stall the work, so until then:
 - **I make the calls.** Where I'm confident a name is clearly better, I rename.
-- **Each question for that pass is a `//review:matching:` comment at the code it concerns:** a rename I made, a name I
-  doubt, a design call he may not share. The IDE lists them among the `review:` comments, and
-  `grep -rn "review:matching:" src` lists exactly this work's.
+- **Each question for that pass is a comment at the code it concerns:**
+  - `//review-naming:matching:` for one that is only about a name: a rename I made, or a name I doubt (Magnus,
+    2026-11-14: "Any review comment that is only about the name of something would use this new tag").
+  - `//review:matching:` for the rest, such as a design call he may not share.
+  - The comments written before 2026-11-14 are all `//review:matching:`, whichever kind they are.
+
+  `grep -rnE "review(-naming)?:matching:" src` lists exactly this work's. The IDE lists the `review:` ones, and the
+  `review-naming:` ones once the solution has a TODO pattern for that tag.
 - **What isn't tied to any code goes in this document,** as the open questions below.
 
 ## Open questions
