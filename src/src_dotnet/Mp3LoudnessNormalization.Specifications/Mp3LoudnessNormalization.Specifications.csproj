@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
    <PropertyGroup>
-      <TargetFramework>net10.0</TargetFramework>
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
 
@@ -10,14 +9,14 @@
    </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
-      <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
+      <PackageReference Include="Microsoft.NET.Test.Sdk" />
+      <PackageReference Include="xunit.runner.visualstudio">
          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
          <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-      <PackageReference Include="xunit.v3.mtp-off" Version="4.0.3" />
-      <PackageReference Include="Compze.Must" Version="0.7.0-alpha" />
-      <PackageReference Include="Compze.xUnitBDD" Version="0.6.0-beta" />
+      <PackageReference Include="xunit.v3.mtp-off" />
+      <PackageReference Include="Compze.Must" />
+      <PackageReference Include="Compze.xUnitBDD" />
    </ItemGroup>
 
    <ItemGroup>

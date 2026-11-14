@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Compze.Internals.Logging;
+using JAStudio.Core.SysUtils.IO;
 using MemoryPack;
 
 namespace JAStudio.Core.Storage;
@@ -67,10 +68,9 @@ public class JsonFilesystemObjectRepository<TData> where TData : class, IIdentif
    {
       if(!Directory.Exists(_directory)) return [];
 
-      return new DirectoryInfo(_directory)
-            .EnumerateFiles("*.json", SearchOption.AllDirectories)
-            .Select(fi => new ScannedFile(fi.FullName, Guid.Parse(Path.GetFileNameWithoutExtension(fi.FullName)), fi.LastWriteTimeUtc))
-            .ToList();
+      return [.. new DirectoryInfo(_directory)
+                .TheFilesInPathOrder("*.json")
+                .Select(fi => new ScannedFile(fi.FullName, Guid.Parse(Path.GetFileNameWithoutExtension(fi.FullName)), fi.LastWriteTimeUtc))];
    }
 
    public void SaveSnapshot(List<TData> data)

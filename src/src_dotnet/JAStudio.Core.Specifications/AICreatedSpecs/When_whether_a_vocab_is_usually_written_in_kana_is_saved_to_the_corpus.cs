@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.Json;
 using Compze.Must;
 using Compze.xUnitBDD;
@@ -40,7 +41,10 @@ public class When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_cor
    {
       [XF] public void the_corpus_json_stores_true() => Stored.Must().Be(JsonValueKind.True);
       [XF] public void it_is_read_back_as_yes() => ReadBack.Must().Be(UsuallyWrittenInKanaDecision.Yes);
-      [XF] public void the_corpus_json_stores_no_tags() => _json.GetProperty("tags").EnumerateArray().Must().BeEmpty();
+      [XF] public void the_corpus_json_stores_no_tags() =>
+         //todo:compze: since Compze.Must 0.8.0-alpha, BeEmpty takes an IAssertionContext<IEnumerable<T>>, which a struct enumerable such as
+         //   JsonElement.ArrayEnumerator can't be: once Compze.Must's BeEmpty accepts it again, drop the ToList.
+         _json.GetProperty("tags").EnumerateArray().ToList().Must().BeEmpty();
    }
 
    public class decided_as_no() : When_whether_a_vocab_is_usually_written_in_kana_is_saved_to_the_corpus(UsuallyWrittenInKanaDecision.No)

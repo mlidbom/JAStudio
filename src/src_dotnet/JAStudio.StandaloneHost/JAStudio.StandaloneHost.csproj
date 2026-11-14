@@ -2,7 +2,6 @@
 
    <PropertyGroup>
       <OutputType>WinExe</OutputType>
-      <TargetFramework>net10.0</TargetFramework>
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
@@ -22,11 +21,11 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Avalonia" Version="12.1.5" />
-      <PackageReference Include="Avalonia.Desktop" Version="12.1.5" />
-      <PackageReference Include="Compze.DependencyInjection" Version="0.8.0-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.4.0-alpha" />
+      <PackageReference Include="Avalonia" />
+      <PackageReference Include="Avalonia.Desktop" />
+      <PackageReference Include="Compze.DependencyInjection" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" />
    </ItemGroup>
 
 </Project>

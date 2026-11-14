@@ -2,7 +2,7 @@ import typing, abc
 from System import IDisposable, Action, Func_1, Exception, Action_1, Func_2, TimeSpan
 from System.Threading.Tasks import Task, Task_1, ParallelOptions
 from System.Diagnostics import Stopwatch
-from System.Collections.Generic import List_1, IEnumerable_1
+from System.Collections.Generic import List_1, IReadOnlyList_1, IEnumerable_1
 from System.ComponentModel import INotifyPropertyChanged
 from System.Collections.ObjectModel import ObservableCollection_1
 
@@ -158,6 +158,13 @@ class NoUIThreadDispatcher(IUIThreadDispatcher):
     def OnTaskRunnerInstantiated(self, viewModel: TaskProgressDialogViewModel) -> None: ...
     def PostToUIThread(self, action: Action) -> None: ...
     def PumpEventsToKeepUIResponsive(self) -> None: ...
+
+
+class RethrowingFatalErrorHandler(IFatalErrorHandler):
+    def __init__(self) -> None: ...
+    @property
+    def HandledExceptions(self) -> IReadOnlyList_1[Exception]: ...
+    def Handle(self, exception: Exception) -> None: ...
 
 
 class TaskLogEntry:

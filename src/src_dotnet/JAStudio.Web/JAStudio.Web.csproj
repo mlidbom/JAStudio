@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
    <PropertyGroup>
-      <TargetFramework>net10.0</TargetFramework>
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <!-- Server is started programmatically from the addon, not via a Main entry point.
@@ -11,6 +10,7 @@
       <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
       <!-- Copy all dependencies to output for pythonnet consumption -->
       <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+      <NoWarn>$(NoWarn);BL0016</NoWarn> <!-- BL0016 asks for a try/catch around every JS interop call: a catch without evidence of the exception, which the defensive-coding standard forbids (Magnus, 2026-11-14). -->
    </PropertyGroup>
 
    <ItemGroup>
@@ -18,12 +18,12 @@
    </ItemGroup>
 
    <ItemGroup>
-     <PackageReference Include="AspNetCore.SassCompiler" Version="1.107.1" />
-     <PackageReference Include="MudBlazor" Version="9.12.0" />
+     <PackageReference Include="AspNetCore.SassCompiler" />
+     <PackageReference Include="MudBlazor" />
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.4.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" />
    </ItemGroup>
 
 </Project>

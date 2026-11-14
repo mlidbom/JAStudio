@@ -1,0 +1,8 @@
+<Project>
+   <!-- Runtime async: since .NET 11 the runtime, instead of state machines the compiler generates, can suspend and resume
+        async methods, so live stack traces show the real chain of calls. Build with /p:JAStudioRuntimeAsync=false to
+        compile the state machines instead. This is in .targets, where the project's target framework is known. -->
+   <PropertyGroup Condition="'$(JAStudioRuntimeAsync)' != 'false' And '$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+      <Features>$(Features);runtime-async=on</Features>
+   </PropertyGroup>
+</Project>

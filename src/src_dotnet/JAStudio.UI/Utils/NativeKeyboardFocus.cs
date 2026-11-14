@@ -19,8 +19,13 @@ static class NativeKeyboardFocus
    static extern IntPtr SetFocus(IntPtr hWnd);
 
    /// <summary>Gives the Windows keyboard focus to <paramref name="window"/>'s own native window, so that Avalonia's focus decides where the keys go.</summary>
+   /// <remarks>
+   /// Elsewhere it does nothing: whether the macOS and Linux web views keep the keyboard the same way isn't known yet (<c>dev_docs/multiplatform.md</c>).
+   /// </remarks>
    internal static void MoveToWindowItself(TopLevel window)
    {
+      if(!OperatingSystem.IsWindows()) return;
+
       var windowHandle = window.TryGetPlatformHandle() ?? throw new InvalidOperationException("The window has no native window yet.");
       Marshal.SetLastPInvokeError(0);
       if(SetFocus(windowHandle.Handle) == IntPtr.Zero && Marshal.GetLastPInvokeError() != 0)

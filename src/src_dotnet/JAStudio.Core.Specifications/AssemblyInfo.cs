@@ -9,3 +9,4 @@ using Xunit.v3;
 [assembly: Parallelization(Mode = ParallelMode.All)]
 [assembly: AssemblyFixture(typeof(PythonServicesCleanupFixture))]
 [assembly: AssemblyFixture(typeof(ThreadPoolSizedForParallelSpecifications))]
+[assembly: AssemblyFixture(typeof(TheDictionaryLoadedBeforeAnySpecification))]

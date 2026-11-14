@@ -54,7 +54,10 @@ public class When_a_vocab_with_matching_configuration_and_a_register_is_saved_to
    [XF] public void the_corpus_json_stores_the_names_of_the_matching_flags_that_are_set() => Matching.GetProperty("flags").EnumerateArray().Select(it => it.ToString()).Must().SequenceEqual(["isInflectingWord"]);
    [XF] public void the_corpus_json_stores_no_rules_in_the_format_from_before_match_conditions() => Matching.Must().Satisfy(it => !it.TryGetProperty("rules", out _));
    [XF] public void the_corpus_json_stores_the_names_of_the_registers() => _json.GetProperty("register").EnumerateArray().Select(it => it.ToString()).Must().SequenceEqual(["humble"]);
-   [XF] public void the_corpus_json_stores_no_tags() => _json.GetProperty("tags").EnumerateArray().Must().BeEmpty();
+   [XF] public void the_corpus_json_stores_no_tags() =>
+      //todo:compze: since Compze.Must 0.8.0-alpha, BeEmpty takes an IAssertionContext<IEnumerable<T>>, which a struct enumerable such as
+      //   JsonElement.ArrayEnumerator can't be: once Compze.Must's BeEmpty accepts it again, drop the ToList.
+      _json.GetProperty("tags").EnumerateArray().ToList().Must().BeEmpty();
 
    [XF] public void it_is_read_back_with_the_same_match_condition() => _readBack.MatchingConfiguration.MatchCondition.Must().Be(_vocab.MatchingConfiguration.MatchCondition);
    [XF] public void it_is_read_back_forbidding_dictionary_form_start() => _readBack.MatchingConfiguration.RequiresForbids.DictionaryFormStart.Choice.Must().Be(RequireForbidChoice.Forbidden);
