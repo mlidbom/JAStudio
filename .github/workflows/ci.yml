@@ -39,6 +39,7 @@ jobs:
         run: >
           dotnet test JAStudio.slnx
           --verbosity quiet
+          --logger "console;verbosity=minimal"
           --filter "FullyQualifiedName!~BulkLoaderTests"
 
       - name: Run Python tests
