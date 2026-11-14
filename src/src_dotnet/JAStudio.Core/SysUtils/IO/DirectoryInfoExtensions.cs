@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace JAStudio.Core.SysUtils.IO;
 
@@ -22,5 +25,18 @@ public static class DirectoryInfoExtensions
                    ? linkedTo.TheFolderItself()
                    : withTheLinksAboveItFollowed;
       }
+
+      /// <summary>
+      /// The files in this folder and in every folder in it whose names match <paramref name="searchPattern"/>, in the ordinal order of their paths:<br/>
+      /// the same order on every platform. What JAStudio reads in the order a folder lists its files would otherwise differ between platforms,<br/>
+      /// such as which of two vocab with the same form comes first.
+      /// </summary>
+      /// <remarks>
+      /// The system lists a folder's files in an order of its own: Windows' NTFS by name, Linux's ext4 by a hash of the name. For the corpus's note<br/>
+      /// files, whose folders and names are lowercase hexadecimal, NTFS's order is this one, so on Windows nothing is read in another order than before.
+      /// </remarks>
+      public IReadOnlyList<FileInfo> TheFilesInPathOrder(string searchPattern) =>
+         //review-naming: TheFilesInPathOrder is a name I chose (2026-11-14).
+         [.. @this.EnumerateFiles(searchPattern, SearchOption.AllDirectories).OrderBy(it => it.FullName, StringComparer.Ordinal)];
    }
 }

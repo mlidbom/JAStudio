@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
+using JAStudio.Core.SysUtils.IO;
 
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
@@ -45,5 +46,5 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    /// The file of each vocab of this folder. A folder without vocab fails loudly, such as a corpus checkout whose submodule isn't initialized:<br/>
    /// read as no vocab, it would refresh the stripped-down corpus to nothing.
    /// </summary>
-   IReadOnlyList<FileInfo> VocabFiles() => [.. VocabFolder.EnumerateFiles("*.json", SearchOption.AllDirectories)];
+   IReadOnlyList<FileInfo> VocabFiles() => VocabFolder.TheFilesInPathOrder("*.json");
 }
