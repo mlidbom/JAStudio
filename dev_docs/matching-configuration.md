@@ -1524,7 +1524,7 @@ working on the corpus (Magnus, 2026-11-10). Waiting for him at each step would s
   - The comments written before 2026-11-14 are all `//review:matching:`, whichever kind they are.
 
   `grep -rnE "review(-naming)?:matching:" src` lists exactly this work's. The IDE lists the `review:` ones, and the
-  `review-naming:` ones once the solution has a TODO pattern for that tag.
+  `review-naming:` ones once Rider has a TODO pattern for that tag.
 - **What isn't tied to any code goes in this document,** as the open questions below.
 
 ## Open questions
