@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Compze.Internals.SystemCE.ReactiveCE;
@@ -26,6 +27,9 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
 
    readonly ConcurrentQueue<ImportRun> _executedRuns = new();
    readonly ConcurrentQueue<ImportProfile> _profilesStoppedByProblems = new();
+   //wip: part of the diagnostic below, to be removed (2026-11-14).
+   readonly Stopwatch _sinceAnkiSignalled = new();
+   readonly ConcurrentQueue<TimeSpan> _whenRunsWereExecuted = new();
    protected readonly RawNote SentenceCard;
    protected readonly RawNote Subs2srsNote;
 
@@ -39,6 +43,7 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    public When_import_profiles_run_automatically()
    {
       AutomaticImportRuns.Executed.Subscribe(_executedRuns.Enqueue);
+      AutomaticImportRuns.Executed.Subscribe(_ => _whenRunsWereExecuted.Enqueue(_sinceAnkiSignalled.Elapsed));
       AutomaticImportRuns.StoppedByProblems.Subscribe(_profilesStoppedByProblems.Enqueue);
 
       AnkiRawNotes.AddNoteType(new AnkiNoteType(Subs2srsNoteType, ["Expression", "Meaning"]));
@@ -53,8 +58,17 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
 
    protected void Save(params ImportProfile[] profiles) => profiles.ToList().ForEach(SavedProfiles.Add);
 
-   protected void AnkiImportedAFile() => AutomaticImportRuns.AfterAnkiImportedAFile();
-   protected void ANoteWasAddedInAnki(string ankiNoteType) => AutomaticImportRuns.AfterANoteWasAddedInAnki(ankiNoteType);
+   protected void AnkiImportedAFile()
+   {
+      _sinceAnkiSignalled.Start();
+      AutomaticImportRuns.AfterAnkiImportedAFile();
+   }
+
+   protected void ANoteWasAddedInAnki(string ankiNoteType)
+   {
+      _sinceAnkiSignalled.Start();
+      AutomaticImportRuns.AfterANoteWasAddedInAnki(ankiNoteType);
+   }
 
    protected IReadOnlyList<ImportRun> ExecutedRuns => [.. _executedRuns];
    protected IReadOnlyList<ImportProfile> ProfilesStoppedByProblems => [.. _profilesStoppedByProblems];
@@ -70,9 +84,13 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
 
       //wip: a diagnostic of the Linux CI failure of with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile,
       //   to be removed (2026-11-14). Only after the wait: run in its loop, the checks changed the timing, and the failure didn't happen.
+      var runsWhenTheWaitFailed = WhatTheRunsHaveDone;
+      SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeSpan.FromMinutes(2));
       new
       {
-         Runs = WhatTheRunsHaveDone,
+         Runs = runsWhenTheWaitFailed,
+         RunsTwoMinutesLaterAtTheMost = WhatTheRunsHaveDone,
+         SecondsAfterAnkiSignalledThatRunsWereExecuted = _whenRunsWereExecuted.Select(it => it.TotalSeconds).ToList(),
          SavedProfiles = SavedProfiles.All.Select(it => $"{it.Name} (runs automatically: {it.RunsAutomatically}, note type {it.AnkiNoteType})").ToList(),
          NoteTypesForRawNotes = Importer.NoteTypesForRawNotes().Select(it => it.Name).ToList(),
          WhatACheckOfEachAutomaticProfileFindsNow = SavedProfiles.All.Where(it => it.RunsAutomatically).Select(WhatACheckFindsNow).ToList()
