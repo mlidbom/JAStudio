@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:checking="clr-namespace:JAStudio.UI.ViewModels.Workspace.Editors.Matching.Checking"
+             x:Class="JAStudio.UI.Views.Workspace.Editors.Matching.Checking.WordToCheckAgainstView"
+             x:DataType="checking:WordToCheckAgainstViewModel">
+
+    <StackPanel Spacing="4">
+        <TextBlock Text="Check it against a word in a sentence" FontWeight="SemiBold" />
+        <TextBox x:Name="Sentence" Text="{Binding Sentence}" PlaceholderText="Type or paste a sentence with one of the vocab's forms in it" />
+        <ListBox ItemsSource="{Binding Words}" SelectedItem="{Binding Picked}" IsVisible="{Binding HasWords}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="checking:WordInTheSentenceViewModel">
+                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Text="No word in the sentence is one of the vocab's forms, as JAStudio splits it into words."
+                   IsVisible="{Binding NoWordIsOneOfTheVocabsForms}" Opacity="0.7" />
+    </StackPanel>
+
+</UserControl>
