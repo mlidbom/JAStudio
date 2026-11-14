@@ -45,6 +45,11 @@
 - **Suspending and unsuspending a note's reading and listening separately,** for one note or for a selection of
   notes.
 - **Adding notes to the studying-add-on, and removing them from it entirely.**
+  - **For one note and in bulk, with searching for the notes that are in it or not** (Magnus, 2026-11-13, deferred:
+    "along with bulk versions and searching for notes that exist in anki or not, the ability to delete studying notes
+    I no longer want, also in batch..... All of that can wait though"). Since that day creating a note never gives it a
+    study-note, inside Anki or not, so these are the only way a note gets one: "There are already far to many jastudio
+    notes in anki that I do not study doing nothing but cluttering up anki and slowing down sync."
 - **Search keys** for the studying state, such as `studying-reading:true` and `studying-listening:false`
   ([note-search.md](note-search.md)).
 
