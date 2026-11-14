@@ -10,8 +10,8 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Internals.SystemCE" Version="0.7.0-internal" />
-      <PackageReference Include="Compze.Threading" Version="0.11.0-alpha" />
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.8.0-internal" />
+      <PackageReference Include="Compze.Threading" Version="0.12.0-alpha" />
    </ItemGroup>
 
 </Project>

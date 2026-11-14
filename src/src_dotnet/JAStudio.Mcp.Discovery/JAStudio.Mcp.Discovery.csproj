@@ -11,8 +11,8 @@
    </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.InterprocessObject" Version="0.8.0-alpha" />
-      <PackageReference Include="Compze.Internals.SystemCE" Version="0.7.0-internal" />
+      <PackageReference Include="Compze.InterprocessObject" Version="0.9.0-alpha" />
+      <PackageReference Include="Compze.Internals.SystemCE" Version="0.8.0-internal" />
    </ItemGroup>
 
 </Project>
