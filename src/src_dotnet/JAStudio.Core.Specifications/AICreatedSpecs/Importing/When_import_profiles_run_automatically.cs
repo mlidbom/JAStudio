@@ -66,23 +66,8 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
    /// <summary>Waits for the automatic runs to have done what <paramref name="condition"/> asks, and fails showing what they did when they haven't in time.</summary>
    void WaitUntilTheRuns(Func<WhatTheRunsDid, bool> condition)
    {
-      if(SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun)) return;
-
-      //wip: a diagnostic of the Linux CI failure of with_an_automatic_profile_of_a_note_type_the_Anki_profile_does_not_have_saved_before_the_Immersion_Kit_profile,
-      //   to be removed (2026-11-14): where the threads in JAStudio's importing are when the wait has failed.
-      var stacksWhenTheWaitFailed = TheStacksOfTheThreadsInJAStudiosImporting();
-      new { Runs = WhatTheRunsHaveDone, StacksWhenTheWaitFailed = stacksWhenTheWaitFailed }.Must().Satisfy(it => condition(it.Runs));
-   }
-
-   static List<string> TheStacksOfTheThreadsInJAStudiosImporting()
-   {
-      using var snapshot = Microsoft.Diagnostics.Runtime.DataTarget.CreateSnapshotAndAttach(Environment.ProcessId);
-      using var runtime = snapshot.ClrVersions.Single().CreateRuntime();
-      return [.. runtime.Threads
-                        .Where(it => it.IsAlive)
-                        .Select(it => (Thread: it, Frames: it.EnumerateStackTrace().Select(frame => frame.ToString() ?? "").ToList()))
-                        .Where(it => it.Frames.Any(frame => frame.Contains("JAStudio.Core.Importing") || frame.Contains("BackgroundQueueWithoutDuplicates")))
-                        .Select(it => $"Thread {it.Thread.ManagedThreadId}:{Environment.NewLine}" + string.Join(Environment.NewLine, it.Frames.Take(60)))];
+      SpinWait.SpinUntil(() => condition(WhatTheRunsHaveDone), TimeToWaitForTheRun);
+      WhatTheRunsHaveDone.Must().Satisfy(condition);
    }
 
    WhatTheRunsDid WhatTheRunsHaveDone => new([.. ExecutedRuns.Select(it => it.Profile.Name)],
