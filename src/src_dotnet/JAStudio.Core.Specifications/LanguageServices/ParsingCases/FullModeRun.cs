@@ -21,7 +21,7 @@ sealed class FullModeRun
       using(var corpusCheckout = new JAStudioWithTheVocabOf(SourceCheckout.CorpusCheckout))
       {
          var (results, vocabLookedUp) = ParseEveryCaseRecordingTheVocabLookedUp(corpusCheckout);
-         ParsingCasesFolder.StrippedDownCorpus.ReplaceTheVocabWith(vocabLookedUp, corpusCheckout.Serializer);
+         ParsingCasesFolder.StrippedDownCorpus.ReplaceTheVocabWith(vocabLookedUp, corpusCheckout.Serializer, SourceCheckout.CorpusCheckout);
          _resultAgainstTheCorpusCheckout = results;
          HowTheCasesDifferFromTheExpected = HowEachCaseDiffersFromTheExpected(corpusCheckout);
       }

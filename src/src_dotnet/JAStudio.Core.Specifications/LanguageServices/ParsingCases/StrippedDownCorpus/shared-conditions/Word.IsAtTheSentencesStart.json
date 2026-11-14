@@ -1,0 +1,29 @@
+{
+  "subject": "Word",
+  "name": "IsAtTheSentencesStart",
+  "definition": {
+    "precedingText": {
+      "anyOf": [
+        {
+          "fact": "empty"
+        },
+        {
+          "endsWithOneOf": [
+            "\t",
+            " ",
+            "\"",
+            ".",
+            "?",
+            "​",
+            "　",
+            "。",
+            "「",
+            "」",
+            "？",
+            "｡"
+          ]
+        }
+      ]
+    }
+  }
+}

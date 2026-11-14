@@ -24,7 +24,7 @@ public class JAStudioWithTheVocabOf : IDisposable
 
    public JAStudioWithTheVocabOf(CorpusFolder corpus)
    {
-      foreach(var vocab in corpus.ReadTheVocab(Serializer)) Collection.Vocab.Add(vocab);
+      corpus.AddTheVocabTo(_app.CoreApp);
    }
 
    public JPCollection Collection => _app.CoreApp.Services.Resolve<JPCollection>();

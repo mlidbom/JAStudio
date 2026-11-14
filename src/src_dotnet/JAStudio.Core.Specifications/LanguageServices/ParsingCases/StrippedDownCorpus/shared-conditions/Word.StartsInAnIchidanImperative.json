@@ -1,0 +1,16 @@
+{
+  "subject": "Word",
+  "name": "StartsInAnIchidanImperative",
+  "definition": {
+    "firstToken": {
+      "anyOf": [
+        {
+          "fact": "ichidanImperativeStem"
+        },
+        {
+          "fact": "ichidanImperativeInflection"
+        }
+      ]
+    }
+  }
+}
