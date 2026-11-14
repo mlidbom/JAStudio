@@ -30,6 +30,14 @@ jobs:
         with:
           python-version: '3.13'
 
+      # JAStudio generates its dictionary's database from JMdict where there is none, which took about a minute of each run on a clean
+      # runner. JAStudio.Dictionary generates it, and its project file names the Wacton.Desu version it's generated from.
+      - name: Cache the generated dictionary database
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/JAStudio/jmdict.db
+          key: jmdict-db-${{ runner.os }}-${{ hashFiles('src/src_dotnet/JAStudio.Dictionary/**/*.cs', 'src/src_dotnet/JAStudio.Dictionary/*.csproj') }}
+
       - name: Setup dev environment
         run: ./setup-dev.sh
 
