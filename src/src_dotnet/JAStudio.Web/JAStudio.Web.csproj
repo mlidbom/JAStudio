@@ -23,7 +23,7 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.4.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.5.0-alpha" />
    </ItemGroup>
 
 </Project>

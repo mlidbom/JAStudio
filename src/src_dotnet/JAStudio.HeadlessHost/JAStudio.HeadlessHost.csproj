@@ -22,9 +22,9 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.DependencyInjection" Version="0.8.0-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.4.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection" Version="0.9.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.6.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.5.0-alpha" />
       <PackageReference Include="Microsoft.Playwright" Version="1.64.1" />
    </ItemGroup>
 
