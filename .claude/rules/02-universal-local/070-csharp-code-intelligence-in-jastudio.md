@@ -1,6 +1,6 @@
 # C# code-intelligence in JAStudio
 
-The generic guidance — the ReSharper-backed `resharper-joshua` MCP first (addressed by symbol name), the
+The generic guidance — the ReSharper-backed `dotnet-analysis-and-refactoring` MCP first (addressed by symbol name), the
 built-in `jetbrains-rider` MCP for non-semantic work, `sherlock` for referenced-library APIs — lives in a
 user-level rule on the dev machine; those MCPs require Rider running locally. JAStudio specifics:
 
