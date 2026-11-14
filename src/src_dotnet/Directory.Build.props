@@ -1,0 +1,11 @@
+<Project>
+   <!-- The repository's own Directory.Build.props applies too: MSBuild imports only the nearest one. -->
+   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+   <!-- Every JAStudio project targets .NET 11, and compiles with the newest C# its compiler has, which is the same
+        everywhere because global.json pins the SDK. -->
+   <PropertyGroup>
+      <TargetFramework>net11.0</TargetFramework>
+      <LangVersion>latest</LangVersion>
+   </PropertyGroup>
+</Project>

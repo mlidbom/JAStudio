@@ -29,7 +29,7 @@ try {
     $needsGitConfig = -not (git config --global core.longpaths)
     $needsSubmodules = -not (Test-Path "submodules\pythonnet-stub-generator\.git") -or -not (Test-Path "src\jas_database\.git")
     $needsVenv = -not (Test-Path "venv\Scripts\python.exe")
-    $needsBuild = -not (Test-Path "src\src_dotnet\JAStudio.Core\bin\Debug\net10.0\JAStudio.Core.dll")
+    $needsBuild = -not (Test-Path "src\src_dotnet\JAStudio.Core\bin\Debug\net11.0\JAStudio.Core.dll")
 
     if (-not ($needsGitConfig -or $needsSubmodules -or $needsVenv -or $needsBuild)) {
         Write-Host "`n✓ Environment already set up - nothing to do" -ForegroundColor Green

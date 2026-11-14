@@ -2,7 +2,6 @@
 
    <PropertyGroup>
       <OutputType>Exe</OutputType>
-      <TargetFramework>net10.0</TargetFramework>
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <!-- The MCP gateway copies this build output each time it starts the headless JAStudio: keep it small. -->

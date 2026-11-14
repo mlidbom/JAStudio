@@ -304,7 +304,7 @@ better designed once the tooling shows how specifications like these work in pra
    row. Parsing already runs on several threads against one collection in the full rebuild, so the cases share their
    fixture. As built:
    - **The packages:** xUnit 4.0.3, Compze.xUnit 0.2.0-alpha and Compze.xUnitBDD 0.6.0-beta. xUnit 4 supports Microsoft
-     Testing Platform by default, which the .NET 10 SDK's `dotnet test` then refuses to run through VSTest, so the
+     Testing Platform by default, which the .NET SDK's `dotnet test` then refuses to run through VSTest, so the
      projects use `xunit.v3.mtp-off`: `dotnet test`, Rider, NCrunch and CI run the tests as they did. Moving to Microsoft
      Testing Platform is a decision of its own.
    - **Each project's mode,** with why in its `AssemblyInfo.cs`: Core's, the UI's and the MCP server's specifications run

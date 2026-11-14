@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
    <PropertyGroup>
-      <TargetFramework>net10.0</TargetFramework>
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <!-- Copy NuGet assemblies to the output folder: Anki's add-on copies JAStudio's runtime from it (copy_runtime_binaries.py), and the MCP server's (ModelContextProtocol) are in no other output it copies from -->

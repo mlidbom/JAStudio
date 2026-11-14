@@ -51,7 +51,7 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 
 ## Not known yet
 
-- **Whether the add-on runs in Anki on macOS or Linux at all:** pythonnet loading .NET 10, and where the .NET
+- **Whether the add-on runs in Anki on macOS or Linux at all:** pythonnet loading .NET 11, and where the .NET
   runtime comes from.
 - **Avalonia's UI thread inside Anki on macOS.** JAStudio runs Avalonia on a thread of its own (`AvaloniaUIThread` in
   `JAStudioAnkiAppRoot`), while Qt has Anki's main thread. macOS requires UI to run on the main thread, so this may be
