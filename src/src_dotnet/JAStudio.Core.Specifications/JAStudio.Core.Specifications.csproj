@@ -30,6 +30,8 @@
 
    <ItemGroup>
       <PackageReference Include="Compze.Must" Version="0.7.0-alpha" />
+      <!-- wip: for the stack snapshot of the import diagnostic, to be removed (2026-11-14). -->
+      <PackageReference Include="Microsoft.Diagnostics.Runtime" Version="4.2.751201" />
       <PackageReference Include="Compze.xUnit" Version="0.2.0-alpha" />
       <PackageReference Include="Compze.xUnitBDD" Version="0.6.0-beta" />
       <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.5.1-alpha" />
