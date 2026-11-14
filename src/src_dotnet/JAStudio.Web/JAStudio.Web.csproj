@@ -18,12 +18,12 @@
    </ItemGroup>
 
    <ItemGroup>
-     <PackageReference Include="AspNetCore.SassCompiler" Version="1.107.1" />
-     <PackageReference Include="MudBlazor" Version="9.12.0" />
+     <PackageReference Include="AspNetCore.SassCompiler" />
+     <PackageReference Include="MudBlazor" />
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.5.0-alpha" />
+      <PackageReference Include="Compze.DependencyInjection.Extensions.Hosting" />
    </ItemGroup>
 
 </Project>

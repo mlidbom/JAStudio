@@ -14,7 +14,8 @@ Hybrid **Python + .NET** addon for **Anki** (Japanese-language study).
 - **Bridge:** `pythonnet` calls .NET from Python. Generated type stubs live in `typings/` so Python sees
   .NET types.
 - **Compze** — a library JAStudio depends on heavily, consumed as **published NuGet packages** (from
-  nuget.org; versions pinned per-package in the consuming `.csproj`s — see the `Compze.*` `PackageReference`s).
+  nuget.org; like every package's, their versions are in `src/src_dotnet/Directory.Packages.props`, central package
+  management with transitive pinning).
   Compze knows nothing about JAStudio; treat changes to Compze as Compze's own concern (separate repo,
   separate workflow). Its API is pre-1.0 and may change between versions, so bumping Compze is a deliberate
   version raise, not automatic. For its API surface use the `sherlock` MCP, not source navigation — see

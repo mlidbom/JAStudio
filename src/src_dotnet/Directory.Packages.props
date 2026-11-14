@@ -1,0 +1,80 @@
+<Project>
+   <!-- Central package management: every JAStudio project gets its packages at the versions this file names, also the packages it gets
+        only through other packages (transitive pinning), so no two projects can run different versions of a package. A project names
+        the packages it references, without a version. It sits here rather than at the repository root, so that the stub generator
+        submodule keeps its own versions. -->
+   <PropertyGroup>
+      <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+      <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+   </PropertyGroup>
+
+   <!-- Compze -->
+   <ItemGroup>
+      <PackageVersion Include="Compze.Abstractions" Version="0.4.0-alpha" />
+      <PackageVersion Include="Compze.Contracts" Version="0.7.2" />
+      <PackageVersion Include="Compze.DependencyInjection" Version="0.9.0-alpha" />
+      <PackageVersion Include="Compze.DependencyInjection.Extensions.Hosting" Version="0.5.0-alpha" />
+      <PackageVersion Include="Compze.DependencyInjection.Microsoft" Version="0.6.0-alpha" />
+      <PackageVersion Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.5.0-alpha" />
+      <PackageVersion Include="Compze.Internals.Logging" Version="0.7.0-alpha" />
+      <PackageVersion Include="Compze.Internals.SystemCE" Version="0.8.0-internal" />
+      <PackageVersion Include="Compze.InterprocessObject" Version="0.9.0-alpha" />
+      <PackageVersion Include="Compze.Must" Version="0.9.0-alpha" />
+      <PackageVersion Include="Compze.Threading" Version="0.12.0-alpha" />
+      <PackageVersion Include="Compze.Underscore" Version="0.6.0-beta" />
+      <PackageVersion Include="Compze.xUnit" Version="0.3.0-alpha" />
+      <PackageVersion Include="Compze.xUnitBDD" Version="0.7.0-beta" />
+      <!-- No project references these: they come only through other Compze packages, and are pinned here so that every project gets one
+           version of each. -->
+      <PackageVersion Include="Compze.Threading.Interprocess" Version="0.7.0-alpha" />
+      <PackageVersion Include="Compze.TypeIdentifiers" Version="0.3.0-alpha" />
+      <PackageVersion Include="Compze.Unit" Version="0.6.0-beta" />
+   </ItemGroup>
+
+   <!-- Avalonia -->
+   <ItemGroup>
+      <PackageVersion Include="Avalonia" Version="12.1.5" />
+      <PackageVersion Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
+      <PackageVersion Include="Avalonia.Controls.WebView" Version="12.1.1" />
+      <PackageVersion Include="Avalonia.Desktop" Version="12.1.5" />
+      <PackageVersion Include="Avalonia.Headless" Version="12.1.5" />
+      <PackageVersion Include="Avalonia.Themes.Fluent" Version="12.1.5" />
+      <PackageVersion Include="MessageBox.Avalonia" Version="12.1.0" />
+   </ItemGroup>
+
+   <!-- .NET's own -->
+   <ItemGroup>
+      <PackageVersion Include="Microsoft.Data.Sqlite" Version="11.0.0" />
+      <PackageVersion Include="Microsoft.Diagnostics.Runtime" Version="4.2.751201" />
+      <PackageVersion Include="Microsoft.Extensions.Hosting" Version="11.0.0" />
+      <PackageVersion Include="System.IO.Hashing" Version="11.0.0" />
+   </ItemGroup>
+
+   <!-- Testing -->
+   <ItemGroup>
+      <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+      <PackageVersion Include="Microsoft.Playwright" Version="1.64.1" />
+      <PackageVersion Include="NCrunch.Framework" Version="5.11.0" />
+      <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
+      <PackageVersion Include="xunit.v3.mtp-off" Version="4.0.3" />
+   </ItemGroup>
+
+   <!-- Everything else -->
+   <ItemGroup>
+      <PackageVersion Include="AspNetCore.SassCompiler" Version="1.107.1" />
+      <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+      <PackageVersion Include="HtmlAgilityPack" Version="1.13.1" />
+      <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
+      <PackageVersion Include="linq2db" Version="6.5.1" />
+      <PackageVersion Include="MeCab.DotNet" Version="1.2.0" />
+      <PackageVersion Include="MemoryPack" Version="1.21.4" />
+      <PackageVersion Include="ModelContextProtocol" Version="2.4.0" />
+      <PackageVersion Include="ModelContextProtocol.AspNetCore" Version="2.4.0" />
+      <PackageVersion Include="MudBlazor" Version="9.12.0" />
+      <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+      <PackageVersion Include="pythonnet" Version="3.2.1" />
+      <PackageVersion Include="SoundFlow" Version="1.4.2" />
+      <PackageVersion Include="Wacton.Desu" Version="6.2.0" />
+      <PackageVersion Include="ZstdSharp.Port" Version="0.8.5" />
+   </ItemGroup>
+</Project>

@@ -14,13 +14,13 @@
    </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Avalonia" Version="12.1.5" />
-      <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
-      <PackageReference Include="Avalonia.Controls.WebView" Version="12.1.1" />
-      <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.5" />
-      <PackageReference Include="Avalonia.Desktop" Version="12.1.5" />
-      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-      <PackageReference Include="MessageBox.Avalonia" Version="12.1.0" />
+      <PackageReference Include="Avalonia" />
+      <PackageReference Include="Avalonia.Controls.DataGrid" />
+      <PackageReference Include="Avalonia.Controls.WebView" />
+      <PackageReference Include="Avalonia.Themes.Fluent" />
+      <PackageReference Include="Avalonia.Desktop" />
+      <PackageReference Include="CommunityToolkit.Mvvm" />
+      <PackageReference Include="MessageBox.Avalonia" />
    </ItemGroup>
 
    <ItemGroup>
@@ -39,9 +39,9 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Compze.Underscore" Version="0.6.0-beta" />
-      <PackageReference Include="Compze.Internals.Logging" Version="0.7.0-alpha" />
-      <PackageReference Include="Compze.Internals.SystemCE" Version="0.8.0-internal" />
+      <PackageReference Include="Compze.Underscore" />
+      <PackageReference Include="Compze.Internals.Logging" />
+      <PackageReference Include="Compze.Internals.SystemCE" />
    </ItemGroup>
 
 </Project>

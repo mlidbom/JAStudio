@@ -21,11 +21,11 @@
    </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="Avalonia" Version="12.1.5" />
-      <PackageReference Include="Avalonia.Desktop" Version="12.1.5" />
-      <PackageReference Include="Compze.DependencyInjection" Version="0.9.0-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft" Version="0.6.0-alpha" />
-      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" Version="0.5.0-alpha" />
+      <PackageReference Include="Avalonia" />
+      <PackageReference Include="Avalonia.Desktop" />
+      <PackageReference Include="Compze.DependencyInjection" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft" />
+      <PackageReference Include="Compze.DependencyInjection.Microsoft.Extensions.Hosting" />
    </ItemGroup>
 
 </Project>
