@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
    <PropertyGroup>
-      <TargetFramework>net10.0</TargetFramework>
       <ImplicitUsings>disable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -27,10 +26,10 @@
       <PackageReference Include="MeCab.DotNet" Version="1.2.0" />
       <PackageReference Include="MemoryPack" Version="1.21.4" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-      <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.14" />
-      <PackageReference Include="System.IO.Hashing" Version="10.0.14" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0" />
+      <PackageReference Include="System.IO.Hashing" Version="11.0.0" />
       <PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.14" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0" />
    </ItemGroup>
 
    <ItemGroup>

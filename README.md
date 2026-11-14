@@ -16,7 +16,7 @@ Turns anki into a full featured tool for studying japanese in anki. A short samp
 ### Windows
 
 **Prerequisites:**
-- .NET 10.0 SDK
+- .NET 11.0 SDK
 - Python 3.13
 - Git with long paths enabled
 

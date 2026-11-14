@@ -20,6 +20,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
       var paths = new TestEnvironmentPaths();
       var ankiRawNotes = new InMemoryAnkiRawNotes();
       var pretendAnki = new PretendAnki();
+      var fatalErrorHandler = new RethrowingFatalErrorHandler();
 
       registrar.Register(
          Singleton.For<InMemoryAnkiRawNotes>().Instance(ankiRawNotes),
@@ -29,7 +30,8 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<PretendAnki>().Instance(pretendAnki),
          Singleton.For<IBackendDataLoader>().Instance(pretendAnki),
          Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
-         Singleton.For<IFatalErrorHandler>().Instance(new RethrowingFatalErrorHandler()),
+         Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
+         Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Available),
          Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),

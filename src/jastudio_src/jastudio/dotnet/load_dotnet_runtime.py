@@ -56,7 +56,7 @@ try:
 except RuntimeError as e:
     if "Failed to create a .NET runtime" in str(e):
         mylog.error(
-            """This addon requires .NET 10.0 or newer.
+            """This addon requires .NET 11.0 or newer.
                 Please install from: https://dotnet.microsoft.com/download"""
         )
     raise

@@ -15,15 +15,20 @@ namespace JAStudio.Core.Storage;
 /// </remarks>
 public sealed class CorpusCheckoutLock : IDisposable
 {
-   /// <summary>The error Windows gives opening a file another process holds open, ERROR_SHARING_VIOLATION, as an HRESULT.</summary>
-   const int TheFileIsOpenInAnotherProcess = unchecked((int)0x80070020);
+   /// <summary>
+   /// The error code, as <see cref="Exception.HResult"/>, of the <see cref="IOException"/> the system gives opening a file another process holds open:<br/>
+   /// ERROR_SHARING_VIOLATION on Windows; elsewhere EWOULDBLOCK, from the lock .NET takes on the file for <see cref="FileShare.None"/>, which is 11 on<br/>
+   /// Linux and 35 on macOS.
+   /// </summary>
+   static readonly int TheFileIsOpenInAnotherProcess = OperatingSystem.IsWindows() ? unchecked((int)0x80070020)
+                                                       : OperatingSystem.IsLinux() ? 11
+                                                       : 35;
 
    readonly FileStream _heldOpen;
 
    CorpusCheckoutLock(FileStream heldOpen) => _heldOpen = heldOpen;
 
    /// <summary>Holds the corpus checkout in <paramref name="corpusCheckoutFolder"/>, or refuses when another JAStudio holds it.</summary>
-   /// <remarks>On Windows, the refusal says which corpus checkout another JAStudio holds; elsewhere it's the system's own error, which names the lock file.</remarks>
    public static CorpusCheckoutLock On(string corpusCheckoutFolder)
    {
       var lockFile = LockFileOf(corpusCheckoutFolder);
