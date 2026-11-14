@@ -525,3 +525,7 @@ Answered:
    offering its 49 tools under that name; a call through it was answered by the headless JAStudio; disconnecting and
    connecting withdrew and offered the tools again, and stopping it left the gateway's own five. The specifications
    check that a connection follows its JAStudio as it stops and runs again.
+8. **Agreed, not built (Magnus, 2026-11-10: "Good."):** each running JAStudio reports the commit its build was made
+   from, and whether the checkout had uncommitted changes then. Until it does, whether Anki runs the latest build is
+   inferred from timestamps: Anki's process start time against the time of the newest build. The announcement already
+   has room for it: the specifications show a newer build announcing a `sourceCommit`.
