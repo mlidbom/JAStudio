@@ -32,8 +32,9 @@ public class NoteCommandTools
    [McpServerTool(Name = "run_a_command_on_a_note", Destructive = true)]
    [Description("""
                 Runs a command of a note's menus on the note, as the menu does, named as get_the_commands_of_a_note lists them, with the text it
-                takes, if any. A command that changes the note saves it to the corpus checkout and updates its Anki note, as any edit does; one that
-                creates a vocab adds the vocab to the collection the same way, as the menu does, and the MCP server has no tool that deletes a note.
+                takes, if any. A command that changes the note saves it to the corpus checkout, as any edit does, and its study-note in Anki is
+                written at the next sync with Anki, as sync_with_anki runs one; one that creates a vocab adds the vocab to the collection the same
+                way, as the menu does.
                 Like the menu, it neither reparses sentences nor updates the note's generated data. Reports each field of the note that the command
                 changed, before and after, and each vocab it added to the collection: the one it's for creating, if any, and any it created
                 besides, such as autogenerating a vocab's compound parts does for each part that has none. A sentence reports its parsing case

@@ -43,7 +43,7 @@ public class When_JAStudio_calls_Anki_over_HTTP : IDisposable, IAIGeneratedSpec
    readonly AnkiServingACopyOfTheTestCollection _anki = AnkisHttpServersForSpecifications.StartOne();
    readonly AnkiOverHttp _ankiOverHttp;
 
-   public When_JAStudio_calls_Anki_over_HTTP() => _ankiOverHttp = new AnkiOverHttp(_anki.Access, _anki.Collection);
+   public When_JAStudio_calls_Anki_over_HTTP() => _ankiOverHttp = new AnkiOverHttp(_anki.AccessFile);
 
    public virtual void Dispose()
    {
@@ -54,6 +54,7 @@ public class When_JAStudio_calls_Anki_over_HTTP : IDisposable, IAIGeneratedSpec
    IAnkisNotes Notes => _ankiOverHttp.Notes;
    IAnkisTags Tags => _ankiOverHttp.Tags;
    IAnkisMedia Media => _ankiOverHttp.Media;
+   IAnkisWindows Windows => _ankiOverHttp.Windows;
 
    /// <summary>Every study-note in the collection Anki has open, as JAStudio reads them: through Anki's own connection, over HTTP.</summary>
    IReadOnlyList<StudyNoteInTheSRS> TheStudyNotes() => StudyNotesInAnkisDatabase.ReadAll(new AnkisOwnConnection(_ankiOverHttp.Database));
@@ -202,6 +203,36 @@ public class When_JAStudio_calls_Anki_over_HTTP : IDisposable, IAIGeneratedSpec
       [XF] public void Ankis_media_folder_holds_a_copy_of_the_file() => File.ReadAllBytes(Path.Combine(_anki.Folder.FullName, Media.Folder, _itsNameInAnki)).Must().SequenceEqual(WhatTheFileHolds);
    }
 
+   public class after_asking_Anki_to_open_its_browser_on_a_search : When_JAStudio_calls_Anki_over_HTTP
+   {
+      public after_asking_Anki_to_open_its_browser_on_a_search() => Windows.OpenTheBrowserOn("nid:215");
+
+      [XF] public void Ankis_windows_were_asked_to_open_the_browser_on_the_search() => _anki.WhatItsWindowsWereAskedFor().Must().SequenceEqual(["open the browser on: nid:215"]);
+   }
+
+   public class after_asking_Anki_to_open_its_browser_and_its_previewer_on_a_search : When_JAStudio_calls_Anki_over_HTTP
+   {
+      public after_asking_Anki_to_open_its_browser_and_its_previewer_on_a_search() => Windows.OpenTheBrowserAndThePreviewerOn("nid:215");
+
+      [XF] public void Ankis_windows_were_asked_to_open_the_browser_and_the_previewer_on_the_search() =>
+         _anki.WhatItsWindowsWereAskedFor().Must().SequenceEqual(["open the browser and the previewer on: nid:215"]);
+   }
+
+   public class after_asking_Anki_to_show_a_tooltip_for_five_seconds : When_JAStudio_calls_Anki_over_HTTP
+   {
+      public after_asking_Anki_to_show_a_tooltip_for_five_seconds() => Windows.ShowATooltip("Reparsed 3 sentences: 勉強", TimeSpan.FromSeconds(5));
+
+      [XF] public void Ankis_windows_were_asked_to_show_the_message_for_5000_milliseconds_with_its_Japanese_whole() =>
+         _anki.WhatItsWindowsWereAskedFor().Must().SequenceEqual(["show a tooltip for 5000 ms: Reparsed 3 sentences: 勉強"]);
+   }
+
+   public class after_asking_Anki_to_refresh_its_windows : When_JAStudio_calls_Anki_over_HTTP
+   {
+      public after_asking_Anki_to_refresh_its_windows() => Windows.Refresh();
+
+      [XF] public void Ankis_windows_were_asked_to_refresh() => _anki.WhatItsWindowsWereAskedFor().Must().SequenceEqual(["refresh"]);
+   }
+
    public class while_Ankis_own_sync_is_under_way : When_JAStudio_calls_Anki_over_HTTP
    {
       public while_Ankis_own_sync_is_under_way() => _anki.ItsOwnSyncStarts();
@@ -217,32 +248,21 @@ public class When_JAStudio_calls_Anki_over_HTTP : IDisposable, IAIGeneratedSpec
       }
    }
 
-   public class when_JAStudio_works_with_another_collection_than_the_one_Anki_has_open : When_JAStudio_calls_Anki_over_HTTP
-   {
-      readonly AnkiOverHttp _workingWithAnotherCollection;
-
-      public when_JAStudio_works_with_another_collection_than_the_one_Anki_has_open() =>
-         _workingWithAnotherCollection = new AnkiOverHttp(_anki.Access, new FileInfo(Path.Combine(_anki.Folder.FullName, "another", "collection.anki2")));
-
-      public override void Dispose()
-      {
-         _workingWithAnotherCollection.Dispose();
-         base.Dispose();
-      }
-
-      [XF] public void a_call_is_refused_naming_the_collection_Anki_has_open() =>
-         Invoking(() => _workingWithAnotherCollection.Notes.Find(EveryVocab)).Must().Throw<AnkiRefusedTheCallException>().Which.CollectionAnkiHasOpen.Must().Be(_anki.Collection.FullName);
-   }
-
    public class with_another_token_than_the_servers : When_JAStudio_calls_Anki_over_HTTP
    {
+      readonly AnAccessFileASpecificationWrites _namingAnotherToken = new();
       readonly AnkiOverHttp _withAnotherToken;
 
-      public with_another_token_than_the_servers() => _withAnotherToken = new AnkiOverHttp(_anki.Access with { Token = "another token" }, _anki.Collection);
+      public with_another_token_than_the_servers()
+      {
+         _namingAnotherToken.Holds(_anki.Access with { Token = "another token" });
+         _withAnotherToken = new AnkiOverHttp(_namingAnotherToken.AccessFile);
+      }
 
       public override void Dispose()
       {
          _withAnotherToken.Dispose();
+         _namingAnotherToken.Dispose();
          base.Dispose();
       }
 

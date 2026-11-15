@@ -20,6 +20,7 @@ using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Core.UI.Web;
 using JAStudio.Core.UI.Web.Kanji;
 using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.UI.Web.Vocab;
@@ -102,6 +103,7 @@ public static class AppBootstrapper
          Singleton.For<SentenceKanjiListViewModel>().CreatedBy((KanjiCollection kanji) => new SentenceKanjiListViewModel(kanji)),
 
          // Note renderers
+         Singleton.For<ChangesThatOutdateNotePages>().CreatedBy((JPCollection collection, JapaneseConfig config) => new ChangesThatOutdateNotePages(collection, config)),
          Singleton.For<VocabNoteRenderer>().CreatedBy(() => new VocabNoteRenderer()),
          Singleton.For<SentenceNoteRenderer>().CreatedBy(() => new SentenceNoteRenderer()),
          Singleton.For<KanjiNoteRenderer>().CreatedBy(() => new KanjiNoteRenderer())

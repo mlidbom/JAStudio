@@ -439,7 +439,7 @@ First version, 2026-11-13.
   previewer, which Python binds from the same table. Most are single-key toggles for sentence breakdowns; a few
   act on the note being viewed.
 - **Keys pressed on the note's page go to the web view,** so `card.js` reports each key press, and the tab asks the
-  window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+O, Ctrl+Shift+O,
+  window for its shortcut before trying the note view shortcuts. The window's own shortcuts (Ctrl+S, Ctrl+Shift+O,
   Ctrl+E, Ctrl+W, Ctrl+T, Ctrl+Shift+T, Ctrl+M, Ctrl+Tab, Ctrl+Shift+Tab) also exist as Avalonia key bindings for when the
   keyboard is outside the page. Ctrl+M opens the match-condition window of the vocab the shown tab shows.
   Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
@@ -466,7 +466,7 @@ First version, 2026-11-13.
 - **The keyboard follows the shown tab.** Hiding a web view doesn't take the keyboard focus away from it, so a
   tab focuses its page when it's shown. Otherwise keys would go to the hidden tab's page and act on its note.
 - **Taking the keyboard back from a web view.** Focusing an Avalonia control in code doesn't take the Windows
-  keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+O first gives
+  keyboard focus away from a web view; Avalonia does that only when the window is clicked. So Ctrl+S first gives
   the window back its keyboard focus (`NativeKeyboardFocus`), then puts it on the search's condition tree.
   - **After Alt+Tab back to the window,** Windows gives the keyboard to the native window that had it last, which can
     be a tab's web view even when an Avalonia control has Avalonia's focus. The keys then went to the page, and
@@ -507,7 +507,7 @@ First version, 2026-11-13.
    `NoteListViewModel`; the dialog is gone.)*
    - The pane is on the left, resized by dragging its edge, and opened or closed with the "Navigation" button. Its
      tabs are "Search" and "List".
-   - Ctrl+O, anywhere including in Anki, brings the workspace forward, opens the pane on its search and puts the
+   - Ctrl+S (Ctrl+O until 2026-11-15), anywhere including in Anki, brings the workspace forward, opens the pane on its search and puts the
      keyboard on the search's condition tree; pressed in the workspace while the pane is open on its search, it closes the pane
      and gives the keyboard to the shown page.
    - The "Open" items of the note menus show a `NoteList`, a title and notes, in the "List" tab, replacing the list

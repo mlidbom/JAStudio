@@ -21,11 +21,11 @@ static class NoteCommandMenuItem
 {
    /// <summary>A menu item that runs <paramref name="command"/> on <paramref name="note"/>, its label given a shortcut by <paramref name="shortcutFinger"/>.</summary>
    public static SpecMenuItem Running<TNote>(Func<string, string> shortcutFinger, NoteChangingCommand<TNote> command, TNote note, bool enabled = true) where TNote : JPNote =>
-      SpecMenuItem.UICommand(shortcutFinger(command.Label), () => command.Run(note), enabled: enabled);
+      SpecMenuItem.Command(shortcutFinger(command.Label), () => command.Run(note), enabled: enabled);
 
    /// <summary>A menu item that runs <paramref name="command"/> on <paramref name="note"/> with <paramref name="text"/>, its label given a shortcut by <paramref name="shortcutFinger"/>.</summary>
    public static SpecMenuItem Running<TNote>(Func<string, string> shortcutFinger, NoteChangingCommandTakingAText<TNote> command, TNote note, string text, bool enabled = true) where TNote : JPNote =>
-      SpecMenuItem.UICommand(shortcutFinger(command.Label), () => command.Run(note, text), enabled: enabled);
+      SpecMenuItem.Command(shortcutFinger(command.Label), () => command.Run(note, text), enabled: enabled);
 
    /// <summary>
    /// A menu item that creates a vocab from <paramref name="vocab"/> with <paramref name="command"/> and opens it in the workspace, its label given a<br/>

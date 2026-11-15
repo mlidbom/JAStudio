@@ -157,7 +157,7 @@ the tree jump around. To keep it as quick as typing:
 **Typing a key from the add menu on the tree does what it does in the add menu** (Magnus, 2026-11-07, replacing
 an earlier decision that typing a letter starts a searchable-text condition). So `t` opens the tag dialog without
 `+` first. `q` opens the whole add menu with the question's submenu open, so it's clear what's happening and another
-choice is one key away. A quick lookup is Ctrl+O, `s`, `c`, a word, Enter.
+choice is one key away. A quick lookup is Ctrl+S, `s`, `c`, a word, Enter.
 
 **When a menu closes without a pick, as with Esc, the keyboard goes back to the selected line.** Otherwise it's left
 on the window's main menu. When an item is picked, what it does decides where the keyboard goes, such as into the

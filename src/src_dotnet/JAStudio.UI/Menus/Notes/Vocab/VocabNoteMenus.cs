@@ -115,27 +115,27 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
             SpecMenuItem.Submenu(ShortcutFinger.Home5("Copy"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Question"), () => CopyToClipboard(vocab.GetQuestion())),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("Answer"), () => CopyToClipboard(vocab.GetAnswer())),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("Definition (question:answer)"), () => CopyToClipboard($"{vocab.GetQuestion()}:{vocab.GetAnswer()}")),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Sentences: max 30"), () => CopyToClipboard(string.Join("\n", vocab.Sentences.All().Take(30).Select(s => s.Question.WithoutInvisibleSpace()))))
+                                    SpecMenuItem.Command(ShortcutFinger.Home1("Question"), () => CopyToClipboard(vocab.GetQuestion())),
+                                    SpecMenuItem.Command(ShortcutFinger.Home2("Answer"), () => CopyToClipboard(vocab.GetAnswer())),
+                                    SpecMenuItem.Command(ShortcutFinger.Home3("Definition (question:answer)"), () => CopyToClipboard($"{vocab.GetQuestion()}:{vocab.GetAnswer()}")),
+                                    SpecMenuItem.Command(ShortcutFinger.Home4("Sentences: max 30"), () => CopyToClipboard(string.Join("\n", vocab.Sentences.All().Take(30).Select(s => s.Question.WithoutInvisibleSpace()))))
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Up1("Misc"),
                                  new List<SpecMenuItem>
                                  {
                                     NoteCommandMenuItem.Running(ShortcutFinger.Home1, VocabCommands.AcceptMeaning, vocab, enabled: !vocab.CorpusAnswer.HasValue()),
                                     NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.GenerateAnswer, vocab),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
+                                    SpecMenuItem.Command(ShortcutFinger.Home3("Reparse potentially matching sentences: (Only reparse all sentences is sure to catch everything)"), () => _services.BackgroundTaskManager.Run(() => _services.LocalNoteUpdater.ReparseSentencesForVocab(vocab))),
                                     NoteCommandMenuItem.Running(ShortcutFinger.Home4, VocabCommands.RepopulatePartsOfSpeech, vocab),
                                     NoteCommandMenuItem.Running(ShortcutFinger.Home5, VocabCommands.AutogenerateCompoundParts, vocab)
                                  }),
             SpecMenuItem.Submenu(ShortcutFinger.Up2("Remove"),
                                  new List<SpecMenuItem>
                                  {
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home1("Explanation"), () => vocab.Explanation.Empty(), enabled: vocab.Explanation.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home2("Long explanation"), () => vocab.ExplanationLong.Empty(), enabled: vocab.ExplanationLong.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home3("Mnemonic"), () => vocab.Mnemonic.Empty(), enabled: vocab.Mnemonic.HasValue()),
-                                    SpecMenuItem.UICommand(ShortcutFinger.Home4("Corpus answer"), () => vocab.CorpusAnswer.Empty(), enabled: vocab.CorpusAnswer.HasValue())
+                                    SpecMenuItem.Command(ShortcutFinger.Home1("Explanation"), () => vocab.Explanation.Empty(), enabled: vocab.Explanation.HasValue()),
+                                    SpecMenuItem.Command(ShortcutFinger.Home2("Long explanation"), () => vocab.ExplanationLong.Empty(), enabled: vocab.ExplanationLong.HasValue()),
+                                    SpecMenuItem.Command(ShortcutFinger.Home3("Mnemonic"), () => vocab.Mnemonic.Empty(), enabled: vocab.Mnemonic.HasValue()),
+                                    SpecMenuItem.Command(ShortcutFinger.Home4("Corpus answer"), () => vocab.CorpusAnswer.Empty(), enabled: vocab.CorpusAnswer.HasValue())
                                  })
          }
       );
@@ -180,7 +180,7 @@ class VocabNoteMenus(Core.TemporaryServiceCollection services)
       for(var i = 0; i < formsWithNoVocab.Count; i++)
       {
          var form = formsWithNoVocab[i];
-         items.Add(SpecMenuItem.UICommand(
+         items.Add(SpecMenuItem.Command(
                       ShortcutFinger.FingerByPriorityOrder(i, form),
                       () => VocabCommands.CloneToForm.CreateFrom(vocab, form)));
       }

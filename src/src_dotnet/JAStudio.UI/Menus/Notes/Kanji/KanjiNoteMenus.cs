@@ -29,7 +29,7 @@ class KanjiNoteMenus
                                              NoteListMenuItem.Showing(ShortcutFinger.Home5("Sentences"), $"Sentences with {kanji.GetQuestion()}", () => Collection.Sentences.SentencesWithSubstring(kanji.GetQuestion()))
                                           }),
                      SpecMenuItem.Command(ShortcutFinger.Home2("Edit"), () => WorkspaceWindow.EditNote(kanji)),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Reset Primary Vocabs"), kanji.PrimaryVocab.Clear)
+                     SpecMenuItem.Command(ShortcutFinger.Home3("Reset Primary Vocabs"), kanji.PrimaryVocab.Clear)
                   };
 
       if(!kanji.CorpusAnswer.HasValue())
@@ -39,7 +39,7 @@ class KanjiNoteMenus
 
       items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up2, KanjiCommands.PopulateRadicalsFromMnemonicTags, kanji));
       items.Add(NoteCommandMenuItem.Running(ShortcutFinger.Up3, KanjiCommands.BootstrapMnemonicFromRadicals, kanji));
-      items.Add(SpecMenuItem.UICommand(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Mnemonic.Empty()));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.Up4("Reset mnemonic"), () => kanji.Mnemonic.Empty()));
 
       return SpecMenuItem.Submenu(title, items);
    }

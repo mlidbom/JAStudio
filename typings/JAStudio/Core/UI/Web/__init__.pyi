@@ -1,6 +1,8 @@
 import typing, clr, abc
-from System import Func_5, Uri, IEquatable_1
+from System import Func_5, Uri, IDisposable, Action, IEquatable_1
 from JAStudio.Core.Note import JPNote, NoteId
+from JAStudio.Core.Note.Collection import JPCollection
+from JAStudio.Core.Configuration import JapaneseConfig
 from JAStudio.Core.UI import PngImage
 
 class AppendingPrerenderer_GenericClasses(abc.ABCMeta):
@@ -29,6 +31,8 @@ class CardServerUrl(abc.ABC):
     @staticmethod
     def CardPageUrl(note: JPNote, cardType: str, side: str, displayContext: str) -> Uri: ...
     @staticmethod
+    def IsACardsPageInAnki(cardServerPageUrl: Uri) -> bool: ...
+    @staticmethod
     def MediaUrl(fileName: str) -> str: ...
     @staticmethod
     def NoteIdOfPage(cardServerPageUrl: Uri) -> NoteId: ...
@@ -36,6 +40,11 @@ class CardServerUrl(abc.ABC):
     def NotePagePath(note: JPNote) -> str: ...
     @staticmethod
     def NotePageUrl(note: JPNote) -> Uri: ...
+
+
+class ChangesThatOutdateNotePages:
+    def __init__(self, collection: JPCollection, config: JapaneseConfig) -> None: ...
+    def Subscribe(self, shownNote: NoteId, thePageIsOutdated: Action) -> IDisposable: ...
 
 
 class INoteLinkOpener(typing.Protocol):

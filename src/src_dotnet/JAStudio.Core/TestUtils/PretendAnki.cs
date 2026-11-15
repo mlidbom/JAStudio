@@ -42,6 +42,16 @@ public partial class PretendAnki : ISRSStudyNotes, ISRSTagOperations, ISRSMedia
    /// <summary>Anki's own sync, with AnkiWeb, has finished: JAStudio can use what Anki holds again.</summary>
    public void FinishItsOwnSync() => _availability.ItsOwnSyncIsUnderWay(false);
 
+   /// <summary>
+   /// Another Anki profile opens, whose collection holds no study-notes: Anki no longer has the collection JAStudio works with open, so JAStudio<br/>
+   /// can't use what Anki holds until it works with the one Anki has open (<see cref="SRSAvailability.WorkWithTheCollectionItHasOpen"/>).
+   /// </summary>
+   public void OpenAnotherProfileWhoseCollectionHoldsNoStudyNotes()
+   {
+      _monitor.Locked(() => _studyNotesByAnkiNoteId.Clear());
+      _availability.ItOpenedAnotherCollection();
+   }
+
    public IReadOnlyList<StudyNoteInTheSRS> ReadAll() => _monitor.Locked(() => _studyNotesByAnkiNoteId.Values.Select(it => it.AsReadFromAnki()).ToList());
 
    public void Write(JPNote note) => _monitor.Locked(() => TheStudyNoteOf(note.GetId()).Fields = note.StudyNoteFields());

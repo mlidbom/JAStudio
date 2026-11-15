@@ -2,7 +2,6 @@ using Avalonia.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
@@ -41,17 +40,17 @@ class SentenceNoteMenus
                                      SpecMenuItem.Submenu(ShortcutFinger.Home3("Remove"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home1("All highlighted"), () => sentence.Configuration.ResetHighlightedWords(), enabled: sentence.Configuration.HighlightedWords.Any()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Configuration.IncorrectMatches.Reset(), enabled: sentence.Configuration.IncorrectMatches.Get().Any()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home3("All hidden matches"), () => sentence.Configuration.HiddenMatches.Reset(), enabled: sentence.Configuration.HiddenMatches.Get().Any()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home4("Source comments"), () => sentence.SourceData.Comments.Empty(), enabled: sentence.SourceData.Comments.HasValue())
+                                                             SpecMenuItem.Command(ShortcutFinger.Home1("All highlighted"), () => sentence.Configuration.ResetHighlightedWords(), enabled: sentence.Configuration.HighlightedWords.Any()),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home2("All incorrect matches"), () => sentence.Configuration.IncorrectMatches.Reset(), enabled: sentence.Configuration.IncorrectMatches.Get().Any()),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home3("All hidden matches"), () => sentence.Configuration.HiddenMatches.Reset(), enabled: sentence.Configuration.HiddenMatches.Get().Any()),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home4("Source comments"), () => sentence.SourceData.Comments.Empty(), enabled: sentence.SourceData.Comments.HasValue())
                                                           }),
                                      SpecMenuItem.Submenu(ShortcutFinger.Home4("Remove corpus"),
                                                           new List<SpecMenuItem>
                                                           {
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home1("comments"), () => sentence.Comments.Empty(), enabled: sentence.Comments.HasValue()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home2("answer"), () => sentence.CorpusAnswer.Empty(), enabled: sentence.CorpusAnswer.HasValue()),
-                                                             SpecMenuItem.UICommand(ShortcutFinger.Home3("question"), () => sentence.CorpusQuestion.Empty(), enabled: sentence.CorpusQuestion.HasValue())
+                                                             SpecMenuItem.Command(ShortcutFinger.Home1("comments"), () => sentence.Comments.Empty(), enabled: sentence.Comments.HasValue()),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home2("answer"), () => sentence.CorpusAnswer.Empty(), enabled: sentence.CorpusAnswer.HasValue()),
+                                                             SpecMenuItem.Command(ShortcutFinger.Home3("question"), () => sentence.CorpusQuestion.Empty(), enabled: sentence.CorpusQuestion.HasValue())
                                                           }),
                                      ParsingCaseMenuSpec(sentence)
                                   }
@@ -82,7 +81,7 @@ class SentenceNoteMenus
       }
 
       SpecMenuItem GivingTheVerdict(Verdict verdict, Func<string, string> shortcutFinger) =>
-         SpecMenuItem.UICommand(shortcutFinger($"The displayed vocab are {verdict.InWords()}"), () => SentenceEditableFields.VerdictOnTheDisplayedVocab.Write(sentence, verdict));
+         SpecMenuItem.Command(shortcutFinger($"The displayed vocab are {verdict.InWords()}"), () => SentenceEditableFields.VerdictOnTheDisplayedVocab.Write(sentence, verdict));
    }
 
    public SpecMenuItem BuildViewMenuSpec(string title)
@@ -95,11 +94,11 @@ class SentenceNoteMenus
       for(var i = 0; i < config.SentenceViewToggles.Count; i++)
       {
          var toggle = config.SentenceViewToggles[i];
-         items.Add(SpecMenuItem.UICommand(ShortcutFinger.FingerByPriorityOrder(i, toggle.Title), () => toggle.Value = !toggle.Value));
+         items.Add(SpecMenuItem.Command(ShortcutFinger.FingerByPriorityOrder(i, toggle.Title), () => toggle.Value = !toggle.Value));
       }
 
       // Add the "Toggle all auto yield flags" action
-      items.Add(SpecMenuItem.UICommand(ShortcutFinger.FingerByPriorityOrder(items.Count, "Toggle all sentence auto yield compound last token flags (Ctrl+Shift+Alt+d)"), () => config.ToggleAllSentenceDisplayAutoYieldFlags()));
+      items.Add(SpecMenuItem.Command(ShortcutFinger.FingerByPriorityOrder(items.Count, "Toggle all sentence auto yield compound last token flags (Ctrl+Shift+Alt+d)"), () => config.ToggleAllSentenceDisplayAutoYieldFlags()));
 
       return SpecMenuItem.Submenu(title, items);
    }

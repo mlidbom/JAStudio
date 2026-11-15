@@ -9,19 +9,16 @@ from jastudio.ui import dotnet_ui_root
 
 if TYPE_CHECKING:
 
-    from anki.notes import Note
+    from anki.cards import Card
     from JAStudio.Core.Note import JPNote
 
 import aqt
 from aqt import AnkiQt  # type: ignore[attr-defined]  # pyright: ignore[reportPrivateImportUsage]
 from aqt.browser import Browser  # type: ignore[attr-defined]  # pyright: ignore[reportPrivateImportUsage]
 from aqt.browser.previewer import Previewer
-from aqt.clayout import CardLayout
 from aqt.editcurrent import EditCurrent
-from aqt.editor import Editor
 from aqt.reviewer import RefreshNeeded
-from aqt.webview import AnkiWebView, AnkiWebViewKind
-from jaspythonutils.sysutils.typed import checked_cast, non_optional
+from jaspythonutils.sysutils.typed import non_optional
 
 from jastudio.ankiutils.audio_suppressor import audio_suppressor
 from jastudio.ankiutils.ui_utils_interface import IUIUtils
@@ -34,31 +31,6 @@ def is_displaytype_displaying_review_question(display_type: str) -> bool:
 
 def is_reviewer_display_type(display_type: str) -> bool:
     return display_type.startswith("review")
-
-# noinspection PyTypeHints
-def get_note_from_web_view(view: AnkiWebView) -> JPNote | None:
-    inner_note: Note | None
-
-    if view.kind == AnkiWebViewKind.MAIN:
-        card = main_window().reviewer.card
-        if card:
-            inner_note = non_optional(main_window().reviewer.card).note()
-        else:
-            return None
-    elif view.kind == AnkiWebViewKind.EDITOR:
-        # noinspection PyProtectedMember
-        editor = checked_cast(Editor, view._bridge_context)  # pyright: ignore[reportPrivateUsage]
-        if not editor.card: return None
-        card = non_optional(editor.card)
-        inner_note = non_optional(card.note())
-    elif view.kind == AnkiWebViewKind.PREVIEWER:
-        inner_note = non_optional([window for window in main_window().app.topLevelWidgets() if isinstance(window, Previewer)][0].card()).note()
-    elif view.kind == AnkiWebViewKind.CARD_LAYOUT:
-        inner_note = non_optional([window for window in main_window().app.topLevelWidgets() if isinstance(window, CardLayout)][0].note)
-    else:
-        return None
-
-    return dotnet_ui_root().Services.CoreApp.Collection.NoteOfTheStudyNote(inner_note.id)
 
 class UIUtils(IUIUtils, Slots):
     def __init__(self, mw: AnkiQt) -> None:
@@ -118,6 +90,10 @@ class UIUtils(IUIUtils, Slots):
 
 # noinspection PyTypeHints
 def try_get_review_note() -> JPNote | None:
-    card = main_window().reviewer.card
+    return try_get_note_of(main_window().reviewer.card)
+
+# noinspection PyTypeHints
+def try_get_note_of(card: Card | None) -> JPNote | None:
+    """The note whose study-note holds the card, or None with no card, and when no note has that study-note."""
     if not card: return None
     return dotnet_ui_root().Services.CoreApp.Collection.NoteOfTheStudyNote(card.nid or card.note().id)

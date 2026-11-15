@@ -9,12 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from anki.cards import CardId
 from anki.notes import NoteId
 from aqt import mw
 from jaspythonutils.sysutils.typed import non_optional, str_
 from jastudio.sysutils.app_thread_pool import run_on_ui_thread_fire_and_forget
-from typed_linq_collections.q_iterable import query
 
 if TYPE_CHECKING:
     from anki.collection import OpChangesWithCount
@@ -36,17 +34,6 @@ def browser_execute_lookup_and_show_previewer(query: str) -> None:
         from jastudio.ankiutils import search_executor
         search_executor.do_lookup_and_show_previewer(query)
     run_on_ui_thread_fire_and_forget(do_it)
-
-# noinspection PyUnusedFunction
-def browser_prioritize_cards(card_ids: list[int]) -> None:
-    from jastudio.note import queue_manager
-    queue_manager.prioritize_selected_cards(query(card_ids).select(NoteId).to_list())
-
-# noinspection PyUnusedFunction
-def browser_spread_cards_over_days(card_ids: list[int], start_day: int, days_apart: int) -> None:
-    """Spread selected cards over days (distributes due dates across time range)."""
-    from jastudio.ui.menus.browser import main as browser_main
-    browser_main.spread_due_dates(query(card_ids).select(NoteId).to_list(), start_day, days_apart)
 
 # ── UIUtils ──
 
@@ -157,11 +144,6 @@ def note_unsuspend_all_cards(note_id: int) -> None:
     from jastudio.anki_extentions.note_ex import NoteEx
     NoteEx.from_id(note_id).un_suspend_all_cards()
 
-# noinspection PyUnusedFunction
-def note_remove(note_id: int) -> None:
-    from jastudio.ankiutils import app
-    app.anki_collection().remove_notes([NoteId(note_id)])
-
 # ── Col ──
 # noinspection PyUnusedFunction
 def col_read_json(select: str) -> str:
@@ -171,11 +153,6 @@ def col_read_json(select: str) -> str:
     return str_(non_optional(app.anki_collection().db).scalar(select))  # pyright: ignore[reportAny]  # Anki types every database value as Any: str_ checks that it's the text
 
 # ── Misc ──
-# noinspection PyUnusedFunction
-def get_note_id_from_card_id(card_id: int) -> int:
-    from jastudio.ankiutils import app
-    return int(app.anki_collection().get_card(CardId(card_id)).nid)
-
 # noinspection PyUnusedFunction
 def addon_root_dir() -> str:
     """Return the addon root directory (the directory containing __init__.py).

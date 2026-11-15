@@ -41,8 +41,8 @@ static class KanjiStringMenus
 
          SpecMenuItem ForTheWord(string name, Func<WordReference, bool> applies, Action<WordReference> action) =>
             word is {} it
-               ? SpecMenuItem.UICommand(name, () => action(it), enabled: applies(it))
-               : SpecMenuItem.UICommand(name, () => {}, enabled: false);
+               ? SpecMenuItem.Command(name, () => action(it), enabled: applies(it))
+               : SpecMenuItem.Command(name, () => {}, enabled: false);
       }
 
       SpecMenuItem BuildAddMenuSpec()
@@ -50,7 +50,7 @@ static class KanjiStringMenus
          var items = new List<SpecMenuItem>
                      {
                         NoteCommandMenuItem.Running(ShortcutFinger.Home1, KanjiCommands.AddSimilarMeaning, kanji, text),
-                        SpecMenuItem.UICommand(ShortcutFinger.Home2("Confused with"), () => kanji.ConfusedWith.Add(text))
+                        SpecMenuItem.Command(ShortcutFinger.Home2("Confused with"), () => kanji.ConfusedWith.Add(text))
                      };
 
          return SpecMenuItem.Submenu(ShortcutFinger.Home2("Add"), items);
@@ -65,20 +65,20 @@ static class KanjiStringMenus
             var onReadings = kanji.Readings.On;
             if(onReadings.IsPrimary(reading))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Onyomi Reading"), () => onReadings.MakeSecondary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Remove primary Onyomi Reading"), () => onReadings.MakeSecondary(reading)));
             } else if(onReadings.Contains(reading))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Onyomi Reading"), () => onReadings.MakePrimary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Make primary Onyomi Reading"), () => onReadings.MakePrimary(reading)));
             }
          } else if(KanaUtils.IsOnlyHiragana(reading))
          {
             var kunReadings = kanji.Readings.Kun;
             if(kunReadings.IsPrimary(reading))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Remove primary Kunyomi reading"), () => kunReadings.MakeSecondary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Remove primary Kunyomi reading"), () => kunReadings.MakeSecondary(reading)));
             } else if(kunReadings.Contains(reading))
             {
-               items.Add(SpecMenuItem.UICommand(titleFactory("Make primary Kunyomi reading"), () => kunReadings.MakePrimary(reading)));
+               items.Add(SpecMenuItem.Command(titleFactory("Make primary Kunyomi reading"), () => kunReadings.MakePrimary(reading)));
             }
          }
 

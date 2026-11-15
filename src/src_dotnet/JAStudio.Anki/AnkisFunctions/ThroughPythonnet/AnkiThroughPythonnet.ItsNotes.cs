@@ -15,8 +15,6 @@ public sealed partial class AnkiThroughPythonnet
 
       public void Delete(IReadOnlyList<long> noteIds) => _anki.Backend.Use(it => it.notes_remove(PythonDotNetShim.LongList.ToPython(noteIds)));
 
-      public void Delete(long noteId) => _anki.Backend.Use(it => it.note_remove(noteId));
-
       public void WriteTheFields(long noteId, IReadOnlyDictionary<string, string> fields) =>
          _anki.Backend.Use(it => it.study_note_write(noteId, PythonDotNetShim.StringStringDict.ToPython(fields)));
 

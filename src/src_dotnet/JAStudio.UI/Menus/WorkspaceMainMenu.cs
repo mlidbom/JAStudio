@@ -12,7 +12,7 @@ namespace JAStudio.UI.Menus;
 /// </summary>
 /// <remarks>
 /// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, or opens it on its search, from its JA Studio menu<br/>
-/// (<see cref="AnkiMenus.BuildJAStudioMenuSpec"/>) or with Ctrl+Shift+O and Ctrl+O.
+/// (the Anki add-on's <c>jastudio_menu.py</c>) or with Ctrl+Shift+O and Ctrl+S (<see cref="AnkiDialogs"/>).
 /// </remarks>
 public class WorkspaceMainMenu
 {
@@ -33,7 +33,7 @@ public class WorkspaceMainMenu
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
                            new List<SpecMenuItem>
                            {
-                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+O)"), WorkspaceWindow.ToggleNoteSearch),
+                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+S)"), WorkspaceWindow.ToggleNoteSearch),
                               WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), getClipboardContent),
                               SpecMenuItem.Command(ShortcutFinger.Home3(MainMenuWindows.SharedConditions.Name), () => MainMenuWindows.SharedConditions.Open(_services))
                            }
@@ -72,13 +72,5 @@ public class WorkspaceMainMenu
    ];
 
    SpecMenuItem BatchCommand(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
-      => SpecMenuItem.Command(name,
-                              () => _services.BackgroundTaskManager.Run(() =>
-                              {
-                                 action();
-                                 _services.SRSWindows.Refresh();
-                              }),
-                              acceleratorKey,
-                              shortcut,
-                              enabled);
+      => SpecMenuItem.Command(name, () => _services.BackgroundTaskManager.Run(action), acceleratorKey, shortcut, enabled);
 }

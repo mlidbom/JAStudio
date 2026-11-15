@@ -115,8 +115,12 @@ search, editors) is in `jastudio-workspace.md`.
   The reviewer's clicks reach the `CardServer` endpoints `/api/open-in-workspace/{noteId}` and
   `/api/open-in-previewer/{noteId}`. The `CardServer` hands them to an `INoteLinkOpener`, implemented by the Anki
   add-on (`NoteLinkOpener`).
-- **Right-click** on the note shows the same note menu as in Anki (`NoteContextMenu.BuildContextMenuSpec`),
-  editing included. Shift+Right-click gives the browser's own menu, with "Inspect".
+- **Right-click** in the workspace shows the note menu (`NoteContextMenu.BuildContextMenuSpec`), which Anki's
+  windows showed too until 2026-11-15, editing included. Shift+Right-click gives the browser's own menu, with
+  "Inspect".
+  - *Anywhere else,* in Anki's reviewer and previewer and in a web browser, the page has a right-click menu of its
+    own since 2026-11-15 (`RightClickMenu`, in `CardLayout`), which `card.js` opens: a spike so far, see
+    `moving-jastudio-out-of-anki.md`.
   - The menu is a `PopupMenuWindow`, not an Avalonia `ContextMenu`. A `ContextMenu`'s first level of items
     ignores typed access keys, and over the web view the keyboard stays with the web view.
   - The `PopupMenuWindow` is an activated, tiny, topmost window. The items are the submenu of a hidden
@@ -139,8 +143,12 @@ search, editors) is in `jastudio-workspace.md`.
 - **The page reloads** when the note it shows is updated, a setting changes, or the collection is reloaded after an Anki
   sync (`JPCollection.ReloadedFromBackend`). A change to another note that the page shows, for example a vocab in a
   sentence's breakdown, appears after F5 or the next navigation.
+  - *In Anki's reviewer and previewer a card's page reloads itself* on the same changes (`CardLayout`, with Core's
+    `ChangesThatOutdateNotePages`), since 2026-11-15. JAStudio asks Anki to draw its cards again only once the
+    collection has loaded, for a card that says JAStudio is still loading.
 - **Opening a note in the workspace:** "Open in workspace" in the note menus' "Universal note actions", newly
-  created notes, and a result opened from the workspace's note search pane (Ctrl+O).
+  created notes, a result opened from the workspace's note search pane (Ctrl+S), and Ctrl+O in Anki's reviewer,
+  previewer and browser.
 - **Not yet:** the menu items that open a *list* of notes still open Anki's browser.
 - **Without Anki:** the standalone JAStudio (`JAStudio.StandaloneHost`, see `standalone-jastudio.md`) and the headless
   JAStudio each start their own `CardServer`, on a port the system picks, leaving alone the port the one inside Anki

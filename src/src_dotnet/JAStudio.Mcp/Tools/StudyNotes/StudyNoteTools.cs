@@ -53,7 +53,8 @@ public class StudyNoteTools
    [Description("""
                 Writes the study-note in Anki of every note whose study-note differs from what JAStudio would write now, as
                 list_the_study_notes_that_differ finds them, or of the notes given, whether theirs differ or not: as a sync with Anki writes
-                them, without reading Anki's changes or running imports. Only in the live JAStudio, inside Anki: the headless one has no Anki and refuses. Reports
+                them, without reading Anki's changes or running imports. Only in a live JAStudio, inside Anki or the standalone one while Anki runs with
+                a profile open: the headless one has no Anki and refuses. Reports
                 how long it took, the notes whose study-notes it wrote, by type, and how many study-notes differ afterwards, compared again.
                 """)]
    public StudyNotesWritten WriteTheStudyNotesThatDiffer(

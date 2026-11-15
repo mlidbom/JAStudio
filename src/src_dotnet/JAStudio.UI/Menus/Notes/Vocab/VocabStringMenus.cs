@@ -45,7 +45,7 @@ class VocabStringMenus
                      NoteCommandMenuItem.Running(ShortcutFinger.Home2, VocabCommands.AddSynonymsTransitivelyOneLevel, vocab, text, enabled: word is not null),
                      Adding(ShortcutFinger.Home3("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Add),
                      Adding(ShortcutFinger.Home4("Antonym"), related.Antonyms.Contains, related.Antonyms.Add),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
+                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Forms.Add(text), enabled: !matchedForms.Contains(text)),
                      Adding(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Add),
                      Adding(ShortcutFinger.Up2("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Add),
                      ForTheWord(word, ShortcutFinger.Down1("Perfect synonym, automatically synchronize answers"),
@@ -83,7 +83,7 @@ class VocabStringMenus
                      Removing(ShortcutFinger.Home2("Confused with"), related.ConfusedWith.Contains, related.ConfusedWith.Remove),
                      Removing(ShortcutFinger.Home3("Antonym"), related.Antonyms.Contains, related.Antonyms.Remove),
                      Removing(ShortcutFinger.Home4("Ergative twin"), related.ErgativeTwins.Contains, related.ErgativeTwins.Remove),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: enteredForms.Contains(text)),
+                     SpecMenuItem.Command(ShortcutFinger.Home5("Form"), () => vocab.Forms.Remove(text), enabled: enteredForms.Contains(text)),
                      Removing(ShortcutFinger.Up1("See also"), related.SeeAlso.Contains, related.SeeAlso.Remove),
                      Removing(ShortcutFinger.Down1("Perfect synonym"), related.PerfectSynonyms.Contains, related.PerfectSynonyms.Remove),
                      Removing(ShortcutFinger.Down2("Derived from"), it => it == related.DerivedFrom.Word, _ => related.DerivedFrom.Set(null))
@@ -100,8 +100,8 @@ class VocabStringMenus
    /// </summary>
    static SpecMenuItem ForTheWord(WordReference? word, string name, Func<WordReference, bool> applies, Action<WordReference> action) =>
       word is {} it
-         ? SpecMenuItem.UICommand(name, () => action(it), enabled: applies(it))
-         : SpecMenuItem.UICommand(name, () => {}, enabled: false);
+         ? SpecMenuItem.Command(name, () => action(it), enabled: applies(it))
+         : SpecMenuItem.Command(name, () => {}, enabled: false);
 
    SpecMenuItem BuildSentenceMenuSpec(string text, VocabNote vocab)
    {
@@ -113,21 +113,21 @@ class VocabStringMenus
 
       var items = new List<SpecMenuItem>
                   {
-                     SpecMenuItem.UICommand(ShortcutFinger.Home1("Add Highlight"),
+                     SpecMenuItem.Command(ShortcutFinger.Home1("Add Highlight"),
                                             () =>
                                             {
                                                if(sentences.Count > 0)
                                                   sentences[0].Configuration.AddHighlightedWord(disambiguationName);
                                             },
                                             enabled: hasSentences && !isHighlighted),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home2("Remove highlight"),
+                     SpecMenuItem.Command(ShortcutFinger.Home2("Remove highlight"),
                                             () =>
                                             {
                                                foreach(var sent in sentences)
                                                   sent.Configuration.RemoveHighlightedWord(disambiguationName);
                                             },
                                             enabled: hasSentences && isHighlighted),
-                     SpecMenuItem.UICommand(ShortcutFinger.Home3("Remove-sentence: Mark as incorrect match in sentence"),
+                     SpecMenuItem.Command(ShortcutFinger.Home3("Remove-sentence: Mark as incorrect match in sentence"),
                                             () =>
                                             {
                                                foreach(var sent in sentences)

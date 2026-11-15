@@ -18,6 +18,25 @@ if TYPE_CHECKING:
 THE_TEST_COLLECTION = Path(__file__).parent.parent.parent / "collection.anki2"
 
 
+class WindowsThatRecordWhatTheyAreAskedFor:
+    """Anki's windows for the specifications, which have none: each call is recorded where Anki's windows would carry it out."""
+
+    def __init__(self) -> None:
+        self.changes_told_of: list[OpChanges | OpChangesWithCount] = []
+        self.asked_for: list[str] = []
+        """What they were asked for other than to follow a change, in order, each in words, such as "open the browser on: nid:215"."""
+
+    def tell_of(self, changes: OpChanges | OpChangesWithCount) -> None: self.changes_told_of.append(changes)
+
+    def open_the_browser_on(self, search: str) -> None: self.asked_for.append(f"open the browser on: {search}")
+
+    def open_the_browser_and_the_previewer_on(self, search: str) -> None: self.asked_for.append(f"open the browser and the previewer on: {search}")
+
+    def show_a_tooltip(self, message: str, milliseconds: int) -> None: self.asked_for.append(f"show a tooltip for {milliseconds} ms: {message}")
+
+    def refresh(self) -> None: self.asked_for.append("refresh")
+
+
 class AnkiWithoutItsWindow:
     """A copy of the test collection, opened with Anki's own library, and no window: what the HTTP server for JAStudio needs of Anki.
 
@@ -30,13 +49,13 @@ class AnkiWithoutItsWindow:
         shutil.copy(THE_TEST_COLLECTION, self.collection_path)
         self._collection: Collection = Collection(str(self.collection_path))
         self.its_own_sync_is_under_way: bool = False
-        self.changes_its_windows_were_told_of: list[OpChanges | OpChangesWithCount] = []
+        self.its_windows: WindowsThatRecordWhatTheyAreAskedFor = WindowsThatRecordWhatTheyAreAskedFor()
 
     def why_the_collection_cannot_be_used_now(self) -> str | None: return "Anki is syncing." if self.its_own_sync_is_under_way else None
 
     def collection(self) -> Collection: return self._collection
 
-    def tell_the_windows_of(self, changes: OpChanges | OpChangesWithCount) -> None: self.changes_its_windows_were_told_of.append(changes)
+    def windows(self) -> WindowsThatRecordWhatTheyAreAskedFor: return self.its_windows
 
     def close(self) -> None: self._collection.close()
 

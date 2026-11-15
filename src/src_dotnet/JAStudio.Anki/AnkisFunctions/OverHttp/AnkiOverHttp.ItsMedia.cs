@@ -2,12 +2,12 @@ namespace JAStudio.Anki.AnkisFunctions.OverHttp;
 
 public sealed partial class AnkiOverHttp
 {
-   sealed class ItsMedia(AnkisHttpServer server) : IAnkisMedia
+   sealed class ItsMedia(AnkiOverHttp anki) : IAnkisMedia
    {
-      readonly AnkisHttpServer _server = server;
+      readonly AnkiOverHttp _anki = anki;
 
-      public string AddFile(string filePath) => _server.Call<string>("media_add_file", ("file_path", filePath));
+      public string AddFile(string filePath) => _anki.Call<string>("media_add_file", ("file_path", filePath));
 
-      public string Folder => _server.Call<string>("anki_media_dir");
+      public string Folder => _anki.Call<string>("anki_media_dir");
    }
 }

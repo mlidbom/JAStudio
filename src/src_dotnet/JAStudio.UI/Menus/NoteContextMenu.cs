@@ -37,8 +37,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          _ => BuildGenericContextMenuSpec(selection, clipboard)
       };
 
-   // ReSharper disable once MemberCanBePrivate.Global used from python
-   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildVocabContextMenuSpec(NoteId vocabId, string selection, string clipboard)
    {
       var vocab = _services.CoreApp.Collection.Vocab.WithIdOrNone(vocabId);
@@ -60,8 +58,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       return menuItems;
    }
 
-   // ReSharper disable once MemberCanBePrivate.Global used from python
-   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildKanjiContextMenuSpec(NoteId kanjiId, string selection, string clipboard)
    {
       var kanji = _services.CoreApp.Collection.Kanji.WithIdOrNone(kanjiId);
@@ -83,8 +79,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       return menuItems;
    }
 
-   // ReSharper disable once MemberCanBePrivate.Global used from python
-   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildSentenceContextMenuSpec(NoteId sentenceId, string selection, string clipboard)
    {
       var sentence = _services.CoreApp.Collection.Sentences.WithIdOrNone(sentenceId);
@@ -106,8 +100,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       return menuItems;
    }
 
-   // ReSharper disable once MemberCanBePrivate.Global used from python
-   // ReSharper disable once UnusedMember.Global used from python
    public List<SpecMenuItem> BuildGenericContextMenuSpec(string selection, string clipboard)
    {
       var menuItems = new List<SpecMenuItem>();
@@ -198,8 +190,8 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          {
             SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.SRSAvailability.IsAvailable && note.HasAStudyNote()),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
-            SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
-            SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
+            SpecMenuItem.Command(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
+            SpecMenuItem.Command(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
             SpecMenuItem.Command(ShortcutFinger.Home5("Delete note"), () => OnDeleteNote(note))
          }
       );
@@ -265,7 +257,6 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseMatchingSentences(text);
-         _services.SRSWindows.Refresh();
          _services.SRSWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }

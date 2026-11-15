@@ -9,12 +9,15 @@ namespace JAStudio.Anki.AnkisFunctions;
 public interface IAnkisWindows
 {
    /// <summary>
-   /// Opens Anki's browser, if it isn't open, and runs <paramref name="search"/> in it, a search in Anki's search syntax. The add-on's<br/>
-   /// <c>browser_execute_lookup</c>.
+   /// Opens Anki's browser, if it isn't open, and runs <paramref name="search"/> in it, a search in Anki's search syntax. Its previewer opens<br/>
+   /// with it, on what the search finds (Magnus, 2026-11-15: "Keep"). The add-on's <c>browser_execute_lookup</c>.
    /// </summary>
    void OpenTheBrowserOn(string search);
 
-   /// <summary>As <see cref="OpenTheBrowserOn"/>, and opens Anki's previewer on what the search finds. The add-on's <c>browser_execute_lookup_and_show_previewer</c>.</summary>
+   /// <summary>
+   /// As <see cref="OpenTheBrowserOn"/>, which opens the previewer too: the two do the same today. The add-on's<br/>
+   /// <c>browser_execute_lookup_and_show_previewer</c>.
+   /// </summary>
    void OpenTheBrowserAndThePreviewerOn(string search);
 
    /// <summary>Shows <paramref name="message"/> in Anki's tooltip for <paramref name="shownFor"/>. The add-on's <c>ui_show_tooltip</c>.</summary>

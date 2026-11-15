@@ -20,4 +20,6 @@ def do_lookup(text: str) -> None:
     browser: Browser = aqt.dialogs.open("Browser", aqt.mw)  # pyright: ignore[reportAny]
     non_optional(browser.form.searchEdit.lineEdit()).setText(text)
     browser.onSearchActivated()  # pyright: ignore[reportUnknownMemberType]
+    # The previewer opens with the browser, so do_lookup_and_show_previewer, which calls this and then opens the previewer again, does nothing
+    # more than this does. It stays so (Magnus, 2026-11-15: "Keep").
     app.get_ui_utils().activate_preview()

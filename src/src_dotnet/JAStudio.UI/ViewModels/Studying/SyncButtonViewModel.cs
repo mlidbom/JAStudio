@@ -13,7 +13,8 @@ namespace JAStudio.UI.ViewModels.Studying;
 /// <summary>
 /// The Sync button: one click runs JAStudio's sync with Anki (<see cref="SRSSync"/>) in the background. It shows that a sync is under way,<br/>
 /// whoever started it, such as another Sync button or JAStudio's MCP server, and is marked as synced once the last sync has finished.<br/>
-/// A right-click opens the <see cref="StudyingWindow"/>, which shows what the last sync did.
+/// A right-click opens the <see cref="StudyingWindow"/>, which shows what the last sync did. When a sync can't run because Anki has another<br/>
+/// collection open than the one JAStudio works with, such as another profile's, a second button offers to work with that one instead.
 /// </summary>
 /// <remarks>
 /// Magnus, 2026-11-15: "I don't want sync several clicks and a dialog away. Just a sync button. Click it and it spins and done, green marked sync<br/>
@@ -62,6 +63,12 @@ partial class SyncButtonViewModel : ObservableObject, IDisposable
    /// <summary>Why the sync that was last asked for here didn't run, or empty when it ran.</summary>
    [ObservableProperty] public partial string WhyTheSyncDidNotRun { get; set; } = "";
 
+   /// <summary>
+   /// Whether the sync that was last asked for here didn't run because Anki has another collection open than the one JAStudio works with: a<br/>
+   /// second button then offers to work with that one (<see cref="WorkWithTheCollectionAnkiHasOpen"/>).
+   /// </summary>
+   [ObservableProperty] public partial bool OffersTheCollectionAnkiHasOpen { get; set; }
+
    /// <summary>What the button says of itself when pointed at: what a sync does, what the last one did, and what a right-click does.</summary>
    [ObservableProperty] public partial string ToolTip { get; set; } = ToolTipSaying("No sync has been made since JAStudio started.");
 
@@ -72,6 +79,7 @@ partial class SyncButtonViewModel : ObservableObject, IDisposable
    void Sync()
    {
       WhyTheSyncDidNotRun = _sync.WhyItCannotRunNow is {} why ? $"The sync can't run now: {why}" : "";
+      OffersTheCollectionAnkiHasOpen = WhyTheSyncDidNotRun != "" && _sync.TheSRSHasAnotherCollectionOpenThanJAStudioWorksWith;
       if(WhyTheSyncDidNotRun != "") return;
 
       IsSyncing = true; // at once, so that a second click can't start another sync before this one has notified that it's under way
@@ -86,6 +94,18 @@ partial class SyncButtonViewModel : ObservableObject, IDisposable
             Dispatcher.UIThread.Post(ShowWhetherASyncIsUnderWay); // a sync that was refused after all never notified that it was under way
          }
       });
+   }
+
+   /// <summary>
+   /// Has JAStudio work with the collection Anki has open, in place of the one it worked with, and read that collection's study-notes, in the<br/>
+   /// background (<see cref="SRSSync.WorkWithTheCollectionTheSRSHasOpen"/>). It writes nothing: the next sync does.
+   /// </summary>
+   [RelayCommand]
+   void WorkWithTheCollectionAnkiHasOpen()
+   {
+      OffersTheCollectionAnkiHasOpen = false;
+      WhyTheSyncDidNotRun = "";
+      _backgroundTaskManager.Run(_sync.WorkWithTheCollectionTheSRSHasOpen);
    }
 
    /// <summary>Opens the Studying window, which shows what the last sync did, or brings the one already open to the front.</summary>

@@ -1,8 +1,12 @@
 # The standalone JAStudio
 
-**JAStudio with its workspace window, exactly as inside Anki, but with Anki entirely out of the loop** (Magnus,
-2026-11-13). It runs from Rider, on the checkout Rider has open, so two checkouts' JAStudios, such as main's and a
-branch's, can run side by side and be compared: Anki allows one instance at a time.
+**JAStudio with its workspace window, exactly as inside Anki, as a program of its own** (Magnus, 2026-11-13). It
+runs from Rider, on the checkout Rider has open, so two checkouts' JAStudios, such as main's and a branch's, can
+run side by side and be compared: Anki allows one instance at a time.
+
+**Since 2026-11-15 it calls the Anki that runs beside it, over HTTP,** where it had no Anki at all: see
+[What is Anki's](#what-is-ankis-it-calls-the-anki-that-runs-for) below. It's the JAStudio that JAStudio inside
+Anki is to become (`moving-jastudio-out-of-anki.md`).
 
 The project is `JAStudio.StandaloneHost`, beside `JAStudio.HeadlessHost`, the headless JAStudio, which has no screen
 and serves JAStudio's MCP server.
@@ -31,25 +35,30 @@ menu. It shows at once, and the collection loads in the background, as inside An
 The configuration was Anki's to keep until 2026-11-13, as the add-on's config in `src/meta.json`. JAStudio keeps it
 itself now; the first time it finds no `configuration.json`, it starts from what Anki kept.
 
-## What is different, because it is Anki
+## What is Anki's, it calls the Anki that runs for
 
-There's no Anki at all (`SRSAvailability.Unavailable`), not even read-only:
+Anki is a program beside it, which starts, ends and opens another profile on its own. The standalone JAStudio
+finds the Anki that runs through the access file the Anki add-on writes, and calls it over HTTP (`AnkiOverHttp`),
+with the classes JAStudio inside Anki reaches Anki with. How it's built is in `moving-jastudio-out-of-anki.md`,
+under "The standalone JAStudio calls the Anki that runs, as built".
 
-- **No note has a study-note:** every note shows as not studied, none has Anki tags (`anki::`, the priority tags), a
-  kanji has no default primary vocab, and searches on studying find nothing. Nothing saved to the corpus depends on
-  these.
-- **Not offered: what acts on what Anki holds,** such as importing, opening a note in Anki's browser or previewer, and
-  suspending or unsuspending cards. Their menu items are greyed out. Everything else works as inside Anki, creating
-  notes included: a note created gets no study-note, inside Anki or not (Magnus, 2026-11-13: "There are already far
-  to many jastudio notes in anki that I do not study").
-- **A change to a note isn't written to its study-note in Anki.** JAStudio inside Anki writes a study-note only as its
-  note changes, so a note changed by the standalone JAStudio leaves its study-note behind until it changes again
-  inside Anki (see `ISRSStudyNotes`, and the MCP tools `list_the_study_notes_that_differ` and
-  `write_the_study_notes_that_differ`).
+- **While Anki runs with a profile open,** it has what JAStudio inside Anki has of Anki: the study-notes, read as
+  it loads and at each sync, with their studying statuses and Anki tags; the Sync button; importing; Anki's
+  browser and previewer; suspending and unsuspending cards.
+- **While Anki can't be used,** it loads all the same, with no study-notes: every note shows as not studied, none
+  has Anki tags (`anki::`, the priority tags), a kanji has no default primary vocab, and searches on studying
+  find nothing. Nothing saved to the corpus depends on these. The Sync button, asked to sync, says why Anki can't
+  be used. Once it can, a sync reads the study-notes.
+- **It works with the collection Anki had open at its first call.** When Anki opens another profile, the Sync
+  button says so, and offers to use the collection Anki has open instead.
+- **Whichever checkout it runs on, it calls the one Anki that runs.** A sync from a branch's standalone JAStudio
+  writes the study-notes that differ from that checkout's corpus into Anki, and runs the import profiles that run
+  automatically, which take their raw notes out of Anki and into that checkout's corpus.
+- **What Anki shows comes from JAStudio inside Anki still:** the cards' pages, the note view shortcuts and the
+  menus. The standalone JAStudio serves Anki nothing yet.
 
-The seams that make this so: `SRSAvailability`, `ISRSWindows` (Anki's windows,
-`NoSRSWindows` without Anki), `ISRSMedia` (Anki's media folder, `NoSRSMedia` without Anki), and the standalone
-host's `NoAnki…` stand-ins for the rest.
+The seams: `SRSAvailability` (`AnkisAvailabilityOverHttp`), `ISRSStudyNotes`, `ISRSTagOperations`, `ISRSWindows`,
+`ISRSMedia` and `IAnkiRawNotes`, each implemented by the Anki integration, `JAStudio.Anki`.
 
 ## One JAStudio per corpus checkout
 
