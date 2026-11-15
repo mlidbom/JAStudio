@@ -1,9 +1,10 @@
 # Moving JAStudio out of Anki
 
 > **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and increment
-> 2, the Sync in a Studying view, is being built, as Claude proposed it.** The order of work is preliminary. Details
-> are settled as each increment needs them. The names are Claude's, and wait for Magnus's pass: see
-> [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
+> 2, the Sync in a Studying view, is built as Claude proposed it, but for its last part, which waits for Magnus to
+> have run a sync inside Anki. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and nothing
+> uses it yet.** The order of work is preliminary. Details are settled as each increment needs them. The names are
+> Claude's, and wait for Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
 ## The goal
 
@@ -251,7 +252,8 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
 3. **Menus:** a shortcut that shows the reviewed note in the workspace, then the Qt menus go.
 4. **The HTTP path, built on main in pieces that Anki doesn't use until it's complete:** the add-on's HTTP server,
    `JAStudio.Anki`'s HTTP side, and the standalone JAStudio's wiring. Anki keeps working on pythonnet meanwhile, and
-   Magnus sees each piece in Rider.
+   Magnus sees each piece in Rider. The first piece is built: see
+   [Increment 4, its first piece as built](#increment-4-its-first-piece-as-built-the-anki-add-ons-http-server).
 5. **One commit changes over:** the Anki add-on stops loading .NET. Magnus tries it on the `Anki-Development` profile
    first.
    - *No switch between the two paths.* Reverting that commit is the way back, which costs a revert, a rebuild and a
@@ -447,6 +449,47 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
 - **Not tried inside Anki.** Claude can't restart Anki. Until part 4 the notifications still keep JAStudio and Anki
   in step, so the first syncs there should find little to do: they're the check that a sync does no harm.
 
+## Increment 4, its first piece as built: the Anki add-on's HTTP server
+
+**Built 2026-11-15 on Claude's design calls below, which Magnus hasn't commented on. Nothing starts the server yet:
+Anki works on pythonnet as before.** It's the Python package `jastudio.anki_http`, in the Anki add-on.
+
+- **`HttpServerForJAStudio`** serves on the loopback address, on a port the system picks, with Python's standard
+  library alone (`http.server`), on a thread of its own and a thread for each request.
+  - `GET /contract` gives the contract's version, 1.
+  - `GET /collection` gives the path of the collection Anki has open.
+  - `POST /call/<function>?collection=<path>` calls a function, with a JSON object of its arguments by name as the
+    body.
+- **Answers are JSON objects:** `{"result": …}` with status 200, `{"refused": why}` with 409, in words for a person,
+  and `{"error": …}` otherwise: 401 without the token, 404 for a function there is none of, 400 for arguments that
+  don't fit, and 500, with the traceback, for a function that failed.
+- **The functions are those of `anki_facade_backend.py` that work on Anki's collection,** by the same names
+  (`FunctionsOnTheCollection`): `notes_find`, `notes_add_tag`, `notes_remove`, the five `tags_…`, `study_note_write`,
+  `note_suspend_all_cards`, `note_unsuspend_all_cards`, `note_remove`, `col_read_json`, `get_note_id_from_card_id`,
+  `media_add_file` and `anki_media_dir`.
+  - *`study_note_write` takes the fields to write,* by name, where pythonnet passed the note.
+  - *`col_read_json` answers with the JSON the SELECT built, as JSON,* not as a string holding it: the read of the
+    study-notes is 17.5 million characters.
+- **Every request has to carry the server's token** (`Authorization: Bearer …`), a new one each time the server is
+  made. How JAStudio gets the port and the token isn't built: a file only the same user can read is the plan.
+- **A call names the collection JAStudio expects, by its path, and is refused when Anki has another open,** with the
+  path of the one it has. It's in the URL's query, since a path can hold characters a header can't.
+- **A call is refused, saying why, while JAStudio may not use Anki's collection** (`AnkiForJAStudio`): no profile
+  open, or Anki's own sync under way. The contract is served all the same.
+- **It needs neither .NET nor Anki's window.** `AnkiForJAStudio` is all it knows of Anki: the open collection,
+  whether JAStudio may use it, and telling Anki's windows of an operation. Inside Anki that will be Anki's main window.
+- **Specified without Anki's window** (`src/tests/jastudio_tests/anki_http`): each function, and each refusal, called
+  over HTTP on a copy of the test collection opened with Anki's own library. The repository had no such test.
+
+**Not built:**
+
+- *The functions that drive Anki's windows:* opening its browser and previewer, its tooltip, and refreshing its
+  windows. They need Anki's main thread and window.
+- *`AnkiForJAStudio` for the real Anki,* and starting the server as a profile opens.
+- *How JAStudio finds the server:* its port and its token.
+- *JAStudio's side:* a seam for `AnkiFacade`, which is a static class, its implementation over HTTP, and the
+  specification that compares the Python functions with the C# contract.
+
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
 **The direction for the increment on starting JAStudio, installing it and publishing** (Magnus, 2026-11-15, on Claude's
@@ -480,11 +523,13 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 
 - **A version check when the two first talk:** an add-on and a JAStudio whose contracts differ refuse each other,
   saying so. What the version is of is under [Distribution](#distribution-the-anki-add-on-on-ankiweb-is-the-way-in).
+  *The add-on's side serves its version (2026-11-15).*
 - **A specification that compares the add-on's Python functions with the C# contract,** in place of the type stubs.
-- **The connection is open to the same user only,** such as by a token that only the user's files hold.
-- **The write of a study-note crosses as the fields to write,** not as a note.
+- **The connection is open to the same user only,** such as by a token that only the user's files hold. *The server
+  demands a token (2026-11-15). Where JAStudio reads it isn't built.*
+- **The write of a study-note crosses as the fields to write,** not as a note. *So it does (2026-11-15).*
 - **The add-on's handlers get specifications that run without Anki's window,** against a collection file opened with
-  Anki's own library. The repository has no such test today.
+  Anki's own library. *They have them (2026-11-15), for the functions that work on the collection.*
 
 ## Deferred until the work reaches them
 
