@@ -855,8 +855,11 @@ below. JAStudio inside Anki is as before: it calls Anki through pythonnet.**
   - *A sync ran,* in 0.86 seconds: it read them all, wrote none, and the automatic import profile, Immersion Kit,
     found nothing to import. It was run only once it was clear that it would write nothing and import nothing: no
     study-note differed, and Anki held no raw note of the profile's note type.
-- **Not tried:** the switch of collection, which needs Anki to open another profile, the Sync button's second
-  button, which no one has seen drawn, and a sync that writes.
+- **The switch of collection, tried the same day:** with a standalone JAStudio loaded on the profile `Magnus`, Magnus
+  opened `Anki-Development` in Anki, clicked Sync, and then "Use the collection Anki has open". His next Sync ran
+  on `Anki-Development`: it read its study-notes and wrote those that differed, for 4.1 seconds. A sync after it
+  read 79,420 study-notes, where `Magnus` has 79,719, and wrote none. Seen in the standalone JAStudio's log and
+  through its MCP server.
 
 **Known, and left:**
 
