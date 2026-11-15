@@ -39,18 +39,24 @@
         </Style>
     </UserControl.Styles>
 
-    <Button Command="{Binding SyncCommand}" ToolTip.Tip="{Binding ToolTip}" ToolTip.ShowOnDisabled="True"
-            ContextRequested="OnContextRequested" Padding="8,2" BorderThickness="1"
-            Classes.markedAsSynced="{Binding IsMarkedAsSynced}">
-        <StackPanel Orientation="Horizontal" Spacing="6">
-            <PathIcon Classes="icon" Classes.markedAsSynced="{Binding IsMarkedAsSynced}" Classes.syncing="{Binding IsSyncing}"
-                      Width="14" Height="14" VerticalAlignment="Center">
-                <PathIcon.RenderTransform>
-                    <RotateTransform />
-                </PathIcon.RenderTransform>
-            </PathIcon>
-            <TextBlock Text="Sync" VerticalAlignment="Center" />
-        </StackPanel>
-    </Button>
+    <StackPanel Orientation="Horizontal" Spacing="6">
+        <Button IsVisible="{Binding OffersTheCollectionAnkiHasOpen}" Command="{Binding WorkWithTheCollectionAnkiHasOpenCommand}"
+                Content="Use the collection Anki has open" Padding="8,2"
+                ToolTip.Tip="JAStudio then works with the collection Anki has open, and reads its study-notes, so that the notes show what that collection holds. Nothing is written to Anki until the next sync." />
+
+        <Button Command="{Binding SyncCommand}" ToolTip.Tip="{Binding ToolTip}" ToolTip.ShowOnDisabled="True"
+                ContextRequested="OnContextRequested" Padding="8,2" BorderThickness="1"
+                Classes.markedAsSynced="{Binding IsMarkedAsSynced}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Classes="icon" Classes.markedAsSynced="{Binding IsMarkedAsSynced}" Classes.syncing="{Binding IsSyncing}"
+                          Width="14" Height="14" VerticalAlignment="Center">
+                    <PathIcon.RenderTransform>
+                        <RotateTransform />
+                    </PathIcon.RenderTransform>
+                </PathIcon>
+                <TextBlock Text="Sync" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
 
 </UserControl>

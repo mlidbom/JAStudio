@@ -57,6 +57,27 @@ public sealed class SRSSync
    /// </summary>
    public string? WhyItCannotRunNow => _srsAvailability.WhyItCannotBeUsedNow ?? (_collection.IsInitialized ? null : "JAStudio hasn't loaded the collection yet.");
 
+   /// <summary>
+   /// Whether a sync can't run right now because the spaced repetition system has another collection open than the one JAStudio works with, such<br/>
+   /// as another Anki profile's: JAStudio can then work with that one instead (<see cref="WorkWithTheCollectionTheSRSHasOpen"/>).
+   /// </summary>
+   public bool TheSRSHasAnotherCollectionOpenThanJAStudioWorksWith => _srsAvailability.HasAnotherCollectionOpenThanJAStudioWorksWith;
+
+   /// <summary>
+   /// Has JAStudio work with the collection the spaced repetition system has open, in place of the one it worked with, and reads that<br/>
+   /// collection's study-notes, so that each note shows what that collection holds of its study-note. It writes nothing: the next sync does.<br/>
+   /// It blocks until the study-notes are read, so it's for the background.
+   /// </summary>
+   /// <remarks>
+   /// Magnus, 2026-11-15, of JAStudio finding that Anki has another collection open: "you should be able to accept using this one instead with a<br/>
+   /// single click in jastudio to reload the anki state".
+   /// </remarks>
+   public void WorkWithTheCollectionTheSRSHasOpen() => _oneSyncAtATime.Do(() =>
+   {
+      _srsAvailability.WorkWithTheCollectionItHasOpen();
+      _collection.ReadTheStudyNotesFromTheSRSAgain();
+   });
+
    /// <summary>What the last sync did, or null when none has run since JAStudio started.</summary>
    public SRSSyncReport? LastReport => _monitor.Locked(() => _lastReport);
 

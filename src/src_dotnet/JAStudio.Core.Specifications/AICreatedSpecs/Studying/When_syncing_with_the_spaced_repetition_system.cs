@@ -175,5 +175,29 @@ public class When_syncing_with_the_spaced_repetition_system : SpecificationStart
             [XF] public void a_sync_can_run_again() => Sync.WhyItCannotRunNow.Must().BeNull();
          }
       }
+
+      public class once_Anki_has_opened_another_profile_whose_collection_holds_no_study_notes : in_a_collection_loaded_as_at_startup
+      {
+         public once_Anki_has_opened_another_profile_whose_collection_holds_no_study_notes() => Anki.OpenAnotherProfileWhoseCollectionHoldsNoStudyNotes();
+
+         [XF] public void a_sync_cannot_run_and_says_that_Anki_has_another_collection_open() =>
+            Sync.WhyItCannotRunNow.Must().Be("Anki has another collection open than the one JAStudio works with.");
+
+         [XF] public void the_sync_says_that_JAStudio_can_work_with_that_collection_instead() => Sync.TheSRSHasAnotherCollectionOpenThanJAStudioWorksWith.Must().BeTrue();
+
+         [XF] public void both_sentences_still_have_the_study_notes_of_the_collection_JAStudio_works_with() =>
+            new { Home = TheSentenceAboutHome.HasAStudyNote(), TheStation = TheSentenceAboutTheStation.HasAStudyNote() }.Must().Satisfy(it => it.Home && it.TheStation);
+
+         public class after_JAStudio_is_told_to_work_with_the_collection_Anki_has_open : once_Anki_has_opened_another_profile_whose_collection_holds_no_study_notes
+         {
+            public after_JAStudio_is_told_to_work_with_the_collection_Anki_has_open() => Sync.WorkWithTheCollectionTheSRSHasOpen();
+
+            [XF] public void neither_sentence_has_a_study_note() =>
+               new { Home = TheSentenceAboutHome.HasAStudyNote(), TheStation = TheSentenceAboutTheStation.HasAStudyNote() }.Must().Satisfy(it => !it.Home && !it.TheStation);
+
+            [XF] public void a_sync_can_run_once_more() => Sync.WhyItCannotRunNow.Must().BeNull();
+            [XF] public void Anki_no_longer_has_another_collection_open_than_JAStudio_works_with() => Sync.TheSRSHasAnotherCollectionOpenThanJAStudioWorksWith.Must().BeFalse();
+         }
+      }
    }
 }
