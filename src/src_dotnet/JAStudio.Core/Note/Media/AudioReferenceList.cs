@@ -19,4 +19,10 @@ public class AudioReferenceList(IEnumerable<AudioReference> references, NoteGuar
       Contract.Argument.Assert(speech.IsTextToSpeech, () => $"{speech.FileName} isn't text-to-speech audio, so it can't replace the TTS audio.");
       ReplaceThoseThat(it => it.IsTextToSpeech, speech);
    }
+
+   /// <summary>
+   /// Discards the list's TTS audio, leaving its recordings, as when every voice says a text wrong and no audio is better than wrong audio.<br/>
+   /// The files stay in the media layer, unreferenced, as a replaced file does.
+   /// </summary>
+   public void DiscardTheTextToSpeechAudio() => RemoveThoseThat(it => it.IsTextToSpeech);
 }

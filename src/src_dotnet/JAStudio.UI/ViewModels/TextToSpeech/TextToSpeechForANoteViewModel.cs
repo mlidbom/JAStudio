@@ -55,6 +55,9 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    /// <summary>Raised when one of the attempts is used as the note's TTS audio (<see cref="UseTheSelectedAttempt"/>), with the attempt used.</summary>
    public event Action<SpeechAttemptViewModel>? UsedAnAttempt;
 
+   /// <summary>Raised when the note's TTS audio is discarded (<see cref="DiscardTheTextToSpeechAudio"/>).</summary>
+   public event Action? DiscardedTheTextToSpeechAudio;
+
    public string Title => $"Text-to-speech audio for {_note.TextToSpeak}";
 
    /// <summary>The text the voices speak: the note's text to speak at first, and editable. Editing it changes only what's spoken, not the note.</summary>
@@ -90,7 +93,23 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    /// The note's TTS audio as it is now, to listen to and to compare new attempts with: as it was when the dialog opened, until an attempt<br/>
    /// is used, or the batch TTS dialog uses a speech for the note (<see cref="ReadTheCurrentAudioAgain"/>).
    /// </summary>
-   [ObservableProperty] public partial CurrentAudioViewModel CurrentAudio { get; private set; }
+   [ObservableProperty]
+   [NotifyPropertyChangedFor(nameof(CanDiscardTheTextToSpeechAudio))]
+   public partial CurrentAudioViewModel CurrentAudio { get; private set; }
+
+   /// <summary>Whether the note has TTS audio to discard.</summary>
+   public bool CanDiscardTheTextToSpeechAudio => _note.Audio.TextToSpeech.Count > 0;
+
+   /// <summary>
+   /// Discards the note's TTS audio (<see cref="Core.Note.Media.AudioReferenceList.DiscardTheTextToSpeechAudio"/>), leaving it with none, and raises<br/>
+   /// <see cref="DiscardedTheTextToSpeechAudio"/>. The attempts stay, to use one after all. Only when <see cref="CanDiscardTheTextToSpeechAudio"/>.
+   /// </summary>
+   internal void DiscardTheTextToSpeechAudio()
+   {
+      _note.Audio.DiscardTheTextToSpeechAudio();
+      ReadTheCurrentAudioAgain();
+      DiscardedTheTextToSpeechAudio?.Invoke();
+   }
 
    /// <summary>Reads the note's TTS audio again into <see cref="CurrentAudio"/>, as after a speech was used for it.</summary>
    internal void ReadTheCurrentAudioAgain() => CurrentAudio = CurrentAudioViewModel.Of(_note, _media);

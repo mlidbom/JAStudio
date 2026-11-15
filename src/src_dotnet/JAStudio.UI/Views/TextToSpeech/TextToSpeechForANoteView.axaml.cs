@@ -7,9 +7,9 @@ using JAStudio.UI.ViewModels.TextToSpeech;
 namespace JAStudio.UI.Views.TextToSpeech;
 
 /// <summary>
-/// Text-to-speech for one note, showing a <see cref="TextToSpeechForANoteViewModel"/>: the text to speak, the note's TTS audio now, a button per chosen voice,<br/>
-/// the attempts, and Use. The TTS dialog shows it (<see cref="TextToSpeechDialog"/>), and the batch TTS dialog shows it for its selected note<br/>
-/// (<see cref="BatchTextToSpeechDialog"/>). The window showing it handles the keys, and choosing the voices (<see cref="ChoosingTheVoicesAsked"/>).
+/// Text-to-speech for one note, showing a <see cref="TextToSpeechForANoteViewModel"/>: the text to speak, the note's TTS audio now, with Discard,<br/>
+/// a button per chosen voice, the attempts, and Use. The TTS dialog shows it (<see cref="TextToSpeechDialog"/>), and the batch TTS dialog shows it<br/>
+/// for its selected note (<see cref="BatchTextToSpeechDialog"/>). The window showing it handles the keys, and choosing the voices (<see cref="ChoosingTheVoicesAsked"/>).
 /// </summary>
 /// <remarks>Its buttons don't take the keyboard, which stays on the attempts, or on the batch TTS dialog's notes, so that Enter uses the selected attempt.</remarks>
 partial class TextToSpeechForANoteView : UserControl
@@ -50,4 +50,6 @@ partial class TextToSpeechForANoteView : UserControl
    void OnChooseTheVoices(object? sender, RoutedEventArgs e) => ChoosingTheVoicesAsked?.Invoke();
 
    void OnUse(object? sender, RoutedEventArgs e) => ForTheNote.UseTheSelectedAttempt();
+
+   void OnDiscardTheTextToSpeechAudio(object? sender, RoutedEventArgs e) => ForTheNote.DiscardTheTextToSpeechAudio();
 }

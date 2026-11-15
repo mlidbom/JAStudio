@@ -24,7 +24,8 @@ namespace JAStudio.UI.ViewModels.TextToSpeech;
 /// </summary>
 /// <remarks>
 /// Unlike the TTS dialog, nothing is spoken when the dialog opens, nor when a note is selected: selecting one plays its TTS audio as it is now.<br/>
-/// A note the batch's voice was tried on gets the attempt that was listened to, rather than a new speech (<see cref="NoteInTheBatchViewModel.TriedAttemptWith"/>).<br/>
+/// The batch's voice speaks a note's text only when there's no speech of it by that voice: an attempt tried on the note is used, and TTS audio<br/>
+/// it already has of the voice is kept (<see cref="NoteInTheBatchViewModel.TriedAttemptWith"/>, <see cref="NoteInTheBatchViewModel.HasTextToSpeechAudioOf"/>).<br/>
 /// The batch makes <see cref="RequestsAtATime"/> requests at a time, and a request refused for the rate is made again after a wait<br/>
 /// (<see cref="TextToSpeechVoice.SpeakAsync"/>). Its work on each answer, normalizing and using it, runs where it was started, on the UI thread, as the<br/>
 /// TTS dialog's does: normalizing took about 10 ms for a speech of three seconds (2026-11-15).
@@ -139,11 +140,22 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
          selected.CurrentAudio.PlayWith(_player);
    }
 
-   /// <summary>Has the batch's voice speak the selected note's text, as an attempt in its own text-to-speech, which plays: nothing changes. Only when <see cref="CanTryTheBatchVoice"/>.</summary>
-   internal void TryTheBatchVoiceOnTheSelectedNote()
+   /// <summary>Tries the batch's voice on the selected note (<see cref="TryTheBatchVoiceOn"/>). Only when <see cref="CanTryTheBatchVoice"/>.</summary>
+   internal void TryTheBatchVoiceOnTheSelectedNote() => TryTheBatchVoiceOn(SelectedNote ?? throw new InvalidOperationException("No note is selected to try the voice on."));
+
+   /// <summary>
+   /// Selects <paramref name="note"/>, and plays its speech by the batch's voice: the latest attempt with the voice in its own text-to-speech, else its TTS<br/>
+   /// audio, when the voice made it. Only when there's neither does the voice speak the note's text, as a new attempt, which plays. Nothing changes.<br/>
+   /// Does nothing with no voice chosen.
+   /// </summary>
+   internal void TryTheBatchVoiceOn(NoteInTheBatchViewModel note)
    {
-      if(SelectedNote is {} selected && BatchVoice is {} voice)
-         selected.TextToSpeech.GenerateWith(voice);
+      if(BatchVoice is not {} voice) return;
+
+      SelectedNote = note;
+      if(note.TriedAttemptWith(voice) is {} tried) note.TextToSpeech.Play(tried);
+      else if(note.HasTextToSpeechAudioOf(voice)) note.CurrentAudio.PlayWith(_player);
+      else note.TextToSpeech.GenerateWith(voice);
    }
 
    /// <summary>Uses the attempt selected in the selected note's own text-to-speech as its TTS audio. Only when <see cref="CanUseTheSelectedNotesAttempt"/>.</summary>
@@ -154,8 +166,8 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
 
    /// <summary>
    /// Gives every note left for the batch TTS audio from the batch's voice, <see cref="RequestsAtATime"/> at a time, in the list's order: the attempt the voice<br/>
-   /// was tried with on the note, else a new speech, used as soon as it arrives. A request the tts-provider refuses, or that doesn't reach it, fails<br/>
-   /// that note alone. Only when <see cref="CanRunTheBatch"/>.
+   /// was tried with on the note, else the TTS audio it already has of the voice, kept, else a new speech, used as soon as it arrives. A request the<br/>
+   /// tts-provider refuses, or that doesn't reach it, fails that note alone. Only when <see cref="CanRunTheBatch"/>.
    /// </summary>
    internal async Task RunTheBatchAsync()
    {
@@ -194,6 +206,12 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
       if(note.TriedAttemptWith(voice) is {} tried)
       {
          note.Use(tried.Speech, _usingASpeech);
+         return;
+      }
+
+      if(note.HasTextToSpeechAudioOf(voice))
+      {
+         note.AlreadyHadTheAudioOf(voice);
          return;
       }
 

@@ -36,6 +36,9 @@ public class MediaReferenceList<TReference> where TReference : MediaReference
       _guard.Update(() => _references.Remove(reference));
    }
 
+   /// <summary>Removes every reference that <paramref name="isRemoved"/> picks out.</summary>
+   protected void RemoveThoseThat(Predicate<TReference> isRemoved) => _guard.Update(() => _references.RemoveAll(isRemoved));
+
    /// <summary>Replaces every reference that <paramref name="isReplaced"/> picks out with <paramref name="replacement"/>, put last.</summary>
    protected void ReplaceThoseThat(Predicate<TReference> isReplaced, TReference replacement) => _guard.Update(() =>
    {

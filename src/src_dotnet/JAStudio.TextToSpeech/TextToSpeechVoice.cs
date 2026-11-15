@@ -46,5 +46,8 @@ public sealed record TextToSpeechVoice(ITextToSpeechProvider Provider, string Na
       }
    }
 
+   /// <summary>The voice named with its tts-provider, such as <c>Azure ja-JP-NanamiNeural</c>: how a note's audio records the voice that made it.</summary>
+   public string NameWithItsProvider => $"{Provider.Name} {Name}";
+
    public override string ToString() => $"{Provider.Name} {ShortName}";
 }

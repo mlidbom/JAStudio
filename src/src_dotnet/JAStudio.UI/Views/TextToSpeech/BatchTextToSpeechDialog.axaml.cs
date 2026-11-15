@@ -23,7 +23,7 @@ namespace JAStudio.UI.Views.TextToSpeech;
 /// </summary>
 /// <remarks>
 /// Its keys act on the selected note, wherever the keyboard is but in the text to speak and the voice's list: 0 and Space play its TTS audio again,<br/>
-/// T tries the batch's voice on it, 1 to 9 play its attempts, and Enter uses the selected attempt. They're seen before the control with the keyboard sees<br/>
+/// P tries the batch's voice on it, 1 to 9 play its attempts, and Enter uses the selected attempt. They're seen before the control with the keyboard sees<br/>
 /// them, so that Space plays rather than selects. Closing the dialog stops the batch. It plays through a <see cref="SoundFlowAudioPlayer"/> of its own,<br/>
 /// closed with the dialog.
 /// </remarks>
@@ -74,7 +74,7 @@ partial class BatchTextToSpeechDialog : Window
          case Key.D0 or Key.Space:
             _dialog.PlayTheSelectedNotesAudio();
             break;
-         case Key.T when _dialog.CanTryTheBatchVoice:
+         case Key.P when _dialog.CanTryTheBatchVoice:
             _dialog.TryTheBatchVoiceOnTheSelectedNote();
             break;
          case Key.Enter when _dialog.CanUseTheSelectedNotesAttempt:
@@ -98,6 +98,14 @@ partial class BatchTextToSpeechDialog : Window
    }
 
    void OnTryTheBatchVoice(object? sender, RoutedEventArgs e) => _dialog.TryTheBatchVoiceOnTheSelectedNote();
+
+   void OnTryTheBatchVoiceOnANote(object? sender, RoutedEventArgs e)
+   {
+      if(sender is not Control { DataContext: NoteInTheBatchViewModel note })
+         throw new InvalidOperationException("A note's Try shows something other than a NoteInTheBatchViewModel.");
+
+      _dialog.TryTheBatchVoiceOn(note);
+   }
 
    void OnRunTheBatch(object? sender, RoutedEventArgs e) => _dialog.StartTheBatch();
 

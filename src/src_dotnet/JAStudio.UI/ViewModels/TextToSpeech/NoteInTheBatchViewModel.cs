@@ -66,6 +66,13 @@ partial class NoteInTheBatchViewModel : ObservableObject
    /// </summary>
    public SpeechAttemptViewModel? TriedAttemptWith(TextToSpeechVoice voice) => _textToSpeech?.LatestAttemptWith(voice);
 
+   /// <summary>
+   /// Whether the note's TTS audio now, playable, was made by <paramref name="voice"/>, speaking the note's text: its text to speak isn't edited.<br/>
+   /// Trying the voice then plays it, and the batch leaves it, rather than having the voice speak the text again.
+   /// </summary>
+   public bool HasTextToSpeechAudioOf(TextToSpeechVoice voice) =>
+      CurrentAudio.CanPlay && Note.Audio.TextToSpeech is [{ TextToSpeechVoice: {} madeBy }, ..] && madeBy == voice.NameWithItsProvider && TextToSpeak == Note.TextToSpeak;
+
    /// <summary>Offers <paramref name="chosenVoices"/> in the note's <see cref="TextToSpeech"/> from now on, as after the voices were chosen again.</summary>
    internal void Offer(IReadOnlyList<TextToSpeechVoice> chosenVoices) => _textToSpeech?.Offer(chosenVoices);
 
@@ -75,6 +82,9 @@ partial class NoteInTheBatchViewModel : ObservableObject
 
    /// <summary>The batch was stopped before it came to the note.</summary>
    internal void WasNotReached() => Show(NoteInTheBatchProgress.NotGivenAudio, "");
+
+   /// <summary>The batch found the note already had TTS audio of <paramref name="voice"/>, and left it.</summary>
+   internal void AlreadyHadTheAudioOf(TextToSpeechVoice voice) => Show(NoteInTheBatchProgress.GivenAudio, $"had {voice} already");
 
    /// <summary>The batch's request for the note was refused, or didn't reach the tts-provider, as <paramref name="why"/> says.</summary>
    internal void Failed(string why) => Show(NoteInTheBatchProgress.Failed, $"failed: {why}");
@@ -91,6 +101,11 @@ partial class NoteInTheBatchViewModel : ObservableObject
    {
       var textToSpeech = _makeItsTextToSpeech();
       textToSpeech.UsedAnAttempt += attempt => WasGivenTheAudioOf(attempt.Speech);
+      textToSpeech.DiscardedTheTextToSpeechAudio += () =>
+      {
+         CurrentAudio = CurrentAudioViewModel.Of(Note, _media);
+         Show(NoteInTheBatchProgress.AudioDiscarded, "TTS audio discarded");
+      };
       return textToSpeech;
    }
 

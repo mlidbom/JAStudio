@@ -12,8 +12,14 @@ enum NoteInTheBatchProgress
    /// <summary>The batch's voice is speaking the note's text right now.</summary>
    Generating,
 
-   /// <summary>The dialog has used a speech as the note's TTS audio: the batch's, or an attempt used in the note's own text-to-speech.</summary>
+   /// <summary>
+   /// The dialog has used a speech as the note's TTS audio: the batch's, or an attempt used in the note's own text-to-speech. Or the batch found<br/>
+   /// the note already had TTS audio of its voice.
+   /// </summary>
    GivenAudio,
+
+   /// <summary>The note's TTS audio was discarded in its own text-to-speech, so it has none. The batch leaves it so.</summary>
+   AudioDiscarded,
 
    /// <summary>The tts-provider refused the batch's request for the note, or it didn't reach the tts-provider. Running the batch again tries it again.</summary>
    Failed
