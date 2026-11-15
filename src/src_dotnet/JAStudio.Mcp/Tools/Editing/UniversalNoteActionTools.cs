@@ -9,7 +9,8 @@ namespace JAStudio.Mcp.Tools.Editing;
 
 /// <summary>
 /// The tools that do what the context menu's "Universal note actions" do to a note of any type: suspend all its cards, unsuspend them, and delete<br/>
-/// the note. Each changes the note's Anki note too, so they work only in the live JAStudio, inside Anki: the headless one refuses them.
+/// the note. Each changes the note's Anki note too, so they work only in a live JAStudio, inside Anki or the standalone one while Anki runs<br/>
+/// with a profile open: the headless one refuses them.
 /// </summary>
 [McpServerToolType]
 public class UniversalNoteActionTools
@@ -20,8 +21,9 @@ public class UniversalNoteActionTools
 
    [McpServerTool(Name = "suspend_all_cards_of_a_note", Idempotent = true)]
    [Description("""
-                Suspends all the cards of a note in Anki, as the context menu's "Suspend all cards" does, so they're no longer studied. Only in the live
-                JAStudio, inside Anki: the headless one has no Anki and refuses. Reports the note, with whether it has active and suspended cards now.
+                Suspends all the cards of a note in Anki, as the context menu's "Suspend all cards" does, so they're no longer studied. Only in a live
+                JAStudio, inside Anki or the standalone one while Anki runs with a profile open: the headless one has no Anki and refuses. Reports the
+                note, with whether it has active and suspended cards now.
                 """)]
    public NoteCards SuspendAllCardsOfANote([Description("The note's id, as search_notes lists it.")] string noteId)
    {
@@ -32,8 +34,9 @@ public class UniversalNoteActionTools
 
    [McpServerTool(Name = "unsuspend_all_cards_of_a_note", Idempotent = true)]
    [Description("""
-                Unsuspends all the cards of a note in Anki, as the context menu's "Unsuspend all cards" does, so they're studied again. Only in the live
-                JAStudio, inside Anki: the headless one has no Anki and refuses. Reports the note, with whether it has active and suspended cards now.
+                Unsuspends all the cards of a note in Anki, as the context menu's "Unsuspend all cards" does, so they're studied again. Only in a live
+                JAStudio, inside Anki or the standalone one while Anki runs with a profile open: the headless one has no Anki and refuses. Reports the
+                note, with whether it has active and suspended cards now.
                 """)]
    public NoteCards UnsuspendAllCardsOfANote([Description("The note's id, as search_notes lists it.")] string noteId)
    {
