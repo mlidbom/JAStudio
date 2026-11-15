@@ -48,29 +48,7 @@
     "condition": {
       "allOf": [
         {
-          "precedingText": {
-            "anyOf": [
-              {
-                "fact": "empty"
-              },
-              {
-                "endsWithOneOf": [
-                  "\t",
-                  " ",
-                  "\"",
-                  ".",
-                  "?",
-                  "​",
-                  "　",
-                  "。",
-                  "「",
-                  "」",
-                  "？",
-                  "｡"
-                ]
-              }
-            ]
-          }
+          "sharedCondition": "IsAtTheSentencesStart"
         }
       ]
     },

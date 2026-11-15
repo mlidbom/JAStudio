@@ -33,16 +33,7 @@
       "allOf": [
         {
           "not": {
-            "firstToken": {
-              "anyOf": [
-                {
-                  "fact": "godanImperativeStem"
-                },
-                {
-                  "fact": "godanImperativeInflection"
-                }
-              ]
-            }
+            "sharedCondition": "StartsInAGodanImperative"
           }
         }
       ]

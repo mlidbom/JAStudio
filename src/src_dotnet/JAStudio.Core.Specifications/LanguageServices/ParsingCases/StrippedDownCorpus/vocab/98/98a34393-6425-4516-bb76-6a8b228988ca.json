@@ -68,16 +68,7 @@
         },
         {
           "not": {
-            "firstToken": {
-              "anyOf": [
-                {
-                  "fact": "godanPotentialStem"
-                },
-                {
-                  "fact": "godanPotentialInflection"
-                }
-              ]
-            }
+            "sharedCondition": "StartsInAGodanPotentialForm"
           }
         },
         {

@@ -48,16 +48,7 @@
         },
         {
           "not": {
-            "firstToken": {
-              "anyOf": [
-                {
-                  "fact": "ichidanImperativeStem"
-                },
-                {
-                  "fact": "ichidanImperativeInflection"
-                }
-              ]
-            }
+            "sharedCondition": "StartsInAnIchidanImperative"
           }
         }
       ]

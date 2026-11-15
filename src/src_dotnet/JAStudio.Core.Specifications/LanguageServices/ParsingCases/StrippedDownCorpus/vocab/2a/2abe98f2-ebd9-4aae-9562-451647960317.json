@@ -37,29 +37,7 @@
       "allOf": [
         {
           "not": {
-            "precedingText": {
-              "anyOf": [
-                {
-                  "fact": "empty"
-                },
-                {
-                  "endsWithOneOf": [
-                    "\t",
-                    " ",
-                    "\"",
-                    ".",
-                    "?",
-                    "​",
-                    "　",
-                    "。",
-                    "「",
-                    "」",
-                    "？",
-                    "｡"
-                  ]
-                }
-              ]
-            }
+            "sharedCondition": "IsAtTheSentencesStart"
           }
         }
       ]
