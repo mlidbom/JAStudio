@@ -163,7 +163,8 @@ parse to and a person's verdict on the vocab its breakdown displays: see `parsin
 - **Below the grid:** the selected case's why and its differences, a line each.
 - **Enter or a double-click** shows a case's sentence in the workspace; a middle-click opens it in a background tab.
 - **Every case is parsed and compared anew, in the background,** each time the tab is shown and on Refresh (F5):
-  each under every combination of the breakdown's options, in parallel, in well under a second for the 230 cases.
+  each under every combination of the breakdown's options, in parallel. How long that takes for the 230 cases isn't
+  measured: the list was there by the time the tab was first looked at.
   Between those, a case is compared again whenever its sentence is updated, so a verdict given or a result accepted
   shows at once, and a sentence just marked as a parsing case gets a row.
 - **The cases listed stay listed** until the filters change or the list is refreshed, as the search's results do.
