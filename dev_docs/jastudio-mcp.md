@@ -196,6 +196,23 @@ Four projects, plus each host's part, and the specifications of the tools, of th
   - **Restarting takes about 7 seconds** when the build is up to date. The first load on a corpus checkout takes about
     20, since it builds the checkout's `snapshot.bin` caches.
 
+### Connecting waits for the server's first answer (2026-11-15)
+
+The gateway, and the specifications, connect their MCP clients one way (`ConnectionToTheMcpServer.ClientConnectedTo`):
+with no separate time limit on the server's first answer.
+
+- **The MCP SDK's client gives a server 5 seconds** to answer its first request, `server/discover`, then takes it for a
+  server of an older revision of the protocol, and falls back to that revision's handshake
+  (`McpClientOptions.DiscoverProbeTimeout`).
+- **Against a JAStudio's server the fallback has failed:** "The MCP-Protocol-Version header value '2026-07-28' does not
+  match body params.protocolVersion value '2025-11-25'". Specifications failed so twice on 2026-11-15, each time right
+  after a full build, when connecting took 7 seconds: five in one run, one in another, of 386.
+- **A JAStudio's server speaks the current revision,** so its clients need no fallback, and now wait for as long as
+  connecting may take.
+- **Not known:** what more than the limit passing the failure takes. A limit of 5 to 250 milliseconds didn't reproduce
+  it in 36 specifications each. So the fix removes the path the failure's stack trace was in, without the failure
+  having been seen to go.
+
 ### Why a gateway
 
 Claude Code can't reconnect an MCP server by itself (its documentation, `code.claude.com/docs/en/mcp`, checked
@@ -225,8 +242,9 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
     tags of slice 5 are the next such survey.
 - **The UI, built, in the headless JAStudio only** (`JAStudioMcpServer.StartWithTheHeadlessUI`): in the live JAStudio a
   window opened would open on Magnus's screen, and it has no browser to render pages with. Each tool gives an image.
-  - `render_window` renders one of the main menu's windows, the options, the readings mappings or the import profiles,
-    opened as the menu opens it, and closes it again. To drive one, open it from the workspace's main menu.
+  - `render_window` renders one of the main menu's windows, the options, the readings mappings, the import profiles,
+    the shared-conditions or the Studying window, opened as the menu opens it, and closes it again. To drive one,
+    open it from the workspace's main menu.
   - `render_the_workspace` renders the workspace window as it is, after showing a note in a tab or in the editor, if
     given one, and on the editor's tab asked for, such as a vocab's Matching tab. It keeps its tabs from one call to the
     next, and starts as Magnus last left his workspace.
