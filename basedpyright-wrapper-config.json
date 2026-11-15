@@ -4,7 +4,6 @@
   ],
   "extraPaths": [
     "src/jastudio_src",
-    "src/jaslib_src",
     "src/jaspythonutils_src"
   ],
   "exclude": [
@@ -13,10 +12,7 @@
     "**/.*",
     "src/jas_database",
     "src/jastudio_src/_lib/",
-    "**/_lib_patched/*",
-    "**venv/*",
-    "**/manually_copied_in_libraries/*",
-    "**/included_libraries/*"
+    "**venv/*"
   ],
   "ignore": [],
   //"off, basic, standard, strict, recommended, all

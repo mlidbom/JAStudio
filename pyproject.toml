@@ -3,7 +3,7 @@ name = "JA Studio"
 requires-python = ">=3.13"
 
 [tool.ruff]
-extend-exclude = ["_lib", "_lib_patched", "manually_copied_in_libraries", "typings"]
+extend-exclude = ["_lib", "typings"]
 line-length = 320
 
 [tool.ruff.lint]
@@ -59,8 +59,8 @@ ignore = [
 include=["src"]
 venvPath="."
 venv="venv"
-extraPaths=["src/jastudio_src", "src/jaslib_src", "src/jaspythonutils_src"]
-exclude=["**/node_modules", "**/__pycache__", "**/.*", "src/jastudio_src/_lib/", "**/_lib_patched/*", "**venv/*", "**/manually_copied_in_libraries/*", "**/included_libraries/*", "src/jas_database"]
+extraPaths=["src/jastudio_src", "src/jaspythonutils_src"]
+exclude=["**/node_modules", "**/__pycache__", "**/.*", "src/jastudio_src/_lib/", "**venv/*", "src/jas_database"]
 typeCheckingMode="strict" # "off", "basic", "standard", "strict" # basedpyright only:  "recommended", "all"
 
 #forced because of incompatibility between basedpyright and pyright, remove once we can use only basedpyright
