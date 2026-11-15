@@ -5,7 +5,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.SysUtils.Threading;
 using JAStudio.Core.TaskRunners;
 
-namespace JAStudio.Anki.PythonInterop;
+namespace JAStudio.Anki;
 
 /// <summary>
 /// What JAStudio does as Anki tells it that a profile opened or is closing, and that Anki's own sync is starting or has finished<br/>
@@ -23,7 +23,7 @@ namespace JAStudio.Anki.PythonInterop;
 /// the sync, so the profile is then read once the sync has finished.
 /// </remarks>
 /// <remarks>review-naming:studying: FollowingAnkisLifecycle was CatchingUpWithAnki, which also read the study-notes after each Anki operation (Claude, 2026-11-15).</remarks>
-sealed class FollowingAnkisLifecycle
+public sealed class FollowingAnkisLifecycle
 {
    /// <summary>How long a profile that opened waits before it's read: the sync Anki makes as a profile opens starts just after.</summary>
    static readonly TimeSpan DelayAfterAProfileOpened = TimeSpan.FromMilliseconds(500);

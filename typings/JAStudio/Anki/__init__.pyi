@@ -7,6 +7,8 @@ from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Studying import SRSAvailability, ISRSWindows, StudyNoteIds, ISRSTagOperations
 from JAStudio.Core.Studying.StudyNotes import ISRSStudyNotes, StudyNoteInTheSRS
 from JAStudio.Core.Note import NoteId, JPNote
+from JAStudio.Core.Note.Collection import JPCollection
+from JAStudio.Core.TaskRunners import BackgroundTaskManager
 
 class AnkiEnvironmentPaths(IEnvironmentPaths):
     def __init__(self) -> None: ...
@@ -114,6 +116,11 @@ class AnkiTagOperations(ISRSTagOperations):
     def NumberOfNotesInTheSRSWithATagIn(self, pathInAnki: str) -> int: ...
     def RemoveTheTagFromTheStudyNotesOf(self, notes: IReadOnlyCollection_1[NoteId], tagInAnki: str) -> None: ...
     def RenameTheBranchOnEveryNoteInTheSRS(self, pathInAnki: str, renamedPathInAnki: str) -> None: ...
+
+
+class FollowingAnkisLifecycle:
+    def __init__(self, collection: JPCollection, ankisAvailability: AnkisAvailability, backgroundTasks: BackgroundTaskManager) -> None: ...
+    def Handle(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
 
 
 class StudyNotesInAnkisDatabase(abc.ABC):

@@ -508,6 +508,13 @@ Anki when this was written: Claude can't restart Anki.**
   after that has it read the study-notes again, since they're that profile's.
   - *Anki syncs as a profile opens, when set to,* and JAStudio may not use Anki's collection meanwhile. The profile
     is then read once that sync has finished. Until part 4 the operation Anki announces a sync's end with did that.
+  - *It's in `JAStudio.Anki`, and specified* (`When_following_Ankis_lifecycle`), since inside Anki nothing else loads
+    JAStudio's collection, and Claude can't try it there. `CatchingUpWithAnki` was in `JAStudio.Anki.PythonInterop`,
+    which no specification reaches, and had none.
+  - *Specifying it found a deadlock in `BackgroundTaskManager`,* fixed the same day: disposing it held its lock while
+    it waited for the running tasks, so a task that started another one meanwhile waited for that lock, and both
+    stood still until the lock timed out after two minutes. Closing Anki within half a second of a profile opening
+    would have done it.
 - **What it means in use,** as decided:
   - *What changes in Anki shows in JAStudio after a Sync:* a card suspended or unsuspended, a tag, a study-note
     deleted, and whatever Anki's own sync brought from AnkiWeb.
@@ -565,6 +572,26 @@ server yet: Anki works on pythonnet as before.** It's the Python package `jastud
   specification that compares the Python functions with the C# contract. The seam is interfaces (Magnus, 2026-11-15:
   "Interfaces should work fine for this. Go with your preference."), one for each group of functions, as the
   study-notes, the tags and the windows already have.
+
+**Claude's plan for JAStudio's side, from reading `AnkiFacade`'s callers on 2026-11-15. Nothing of it is built.**
+
+- **Most of `AnkiFacade`'s 24 functions are already called from behind Core's seams,** by the classes of
+  `JAStudio.Anki` that implement them: `AnkiStudyNotes` (`ISRSStudyNotes`), `AnkiTagOperations`
+  (`ISRSTagOperations`), `AnkisOwnWindows` (`ISRSWindows`), `AnkiRawNotes` (`IAnkiRawNotes`), `AnkisOwnConnection`
+  (`AnkiCollectionDatabase`) and `AnkiEnvironmentPaths`. Those classes call the static `AnkiFacade`.
+- **So the seam goes inside `JAStudio.Anki`:** an interface for each group of Anki's functions, which those classes
+  are given, with one implementation over pythonnet, which is today's `AnkiFacade` as objects, and one over HTTP.
+  The groups, as `AnkiFacade` and the add-on's `FunctionsOnTheCollection` have them: Anki's notes and their cards,
+  its tags, its media, its database, and its windows.
+- **Four places in `JAStudio.UI` call `AnkiFacade` directly,** past Core's seams, and go behind them first:
+  - `MenuItem`, `BrowserMenus` and `AutomaticImportRunReports` refresh Anki's windows and show its passing message:
+    `ISRSWindows` has both.
+  - `UsingASpeech` copies a file into Anki's media folder (`AnkiFacade.Media.AddFile`): Core has no seam for that.
+  - `BrowserMenus` also asks for a card's note, and prioritizes and spreads cards. It builds the menus of Anki's
+    browser, which go in increment 3.
+- **The order:** the UI's direct calls go behind Core's seams; then the interfaces in `JAStudio.Anki`, with the
+  pythonnet implementation, which changes nothing in what JAStudio does; then the HTTP implementation, specified
+  against the add-on's HTTP server running on a copy of the test collection, started from the specifications.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
