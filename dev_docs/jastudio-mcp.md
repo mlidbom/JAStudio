@@ -454,7 +454,7 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
   2026-11-10): it would turn his commits, now a manual round of JAStudio and several repositories in Git Extensions,
   into two or three clicks. What it would do:
   - run a full rebuild before committing, so a commit always holds everything its edits changed, as the process for
-    changes to the corpus requires (`.claude/rules/02-universal-local/045-committing-with-the-corpus-repository.md`);
+    changes to the corpus requires (the skill `.claude/skills/changing-what-the-corpus-stores`);
   - show the changes as notes, as `diff_the_changed_notes` does;
   - commit the media submodules too, innermost first;
   - tell the notes edited by hand from those a rebuild only regenerated, since JAStudio knows which notes an editor

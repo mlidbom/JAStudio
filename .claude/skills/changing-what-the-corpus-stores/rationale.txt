@@ -1,0 +1,38 @@
+# Why this is a skill, and how to test that it gets loaded
+
+Until 2026-11-15 this process was part of the always-loaded rule
+`.claude/rules/02-universal-local/045-committing-with-the-corpus-repository.md`: 1,742 words, nearly half of JAStudio's
+own always-loaded rules. The process is a how-to for a task that announces itself, so it moved here. The rule kept what
+goes wrong in the middle of other work: who may commit to the corpus, the order of the commits, only the work's own
+changes, and the "db updates" commit.
+
+**It guards Magnus's data, and only when it is loaded.** Magnus, 2026-11-15: "Make it a skill and if it is not
+consistently used we reconsider." So when a session has changed matching, analysis or the notes without loading it,
+tell him: that is the case for moving the process back into the rule.
+
+**What makes a session load it,** as far as tested: the rule's heading "Before changing matching, analysis or the
+corpus's notes: load the skill `changing-what-the-corpus-stores`", together with the description in `SKILL.md`. Neither
+was tested without the other.
+
+## The test
+
+`test-tasks` holds a task for each kind of change the skill is for, and one it is not for, as Magnus would write them:
+
+    python .claude-shared/rule-testing/see-which-skills-a-task-loads.py .claude/skills/changing-what-the-corpus-stores/test-tasks --runs 3 --model claude-opus-5-5
+
+2026-11-15, each session in plan mode in the main checkout:
+
+| | the five tasks it is for | the task it is not for |
+|---|---|---|
+| Opus 5.5 | loaded in 15 sessions of 15 | in none of 3 |
+| Claude Fable 5.2 | loaded in 5 of 5 | not in the 1 |
+
+Every session that loaded it had done so by its third tool call. The 15 plans of Opus 5.5 all had the rebuild before
+the change, the diff of what changed, and the commit with the pointer.
+
+**Not tested:**
+
+- a session that comes to such a change in the middle of other work, long after it started: every test session got
+  the task as its first message;
+- a session in a linked worktree;
+- whether a session carries the process out: the test sessions planned, and changed nothing.

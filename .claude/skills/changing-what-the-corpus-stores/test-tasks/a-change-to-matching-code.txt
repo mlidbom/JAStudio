@@ -1,0 +1,1 @@
+The text tests of match-conditions, TextIsIn, TextStartsWithOneOf, TextEndsWithOneOf and TextContainsOneOf, should treat hiragana and katakana as the same: a condition written with ねえ should also be met by ネエ. Go ahead and make the change.

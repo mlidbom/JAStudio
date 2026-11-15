@@ -1,0 +1,1 @@
+In 明日は新幹線で岡山に行きます。 に行く is shown as one word. When a place name comes right before に, I want に and 行く shown as separate words instead. Fix it so that this sentence parses that way. Go ahead.
