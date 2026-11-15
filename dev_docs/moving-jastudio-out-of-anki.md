@@ -1,8 +1,8 @@
 # Moving JAStudio out of Anki
 
-> **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; nothing is built.** The order of work is
-> preliminary. Details are settled as each increment needs them. Increment 1, the names, has Magnus's go-ahead since
-> 2026-11-15.
+> **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built.** The order of
+> work is preliminary. Details are settled as each increment needs them. The names of increment 1 are Claude's, and
+> wait for Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
 ## The goal
 
@@ -53,9 +53,11 @@ From reading the code on 2026-11-14. Today pythonnet loads JAStudio's .NET side 
     how long to show the question before auto-advancing; and the settings that the scheduling hooks read.
   - *What Magnus starts himself:* the note view shortcuts (`NoteViewShortcuts`), Ctrl+O and Ctrl+Shift+O, which show the
     workspace, and the Qt menus that C# describes and Python builds.
-- **The seams between Core and Anki already exist,** since the standalone and the headless JAStudio run without Anki:
-  `AnkiAvailability`, `IAnkiWindows`, `IAnkiStudyNotes`, `IAnkiTagOperations`, `ICardOperations`, `IAnkiRawNotes`,
-  `IBackendDataLoader` and `AnkiCollectionDatabase`.
+- **The seams between Core and Anki already exist,** since the standalone and the headless JAStudio run without Anki.
+  By their names since increment 1: `SpacedRepetitionSystemAvailability`, `ISpacedRepetitionSystemWindows`,
+  `ISpacedRepetitionSystemStudyNotes`, `ISpacedRepetitionSystemTagOperations`,
+  `ISpacedRepetitionSystemCardOperations`, `ISpacedRepetitionSystemDataLoader`, `IAnkiRawNotes` and
+  `AnkiCollectionDatabase`.
 
 ## Decided
 
@@ -121,7 +123,7 @@ don't think." No sync makes a corpus note of one.
 
 **A sync counts and lists them** (Magnus, 2026-11-15, on Claude's suggestion), so that the corruption shows. Today such
 a note is left out without a word when the study-notes are read
-(`AnkiBackendDataLoader.StudyNoteRow.HoldsACorpusNoteId`). It's the check `corpus-validity.md` has wanted since
+(`AnkiDataLoader.StudyNoteRow.HoldsACorpusNoteId`). It's the check `corpus-validity.md` has wanted since
 2026-11-08. Where they're listed is open. Magnus: "Maybe in an errors tab or window?" JAStudio has neither today.
 
 ### A call names the collection it expects, and one click takes the collection Anki has open (Magnus, 2026-11-15)
@@ -157,9 +159,10 @@ Anki rather than something generic about studying." It's the principle `studying
 - **The line between studying's names and Anki's is inside JAStudio,** between Core and `JAStudio.Anki`. The Anki
   add-on and its HTTP contract are frankly Anki's: SELECTs on Anki's collection, Anki's searches. A second
   spaced repetition system brings an integration and a wire of its own.
-- **Today's seam names it two wrong ways.** `IAnkiStudyNotes`, `IAnkiTagOperations`, `IAnkiWindows` and
+- **Until increment 1 the seam named it two wrong ways.** `IAnkiStudyNotes`, `IAnkiTagOperations`, `IAnkiWindows` and
   `AnkiAvailability` put Anki's name on what is generic about studying. `IBackendDataLoader`, `BackendData`,
-  `ExternalNoteIdMap` and `ICardOperations` say neither Anki nor studying.
+  `ExternalNoteIdMap` and `ICardOperations` said neither Anki nor studying. What they're called now is under
+  [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
 ### Importing from Anki is on its way out (Magnus, 2026-11-14)
 
@@ -234,9 +237,10 @@ Each is taken up under [Deferred until the work reaches them](#deferred-until-th
 **The preliminary order of work** (Magnus, 2026-11-15, on Claude's proposal of 2026-11-14). Each increment builds clean
 and leaves JAStudio usable inside Anki as today, until the fifth.
 
-1. **Names:** the seam in Core renamed in studying's words, while JAStudio still runs inside Anki on pythonnet. Names
-   and homes first, wiring second (the code standard on re-homing concepts before restructuring). Every name Claude
-   chooses gets a `//review-naming:studying:` comment for Magnus's pass.
+1. **Names** (built 2026-11-15, see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15))**:** the seam
+   in Core renamed in studying's words, while JAStudio still runs inside Anki on pythonnet. Names and homes first,
+   wiring second (the code standard on re-homing concepts before restructuring). Every name Claude chooses gets a
+   `//review-naming:studying:` comment for Magnus's pass.
    - *Left alone:* the rest of `studying.md`'s "To design", meaning the domain's words for reading, listening and
      suspending, and the states.
 2. **Sync in a Studying view,** replacing the notifications, while still inside Anki. Magnus finds out early whether
@@ -253,6 +257,58 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
 6. **Once Magnus has studied with it for a while,** pythonnet, `runtime_binaries`, `typings/` and the stub generator
    are deleted.
 7. **Starting JAStudio, installing it, publishing:** see [Distribution](#distribution-the-anki-add-on-on-ankiweb-is-the-way-in).
+
+## Increment 1 as built: the names (2026-11-15)
+
+Core's seam to the spaced repetition system is in the new namespace `JAStudio.Core.Studying`, in studying's words.
+Every name is Claude's choice, marked `//review-naming:studying:` for Magnus's pass.
+
+**The rule the names follow:** where the seam said Anki, or the backend, it says the spaced repetition system, and an
+"external note" is the study-note it always was.
+
+| Was | Is |
+|---|---|
+| `AnkiAvailability` | `SpacedRepetitionSystemAvailability` |
+| `IAnkiWindows`, `NoAnkiWindows` | `ISpacedRepetitionSystemWindows`, `NoSpacedRepetitionSystemWindows` |
+| `IBackendDataLoader`, `BackendData` | `ISpacedRepetitionSystemDataLoader`, `SpacedRepetitionSystemData` |
+| `ICardOperations` | `ISpacedRepetitionSystemCardOperations` |
+| `IAnkiTagOperations` | `ISpacedRepetitionSystemTagOperations` |
+| `IAnkiStudyNotes`, `StudyNoteInAnki` | `ISpacedRepetitionSystemStudyNotes`, `StudyNoteInTheSpacedRepetitionSystem` |
+| `ExternalNoteIdMap` | `StudyNoteIds` |
+| `IExternalNoteUpdateHandler` | `IStudyNoteUpdateHandler`, which goes in increment 2 |
+
+- **A study-note id** is the id the spaced repetition system gives a study-note, in Anki the id of its Anki note. It
+  replaced "external id" and "external note id" everywhere: `StudyNoteIds.StudyNoteIdOf`,
+  `JPCollection.NoteOfTheStudyNote`, `CardStudyingStatus.StudyNoteId`.
+- **The study-notes and their comparison** are in `JAStudio.Core.Studying.StudyNotes`, which was
+  `JAStudio.Core.Anki.StudyNotes`.
+- **The Anki integration's implementations follow:** `AnkiDataLoader`, which was `AnkiBackendDataLoader`, and
+  `AnkiCardOperations`, which was `AnkiCardOperationsImpl`.
+- **The Anki add-on's Python uses four of the renamed members and two of the types,** and was changed with them.
+
+**What the seam still says of Anki,** each for the increment that changes the wiring:
+
+- **Anki's search syntax:** `ISpacedRepetitionSystemWindows` opens Anki's browser and previewer on a search in Anki's
+  search syntax, which the UI writes with the Anki integration's `QueryBuilder`. Taking the notes to open instead
+  would leave the syntax to the Anki integration.
+- **Anki's fields, markup and text:** a study-note's fields are named as Anki names them (`AnkiFieldNames`), its audio
+  is in Anki's markup (`AnkiMediaMarkup`), and `StudyNoteComparison` compares text as Anki stores it. The two types
+  are all that is left in `JAStudio.Core.Anki`. This goes with the design call that the write of a study-note crosses
+  as the fields to write.
+- **Cards and suspending:** `ISpacedRepetitionSystemCardOperations` speaks of both, which `studying.md` is to design
+  words for.
+- **A study-note id is a `long`,** as Anki's is.
+
+**Not renamed, since they aren't the seam:**
+
+- **Core's own members that say Anki:** `JPCollection.ReadTheStudyNotesFromAnkiAgain`, `JPNote.HasAnAnkiNote`, the
+  enum `ItsAnkiNote`, and the comments around them, where "its Anki note" and "its study-note" are two words for one
+  thing. Whether they're renamed too is put to Magnus.
+- **The tagging domain's Anki tags:** `AnkiTagChanges`, `AnkiTags` and `Tags.Anki`. They name the branch `anki::` that
+  the student sees.
+- **The stand-ins for Anki, or for its absence:** `PretendAnki` and `InMemoryAnkiStudyNotes` in the specifications,
+  and the hosts' `NoAnki…` and `HeadlessAnki…`.
+- **`JPCollection.ReloadFromBackend` and its relatives,** where "the backend" is the corpus checkout and Anki together.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 

@@ -415,8 +415,8 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
   updates the note, but a reload passes on only the notes whose files changed while it held them, and none at startup, so a change
   to the corpus made while Anki was closed, or a change to what JAStudio writes, leaves study-notes behind. Built for
   slice 9 of `corpus-data-model.md`, whose change of format is fast-forwarded with Anki closed.
-  - `list_the_study_notes_that_differ` compares every study-note in Anki (`IAnkiStudyNotes`, read straight from Anki's
-    database) with the one JAStudio would write now (`StudyNoteComparison`), as Anki keeps what's written into it: text in
+  - `list_the_study_notes_that_differ` compares every study-note in Anki (`ISpacedRepetitionSystemStudyNotes`, read
+    straight from Anki's database) with the one JAStudio would write now (`StudyNoteComparison`), as Anki keeps what's written into it: text in
     Unicode normalization form C. It counts the differences by field, and lists the notes, each with the fields that
     differ. It also counts and marks the notes where only the markup of the audio differs: the same audio files in the
     same order, with only the markup around them, or which audio field holds which file, different
