@@ -70,14 +70,21 @@ piece of code, or that would otherwise be lost in a long response.
   (`ISRSWindows.Refresh`): it would be left for Anki's browser alone, whose columns only change at a Sync. It bears
   on the open question in `moving-jastudio-out-of-anki.md`, "how the menu commands refresh the spaced repetition
   system's windows".
-- **(Claude, 2026-11-15) TTS for the selected search results, as the single-note TTS dialog once per note.** Asked for by
-  Magnus, since few of the parsing cases have audio (`text-to-speech.md`, increment 3, "one voice for the selected search
-  results"). One window for vocab and sentences alike, since `IHasTextToSpeechAudio`, `UsingASpeech` and
-  `TextToSpeechAudioFolders` already serve both. Above, a list of the selected notes, each with its text, its audio now,
-  its latest attempt and whether one is used; below, the selected note's part of today's TTS dialog: its text to edit,
-  its audio now, the voice buttons and its attempts. One voice, the default at first, generates for every note at once,
-  on a button that says how many characters it costs, never on opening. ↑ and ↓ move between the notes and play the
-  selected attempt; Enter uses it and moves to the next note. Needs today's dialog split into a per-note part and the
-  window around it, and requests paced to the tts-provider's limit: Azure's free tier (F0) allows 20 requests a minute
+- **(Magnus and Claude, 2026-11-15) A batch TTS window for the selected search results.** Asked for by Magnus, since few
+  of the parsing cases have audio (`text-to-speech.md`, increment 3, "one voice for the selected search results"). One
+  window for vocab and sentences alike, since `IHasTextToSpeechAudio`, `UsingASpeech` and `TextToSpeechAudioFolders`
+  already serve both. Magnus's shape, as Claude restated it (awaiting his confirmation):
+  - **The voice for the batch on top, the grid of the notes beneath it,** and to the right of the grid the per-note part
+    of today's TTS dialog for the selected row's note: its text to edit, its TTS audio now, the voice buttons, its
+    attempts, Use.
+  - **Trying the voice:** on a few rows, generate with the batch's voice for that note alone, to hear it. Nothing is used.
+  - **Run batch:** every note gets a speech from the batch's voice, used at once as the note's TTS audio, and a ▶ turns up
+    on each row as its note is done. Listening comes after, which for the batch replaces "nothing changes until one
+    attempt is used".
+  - **Reviewing:** moving down the rows plays each note's audio as it now is, the batch's speech. The pane on the right
+    generates nothing by itself; it's where a bad one is fixed, with another voice or the text in kana, and Use.
+
+  Needs today's dialog split into a per-note part and the dialog around it, and requests paced to the tts-provider's
+  limit: Azure's free tier (F0) allows 20 requests a minute
   ([quotas](https://learn.microsoft.com/azure/ai-services/speech-service/speech-services-quotas-and-limits)). With it,
-  a search condition "Has audio".
+  the search condition "Has audio": any audio, a recording or TTS (Magnus, 2026-11-15).
