@@ -39,9 +39,8 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 - **Windows opened from Anki:** hardly any are needed any more (Magnus). Anki's "Japanese" menu is gone: the
   workspace shows the same menu, now `WorkspaceMainMenu`, as its menu bar, with the same shortcuts. Anki has a JA
   Studio menu instead, with just the workspace and the workspace on its search, so that JAStudio can be found
-  (`jastudio_menu.py`, Python's own since 2026-11-15). Their shortcuts, Ctrl+Shift+O and Ctrl+O, are bound by
-  Anki's global shortcuts and only shown in the menu. Of the reviewer's hotkeys, Ctrl+Alt+O shows the reviewed note
-  in the workspace.
+  (`jastudio_menu.py`, Python's own since 2026-11-15), and since 2026-11-15 the reviewed note in the workspace.
+  Their shortcuts, Ctrl+Shift+O, Ctrl+S and Ctrl+O, are bound by Anki's global shortcuts and only shown in the menu.
 - **The reviewer's right-click menu** went on 2026-11-15, with Anki's other Qt menus
   (`moving-jastudio-out-of-anki.md`). The note page's menu in the workspace, which is the same menu
   (`NoteContextMenu`), is to go too (Magnus, 2026-11-08). They were a hack to get some UI for a rendered note before the

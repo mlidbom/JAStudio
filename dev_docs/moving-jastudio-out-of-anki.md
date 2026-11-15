@@ -6,7 +6,7 @@
 > over HTTP whenever an Anki profile is open, and the standalone JAStudio calls the Anki that runs, which it finds
 > through the access file. JAStudio inside Anki still calls Anki through pythonnet, and still draws Anki's cards.
 > What goes from Anki to JAStudio isn't built. Increment 3, the menus, is built: the Qt menus that C# described are
-> gone, and Ctrl+Alt+O shows the note Anki shows in the workspace. On JAStudio's side, the Anki integration calls
+> gone, and Ctrl+O opens the note Anki shows in the workspace. On JAStudio's side, the Anki integration calls
 > Anki through interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows
 > after it changes a note: a card's page in Anki reloads itself.** The order of work is
 > preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
@@ -238,7 +238,7 @@ development in various scenarios. Not required if it turns out to be a huge pain
 
 ## What it costs
 
-- **Handing the keyboard to the other program's window:** Ctrl+O in Anki showing the workspace, and JAStudio opening
+- **Handing the keyboard to the other program's window:** Ctrl+S and Ctrl+O in Anki showing the workspace, and JAStudio opening
   Anki's browser. Operating systems restrict it between processes.
 - **Two lifecycles:** something has to start JAStudio, and Anki has to do something sensible without it.
 - **No type-checked contract across the boundary:** the type stubs go, so something else has to keep the Python and the
@@ -876,19 +876,24 @@ below. JAStudio inside Anki is as before: it calls Anki through pythonnet.**
 **What the HTTP path still lacks:**
 
 - *From Anki to JAStudio:* the cards' pages, and the rest that Python asks of .NET today: the note view shortcuts
-  with Ctrl+Alt+O, showing the workspace or its search (Ctrl+Shift+O, Ctrl+O and the JA Studio menu), and how long
-  to show a question.
+  in the reviewer and previewer, the global shortcuts (Ctrl+Shift+O, Ctrl+S and Ctrl+O) and the JA Studio menu, and
+  how long to show a question.
 
 ## Increment 3 as built: the menus (2026-11-15)
 
 **Built 2026-11-15, on Magnus's go-ahead for Claude's suggestion to make it the next step. JAStudio inside Anki
 is otherwise as before.**
 
-- **Ctrl+Alt+O shows the note Anki shows in JAStudio's workspace,** in Anki's reviewer and previewer
-  (`AnkiDialogs.ShowTheNoteInTheWorkspace`, bound in `note_view_shortcuts.py`): what JAStudio does with a note is
-  done there. Ctrl+Shift+O shows the workspace as it was.
-  - *The key is Claude's,* for Magnus to check: Anki's reviewer has no Ctrl+Alt+O, and the O goes with Ctrl+O and
-    Ctrl+Shift+O. Anki itself uses Ctrl+Alt+N, Ctrl+Alt+E and Ctrl+Alt+I there.
+- **Ctrl+O opens the note Anki shows in JAStudio's workspace,** in Anki's reviewer, previewer and browser
+  (`AnkiDialogs.ShowTheNoteInTheWorkspace`, bound in `global_shortcuts.py`, and in the JA Studio menu): what
+  JAStudio does with a note is done there. With no note shown, it does nothing. Ctrl+Shift+O shows the workspace
+  as it was.
+  - *The workspace's search moved to Ctrl+S,* in Anki and in the workspace alike, to free Ctrl+O (Magnus,
+    2026-11-15: "If Ctrl+s is not taken in anki, maybe that could be search instead of ctrl+o, and then ctrl+o could
+    be open?"). Anki uses Ctrl+S and Ctrl+O only in its debug console.
+  - *Ctrl+Alt+O, Claude's first choice, didn't work for Magnus:* Windows takes Ctrl+Alt for AltGr, and AltGr+O is
+    "/" on his keyboard, so Qt found two shortcuts for "/", Anki's own and this one, and ran neither ("Ambiguous
+    shortcut overload: /").
 - **The Qt menus that C# described are gone:**
   - *The right-click menu of a note,* in Anki's reviewer, previewer and editor, with what it held on the selected
     text and the clipboard text. The workspace has the same menu (`NoteContextMenu`).
@@ -897,8 +902,8 @@ is otherwise as before.**
   - *What carried them:* `AnkiMenus`, `PythonAnkiMenus`, `AnkiBrowserMenuBuilder`, `AnkiFacade`, and Python's
     `qt_menu_adapter` and `ExQmenu`.
 - **The Anki add-on builds the menus it keeps itself,** in Python:
-  - *The JA Studio menu in Anki's menu bar:* the workspace, and the workspace on its search. They call JAStudio as
-    the shortcuts Ctrl+Shift+O and Ctrl+O do.
+  - *The JA Studio menu in Anki's menu bar:* the workspace, the workspace on its search, and the reviewed note in the
+    workspace. They call JAStudio as the shortcuts Ctrl+Shift+O, Ctrl+S and Ctrl+O do.
   - *"Prioritize selected cards" and "Spread selected cards",* in the browser's right-click menu, under
     "Magnus", as before: Prioritize with one card selected, Spread with any.
 - **Found and fixed on the way:** in Anki's previewer, the note view shortcuts that act on the note, such as 0, which

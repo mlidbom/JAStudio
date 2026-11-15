@@ -143,7 +143,8 @@ search, editors) is in `jastudio-workspace.md`.
     `ChangesThatOutdateNotePages`), since 2026-11-15. JAStudio asks Anki to draw its cards again only once the
     collection has loaded, for a card that says JAStudio is still loading.
 - **Opening a note in the workspace:** "Open in workspace" in the note menus' "Universal note actions", newly
-  created notes, and a result opened from the workspace's note search pane (Ctrl+O).
+  created notes, a result opened from the workspace's note search pane (Ctrl+S), and Ctrl+O in Anki's reviewer,
+  previewer and browser.
 - **Not yet:** the menu items that open a *list* of notes still open Anki's browser.
 - **Without Anki:** the standalone JAStudio (`JAStudio.StandaloneHost`, see `standalone-jastudio.md`) and the headless
   JAStudio each start their own `CardServer`, on a port the system picks, leaving alone the port the one inside Anki
