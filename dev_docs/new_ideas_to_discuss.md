@@ -70,3 +70,18 @@ piece of code, or that would otherwise be lost in a long response.
   (`ISRSWindows.Refresh`): it would be left for Anki's browser alone, whose columns only change at a Sync. It bears
   on the open question in `moving-jastudio-out-of-anki.md`, "how the menu commands refresh the spaced repetition
   system's windows".
+- **(Claude, 2026-11-15) Each change JAStudio makes in Anki could be an Anki operation that Anki's windows are told
+  of,** as its tag changes are (`aqt.operations.on_op_finished`). Anki's browser, reviewer and undo menu then follow
+  it by themselves, which is the way Anki's developers recommend. Today the write of a study-note, suspending and
+  unsuspending a note's cards, and deleting a study-note change the collection and tell no window.
+  - *The sync's writes as one operation:* one call with every study-note to write (`col.update_notes`), which is one
+    undo entry, "undo the sync", where each study-note is an entry of its own today, and one notification.
+  - *Suspending many notes' cards as one operation,* for the same reasons: `BulkNoteChanges` suspends a note at a
+    time.
+  - *Deleting the note under review with its study-note:* told of the operation, Anki's reviewer moves to the next
+    card. Untold, it keeps showing a card that no longer exists.
+- **(Claude, 2026-11-15) The card that says JAStudio is still loading could be JAStudio's own page.** While the
+  collection loads, Anki's card shows a text (`Mine.AppStillLoadingMessage`), and JAStudio has Anki draw its cards
+  again when the load is done (`ISRSWindows.Refresh`), by poking the reviewer's and the previewer's private members.
+  If the card were a page on the `CardServer` from the start, saying that JAStudio is loading, it could load the
+  card itself when the collection has loaded, and that last refresh could go.

@@ -3,7 +3,8 @@
 > **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and so is
 > increment 2, the Sync: since 2026-11-15 Anki no longer tells JAStudio of what changes, and the workspace has a Sync
 > button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and so is JAStudio's implementation
-> of its calls over HTTP, which only its specifications use yet. On JAStudio's side, the UI's direct calls to
+> of its calls over HTTP, which only its specifications use yet, and the access file, by which a JAStudio finds the
+> add-on's server. On JAStudio's side, the UI's direct calls to
 > `AnkiFacade` are behind Core's seams, but for the menu commands and the menu of Anki's browser, and the Anki
 > integration calls Anki through interfaces, which pythonnet implements inside Anki.** The order of work is
 > preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
@@ -629,7 +630,29 @@ for the menu commands, and so is its second: see [step 1](#jastudios-side-step-1
 
 #### Open: how the menu commands refresh the spaced repetition system's windows
 
-**Put to Magnus on 2026-11-15.**
+**Put to Magnus on 2026-11-15, who turned both options below down:** "I thought we agreed on sync only... Why do we
+need any of this unless we clicked the sync button? And on the sync button. if we save notes via anki's normal API's
+so that undo etc works, as I think we do, then anki will refresh what it needs itself, I'm 80% sure. So sum total:
+virtually all of that is just removed. If just running the sync surfaces any problems we can consider refreshing
+Anki's ui at the end of sync, but the way we currently refresh Ankis UI is Not Recommended(TM) by the anki devs...."
+
+**What reading the code found, the same day:**
+
+- **The card in Anki's reviewer and previewer is JAStudio's own page,** in an iframe on the `CardServer`, drawn from
+  the corpus note, not from the study-note. It changes when the note does, with no sync, and nothing tells it to
+  draw again: the refresh after a menu command is what redraws the card under review today.
+- **The refresh pokes Anki's windows through private members** (`UIUtils.refresh` in the add-on): it sets the
+  reviewer's `_refresh_needed`, the previewer's `_last_state`, and runs the browser's search again.
+- **Anki's windows follow an operation only when they're told of it** (`aqt.operations.on_op_finished`), as Anki's
+  own windows are of theirs. `col.update_note` alone tells none. JAStudio's tag functions tell Anki; its write of a
+  study-note, suspending, unsuspending and deleting don't.
+- **While the collection loads, a card says that JAStudio is still loading** (`AppendingPrerenderer`), which isn't
+  JAStudio's page: only Anki can replace it with the card, so the refresh after a load has a use of its own.
+
+**Not settled:** a change that removes the refreshes, and has a card's page reload itself when its note changes,
+is in Claude's working tree, uncommitted, while Magnus has doubts about it (2026-11-15).
+
+**The two options Magnus turned down:**
 
 57 places in the UI make a menu command with `SpecMenuItem.UICommand`, and 35 more through `NoteCommandMenuItem`,
 which uses it. It runs the command, and then refreshes Anki's reviewer, previewer and browser, by calling
@@ -649,7 +672,11 @@ after a change of their own.
 
 ### JAStudio's side, step 2 as built: Anki's functions as interfaces
 
-**Built 2026-11-15. Nothing changes in what JAStudio does. Not tried inside Anki.**
+**Built 2026-11-15. Nothing changes in what JAStudio does.**
+
+**Tried inside Anki on 2026-11-15,** through JAStudio's MCP server: the read of every study-note, and the write of
+one, both ways, with its Japanese intact. The calls for tags, suspending, deleting and media weren't exercised
+there.
 
 - **Five interfaces in `JAStudio.Anki.AnkisFunctions`,** one for each group of the functions JAStudio calls in Anki:
   `IAnkisNotes`, `IAnkisTags`, `IAnkisMedia`, `IAnkisDatabase` and `IAnkisWindows`. Each member is one function of
@@ -675,7 +702,8 @@ before.**
   its properties: `IAnkisNotes`, `IAnkisTags`, `IAnkisMedia` and `IAnkisDatabase`.
   - *Not `IAnkisWindows`:* the add-on's server doesn't serve the functions that drive Anki's windows yet.
 - **It's given how to reach the server and the collection JAStudio works with:** the port and the token
-  (`AnkisHttpServerAccess`), and the collection's file. How JAStudio gets them isn't built.
+  (`AnkisHttpServerAccess`), which is read from the access file (below), and the collection's file. How JAStudio
+  comes by the collection isn't built.
 - **Before its first call it compares contract versions,** and refuses an add-on that speaks another
   (`AnkiSpeaksAnotherContractException`). The version is 1 on both sides.
 - **A refusal and a failure are each an exception:**
@@ -700,14 +728,47 @@ calls ask for, made by using both.
   servers, and to have one refuse calls as while Anki's own sync is under way.
 - **The 30 take about 8 seconds, in parallel.**
 
+### The access file as built: how a JAStudio finds the add-on's server
+
+**Built 2026-11-15. Nothing in Anki starts the serving yet: only the tests and the specifications do.**
+
+- **`ServingJAStudio`,** in the add-on, is its serving of JAStudio for as long as it lasts: it starts the HTTP
+  server and then writes the access file, and it removes the file and then stops the server.
+- **The access file holds the server's port and token,** as JSON: `{"port": …, "token": …}`. Both are new each
+  time the serving starts, so a JAStudio reads the file each time it looks for Anki.
+  - *Written whole or not at all:* to a file beside it, which then replaces it.
+  - *For the user alone:* on macOS and Linux the file's mode says so. On Windows the folder does.
+- **`AnkisHttpServerAccessFile`,** in `JAStudio.Anki`, reads it: the access, or none while no Anki serves, which
+  is when the file isn't there.
+- **The specifications reach the add-on's server through it:** each served copy of the test collection has an
+  access file of its own, which is where the 34 specifications of JAStudio's calls over HTTP get the port and the
+  token.
+
+**Claude's design calls, for Magnus to see:**
+
+- **The file is in the user's own folder for JAStudio's data:** `anki-http-server-access.json` in
+  `%LOCALAPPDATA%\JAStudio` on Windows, where JAStudio keeps other files of the user's already, such as the
+  `CardServer`'s port. Not in the add-on's folder, nor in the Anki profile's.
+  - *Why:* a JAStudio started from any checkout has to find the Anki that runs, and it takes the collection Anki
+    has open, so it can't look by collection.
+  - *Both sides name the folder themselves:* .NET as its `LocalApplicationData`, and the add-on by the same rule
+    for each platform (`the_access_file_of_this_user`). A specification compares the two on the platform it runs
+    on: Windows here, Linux in CI. Not tried on macOS.
+- **One file for the user, so one Anki at a time serves JAStudio.** A second Anki, started on another data folder,
+  would write over the first one's file.
+- **An Anki that ends without stopping leaves its file behind,** naming a server that no longer answers. Telling
+  that apart from an Anki that runs is JAStudio's to do when it calls, which isn't built.
+
 **What the HTTP path still lacks:**
 
-- *In the add-on:* the functions that drive Anki's windows, `AnkiForJAStudio` for the real Anki, starting the server
-  as a profile opens, and writing where JAStudio finds the port and the token.
-- *In JAStudio:* `IAnkisWindows` over HTTP, reading the port and the token, and the standalone JAStudio's wiring:
-  the Anki integration's classes given `AnkiOverHttp`'s groups, and whether the spaced repetition system is
-  available (`SRSAvailability`) told from Anki's refusals and from whether the server answers at all.
+- *In the add-on:* the functions that drive Anki's windows, `AnkiForJAStudio` for the real Anki, and starting
+  `ServingJAStudio` as a profile opens.
+- *In JAStudio:* `IAnkisWindows` over HTTP, and the standalone JAStudio's wiring: the Anki integration's classes
+  given `AnkiOverHttp`'s groups, and whether the spaced repetition system is available (`SRSAvailability`) told
+  from the access file, from Anki's refusals and from whether the server answers at all.
 - *From Anki to JAStudio:* the cards' pages, and the rest that Python asks of .NET today.
+- *In the contract:* `note_remove` goes the next time the contract changes, since `notes_remove` does the same for
+  several notes (Magnus, 2026-11-15: "OK").
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
@@ -747,7 +808,7 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 - **A specification that compares the add-on's Python functions with the C# contract,** in place of the type stubs.
   *The specifications of `AnkiOverHttp` call every function on the add-on's own server (2026-11-15).*
 - **The connection is open to the same user only,** such as by a token that only the user's files hold. *The server
-  demands a token (2026-11-15). Where JAStudio reads it isn't built.*
+  demands a token, which JAStudio reads from the access file, written for the user alone (2026-11-15).*
 - **The write of a study-note crosses as the fields to write,** not as a note. *So it does (2026-11-15).*
 - **The add-on's handlers get specifications that run without Anki's window,** against a collection file opened with
   Anki's own library. *They have them (2026-11-15), for the functions that work on the collection.*
