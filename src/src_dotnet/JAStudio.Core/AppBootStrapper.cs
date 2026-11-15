@@ -18,6 +18,7 @@ using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web.Kanji;
 using JAStudio.Core.UI.Web.Sentence;
@@ -54,8 +55,8 @@ public static class AppBootstrapper
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
-         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSDataLoader srsDataLoader) =>
-                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, srsDataLoader)),
+         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSStudyNotes studyNotesInTheSRS) =>
+                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, studyNotesInTheSRS)),
          Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, ISRSTagOperations anki) => new AnkiTagChanges(collection, anki)),
          Singleton.For<VocabCollection>().CreatedBy((JPCollection col) => col.Vocab),
          Singleton.For<KanjiCollection>().CreatedBy((JPCollection col) => col.Kanji),

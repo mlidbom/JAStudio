@@ -33,15 +33,17 @@
 
 - **The studying status is student-data held in memory, not stored in the corpus.**
   - At load, and whenever JAStudio reads the study-notes from Anki again (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`),
-    such as after a sync, `AnkiDataLoader` reads every card from Anki's database: its
-    Anki note id, its card type, whether it's suspended, and its note type (`CardStudyingStatus`).
+    such as after a sync, the study-notes are read from Anki's database (`ISRSStudyNotes.ReadAll`, in Anki
+    `StudyNotesInAnkisDatabase`), each with its cards: for each card its Anki note id, its card type, whether it's
+    suspended, and its note type (`CardStudyingStatus`).
   - Each note keeps that in memory (`JPNote.ReadItsStudyNoteFrom`, and `JPNote.SetStudyingStatus` for a single card).
 - **"Studying" means having a card that isn't suspended.** `JPNote.IsStudying(cardType)` answers it for one card
   type or for any card. `IsStudyingRead` and `IsStudyingListening` are shorthands.
-- **`ISRSCardOperations`** (`ICardOperations` until 2026-11-15) is Core's interface for changing a
-  note's cards in the spaced repetition system, implemented by `AnkiCardOperations`. It can suspend all of a note's
-  cards, unsuspend all of them, and delete the note's study-note. It still speaks of cards and suspending, which are
-  Anki's words.
+- **`ISRSStudyNotes`** is Core's interface for the study-notes in the spaced repetition system, implemented by
+  `AnkiStudyNotes`: reading them all, writing one from its note, suspending all of a note's cards, unsuspending all
+  of them, and deleting the note's study-note. Until 2026-11-15 the changes to the cards were an interface of their
+  own, `ISRSCardOperations`, before that `ICardOperations`. It still speaks of cards and suspending, which are Anki's
+  words.
 - **The note context menu** has "Unsuspend all cards", "Suspend all cards", and "Delete note". "Delete note"
   removes the note from the corpus and from Anki, review history included, and its media files that no other note
   uses (`corpus-data-model.md`).
@@ -74,7 +76,7 @@
    - Adding a note to it, and removing a note from it.
    - Suspending and unsuspending reading or listening.
 
-   `ISRSCardOperations` is the seed. It needs the domain's words for cards and suspending, and
+   `ISRSStudyNotes` is the seed. It needs the domain's words for cards and suspending, and
    widening.
 4. **Removing a note from Anki deletes its review history.** How that is confirmed, and how it differs from
    suspending everything.

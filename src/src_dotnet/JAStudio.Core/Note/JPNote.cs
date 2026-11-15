@@ -119,14 +119,14 @@ public abstract class JPNote
 
    public void SuspendAllCards()
    {
-      Services.SRSCardOperations.SuspendAllCardsForNote(_id);
+      Services.SRSStudyNotes.SuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: false);
       Flush();
    }
 
    public void UnsuspendAllCards()
    {
-      Services.SRSCardOperations.UnsuspendAllCardsForNote(_id);
+      Services.SRSStudyNotes.UnsuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: true);
       Flush();
    }

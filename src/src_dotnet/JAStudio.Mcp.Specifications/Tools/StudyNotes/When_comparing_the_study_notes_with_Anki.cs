@@ -15,23 +15,20 @@ namespace JAStudio.Mcp.Specifications.Tools.StudyNotes;
 
 /// <summary>
 /// The vocab 勉強, with the answer "study", whose study-note is in the specifications' pretend Anki as JAStudio writes it. Unlike JAStudio inside<br/>
-/// Anki, the pretend Anki takes in only what's written or put into it.
+/// Anki, the test environment doesn't write a note's study-note when it updates the note.
 /// </summary>
 public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 {
    protected readonly VocabNote Vocab;
-   protected readonly InMemoryAnkiStudyNotes StudyNotesInAnki;
+   protected readonly PretendAnki Anki;
 
    public When_comparing_the_study_notes_with_Anki()
    {
       Vocab = WithAStudyNote(CreateVocab("勉強", "study", "べんきょう"));
-      StudyNotesInAnki = GetService<InMemoryAnkiStudyNotes>();
-      StudyNotesInAnki.Write(Vocab);
+      Anki = GetService<PretendAnki>();
    }
 
    protected StudyNotesThatDiffer ListTheStudyNotesThatDiffer() => ResultOf<StudyNotesThatDiffer>(CallTool("list_the_study_notes_that_differ", []));
-
-   protected StudyNoteInTheSRS TheVocabsStudyNote => StudyNotesInAnki.ReadAll().Single();
 
    public class whose_study_note_is_as_JAStudio_writes_it : When_comparing_the_study_notes_with_Anki
    {
@@ -49,7 +46,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
       public whose_study_note_has_another_question_in_Anki()
       {
-         StudyNotesInAnki.Put(new StudyNoteInTheSRS(TheVocabsStudyNote.StudyNoteId, new Dictionary<string, string>(TheVocabsStudyNote.Fields) { [AnkiFieldNames.Question] = "勉" }));
+         Anki.ChangeTheFieldOfTheStudyNoteOf(Vocab, AnkiFieldNames.Question, "勉");
          _found = ListTheStudyNotesThatDiffer();
       }
 
@@ -68,7 +65,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
          [XF] public void the_vocab_is_reported_written() => _written.Vocab.Notes.Single().Question.Must().Be("勉強");
          [XF] public void no_study_note_differs_afterwards() => _written.StudyNotesThatDifferAfterwards.Must().Be(0);
-         [XF] public void the_question_in_Anki_is_the_one_JAStudio_writes() => TheVocabsStudyNote.Fields[AnkiFieldNames.Question].Must().Be("勉強");
+         [XF] public void the_question_in_Anki_is_the_one_JAStudio_writes() => Anki.FieldsOfTheStudyNoteOf(Vocab)[AnkiFieldNames.Question].Must().Be("勉強");
       }
    }
 
@@ -83,8 +80,8 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
       protected StudyNotesThatDiffer ListTheStudyNotesThatDifferWithTheAudioInAnki(string audioB, string audioG, bool leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers = false)
       {
-         StudyNotesInAnki.Put(new StudyNoteInTheSRS(TheVocabsStudyNote.StudyNoteId,
-                                                  new Dictionary<string, string>(Vocab.StudyNoteFields()) { [AnkiFieldNames.Vocab.AudioB] = audioB, [AnkiFieldNames.Vocab.AudioG] = audioG }));
+         Anki.ChangeTheFieldOfTheStudyNoteOf(Vocab, AnkiFieldNames.Vocab.AudioB, audioB);
+         Anki.ChangeTheFieldOfTheStudyNoteOf(Vocab, AnkiFieldNames.Vocab.AudioG, audioG);
          return ResultOf<StudyNotesThatDiffer>(CallTool("list_the_study_notes_that_differ",
                                                         new Dictionary<string, object?> { ["leaveOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers"] = leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers }));
       }
@@ -122,16 +119,17 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
    public class with_a_study_note_in_Anki_that_belongs_to_no_note : When_comparing_the_study_notes_with_Anki
    {
+      readonly long _itsAnkiNoteId;
       readonly StudyNotesThatDiffer _found;
 
       public with_a_study_note_in_Anki_that_belongs_to_no_note()
       {
-         StudyNotesInAnki.Put(new StudyNoteInTheSRS(studyNoteId: 999_999, new Dictionary<string, string> { [AnkiFieldNames.Question] = "孤児", [AnkiFieldNames.JasNoteId] = "a-deleted-note" }));
+         _itsAnkiNoteId = Anki.AddAStudyNoteThatHoldsNoCorpusNoteId(new Dictionary<string, string> { [AnkiFieldNames.Question] = "孤児", [AnkiFieldNames.JasNoteId] = "a-deleted-note" });
          _found = ListTheStudyNotesThatDiffer();
       }
 
       [XF] public void it_is_listed_with_its_Anki_note_id_question_and_jas_note_id() =>
-         _found.StudyNotesOfNoNote.Must().SequenceEqual([new StudyNoteOfNoNote(999_999, "孤児", "a-deleted-note")]);
+         _found.StudyNotesOfNoNote.Must().SequenceEqual([new StudyNoteOfNoNote(_itsAnkiNoteId, "孤児", "a-deleted-note")]);
       [XF] public void only_the_vocabs_study_note_is_compared() => _found.StudyNotesCompared.Must().Be(1);
    }
 }

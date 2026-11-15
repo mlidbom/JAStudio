@@ -9,7 +9,7 @@ namespace JAStudio.HeadlessHost;
 
 /// <summary>
 /// The study-notes in the collection the headless JAStudio was started with, read from its file (<see cref="AnkiCollectionFile"/>), with the same<br/>
-/// SELECTs as JAStudio inside Anki reads them. Writing one is refused, since there is no Anki to write a study-note in.
+/// SELECTs as JAStudio inside Anki reads them. Changing one is refused, since there is no Anki to change a study-note or its cards in.
 /// </summary>
 class HeadlessAnkiStudyNotes : ISRSStudyNotes
 {
@@ -21,4 +21,9 @@ class HeadlessAnkiStudyNotes : ISRSStudyNotes
    public IReadOnlyList<StudyNoteInTheSRS> ReadAll() => StudyNotesInAnkisDatabase.ReadAll(_database);
 
    public void Write(JPNote note) => throw new NotSupportedException("The headless JAStudio has no Anki to write a study-note in.");
+   public void SuspendAllCardsForNote(NoteId noteId) => throw NoAnkiToChangeCardsIn();
+   public void UnsuspendAllCardsForNote(NoteId noteId) => throw NoAnkiToChangeCardsIn();
+   public void DeleteTheStudyNoteOf(NoteId noteId) => throw new NotSupportedException("The headless JAStudio has no Anki to delete a study-note in.");
+
+   static NotSupportedException NoAnkiToChangeCardsIn() => new("The headless JAStudio has no Anki to change a note's cards in.");
 }

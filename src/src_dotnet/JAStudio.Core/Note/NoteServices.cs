@@ -7,6 +7,7 @@ using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Note;
@@ -24,7 +25,7 @@ public class NoteServices
    internal NoteServices(IRootResolver resolver) => _resolver = resolver;
 
    public JPCollection Collection => _resolver.Resolve<JPCollection>();
-   public ISRSCardOperations SRSCardOperations => _resolver.Resolve<ISRSCardOperations>();
+   public ISRSStudyNotes SRSStudyNotes => _resolver.Resolve<ISRSStudyNotes>();
    public SRSAvailability SRSAvailability => _resolver.Resolve<SRSAvailability>();
    public Settings Settings => _resolver.Resolve<Settings>();
    public DictLookup DictLookup => _resolver.Resolve<DictLookup>();

@@ -1,6 +1,5 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using JAStudio.Anki;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.Configuration;
@@ -33,14 +32,12 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkiCollectionFile(_setup.AnkiCollectionFile)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
-         Singleton.For<ISRSDataLoader>().CreatedBy(ISRSDataLoader (AnkiCollectionDatabase database) => new AnkiDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
          Singleton.For<SRSAvailability>().Instance(SRSAvailability.Unavailable),
          Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
          Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
-         Singleton.For<ISRSCardOperations>().Instance(new HeadlessCardOperations()),
          Singleton.For<ISRSTagOperations>().Instance(new HeadlessAnkiTagOperations()),
          Singleton.For<ISRSStudyNotes>().CreatedBy(ISRSStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
       );

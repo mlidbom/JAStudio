@@ -1,7 +1,6 @@
 import typing, abc
+from System.Collections.Generic import IReadOnlyCollection_1, IReadOnlyDictionary_2, IReadOnlyList_1
 from JAStudio.Core.Note import NoteId
-from JAStudio.Core.TaskRunners import TaskRunner
-from System.Collections.Generic import IReadOnlyCollection_1, Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1, IReadOnlyDictionary_2
 
 class CardStudyingStatus:
     def __init__(self, studyNoteId: int, cardType: str, isSuspended: bool, noteTypeName: str) -> None: ...
@@ -13,20 +12,6 @@ class CardStudyingStatus:
     def NoteTypeName(self) -> str: ...
     @property
     def StudyNoteId(self) -> int: ...
-
-
-class ISRSCardOperations(typing.Protocol):
-    @abc.abstractmethod
-    def DeleteTheStudyNoteOf(self, noteId: NoteId) -> None: ...
-    @abc.abstractmethod
-    def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
-    @abc.abstractmethod
-    def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
-
-
-class ISRSDataLoader(typing.Protocol):
-    @abc.abstractmethod
-    def Load(self, taskRunner: TaskRunner) -> SRSData: ...
 
 
 class ISRSTagOperations(typing.Protocol):
@@ -66,18 +51,6 @@ class SRSAvailability:
     Unavailable : SRSAvailability
     @property
     def IsAvailable(self) -> bool: ...
-
-
-class SRSData:
-    def __init__(self, noteIdOfEachStudyNote: Dictionary_2[int, NoteId], studyingStatuses: List_1[CardStudyingStatus], studyNoteTags: Dictionary_2[int, IReadOnlyList_1[str]]) -> None: ...
-    @property
-    def NoteIdOfEachStudyNote(self) -> Dictionary_2[int, NoteId]: ...
-    @property
-    def StudyingStatuses(self) -> List_1[CardStudyingStatus]: ...
-    @property
-    def StudyNoteTags(self) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
-    def StudyingStatusesOf(self, studyNoteId: int) -> IEnumerable_1[CardStudyingStatus]: ...
-    def TagsOf(self, studyNoteId: int) -> IReadOnlyList_1[str]: ...
 
 
 class StudyNoteIds:

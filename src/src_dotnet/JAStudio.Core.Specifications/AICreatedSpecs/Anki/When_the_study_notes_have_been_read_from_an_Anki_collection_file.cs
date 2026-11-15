@@ -25,7 +25,7 @@ public sealed class When_the_study_notes_have_been_read_from_an_Anki_collection_
    {
       _collection = Path.Combine(_folder.FullName, "collection.anki2");
       File.Copy(AnkiTestDb.Path, _collection);
-      WhatTheCollectionLoadsOfTheStudyNotesIn(new AnkiCollectionFile(new FileInfo(_collection)));
+      TheStudyNotesIn(new AnkiCollectionFile(new FileInfo(_collection)));
       File.Delete(_collection);
    }
 

@@ -14,7 +14,7 @@ public class for_card_studying_statuses : SpecificationReadingAnAnkiCollectionFi
    {
       readonly CardStudyingStatus[] _statuses;
 
-      public after_fetching_all() => _statuses = [.. WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database).StudyingStatuses];
+      public after_fetching_all() => _statuses = [.. TheStudyNotesIn(AnkiTestDb.Database).SelectMany(it => it.CardStudyingStatuses)];
 
       [XF] public void the_result_is_not_empty() => _statuses.Must().NotBeEmpty();
 

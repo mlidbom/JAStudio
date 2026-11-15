@@ -1,8 +1,9 @@
 # Moving JAStudio out of Anki
 
-> **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built.** The order of
-> work is preliminary. Details are settled as each increment needs them. The names of increment 1 are Claude's, and
-> wait for Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
+> **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and increment
+> 2, the Sync in a Studying view, is being built, as Claude proposed it.** The order of work is preliminary. Details
+> are settled as each increment needs them. The names are Claude's, and wait for Magnus's pass: see
+> [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
 ## The goal
 
@@ -57,8 +58,8 @@ From reading the code on 2026-11-14. Today pythonnet loads JAStudio's .NET side 
   - *What Magnus starts himself:* the note view shortcuts (`NoteViewShortcuts`), Ctrl+O and Ctrl+Shift+O, which show the
     workspace, and the Qt menus that C# describes and Python builds.
 - **The seams between Core and Anki already exist,** since the standalone and the headless JAStudio run without Anki.
-  By their names since increment 1: `SRSAvailability`, `ISRSWindows`, `ISRSStudyNotes`, `ISRSTagOperations`,
-  `ISRSCardOperations`, `ISRSDataLoader`, `IAnkiRawNotes` and `AnkiCollectionDatabase`.
+  By their names since increment 1, and as they are since increment 2 made one interface of three: `SRSAvailability`,
+  `ISRSWindows`, `ISRSStudyNotes`, `ISRSTagOperations`, `IAnkiRawNotes` and `AnkiCollectionDatabase`.
 
 ## Decided
 
@@ -123,8 +124,8 @@ of one of JAStudio's own note types, the study-notes' types, that holds no corpu
 don't think." No sync makes a corpus note of one.
 
 **A sync counts and lists them** (Magnus, 2026-11-15, on Claude's suggestion), so that the corruption shows. Today such
-a note is left out without a word when the study-notes are read
-(`AnkiDataLoader.StudyNoteRow.HoldsACorpusNoteId`). It's the check `corpus-validity.md` has wanted since
+a note is read with no note's id (`StudyNoteInTheSRS.NoteId`), and the collection passes it by without a word
+(`JPCollection.GiveEachNoteItsStudyNoteFrom`). It's the check `corpus-validity.md` has wanted since
 2026-11-08. Where they're listed is open. Magnus: "Maybe in an errors tab or window?" JAStudio has neither today.
 
 ### A call names the collection it expects, and one click takes the collection Anki has open (Magnus, 2026-11-15)
@@ -246,7 +247,7 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
      suspending, and the states.
 2. **Sync in a Studying view,** replacing the notifications, while still inside Anki. Magnus finds out early whether
    stale-until-sync really doesn't bother him. How it's to be built is proposed under
-   [Increment 2, proposed](#increment-2-proposed-the-sync-in-a-studying-view).
+   [Increment 2](#increment-2-the-sync-in-a-studying-view-proposed-and-partly-built).
 3. **Menus:** a shortcut that shows the reviewed note in the workspace, then the Qt menus go.
 4. **The HTTP path, built on main in pieces that Anki doesn't use until it's complete:** the add-on's HTTP server,
    `JAStudio.Anki`'s HTTP side, and the standalone JAStudio's wiring. Anki keeps working on pythonnet meanwhile, and
@@ -280,13 +281,17 @@ system, and an "external note" is the study-note it always was. The names first 
 | `ExternalNoteIdMap` | `StudyNoteIds` |
 | `IExternalNoteUpdateHandler` | `IStudyNoteUpdateHandler`, which goes in increment 2 |
 
+Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: increment 2 made them part of
+`ISRSStudyNotes` and `StudyNoteInTheSRS` (see
+[Increment 2](#increment-2-the-sync-in-a-studying-view-proposed-and-partly-built)).
+
 - **A study-note id** is the id the spaced repetition system gives a study-note, in Anki the id of its Anki note. It
   replaced "external id" and "external note id" everywhere: `StudyNoteIds.StudyNoteIdOf`,
   `JPCollection.NoteOfTheStudyNote`, `CardStudyingStatus.StudyNoteId`.
 - **The study-notes and their comparison** are in `JAStudio.Core.Studying.StudyNotes`, which was
   `JAStudio.Core.Anki.StudyNotes`.
-- **The Anki integration's implementations follow:** `AnkiDataLoader`, which was `AnkiBackendDataLoader`, and
-  `AnkiCardOperations`, which was `AnkiCardOperationsImpl`.
+- **The Anki integration's implementations followed:** `AnkiDataLoader`, which was `AnkiBackendDataLoader`, and
+  `AnkiCardOperations`, which was `AnkiCardOperationsImpl`. Both are part of `AnkiStudyNotes` since increment 2.
 - **The Anki add-on's Python uses four of the renamed members and two of the types,** and was changed with them.
 - **Core's own members that said Anki note for study-note follow.** `JPCollection.ReadTheStudyNotesFromTheSRSAgain` was
   `ReadTheStudyNotesFromAnkiAgain`, `JPNote.HasAStudyNote` was `HasAnAnkiNote`, `JPNote.ForgetItsDeletedStudyNote` was
@@ -302,7 +307,7 @@ system, and an "external note" is the study-note it always was. The names first 
   is in Anki's markup (`AnkiMediaMarkup`), and `StudyNoteComparison` compares text as Anki stores it. The two types
   are all that is left in `JAStudio.Core.Anki`. This goes with the design call that the write of a study-note crosses
   as the fields to write.
-- **Cards and suspending:** `ISRSCardOperations` speaks of both, which `studying.md` is to design
+- **Cards and suspending:** `ISRSStudyNotes` speaks of both, which `studying.md` is to design
   words for.
 - **A study-note id is a `long`,** as Anki's is.
 
@@ -310,15 +315,16 @@ system, and an "external note" is the study-note it always was. The names first 
 
 - **The tagging domain's Anki tags:** `AnkiTagChanges`, `AnkiTags` and `Tags.Anki`. They name the branch `anki::` that
   the student sees.
-- **The stand-ins for Anki, or for its absence:** `PretendAnki` and `InMemoryAnkiStudyNotes` in the specifications,
+- **The stand-ins for Anki, or for its absence:** `PretendAnki` in the specifications,
   and the hosts' `NoAnki…` and `HeadlessAnki…`.
 - **`JPCollection.ReloadFromBackend` and its relatives,** where "the backend" is the corpus checkout and Anki together.
 
-## Increment 2, proposed: the Sync in a Studying view
+## Increment 2: the Sync in a Studying view, proposed and partly built
 
-**Claude's proposal of 2026-11-15, from reading the code. Nothing of it is built, and Magnus hasn't seen it.** What
-is decided about the Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside
-Anki, in parts that each leave JAStudio usable.
+**Claude's proposal of 2026-11-15, from reading the code. Magnus hasn't seen it: he gave Claude the go-ahead to
+continue by its own judgment, and asked for what it could build on its own overnight.** What is decided about the
+Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside Anki, in parts that
+each leave JAStudio usable. Part 1 is built.
 
 **What tells JAStudio of Anki's changes today,** all of it to go:
 
@@ -338,10 +344,11 @@ saying why.
 
 **The parts, in order:**
 
-1. **One read of the study-notes, and one interface.** `ISRSDataLoader`, `ISRSStudyNotes` and `ISRSCardOperations`
-   become one interface for the study-notes in the SRS, whose read gives each study-note with its note's id, its cards'
-   studying statuses, its tags and its fields. The load and the comparison use the same read. No change to what
-   JAStudio does.
+1. **One read of the study-notes, and one interface** (built 2026-11-15, see
+   [Part 1 as built](#part-1-as-built-one-interface-for-the-study-notes-with-one-read-of-them)). `ISRSDataLoader`,
+   `ISRSStudyNotes` and `ISRSCardOperations` become one interface for the study-notes in the SRS, whose read gives
+   each study-note with its note's id, its cards' studying statuses, its tags and its fields. The load and the
+   comparison use the same read. No change to what JAStudio does.
 2. **The sync, in Core,** with specifications against the pretended Anki. It reads the study-notes, gives each note
    its study-note, writes the study-notes that differ (`StudyNoteComparison`), runs the import profiles that run
    automatically, and answers with what it did: how many study-notes it read and wrote, the notes whose study-note is
@@ -365,6 +372,31 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
 - **Where the Studying view is.** Proposed: a window of its own. The alternative is a pane or a tab in the workspace.
 - **Whether the workspace shows that a Sync is due,** such as how many notes were updated since the last one. Proposed:
   not in this increment.
+
+### Part 1 as built: one interface for the study-notes, with one read of them
+
+- **`ISRSStudyNotes`** is the study-notes in the spaced repetition system: `ReadAll`, `Write`,
+  `SuspendAllCardsForNote`, `UnsuspendAllCardsForNote` and `DeleteTheStudyNoteOf`. It took in `ISRSDataLoader`, whose
+  load read the same study-notes without their fields, and `ISRSCardOperations`, which changed them.
+- **`StudyNoteInTheSRS`** is one study-note as it's read: its id, the id of the note it belongs to (`NoteId`, null
+  when the study-note holds no note's id), its fields, its tags (`Tags`) and the studying status of each of its
+  cards (`CardStudyingStatuses`). `SRSData`, which held the three lists the load read, is gone.
+- **The collection reads them itself, and shows the progress of the read** (`JPCollection.LoadFromBackend`), where
+  the loader was handed the task runner.
+- **Each host has one class for them:** `AnkiStudyNotes` inside Anki, `HeadlessAnkiStudyNotes`, which reads and
+  refuses changes, and the standalone JAStudio's `NoAnkiStudyNotes`. In the Anki integration,
+  `StudyNotesInAnkisDatabase` makes the one read, with a SELECT each of the note types, the study-notes and the
+  cards.
+- **The pretended Anki of the specifications holds whole study-notes** (`PretendAnki`), and took in
+  `InMemoryAnkiStudyNotes`: giving a note a study-note writes its fields, as creating it in Anki does, and JAStudio
+  deleting a note's study-note deletes it there.
+- **What the one read costs, measured on Magnus's collection file on 2026-11-15,** 79,719 study-notes and 159,463
+  cards: the SELECT of the study-notes with every field takes about as long as the load's SELECT of one field did
+  (61 ms and 94 ms in Python's SQLite, where the function that picks one field is slow), and gives 17.5 million
+  characters of JSON where the load's gave 11.0 million. The study-notes' fields are small: 8.6 million characters
+  in all. Not measured: reading the larger JSON into rows, and its way through pythonnet inside Anki.
+- **Until part 4, the larger read also runs after every Anki operation that changed notes**
+  (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`), in the background.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 

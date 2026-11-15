@@ -32,8 +32,6 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<SRSAvailability>().Instance(SRSAvailability.Unavailable),
          Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
-         Singleton.For<ISRSDataLoader>().Instance(new NoAnkiData()),
-         Singleton.For<ISRSCardOperations>().Instance(new NoAnkiCardOperations()),
          Singleton.For<ISRSTagOperations>().Instance(new NoAnkiTagOperations()),
          Singleton.For<ISRSStudyNotes>().Instance(new NoAnkiStudyNotes()),
          Singleton.For<IAnkiRawNotes>().Instance(new NoAnkiRawNotes())

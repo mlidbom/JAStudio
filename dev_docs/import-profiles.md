@@ -181,7 +181,7 @@ Anki's side stays generic:
 - it tags and deletes notes (`notes_add_tag`, `notes_remove`).
 
 C# reads note types, fields and notes from the database of the collection Anki has open, through Anki's own connection
-(`AnkiRawNotes`, `AnkiCollectionDatabase`), as it reads the study-notes (`AnkiDataLoader`). Everything specific to an import, Immersion Kit's included, is an import profile.
+(`AnkiRawNotes`, `AnkiCollectionDatabase`), as it reads the study-notes (`StudyNotesInAnkisDatabase`). Everything specific to an import, Immersion Kit's included, is an import profile.
 
 ## The first import profile: Immersion Kit
 
