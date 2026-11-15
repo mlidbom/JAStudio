@@ -75,6 +75,16 @@ class AnkisHttpServerAccess(IEquatable_1[AnkisHttpServerAccess]):
 
 
 
+class AnkisHttpServerAccessFile:
+    def __init__(self, file: FileInfo) -> None: ...
+    @property
+    def File(self) -> FileInfo: ...
+    @classmethod
+    @property
+    def OfThisUser(cls) -> AnkisHttpServerAccessFile: ...
+    def AccessOrNullWhileNoAnkiServes(self) -> AnkisHttpServerAccess: ...
+
+
 class AnkiSpeaksAnotherContractException(Exception):
     def __init__(self, versionOfTheAddOn: int, versionOfJAStudio: int) -> None: ...
     @property

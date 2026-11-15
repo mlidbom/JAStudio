@@ -27,6 +27,9 @@ static class AnkisHttpServersForSpecifications
    /// <summary>Starts a server on a new copy of the test collection, which serves until it's disposed.</summary>
    public static AnkiServingACopyOfTheTestCollection StartOne() => new(AnswerTo("start"));
 
+   /// <summary>The access file a JAStudio of this user reads, as the add-on names it: Python's <c>the_access_file_of_this_user</c>.</summary>
+   public static FileInfo TheAccessFileOfThisUserAsTheAddOnNamesIt() => new(AnswerTo("access-file-of-this-user").GetProperty("accessFile").GetString() ?? "");
+
    /// <summary>Python's answer to <paramref name="command"/>, one of those <c>serving_copies_of_the_test_collection.py</c> takes. One command at a time: the specifications run in parallel.</summary>
    internal static JsonElement AnswerTo(string command) => Monitor.Locked(() =>
    {
