@@ -24,3 +24,9 @@ Claude proposed the limit on what the ownership covers, when accepting it (2026-
 behind its tools are Claude's, but a change to how JAStudio behaves for Magnus (its domain model, data or UI) is never
 slipped in as "something a tool needed". Such changes are discussed first, like any other work, so the ownership can't
 become a way around the collaboration rules.
+
+## What the rule leaves to the collaboration rules
+
+Since 2026-11-14 the shared collaboration rules say of every development tool what this rule first said of the server:
+be proactive, no permission needed, tell Magnus afterwards, commit separately. So this rule only says that the server is
+such a tool, and gives the boundary, which is JAStudio's own.
