@@ -5,10 +5,10 @@
 > button. Of increment 4, the HTTP path, what goes from JAStudio to Anki is built: the Anki add-on serves JAStudio
 > over HTTP whenever an Anki profile is open, and the standalone JAStudio calls the Anki that runs, which it finds
 > through the access file. JAStudio inside Anki still calls Anki through pythonnet, and still draws Anki's cards.
-> What goes from Anki to JAStudio isn't built. On JAStudio's side, the UI's direct calls to
-> `AnkiFacade` are behind Core's seams, but for the menu of Anki's browser, the Anki integration calls Anki through
-> interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows after it
-> changes a note: a card's page in Anki reloads itself.** The order of work is
+> What goes from Anki to JAStudio isn't built. Increment 3, the menus, is built: the Qt menus that C# described are
+> gone, and Ctrl+Alt+O shows the note Anki shows in the workspace. On JAStudio's side, the Anki integration calls
+> Anki through interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows
+> after it changes a note: a card's page in Anki reloads itself.** The order of work is
 > preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
 > Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
@@ -150,6 +150,8 @@ another is open would reach the wrong notes: Magnus has two, `Magnus` and `Anki-
 
 ### Most of the Qt menus go (Magnus, 2026-11-14)
 
+*Built 2026-11-15: see [Increment 3 as built](#increment-3-as-built-the-menus-2026-11-15).*
+
 "Most of them likely go away. With jastudio a keyboard shortcut away, what good are they?"
 
 - **The reviewer's note menu goes once a shortcut in Anki's reviewer shows the reviewed note in the workspace**
@@ -158,8 +160,7 @@ another is open would reach the wrong notes: Magnus has two, `Magnus` and `Anki-
   note. Claude proposes the key when the work reaches it.
 - **"Prioritize selected cards" and "Spread selected cards" stay for now,** as plain Python menu items in the Anki
   add-on (Magnus, 2026-11-15: "Keep them for now"). They act on the cards selected in Anki's browser, are Python
-  already, and need nothing from JAStudio. Whether they stay for good is to be checked with Magnus when the menus go:
-  a `todo:` comment in `AnkiBrowserMenuBuilder.BuildBrowserMenuSpec` says so.
+  already, and need nothing from JAStudio. Whether they stay for good was put to Magnus when the menus went.
 - **The rest of the browser's menu goes,** with the other Qt menus.
 
 ### Core speaks about studying, and Anki's names stay in `JAStudio.Anki` and on the wire (2026-11-14)
@@ -261,7 +262,8 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
 2. **Sync in a Studying view** (built 2026-11-15, see [Increment 2](#increment-2-the-sync-as-built))**,** replacing
    the notifications, while still inside Anki. Magnus finds out early whether stale-until-sync really doesn't bother
    him.
-3. **Menus:** a shortcut that shows the reviewed note in the workspace, then the Qt menus go.
+3. **Menus** (built 2026-11-15, see [Increment 3 as built](#increment-3-as-built-the-menus-2026-11-15))**:** a
+   shortcut that shows the reviewed note in the workspace, then the Qt menus go.
 4. **The HTTP path, built on main in pieces that Anki doesn't use until it's complete:** the add-on's HTTP server,
    `JAStudio.Anki`'s HTTP side, and the standalone JAStudio's wiring. Anki keeps working on pythonnet meanwhile, and
    Magnus sees each piece in Rider. The first piece is built: see
@@ -551,7 +553,7 @@ package `jastudio.anki_http`, in the Anki add-on. The add-on starts it as an Ank
 
 - **`HttpServerForJAStudio`** serves on the loopback address, on a port the system picks, with Python's standard
   library alone (`http.server`), on a thread of its own and a thread for each request.
-  - `GET /contract` gives the contract's version, 2.
+  - `GET /contract` gives the contract's version, 3.
   - `GET /collection` gives the path of the collection Anki has open.
   - `POST /call/<function>?collection=<path>` calls a function, with a JSON object of its arguments by name as the
     body.
@@ -561,11 +563,12 @@ package `jastudio.anki_http`, in the Anki add-on. The add-on starts it as an Ank
 - **The functions are those of `anki_facade_backend.py`,** by the same names.
   - *Those that work on Anki's collection* (`FunctionsOnTheCollection`): `notes_find`, `notes_add_tag`,
     `notes_remove`, the five `tags_…`, `study_note_write`, `note_suspend_all_cards`, `note_unsuspend_all_cards`,
-    `col_read_json`, `get_note_id_from_card_id`, `media_add_file` and `anki_media_dir`.
+    `col_read_json`, `media_add_file` and `anki_media_dir`.
   - *Those that drive Anki's windows* (`FunctionsOnAnkisWindows`), since version 2 of the contract:
     `browser_execute_lookup`, `browser_execute_lookup_and_show_previewer`, `ui_show_tooltip` and `ui_refresh`.
   - *`note_remove` went with version 2* (Magnus, 2026-11-15: "OK"): `notes_remove` does the same for several
     notes. It went from the functions pythonnet calls too.
+  - *`get_note_id_from_card_id` went with version 3,* with the menu of Anki's browser, which alone called it.
   - *`study_note_write` takes the fields to write,* by name, where pythonnet passed the note.
   - *`col_read_json` answers with the JSON the SELECT built, as JSON,* not as a string holding it: the read of the
     study-notes is 17.5 million characters.
@@ -622,14 +625,14 @@ so is its second: see [step 1](#jastudios-side-step-1-as-built-the-uis-direct-ca
   - `NoSRSMedia` is for a JAStudio without a spaced repetition system: the standalone and the headless JAStudio.
   - `PretendAnki` keeps the copies in the specifications, which now say that Anki was given the file.
 - **`UsingASpeech` gives the TTS audio to `ISRSMedia`.** It asked whether Python runs, and called `AnkiFacade`.
-- **`AutomaticImportRunReports`, and the reparse in `AnkiBrowserMenuBuilder`, use `ISRSWindows`.**
+- **`AutomaticImportRunReports`, and the reparse in the menu of Anki's browser, which went in increment 3, use
+  `ISRSWindows`.**
   `ShowAPassingMessage` takes how long to show the message, since the import's message shows for 5 seconds where
   the others show for 3.
 
-**Left in `JAStudio.UI`,** which therefore still references `JAStudio.Anki`:
-
-- *`AnkiBrowserMenuBuilder`'s calls for cards:* a card's note, and prioritizing and spreading cards. They go with the
-  Qt menus, in increment 3.
+**Left in `JAStudio.UI`,** until increment 3: the menu of Anki's browser called Anki itself, for a card's note and
+to prioritize and spread cards (`AnkiBrowserMenuBuilder`). It went with the Qt menus, and `JAStudio.UI` no longer
+references `JAStudio.Anki`.
 
 #### The refreshes of Anki's windows are gone, and a card's page reloads itself
 
@@ -701,9 +704,9 @@ there.
 - **A study-note is written as its fields,** as over HTTP: `IAnkisNotes.WriteTheFields` takes the fields JAStudio
   writes (`JPNote.StudyNoteFields`), and Python's `study_note_write` writes them as its HTTP twin does. Python read
   them from the .NET note before (`JPNoteDataShim`, deleted).
-- **`AnkiFacade` keeps the calls of the menu of Anki's browser,** which `JAStudio.UI` still makes itself: see step
-  1's "Left in `JAStudio.UI`". Its third, the refresh after a menu command, went with the refreshes.
-- **Not in the interfaces:** the add-on's `get_note_id_from_card_id`, which only the menu of Anki's browser calls.
+- **`AnkiFacade` kept the calls of the menu of Anki's browser,** which `JAStudio.UI` made itself: see step 1's
+  "Left in `JAStudio.UI`". Its third, the refresh after a menu command, went with the refreshes, and the rest went
+  with the menu, in increment 3, and `AnkiFacade` with them.
 
 ### JAStudio's side, step 3 as built: Anki's functions over HTTP
 
@@ -718,7 +721,7 @@ pythonnet as before.**
   [The standalone JAStudio calls the Anki that runs](#the-standalone-jastudio-calls-the-anki-that-runs-as-built).
   Until that was built, it was given one access and the collection's file.
 - **Before its first call it compares contract versions,** and refuses an add-on that speaks another
-  (`AnkiSpeaksAnotherContractException`). The version is 2 on both sides.
+  (`AnkiSpeaksAnotherContractException`). The version is 3 on both sides.
 - **A refusal and a failure are each an exception:**
   - `AnkiRefusedTheCallException` has Anki's reason in words for a person, and the collection Anki has open when
     that isn't the one JAStudio works with.
@@ -796,7 +799,8 @@ server is there for a JAStudio outside Anki, and to be tried from outside.**
 - **Tried in the real Anki, 2026-11-15,** from outside, by a script that reads the access file as a JAStudio would
   and calls the server, on Magnus's profile `Magnus`: 80,512 notes and 159,463 cards.
   - *What changes nothing in Anki works:* `/contract`, `/collection`, `notes_find`, `col_read_json`,
-    `get_note_id_from_card_id`, `tags_number_of_notes_with_a_tag_in` and `anki_media_dir`, and the answers to a
+    `get_note_id_from_card_id` (gone since, with version 3), `tags_number_of_notes_with_a_tag_in` and
+    `anki_media_dir`, and the answers to a
     wrong token, to a call that names another collection, to a function there isn't, and to arguments that don't
     fit.
   - *Reading every note with its fields takes about 0.2 seconds:* 18.6 million characters of JSON, in one
@@ -871,7 +875,38 @@ below. JAStudio inside Anki is as before: it calls Anki through pythonnet.**
 
 **What the HTTP path still lacks:**
 
-- *From Anki to JAStudio:* the cards' pages, and the rest that Python asks of .NET today.
+- *From Anki to JAStudio:* the cards' pages, and the rest that Python asks of .NET today: the note view shortcuts
+  with Ctrl+Alt+O, showing the workspace or its search (Ctrl+Shift+O, Ctrl+O and the JA Studio menu), and how long
+  to show a question.
+
+## Increment 3 as built: the menus (2026-11-15)
+
+**Built 2026-11-15, on Magnus's go-ahead for Claude's suggestion to make it the next step. JAStudio inside Anki
+is otherwise as before.**
+
+- **Ctrl+Alt+O shows the note Anki shows in JAStudio's workspace,** in Anki's reviewer and previewer
+  (`AnkiDialogs.ShowTheNoteInTheWorkspace`, bound in `note_view_shortcuts.py`): what JAStudio does with a note is
+  done there. Ctrl+Shift+O shows the workspace as it was.
+  - *The key is Claude's,* for Magnus to check: Anki's reviewer has no Ctrl+Alt+O, and the O goes with Ctrl+O and
+    Ctrl+Shift+O. Anki itself uses Ctrl+Alt+N, Ctrl+Alt+E and Ctrl+Alt+I there.
+- **The Qt menus that C# described are gone:**
+  - *The right-click menu of a note,* in Anki's reviewer, previewer and editor, with what it held on the selected
+    text and the clipboard text. The workspace has the same menu (`NoteContextMenu`).
+  - *The menu of Anki's browser,* but for "Prioritize selected cards" and "Spread selected cards": its note
+    actions and its reparse of the selected sentences.
+  - *What carried them:* `AnkiMenus`, `PythonAnkiMenus`, `AnkiBrowserMenuBuilder`, `AnkiFacade`, and Python's
+    `qt_menu_adapter` and `ExQmenu`.
+- **The Anki add-on builds the menus it keeps itself,** in Python:
+  - *The JA Studio menu in Anki's menu bar:* the workspace, and the workspace on its search. They call JAStudio as
+    the shortcuts Ctrl+Shift+O and Ctrl+O do.
+  - *"Prioritize selected cards" and "Spread selected cards",* in the browser's right-click menu, under
+    "Magnus", as before: Prioritize with one card selected, Spread with any.
+- **Found and fixed on the way:** in Anki's previewer, the note view shortcuts that act on the note, such as 0, which
+  removes a mnemonic, acted on the note in Anki's reviewer instead of the one in the previewer.
+- **`JAStudio.UI` no longer references `JAStudio.Anki`.** The standalone JAStudio references it itself.
+- **Version 3 of the contract** goes with it: `get_note_id_from_card_id` went, which only the browser's menu
+  called.
+- **Not tried inside Anki** when it was built.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
