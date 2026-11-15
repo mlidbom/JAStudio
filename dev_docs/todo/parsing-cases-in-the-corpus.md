@@ -2,7 +2,7 @@
 
 > **Status: agreed with Magnus 2026-11-15, on the branch `parsing-cases-in-the-corpus`.** Steps 1, 2 and 5 are done: the
 > data type is built, the 230 cases are imported into the worktree's corpus checkout, and the case files are generated
-> from them. The corpus's changes wait, staged by Magnus and uncommitted, with the generated files, for his word. It changes [the parsing cases](../parsing-cases.md), whose case files become generated from
+> from them. Both are committed, on Magnus's word: the corpus in the worktree's own clone, not yet on the corpus's own line. It changes [the parsing cases](../parsing-cases.md), whose case files become generated from
 > the corpus.
 
 ## What it's for (Magnus, 2026-11-15)
@@ -226,18 +226,19 @@ with identical data").
     others have the sentence. One of them also lost the trailing space of its sentence.
 - **The stripped-down corpus holds the same vocab,** with the sentence counts the 176 new sentences changed.
 - **Every specification passes on the generated files.**
-- **The generated files aren't committed yet:** they go with the corpus's commit and its pointer, so that the
-  source's case files always come from the corpus commit it records.
+- **A case file holds the id of its sentence** (`sentenceId`; Magnus, 2026-11-15: "should not the files we extract
+  contain the sentence id so that we have an immutable id?"). The name of the parsing case and the sentence's text can
+  both change.
+- **Committed, on Magnus's word, with the same message in both repositories:** the corpus as `3949c927f8d`, on the
+  branch `parsing-cases-in-the-corpus` of the worktree's clone of the corpus repository, and the source as
+  `a82c0b425`, with the generated case files, the stripped-down corpus and the pointer to that corpus commit.
 
-**Next:** Magnus looks at them in JAStudio (the standalone JAStudio on the worktree, with the search condition
-"Parsing case"). Then step 4. Handing the corpus over to its own line needs this branch's code on `main` first,
-and Anki closed while Magnus's corpus checkout takes the commits.
+**Next:**
 
-## Open
-
-- **Whether a suspect change should fail the specifications.** It does today: any change to how a case parses fails
-  it. Magnus, 2026-11-15: "whether that is good is questionable. I'd not change it right now though unless you have a
-  strong argument for it." Claude has none, so it stays.
-- **How Claude reads "we review only that":** that a review looks at what changed, not at the whole sentence again.
-- **A broken case in the specifications:** whether it's generated as a case that pins what it parses to, or left out
-  until it's verified.
+- **Step 4:** the Parsing cases tab, the sentence page showing the expected result beside the current one, the
+  commands in the sentence's menus, and an MCP tool listing the cases with what differs.
+- **Handing the corpus over to its own line,** on Magnus's word. JAStudio from before this branch can't read a
+  sentence that has a parsing case, so it goes in this order: this branch merged into `main`; Anki closed; Magnus's
+  corpus checkout fast-forwarded to `3949c927f8d`, fetched from the worktree's clone; the corpus's `main` pushed; Anki
+  started again on the new build. His corpus checkout was at `37f3f7fede7`, the commit the import started from,
+  when it was committed.
