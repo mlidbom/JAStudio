@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -25,6 +26,7 @@ public sealed partial class ParsingCaseFile
                                                              Encoder = FullUnicodeJsonEncoder.Instance
                                                           };
 
+      public Guid SentenceId { get; init; }
       public string Sentence { get; init; } = string.Empty;
       public string Why { get; init; } = string.Empty;
       public SentenceConfigDto? Configuration { get; init; }
@@ -42,6 +44,7 @@ public sealed partial class ParsingCaseFile
          using(var writer = new Utf8JsonWriter(json, new JsonWriterOptions { Indented = true, NewLine = "\n", Encoder = FullUnicodeJsonEncoder.Instance }))
          {
             writer.WriteStartObject();
+            writer.WriteString(JsonPropertyNameOf(nameof(SentenceId)), SentenceId);
             writer.WriteString(JsonPropertyNameOf(nameof(Sentence)), Sentence);
             writer.WriteString(JsonPropertyNameOf(nameof(Why)), Why);
             if(Configuration != null)

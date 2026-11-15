@@ -13,6 +13,8 @@ and how far it has come, is in [parsing cases in the corpus](todo/parsing-cases-
 A parsing case's file (`ParsingCaseFile`) is one JSON file in `ParsingCases/Cases/`, generated from its sentence in the
 corpus. It's named for what the parsing case is about and its sentence, such as `ichidan imperative - 捕まえよ`: the name
 is the case's name in the test explorer. It holds:
+- `sentenceId`: the id of the sentence of the corpus it's generated from. The name and the sentence's text can change;
+  the id ties the file to its sentence for good (Magnus, 2026-11-15).
 - `sentence`: as a sentence note's question has it, with `<wbr>` for a word break.
 - `why`: why the case exists, such as the misparse it caught.
 - `configuration`, if the sentence has one: its highlighted words and incorrect and hidden matches, as the corpus stores a

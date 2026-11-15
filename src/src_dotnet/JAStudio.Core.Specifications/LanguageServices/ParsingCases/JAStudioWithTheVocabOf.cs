@@ -41,7 +41,7 @@ public class JAStudioWithTheVocabOf : IDisposable
       new(_app.CoreApp.Services.NoteServices,
           new SentenceDto
           {
-             Id = Guid.NewGuid(),
+             Id = parsingCase.SentenceId,
              SourceData = new SentenceSourceDataDto { Question = parsingCase.Sentence },
              Configuration = parsingCase.Configuration
           });

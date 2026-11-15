@@ -40,6 +40,12 @@ public sealed partial class ParsingCaseFile
    /// <summary>The sentence, as a sentence note's question has it, such as with <c>&lt;wbr&gt;</c> marking a word break.</summary>
    public string Sentence => _content.Sentence;
 
+   /// <summary>
+   /// The id of the sentence of the corpus the case is generated from. It ties the case to its sentence for good: the sentence's text and the name of<br/>
+   /// its parsing case, which the file is named by, can both change.
+   /// </summary>
+   public Guid SentenceId => _content.SentenceId;
+
    /// <summary>Why the case exists, such as the misparse it caught.</summary>
    public string Why => _content.Why;
 
@@ -65,6 +71,7 @@ public sealed partial class ParsingCaseFile
       var configuration = ((SentenceDto)sentence.ToDto()).Configuration;
       var content = new Content
                     {
+                       SentenceId = sentence.GetId().Value,
                        Sentence = sentence.Question.WithInvisibleSpace().Replace(StringExtensions.InvisibleSpace.ToString(), SentenceQuestionField.WordBreakTag),
                        Why = parsingCaseOfTheCorpus.Why,
                        Configuration = configuration.HighlightedWords.Count + configuration.IncorrectMatches.Count + configuration.HiddenMatches.Count > 0 ? configuration : null,
