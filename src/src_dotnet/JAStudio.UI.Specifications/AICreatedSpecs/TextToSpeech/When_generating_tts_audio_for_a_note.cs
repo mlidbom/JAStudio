@@ -26,7 +26,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
    readonly FakeTextToSpeechProvider _provider = new();
    readonly RecordingAudioPlayer _player = new();
    readonly SentenceNote _sentence;
-   readonly TextToSpeechDialogViewModel _dialog;
+   readonly TextToSpeechForANoteViewModel _dialog;
 
    public When_generating_tts_audio_for_a_note()
    {
@@ -35,13 +35,13 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       _dialog.GenerateWithTheDefaultVoice();
    }
 
-   TextToSpeechDialogViewModel DialogOffering(params TextToSpeechVoice[] voices) => new(_sentence, voices, _player, GetService<TemporaryServiceCollection>());
+   TextToSpeechForANoteViewModel DialogOffering(params TextToSpeechVoice[] voices) => new(_sentence, voices, _player, GetService<TemporaryServiceCollection>());
 
    SpeechAttemptViewModel Attempt(int number) => _dialog.Attempts.Single(it => it.Number == number);
 
    string[] TheAttempts() => TheAttemptsOf(_dialog);
 
-   static string[] TheAttemptsOf(TextToSpeechDialogViewModel dialog) =>
+   static string[] TheAttemptsOf(TextToSpeechForANoteViewModel dialog) =>
       [..dialog.Attempts.Select(it => string.Join(" ", new[] { it.Description, it.ComparisonWithTheEarlierAttempt, it.ComparisonWithTheCurrentAudio }.Where(part => part != "")))];
 
    [XF] public void the_text_to_speak_is_the_notes() => _dialog.TextToSpeak.Must().Be(_sentence.TextToSpeak);
@@ -137,7 +137,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
       public class and_opening_the_dialog_again_and_generating_with_both_voices : after_using_attempt_1_when_attempt_2_was_selected
       {
-         readonly TextToSpeechDialogViewModel _dialogOpenedAgain;
+         readonly TextToSpeechForANoteViewModel _dialogOpenedAgain;
 
          public and_opening_the_dialog_again_and_generating_with_both_voices()
          {
@@ -183,7 +183,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
    public class when_the_notes_tts_audio_is_of_a_kind_jastudio_does_not_play : When_generating_tts_audio_for_a_note
    {
-      readonly TextToSpeechDialogViewModel _dialogForOggAudio;
+      readonly TextToSpeechForANoteViewModel _dialogForOggAudio;
 
       public when_the_notes_tts_audio_is_of_a_kind_jastudio_does_not_play()
       {
@@ -201,7 +201,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
    public class with_no_voices_chosen : When_generating_tts_audio_for_a_note
    {
-      readonly TextToSpeechDialogViewModel _dialogWithoutVoices;
+      readonly TextToSpeechForANoteViewModel _dialogWithoutVoices;
 
       public with_no_voices_chosen()
       {

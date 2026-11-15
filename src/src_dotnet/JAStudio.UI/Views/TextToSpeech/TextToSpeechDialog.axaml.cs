@@ -15,8 +15,8 @@ using JAStudio.UI.WindowPlaces;
 namespace JAStudio.UI.Views.TextToSpeech;
 
 /// <summary>
-/// The TTS dialog for one note, showing a <see cref="TextToSpeechDialogViewModel"/>: generate the note's TTS audio with the chosen voices,<br/>
-/// listen to the attempts, and use one. It opens where it was last, with the keyboard on the attempts, and the default voice speaking.
+/// The TTS dialog for one note, showing a <see cref="TextToSpeechForANoteViewModel"/> in a <see cref="TextToSpeechForANoteView"/>: generate the note's TTS audio<br/>
+/// with the chosen voices, listen to the attempts, and use one. It opens where it was last, with the keyboard on the attempts, and the default voice speaking.
 /// </summary>
 /// <remarks>
 /// The keys 1 to 9 play attempts 1 to 9, 0 plays the note's TTS audio as it is now, and Enter uses the selected attempt. They do nothing while<br/>
@@ -25,7 +25,7 @@ namespace JAStudio.UI.Views.TextToSpeech;
 /// </remarks>
 partial class TextToSpeechDialog : Window
 {
-   readonly TextToSpeechDialogViewModel _dialog;
+   readonly TextToSpeechForANoteViewModel _forTheNote;
    readonly IReadOnlyList<ITextToSpeechProvider> _providers;
    readonly IFatalErrorHandler _fatalErrorHandler;
 
@@ -40,14 +40,16 @@ partial class TextToSpeechDialog : Window
       _providers = settings.ProvidersWithKeys();
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       var player = new SoundFlowAudioPlayer();
-      _dialog = new TextToSpeechDialogViewModel(note, settings.ChosenVoicesOf(_providers), player, services);
-      DataContext = _dialog;
+      _forTheNote = new TextToSpeechForANoteViewModel(note, settings.ChosenVoicesOf(_providers), player, services);
+      DataContext = _forTheNote;
       InitializeComponent();
+      ForTheNote.ChoosingTheVoicesAsked += ChooseTheVoices;
+      _forTheNote.UsedAnAttempt += _ => Close();
       KeyDown += OnKeyDown;
       Opened += (_, _) =>
       {
-         Dispatcher.UIThread.Post(() => AttemptList.Focus(), DispatcherPriority.Loaded);
-         _dialog.GenerateWithTheDefaultVoice();
+         Dispatcher.UIThread.Post(ForTheNote.PutTheKeyboardOnTheAttempts, DispatcherPriority.Loaded);
+         _forTheNote.GenerateWithTheDefaultVoice();
       };
       Closed += (_, _) => player.Dispose();
    }
@@ -57,18 +59,18 @@ partial class TextToSpeechDialog : Window
 
    void OnKeyDown(object? sender, KeyEventArgs e)
    {
-      if(TextToSpeakBox.IsKeyboardFocusWithin) return;
+      if(ForTheNote.IsTheKeyboardInTheTextToSpeak) return;
 
       switch(e.Key)
       {
          case >= Key.D1 and <= Key.D9:
-            _dialog.PlayTheAttemptNumbered(e.Key - Key.D0);
+            _forTheNote.PlayTheAttemptNumbered(e.Key - Key.D0);
             break;
-         case Key.D0 when _dialog.CurrentAudio.CanPlay:
-            _dialog.PlayTheCurrentAudio();
+         case Key.D0 when _forTheNote.CurrentAudio.CanPlay:
+            _forTheNote.PlayTheCurrentAudio();
             break;
-         case Key.Enter when _dialog.CanUse:
-            Use();
+         case Key.Enter when _forTheNote.CanUse:
+            _forTheNote.UseTheSelectedAttempt();
             break;
          default:
             return;
@@ -77,41 +79,13 @@ partial class TextToSpeechDialog : Window
       e.Handled = true;
    }
 
-   void OnPlayTheCurrentAudio(object? sender, RoutedEventArgs e) => _dialog.PlayTheCurrentAudio();
-
-   void OnPlayAnAttempt(object? sender, RoutedEventArgs e)
-   {
-      if(sender is not Control { DataContext: SpeechAttemptViewModel attempt })
-         throw new InvalidOperationException("An attempt's ▶ shows something other than a SpeechAttemptViewModel.");
-
-      _dialog.Play(attempt);
-   }
-
-   void OnGenerateWithAVoice(object? sender, RoutedEventArgs e)
-   {
-      if(sender is not Control { DataContext: TextToSpeechVoice voice })
-         throw new InvalidOperationException("A voice's button shows something other than a TextToSpeechVoice.");
-
-      _dialog.GenerateWith(voice);
-   }
-
-   void OnGenerateWithEveryVoice(object? sender, RoutedEventArgs e) => _dialog.GenerateWithEveryChosenVoice();
-
    /// <summary>The voices chosen are offered at once. The dialog keeps its own tts-providers, so that a voice chosen again is still the same voice to compare attempts by.</summary>
-   void OnChooseTheVoices(object? sender, RoutedEventArgs e) =>
+   void ChooseTheVoices() =>
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
          if(await ChosenVoicesDialog.ShowOverAsync(this, _fatalErrorHandler) is {} chosen)
-            _dialog.Offer(chosen.ChosenVoicesOf(_providers));
+            _forTheNote.Offer(chosen.ChosenVoicesOf(_providers));
       });
-
-   void OnUse(object? sender, RoutedEventArgs e) => Use();
-
-   void Use()
-   {
-      _dialog.UseTheSelectedAttempt();
-      Close();
-   }
 
    void OnClose(object? sender, RoutedEventArgs e) => Close();
 }
