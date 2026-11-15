@@ -1,32 +1,17 @@
 #!/usr/bin/env pwsh
-# Background Agent Environment Setup
-# This script is for GitHub Copilot background agents running in VS Code worktrees.
-# DO NOT run manually - the human developer has already set up their environment.
-
-param(
-    [switch]$Force  # Override check and run anyway
-)
+# Sets up a fresh worktree for an agent that is to build and test in it: git long paths, the submodules, the Python
+# venv and a .NET build. It does only what is missing, so in a checkout that is already set up it changes nothing.
 
 $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Push-Location $ScriptDir
 
 try {
-    # Detect if running in a background agent context
-    $IsBackgroundAgent = $env:COPILOT_AGENT_MODE -eq "background" -or $env:GITHUB_ACTIONS -eq "true"
-    
-    if (-not $IsBackgroundAgent -and -not $Force) {
-        Write-Host "⚠️  This script is for background agents only." -ForegroundColor Yellow
-        Write-Host "The human developer should use .\setup-dev.ps1 or set up manually." -ForegroundColor Yellow
-        Write-Host "Use -Force to override this check." -ForegroundColor Yellow
-        exit 0
-    }
-
     Write-Host "`n=== Background Agent Environment Setup ===" -ForegroundColor Cyan
     Write-Host "Worktree: $(Split-Path -Leaf (Get-Location))" -ForegroundColor Gray
 
     # Check what needs to be done
-    $needsGitConfig = -not (git config --global core.longpaths)
+    $needsGitConfig = (git config --get core.longpaths) -ne "true"
     $needsSubmodules = -not (Test-Path "submodules\pythonnet-stub-generator\.git") -or -not (Test-Path "src\jas_database\.git")
     $needsVenv = -not (Test-Path "venv\Scripts\python.exe")
     $needsBuild = -not (Test-Path "src\src_dotnet\JAStudio.Core\bin\Debug\net11.0\JAStudio.Core.dll")
