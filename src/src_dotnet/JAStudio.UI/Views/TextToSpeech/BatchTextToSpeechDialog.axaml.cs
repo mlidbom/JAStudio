@@ -32,6 +32,7 @@ partial class BatchTextToSpeechDialog : Window
    readonly BatchTextToSpeechDialogViewModel _dialog;
    readonly IReadOnlyList<ITextToSpeechProvider> _providers;
    readonly IFatalErrorHandler _fatalErrorHandler;
+   readonly TemporaryServiceCollection _services;
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
@@ -40,7 +41,8 @@ partial class BatchTextToSpeechDialog : Window
 
    BatchTextToSpeechDialog(IReadOnlyList<IHasTextToSpeechAudio> notes, TemporaryServiceCollection services)
    {
-      var settings = TextToSpeechSettings.ReadFromTheUserProfile();
+      _services = services;
+      var settings = TextToSpeechSettings.ReadFrom(services.Resolve<IEnvironmentPaths>().TextToSpeechSettingsFile);
       _providers = settings.ProvidersWithKeys();
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       var player = new SoundFlowAudioPlayer();
@@ -107,7 +109,7 @@ partial class BatchTextToSpeechDialog : Window
    void ChooseTheVoices() =>
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
-         if(await ChosenVoicesDialog.ShowOverAsync(this, _fatalErrorHandler) is {} chosen)
+         if(await ChosenVoicesDialog.ShowOverAsync(this, _services) is {} chosen)
             _dialog.Offer(chosen.ChosenVoicesOf(_providers));
       });
 

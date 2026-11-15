@@ -28,6 +28,7 @@ partial class TextToSpeechDialog : Window
    readonly TextToSpeechForANoteViewModel _forTheNote;
    readonly IReadOnlyList<ITextToSpeechProvider> _providers;
    readonly IFatalErrorHandler _fatalErrorHandler;
+   readonly TemporaryServiceCollection _services;
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
@@ -36,7 +37,8 @@ partial class TextToSpeechDialog : Window
 
    TextToSpeechDialog(IHasTextToSpeechAudio note, TemporaryServiceCollection services)
    {
-      var settings = TextToSpeechSettings.ReadFromTheUserProfile();
+      _services = services;
+      var settings = TextToSpeechSettings.ReadFrom(services.Resolve<IEnvironmentPaths>().TextToSpeechSettingsFile);
       _providers = settings.ProvidersWithKeys();
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       var player = new SoundFlowAudioPlayer();
@@ -54,8 +56,8 @@ partial class TextToSpeechDialog : Window
       Closed += (_, _) => player.Dispose();
    }
 
-   /// <summary>Opens the TTS dialog for <paramref name="note"/>, where the dialog was last.</summary>
-   internal static void OpenFor(IHasTextToSpeechAudio note, TemporaryServiceCollection services) => new TextToSpeechDialog(note, services).ShowWhereItWasLast(services);
+   /// <summary>Opens the TTS dialog for <paramref name="note"/>, where the dialog was last, and returns it.</summary>
+   internal static TextToSpeechDialog OpenFor(IHasTextToSpeechAudio note, TemporaryServiceCollection services) => new TextToSpeechDialog(note, services).ShowWhereItWasLast(services);
 
    void OnKeyDown(object? sender, KeyEventArgs e)
    {
@@ -83,7 +85,7 @@ partial class TextToSpeechDialog : Window
    void ChooseTheVoices() =>
       _fatalErrorHandler.StartAndHandleExceptionsFrom(async () =>
       {
-         if(await ChosenVoicesDialog.ShowOverAsync(this, _fatalErrorHandler) is {} chosen)
+         if(await ChosenVoicesDialog.ShowOverAsync(this, _services) is {} chosen)
             _forTheNote.Offer(chosen.ChosenVoicesOf(_providers));
       });
 

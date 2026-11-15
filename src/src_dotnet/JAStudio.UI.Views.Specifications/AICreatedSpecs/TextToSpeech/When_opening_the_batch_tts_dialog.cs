@@ -12,7 +12,7 @@ namespace JAStudio.UI.Views.Specifications.AICreatedSpecs.TextToSpeech;
 /// The batch TTS dialog for two sentences, opened as from the search results' menu, and rendered: <c>BatchTextToSpeechDialog.png</c>, and with the first<br/>
 /// sentence selected, <c>BatchTextToSpeechDialogWithANoteSelected.png</c>, showing its own text-to-speech. A view that doesn't load, such as one using a<br/>
 /// resource it doesn't define, throws when the window opens, so it fails here rather than in Anki. The dialog speaks nothing as it opens, nor when a note<br/>
-/// is selected, so no tts-provider is called. It offers the voices chosen in the user's profile, if any.
+/// is selected, and the specifications' environment has no text-to-speech settings file, so no voice is chosen and no tts-provider is called.
 /// </summary>
 public class When_opening_the_batch_tts_dialog : SpecificationOpeningWindows, IAIGeneratedSpec
 {

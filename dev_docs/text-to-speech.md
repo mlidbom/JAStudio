@@ -156,6 +156,11 @@ would be reported as never used.
 A tts-provider without settings isn't offered. With no file, none is. The settings types don't print their keys,
 so logging one leaks nothing. The chosen voices are written by the dialog for choosing them, which keeps the keys.
 
+The environment says where the file is (`IEnvironmentPaths.TextToSpeechSettingsFile`): in the user's profile, as above, in
+Anki and in the standalone and headless JAStudio. The specifications' environment has it in their own temporary folder,
+where there is none, so the TTS dialogs open in window specifications with no voices, calling no service, and never read
+or write Magnus's keys (since 2026-11-15).
+
 ## The accounts
 
 - **Azure** (created 2026-11-07, paid by Lidbom Solutions AB, Magnus's company): the Speech resource
