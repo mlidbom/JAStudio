@@ -2,9 +2,10 @@
 window here, which keeps the work handed to Anki's main thread instead of running it."""
 from __future__ import annotations
 
+import importlib.util
 from typing import TYPE_CHECKING, cast
 
-from jastudio.anki_http import inside_anki
+import pytest
 from jastudio.anki_http.anki_with_its_window import AnkiWithItsWindow
 
 if TYPE_CHECKING:
@@ -56,4 +57,8 @@ def test_what_its_windows_are_asked_for_is_handed_to_ankis_main_thread_and_not_r
 
 
 def test_the_module_that_starts_the_serving_inside_anki_can_be_imported_without_anki_running() -> None:
+    if importlib.util.find_spec("aqt") is None:
+        pytest.skip("Anki's window code, aqt, isn't installed here, as in CI, which installs Anki's library alone: the module imports it.")
+
+    from jastudio.anki_http import inside_anki
     assert callable(inside_anki.init)
