@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using JAStudio.Core.Note;
 
 namespace JAStudio.Core.Studying;
@@ -31,6 +32,9 @@ public class StudyNoteIds
 
    /// <summary>The id of the study-note of the note with the id <paramref name="noteId"/>, or null when the note has none.</summary>
    public long? StudyNoteIdOf(NoteId noteId) => _studyNoteIdOfEachNote.TryGetValue(noteId, out var studyNoteId) ? studyNoteId : null;
+
+   /// <summary>The ids of the study-notes of <paramref name="notes"/>: of those of them that have one.</summary>
+   public IReadOnlyList<long> StudyNoteIdsOf(IEnumerable<JPNote> notes) => [.. notes.Select(it => StudyNoteIdOf(it.GetId())).OfType<long>()];
 
    /// <summary>The id of the study-note of the note with the id <paramref name="noteId"/>, which must have one.</summary>
    public long RequiredStudyNoteIdOf(NoteId noteId) => _studyNoteIdOfEachNote.TryGetValue(noteId, out var studyNoteId)

@@ -5,7 +5,6 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Compze.Internals.SystemCE.ReactiveCE;
-using JAStudio.Anki;
 using JAStudio.Core;
 using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
@@ -84,7 +83,7 @@ partial class StudyingWindowViewModel : ObservableObject, IDisposable
 
    /// <summary>Opens Anki's browser on the study-notes that belong to no note, to look at them there, and to delete or mend them.</summary>
    [RelayCommand(CanExecute = nameof(ThereAreStudyNotesOfNoNote))]
-   void ShowThemInAnkisBrowser() => _ankisWindows.OpenTheBrowserOn(QueryBuilder.StudyNotesWithTheIds([.. StudyNotesOfNoNote.Select(it => it.AnkiNoteId)]));
+   void ShowThemInAnkisBrowser() => _ankisWindows.OpenTheBrowserOn([.. StudyNotesOfNoNote.Select(it => it.AnkiNoteId)]);
 
    void Show(SRSSyncReport report)
    {

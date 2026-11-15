@@ -24,6 +24,6 @@ public class NoteLinkOpener : INoteLinkOpener
    {
       var studyNoteId = _services.StudyNoteIds.StudyNoteIdOf(noteId);
       if(studyNoteId.HasValue)
-         _services.SRSWindows.OpenThePreviewerOn($"{Builtin.NoteId}:{studyNoteId.Value}");
+         _services.SRSWindows.OpenThePreviewerOn(studyNoteId.Value);
    }
 }

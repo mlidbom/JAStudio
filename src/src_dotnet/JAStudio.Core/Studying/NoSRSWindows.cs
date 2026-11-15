@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace JAStudio.Core.Studying;
 
@@ -14,8 +15,8 @@ public sealed class NoSRSWindows : ISRSWindows
    /// <summary>Shows nothing: there is no window to show it in.</summary>
    public void ShowAPassingMessage(string message) {}
 
-   public void OpenTheBrowserOn(string ankiSearch) => throw NotOffered();
-   public void OpenThePreviewerOn(string ankiSearch) => throw NotOffered();
+   public void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds) => throw NotOffered();
+   public void OpenThePreviewerOn(long studyNoteId) => throw NotOffered();
 
    static InvalidOperationException NotOffered() =>
       new($"JAStudio runs without a spaced repetition system, so the commands that open its windows aren't offered ({nameof(SRSAvailability)}).");

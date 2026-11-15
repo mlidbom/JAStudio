@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace JAStudio.Core.Studying;
 
 /// <summary>
@@ -6,7 +8,10 @@ namespace JAStudio.Core.Studying;
 /// spaced repetition system has none (<see cref="NoSRSWindows"/>), and offers the commands that open notes in them only while there is one<br/>
 /// (<see cref="SRSAvailability"/>).
 /// </summary>
-/// <remarks>review-naming:studying: ISRSWindows was IAnkiWindows (Claude, 2026-11-15).</remarks>
+/// <remarks>
+/// review-naming:studying: ISRSWindows was IAnkiWindows (Claude, 2026-11-15). The same day its browser and previewer went from opening on a<br/>
+/// search in Anki's search syntax to opening on study-notes by id, which left the syntax to the Anki integration.
+/// </remarks>
 public interface ISRSWindows
 {
    /// <summary>Refreshes what they show, so that the notes JAStudio changed show as they are now.</summary>
@@ -15,9 +20,12 @@ public interface ISRSWindows
    /// <summary>Shows <paramref name="message"/> for a few seconds, then hides it.</summary>
    void ShowAPassingMessage(string message);
 
-   /// <summary>Opens Anki's browser on the notes that <paramref name="ankiSearch"/>, written in Anki's search syntax, finds.</summary>
-   void OpenTheBrowserOn(string ankiSearch);
+   /// <summary>
+   /// Opens the spaced repetition system's browser, in Anki its browser, on the study-notes with the ids <paramref name="studyNoteIds"/>, of which<br/>
+   /// there is at least one, and on no others.
+   /// </summary>
+   void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds);
 
-   /// <summary>Opens Anki's browser on the notes that <paramref name="ankiSearch"/>, written in Anki's search syntax, finds, and its previewer on the first.</summary>
-   void OpenThePreviewerOn(string ankiSearch);
+   /// <summary>Opens the spaced repetition system's previewer on the study-note with the id <paramref name="studyNoteId"/>: in Anki, its browser on it, and the previewer.</summary>
+   void OpenThePreviewerOn(long studyNoteId);
 }

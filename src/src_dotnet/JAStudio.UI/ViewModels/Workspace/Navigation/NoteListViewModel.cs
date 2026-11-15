@@ -58,11 +58,10 @@ partial class NoteListViewModel : ObservableObject
 
    /// <summary>Opens Anki's browser on the listed notes, the ones that are in Anki, and no others.</summary>
    [RelayCommand(CanExecute = nameof(AnyListedNoteIsInAnki))]
-   void ShowInAnkisBrowser() => _services.SRSWindows.OpenTheBrowserOn(_services.QueryBuilder().NotesLookup(_shownList.Notes));
+   void ShowInAnkisBrowser() => _services.SRSWindows.OpenTheBrowserOn(_services.StudyNoteIds.StudyNoteIdsOf(_shownList.Notes));
 
    /// <summary>
-   /// A note that isn't in Anki has no Anki id to search for. If no listed note is in Anki, the search would be empty,<br/>
-   /// and Anki's browser would show its default search instead of nothing.
+   /// A note that isn't in Anki has no study-note for Anki's browser to show. If no listed note is in Anki, the browser would have none to open on.
    /// </summary>
    bool AnyListedNoteIsInAnki() => _shownList.Notes.Any(it => _services.StudyNoteIds.StudyNoteIdOf(it.GetId()) != null);
 }

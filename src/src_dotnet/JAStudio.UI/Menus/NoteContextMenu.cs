@@ -196,7 +196,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          label,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.SRSAvailability.IsAvailable),
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.SRSAvailability.IsAvailable && note.HasAStudyNote()),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
@@ -229,7 +229,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    // Action handlers
    void OnOpenInPreviewer(JPNote note)
    {
-      _services.SRSWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
+      _services.SRSWindows.OpenThePreviewerOn(_services.StudyNoteIds.RequiredStudyNoteIdOf(note.GetId()));
    }
 
    void OnDeleteNote(JPNote note)

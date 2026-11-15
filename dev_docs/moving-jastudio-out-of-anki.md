@@ -300,9 +300,9 @@ Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: inc
 
 **What the seam still says of Anki,** each for the increment that changes the wiring:
 
-- **Anki's search syntax:** `ISRSWindows` opens Anki's browser and previewer on a search in Anki's
-  search syntax, which the UI writes with the Anki integration's `QueryBuilder`. Taking the notes to open instead
-  would leave the syntax to the Anki integration.
+- *No longer Anki's search syntax (2026-11-15):* `ISRSWindows` opened Anki's browser and previewer on a search in
+  Anki's search syntax, which the UI wrote with the Anki integration's `QueryBuilder`. It now takes the ids of the
+  study-notes to open on, and the Anki integration writes the search (`AnkisOwnWindows`). `QueryBuilder` is gone.
 - **Anki's fields, markup and text:** a study-note's fields are named as Anki names them (`AnkiFieldNames`), its audio
   is in Anki's markup (`AnkiMediaMarkup`), and `StudyNoteComparison` compares text as Anki stores it. The two types
   are all that is left in `JAStudio.Core.Anki`. This goes with the design call that the write of a study-note crosses
