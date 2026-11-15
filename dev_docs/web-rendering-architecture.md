@@ -22,6 +22,10 @@ stays for the cards in Anki's reviewer. See `jastudio-workspace.md`, "Technology
   - On answer: appends prerendered back iframe to mustache HTML
   - Knows nothing about card types — fully generic
 - **Python shim** (`dotnet_rendering_content_renderer_anki_shim.py`): Passes `card.template()["name"]` as `cardTemplateName` to .NET `Render()` method
+- **The requests the Anki add-on makes of JAStudio** (`EndpointsForTheAnkiAddOn`, since 2026-11-15), on the card server
+  under `/anki/`, for when the add-on no longer loads .NET: among them `/anki/card/{side}`, the address of a card's
+  iframe, which sends it on to the card's page. The add-on's hooks don't use them yet. See
+  `moving-jastudio-out-of-anki.md`, "What goes from Anki to JAStudio".
 
 ### Vocab Cards (Done)
 - `VocabCard.razor` — page at `/card/vocab/{Side}?NoteId=X&CardType=Y`

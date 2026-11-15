@@ -5,7 +5,8 @@
 > button. Of increment 4, the HTTP path, what goes from JAStudio to Anki is built: the Anki add-on serves JAStudio
 > over HTTP whenever an Anki profile is open, and the standalone JAStudio calls the Anki that runs, which it finds
 > through the access file. JAStudio inside Anki still calls Anki through pythonnet, and still draws Anki's cards.
-> What goes from Anki to JAStudio isn't built. Increment 3, the menus, is built: the Qt menus that C# described are
+> Of what goes from Anki to JAStudio, JAStudio's side and the add-on's client are built: the requests on the card
+> server, and the primary JAStudio's access file. The add-on's hooks don't use them yet. Increment 3, the menus, is built: the Qt menus that C# described are
 > gone, and Ctrl+O opens the note Anki shows in the workspace. On JAStudio's side, the Anki integration calls
 > Anki through interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows
 > after it changes a note: a card's page in Anki reloads itself.** The order of work is
@@ -873,11 +874,85 @@ below. JAStudio inside Anki is as before: it calls Anki through pythonnet.**
   (`AutomaticImportRunReports`).
 - *Nothing specifies the standalone JAStudio's wiring itself:* its registrar is tried by running it.
 
-**What the HTTP path still lacks:**
+**What the HTTP path still lacked then:** what goes from Anki to JAStudio, built since: see below.
 
-- *From Anki to JAStudio:* the cards' pages, and the rest that Python asks of .NET today: the note view shortcuts
-  in the reviewer and previewer, the global shortcuts (Ctrl+Shift+O, Ctrl+S and Ctrl+O) and the JA Studio menu, and
-  how long to show a question.
+### What goes from Anki to JAStudio: JAStudio's side and the add-on's client, as built (2026-11-15)
+
+**Built 2026-11-15, on Magnus's go-ahead for Claude's five design calls ("Go ahead please"), corrected after reading
+the code, as below. The add-on's hooks don't use it yet: they still ask JAStudio inside Anki through pythonnet.**
+
+**What reading the code found:**
+
+- *The card's page needs only the card server's port from JAStudio.* The add-on asked C# for the iframe's HTML
+  (`AnkiHTMLRenderers`), which C# built from the card server's address (`CardServerUrl.BaseUrl`, set in process) and
+  the note. Everything else is in Anki's card: the corpus note's id in the study-note's `jas_note_id` field, the card
+  template's name, the side, and whether the reviewer or the previewer shows it.
+- *Building the back side's iframe ahead of time* (`AppendingPrerenderer`) builds a string: the card server draws the
+  page.
+- *The settings the scheduling hooks read go with logic in C#:* how long to show a question is `DifficultyCalculator`
+  over the question, with JAStudio's settings, and Anki's own data: the deck's time and the card's again answers today.
+- *The headless JAStudio has a workspace window too,* so every JAStudio can serve the requests.
+
+**The design calls, as corrected:**
+
+1. **The add-on finds JAStudio by the primary JAStudio's access file,** beside Anki's: the card server's port and the
+   process's id. The first JAStudio to start of those that run is the primary one.
+   - *Correction: no token.* The card server takes none: its pages, and its requests for card pages' links, are open to
+     any process on this computer. A token on the new requests alone would guard nothing the pages don't show.
+   - *Which JAStudio is the primary one is a hold on a file,* which the system lets go of however the process ends
+     (`ExclusiveHoldOnAFile`, as `CorpusCheckoutLock` holds a corpus checkout). A JAStudio stopped in the debugger
+     is then never taken for one that runs.
+2. **The requests are endpoints on the card server, under `/anki/`, naming notes by JAStudio's ids:** the id
+   `jas_note_id` holds, never Anki's. So they work for a JAStudio that hasn't read the study-notes, and with several.
+   - *Correction: the add-on asks for the note view shortcuts' keys as the reviewer and previewer set up their keys,*
+     not as JAStudio starts: JAStudio may start after Anki, or restart while it runs.
+   - *Correction: JAStudio does all of the scheduling's logic,* given Anki's part of the data.
+3. **The add-on writes the card's iframe itself:** holds. *Correction:* its address is a request on the card server
+   (`/anki/card/{side}`), which sends the iframe on to the card's page, so the add-on never builds a page's path:
+   that stays C#'s (`CardServerUrl`). While JAStudio loads, that request answers a page that says so and asks again
+   each second.
+4. **With no JAStudio running, the card says so and the requests do nothing:** holds, for the hooks to do.
+5. **Before a request that brings JAStudio's window forward, the add-on lets JAStudio's process take the foreground**
+   (`AllowSetForegroundWindow`, given the process's id from the access file). Untried. Not looked into on macOS and
+   Linux.
+
+**JAStudio's side, as built:**
+
+- **`EndpointsForTheAnkiAddOn`,** on the card server:
+  - `GET /anki/contract`: the contract's version, 4 on both sides since this (`AnkiAddOnContract`, Python's
+    `contract_with_jastudio`), one version for both ways.
+  - `GET /anki/card/{side}?noteId&cardType&displayContext`: sends the iframe on to the card's page.
+  - `POST /anki/workspace/toggle`, `POST /anki/note-search/toggle` (`IWorkspaceToggles`) and
+    `POST /anki/workspace/show-note?noteId` (`INoteLinkOpener.OpenInWorkspace`, as for a click on a note link).
+  - `GET /anki/note-view-shortcuts` and `POST /anki/note-view-shortcuts/run?key&noteId`: `NoteViewShortcuts`, moved
+    from `JAStudio.UI` to Core for it, where it needed nothing of the UI.
+  - `GET /anki/seconds-to-show-the-question?noteId&secondsTheDeckGives&againAnswersInARowToday`
+    (`HowLongToShowTheQuestion`) and `GET /anki/timebox-minutes?noteType&cardType` (`TimeboxLengths`), which were
+    Python's, over the settings and `DifficultyCalculator`.
+  - *A note JAStudio hasn't* is answered with 404 and `{"error": why}`: with several JAStudios, one may lack a note.
+- **`PrimaryJAStudioAccessFile` and `BeingThePrimaryJAStudio`,** in the Anki integration: the standalone JAStudio
+  becomes the primary one as its card server starts, unless another that runs is, and stops being it as it stops.
+  JAStudio inside Anki and the headless JAStudio don't.
+
+**The add-on's client, as built:** `jastudio.primary_jastudio`, which needs neither .NET nor Anki.
+
+- `PrimaryJAStudioAccessFile` finds the primary JAStudio by its access file at each request, and asks a JAStudio
+  found anew for its contract's version first (`JAStudioSpeaksAnotherContract`).
+- `PrimaryJAStudio` makes the requests. A JAStudio that ended without stopping fails a request within a second
+  (`JAStudioDoesNotAnswer`), and one that refuses raises `JAStudioRefused`, with why.
+
+**Specified:**
+
+- *The requests,* against the card server (`When_the_Anki_add_on_asks_JAStudio`, 25 specifications).
+- *The two sides of the contract by using both* (`When_the_Anki_add_on_asks_the_primary_JAStudio`, 19): the add-on's
+  own client, in Python, asks a card server that became the primary JAStudio by the access file JAStudio writes. A
+  .NET specification drives the client through a script among the add-on's tests (`asking_the_primary_jastudio.py`),
+  as those of JAStudio's calls to Anki drive the add-on's server.
+- *Becoming the primary JAStudio* (`When_a_JAStudio_would_become_Ankis_primary_JAStudio`, 8).
+
+**Not built yet:** the add-on's hooks over the client: the card's iframe, the shortcuts and the JA Studio menu, and
+the scheduling hooks. Then what the add-on asks of .NET is startup, shutdown and Anki's lifecycle, which go at the
+changeover, and a few constants, such as the note types' names.
 
 ## Increment 3 as built: the menus (2026-11-15)
 
@@ -990,8 +1065,10 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
   - macOS and Linux: not looked into.
 - **What Anki's reviewer shows when JAStudio isn't running.** Most likely Anki's own card templates, which a phone
   needs anyway (`web-rendering-architecture.md`, "Card Templates Installed in Anki").
-- **How long to show a question, and the settings the scheduling hooks read:** asked of JAStudio for each card, or sent
-  to the add-on when they change.
+- **The card server is open to any process on this computer,** its pages and its requests alike, where the add-on's
+  server demands a token (see [What goes from Anki to JAStudio](#what-goes-from-anki-to-jastudio-jastudios-side-and-the-add-ons-client-as-built-2026-11-15)).
+- **A JAStudio that runs doesn't become the primary one when the primary one stops:** only one that starts after does.
+  Magnus wanted the first started of those still running.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
 - **Tessaging inside JAStudio,** after the move: the move itself uses interfaces.
 - **What the card page's right-click menu holds** (`RightClickMenu`): nothing beyond the spike's items for now (Magnus,
