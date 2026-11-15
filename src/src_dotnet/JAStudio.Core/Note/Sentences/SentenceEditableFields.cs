@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.EditableFields;
+using JAStudio.Core.Note.Sentences.ParsingCases;
 
 namespace JAStudio.Core.Note.Sentences;
 
 /// <summary>
 /// Every field of a sentence that a person edits (<see cref="IEditableField{TNote}"/>): first those of the sentence's editor in the workspace, in the<br/>
 /// editor's order, the corpus's own question, answer, comments and reading, what its source gave it, its audio, screenshot and source name, and its tags;<br/>
-/// then its configuration, the vocab highlighted in it and the matches hidden or marked incorrect, which the sentence's menus edit.
+/// then its configuration, the vocab highlighted in it and the matches hidden or marked incorrect, which the sentence's menus edit; then the name,<br/>
+/// the why and the verdict of its parsing case, if it is one.
 /// </summary>
 /// <remarks>
 /// The sentence's editor is built from these fields, and JAStudio's MCP server edits <see cref="All"/> of them, so the two edit the same fields.
@@ -54,11 +56,28 @@ public static class SentenceEditableFields
    /// <summary>The words the sentence's breakdown matches but doesn't show, anywhere or at one index. Changing them parses the sentence again.</summary>
    public static readonly EditableSetField<SentenceNote, WordExclusion> HiddenMatches = WordExclusions("configuration.hiddenMatches", "Hidden matches", it => it.HiddenMatches);
 
+   /// <summary>
+   /// What the sentence's parsing case is about, such as <c>ichidan imperative</c> (<see cref="ParsingCase.Name"/>). Empty for a sentence that isn't a<br/>
+   /// parsing case, which can't be given one: <see cref="SentenceCommands.MarkAsAParsingCase"/> makes it a parsing case first.
+   /// </summary>
+   public static readonly EditableTextField<SentenceNote> ParsingCaseName =
+      new("parsingCase.name", "Name", TextFieldFormat.Line, it => it.ParsingCase?.Name ?? "", (it, name) => it.NameTheParsingCase(name));
+
+   /// <summary>
+   /// Why the sentence's parsing case exists, or what is wrong with how it parses (<see cref="ParsingCase.Why"/>). Empty for a sentence that isn't a<br/>
+   /// parsing case, which can't be given one, as for <see cref="ParsingCaseName"/>.
+   /// </summary>
+   public static readonly EditableTextField<SentenceNote> ParsingCaseWhy =
+      new("parsingCase.why", "Why", TextFieldFormat.Paragraphs, it => it.ParsingCase?.Why ?? "", (it, why) => it.SayWhyItIsAParsingCase(why));
+
+   /// <summary>What a person has found about the vocab the sentence's parsing case expects the breakdown to display.</summary>
+   public static readonly EditableVerdictOnTheDisplayedVocabField VerdictOnTheDisplayedVocab = new();
+
    /// <summary>Every field above, in the same order.</summary>
    public static IReadOnlyList<IEditableField<SentenceNote>> All { get; } =
    [
       Question, Answer, Comments, Reading, SourceQuestion, SourceAnswer, SourceComments, SourceExternalId, SourceName, Tags,
-      HighlightedVocab, IncorrectMatches, HiddenMatches
+      HighlightedVocab, IncorrectMatches, HiddenMatches, ParsingCaseName, ParsingCaseWhy, VerdictOnTheDisplayedVocab
    ];
 
    /// <summary>One of the sentence's sets of <see cref="WordExclusion"/>s, which <paramref name="exclusions"/> finds, in the order of their words, then their indexes.</summary>
