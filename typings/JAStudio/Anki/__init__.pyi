@@ -7,7 +7,7 @@ from JAStudio.Core import IEnvironmentPaths
 from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Core.Importing import ImportProfile
-from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
+from JAStudio.Core.Studying.StudyNotes import ISpacedRepetitionSystemStudyNotes, StudyNoteInTheSpacedRepetitionSystem
 
 class AnkiCardOperations(ISpacedRepetitionSystemCardOperations):
     def __init__(self, studyNoteIds: StudyNoteIds) -> None: ...
@@ -100,9 +100,9 @@ class AnkisOwnWindows(ISpacedRepetitionSystemWindows):
     def ShowAPassingMessage(self, message: str) -> None: ...
 
 
-class AnkiStudyNotes(IAnkiStudyNotes):
+class AnkiStudyNotes(ISpacedRepetitionSystemStudyNotes):
     def __init__(self, database: AnkiCollectionDatabase, ankiNoteIds: StudyNoteIds) -> None: ...
-    def ReadAll(self) -> IReadOnlyList_1[StudyNoteInAnki]: ...
+    def ReadAll(self) -> IReadOnlyList_1[StudyNoteInTheSpacedRepetitionSystem]: ...
     def Write(self, note: JPNote) -> None: ...
 
 
@@ -122,5 +122,5 @@ class QueryBuilder:
 
 class StudyNotesInAnkisDatabase(abc.ABC):
     @staticmethod
-    def ReadAll(database: AnkiCollectionDatabase) -> IReadOnlyList_1[StudyNoteInAnki]: ...
+    def ReadAll(database: AnkiCollectionDatabase) -> IReadOnlyList_1[StudyNoteInTheSpacedRepetitionSystem]: ...
 

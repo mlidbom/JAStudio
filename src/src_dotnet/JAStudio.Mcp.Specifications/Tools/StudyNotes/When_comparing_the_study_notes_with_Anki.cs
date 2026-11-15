@@ -3,9 +3,9 @@ using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Anki;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TestUtils;
 using JAStudio.Mcp.Tools.StudyNotes;
 
@@ -31,7 +31,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
    protected StudyNotesThatDiffer ListTheStudyNotesThatDiffer() => ResultOf<StudyNotesThatDiffer>(CallTool("list_the_study_notes_that_differ", []));
 
-   protected StudyNoteInAnki TheVocabsStudyNote => StudyNotesInAnki.ReadAll().Single();
+   protected StudyNoteInTheSpacedRepetitionSystem TheVocabsStudyNote => StudyNotesInAnki.ReadAll().Single();
 
    public class whose_study_note_is_as_JAStudio_writes_it : When_comparing_the_study_notes_with_Anki
    {
@@ -49,7 +49,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
       public whose_study_note_has_another_question_in_Anki()
       {
-         StudyNotesInAnki.Put(new StudyNoteInAnki(TheVocabsStudyNote.AnkiNoteId, new Dictionary<string, string>(TheVocabsStudyNote.Fields) { [AnkiFieldNames.Question] = "勉" }));
+         StudyNotesInAnki.Put(new StudyNoteInTheSpacedRepetitionSystem(TheVocabsStudyNote.StudyNoteId, new Dictionary<string, string>(TheVocabsStudyNote.Fields) { [AnkiFieldNames.Question] = "勉" }));
          _found = ListTheStudyNotesThatDiffer();
       }
 
@@ -83,7 +83,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
       protected StudyNotesThatDiffer ListTheStudyNotesThatDifferWithTheAudioInAnki(string audioB, string audioG, bool leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers = false)
       {
-         StudyNotesInAnki.Put(new StudyNoteInAnki(TheVocabsStudyNote.AnkiNoteId,
+         StudyNotesInAnki.Put(new StudyNoteInTheSpacedRepetitionSystem(TheVocabsStudyNote.StudyNoteId,
                                                   new Dictionary<string, string>(Vocab.StudyNoteFields()) { [AnkiFieldNames.Vocab.AudioB] = audioB, [AnkiFieldNames.Vocab.AudioG] = audioG }));
          return ResultOf<StudyNotesThatDiffer>(CallTool("list_the_study_notes_that_differ",
                                                         new Dictionary<string, object?> { ["leaveOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers"] = leavingOutTheNotesWhereOnlyTheMarkupOfTheAudioDiffers }));
@@ -126,7 +126,7 @@ public class When_comparing_the_study_notes_with_Anki : McpServerSpecification
 
       public with_a_study_note_in_Anki_that_belongs_to_no_note()
       {
-         StudyNotesInAnki.Put(new StudyNoteInAnki(ankiNoteId: 999_999, new Dictionary<string, string> { [AnkiFieldNames.Question] = "孤児", [AnkiFieldNames.JasNoteId] = "a-deleted-note" }));
+         StudyNotesInAnki.Put(new StudyNoteInTheSpacedRepetitionSystem(studyNoteId: 999_999, new Dictionary<string, string> { [AnkiFieldNames.Question] = "孤児", [AnkiFieldNames.JasNoteId] = "a-deleted-note" }));
          _found = ListTheStudyNotesThatDiffer();
       }
 

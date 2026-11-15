@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying.StudyNotes;
 using ModelContextProtocol.Server;
 
 namespace JAStudio.Mcp.Tools.StudyNotes;
 
 /// <summary>
 /// The tools that compare the fields of the study-notes in Anki, the Anki notes that hold the notes' cards, with what JAStudio would write now, and write<br/>
-/// those that differ (<see cref="IAnkiStudyNotes"/>). A change to the corpus made while Anki was closed, such as a fast-forward of the corpus checkout<br/>
+/// those that differ (<see cref="ISpacedRepetitionSystemStudyNotes"/>). A change to the corpus made while Anki was closed, such as a fast-forward of the corpus checkout<br/>
 /// that changes how notes are stored, reaches the study-notes only through them.
 /// </summary>
 [McpServerToolType]
@@ -22,9 +22,9 @@ public class StudyNoteTools
    const int NotesListedPerTypeByDefault = 10;
 
    readonly JPCollection _collection;
-   readonly IAnkiStudyNotes _studyNotes;
+   readonly ISpacedRepetitionSystemStudyNotes _studyNotes;
 
-   public StudyNoteTools(JPCollection collection, IAnkiStudyNotes studyNotes)
+   public StudyNoteTools(JPCollection collection, ISpacedRepetitionSystemStudyNotes studyNotes)
    {
       _collection = collection;
       _studyNotes = studyNotes;

@@ -3,13 +3,13 @@ using Compze.DependencyInjection.Abstractions;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
 
@@ -33,7 +33,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ISpacedRepetitionSystemCardOperations>().CreatedBy(ISpacedRepetitionSystemCardOperations (StudyNoteIds idMap) => new AnkiCardOperations(idMap)),
          Singleton.For<ISpacedRepetitionSystemTagOperations>().CreatedBy(ISpacedRepetitionSystemTagOperations (StudyNoteIds ankiNoteIds) => new AnkiTagOperations(ankiNoteIds)),
-         Singleton.For<IAnkiStudyNotes>().CreatedBy(IAnkiStudyNotes (AnkiCollectionDatabase database, StudyNoteIds ankiNoteIds) => new AnkiStudyNotes(database, ankiNoteIds))
+         Singleton.For<ISpacedRepetitionSystemStudyNotes>().CreatedBy(ISpacedRepetitionSystemStudyNotes (AnkiCollectionDatabase database, StudyNoteIds ankiNoteIds) => new AnkiStudyNotes(database, ankiNoteIds))
       );
    }
 }

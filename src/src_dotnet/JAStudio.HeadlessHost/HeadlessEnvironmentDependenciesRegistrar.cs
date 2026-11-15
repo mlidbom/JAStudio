@@ -4,13 +4,13 @@ using JAStudio.Anki;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.HeadlessHost;
@@ -45,6 +45,6 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new HeadlessCardOperations()),
          Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(new HeadlessAnkiTagOperations()),
-         Singleton.For<IAnkiStudyNotes>().CreatedBy(IAnkiStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
+         Singleton.For<ISpacedRepetitionSystemStudyNotes>().CreatedBy(ISpacedRepetitionSystemStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
       );
 }

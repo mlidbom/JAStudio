@@ -3,13 +3,13 @@ using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using JAStudio.Core;
 using JAStudio.Core.Anki;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
 
@@ -38,7 +38,7 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<ISpacedRepetitionSystemDataLoader>().Instance(new NoAnkiData()),
          Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new NoAnkiCardOperations()),
          Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(new NoAnkiTagOperations()),
-         Singleton.For<IAnkiStudyNotes>().Instance(new NoAnkiStudyNotes()),
+         Singleton.For<ISpacedRepetitionSystemStudyNotes>().Instance(new NoAnkiStudyNotes()),
          Singleton.For<IAnkiRawNotes>().Instance(new NoAnkiRawNotes())
       );
 }

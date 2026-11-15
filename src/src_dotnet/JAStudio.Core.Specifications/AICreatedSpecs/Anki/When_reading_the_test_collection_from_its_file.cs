@@ -4,12 +4,12 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Anki;
 using JAStudio.Anki.CollectionDatabase;
-using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Specifications.Anki;
 using JAStudio.Core.Specifications.Anki.BulkLoaderTests;
 using JAStudio.Core.Studying;
+using JAStudio.Core.Studying.StudyNotes;
 
 // ReSharper disable InconsistentNaming
 
@@ -48,9 +48,9 @@ public class When_reading_the_test_collection_from_its_file : SpecificationReadi
 
    public class the_study_notes_with_their_fields : When_reading_the_test_collection_from_its_file
    {
-      readonly IReadOnlyList<StudyNoteInAnki> _studyNotes = StudyNotesInAnkisDatabase.ReadAll(AnkiTestDb.Database);
+      readonly IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> _studyNotes = StudyNotesInAnkisDatabase.ReadAll(AnkiTestDb.Database);
 
-      StudyNoteInAnki TheStudyNoteWith(long ankiNoteId) => _studyNotes.Single(it => it.AnkiNoteId == ankiNoteId);
+      StudyNoteInTheSpacedRepetitionSystem TheStudyNoteWith(long ankiNoteId) => _studyNotes.Single(it => it.StudyNoteId == ankiNoteId);
 
       [XF] public void every_study_note_is_read() => _studyNotes.Count.Must().Be(1217);
       [XF] public void a_study_note_has_every_field_of_its_note_type() => TheStudyNoteWith(AVocabsAnkiNoteId).Fields.Count.Must().Be(24);

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using JAStudio.Anki.CollectionDatabase;
-using JAStudio.Core.Anki.StudyNotes;
+using JAStudio.Core.Studying.StudyNotes;
 
 namespace JAStudio.Anki;
 
@@ -14,6 +14,6 @@ public static partial class StudyNotesInAnkisDatabase
          $"select json_group_array(json_object('ankiNoteId', id, 'noteTypeId', mid, 'fields', flds)) from notes where mid in {AnkiCollectionDatabase.SqlListOf(noteTypeIds)}";
 
       /// <summary>The study-note, a note of <paramref name="noteType"/>, its note type.</summary>
-      public StudyNoteInAnki AsAStudyNoteOf(NoteTypeInAnki noteType) => new(AnkiNoteId, noteType.FieldsByNameIn(new NoteFieldsAsAnkiStoresThem(Fields)));
+      public StudyNoteInTheSpacedRepetitionSystem AsAStudyNoteOf(NoteTypeInAnki noteType) => new(AnkiNoteId, noteType.FieldsByNameIn(new NoteFieldsAsAnkiStoresThem(Fields)));
    }
 }

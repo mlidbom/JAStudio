@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Core.Anki.StudyNotes;
+using JAStudio.Core.Studying.StudyNotes;
 
 namespace JAStudio.Mcp.Tools.StudyNotes;
 

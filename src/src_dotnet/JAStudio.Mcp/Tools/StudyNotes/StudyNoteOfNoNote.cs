@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using JAStudio.Core.Anki;
-using JAStudio.Core.Anki.StudyNotes;
+using JAStudio.Core.Studying.StudyNotes;
 
 namespace JAStudio.Mcp.Tools.StudyNotes;
 
@@ -13,6 +13,6 @@ namespace JAStudio.Mcp.Tools.StudyNotes;
 /// <param name="JasNoteId">Its <see cref="AnkiFieldNames.JasNoteId"/> field: the id of the note it was written for, if any.</param>
 public record StudyNoteOfNoNote(long AnkiNoteId, string Question, string JasNoteId)
 {
-   public static StudyNoteOfNoNote Of(StudyNoteInAnki studyNote) =>
-      new(studyNote.AnkiNoteId, studyNote.Fields.GetValueOrDefault(AnkiFieldNames.Question, ""), studyNote.Fields.GetValueOrDefault(AnkiFieldNames.JasNoteId, ""));
+   public static StudyNoteOfNoNote Of(StudyNoteInTheSpacedRepetitionSystem studyNote) =>
+      new(studyNote.StudyNoteId, studyNote.Fields.GetValueOrDefault(AnkiFieldNames.Question, ""), studyNote.Fields.GetValueOrDefault(AnkiFieldNames.JasNoteId, ""));
 }
