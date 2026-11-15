@@ -3,7 +3,7 @@ name = "JA Studio"
 requires-python = ">=3.13"
 
 [tool.ruff]
-extend-exclude = ["_lib", "typings"]
+extend-exclude = ["_lib", "typings", ".claude-shared"]
 line-length = 320
 
 [tool.ruff.lint]
