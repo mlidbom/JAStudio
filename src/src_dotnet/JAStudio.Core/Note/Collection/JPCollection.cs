@@ -49,8 +49,8 @@ public class JPCollection
 
    /// <summary>
    /// Notifies every note whose study-note in Anki changed, on the thread that changed it: its studying status, when JAStudio suspended or unsuspended<br/>
-   /// its cards or Anki reported a change to one of them (<see cref="UpdateCardStudyingStatus"/>), its <see cref="JPNote.AnkiTags"/>, or its study-note<br/>
-   /// itself, created or deleted, as reading the study-notes from Anki again finds (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>).
+   /// its cards, and whatever reading the study-notes from Anki again finds changed (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), as a sync does:<br/>
+   /// the studying status of a card, its <see cref="JPNote.AnkiTags"/>, or its study-note itself, created or deleted.
    /// </summary>
    /// <remarks>
    /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
@@ -119,28 +119,14 @@ public class JPCollection
    public DictLookup DictLookup { get; }
    public VocabNoteGeneratedData VocabNoteGeneratedData { get; }
 
-   /// <summary>Called by Anki when it suspended or unsuspended a card, or added a note: sets the studying status of the card's note, if JAStudio has the note.</summary>
-   // ReSharper disable once UnusedMember.Global called from python
-   public void UpdateCardStudyingStatus(CardStudyingStatus status)
-   {
-      if(NoteOfTheStudyNote(status.StudyNoteId) is not {} note) return;
-
-      note.SetStudyingStatus(status);
-      NotifyThatTheStudyNoteChangedFor(note);
-   }
-
    /// <summary>
    /// Reads from the SRS, the spaced repetition system, again what this collection holds of each note's study-note, as the load does, without<br/>
    /// loading the corpus again: its id, the studying statuses of its cards and its tags (<see cref="ISRSStudyNotes.ReadAll"/>). Each note whose study-note<br/>
-   /// differs from before is notified through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an<br/>
-   /// Anki operation that changed notes, undo and redo included. It shows no progress.
+   /// differs from before is notified through <see cref="StudyNoteChanged"/>. For when the study-notes may differ from what this collection holds<br/>
+   /// of them: after JAStudio changed Anki's tags (<see cref="AnkiTagChanges"/>), and when another Anki profile opened. A sync reads them so too<br/>
+   /// (<see cref="ReadTheStudyNotesFromTheSRSAgainAndCompareThem"/>). It shows no progress.
    /// </summary>
    /// <remarks>review-naming:studying: ReadTheStudyNotesFromTheSRSAgain was ReadTheStudyNotesFromAnkiAgain (Claude, 2026-11-15).</remarks>
-   /// <remarks>
-   /// It shows no progress since it runs in the background so often, after every Anki operation that changed notes: Anki's editor saves its note each<br/>
-   /// time typing pauses, and each save is such an operation. A progress window would also take the focus from the editor's field, and the editor saves<br/>
-   /// its note when the field loses the focus: each read would then start the next one.
-   /// </remarks>
    public void ReadTheStudyNotesFromTheSRSAgain() => _oneLoadOrReadFromTheSRSAtATime.Do(() => { ReadTheStudyNotesAgain(); });
 
    /// <summary>
@@ -209,8 +195,8 @@ public class JPCollection
    /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
    /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its study-note, if it has one, is kept or<br/>
    /// deleted as <paramref name="itsStudyNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as a synonym<br/>
-   /// (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note's study-note in Anki instead only<br/>
-   /// forgets the study-note (<see cref="NoteCacheBase{TNote}.StudyNoteRemoved"/>).
+   /// (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note's study-note in Anki instead leaves<br/>
+   /// the note in the corpus and in JAStudio: the next read of the study-notes finds it gone, and the note is then no longer studied.
    /// </summary>
    public void Delete(JPNote note, ItsStudyNote itsStudyNote)
    {
@@ -275,8 +261,8 @@ public class JPCollection
    /// </summary>
    /// <returns>
    /// The notes whose files changed on disk while this collection held them: each one's data now differs from the same note's as held before. Each<br/>
-   /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as its Anki note. Notes this collection<br/>
-   /// didn't hold before aren't among them: none at startup.
+   /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as the workspace's pages. Notes this<br/>
+   /// collection didn't hold before aren't among them: none at startup.
    /// </returns>
    public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {

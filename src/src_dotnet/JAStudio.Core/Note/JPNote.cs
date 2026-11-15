@@ -142,18 +142,6 @@ public abstract class JPNote
       Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
    }
 
-   /// <summary>
-   /// Forgets the note's study-note, after it was deleted in the spaced repetition system: the studying status of every card, since with no<br/>
-   /// cards there the note isn't studied in it, and its <see cref="AnkiTags"/>. Notifies the change through<br/>
-   /// <see cref="JPCollection.StudyNoteChanged"/>, since neither is stored with the note and no flush reports it.
-   /// </summary>
-   /// <remarks>review-naming:studying: ForgetItsDeletedStudyNote was ForgetItsDeletedAnkiNote (Claude, 2026-11-15).</remarks>
-   public void ForgetItsDeletedStudyNote()
-   {
-      ReadItsStudyNoteFrom([], []);
-      Services.Collection.NotifyThatTheStudyNoteChangedFor(this);
-   }
-
    public bool HasSuspendedCards()
    {
       // Return true if ANY card is suspended (value == false)

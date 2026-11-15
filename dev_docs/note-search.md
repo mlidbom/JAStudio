@@ -322,10 +322,10 @@ columns need, and the note's page stays visible beside the results.
        memory, not stored with the note, so suspending or unsuspending updates no note, and `NoteUpdated` doesn't
        report it. Found 2026-11-07: the rows didn't show the selection menu's changes, unless Anki's browser had
        the note open, since its refresh saved the note on Anki's side, and that save was reported as an update. The
-       new notification is raised when JAStudio suspends or unsuspends a note's cards, and when Anki reports a
-       change to a card (`JPCollection.UpdateCardStudyingStatus`). The add-on reports Anki's own suspends and
-       unsuspends, such as those in its browser, through a patch of Anki's scheduler that is put in place when a
-       card is first shown (`clear_studying_cache_on_card_suspend_unsuspend.py`), so not before.
+       new notification is raised when JAStudio suspends or unsuspends a note's cards, and when a read of the
+       study-notes from Anki finds a card's status changed, as JAStudio's sync with Anki does. Until 2026-11-15
+       Anki reported each of its own suspends and unsuspends as it made them, through a patch of its scheduler
+       (`moving-jastudio-out-of-anki.md`).
      - **Refreshing,** with F5 anywhere in the Search tab or the Refresh button, runs the same search again. The
        rows of the notes still found stay, where they are and selected if they were, and read their values again,
        so a refresh shows every change, even one no notification reported. The rows of the notes no longer found

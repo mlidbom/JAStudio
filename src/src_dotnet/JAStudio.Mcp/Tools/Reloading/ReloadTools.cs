@@ -28,8 +28,8 @@ public class ReloadTools
    [Description("""
                 Loads the collection again from the corpus checkout on disk, as the workspace's Local Actions > "Reload the collection from disk"
                 does: takes in changes made to the checkout outside JAStudio, such as a git reset. Each note whose file changed is passed on as
-                updated, so that its Anki note catches up. Reports how long it took, and the notes it found changed. To move the checkout to
-                another commit, use fast_forward_the_corpus_checkout, which reloads too.
+                updated. Its study-note in Anki is written at the next sync with Anki, as sync_with_anki runs one. Reports how long it took, and
+                the notes it found changed. To move the checkout to another commit, use fast_forward_the_corpus_checkout, which reloads too.
                 """)]
    public ReloadResult ReloadTheCollection(
       [Description("The most changed notes of each type to list. Every changed note is counted either way.")] int maxNotesListedPerType = CorpusTools.NotesListedPerTypeByDefault)

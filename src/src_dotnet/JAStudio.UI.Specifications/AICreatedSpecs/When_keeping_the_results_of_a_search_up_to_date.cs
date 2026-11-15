@@ -10,6 +10,7 @@ using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Studying;
+using JAStudio.Core.TestUtils;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 
@@ -27,9 +28,6 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
    const string SentenceAboutSchool = "学校に行く";
    static readonly TimeSpan TimeToWaitForTheSearch = TimeSpan.FromSeconds(10);
 
-   /// <summary>The Anki note id given to the sentence about home, so Anki can report a change to one of its cards.</summary>
-   const long AnkiNoteIdOfTheSentenceAboutHome = 4711;
-
    readonly NoteSearchViewModel _search;
    readonly SentenceNote _sentenceAboutHome;
    readonly SentenceSearchResultViewModel _rowOfTheSentenceAboutHome;
@@ -37,9 +35,8 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
 
    protected When_keeping_the_results_of_a_search_up_to_date()
    {
-      _sentenceAboutHome = CreateTaggedSentence(SentenceAboutHome);
-      _sentenceAboutHome.SetStudyingStatus(SuspendedReadingCard());
-      GetService<StudyNoteIds>().Register(AnkiNoteIdOfTheSentenceAboutHome, _sentenceAboutHome.GetId());
+      _sentenceAboutHome = WithAStudyNote(CreateTaggedSentence(SentenceAboutHome));
+      _sentenceAboutHome.SetStudyingStatus(UnsuspendedReadingCard());
 
       _search = Workspace.Navigation.Search;
       _search.AddCondition(NoteProperties.Tags.Include("source::anime"));
@@ -48,8 +45,11 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
       _rowOfTheSentenceAboutHome.PropertyChanged += (_, _) => Interlocked.Increment(ref _timesTheRowToldTheGridToReadItsValuesAgain);
    }
 
-   static CardStudyingStatus SuspendedReadingCard() => new(AnkiNoteIdOfTheSentenceAboutHome, CardTypes.Reading, isSuspended: true, NoteTypes.Sentence);
-   static CardStudyingStatus UnsuspendedReadingCard() => new(AnkiNoteIdOfTheSentenceAboutHome, CardTypes.Reading, isSuspended: false, NoteTypes.Sentence);
+   CardStudyingStatus SuspendedReadingCard() => ReadingCard(isSuspended: true);
+   CardStudyingStatus UnsuspendedReadingCard() => ReadingCard(isSuspended: false);
+
+   CardStudyingStatus ReadingCard(bool isSuspended) =>
+      new(GetService<StudyNoteIds>().RequiredStudyNoteIdOf(_sentenceAboutHome.GetId()), CardTypes.Reading, isSuspended, NoteTypes.Sentence);
 
    bool TheRowToldTheGridToReadItsValuesAgain => Volatile.Read(ref _timesTheRowToldTheGridToReadItsValuesAgain) > 0;
 
@@ -83,18 +83,22 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
       }
    }
 
-   public class after_anki_reports_that_the_reading_card_of_a_found_sentence_was_unsuspended : When_keeping_the_results_of_a_search_up_to_date
+   /// <summary>The student suspended the card in Anki, and JAStudio then reads the study-notes from Anki again, as its sync with Anki does.</summary>
+   public class after_reading_the_study_notes_from_Anki_again_finds_the_reading_card_of_a_found_sentence_suspended : When_keeping_the_results_of_a_search_up_to_date
    {
-      public after_anki_reports_that_the_reading_card_of_a_found_sentence_was_unsuspended() =>
-         GetService<JPCollection>().UpdateCardStudyingStatus(UnsuspendedReadingCard());
+      public after_reading_the_study_notes_from_Anki_again_finds_the_reading_card_of_a_found_sentence_suspended()
+      {
+         GetService<PretendAnki>().SuspendTheCard(_sentenceAboutHome, CardTypes.Reading);
+         GetService<JPCollection>().ReadTheStudyNotesFromTheSRSAgain();
+      }
 
       [XF] public void the_row_tells_the_grid_to_read_its_values_again() => TheRowToldTheGridToReadItsValuesAgain.Must().BeTrue();
-      [XF] public void the_row_shows_the_sentence_as_studying_reading() => _rowOfTheSentenceAboutHome.IsStudyingReading.Must().BeTrue();
+      [XF] public void the_row_shows_the_sentence_as_no_longer_studying_reading() => _rowOfTheSentenceAboutHome.IsStudyingReading.Must().BeFalse();
    }
 
    public class after_the_studying_status_of_a_found_sentence_changes_without_any_notification : When_keeping_the_results_of_a_search_up_to_date
    {
-      public after_the_studying_status_of_a_found_sentence_changes_without_any_notification() => _sentenceAboutHome.SetStudyingStatus(UnsuspendedReadingCard());
+      public after_the_studying_status_of_a_found_sentence_changes_without_any_notification() => _sentenceAboutHome.SetStudyingStatus(SuspendedReadingCard());
 
       [XF] public void the_row_does_not_tell_the_grid_to_read_its_values_again() => TheRowToldTheGridToReadItsValuesAgain.Must().BeFalse();
 

@@ -43,7 +43,7 @@ piece of code, or that would otherwise be lost in a long response.
   the specifications and for the records that are serialized. *Magnus, 2026-11-15: "There will be a campaign, but not
   right now."*
 - **(Claude, 2026-11-15) A type for a study-note's id, in place of `long`,** as the code standard on primitives asks.
-  Best done once the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
+  Best done now that the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
   the code that passes the id about today goes with them.
 - **(Claude, 2026-11-15) View models dispatch to the UI thread with Avalonia's `Dispatcher`,** though the rule for the
   UI says that view models don't reference Avalonia types (`ImportRunWindowViewModel`, `StudyingWindowViewModel`).

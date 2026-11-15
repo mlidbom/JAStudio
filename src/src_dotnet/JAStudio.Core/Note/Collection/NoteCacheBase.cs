@@ -14,7 +14,7 @@ namespace JAStudio.Core.Note.Collection;
 /// A change is made to copies of what lookups read, and published when it's done (<see cref="Change"/>): a lookup sees the cache as it was<br/>
 /// before a change or after it, never in the middle of one. See <see cref="NoteIndex{TKey,TNote,TSnapshot}"/> for why.
 /// </remarks>
-abstract class NoteCacheBase<TNote> : IStudyNoteUpdateHandler
+abstract class NoteCacheBase<TNote>
    where TNote : JPNote
 {
    readonly SimpleObservable<TNote> _noteUpdated = new();
@@ -38,8 +38,6 @@ abstract class NoteCacheBase<TNote> : IStudyNoteUpdateHandler
    /// </summary>
    public IObservable<TNote> NoteUpdated => _noteUpdated;
 
-   IObservable<JPNote> IStudyNoteUpdateHandler.NoteUpdated => _noteUpdated;
-
    /// <summary>Starts recording the notes this cache's lookups return, until the recording is disposed. One recording at a time.</summary>
    public LookupRecording<TNote> StartRecordingTheNotesLookedUp() => LookupRecorder.StartRecording();
 
@@ -50,26 +48,6 @@ abstract class NoteCacheBase<TNote> : IStudyNoteUpdateHandler
    /// <summary>The note in this cache that the study-note with the id <paramref name="studyNoteId"/> belongs to, or null when this cache has none such.</summary>
    public TNote? WithTheStudyNoteOrNone(long studyNoteId) =>
       _noteServices.StudyNoteIds.NoteIdOfTheStudyNote(studyNoteId) is {} noteId ? WithIdOrNone(noteId) : null;
-
-   /// <summary>The id of the study-note of the note with the id <paramref name="noteId"/>, or 0 when it has none.</summary>
-   public long GetStudyNoteId(NoteId noteId) =>
-      _noteServices.StudyNoteIds.StudyNoteIdOf(noteId) ?? 0;
-
-   /// <summary>
-   /// Called when a note's study-note is deleted in Anki: the study-note is forgotten, and with it its cards, so the note is no longer studied in this<br/>
-   /// Anki profile.<br/>
-   /// The note itself stays in the corpus and in JAStudio. Deleting it from the corpus is <see cref="JPCollection.Delete"/>.
-   /// </summary>
-   /// <remarks>
-   /// Every cache is told about every note deleted in Anki, so a note this cache doesn't hold is left to the cache that does.
-   /// </remarks>
-   public void StudyNoteRemoved(long studyNoteId)
-   {
-      if(WithTheStudyNoteOrNone(studyNoteId) is not {} note) return;
-
-      _noteServices.StudyNoteIds.Unregister(studyNoteId);
-      note.ForgetItsDeletedStudyNote();
-   }
 
    /// <summary>Refiles <paramref name="note"/>, which JAStudio changed, by what it holds now, then notifies <see cref="NoteUpdated"/>.</summary>
    public void JpNoteUpdated(TNote note)

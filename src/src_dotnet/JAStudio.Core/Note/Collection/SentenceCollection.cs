@@ -8,8 +8,6 @@ namespace JAStudio.Core.Note.Collection;
 public class SentenceCollection
 {
    internal readonly SentenceCache Cache;
-   // ReSharper disable once UnusedMember.Global used from python
-   public IStudyNoteUpdateHandler StudyNoteUpdateHandler => Cache;
 
    public SentenceCollection(NoteServices noteServices) => Cache = new SentenceCache(noteServices);
 

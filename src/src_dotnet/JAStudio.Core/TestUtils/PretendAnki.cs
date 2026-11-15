@@ -55,8 +55,8 @@ public partial class PretendAnki : ISRSStudyNotes, ISRSTagOperations
 
    /// <summary>
    /// Gives <paramref name="note"/>, a note in the collection, a study-note in Anki, as a person choosing to study it will, with the fields JAStudio<br/>
-   /// writes for the note now: registers a new Anki note id for it, so that what Anki reports about the study-note, such as its deletion or its<br/>
-   /// cards' studying status, reaches the note. Creating a note gives it none (Magnus, 2026-11-13).
+   /// writes for the note now: registers a new Anki note id for it, as a read of the study-notes would, so that the note has its study-note at once.<br/>
+   /// Creating a note gives it none (Magnus, 2026-11-13).
    /// </summary>
    public void GiveAStudyNoteTo(JPNote note)
    {

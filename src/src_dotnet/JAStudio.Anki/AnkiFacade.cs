@@ -94,7 +94,7 @@ public static class AnkiFacade
    /// <summary>The study-notes: the Anki notes of JAStudio's note types, which JAStudio writes from the corpus.</summary>
    internal static class StudyNotes
    {
-      /// <summary>Writes <paramref name="note"/>'s study-note into the Anki note with the id <paramref name="ankiNoteId"/>, as JAStudio writes it whenever it updates the note.</summary>
+      /// <summary>Writes <paramref name="note"/>'s study-note into the Anki note with the id <paramref name="ankiNoteId"/>, as JAStudio's sync with Anki does for each that differs.</summary>
       public static void Write(long ankiNoteId, JPNote note) => Backend.Use(it => it.study_note_write(ankiNoteId, note));
    }
 

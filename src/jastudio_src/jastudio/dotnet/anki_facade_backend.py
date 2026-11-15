@@ -130,15 +130,14 @@ def tags_number_of_notes_with_a_tag_in(path: str) -> int:
 
 def _tell_anki_of_jastudios_own_operation(changes: OpChangesWithCount) -> None:
     """Tells Anki's windows of the change, as Anki does after each operation, on its main thread: its undo menu, its browser and its reviewer
-    follow it. As JAStudio's own operation, which JAStudio reads the study-notes again after itself."""
+    follow it. None of Anki's windows started the operation, so it has no initiator."""
     from aqt.operations import on_op_finished
-    from jastudio.ui.hooks.follow_the_study_notes_in_anki import JASTUDIOS_OWN_OPERATION
-    mw.taskman.run_on_main(lambda: on_op_finished(mw, changes, JASTUDIOS_OWN_OPERATION))
+    mw.taskman.run_on_main(lambda: on_op_finished(mw, changes, None))
 
 # ── Study-notes ──
 # noinspection PyUnusedFunction
 def study_note_write(anki_note_id: int, jp_note: JPNote) -> None:
-    """Writes the note's study-note into the Anki note, as JAStudio writes it whenever it updates the note."""
+    """Writes the note's study-note into the Anki note, as JAStudio's sync with Anki does for each study-note that differs."""
     from jastudio.note.jpnotedata_shim import JPNoteDataShim
     JPNoteDataShim.write_study_note(jp_note, NoteId(anki_note_id))
 

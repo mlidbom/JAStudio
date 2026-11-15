@@ -13,7 +13,7 @@ using JAStudio.Core.TestUtils;
 namespace JAStudio.Core.Specifications.AICreatedSpecs;
 
 /// <summary>
-/// Reading the study-notes from Anki again (<see cref="JPCollection.ReadTheStudyNotesFromTheSRSAgain"/>), as after an Anki operation that changed notes,<br/>
+/// Reading the study-notes from Anki again (<see cref="JPCollection.ReadTheStudyNotesFromTheSRSAgain"/>), as a sync with Anki does,<br/>
 /// gives each note what Anki now holds of its study-note, without loading the corpus again, and notifies each note whose study-note differs. The sentences<br/>
 /// 家に帰る and 駅に行く, each with a study-note in Anki, untagged and with no card suspended, in a collection loaded as at startup.
 /// </summary>

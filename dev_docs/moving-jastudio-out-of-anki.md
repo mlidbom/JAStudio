@@ -1,10 +1,10 @@
 # Moving JAStudio out of Anki
 
-> **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and increment
-> 2, the Sync in a Studying view, is built as Claude proposed it, but for its last part, which waits for Magnus to
-> have run a sync inside Anki. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and nothing
-> uses it yet.** The order of work is preliminary. Details are settled as each increment needs them. The names are
-> Claude's, and wait for Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
+> **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and so is
+> increment 2, the Sync: since 2026-11-15 Anki no longer tells JAStudio of what changes, and the workspace has a Sync
+> button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and nothing uses it yet.** The order
+> of work is preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
+> Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
 ## The goal
 
@@ -43,7 +43,8 @@ here is that even qualified with Anki addon is ambiguous".
 
 ## What crosses between Anki and JAStudio today
 
-From reading the code on 2026-11-14. Today pythonnet loads JAStudio's .NET side into Anki's process
+From reading the code on 2026-11-14, before increment 2: of the notifications listed here, only a profile opening or
+closing and Anki's own sync starting or finishing are left. Today pythonnet loads JAStudio's .NET side into Anki's process
 (`load_dotnet_runtime.py`), from `src/runtime_binaries`, 190 MB.
 
 - **The Python layer is about 2,700 lines.**
@@ -249,9 +250,9 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
    `//review-naming:studying:` comment for Magnus's pass.
    - *Left alone:* the rest of `studying.md`'s "To design", meaning the domain's words for reading, listening and
      suspending, and the states.
-2. **Sync in a Studying view,** replacing the notifications, while still inside Anki. Magnus finds out early whether
-   stale-until-sync really doesn't bother him. How it's to be built is proposed under
-   [Increment 2](#increment-2-the-sync-in-a-studying-view-proposed-and-partly-built).
+2. **Sync in a Studying view** (built 2026-11-15, see [Increment 2](#increment-2-the-sync-as-built))**,** replacing
+   the notifications, while still inside Anki. Magnus finds out early whether stale-until-sync really doesn't bother
+   him.
 3. **Menus:** a shortcut that shows the reviewed note in the workspace, then the Qt menus go.
 4. **The HTTP path, built on main in pieces that Anki doesn't use until it's complete:** the add-on's HTTP server,
    `JAStudio.Anki`'s HTTP side, and the standalone JAStudio's wiring. Anki keeps working on pythonnet meanwhile, and
@@ -288,7 +289,7 @@ system, and an "external note" is the study-note it always was. The names first 
 
 Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: increment 2 made them part of
 `ISRSStudyNotes` and `StudyNoteInTheSRS` (see
-[Increment 2](#increment-2-the-sync-in-a-studying-view-proposed-and-partly-built)).
+[Increment 2](#increment-2-the-sync-as-built)).
 
 - **A study-note id** is the id the spaced repetition system gives a study-note, in Anki the id of its Anki note. It
   replaced "external id" and "external note id" everywhere: `StudyNoteIds.StudyNoteIdOf`,
@@ -324,15 +325,15 @@ Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: inc
   and the hosts' `NoAnki…` and `HeadlessAnki…`.
 - **`JPCollection.ReloadFromBackend` and its relatives,** where "the backend" is the corpus checkout and Anki together.
 
-## Increment 2: the Sync in a Studying view, proposed and partly built
+## Increment 2: the Sync, as built
 
-**Claude's proposal of 2026-11-15, from reading the code. Magnus hasn't seen it: he gave Claude the go-ahead to
-continue by its own judgment, and asked for what it could build on its own overnight.** What is decided about the
-Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside Anki, in parts that
-each leave JAStudio usable. Parts 1 to 3 are built. Magnus ran a sync inside Anki on 2026-11-15, which "runs fine":
-it read 79,719 study-notes, wrote none, and found none that belongs to no note. Part 4 waits for his word.
+**Built on 2026-11-15, in four parts that each left JAStudio usable inside Anki, as Claude proposed that day from
+reading the code.** Magnus had given Claude the go-ahead to continue by its own judgment, and asked for what it could
+build on its own overnight: parts 1 to 3. He then ran a sync inside Anki, which "runs fine": it read 79,719
+study-notes, wrote none, and found none that belongs to no note. On that he asked for the Sync button in the
+workspace, and said yes to part 4. What is decided about the Sync is under [Decided](#decided).
 
-**What tells JAStudio of Anki's changes today,** all of it to go:
+**What told JAStudio of Anki's changes until part 4,** all of it gone:
 
 | The Anki add-on's Python | Calls | Which does |
 |---|---|---|
@@ -365,11 +366,12 @@ saying why.
    window, opened from the workspace's main menu and by a shortcut, with the Sync button, what
    the last sync did, and the list of the Anki notes that hold no corpus note's id. Magnus suggested "an errors tab or
    window" for that list: here it is part of the Studying window.
-4. **The notifications go:** the six rows of the table above, with `CatchingUpWithAnki.AnkiChangedNotes`,
-   `StudyNoteWrites`, `IStudyNoteUpdateHandler` and `JPCollection.UpdateCardStudyingStatus`. From then on Anki's
-   changes show in JAStudio after a Sync, and JAStudio's edits reach the study-notes at a Sync. This is the part where
-   Magnus finds out whether stale-until-sync bothers him, so it comes last and in a commit of its own, which a revert
-   takes back.
+4. **The notifications go** (built 2026-11-15, see
+   [Part 4 as built](#part-4-as-built-ankis-notifications-are-gone))**:** the six rows of the table above, with
+   `CatchingUpWithAnki.AnkiChangedNotes`, `StudyNoteWrites`, `IStudyNoteUpdateHandler` and
+   `JPCollection.UpdateCardStudyingStatus`. From then on Anki's changes show in JAStudio after a Sync, and JAStudio's
+   edits reach the study-notes at a Sync. This is the part where Magnus finds out whether stale-until-sync bothers
+   him, so it came last and in a commit of its own, which a revert takes back.
 
 **What JAStudio's own changes do, unchanged:** suspending and unsuspending from JAStudio set the note's studying
 statuses themselves (`JPNote.SetTheStatusOfEveryKnownCard`), and a change to Anki tags reads the study-notes again
@@ -403,7 +405,7 @@ Studying view, and nothing in the workspace to show that a Sync is due.
   (61 ms and 94 ms in Python's SQLite, where the function that picks one field is slow), and gives 17.5 million
   characters of JSON where the load's gave 11.0 million. The study-notes' fields are small: 8.6 million characters
   in all. Not measured: reading the larger JSON into rows, and its way through pythonnet inside Anki.
-- **Until part 4, the larger read also runs after every Anki operation that changed notes**
+- **Until part 4, the larger read also ran after every Anki operation that changed notes**
   (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`), in the background.
 
 ### Part 2 as built: the sync, in Core
@@ -436,8 +438,8 @@ Studying view, and nothing in the workspace to show that a Sync is due.
 - **JAStudio's MCP server has a tool for it, `sync_with_anki`,** instead of `write_the_study_notes_that_differ`
   running it, as first proposed: that tool writes the study-notes it's asked to, and would have started imports
   besides. With `sync_with_anki`, Claude can run a sync in the live JAStudio without the Studying window.
-- **Nothing starts a sync yet but that tool.** The notifications still do what a sync does, piece by piece, so a sync
-  finds little to do until part 4.
+- **Until the Studying window, nothing started a sync but that tool,** and until part 4 the notifications still did
+  what a sync does, piece by piece, so a sync found little to do.
 
 ### Part 3 as built: the Studying window
 
@@ -457,8 +459,8 @@ Studying view, and nothing in the workspace to show that a Sync is due.
   JAStudio's MCP server's `sync_with_anki` lists them.
 - **Specified by opening it,** on Avalonia's headless platform, pressing Sync, and rendering it before and after.
 - **Tried inside Anki by Magnus on 2026-11-15:** "The sync runs fine". It read 79,719 study-notes, wrote none, and
-  found no note whose study-note had changed or was gone, and no study-note that belongs to no note. Until part 4 the
-  notifications still keep JAStudio and Anki in step, so a sync there finds little to do.
+  found no note whose study-note had changed or was gone, and no study-note that belongs to no note. The
+  notifications still kept JAStudio and Anki in step then, so a sync there found little to do.
 - **The names of increment 2 wait for Magnus's pass, which he deferred** (2026-11-15: "Defer this. Keep your names and
   the comments for now."): those marked `review-naming:studying:` since increment 2, among them `SRSSync`,
   `SRSSyncReport`, `StudyNotesReadFromTheSRS` and `AnkisAvailability`, and the `//review:` in `WorkspaceMainMenu` on
@@ -485,6 +487,41 @@ sync button."
 - **The Studying window's Sync button is the same button.**
 - **Seen only in the Studying window so far.** Claude can't open the workspace window in a specification, and the
   headless JAStudio has no spaced repetition system, so its workspace shows no Sync button.
+
+### Part 4 as built: Anki's notifications are gone
+
+**Built 2026-11-15, on Magnus's yes the same day, in a commit of its own, which a revert takes back. Not tried inside
+Anki when this was written: Claude can't restart Anki.**
+
+- **Anki tells JAStudio of four things only:** that a profile opened or is closing, and that Anki's own sync is
+  starting or has finished (`app.py`, `JAStudioAnkiAppRoot.HandleAnkiLifecycleEvent`).
+- **Gone from the Anki add-on's Python:** `follow_the_study_notes_in_anki.py`,
+  `clear_studying_cache_on_card_suspend_unsuspend.py` with `studing_status_helper.py`, `announce_finished_imports.py`,
+  and the package `note/collection`, whose synchronizer followed the notes added and deleted in Anki and wrote a
+  note's study-note each time the note was updated. About 300 lines.
+- **Gone from .NET:** `StudyNoteWrites`, `IStudyNoteUpdateHandler`, `JPCollection.UpdateCardStudyingStatus`,
+  `JPNote.ForgetItsDeletedStudyNote`, `AutomaticImportRuns.AfterAnkiImportedAFile` and `AfterANoteWasAddedInAnki`,
+  and what Python called on `JAStudioAnkiAppRoot`: `AnkiChangedNotes`, `AnkiImportedAFile`, `ANoteWasAddedInAnki`
+  and `StudyNoteWrites`.
+- **`FollowingAnkisLifecycle` is what is left of `CatchingUpWithAnki`.** It tells `AnkisAvailability` of each of the
+  four, and reads the profile that opened: the first profile to open has JAStudio load its collection, and each one
+  after that has it read the study-notes again, since they're that profile's.
+  - *Anki syncs as a profile opens, when set to,* and JAStudio may not use Anki's collection meanwhile. The profile
+    is then read once that sync has finished. Until part 4 the operation Anki announces a sync's end with did that.
+- **What it means in use,** as decided:
+  - *What changes in Anki shows in JAStudio after a Sync:* a card suspended or unsuspended, a tag, a study-note
+    deleted, and whatever Anki's own sync brought from AnkiWeb.
+  - *What JAStudio changes in a note reaches its study-note at a Sync.* Until then Anki plays the note's old audio
+    and shows its old question in its browser. A card's page is current, since it comes from the `CardServer`.
+  - *Raw notes are imported at a Sync,* by the import profiles that run automatically, not as they arrive.
+- **Unchanged, and needing no Sync:** suspending and unsuspending from JAStudio, and JAStudio's changes to Anki's
+  tags, after which it reads the study-notes again itself (`AnkiTagChanges`).
+- **Claude expects, and hasn't tried:** that an action in JAStudio on a note whose study-note was deleted in Anki
+  since the last Sync, such as suspending its cards, fails with Anki's error, since JAStudio still holds the id of an
+  Anki note that is gone.
+- **The specifications that used the notifications now use the sync or a read of the study-notes:**
+  `When_a_vocab_is_deleted_in_Anki`, `When_import_profiles_run_automatically`, where the run on a note added in Anki
+  went, and `When_keeping_the_results_of_a_search_up_to_date`.
 
 ## Increment 4, its first piece as built: the Anki add-on's HTTP server
 

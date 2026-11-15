@@ -21,8 +21,10 @@ namespace JAStudio.Core.Studying;
 /// It answers with what it did (<see cref="SRSSyncReport"/>).
 /// </summary>
 /// <remarks>
-/// It's to replace Anki telling JAStudio of each change as it's made (Magnus, 2026-11-14: "we don't need instant notifications on changes from<br/>
-/// anki. A sync button in a Studying view would be perfectly sufficient I think."): see dev_docs/moving-jastudio-out-of-anki.md.
+/// It's the only way what changed in the spaced repetition system reaches JAStudio, and the only time JAStudio writes the study-notes. Until<br/>
+/// 2026-11-15 Anki told JAStudio of each change as it was made, and JAStudio wrote a note's study-note each time it updated the note (Magnus,<br/>
+/// 2026-11-14: "we don't need instant notifications on changes from anki. A sync button in a Studying view would be perfectly sufficient I<br/>
+/// think."): see dev_docs/moving-jastudio-out-of-anki.md.
 /// </remarks>
 /// <remarks>It isn't Anki's own sync, which syncs Anki's collection with AnkiWeb, and during which this sync can't run.</remarks>
 /// <remarks>review-naming:studying: SRSSync and SRSSyncReport are new (Claude, 2026-11-15).</remarks>
