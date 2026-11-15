@@ -84,7 +84,7 @@ piece of code, or that would otherwise be lost in a long response.
   - **Reviewing:** moving down the rows plays each note's audio as it now is, the batch's speech. The pane on the right
     generates nothing by itself; it's where a bad one is fixed, with another voice or the text in kana, and Use.
 
-  Needs today's dialog split into a per-note part and the dialog around it, and requests paced to the tts-provider's
-  limit: Azure's free tier (F0) allows 20 requests a minute
-  ([quotas](https://learn.microsoft.com/azure/ai-services/speech-service/speech-services-quotas-and-limits)). With it,
-  the search condition "Has audio": any audio, a recording or TTS (Magnus, 2026-11-15).
+  Confirmed by Magnus (2026-11-15). Needs today's dialog split into a per-note part and the dialog around it, and
+  requests kept under the tts-provider's limit, with a retry when it refuses one for the rate: Azure's S0 allows 30 a
+  second, Google's Chirp 3 HD 200 a minute and Neural2 1,000 a minute. With it, the search condition "Has audio": any
+  audio, a recording or TTS (Magnus, 2026-11-15).
