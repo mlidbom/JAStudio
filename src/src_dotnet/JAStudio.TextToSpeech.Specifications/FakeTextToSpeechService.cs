@@ -11,11 +11,13 @@ namespace JAStudio.TextToSpeech.Specifications;
 
 /// <summary>
 /// Stands in for a tts-provider's web service, which the specifications can't call: it answers every request with the answer it was given,<br/>
-/// and records the requests, so that a specification can check what a tts-provider sent. Its <see cref="Client"/> is what the tts-provider calls through.
+/// after the answers it was told to give first, and records the requests, so that a specification can check what a tts-provider sent.<br/>
+/// Its <see cref="Client"/> is what the tts-provider calls through.
 /// </summary>
 sealed class FakeTextToSpeechService : HttpMessageHandler
 {
    readonly List<RecordedRequest> _requests = [];
+   readonly Queue<Func<HttpResponseMessage>> _firstAnswers = [];
    Func<HttpResponseMessage> _answer = () => throw new InvalidOperationException("The fake service was given no answer.");
 
    public FakeTextToSpeechService() => Client = new HttpClient(this);
@@ -24,6 +26,13 @@ sealed class FakeTextToSpeechService : HttpMessageHandler
 
    /// <summary>The one request made. Throws when there were none, or several.</summary>
    public RecordedRequest Request => _requests.Single();
+
+   /// <summary>Every request made, in order.</summary>
+   public IReadOnlyList<RecordedRequest> Requests => _requests;
+
+   /// <summary>Answers the next request with 429 Too Many Requests, as a service refuses one for the rate of requests, before the answer it was given.</summary>
+   public void RefusesTheNextRequestForTheRate() =>
+      _firstAnswers.Enqueue(() => new HttpResponseMessage(HttpStatusCode.TooManyRequests) { Content = new StringContent("Too many requests.", Encoding.UTF8, "text/plain") });
 
    /// <summary>Answers every request with <paramref name="status"/> and <paramref name="json"/> as the body.</summary>
    public void AnswersWith(HttpStatusCode status, string json) =>
@@ -35,7 +44,7 @@ sealed class FakeTextToSpeechService : HttpMessageHandler
    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
    {
       _requests.Add(await RecordedRequest.Of(request, cancellationToken));
-      return _answer();
+      return _firstAnswers.TryDequeue(out var firstAnswer) ? firstAnswer() : _answer();
    }
 }
 

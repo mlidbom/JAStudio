@@ -31,4 +31,21 @@ public class When_a_voice_speaks_a_text : IAIGeneratedSpec
       _speech.Mp3.Must().SequenceEqual(new Mp3File(WhatAzureSent).NormalizedToTheReplayGainReference().Bytes());
 
    [XF] public void the_speech_differs_from_what_azure_sent_which_was_louder() => _speech.Mp3.Must().Satisfy(it => !it.AsSpan().SequenceEqual(WhatAzureSent));
+
+   public class that_azure_first_refuses_for_the_rate_of_requests : IAIGeneratedSpec
+   {
+      readonly FakeTextToSpeechService _service = new();
+      readonly SynthesizedSpeech _speech;
+
+      public that_azure_first_refuses_for_the_rate_of_requests()
+      {
+         _service.RefusesTheNextRequestForTheRate();
+         _service.AnswersWithAudio(WhatAzureSent);
+         var azure = new AzureSpeechProvider(new AzureSpeechSettings { Key = "the-key", Region = "swedencentral" }, _service.Client);
+         _speech = new TextToSpeechVoice(azure, "ja-JP-NanamiNeural", TextToSpeechVoiceGender.Female).SpeakAsync("明日は学校に行きます。", CancellationToken.None).GetAwaiter().GetResult();
+      }
+
+      [XF] public void the_voice_asks_again_after_a_wait() => _service.Requests.Count.Must().Be(2);
+      [XF] public void the_speech_is_what_azure_sent_the_second_time() => _speech.Mp3.Must().SequenceEqual(new Mp3File(WhatAzureSent).NormalizedToTheReplayGainReference().Bytes());
+   }
 }
