@@ -51,7 +51,8 @@ public class NoteEditingTools
                 the vocab they name too, and writing a kanji's similar meaning or confused with changes the kanji they name. A sentence's
                 highlighted vocab and incorrect and hidden matches reparse the sentence. Reports each field of the note that changed, before and
                 after, in the order of its fields, those the edit didn't write included, such as a vocab's synonyms when its perfect synonyms are
-                written.
+                written. A sentence that is a parsing case reports a change to how it compares with what it expects too, as parsingCase: its
+                outcome and how many differences, which list_the_parsing_cases lists.
                 """)]
    public NoteEdit EditANote(
       [Description("The note's id, as search_notes lists it.")] string noteId,
