@@ -253,8 +253,9 @@ or write Magnus's keys (since 2026-11-15).
      One dialog serves vocab and sentences alike, since `IHasTextToSpeechAudio`, `UsingASpeech` and
      `TextToSpeechAudioFolders` already served both. It opens where it was last, and speaks nothing.
    - **The dialog:** the batch's voice on top, one of the chosen voices, the default at first, with "Try it on the selected
-     note", "Run batch" and "Voices..."; below it the notes (`NoteInTheBatchViewModel`), each with its button for the
-     batch's voice, its text, its TTS audio now and how far the batch has come with it (`NoteInTheBatchProgress`); and
+     note", "Run batch" and "Voices..."; below it the notes (`NoteInTheBatchViewModel`), each with ▶ for its TTS audio
+     now and, beside it to compare, its button for the batch's voice, then its text, its TTS audio now and how far the
+     batch has come with it (`NoteInTheBatchProgress`); and
      beside them, the selected note's text-to-speech for a note, as the TTS dialog shows it.
    - **A row's button for the batch's voice** says Generate until the note has a speech by the voice, then ▶
      (`NoteInTheBatchViewModel.TheBatchVoicesButton`, Magnus, 2026-11-15). Choosing another voice for the batch turns

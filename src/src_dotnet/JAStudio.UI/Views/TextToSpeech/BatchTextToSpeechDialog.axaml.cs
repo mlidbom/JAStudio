@@ -89,6 +89,14 @@ partial class BatchTextToSpeechDialog : Window
 
    static bool IsInTheVoicesList(object? source) => (source as Visual)?.FindAncestorOfType<ComboBox>(includeSelf: true) is not null;
 
+   void OnPlayANotesAudio(object? sender, RoutedEventArgs e)
+   {
+      if(sender is not Control { DataContext: NoteInTheBatchViewModel note })
+         throw new InvalidOperationException("A note's ▶ shows something other than a NoteInTheBatchViewModel.");
+
+      _dialog.Play(note);
+   }
+
    void OnTryTheBatchVoice(object? sender, RoutedEventArgs e) => _dialog.TryTheBatchVoiceOnTheSelectedNote();
 
    void OnTryTheBatchVoiceOnANote(object? sender, RoutedEventArgs e)

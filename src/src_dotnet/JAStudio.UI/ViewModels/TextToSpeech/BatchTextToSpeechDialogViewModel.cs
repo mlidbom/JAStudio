@@ -132,6 +132,13 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
          note.Offer(chosenVoices);
    }
 
+   /// <summary>Plays <paramref name="note"/>'s TTS audio as it is now, and selects it. It plays even when it's selected already, as when replaying it.</summary>
+   internal void Play(NoteInTheBatchViewModel note)
+   {
+      if(note == SelectedNote) PlayTheSelectedNotesAudio();
+      else SelectedNote = note;
+   }
+
    /// <summary>Plays the selected note's TTS audio as it is now, when there's one to play.</summary>
    internal void PlayTheSelectedNotesAudio()
    {
