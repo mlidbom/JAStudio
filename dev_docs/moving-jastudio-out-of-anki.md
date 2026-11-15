@@ -5,7 +5,8 @@
 > button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and so is JAStudio's implementation
 > of its calls over HTTP, which only its specifications use yet, and the access file, by which a JAStudio finds the
 > add-on's server. The add-on serves JAStudio over HTTP whenever an Anki profile is open, beside JAStudio inside
-> Anki, which doesn't call it. On JAStudio's side, the UI's direct calls to
+> Anki, which doesn't call it: tried from outside in the real Anki, but for the functions that change Anki's
+> collection. On JAStudio's side, the UI's direct calls to
 > `AnkiFacade` are behind Core's seams, but for the menu of Anki's browser, the Anki integration calls Anki through
 > interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows after it
 > changes a note: a card's page in Anki reloads itself.** The order of work is
@@ -787,6 +788,21 @@ server is there for a JAStudio outside Anki, and to be tried from outside.**
     same: an exception from one of Anki's hooks stops the hooks after it.
 - **Tested without Anki's window:** `AnkiWithItsWindow` with a stand-in for the main window, for when it refuses
   and for handing the windows' work to the main thread.
+- **Tried in the real Anki, 2026-11-15,** from outside, by a script that reads the access file as a JAStudio would
+  and calls the server, on Magnus's profile `Magnus`: 80,512 notes and 159,463 cards.
+  - *What changes nothing in Anki works:* `/contract`, `/collection`, `notes_find`, `col_read_json`,
+    `get_note_id_from_card_id`, `tags_number_of_notes_with_a_tag_in` and `anki_media_dir`, and the answers to a
+    wrong token, to a call that names another collection, to a function there isn't, and to arguments that don't
+    fit.
+  - *Reading every note with its fields takes about 0.2 seconds:* 18.6 million characters of JSON, in one
+    `col_read_json`. Finding all 80,512 notes takes 15 ms, and the other calls 1 to 25 ms.
+  - *The functions that drive Anki's windows work:* `ui_show_tooltip` showed Anki's tooltip,
+    `browser_execute_lookup` opened the browser and its previewer on the note, and `ui_refresh` raised no error.
+    Seen from outside by listing Anki's windows before and after each.
+  - *Not tried there:* the functions that change Anki's collection, and with them telling Anki's windows of an
+    operation; the refusals while Anki's own sync is under way and while no profile is open; and the access
+    file going as the profile closes. Claude's call: nothing is written to Magnus's own profile for a check.
+    They're to be tried on the profile `Anki-Development`, by the standalone JAStudio once it's wired.
 
 **What the HTTP path still lacks:**
 
