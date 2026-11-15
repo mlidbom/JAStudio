@@ -23,7 +23,7 @@ A task that changes code, or anything the build or the tests read, isn't complet
 - All .NET tests pass (`dotnet test JAStudio.slnx`).
 - All Python tests pass (`pytest`).
 
-A change to documents alone needs none of it.
+A change to documents alone, or to comments alone, needs none of it.
 
 ## Python type checking
 
