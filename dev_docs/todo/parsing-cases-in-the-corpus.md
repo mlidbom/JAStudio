@@ -24,7 +24,7 @@ branch `unidic`: `dev_docs/todo/judging-what-unidic-changes-in-parsing.md`). Bef
 
 - **The word is the project's own: a parsing case** (`ParsingCase`). A sentence is marked as a parsing case. "Good
   ParsingCase it is."
-- **A parsing case has a state: verified, broken, or unverified.** Only the verified ones are a gold standard, the
+- **A parsing case is verified, broken, or unverified.** Only the verified ones are a gold standard, the
   language-processing term for sentences whose analysis a person has verified.
 - **It's a data type on the sentence, not tags.** "It does not have to be tags, but it does need to be navigatable easily
   [...] it absolutely can, and likely should, be another data type, maybe a nullable object graph on the sentence that
@@ -51,6 +51,19 @@ branch `unidic`: `dev_docs/todo/judging-what-unidic-changes-in-parsing.md`). Bef
   - **The 16 cases that share 6 sentences get a sentence note each.** They mark different matches as hidden or as
     incorrect on the same text, such as いらっしゃいません with いらっしゃいませ hidden, and again with it marked incorrect, and
     one note holds one configuration.
+- **What a person verifies is the displayed vocab, for a start.** "We need more granular specifying of what is verified.
+  For starters, what we will verify, if you agree, is the displayed vocab without any consideration for non displayed
+  vocab, or correct breakdown of compound parts. Basically What you can see in the results when all options to expand
+  or show extra information, or hide compounds etc are all off."
+  - **A change outside it is not an error.** "A parsing change that does not change this is NOT an error. Just a suspect
+    change needing review. And we review only that. Probably."
+  - **Other aspects come later.** "So for different aspects of the sentence, there can be different (Evaluations might
+    not feel quite right ?). For now I'm not too confident on defining any except the view that is only the matching
+    displayed vocab. Period."
+  - **Open, in his words:** "how to model 'suspect' for the other parsing aspects and how to build the UI for making a
+    judment about that".
+- **A Parsing cases tab in the navigation pane.** "I'd like a Parsing cases tab on the left with filtering and sorting
+  by status and text, separate from the search."
 - **The work starts in the worktree's own corpus checkout.** Committing to the corpus's own line comes on Magnus's
   word: "You'll get it when it's time."
 
@@ -77,41 +90,68 @@ branch `unidic`: `dev_docs/todo/judging-what-unidic-changes-in-parsing.md`). Bef
   written out that the corpus has named as shared-conditions since increment 6 of the matching configuration. The
   harness couldn't read those names: it loads shared-conditions now (brought over from the branch `unidic`).
 
-## The data type (Claude's proposal, for Magnus to confirm)
+## The data type (Claude's proposal after Magnus's additions, for him to confirm)
 
 The specifications already have the model, and its words are kept: a `ParsingCase` with a `Name`, a `Why` and an
 `Expected` result (`ParsingCaseResult`: the parsed words, and the breakdown under each combination of the options that
-change it), which `Accept` replaces. It moves into Core, onto the sentence:
+change it), which `Accept` replaces. It moves into Core, onto the sentence.
 
-- **`SentenceNote.ParsingCase`,** null when the sentence isn't a parsing case. It holds:
-  - `Name`: what the case is about, as its file's name says today, such as "ichidan imperative". It's the case's name
-    in the test explorer.
-  - `Why`: why the case exists, such as the misparse it caught, or what is wrong with how it parses.
-  - `State`: verified, broken or unverified.
-  - `Expected`: the result the sentence is expected to parse to. For a verified case, a person has found it right. For
-    a broken one, a person has found it wrong. It's kept either way, so that a change to it is noticed: a broken case
-    that parses otherwise may be fixed.
-- **What can be done with it,** as commands of the sentence note, which the note's menu and the MCP server both offer:
-  - mark the sentence as a parsing case: `Expected` becomes what it parses to now, and it's unverified;
-  - set its state, name and why;
-  - accept what it parses to now as `Expected`;
-  - stop it being a parsing case.
-- **A reparse compares.** Updating the sentence's generated data parses it under every combination of the options, as
-  a case does today, and compares with `Expected`.
-- **Finding them:** generated tags, as `-::sentence::uses::incorrect-matches` is today, so that the tag tree has them:
-  `-::sentence::parsing-case::verified`, `::broken`, `::unverified`, and `::parses-otherwise-than-expected`.
+**What a parsing case records, and what a person vouches for, are two things:**
+
+- **`Expected` records everything,** as a case file does today. Nobody vouches for all of it.
+- **A person's verdict is on one aspect of it.** There's one aspect for now, the displayed vocab: the words the
+  breakdown displays with every option off, each with the vocab it's matched to. Its verdict is verified, broken or
+  unverified. Further aspects, such as a compound's parts, get a verdict of their own when it's clear what verifying
+  them means. "Verdict" is Claude's word, for Magnus to accept or replace: he doubted "evaluation".
+
+**`SentenceNote.ParsingCase`,** null when the sentence isn't a parsing case:
+
+- `Name`: what the case is about, as its file's name says today, such as "ichidan imperative".
+- `Why`: why the case exists, such as the misparse it caught, or what is wrong with how it parses.
+- `Expected`: the result the sentence is expected to parse to.
+- `DisplayedVocab`: the verdict on the displayed vocab.
+
+**A reparse compares, and what differs is of two kinds:**
+
+| What differs from `Expected` | The displayed vocab are verified | They aren't |
+|---|---|---|
+| The displayed vocab | The case fails: an error | Changed: to review |
+| Only something else | Suspect: to review | Suspect: to review |
+
+- **"Suspect" isn't stored.** It's a difference from `Expected` in what nobody has verified. What's stored is
+  `Expected` and the verdict.
+- **Judging a suspect change** has two outcomes for now. Accepting it makes what the sentence parses to its
+  `Expected`, and claims nothing about its being right. Finding it wrong has no verdict to set yet outside the
+  displayed vocab: the case's `Why` says what is wrong, and it stays unaccepted. The first such cases show which
+  aspect to define next.
+
+**The commands of the sentence note,** which the note's menu and the MCP server both offer:
+
+- mark the sentence as a parsing case: `Expected` becomes what it parses to now, and its displayed vocab are
+  unverified;
+- set the verdict on its displayed vocab, its name and its why;
+- accept what it parses to now as `Expected`;
+- stop it being a parsing case.
+
+**The Parsing cases tab,** in the workspace's navigation pane, beside the search: every parsing case, with its
+sentence, its name, its verdict, and what differs (nothing, the displayed vocab, or something else), filtered and
+sorted by those and by the text. With it, no generated tags are needed to find the cases.
+
+**The sentence page of a case that differs** shows what was expected beside what it parses to: the displayed vocab
+first, with the words that differ marked, then the other differences as lines, as the cases' failure messages word
+them today. With the commands to accept, and to set the verdict and the why.
 
 ## The steps
 
-1. **The data type,** as above: on the sentence note, stored in the corpus, with its commands, the comparison at a
-   reparse and the generated tags. Specified in Core's specifications.
+1. **The data type,** as above: on the sentence note, stored in the corpus, with its commands and the comparison at a
+   reparse. Specified in Core's specifications.
 2. **The import, once:** every case file's sentence gets its parsing case in the worktree's corpus checkout, on a note
    already there when one parses identically and on a new note otherwise. `Expected` is what the note parses to, and it
    must equal what the case file expects, for every case. The state is verified: these are the cases Magnus added and
    fixed over months.
 3. **Magnus looks at them in JAStudio.** The corpus is committed on his word.
-4. **The sentence page shows the parsing case:** its state, its why, and what it was expected to parse to beside what
-   it parses to, when they differ.
+4. **The Parsing cases tab, and the sentence page showing the parsing case:** its verdict, its why, and what it was
+   expected to parse to beside what it parses to, when they differ.
 5. **The case files are generated from the corpus's parsing cases,** with the stripped-down corpus, as the full mode
    refreshes it today. The specifications run on them as now, without the corpus.
 
@@ -120,7 +160,8 @@ and they are the list to judge.
 
 ## Open
 
-- **Whether the cases' check stays as strict as it is,** comparing every parsed word, displayed or not (Claude
-  recommends it; put to Magnus on `unidic`). It decides what "parses otherwise than expected" compares.
+- **Whether a suspect change fails the specifications,** as a specification of its own that says there are changes to
+  review, or only shows in the Parsing cases tab.
+- **How Claude reads "we review only that":** that a review looks at what changed, not at the whole sentence again.
 - **A broken case in the specifications:** whether it's generated as a case that pins what it parses to, or left out
   until it's verified.
