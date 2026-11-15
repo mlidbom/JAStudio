@@ -20,7 +20,7 @@ class BulkNoteChanges(TemporaryServiceCollection services)
 {
    readonly TaskRunner _taskRunner = services.TaskRunner;
    readonly AnkiTagChanges _ankiTagChanges = services.Resolve<AnkiTagChanges>();
-   readonly ISpacedRepetitionSystemWindows _spacedRepetitionSystemWindows = services.SpacedRepetitionSystemWindows;
+   readonly ISRSWindows _srsWindows = services.SRSWindows;
 
    /// <summary>Does <paramref name="changeANote"/> to each of <paramref name="notes"/> in the background, showing its progress as <paramref name="whatIsDone"/>.</summary>
    public Task ChangeEachOf(List<JPNote> notes, string whatIsDone, Action<JPNote> changeANote) =>
@@ -70,5 +70,5 @@ class BulkNoteChanges(TemporaryServiceCollection services)
       });
 
    /// <summary>Refreshes Anki's own windows, such as its browser, as the note menus do after they change notes.</summary>
-   void ShowTheChangeInAnki() => _spacedRepetitionSystemWindows.Refresh();
+   void ShowTheChangeInAnki() => _srsWindows.Refresh();
 }

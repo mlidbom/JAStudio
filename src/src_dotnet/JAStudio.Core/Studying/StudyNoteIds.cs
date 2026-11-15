@@ -5,15 +5,17 @@ using JAStudio.Core.Note;
 namespace JAStudio.Core.Studying;
 
 /// <summary>
-/// Which study-note each note has in the spaced repetition system, by id: the id of a note's study-note, and the id of the note a study-note<br/>
+/// Which study-note each note has in the SRS, the spaced repetition system, by id: the id of a note's study-note, and the id of the note a study-note<br/>
 /// belongs to. A study-note's id is the one the spaced repetition system gives it: in Anki, the id of its Anki note. A note that isn't in the<br/>
 /// spaced repetition system has none.
 /// </summary>
 /// <remarks>Any number of threads read and change it at once.</remarks>
+/// <remarks>
+/// review-naming:studying: StudyNoteIds was ExternalNoteIdMap, and a study-note id was an external id (Claude, 2026-11-15). NoteIdOfTheStudyNote was<br/>
+/// FromExternalId, StudyNoteIdOf was ToExternalId, and RequiredStudyNoteIdOf was RequireExternalId.
+/// </remarks>
 public class StudyNoteIds
 {
-   //review-naming:studying: StudyNoteIds was ExternalNoteIdMap, and a study-note id was an external id (Claude, 2026-11-15). NoteIdOfTheStudyNote was
-   //   FromExternalId, StudyNoteIdOf was ToExternalId, and RequiredStudyNoteIdOf was RequireExternalId.
    readonly ConcurrentDictionary<NoteId, long> _studyNoteIdOfEachNote = new();
    readonly ConcurrentDictionary<long, NoteId> _noteIdOfEachStudyNote = new();
 
@@ -58,27 +60,27 @@ public class StudyNoteIds
    public IReadOnlyDictionary<long, NoteId> Snapshot() => new Dictionary<long, NoteId>(_noteIdOfEachStudyNote);
 
    /// <summary>
-   /// Takes in <paramref name="readFromTheSpacedRepetitionSystem"/>, the id of every study-note's note as read from the spaced repetition system again,<br/>
+   /// Takes in <paramref name="readFromTheSRS"/>, the id of every study-note's note as read from the spaced repetition system again,<br/>
    /// in place of <paramref name="heldWhenTheReadBegan"/>, those held when that read began (<see cref="Snapshot"/>), one study-note at a time, so that<br/>
    /// this is never empty meanwhile. A study-note registered since the read began, as when one was created meanwhile, is kept, since the read can't<br/>
    /// have seen it.
    /// </summary>
    /// <returns>
    /// The notes whose study-note is gone from the spaced repetition system: held when the read began, and no longer in<br/>
-   /// <paramref name="readFromTheSpacedRepetitionSystem"/>.
+   /// <paramref name="readFromTheSRS"/>.
    /// </returns>
-   public IReadOnlyList<NoteId> TakeIn(IReadOnlyDictionary<long, NoteId> readFromTheSpacedRepetitionSystem, IReadOnlyDictionary<long, NoteId> heldWhenTheReadBegan)
+   public IReadOnlyList<NoteId> TakeIn(IReadOnlyDictionary<long, NoteId> readFromTheSRS, IReadOnlyDictionary<long, NoteId> heldWhenTheReadBegan)
    {
       List<NoteId> notesWhoseStudyNoteIsGone = [];
       foreach(var (studyNoteId, noteId) in heldWhenTheReadBegan)
       {
-         if(readFromTheSpacedRepetitionSystem.ContainsKey(studyNoteId)) continue;
+         if(readFromTheSRS.ContainsKey(studyNoteId)) continue;
 
          Unregister(studyNoteId);
          notesWhoseStudyNoteIsGone.Add(noteId);
       }
 
-      foreach(var (studyNoteId, noteId) in readFromTheSpacedRepetitionSystem)
+      foreach(var (studyNoteId, noteId) in readFromTheSRS)
          Register(studyNoteId, noteId);
 
       return notesWhoseStudyNoteIsGone;

@@ -6,9 +6,9 @@ using JAStudio.Core.Studying.StudyNotes;
 namespace JAStudio.StandaloneHost;
 
 /// <summary>The study-notes in Anki, as the standalone JAStudio has them: none, since it has no Anki.</summary>
-sealed class NoAnkiStudyNotes : ISpacedRepetitionSystemStudyNotes
+sealed class NoAnkiStudyNotes : ISRSStudyNotes
 {
-   public IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> ReadAll() => [];
+   public IReadOnlyList<StudyNoteInTheSRS> ReadAll() => [];
 
    public void Write(JPNote note) => throw new InvalidOperationException($"The standalone JAStudio has no Anki, so {note.GetQuestion()} has no study-note to write.");
 }

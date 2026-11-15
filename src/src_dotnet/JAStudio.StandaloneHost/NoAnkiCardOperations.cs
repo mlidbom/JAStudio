@@ -8,7 +8,7 @@ namespace JAStudio.StandaloneHost;
 /// The standalone JAStudio's changes to the notes' cards in Anki: none, since it has no Anki, and so no note has an Anki note or cards. Suspending and<br/>
 /// unsuspending are offered only for a note with active or suspended cards.
 /// </summary>
-sealed class NoAnkiCardOperations : ISpacedRepetitionSystemCardOperations
+sealed class NoAnkiCardOperations : ISRSCardOperations
 {
    public void SuspendAllCardsForNote(NoteId noteId) => throw NoCards(noteId);
    public void UnsuspendAllCardsForNote(NoteId noteId) => throw NoCards(noteId);

@@ -5,16 +5,16 @@ using JAStudio.Core.Note;
 namespace JAStudio.Core.Studying;
 
 /// <summary>
-/// What the collection loads of the study-notes from the spaced repetition system (<see cref="ISpacedRepetitionSystemDataLoader"/>): which note<br/>
-/// each study-note belongs to, the studying statuses of its cards, and the tags the student gave it there. The collection gives each note its<br/>
+/// What the collection loads of the study-notes from the SRS, the spaced repetition system (<see cref="ISRSDataLoader"/>): which note each<br/>
+/// study-note belongs to, the studying statuses of its cards, and the tags the student gave it there. The collection gives each note its<br/>
 /// part of it.
 /// </summary>
-public class SpacedRepetitionSystemData
+/// <remarks>review-naming:studying: SRSData was BackendData, and NoteIdOfEachStudyNote was IdMappings (Claude, 2026-11-15).</remarks>
+public class SRSData
 {
-   //review-naming:studying: SpacedRepetitionSystemData was BackendData, and NoteIdOfEachStudyNote was IdMappings (Claude, 2026-11-15).
    readonly ILookup<long, CardStudyingStatus> _studyingStatusesByStudyNoteId;
 
-   public SpacedRepetitionSystemData(Dictionary<long, NoteId> noteIdOfEachStudyNote, List<CardStudyingStatus> studyingStatuses, Dictionary<long, IReadOnlyList<string>> studyNoteTags)
+   public SRSData(Dictionary<long, NoteId> noteIdOfEachStudyNote, List<CardStudyingStatus> studyingStatuses, Dictionary<long, IReadOnlyList<string>> studyNoteTags)
    {
       NoteIdOfEachStudyNote = noteIdOfEachStudyNote;
       StudyingStatuses = studyingStatuses;

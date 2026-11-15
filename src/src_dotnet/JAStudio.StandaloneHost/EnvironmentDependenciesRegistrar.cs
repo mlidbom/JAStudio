@@ -14,7 +14,7 @@ namespace JAStudio.StandaloneHost;
 
 /// <summary>
 /// Wires the standalone JAStudio: JAStudio as inside Anki, working on the add-on folder it was started on, with Anki entirely out of the loop. What<br/>
-/// is Anki's, such as the study-notes and creating a note's Anki note, there is none of (<see cref="SpacedRepetitionSystemAvailability.Unavailable"/>).
+/// is Anki's, such as the study-notes and creating a note's Anki note, there is none of (<see cref="SRSAvailability.Unavailable"/>).
 /// </summary>
 sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenciesRegistrar
 {
@@ -30,12 +30,12 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
-         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Unavailable),
-         Singleton.For<ISpacedRepetitionSystemWindows>().Instance(new NoSpacedRepetitionSystemWindows()),
-         Singleton.For<ISpacedRepetitionSystemDataLoader>().Instance(new NoAnkiData()),
-         Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new NoAnkiCardOperations()),
-         Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(new NoAnkiTagOperations()),
-         Singleton.For<ISpacedRepetitionSystemStudyNotes>().Instance(new NoAnkiStudyNotes()),
+         Singleton.For<SRSAvailability>().Instance(SRSAvailability.Unavailable),
+         Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
+         Singleton.For<ISRSDataLoader>().Instance(new NoAnkiData()),
+         Singleton.For<ISRSCardOperations>().Instance(new NoAnkiCardOperations()),
+         Singleton.For<ISRSTagOperations>().Instance(new NoAnkiTagOperations()),
+         Singleton.For<ISRSStudyNotes>().Instance(new NoAnkiStudyNotes()),
          Singleton.For<IAnkiRawNotes>().Instance(new NoAnkiRawNotes())
       );
 }

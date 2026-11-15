@@ -22,6 +22,9 @@ Decided by Magnus on 2026-11-15, on Claude's suggestion. There are three things 
 
 - **spaced repetition system** — Anki as the domain sees it: the system where the student studies, which schedules the
   reviews. Anki is the only one today. Until then `studying.md` said *studying-add-on*.
+  - In names it's **SRS**, an approved exception to the rule against abbreviations (Magnus, 2026-11-15: "SRS Is a well
+    known acronym, and anyone dealing with this domain should know it already"): see
+    `code_standard_exceptions/srs-for-the-spaced-repetition-system.md`. In prose it stays spelled out.
 - **the Anki integration** — JAStudio's code that works with Anki: `JAStudio.Anki`.
 - **the Anki add-on** — the Python code that Anki loads, in `src/jastudio_src`. Add-on is Anki's own word for such
   code.
@@ -54,10 +57,8 @@ From reading the code on 2026-11-14. Today pythonnet loads JAStudio's .NET side 
   - *What Magnus starts himself:* the note view shortcuts (`NoteViewShortcuts`), Ctrl+O and Ctrl+Shift+O, which show the
     workspace, and the Qt menus that C# describes and Python builds.
 - **The seams between Core and Anki already exist,** since the standalone and the headless JAStudio run without Anki.
-  By their names since increment 1: `SpacedRepetitionSystemAvailability`, `ISpacedRepetitionSystemWindows`,
-  `ISpacedRepetitionSystemStudyNotes`, `ISpacedRepetitionSystemTagOperations`,
-  `ISpacedRepetitionSystemCardOperations`, `ISpacedRepetitionSystemDataLoader`, `IAnkiRawNotes` and
-  `AnkiCollectionDatabase`.
+  By their names since increment 1: `SRSAvailability`, `ISRSWindows`, `ISRSStudyNotes`, `ISRSTagOperations`,
+  `ISRSCardOperations`, `ISRSDataLoader`, `IAnkiRawNotes` and `AnkiCollectionDatabase`.
 
 ## Decided
 
@@ -263,17 +264,18 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
 Core's seam to the spaced repetition system is in the new namespace `JAStudio.Core.Studying`, in studying's words.
 Every name is Claude's choice, marked `//review-naming:studying:` for Magnus's pass.
 
-**The rule the names follow:** where the seam said Anki, or the backend, it says the spaced repetition system, and an
-"external note" is the study-note it always was.
+**The rule the names follow:** where the seam said Anki, or the backend, it says SRS, for the spaced repetition
+system, and an "external note" is the study-note it always was. The names first spelled the term out, as
+`ISpacedRepetitionSystemWindows`. Magnus had them take the acronym the same day.
 
 | Was | Is |
 |---|---|
-| `AnkiAvailability` | `SpacedRepetitionSystemAvailability` |
-| `IAnkiWindows`, `NoAnkiWindows` | `ISpacedRepetitionSystemWindows`, `NoSpacedRepetitionSystemWindows` |
-| `IBackendDataLoader`, `BackendData` | `ISpacedRepetitionSystemDataLoader`, `SpacedRepetitionSystemData` |
-| `ICardOperations` | `ISpacedRepetitionSystemCardOperations` |
-| `IAnkiTagOperations` | `ISpacedRepetitionSystemTagOperations` |
-| `IAnkiStudyNotes`, `StudyNoteInAnki` | `ISpacedRepetitionSystemStudyNotes`, `StudyNoteInTheSpacedRepetitionSystem` |
+| `AnkiAvailability` | `SRSAvailability` |
+| `IAnkiWindows`, `NoAnkiWindows` | `ISRSWindows`, `NoSRSWindows` |
+| `IBackendDataLoader`, `BackendData` | `ISRSDataLoader`, `SRSData` |
+| `ICardOperations` | `ISRSCardOperations` |
+| `IAnkiTagOperations` | `ISRSTagOperations` |
+| `IAnkiStudyNotes`, `StudyNoteInAnki` | `ISRSStudyNotes`, `StudyNoteInTheSRS` |
 | `ExternalNoteIdMap` | `StudyNoteIds` |
 | `IExternalNoteUpdateHandler` | `IStudyNoteUpdateHandler`, which goes in increment 2 |
 
@@ -288,14 +290,14 @@ Every name is Claude's choice, marked `//review-naming:studying:` for Magnus's p
 
 **What the seam still says of Anki,** each for the increment that changes the wiring:
 
-- **Anki's search syntax:** `ISpacedRepetitionSystemWindows` opens Anki's browser and previewer on a search in Anki's
+- **Anki's search syntax:** `ISRSWindows` opens Anki's browser and previewer on a search in Anki's
   search syntax, which the UI writes with the Anki integration's `QueryBuilder`. Taking the notes to open instead
   would leave the syntax to the Anki integration.
 - **Anki's fields, markup and text:** a study-note's fields are named as Anki names them (`AnkiFieldNames`), its audio
   is in Anki's markup (`AnkiMediaMarkup`), and `StudyNoteComparison` compares text as Anki stores it. The two types
   are all that is left in `JAStudio.Core.Anki`. This goes with the design call that the write of a study-note crosses
   as the fields to write.
-- **Cards and suspending:** `ISpacedRepetitionSystemCardOperations` speaks of both, which `studying.md` is to design
+- **Cards and suspending:** `ISRSCardOperations` speaks of both, which `studying.md` is to design
   words for.
 - **A study-note id is a `long`,** as Anki's is.
 
@@ -364,10 +366,10 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
 - **One read of the study-notes** (Claude's suggestion, 2026-11-15, for the Sync increment). Three of the seam's
-  interfaces are views of the same study-notes: `ISpacedRepetitionSystemDataLoader` reads each one's note, card
-  statuses and tags, `ISpacedRepetitionSystemStudyNotes` reads their fields and writes them, and
-  `ISpacedRepetitionSystemCardOperations` suspends their cards and deletes them. A sync needs all that the first two
-  read, so its read could be one, of one kind of study-note, and the three interfaces one.
+  interfaces are views of the same study-notes: `ISRSDataLoader` reads each one's note, card statuses and tags,
+  `ISRSStudyNotes` reads their fields and writes them, and `ISRSCardOperations` suspends their cards and deletes
+  them. A sync needs all that the first two read, so its read could be one, of one kind of study-note, and the three
+  interfaces one.
 - **Tessaging or interfaces inside JAStudio.**
 - **With several JAStudios connected:**
   - How the add-on learns that one stopped without saying so.

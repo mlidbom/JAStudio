@@ -7,7 +7,7 @@ using JAStudio.Core.Studying.StudyNotes;
 namespace JAStudio.Anki;
 
 /// <summary>The study-notes in the collection Anki has open: read from its database (<see cref="AnkiCollectionDatabase"/>), and written through Anki.</summary>
-public class AnkiStudyNotes : ISpacedRepetitionSystemStudyNotes
+public class AnkiStudyNotes : ISRSStudyNotes
 {
    readonly AnkiCollectionDatabase _database;
    readonly StudyNoteIds _ankiNoteIds;
@@ -18,7 +18,7 @@ public class AnkiStudyNotes : ISpacedRepetitionSystemStudyNotes
       _ankiNoteIds = ankiNoteIds;
    }
 
-   public IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> ReadAll() => StudyNotesInAnkisDatabase.ReadAll(_database);
+   public IReadOnlyList<StudyNoteInTheSRS> ReadAll() => StudyNotesInAnkisDatabase.ReadAll(_database);
 
    public void Write(JPNote note) => AnkiFacade.StudyNotes.Write(_ankiNoteIds.RequiredStudyNoteIdOf(note.GetId()), note);
 }

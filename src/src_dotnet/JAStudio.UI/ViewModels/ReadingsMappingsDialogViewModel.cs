@@ -42,7 +42,7 @@ partial class ReadingsMappingsDialogViewModel : ObservableObject
       this.Log().Info("Readings mappings saved");
       _window.Close(true);
 
-      _services.SpacedRepetitionSystemWindows.Refresh();
+      _services.SRSWindows.Refresh();
    }
 
    void Cancel()

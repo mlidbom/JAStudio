@@ -33,15 +33,15 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkiCollectionFile(_setup.AnkiCollectionFile)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
-         Singleton.For<ISpacedRepetitionSystemDataLoader>().CreatedBy(ISpacedRepetitionSystemDataLoader (AnkiCollectionDatabase database) => new AnkiDataLoader(database)),
+         Singleton.For<ISRSDataLoader>().CreatedBy(ISRSDataLoader (AnkiCollectionDatabase database) => new AnkiDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
-         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Unavailable),
-         Singleton.For<ISpacedRepetitionSystemWindows>().Instance(new NoSpacedRepetitionSystemWindows()),
+         Singleton.For<SRSAvailability>().Instance(SRSAvailability.Unavailable),
+         Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
          Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
-         Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new HeadlessCardOperations()),
-         Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(new HeadlessAnkiTagOperations()),
-         Singleton.For<ISpacedRepetitionSystemStudyNotes>().CreatedBy(ISpacedRepetitionSystemStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
+         Singleton.For<ISRSCardOperations>().Instance(new HeadlessCardOperations()),
+         Singleton.For<ISRSTagOperations>().Instance(new HeadlessAnkiTagOperations()),
+         Singleton.For<ISRSStudyNotes>().CreatedBy(ISRSStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
       );
 }

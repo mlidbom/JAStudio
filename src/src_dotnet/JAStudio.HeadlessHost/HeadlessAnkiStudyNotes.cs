@@ -11,14 +11,14 @@ namespace JAStudio.HeadlessHost;
 /// The study-notes in the collection the headless JAStudio was started with, read from its file (<see cref="AnkiCollectionFile"/>), with the same<br/>
 /// SELECTs as JAStudio inside Anki reads them. Writing one is refused, since there is no Anki to write a study-note in.
 /// </summary>
-class HeadlessAnkiStudyNotes : ISpacedRepetitionSystemStudyNotes
+class HeadlessAnkiStudyNotes : ISRSStudyNotes
 {
    readonly AnkiCollectionDatabase _database;
 
    /// <param name="database">The database of the collection the headless JAStudio was started with, its file (<see cref="AnkiCollectionFile"/>).</param>
    public HeadlessAnkiStudyNotes(AnkiCollectionDatabase database) => _database = database;
 
-   public IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> ReadAll() => StudyNotesInAnkisDatabase.ReadAll(_database);
+   public IReadOnlyList<StudyNoteInTheSRS> ReadAll() => StudyNotesInAnkisDatabase.ReadAll(_database);
 
    public void Write(JPNote note) => throw new NotSupportedException("The headless JAStudio has no Anki to write a study-note in.");
 }

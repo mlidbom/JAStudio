@@ -5,20 +5,20 @@ namespace JAStudio.Core.Studying.StudyNotes;
 
 /// <summary>
 /// Every study-note in the spaced repetition system compared with the one JAStudio would write for its note now: which differ, and in which<br/>
-/// fields (<see cref="StudyNoteInTheSpacedRepetitionSystem.FieldsThatDifferFromTheStudyNoteOf"/>).
+/// fields (<see cref="StudyNoteInTheSRS.FieldsThatDifferFromTheStudyNoteOf"/>).
 /// </summary>
 public sealed class StudyNoteComparison
 {
    readonly List<NoteWhoseStudyNoteDiffers> _notesWhoseStudyNoteDiffers = [];
-   readonly List<StudyNoteInTheSpacedRepetitionSystem> _studyNotesOfNoNote = [];
+   readonly List<StudyNoteInTheSRS> _studyNotesOfNoNote = [];
 
    /// <summary>
-   /// Compares each of <paramref name="studyNotesInTheSpacedRepetitionSystem"/> with the study-note JAStudio would write for its note in<br/>
+   /// Compares each of <paramref name="studyNotesInTheSRS"/> with the study-note JAStudio would write for its note in<br/>
    /// <paramref name="collection"/>.
    /// </summary>
-   public StudyNoteComparison(JPCollection collection, IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> studyNotesInTheSpacedRepetitionSystem)
+   public StudyNoteComparison(JPCollection collection, IReadOnlyList<StudyNoteInTheSRS> studyNotesInTheSRS)
    {
-      foreach(var studyNote in studyNotesInTheSpacedRepetitionSystem)
+      foreach(var studyNote in studyNotesInTheSRS)
       {
          if(collection.NoteOfTheStudyNote(studyNote.StudyNoteId) is not {} note)
          {
@@ -41,5 +41,5 @@ public sealed class StudyNoteComparison
    /// The study-notes in the spaced repetition system whose note the collection hasn't, such as one added in Anki rather than by JAStudio, or one<br/>
    /// whose note was deleted with its study-note kept. Nothing compares them.
    /// </summary>
-   public IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> StudyNotesOfNoNote => _studyNotesOfNoNote;
+   public IReadOnlyList<StudyNoteInTheSRS> StudyNotesOfNoNote => _studyNotesOfNoNote;
 }

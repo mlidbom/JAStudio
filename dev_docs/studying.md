@@ -19,7 +19,8 @@
 ## Terms
 
 - **spaced repetition system** — a system that schedules a student's reviews, which JAStudio integrates with. Anki is
-  the only one today. Until 2026-11-15 this document said *studying-add-on*.
+  the only one today. Until 2026-11-15 this document said *studying-add-on*. In names it's **SRS** (Magnus,
+  2026-11-15): see `code_standard_exceptions/srs-for-the-spaced-repetition-system.md`.
 - **the Anki integration** — JAStudio's code that works with Anki: `JAStudio.Anki`.
 - **the Anki add-on** — the Python code that Anki loads. Nothing in JAStudio is called an add-on (Magnus, 2026-11-15):
   with a studying-add-on in JAStudio, "the Anki add-on" read both as the add-on in JAStudio for Anki and as the add-on
@@ -37,7 +38,7 @@
   - Each note keeps that in memory (`JPNote.ReadItsStudyNoteFrom`, and `JPNote.SetStudyingStatus` for a single card).
 - **"Studying" means having a card that isn't suspended.** `JPNote.IsStudying(cardType)` answers it for one card
   type or for any card. `IsStudyingRead` and `IsStudyingListening` are shorthands.
-- **`ISpacedRepetitionSystemCardOperations`** (`ICardOperations` until 2026-11-15) is Core's interface for changing a
+- **`ISRSCardOperations`** (`ICardOperations` until 2026-11-15) is Core's interface for changing a
   note's cards in the spaced repetition system, implemented by `AnkiCardOperations`. It can suspend all of a note's
   cards, unsuspend all of them, and delete the note's study-note. It still speaks of cards and suspending, which are
   Anki's words.
@@ -73,7 +74,7 @@
    - Adding a note to it, and removing a note from it.
    - Suspending and unsuspending reading or listening.
 
-   `ISpacedRepetitionSystemCardOperations` is the seed. It needs the domain's words for cards and suspending, and
+   `ISRSCardOperations` is the seed. It needs the domain's words for cards and suspending, and
    widening.
 4. **Removing a note from Anki deletes its review history.** How that is confirmed, and how it differs from
    suspending everything.

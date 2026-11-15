@@ -196,7 +196,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          label,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.SpacedRepetitionSystemAvailability.IsAvailable),
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.SRSAvailability.IsAvailable),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),
@@ -229,7 +229,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    // Action handlers
    void OnOpenInPreviewer(JPNote note)
    {
-      _services.SpacedRepetitionSystemWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
+      _services.SRSWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
    }
 
    void OnDeleteNote(JPNote note)
@@ -265,8 +265,8 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseMatchingSentences(text);
-         _services.SpacedRepetitionSystemWindows.Refresh();
-         _services.SpacedRepetitionSystemWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
+         _services.SRSWindows.Refresh();
+         _services.SRSWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }
 

@@ -33,7 +33,7 @@ itself now; the first time it finds no `configuration.json`, it starts from what
 
 ## What is different, because it is Anki
 
-There's no Anki at all (`SpacedRepetitionSystemAvailability.Unavailable`), not even read-only:
+There's no Anki at all (`SRSAvailability.Unavailable`), not even read-only:
 
 - **No note has a study-note:** every note shows as not studied, none has Anki tags (`anki::`, the priority tags), a
   kanji has no default primary vocab, and searches on studying find nothing. Nothing saved to the corpus depends on
@@ -44,11 +44,11 @@ There's no Anki at all (`SpacedRepetitionSystemAvailability.Unavailable`), not e
   to many jastudio notes in anki that I do not study").
 - **A change to a note isn't written to its study-note in Anki.** JAStudio inside Anki writes a study-note only as its
   note changes, so a note changed by the standalone JAStudio leaves its study-note behind until it changes again
-  inside Anki (see `ISpacedRepetitionSystemStudyNotes`, and the MCP tools `list_the_study_notes_that_differ` and
+  inside Anki (see `ISRSStudyNotes`, and the MCP tools `list_the_study_notes_that_differ` and
   `write_the_study_notes_that_differ`).
 
-The seams that make this so: `SpacedRepetitionSystemAvailability`, `ISpacedRepetitionSystemWindows` (Anki's windows,
-`NoSpacedRepetitionSystemWindows` without Anki), and the standalone host's `NoAnki…` stand-ins for the rest.
+The seams that make this so: `SRSAvailability`, `ISRSWindows` (Anki's windows,
+`NoSRSWindows` without Anki), and the standalone host's `NoAnki…` stand-ins for the rest.
 
 ## One JAStudio per corpus checkout
 

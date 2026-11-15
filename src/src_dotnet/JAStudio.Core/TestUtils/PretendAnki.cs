@@ -14,11 +14,11 @@ namespace JAStudio.Core.TestUtils;
 /// <summary>
 /// The student's Anki in specifications, where there's no Anki: it gives the notes specifications choose a pretend study-note<br/>
 /// (<see cref="GiveAStudyNoteTo"/>), and loading the collection<br/>
-/// reads from it as from Anki (<see cref="ISpacedRepetitionSystemDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
+/// reads from it as from Anki (<see cref="ISRSDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
 /// cards specifications suspended. It has no other cards, and no Anki notes but the study-notes. JAStudio changes its tags as it changes Anki's<br/>
-/// (<see cref="ISpacedRepetitionSystemTagOperations"/>).
+/// (<see cref="ISRSTagOperations"/>).
 /// </summary>
-public class PretendAnki : ISpacedRepetitionSystemDataLoader, ISpacedRepetitionSystemTagOperations
+public class PretendAnki : ISRSDataLoader, ISRSTagOperations
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, NoteId> _noteOfEachStudyNote = [];
@@ -26,7 +26,7 @@ public class PretendAnki : ISpacedRepetitionSystemDataLoader, ISpacedRepetitionS
    readonly Dictionary<long, List<CardStudyingStatus>> _suspendedCardsOfEachStudyNote = [];
    long _lastAnkiNoteId;
 
-   public SpacedRepetitionSystemData Load(TaskRunner taskRunner) => _monitor.Locked(() => new SpacedRepetitionSystemData(new Dictionary<long, NoteId>(_noteOfEachStudyNote),
+   public SRSData Load(TaskRunner taskRunner) => _monitor.Locked(() => new SRSData(new Dictionary<long, NoteId>(_noteOfEachStudyNote),
                                                                                           [.._suspendedCardsOfEachStudyNote.Values.SelectMany(it => it)],
                                                                                           new Dictionary<long, IReadOnlyList<string>>(_tagsOfEachStudyNote)));
 
@@ -68,16 +68,16 @@ public class PretendAnki : ISpacedRepetitionSystemDataLoader, ISpacedRepetitionS
    public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) =>
       ChangeTheTagsOf(notes.Select(AnkiNoteIdOf), tags => [..tags.Where(it => !it.Equals(tagInAnki, StringComparison.OrdinalIgnoreCase))]);
 
-   public void RenameTheBranchOnEveryNoteInTheSpacedRepetitionSystem(string pathInAnki, string renamedPathInAnki)
+   public void RenameTheBranchOnEveryNoteInTheSRS(string pathInAnki, string renamedPathInAnki)
    {
       var branch = new TagBranch(pathInAnki);
       var renamed = new TagBranch(renamedPathInAnki);
       ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Select(it => branch.Contains(it) ? branch.TheNameRenamedTo(renamed, it) : it).Distinct(StringComparer.OrdinalIgnoreCase)]);
    }
 
-   public void DeleteTheBranchFromEveryNoteInTheSpacedRepetitionSystem(string pathInAnki) => ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Where(it => !new TagBranch(pathInAnki).Contains(it))]);
+   public void DeleteTheBranchFromEveryNoteInTheSRS(string pathInAnki) => ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Where(it => !new TagBranch(pathInAnki).Contains(it))]);
 
-   public int NumberOfNotesInTheSpacedRepetitionSystemWithATagIn(string pathInAnki) => _monitor.Locked(() => _tagsOfEachStudyNote.Values.Count(tags => tags.Any(new TagBranch(pathInAnki).Contains)));
+   public int NumberOfNotesInTheSRSWithATagIn(string pathInAnki) => _monitor.Locked(() => _tagsOfEachStudyNote.Values.Count(tags => tags.Any(new TagBranch(pathInAnki).Contains)));
 
    void ChangeTheTagsOf(IEnumerable<long> ankiNoteIds, Func<IReadOnlyList<string>, IReadOnlyList<string>> change) => _monitor.Locked(() =>
    {

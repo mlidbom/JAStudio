@@ -11,7 +11,7 @@ namespace JAStudio.Mcp.Tools.StudyNotes;
 
 /// <summary>
 /// The tools that compare the fields of the study-notes in Anki, the Anki notes that hold the notes' cards, with what JAStudio would write now, and write<br/>
-/// those that differ (<see cref="ISpacedRepetitionSystemStudyNotes"/>). A change to the corpus made while Anki was closed, such as a fast-forward of the corpus checkout<br/>
+/// those that differ (<see cref="ISRSStudyNotes"/>). A change to the corpus made while Anki was closed, such as a fast-forward of the corpus checkout<br/>
 /// that changes how notes are stored, reaches the study-notes only through them.
 /// </summary>
 [McpServerToolType]
@@ -21,9 +21,9 @@ public class StudyNoteTools
    const int NotesListedPerTypeByDefault = 10;
 
    readonly JPCollection _collection;
-   readonly ISpacedRepetitionSystemStudyNotes _studyNotes;
+   readonly ISRSStudyNotes _studyNotes;
 
-   public StudyNoteTools(JPCollection collection, ISpacedRepetitionSystemStudyNotes studyNotes)
+   public StudyNoteTools(JPCollection collection, ISRSStudyNotes studyNotes)
    {
       _collection = collection;
       _studyNotes = studyNotes;

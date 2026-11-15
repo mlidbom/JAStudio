@@ -54,9 +54,9 @@ public static class AppBootstrapper
          Singleton.For<ConfigurationStore>().CreatedBy((IReadingsMappingsSource readingsMappingsSource, IConfigDictSource configDictSource) => new ConfigurationStore(readingsMappingsSource, configDictSource)),
          Singleton.For<TemporaryServiceCollection>().CreatedBy((IRootResolver resolver) => new TemporaryServiceCollection(resolver)),
          Singleton.For<JapaneseConfig>().CreatedBy((ConfigurationStore store) => store.Config()),
-         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISpacedRepetitionSystemDataLoader spacedRepetitionSystemDataLoader) =>
-                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, spacedRepetitionSystemDataLoader)),
-         Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, ISpacedRepetitionSystemTagOperations anki) => new AnkiTagChanges(collection, anki)),
+         Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSDataLoader srsDataLoader) =>
+                                                    new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, srsDataLoader)),
+         Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, ISRSTagOperations anki) => new AnkiTagChanges(collection, anki)),
          Singleton.For<VocabCollection>().CreatedBy((JPCollection col) => col.Vocab),
          Singleton.For<KanjiCollection>().CreatedBy((JPCollection col) => col.Kanji),
          Singleton.For<SentenceCollection>().CreatedBy((JPCollection col) => col.Sentences),

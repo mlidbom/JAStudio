@@ -115,14 +115,14 @@ public abstract class JPNote
 
    public void SuspendAllCards()
    {
-      Services.SpacedRepetitionSystemCardOperations.SuspendAllCardsForNote(_id);
+      Services.SRSCardOperations.SuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: false);
       Flush();
    }
 
    public void UnsuspendAllCards()
    {
-      Services.SpacedRepetitionSystemCardOperations.UnsuspendAllCardsForNote(_id);
+      Services.SRSCardOperations.UnsuspendAllCardsForNote(_id);
       SetTheStatusOfEveryKnownCard(isActive: true);
       Flush();
    }

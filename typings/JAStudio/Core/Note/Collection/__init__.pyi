@@ -3,7 +3,7 @@ from System import IObservable_1, Action, IDisposable, Func_1
 from JAStudio.Core.Note import JPNote, NoteId, NoteServices, KanjiNote
 from JAStudio.Core.Storage import INoteRepository
 from JAStudio.Core.Storage.Media import MediaFileIndex, MediaStorageService
-from JAStudio.Core.Studying import ISpacedRepetitionSystemDataLoader, CardStudyingStatus
+from JAStudio.Core.Studying import ISRSDataLoader, CardStudyingStatus
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory, VocabNoteGeneratedData, VocabNote, WordReference, CreatedOrExistingVocab
 from System.Collections.Generic import List_1, IReadOnlyList_1, HashSet_1, IReadOnlyCollection_1, IEnumerable_1
@@ -35,7 +35,7 @@ class ItsAnkiNote(typing.SupportsInt):
 
 
 class JPCollection:
-    def __init__(self, noteServices: NoteServices, noteRepository: INoteRepository, mediaFileIndex: MediaFileIndex, mediaStorage: MediaStorageService, spacedRepetitionSystemDataLoader: ISpacedRepetitionSystemDataLoader) -> None: ...
+    def __init__(self, noteServices: NoteServices, noteRepository: INoteRepository, mediaFileIndex: MediaFileIndex, mediaStorage: MediaStorageService, srsDataLoader: ISRSDataLoader) -> None: ...
     @property
     def DictLookup(self) -> DictLookup: ...
     @property

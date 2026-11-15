@@ -26,8 +26,8 @@ public class TemporaryServiceCollection
    public TaskRunner TaskRunner => Services.Resolve<TaskRunner>();
    public BackgroundTaskManager BackgroundTaskManager => Services.Resolve<BackgroundTaskManager>();
    public StudyNoteIds StudyNoteIds => Services.Resolve<StudyNoteIds>();
-   public ISpacedRepetitionSystemWindows SpacedRepetitionSystemWindows => Services.Resolve<ISpacedRepetitionSystemWindows>();
-   public SpacedRepetitionSystemAvailability SpacedRepetitionSystemAvailability => Services.Resolve<SpacedRepetitionSystemAvailability>();
+   public ISRSWindows SRSWindows => Services.Resolve<ISRSWindows>();
+   public SRSAvailability SRSAvailability => Services.Resolve<SRSAvailability>();
 
    // Note services
    public NoteServices NoteServices => Services.Resolve<NoteServices>();

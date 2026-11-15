@@ -9,13 +9,13 @@ namespace JAStudio.StandaloneHost;
 /// The standalone JAStudio's changes to Anki's tags: none, since it has no Anki, and so no Anki notes. A change to the Anki tags of no notes, or of<br/>
 /// every Anki note, changes nothing.
 /// </summary>
-sealed class NoAnkiTagOperations : ISpacedRepetitionSystemTagOperations
+sealed class NoAnkiTagOperations : ISRSTagOperations
 {
    public void AddTheTagToTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => AssertNoneOf(notes);
    public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => AssertNoneOf(notes);
-   public void RenameTheBranchOnEveryNoteInTheSpacedRepetitionSystem(string pathInAnki, string renamedPathInAnki) {}
-   public void DeleteTheBranchFromEveryNoteInTheSpacedRepetitionSystem(string pathInAnki) {}
-   public int NumberOfNotesInTheSpacedRepetitionSystemWithATagIn(string pathInAnki) => 0;
+   public void RenameTheBranchOnEveryNoteInTheSRS(string pathInAnki, string renamedPathInAnki) {}
+   public void DeleteTheBranchFromEveryNoteInTheSRS(string pathInAnki) {}
+   public int NumberOfNotesInTheSRSWithATagIn(string pathInAnki) => 0;
 
    /// <summary>Asserts that <paramref name="notes"/>, notes each with a study-note, are none: without Anki, no note has one.</summary>
    static void AssertNoneOf(IReadOnlyCollection<NoteId> notes) =>

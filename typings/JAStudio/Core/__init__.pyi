@@ -11,7 +11,7 @@ from System.Collections.Generic import List_1
 from JAStudio.Core.TaskRunners import BackgroundTaskManager, TaskRunner
 from JAStudio.Core.Batches import LocalNoteUpdater
 from JAStudio.Core.Note import NoteServices
-from JAStudio.Core.Studying import SpacedRepetitionSystemAvailability, ISpacedRepetitionSystemWindows, StudyNoteIds
+from JAStudio.Core.Studying import SRSAvailability, ISRSWindows, StudyNoteIds
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory
 
 class AnkiHTMLRenderers:
@@ -115,9 +115,9 @@ class TemporaryServiceCollection:
     @property
     def Services(self) -> IRootResolver: ...
     @property
-    def SpacedRepetitionSystemAvailability(self) -> SpacedRepetitionSystemAvailability: ...
+    def SRSAvailability(self) -> SRSAvailability: ...
     @property
-    def SpacedRepetitionSystemWindows(self) -> ISpacedRepetitionSystemWindows: ...
+    def SRSWindows(self) -> ISRSWindows: ...
     @property
     def StudyNoteIds(self) -> StudyNoteIds: ...
     @property

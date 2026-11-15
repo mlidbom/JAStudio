@@ -742,7 +742,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     (202), `source::grammar` (181), `-::priority` (2) and `source::jlab` (2). Deleting `anki::source` would strip theirs,
     so the cleanup deletes the branches below `source` that are JAStudio's, unless Magnus decides otherwise then. Anki
     keeps a tag in its tag list until `clear_unused_tags` (what Check Database does) drops it: run it after the cleanup.
-  - *Built 2026-11-10:* `AnkiTagChanges` makes each change through `ISpacedRepetitionSystemTagOperations`, which `AnkiTagOperations`
+  - *Built 2026-11-10:* `AnkiTagChanges` makes each change through `ISRSTagOperations`, which `AnkiTagOperations`
     implements with Anki's `bulk_add`, `find_and_replace` (removing exactly the tag: Anki's `bulk_remove` removes the tags
     below it too, and Magnus chose on 2026-11-10 that removing a tag works as for a note's own tags, "definitely safest"),
     `rename` and `remove`, each announced to Anki's windows as Anki announces an operation (`on_op_finished`), so its undo

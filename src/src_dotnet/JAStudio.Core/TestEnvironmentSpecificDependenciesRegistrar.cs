@@ -25,18 +25,18 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IEnvironmentPaths>().Instance(paths),
          Singleton.For<INoteRepository>().Instance(new InMemoryNoteRepository()),
          Singleton.For<PretendAnki>().Instance(pretendAnki),
-         Singleton.For<ISpacedRepetitionSystemDataLoader>().Instance(pretendAnki),
-         Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(pretendAnki),
+         Singleton.For<ISRSDataLoader>().Instance(pretendAnki),
+         Singleton.For<ISRSTagOperations>().Instance(pretendAnki),
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
-         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Available),
-         Singleton.For<ISpacedRepetitionSystemWindows>().Instance(new NoSpacedRepetitionSystemWindows()),
+         Singleton.For<SRSAvailability>().Instance(SRSAvailability.Available),
+         Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
-         Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new NoOpCardOperations()),
+         Singleton.For<ISRSCardOperations>().Instance(new NoOpCardOperations()),
          Singleton.For<InMemoryAnkiStudyNotes>().CreatedBy((StudyNoteIds ankiNoteIds) => new InMemoryAnkiStudyNotes(ankiNoteIds)),
-         Singleton.For<ISpacedRepetitionSystemStudyNotes>().CreatedBy((InMemoryAnkiStudyNotes studyNotes) => (ISpacedRepetitionSystemStudyNotes)studyNotes)
+         Singleton.For<ISRSStudyNotes>().CreatedBy((InMemoryAnkiStudyNotes studyNotes) => (ISRSStudyNotes)studyNotes)
       );
    }
 }

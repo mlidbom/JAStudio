@@ -8,7 +8,7 @@ namespace JAStudio.StandaloneHost;
 
 /// <summary>
 /// Anki's side of importing, as the standalone JAStudio has it: no note types and no notes, since it has no Anki. Importing is offered only while<br/>
-/// there's an Anki (<see cref="SpacedRepetitionSystemAvailability"/>).
+/// there's an Anki (<see cref="SRSAvailability"/>).
 /// </summary>
 sealed class NoAnkiRawNotes : IAnkiRawNotes
 {

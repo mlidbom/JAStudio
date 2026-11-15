@@ -12,5 +12,5 @@ namespace JAStudio.Core.Specifications.Anki;
 public abstract class SpecificationReadingAnAnkiCollectionFile : SpecificationStartingWithAnEmptyCollection
 {
    /// <summary>What JAStudio loads of the study-notes in <paramref name="file"/> (<see cref="AnkiDataLoader"/>).</summary>
-   protected SpacedRepetitionSystemData WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiCollectionFile file) => new AnkiDataLoader(file).Load(GetService<TaskRunner>());
+   protected SRSData WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiCollectionFile file) => new AnkiDataLoader(file).Load(GetService<TaskRunner>());
 }

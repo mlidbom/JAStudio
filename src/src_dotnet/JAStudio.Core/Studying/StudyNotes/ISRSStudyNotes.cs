@@ -4,7 +4,7 @@ using JAStudio.Core.Note;
 namespace JAStudio.Core.Studying.StudyNotes;
 
 /// <summary>
-/// The study-notes in the spaced repetition system JAStudio works with. A study-note is what a note is studied through there: it holds the note's<br/>
+/// The study-notes in the SRS, the spaced repetition system, that JAStudio works with. A study-note is what a note is studied through there: it holds the note's<br/>
 /// cards, and the few fields the spaced repetition system itself needs. In Anki it's an Anki note of one of JAStudio's note types, in the Anki<br/>
 /// profile JAStudio works with. JAStudio writes those fields from the corpus (<see cref="JPNote.StudyNoteFields"/>) whenever it updates the note.<br/>
 /// A study-note's tags are the student's, never written by JAStudio.
@@ -14,11 +14,11 @@ namespace JAStudio.Core.Studying.StudyNotes;
 /// and none at startup, so a change to the corpus made while Anki was closed, or a change to what JAStudio writes, leaves study-notes behind.<br/>
 /// <see cref="StudyNoteComparison"/> finds them, and <see cref="Write"/> brings one up to date.
 /// </remarks>
-public interface ISpacedRepetitionSystemStudyNotes
+/// <remarks>review-naming:studying: ISRSStudyNotes was IAnkiStudyNotes (Claude, 2026-11-15).</remarks>
+public interface ISRSStudyNotes
 {
-   //review-naming:studying: ISpacedRepetitionSystemStudyNotes was IAnkiStudyNotes (Claude, 2026-11-15).
    /// <summary>Every study-note in the spaced repetition system now, read straight from it: for Anki, from its database.</summary>
-   IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> ReadAll();
+   IReadOnlyList<StudyNoteInTheSRS> ReadAll();
 
    /// <summary>Writes <paramref name="note"/>'s study-note in the spaced repetition system, as JAStudio writes it whenever it updates the note.</summary>
    void Write(JPNote note);

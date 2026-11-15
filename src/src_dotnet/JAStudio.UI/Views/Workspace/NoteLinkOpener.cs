@@ -8,7 +8,7 @@ namespace JAStudio.UI.Views.Workspace;
 
 /// <summary>
 /// Opens the note behind a note link clicked on a card page: in JAStudio's <see cref="WorkspaceWindow"/>, or in Anki's previewer through Anki's<br/>
-/// windows (<see cref="ISpacedRepetitionSystemWindows"/>). A note has an Anki note only while there's an Anki, so without Anki the previewer is never asked.
+/// windows (<see cref="ISRSWindows"/>). A note has an Anki note only while there's an Anki, so without Anki the previewer is never asked.
 /// </summary>
 public class NoteLinkOpener : INoteLinkOpener
 {
@@ -24,6 +24,6 @@ public class NoteLinkOpener : INoteLinkOpener
    {
       var studyNoteId = _services.StudyNoteIds.StudyNoteIdOf(noteId);
       if(studyNoteId.HasValue)
-         _services.SpacedRepetitionSystemWindows.OpenThePreviewerOn($"{Builtin.NoteId}:{studyNoteId.Value}");
+         _services.SRSWindows.OpenThePreviewerOn($"{Builtin.NoteId}:{studyNoteId.Value}");
    }
 }

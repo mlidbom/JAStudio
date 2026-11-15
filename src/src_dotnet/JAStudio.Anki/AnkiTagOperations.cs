@@ -5,8 +5,8 @@ using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
-/// <summary>The changes JAStudio makes to Anki's tags (<see cref="ISpacedRepetitionSystemTagOperations"/>), made in the collection Anki has open, each as an Anki operation.</summary>
-public class AnkiTagOperations : ISpacedRepetitionSystemTagOperations
+/// <summary>The changes JAStudio makes to Anki's tags (<see cref="ISRSTagOperations"/>), made in the collection Anki has open, each as an Anki operation.</summary>
+public class AnkiTagOperations : ISRSTagOperations
 {
    readonly StudyNoteIds _ankiNoteIds;
 
@@ -17,11 +17,11 @@ public class AnkiTagOperations : ISpacedRepetitionSystemTagOperations
 
    public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => AnkiFacade.Tags.RemoveFromNotes(StudyNotesOf(notes), tagInAnki);
 
-   public void RenameTheBranchOnEveryNoteInTheSpacedRepetitionSystem(string pathInAnki, string renamedPathInAnki) => AnkiFacade.Tags.Rename(pathInAnki, renamedPathInAnki);
+   public void RenameTheBranchOnEveryNoteInTheSRS(string pathInAnki, string renamedPathInAnki) => AnkiFacade.Tags.Rename(pathInAnki, renamedPathInAnki);
 
-   public void DeleteTheBranchFromEveryNoteInTheSpacedRepetitionSystem(string pathInAnki) => AnkiFacade.Tags.Delete(pathInAnki);
+   public void DeleteTheBranchFromEveryNoteInTheSRS(string pathInAnki) => AnkiFacade.Tags.Delete(pathInAnki);
 
-   public int NumberOfNotesInTheSpacedRepetitionSystemWithATagIn(string pathInAnki) => AnkiFacade.Tags.NumberOfNotesWithATagIn(pathInAnki);
+   public int NumberOfNotesInTheSRSWithATagIn(string pathInAnki) => AnkiFacade.Tags.NumberOfNotesWithATagIn(pathInAnki);
 
    List<long> StudyNotesOf(IEnumerable<NoteId> notes) => [..notes.Select(_ankiNoteIds.RequiredStudyNoteIdOf)];
 }

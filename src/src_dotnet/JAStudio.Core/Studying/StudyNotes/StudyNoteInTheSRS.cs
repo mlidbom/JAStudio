@@ -7,12 +7,12 @@ using JAStudio.Core.Note;
 namespace JAStudio.Core.Studying.StudyNotes;
 
 /// <summary>
-/// A study-note as the spaced repetition system has it (<see cref="ISpacedRepetitionSystemStudyNotes"/>): its id there, and its fields by name.
+/// A study-note as the SRS, the spaced repetition system, has it (<see cref="ISRSStudyNotes"/>): its id there, and its fields by name.
 /// </summary>
-public sealed class StudyNoteInTheSpacedRepetitionSystem
+/// <remarks>review-naming:studying: StudyNoteInTheSRS was StudyNoteInAnki, and its StudyNoteId was AnkiNoteId (Claude, 2026-11-15).</remarks>
+public sealed class StudyNoteInTheSRS
 {
-   //review-naming:studying: StudyNoteInTheSpacedRepetitionSystem was StudyNoteInAnki, and its StudyNoteId was AnkiNoteId (Claude, 2026-11-15).
-   public StudyNoteInTheSpacedRepetitionSystem(long studyNoteId, IReadOnlyDictionary<string, string> fields)
+   public StudyNoteInTheSRS(long studyNoteId, IReadOnlyDictionary<string, string> fields)
    {
       StudyNoteId = studyNoteId;
       Fields = fields;

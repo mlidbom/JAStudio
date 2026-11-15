@@ -73,7 +73,7 @@ not necessarily in how:
   Anki instead: see the next rule.
 - **The Anki tags, below `anki::`, are changed in Anki, as Anki operations** (Magnus, 2026-11-10: "feature parity for
   working with anki tags would be quite nice"). Everything above works on them too, and each change is one Anki
-  operation, which Anki's Edit > Undo undoes (`AnkiTagChanges`, through `ISpacedRepetitionSystemTagOperations`). Then JAStudio reads the
+  operation, which Anki's Edit > Undo undoes (`AnkiTagChanges`, through `ISRSTagOperations`). Then JAStudio reads the
   study-notes from Anki again, so the notes show the change.
   - **Renaming and deleting work as in Anki, on every Anki note with a tag in the branch,** of whatever note type, not only
     on JAStudio's study-notes (Magnus, 2026-11-10). So the rename dialog and the delete confirmation count Anki notes,

@@ -12,7 +12,7 @@ namespace JAStudio.Anki;
 public static partial class StudyNotesInAnkisDatabase
 {
    /// <summary>Every study-note in <paramref name="database"/>.</summary>
-   public static IReadOnlyList<StudyNoteInTheSpacedRepetitionSystem> ReadAll(AnkiCollectionDatabase database)
+   public static IReadOnlyList<StudyNoteInTheSRS> ReadAll(AnkiCollectionDatabase database)
    {
       var studyNoteTypes = NoteTypesInAnki.ReadFrom(database).OfStudyNotesById();
       return [.. database.Read<StudyNoteWithItsFieldsRow>(StudyNoteWithItsFieldsRow.SelectEveryOf(studyNoteTypes.Keys)).Select(it => it.AsAStudyNoteOf(studyNoteTypes[it.NoteTypeId]))];

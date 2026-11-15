@@ -26,8 +26,7 @@ public record NoteWhoseStudyNoteDiffers(JPNote Note, IReadOnlyList<StudyNoteFiel
    /// write.
    /// </summary>
    bool TheyHoldTheSameAudioFilesInTheSameOrderAsJAStudioWouldWrite =>
-      //review-naming:studying: StudyNoteFieldDifference.InTheSpacedRepetitionSystem was InAnki (Claude, 2026-11-15).
-      AudioFilesIn(it => it.InTheSpacedRepetitionSystem ?? "").SequenceEqual(AudioFilesIn(it => it.JAStudioWrites));
+      AudioFilesIn(it => it.InTheSRS ?? "").SequenceEqual(AudioFilesIn(it => it.JAStudioWrites));
 
    /// <summary>The names of the audio files in the fields that differ, in the order of <see cref="AnkiFieldNames.AudioFields"/>, each field's value read by <paramref name="valueOf"/>.</summary>
    IEnumerable<string> AudioFilesIn(Func<StudyNoteFieldDifference, string> valueOf) =>

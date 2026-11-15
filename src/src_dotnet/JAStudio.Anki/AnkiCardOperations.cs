@@ -4,10 +4,10 @@ using JAStudio.Core.Studying;
 namespace JAStudio.Anki;
 
 /// <summary>
-/// The changes JAStudio makes to a note's cards and study-note (<see cref="ISpacedRepetitionSystemCardOperations"/>), made in the collection<br/>
+/// The changes JAStudio makes to a note's cards and study-note (<see cref="ISRSCardOperations"/>), made in the collection<br/>
 /// Anki has open, through Python (<see cref="AnkiFacade"/>). A note's study-note is its Anki note, found by its id (<see cref="StudyNoteIds"/>).
 /// </summary>
-public class AnkiCardOperations : ISpacedRepetitionSystemCardOperations
+public class AnkiCardOperations : ISRSCardOperations
 {
    readonly StudyNoteIds _studyNoteIds;
 
