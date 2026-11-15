@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Extensions.Hosting;
+using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.UI.Web;
@@ -90,7 +91,7 @@ public class CardServer
 
    void StartOnPort(int port)
    {
-      var assemblyDir = Path.GetDirectoryName(typeof(CardServer).Assembly.Location)!;
+      var assemblyDir = JAStudiosAssemblies.Folder.FullName;
       var builder = WebApplication.CreateBuilder(new WebApplicationOptions
       {
          EnvironmentName = "Production",

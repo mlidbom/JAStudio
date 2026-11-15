@@ -57,8 +57,7 @@ public class EnglishDictionary
       WordMap = new Dictionary<string, EnglishWord>();
 
       // Get the path to the data files
-      var currentDir = Path.GetDirectoryName(typeof(EnglishDictionary).Assembly.Location)!;
-      var dataDir = Path.Combine(currentDir, "LanguageServices", "EnglishDictionary", "data");
+      var dataDir = Path.Combine(JAStudiosAssemblies.Folder.FullName, "LanguageServices", "EnglishDictionary", "data");
       var dataFilePath = Path.Combine(dataDir, "english_words.csv");
       var rawWordListPath = Path.Combine(dataDir, "raw_word_list.txt");
 
