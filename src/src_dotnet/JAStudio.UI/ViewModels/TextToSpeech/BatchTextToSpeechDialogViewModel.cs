@@ -54,9 +54,9 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       var media = services.Resolve<MediaFileIndex>();
       ChosenVoices = chosenVoices;
-      BatchVoice = chosenVoices.FirstOrDefault();
       Status = WhyThereIsNothingToGenerateWith(chosenVoices);
       Notes = [..notes.Select(note => new NoteInTheBatchViewModel(note, media, () => new TextToSpeechForANoteViewModel(note, ChosenVoices, player, services)))];
+      BatchVoice = chosenVoices.FirstOrDefault();
       foreach(var note in Notes)
          note.PropertyChanged += WhenTheProgressOfANoteChanges;
    }
@@ -110,6 +110,12 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
 
    List<NoteInTheBatchViewModel> NotesLeftForTheBatch => [..Notes.Where(it => it.IsLeftForTheBatch)];
 
+   partial void OnBatchVoiceChanged(TextToSpeechVoice? value)
+   {
+      foreach(var note in Notes)
+         note.TheBatchVoiceIs(value);
+   }
+
    partial void OnSelectedNoteChanged(NoteInTheBatchViewModel? value)
    {
       if(value is { CurrentAudio.CanPlay: true })
@@ -124,13 +130,6 @@ partial class BatchTextToSpeechDialogViewModel : ObservableObject
       Status = WhyThereIsNothingToGenerateWith(chosenVoices);
       foreach(var note in Notes)
          note.Offer(chosenVoices);
-   }
-
-   /// <summary>Plays <paramref name="note"/>'s TTS audio, and selects it. It plays even when it's selected already, as when replaying it.</summary>
-   internal void Play(NoteInTheBatchViewModel note)
-   {
-      if(note == SelectedNote) PlayTheSelectedNotesAudio();
-      else SelectedNote = note;
    }
 
    /// <summary>Plays the selected note's TTS audio as it is now, when there's one to play.</summary>

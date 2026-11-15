@@ -20,6 +20,7 @@ partial class NoteInTheBatchViewModel : ObservableObject
    readonly MediaFileIndex _media;
    readonly Func<TextToSpeechForANoteViewModel> _makeItsTextToSpeech;
    TextToSpeechForANoteViewModel? _textToSpeech;
+   TextToSpeechVoice? _batchVoice;
 
    /// <param name="note">The note.</param>
    /// <param name="media">The media layer, where its TTS audio is found.</param>
@@ -39,7 +40,7 @@ partial class NoteInTheBatchViewModel : ObservableObject
 
    /// <summary>The note's TTS audio as it is now, which selecting the note plays.</summary>
    [ObservableProperty]
-   [NotifyPropertyChangedFor(nameof(CurrentAudioDescription))]
+   [NotifyPropertyChangedFor(nameof(CurrentAudioDescription), nameof(HasASpeechByTheBatchVoice), nameof(TheBatchVoicesButton))]
    public partial CurrentAudioViewModel CurrentAudio { get; private set; }
 
    /// <summary>The note's TTS audio now as the list shows it: the voice that made it, when the note knows it, else what <see cref="CurrentAudio"/> says.</summary>
@@ -50,6 +51,22 @@ partial class NoteInTheBatchViewModel : ObservableObject
 
    /// <summary>The <see cref="Progress"/> as the list shows it, such as "waiting", "used Azure DaichiNeural", or what the tts-provider said when it refused.</summary>
    [ObservableProperty] public partial string ProgressDescription { get; private set; } = "";
+
+   /// <summary>
+   /// Whether the note has a speech by the batch's voice: an attempt with it in its own text-to-speech, or TTS audio it made<br/>
+   /// (<see cref="TriedAttemptWith"/>, <see cref="HasTextToSpeechAudioOf"/>). Trying the voice on the note then plays it, and speaks nothing.
+   /// </summary>
+   public bool HasASpeechByTheBatchVoice => _batchVoice is {} voice && (TriedAttemptWith(voice) is not null || HasTextToSpeechAudioOf(voice));
+
+   /// <summary>The row's button for the batch's voice: ▶ when the note <see cref="HasASpeechByTheBatchVoice"/>, else Generate.</summary>
+   public string TheBatchVoicesButton => HasASpeechByTheBatchVoice ? "▶" : "Generate";
+
+   /// <summary>Makes <paramref name="voice"/> the batch's voice, whose speech the row's button plays or generates.</summary>
+   internal void TheBatchVoiceIs(TextToSpeechVoice? voice)
+   {
+      _batchVoice = voice;
+      TheSpeechesByTheBatchVoiceMayHaveChanged();
+   }
 
    /// <summary>Whether running the batch does the note: it hasn't been given TTS audio in this dialog, or the batch failed for it.</summary>
    public bool IsLeftForTheBatch => Progress is NoteInTheBatchProgress.NotGivenAudio or NoteInTheBatchProgress.Failed;
@@ -100,6 +117,11 @@ partial class NoteInTheBatchViewModel : ObservableObject
    TextToSpeechForANoteViewModel ItsTextToSpeech()
    {
       var textToSpeech = _makeItsTextToSpeech();
+      textToSpeech.Attempts.CollectionChanged += (_, _) => TheSpeechesByTheBatchVoiceMayHaveChanged();
+      textToSpeech.PropertyChanged += (_, e) =>
+      {
+         if(e.PropertyName == nameof(TextToSpeechForANoteViewModel.TextToSpeak)) TheSpeechesByTheBatchVoiceMayHaveChanged();
+      };
       textToSpeech.UsedAnAttempt += attempt => WasGivenTheAudioOf(attempt.Speech);
       textToSpeech.DiscardedTheTextToSpeechAudio += () =>
       {
@@ -113,6 +135,12 @@ partial class NoteInTheBatchViewModel : ObservableObject
    {
       CurrentAudio = CurrentAudioViewModel.Of(Note, _media);
       Show(NoteInTheBatchProgress.GivenAudio, $"used {speech.Voice}");
+   }
+
+   void TheSpeechesByTheBatchVoiceMayHaveChanged()
+   {
+      OnPropertyChanged(nameof(HasASpeechByTheBatchVoice));
+      OnPropertyChanged(nameof(TheBatchVoicesButton));
    }
 
    void Show(NoteInTheBatchProgress progress, string description)

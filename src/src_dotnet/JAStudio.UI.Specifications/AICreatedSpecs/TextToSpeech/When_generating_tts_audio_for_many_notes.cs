@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Compze.Must;
 using Compze.xUnitBDD;
@@ -33,10 +34,13 @@ public class When_generating_tts_audio_for_many_notes : SpecificationUsingAWorks
 
    string?[] TheVoiceOfEverySentencesTtsAudio() => [.._sentences.Select(it => it.Audio.TextToSpeech.SingleOrDefault()?.TextToSpeechVoice)];
 
+   string[] TheBatchVoicesButtonOfEveryNote() => [.._dialog.Notes.Select(it => it.TheBatchVoicesButton)];
+
    [XF] public void nothing_is_spoken_as_it_opens() => _provider.Spoken.Must().BeEmpty();
    [XF] public void the_batch_voice_is_the_default_voice() => (_dialog.BatchVoice?.ToString() ?? "").Must().Be("Fake Steady");
    [XF] public void the_run_button_counts_the_notes_and_their_characters() => _dialog.RunTheBatchText.Must().Be("Run batch: 3 notes, 16 characters");
    [XF] public void no_note_shows_any_progress() => TheProgressOfEveryNote().Must().SequenceEqual(["", "", ""]);
+   [XF] public void every_notes_button_is_generate() => TheBatchVoicesButtonOfEveryNote().Must().SequenceEqual(["Generate", "Generate", "Generate"]);
 
    public class after_selecting_a_note_without_audio : When_generating_tts_audio_for_many_notes
    {
@@ -57,6 +61,15 @@ public class When_generating_tts_audio_for_many_notes : SpecificationUsingAWorks
       [XF] public void the_speech_is_an_attempt_in_the_notes_own_text_to_speech() => Note(0).TextToSpeech.Attempts.Select(it => it.Description).Must().SequenceEqual(["#1 Fake Steady"]);
       [XF] public void the_attempt_is_played() => _player.Played.Single().Must().SequenceEqual(Note(0).TextToSpeech.Attempts.Single().Speech.Mp3);
       [XF] public void the_note_is_unchanged() => _sentences[0].AllAudio.InTheOrderPreferred.Must().BeEmpty();
+      [XF] public void the_notes_button_plays_its_speech_by_the_voice() => TheBatchVoicesButtonOfEveryNote().Must().SequenceEqual(["▶", "Generate", "Generate"]);
+
+      public class and_choosing_the_varying_voice_for_the_batch : after_trying_the_batch_voice_on_the_first_note
+      {
+         public and_choosing_the_varying_voice_for_the_batch() => _dialog.BatchVoice = _provider.Varying;
+
+         [XF] public void every_notes_button_is_generate_since_none_has_a_speech_by_that_voice() =>
+            TheBatchVoicesButtonOfEveryNote().Must().SequenceEqual(["Generate", "Generate", "Generate"]);
+      }
 
       public class and_trying_it_on_the_first_note_again : after_trying_the_batch_voice_on_the_first_note
       {
@@ -88,6 +101,7 @@ public class When_generating_tts_audio_for_many_notes : SpecificationUsingAWorks
          [XF] public void no_note_is_left_for_the_batch() => (_dialog.RunTheBatchText, _dialog.CanRunTheBatch).Must().Be(("Run batch: 0 notes, 0 characters", false));
          [XF] public void the_tried_notes_own_text_to_speech_has_the_used_audio_as_its_current_audio() => Note(0).TextToSpeech.CurrentAudio.CanPlay.Must().BeTrue();
          [XF] public void it_is_no_longer_running() => _dialog.IsRunning.Must().BeFalse();
+         [XF] public void every_notes_button_plays_its_speech() => TheBatchVoicesButtonOfEveryNote().Must().SequenceEqual(["▶", "▶", "▶"]);
 
          public class and_trying_the_batch_voice_on_the_second_note : and_running_the_batch
          {
@@ -99,11 +113,17 @@ public class When_generating_tts_audio_for_many_notes : SpecificationUsingAWorks
 
          public class and_discarding_the_tts_audio_of_the_second_note : and_running_the_batch
          {
+            readonly string _itsFile;
+
             public and_discarding_the_tts_audio_of_the_second_note()
             {
+               _itsFile = _sentences[1].PreferredAudio?.FilePath ?? throw new InvalidOperationException("The batch gave the second sentence no audio.");
                _dialog.SelectedNote = Note(1);
                Note(1).TextToSpeech.DiscardTheTextToSpeechAudio();
             }
+
+            [XF] public void its_file_is_deleted_from_the_media_layer() => File.Exists(_itsFile).Must().BeFalse();
+            [XF] public void its_button_is_generate_again() => Note(1).TheBatchVoicesButton.Must().Be("Generate");
 
             [XF] public void the_note_has_no_tts_audio() => TheVoiceOfEverySentencesTtsAudio().Must().SequenceEqual(["Fake ja-JP-Steady", null, "Fake ja-JP-Steady"]);
             [XF] public void the_list_says_it_was_discarded() => (Note(1).ProgressDescription, Note(1).CurrentAudioDescription, Note(1).CurrentAudio.CanPlay).Must().Be(("TTS audio discarded", "none", false));

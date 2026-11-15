@@ -7,6 +7,7 @@ using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
 using JAStudio.Core.Note;
+using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Storage.Media;
 using JAStudio.Core.TaskRunners;
 using JAStudio.TextToSpeech;
@@ -33,6 +34,7 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    readonly UsingASpeech _usingASpeech;
    readonly IFatalErrorHandler _fatalErrorHandler;
    readonly MediaFileIndex _media;
+   readonly JPCollection _collection;
    int _generationsUnderWay;
 
    /// <param name="note">The note to generate TTS audio for.</param>
@@ -46,6 +48,7 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
       _usingASpeech = new UsingASpeech(services);
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       _media = services.Resolve<MediaFileIndex>();
+      _collection = services.Resolve<JPCollection>();
       ChosenVoices = chosenVoices;
       TextToSpeak = note.TextToSpeak;
       CurrentAudio = CurrentAudioViewModel.Of(note, _media);
@@ -101,12 +104,13 @@ partial class TextToSpeechForANoteViewModel : ObservableObject
    public bool CanDiscardTheTextToSpeechAudio => _note.Audio.TextToSpeech.Count > 0;
 
    /// <summary>
-   /// Discards the note's TTS audio (<see cref="Core.Note.Media.AudioReferenceList.DiscardTheTextToSpeechAudio"/>), leaving it with none, and raises<br/>
-   /// <see cref="DiscardedTheTextToSpeechAudio"/>. The attempts stay, to use one after all. Only when <see cref="CanDiscardTheTextToSpeechAudio"/>.
+   /// Discards the note's TTS audio, leaving it with none, and deleting its file from the media layer unless another note uses it<br/>
+   /// (<see cref="JPCollection.DiscardTheTextToSpeechAudioOf"/>), and raises <see cref="DiscardedTheTextToSpeechAudio"/>. The attempts stay, to use one<br/>
+   /// after all. Only when <see cref="CanDiscardTheTextToSpeechAudio"/>.
    /// </summary>
    internal void DiscardTheTextToSpeechAudio()
    {
-      _note.Audio.DiscardTheTextToSpeechAudio();
+      _collection.DiscardTheTextToSpeechAudioOf(_note);
       ReadTheCurrentAudioAgain();
       DiscardedTheTextToSpeechAudio?.Invoke();
    }

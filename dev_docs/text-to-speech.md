@@ -78,8 +78,9 @@ Read from its configuration in the `Magnus` profile on 2026-11-07:
 - **the batch's voice** — the one voice the batch TTS dialog tries on a note and runs the batch with.
 - **running the batch** — giving every note left for it TTS audio from the batch's voice, each speech used as it arrives.
 - **discarding** a note's TTS audio — removing it from the corpus's own audio of the note, so that it has none, as when every
-  voice says a text wrong (`AudioReferenceList.DiscardTheTextToSpeechAudio`). Recordings stay, and the file stays in the
-  media layer, unreferenced, as a replaced one does.
+  voice says a text wrong, and deleting its file from the media layer unless another note uses it
+  (`JPCollection.DiscardTheTextToSpeechAudioOf`, Magnus, 2026-11-15). Anki's copy is left to Anki's "Check Media", as a
+  deleted note's files are.
 
 ## The tts-providers
 
@@ -252,23 +253,26 @@ or write Magnus's keys (since 2026-11-15).
      One dialog serves vocab and sentences alike, since `IHasTextToSpeechAudio`, `UsingASpeech` and
      `TextToSpeechAudioFolders` already served both. It opens where it was last, and speaks nothing.
    - **The dialog:** the batch's voice on top, one of the chosen voices, the default at first, with "Try it on the selected
-     note", "Run batch" and "Voices..."; below it the notes (`NoteInTheBatchViewModel`), each with ▶, Try, its text, its
-     TTS audio now and how far the batch has come with it (`NoteInTheBatchProgress`); and beside them, the selected note's
-     text-to-speech for a note, as the TTS dialog shows it.
+     note", "Run batch" and "Voices..."; below it the notes (`NoteInTheBatchViewModel`), each with its button for the
+     batch's voice, its text, its TTS audio now and how far the batch has come with it (`NoteInTheBatchProgress`); and
+     beside them, the selected note's text-to-speech for a note, as the TTS dialog shows it.
+   - **A row's button for the batch's voice** says Generate until the note has a speech by the voice, then ▶
+     (`NoteInTheBatchViewModel.TheBatchVoicesButton`, Magnus, 2026-11-15). Choosing another voice for the batch turns
+     each back to Generate where the note has no speech by that voice.
    - **The batch's voice speaks a note's text only when there's no speech of it by that voice** (Magnus, 2026-11-15): the
      latest attempt with the voice in the note's own text-to-speech, else the note's TTS audio, when the voice made it and
      the text to speak isn't edited (`AudioReference.TextToSpeechVoice` against `TextToSpeechVoice.NameWithItsProvider`).
      A new rendition by the same voice is had from the voice's button in the note's own text-to-speech, which always speaks.
-   - **Trying the batch's voice** on a note, with its row's Try, with P, or with the button for the selected note, selects
-     the note and plays its speech by the voice, which the voice speaks first, as a new attempt, if there's none. Nothing
-     changes.
+   - **Trying the batch's voice** on a note, with its row's Generate or ▶, with P, or with the button for the selected
+     note, selects the note and plays its speech by the voice, which the voice speaks first, as a new attempt, if there's
+     none. Nothing changes.
    - **Running the batch** gives every note not yet given TTS audio in the dialog a speech from the batch's voice, used at
-     once, so a ▶ turns up on each row as its note is done. Its button says how many notes and characters it will run for.
+     once, so each row's Generate turns to ▶ as its note is done. Its button says how many notes and characters it will run for.
      A note the batch's voice was tried on gets the attempt listened to, and a note whose TTS audio the voice already
      made keeps it ("had … already"). A refused request fails that note alone, saying why, and running the batch again
      tries it again. Stop, or closing the dialog, makes no more requests; the answers to those already made are still used.
    - **Discarding** a note's TTS audio, with Discard beside "The note's TTS audio now", in both dialogs, leaves it with
-     none, and the batch leaves it so. The attempts stay, to use one after all.
+     none and deletes its file, and the batch leaves it so. The attempts stay, to use one after all.
    - **Reviewing:** selecting a note plays its TTS audio as it is now, and generates nothing; the note's own
      text-to-speech beside the list generates nothing by itself either. A note that sounds wrong is fixed there: another
      voice, or the text in kana, and Use. Keys, wherever the keyboard is but in the text to speak and the voice's list:

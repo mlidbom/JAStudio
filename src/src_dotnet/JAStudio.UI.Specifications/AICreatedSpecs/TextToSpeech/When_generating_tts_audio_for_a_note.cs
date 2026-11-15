@@ -143,6 +143,19 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
          [XF] public void the_note_has_no_audio() => _sentence.AllAudio.InTheOrderPreferred.Must().BeEmpty();
          [XF] public void the_current_audio_is_none() => (_dialog.CurrentAudio.Description, _dialog.CanDiscardTheTextToSpeechAudio).Must().Be(("none", false));
          [XF] public void the_attempts_stay() => TheAttempts().Length.Must().Be(2);
+         [XF] public void its_file_is_deleted_from_the_media_layer() => File.Exists(UsedFile).Must().BeFalse();
+      }
+
+      public class and_discarding_the_tts_audio_when_another_sentence_uses_the_same_file : after_using_attempt_1_when_attempt_2_was_selected
+      {
+         public and_discarding_the_tts_audio_when_another_sentence_uses_the_same_file()
+         {
+            CreateTestSentence("家に帰ろう", "Let's go home").Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(_fileName) { IsTextToSpeech = true });
+            _dialog.DiscardTheTextToSpeechAudio();
+         }
+
+         [XF] public void the_note_has_no_audio() => _sentence.AllAudio.InTheOrderPreferred.Must().BeEmpty();
+         [XF] public void the_file_stays_in_the_media_layer_for_the_other_sentence() => File.Exists(UsedFile).Must().BeTrue();
       }
 
       public class and_opening_the_dialog_again_and_generating_with_both_voices : after_using_attempt_1_when_attempt_2_was_selected

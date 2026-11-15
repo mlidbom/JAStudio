@@ -21,8 +21,8 @@ public class AudioReferenceList(IEnumerable<AudioReference> references, NoteGuar
    }
 
    /// <summary>
-   /// Discards the list's TTS audio, leaving its recordings, as when every voice says a text wrong and no audio is better than wrong audio.<br/>
-   /// The files stay in the media layer, unreferenced, as a replaced file does.
+   /// Removes the list's references to TTS audio, leaving its recordings, as when every voice says a text wrong and no audio is better than wrong audio.<br/>
+   /// Only through <see cref="Collection.JPCollection.DiscardTheTextToSpeechAudioOf"/>, which also deletes the files no other note uses.
    /// </summary>
-   public void DiscardTheTextToSpeechAudio() => RemoveThoseThat(it => it.IsTextToSpeech);
+   internal void DiscardTheTextToSpeechAudio() => RemoveThoseThat(it => it.IsTextToSpeech);
 }

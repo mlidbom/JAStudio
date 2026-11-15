@@ -15,7 +15,7 @@
                 <TextBlock Text="The note's TTS audio now:" VerticalAlignment="Center" />
                 <Button Content="▶ (0)" Click="OnPlayTheCurrentAudio" IsEnabled="{Binding CurrentAudio.CanPlay}" Focusable="False" Padding="8,2" />
                 <Button Content="Discard" Click="OnDiscardTheTextToSpeechAudio" IsEnabled="{Binding CanDiscardTheTextToSpeechAudio}" Focusable="False" Padding="8,2"
-                        ToolTip.Tip="Removes the note's TTS audio, so that it has none. Its recordings stay." />
+                        ToolTip.Tip="Removes the note's TTS audio, so that it has none, and deletes its file from the media layer unless another note uses it." />
                 <TextBlock Text="{Binding CurrentAudio.Description}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
             </StackPanel>
 
