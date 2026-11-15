@@ -1,6 +1,6 @@
 using JAStudio.Core.UI.Web.Sentence;
 
-namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
+namespace JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 
 /// <summary>
 /// A word the sentence breakdown displays, written out to read: as <see cref="MatchViewModel"/> shows it, with the vocab it's matched to by<br/>
@@ -21,10 +21,19 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
 /// <param name="VocabId">The id of the vocab the word is matched to. Null when it's matched to no vocab.</param>
 public sealed record BreakdownWord(string Form, int StartIndex, string Variant, string? ShownAs, bool IsEmergencyDisplayed, string? Vocab, string? VocabId)
 {
+   /// <summary>The <see cref="Variant"/> of a word matched by its form as the sentence has it.</summary>
+   public const string SurfaceVariant = "surface";
+
+   /// <summary>The <see cref="Variant"/> of a word matched by its dictionary form.</summary>
+   public const string BaseVariant = "base";
+
+   /// <summary>Whether the word is matched by its form as the sentence has it, not by its dictionary form.</summary>
+   public bool IsMatchedByItsSurface => Variant == SurfaceVariant;
+
    public static BreakdownWord Of(MatchViewModel displayedMatch) =>
       new(displayedMatch.ParsedForm,
           displayedMatch.Match.StartIndex,
-          displayedMatch.Match.Variant.IsSurface ? "surface" : "base",
+          displayedMatch.Match.Variant.IsSurface ? SurfaceVariant : BaseVariant,
           displayedMatch.DisplayVocabForm ? displayedMatch.VocabForm : null,
           displayedMatch.Match.IsEmergencyDisplayed,
           displayedMatch.VocabMatch?.Vocab.GetQuestion(),

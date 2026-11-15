@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
-namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
+namespace JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 
 /// <summary>
 /// One of the <see cref="BreakdownParsingOptions"/>, by name, so that a parsing case can name the options that change its sentence breakdown,<br/>

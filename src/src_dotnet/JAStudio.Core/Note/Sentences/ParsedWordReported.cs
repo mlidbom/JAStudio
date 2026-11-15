@@ -24,11 +24,15 @@ public record ParsedWordReported(string Form, int StartIndex, string Variant, bo
 
    /// <summary><paramref name="word"/> written out to read, naming the vocab it's matched to by its question in <paramref name="collection"/>.</summary>
    public static ParsedWordReported Of(ParsedMatch word, JPCollection collection) =>
+      NotNamingItsVocab(word) with { Vocab = word.VocabId is {} vocabId ? collection.NoteFromNoteId(vocabId)?.GetQuestion() : null };
+
+   /// <summary><paramref name="word"/> written out with the vocab it's matched to by its id alone, as a result the corpus stores has it.</summary>
+   public static ParsedWordReported NotNamingItsVocab(ParsedMatch word) =>
       new(word.ParsedForm,
           word.StartIndex,
           word.Variant == ParsedMatch.SurfaceVariant ? SurfaceVariant : BaseVariant,
           word.IsDisplayed,
-          word.VocabId is {} vocabId ? collection.NoteFromNoteId(vocabId)?.GetQuestion() : null,
+          Vocab: null,
           word.VocabId?.ToString());
 
    /// <summary>The parsed word this reports, without the question of its vocab, which a parsed word doesn't hold.</summary>

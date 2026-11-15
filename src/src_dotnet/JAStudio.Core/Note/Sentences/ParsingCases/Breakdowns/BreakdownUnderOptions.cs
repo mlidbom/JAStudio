@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 
-namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
+namespace JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 
 /// <summary>
 /// A sentence's breakdown, the words it displays, under one combination of the options that change it: of all the<br/>
@@ -11,6 +13,20 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
 /// <param name="Options">The value of each option that changes the breakdown, by its <see cref="BreakdownParsingOption.Name"/>. Empty when none does.</param>
 public sealed record BreakdownUnderOptions(IReadOnlyDictionary<string, bool> Options, IReadOnlyList<BreakdownWord> DisplayedWords)
 {
+   /// <summary>
+   /// A sentence's breakdown under each combination of the options that change it, where <paramref name="breakdownUnder"/> makes its breakdown under<br/>
+   /// any options. Which options change it is found by making it under every combination of all of them.
+   /// </summary>
+   public static IReadOnlyList<BreakdownUnderOptions> UnderEachCombinationOfTheOptionsChangingIt(Func<BreakdownParsingOptions, IReadOnlyList<BreakdownWord>> breakdownUnder)
+   {
+      var breakdowns = BreakdownParsingOption.EveryCombinationOf(BreakdownParsingOption.All).ToDictionary(it => it, breakdownUnder);
+      var optionsChangingTheBreakdown = BreakdownParsingOption.All.Where(ChangesTheBreakdown).ToList();
+      return [.. BreakdownParsingOption.EveryCombinationOf(optionsChangingTheBreakdown)
+                                       .Select(options => new BreakdownUnderOptions(optionsChangingTheBreakdown.ToDictionary(it => it.Name, it => it.IsOnIn(options)), breakdowns[options]))];
+
+      bool ChangesTheBreakdown(BreakdownParsingOption option) => breakdowns.Keys.Any(options => !breakdowns[options].SequenceEqual(breakdowns[option.SwitchedIn(options)]));
+   }
+
    /// <summary>The options this breakdown is under, to read, such as <c>with hideAllCompounds on</c>. Breakdowns under the same options have the same.</summary>
    [JsonIgnore]
    public string OptionsDescription =>

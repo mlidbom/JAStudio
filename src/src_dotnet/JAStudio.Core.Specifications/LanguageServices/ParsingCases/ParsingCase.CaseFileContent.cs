@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using JAStudio.Core.Note.Sentences;
-using JAStudio.Core.Specifications.LanguageServices.ParsingCases.Breakdowns;
+using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.SysUtils.Json;
 

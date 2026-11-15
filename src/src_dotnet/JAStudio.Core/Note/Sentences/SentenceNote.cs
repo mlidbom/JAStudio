@@ -12,7 +12,7 @@ using JAStudio.Core.Storage.Media;
 
 namespace JAStudio.Core.Note.Sentences;
 
-public class SentenceNote : JPNote, IHasTextToSpeechAudio
+public partial class SentenceNote : JPNote, IHasTextToSpeechAudio
 {
    public CachingSentenceConfigurationField Configuration { get; private set; }
 
@@ -67,6 +67,7 @@ public class SentenceNote : JPNote, IHasTextToSpeechAudio
 
       Configuration = new CachingSentenceConfigurationField(this, data?.Configuration, Guard);
       _parsingResult = SentenceDto.CreateParsingResult(data?.ParsingResult);
+      ParsingCase = data?.ParsingCase?.ToParsingCase();
    }
 
    public override void UpdateInCache()

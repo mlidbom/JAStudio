@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Collection;
-using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Dto;
 
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
@@ -45,31 +44,8 @@ public sealed partial class ParsingCase
    public ParsingCaseResult Expected => new(_content.ParsedWords, _content.Breakdowns);
 
    /// <summary>How <paramref name="actual"/> differs from the <see cref="Expected"/> result, a line per difference. Empty when it doesn't.</summary>
-   public IReadOnlyList<string> HowTheResultDiffersFromTheExpected(ParsingCaseResult actual, JPCollection collection)
-   {
-      return [.. HowTheParsedWordsDiffer(), .. HowTheBreakdownsDiffer()];
-
-      IEnumerable<string> HowTheParsedWordsDiffer()
-      {
-         var change = ParsedWordsChange.Between([.. Expected.ParsedWords.Select(it => it.ToParsedMatch())], [.. actual.ParsedWords.Select(it => it.ToParsedMatch())], collection);
-         return [.. change.Added.Select(it => $"parsed, but not expected: {it}"),
-                 .. change.Removed.Select(it => $"expected, but not parsed: {it}"),
-                 .. change.NowDisplayed.Select(it => $"displayed, but expected not displayed: {it}"),
-                 .. change.NoLongerDisplayed.Select(it => $"not displayed, but expected displayed: {it}")];
-      }
-
-      IEnumerable<string> HowTheBreakdownsDiffer()
-      {
-         if(!actual.OptionsChangingTheBreakdown.SequenceEqual(Expected.OptionsChangingTheBreakdown))
-            return [$"the options that change the breakdown are {NamesOf(actual.OptionsChangingTheBreakdown)}, not the expected {NamesOf(Expected.OptionsChangingTheBreakdown)}"];
-
-         return actual.Breakdowns.SelectMany(breakdown => Expected.Breakdowns.SingleOrDefault(it => it.OptionsDescription == breakdown.OptionsDescription) is {} expectedBreakdown
-                                                             ? expectedBreakdown.HowTheDisplayedWordsDiffer(breakdown)
-                                                             : [$"the breakdown {breakdown.OptionsDescription} isn't in the case: {string.Join("; ", breakdown.DisplayedWords)}"]);
-      }
-
-      static string NamesOf(IReadOnlyList<string> options) => options.Count == 0 ? "none" : string.Join(", ", options);
-   }
+   public IReadOnlyList<string> HowTheResultDiffersFromTheExpected(ParsingCaseResult actual, JPCollection collection) =>
+      Expected.HowItDiffersFromThisExpectedResult(actual, collection);
 
    /// <summary>Makes <paramref name="result"/> the result the sentence is expected to parse to, in the case's file.</summary>
    public void Accept(ParsingCaseResult result) => (_content with { ParsedWords = [.. result.ParsedWords], Breakdowns = [.. result.Breakdowns] }).WriteTo(_file);
