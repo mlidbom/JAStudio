@@ -3,6 +3,9 @@
 **Status: built, and the old parsing specifications converted (2026-11-09).** Items 3 and 4 of `speeding-up-development.md`, which has the plan and its
 open points. The code is in `src/src_dotnet/JAStudio.Core.Specifications/LanguageServices/ParsingCases/`.
 
+**Next (Magnus, 2026-11-15):** the parsing cases move into the corpus, as sentences marked as parsing cases, and the
+case files become generated from them: [the plan](todo/parsing-cases-in-the-corpus.md).
+
 ## A case
 
 A **parsing case** is one JSON file in `ParsingCases/Cases/`, named for what it's about: the name is the case's name in
