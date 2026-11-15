@@ -994,6 +994,8 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
 - **Tessaging inside JAStudio,** after the move: the move itself uses interfaces.
+- **What the card page's right-click menu holds** (`RightClickMenu`): nothing beyond the spike's items for now (Magnus,
+  2026-11-15: "nothing for now. It is low priority compared to very much else.").
 - **Opening Anki's browser on a search opens its previewer too,** so the add-on's two functions for it do the same.
   It stays so (Magnus, 2026-11-15: "Keep").
 - **With several JAStudios connected:**
