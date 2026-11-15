@@ -67,6 +67,7 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
       [
          Field(SentenceEditableFields.SourceName)
       ];
+      ParsingCase = new SentenceParsingCaseEditorViewModel([Field(SentenceEditableFields.ParsingCaseName), Field(SentenceEditableFields.ParsingCaseWhy)], CurrentSentence);
       Tags = new NoteTagsEditorViewModel(services, CurrentSentence);
       Parsing = new SentenceParsingViewModel(services, CurrentSentence, tab);
    }
@@ -88,6 +89,9 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    /// <summary>The name of the work or deck the sentence came from (<see cref="SentenceNote.SourceName"/>).</summary>
    public IReadOnlyList<TextFieldEditorViewModel> OtherFields { get; }
 
+   /// <summary>The name and the why of the sentence's parsing case, shown while it is one.</summary>
+   public SentenceParsingCaseEditorViewModel ParsingCase { get; }
+
    public NoteTagsEditorViewModel Tags { get; }
 
    /// <summary>How the sentence parsed: the matches shown, and under each what it covers, its Parsing tab.</summary>
@@ -98,6 +102,7 @@ class SentenceEditorSectionViewModel : INoteEditorSectionViewModel
    {
       Parsing.Refresh();
       foreach(var field in AllFields()) field.Refresh();
+      ParsingCase.Refresh();
       foreach(var list in (IEnumerable<MediaListEditorViewModel>)[..CorpusMedia, ..SourceMedia]) list.Refresh();
       Tags.Refresh();
    }

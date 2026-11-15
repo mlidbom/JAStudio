@@ -1,14 +1,17 @@
 using Avalonia.Threading;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
+using JAStudio.Core.Note.Sentences.ParsingCases;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
+using JAStudio.UI.ViewModels.Workspace.ParsingCases;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI.Menus.Notes.Sentence;
@@ -49,9 +52,37 @@ class SentenceNoteMenus
                                                              SpecMenuItem.UICommand(ShortcutFinger.Home1("comments"), () => sentence.Comments.Empty(), enabled: sentence.Comments.HasValue()),
                                                              SpecMenuItem.UICommand(ShortcutFinger.Home2("answer"), () => sentence.CorpusAnswer.Empty(), enabled: sentence.CorpusAnswer.HasValue()),
                                                              SpecMenuItem.UICommand(ShortcutFinger.Home3("question"), () => sentence.CorpusQuestion.Empty(), enabled: sentence.CorpusQuestion.HasValue())
-                                                          })
+                                                          }),
+                                     ParsingCaseMenuSpec(sentence)
                                   }
       );
+   }
+
+   /// <summary>
+   /// The "Parsing case" submenu of <paramref name="sentence"/>'s menu, with only what applies to the sentence as it is: marking it as a parsing case, or,<br/>
+   /// for a sentence that is one, giving another verdict on the vocab it expects the breakdown to display, accepting what it parses to, and making<br/>
+   /// it an ordinary sentence again. Each item has its own key, whichever of them are shown.
+   /// </summary>
+   static SpecMenuItem ParsingCaseMenuSpec(SentenceNote sentence)
+   {
+      return SpecMenuItem.Submenu(ShortcutFinger.Up1("Parsing case"), sentence.ParsingCase is {} parsingCase ? ItemsOfAParsingCase(parsingCase) : ItemsOfAnOrdinarySentence());
+
+      List<SpecMenuItem> ItemsOfAnOrdinarySentence() => [NoteCommandMenuItem.Running(ShortcutFinger.Home1, SentenceCommands.MarkAsAParsingCase, sentence)];
+
+      List<SpecMenuItem> ItemsOfAParsingCase(ParsingCase theCase)
+      {
+         (Verdict Verdict, Func<string, string> ShortcutFinger)[] theVerdictsWithTheirKeys =
+            [(Verdict.Verified, ShortcutFinger.Home1), (Verdict.Broken, ShortcutFinger.Home2), (Verdict.Unverified, ShortcutFinger.Home3)];
+         return
+         [
+            .. theVerdictsWithTheirKeys.Where(it => it.Verdict != theCase.VerdictOnTheDisplayedVocab).Select(it => GivingTheVerdict(it.Verdict, it.ShortcutFinger)),
+            NoteCommandMenuItem.Running(ShortcutFinger.Home4, SentenceCommands.AcceptWhatItParsesToAsAParsingCase, sentence),
+            NoteCommandMenuItem.Running(ShortcutFinger.Down5, SentenceCommands.StopBeingAParsingCase, sentence)
+         ];
+      }
+
+      SpecMenuItem GivingTheVerdict(Verdict verdict, Func<string, string> shortcutFinger) =>
+         SpecMenuItem.UICommand(shortcutFinger($"The displayed vocab are {verdict.InWords()}"), () => SentenceEditableFields.VerdictOnTheDisplayedVocab.Write(sentence, verdict));
    }
 
    public SpecMenuItem BuildViewMenuSpec(string title)

@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:pages="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages"
              xmlns:sentences="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages.Sentences"
+             xmlns:parsingCases="clr-namespace:JAStudio.UI.ViewModels.Workspace.NotePages.Sentences.ParsingCases"
              xmlns:breakdown="clr-namespace:JAStudio.Core.UI.Web.Sentence;assembly=JAStudio.Core"
              xmlns:markup="clr-namespace:JAStudio.UI.Controls.Markup"
              xmlns:noteFields="clr-namespace:JAStudio.UI.Controls.NoteFields"
@@ -60,6 +61,118 @@
                            Text="{Binding Display}" ToolTip.Tip="{Binding Tooltip}" />
                 <TextBlock Text="|" Foreground="{StaticResource NotePage.ReadingsSeparator}" IsVisible="{Binding !IsTheLast}" />
             </StackPanel>
+        </DataTemplate>
+
+        <!-- A word of the breakdown: the word as written, with what it matched, and below it the compound's parts and the word's kanji. -->
+        <DataTemplate x:Key="BreakdownEntry" x:DataType="sentences:BreakdownEntryViewModel">
+            <StackPanel Margin="0,0,0,2">
+                <ItemsControl ItemsSource="{Binding Reasons}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="sentences:MatchReasonViewModel">
+                            <TextBlock Classes="reason" Classes.incorrect="{Binding MakesTheMatchIncorrect}" Classes.configured="{Binding IsConfigured}"
+                                       Text="{Binding Text}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <controls:BesideOrBelowPanel Background="{StaticResource NotePage.EntryBackground}">
+                    <StackPanel Orientation="Horizontal">
+                    <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
+                    <Border Classes="studyBar" Classes.reading="{Binding IsStudyingReading}" Classes.listening="{Binding IsStudyingListening}"
+                            VerticalAlignment="Center">
+                        <Panel>
+                            <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
+                                       Tag="{Binding WordLinkedToItsVocab}" Text="{Binding WordLinkedToItsVocab.Text}"
+                                       IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                       PointerReleased="OnNoteLinkReleased" />
+                            <TextBlock Classes="word" Classes.highlighted="{Binding IsHighlighted}" Text="{Binding Word}"
+                                       IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNull}}" />
+                        </Panel>
+                    </Border>
+                    <TextBlock Text="{Binding VocabForm}" IsVisible="{Binding VocabForm, Converter={x:Static ObjectConverters.IsNotNull}}"
+                               FontSize="{StaticResource WordSize}" Foreground="{StaticResource NotePage.Green}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
+                               FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                    <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    </StackPanel>
+                    <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
+                </controls:BesideOrBelowPanel>
+
+                <ItemsControl ItemsSource="{Binding CompoundParts}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="sentences:CompoundPartEntryViewModel">
+                            <DockPanel>
+                            <Border DockPanel.Dock="Left" Width="{Binding Indentation}" />
+                            <controls:BesideOrBelowPanel Background="{StaticResource NotePage.CompoundPartBackground}">
+                                <StackPanel Orientation="Horizontal">
+                                <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
+                                <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
+                                           Tag="{Binding Question}" Text="{Binding Question.Text}" VerticalAlignment="Center" PointerReleased="OnNoteLinkReleased" />
+                                <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                           FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                                <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                </StackPanel>
+                                <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
+                            </controls:BesideOrBelowPanel>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl ItemsSource="{Binding Kanji}" Margin="50,0,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="sentences:BreakdownKanjiViewModel">
+                            <Border Classes="kanji" Classes.beingStudied="{Binding IsBeingStudied}" Margin="0,1">
+                                <StackPanel>
+                                    <WrapPanel ItemSpacing="13">
+                                        <TextBlock Classes="noteLink" Tag="{Binding Kanji}" Text="{Binding Kanji.Text}"
+                                                   FontSize="{StaticResource KanjiSize}" Foreground="{StaticResource NotePage.Green}" VerticalAlignment="Center"
+                                                   PointerReleased="OnNoteLinkReleased" />
+                                        <markup:StyledTextBlock Markup="{Binding Answer}" FontSize="{StaticResource KanjiTextSize}"
+                                                                Foreground="{StaticResource NotePage.Meaning}" VerticalAlignment="Center" />
+                                        <markup:StyledTextBlock Markup="{Binding Readings}" FontSize="{StaticResource KanjiTextSize}"
+                                                                Foreground="{StaticResource NotePage.Reading}" VerticalAlignment="Center" />
+                                    </WrapPanel>
+                                    <markup:StyledTextBlock Markup="{Binding Mnemonic}" IsVisible="{Binding Mnemonic, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                            TextWrapping="Wrap" Background="{StaticResource NotePage.EntryBackground}" Margin="26,6,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- A word the sentence's parsing case expects the breakdown to display, with its vocab as it is now. -->
+        <DataTemplate x:Key="ExpectedBreakdownEntry" x:DataType="parsingCases:ExpectedBreakdownEntryViewModel">
+            <controls:BesideOrBelowPanel Background="{StaticResource NotePage.EntryBackground}" Margin="0,0,0,2">
+                <StackPanel Orientation="Horizontal">
+                    <Panel>
+                        <TextBlock Classes="word noteLink" Tag="{Binding WordLinkedToItsVocab}" Text="{Binding WordLinkedToItsVocab.Text}"
+                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                   PointerReleased="OnNoteLinkReleased" />
+                        <TextBlock Classes="word" Text="{Binding Word}"
+                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNull}}" />
+                    </Panel>
+                    <TextBlock Text="{Binding FormShownBesideTheWord}" IsVisible="{Binding FormShownBesideTheWord, Converter={x:Static ObjectConverters.IsNotNull}}"
+                               FontSize="{StaticResource WordSize}" Foreground="{StaticResource NotePage.Green}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
+                               FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+                <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
+            </controls:BesideOrBelowPanel>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -158,6 +271,51 @@
         <Style Selector="Button.audio.ofThePagesNote">
             <Setter Property="FontSize" Value="36.7" />
         </Style>
+        <Style Selector="Button.quiet, Button.verdict">
+            <Setter Property="Padding" Value="8,2" />
+            <Setter Property="FontSize" Value="{StaticResource SectionTitleSize}" />
+            <Setter Property="Background" Value="{StaticResource NotePage.EntryBackground}" />
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Text}" />
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.SectionBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="Button.verdict.chosen /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource NotePage.Green}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="Button.verdict.chosen.broken /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource NotePage.WarningRed}" />
+        </Style>
+        <Style Selector="TextBlock.outcome">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Green}" />
+        </Style>
+        <Style Selector="TextBlock.outcome.fails">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.WarningRed}" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="TextBlock.outcome.toReview">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.Italic}" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="TextBlock.breakdownSide">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.SectionTitle}" />
+            <Setter Property="FontSize" Value="{StaticResource SectionTitleSize}" />
+        </Style>
+        <Style Selector="Border.breakdownSide">
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Border.breakdownSide.differs">
+            <Setter Property="BorderBrush" Value="{StaticResource NotePage.WarningRed}" />
+            <Setter Property="Background" Value="{StaticResource NotePage.DiffersBackground}" />
+        </Style>
+        <Style Selector="TextBlock.noWord">
+            <Setter Property="Foreground" Value="{StaticResource NotePage.SectionTitle}" />
+            <Setter Property="FontStyle" Value="Italic" />
+            <Setter Property="Margin" Value="8,4" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
         <Style Selector="ItemsControl.tokenRows ContentPresenter:nth-child(odd) Grid.tokenRow">
             <Setter Property="Background" Value="{StaticResource NotePage.EntryBackground}" />
         </Style>
@@ -221,6 +379,51 @@
             <markup:StyledTextBlock Markup="{Binding SourceComments}" TextWrapping="Wrap" />
         </HeaderedContentControl>
 
+        <!-- The parsing case, for a sentence that is one: what it is about, a person's verdict, and how the sentence parses compared with what it expects. -->
+        <HeaderedContentControl Theme="{StaticResource PageSection}" Header="parsing case" IsVisible="{Binding IsAParsingCase}">
+            <StackPanel DataContext="{Binding ParsingCase}" x:DataType="parsingCases:SentenceParsingCaseViewModel" Spacing="5">
+                <SelectableTextBlock Text="{Binding Name}" IsVisible="{Binding IsNamed}" FontWeight="Bold" TextWrapping="Wrap" />
+                <TextBlock Text="Not named yet: its name and its why are edited in the editor (Ctrl+E)." IsVisible="{Binding !IsNamed}"
+                           Foreground="{StaticResource NotePage.SectionTitle}" TextWrapping="Wrap" />
+                <SelectableTextBlock Text="{Binding Why}" IsVisible="{Binding Why, Converter={x:Static ObjectConverters.IsNotNull}}" TextWrapping="Wrap" />
+
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="The displayed vocab are" VerticalAlignment="Center" Margin="0,0,4,0" />
+                    <ItemsControl ItemsSource="{Binding Verdicts}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="4" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="parsingCases:VerdictChoiceViewModel">
+                                <Button Classes="verdict" Classes.chosen="{Binding IsChosen}" Classes.broken="{Binding IsBroken}"
+                                        Content="{Binding Text}" Command="{Binding ChooseCommand}" ToolTip.Tip="{Binding Tooltip}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <TextBlock Classes="outcome" Classes.fails="{Binding Fails}" Classes.toReview="{Binding IsToReview}" Text="{Binding OutcomeText}" TextWrapping="Wrap" />
+
+                <StackPanel IsVisible="{Binding !ParsesAsExpected}" Spacing="5">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Button Classes="quiet" Content="Accept what it parses to now" Command="{Binding AcceptWhatItParsesToCommand}"
+                                ToolTip.Tip="Makes what the sentence parses to now what its parsing case expects. Your verdict stays as it is." />
+                        <CheckBox IsChecked="{Binding ShowsWhatItExpectsBesideTheBreakdown}" Content="Show what it expects beside the breakdown"
+                                  ToolTip.Tip="Shows the breakdown the parsing case expects beside the one the sentence displays now, for every parsing case that parses otherwise than it expects." />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding Differences}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <SelectableTextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="{StaticResource SectionTitleSize}" Margin="0,1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </HeaderedContentControl>
+
         <!-- The breakdown: the words found in the sentence, each with what it matched. -->
         <HeaderedContentControl Theme="{StaticResource PageSection}">
             <HeaderedContentControl.Header>
@@ -242,101 +445,43 @@
                 </StackPanel>
             </HeaderedContentControl.Header>
 
-            <ItemsControl ItemsSource="{Binding Entries}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="sentences:BreakdownEntryViewModel">
-                        <StackPanel Margin="0,0,0,2">
-                            <ItemsControl ItemsSource="{Binding Reasons}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="sentences:MatchReasonViewModel">
-                                        <TextBlock Classes="reason" Classes.incorrect="{Binding MakesTheMatchIncorrect}" Classes.configured="{Binding IsConfigured}"
-                                                   Text="{Binding Text}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+            <Panel>
+                <ItemsControl ItemsSource="{Binding Entries}" ItemTemplate="{StaticResource BreakdownEntry}"
+                              IsVisible="{Binding !ShowsTheExpectedBesideTheBreakdown}" />
 
-                            <controls:BesideOrBelowPanel Background="{StaticResource NotePage.EntryBackground}">
-                                <StackPanel Orientation="Horizontal">
-                                <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
-                                <Border Classes="studyBar" Classes.reading="{Binding IsStudyingReading}" Classes.listening="{Binding IsStudyingListening}"
-                                        VerticalAlignment="Center">
-                                    <Panel>
-                                        <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
-                                                   Tag="{Binding WordLinkedToItsVocab}" Text="{Binding WordLinkedToItsVocab.Text}"
-                                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                   PointerReleased="OnNoteLinkReleased" />
-                                        <TextBlock Classes="word" Classes.highlighted="{Binding IsHighlighted}" Text="{Binding Word}"
-                                                   IsVisible="{Binding WordLinkedToItsVocab, Converter={x:Static ObjectConverters.IsNull}}" />
-                                    </Panel>
-                                </Border>
-                                <TextBlock Text="{Binding VocabForm}" IsVisible="{Binding VocabForm, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                           FontSize="{StaticResource WordSize}" Foreground="{StaticResource NotePage.Green}" Margin="7,0,0,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                           FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
-                                <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                                </StackPanel>
-                                <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
-                            </controls:BesideOrBelowPanel>
-
-                            <ItemsControl ItemsSource="{Binding CompoundParts}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="sentences:CompoundPartEntryViewModel">
-                                        <DockPanel>
-                                        <Border DockPanel.Dock="Left" Width="{Binding Indentation}" />
-                                        <controls:BesideOrBelowPanel Background="{StaticResource NotePage.CompoundPartBackground}">
-                                            <StackPanel Orientation="Horizontal">
-                                            <ContentControl Content="{Binding Audio}" ContentTemplate="{StaticResource AudioButton}" MinWidth="26" />
-                                            <TextBlock Classes="word noteLink" Classes.highlighted="{Binding IsHighlighted}"
-                                                       Tag="{Binding Question}" Text="{Binding Question.Text}" VerticalAlignment="Center" PointerReleased="OnNoteLinkReleased" />
-                                            <TextBlock Text="{Binding Readings}" IsVisible="{Binding Readings, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                       FontSize="{StaticResource WordReadingsSize}" Foreground="{StaticResource NotePage.Reading}" Margin="7,0,0,0" VerticalAlignment="Center" />
-                                            <ItemsControl ItemsSource="{Binding MetaTags}" ItemTemplate="{StaticResource MetaTags}" Margin="10,0,0,0" VerticalAlignment="Center">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" />
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
-                                            </StackPanel>
-                                            <markup:StyledTextBlock Classes="wordsAnswer" Markup="{Binding Answer}" />
-                                        </controls:BesideOrBelowPanel>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl ItemsSource="{Binding Kanji}" Margin="50,0,0,0">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="sentences:BreakdownKanjiViewModel">
-                                        <Border Classes="kanji" Classes.beingStudied="{Binding IsBeingStudied}" Margin="0,1">
-                                            <StackPanel>
-                                                <WrapPanel ItemSpacing="13">
-                                                    <TextBlock Classes="noteLink" Tag="{Binding Kanji}" Text="{Binding Kanji.Text}"
-                                                               FontSize="{StaticResource KanjiSize}" Foreground="{StaticResource NotePage.Green}" VerticalAlignment="Center"
-                                                               PointerReleased="OnNoteLinkReleased" />
-                                                    <markup:StyledTextBlock Markup="{Binding Answer}" FontSize="{StaticResource KanjiTextSize}"
-                                                                            Foreground="{StaticResource NotePage.Meaning}" VerticalAlignment="Center" />
-                                                    <markup:StyledTextBlock Markup="{Binding Readings}" FontSize="{StaticResource KanjiTextSize}"
-                                                                            Foreground="{StaticResource NotePage.Reading}" VerticalAlignment="Center" />
-                                                </WrapPanel>
-                                                <markup:StyledTextBlock Markup="{Binding Mnemonic}" IsVisible="{Binding Mnemonic, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                                        TextWrapping="Wrap" Background="{StaticResource NotePage.EntryBackground}" Margin="26,6,0,0" />
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                <!-- For a parsing case that parses otherwise than it expects: the breakdown beside the one the case expects, row by row. -->
+                <StackPanel IsVisible="{Binding ShowsTheExpectedBesideTheBreakdown}">
+                    <Grid ColumnDefinitions="*,8,*" Margin="0,0,0,4">
+                        <TextBlock Grid.Column="0" Classes="breakdownSide" Text="it parses to" />
+                        <TextBlock Grid.Column="2" Classes="breakdownSide" Text="its parsing case expects" />
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding RowsBesideTheExpected}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="parsingCases:BreakdownRowBesideTheExpectedViewModel">
+                                <Grid ColumnDefinitions="*,8,*">
+                                    <Border Grid.Column="0" Classes="breakdownSide" Classes.differs="{Binding Differs}">
+                                        <Panel>
+                                            <ContentControl Content="{Binding Displayed}" ContentTemplate="{StaticResource BreakdownEntry}" VerticalAlignment="Top" />
+                                            <TextBlock Classes="noWord" Text="not displayed" IsVisible="{Binding Displayed, Converter={x:Static ObjectConverters.IsNull}}" />
+                                        </Panel>
+                                    </Border>
+                                    <Border Grid.Column="2" Classes="breakdownSide" Classes.differs="{Binding Differs}">
+                                        <Panel>
+                                            <ContentControl Content="{Binding Expected}" ContentTemplate="{StaticResource ExpectedBreakdownEntry}" VerticalAlignment="Top" />
+                                            <TextBlock Classes="noWord" Text="not expected" IsVisible="{Binding Expected, Converter={x:Static ObjectConverters.IsNull}}" />
+                                        </Panel>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Panel>
         </HeaderedContentControl>
+
+        <Button Classes="quiet" Content="Mark as a parsing case" Command="{Binding MarkAsAParsingCaseCommand}" IsVisible="{Binding !IsAParsingCase}"
+                HorizontalAlignment="Right" Margin="0,4,0,0"
+                ToolTip.Tip="Makes the sentence a parsing case that expects what it parses to now: a change to how it parses then shows in the list of parsing cases. Give your verdict on the vocab it displays afterwards." />
 
         <!-- In edit mode, the sentence's tokens. -->
         <ItemsControl ItemsSource="{Binding TokenTables}">
