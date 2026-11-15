@@ -12,7 +12,7 @@ namespace JAStudio.UI.Menus;
 /// </summary>
 /// <remarks>
 /// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, or opens it on its search, from its JA Studio menu<br/>
-/// (the Anki add-on's <c>jastudio_menu.py</c>) or with Ctrl+Shift+O and Ctrl+O (<see cref="AnkiDialogs"/>).
+/// (the Anki add-on's <c>jastudio_menu.py</c>) or with Ctrl+Shift+O and Ctrl+S (<see cref="AnkiDialogs"/>).
 /// </remarks>
 public class WorkspaceMainMenu
 {
@@ -33,7 +33,7 @@ public class WorkspaceMainMenu
       SpecMenuItem.Submenu(ShortcutFinger.Home2("Lookup"),
                            new List<SpecMenuItem>
                            {
-                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+O)"), WorkspaceWindow.ToggleNoteSearch),
+                              SpecMenuItem.Command(ShortcutFinger.Home1("Search notes (Ctrl+S)"), WorkspaceWindow.ToggleNoteSearch),
                               WebSearchMenuBuilder.BuildWebSearchMenu(ShortcutFinger.Home2("Web"), getClipboardContent),
                               SpecMenuItem.Command(ShortcutFinger.Home3(MainMenuWindows.SharedConditions.Name), () => MainMenuWindows.SharedConditions.Open(_services))
                            }

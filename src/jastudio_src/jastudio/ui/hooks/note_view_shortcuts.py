@@ -1,10 +1,8 @@
-"""The keyboard shortcuts that act on the note shown in Anki's reviewer and in its previewer.
+"""The keyboard shortcuts that act on the note shown in Anki's reviewer and in its previewer: JAStudio's note view shortcuts, defined once in C#
+(NoteViewShortcuts) and shared with JAStudio's workspace. This only binds Anki's keys to them. A shortcut changes a setting or the note, and the
+card's page, which is JAStudio's own, reloads itself on either (CardLayout).
 
-Most are JAStudio's note view shortcuts, defined once in C# (NoteViewShortcuts) and shared with JAStudio's workspace: this only binds Anki's keys
-to them. A shortcut changes a setting or the note, and the card's page, which is JAStudio's own, reloads itself on either (CardLayout).
-
-One more is Anki's alone: it shows the note in JAStudio's workspace (AnkiDialogs.ShowTheNoteInTheWorkspace), where everything JAStudio does with a
-note is done. Anki's own windows had a menu of it until 2026-11-15.
+Ctrl+O, which opens the shown note in JAStudio's workspace, is among the global shortcuts (global_shortcuts.py), since Anki's browser has it too.
 """
 from __future__ import annotations
 
@@ -27,8 +25,6 @@ if TYPE_CHECKING:
     from JAStudio.UI.Shortcuts import NoteViewShortcut
     from PyQt6.QtWidgets import QWidget
 
-SHOW_THE_NOTE_IN_THE_WORKSPACE = "Ctrl+Alt+o"
-
 
 def init() -> None:
     def the_shortcuts_on(the_shown_note: Callable[[], JPNote | None]) -> dict[str, Callable[[], None]]:
@@ -43,13 +39,7 @@ def init() -> None:
 
             return run_it
 
-        def show_the_note_in_the_workspace() -> None:
-            note = the_shown_note()
-            if note:
-                dotnet_ui_root().Dialogs.ShowTheNoteInTheWorkspace(note)
-
-        return {**{shortcut.KeyGesture: run(shortcut) for shortcut in dotnet_ui_root().NoteViewShortcuts.All},
-                SHOW_THE_NOTE_IN_THE_WORKSPACE: show_the_note_in_the_workspace}
+        return {shortcut.KeyGesture: run(shortcut) for shortcut in dotnet_ui_root().NoteViewShortcuts.All}
 
     # noinspection DuplicatedCode
     def set_shortcut(widget: QWidget, shortcut: str, callback: Callable[[], None]) -> None:

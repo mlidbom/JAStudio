@@ -31,7 +31,7 @@
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <ToggleButton DockPanel.Dock="Left" Content="Navigation" IsChecked="{Binding Navigation.IsOpen}"
-                              ToolTip.Tip="Show or hide the navigation pane: the note search (Ctrl+O), and the lists the note menus' Open items show"
+                              ToolTip.Tip="Show or hide the navigation pane: the note search (Ctrl+S), and the lists the note menus' Open items show"
                               Margin="4,2" Padding="8,2" />
                 <ToggleButton DockPanel.Dock="Right" Content="Editor" IsChecked="{Binding IsEditorSectionOpen}"
                               ToolTip.Tip="Show or hide the editor section (Ctrl+E)" Margin="4,2" Padding="8,2" />
