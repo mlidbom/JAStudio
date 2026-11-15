@@ -429,6 +429,8 @@ Studying view, and nothing in the workspace to show that a Sync is due.
   - *before the collection has loaded.*
 - **The import profiles that run automatically are started, not waited for** (`AutomaticImportRuns.AfterASyncWithTheSRS`).
   They import in the background, and report as they do today, so what they import isn't in the sync's report.
+  Magnus confirmed that a Sync runs them (2026-11-15), after first saying "No auto creation or auto import": "Yes. I
+  overstated that." What stays manual is creating study-notes: JAStudio never creates one.
 - **The sync opens no progress window** (since the Sync button, 2026-11-15): whoever started the sync shows that it's
   under way, as the Sync button does, and no window opens over what the person does. Claude first had it open one for
   a write of more than 200 study-notes. Magnus, the same day: "I probably still don't want it popping up
