@@ -2,7 +2,9 @@
 
 > **Status: under way on the branch `unidic` (Magnus, 2026-11-13).** Step 1, comparing how the two tokenize, is done. Step 2,
 > the port, is in progress: the tokenizer reads with the spoken-language UniDic, and 48 of the 230 parsing cases parse differently,
-> listed below with what's to be done. Open for Magnus: how the dictionary ships (Claude recommends downloading it on
+> listed below. How each is judged, and what's then done about it, is in
+> [judging what UniDic changes in parsing](judging-what-unidic-changes-in-parsing.md) (Magnus, 2026-11-15), which replaces
+> what this plan says is to be fixed and accepted. Open for Magnus: how the dictionary ships (Claude recommends downloading it on
 > first use, from NINJAL: below).
 
 JAStudio's tokenizer, MeCab (MeCab.DotNet), reads with a **tokenizer dictionary** (`TokenizerDictionary`): the words it
@@ -122,6 +124,10 @@ examples. A million sentences take 15 seconds, plus a minute reading them from t
 
 ## The parsing cases that parse differently (spoken UniDic, 2026-11-13)
 
+> **Replaced 2026-11-15** by [judging what UniDic changes in parsing](judging-what-unidic-changes-in-parsing.md): each
+> case is judged by itself, on the vocab the breakdown displays. The classes "to accept" and the list "To fix" below
+> are Claude's sorting from before that rule, kept for what they found.
+
 48 of 230, after the fixes of step 2 so far. "Not displayed" means the sentence breakdown shows the same words; only the
 parsed words, which include every candidate, changed.
 
@@ -222,6 +228,9 @@ displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,9
 - **Still to decide:**
   - The rest of the diff, word by word: いる (169 removed), ー (294), ち (135), まあ (72), え (71), さ (72), たい (64), なる
     (57), and the display changes of が, た, は, の, に.
+  - Replaced 2026-11-15: sentences outside the parsing cases are judged by reading each, on what the breakdown
+    displays (`judging-what-unidic-changes-in-parsing.md`, step 7). The counts above are of every parsed word,
+    displayed or not.
 
 ## The steps
 
@@ -244,5 +253,6 @@ displayed: UniDic's short units give more of them (だ 4,053, に 2,087, も 1,9
    counted. The four splitters are checked against UniDic's cuts: what they repair may not happen with UniDic, and
    UniDic's own mistakes may need others. The corpus's vocab with tokenizer conditions (9 when counted) are migrated.
 3. **Check the result:** the parsing cases, a full rebuild's diff of the corpus, and the reservoir analyzed before and
-   after, on a copy of the reservoir.
+   after, on a copy of the reservoir. How the result is judged, and in what order:
+   [judging what UniDic changes in parsing](judging-what-unidic-changes-in-parsing.md).
 4. **Then names and kana forms,** built on the lemmas and the proper-noun tags.
