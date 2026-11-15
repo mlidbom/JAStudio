@@ -1,4 +1,3 @@
-using JAStudio.Core;
 using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 

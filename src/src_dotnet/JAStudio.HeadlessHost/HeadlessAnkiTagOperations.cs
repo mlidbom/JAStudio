@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Studying;
 
 namespace JAStudio.HeadlessHost;

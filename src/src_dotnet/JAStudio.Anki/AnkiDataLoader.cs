@@ -1,6 +1,5 @@
 using System.Linq;
 using JAStudio.Anki.CollectionDatabase;
-using JAStudio.Core;
 using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 

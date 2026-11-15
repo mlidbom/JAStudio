@@ -1,6 +1,5 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JamdictEx;
 using JAStudio.Core.Note.Collection;

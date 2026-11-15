@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Threading;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;

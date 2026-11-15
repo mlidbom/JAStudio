@@ -1,5 +1,4 @@
 using JAStudio.Anki.CollectionDatabase;
-using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;

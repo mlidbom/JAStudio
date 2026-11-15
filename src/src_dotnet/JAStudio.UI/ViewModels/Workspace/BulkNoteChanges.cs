@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Compze.Internals.SystemCE.ThreadingCE.TasksCE;
 using JAStudio.Core;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Studying;

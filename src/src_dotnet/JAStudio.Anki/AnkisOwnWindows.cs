@@ -1,4 +1,3 @@
-using JAStudio.Core.Anki;
 using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;

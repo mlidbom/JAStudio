@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;

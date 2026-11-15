@@ -1,6 +1,5 @@
 using System;
 using JAStudio.Core;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Studying;
 using JAStudio.Core.UI.Web;

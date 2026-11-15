@@ -1,11 +1,7 @@
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
-using JAStudio.Core.Anki;
-using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Importing.RawNotes;
-using JAStudio.Core.Note;
-using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Studying;

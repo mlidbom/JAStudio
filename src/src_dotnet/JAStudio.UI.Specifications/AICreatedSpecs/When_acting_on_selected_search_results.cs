@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Studying;

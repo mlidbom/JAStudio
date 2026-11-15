@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Compze.Contracts;
-using JAStudio.Core.Anki;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Studying;

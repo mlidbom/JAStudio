@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Compze.Contracts;
 using JAStudio.Core.Note;
-using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Studying;
 
 namespace JAStudio.StandaloneHost;
