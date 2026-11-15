@@ -40,7 +40,8 @@ piece of code, or that would otherwise be lost in a long response.
   `MemberCanBePrivate.Global` throughout, the latter on every specification's helpers, and
   `NotAccessedPositionalProperty.Global` on the records JAStudio's MCP server only serializes to JSON. Either fix them
   in a campaign (the shared skill `run-and-fix-resharper-inspections`), or turn off the ones that are noise here, for
-  the specifications and for the records that are serialized.
+  the specifications and for the records that are serialized. *Magnus, 2026-11-15: "There will be a campaign, but not
+  right now."*
 - **(Claude, 2026-11-15) A type for a study-note's id, in place of `long`,** as the code standard on primitives asks.
   Best done once the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
   the code that passes the id about today goes with them.

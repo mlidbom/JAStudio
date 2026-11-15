@@ -191,6 +191,9 @@ set in stone in any way."
 JAStudio doesn't reference Compze.Tessaging today. Claude's view: the move out of Anki doesn't depend on the choice,
 since the renamed seam works as interfaces first.
 
+**For the move out of Anki it's interfaces** (Magnus, 2026-11-15, on Claude's recommendation: "Interfaces should work
+fine for this."). Tommands can replace them later, one group of functions at a time.
+
 ### Several JAStudios connected to one Anki: wanted, and it can wait (Magnus, 2026-11-15)
 
 "Multiple JAStudio instances should be able to connect to anki at the same time. This would greatly help with
@@ -326,7 +329,8 @@ Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: inc
 **Claude's proposal of 2026-11-15, from reading the code. Magnus hasn't seen it: he gave Claude the go-ahead to
 continue by its own judgment, and asked for what it could build on its own overnight.** What is decided about the
 Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside Anki, in parts that
-each leave JAStudio usable. Parts 1 to 3 are built. Part 4 waits for Magnus to have run a sync inside Anki.
+each leave JAStudio usable. Parts 1 to 3 are built. Magnus ran a sync inside Anki on 2026-11-15, which "runs fine":
+it read 79,719 study-notes, wrote none, and found none that belongs to no note. Part 4 waits for his word.
 
 **What tells JAStudio of Anki's changes today,** all of it to go:
 
@@ -446,13 +450,18 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
 - **Not in the window:** which notes had changed, were written or lost their study-note. It gives the counts.
   JAStudio's MCP server's `sync_with_anki` lists them.
 - **Specified by opening it,** on Avalonia's headless platform, pressing Sync, and rendering it before and after.
-- **Not tried inside Anki.** Claude can't restart Anki. Until part 4 the notifications still keep JAStudio and Anki
-  in step, so the first syncs there should find little to do: they're the check that a sync does no harm.
+- **Tried inside Anki by Magnus on 2026-11-15:** "The sync runs fine". It read 79,719 study-notes, wrote none, and
+  found no note whose study-note had changed or was gone, and no study-note that belongs to no note. Until part 4 the
+  notifications still keep JAStudio and Anki in step, so a sync there finds little to do.
+- **The names of increment 2 wait for Magnus's pass, which he deferred** (2026-11-15: "Defer this. Keep your names and
+  the comments for now."): those marked `review-naming:studying:` since increment 2, among them `SRSSync`,
+  `SRSSyncReport`, `StudyNotesReadFromTheSRS` and `AnkisAvailability`, and the `//review:` in `WorkspaceMainMenu` on
+  the menu's place for the Studying window and its key, Ctrl+Shift+Y.
 
 ## Increment 4, its first piece as built: the Anki add-on's HTTP server
 
-**Built 2026-11-15 on Claude's design calls below, which Magnus hasn't commented on. Nothing starts the server yet:
-Anki works on pythonnet as before.** It's the Python package `jastudio.anki_http`, in the Anki add-on.
+**Built 2026-11-15 on Claude's design calls below, which Magnus found "OK for now" the same day. Nothing starts the
+server yet: Anki works on pythonnet as before.** It's the Python package `jastudio.anki_http`, in the Anki add-on.
 
 - **`HttpServerForJAStudio`** serves on the loopback address, on a port the system picks, with Python's standard
   library alone (`http.server`), on a thread of its own and a thread for each request.
@@ -488,7 +497,9 @@ Anki works on pythonnet as before.** It's the Python package `jastudio.anki_http
 - *`AnkiForJAStudio` for the real Anki,* and starting the server as a profile opens.
 - *How JAStudio finds the server:* its port and its token.
 - *JAStudio's side:* a seam for `AnkiFacade`, which is a static class, its implementation over HTTP, and the
-  specification that compares the Python functions with the C# contract.
+  specification that compares the Python functions with the C# contract. The seam is interfaces (Magnus, 2026-11-15:
+  "Interfaces should work fine for this. Go with your preference."), one for each group of functions, as the
+  study-notes, the tags and the windows already have.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
@@ -545,7 +556,7 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 - **How long to show a question, and the settings the scheduling hooks read:** asked of JAStudio for each card, or sent
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
-- **Tessaging or interfaces inside JAStudio.**
+- **Tessaging inside JAStudio,** after the move: the move itself uses interfaces.
 - **With several JAStudios connected:**
   - How the add-on learns that one stopped without saying so.
   - Which JAStudio's sync imports, for as long as importing from Anki exists. An import deletes its raw notes from
