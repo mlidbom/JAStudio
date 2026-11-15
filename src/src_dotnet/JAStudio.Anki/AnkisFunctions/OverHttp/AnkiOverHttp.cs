@@ -12,8 +12,7 @@ namespace JAStudio.Anki.AnkisFunctions.OverHttp;
 /// <see cref="CallToAnkiFailedException"/> when the function fails in Anki.
 /// </remarks>
 /// <remarks>
-/// wip: nothing uses it yet but its specifications, and it has no <see cref="IAnkisWindows"/>: the add-on's server doesn't serve the functions<br/>
-/// that drive Anki's windows yet. The plan is in <c>dev_docs/moving-jastudio-out-of-anki.md</c>.
+/// wip: nothing uses it yet but its specifications. The plan is in <c>dev_docs/moving-jastudio-out-of-anki.md</c>.
 /// </remarks>
 public sealed partial class AnkiOverHttp : IDisposable
 {
@@ -28,12 +27,14 @@ public sealed partial class AnkiOverHttp : IDisposable
       Tags = new ItsTags(_server);
       Media = new ItsMedia(_server);
       Database = new ItsDatabase(_server);
+      Windows = new ItsWindows(_server);
    }
 
    public IAnkisNotes Notes { get; }
    public IAnkisTags Tags { get; }
    public IAnkisMedia Media { get; }
    public IAnkisDatabase Database { get; }
+   public IAnkisWindows Windows { get; }
 
    public void Dispose() => _server.Dispose();
 }

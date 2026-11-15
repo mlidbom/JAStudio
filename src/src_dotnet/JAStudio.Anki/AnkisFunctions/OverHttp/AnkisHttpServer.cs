@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -25,7 +24,7 @@ sealed class AnkisHttpServer : IDisposable
    /// The version of the contract this JAStudio speaks: the functions it calls in Anki, their arguments and their answers. It changes whenever one<br/>
    /// of them does, together with the add-on's <c>CONTRACT_VERSION</c>.
    /// </summary>
-   const int ContractVersion = 1;
+   const int ContractVersion = 2;
 
    readonly HttpClient _http;
    readonly FileInfo _collection;

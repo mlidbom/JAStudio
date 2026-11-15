@@ -23,11 +23,11 @@ public interface IAnkisNotes
    /// <summary>Gives the notes <paramref name="noteIds"/> the tag <paramref name="tag"/>. The add-on's <c>notes_add_tag</c>.</summary>
    void AddTag(IReadOnlyList<long> noteIds, string tag);
 
-   /// <summary>Permanently deletes the notes <paramref name="noteIds"/> from Anki. The add-on's <c>notes_remove</c>.</summary>
+   /// <summary>Permanently deletes the notes <paramref name="noteIds"/> from Anki, with their cards and their review history. The add-on's <c>notes_remove</c>.</summary>
    void Delete(IReadOnlyList<long> noteIds);
 
-   /// <summary>Permanently deletes the note <paramref name="noteId"/> from Anki, with its cards and their review history. The add-on's <c>note_remove</c>.</summary>
-   void Delete(long noteId);
+   /// <summary>Permanently deletes the note <paramref name="noteId"/> from Anki, as <see cref="Delete(IReadOnlyList{long})"/> deletes several.</summary>
+   void Delete(long noteId) => Delete([noteId]);
 
    /// <summary>
    /// Writes <paramref name="fields"/>, by their names in Anki, into the note <paramref name="noteId"/>: the note's other fields, and its tags, stay as<br/>

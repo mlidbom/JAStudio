@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using JAStudio.Anki.AnkisFunctions.OverHttp;
 
@@ -44,6 +46,13 @@ sealed class AnkiServingACopyOfTheTestCollection : IDisposable
 
    /// <summary>Anki's own sync, with AnkiWeb, has finished: Anki answers JAStudio's calls again.</summary>
    public void ItsOwnSyncFinishes() => AnkisHttpServersForSpecifications.AnswerTo($"ankis-own-sync-finishes {_id}");
+
+   /// <summary>
+   /// What this Anki's windows were asked for, in order, each in words, such as <c>open the browser on: nid:215</c>: it has no windows, so it<br/>
+   /// records each call where Anki's windows would carry it out (Python's <c>WindowsThatRecordWhatTheyAreAskedFor</c>).
+   /// </summary>
+   public IReadOnlyList<string> WhatItsWindowsWereAskedFor() =>
+      [.. AnkisHttpServersForSpecifications.AnswerTo($"what-its-windows-were-asked-for {_id}").GetProperty("askedFor").EnumerateArray().Select(it => it.GetString() ?? "")];
 
    /// <summary>The add-on stops serving JAStudio, as when Anki's profile closes: its access file and its copy of the collection are removed.</summary>
    public void StopsServing()

@@ -14,8 +14,6 @@ public sealed partial class AnkiOverHttp
 
       public void Delete(IReadOnlyList<long> noteIds) => _server.Call("notes_remove", ("note_ids", noteIds));
 
-      public void Delete(long noteId) => _server.Call("note_remove", ("note_id", noteId));
-
       public void WriteTheFields(long noteId, IReadOnlyDictionary<string, string> fields) => _server.Call("study_note_write", ("anki_note_id", noteId), ("fields", fields));
 
       public void SuspendAllCardsOf(long noteId) => _server.Call("note_suspend_all_cards", ("note_id", noteId));

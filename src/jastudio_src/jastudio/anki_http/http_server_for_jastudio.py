@@ -31,6 +31,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from jaspythonutils.sysutils.typed import non_optional
 
+from jastudio.anki_http.functions_on_ankis_windows import FunctionsOnAnkisWindows
 from jastudio.anki_http.functions_on_the_collection import FunctionsOnTheCollection, JsonText
 
 if TYPE_CHECKING:
@@ -39,7 +40,7 @@ if TYPE_CHECKING:
     from jastudio.anki_http.anki_for_jastudio import AnkiForJAStudio
     from jastudio.anki_http.functions_on_the_collection import JsonValue
 
-CONTRACT_VERSION = 1
+CONTRACT_VERSION = 2
 """The version of what the server serves: the functions, their arguments and their answers. It changes whenever one of them does."""
 
 
@@ -67,7 +68,7 @@ class Answer:
 class HttpServerForJAStudio:
     def __init__(self, anki: AnkiForJAStudio) -> None:
         self._anki: AnkiForJAStudio = anki
-        self._functions: dict[str, Callable[..., JsonValue]] = FunctionsOnTheCollection(anki).by_name
+        self._functions: dict[str, Callable[..., JsonValue]] = FunctionsOnTheCollection(anki).by_name | FunctionsOnAnkisWindows(anki.windows()).by_name
         self._server: ThreadingHTTPServer | None = None
         self.token: str = secrets.token_urlsafe(32)
         """What every request has to carry, as "Authorization: Bearer <token>": a new one each time Anki starts."""

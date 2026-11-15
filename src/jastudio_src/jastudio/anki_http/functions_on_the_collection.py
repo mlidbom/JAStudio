@@ -48,7 +48,6 @@ class FunctionsOnTheCollection:
             "study_note_write": self.study_note_write,
             "note_suspend_all_cards": self.note_suspend_all_cards,
             "note_unsuspend_all_cards": self.note_unsuspend_all_cards,
-            "note_remove": self.note_remove,
             "col_read_json": self.col_read_json,
             "get_note_id_from_card_id": self.get_note_id_from_card_id,
             "media_add_file": self.media_add_file,
@@ -70,27 +69,27 @@ class FunctionsOnTheCollection:
         self._collection.tags.bulk_add(_note_ids(note_ids), tag)
 
     def notes_remove(self, note_ids: list[int]) -> None:
-        """Permanently deletes the notes from Anki."""
+        """Permanently deletes the notes from Anki, with their cards and their review history."""
         self._collection.remove_notes(_note_ids(note_ids))
 
     # ── Tags ──
     # Each change runs as an Anki operation, as the browser runs its own: Anki's Edit > Undo undoes it, and Anki's windows are told of it.
 
     def tags_add_to_notes(self, note_ids: list[int], tag: str) -> None:
-        self._anki.tell_the_windows_of(self._collection.tags.bulk_add(_note_ids(note_ids), tag))
+        self._anki.windows().tell_of(self._collection.tags.bulk_add(_note_ids(note_ids), tag))
 
     def tags_remove_from_notes(self, note_ids: list[int], tag: str) -> None:
         """Removes exactly the tag from the notes, ignoring case as Anki does, and leaves the tags below it, as JAStudio removes a note's own
         tag. Anki's bulk_remove would remove those too, so this is Anki's find and replace of the whole tag with nothing."""
-        self._anki.tell_the_windows_of(self._collection.tags.find_and_replace(_note_ids(note_ids), f"^{re.escape(tag)}$", "", regex=True, match_case=False))
+        self._anki.windows().tell_of(self._collection.tags.find_and_replace(_note_ids(note_ids), f"^{re.escape(tag)}$", "", regex=True, match_case=False))
 
     def tags_rename(self, path: str, renamed_path: str) -> None:
         """Renames the tag and every tag below it, on every note, as the browser's sidebar does."""
-        self._anki.tell_the_windows_of(self._collection.tags.rename(path, renamed_path))
+        self._anki.windows().tell_of(self._collection.tags.rename(path, renamed_path))
 
     def tags_delete(self, path: str) -> None:
         """Removes the tag and every tag below it from every note, as the browser's sidebar does."""
-        self._anki.tell_the_windows_of(self._collection.tags.remove(path))
+        self._anki.windows().tell_of(self._collection.tags.remove(path))
 
     def tags_number_of_notes_with_a_tag_in(self, path: str) -> int:
         """The number of notes with the tag or a tag below it, as clicking the tag in the browser's sidebar finds them."""
@@ -115,10 +114,6 @@ class FunctionsOnTheCollection:
     def note_unsuspend_all_cards(self, note_id: int) -> None:
         collection = self._collection
         collection.sched.unsuspend_cards(collection.card_ids_of_note(NoteId(note_id)))
-
-    def note_remove(self, note_id: int) -> None:
-        """Permanently deletes the note from Anki, with its cards and their review history."""
-        self._collection.remove_notes([NoteId(note_id)])
 
     # ── The collection's database ──
 

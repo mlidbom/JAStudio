@@ -44,7 +44,7 @@ def test_an_answer_says_that_the_server_closes_the_connection_after_it(jastudio:
 
 
 def test_the_contract_is_served_with_its_version(jastudio: JAStudioCallingAnki) -> None:
-    assert jastudio.get("/contract") == Answered(200, {"result": {"version": 1}})
+    assert jastudio.get("/contract") == Answered(200, {"result": {"version": 2}})
 
 
 def test_the_collection_anki_has_open_is_served_by_its_path(jastudio: JAStudioCallingAnki) -> None:
@@ -115,7 +115,7 @@ def test_study_note_write_writes_the_fields_given_and_japanese_text_arrives_whol
 def test_tags_add_to_notes_adds_the_tag_and_tells_ankis_windows_of_the_operation(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
     jastudio.result_of("tags_add_to_notes", note_ids=[A_VOCABS_ANKI_NOTE_ID], tag="flagged")
     assert "flagged" in tags_of_the_vocab(anki)
-    assert len(anki.changes_its_windows_were_told_of) == 1
+    assert len(anki.its_windows.changes_told_of) == 1
 
 
 def test_tags_remove_from_notes_removes_exactly_the_tag(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
@@ -138,7 +138,7 @@ def test_tags_delete_removes_the_tag_and_every_tag_below_it_from_every_note(jast
 def test_notes_add_tag_gives_the_notes_the_tag_without_telling_ankis_windows(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
     jastudio.result_of("notes_add_tag", note_ids=[A_VOCABS_ANKI_NOTE_ID], tag="jastudio::imported")
     assert "jastudio::imported" in tags_of_the_vocab(anki)
-    assert anki.changes_its_windows_were_told_of == []
+    assert anki.its_windows.changes_told_of == []
 
 
 def test_note_suspend_all_cards_suspends_them_and_note_unsuspend_all_cards_unsuspends_them(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
@@ -149,10 +149,9 @@ def test_note_suspend_all_cards_suspends_them_and_note_unsuspend_all_cards_unsus
     assert len(anki.collection().find_cards(suspended_cards_of_the_vocab)) == 0
 
 
-def test_note_remove_and_notes_remove_delete_the_notes(jastudio: JAStudioCallingAnki) -> None:
-    two_other_vocab = [note_id for note_id in cast("list[int]", jastudio.result_of("notes_find", search="note:_Vocab")) if note_id != A_VOCABS_ANKI_NOTE_ID][:2]
-    jastudio.result_of("note_remove", note_id=A_VOCABS_ANKI_NOTE_ID)
-    jastudio.result_of("notes_remove", note_ids=two_other_vocab)
+def test_notes_remove_deletes_the_notes(jastudio: JAStudioCallingAnki) -> None:
+    three_vocab = cast("list[int]", jastudio.result_of("notes_find", search="note:_Vocab"))[:3]
+    jastudio.result_of("notes_remove", note_ids=three_vocab)
     assert len(cast("list[int]", jastudio.result_of("notes_find", search="note:_Vocab"))) == 250
 
 
@@ -168,3 +167,25 @@ def test_media_add_file_copies_the_file_into_ankis_media_folder_and_answers_with
     media_folder = cast("str", jastudio.result_of("anki_media_dir"))
     assert name_in_anki == "recording.mp3"
     assert (a_file.parent / media_folder / name_in_anki).read_bytes() == b"ID3"
+
+
+# ── The functions that drive Anki's windows ──
+
+def test_browser_execute_lookup_asks_ankis_windows_to_open_the_browser_on_the_search(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
+    jastudio.result_of("browser_execute_lookup", query="nid:215")
+    assert anki.its_windows.asked_for == ["open the browser on: nid:215"]
+
+
+def test_browser_execute_lookup_and_show_previewer_asks_ankis_windows_for_the_browser_and_the_previewer(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
+    jastudio.result_of("browser_execute_lookup_and_show_previewer", query="nid:215")
+    assert anki.its_windows.asked_for == ["open the browser and the previewer on: nid:215"]
+
+
+def test_ui_show_tooltip_asks_ankis_windows_to_show_the_message_for_that_long_with_its_japanese_whole(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
+    jastudio.result_of("ui_show_tooltip", message="Reparsed 3 sentences: 勉強", period_ms=5000)
+    assert anki.its_windows.asked_for == ["show a tooltip for 5000 ms: Reparsed 3 sentences: 勉強"]
+
+
+def test_ui_refresh_asks_ankis_windows_to_refresh(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
+    jastudio.result_of("ui_refresh")
+    assert anki.its_windows.asked_for == ["refresh"]

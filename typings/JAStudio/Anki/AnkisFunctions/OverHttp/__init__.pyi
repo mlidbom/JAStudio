@@ -1,7 +1,7 @@
 import typing, clr
 from System import IDisposable, Exception, IEquatable_1
 from System.IO import FileInfo
-from JAStudio.Anki.AnkisFunctions import IAnkisDatabase, IAnkisMedia, IAnkisNotes, IAnkisTags
+from JAStudio.Anki.AnkisFunctions import IAnkisDatabase, IAnkisMedia, IAnkisNotes, IAnkisTags, IAnkisWindows
 from System.Collections import IDictionary
 from System.Reflection import MethodBase
 from System.Net import HttpStatusCode
@@ -16,6 +16,8 @@ class AnkiOverHttp(IDisposable):
     def Notes(self) -> IAnkisNotes: ...
     @property
     def Tags(self) -> IAnkisTags: ...
+    @property
+    def Windows(self) -> IAnkisWindows: ...
     def Dispose(self) -> None: ...
 
 

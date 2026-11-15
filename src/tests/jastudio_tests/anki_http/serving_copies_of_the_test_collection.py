@@ -8,6 +8,7 @@ It reads commands from standard input, a line each, and answers each with a line
     stop <id>                         stops that serving, and removes its copy of the collection and its access file's folder
     ankis-own-sync-starts <id>        has that server refuse calls, as while Anki's own sync is under way
     ankis-own-sync-finishes <id>      has it serve them again
+    what-its-windows-were-asked-for <id>   what that Anki's windows were asked for, in order, each in words: {"askedFor"}
     access-file-of-this-user          the access file a JAStudio of this user reads, as the add-on names it: {"accessFile"}
 
 It ends when standard input ends, as it does when the specifications' process ends.
@@ -73,6 +74,8 @@ class ServedCopies:
         if command in ("ankis-own-sync-starts", "ankis-own-sync-finishes"):
             self._by_id[int(argument)].anki.its_own_sync_is_under_way = command == "ankis-own-sync-starts"
             return {"ankisOwnSyncIsUnderWay": command == "ankis-own-sync-starts"}
+        if command == "what-its-windows-were-asked-for":
+            return {"askedFor": list(self._by_id[int(argument)].anki.its_windows.asked_for)}
         if command == "access-file-of-this-user":
             from jastudio.anki_http.serving_jastudio import the_access_file_of_this_user
             return {"accessFile": str(the_access_file_of_this_user())}
