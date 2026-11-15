@@ -41,6 +41,9 @@ class ServingJAStudio:
         self._access_file: Path = access_file
         self._server: HttpServerForJAStudio | None = None
 
+    @property
+    def is_serving(self) -> bool: return self._server is not None
+
     def start(self) -> None:
         """Starts the server, then writes the access file: a JAStudio that finds the file finds the server serving."""
         server = HttpServerForJAStudio(self._anki)
