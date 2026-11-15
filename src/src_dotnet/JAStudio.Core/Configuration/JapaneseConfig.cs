@@ -57,6 +57,12 @@ public class JapaneseConfig
 
    public List<ConfigurationValue<bool>> SentenceViewToggles { get; }
 
+   /// <summary>
+   /// Whether a sentence's page in the workspace shows the breakdown its parsing case expects beside the one the sentence displays, when the two<br/>
+   /// differ in any way. Not one of the <see cref="SentenceViewToggles"/>: the cards have no such view.
+   /// </summary>
+   public ConfigurationValue<bool> ShowWhatAParsingCaseExpectsBesideTheBreakdown { get; }
+
    // Performance toggles
    public ConfigurationValue<bool> PreCacheCardStudyingStatus { get; }
    public ConfigurationValue<bool> LoadStudioInForeground { get; }
@@ -136,6 +142,8 @@ public class JapaneseConfig
          HideAllCompounds,
          ShowSentenceBreakdownInEditMode
       ];
+
+      ShowWhatAParsingCaseExpectsBesideTheBreakdown = Add(New("show_what_a_parsing_case_expects_beside_the_breakdown", "Show what a parsing case expects beside the sentence breakdown", true, To.Bool));
 
       // performance toggles
       PreCacheCardStudyingStatus = Add(New("pre_cache_card_studying_status", "Cache card studying status on startup. Only disable for dev/testing purposes. [Requires restart]", false, To.Bool));

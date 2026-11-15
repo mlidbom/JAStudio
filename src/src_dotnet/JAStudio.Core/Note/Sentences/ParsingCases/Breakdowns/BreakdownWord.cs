@@ -4,14 +4,14 @@ using JAStudio.Core.UI.Web.Sentence;
 namespace JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 
 /// <summary>
-/// A word the sentence breakdown displays, written out to read: as <see cref="MatchViewModel"/> shows it, with the vocab it's matched to by<br/>
-/// its question as well as its id.
+/// A word the sentence breakdown displays, written out to read: as <see cref="MatchViewModel"/> shows it when the breakdown isn't in edit mode,<br/>
+/// with the vocab it's matched to by its question as well as its id.
 /// </summary>
 /// <param name="Form">The word as it's parsed: <see cref="MatchViewModel.ParsedForm"/>.</param>
 /// <param name="StartIndex">Where in the sentence the word starts, in characters.</param>
 /// <param name="Variant">"surface" for a word matched by its form as the sentence has it; "base" for one matched by its dictionary form.</param>
 /// <param name="ShownAs">
-/// The form the breakdown shows beside the word, when it isn't the word's own (<see cref="MatchViewModel.DisplayVocabForm"/>): such as う for<br/>
+/// The form the breakdown shows beside the word, when it isn't the word's own (<see cref="MatchViewModel.FormShownBesideTheWordOutsideEditMode"/>): such as う for<br/>
 /// る, the vocab's form, or <c>[MISSING]</c> for a word matched to nothing. Null when it shows none.
 /// </param>
 /// <param name="IsEmergencyDisplayed">
@@ -35,7 +35,7 @@ public sealed record BreakdownWord(string Form, int StartIndex, string Variant, 
       new(displayedMatch.ParsedForm,
           displayedMatch.Match.StartIndex,
           displayedMatch.Match.Variant.IsSurface ? SurfaceVariant : BaseVariant,
-          displayedMatch.DisplayVocabForm ? displayedMatch.VocabForm : null,
+          displayedMatch.FormShownBesideTheWordOutsideEditMode,
           displayedMatch.Match.IsEmergencyDisplayed,
           displayedMatch.VocabMatch?.Vocab.GetQuestion(),
           displayedMatch.VocabMatch?.Vocab.GetId().ToString());

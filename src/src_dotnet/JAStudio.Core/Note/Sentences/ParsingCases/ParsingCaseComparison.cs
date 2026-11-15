@@ -26,4 +26,9 @@ public sealed record ParsingCaseComparison(ParsingCase Case, ParsingCaseResult P
    /// anything else of any case. Suspect, not an error: a person reviews the change, and accepts it or finds it wrong.
    /// </summary>
    public bool IsToReview => !ParsesAsExpected && !Fails;
+
+   /// <summary>Which of the three the comparison comes out as: <see cref="Fails"/>, <see cref="IsToReview"/> or <see cref="ParsesAsExpected"/>.</summary>
+   public ParsingCaseOutcome Outcome => Fails        ? ParsingCaseOutcome.Fails
+                                        : IsToReview ? ParsingCaseOutcome.IsToReview
+                                                       : ParsingCaseOutcome.ParsesAsExpected;
 }

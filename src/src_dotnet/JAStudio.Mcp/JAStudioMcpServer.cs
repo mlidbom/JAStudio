@@ -21,6 +21,7 @@ using JAStudio.Mcp.Tools.Editing;
 using JAStudio.Mcp.Tools.Matching;
 using JAStudio.Mcp.Tools.Memory;
 using JAStudio.Mcp.Tools.Notes;
+using JAStudio.Mcp.Tools.ParsingCases;
 using JAStudio.Mcp.Tools.Rebuilding;
 using JAStudio.Mcp.Tools.Reservoir;
 using JAStudio.Mcp.Tools.Saving;
@@ -139,7 +140,8 @@ public sealed partial class JAStudioMcpServer
              .WithTools<SyncTools>(ToolResultJsonOptions)
              .WithTools<ReservoirTools>(ToolResultJsonOptions)
              .WithTools<MemoryTools>(ToolResultJsonOptions)
-             .WithTools<SharedConditionTools>(ToolResultJsonOptions);
+             .WithTools<SharedConditionTools>(ToolResultJsonOptions)
+             .WithTools<ParsingCaseTools>(ToolResultJsonOptions);
       builder.Services.AddSingleton<CorpusCheckout>();
       builder.Services.AddSingleton<OpenReservoirs>();
 

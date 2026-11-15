@@ -37,9 +37,12 @@ abstract class NotePageViewModel
    /// </summary>
    public abstract List<SpecMenuItem> MenuOf(INotePageElement element, string selection);
 
-   /// <summary>Runs the note view shortcut bound to <paramref name="keyGesture"/>, if any, as the key was pressed on the page.</summary>
+   /// <summary>Does what <paramref name="keyGesture"/> does as it's pressed on the page (<see cref="INotePageHost.KeyPressed"/>).</summary>
    public void KeyPressed(string keyGesture) => _host.KeyPressed(keyGesture);
 
-   /// <summary>Plays the note's own audio, if it has any, as the page is shown after the note was opened or a link to it followed, as Anki plays a card's.</summary>
+   /// <summary>
+   /// Plays the note's own audio, if it has any: as the page is shown after the note was opened or a link to it followed, as Anki plays a card's, and<br/>
+   /// again on r, as in Anki's reviewer.
+   /// </summary>
    public abstract void PlayTheNotesAudio();
 }

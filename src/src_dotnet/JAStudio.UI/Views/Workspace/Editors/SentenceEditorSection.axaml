@@ -11,6 +11,13 @@
         <TabItem Header="Text">
             <ScrollViewer>
                 <StackPanel Spacing="8" Margin="6">
+                    <Border Classes="section" IsVisible="{Binding ParsingCase.IsAParsingCase}">
+                        <StackPanel>
+                            <TextBlock Classes="sectionTitle" Text="Parsing case" />
+                            <ItemsControl ItemsSource="{Binding ParsingCase.Fields}" />
+                        </StackPanel>
+                    </Border>
+
                     <Border Classes="section">
                         <StackPanel>
                             <TextBlock Classes="sectionTitle" Text="Corpus" />

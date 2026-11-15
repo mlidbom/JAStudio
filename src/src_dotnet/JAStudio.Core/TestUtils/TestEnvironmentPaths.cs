@@ -22,6 +22,7 @@ public class TestEnvironmentPaths : IEnvironmentPaths, IDisposable
    public string UserFilesDir => Path.Combine(AddonRootDir, "user_files");
    public string DatabaseDir => Path.Combine(AddonRootDir, "jas_database");
    public string MediaDir => Path.Combine(DatabaseDir, "media");
+   public string TextToSpeechSettingsFile => Path.Combine(UserFilesDir, "text-to-speech.json");
 
    public void Dispose()
    {

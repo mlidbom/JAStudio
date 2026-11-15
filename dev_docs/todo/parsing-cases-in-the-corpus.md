@@ -132,13 +132,17 @@ change it), which `Accept` replaces. It moves into Core, onto the sentence.
   displayed vocab: the case's `Why` says what is wrong, and it stays unaccepted. The first such cases show which
   aspect to define next.
 
-**The commands of the sentence note,** which the note's menu and the MCP server both offer:
+**The commands of the sentence note,** which the note's menu and the MCP server both offer (`SentenceCommands`):
 
 - mark the sentence as a parsing case: `Expected` becomes what it parses to now, and its displayed vocab are
   unverified;
-- set the verdict on its displayed vocab, its name and its why;
 - accept what it parses to now as `Expected`;
 - stop it being a parsing case.
+
+**Its name, its why and the verdict on its displayed vocab are editable fields** (`SentenceEditableFields`:
+`parsingCase.name`, `parsingCase.why`, `parsingCase.verdictOnTheDisplayedVocab`), since a person edits them: the
+sentence's editor, its menu, its page and the MCP server's `edit_a_note` all go through the same three. They were
+commands at first; Claude changed that on its own judgment when the UI was built, for Magnus to check.
 
 **The Parsing cases tab,** in the workspace's navigation pane, beside the search: every parsing case, with its
 sentence, its name, its verdict, and what differs (nothing, the displayed vocab, or something else), filtered and
@@ -233,12 +237,44 @@ with identical data").
   branch `parsing-cases-in-the-corpus` of the worktree's clone of the corpus repository, and the source as
   `a82c0b425`, with the generated case files, the stripped-down corpus and the pointer to that corpus commit.
 
+**The corpus is handed over to its own line** (2026-11-15, on Magnus's word, with Anki closed): the branch merged
+into `main`, Magnus's corpus checkout fast-forwarded to `3949c927f8d`, fetched from the worktree's clone, the corpus's
+`main` pushed, and the main checkout built, so that Anki took the new code in when it started.
+
+**Step 4, the UI, is built** (2026-11-15), on the branch `parsing-cases-in-the-corpus`, after the merge above. It's
+described in [the workspace's design](../jastudio-workspace.md#the-parsing-cases-in-the-workspace-as-built).
+
+- **The Parsing cases tab** in the navigation pane (`e98442df8`): the cases in a grid, filtered by outcome, verdict
+  and text, sorted by any column, with the selected case's why and differences below it.
+- **The sentence page** (`e4ab4a5b3`) has a parsing case section: its name and why, the verdict as three buttons,
+  how it parses compared with what it expects, its differences, accepting what it parses to, and a check box that
+  shows the expected breakdown beside the sentence's own, row by row (`BreakdownBesideTheExpected`, `e874ddc26`).
+- **The sentence's menu** has a "Parsing case" submenu, and **its editor** the case's name and why.
+- **The MCP server** has `list_the_parsing_cases`, and its edits and commands report a change to a sentence's
+  parsing case (`a8956e86d`).
+- **A bug of the data type's was found and fixed** (`a74d17bb0`): what a parsing case recorded and compared followed
+  the setting that shows the breakdown in edit mode, so with edit mode on, every case compared as parsing otherwise.
+  `main` has that bug until this branch is merged again. It has no tab or page to show it yet.
+
+**Calls Claude made, for Magnus to check:**
+
+- **Showing the expected breakdown beside the sentence's own is on by default,** for every parsing case that parses
+  otherwise. Magnus's words were "the ability to toggle on".
+- **The cases listed in the tab stay listed until the filters change or the list is refreshed,** as the search's
+  results do: a case just accepted shows as parsing as expected, and doesn't vanish from under the mouse.
+- **A row of the tab opens on Enter or a double-click,** as elsewhere in the navigation pane. Going through many
+  cases may want the selected case shown at once.
+
+**Not done:**
+
+- **A change to a vocab doesn't refresh the tab or an open page by itself.** Each case is compared again when its
+  sentence is updated, when the tab is shown, and on Refresh. A vocab change that changes only a breakdown, and
+  not the sentence's stored parsing result, shows at the next of those.
+- **Verdicts on more than the displayed vocab,** as planned: the first cases that are wrong elsewhere show which
+  aspect to define next.
+
 **Next:**
 
-- **Step 4:** the Parsing cases tab, the sentence page showing the expected result beside the current one, the
-  commands in the sentence's menus, and an MCP tool listing the cases with what differs.
-- **Handing the corpus over to its own line,** on Magnus's word. JAStudio from before this branch can't read a
-  sentence that has a parsing case, so it goes in this order: this branch merged into `main`; Anki closed; Magnus's
-  corpus checkout fast-forwarded to `3949c927f8d`, fetched from the worktree's clone; the corpus's `main` pushed; Anki
-  started again on the new build. His corpus checkout was at `37f3f7fede7`, the commit the import started from,
-  when it was committed.
+- **Merging the branch into `main` again,** when the main checkout's session is at a point where it can take it.
+- **On `unidic`:** merge `main`, run on UniDic, and the Parsing cases tab lists the cases to judge, as
+  [judging what UniDic changes in parsing](judging-what-unidic-changes-in-parsing.md) plans.

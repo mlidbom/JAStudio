@@ -382,6 +382,13 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
          autogenerating a vocab's compound parts creates for parts that have none. Accepting a meaning moved from the menus into the notes
          (`VocabNote.AcceptMeaning`, `KanjiNote.AcceptMeaning`), which refuse it while the note has an answer of its own,
          as the menus only offer it then.
+       - **Done (2026-11-15): the parsing cases.** `list_the_parsing_cases` parses every parsing case of the corpus and
+         lists those that parse otherwise than they expect, those that fail first, each with its sentence's id, name,
+         why, verdict, outcome and differences, and how many cases there are of each outcome. A sentence's commands
+         mark it as a parsing case, accept what it parses to and make it ordinary again; its name, why and verdict are
+         editable fields. `edit_a_note` and `run_a_command_on_a_note` report a sentence's parsing case among what
+         changed, as `parsingCase`: null when it isn't one, or else its outcome and how many differences, since marking,
+         accepting and stopping change no editable field.
        - **Left out:** the menu items that open notes, copy text to the clipboard or open a dialog, and reparsing a
          vocab's sentences, which `edit_a_note` does itself when a field written changes how sentences parse.
        - **Done:** `create_a_note` creates a vocab, a sentence or a kanji from a text, as the context menu's "Create"

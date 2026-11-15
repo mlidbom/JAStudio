@@ -33,7 +33,7 @@ class UsingASpeech(TemporaryServiceCollection services)
       {
          IsOurs = true,
          IsTextToSpeech = true,
-         TextToSpeechVoice = $"{speech.Voice.Provider.Name} {speech.Voice.Name}",
+         TextToSpeechVoice = speech.Voice.NameWithItsProvider,
          VoiceGender = GenderOf(speech.Voice)
       });
       return fileName;

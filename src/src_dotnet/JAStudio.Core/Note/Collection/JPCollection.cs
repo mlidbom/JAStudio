@@ -204,24 +204,13 @@ public class JPCollection
       if(itsStudyNote == ItsStudyNote.IsDeleted) _studyNotesInTheSRS.DeleteTheStudyNoteOf(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
-      DeleteTheMediaNoOtherNoteUses();
+      DeleteTheMediaFilesNoNoteUses(note.MediaReferences.Select(it => it.FileName));
       _noteDeleted.OnNext(note);
       return;
 
       void TakeItOutOfItsWebOfPerfectSynonyms()
       {
          if(note is VocabNote vocab) vocab.RelatedNotes.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted();
-      }
-
-      void DeleteTheMediaNoOtherNoteUses()
-      {
-         var filesOfTheNote = note.MediaReferences.Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-         if(filesOfTheNote.Count == 0) return;
-
-         var filesOtherNotesUse = AllNotes().SelectMany(it => it.MediaReferences).Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-         filesOfTheNote.Where(it => !filesOtherNotesUse.Contains(it) && _mediaFileIndex.ContainsByOriginalFileName(it))
-                       .ToList()
-                       .ForEach(_mediaStorage.DeleteFile);
       }
 
       void RemoveFromItsCache()
@@ -233,6 +222,30 @@ public class JPCollection
             case SentenceNote sentence: Sentences.Cache.RemoveFromCache(sentence); break;
          }
       }
+   }
+
+   /// <summary>
+   /// Discards <paramref name="note"/>'s TTS audio, so that it has none (<see cref="Media.AudioReferenceList.DiscardTheTextToSpeechAudio"/>), and deletes<br/>
+   /// its files from the media layer, unless another note uses them, as a file HyperTTS made may be shared by notes with the same text. Their copies<br/>
+   /// in Anki's media folder are left to Anki's "Check Media", as a deleted note's are. Its recordings stay.
+   /// </summary>
+   public void DiscardTheTextToSpeechAudioOf(IHasTextToSpeechAudio note)
+   {
+      var itsFiles = note.Audio.TextToSpeech.Select(it => it.FileName).ToList();
+      note.Audio.DiscardTheTextToSpeechAudio();
+      DeleteTheMediaFilesNoNoteUses(itsFiles);
+   }
+
+   /// <summary>Deletes those of <paramref name="fileNames"/> that no note in the collection uses, and that the media layer has, from the media layer.</summary>
+   void DeleteTheMediaFilesNoNoteUses(IEnumerable<string> fileNames)
+   {
+      var candidates = fileNames.ToHashSet(StringComparer.OrdinalIgnoreCase);
+      if(candidates.Count == 0) return;
+
+      var filesNotesUse = AllNotes().SelectMany(it => it.MediaReferences).Select(it => it.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+      candidates.Where(it => !filesNotesUse.Contains(it) && _mediaFileIndex.ContainsByOriginalFileName(it))
+                .ToList()
+                .ForEach(_mediaStorage.DeleteFile);
    }
 
    /// <summary>Empties this collection, and forgets every note's Anki note id, as a load starts.</summary>

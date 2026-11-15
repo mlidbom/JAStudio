@@ -10,5 +10,8 @@ enum NavigationPaneTab
    NoteList,
 
    /// <summary>The <see cref="NavigationPaneViewModel.TagManagement"/>.</summary>
-   TagManagement
+   TagManagement,
+
+   /// <summary>The <see cref="NavigationPaneViewModel.ParsingCases"/>.</summary>
+   ParsingCases
 }

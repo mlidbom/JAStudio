@@ -8,11 +8,11 @@ from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.LanguageServices.JanomeEx.WordExtraction import WordExclusion, TextAnalysis, BreakdownParsingOptions
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextSetField_1, EditableTagsField_1, IEditableField_1
+from JAStudio.Core.Note.Sentences.ParsingCases import EditableVerdictOnTheDisplayedVocabField, ParsingCase, ParsingCaseComparison, ParsingCaseResult, Verdict
 from JAStudio.Core.Note.Media import AllAudioOfANote, ImageReference, AudioReferenceList, MediaReference, MediaReferenceList_1
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
 from JAStudio.Core.LanguageServices.JanomeEx import AnalysisServices
 from JAStudio.Core.Note.NoteFields import StripHtmlOnReadFallbackStringField, WritableStringValue, SentenceQuestionField
-from JAStudio.Core.Note.Sentences.ParsingCases import ParsingCase, ParsingCaseComparison, ParsingCaseResult, Verdict
 from JAStudio.Core.Storage.Media import AudioAttachment, SourceTag
 
 class CachingSentenceConfigurationField:
@@ -160,13 +160,8 @@ class ParsingResult:
 class SentenceCommands(abc.ABC):
     AcceptWhatItParsesToAsAParsingCase : NoteChangingCommand_1[SentenceNote]
     MarkAsAParsingCase : NoteChangingCommand_1[SentenceNote]
-    MarkTheDisplayedVocabBroken : NoteChangingCommand_1[SentenceNote]
-    MarkTheDisplayedVocabUnverified : NoteChangingCommand_1[SentenceNote]
-    NameTheParsingCase : NoteChangingCommandTakingAText_1[SentenceNote]
-    SayWhyItIsAParsingCase : NoteChangingCommandTakingAText_1[SentenceNote]
     SplitWithAWordBreakTag : NoteChangingCommandTakingAText_1[SentenceNote]
     StopBeingAParsingCase : NoteChangingCommand_1[SentenceNote]
-    VerifyTheDisplayedVocab : NoteChangingCommand_1[SentenceNote]
     @classmethod
     @property
     def All(cls) -> IReadOnlyList_1[INoteCommand_1[SentenceNote]]: ...
@@ -196,6 +191,8 @@ class SentenceEditableFields(abc.ABC):
     HiddenMatches : EditableSetField_2[SentenceNote, WordExclusion]
     HighlightedVocab : EditableTextSetField_1[SentenceNote]
     IncorrectMatches : EditableSetField_2[SentenceNote, WordExclusion]
+    ParsingCaseName : EditableTextField_1[SentenceNote]
+    ParsingCaseWhy : EditableTextField_1[SentenceNote]
     Question : EditableTextField_1[SentenceNote]
     Reading : EditableTextField_1[SentenceNote]
     SourceAnswer : EditableTextField_1[SentenceNote]
@@ -204,6 +201,7 @@ class SentenceEditableFields(abc.ABC):
     SourceName : EditableTextField_1[SentenceNote]
     SourceQuestion : EditableTextField_1[SentenceNote]
     Tags : EditableTagsField_1[SentenceNote]
+    VerdictOnTheDisplayedVocab : EditableVerdictOnTheDisplayedVocabField
     @classmethod
     @property
     def All(cls) -> IReadOnlyList_1[IEditableField_1[SentenceNote]]: ...

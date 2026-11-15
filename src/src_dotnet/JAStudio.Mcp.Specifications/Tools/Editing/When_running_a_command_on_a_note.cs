@@ -5,6 +5,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Mcp.Tools.Editing.Commands;
 using JAStudio.Mcp.Tools.Notes;
@@ -23,6 +24,10 @@ public class When_running_a_command_on_a_note : McpServerSpecification
 
    protected CallToolResult Run(JPNote note, string command, string? text = null) =>
       CallTool("run_a_command_on_a_note", new Dictionary<string, object?> { ["noteId"] = note.GetId().ToString(), ["command"] = command, ["text"] = text });
+
+   /// <summary>Each change <paramref name="run"/> reports, as <c>field: before -> after</c>, the values in JSON.</summary>
+   protected static string[] ChangesReportedBy(NoteCommandRun run) =>
+      [.. run.Changes.Select(it => $"{it.Field}: {it.Before?.ToJsonString() ?? "null"} -> {it.After?.ToJsonString() ?? "null"}")];
 
    protected VocabNote TheVocabWithTheQuestion(string question) => GetService<JPCollection>().Vocab.WithQuestion(question).Single();
 
@@ -102,5 +107,32 @@ public class When_running_a_command_on_a_note : McpServerSpecification
 
       [XF] public void the_question_has_a_word_break_tag_after_the_words_first_character() =>
          _run.Changes.Single().After.Must().Satisfy(it => JsonNode.DeepEquals(it, JsonValue.Create("会いに行<wbr>った")));
+   }
+
+   /// <summary>The sentence 会いに行った.</summary>
+   public class marking_a_sentence_as_a_parsing_case : When_running_a_command_on_a_note
+   {
+      readonly SentenceNote _sentence;
+      readonly NoteCommandRun _run;
+
+      public marking_a_sentence_as_a_parsing_case()
+      {
+         _sentence = CreateSentence("会いに行った");
+         _run = ResultOf<NoteCommandRun>(Run(_sentence, "markAsAParsingCase"));
+      }
+
+      [XF] public void the_sentence_is_a_parsing_case() => _sentence.ParsingCase.Must().NotBeNull();
+      [XF] public void the_run_reports_that_its_parsing_case_went_from_none_to_one_that_parses_as_expected() =>
+         ChangesReportedBy(_run).Must().SequenceEqual(["""parsingCase: null -> {"outcome":"parsesAsExpected","differences":0}"""]);
+
+      public class and_then_making_it_an_ordinary_sentence_again : marking_a_sentence_as_a_parsing_case
+      {
+         readonly NoteCommandRun _runMakingItOrdinary;
+         public and_then_making_it_an_ordinary_sentence_again() => _runMakingItOrdinary = ResultOf<NoteCommandRun>(Run(_sentence, "stopBeingAParsingCase"));
+
+         [XF] public void the_sentence_is_no_parsing_case() => _sentence.ParsingCase.Must().BeNull();
+         [XF] public void the_run_reports_that_its_parsing_case_went_to_none() =>
+            ChangesReportedBy(_runMakingItOrdinary).Must().SequenceEqual(["""parsingCase: {"outcome":"parsesAsExpected","differences":0} -> null"""]);
+      }
    }
 }

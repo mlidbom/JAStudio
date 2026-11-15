@@ -5,8 +5,8 @@ from JAStudio.Core.Note.ConditionTrees import ConditionPosition
 from JAStudio.Core.Note import JPNote
 from System.Text.Json.Nodes import JsonObject
 from JAStudio.Core.Note.Search.TextProperties import TextProperty
-from JAStudio.Core.Note.Search.NoteTypeProperties import NoteTypeProperty
 from JAStudio.Core.Note.Search.TrueOrFalseProperties import TrueOrFalseProperty
+from JAStudio.Core.Note.Search.NoteTypeProperties import NoteTypeProperty
 from JAStudio.Core.Note.Search.TagProperties import TagsProperty
 
 class NoteCondition(IEquatable_1[NoteCondition], abc.ABC):
@@ -46,6 +46,7 @@ class NoteConditionJson(abc.ABC):
 
 class NoteProperties(abc.ABC):
     Answer : TextProperty
+    HasAudio : TrueOrFalseProperty
     NoteType : NoteTypeProperty
     ParsingCase : TrueOrFalseProperty
     Question : TextProperty

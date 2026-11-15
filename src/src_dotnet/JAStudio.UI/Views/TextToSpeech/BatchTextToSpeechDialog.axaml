@@ -1,0 +1,74 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:textToSpeech="clr-namespace:JAStudio.UI.ViewModels.TextToSpeech"
+        xmlns:textToSpeechViews="clr-namespace:JAStudio.UI.Views.TextToSpeech"
+        x:Class="JAStudio.UI.Views.TextToSpeech.BatchTextToSpeechDialog"
+        x:DataType="textToSpeech:BatchTextToSpeechDialogViewModel"
+        Title="{Binding Title}"
+        Width="1640"
+        Height="900">
+
+    <!-- The buttons don't take the keyboard, which stays on the notes, so that the dialog's keys act on the selected note. -->
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Voice for the batch:" VerticalAlignment="Center" />
+                <ComboBox ItemsSource="{Binding ChosenVoices}" SelectedItem="{Binding BatchVoice}" MinWidth="320" />
+                <Button Content="Try it on the selected note (P)" Click="OnTryTheBatchVoice" IsEnabled="{Binding CanTryTheBatchVoice}" Focusable="False" Padding="8,2" />
+                <Button Content="{Binding RunTheBatchText}" Click="OnRunTheBatch" IsEnabled="{Binding CanRunTheBatch}" IsVisible="{Binding !IsRunning}" Focusable="False" Padding="8,2" />
+                <Button Content="Stop" Click="OnStopTheBatch" IsVisible="{Binding IsRunning}" Focusable="False" Padding="8,2" />
+                <Button Content="Voices..." Click="OnChooseTheVoices" Focusable="False" Padding="8,2" />
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsRunning}" Width="80" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Summary}" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Foreground="OrangeRed"
+                       IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+            <Button DockPanel.Dock="Right" Content="Close" IsCancel="True" Click="OnClose" />
+            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Gray"
+                       Text="↑ and ↓ select a note and play its TTS audio, 0 or Space plays it again, P tries the batch's voice on it, 1 to 9 play its attempts, and Enter uses the selected attempt." />
+        </DockPanel>
+
+        <Grid ColumnDefinitions="*,12,760">
+            <DockPanel Grid.Column="0">
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="44,88,*,300,280" Margin="12,0,12,4">
+                    <TextBlock Grid.Column="2" Text="Text" FontWeight="SemiBold" />
+                    <TextBlock Grid.Column="3" Text="TTS audio now" FontWeight="SemiBold" />
+                    <TextBlock Grid.Column="4" Text="Batch" FontWeight="SemiBold" />
+                </Grid>
+                <ListBox x:Name="NoteList" ItemsSource="{Binding Notes}" SelectedItem="{Binding SelectedNote}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="textToSpeech:NoteInTheBatchViewModel">
+                            <Grid ColumnDefinitions="44,88,*,300,280">
+                                <Button Grid.Column="0" Content="▶" Click="OnPlayANotesAudio" IsEnabled="{Binding CurrentAudio.CanPlay}" Focusable="False" Padding="6,0"
+                                        ToolTip.Tip="Plays the note's TTS audio as it is now (0)." />
+                                <Button Grid.Column="1" Content="{Binding TheBatchVoicesButton}" Click="OnTryTheBatchVoiceOnANote" Focusable="False" Padding="6,0"
+                                        HorizontalAlignment="Left" MinWidth="76" HorizontalContentAlignment="Center"
+                                        ToolTip.Tip="▶ plays the note's speech by the batch's voice. Generate has the voice speak it, when there's none yet (P)." />
+                                <TextBlock Grid.Column="2" Text="{Binding Text}" FontFamily="{StaticResource JapaneseFont}" FontSize="16" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                           ToolTip.Tip="{Binding Text}" />
+                                <TextBlock Grid.Column="3" Text="{Binding CurrentAudioDescription}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="8,0,0,0"
+                                           ToolTip.Tip="{Binding CurrentAudio.Description}" />
+                                <TextBlock Grid.Column="4" Text="{Binding ProgressDescription}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="8,0,0,0"
+                                           ToolTip.Tip="{Binding ProgressDescription}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="10">
+                <Panel>
+                    <TextBlock Text="Select a note to hear its TTS audio, try other voices on it, or edit what's spoken." TextWrapping="Wrap" Foreground="Gray"
+                               IsVisible="{Binding SelectedNote, Converter={x:Static ObjectConverters.IsNull}}" />
+                    <Panel IsVisible="{Binding SelectedNote, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <textToSpeechViews:TextToSpeechForANoteView x:Name="ForTheSelectedNote" DataContext="{Binding SelectedNote.TextToSpeech}" />
+                    </Panel>
+                </Panel>
+            </Border>
+        </Grid>
+    </DockPanel>
+
+</Window>

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using JAStudio.Core;
 using JAStudio.Core.Note.Search;
+using JAStudio.UI.ViewModels.Workspace.Navigation.ParsingCases;
 using JAStudio.UI.ViewModels.Workspace.Navigation.TagManagement;
 using JAStudio.UI.Views.Workspace.Navigation;
 
@@ -8,7 +9,8 @@ namespace JAStudio.UI.ViewModels.Workspace.Navigation;
 
 /// <summary>
 /// The navigation pane on the left of a workspace (<see cref="NavigationPane"/>): ways to find notes to open in the workspace's tabs,<br/>
-/// as tabs of their own: the <see cref="Search"/>, the <see cref="NoteList"/> the note menus' "Open" items show, and the <see cref="TagManagement"/>.
+/// as tabs of their own: the <see cref="Search"/>, the <see cref="NoteList"/> the note menus' "Open" items show, the <see cref="TagManagement"/>, and the<br/>
+/// corpus's <see cref="ParsingCases"/>.
 /// </summary>
 partial class NavigationPaneViewModel : ObservableObject
 {
@@ -17,6 +19,7 @@ partial class NavigationPaneViewModel : ObservableObject
       Search = new NoteSearchViewModel(workspace, services);
       NoteList = new NoteListViewModel(workspace, services);
       TagManagement = new TagManagementViewModel(this, services);
+      ParsingCases = new ParsingCasesViewModel(workspace, services);
    }
 
    public NoteSearchViewModel Search { get; }
@@ -25,6 +28,8 @@ partial class NavigationPaneViewModel : ObservableObject
 
    public TagManagementViewModel TagManagement { get; }
 
+   public ParsingCasesViewModel ParsingCases { get; }
+
    /// <summary>Whether the pane is open. Closing it gives its space back to the tabs.</summary>
    [ObservableProperty] public partial bool IsOpen { get; set; } = true;
 
@@ -32,14 +37,19 @@ partial class NavigationPaneViewModel : ObservableObject
    [ObservableProperty] public partial double Width { get; set; } = 420;
 
    [ObservableProperty]
-   [NotifyPropertyChangedFor(nameof(IsSearchShown), nameof(IsNoteListShown), nameof(IsTagManagementShown))]
+   [NotifyPropertyChangedFor(nameof(IsSearchShown), nameof(IsNoteListShown), nameof(IsTagManagementShown), nameof(IsParsingCasesShown))]
    public partial NavigationPaneTab ShownTab { get; set; } = NavigationPaneTab.Search;
 
-   /// <summary>The <see cref="TagManagement"/>'s tag tree is computed from the notes' tags each time its tab is shown, so it shows the tags as they are then.</summary>
+   /// <summary>
+   /// The <see cref="TagManagement"/>'s tag tree is computed from the notes' tags each time its tab is shown, so it shows the tags as they are then.<br/>
+   /// Likewise the <see cref="ParsingCases"/> are parsed and compared each time their tab is shown.
+   /// </summary>
    partial void OnShownTabChanged(NavigationPaneTab value)
    {
       if(value == NavigationPaneTab.TagManagement)
          TagManagement.ShowTheTagsAsTheyAreNow();
+      if(value == NavigationPaneTab.ParsingCases)
+         ParsingCases.CompareTheCasesAsTheyParseNow();
    }
 
    /// <summary>Whether <see cref="ShownTab"/> is the <see cref="Search"/>. Bound to its tab, which sets it when clicked.</summary>
@@ -69,6 +79,16 @@ partial class NavigationPaneViewModel : ObservableObject
       set
       {
          if(value) ShownTab = NavigationPaneTab.TagManagement;
+      }
+   }
+
+   /// <summary>Whether <see cref="ShownTab"/> is the <see cref="ParsingCases"/>. Bound to its tab, which sets it when clicked.</summary>
+   public bool IsParsingCasesShown
+   {
+      get => ShownTab == NavigationPaneTab.ParsingCases;
+      set
+      {
+         if(value) ShownTab = NavigationPaneTab.ParsingCases;
       }
    }
 

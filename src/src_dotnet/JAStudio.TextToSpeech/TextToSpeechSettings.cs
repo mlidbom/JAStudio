@@ -11,8 +11,9 @@ using JAStudio.TextToSpeech.Google;
 namespace JAStudio.TextToSpeech;
 
 /// <summary>
-/// The text-to-speech settings: the tts-providers' keys and the <see cref="ChosenVoices"/>, from a JSON file in the user's profile,<br/>
-/// outside every repository: <see cref="FileInTheUserProfile"/>. A tts-provider without settings isn't offered, and with no file, none is.
+/// The text-to-speech settings: the tts-providers' keys and the <see cref="ChosenVoices"/>, from a JSON file, which the environment places,<br/>
+/// in the user's profile, outside every repository (<c>IEnvironmentPaths.TextToSpeechSettingsFile</c>). A tts-provider without settings isn't offered,<br/>
+/// and with no file, none is.
 /// </summary>
 /// <example>
 /// <code>
@@ -32,9 +33,6 @@ public sealed class TextToSpeechSettings
                                                            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                                                         };
 
-   /// <summary><c>%APPDATA%\JAStudio\text-to-speech.json</c>.</summary>
-   public static string FileInTheUserProfile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "JAStudio", "text-to-speech.json");
-
    public AzureSpeechSettings? Azure { get; init; }
 
    public GoogleTextToSpeechSettings? Google { get; init; }
@@ -42,17 +40,11 @@ public sealed class TextToSpeechSettings
    /// <summary>The voices offered when generating TTS audio for a note, in priority order. The first is the default. See <see cref="ChosenVoice"/>.</summary>
    public IReadOnlyList<ChosenVoice> ChosenVoices { get; init; } = [];
 
-   /// <summary>The settings in <see cref="FileInTheUserProfile"/>.</summary>
-   public static TextToSpeechSettings ReadFromTheUserProfile() => ReadFrom(FileInTheUserProfile);
-
    /// <summary>The settings in the file at <paramref name="filePath"/>, or none, when there is no file there.</summary>
    public static TextToSpeechSettings ReadFrom(string filePath) =>
       File.Exists(filePath)
          ? JsonSerializer.Deserialize<TextToSpeechSettings>(File.ReadAllText(filePath), TheFilesJson) ?? throw new InvalidDataException($"{filePath} holds no settings.")
          : new TextToSpeechSettings();
-
-   /// <summary>Writes these settings to <see cref="FileInTheUserProfile"/>, keys included, replacing what's there.</summary>
-   public void WriteToTheUserProfile() => WriteTo(FileInTheUserProfile);
 
    /// <summary>Writes these settings to the file at <paramref name="filePath"/>, keys included, replacing what's there.</summary>
    public void WriteTo(string filePath)

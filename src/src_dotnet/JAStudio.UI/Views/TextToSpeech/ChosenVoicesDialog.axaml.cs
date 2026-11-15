@@ -12,24 +12,26 @@ using JAStudio.UI.WindowPlaces;
 namespace JAStudio.UI.Views.TextToSpeech;
 
 /// <summary>
-/// The dialog for choosing the voices the TTS dialog offers, showing a <see cref="ChosenVoicesDialogViewModel"/>. Saving writes the chosen voices,<br/>
-/// in their order, into the settings file in the user's profile (<see cref="TextToSpeechSettings.FileInTheUserProfile"/>).
+/// The dialog for choosing the voices the TTS dialogs offer, showing a <see cref="ChosenVoicesDialogViewModel"/>. Saving writes the chosen voices,<br/>
+/// in their order, into the text-to-speech settings file (<see cref="IEnvironmentPaths.TextToSpeechSettingsFile"/>).
 /// </summary>
 /// <remarks>It plays the samples through a <see cref="SoundFlowAudioPlayer"/> of its own, closed with the dialog.</remarks>
 partial class ChosenVoicesDialog : Window
 {
    readonly ChosenVoicesDialogViewModel _dialog;
+   readonly string _settingsFile;
 
 #pragma warning disable CS8618 // For the XAML designer, which needs no view model.
    [Obsolete("For the XAML designer/previewer only")]
    public ChosenVoicesDialog() => InitializeComponent();
 #pragma warning restore CS8618
 
-   ChosenVoicesDialog(IFatalErrorHandler fatalErrorHandler)
+   ChosenVoicesDialog(TemporaryServiceCollection services)
    {
-      var settings = TextToSpeechSettings.ReadFromTheUserProfile();
+      _settingsFile = services.Resolve<IEnvironmentPaths>().TextToSpeechSettingsFile;
+      var settings = TextToSpeechSettings.ReadFrom(_settingsFile);
       var player = new SoundFlowAudioPlayer();
-      _dialog = new ChosenVoicesDialogViewModel(settings, settings.ProvidersWithKeys(), player, fatalErrorHandler);
+      _dialog = new ChosenVoicesDialogViewModel(settings, _settingsFile, settings.ProvidersWithKeys(), player, services.Resolve<IFatalErrorHandler>());
       DataContext = _dialog;
       InitializeComponent();
       Opened += (_, _) => _dialog.ListTheVoices();
@@ -37,11 +39,11 @@ partial class ChosenVoicesDialog : Window
    }
 
    /// <summary>Opens the dialog where it was last, as from the workspace's Config menu, and returns it.</summary>
-   internal static ChosenVoicesDialog Open(TemporaryServiceCollection services) => new ChosenVoicesDialog(services.Resolve<IFatalErrorHandler>()).ShowWhereItWasLast(services);
+   internal static ChosenVoicesDialog Open(TemporaryServiceCollection services) => new ChosenVoicesDialog(services).ShowWhereItWasLast(services);
 
    /// <summary>Shows the dialog modally over <paramref name="owner"/>, and returns the settings saved, or null when it was cancelled.</summary>
-   internal static Task<TextToSpeechSettings?> ShowOverAsync(Window owner, IFatalErrorHandler fatalErrorHandler) =>
-      new ChosenVoicesDialog(fatalErrorHandler) { WindowStartupLocation = WindowStartupLocation.CenterOwner }.ShowDialog<TextToSpeechSettings?>(owner);
+   internal static Task<TextToSpeechSettings?> ShowOverAsync(Window owner, TemporaryServiceCollection services) =>
+      new ChosenVoicesDialog(services) { WindowStartupLocation = WindowStartupLocation.CenterOwner }.ShowDialog<TextToSpeechSettings?>(owner);
 
    void OnPlayTheSample(object? sender, RoutedEventArgs e)
    {
@@ -62,7 +64,7 @@ partial class ChosenVoicesDialog : Window
    void OnSave(object? sender, RoutedEventArgs e)
    {
       var chosen = _dialog.TheSettingsChosen();
-      chosen.WriteToTheUserProfile();
+      chosen.WriteTo(_settingsFile);
       Close(chosen);
    }
 

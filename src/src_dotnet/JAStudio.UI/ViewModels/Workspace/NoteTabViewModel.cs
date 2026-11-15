@@ -171,8 +171,23 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
 
    bool CanGoForward => _history.CanGoForward;
 
-   /// <summary>Runs the note view shortcut bound to <paramref name="keyGesture"/>, if any, on the note on the page.</summary>
-   public void KeyPressed(string keyGesture) => _noteViewShortcuts.BoundTo(keyGesture)?.Run(TheShownNote());
+   /// <summary>
+   /// The key that plays the shown note's own audio again, as r does on a card in Anki's reviewer. It's no note view shortcut<br/>
+   /// (<see cref="NoteViewShortcuts"/>): Anki binds those in its reviewer and previewer too, where r already plays the audio again.
+   /// </summary>
+   const string PlayTheAudioAgainKeyGesture = "r";
+
+   /// <summary>
+   /// Does what <paramref name="keyGesture"/>, pressed on the page, does: r plays the shown note's audio again (<see cref="PlayTheShownNotesAudioAgain"/>),<br/>
+   /// and any other key runs the note view shortcut bound to it, if any, on the note on the page.
+   /// </summary>
+   public void KeyPressed(string keyGesture)
+   {
+      if(keyGesture == PlayTheAudioAgainKeyGesture)
+         PlayTheShownNotesAudioAgain();
+      else
+         _noteViewShortcuts.BoundTo(keyGesture)?.Run(TheShownNote());
+   }
 
    /// <summary>The right-click menu for the note on the page: the same one Anki shows for it.</summary>
    public List<SpecMenuItem> NoteContextMenuSpec(string selection, string clipboard) =>
@@ -284,6 +299,13 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
       _theShownNotesAudioIsToBePlayed = false;
       NotePage?.PlayTheNotesAudio();
    }
+
+   /// <summary>Plays the shown note's own audio again, as r does on a card in Anki's reviewer.</summary>
+   /// <remarks>
+   /// wip: only a page in Avalonia plays it, a sentence's for now. A card's page, such as a vocab's, plays its audio in the web view, which this leaves<br/>
+   ///    alone. The vocab's page moves to Avalonia soon, and r then works there too (Magnus, 2026-11-15).
+   /// </remarks>
+   void PlayTheShownNotesAudioAgain() => NotePage?.PlayTheNotesAudio();
 
    void NotifyWhetherItCanGoBackAndForward()
    {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
 
@@ -26,6 +27,13 @@ public sealed record ParsingCaseResult(IReadOnlyList<ParsedWordReported> ParsedW
 
    /// <summary>The breakdown with every option off: what a person sees of the sentence with nothing hidden and nothing yielded.</summary>
    public BreakdownUnderOptions BreakdownWithEveryOptionOff => Breakdowns.Single(it => it.Options.Values.All(isOn => !isOn));
+
+   /// <summary>
+   /// The breakdown under <paramref name="options"/>: the one under the same values of the options that change the breakdown. The other options<br/>
+   /// change nothing, whatever their values.
+   /// </summary>
+   public BreakdownUnderOptions BreakdownUnder(BreakdownParsingOptions options) =>
+      Breakdowns.Single(breakdown => BreakdownParsingOption.All.Where(it => breakdown.Options.ContainsKey(it.Name)).All(it => breakdown.Options[it.Name] == it.IsOnIn(options)));
 
    /// <summary>The vocab the breakdown displays with every option off: the part of this result a person gives a <see cref="Verdict"/> on.</summary>
    public DisplayedVocab DisplayedVocab => DisplayedVocab.Of(BreakdownWithEveryOptionOff);

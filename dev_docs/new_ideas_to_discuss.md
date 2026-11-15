@@ -1,4 +1,4 @@
-﻿# New ideas to discuss
+# New ideas to discuss
 
 Ideas Magnus or Claude want to discuss, written down when they occur, so that none is lost (Magnus, 2026-11-11). They're
 ideas that came up while working on something else, or that a code comment can't hold because they're about no one

@@ -18,7 +18,8 @@ namespace JAStudio.UI.Views.Workspace.NotePages;
 /// A sentence's page in a workspace tab (<see cref="SentencePageViewModel"/>), in Avalonia, as the sentence card's answer side shows it. Clicking a link<br/>
 /// shows its note in the tab, and middle-clicking it opens the note in a new tab in the background. Right-clicking an element of the page, such as a<br/>
 /// breakdown entry, gives the element's menu (<see cref="INotePageElement"/>), and right-clicking elsewhere the sentence's note menu, for the text<br/>
-/// right-clicked. Keys pressed on the page run the note view shortcuts.
+/// right-clicked. Keys pressed on the page do what they do on a note's page (<see cref="NotePageViewModel.KeyPressed"/>): r plays the sentence's audio<br/>
+/// again, and the other keys run the note view shortcuts.
 /// </summary>
 /// <remarks>This code-behind only turns pointer and key events into calls on the view model, and opens the menu.</remarks>
 public partial class SentencePageView : UserControl
@@ -26,13 +27,13 @@ public partial class SentencePageView : UserControl
    public SentencePageView()
    {
       InitializeComponent();
-      KeyDown += (_, keyPressed) => RunTheNoteViewShortcutOf(keyPressed);
+      KeyDown += (_, keyPressed) => RunTheShortcutOf(keyPressed);
       ContextRequested += ShowTheRightClickMenu;
    }
 
    SentencePageViewModel Page => DataContext as SentencePageViewModel ?? throw new InvalidOperationException("A sentence's page shows no sentence page view model.");
 
-   void RunTheNoteViewShortcutOf(KeyEventArgs keyPressed)
+   void RunTheShortcutOf(KeyEventArgs keyPressed)
    {
       if(NoteViewKeyGesture.Of(keyPressed) is {} keyGesture) Page.KeyPressed(keyGesture);
    }

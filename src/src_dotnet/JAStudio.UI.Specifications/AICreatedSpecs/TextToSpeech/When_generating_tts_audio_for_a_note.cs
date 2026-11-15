@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -26,7 +25,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
    readonly FakeTextToSpeechProvider _provider = new();
    readonly RecordingAudioPlayer _player = new();
    readonly SentenceNote _sentence;
-   readonly TextToSpeechDialogViewModel _dialog;
+   readonly TextToSpeechForANoteViewModel _dialog;
 
    public When_generating_tts_audio_for_a_note()
    {
@@ -35,13 +34,13 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       _dialog.GenerateWithTheDefaultVoice();
    }
 
-   TextToSpeechDialogViewModel DialogOffering(params TextToSpeechVoice[] voices) => new(_sentence, voices, _player, GetService<TemporaryServiceCollection>());
+   TextToSpeechForANoteViewModel DialogOffering(params TextToSpeechVoice[] voices) => new(_sentence, voices, _player, GetService<TemporaryServiceCollection>());
 
    SpeechAttemptViewModel Attempt(int number) => _dialog.Attempts.Single(it => it.Number == number);
 
    string[] TheAttempts() => TheAttemptsOf(_dialog);
 
-   static string[] TheAttemptsOf(TextToSpeechDialogViewModel dialog) =>
+   static string[] TheAttemptsOf(TextToSpeechForANoteViewModel dialog) =>
       [..dialog.Attempts.Select(it => string.Join(" ", new[] { it.Description, it.ComparisonWithTheEarlierAttempt, it.ComparisonWithTheCurrentAudio }.Where(part => part != "")))];
 
    [XF] public void the_text_to_speak_is_the_notes() => _dialog.TextToSpeak.Must().Be(_sentence.TextToSpeak);
@@ -135,9 +134,33 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
       [XF] public void the_note_finds_it_in_the_media_layer() => (_sentence.PreferredAudio?.FilePath ?? "").Must().Be(UsedFile);
       [XF] public void Anki_was_given_a_copy_of_it_under_the_same_name() => (GetService<PretendAnki>().MediaFileOrNoneNamed(_fileName) ?? []).Must().SequenceEqual(Attempt(1).Speech.Mp3);
 
+      [XF] public void the_used_file_is_the_current_audio_at_once() => (_dialog.CurrentAudio.Description, _dialog.CanDiscardTheTextToSpeechAudio).Must().Be((_fileName, true));
+
+      public class and_discarding_the_tts_audio : after_using_attempt_1_when_attempt_2_was_selected
+      {
+         public and_discarding_the_tts_audio() => _dialog.DiscardTheTextToSpeechAudio();
+
+         [XF] public void the_note_has_no_audio() => _sentence.AllAudio.InTheOrderPreferred.Must().BeEmpty();
+         [XF] public void the_current_audio_is_none() => (_dialog.CurrentAudio.Description, _dialog.CanDiscardTheTextToSpeechAudio).Must().Be(("none", false));
+         [XF] public void the_attempts_stay() => TheAttempts().Length.Must().Be(2);
+         [XF] public void its_file_is_deleted_from_the_media_layer() => File.Exists(UsedFile).Must().BeFalse();
+      }
+
+      public class and_discarding_the_tts_audio_when_another_sentence_uses_the_same_file : after_using_attempt_1_when_attempt_2_was_selected
+      {
+         public and_discarding_the_tts_audio_when_another_sentence_uses_the_same_file()
+         {
+            CreateTestSentence("家に帰ろう", "Let's go home").Audio.ReplaceTheTextToSpeechAudioWith(new AudioReference(_fileName) { IsTextToSpeech = true });
+            _dialog.DiscardTheTextToSpeechAudio();
+         }
+
+         [XF] public void the_note_has_no_audio() => _sentence.AllAudio.InTheOrderPreferred.Must().BeEmpty();
+         [XF] public void the_file_stays_in_the_media_layer_for_the_other_sentence() => File.Exists(UsedFile).Must().BeTrue();
+      }
+
       public class and_opening_the_dialog_again_and_generating_with_both_voices : after_using_attempt_1_when_attempt_2_was_selected
       {
-         readonly TextToSpeechDialogViewModel _dialogOpenedAgain;
+         readonly TextToSpeechForANoteViewModel _dialogOpenedAgain;
 
          public and_opening_the_dialog_again_and_generating_with_both_voices()
          {
@@ -183,7 +206,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
    public class when_the_notes_tts_audio_is_of_a_kind_jastudio_does_not_play : When_generating_tts_audio_for_a_note
    {
-      readonly TextToSpeechDialogViewModel _dialogForOggAudio;
+      readonly TextToSpeechForANoteViewModel _dialogForOggAudio;
 
       public when_the_notes_tts_audio_is_of_a_kind_jastudio_does_not_play()
       {
@@ -201,7 +224,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
 
    public class with_no_voices_chosen : When_generating_tts_audio_for_a_note
    {
-      readonly TextToSpeechDialogViewModel _dialogWithoutVoices;
+      readonly TextToSpeechForANoteViewModel _dialogWithoutVoices;
 
       public with_no_voices_chosen()
       {

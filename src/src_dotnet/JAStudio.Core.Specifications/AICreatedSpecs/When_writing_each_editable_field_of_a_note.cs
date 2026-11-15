@@ -51,11 +51,19 @@ public abstract class When_writing_each_editable_field_of_a_note : Specification
       [XF] public void the_stored_kanji_changes_where_each_fields_name_says() => _fieldsWhoseNameIsNotWhereTheStoredKanjiChanged.Must().BeEmpty();
    }
 
+   /// <summary>Each sentence is a parsing case: the name, the why and the verdict of its parsing case can only be written on one.</summary>
    public class of_a_sentence : When_writing_each_editable_field_of_a_note
    {
       readonly IReadOnlyList<string> _fieldsWhoseNameIsNotWhereTheStoredSentenceChanged;
 
-      public of_a_sentence() => _fieldsWhoseNameIsNotWhereTheStoredSentenceChanged = FieldsWhoseNameIsNotWhereTheStoredNoteChanged(SentenceEditableFields.All, index => CreateSentence($"行った{index}"));
+      public of_a_sentence() => _fieldsWhoseNameIsNotWhereTheStoredSentenceChanged = FieldsWhoseNameIsNotWhereTheStoredNoteChanged(SentenceEditableFields.All, index => AParsingCase($"行った{index}"));
+
+      SentenceNote AParsingCase(string question)
+      {
+         var sentence = CreateSentence(question);
+         sentence.MarkAsAParsingCase();
+         return sentence;
+      }
 
       [XF] public void the_stored_sentence_changes_where_each_fields_name_says() => _fieldsWhoseNameIsNotWhereTheStoredSentenceChanged.Must().BeEmpty();
    }

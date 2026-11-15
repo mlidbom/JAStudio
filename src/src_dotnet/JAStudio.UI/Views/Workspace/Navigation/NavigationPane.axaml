@@ -3,6 +3,7 @@
              xmlns:navigation="clr-namespace:JAStudio.UI.ViewModels.Workspace.Navigation"
              xmlns:navigationViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation"
              xmlns:tagManagementViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation.TagManagement"
+             xmlns:parsingCasesViews="clr-namespace:JAStudio.UI.Views.Workspace.Navigation.ParsingCases"
              x:Class="JAStudio.UI.Views.Workspace.Navigation.NavigationPane"
              x:DataType="navigation:NavigationPaneViewModel"
              IsVisible="{Binding IsOpen}"
@@ -25,6 +26,9 @@
         </TabItem>
         <TabItem Header="Tags" IsSelected="{Binding IsTagManagementShown, Mode=TwoWay}">
             <tagManagementViews:TagManagementView DataContext="{Binding TagManagement}" />
+        </TabItem>
+        <TabItem Header="Parsing cases" IsSelected="{Binding IsParsingCasesShown, Mode=TwoWay}">
+            <parsingCasesViews:ParsingCasesView DataContext="{Binding ParsingCases}" />
         </TabItem>
     </TabControl>
 
