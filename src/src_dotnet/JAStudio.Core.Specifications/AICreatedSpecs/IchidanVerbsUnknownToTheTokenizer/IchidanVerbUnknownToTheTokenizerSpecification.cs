@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.LanguageServices.JanomeEx.Tokenizing;
+using JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
 namespace JAStudio.Core.Specifications.AICreatedSpecs.IchidanVerbsUnknownToTheTokenizer;
 
 /// <summary>
 /// Base for the specifications of how text containing an ichidan verb missing from the tokenizer's dictionary is tokenized.<br/>
 /// 磨げる, the potential form of 磨ぐ, is missing from the dictionary; 泳げる, the potential form of 泳ぐ, is in it. How such text is displayed<br/>
-/// is specified by parsing cases (<see cref="LanguageServices.ParsingCases.ParsingCase"/>) of the same sentences.
+/// is specified by parsing cases (<see cref="ParsingCaseFile"/>) of the same sentences.
 /// </summary>
 public abstract class IchidanVerbUnknownToTheTokenizerSpecification : IAIGeneratedSpec
 {

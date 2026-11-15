@@ -1,8 +1,8 @@
 # The parsing cases move into the corpus
 
-> **Status: agreed with Magnus 2026-11-15, on the branch `parsing-cases-in-the-corpus`.** Steps 1 and 2 are done: the data
-> type is built, and the 230 cases are imported into the worktree's corpus checkout, where they wait, uncommitted, for
-> Magnus to look at them. It changes [the parsing cases](../parsing-cases.md), whose case files become generated from
+> **Status: agreed with Magnus 2026-11-15, on the branch `parsing-cases-in-the-corpus`.** Steps 1, 2 and 5 are done: the
+> data type is built, the 230 cases are imported into the worktree's corpus checkout, and the case files are generated
+> from them. The corpus's changes wait, staged by Magnus and uncommitted, with the generated files, for his word. It changes [the parsing cases](../parsing-cases.md), whose case files become generated from
 > the corpus.
 
 ## What it's for (Magnus, 2026-11-15)
@@ -206,8 +206,31 @@ configuration, mark it as a parsing case, name it, say why, verify its displayed
   `parsingCase`, and 382 vocab changed only in their `sentenceCount`, by the new sentences. No parsed word changed in
   any sentence.
 
+**Step 5, generating the case files from the corpus, is built** (Magnus, 2026-11-15, moved it before the corpus is
+committed: "That gives us a test from the other side. If everything is perfect, all the files should be overwritten
+with identical data").
+
+- **The full mode generates the case files** from the sentences of the corpus checkout that are parsing cases, and
+  refreshes the stripped-down corpus as before (`FullModeRun`). Accepting is gone from it: a result is accepted on its
+  sentence, in JAStudio.
+- **The specifications' type is `ParsingCaseFile` now,** since the corpus's `ParsingCase` exists beside it.
+- **The test from the other side found one flaw in the import,** which is corrected: a sentence Magnus studies, 私は毎日
+  ジョギングをすることを習慣にしています。, had taken the case "hidden exclusions - hidden matches (2)" without having its
+  hidden matches, because it parses identically without them. A case's marks are what it's about, so the rule is
+  now: a note already in the corpus takes a case when it parses identically and has every mark the case has. What it
+  marks besides, such as the vocab it's studied for, is its own. That case is on a new note; 54 cases are on notes
+  that were already in the corpus, and 176 on new ones.
+- **Of the 230 generated files, 210 are identical to the ones committed.**
+  - 18 gained a `configuration` with the vocab their sentence highlights in the corpus, and nothing else.
+  - 2 have another name, the two cases about noise characters, whose files were named by a description where the
+    others have the sentence. One of them also lost the trailing space of its sentence.
+- **The stripped-down corpus holds the same vocab,** with the sentence counts the 176 new sentences changed.
+- **Every specification passes on the generated files.**
+- **The generated files aren't committed yet:** they go with the corpus's commit and its pointer, so that the
+  source's case files always come from the corpus commit it records.
+
 **Next:** Magnus looks at them in JAStudio (the standalone JAStudio on the worktree, with the search condition
-"Parsing case"). Then steps 4 and 5. Handing the corpus over to its own line needs this branch's code on `main` first,
+"Parsing case"). Then step 4. Handing the corpus over to its own line needs this branch's code on `main` first,
 and Anki closed while Magnus's corpus checkout takes the commits.
 
 ## Open

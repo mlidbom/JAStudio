@@ -10,13 +10,13 @@ using JAStudio.Core.SysUtils.Json;
 
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
-public sealed partial class ParsingCase
+public sealed partial class ParsingCaseFile
 {
    /// <summary>
    /// What a parsing case's file holds, as JSON: indented, but each word on a line of its own, so that a change to a word shows in git's diff as<br/>
    /// that word's line, whole.
    /// </summary>
-   sealed record CaseFileContent
+   sealed record Content
    {
       static readonly JsonSerializerOptions JsonOptions = new()
                                                           {
@@ -31,8 +31,8 @@ public sealed partial class ParsingCase
       public List<ParsedWordReported> ParsedWords { get; init; } = [];
       public List<BreakdownUnderOptions> Breakdowns { get; init; } = [];
 
-      public static CaseFileContent ReadFrom(FileInfo file) =>
-         JsonSerializer.Deserialize<CaseFileContent>(File.ReadAllText(file.FullName), JsonOptions) ?? throw new JsonException($"The parsing case {file.FullName} is empty.");
+      public static Content ReadFrom(FileInfo file) =>
+         JsonSerializer.Deserialize<Content>(File.ReadAllText(file.FullName), JsonOptions) ?? throw new JsonException($"The parsing case {file.FullName} is empty.");
 
       public void WriteTo(FileInfo file) => File.WriteAllText(file.FullName, ToJson());
 

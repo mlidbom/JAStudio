@@ -11,7 +11,7 @@ namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
 /// <summary>
 /// A JAStudio of the specifications whose collection holds the vocab of a <see cref="CorpusFolder"/>, and no other notes: what the parsing<br/>
-/// cases (<see cref="ParsingCase"/>) are parsed against. Each case is parsed as a sentence note of the corpus is, from its question and<br/>
+/// cases (<see cref="ParsingCaseFile"/>) are parsed against. Each case is parsed as a sentence note of the corpus is, from its question and<br/>
 /// configuration (<see cref="SentenceNote.CreateAnalysis"/>).
 /// </summary>
 public class JAStudioWithTheVocabOf : IDisposable
@@ -31,13 +31,13 @@ public class JAStudioWithTheVocabOf : IDisposable
    /// What <paramref name="parsingCase"/>'s sentence parses to: its parsing result as the corpus stores it, and its sentence breakdown under each<br/>
    /// combination of the options that change it. Which options change it is found by making the breakdown under every combination of all of them.
    /// </summary>
-   public ParsingCaseResult Parse(ParsingCase parsingCase) => SentenceNoteOf(parsingCase).CreateParsingCaseResult();
+   public ParsingCaseResult Parse(ParsingCaseFile parsingCase) => SentenceNoteOf(parsingCase).CreateParsingCaseResult();
 
    /// <summary>The analysis <paramref name="parsingCase"/>'s sentence gets as a sentence note of the corpus, with the case's configuration: what its parsing result is made from.</summary>
-   public TextAnalysis AnalysisOf(ParsingCase parsingCase) => SentenceNoteOf(parsingCase).CreateAnalysis();
+   public TextAnalysis AnalysisOf(ParsingCaseFile parsingCase) => SentenceNoteOf(parsingCase).CreateAnalysis();
 
    /// <summary>A sentence note of <paramref name="parsingCase"/>'s sentence and configuration, as the corpus would have it.</summary>
-   SentenceNote SentenceNoteOf(ParsingCase parsingCase) =>
+   SentenceNote SentenceNoteOf(ParsingCaseFile parsingCase) =>
       new(_app.CoreApp.Services.NoteServices,
           new SentenceDto
           {

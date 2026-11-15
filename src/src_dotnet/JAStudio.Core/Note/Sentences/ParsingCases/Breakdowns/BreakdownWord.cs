@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using JAStudio.Core.UI.Web.Sentence;
 
 namespace JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
@@ -28,7 +29,7 @@ public sealed record BreakdownWord(string Form, int StartIndex, string Variant, 
    public const string BaseVariant = "base";
 
    /// <summary>Whether the word is matched by its form as the sentence has it, not by its dictionary form.</summary>
-   public bool IsMatchedByItsSurface => Variant == SurfaceVariant;
+   [JsonIgnore] public bool IsMatchedByItsSurface => Variant == SurfaceVariant;
 
    public static BreakdownWord Of(MatchViewModel displayedMatch) =>
       new(displayedMatch.ParsedForm,

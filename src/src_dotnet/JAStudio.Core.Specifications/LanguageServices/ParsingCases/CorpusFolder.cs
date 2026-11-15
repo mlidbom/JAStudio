@@ -4,19 +4,23 @@ using System.Linq;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.SysUtils.IO;
+using System;
+using JAStudio.Core.Note.Sentences;
 
 namespace JAStudio.Core.Specifications.LanguageServices.ParsingCases;
 
 /// <summary>
 /// A folder holding notes as the corpus repository stores them, one JSON file per note, and the shared-conditions their match-conditions use by name:<br/>
 /// the corpus checkout (<see cref="SourceCheckout.CorpusCheckout"/>), or the parsing cases' stripped-down corpus (<see cref="ParsingCasesFolder.StrippedDownCorpus"/>).<br/>
-/// Only its vocab matter to the parsing cases.
+/// Its vocab are what the parsing cases are parsed against, and the corpus checkout's sentences that are parsing cases are what the case files are<br/>
+/// generated from.
 /// </summary>
 public sealed class CorpusFolder(DirectoryInfo folder)
 {
    readonly DirectoryInfo _folder = folder;
 
    DirectoryInfo VocabFolder => new(Path.Combine(_folder.FullName, "vocab"));
+   DirectoryInfo SentencesFolder => new(Path.Combine(_folder.FullName, "sentences"));
 
    /// <summary>The folder of the shared-conditions, as the corpus repository keeps them, one JSON file each: none until a shared-condition is defined.</summary>
    DirectoryInfo SharedConditionsFolder => new(Path.Combine(_folder.FullName, "shared-conditions"));
@@ -38,6 +42,19 @@ public sealed class CorpusFolder(DirectoryInfo folder)
    /// (<see cref="AddTheVocabTo"/>).
    /// </summary>
    public IEnumerable<VocabNote> ReadTheVocab(NoteSerializer serializer) => VocabFiles().Select(file => serializer.DeserializeVocab(File.ReadAllText(file.FullName)));
+
+   /// <summary>
+   /// The sentences of this folder that are parsing cases (<see cref="SentenceNote.ParsingCase"/>), read as JAStudio reads the corpus's notes, with<br/>
+   /// <paramref name="serializer"/>, whose JAStudio has this folder's vocab (<see cref="AddTheVocabTo"/>). They aren't added to its collection.
+   /// </summary>
+   public IReadOnlyList<SentenceNote> ReadTheSentencesThatAreParsingCases(NoteSerializer serializer) =>
+   [
+      .. SentencesFolder.TheFilesInPathOrder("*.json")
+                        .Select(file => File.ReadAllText(file.FullName))
+                        .Where(json => json.Contains("\"parsingCase\"", StringComparison.Ordinal))
+                        .Select(serializer.DeserializeSentence)
+                        .Where(it => it.ParsingCase != null)
+   ];
 
    /// <summary>
    /// Replaces the vocab of this folder with <paramref name="vocab"/>, written as JAStudio writes the corpus's notes, and its shared-conditions with those of<br/>
