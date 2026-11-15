@@ -131,8 +131,8 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
 - **Links:** a word's vocab, a compound's parts and a word's kanji are links (`NoteLinkViewModel`). A click shows the
   note in the tab, a middle-click opens it in a background tab.
 - **Audio:** the ▶ buttons play the note's audio through `WorkspaceAudioPlayer`, and the sentence's own plays when the
-  tab is first shown with it, as the card's page does. The headless JAStudio plays nothing
-  (`WorkspaceAudioPlayer.PlayNothingFromNowOn`): an agent drives it, on Magnus's computer.
+  tab is first shown with it, as the card's page does. R plays it again, as in Anki's reviewer. The headless JAStudio
+  plays nothing (`WorkspaceAudioPlayer.PlayNothingFromNowOn`): an agent drives it, on Magnus's computer.
 - **Keys:** the note view shortcuts work on the page as on a card's page (`NoteViewKeyGesture`), and the page scrolls as
   a browser's does: the arrows, Page Up and Page Down, Home and End.
 - **Right-click** opens the note's menu (`NoteContextMenu`), for the text right-clicked: the text selected there, or the
@@ -444,6 +444,10 @@ First version, 2026-11-13.
   keyboard is outside the page. Ctrl+M opens the match-condition window of the vocab the shown tab shows.
   Single-key shortcuts deliberately aren't window key bindings, because they would fire while typing in the
   editors to come.
+- **R plays the shown note's audio again,** as in Anki's reviewer, on a page in Avalonia: a sentence's, for now. The tab
+  handles it itself, ahead of the note view shortcuts (`NoteTabViewModel.KeyPressed`), since Anki binds those in its
+  reviewer and previewer too, where R already plays the audio again. On a card's page, such as a vocab's, it does
+  nothing: the page plays its audio in the web view. The vocab's page moves to Avalonia soon, and R then works there.
 - **A setting change reloads the page**, as do an update to the note on it and a reload of the collection after an
   Anki sync. A hidden tab reloads when it's shown instead.
 - **Back and forward** (Alt+Left, Alt+Right, and the buttons) go through the tab's history of the notes it showed
