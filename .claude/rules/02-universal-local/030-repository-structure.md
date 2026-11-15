@@ -3,8 +3,9 @@
 ## .NET — projects under `src/src_dotnet/`, solution `JAStudio.slnx` at the repo root
 
 - `JAStudio.UI/` — Avalonia UI (Views in `.axaml`, ViewModels in `.cs`)
-- `JAStudio.StandaloneHost/` — the standalone JAStudio: JAStudio with its workspace window, as inside Anki, with Anki
-  entirely out of the loop, started on a checkout's add-on folder (see `dev_docs/standalone-jastudio.md`)
+- `JAStudio.StandaloneHost/` — the standalone JAStudio: JAStudio with its workspace window, as inside Anki, as a
+  program of its own, started on a checkout's add-on folder. It calls the Anki that runs beside it over HTTP (see
+  `dev_docs/standalone-jastudio.md`)
 - `JAStudio.HeadlessHost/` — the headless JAStudio: JAStudio without Anki or a screen, serving JAStudio's MCP server
   (see `dev_docs/jastudio-mcp.md`)
 - `JAStudio.Core/` — pure domain logic; no UI / Anki / Python dependencies

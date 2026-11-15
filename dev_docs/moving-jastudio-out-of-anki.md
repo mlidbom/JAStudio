@@ -2,11 +2,10 @@
 
 > **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and so is
 > increment 2, the Sync: since 2026-11-15 Anki no longer tells JAStudio of what changes, and the workspace has a Sync
-> button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and so is JAStudio's implementation
-> of its calls over HTTP, which only its specifications use yet, and the access file, by which a JAStudio finds the
-> add-on's server. The add-on serves JAStudio over HTTP whenever an Anki profile is open, beside JAStudio inside
-> Anki, which doesn't call it: tried from outside in the real Anki, but for the functions that change Anki's
-> collection. On JAStudio's side, the UI's direct calls to
+> button. Of increment 4, the HTTP path, what goes from JAStudio to Anki is built: the Anki add-on serves JAStudio
+> over HTTP whenever an Anki profile is open, and the standalone JAStudio calls the Anki that runs, which it finds
+> through the access file. JAStudio inside Anki still calls Anki through pythonnet, and still draws Anki's cards.
+> What goes from Anki to JAStudio isn't built. On JAStudio's side, the UI's direct calls to
 > `AnkiFacade` are behind Core's seams, but for the menu of Anki's browser, the Anki integration calls Anki through
 > interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows after it
 > changes a note: a card's page in Anki reloads itself.** The order of work is
@@ -403,7 +402,8 @@ Studying view, and nothing in the workspace to show that a Sync is due.
 - **The collection reads them itself, and shows the progress of the read** (`JPCollection.LoadFromBackend`), where
   the loader was handed the task runner.
 - **Each host has one class for them:** `AnkiStudyNotes` inside Anki, `HeadlessAnkiStudyNotes`, which reads and
-  refuses changes, and the standalone JAStudio's `NoAnkiStudyNotes`. In the Anki integration,
+  refuses changes, and the standalone JAStudio's `NoAnkiStudyNotes`, until it called Anki over HTTP. In the Anki
+  integration,
   `StudyNotesInAnkisDatabase` makes the one read, with a SELECT each of the note types, the study-notes and the
   cards.
 - **The pretended Anki of the specifications holds whole study-notes** (`PretendAnki`), and took in
@@ -707,20 +707,21 @@ there.
 
 ### JAStudio's side, step 3 as built: Anki's functions over HTTP
 
-**Built 2026-11-15. Nothing uses it yet but its specifications: JAStudio inside Anki calls Anki through pythonnet as
-before.**
+**Built 2026-11-15. The standalone JAStudio uses it since the same day. JAStudio inside Anki calls Anki through
+pythonnet as before.**
 
 - **`AnkiOverHttp`,** in `JAStudio.Anki.AnkisFunctions.OverHttp`, implements the five groups, each as one of its
   properties: `IAnkisNotes`, `IAnkisTags`, `IAnkisMedia`, `IAnkisDatabase` and, since the add-on's server serves the
   functions that drive Anki's windows, `IAnkisWindows`.
-- **It's given how to reach the server and the collection JAStudio works with:** the port and the token
-  (`AnkisHttpServerAccess`), which is read from the access file (below), and the collection's file. How JAStudio
-  comes by the collection isn't built.
+- **It's given the access file** (below), and reads the port and the token from it at each call. The collection
+  JAStudio works with it takes from Anki: see
+  [The standalone JAStudio calls the Anki that runs](#the-standalone-jastudio-calls-the-anki-that-runs-as-built).
+  Until that was built, it was given one access and the collection's file.
 - **Before its first call it compares contract versions,** and refuses an add-on that speaks another
   (`AnkiSpeaksAnotherContractException`). The version is 2 on both sides.
 - **A refusal and a failure are each an exception:**
   - `AnkiRefusedTheCallException` has Anki's reason in words for a person, and the collection Anki has open when
-    that isn't the one JAStudio works with. Nothing shows either to a person yet.
+    that isn't the one JAStudio works with.
   - `CallToAnkiFailedException` has the HTTP status and what Anki said: Python's traceback when the function failed.
 - **The read of the database returns the JSON as it arrived,** with no second serialization
   (`AnkisHttpServer.CallForItsJsonText`). JAStudio reads the study-notes through it with the classes it reads
@@ -728,7 +729,7 @@ before.**
 - **A call's arguments are serialized before they're sent,** so that the request says how long its body is: Python's
   `http.server` reads that many bytes, and nothing of a body sent in chunks, which is how .NET sends JSON by default.
 
-**Specified against the add-on's own server** (`When_JAStudio_calls_Anki_over_HTTP`, 34 specifications): every
+**Specified against the add-on's own server** (`When_JAStudio_calls_Anki_over_HTTP`, 33 specifications): every
 function of the five groups, the refusals and the failures. So a function whose name, arguments or answer differ
 between the two sides fails there: it's the comparison of the Python functions with the C# contract that the design
 calls ask for, made by using both.
@@ -742,7 +743,8 @@ calls ask for, made by using both.
 
 ### The access file as built: how a JAStudio finds the add-on's server
 
-**Built 2026-11-15. Nothing in Anki starts the serving yet: only the tests and the specifications do.**
+**Built 2026-11-15. The add-on starts the serving as an Anki profile opens: see
+[The add-on serves JAStudio inside Anki](#the-add-on-serves-jastudio-inside-anki-as-built).**
 
 - **`ServingJAStudio`,** in the add-on, is its serving of JAStudio for as long as it lasts: it starts the HTTP
   server and then writes the access file, and it removes the file and then stops the server.
@@ -753,8 +755,10 @@ calls ask for, made by using both.
 - **`AnkisHttpServerAccessFile`,** in `JAStudio.Anki`, reads it: the access, or none while no Anki serves, which
   is when the file isn't there.
 - **The specifications reach the add-on's server through it:** each served copy of the test collection has an
-  access file of its own, which is where the 38 specifications of JAStudio's calls over HTTP get the port and the
+  access file of its own, which is where the specifications of JAStudio's calls over HTTP get the port and the
   token.
+- **JAStudio reads it while the add-on may replace or remove it:** the read shares the file for that, which
+  Windows otherwise refuses the add-on.
 
 **Claude's design calls, for Magnus to see:**
 
@@ -768,8 +772,9 @@ calls ask for, made by using both.
     on: Windows here, Linux in CI. Not tried on macOS.
 - **One file for the user, so one Anki at a time serves JAStudio.** A second Anki, started on another data folder,
   would write over the first one's file.
-- **An Anki that ends without stopping leaves its file behind,** naming a server that no longer answers. Telling
-  that apart from an Anki that runs is JAStudio's to do when it calls, which isn't built.
+- **An Anki that ends without stopping leaves its file behind,** naming a server that no longer answers. JAStudio
+  tells it apart from an Anki that runs when it calls: nothing listens on the port
+  (`NoAnkiServesJAStudioException`).
 
 ### The add-on serves JAStudio inside Anki, as built
 
@@ -799,16 +804,62 @@ server is there for a JAStudio outside Anki, and to be tried from outside.**
   - *The functions that drive Anki's windows work:* `ui_show_tooltip` showed Anki's tooltip,
     `browser_execute_lookup` opened the browser and its previewer on the note, and `ui_refresh` raised no error.
     Seen from outside by listing Anki's windows before and after each.
+  - *The access file goes as Anki closes:* it was gone after Magnus closed Anki the same day.
   - *Not tried there:* the functions that change Anki's collection, and with them telling Anki's windows of an
-    operation; the refusals while Anki's own sync is under way and while no profile is open; and the access
-    file going as the profile closes. Claude's call: nothing is written to Magnus's own profile for a check.
-    They're to be tried on the profile `Anki-Development`, by the standalone JAStudio once it's wired.
+    operation; and the refusals while Anki's own sync is under way and while no profile is open. Claude's call:
+    nothing is written to Magnus's own profile for a check. They're to be tried on the profile
+    `Anki-Development`, by the standalone JAStudio.
+
+### The standalone JAStudio calls the Anki that runs, as built
+
+**Built 2026-11-15, on Magnus's go-ahead for Claude's three design calls, which are the first three points
+below. JAStudio inside Anki is as before: it calls Anki through pythonnet.**
+
+- **The standalone JAStudio is the JAStudio that calls Anki over HTTP,** always: it's wired with the Anki
+  integration's classes, as JAStudio inside Anki is, each given a group of `AnkiOverHttp`
+  (`JAStudio.StandaloneHost`'s `EnvironmentDependenciesRegistrar`). Its stand-ins for no Anki are gone.
+- **Whether Anki can be used is asked of Anki each time** (`AnkisAvailabilityOverHttp`, an `SRSAvailability`):
+  there is a spaced repetition system, whether or not Anki runs, so the Sync button and what else acts on what
+  Anki holds is offered. Why it can't be used right now is, in turn:
+  - *"Anki isn't running, or has no profile open."* The access file isn't there.
+  - *"The Anki that served JAStudio no longer answers: it ended without saying so."* The access file names a port
+    nothing listens on.
+  - *Anki's own reason,* when it refuses: no profile open, or its own sync under way.
+  - *"Anki has another collection open than the one JAStudio works with",* and which.
+  - *That the add-on speaks another version of the contract.*
+- **JAStudio works with the collection Anki had open at its first call,** and names it in every call
+  (`AnkiOverHttp.CollectionJAStudioWorksWith`). When Anki opens another profile, it refuses JAStudio's calls, and
+  the Sync button, asked to sync, says why and offers a second button, **"Use the collection Anki has open"**:
+  one click has JAStudio work with that collection and read its study-notes
+  (`SRSSync.WorkWithTheCollectionTheSRSHasOpen`). It writes nothing: the next sync does.
+  - *The collection isn't remembered between runs of JAStudio:* each run takes the one Anki has open.
+- **Each call looks for the Anki that serves now,** in the access file: the port and the token are new each
+  time an Anki starts serving, as when Anki restarts or opens another profile.
+- **JAStudio loads with or without Anki** (`AnkisStudyNotesWhileAnkiCanBeUsed`): while Anki can't be used, the
+  load reads no study-notes, and every note shows as not studied until a sync reads them.
+- **A port nothing listens on is given up after a second** (`AnkisHttpServer`): Windows otherwise keeps trying
+  for two seconds, measured 2026-11-15. A request has no other time limit: it waits for Anki's answer as a call
+  through pythonnet does.
+- **Specified** against the add-on's own serving (`When_JAStudio_looks_for_the_Anki_that_serves_it`, 20
+  specifications): before any Anki serves, the first call, Anki stopping, Anki ending without stopping, and
+  another Anki with another collection serving instead. And in Core, with the pretend Anki opening another
+  profile (`When_syncing_with_the_spaced_repetition_system`).
+- **Tried without Anki, 2026-11-15:** started on an add-on folder of its own while Anki was closed, it loaded its
+  80,000 notes with no study-notes, and a sync, asked for through its MCP server, refused: "Anki isn't running,
+  or has no profile open."
+- **Not tried with Anki running:** the load's read of the study-notes, a sync, the switch of collection, and the
+  Sync button's second button, which no one has seen drawn.
+
+**Known, and left:**
+
+- *A call other than a sync, made while Anki can't be used, fails with an exception,* such as "Open in previewer"
+  while Anki isn't running. Nothing checks beforehand, or says why in words, but the Sync button.
+- *The standalone JAStudio shows no reports of the automatic import runs,* which JAStudio inside Anki shows
+  (`AutomaticImportRunReports`).
+- *Nothing specifies the standalone JAStudio's wiring itself:* its registrar is tried by running it.
 
 **What the HTTP path still lacks:**
 
-- *In JAStudio:* the standalone JAStudio's wiring: the Anki integration's classes given `AnkiOverHttp`'s groups,
-  and whether the spaced repetition system is available (`SRSAvailability`) told from the access file, from
-  Anki's refusals and from whether the server answers at all.
 - *From Anki to JAStudio:* the cards' pages, and the rest that Python asks of .NET today.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
@@ -869,11 +920,15 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
 - **Tessaging inside JAStudio,** after the move: the move itself uses interfaces.
+- **Opening Anki's browser on a search opens its previewer too,** so the add-on's two functions for it do the same.
+  It stays so (Magnus, 2026-11-15: "Keep").
 - **With several JAStudios connected:**
   - How the add-on learns that one stopped without saying so.
   - Which JAStudio's sync imports, for as long as importing from Anki exists. An import deletes its raw notes from
     Anki, so they'd end up in the corpus checkout of whichever JAStudio syncs first. Claude's suggestion: only the
     primary's sync imports.
+    - *It can happen since 2026-11-15:* a standalone JAStudio's sync imports into the checkout it runs on, whichever
+      that is, and writes the study-notes that differ from that checkout's corpus. Put to Magnus the same day.
 - **Who starts JAStudio,** and what the add-on does until it runs: see
   [Distribution](#distribution-the-anki-add-on-on-ankiweb-is-the-way-in).
 
