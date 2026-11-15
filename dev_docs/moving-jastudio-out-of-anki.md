@@ -363,6 +363,11 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 - **How long to show a question, and the settings the scheduling hooks read:** asked of JAStudio for each card, or sent
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
+- **One read of the study-notes** (Claude's suggestion, 2026-11-15, for the Sync increment). Three of the seam's
+  interfaces are views of the same study-notes: `ISpacedRepetitionSystemDataLoader` reads each one's note, card
+  statuses and tags, `ISpacedRepetitionSystemStudyNotes` reads their fields and writes them, and
+  `ISpacedRepetitionSystemCardOperations` suspends their cards and deletes them. A sync needs all that the first two
+  read, so its read could be one, of one kind of study-note, and the three interfaces one.
 - **Tessaging or interfaces inside JAStudio.**
 - **With several JAStudios connected:**
   - How the add-on learns that one stopped without saying so.
