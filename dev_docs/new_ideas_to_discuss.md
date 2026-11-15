@@ -50,3 +50,12 @@ piece of code, or that would otherwise be lost in a long response.
   Core has `IUIThreadDispatcher` for it, but the specifications that open windows run with one that dispatches nowhere,
   while their windows live on the headless UI thread. A dispatcher for those specifications that posts to that thread
   would let the view models use Core's.
+- **(Claude, 2026-11-15) The Sync button's green mark could go when a sync is due again.** Today it stays until the next
+  sync starts, so it says only that the last sync finished. It could go when JAStudio has changed a note that has a
+  study-note, since that study-note is then out of date until the next sync, and when Anki's own sync has finished,
+  since that may have brought changes from AnkiWeb. JAStudio knows of both without Anki telling it of anything more.
+- **(Claude, 2026-11-15) The workspace window can't be opened in a specification,** so a change to it, such as its
+  Sync button, is seen first when Magnus restarts Anki. It's created once for the process (`WorkspaceWindow._instance`),
+  where the specifications that open windows need one for each of them, as the Studying window has
+  (`StudyingWindow.OpenWindowsByServices`). The headless JAStudio renders its workspace, but has no spaced repetition
+  system, so what is shown only with one can't be seen there either.
