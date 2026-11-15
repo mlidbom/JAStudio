@@ -7,6 +7,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Note;
@@ -25,7 +26,7 @@ public class NoteServices
 
    public JPCollection Collection => _resolver.Resolve<JPCollection>();
    public ICardOperations CardOperations => _resolver.Resolve<ICardOperations>();
-   public AnkiAvailability AnkiAvailability => _resolver.Resolve<AnkiAvailability>();
+   public SpacedRepetitionSystemAvailability SpacedRepetitionSystemAvailability => _resolver.Resolve<SpacedRepetitionSystemAvailability>();
    public Settings Settings => _resolver.Resolve<Settings>();
    public DictLookup DictLookup => _resolver.Resolve<DictLookup>();
    public VocabNoteFactory VocabNoteFactory => _resolver.Resolve<VocabNoteFactory>();

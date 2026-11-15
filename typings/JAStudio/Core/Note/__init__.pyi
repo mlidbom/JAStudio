@@ -13,10 +13,10 @@ from JAStudio.Core.Note.KanjiRelationships import MutualKanjiRelationship, Kanji
 from JAStudio.Core.Note.NoteFields import WritableStringValue
 from JAStudio.Core.Note.Vocabulary import VocabNote, VocabNoteFactory, VocabNoteGeneratedData
 from Compze.Abstractions import EntityId
-from JAStudio.Core.Anki import AnkiAvailability
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import SharedConditions
+from JAStudio.Core.Studying import SpacedRepetitionSystemAvailability
 from JAStudio.Core.TaskRunners import TaskRunner
 
 class Builtin(abc.ABC):
@@ -272,8 +272,6 @@ class NoteId(EntityId):
 
 class NoteServices:
     @property
-    def AnkiAvailability(self) -> AnkiAvailability: ...
-    @property
     def CardOperations(self) -> ICardOperations: ...
     @property
     def Collection(self) -> JPCollection: ...
@@ -291,6 +289,8 @@ class NoteServices:
     def Settings(self) -> Settings: ...
     @property
     def SharedConditions(self) -> SharedConditions: ...
+    @property
+    def SpacedRepetitionSystemAvailability(self) -> SpacedRepetitionSystemAvailability: ...
     @property
     def TaskRunner(self) -> TaskRunner: ...
     @property

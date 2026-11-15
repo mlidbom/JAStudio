@@ -1,9 +1,11 @@
+using JAStudio.Core.Studying;
+
 namespace JAStudio.Core.Anki;
 
 /// <summary>
 /// Anki's own windows, such as its reviewer, browser and previewer, while JAStudio runs inside Anki: JAStudio refreshes them after it changes notes,<br/>
 /// shows its passing messages in them, and opens notes in them. JAStudio running without Anki has none (<see cref="NoAnkiWindows"/>), and offers<br/>
-/// the commands that open notes in them only while there's an Anki (<see cref="AnkiAvailability"/>).
+/// the commands that open notes in them only while there's an Anki (<see cref="SpacedRepetitionSystemAvailability"/>).
 /// </summary>
 public interface IAnkiWindows
 {

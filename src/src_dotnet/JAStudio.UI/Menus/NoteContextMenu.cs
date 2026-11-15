@@ -197,7 +197,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
          label,
          new List<SpecMenuItem>
          {
-            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.AnkiAvailability.IsAvailable),
+            SpecMenuItem.Command(ShortcutFinger.Home1("Open in previewer"), () => OnOpenInPreviewer(note), enabled: _services.SpacedRepetitionSystemAvailability.IsAvailable),
             SpecMenuItem.Command(ShortcutFinger.Home2("Open in workspace"), () => WorkspaceWindow.OpenNote(note)),
             SpecMenuItem.UICommand(ShortcutFinger.Home3("Unsuspend all cards"), note.UnsuspendAllCards, enabled: note.HasSuspendedCards()),
             SpecMenuItem.UICommand(ShortcutFinger.Home4("Suspend all cards"), note.SuspendAllCards, enabled: note.HasActiveCards()),

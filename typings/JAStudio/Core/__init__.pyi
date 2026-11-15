@@ -10,8 +10,9 @@ from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
 from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
-from JAStudio.Core.Anki import AnkiAvailability, IAnkiWindows
+from JAStudio.Core.Anki import IAnkiWindows
 from JAStudio.Core.Batches import LocalNoteUpdater
+from JAStudio.Core.Studying import SpacedRepetitionSystemAvailability
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory
 
 class AnkiHTMLRenderers:
@@ -118,8 +119,6 @@ class StringExtensions(abc.ABC):
 
 class TemporaryServiceCollection:
     @property
-    def AnkiAvailability(self) -> AnkiAvailability: ...
-    @property
     def AnkiHTMLRenderers(self) -> AnkiHTMLRenderers: ...
     @property
     def AnkiWindows(self) -> IAnkiWindows: ...
@@ -137,6 +136,8 @@ class TemporaryServiceCollection:
     def NoteServices(self) -> NoteServices: ...
     @property
     def Services(self) -> IRootResolver: ...
+    @property
+    def SpacedRepetitionSystemAvailability(self) -> SpacedRepetitionSystemAvailability: ...
     @property
     def TaskRunner(self) -> TaskRunner: ...
     @property

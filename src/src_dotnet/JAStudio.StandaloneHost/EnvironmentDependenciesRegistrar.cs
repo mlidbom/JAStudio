@@ -9,6 +9,7 @@ using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
 
@@ -16,7 +17,7 @@ namespace JAStudio.StandaloneHost;
 
 /// <summary>
 /// Wires the standalone JAStudio: JAStudio as inside Anki, working on the add-on folder it was started on, with Anki entirely out of the loop. What<br/>
-/// is Anki's, such as the study-notes and creating a note's Anki note, there is none of (<see cref="AnkiAvailability.Unavailable"/>).
+/// is Anki's, such as the study-notes and creating a note's Anki note, there is none of (<see cref="SpacedRepetitionSystemAvailability.Unavailable"/>).
 /// </summary>
 sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenciesRegistrar
 {
@@ -32,7 +33,7 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
-         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Unavailable),
+         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Unavailable),
          Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IBackendDataLoader>().Instance(new NoAnkiData()),
          Singleton.For<ICardOperations>().Instance(new NoAnkiCardOperations()),

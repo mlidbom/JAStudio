@@ -3,12 +3,13 @@ using Compze.Contracts;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.StandaloneHost;
 
 /// <summary>
 /// Anki's side of importing, as the standalone JAStudio has it: no note types and no notes, since it has no Anki. Importing is offered only while<br/>
-/// there's an Anki (<see cref="AnkiAvailability"/>).
+/// there's an Anki (<see cref="SpacedRepetitionSystemAvailability"/>).
 /// </summary>
 sealed class NoAnkiRawNotes : IAnkiRawNotes
 {

@@ -9,6 +9,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TestUtils;
 
 namespace JAStudio.Core;
@@ -32,7 +33,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
-         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Available),
+         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Available),
          Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),

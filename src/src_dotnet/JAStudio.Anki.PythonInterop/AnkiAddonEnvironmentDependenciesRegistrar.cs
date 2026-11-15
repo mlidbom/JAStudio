@@ -9,6 +9,7 @@ using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Utils;
 
@@ -25,7 +26,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new AnkiRawNotes(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
-         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Available),
+         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Available),
          Singleton.For<IAnkiWindows>().Instance(new AnkisOwnWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),

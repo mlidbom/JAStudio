@@ -5,6 +5,7 @@ using JAStudio.Core.Batches;
 using JAStudio.Core.Configuration;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core;
@@ -27,7 +28,7 @@ public class TemporaryServiceCollection
    public BackgroundTaskManager BackgroundTaskManager => Services.Resolve<BackgroundTaskManager>();
    public ExternalNoteIdMap ExternalNoteIdMap => Services.Resolve<ExternalNoteIdMap>();
    public IAnkiWindows AnkiWindows => Services.Resolve<IAnkiWindows>();
-   public AnkiAvailability AnkiAvailability => Services.Resolve<AnkiAvailability>();
+   public SpacedRepetitionSystemAvailability SpacedRepetitionSystemAvailability => Services.Resolve<SpacedRepetitionSystemAvailability>();
 
    // Note services
    public NoteServices NoteServices => Services.Resolve<NoteServices>();

@@ -1,4 +1,5 @@
 using System;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Core.Anki;
 
@@ -16,5 +17,5 @@ public sealed class NoAnkiWindows : IAnkiWindows
    public void OpenTheBrowserOn(string ankiSearch) => throw NotOffered();
    public void OpenThePreviewerOn(string ankiSearch) => throw NotOffered();
 
-   static InvalidOperationException NotOffered() => new($"JAStudio runs without Anki, so the commands that open Anki's windows aren't offered ({nameof(AnkiAvailability)}).");
+   static InvalidOperationException NotOffered() => new($"JAStudio runs without Anki, so the commands that open Anki's windows aren't offered ({nameof(SpacedRepetitionSystemAvailability)}).");
 }

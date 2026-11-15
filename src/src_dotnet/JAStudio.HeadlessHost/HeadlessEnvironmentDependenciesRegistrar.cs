@@ -10,6 +10,7 @@ using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.HeadlessHost;
@@ -37,7 +38,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new HeadlessAnkiRawNotes(database)),
          Singleton.For<IBackendDataLoader>().CreatedBy(IBackendDataLoader (AnkiCollectionDatabase database) => new AnkiBackendDataLoader(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
-         Singleton.For<AnkiAvailability>().Instance(AnkiAvailability.Unavailable),
+         Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Unavailable),
          Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
          Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
