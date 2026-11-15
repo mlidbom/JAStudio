@@ -16,13 +16,15 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
 {
    public void WireEnvironmentSpecificServices(IComponentRegistrar registrar)
    {
+      var ankisAvailability = new AnkisAvailability();
       registrar.Register(
          Singleton.For<IEnvironmentPaths>().Instance(new AnkiEnvironmentPaths()),
          Singleton.For<INoteRepository>().CreatedBy(INoteRepository (NoteSerializer serializer, IEnvironmentPaths paths) => new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<AnkiCollectionDatabase>().Instance(new AnkisOwnConnection()),
          Singleton.For<IAnkiRawNotes>().CreatedBy(IAnkiRawNotes (AnkiCollectionDatabase database) => new AnkiRawNotes(database)),
          Singleton.For<IFatalErrorHandler>().Instance(new AvaloniaFatalErrorHandler()),
-         Singleton.For<SRSAvailability>().Instance(SRSAvailability.Available),
+         Singleton.For<AnkisAvailability>().Instance(ankisAvailability),
+         Singleton.For<SRSAvailability>().Instance(ankisAvailability),
          Singleton.For<ISRSWindows>().Instance(new AnkisOwnWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),

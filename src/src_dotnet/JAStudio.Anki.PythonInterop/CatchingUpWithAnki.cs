@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Compze.Threading;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.SysUtils.Threading;
 using JAStudio.Core.TaskRunners;
@@ -10,7 +9,8 @@ namespace JAStudio.Anki.PythonInterop;
 /// <summary>
 /// Keeps JAStudio caught up with the collection Anki has open. Whenever Anki may have changed it, JAStudio reads the study-notes from it again<br/>
 /// (<see cref="JPCollection.ReadTheStudyNotesFromTheSRSAgain"/>), or loads the collection the first time, then makes the <see cref="StudyNoteWrites"/><br/>
-/// held meanwhile. It does so only while JAStudio may use Anki's collection: while an Anki profile is open, and no sync is under way.
+/// held meanwhile. It does so only while JAStudio may use Anki's collection: while an Anki profile is open, and no sync is under way<br/>
+/// (<see cref="AnkisAvailability"/>).
 /// </summary>
 /// <remarks>
 /// Anki may change its collection under JAStudio when an operation changes notes, when a sync finishes, and when another profile opens. Anki announces<br/>
@@ -23,21 +23,21 @@ public sealed class CatchingUpWithAnki
    /// <summary>How long a profile that opened waits before catching up: Anki syncs as a profile opens, when set to, and the sync starts just after.</summary>
    static readonly TimeSpan DelayAfterAProfileOpened = TimeSpan.FromMilliseconds(500);
 
-   readonly IMonitor _monitor = IMonitor.New();
    readonly JPCollection _collection;
+   readonly AnkisAvailability _ankisAvailability;
    readonly StudyNoteWrites _studyNoteWrites;
    readonly BackgroundTaskManager _backgroundTasks;
    readonly BackgroundRefresh _catchingUp;
-   bool _aProfileIsOpen;
-   bool _aSyncIsUnderWay;
    bool _theCollectionWasLoaded;
 
    /// <param name="collection">The collection kept caught up.</param>
+   /// <param name="ankisAvailability">Whether JAStudio may use Anki's collection, which is told of each lifecycle event here.</param>
    /// <param name="studyNoteWrites">The writes held while JAStudio may not use Anki's collection, and made once it has caught up.</param>
    /// <param name="backgroundTasks">Runs the catching up in the background, and surfaces what it throws.</param>
-   public CatchingUpWithAnki(JPCollection collection, StudyNoteWrites studyNoteWrites, BackgroundTaskManager backgroundTasks)
+   public CatchingUpWithAnki(JPCollection collection, AnkisAvailability ankisAvailability, StudyNoteWrites studyNoteWrites, BackgroundTaskManager backgroundTasks)
    {
       _collection = collection;
+      _ankisAvailability = ankisAvailability;
       _studyNoteWrites = studyNoteWrites;
       _backgroundTasks = backgroundTasks;
       _catchingUp = new BackgroundRefresh(backgroundTasks, CatchUp);
@@ -46,25 +46,19 @@ public sealed class CatchingUpWithAnki
    /// <summary>Takes in that a profile opened or is closing, or that a sync is starting or finished, as Anki tells JAStudio.</summary>
    public void Handle(AnkiLifecycleEvent lifecycleEvent)
    {
+      _ankisAvailability.TakeIn(lifecycleEvent);
       switch(lifecycleEvent)
       {
          case AnkiLifecycleEvent.ProfileOpened:
-            _monitor.Locked(() => _aProfileIsOpen = true);
             CatchUpOnceTheDelayAfterAProfileOpenedIsOver();
             break;
 
          case AnkiLifecycleEvent.ProfileClosing:
-            _monitor.Locked(() => _aProfileIsOpen = false);
-            _studyNoteWrites.Hold();
-            break;
-
          case AnkiLifecycleEvent.SyncStarting:
-            _monitor.Locked(() => _aSyncIsUnderWay = true);
             _studyNoteWrites.Hold();
             break;
 
          case AnkiLifecycleEvent.SyncCompleted:
-            _monitor.Locked(() => _aSyncIsUnderWay = false);
             break;
 
          default:
@@ -91,7 +85,7 @@ public sealed class CatchingUpWithAnki
    /// </summary>
    void CatchUp()
    {
-      if(!JAStudioMayUseAnkisCollection) return;
+      if(!_ankisAvailability.CanBeUsedNow) return;
 
       if(_theCollectionWasLoaded)
       {
@@ -102,8 +96,6 @@ public sealed class CatchingUpWithAnki
          _theCollectionWasLoaded = true;
       }
 
-      if(JAStudioMayUseAnkisCollection) _studyNoteWrites.MakeThem();
+      if(_ankisAvailability.CanBeUsedNow) _studyNoteWrites.MakeThem();
    }
-
-   bool JAStudioMayUseAnkisCollection => _monitor.Locked(() => _aProfileIsOpen && !_aSyncIsUnderWay);
 }

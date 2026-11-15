@@ -1,7 +1,7 @@
 import typing
 from JAStudio.Core.Note.Collection import JPCollection, IStudyNoteUpdateHandler
+from JAStudio.Anki import AnkisAvailability, AnkiLifecycleEvent
 from JAStudio.Core.TaskRunners import BackgroundTaskManager
-from JAStudio.Anki import AnkiLifecycleEvent
 from JAStudio.UI import AnkiDialogs
 from JAStudio.UI.Shortcuts import NoteViewShortcuts
 from JAStudio.Core import TemporaryServiceCollection
@@ -10,7 +10,7 @@ from System.Collections.Generic import List_1
 from JAStudio.UI.Menus import NoteContextMenu
 
 class CatchingUpWithAnki:
-    def __init__(self, collection: JPCollection, studyNoteWrites: StudyNoteWrites, backgroundTasks: BackgroundTaskManager) -> None: ...
+    def __init__(self, collection: JPCollection, ankisAvailability: AnkisAvailability, studyNoteWrites: StudyNoteWrites, backgroundTasks: BackgroundTaskManager) -> None: ...
     def AnkiChangedNotes(self) -> None: ...
     def Handle(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
 

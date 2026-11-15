@@ -11,6 +11,7 @@ namespace JAStudio.Core.Importing;
 /// <summary>
 /// Runs the <see cref="ImportProfile"/>s that <see cref="ImportProfile.RunsAutomatically"/> when Anki signals that raw notes may have arrived:<br/>
 /// when Anki finished importing a file, such as Immersion Kit's .apkg sentence cards, and when a note was added, as AnkiConnect adds them.<br/>
+/// And at each sync with the spaced repetition system (<see cref="Studying.SRSSync"/>), which is to replace Anki's signals.<br/>
 /// A run that has problems isn't executed: <see cref="StoppedByProblems"/> notifies its profile, for its report to be shown.
 /// </summary>
 /// <remarks>
@@ -44,6 +45,12 @@ public class AutomaticImportRuns
    /// the open Anki profile has: a profile whose note type it hasn't has no raw notes to import there.
    /// </summary>
    public void AfterAnkiImportedAFile() => _profilesWaitingToRun.Add(AutomaticProfiles());
+
+   /// <summary>
+   /// A sync with the spaced repetition system was made (<see cref="Studying.SRSSync"/>), and raw notes of any note type may have arrived in Anki since<br/>
+   /// the one before. Runs every automatic profile, as after Anki imported a file.
+   /// </summary>
+   public void AfterASyncWithTheSRS() => _profilesWaitingToRun.Add(AutomaticProfiles());
 
    /// <summary>A note of the note type <paramref name="ankiNoteType"/> was added in Anki. Runs the automatic profiles that take notes of that type.</summary>
    public void AfterANoteWasAddedInAnki(string ankiNoteType) => _profilesWaitingToRun.Add(AutomaticProfiles().Where(it => it.AnkiNoteType == ankiNoteType));

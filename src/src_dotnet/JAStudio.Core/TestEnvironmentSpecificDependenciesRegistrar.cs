@@ -29,7 +29,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<ISRSTagOperations>().Instance(pretendAnki),
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
-         Singleton.For<SRSAvailability>().Instance(SRSAvailability.Available),
+         Singleton.For<SRSAvailability>().Instance(pretendAnki.Availability),
          Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),

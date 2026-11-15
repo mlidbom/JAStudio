@@ -4,7 +4,7 @@ from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1, I
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Anki.CollectionDatabase import AnkiCollectionDatabase
 from JAStudio.Core.Importing import ImportProfile
-from JAStudio.Core.Studying import ISRSWindows, StudyNoteIds, ISRSTagOperations
+from JAStudio.Core.Studying import SRSAvailability, ISRSWindows, StudyNoteIds, ISRSTagOperations
 from JAStudio.Core.Studying.StudyNotes import ISRSStudyNotes, StudyNoteInTheSRS
 from JAStudio.Core.Note import NoteId, JPNote
 
@@ -77,6 +77,17 @@ class AnkiRawNotes(IAnkiRawNotes):
     def NoteTypesForRawNotes(self) -> IReadOnlyList_1[AnkiNoteType]: ...
     def SelectedBy(self, profile: ImportProfile) -> IReadOnlyList_1[RawNote]: ...
     def TagAsImported(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
+
+
+class AnkisAvailability(SRSAvailability):
+    def __init__(self) -> None: ...
+    @property
+    def CanBeUsedNow(self) -> bool: ...
+    @property
+    def IsAvailable(self) -> bool: ...
+    @property
+    def WhyItCannotBeUsedNow(self) -> str: ...
+    def TakeIn(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
 
 
 class AnkisOwnWindows(ISRSWindows):

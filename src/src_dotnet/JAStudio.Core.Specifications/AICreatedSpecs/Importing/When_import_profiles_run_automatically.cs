@@ -8,6 +8,8 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
+using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 // ReSharper disable InconsistentNaming
@@ -133,6 +135,20 @@ public class When_import_profiles_run_automatically : ImportingSpecification, IA
          [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
          [XF] public void the_subs2srs_profile_does_not_run_so_its_note_is_not_imported() => TheQuestionsOfTheImportedSentences().Must().Satisfy(it => !it.Contains("猫が好きだ"));
          [XF] public void only_the_run_of_the_Immersion_Kit_profile_is_notified() => ExecutedRuns.Select(it => it.Profile.Name).Must().SequenceEqual(["Immersion Kit"]);
+      }
+
+      /// <summary>A sync a person started (<see cref="SRSSync"/>), in a collection loaded as at startup: a sync runs only once the collection has loaded.</summary>
+      public class after_a_sync_with_the_spaced_repetition_system : with_the_subs2srs_profile_running_automatically_too
+      {
+         public after_a_sync_with_the_spaced_repetition_system()
+         {
+            GetService<JPCollection>().ReloadFromBackend();
+            GetService<SRSSync>().Run();
+            WaitForExecutedRuns(2);
+         }
+
+         [XF] public void the_sentence_card_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("ずっと1人で生きていくんだ");
+         [XF] public void the_subs2srs_note_is_imported() => TheQuestionsOfTheImportedSentences().Must().Contain("猫が好きだ");
       }
    }
 

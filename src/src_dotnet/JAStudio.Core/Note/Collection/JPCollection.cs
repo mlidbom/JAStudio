@@ -141,11 +141,27 @@ public class JPCollection
    /// time typing pauses, and each save is such an operation. A progress window would also take the focus from the editor's field, and the editor saves<br/>
    /// its note when the field loses the focus: each read would then start the next one.
    /// </remarks>
-   public void ReadTheStudyNotesFromTheSRSAgain() => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
+   public void ReadTheStudyNotesFromTheSRSAgain() => _oneLoadOrReadFromTheSRSAtATime.Do(() => { ReadTheStudyNotesAgain(); });
+
+   /// <summary>
+   /// Reads the study-notes again, as <see cref="ReadTheStudyNotesFromTheSRSAgain"/> does, and compares each with the study-note JAStudio would write<br/>
+   /// for its note now, before a load can empty this collection: what a sync with the spaced repetition system starts with (<see cref="SRSSync"/>).
+   /// </summary>
+   internal (StudyNotesReadFromTheSRS Read, StudyNoteComparison Comparison) ReadTheStudyNotesFromTheSRSAgainAndCompareThem() => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
+   {
+      var read = ReadTheStudyNotesAgain();
+      return (read, new StudyNoteComparison(this, read.StudyNotes));
+   });
+
+   /// <summary>Reads the study-notes again, gives each note its study-note from them, and notifies each note whose study-note differs from before or is gone.</summary>
+   StudyNotesReadFromTheSRS ReadTheStudyNotesAgain()
    {
       var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
-      GiveEachNoteItsStudyNoteFrom(_studyNotesInTheSRS.ReadAll(), studyNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
-   });
+      var read = GiveEachNoteItsStudyNoteFrom(_studyNotesInTheSRS.ReadAll(), studyNoteIdsHeldWhenTheReadBegan);
+      foreach(var note in read.NotesWhoseStudyNoteIsGone.Concat(read.NotesWhoseStudyNoteChanged))
+         NotifyThatTheStudyNoteChangedFor(note);
+      return read;
+   }
 
    public JPCollection(
       NoteServices noteServices,
@@ -309,16 +325,13 @@ public class JPCollection
    /// has no note to give them to. A note whose study-note was among <paramref name="studyNoteIdsHeldWhenTheReadBegan"/>, and is gone from the<br/>
    /// spaced repetition system, is left with none.
    /// </summary>
-   /// <returns>The notes whose study-note differs from before: at a load, every note with one.</returns>
-   List<JPNote> GiveEachNoteItsStudyNoteFrom(IReadOnlyList<StudyNoteInTheSRS> studyNotesRead, IReadOnlyDictionary<long, NoteId> studyNoteIdsHeldWhenTheReadBegan)
+   /// <returns>What was read, with the notes whose study-note differs from before, at a load every note with one, and those whose study-note is gone.</returns>
+   StudyNotesReadFromTheSRS GiveEachNoteItsStudyNoteFrom(IReadOnlyList<StudyNoteInTheSRS> studyNotesRead, IReadOnlyDictionary<long, NoteId> studyNoteIdsHeldWhenTheReadBegan)
    {
-      List<JPNote> notesWhoseStudyNoteChanged = [];
-      foreach(var note in NoteServices.StudyNoteIds.TakeIn(NoteIdOfEachStudyNoteThatHoldsOne(), studyNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
-      {
-         note.ReadItsStudyNoteFrom([], []);
-         notesWhoseStudyNoteChanged.Add(note);
-      }
+      List<JPNote> notesWhoseStudyNoteThenIsGone = [.. NoteServices.StudyNoteIds.TakeIn(NoteIdOfEachStudyNoteThatHoldsOne(), studyNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>()];
+      notesWhoseStudyNoteThenIsGone.ForEach(it => it.ReadItsStudyNoteFrom([], []));
 
+      List<JPNote> notesWhoseStudyNoteChanged = [];
       foreach(var studyNote in studyNotesRead)
       {
          if(studyNote.NoteId is not {} noteId || NoteFromNoteId(noteId) is not {} note) continue;
@@ -327,7 +340,9 @@ public class JPCollection
          if(itsStudyNoteDiffers) notesWhoseStudyNoteChanged.Add(note);
       }
 
-      return notesWhoseStudyNoteChanged;
+      return new StudyNotesReadFromTheSRS(studyNotesRead, notesWhoseStudyNoteChanged, [.. notesWhoseStudyNoteThenIsGone.Where(ItHasNoOtherStudyNoteNow)]);
+
+      bool ItHasNoOtherStudyNoteNow(JPNote note) => !note.HasAStudyNote();
 
       Dictionary<long, NoteId> NoteIdOfEachStudyNoteThatHoldsOne()
       {

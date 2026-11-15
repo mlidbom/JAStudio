@@ -324,7 +324,7 @@ Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: inc
 **Claude's proposal of 2026-11-15, from reading the code. Magnus hasn't seen it: he gave Claude the go-ahead to
 continue by its own judgment, and asked for what it could build on its own overnight.** What is decided about the
 Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside Anki, in parts that
-each leave JAStudio usable. Part 1 is built.
+each leave JAStudio usable. Parts 1 and 2 are built.
 
 **What tells JAStudio of Anki's changes today,** all of it to go:
 
@@ -349,11 +349,12 @@ saying why.
    `ISRSStudyNotes` and `ISRSCardOperations` become one interface for the study-notes in the SRS, whose read gives
    each study-note with its note's id, its cards' studying statuses, its tags and its fields. The load and the
    comparison use the same read. No change to what JAStudio does.
-2. **The sync, in Core,** with specifications against the pretended Anki. It reads the study-notes, gives each note
-   its study-note, writes the study-notes that differ (`StudyNoteComparison`), runs the import profiles that run
-   automatically, and answers with what it did: how many study-notes it read and wrote, the notes whose study-note is
-   gone, and the Anki notes of JAStudio's note types that hold no corpus note's id. JAStudio's MCP server's
-   `write_the_study_notes_that_differ` then runs the same sync.
+2. **The sync, in Core** (built 2026-11-15, see [Part 2 as built](#part-2-as-built-the-sync-in-core))**,** with
+   specifications against the pretended Anki. It reads the study-notes, gives each note its study-note, writes the
+   study-notes that differ (`StudyNoteComparison`), runs the import profiles that run automatically, and answers with
+   what it did: how many study-notes it read and wrote, the notes whose study-note is gone, and the Anki notes of
+   JAStudio's note types that hold no corpus note's id. JAStudio's MCP server runs the same sync, with a tool of its
+   own, `sync_with_anki`.
 3. **The Studying view:** a window, opened from the workspace's main menu and by a shortcut, with the Sync button, what
    the last sync did, and the list of the Anki notes that hold no corpus note's id. Magnus suggested "an errors tab or
    window" for that list: here it is part of the Studying window.
@@ -397,6 +398,34 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
   in all. Not measured: reading the larger JSON into rows, and its way through pythonnet inside Anki.
 - **Until part 4, the larger read also runs after every Anki operation that changed notes**
   (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`), in the background.
+
+### Part 2 as built: the sync, in Core
+
+- **`SRSSync.Run`** is the sync, in `JAStudio.Core.Studying`. One sync runs at a time. It answers with an
+  `SRSSyncReport`: how many study-notes it read, the notes whose study-note had changed in the spaced repetition
+  system since JAStudio last read it, the notes whose study-note is gone, the notes whose study-note it wrote, and the
+  study-notes of no note.
+- **The study-notes of no note are of two kinds** (`StudyNoteComparison`), which were one list until now:
+  - *Those that hold no note's id* (`StudyNotesThatHoldNoNotesId`): the corruption Magnus wanted counted and listed.
+  - *Those that hold the id of a note the collection hasn't* (`StudyNotesWhoseNoteTheCollectionHasNot`), such as a
+    note deleted with its study-note kept. With several JAStudios connected to one Anki, they're normal.
+- **The collection reads and compares in one step for a sync**
+  (`JPCollection.ReadTheStudyNotesFromTheSRSAgainAndCompareThem`), so that a load can't empty the collection between
+  the two. A study-note is compared with the note whose id it holds.
+- **A sync is refused while it can't run** (`SRSSync.WhyItCannotRunNow`), in words for a person:
+  - *while what the spaced repetition system holds can't be used* (`SRSAvailability.WhyItCannotBeUsedNow`): inside
+    Anki, while no Anki profile is open or Anki's own sync is under way. `AnkisAvailability`, in the Anki
+    integration, takes in Anki's four lifecycle events, which `CatchingUpWithAnki` kept to itself until now. It's what
+    is left to do with them once the notifications go;
+  - *before the collection has loaded.*
+- **The import profiles that run automatically are started, not waited for** (`AutomaticImportRuns.AfterASyncWithTheSRS`).
+  They import in the background, and report as they do today, so what they import isn't in the sync's report.
+- **The sync shows its progress** as the load does, through the task runner.
+- **JAStudio's MCP server has a tool for it, `sync_with_anki`,** instead of `write_the_study_notes_that_differ`
+  running it, as first proposed: that tool writes the study-notes it's asked to, and would have started imports
+  besides. With `sync_with_anki`, Claude can run a sync in the live JAStudio without the Studying window.
+- **Nothing starts a sync yet but that tool.** The notifications still do what a sync does, piece by piece, so a sync
+  finds little to do until part 4.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 

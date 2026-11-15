@@ -1,6 +1,7 @@
 import typing, abc
-from System.Collections.Generic import IReadOnlyCollection_1, IReadOnlyDictionary_2, IReadOnlyList_1
-from JAStudio.Core.Note import NoteId
+from System.Collections.Generic import IReadOnlyCollection_1, IReadOnlyList_1, IReadOnlyDictionary_2
+from JAStudio.Core.Note import NoteId, JPNote
+from JAStudio.Core.Studying.StudyNotes import StudyNoteInTheSRS
 
 class CardStudyingStatus:
     def __init__(self, studyNoteId: int, cardType: str, isSuspended: bool, noteTypeName: str) -> None: ...
@@ -46,11 +47,35 @@ class NoSRSWindows(ISRSWindows):
     def ShowAPassingMessage(self, message: str) -> None: ...
 
 
-class SRSAvailability:
-    Available : SRSAvailability
+class SRSAvailability(abc.ABC):
     Unavailable : SRSAvailability
     @property
+    def CanBeUsedNow(self) -> bool: ...
+    @property
     def IsAvailable(self) -> bool: ...
+    @property
+    def WhyItCannotBeUsedNow(self) -> str: ...
+
+
+class SRSSync:
+    @property
+    def WhyItCannotRunNow(self) -> str: ...
+    def Run(self) -> SRSSyncReport: ...
+
+
+class SRSSyncReport:
+    @property
+    def NotesWhoseStudyNoteHadChanged(self) -> IReadOnlyList_1[JPNote]: ...
+    @property
+    def NotesWhoseStudyNoteIsGone(self) -> IReadOnlyList_1[JPNote]: ...
+    @property
+    def NotesWhoseStudyNoteWasWritten(self) -> IReadOnlyList_1[JPNote]: ...
+    @property
+    def StudyNotesRead(self) -> int: ...
+    @property
+    def StudyNotesThatHoldNoNotesId(self) -> IReadOnlyList_1[StudyNoteInTheSRS]: ...
+    @property
+    def StudyNotesWhoseNoteTheCollectionHasNot(self) -> IReadOnlyList_1[StudyNoteInTheSRS]: ...
 
 
 class StudyNoteIds:

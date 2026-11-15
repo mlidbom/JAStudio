@@ -26,7 +26,17 @@ public partial class PretendAnki : ISRSStudyNotes, ISRSTagOperations
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, StudyNote> _studyNotesByAnkiNoteId = [];
+   readonly ItsAvailability _availability = new();
    long _lastAnkiNoteId;
+
+   /// <summary>The pretend Anki as a spaced repetition system for JAStudio to work with: there is one, which can be used unless its own sync is under way.</summary>
+   public SRSAvailability Availability => _availability;
+
+   /// <summary>Anki's own sync, with AnkiWeb, starts: until it has finished, JAStudio can't use what Anki holds.</summary>
+   public void StartItsOwnSync() => _availability.ItsOwnSyncIsUnderWay(true);
+
+   /// <summary>Anki's own sync, with AnkiWeb, has finished: JAStudio can use what Anki holds again.</summary>
+   public void FinishItsOwnSync() => _availability.ItsOwnSyncIsUnderWay(false);
 
    public IReadOnlyList<StudyNoteInTheSRS> ReadAll() => _monitor.Locked(() => _studyNotesByAnkiNoteId.Values.Select(it => it.AsReadFromAnki()).ToList());
 

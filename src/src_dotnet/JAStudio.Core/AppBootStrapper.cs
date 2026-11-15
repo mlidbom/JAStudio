@@ -58,6 +58,8 @@ public static class AppBootstrapper
          Singleton.For<JPCollection>().CreatedBy((NoteServices noteServices, INoteRepository noteRepository, MediaFileIndex mediaFileIndex, MediaStorageService mediaStorage, ISRSStudyNotes studyNotesInTheSRS) =>
                                                     new JPCollection(noteServices, noteRepository, mediaFileIndex, mediaStorage, studyNotesInTheSRS)),
          Singleton.For<AnkiTagChanges>().CreatedBy((JPCollection collection, ISRSTagOperations anki) => new AnkiTagChanges(collection, anki)),
+         Singleton.For<SRSSync>().CreatedBy((JPCollection collection, ISRSStudyNotes studyNotes, SRSAvailability srsAvailability, AutomaticImportRuns automaticImportRuns, TaskRunner taskRunner) =>
+                                               new SRSSync(collection, studyNotes, srsAvailability, automaticImportRuns, taskRunner)),
          Singleton.For<VocabCollection>().CreatedBy((JPCollection col) => col.Vocab),
          Singleton.For<KanjiCollection>().CreatedBy((JPCollection col) => col.Kanji),
          Singleton.For<SentenceCollection>().CreatedBy((JPCollection col) => col.Sentences),

@@ -66,7 +66,7 @@ public class JAStudioAnkiAppRoot
       _coreApp = coreApp;
       _cardServer = cardServer;
       _liveMcpServer = liveMcpServer;
-      _catchingUpWithAnki = new CatchingUpWithAnki(coreApp.Collection, StudyNoteWrites, coreApp.Services.BackgroundTaskManager);
+      _catchingUpWithAnki = new CatchingUpWithAnki(coreApp.Collection, coreApp.Services.Resolve<AnkisAvailability>(), StudyNoteWrites, coreApp.Services.BackgroundTaskManager);
       Dialogs = new AnkiDialogs();
       Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
