@@ -34,7 +34,7 @@ public interface ISRSWindows
 
    /// <summary>
    /// Opens the spaced repetition system's browser, in Anki its browser, on the study-notes with the ids <paramref name="studyNoteIds"/>, of which<br/>
-   /// there is at least one, and on no others.
+   /// there is at least one, and on no others. Anki's previewer opens with its browser.
    /// </summary>
    void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds);
 

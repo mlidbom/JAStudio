@@ -1,7 +1,7 @@
 """Has the Anki add-on serve JAStudio over HTTP for as long as an Anki profile is open: see dev_docs/moving-jastudio-out-of-anki.md.
 
-wip: nothing calls the server yet but what is tried from outside Anki. JAStudio inside Anki calls Anki through pythonnet until the add-on stops
-loading .NET.
+wip: the standalone JAStudio calls the server. JAStudio inside Anki doesn't: it calls Anki through pythonnet until the add-on stops loading
+.NET.
 """
 from __future__ import annotations
 
