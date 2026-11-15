@@ -115,8 +115,12 @@ search, editors) is in `jastudio-workspace.md`.
   The reviewer's clicks reach the `CardServer` endpoints `/api/open-in-workspace/{noteId}` and
   `/api/open-in-previewer/{noteId}`. The `CardServer` hands them to an `INoteLinkOpener`, implemented by the Anki
   add-on (`NoteLinkOpener`).
-- **Right-click** on the note shows the same note menu as in Anki (`NoteContextMenu.BuildContextMenuSpec`),
-  editing included. Shift+Right-click gives the browser's own menu, with "Inspect".
+- **Right-click** in the workspace shows the note menu (`NoteContextMenu.BuildContextMenuSpec`), which Anki's
+  windows showed too until 2026-11-15, editing included. Shift+Right-click gives the browser's own menu, with
+  "Inspect".
+  - *Anywhere else,* in Anki's reviewer and previewer and in a web browser, the page has a right-click menu of its
+    own since 2026-11-15 (`RightClickMenu`, in `CardLayout`), which `card.js` opens: a spike so far, see
+    `moving-jastudio-out-of-anki.md`.
   - The menu is a `PopupMenuWindow`, not an Avalonia `ContextMenu`. A `ContextMenu`'s first level of items
     ignores typed access keys, and over the web view the keyboard stays with the web view.
   - The `PopupMenuWindow` is an activated, tiny, topmost window. The items are the submenu of a hidden

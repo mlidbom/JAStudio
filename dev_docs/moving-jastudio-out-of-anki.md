@@ -913,6 +913,29 @@ is otherwise as before.**
   called.
 - **Not tried inside Anki** when it was built.
 
+### The card's page has a right-click menu of its own: a spike (2026-11-15)
+
+**Magnus, 2026-11-15, asked whether the menu could cross as JSON over HTTP, each item a URL that calls JAStudio.
+Claude's view: it could, but the note's menu would better live in the card's page itself, which is JAStudio's own.
+Magnus: "Let's do a spike to prove the blazor menu works, if so that is the way to go."**
+
+- **Built:** `RightClickMenu`, a Blazor component of `CardLayout`, opened at the cursor by `card.js` wherever the
+  page isn't in the workspace, which has its own menu: in Anki's reviewer and previewer, and in a web browser.
+  Shift+Right-click keeps the browser's own menu. Its items run in JAStudio, through the page's own connection to
+  the card server, so it needs neither Qt nor the add-on, and it knows which note link was right-clicked.
+  - *Its items are a spike's:* open the note of the link clicked, or the page's note, in JAStudio's workspace.
+- **Proved, the same day:**
+  - *Qt asks Anki for no menu when the page handles the right-click.* On Qt 6.11, as Anki runs, a right-click in a
+    cross-origin iframe whose page handles it made Qt ask its view for a menu 0 times, where a right-click on the
+    outer page, or in an iframe that leaves it alone, made it ask once each. Anki builds its menu when it's asked
+    (`AnkiWebView.contextMenuEvent`). A PyQt test with a page and two iframes on another port, as Anki shows the
+    card.
+  - *The menu works:* on a sentence's page from a standalone JAStudio's card server, in Chrome, a right-click on
+    the vocab 掃除 opened it with both items, and picking "Open 掃除 in JAStudio's workspace" had that JAStudio's
+    workspace show 掃除. Away from a link it offers the page's note only, and Escape closes it.
+- **Not tried inside Anki's reviewer** when it was built.
+- **What it's to hold** is to be designed: what a person does with what they right-clicked.
+
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
 **The direction for the increment on starting JAStudio, installing it and publishing** (Magnus, 2026-11-15, on Claude's
