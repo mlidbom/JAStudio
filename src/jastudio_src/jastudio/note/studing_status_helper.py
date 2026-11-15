@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from JAStudio.Core.Note.Collection import CardStudyingStatus
+from JAStudio.Core.Studying import CardStudyingStatus
 from jastudio.ui import dotnet_ui_root
 
 if TYPE_CHECKING:

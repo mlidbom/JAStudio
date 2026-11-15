@@ -3,6 +3,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 
 // ReSharper disable InconsistentNaming
 

@@ -1,5 +1,6 @@
 using JAStudio.Anki;
 using JAStudio.Anki.CollectionDatabase;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.Specifications.Anki;
@@ -10,6 +11,6 @@ namespace JAStudio.Core.Specifications.Anki;
 /// </summary>
 public abstract class SpecificationReadingAnAnkiCollectionFile : SpecificationStartingWithAnEmptyCollection
 {
-   /// <summary>What JAStudio loads of the study-notes in <paramref name="file"/> (<see cref="AnkiBackendDataLoader"/>).</summary>
-   protected BackendData WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiCollectionFile file) => new AnkiBackendDataLoader(file).Load(GetService<TaskRunner>());
+   /// <summary>What JAStudio loads of the study-notes in <paramref name="file"/> (<see cref="AnkiDataLoader"/>).</summary>
+   protected SpacedRepetitionSystemData WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiCollectionFile file) => new AnkiDataLoader(file).Load(GetService<TaskRunner>());
 }

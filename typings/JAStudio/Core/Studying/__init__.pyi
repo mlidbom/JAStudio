@@ -1,6 +1,24 @@
 import typing, abc
+from JAStudio.Core.TaskRunners import TaskRunner
+from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1, IReadOnlyDictionary_2
 from JAStudio.Core.Note import NoteId
-from System.Collections.Generic import IReadOnlyDictionary_2, IReadOnlyList_1
+
+class CardStudyingStatus:
+    def __init__(self, studyNoteId: int, cardType: str, isSuspended: bool, noteTypeName: str) -> None: ...
+    @property
+    def CardType(self) -> str: ...
+    @property
+    def IsSuspended(self) -> bool: ...
+    @property
+    def NoteTypeName(self) -> str: ...
+    @property
+    def StudyNoteId(self) -> int: ...
+
+
+class ISpacedRepetitionSystemDataLoader(typing.Protocol):
+    @abc.abstractmethod
+    def Load(self, taskRunner: TaskRunner) -> SpacedRepetitionSystemData: ...
+
 
 class ISpacedRepetitionSystemWindows(typing.Protocol):
     @abc.abstractmethod
@@ -26,6 +44,18 @@ class SpacedRepetitionSystemAvailability:
     Unavailable : SpacedRepetitionSystemAvailability
     @property
     def IsAvailable(self) -> bool: ...
+
+
+class SpacedRepetitionSystemData:
+    def __init__(self, noteIdOfEachStudyNote: Dictionary_2[int, NoteId], studyingStatuses: List_1[CardStudyingStatus], studyNoteTags: Dictionary_2[int, IReadOnlyList_1[str]]) -> None: ...
+    @property
+    def NoteIdOfEachStudyNote(self) -> Dictionary_2[int, NoteId]: ...
+    @property
+    def StudyingStatuses(self) -> List_1[CardStudyingStatus]: ...
+    @property
+    def StudyNoteTags(self) -> Dictionary_2[int, IReadOnlyList_1[str]]: ...
+    def StudyingStatusesOf(self, studyNoteId: int) -> IEnumerable_1[CardStudyingStatus]: ...
+    def TagsOf(self, studyNoteId: int) -> IReadOnlyList_1[str]: ...
 
 
 class StudyNoteIds:

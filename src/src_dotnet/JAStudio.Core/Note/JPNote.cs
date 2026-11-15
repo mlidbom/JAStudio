@@ -9,6 +9,7 @@ using JAStudio.Core.Storage.Dto;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
 using MemoryPack;
 
 namespace JAStudio.Core.Note;

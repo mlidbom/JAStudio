@@ -4,6 +4,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 using JAStudio.Mcp.Tools.Collection;
 
 // ReSharper disable InconsistentNaming

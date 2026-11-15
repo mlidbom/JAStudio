@@ -6,7 +6,7 @@ using JAStudio.Core.Note;
 
 namespace JAStudio.Anki;
 
-public sealed partial class AnkiBackendDataLoader
+public sealed partial class AnkiDataLoader
 {
    /// <summary>
    /// A study-note as the load reads it: the id of its Anki note and of its note type, its <c>jas_note_id</c> field, which holds the id of the<br/>

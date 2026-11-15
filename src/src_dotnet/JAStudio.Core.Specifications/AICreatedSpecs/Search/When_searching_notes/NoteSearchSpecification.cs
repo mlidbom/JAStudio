@@ -5,6 +5,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Core.Specifications.AICreatedSpecs.Search.When_searching_notes;
 

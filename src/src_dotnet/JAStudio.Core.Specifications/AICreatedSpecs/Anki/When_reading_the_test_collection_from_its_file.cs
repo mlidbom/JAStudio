@@ -9,6 +9,7 @@ using JAStudio.Core.Importing.RawNotes;
 using JAStudio.Core.Note;
 using JAStudio.Core.Specifications.Anki;
 using JAStudio.Core.Specifications.Anki.BulkLoaderTests;
+using JAStudio.Core.Studying;
 
 // ReSharper disable InconsistentNaming
 
@@ -30,7 +31,7 @@ public class When_reading_the_test_collection_from_its_file : SpecificationReadi
 
    public class what_the_collection_loads_of_the_study_notes : When_reading_the_test_collection_from_its_file
    {
-      readonly BackendData _read;
+      readonly SpacedRepetitionSystemData _read;
 
       public what_the_collection_loads_of_the_study_notes() => _read = WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database);
 

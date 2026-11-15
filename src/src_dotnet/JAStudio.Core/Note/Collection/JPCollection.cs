@@ -13,6 +13,7 @@ using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.Storage;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.Studying;
 using JAStudio.Core.SysUtils.Threading;
 
 namespace JAStudio.Core.Note.Collection;
@@ -129,9 +130,9 @@ public class JPCollection
 
    /// <summary>
    /// Reads from Anki again what this collection holds of each note's study-note, as the load does, without loading the corpus again: its Anki note id,<br/>
-   /// the studying statuses of its cards and its tags (<see cref="IBackendDataLoader"/>). Each note whose study-note differs from before is notified<br/>
-   /// through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an Anki operation that changed notes, undo<br/>
-   /// and redo included. It shows no progress.
+   /// the studying statuses of its cards and its tags (<see cref="ISpacedRepetitionSystemDataLoader"/>). Each note whose study-note differs from before<br/>
+   /// is notified through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an Anki operation that changed<br/>
+   /// notes, undo and redo included. It shows no progress.
    /// </summary>
    /// <remarks>
    /// It shows no progress since it runs in the background so often, after every Anki operation that changed notes: Anki's editor saves its note each<br/>
@@ -141,8 +142,8 @@ public class JPCollection
    public void ReadTheStudyNotesFromAnkiAgain() => _oneLoadOrReadFromAnkiAtATime.Do(() =>
    {
       using var showingNoProgress = NoteServices.TaskRunner.Current("Reading the study-notes from Anki again", forceHide: true);
-      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
-      GiveEachNoteItsStudyNoteFrom(_backendDataLoader.Load(NoteServices.TaskRunner), ankiNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
+      var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
+      GiveEachNoteItsStudyNoteFrom(_spacedRepetitionSystemDataLoader.Load(NoteServices.TaskRunner), studyNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
    });
 
    public JPCollection(
@@ -150,7 +151,7 @@ public class JPCollection
       INoteRepository noteRepository,
       MediaFileIndex mediaFileIndex,
       MediaStorageService mediaStorage,
-      IBackendDataLoader backendDataLoader)
+      ISpacedRepetitionSystemDataLoader spacedRepetitionSystemDataLoader)
    {
       using var _ = this.Log().Info().MethodExecutionTime();
 
@@ -158,7 +159,7 @@ public class JPCollection
       _repository = noteRepository;
       _mediaFileIndex = mediaFileIndex;
       _mediaStorage = mediaStorage;
-      _backendDataLoader = backendDataLoader;
+      _spacedRepetitionSystemDataLoader = spacedRepetitionSystemDataLoader;
       DictLookup = new DictLookup(this);
       VocabNoteGeneratedData = new VocabNoteGeneratedData();
       VocabNoteFactory = new VocabNoteFactory(DictLookup, this, noteServices);
@@ -179,7 +180,7 @@ public class JPCollection
    readonly INoteRepository _repository;
    readonly MediaFileIndex _mediaFileIndex;
    readonly MediaStorageService _mediaStorage;
-   readonly IBackendDataLoader _backendDataLoader;
+   readonly ISpacedRepetitionSystemDataLoader _spacedRepetitionSystemDataLoader;
 
    /// <summary>Keeps a load of this collection and a read of the study-notes from Anki from running at the same time, which would mix what they read.</summary>
    readonly OneAtATime _oneLoadOrReadFromAnkiAtATime = new();
@@ -287,43 +288,43 @@ public class JPCollection
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
       var dictionaryLoad = TaskCE.Run(() => runner.RunIndeterminate("Loading the dictionary", DictLookup.LoadTheDictionary));
 
-      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
-      var backendDataTask = Task.Run(() => _backendDataLoader.Load(NoteServices.TaskRunner));
+      var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
+      var spacedRepetitionSystemDataTask = Task.Run(() => _spacedRepetitionSystemDataLoader.Load(NoteServices.TaskRunner));
 
-      Task.WaitAll(repoLoad, mediaIndexBuild, backendDataTask, dictionaryLoad);
+      Task.WaitAll(repoLoad, mediaIndexBuild, spacedRepetitionSystemDataTask, dictionaryLoad);
 
-      runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(backendDataTask.Result, ankiNoteIdsHeldWhenTheReadBegan));
+      runner.RunIndeterminate("Giving each note what Anki holds of its study-note", () => GiveEachNoteItsStudyNoteFrom(spacedRepetitionSystemDataTask.Result, studyNoteIdsHeldWhenTheReadBegan));
 
       IsInitialized = true;
       _reloadedFromBackend.OnNext(this);
    }
 
    /// <summary>
-   /// Gives each note what <paramref name="anki"/> holds of its study-note: its Anki note id, the studying statuses of its cards and its tags. A study-note<br/>
-   /// whose note the collection hasn't, such as one added in Anki, has no note to give them to. A note whose study-note was among<br/>
-   /// <paramref name="ankiNoteIdsHeldWhenTheReadBegan"/>, and is gone from Anki, is left with none.
+   /// Gives each note what <paramref name="spacedRepetitionSystem"/> holds of its study-note: its id, the studying statuses of its cards and its tags.<br/>
+   /// A study-note whose note the collection hasn't, such as one added in Anki, has no note to give them to. A note whose study-note was among<br/>
+   /// <paramref name="studyNoteIdsHeldWhenTheReadBegan"/>, and is gone from the spaced repetition system, is left with none.
    /// </summary>
    /// <returns>The notes whose study-note differs from before: at a load, every note with one.</returns>
-   List<JPNote> GiveEachNoteItsStudyNoteFrom(BackendData anki, IReadOnlyDictionary<long, NoteId> ankiNoteIdsHeldWhenTheReadBegan)
+   List<JPNote> GiveEachNoteItsStudyNoteFrom(SpacedRepetitionSystemData spacedRepetitionSystem, IReadOnlyDictionary<long, NoteId> studyNoteIdsHeldWhenTheReadBegan)
    {
       List<JPNote> notesWhoseStudyNoteChanged = [];
-      foreach(var note in NoteServices.StudyNoteIds.TakeIn(anki.IdMappings, ankiNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
+      foreach(var note in NoteServices.StudyNoteIds.TakeIn(spacedRepetitionSystem.NoteIdOfEachStudyNote, studyNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
       {
          note.ReadItsStudyNoteFrom([], []);
          notesWhoseStudyNoteChanged.Add(note);
       }
 
-      foreach(var (ankiNoteId, noteId) in anki.IdMappings)
+      foreach(var (studyNoteId, noteId) in spacedRepetitionSystem.NoteIdOfEachStudyNote)
       {
          if(NoteFromNoteId(noteId) is not {} note) continue;
 
-         var itsStudyNoteDiffers = note.ReadItsStudyNoteFrom(anki.StudyingStatusesOf(ankiNoteId), anki.TagsOf(ankiNoteId)) || ItIsANewStudyNote(ankiNoteId, noteId);
+         var itsStudyNoteDiffers = note.ReadItsStudyNoteFrom(spacedRepetitionSystem.StudyingStatusesOf(studyNoteId), spacedRepetitionSystem.TagsOf(studyNoteId)) || ItIsANewStudyNote(studyNoteId, noteId);
          if(itsStudyNoteDiffers) notesWhoseStudyNoteChanged.Add(note);
       }
 
       return notesWhoseStudyNoteChanged;
 
-      bool ItIsANewStudyNote(long ankiNoteId, NoteId noteId) => !(ankiNoteIdsHeldWhenTheReadBegan.TryGetValue(ankiNoteId, out var heldThen) && heldThen.Equals(noteId));
+      bool ItIsANewStudyNote(long studyNoteId, NoteId noteId) => !(studyNoteIdsHeldWhenTheReadBegan.TryGetValue(studyNoteId, out var heldThen) && heldThen.Equals(noteId));
    }
 
    void LoadFromRepository()

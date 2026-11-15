@@ -15,7 +15,7 @@ public class for_the_Anki_note_id_map : SpecificationReadingAnAnkiCollectionFile
    {
       readonly Dictionary<long, NoteId> _corpusNoteIdsByAnkiNoteId;
 
-      public after_loading_it_from_the_test_collection() => _corpusNoteIdsByAnkiNoteId = WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database).IdMappings;
+      public after_loading_it_from_the_test_collection() => _corpusNoteIdsByAnkiNoteId = WhatTheCollectionLoadsOfTheStudyNotesIn(AnkiTestDb.Database).NoteIdOfEachStudyNote;
 
       [XF] public void every_vocab_note_maps_to_a_vocab_id() => _corpusNoteIdsByAnkiNoteId.Values.OfType<VocabId>().Count().Must().Be(253);
       [XF] public void every_kanji_note_maps_to_a_kanji_id() => _corpusNoteIdsByAnkiNoteId.Values.OfType<KanjiId>().Count().Must().Be(685);

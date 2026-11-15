@@ -7,6 +7,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TaskRunners;
 
 namespace JAStudio.Core.TestUtils;
@@ -14,11 +15,11 @@ namespace JAStudio.Core.TestUtils;
 /// <summary>
 /// The student's Anki in specifications, where there's no Anki: it gives the notes specifications choose a pretend study-note<br/>
 /// (<see cref="GiveAStudyNoteTo"/>), and loading the collection<br/>
-/// reads from it as from Anki (<see cref="IBackendDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
+/// reads from it as from Anki (<see cref="ISpacedRepetitionSystemDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
 /// cards specifications suspended. It has no other cards, and no Anki notes but the study-notes. JAStudio changes its tags as it changes Anki's<br/>
 /// (<see cref="IAnkiTagOperations"/>).
 /// </summary>
-public class PretendAnki : IBackendDataLoader, IAnkiTagOperations
+public class PretendAnki : ISpacedRepetitionSystemDataLoader, IAnkiTagOperations
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, NoteId> _noteOfEachStudyNote = [];
@@ -26,7 +27,7 @@ public class PretendAnki : IBackendDataLoader, IAnkiTagOperations
    readonly Dictionary<long, List<CardStudyingStatus>> _suspendedCardsOfEachStudyNote = [];
    long _lastAnkiNoteId;
 
-   public BackendData Load(TaskRunner taskRunner) => _monitor.Locked(() => new BackendData(new Dictionary<long, NoteId>(_noteOfEachStudyNote),
+   public SpacedRepetitionSystemData Load(TaskRunner taskRunner) => _monitor.Locked(() => new SpacedRepetitionSystemData(new Dictionary<long, NoteId>(_noteOfEachStudyNote),
                                                                                           [.._suspendedCardsOfEachStudyNote.Values.SelectMany(it => it)],
                                                                                           new Dictionary<long, IReadOnlyList<string>>(_tagsOfEachStudyNote)));
 

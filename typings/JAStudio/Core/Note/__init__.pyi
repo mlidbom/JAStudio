@@ -2,8 +2,9 @@ import typing, abc
 from JAStudio.Core.Note.Media import AllAudioOfANote, AudioReferenceList, MediaReference, MediaReferenceList_1, ImageReference
 from System.Collections.Generic import IEnumerable_1, HashSet_1, Dictionary_2, IReadOnlyList_1, List_1
 from JAStudio.Core.Note.Tagging import Tag, AnkiTags, NoteTags
-from JAStudio.Core.Note.Collection import JPCollection, CardStudyingStatus
+from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Storage.Media import SourceTag, MediaFileIndex
+from JAStudio.Core.Studying import CardStudyingStatus, SpacedRepetitionSystemAvailability, StudyNoteIds
 from JAStudio.Core.Storage.Dto import CorpusNoteDto, KanjiDto, KanjiSourceDataDto
 from JAStudio.Core.Note.Commands import NoteChangingCommand_1, NoteChangingCommandTakingAText_1, INoteCommand_1
 from JAStudio.Core.Note.EditableFields import EditableTextField_1, EditableSetField_2, EditableTextListField_1, EditableListField_2, EditableTagsField_1, IEditableField_1
@@ -16,7 +17,6 @@ from Compze.Abstractions import EntityId
 from JAStudio.Core.Configuration import JapaneseConfig, Settings
 from JAStudio.Core.LanguageServices.JamdictEx import DictLookup
 from JAStudio.Core.Note.Vocabulary.Matching.Conditions.Sharing import SharedConditions
-from JAStudio.Core.Studying import SpacedRepetitionSystemAvailability, StudyNoteIds
 from JAStudio.Core.TaskRunners import TaskRunner
 
 class Builtin(abc.ABC):

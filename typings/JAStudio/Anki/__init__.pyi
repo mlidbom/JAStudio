@@ -1,25 +1,25 @@
 import typing, abc
-from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
+from JAStudio.Core.Note import ICardOperations, NoteId, JPNote
+from JAStudio.Core.Studying import StudyNoteIds, ISpacedRepetitionSystemDataLoader, SpacedRepetitionSystemData, ISpacedRepetitionSystemWindows
 from JAStudio.Anki.CollectionDatabase import AnkiCollectionDatabase
 from JAStudio.Core.TaskRunners import TaskRunner
-from JAStudio.Core.Note import ICardOperations, NoteId, JPNote
-from JAStudio.Core.Studying import StudyNoteIds, ISpacedRepetitionSystemWindows
+from JAStudio.Core import IEnvironmentPaths
 from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
 from JAStudio.Core.Note.Tagging import IAnkiTagOperations
 
-class AnkiBackendDataLoader(IBackendDataLoader):
-    def __init__(self, database: AnkiCollectionDatabase) -> None: ...
-    def Load(self, taskRunner: TaskRunner) -> BackendData: ...
-
-
 class AnkiCardOperationsImpl(ICardOperations):
     def __init__(self, studyNoteIds: StudyNoteIds) -> None: ...
     def DeleteNote(self, noteId: NoteId) -> None: ...
     def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
     def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
+
+
+class AnkiDataLoader(ISpacedRepetitionSystemDataLoader):
+    def __init__(self, database: AnkiCollectionDatabase) -> None: ...
+    def Load(self, taskRunner: TaskRunner) -> SpacedRepetitionSystemData: ...
 
 
 class AnkiEnvironmentPaths(IEnvironmentPaths):

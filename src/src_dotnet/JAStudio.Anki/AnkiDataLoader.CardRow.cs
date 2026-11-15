@@ -1,9 +1,10 @@
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
-public sealed partial class AnkiBackendDataLoader
+public sealed partial class AnkiDataLoader
 {
    /// <summary>A card as the load reads it: the id of its Anki note, its ordinal, which says which of its note type's templates it's of, and its queue in Anki.</summary>
    sealed record CardRow(long AnkiNoteId, int Ordinal, int Queue)
