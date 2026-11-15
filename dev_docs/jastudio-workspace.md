@@ -81,8 +81,8 @@ apply here.
 ## Data: live editing and sync
 
 - **Live editing.** Every change is written to the note at once: a check box when it's clicked, a text field on
-  every keystroke. There's no Save button. JSON files in git make this unusually safe. A planned "revert this note
-  to its last committed version" covers mistakes.
+  every keystroke. There's no Save button. JSON files in git make this unusually safe. A note's history and rolling it
+  back, planned in the changes view ([changes-view.md](changes-view.md)), cover mistakes.
 - **One shared object per note.** `NoteCache` holds one object per note, and every view shows that object, so
   several editors on the same note need no special handling. An editor refreshes every field from the note whenever
   the note is updated.
@@ -487,9 +487,6 @@ First version, 2026-11-13.
 - **A background tab loads its page when it's first shown.** The web view doesn't tell a hidden page that it's
   hidden, so a page loaded in a background tab would play its note's audio unseen. Until it's first shown, the tab
   has only its header, taken from the link.
-- **Reverting a note** reads its file from the `src/jas_database` git repository as of `HEAD`. It goes through the
-  normal update path, so the cache, the files, the snapshot and the notifications stay consistent. A note created
-  since the last commit has no committed version, so that case still needs deciding.
 
 ## Increments
 
@@ -553,7 +550,8 @@ First version, 2026-11-13.
      are gone.
 6. **Multiple workspaces.** *(Parked 2026-11-06. Leaning, 2026-11-07: this is how several searches stay open,
    each workspace keeping its own search, results and opened notes. See `note-search.md`.)*
-7. **Revert to the committed version.** *(Parked 2026-11-06.)*
+7. **Revert to the committed version.** *(Parked 2026-11-06. Now part of the changes view:
+   [changes-view.md](changes-view.md).)*
 8. **The workspace comes back after a restart.** *(Built 2026-11-08, Magnus: "immensely helpful".)* When the
    workspace window is left (`WorkspaceViewModel.SaveTheState`), its `WorkspaceState` is saved in
    `workspace-state.json` in the user files folder (`SavedWorkspaceState`), per machine and not versioned:

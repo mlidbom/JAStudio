@@ -477,21 +477,9 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
   - **It can't compare across a change to how the corpus stores notes:** a file from before the change can't be read into
     a note, and the tool says which file in which version.
 
-  Still proposed: the same comparison under JAStudio's own features Magnus would love: committing inside JAStudio while
-  seeing which notes changed and how, a note's history with rolling back to a version, and which sentences a change to
-  vocab changed. The git command line suits it: on the corpus repository (207 commits, 79,718 note files) `git status`
-  took 0.17 seconds and a note's history 0.035.
-
-  **Committing inside JAStudio may come before the changes to the vocab's matching configuration** (Magnus,
-  2026-11-10): it would turn his commits, now a manual round of JAStudio and several repositories in Git Extensions,
-  into two or three clicks. What it would do:
-  - run a full rebuild before committing, so a commit always holds everything its edits changed, as the process for
-    changes to the corpus requires (the skill `.claude/skills/changing-what-the-corpus-stores`);
-  - show the changes as notes, as `diff_the_changed_notes` does;
-  - commit the media submodules too, innermost first;
-  - tell the notes edited by hand from those a rebuild only regenerated, since JAStudio knows which notes an editor
-    or a command wrote and which a rebuild did, and name the edited ones in the commit message. The diff alone can't:
-    a rebuild changes generated data such as a vocab's `sentenceCount` on notes nobody edited.
+  **The changes view builds on it** ([changes-view.md](changes-view.md)): committing inside JAStudio while seeing which
+  notes changed and how, a note's history with rolling back to a version, and which sentences a change to vocab
+  changed.
 
 ## Open questions
 
