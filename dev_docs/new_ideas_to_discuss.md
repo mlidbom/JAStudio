@@ -35,3 +35,17 @@ piece of code, or that would otherwise be lost in a long response.
   sentences at once, only the sentences that parse differently. That is the experiment Magnus described: change the
   parsing configuration in one, and see at once where the two now disagree. The gateway knows nothing of JAStudio's
   tools, so it would compare answers as JSON, generally, which suits it.
+- **(Claude, 2026-11-15) Get the solution to no inspection warnings, so that a new one shows.** Every inspection of a
+  few files answers with dozens of standing warnings, which the new ones hide: `MemberCanBeInternal` and
+  `MemberCanBePrivate.Global` throughout, the latter on every specification's helpers, and
+  `NotAccessedPositionalProperty.Global` on the records JAStudio's MCP server only serializes to JSON. Either fix them
+  in a campaign (the shared skill `run-and-fix-resharper-inspections`), or turn off the ones that are noise here, for
+  the specifications and for the records that are serialized.
+- **(Claude, 2026-11-15) A type for a study-note's id, in place of `long`,** as the code standard on primitives asks.
+  Best done once the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
+  the code that passes the id about today goes with them.
+- **(Claude, 2026-11-15) View models dispatch to the UI thread with Avalonia's `Dispatcher`,** though the rule for the
+  UI says that view models don't reference Avalonia types (`ImportRunWindowViewModel`, `StudyingWindowViewModel`).
+  Core has `IUIThreadDispatcher` for it, but the specifications that open windows run with one that dispatches nowhere,
+  while their windows live on the headless UI thread. A dispatcher for those specifications that posts to that thread
+  would let the view models use Core's.
