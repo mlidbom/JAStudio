@@ -17,12 +17,27 @@ Anki restarting.
 
 ## Terms
 
-- **studying-add-on** — as in `studying.md`: a spaced repetition system that JAStudio integrates with. Anki is the only
-  one today. It's an add-on to JAStudio.
-- **the Anki add-on** — JAStudio's add-on to Anki: the Python code that Anki loads, in `src/jastudio_src`.
+**Open since 2026-11-15.** This document is written with the two terms of 2026-11-14:
 
-Both are add-ons, each to the other program. Magnus, 2026-11-14: "Anki addon and JASTudio addon make perfect sense to
-me. No more confusing than chrome addon and anki addon".
+- **studying-add-on** — as in `studying.md`: a spaced repetition system that JAStudio integrates with. Anki is the only
+  one today.
+- **the Anki add-on** — the Python code that Anki loads, in `src/jastudio_src`.
+
+On 2026-11-14 Magnus held that the two uses of add-on don't collide: "Anki addon and JASTudio addon make perfect sense
+to me." On 2026-11-15 he found that they do: "The problem here is that even qualified with Anki addon is ambiguous".
+"The Anki add-on" reads as the add-on in JAStudio that provides studying information from Anki, and as the add-on
+loaded in Anki that talks to JAStudio. "JAStudio Anki add-on" reads both ways too: each is an add-on to one of the two
+programs for the other, so every name built from the three words fits both.
+
+There are three things to name, and only the third is an add-on in its host's own word:
+
+1. Anki as the domain sees it: where the student studies. Today *studying-add-on*.
+2. JAStudio's code that works with it, `JAStudio.Anki`. `studying.md` already calls it *the Anki integration*.
+3. The Python code that Anki loads. Anki calls such code an add-on.
+
+Claude's suggestion, not yet answered: *spaced repetition system* for 1, which is what `studying.md` defines a
+studying-add-on as, *the Anki integration* for 2, and *the Anki add-on* for 3 alone. With nothing in JAStudio called an
+add-on, "the Anki add-on" reads one way.
 
 ## What crosses between Anki and JAStudio today
 
@@ -162,13 +177,16 @@ development in various scenarios. Not required if it turns out to be a huge pain
   It's the one that started first of those still running: "Just using the first started one of the one's still
   awailable should be fine."
 - **"If this is hard it can wait."**
+- **Any connected JAStudio may change what Anki holds** (Magnus, 2026-11-15: "Not sure we need to restrict it"). Each
+  JAStudio works on a corpus checkout of its own (`CorpusCheckoutLock`), so two of them can hold different versions of
+  the same notes, but: "Usually they will have pretty much the same set of notes, and the fields stored in anki hardly
+  ever change in a note. Should any minimal "corruption" ever occur it will be something like an extra note in anki
+  that one jastudio does not know about."
+  - So with several connected, a study-note whose corpus note one of them doesn't have is normal, and no corruption.
 - **What it means for the design (Claude, 2026-11-15, nothing tried):**
   - Calls from JAStudio to Anki need nothing more: the add-on's HTTP server answers whoever calls.
   - For what goes to the primary, the add-on has to know the running JAStudios and when each started. A JAStudio could
     tell it so as it connects, which is still a call from JAStudio, not a notification from Anki.
-  - Each JAStudio works on a corpus checkout of its own (`CorpusCheckoutLock`), so two of them can hold different
-    versions of the same notes. Which of them may change what Anki holds is the hard part: see
-    [Deferred until the work reaches them](#deferred-until-the-work-reaches-them).
 
 ## What it buys
 
@@ -262,8 +280,11 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
 - **Tessaging or interfaces inside JAStudio.**
-- **With several JAStudios connected:** which of them may change what Anki holds, and how the add-on learns that one
-  stopped without saying so.
+- **With several JAStudios connected:**
+  - How the add-on learns that one stopped without saying so.
+  - Which JAStudio's sync imports, for as long as importing from Anki exists. An import deletes its raw notes from
+    Anki, so they'd end up in the corpus checkout of whichever JAStudio syncs first. Claude's suggestion: only the
+    primary's sync imports.
 - **Who starts JAStudio,** and what the add-on does until it runs.
 
 ## Also turned down

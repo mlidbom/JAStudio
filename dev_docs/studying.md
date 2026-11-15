@@ -18,8 +18,9 @@
 ## Terms
 
 - **studying-add-on** — a spaced repetition system that JAStudio integrates with, which schedules a student's
-  reviews. Anki is the only one today. It's an add-on to JAStudio, as JAStudio's Python code in Anki is the Anki add-on
-  (Magnus, 2026-11-14: "Anki addon and JASTudio addon make perfect sense to me").
+  reviews. Anki is the only one today.
+  - *The word is open since 2026-11-15:* "add-on" also names the Python code that Anki loads, and "the Anki add-on"
+    reads both ways. See `moving-jastudio-out-of-anki.md`, "Terms".
 - **reading** and **listening** — the two ways a note is studied today. Reading shows the text and asks for its
   meaning; listening plays the audio. In Anki they are card types (`CardTypes.Reading`, `CardTypes.Listening`,
   the card templates' names). What the domain calls them is to be designed.
