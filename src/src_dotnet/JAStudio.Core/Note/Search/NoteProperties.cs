@@ -34,9 +34,12 @@ public static class NoteProperties
    /// <summary>Whether the note's listening is being studied: it has a listening card that isn't suspended.</summary>
    public static readonly TrueOrFalseProperty StudyingListening = new("Studying listening", it => it.IsStudying(CardTypes.Listening));
 
+   /// <summary>Whether the note is a sentence marked as a parsing case (<see cref="Sentences.SentenceNote.ParsingCase"/>).</summary>
+   public static readonly TrueOrFalseProperty ParsingCase = new("Parsing case", it => it is Sentences.SentenceNote { ParsingCase: not null });
+
    /// <summary>Every <see cref="TextProperty"/>, such as for finding one by its <see cref="NoteProperty.Name"/>.</summary>
    public static IReadOnlyList<TextProperty> EveryTextProperty => [SearchableText, Question, Answer];
 
    /// <summary>Every <see cref="TrueOrFalseProperty"/>, such as for finding one by its <see cref="NoteProperty.Name"/>.</summary>
-   public static IReadOnlyList<TrueOrFalseProperty> EveryTrueOrFalseProperty => [StudyingReading, StudyingListening];
+   public static IReadOnlyList<TrueOrFalseProperty> EveryTrueOrFalseProperty => [StudyingReading, StudyingListening, ParsingCase];
 }

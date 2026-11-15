@@ -47,6 +47,7 @@ class NoteConditionJson(abc.ABC):
 class NoteProperties(abc.ABC):
     Answer : TextProperty
     NoteType : NoteTypeProperty
+    ParsingCase : TrueOrFalseProperty
     Question : TextProperty
     SearchableText : TextProperty
     StudyingListening : TrueOrFalseProperty
