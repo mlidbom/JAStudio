@@ -251,26 +251,27 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
      inside Anki and the standalone JAStudio can't both hold the main corpus checkout (`CorpusCheckoutLock`).
 6. **Once Magnus has studied with it for a while,** pythonnet, `runtime_binaries`, `typings/` and the stub generator
    are deleted.
-7. **Starting JAStudio, installing it, publishing:** see [Distribution](#distribution-under-discussion).
+7. **Starting JAStudio, installing it, publishing:** see [Distribution](#distribution-the-anki-add-on-on-ankiweb-is-the-way-in).
 
-## Distribution: under discussion
+## Distribution: the Anki add-on on AnkiWeb is the way in
 
-**Magnus's view (2026-11-15): the Anki add-on has to be in AnkiWeb's list of add-ons.** "I figure that no matter how
-silly it might seem, not going through the standard distribution channel would tank usage. Once one has installed the
-addon that looks so cool, the odds that one clicks the "Download and Install" button are very good. If one just hears
-about some program somewhere you should install that will integrate with anki.... Odds plummet I would say".
+**The direction for the increment on starting JAStudio, installing it and publishing** (Magnus, 2026-11-15, on Claude's
+suggestion).
 
-**Withdrawn:** Claude's suggestion that JAStudio installs its Anki add-on into Anki. It would keep JAStudio out of
-AnkiWeb's list. And with several JAStudios connected to one Anki, each would install its own add-on over the others'.
-
-**Claude's suggestion, not yet answered:**
+**The Anki add-on has to be in AnkiWeb's list of add-ons.** Magnus: "I figure that no matter how silly it might seem,
+not going through the standard distribution channel would tank usage. Once one has installed the addon that looks so
+cool, the odds that one clicks the "Download and Install" button are very good. If one just hears about some program
+somewhere you should install that will integrate with anki.... Odds plummet I would say".
 
 - **The Anki add-on is the way in.** A student installs it from AnkiWeb, as any add-on. When it finds no JAStudio, it
   offers to download and install the release it goes with, and it starts it.
-- **A contract version keeps the two in step,** where the withdrawn suggestion had them be the same build. The HTTP
-  contract has a version, which changes when the contract does, and which the two compare when they first talk.
-  Several JAStudios built from different checkouts then all work with one add-on, as long as their contract version is
-  the add-on's.
+- **A contract version keeps the two in step.** The HTTP contract has a version, which changes when the contract does,
+  and which the two compare when they first talk. Several JAStudios built from different checkouts then all work with
+  one add-on, as long as their contract version is the add-on's.
+
+**Turned down:** that JAStudio installs its Anki add-on into Anki, which Claude first suggested. It would keep JAStudio
+out of AnkiWeb's list. And with several JAStudios connected to one Anki, each would install its own add-on over the
+others'.
 
 **Not known:** what AnkiWeb lets an add-on download and run, and whether it limits an add-on's size. Anki's page on
 sharing add-ons says nothing of either (read 2026-11-15).
@@ -284,7 +285,7 @@ has to be in a protected folder (Magnus, 2026-11-15; see
 For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 
 - **A version check when the two first talk:** an add-on and a JAStudio whose contracts differ refuse each other,
-  saying so. What the version is of is under [Distribution](#distribution-under-discussion).
+  saying so. What the version is of is under [Distribution](#distribution-the-anki-add-on-on-ankiweb-is-the-way-in).
 - **A specification that compares the add-on's Python functions with the C# contract,** in place of the type stubs.
 - **The connection is open to the same user only,** such as by a token that only the user's files hold.
 - **The write of a study-note crosses as the fields to write,** not as a note.
@@ -312,7 +313,7 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
     Anki, so they'd end up in the corpus checkout of whichever JAStudio syncs first. Claude's suggestion: only the
     primary's sync imports.
 - **Who starts JAStudio,** and what the add-on does until it runs: see
-  [Distribution](#distribution-under-discussion).
+  [Distribution](#distribution-the-anki-add-on-on-ankiweb-is-the-way-in).
 
 ## Also turned down
 
