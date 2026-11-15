@@ -2,7 +2,9 @@
 
 > **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; increment 1, the names, is built, and so is
 > increment 2, the Sync: since 2026-11-15 Anki no longer tells JAStudio of what changes, and the workspace has a Sync
-> button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and nothing uses it yet.** The order
+> button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and nothing uses it yet. On
+> JAStudio's side, the UI's direct calls to `AnkiFacade` are behind Core's seams, but for the menu commands and the
+> menu of Anki's browser.** The order
 > of work is preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
 > Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
@@ -61,7 +63,8 @@ closing and Anki's own sync starting or finishing are left. Today pythonnet load
     workspace, and the Qt menus that C# describes and Python builds.
 - **The seams between Core and Anki already exist,** since the standalone and the headless JAStudio run without Anki.
   By their names since increment 1, and as they are since increment 2 made one interface of three: `SRSAvailability`,
-  `ISRSWindows`, `ISRSStudyNotes`, `ISRSTagOperations`, `IAnkiRawNotes` and `AnkiCollectionDatabase`.
+  `ISRSWindows`, `ISRSStudyNotes`, `ISRSTagOperations`, `IAnkiRawNotes` and `AnkiCollectionDatabase`, and since
+  2026-11-15 `ISRSMedia`.
 
 ## Decided
 
@@ -577,7 +580,8 @@ server yet: Anki works on pythonnet as before.** It's the Python package `jastud
   "Interfaces should work fine for this. Go with your preference."), one for each group of functions, as the
   study-notes, the tags and the windows already have.
 
-**Claude's plan for JAStudio's side, from reading `AnkiFacade`'s callers on 2026-11-15. Nothing of it is built.**
+**Claude's plan for JAStudio's side, from reading `AnkiFacade`'s callers on 2026-11-15. Its first step is built, but
+for the menu commands: see [below](#jastudios-side-step-1-as-built-the-uis-direct-calls).**
 
 - **Most of `AnkiFacade`'s 24 functions are already called from behind Core's seams,** by the classes of
   `JAStudio.Anki` that implement them: `AnkiStudyNotes` (`ISRSStudyNotes`), `AnkiTagOperations`
@@ -596,6 +600,46 @@ server yet: Anki works on pythonnet as before.** It's the Python package `jastud
 - **The order:** the UI's direct calls go behind Core's seams; then the interfaces in `JAStudio.Anki`, with the
   pythonnet implementation, which changes nothing in what JAStudio does; then the HTTP implementation, specified
   against the add-on's HTTP server running on a copy of the test collection, started from the specifications.
+
+### JAStudio's side, step 1 as built: the UI's direct calls
+
+**Built 2026-11-15, but for the menu commands. Nothing changes in what JAStudio does.**
+
+- **`ISRSMedia`, a new seam in Core,** is the spaced repetition system's own copies of the files its study-notes
+  reference. JAStudio gives it a copy of an audio file it makes (`Add`).
+  - `AnkisMediaFolder`, in the Anki integration, is Anki's media folder, through Anki's own `col.media.add_file`.
+  - `NoSRSMedia` is for a JAStudio without a spaced repetition system: the standalone and the headless JAStudio.
+  - `PretendAnki` keeps the copies in the specifications, which now say that Anki was given the file.
+- **`UsingASpeech` gives the TTS audio to `ISRSMedia`.** It asked whether Python runs, and called `AnkiFacade`.
+- **`AutomaticImportRunReports`, and the reparse in `AnkiBrowserMenuBuilder`, use `ISRSWindows`.**
+  `ShowAPassingMessage` takes how long to show the message, since the import's message shows for 5 seconds where
+  the others show for 3.
+
+**Left in `JAStudio.UI`,** which therefore still references `JAStudio.Anki`:
+
+- *`AnkiBrowserMenuBuilder`'s calls for cards:* a card's note, and prioritizing and spreading cards. They go with the
+  Qt menus, in increment 3.
+- *`SpecMenuItem.UICommand`:* open, below.
+
+#### Open: how the menu commands refresh the spaced repetition system's windows
+
+**Put to Magnus on 2026-11-15.**
+
+57 places in the UI make a menu command with `SpecMenuItem.UICommand`, and 35 more through `NoteCommandMenuItem`,
+which uses it. It runs the command, and then refreshes Anki's reviewer, previewer and browser, by calling
+`AnkiFacade` when Python runs. It's a static factory, and most of its callers are static menu builders that have no
+services, so it can't ask for `ISRSWindows`. Five other places in the UI call `ISRSWindows.Refresh` themselves,
+after a change of their own.
+
+1. **Claude's recommendation: Anki's windows refresh when a note or the configuration changes,** as JAStudio's own
+   note pages do (`NoteTabViewModel`). The Anki integration listens to the collection, and refreshes once for a burst
+   of changes. `UICommand` becomes `Command`, and the five explicit refreshes go.
+   - *It changes what JAStudio does.* Anki's windows then also refresh after an edit in the workspace's editors,
+     which Claude finds no refresh for today, and after changes made in the background, such as a reparse or an
+     import. A card under review would be drawn again when its note changes, whoever changed it.
+   - *It fits the move out of Anki:* a refresh is then one call over HTTP from one place, not one from each command.
+2. **Every menu builder is given `ISRSWindows`, and passes it to `UICommand`.** About 90 call sites change, and the
+   signatures of the static menu builders that lead to them, and nothing in what JAStudio does.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 

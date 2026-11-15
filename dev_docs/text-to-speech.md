@@ -203,8 +203,9 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
    - **Using** (`UsingASpeech`), the only step that changes anything:
      1. the MP3 is stored in the media layer under a new name naming its voice, such as
         `jastudio-tts-azure-daichi-dragonhdomnilatestneural-<guid>.mp3` (`MediaStorageService.StoreNewAudioFile`);
-     2. it's copied into Anki's media folder through Anki's own `col.media.add_file`, for Anki's playback and the
-        listening cards (Anki's media sync takes it to mobile). Without Anki this is left out;
+     2. the spaced repetition system is given a copy (`ISRSMedia`): in Anki, it's copied into Anki's media folder
+        through Anki's own `col.media.add_file`, for Anki's playback and the listening cards (Anki's media sync takes
+        it to mobile). Without Anki there is nothing to give it to (`NoSRSMedia`);
      3. it replaces the TTS audio in the corpus's own audio of the note (`AudioReferenceList.ReplaceTheTextToSpeechAudioWith`),
         as ours, made by text-to-speech, with its voice and the voice's gender (`AudioReference`). Recordings stay: a
         sentence's recorded clip is its source's audio, and stays the audio played for it. *(Until 2026-11-10 it replaced

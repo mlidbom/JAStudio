@@ -59,3 +59,14 @@ piece of code, or that would otherwise be lost in a long response.
   where the specifications that open windows need one for each of them, as the Studying window has
   (`StudyingWindow.OpenWindowsByServices`). The headless JAStudio renders its workspace, but has no spaced repetition
   system, so what is shown only with one can't be seen there either.
+- **(Claude, 2026-11-15) An automatic import's result shows in Anki's tooltip, though the Sync that started it was
+  clicked in the workspace.** `AutomaticImportRunReports` says "The import profile … imported N sentences" in a
+  passing message in Anki's window, from when an import in Anki started the run. Since increment 2 a Sync starts it,
+  from the Sync button. The workspace could say it instead, such as beside the Sync button, where the reason a sync
+  didn't run already shows.
+- **(Claude, 2026-11-15) The card pages could refresh themselves when their note changes.** JAStudio's card server
+  serves them as interactive Blazor pages, so a page could listen for changes to its note and draw itself again,
+  in Anki's reviewer and previewer as anywhere. JAStudio would then never ask Anki to refresh them
+  (`ISRSWindows.Refresh`): it would be left for Anki's browser alone, whose columns only change at a Sync. It bears
+  on the open question in `moving-jastudio-out-of-anki.md`, "how the menu commands refresh the spaced repetition
+  system's windows".
