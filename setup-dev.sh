@@ -29,9 +29,11 @@ source venv/bin/activate
 pip install --quiet --upgrade pip
 
 # Install packages needed by .NET tests (pythonnet, Janome, jamdict)
-# and by Python tests (pytest, beartype, etc.)
+# and by Python tests (pytest, beartype, etc.): anki is Anki's own library, without its window, which the
+# specifications of the Anki add-on's HTTP server open a collection file with
 pip install --quiet \
   pytest \
+  anki \
   beartype \
   typing_extensions \
   deepdiff \
