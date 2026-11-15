@@ -1,7 +1,7 @@
 using System;
 using JAStudio.Core.Note;
 
-namespace JAStudio.UI.Shortcuts;
+namespace JAStudio.Core.UI.Shortcuts;
 
 /// <summary>A keyboard shortcut for a note being viewed: its key, and what it does. See <see cref="NoteViewShortcuts"/>.</summary>
 public class NoteViewShortcut

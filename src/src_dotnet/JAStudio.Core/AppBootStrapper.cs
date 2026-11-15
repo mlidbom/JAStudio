@@ -20,6 +20,7 @@ using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
 using JAStudio.Core.TaskRunners;
+using JAStudio.Core.UI.Shortcuts;
 using JAStudio.Core.UI.Web;
 using JAStudio.Core.UI.Web.Kanji;
 using JAStudio.Core.UI.Web.Sentence;
@@ -98,6 +99,11 @@ public static class AppBootstrapper
          Singleton.For<FileSystemNoteRepository>().CreatedBy((NoteSerializer serializer, IEnvironmentPaths paths) =>
                                                                 new FileSystemNoteRepository(serializer, paths)),
          Singleton.For<KanjiNoteMnemonicMaker>().CreatedBy((JapaneseConfig config) => new KanjiNoteMnemonicMaker(config)),
+
+         // What the spaced repetition system asks of JAStudio
+         Singleton.For<NoteViewShortcuts>().CreatedBy((JapaneseConfig config) => new NoteViewShortcuts(config)),
+         Singleton.For<HowLongToShowTheQuestion>().CreatedBy((JapaneseConfig config) => new HowLongToShowTheQuestion(config)),
+         Singleton.For<TimeboxLengths>().CreatedBy((JapaneseConfig config) => new TimeboxLengths(config)),
 
          // ViewModels
          Singleton.For<SentenceKanjiListViewModel>().CreatedBy((KanjiCollection kanji) => new SentenceKanjiListViewModel(kanji)),

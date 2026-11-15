@@ -1,8 +1,10 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Compze.DependencyInjection;
 using Compze.DependencyInjection.Abstractions;
 using Compze.DependencyInjection.Microsoft.Extensions.Hosting;
+using JAStudio.Anki.ThePrimaryJAStudio;
 using JAStudio.Core;
 using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Live;
@@ -25,18 +27,22 @@ sealed class StandaloneJAStudio
    readonly CoreApp _coreApp;
    readonly CardServer _cardServer;
    readonly LiveJAStudioMcpServer _mcpServer;
+   readonly BeingThePrimaryJAStudio? _beingThePrimaryJAStudio;
 
-   StandaloneJAStudio(IHost host, CoreApp coreApp, CardServer cardServer, LiveJAStudioMcpServer mcpServer)
+   StandaloneJAStudio(IHost host, CoreApp coreApp, CardServer cardServer, BeingThePrimaryJAStudio? beingThePrimaryJAStudio, LiveJAStudioMcpServer mcpServer)
    {
       _host = host;
       _coreApp = coreApp;
       _cardServer = cardServer;
+      _beingThePrimaryJAStudio = beingThePrimaryJAStudio;
       _mcpServer = mcpServer;
    }
 
    /// <summary>
    /// Starts JAStudio's services on <paramref name="addOnFolder"/>, and its card server, on a port the system picks, leaving alone the one the card server<br/>
-   /// inside Anki remembers. Its MCP server starts once the collection has loaded, and is announced among the <see cref="RunningJAStudios"/>.
+   /// inside Anki remembers. It becomes Anki's primary JAStudio, which the Anki add-on sends what goes from Anki to JAStudio, unless another JAStudio<br/>
+   /// that runs is (<see cref="PrimaryJAStudioAccessFile"/>). Its MCP server starts once the collection has loaded, and is announced among the<br/>
+   /// <see cref="RunningJAStudios"/>.
    /// </summary>
    public static StandaloneJAStudio StartOn(DirectoryInfo addOnFolder)
    {
@@ -48,10 +54,13 @@ sealed class StandaloneJAStudio
 
       var resolver = host.Services.GetRequiredService<IRootResolver>();
       var coreApp = resolver.Resolve<CoreApp>();
-      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
+      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services), new AnkiDialogs());
       cardServer.StartOnAPortTheSystemPicks();
+      var beingThePrimaryJAStudio = PrimaryJAStudioAccessFile.OfThisUser.TakeUnlessAnotherJAStudioIsIt(cardServer.Port);
+      Console.WriteLine(beingThePrimaryJAStudio != null ? "[StandaloneJAStudio] Anki's primary JAStudio: the Anki add-on sends what goes from Anki to JAStudio here."
+                                                        : "[StandaloneJAStudio] Not Anki's primary JAStudio: another JAStudio that runs is.");
       var mcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Standalone);
-      return new StandaloneJAStudio(host, coreApp, cardServer, mcpServer);
+      return new StandaloneJAStudio(host, coreApp, cardServer, beingThePrimaryJAStudio, mcpServer);
    }
 
    /// <summary>
@@ -66,7 +75,7 @@ sealed class StandaloneJAStudio
    }
 
    /// <summary>
-   /// Stops JAStudio, once its workspace has closed: its MCP server, its card server, its services and its host. On a thread of its own, as JAStudio inside Anki is<br/>
+   /// Stops JAStudio, once its workspace has closed: its MCP server, its being Anki's primary JAStudio, its card server, its services and its host. On a thread of its own, as JAStudio inside Anki is<br/>
    /// stopped from Python's: this is called on the UI thread, which no longer runs its dispatcher, so the stops' continuations, posted to it, would never run.
    /// </summary>
    public void Stop() => Task.Run(StopOnThisThread).GetAwaiter().GetResult();
@@ -74,6 +83,7 @@ sealed class StandaloneJAStudio
    void StopOnThisThread()
    {
       _mcpServer.Stop();
+      _beingThePrimaryJAStudio?.Dispose();
       _cardServer.StopAsync().GetAwaiter().GetResult();
       _coreApp.Dispose();
       _host.StopAsync().GetAwaiter().GetResult();

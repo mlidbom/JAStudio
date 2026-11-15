@@ -13,7 +13,7 @@ public class CardServerTests : IAsyncLifetime
    readonly CardServer _server;
    readonly HttpClient _http = new();
 
-   public CardServerTests() => _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), new NoteLinkOpenerThatRecordsRequests());
+   public CardServerTests() => _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), new NoteLinkOpenerThatRecordsRequests(), new WorkspaceTogglesThatRecordRequests());
 
    public ValueTask InitializeAsync()
    {

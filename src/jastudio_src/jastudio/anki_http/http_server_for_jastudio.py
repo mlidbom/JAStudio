@@ -33,15 +33,13 @@ from jaspythonutils.sysutils.typed import non_optional
 
 from jastudio.anki_http.functions_on_ankis_windows import FunctionsOnAnkisWindows
 from jastudio.anki_http.functions_on_the_collection import FunctionsOnTheCollection, JsonText
+from jastudio.contract_with_jastudio import CONTRACT_VERSION
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
     from jastudio.anki_http.anki_for_jastudio import AnkiForJAStudio
     from jastudio.anki_http.functions_on_the_collection import JsonValue
-
-CONTRACT_VERSION = 3
-"""The version of what the server serves: the functions, their arguments and their answers. It changes whenever one of them does."""
 
 
 @dataclass(frozen=True)

@@ -13,8 +13,8 @@ using Compze.Internals.SystemCE.ReactiveCE;
 using JAStudio.Core;
 using JAStudio.Mcp.Discovery;
 using JAStudio.Mcp.Live;
+using JAStudio.Core.UI.Shortcuts;
 using JAStudio.UI;
-using JAStudio.UI.Shortcuts;
 using JAStudio.UI.Views.Importing;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.Web;
@@ -52,15 +52,15 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedMember.Global used from python
    public bool IsInitialized => _coreApp.Collection.IsInitialized;
 
-   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, CardServer cardServer, LiveJAStudioMcpServer liveMcpServer)
+   JAStudioAnkiAppRoot(IHost host, CoreApp coreApp, AnkiDialogs dialogs, CardServer cardServer, LiveJAStudioMcpServer liveMcpServer)
    {
       _host = host;
       _coreApp = coreApp;
       _cardServer = cardServer;
       _liveMcpServer = liveMcpServer;
       _followingAnkisLifecycle = new FollowingAnkisLifecycle(coreApp.Collection, coreApp.Services.Resolve<AnkisAvailability>(), coreApp.Services.BackgroundTaskManager);
-      Dialogs = new AnkiDialogs();
-      NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
+      Dialogs = dialogs;
+      NoteViewShortcuts = coreApp.Services.Resolve<NoteViewShortcuts>();
    }
 
    // ReSharper disable once UnusedMember.Global // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
@@ -111,11 +111,12 @@ public class JAStudioAnkiAppRoot
       Dispatcher.UIThread.Invoke(() => UIApp.InitializeWorkspaceWindow(coreApp.Services));
       AutomaticImportRunReports.StartShowing(coreApp.Services);
 
-      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services));
+      var dialogs = new AnkiDialogs();
+      var cardServer = new CardServer(resolver, new NoteLinkOpener(coreApp.Services), dialogs);
 
       var liveMcpServer = LiveJAStudioMcpServer.StartOnceTheCollectionHasLoaded(resolver, JAStudioHost.Anki);
 
-      var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer, liveMcpServer) { _uiThread = uiThread };
+      var root = new JAStudioAnkiAppRoot(host, coreApp, dialogs, cardServer, liveMcpServer) { _uiThread = uiThread };
 
       // A card that Anki drew while the collection was loading says that JAStudio is still loading (AppendingPrerenderer), so Anki draws its cards again.
       root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => coreApp.Services.SRSWindows.Refresh());

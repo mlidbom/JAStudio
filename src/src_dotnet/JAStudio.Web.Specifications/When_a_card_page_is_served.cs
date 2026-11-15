@@ -25,7 +25,7 @@ public class When_a_card_page_is_served : IAsyncLifetime
    string _page = "";
    string _script = "";
 
-   public When_a_card_page_is_served() => _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), new NoteLinkOpenerThatRecordsRequests());
+   public When_a_card_page_is_served() => _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), new NoteLinkOpenerThatRecordsRequests(), new WorkspaceTogglesThatRecordRequests());
 
    public async ValueTask InitializeAsync()
    {

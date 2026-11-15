@@ -1,5 +1,6 @@
 using Avalonia.Threading;
 using JAStudio.Core.Note;
+using JAStudio.Core.UI.Web;
 using JAStudio.UI.Views.Workspace;
 
 namespace JAStudio.UI;
@@ -8,9 +9,17 @@ namespace JAStudio.UI;
 /// What Anki's shortcuts, and the JA Studio menu in Anki's menu bar, open of JAStudio: the workspace, which everything else in JAStudio is<br/>
 /// reached from.
 /// </summary>
+/// <remarks>
+/// JAStudio inside Anki is called here by Python, through pythonnet. A JAStudio outside Anki is asked through its card server, which hands the two<br/>
+/// toggles to this as <see cref="IWorkspaceToggles"/>.
+/// </remarks>
+/// <remarks>
+/// wip: once Python no longer calls JAStudio through pythonnet, this is only the <see cref="IWorkspaceToggles"/>: it's then to be named for that,<br/>
+/// and <see cref="ShowTheNoteInTheWorkspace"/>, which only Python calls, goes.
+/// </remarks>
 // ReSharper disable MemberCanBeInternal used from python
 // ReSharper disable UnusedMember.Global used from python
-public class AnkiDialogs
+public class AnkiDialogs : IWorkspaceToggles
 {
    /// <summary>Ctrl+S in Anki, as in the workspace: opens the workspace on its search, or closes the search.</summary>
    public void ToggleNoteSearch() => WorkspaceWindow.ToggleNoteSearch();

@@ -22,7 +22,7 @@ public class When_a_card_page_asks_the_CardServer_to_open_a_note : IAsyncDisposa
 
    public When_a_card_page_asks_the_CardServer_to_open_a_note()
    {
-      _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), _noteLinkOpener);
+      _server = new CardServer(_appScope.CoreApp.Services.Resolve<IRootResolver>(), _noteLinkOpener, new WorkspaceTogglesThatRecordRequests());
       _server.Start();
       _noteId = _appScope.CoreApp.Collection.Vocab.WithQuestion("入れる")[0].GetId();
    }

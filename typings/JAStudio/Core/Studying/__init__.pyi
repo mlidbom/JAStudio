@@ -1,7 +1,8 @@
 import typing, abc
+from JAStudio.Core.Configuration import JapaneseConfig
+from JAStudio.Core.Note import JPNote, NoteId
 from JAStudio.Core.Storage.Media import AudioAttachment
 from System.Collections.Generic import IReadOnlyCollection_1, IReadOnlyList_1, IReadOnlyDictionary_2, IEnumerable_1
-from JAStudio.Core.Note import NoteId, JPNote
 from System import TimeSpan, IObservable_1, DateTime
 from JAStudio.Core.Studying.StudyNotes import StudyNoteInTheSRS
 
@@ -15,6 +16,11 @@ class CardStudyingStatus:
     def NoteTypeName(self) -> str: ...
     @property
     def StudyNoteId(self) -> int: ...
+
+
+class HowLongToShowTheQuestion:
+    def __init__(self, config: JapaneseConfig) -> None: ...
+    def Seconds(self, note: JPNote, secondsTheDeckGives: float, againAnswersInARowToday: int) -> float: ...
 
 
 class ISRSMedia(typing.Protocol):
@@ -123,4 +129,9 @@ class StudyNoteIds:
     def StudyNoteIdOf(self, noteId: NoteId) -> typing.Optional[int]: ...
     def StudyNoteIdsOf(self, notes: IEnumerable_1[JPNote]) -> IReadOnlyList_1[int]: ...
     def TakeIn(self, readFromTheSRS: IReadOnlyDictionary_2[int, NoteId], heldWhenTheReadBegan: IReadOnlyDictionary_2[int, NoteId]) -> IReadOnlyList_1[NoteId]: ...
+
+
+class TimeboxLengths:
+    def __init__(self, config: JapaneseConfig) -> None: ...
+    def MinutesFor(self, noteType: str, cardType: str) -> typing.Optional[int]: ...
 

@@ -19,10 +19,7 @@ public sealed class AnkisHttpServerAccessFile(FileInfo file)
    /// The access file every JAStudio of this user reads, wherever the JAStudio was started from: in the user's own folder for JAStudio's data.<br/>
    /// The add-on names the same file (Python's <c>the_access_file_of_this_user</c>).
    /// </summary>
-   public static AnkisHttpServerAccessFile OfThisUser => new(new FileInfo(Path.Combine(TheUsersFolderForLocalData, "JAStudio", "anki-http-server-access.json")));
-
-   /// <summary>The folder's path whether or not the folder exists yet: .NET gives an empty path for one that doesn't, unless told not to check.</summary>
-   static string TheUsersFolderForLocalData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.DoNotVerify);
+   public static AnkisHttpServerAccessFile OfThisUser => new(new FileInfo(Path.Combine(ThisUsersFolderForJAStudio.Folder.FullName, "anki-http-server-access.json")));
 
    public FileInfo File { get; } = file;
 

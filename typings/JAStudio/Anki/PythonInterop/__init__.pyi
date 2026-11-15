@@ -1,5 +1,5 @@
 from JAStudio.UI import AnkiDialogs
-from JAStudio.UI.Shortcuts import NoteViewShortcuts
+from JAStudio.Core.UI.Shortcuts import NoteViewShortcuts
 from JAStudio.Core import TemporaryServiceCollection
 from JAStudio.Anki import AnkiLifecycleEvent
 

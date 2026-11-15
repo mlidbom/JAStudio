@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading;
+using JAStudio.Core.Anki;
 
 namespace JAStudio.Anki.AnkisFunctions.OverHttp;
 
@@ -15,8 +16,8 @@ namespace JAStudio.Anki.AnkisFunctions.OverHttp;
 /// when it has another collection open.
 /// </summary>
 /// <remarks>
-/// Before its first request it compares the add-on's version of the contract with <see cref="ContractVersion"/>, and refuses to call an add-on<br/>
-/// that speaks another (<see cref="AnkiSpeaksAnotherContractException"/>).
+/// Before its first request it compares the add-on's version of the contract with <see cref="AnkiAddOnContract.Version"/>, and refuses to call an<br/>
+/// add-on that speaks another (<see cref="AnkiSpeaksAnotherContractException"/>).
 /// </remarks>
 /// <remarks>
 /// An access outlives its server when Anki ends without stopping its serving: nothing then listens on the server's port, and a request fails<br/>
@@ -25,12 +26,6 @@ namespace JAStudio.Anki.AnkisFunctions.OverHttp;
 /// <remarks>A request waits for its answer for as long as Anki takes, as a call into Anki's own process does.</remarks>
 sealed class AnkisHttpServer : IDisposable
 {
-   /// <summary>
-   /// The version of the contract this JAStudio speaks: the functions it calls in Anki, their arguments and their answers. It changes whenever one<br/>
-   /// of them does, together with the add-on's <c>CONTRACT_VERSION</c>.
-   /// </summary>
-   const int ContractVersion = 3;
-
    /// <summary>
    /// How long the server has to take a connection before JAStudio gives it up as gone. A server that listens, on this computer, takes it in under a<br/>
    /// millisecond. Windows otherwise keeps trying a port nothing listens on for two seconds, measured 2026-11-15, before it says so.
@@ -91,7 +86,7 @@ sealed class AnkisHttpServer : IDisposable
 
    void AssertThatTheAddOnSpeaksTheSameContract()
    {
-      if(_contractVersionOfTheAddOn.Value != ContractVersion) throw new AnkiSpeaksAnotherContractException(_contractVersionOfTheAddOn.Value, ContractVersion);
+      if(_contractVersionOfTheAddOn.Value != AnkiAddOnContract.Version) throw new AnkiSpeaksAnotherContractException(_contractVersionOfTheAddOn.Value, AnkiAddOnContract.Version);
    }
 
    int AskTheAddOnForItsContractVersion()

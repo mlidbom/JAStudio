@@ -1,4 +1,5 @@
 import typing
+from JAStudio.Core.UI.Web import IWorkspaceToggles, IWebPageImages
 from JAStudio.Core.Note import JPNote
 from Avalonia import Application, AvaloniaProperty
 from Avalonia.Styling import ThemeVariant, Styles
@@ -8,11 +9,10 @@ from Avalonia.Threading import Dispatcher
 from Avalonia.Platform import IPlatformSettings
 from Avalonia.Controls import IResourceDictionary
 from JAStudio.Core import TemporaryServiceCollection
-from JAStudio.Core.UI.Web import IWebPageImages
 from System import TimeSpan
 from Avalonia.Data import IndexerDescriptor, BindingBase
 
-class AnkiDialogs:
+class AnkiDialogs(IWorkspaceToggles):
     def __init__(self) -> None: ...
     def ShowTheNoteInTheWorkspace(self, note: JPNote) -> None: ...
     def ToggleNoteSearch(self) -> None: ...

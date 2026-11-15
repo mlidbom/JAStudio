@@ -2,6 +2,10 @@ import abc
 from System.Collections.Generic import IReadOnlyList_1, IEnumerable_1
 from JAStudio.Core.Note.Media import AudioReference, ImageReference
 
+class AnkiAddOnContract(abc.ABC):
+    Version : int
+
+
 class AnkiFieldNames(abc.ABC):
     JasNoteId : str
     Question : str

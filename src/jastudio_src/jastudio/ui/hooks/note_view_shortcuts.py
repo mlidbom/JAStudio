@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from aqt.browser.previewer import Previewer
     from aqt.main import MainWindowState
     from JAStudio.Core.Note import JPNote
-    from JAStudio.UI.Shortcuts import NoteViewShortcut
+    from JAStudio.Core.UI.Shortcuts import NoteViewShortcut
     from PyQt6.QtWidgets import QWidget
 
 

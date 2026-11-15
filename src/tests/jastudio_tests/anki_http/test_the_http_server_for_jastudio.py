@@ -44,7 +44,7 @@ def test_an_answer_says_that_the_server_closes_the_connection_after_it(jastudio:
 
 
 def test_the_contract_is_served_with_its_version(jastudio: JAStudioCallingAnki) -> None:
-    assert jastudio.get("/contract") == Answered(200, {"result": {"version": 3}})
+    assert jastudio.get("/contract") == Answered(200, {"result": {"version": 4}})
 
 
 def test_the_collection_anki_has_open_is_served_by_its_path(jastudio: JAStudioCallingAnki) -> None:

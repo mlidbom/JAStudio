@@ -13,7 +13,7 @@ using JAStudio.Core.TaskRunners;
 using JAStudio.Core.UI.Web;
 using JAStudio.UI.Menus;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
-using JAStudio.UI.Shortcuts;
+using JAStudio.Core.UI.Shortcuts;
 using JAStudio.UI.ViewModels.Workspace.Editors;
 using JAStudio.UI.ViewModels.Workspace.NotePages;
 using JAStudio.UI.ViewModels.Workspace.NotePages.Sentences;

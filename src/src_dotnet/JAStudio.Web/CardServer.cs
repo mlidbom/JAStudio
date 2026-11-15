@@ -21,20 +21,24 @@ using MudBlazor.Services;
 namespace JAStudio.Web;
 
 /// <summary>
-/// Hosts a Blazor Server application on localhost.
-/// Started in-process by the Anki addon via pythonnet.
-/// The iframe in the Anki card template points at this server.
+/// Hosts a Blazor Server application on localhost: the pages of JAStudio's notes and of their cards, which JAStudio's workspace shows, and Anki's<br/>
+/// reviewer and previewer in an iframe, and the requests the Anki add-on makes of JAStudio (<see cref="EndpointsForTheAnkiAddOn"/>).
 /// </summary>
 public class CardServer
 {
    readonly IRootResolver _parentResolver;
    readonly INoteLinkOpener _noteLinkOpener;
+   readonly IWorkspaceToggles _workspaceToggles;
    WebApplication? _app;
 
-   public CardServer(IRootResolver parentResolver, INoteLinkOpener noteLinkOpener)
+   /// <param name="parentResolver">JAStudio's services, which the pages and the requests are given.</param>
+   /// <param name="noteLinkOpener">What opens the note of a note link clicked on a page, and the note Anki shows (<see cref="EndpointsForTheAnkiAddOn"/>).</param>
+   /// <param name="workspaceToggles">What Anki's keys and its JA Studio menu toggle of JAStudio's workspace (<see cref="EndpointsForTheAnkiAddOn"/>).</param>
+   public CardServer(IRootResolver parentResolver, INoteLinkOpener noteLinkOpener, IWorkspaceToggles workspaceToggles)
    {
       _parentResolver = parentResolver;
       _noteLinkOpener = noteLinkOpener;
+      _workspaceToggles = workspaceToggles;
    }
 
    public int Port { get; private set; }
@@ -146,6 +150,7 @@ public class CardServer
       ConfigureOpenInBrowserEndpoint(_app);
       ConfigureOpenInWorkspaceEndpoint(_app);
       ConfigureOpenInPreviewerEndpoint(_app);
+      EndpointsForTheAnkiAddOn.MapOn(_app, _noteLinkOpener, _workspaceToggles);
 
       try
       {

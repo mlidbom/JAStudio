@@ -8,31 +8,23 @@ from __future__ import annotations
 
 import json
 import os
-import sys
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 from jaspythonutils.sysutils.typed import non_optional
 
 from jastudio.anki_http.http_server_for_jastudio import HttpServerForJAStudio
+from jastudio.users_folder_for_jastudio import the_users_folder_for_jastudio
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from jastudio.anki_http.anki_for_jastudio import AnkiForJAStudio
 
 
 def the_access_file_of_this_user() -> Path:
-    """The access file every JAStudio of this user reads, wherever that JAStudio was started from: in the user's own folder for JAStudio's data.
-
-    That folder is where .NET has it on each platform (Environment.SpecialFolder.LocalApplicationData), since JAStudio names the file by it
-    (AnkisHttpServerAccessFile.OfThisUser).
-    """
-    if sys.platform == "win32":
-        the_users_local_data = Path(os.environ["LOCALAPPDATA"])
-    elif sys.platform == "darwin":
-        the_users_local_data = Path.home() / "Library" / "Application Support"
-    else:
-        the_users_local_data = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share")
-    return the_users_local_data / "JAStudio" / "anki-http-server-access.json"
+    """The access file every JAStudio of this user reads, wherever that JAStudio was started from: in the user's own folder for JAStudio's data,
+    where JAStudio names it too (AnkisHttpServerAccessFile.OfThisUser)."""
+    return the_users_folder_for_jastudio() / "anki-http-server-access.json"
 
 
 class ServingJAStudio:

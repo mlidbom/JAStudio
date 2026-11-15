@@ -61,6 +61,13 @@ class IWebPageImages(typing.Protocol):
     def OfTheWholePage(self, page: Uri, viewport: ViewportSize) -> PngImage: ...
 
 
+class IWorkspaceToggles(typing.Protocol):
+    @abc.abstractmethod
+    def ToggleNoteSearch(self) -> None: ...
+    @abc.abstractmethod
+    def ToggleWorkspaceWindow(self) -> None: ...
+
+
 class ViewportSize(IEquatable_1[ViewportSize]):
     def __init__(self, Width: int, Height: int) -> None: ...
     @property
