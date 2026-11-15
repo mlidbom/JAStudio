@@ -150,10 +150,18 @@ so logging one leaks nothing. The chosen voices are written by the dialog for ch
 ## The accounts
 
 - **Azure** (created 2026-11-07, paid by Lidbom Solutions AB, Magnus's company): the Speech resource
-  `jastudio-speech-ov1yu0`, in the resource group `jastudio-tts`, in Sweden Central, on the free tier (F0), in the
-  subscription "Lidbom Solutions AB". Its key 1 is in the settings file.
-  - **If the free 0.5 million characters a month run out,** requests are refused until the next month. Moving to
-    pay-as-you-go: `az cognitiveservices account update --name jastudio-speech-ov1yu0 --resource-group jastudio-tts --sku S0`.
+  `jastudio-speech-ov1yu0`, in the resource group `jastudio-tts`, in Sweden Central, in the subscription "Lidbom
+  Solutions AB". Its key 1 is in the settings file.
+  - **On the standard tier (S0), pay-as-you-go, since 2026-11-15.** The free tier (F0) allowed only 20 requests a
+    minute, too slow for TTS on many notes at once; S0 allows 30 a second
+    ([quotas](https://learn.microsoft.com/azure/ai-services/speech-service/speech-services-quotas-and-limits)). It has
+    no monthly fee: Azure's price list for Sweden Central gives $15 per million characters for the neural voices and
+    $22 for Neural HD, and a kanji counts as two characters. Whether S0 keeps F0's 0.5 million free characters a month,
+    Microsoft's sources disagree. Magnus (2026-11-15): cents or a few dollars a month are negligible. The key and the
+    region stayed the same: checked with a request after the change.
+  - **A budget of 100 SEK a month** on the resource group (`jastudio-tts-monthly`, the subscription bills in SEK) emails
+    the subscription's owner when the actual cost reaches it. It's there for a bug that keeps generating: at S0's rate,
+    that could cost around $80 an hour.
   - **To replace the key,** regenerate it in the portal's "Keys and Endpoint", or with
     `az cognitiveservices account keys regenerate`, and put the new one in the settings file.
 - **Google** (created 2026-11-07): the project `jastudio-tts-rdxtcd` ("JAStudio-TTS"), in the organization
