@@ -26,7 +26,7 @@ public class TemporaryServiceCollection
    public LocalNoteUpdater LocalNoteUpdater => Services.Resolve<LocalNoteUpdater>();
    public TaskRunner TaskRunner => Services.Resolve<TaskRunner>();
    public BackgroundTaskManager BackgroundTaskManager => Services.Resolve<BackgroundTaskManager>();
-   public ExternalNoteIdMap ExternalNoteIdMap => Services.Resolve<ExternalNoteIdMap>();
+   public StudyNoteIds StudyNoteIds => Services.Resolve<StudyNoteIds>();
    public ISpacedRepetitionSystemWindows SpacedRepetitionSystemWindows => Services.Resolve<ISpacedRepetitionSystemWindows>();
    public SpacedRepetitionSystemAvailability SpacedRepetitionSystemAvailability => Services.Resolve<SpacedRepetitionSystemAvailability>();
 

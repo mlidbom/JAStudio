@@ -64,5 +64,5 @@ partial class NoteListViewModel : ObservableObject
    /// A note that isn't in Anki has no Anki id to search for. If no listed note is in Anki, the search would be empty,<br/>
    /// and Anki's browser would show its default search instead of nothing.
    /// </summary>
-   bool AnyListedNoteIsInAnki() => _shownList.Notes.Any(it => _services.ExternalNoteIdMap.ToExternalId(it.GetId()) != null);
+   bool AnyListedNoteIsInAnki() => _shownList.Notes.Any(it => _services.StudyNoteIds.StudyNoteIdOf(it.GetId()) != null);
 }

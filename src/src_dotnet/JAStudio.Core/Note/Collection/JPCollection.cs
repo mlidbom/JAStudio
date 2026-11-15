@@ -104,11 +104,11 @@ public class JPCollection
       return Sentences.WithIdOrNone(noteId);
    }
 
-   /// <summary> Look up a note by its external long ID./// </summary>
+   /// <summary>The note that the study-note with the id <paramref name="studyNoteId"/> belongs to, or null when no note is known to have it.</summary>
    // ReSharper disable once UnusedMember.Global called from python
-   public JPNote? NoteFromExternalId(long externalNoteId)
+   public JPNote? NoteOfTheStudyNote(long studyNoteId)
    {
-      var noteId = NoteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
+      var noteId = NoteServices.StudyNoteIds.NoteIdOfTheStudyNote(studyNoteId);
       return noteId != null ? NoteFromNoteId(noteId) : null;
    }
 
@@ -121,7 +121,7 @@ public class JPCollection
    // ReSharper disable once UnusedMember.Global called from python
    public void UpdateCardStudyingStatus(CardStudyingStatus status)
    {
-      if(NoteFromExternalId(status.ExternalNoteId) is not {} note) return;
+      if(NoteOfTheStudyNote(status.StudyNoteId) is not {} note) return;
 
       note.SetStudyingStatus(status);
       NotifyThatTheStudyNoteChangedFor(note);
@@ -141,7 +141,7 @@ public class JPCollection
    public void ReadTheStudyNotesFromAnkiAgain() => _oneLoadOrReadFromAnkiAtATime.Do(() =>
    {
       using var showingNoProgress = NoteServices.TaskRunner.Current("Reading the study-notes from Anki again", forceHide: true);
-      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
+      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
       GiveEachNoteItsStudyNoteFrom(_backendDataLoader.Load(NoteServices.TaskRunner), ankiNoteIdsHeldWhenTheReadBegan).ForEach(NotifyThatTheStudyNoteChangedFor);
    });
 
@@ -189,7 +189,7 @@ public class JPCollection
    /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its Anki note, if it has one in this Anki profile,<br/>
    /// is kept or deleted as <paramref name="itsAnkiNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as<br/>
    /// a synonym (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note in Anki instead only forgets<br/>
-   /// its Anki note (<see cref="NoteCacheBase{TNote}.ExternalNoteRemoved"/>).
+   /// its Anki note (<see cref="NoteCacheBase{TNote}.StudyNoteRemoved"/>).
    /// </summary>
    public void Delete(JPNote note, ItsAnkiNote itsAnkiNote)
    {
@@ -232,7 +232,7 @@ public class JPCollection
    void ClearCaches() => this.Log().Warning().MethodExecutionTime(() =>
    {
       IsInitialized = false;
-      NoteServices.ExternalNoteIdMap.Clear();
+      NoteServices.StudyNoteIds.Clear();
       Vocab.Cache.Clear();
       Kanji.Cache.Clear();
       Sentences.Cache.Clear();
@@ -287,7 +287,7 @@ public class JPCollection
       var mediaIndexBuild = TaskCE.Run(() => _mediaFileIndex.Build());
       var dictionaryLoad = TaskCE.Run(() => runner.RunIndeterminate("Loading the dictionary", DictLookup.LoadTheDictionary));
 
-      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.ExternalNoteIdMap.Snapshot();
+      var ankiNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
       var backendDataTask = Task.Run(() => _backendDataLoader.Load(NoteServices.TaskRunner));
 
       Task.WaitAll(repoLoad, mediaIndexBuild, backendDataTask, dictionaryLoad);
@@ -307,7 +307,7 @@ public class JPCollection
    List<JPNote> GiveEachNoteItsStudyNoteFrom(BackendData anki, IReadOnlyDictionary<long, NoteId> ankiNoteIdsHeldWhenTheReadBegan)
    {
       List<JPNote> notesWhoseStudyNoteChanged = [];
-      foreach(var note in NoteServices.ExternalNoteIdMap.TakeIn(anki.IdMappings, ankiNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
+      foreach(var note in NoteServices.StudyNoteIds.TakeIn(anki.IdMappings, ankiNoteIdsHeldWhenTheReadBegan).Select(NoteFromNoteId).OfType<JPNote>())
       {
          note.ReadItsStudyNoteFrom([], []);
          notesWhoseStudyNoteChanged.Add(note);

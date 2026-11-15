@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JAStudio.Core.Note;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Core.Anki.StudyNotes;
 
@@ -14,7 +15,7 @@ public sealed class StudyNoteInAnki
       Fields = fields;
    }
 
-   /// <summary>The id of the Anki note, which <see cref="ExternalNoteIdMap"/> maps to the id of the corpus note it belongs to.</summary>
+   /// <summary>The id of the Anki note, which <see cref="StudyNoteIds"/> maps to the id of the corpus note it belongs to.</summary>
    public long AnkiNoteId { get; }
 
    /// <summary>Every field of the Anki note, those JAStudio doesn't write included, by the field's name in Anki, such as <see cref="AnkiFieldNames.Question"/>.</summary>

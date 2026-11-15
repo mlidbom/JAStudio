@@ -2,7 +2,8 @@ from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteTyp
 from System.Collections.Generic import IReadOnlyDictionary_2, IReadOnlyList_1, IReadOnlyCollection_1
 from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
-from JAStudio.Core.Note import ExternalNoteIdMap, JPNote, NoteId
+from JAStudio.Core.Studying import StudyNoteIds
+from JAStudio.Core.Note import JPNote, NoteId
 from JAStudio.Core.Note.Tagging import IAnkiTagOperations
 from JAStudio.Core import IBackendDataLoader, BackendData, IEnvironmentPaths
 from JAStudio.Core.TaskRunners import TaskRunner
@@ -22,7 +23,7 @@ class InMemoryAnkiRawNotes(IAnkiRawNotes):
 
 
 class InMemoryAnkiStudyNotes(IAnkiStudyNotes):
-    def __init__(self, ankiNoteIds: ExternalNoteIdMap) -> None: ...
+    def __init__(self, ankiNoteIds: StudyNoteIds) -> None: ...
     def Put(self, studyNote: StudyNoteInAnki) -> None: ...
     def ReadAll(self) -> IReadOnlyList_1[StudyNoteInAnki]: ...
     def Write(self, note: JPNote) -> None: ...

@@ -9,7 +9,7 @@ public class SentenceCollection
 {
    internal readonly SentenceCache Cache;
    // ReSharper disable once UnusedMember.Global used from python
-   public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
+   public IStudyNoteUpdateHandler StudyNoteUpdateHandler => Cache;
 
    public SentenceCollection(NoteServices noteServices) => Cache = new SentenceCache(noteServices);
 
@@ -33,7 +33,7 @@ public class SentenceCollection
    public List<SentenceNote> All() => Cache.All();
 
    public SentenceNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
-   public SentenceNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
+   public SentenceNote? WithTheStudyNoteOrNone(long studyNoteId) => Cache.WithTheStudyNoteOrNone(studyNoteId);
 
    public List<SentenceNote> WithQuestion(string question) => Cache.WithQuestion(question);
 

@@ -14,7 +14,7 @@ namespace JAStudio.Core.Note.Collection;
 /// A change is made to copies of what lookups read, and published when it's done (<see cref="Change"/>): a lookup sees the cache as it was<br/>
 /// before a change or after it, never in the middle of one. See <see cref="NoteIndex{TKey,TNote,TSnapshot}"/> for why.
 /// </remarks>
-abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
+abstract class NoteCacheBase<TNote> : IStudyNoteUpdateHandler
    where TNote : JPNote
 {
    readonly SimpleObservable<TNote> _noteUpdated = new();
@@ -38,7 +38,7 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
    /// </summary>
    public IObservable<TNote> NoteUpdated => _noteUpdated;
 
-   IObservable<JPNote> IExternalNoteUpdateHandler.NoteUpdated => _noteUpdated;
+   IObservable<JPNote> IStudyNoteUpdateHandler.NoteUpdated => _noteUpdated;
 
    /// <summary>Starts recording the notes this cache's lookups return, until the recording is disposed. One recording at a time.</summary>
    public LookupRecording<TNote> StartRecordingTheNotesLookedUp() => LookupRecorder.StartRecording();
@@ -47,13 +47,13 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
 
    public TNote? WithIdOrNone(NoteId noteId) => LookupRecorder.LookedUp(ById.WithIdOrNone(noteId));
 
-   /// <summary>Look up a note by its external long ID (uses the shared ExternalNoteIdMap).</summary>
-   public TNote? WithExternalIdOrNone(long externalNoteId) =>
-      _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId) is {} noteId ? WithIdOrNone(noteId) : null;
+   /// <summary>The note in this cache that the study-note with the id <paramref name="studyNoteId"/> belongs to, or null when this cache has none such.</summary>
+   public TNote? WithTheStudyNoteOrNone(long studyNoteId) =>
+      _noteServices.StudyNoteIds.NoteIdOfTheStudyNote(studyNoteId) is {} noteId ? WithIdOrNone(noteId) : null;
 
-   /// <summary>Returns the external long note ID for the given domain NoteId.</summary>
-   public long GetExternalNoteId(NoteId noteId) =>
-      _noteServices.ExternalNoteIdMap.ToExternalId(noteId) ?? 0;
+   /// <summary>The id of the study-note of the note with the id <paramref name="noteId"/>, or 0 when it has none.</summary>
+   public long GetStudyNoteId(NoteId noteId) =>
+      _noteServices.StudyNoteIds.StudyNoteIdOf(noteId) ?? 0;
 
    /// <summary>
    /// Called when a note is deleted in Anki: the note's Anki note is forgotten, and with it its cards, so the note is no longer studied in this Anki profile.<br/>
@@ -62,11 +62,11 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
    /// <remarks>
    /// Every cache is told about every note deleted in Anki, so a note this cache doesn't hold is left to the cache that does.
    /// </remarks>
-   public void ExternalNoteRemoved(long externalNoteId)
+   public void StudyNoteRemoved(long studyNoteId)
    {
-      if(WithExternalIdOrNone(externalNoteId) is not {} note) return;
+      if(WithTheStudyNoteOrNone(studyNoteId) is not {} note) return;
 
-      _noteServices.ExternalNoteIdMap.Unregister(externalNoteId);
+      _noteServices.StudyNoteIds.Unregister(studyNoteId);
       note.ForgetItsDeletedAnkiNote();
    }
 

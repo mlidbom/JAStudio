@@ -112,13 +112,13 @@ class AnkiBrowserMenuBuilder
    {
       var ankiNoteId = AnkiFacade.GetNoteIdFromCardId(cardId);
 
-      JPNote? vocab = _services.CoreApp.Collection.Vocab.WithExternalIdOrNone(ankiNoteId);
+      JPNote? vocab = _services.CoreApp.Collection.Vocab.WithTheStudyNoteOrNone(ankiNoteId);
       if(vocab != null) return vocab;
 
-      JPNote? sentence = _services.CoreApp.Collection.Sentences.WithExternalIdOrNone(ankiNoteId);
+      JPNote? sentence = _services.CoreApp.Collection.Sentences.WithTheStudyNoteOrNone(ankiNoteId);
       if(sentence != null) return sentence;
 
-      JPNote? kanji = _services.CoreApp.Collection.Kanji.WithExternalIdOrNone(ankiNoteId);
+      JPNote? kanji = _services.CoreApp.Collection.Kanji.WithTheStudyNoteOrNone(ankiNoteId);
       return kanji;
    }
 
@@ -130,7 +130,7 @@ class AnkiBrowserMenuBuilder
       {
          try
          {
-            var note = _services.CoreApp.Collection.Sentences.WithExternalIdOrNone(ankiNoteId);
+            var note = _services.CoreApp.Collection.Sentences.WithTheStudyNoteOrNone(ankiNoteId);
             if(note != null)
             {
                sentences.Add(note);

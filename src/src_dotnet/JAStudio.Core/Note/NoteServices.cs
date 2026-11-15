@@ -34,7 +34,7 @@ public class NoteServices
    public KanjiNoteMnemonicMaker KanjiNoteMnemonicMaker => _resolver.Resolve<KanjiNoteMnemonicMaker>();
    public JapaneseConfig Config => _resolver.Resolve<JapaneseConfig>();
    public TaskRunner TaskRunner => _resolver.Resolve<TaskRunner>();
-   public ExternalNoteIdMap ExternalNoteIdMap => _resolver.Resolve<ExternalNoteIdMap>();
+   public StudyNoteIds StudyNoteIds => _resolver.Resolve<StudyNoteIds>();
    public MediaFileIndex MediaFileIndex => _resolver.Resolve<MediaFileIndex>();
    public SharedConditions SharedConditions => _resolver.Resolve<SharedConditions>();
 }

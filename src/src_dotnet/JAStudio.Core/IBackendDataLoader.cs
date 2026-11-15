@@ -35,7 +35,7 @@ public class BackendData
       IdMappings = idMappings;
       StudyingStatuses = studyingStatuses;
       StudyNoteTags = studyNoteTags;
-      _studyingStatusesByAnkiNoteId = studyingStatuses.ToLookup(it => it.ExternalNoteId);
+      _studyingStatusesByAnkiNoteId = studyingStatuses.ToLookup(it => it.StudyNoteId);
    }
 
    /// <summary>The studying statuses of the cards of the study-note with <paramref name="ankiNoteId"/>.</summary>

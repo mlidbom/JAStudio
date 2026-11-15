@@ -18,7 +18,7 @@ public sealed class StudyNoteComparison
    {
       foreach(var studyNote in studyNotesInAnki)
       {
-         if(collection.NoteFromExternalId(studyNote.AnkiNoteId) is not {} note)
+         if(collection.NoteOfTheStudyNote(studyNote.AnkiNoteId) is not {} note)
          {
             _studyNotesOfNoNote.Add(studyNote);
             continue;

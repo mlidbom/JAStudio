@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core.Anki.StudyNotes;
 using JAStudio.Core.Note;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
@@ -9,9 +10,9 @@ namespace JAStudio.Anki;
 public class AnkiStudyNotes : IAnkiStudyNotes
 {
    readonly AnkiCollectionDatabase _database;
-   readonly ExternalNoteIdMap _ankiNoteIds;
+   readonly StudyNoteIds _ankiNoteIds;
 
-   public AnkiStudyNotes(AnkiCollectionDatabase database, ExternalNoteIdMap ankiNoteIds)
+   public AnkiStudyNotes(AnkiCollectionDatabase database, StudyNoteIds ankiNoteIds)
    {
       _database = database;
       _ankiNoteIds = ankiNoteIds;
@@ -19,5 +20,5 @@ public class AnkiStudyNotes : IAnkiStudyNotes
 
    public IReadOnlyList<StudyNoteInAnki> ReadAll() => StudyNotesInAnkisDatabase.ReadAll(_database);
 
-   public void Write(JPNote note) => AnkiFacade.StudyNotes.Write(_ankiNoteIds.RequireExternalId(note.GetId()), note);
+   public void Write(JPNote note) => AnkiFacade.StudyNotes.Write(_ankiNoteIds.RequiredStudyNoteIdOf(note.GetId()), note);
 }

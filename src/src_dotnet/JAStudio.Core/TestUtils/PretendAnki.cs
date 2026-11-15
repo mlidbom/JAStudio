@@ -111,6 +111,6 @@ public class PretendAnki : IBackendDataLoader, IAnkiTagOperations
          _noteOfEachStudyNote[++_lastAnkiNoteId] = note.GetId();
          return _lastAnkiNoteId;
       });
-      note.Services.ExternalNoteIdMap.Register(ankiNoteId, note.GetId());
+      note.Services.StudyNoteIds.Register(ankiNoteId, note.GetId());
    }
 }

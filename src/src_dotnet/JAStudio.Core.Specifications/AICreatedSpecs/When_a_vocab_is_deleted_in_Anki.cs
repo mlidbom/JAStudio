@@ -3,6 +3,7 @@ using Compze.xUnitBDD;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Studying;
 
 // ReSharper disable InconsistentNaming
 
@@ -21,14 +22,14 @@ public class When_a_vocab_is_deleted_in_Anki : SpecificationStartingWithAnEmptyC
    {
       _vocab = GetService<VocabCollection>();
       _deletedInAnki = WithAStudyNote(CreateVocab("部屋", "room", "へや"));
-      var ankiNoteId = GetService<ExternalNoteIdMap>().RequireExternalId(_deletedInAnki.GetId());
+      var ankiNoteId = GetService<StudyNoteIds>().RequiredStudyNoteIdOf(_deletedInAnki.GetId());
       GetService<JPCollection>().UpdateCardStudyingStatus(new CardStudyingStatus(ankiNoteId, CardTypes.Reading, isSuspended: false, NoteTypes.Vocab));
       _deletedInAnki.IsStudying().Must().BeTrue();
 
-      _vocab.ExternalSyncHandler.ExternalNoteRemoved(ankiNoteId);
+      _vocab.StudyNoteUpdateHandler.StudyNoteRemoved(ankiNoteId);
    }
 
    [XF] public void JAStudio_still_has_it() => _vocab.WithQuestion("部屋").Must().Contain(_deletedInAnki);
    [XF] public void it_is_no_longer_studied() => _deletedInAnki.IsStudying().Must().BeFalse();
-   [XF] public void its_Anki_note_is_forgotten() => GetService<ExternalNoteIdMap>().ToExternalId(_deletedInAnki.GetId()).HasValue.Must().BeFalse();
+   [XF] public void its_Anki_note_is_forgotten() => GetService<StudyNoteIds>().StudyNoteIdOf(_deletedInAnki.GetId()).HasValue.Must().BeFalse();
 }

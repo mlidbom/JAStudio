@@ -1,4 +1,5 @@
 using JAStudio.Core.Note;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
@@ -8,18 +9,18 @@ namespace JAStudio.Anki;
 /// </summary>
 public class AnkiCardOperationsImpl : ICardOperations
 {
-   readonly ExternalNoteIdMap _idMap;
+   readonly StudyNoteIds _studyNoteIds;
 
-   public AnkiCardOperationsImpl(ExternalNoteIdMap idMap) => _idMap = idMap;
+   public AnkiCardOperationsImpl(StudyNoteIds studyNoteIds) => _studyNoteIds = studyNoteIds;
 
    public void SuspendAllCardsForNote(NoteId noteId)
    {
-      AnkiFacade.NoteEx.SuspendAllCardsForNote(_idMap.RequireExternalId(noteId));
+      AnkiFacade.NoteEx.SuspendAllCardsForNote(_studyNoteIds.RequiredStudyNoteIdOf(noteId));
    }
 
    public void UnsuspendAllCardsForNote(NoteId noteId)
    {
-      AnkiFacade.NoteEx.UnsuspendAllCardsForNote(_idMap.RequireExternalId(noteId));
+      AnkiFacade.NoteEx.UnsuspendAllCardsForNote(_studyNoteIds.RequiredStudyNoteIdOf(noteId));
    }
 
    /// <summary>
@@ -28,10 +29,10 @@ public class AnkiCardOperationsImpl : ICardOperations
    /// </summary>
    public void DeleteNote(NoteId noteId)
    {
-      var externalId = _idMap.ToExternalId(noteId);
-      if(!externalId.HasValue) return;
+      var studyNoteId = _studyNoteIds.StudyNoteIdOf(noteId);
+      if(!studyNoteId.HasValue) return;
 
-      AnkiFacade.NoteEx.RemoveNote(externalId.Value);
+      AnkiFacade.NoteEx.RemoveNote(studyNoteId.Value);
       AnkiFacade.Browser.ExecuteLookup("");
    }
 }

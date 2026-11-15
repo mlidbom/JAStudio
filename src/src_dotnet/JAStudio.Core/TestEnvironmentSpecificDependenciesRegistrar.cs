@@ -39,7 +39,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),
          Singleton.For<ICardOperations>().Instance(new NoOpCardOperations()),
-         Singleton.For<InMemoryAnkiStudyNotes>().CreatedBy((ExternalNoteIdMap ankiNoteIds) => new InMemoryAnkiStudyNotes(ankiNoteIds)),
+         Singleton.For<InMemoryAnkiStudyNotes>().CreatedBy((StudyNoteIds ankiNoteIds) => new InMemoryAnkiStudyNotes(ankiNoteIds)),
          Singleton.For<IAnkiStudyNotes>().CreatedBy((InMemoryAnkiStudyNotes studyNotes) => (IAnkiStudyNotes)studyNotes)
       );
    }

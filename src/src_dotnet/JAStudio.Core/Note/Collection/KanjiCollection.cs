@@ -9,14 +9,14 @@ public class KanjiCollection
 {
    internal readonly KanjiCache Cache;
    // ReSharper disable once UnusedMember.Global used from python
-   public IExternalNoteUpdateHandler ExternalSyncHandler => Cache;
+   public IStudyNoteUpdateHandler StudyNoteUpdateHandler => Cache;
 
    public KanjiCollection(NoteServices noteServices) => Cache = new KanjiCache(noteServices);
 
    public List<KanjiNote> All() => Cache.All();
 
    public KanjiNote? WithIdOrNone(NoteId noteId) => Cache.WithIdOrNone(noteId);
-   public KanjiNote? WithExternalIdOrNone(long externalNoteId) => Cache.WithExternalIdOrNone(externalNoteId);
+   public KanjiNote? WithTheStudyNoteOrNone(long studyNoteId) => Cache.WithTheStudyNoteOrNone(studyNoteId);
 
    public List<KanjiNote> WithAnyKanjiIn(List<string> kanjiList)
    {

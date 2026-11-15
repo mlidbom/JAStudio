@@ -19,9 +19,9 @@ class AnkiCollectionSynchronizer:
         from jastudio.ui import dotnet_ui_root
         self._sync_runner: AnkiCollectionSyncRunner = AnkiCollectionSyncRunner(app.anki_collection())
         collection = dotnet_ui_root().Services.CoreApp.Collection
-        self.Vocab: AnkiSingleCollectionSyncer[VocabNote] = AnkiSingleCollectionSyncer(VocabNote, collection.Vocab.ExternalSyncHandler, self._sync_runner)
-        self.Sentences: AnkiSingleCollectionSyncer[SentenceNote] = AnkiSingleCollectionSyncer(SentenceNote, collection.Sentences.ExternalSyncHandler, self._sync_runner)
-        self.Kanji: AnkiSingleCollectionSyncer[KanjiNote] = AnkiSingleCollectionSyncer(KanjiNote, collection.Kanji.ExternalSyncHandler, self._sync_runner)
+        self.Vocab: AnkiSingleCollectionSyncer[VocabNote] = AnkiSingleCollectionSyncer(VocabNote, collection.Vocab.StudyNoteUpdateHandler, self._sync_runner)
+        self.Sentences: AnkiSingleCollectionSyncer[SentenceNote] = AnkiSingleCollectionSyncer(SentenceNote, collection.Sentences.StudyNoteUpdateHandler, self._sync_runner)
+        self.Kanji: AnkiSingleCollectionSyncer[KanjiNote] = AnkiSingleCollectionSyncer(KanjiNote, collection.Kanji.StudyNoteUpdateHandler, self._sync_runner)
         self._sync_runner.connect_note_added(_announce_the_added_note)
 
     def start(self) -> None:

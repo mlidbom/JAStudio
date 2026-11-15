@@ -58,7 +58,7 @@ def get_note_from_web_view(view: AnkiWebView) -> JPNote | None:
     else:
         return None
 
-    return dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(inner_note.id)
+    return dotnet_ui_root().Services.CoreApp.Collection.NoteOfTheStudyNote(inner_note.id)
 
 class UIUtils(IUIUtils, Slots):
     def __init__(self, mw: AnkiQt) -> None:
@@ -120,4 +120,4 @@ class UIUtils(IUIUtils, Slots):
 def try_get_review_note() -> JPNote | None:
     card = main_window().reviewer.card
     if not card: return None
-    return dotnet_ui_root().Services.CoreApp.Collection.NoteFromExternalId(card.nid or card.note().id)
+    return dotnet_ui_root().Services.CoreApp.Collection.NoteOfTheStudyNote(card.nid or card.note().id)

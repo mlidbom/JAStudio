@@ -14,6 +14,6 @@ static class AnkiServiceExtensions
 
    public static QueryBuilder QueryBuilder(this TemporaryServiceCollection services)
    {
-      return _queryBuilder ??= new QueryBuilder(services.ExternalNoteIdMap);
+      return _queryBuilder ??= new QueryBuilder(services.StudyNoteIds);
    }
 }

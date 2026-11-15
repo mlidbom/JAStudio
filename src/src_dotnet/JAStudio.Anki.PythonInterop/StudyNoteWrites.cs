@@ -27,7 +27,7 @@ public sealed class StudyNoteWrites
    /// updated, for as long as Anki runs: at once, or, while the writes are held, once they're made again.
    /// </summary>
    // ReSharper disable once UnusedMember.Global used from python
-   public void Register(IExternalNoteUpdateHandler handler, dynamic writeTheStudyNote)
+   public void Register(IStudyNoteUpdateHandler handler, dynamic writeTheStudyNote)
    {
       Action<JPNote> write = PythonDotNetShim.Action.ToDotNet<JPNote>(writeTheStudyNote);
       handler.NoteUpdated.Subscribe(note => WriteOrHold(note, write));

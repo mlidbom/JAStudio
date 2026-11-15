@@ -9,6 +9,7 @@ using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
+using JAStudio.Core.Studying;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 
@@ -38,7 +39,7 @@ public class When_keeping_the_results_of_a_search_up_to_date : SpecificationUsin
    {
       _sentenceAboutHome = CreateTaggedSentence(SentenceAboutHome);
       _sentenceAboutHome.SetStudyingStatus(SuspendedReadingCard());
-      GetService<ExternalNoteIdMap>().Register(AnkiNoteIdOfTheSentenceAboutHome, _sentenceAboutHome.GetId());
+      GetService<StudyNoteIds>().Register(AnkiNoteIdOfTheSentenceAboutHome, _sentenceAboutHome.GetId());
 
       _search = Workspace.Navigation.Search;
       _search.AddCondition(NoteProperties.Tags.Include("source::anime"));

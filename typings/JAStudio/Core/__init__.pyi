@@ -5,13 +5,13 @@ from JAStudio.Core.UI.Web.Vocab import VocabNoteRenderer
 from System import IEquatable_1, IDisposable
 from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
 from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1
-from JAStudio.Core.Note import NoteId, ExternalNoteIdMap, NoteServices
+from JAStudio.Core.Note import NoteId, NoteServices
 from JAStudio.Core.Note.Collection import CardStudyingStatus, JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
 from JAStudio.Core.TaskRunners import TaskRunner, BackgroundTaskManager
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
 from JAStudio.Core.Batches import LocalNoteUpdater
-from JAStudio.Core.Studying import SpacedRepetitionSystemAvailability, ISpacedRepetitionSystemWindows
+from JAStudio.Core.Studying import SpacedRepetitionSystemAvailability, ISpacedRepetitionSystemWindows, StudyNoteIds
 from JAStudio.Core.Note.Vocabulary import VocabNoteFactory
 
 class AnkiHTMLRenderers:
@@ -126,8 +126,6 @@ class TemporaryServiceCollection:
     @property
     def CoreApp(self) -> CoreApp: ...
     @property
-    def ExternalNoteIdMap(self) -> ExternalNoteIdMap: ...
-    @property
     def LocalNoteUpdater(self) -> LocalNoteUpdater: ...
     @property
     def NoteServices(self) -> NoteServices: ...
@@ -137,6 +135,8 @@ class TemporaryServiceCollection:
     def SpacedRepetitionSystemAvailability(self) -> SpacedRepetitionSystemAvailability: ...
     @property
     def SpacedRepetitionSystemWindows(self) -> ISpacedRepetitionSystemWindows: ...
+    @property
+    def StudyNoteIds(self) -> StudyNoteIds: ...
     @property
     def TaskRunner(self) -> TaskRunner: ...
     @property

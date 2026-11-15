@@ -107,7 +107,7 @@ public abstract class JPNote
    }
 
    /// <summary>Whether the note has an Anki note in this Anki profile, which holds its cards and their review history.</summary>
-   public bool HasAnAnkiNote() => Services.ExternalNoteIdMap.ToExternalId(_id).HasValue;
+   public bool HasAnAnkiNote() => Services.StudyNoteIds.StudyNoteIdOf(_id).HasValue;
 
    public bool IsStudyingRead() => IsStudying(CardTypes.Reading);
    public bool IsStudyingListening() => IsStudying(CardTypes.Listening);

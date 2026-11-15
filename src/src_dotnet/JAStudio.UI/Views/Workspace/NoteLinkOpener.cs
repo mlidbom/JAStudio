@@ -23,8 +23,8 @@ public class NoteLinkOpener : INoteLinkOpener
 
    public void OpenInAnkiPreviewer(NoteId noteId)
    {
-      var externalId = _services.ExternalNoteIdMap.ToExternalId(noteId);
-      if(externalId.HasValue)
-         _services.SpacedRepetitionSystemWindows.OpenThePreviewerOn($"{Builtin.NoteId}:{externalId.Value}");
+      var studyNoteId = _services.StudyNoteIds.StudyNoteIdOf(noteId);
+      if(studyNoteId.HasValue)
+         _services.SpacedRepetitionSystemWindows.OpenThePreviewerOn($"{Builtin.NoteId}:{studyNoteId.Value}");
    }
 }

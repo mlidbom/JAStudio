@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JAStudio.Core.Note;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
@@ -10,9 +11,9 @@ namespace JAStudio.Anki;
 /// </summary>
 public class QueryBuilder
 {
-   readonly ExternalNoteIdMap _externalNoteIdMap;
+   readonly StudyNoteIds _studyNoteIds;
 
-   public QueryBuilder(ExternalNoteIdMap externalNoteIdMap) => _externalNoteIdMap = externalNoteIdMap;
+   public QueryBuilder(StudyNoteIds studyNoteIds) => _studyNoteIds = studyNoteIds;
 
    /// <summary>A query for <paramref name="notes"/> in Anki, by their Anki ids. See <see cref="NotesByIds"/>.</summary>
    public string NotesLookup(IEnumerable<JPNote> notes)
@@ -26,11 +27,11 @@ public class QueryBuilder
    /// </summary>
    string NotesByIds(IEnumerable<NoteId> noteIds)
    {
-      var externalIds = noteIds
-                       .Select(id => _externalNoteIdMap.ToExternalId(id))
+      var idsOfTheirStudyNotes = noteIds
+                       .Select(id => _studyNoteIds.StudyNoteIdOf(id))
                        .Where(id => id.HasValue)
                        .Select(id => id!.Value)
                        .ToList();
-      return externalIds.Count > 0 ? $"{Builtin.NoteId}:{string.Join(",", externalIds)}" : "";
+      return idsOfTheirStudyNotes.Count > 0 ? $"{Builtin.NoteId}:{string.Join(",", idsOfTheirStudyNotes)}" : "";
    }
 }

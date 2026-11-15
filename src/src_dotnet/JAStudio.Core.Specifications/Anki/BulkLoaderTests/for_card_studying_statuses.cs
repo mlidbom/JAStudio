@@ -28,7 +28,7 @@ public class for_card_studying_statuses : SpecificationReadingAnAnkiCollectionFi
          _statuses.Select(s => s.NoteTypeName).Distinct().Must().Contain(NoteTypes.Sentence);
 
       [XF] public void every_status_has_a_positive_external_note_id() =>
-         _statuses.Must().Satisfy(it => it.All(s => s.ExternalNoteId > 0));
+         _statuses.Must().Satisfy(it => it.All(s => s.StudyNoteId > 0));
 
       [XF] public void every_status_has_a_card_type() =>
          _statuses.Must().Satisfy(it => it.All(s => !string.IsNullOrEmpty(s.CardType)));
