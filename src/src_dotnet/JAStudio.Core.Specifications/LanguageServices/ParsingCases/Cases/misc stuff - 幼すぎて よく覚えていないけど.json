@@ -1,6 +1,14 @@
 {
+  "sentenceId": "49535a5b-1e03-47ca-9957-e5095f5f8602",
   "sentence": "幼すぎて よく覚えていないけど",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 幼い | すぎる | て | よく | 覚える | ている | ない | けど.",
+  "configuration": {
+    "highlightedWords": [
+      "幼い"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"幼い","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"幼い","vocabId":"05600be9-b0cb-43eb-abdb-80f3707ded49"},
     {"form":"すぎる","startIndex":1,"variant":"base","isDisplayed":true,"vocab":"すぎる","vocabId":"25bda401-0dc0-4d15-801a-0a2240d7e67f"},

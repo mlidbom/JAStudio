@@ -1,4 +1,5 @@
 {
+  "sentenceId": "f93f0fb6-c39b-48d7-a645-4268f2cb744d",
   "sentence": "解放する",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 解放する | 解放 | する | る.",
   "parsedWords": [

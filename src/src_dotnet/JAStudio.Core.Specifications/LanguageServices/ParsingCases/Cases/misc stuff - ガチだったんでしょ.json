@@ -1,4 +1,5 @@
 {
+  "sentenceId": "48549912-4f7c-4b54-9b20-f08f0e5d4a25",
   "sentence": "ガチだったんでしょ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ガチ | だった | ん | でしょ.",
   "parsedWords": [

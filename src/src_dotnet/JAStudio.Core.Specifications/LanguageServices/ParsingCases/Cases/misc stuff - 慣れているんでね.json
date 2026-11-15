@@ -1,6 +1,14 @@
 {
+  "sentenceId": "63d37696-4c2b-4202-8627-5370c4a4f121",
   "sentence": "慣れているんでね",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 慣れる | ている | んで | ね.",
+  "configuration": {
+    "highlightedWords": [
+      "慣れる"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"慣れる","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"慣れる","vocabId":"c2ed7f0b-0292-445d-94e6-44497bb9d987"},
     {"form":"ている","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"ている","vocabId":"601ea2f0-ede3-4250-841e-60968bb13785"},

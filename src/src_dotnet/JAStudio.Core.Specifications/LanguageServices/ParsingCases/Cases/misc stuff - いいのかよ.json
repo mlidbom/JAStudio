@@ -1,4 +1,5 @@
 {
+  "sentenceId": "f59198c5-997f-4710-affb-22131acdcaef",
   "sentence": "いいのかよ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: いい | のか | よ.",
   "parsedWords": [

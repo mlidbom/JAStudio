@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c170b0c6-4075-4c3e-96d4-c2776e0e1454",
   "sentence": "私は毎日ジョギングをすることを習慣にしています。",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HiddenExclusions, against vocab copied by hand, with にして:17, にし:17, して:18, し:18, してい:18 marked as hidden matches, expected the breakdown to display: 私 | は | 毎日 | ジョギング | を | する | る:う | こと | を | 習慣 | にする | ている | ます.",
   "configuration": {

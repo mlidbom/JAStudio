@@ -1,4 +1,5 @@
 {
+  "sentenceId": "75b76b2b-fc61-453a-a4fe-ca698a73dbf5",
   "sentence": "また来ような",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: また | 来る | う | な:s.end.",
   "parsedWords": [

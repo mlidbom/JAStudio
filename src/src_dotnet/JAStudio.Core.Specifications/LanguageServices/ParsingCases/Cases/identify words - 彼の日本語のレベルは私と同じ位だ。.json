@@ -1,6 +1,14 @@
 {
+  "sentenceId": "cba25a3d-e979-4031-bdc5-191e1ce2ad46",
   "sentence": "彼の日本語のレベルは私と同じ位だ。",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 彼の | 彼 | の | 日本語 | の | レベル | は | 私 | と | 同じ位 | 同じ | 位 | だ.",
+  "configuration": {
+    "highlightedWords": [
+      "同じ"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"彼の","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"彼の","vocabId":"d7264ca2-9ce9-4a18-9234-bfc21f56492c"},
     {"form":"彼","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"彼","vocabId":"2418668a-2f1f-4546-a20e-1cd8c2024654"},

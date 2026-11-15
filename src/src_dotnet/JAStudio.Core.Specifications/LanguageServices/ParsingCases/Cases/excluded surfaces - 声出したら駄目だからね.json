@@ -1,4 +1,5 @@
 {
+  "sentenceId": "42b1c356-0349-4a0b-b39c-30897d8d57b2",
   "sentence": "声出したら駄目だからね",
   "why": "Converted from TextAnalysisWithSelectDataTests.ExcludedSurfaces, against vocab copied by hand, expected the forms of the parsing result, in that order: 声 | 出す | たら | 駄目 | だから | だ | から | ね.",
   "parsedWords": [

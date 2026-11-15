@@ -1,4 +1,5 @@
 {
+  "sentenceId": "84b52207-9842-4225-8581-b5da8d4451b7",
   "sentence": "分かってたら",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 分かる | てたら.",
   "parsedWords": [

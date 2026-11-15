@@ -1,4 +1,5 @@
 {
+  "sentenceId": "19c12a37-c969-4c27-bb4c-083e50db6511",
   "sentence": "未練たらしい",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 未練たらしい | 未練 | たらしい.",
   "parsedWords": [

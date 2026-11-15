@@ -1,4 +1,5 @@
 {
+  "sentenceId": "e02a7eff-df02-4756-9da2-b94d21c7e438",
   "sentence": "厳密に言えば　俺一人が友達だけどだけど",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 厳密に言えば | 俺 | 一人 | が | 友達 | だけど | だけど.",
   "parsedWords": [

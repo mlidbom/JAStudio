@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3cbb159b-2eed-4a7f-9321-eac6c303f941",
   "sentence": "する",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: する | る:う.",
   "parsedWords": [

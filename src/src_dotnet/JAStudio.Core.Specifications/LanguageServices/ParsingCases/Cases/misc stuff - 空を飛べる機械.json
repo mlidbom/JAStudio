@@ -1,4 +1,5 @@
 {
+  "sentenceId": "a88db930-f803-46aa-a3a0-361c1e5f8e2c",
   "sentence": "空を飛べる機械",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 空を飛ぶ | える | る:う | 機械.",
   "parsedWords": [

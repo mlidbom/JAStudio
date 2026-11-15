@@ -1,4 +1,5 @@
 {
+  "sentenceId": "e28eb6f4-859b-4593-a62a-2f9a3938597c",
   "sentence": "何て言うか<wbr>さ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.WbrWordSeparation, against vocab copied by hand, expected the breakdown to display: 何 | て言うか:ていうか | さ.",
   "parsedWords": [

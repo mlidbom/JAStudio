@@ -1,4 +1,5 @@
 {
+  "sentenceId": "86dd3927-f428-4c8c-b978-a7ec7992e6d5",
   "sentence": "食べるな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidDictionaryFormHeadAndStart, against vocab copied by hand, expected the breakdown to display: 食べる | る:う | な:dict.",
   "parsedWords": [

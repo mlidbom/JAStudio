@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c6430625-dc95-4a3c-ad3e-d3eac2006b80",
   "sentence": "カバンに入れっぱなし",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: カバン | に | 入れる | っぱなし:っ放し.",
   "parsedWords": [

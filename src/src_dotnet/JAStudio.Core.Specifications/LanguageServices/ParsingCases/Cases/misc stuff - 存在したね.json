@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3b365345-9bfd-4b4f-9b39-a678dbf4e4f4",
   "sentence": "存在したね",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 存在 | する | た | ね.",
   "parsedWords": [

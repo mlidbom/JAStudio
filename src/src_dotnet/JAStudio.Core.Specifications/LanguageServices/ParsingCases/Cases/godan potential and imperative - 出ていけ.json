@@ -1,4 +1,5 @@
 {
+  "sentenceId": "89ac08f4-0bbd-4ec0-95b5-0879f2b72ac7",
   "sentence": "出ていけ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 出ていく | え.",
   "parsedWords": [

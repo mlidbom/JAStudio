@@ -1,4 +1,5 @@
 {
+  "sentenceId": "001c5be0-b87f-4813-b3c0-de885e2bd943",
   "sentence": "あ な なに",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: あ | な:s.start | なに.",
   "parsedWords": [

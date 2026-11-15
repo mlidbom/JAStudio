@@ -1,4 +1,5 @@
 {
+  "sentenceId": "8ca9dcdf-41a4-492d-8556-55ac6e7cd88c",
   "sentence": "教えにしたがって",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HideAllCompounds, against vocab copied by hand, with hiding all compounds on, expected the breakdown to display: 教え | に | したがって.",
   "parsedWords": [

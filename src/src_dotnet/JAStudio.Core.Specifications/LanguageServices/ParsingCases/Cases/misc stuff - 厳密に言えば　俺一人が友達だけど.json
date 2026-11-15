@@ -1,6 +1,14 @@
 {
+  "sentenceId": "865cb7b7-6708-4070-80f3-75cf60a3b399",
   "sentence": "厳密に言えば　俺一人が友達だけど",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 厳密に言えば | 俺 | 一人 | が | 友達 | だけど.",
+  "configuration": {
+    "highlightedWords": [
+      "厳密"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"厳密に言えば","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"厳密に言えば","vocabId":"c04920e5-5189-4e75-9a55-4b9bdb21b33f"},
     {"form":"厳密に","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"厳密に","vocabId":"0354930c-ee61-4a36-b98f-7d35d5ddea85"},

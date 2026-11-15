@@ -1,4 +1,5 @@
 {
+  "sentenceId": "d31a145c-193c-465c-a217-9875d0d1b8a7",
   "sentence": "奪うんだもの",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 奪う | う | ん | だもの.",
   "parsedWords": [

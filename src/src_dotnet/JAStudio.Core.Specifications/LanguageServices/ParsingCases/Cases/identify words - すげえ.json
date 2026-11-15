@@ -1,4 +1,5 @@
 {
+  "sentenceId": "502fc2a6-1d19-4d38-949c-4ce1394624c3",
   "sentence": "すげえ",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: すげえ | すげ.",
   "parsedWords": [

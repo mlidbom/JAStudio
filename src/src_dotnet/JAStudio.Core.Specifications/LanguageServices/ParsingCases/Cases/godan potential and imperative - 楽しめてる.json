@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c3ed54a9-f308-4016-a50c-eb4a9a3e250f",
   "sentence": "楽しめてる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 楽しむ | える | てる.",
   "parsedWords": [

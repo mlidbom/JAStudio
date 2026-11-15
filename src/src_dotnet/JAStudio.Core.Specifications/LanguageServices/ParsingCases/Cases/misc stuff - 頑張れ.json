@@ -1,4 +1,5 @@
 {
+  "sentenceId": "4fb32b3a-c528-4fb7-9eaf-dfde1f96edbd",
   "sentence": "頑張れ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 頑張れ.",
   "parsedWords": [

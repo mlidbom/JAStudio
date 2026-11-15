@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3ef90973-d149-42b8-8e10-368b4bca8339",
   "sentence": "止めるかな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 止める | る:う | かな.",
   "parsedWords": [

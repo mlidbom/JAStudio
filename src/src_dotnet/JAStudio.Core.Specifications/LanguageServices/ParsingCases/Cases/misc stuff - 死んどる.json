@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3e87b53a-7a46-4d33-b9ef-402f1693f4e3",
   "sentence": "死んどる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 死ぬ | んどる; and from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 死ぬ | んどる.",
   "parsedWords": [

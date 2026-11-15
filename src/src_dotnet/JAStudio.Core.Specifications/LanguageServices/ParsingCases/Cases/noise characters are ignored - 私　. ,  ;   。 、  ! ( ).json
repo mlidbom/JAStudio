@@ -1,5 +1,6 @@
 {
-  "sentence": "私　. , : ; / | 。 、 ? ! ( ) ",
+  "sentenceId": "a2b43cf1-cc1c-4911-bea5-1f8f2765a644",
+  "sentence": "私　. , : ; / | 。 、 ? ! ( )",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.NoiseCharactersAreIgnored, against vocab copied by hand, expected the breakdown to display: 私.",
   "parsedWords": [
     {"form":"私","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"私","vocabId":"b0feb775-fb1d-4097-b7bc-dbf87fae98a1"}

@@ -1,6 +1,14 @@
 {
+  "sentenceId": "908183ec-a18b-4e63-8252-91274342dc6f",
   "sentence": "大声出すな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: 大声出す | う | な:dict.",
+  "configuration": {
+    "highlightedWords": [
+      "大声出す"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"大声出す","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"大声出す","vocabId":"d6c3a5c1-d296-48e9-86cf-8f98be6741ba"},
     {"form":"大声出す","startIndex":0,"variant":"base","isDisplayed":false,"vocab":"大声出す","vocabId":"d6c3a5c1-d296-48e9-86cf-8f98be6741ba"},

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "3b1b3521-bdae-419a-88e6-216d6dde9179",
   "sentence": "聞こうと思ってた",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 聞く | う | と思う | てた.",
   "parsedWords": [

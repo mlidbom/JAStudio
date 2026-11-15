@@ -1,4 +1,5 @@
 {
+  "sentenceId": "2eb0fd7b-c56e-425b-ade6-b6af056e3503",
   "sentence": "逆に大丈夫に思えてくる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 逆に | 大丈夫 | に | 思える | て | くる | る:う.",
   "parsedWords": [

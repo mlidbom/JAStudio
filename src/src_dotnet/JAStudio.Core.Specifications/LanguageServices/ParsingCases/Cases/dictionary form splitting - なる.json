@@ -1,4 +1,5 @@
 {
+  "sentenceId": "614fce15-274c-4fe4-89fe-94cc4c52a1a3",
   "sentence": "なる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.DictionaryFormSplitting, against vocab copied by hand, expected the breakdown to display: なる | う.",
   "parsedWords": [

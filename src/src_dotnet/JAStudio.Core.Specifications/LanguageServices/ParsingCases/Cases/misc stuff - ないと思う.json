@@ -1,4 +1,5 @@
 {
+  "sentenceId": "e4a96a5b-bbcf-4b24-812d-c4a13a1f20ea",
   "sentence": "ないと思う",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ない | と思う | う.",
   "parsedWords": [

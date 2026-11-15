@@ -1,4 +1,5 @@
 {
+  "sentenceId": "caae343f-47b4-4a50-9dc7-0aa64793cbc3",
   "sentence": "やり過ぎた",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: やり過ぎる | た.",
   "parsedWords": [

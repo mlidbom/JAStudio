@@ -1,4 +1,5 @@
 {
+  "sentenceId": "59184eb7-1fd2-49cb-9f21-0e302c5e7544",
   "sentence": "落書きしたろ",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: 落書き | する | た.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "8c39c95f-06cf-46a3-ad7f-ab3215836444",
   "sentence": "ばら撒かれるなんて死んでもいやだ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: ばら撒く | あれる | る:う | なんて | 死んでも | いや | だ.",
   "parsedWords": [

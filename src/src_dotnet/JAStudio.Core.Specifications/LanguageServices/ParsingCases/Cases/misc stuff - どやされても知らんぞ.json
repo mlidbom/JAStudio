@@ -1,4 +1,5 @@
 {
+  "sentenceId": "44339964-b305-434e-90f4-b6788fc7e6d2",
   "sentence": "どやされても知らんぞ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: どやす | あれる | ても知らん:ても知らない | ぞ.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "60689ab6-5d59-4f69-a8ab-27b95d26dc4f",
   "sentence": "お金を貸していただけないでしょうか",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: お金 | を | 貸す | て | いただける:able-to | ない | でしょうか.",
   "parsedWords": [

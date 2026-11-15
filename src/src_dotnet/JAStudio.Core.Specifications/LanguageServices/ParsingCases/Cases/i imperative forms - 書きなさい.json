@@ -1,4 +1,5 @@
 {
+  "sentenceId": "81d33ebd-8949-4129-8bbe-2d5408ad3003",
   "sentence": "書きなさい",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IImperativeForms, against vocab copied by hand, expected the breakdown to display: 書く | なさい.",
   "parsedWords": [

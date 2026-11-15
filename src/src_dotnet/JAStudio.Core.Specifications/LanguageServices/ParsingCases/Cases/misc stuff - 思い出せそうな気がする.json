@@ -1,4 +1,5 @@
 {
+  "sentenceId": "6943d80b-0c8a-4155-82bb-ae8e63c7704d",
   "sentence": "思い出せそうな気がする",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 思い出す | える | そうだ | 気がする | る:う.",
   "parsedWords": [

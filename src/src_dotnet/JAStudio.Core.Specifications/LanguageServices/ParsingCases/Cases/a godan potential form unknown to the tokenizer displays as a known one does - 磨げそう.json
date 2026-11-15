@@ -1,4 +1,5 @@
 {
+  "sentenceId": "79d1e37d-8a2c-4b26-8d3f-c2ee3b2c1c84",
   "sentence": "磨げそう",
   "why": "Converted from When_analyzing_a_godan_potential_form_unknown_to_the_tokenizer, against vocab copied by hand, which expected 磨げそう to display the words 泳げそう does, with 磨 for 泳: 磨げる, the potential form of 磨ぐ, is missing from the tokenizer's dictionary, 泳げる isn't. Its pair is the case of 泳げそう.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "6718f60b-c237-4382-aa66-8acb37f03c0b",
   "sentence": "おっせぇ<wbr>な　あいつら",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.WbrWordSeparation, against vocab copied by hand, expected the breakdown to display: おる | せ | ぇ:[MISSING]:emergency | な:s.end | あいつら.",
   "parsedWords": [

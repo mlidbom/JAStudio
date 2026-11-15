@@ -1,4 +1,5 @@
 {
+  "sentenceId": "f8f2342c-5043-4d5d-a011-e8e1fcade774",
   "sentence": "食べれる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequiresEStem, against vocab copied by hand, expected the breakdown to display: 食べる | れる:ichidan | る:う.",
   "parsedWords": [

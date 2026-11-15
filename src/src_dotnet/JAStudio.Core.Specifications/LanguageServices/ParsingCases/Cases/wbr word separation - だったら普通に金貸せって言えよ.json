@@ -1,4 +1,5 @@
 {
+  "sentenceId": "dbdd1d44-6565-498a-ad63-1eca1d638e72",
   "sentence": "だったら普通に金<wbr>貸せって言えよ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.WbrWordSeparation, against vocab copied by hand, expected the breakdown to display: だったら | 普通に | 金 | 貸す | え | って言う | え | よ.",
   "parsedWords": [

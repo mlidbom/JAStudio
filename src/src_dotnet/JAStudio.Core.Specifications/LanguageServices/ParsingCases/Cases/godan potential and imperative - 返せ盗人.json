@@ -1,4 +1,5 @@
 {
+  "sentenceId": "96b890df-a05e-4475-958f-b0adf1aba170",
   "sentence": "返せ盗人",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 返す | え | 盗人.",
   "parsedWords": [

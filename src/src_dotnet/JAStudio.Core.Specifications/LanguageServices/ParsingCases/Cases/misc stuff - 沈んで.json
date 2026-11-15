@@ -1,4 +1,5 @@
 {
+  "sentenceId": "4a7e54bb-c0c7-4469-bf5a-f97fd7ac9fcf",
   "sentence": "沈んで",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 沈む | んで.",
   "parsedWords": [

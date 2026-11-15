@@ -1,4 +1,5 @@
 {
+  "sentenceId": "14c09b14-ab44-470b-9683-176f07a253c9",
   "sentence": "離れよ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 離れる | よ.",
   "parsedWords": [

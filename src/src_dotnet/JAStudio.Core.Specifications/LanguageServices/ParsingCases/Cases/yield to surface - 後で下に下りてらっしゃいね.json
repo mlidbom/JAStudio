@@ -1,4 +1,5 @@
 {
+  "sentenceId": "ef309def-6895-4edd-834b-6aaa34dde6f8",
   "sentence": "後で下に下りてらっしゃいね",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.YieldToSurface, against vocab copied by hand, expected the breakdown to display: 後で | 下に | 下りる | て | らっしゃい | ね.",
   "parsedWords": [

@@ -1,4 +1,5 @@
 {
+  "sentenceId": "568b7b77-58a0-436f-a65e-82b252133ff9",
   "sentence": "厳密に言えば　俺一人が友達だけど",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IncorrectExclusions, against vocab copied by hand, with 厳密に言えば, 言え, だけど marked as incorrect matches, expected the breakdown to display: 厳密 | に | 言う | ば | 俺 | 一人 | が | 友達 | だ | けど.",
   "configuration": {

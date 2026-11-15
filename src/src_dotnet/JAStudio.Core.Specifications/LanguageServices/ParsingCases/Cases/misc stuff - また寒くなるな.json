@@ -1,4 +1,5 @@
 {
+  "sentenceId": "0bab1ac8-3114-4648-9f72-36a894c4cacc",
   "sentence": "また寒くなるな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: また | 寒い | くなる | う | な:dict.",
   "parsedWords": [

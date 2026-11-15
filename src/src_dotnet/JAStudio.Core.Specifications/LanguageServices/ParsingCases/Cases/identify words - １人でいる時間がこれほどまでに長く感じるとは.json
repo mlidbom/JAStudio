@@ -1,6 +1,16 @@
 {
+  "sentenceId": "81dab1dc-504c-4038-9a15-7c3320748f71",
   "sentence": "１人でいる時間がこれほどまでに長く感じるとは",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: １人で | １人 | １ | 人 | でいる | で | いる | 時間 | が | これほど | これ | ほど | までに | まで | に | 長い | 感じる | とは | と | は | る.",
+  "configuration": {
+    "highlightedWords": [
+      "とは",
+      "１人で",
+      "これほど"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"１人で","startIndex":0,"variant":"surface","isDisplayed":false,"vocab":"一人で","vocabId":"ce29cc68-c5ee-48e3-8a15-8fba75c6fe48"},
     {"form":"１人","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"一人","vocabId":"f2ac7ac3-8c88-4bd7-883a-daae4c610173"},

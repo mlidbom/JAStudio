@@ -1,4 +1,5 @@
 {
+  "sentenceId": "c944f661-564a-461d-964e-8e2dde25580a",
   "sentence": "買い替えています",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.HideTransparentCompounds, against vocab copied by hand, expected the breakdown to display: 買い替える | ている | ます.",
   "parsedWords": [

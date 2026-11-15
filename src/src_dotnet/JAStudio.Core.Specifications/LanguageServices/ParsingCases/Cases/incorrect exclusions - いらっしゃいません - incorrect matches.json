@@ -1,4 +1,5 @@
 {
+  "sentenceId": "e4974cee-3702-4535-9c2e-a4ba467539b0",
   "sentence": "いらっしゃいません",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IncorrectExclusions, against vocab copied by hand, with いらっしゃいませ marked as incorrect matches, expected the breakdown to display: いらっしゃいます | ん.",
   "configuration": {

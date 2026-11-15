@@ -1,4 +1,5 @@
 {
+  "sentenceId": "e3e1db64-0f22-495e-9354-85f4629a1724",
   "sentence": "何言っとんだ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: 何 | 言う | とん | んだ:past.",
   "parsedWords": [

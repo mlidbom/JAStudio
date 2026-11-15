@@ -1,4 +1,5 @@
 {
+  "sentenceId": "75571edd-d164-4cf6-9de1-069a7e9fd868",
   "sentence": "横取りされたらたまらん",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 横取り | される | たら | たまらん.",
   "parsedWords": [

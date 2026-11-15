@@ -1,4 +1,5 @@
 {
+  "sentenceId": "ac847fe5-e2e8-4cc4-9b31-9a45162bad8c",
   "sentence": "見つけよ",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.IchidanImperative, against vocab copied by hand, expected the breakdown to display: 見つける | よ.",
   "parsedWords": [

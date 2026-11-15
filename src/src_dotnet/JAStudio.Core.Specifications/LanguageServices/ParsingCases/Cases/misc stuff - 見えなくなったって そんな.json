@@ -1,4 +1,5 @@
 {
+  "sentenceId": "168359af-6afc-46ce-8055-3f9f36e26ba5",
   "sentence": "見えなくなったって そんな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 見える | なくなる | たって:emergency | そんな.",
   "parsedWords": [

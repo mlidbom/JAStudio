@@ -1,6 +1,14 @@
 {
+  "sentenceId": "12060b95-c8f2-47b1-9492-57b70f28e8d5",
   "sentence": "電気を点けて下さい。",
   "why": "Converted from When_analyzing_a_genuine_ichidan_verb_unknown_to_the_tokenizer_after_wo, against vocab copied by hand, which expected the breakdown to display 点ける. 点ける is missing from the tokenizer's dictionary, and 点け is also the e-stem of the intransitive godan verb 点く, but an intransitive verb doesn't take を.",
+  "configuration": {
+    "highlightedWords": [
+      "電気"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"電気","startIndex":0,"variant":"surface","isDisplayed":true,"vocab":"電気","vocabId":"cf367178-b0a0-4d49-b33e-9fdb1b809c93"},
     {"form":"を","startIndex":2,"variant":"surface","isDisplayed":true,"vocab":"を","vocabId":"0b5bd909-4c0e-4f1c-bde3-c91719eb579a"},

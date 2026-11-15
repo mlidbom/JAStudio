@@ -1,4 +1,5 @@
 {
+  "sentenceId": "fb527703-6dc1-47f9-a4b2-a7b0103758ec",
   "sentence": "風の強さに驚きました",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.AllWordsEqual, against vocab copied by hand, expected every match of the analysis, valid or not: 風の強い | 風 | の | 強さ | 強 | 強い | さ | に | 驚き | 驚く | まし:ませ | まし | ます | た.",
   "parsedWords": [

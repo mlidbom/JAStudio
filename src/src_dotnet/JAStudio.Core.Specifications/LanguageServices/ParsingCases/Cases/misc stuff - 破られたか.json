@@ -1,6 +1,14 @@
 {
+  "sentenceId": "b4291970-27e3-49e2-b67b-6d20c3b8ae76",
   "sentence": "破られたか",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 破る | あれる | た | か.",
+  "configuration": {
+    "highlightedWords": [
+      "破る"
+    ],
+    "incorrectMatches": [],
+    "hiddenMatches": []
+  },
   "parsedWords": [
     {"form":"破る","startIndex":0,"variant":"base","isDisplayed":true,"vocab":"破る","vocabId":"c6034e67-6029-4c7e-8000-09d81bc7647e"},
     {"form":"あれた","startIndex":1,"variant":"surface","isDisplayed":true,"vocab":"あれた","vocabId":"98a34393-6425-4516-bb76-6a8b228988ca"},

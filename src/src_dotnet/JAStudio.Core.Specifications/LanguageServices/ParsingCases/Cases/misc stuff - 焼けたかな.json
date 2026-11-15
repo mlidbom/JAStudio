@@ -1,4 +1,5 @@
 {
+  "sentenceId": "71a6c4f9-0537-4d53-8ef4-da0699ea264b",
   "sentence": "焼けたかな",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 焼ける | た | かな.",
   "parsedWords": [

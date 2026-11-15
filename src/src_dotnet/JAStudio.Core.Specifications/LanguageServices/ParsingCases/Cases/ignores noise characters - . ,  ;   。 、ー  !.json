@@ -1,4 +1,5 @@
 {
+  "sentenceId": "13aa279b-1454-4f2a-9837-656ce4056305",
   "sentence": ". , : ; / | 。 、ー ? !",
   "why": "Converted from TextAnalysisWithSelectDataTests.IgnoresNoiseCharacters, against vocab copied by hand, expected the forms of the parsing result: ー.",
   "parsedWords": [

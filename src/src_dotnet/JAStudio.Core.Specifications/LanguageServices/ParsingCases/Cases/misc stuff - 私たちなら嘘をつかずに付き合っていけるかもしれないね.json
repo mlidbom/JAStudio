@@ -1,4 +1,5 @@
 {
+  "sentenceId": "56b37c8b-28e6-4861-be13-26823dea7773",
   "sentence": "私たちなら嘘をつかずに付き合っていけるかもしれないね",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 私たち | なら | 嘘をつく | ずに | 付き合う | ていける | る:う | かもしれない | ね.",
   "parsedWords": [

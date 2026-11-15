@@ -1,4 +1,5 @@
 {
+  "sentenceId": "e02c6f5b-b41a-4d57-b892-7cf87944db04",
   "sentence": "なのかな",
   "why": "Converted from TextAnalysisWithSelectDataTests.IdentifyWords, against vocab copied by hand, expected the forms of the parsing result: か | かな | な | なの | の | のか.",
   "parsedWords": [

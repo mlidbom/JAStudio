@@ -1,4 +1,5 @@
 {
+  "sentenceId": "5a377a3e-ac52-448c-9d13-74ded9695680",
   "sentence": "さっき殴ったから拗ねてんのか",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.RequireForbidTePrefixOrStem, against vocab copied by hand, expected the breakdown to display: さっき | 殴る | た | から | 拗ねる | てん | のか.",
   "parsedWords": [

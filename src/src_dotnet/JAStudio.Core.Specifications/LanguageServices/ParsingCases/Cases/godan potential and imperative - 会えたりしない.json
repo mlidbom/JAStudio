@@ -1,4 +1,5 @@
 {
+  "sentenceId": "7ae23a18-1733-4d03-a543-f47f2aafe714",
   "sentence": "会えたりしない",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.GodanPotentialAndImperative, against vocab copied by hand, expected the breakdown to display: 会う | える | たり | する | ない.",
   "parsedWords": [

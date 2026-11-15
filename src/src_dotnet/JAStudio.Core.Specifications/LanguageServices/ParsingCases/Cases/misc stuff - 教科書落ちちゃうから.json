@@ -1,4 +1,5 @@
 {
+  "sentenceId": "fad56aea-54e6-4cee-8929-4424377b0c3a",
   "sentence": "教科書落ちちゃうから",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: 教科書 | 落ちる | ちゃう | う | から.",
   "parsedWords": [

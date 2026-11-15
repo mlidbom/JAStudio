@@ -1,4 +1,5 @@
 {
+  "sentenceId": "38c20eb8-0315-44bf-ab94-4fd157c0e28b",
   "sentence": "いいものを食べる",
   "why": "Converted from SentenceAnalysisViewModelWithSelectDataTests.MiscStuff, against vocab copied by hand, expected the breakdown to display: いい | もの | を | 食べる | る:う.",
   "parsedWords": [

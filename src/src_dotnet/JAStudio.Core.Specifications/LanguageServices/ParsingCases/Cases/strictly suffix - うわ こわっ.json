@@ -1,4 +1,5 @@
 {
+  "sentenceId": "6d31fac8-efe4-48a2-82fd-6277464eaffa",
   "sentence": "うわ こわっ",
   "why": "Converted from TextAnalysisWithSelectDataTests.StrictlySuffix, against vocab copied by hand, expected the forms of the parsing result, in that order: うわ | こい | わっ.",
   "parsedWords": [

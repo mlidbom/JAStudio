@@ -34,7 +34,7 @@
       "isOwned": false
     }
   ],
-  "sentenceCount": 24,
+  "sentenceCount": 25,
   "technicalNotes": "TODO: たろ is parsed as a single token with た as the base. Without a vocabulary word it will never even be displayed.\nWhen we encounter this combination of base and surface, perhaps we should automatically split the token into た and ろ",
   "references": "",
   "images": [],
