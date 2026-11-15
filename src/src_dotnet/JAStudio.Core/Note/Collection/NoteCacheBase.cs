@@ -51,10 +51,6 @@ abstract class NoteCacheBase<TNote> : IExternalNoteUpdateHandler
    public TNote? WithExternalIdOrNone(long externalNoteId) =>
       _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId) is {} noteId ? WithIdOrNone(noteId) : null;
 
-   /// <summary>Converts an external long ID to the corresponding domain NoteId.</summary>
-   public NoteId? ExternalIdToNoteId(long externalNoteId) =>
-      _noteServices.ExternalNoteIdMap.FromExternalId(externalNoteId);
-
    /// <summary>Returns the external long note ID for the given domain NoteId.</summary>
    public long GetExternalNoteId(NoteId noteId) =>
       _noteServices.ExternalNoteIdMap.ToExternalId(noteId) ?? 0;

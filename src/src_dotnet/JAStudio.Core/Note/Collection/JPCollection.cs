@@ -112,10 +112,6 @@ public class JPCollection
       return noteId != null ? NoteFromNoteId(noteId) : null;
    }
 
-   /// <summary> Returns the external long note ID for the given domain NoteId. Returns 0 if no mapping is found.</summary>
-   // ReSharper disable once UnusedMember.Global called from python
-   public long GetExternalNoteId(NoteId noteId) => NoteServices.ExternalNoteIdMap.ToExternalId(noteId) ?? 0;
-
    public NoteServices NoteServices { get; }
    public VocabNoteFactory VocabNoteFactory { get; }
    public DictLookup DictLookup { get; }
