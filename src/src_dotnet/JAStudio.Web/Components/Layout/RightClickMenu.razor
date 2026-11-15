@@ -1,0 +1,10 @@
+@if(_shownAt is {} at)
+{
+    <div class="right-click-menu-backdrop" @onclick="Close" @oncontextmenu="Close" @oncontextmenu:preventDefault="true"></div>
+    <div class="right-click-menu" style="left: @(at.X)px; top: @(at.Y)px">
+        @foreach(var item in _items)
+        {
+            <div class="right-click-menu-item" @onclick="() => Run(item)">@item.Name</div>
+        }
+    </div>
+}

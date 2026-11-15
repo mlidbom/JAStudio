@@ -107,6 +107,7 @@ public class CardServer
 
       builder.Services.AddMudServices();
       builder.Services.AddSingleton<WebRootFiles>();
+      builder.Services.AddSingleton(_noteLinkOpener); // for the pages' right-click menu (RightClickMenu)
 
       builder.Services.AddCors(options =>
          options.AddDefaultPolicy(policy =>
