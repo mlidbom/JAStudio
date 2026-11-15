@@ -37,7 +37,7 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<ISpacedRepetitionSystemWindows>().Instance(new NoSpacedRepetitionSystemWindows()),
          Singleton.For<ISpacedRepetitionSystemDataLoader>().Instance(new NoAnkiData()),
          Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new NoAnkiCardOperations()),
-         Singleton.For<IAnkiTagOperations>().Instance(new NoAnkiTagOperations()),
+         Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(new NoAnkiTagOperations()),
          Singleton.For<IAnkiStudyNotes>().Instance(new NoAnkiStudyNotes()),
          Singleton.For<IAnkiRawNotes>().Instance(new NoAnkiRawNotes())
       );

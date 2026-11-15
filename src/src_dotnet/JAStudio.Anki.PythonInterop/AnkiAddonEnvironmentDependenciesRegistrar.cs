@@ -32,7 +32,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ISpacedRepetitionSystemCardOperations>().CreatedBy(ISpacedRepetitionSystemCardOperations (StudyNoteIds idMap) => new AnkiCardOperations(idMap)),
-         Singleton.For<IAnkiTagOperations>().CreatedBy(IAnkiTagOperations (StudyNoteIds ankiNoteIds) => new AnkiTagOperations(ankiNoteIds)),
+         Singleton.For<ISpacedRepetitionSystemTagOperations>().CreatedBy(ISpacedRepetitionSystemTagOperations (StudyNoteIds ankiNoteIds) => new AnkiTagOperations(ankiNoteIds)),
          Singleton.For<IAnkiStudyNotes>().CreatedBy(IAnkiStudyNotes (AnkiCollectionDatabase database, StudyNoteIds ankiNoteIds) => new AnkiStudyNotes(database, ankiNoteIds))
       );
    }

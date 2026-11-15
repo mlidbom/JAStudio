@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Compze.Contracts;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Core.Note.Tagging;
 
 /// <summary>
 /// The changes a person makes in JAStudio to the notes' Anki tags (<see cref="Tags.Anki"/>), the tags of their study-notes in Anki: adding one to<br/>
 /// notes, removing one from them, and renaming or deleting a branch of them. The tags are the student's, stored only in Anki, so each change is made<br/>
-/// in Anki, as one Anki operation, which Anki's Edit > Undo undoes (<see cref="IAnkiTagOperations"/>). Then JAStudio reads the study-notes from Anki<br/>
+/// in Anki, as one Anki operation, which Anki's Edit > Undo undoes (<see cref="ISpacedRepetitionSystemTagOperations"/>). Then JAStudio reads the study-notes from Anki<br/>
 /// again (<see cref="JPCollection.ReadTheStudyNotesFromAnkiAgain"/>), so the notes show the change.
 /// </summary>
 /// <remarks>
@@ -19,11 +20,11 @@ namespace JAStudio.Core.Note.Tagging;
 public sealed class AnkiTagChanges
 {
    readonly JPCollection _collection;
-   readonly IAnkiTagOperations _anki;
+   readonly ISpacedRepetitionSystemTagOperations _anki;
 
    /// <param name="collection">The collection whose notes' Anki tags change, and which reads them again.</param>
    /// <param name="anki">Makes each change in Anki.</param>
-   public AnkiTagChanges(JPCollection collection, IAnkiTagOperations anki)
+   public AnkiTagChanges(JPCollection collection, ISpacedRepetitionSystemTagOperations anki)
    {
       _collection = collection;
       _anki = anki;
@@ -52,7 +53,7 @@ public sealed class AnkiTagChanges
    public void Rename(TagBranchRename rename)
    {
       Contract.Argument.Assert(rename.Branch.IsInTheAnkiBranch && rename.WhyItCannotBeDone is null, () => $"The rename of {rename.Branch.Path} to {rename.Renamed.Path} isn't one of Anki tags that can be done.");
-      _anki.RenameTheBranchOnEveryAnkiNote(Tags.Anki.NameInAnkiOf(rename.Branch.Path), Tags.Anki.NameInAnkiOf(rename.Renamed.Path));
+      _anki.RenameTheBranchOnEveryNoteInTheSpacedRepetitionSystem(Tags.Anki.NameInAnkiOf(rename.Branch.Path), Tags.Anki.NameInAnkiOf(rename.Renamed.Path));
       _collection.ReadTheStudyNotesFromAnkiAgain();
    }
 
@@ -60,7 +61,7 @@ public sealed class AnkiTagChanges
    public void Delete(TagBranch branch)
    {
       AssertItIsBelowAnki(branch);
-      _anki.DeleteTheBranchFromEveryAnkiNote(Tags.Anki.NameInAnkiOf(branch.Path));
+      _anki.DeleteTheBranchFromEveryNoteInTheSpacedRepetitionSystem(Tags.Anki.NameInAnkiOf(branch.Path));
       _collection.ReadTheStudyNotesFromAnkiAgain();
    }
 
@@ -68,7 +69,7 @@ public sealed class AnkiTagChanges
    public int NumberOfAnkiNotesWithATagIn(TagBranch branch)
    {
       AssertItIsBelowAnki(branch);
-      return _anki.NumberOfAnkiNotesWithATagIn(Tags.Anki.NameInAnkiOf(branch.Path));
+      return _anki.NumberOfNotesInTheSpacedRepetitionSystemWithATagIn(Tags.Anki.NameInAnkiOf(branch.Path));
    }
 
    static void AssertItIsAnAnkiTag(Tag tag) => AssertItIsBelowAnki(new TagBranch(tag.Name));

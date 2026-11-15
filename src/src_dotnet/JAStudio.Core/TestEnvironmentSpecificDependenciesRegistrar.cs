@@ -30,7 +30,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<INoteRepository>().Instance(new InMemoryNoteRepository()),
          Singleton.For<PretendAnki>().Instance(pretendAnki),
          Singleton.For<ISpacedRepetitionSystemDataLoader>().Instance(pretendAnki),
-         Singleton.For<IAnkiTagOperations>().Instance(pretendAnki),
+         Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(pretendAnki),
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Available),

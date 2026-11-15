@@ -17,9 +17,9 @@ namespace JAStudio.Core.TestUtils;
 /// (<see cref="GiveAStudyNoteTo"/>), and loading the collection<br/>
 /// reads from it as from Anki (<see cref="ISpacedRepetitionSystemDataLoader"/>): each study-note's corpus note, the tags specifications or JAStudio gave it, and the<br/>
 /// cards specifications suspended. It has no other cards, and no Anki notes but the study-notes. JAStudio changes its tags as it changes Anki's<br/>
-/// (<see cref="IAnkiTagOperations"/>).
+/// (<see cref="ISpacedRepetitionSystemTagOperations"/>).
 /// </summary>
-public class PretendAnki : ISpacedRepetitionSystemDataLoader, IAnkiTagOperations
+public class PretendAnki : ISpacedRepetitionSystemDataLoader, ISpacedRepetitionSystemTagOperations
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, NoteId> _noteOfEachStudyNote = [];
@@ -69,16 +69,16 @@ public class PretendAnki : ISpacedRepetitionSystemDataLoader, IAnkiTagOperations
    public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) =>
       ChangeTheTagsOf(notes.Select(AnkiNoteIdOf), tags => [..tags.Where(it => !it.Equals(tagInAnki, StringComparison.OrdinalIgnoreCase))]);
 
-   public void RenameTheBranchOnEveryAnkiNote(string pathInAnki, string renamedPathInAnki)
+   public void RenameTheBranchOnEveryNoteInTheSpacedRepetitionSystem(string pathInAnki, string renamedPathInAnki)
    {
       var branch = new TagBranch(pathInAnki);
       var renamed = new TagBranch(renamedPathInAnki);
       ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Select(it => branch.Contains(it) ? branch.TheNameRenamedTo(renamed, it) : it).Distinct(StringComparer.OrdinalIgnoreCase)]);
    }
 
-   public void DeleteTheBranchFromEveryAnkiNote(string pathInAnki) => ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Where(it => !new TagBranch(pathInAnki).Contains(it))]);
+   public void DeleteTheBranchFromEveryNoteInTheSpacedRepetitionSystem(string pathInAnki) => ChangeTheTagsOf(EveryStudyNote(), tags => [..tags.Where(it => !new TagBranch(pathInAnki).Contains(it))]);
 
-   public int NumberOfAnkiNotesWithATagIn(string pathInAnki) => _monitor.Locked(() => _tagsOfEachStudyNote.Values.Count(tags => tags.Any(new TagBranch(pathInAnki).Contains)));
+   public int NumberOfNotesInTheSpacedRepetitionSystemWithATagIn(string pathInAnki) => _monitor.Locked(() => _tagsOfEachStudyNote.Values.Count(tags => tags.Any(new TagBranch(pathInAnki).Contains)));
 
    void ChangeTheTagsOf(IEnumerable<long> ankiNoteIds, Func<IReadOnlyList<string>, IReadOnlyList<string>> change) => _monitor.Locked(() =>
    {

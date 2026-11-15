@@ -44,7 +44,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<ISpacedRepetitionSystemCardOperations>().Instance(new HeadlessCardOperations()),
-         Singleton.For<IAnkiTagOperations>().Instance(new HeadlessAnkiTagOperations()),
+         Singleton.For<ISpacedRepetitionSystemTagOperations>().Instance(new HeadlessAnkiTagOperations()),
          Singleton.For<IAnkiStudyNotes>().CreatedBy(IAnkiStudyNotes (AnkiCollectionDatabase database) => new HeadlessAnkiStudyNotes(database))
       );
 }

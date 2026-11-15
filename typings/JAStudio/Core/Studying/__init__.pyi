@@ -1,7 +1,7 @@
 import typing, abc
 from JAStudio.Core.Note import NoteId
 from JAStudio.Core.TaskRunners import TaskRunner
-from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1, IReadOnlyDictionary_2
+from System.Collections.Generic import IReadOnlyCollection_1, Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1, IReadOnlyDictionary_2
 
 class CardStudyingStatus:
     def __init__(self, studyNoteId: int, cardType: str, isSuspended: bool, noteTypeName: str) -> None: ...
@@ -27,6 +27,19 @@ class ISpacedRepetitionSystemCardOperations(typing.Protocol):
 class ISpacedRepetitionSystemDataLoader(typing.Protocol):
     @abc.abstractmethod
     def Load(self, taskRunner: TaskRunner) -> SpacedRepetitionSystemData: ...
+
+
+class ISpacedRepetitionSystemTagOperations(typing.Protocol):
+    @abc.abstractmethod
+    def AddTheTagToTheStudyNotesOf(self, notes: IReadOnlyCollection_1[NoteId], tagInTheSpacedRepetitionSystem: str) -> None: ...
+    @abc.abstractmethod
+    def DeleteTheBranchFromEveryNoteInTheSpacedRepetitionSystem(self, pathInTheSpacedRepetitionSystem: str) -> None: ...
+    @abc.abstractmethod
+    def NumberOfNotesInTheSpacedRepetitionSystemWithATagIn(self, pathInTheSpacedRepetitionSystem: str) -> int: ...
+    @abc.abstractmethod
+    def RemoveTheTagFromTheStudyNotesOf(self, notes: IReadOnlyCollection_1[NoteId], tagInTheSpacedRepetitionSystem: str) -> None: ...
+    @abc.abstractmethod
+    def RenameTheBranchOnEveryNoteInTheSpacedRepetitionSystem(self, pathInTheSpacedRepetitionSystem: str, renamedPathInTheSpacedRepetitionSystem: str) -> None: ...
 
 
 class ISpacedRepetitionSystemWindows(typing.Protocol):
