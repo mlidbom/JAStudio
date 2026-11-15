@@ -20,13 +20,17 @@ public partial class SentenceNote
    /// What the sentence parses to now, as a parsing case records it: its parsing result as the corpus stores it, and its breakdown under each<br/>
    /// combination of the options that change it.
    /// </summary>
+   /// <remarks>
+   /// The breakdown is the one a person reads the sentence by, whether or not the breakdown is shown in edit mode, which lists every match: the<br/>
+   /// result doesn't depend on a setting of the view.
+   /// </remarks>
    public ParsingCaseResult CreateParsingCaseResult()
    {
       return new ParsingCaseResult([.. CreateAnalysis().ValidMatches.Select(it => ParsedWordReported.Of(ParsedMatch.FromMatch(it), Services.Collection))],
                                    BreakdownUnderOptions.UnderEachCombinationOfTheOptionsChangingIt(BreakdownUnder));
 
       IReadOnlyList<BreakdownWord> BreakdownUnder(BreakdownParsingOptions options) =>
-         [.. new TextAnalysisViewModel(CreateBreakdownAnalysis(options), Services.Settings, Services.Collection.Vocab).DisplayedMatches.Select(BreakdownWord.Of)];
+         [.. new TextAnalysisViewModel(CreateBreakdownAnalysis(options), Services.Settings, Services.Collection.Vocab).MatchesDisplayedOutsideEditMode.Select(BreakdownWord.Of)];
    }
 
    /// <summary>Makes the sentence a parsing case that expects what it parses to now, which nobody has named or judged yet.</summary>

@@ -86,14 +86,20 @@ public class MatchViewModel
 
    public List<string> HidingReasons => Match.HidingReasons.ToList();
 
-   public bool IsDisplayed
-   {
-      get
-      {
-         if(_settings.ShowBreakdownInEditMode()) return true;
-         return IsDisplayWord && Match.IsDisplayed;
-      }
-   }
+   /// <summary>Whether the breakdown displays the match as it is now: every match in edit mode, and otherwise those it's <see cref="IsDisplayedOutsideEditMode"/>.</summary>
+   public bool IsDisplayed => _settings.ShowBreakdownInEditMode() || IsDisplayedOutsideEditMode;
+
+   /// <summary>
+   /// Whether the breakdown displays the match when it isn't in edit mode, which lists every match: whether it's one of the words a person reads the<br/>
+   /// sentence by, whatever the setting.
+   /// </summary>
+   public bool IsDisplayedOutsideEditMode => IsDisplayWord && Match.IsDisplayed;
+
+   /// <summary>
+   /// The form the breakdown shows beside the word when it isn't in edit mode, when that isn't the word as it's parsed: such as う for る, the<br/>
+   /// vocab's form. Null when it shows none. In edit mode it shows <see cref="VocabForm"/>, the form an exclusion of the match names, instead.
+   /// </summary>
+   public string? FormShownBesideTheWordOutsideEditMode => ParsedForm != Match.MatchForm ? Match.MatchForm : null;
 
    public bool ShowKanji => Kanji.Any() && !_settings.ShowBreakdownInEditMode() && _settings.ShowKanjiInSentenceBreakdown();
 

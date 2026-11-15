@@ -12,6 +12,12 @@ public class TextAnalysisViewModel
    public List<CandidateWordVariantViewModel> CandidateWords { get; }
    public List<MatchViewModel> DisplayedMatches { get; }
 
+   /// <summary>
+   /// The matches the breakdown displays when it isn't in edit mode, which lists every match: the words a person reads the sentence by, whatever the<br/>
+   /// setting. The same as <see cref="DisplayedMatches"/> outside edit mode.
+   /// </summary>
+   public List<MatchViewModel> MatchesDisplayedOutsideEditMode { get; }
+
    public TextAnalysisViewModel(TextAnalysis textAnalysis, Settings settings, VocabCollection vocab)
    {
       Analysis = textAnalysis;
@@ -21,5 +27,6 @@ public class TextAnalysisViewModel
 
       var matches = CandidateWords.SelectMany(variantVm => variantVm.Matches).ToList();
       DisplayedMatches = matches.Where(match => match.IsDisplayed).ToList();
+      MatchesDisplayedOutsideEditMode = matches.Where(match => match.IsDisplayedOutsideEditMode).ToList();
    }
 }

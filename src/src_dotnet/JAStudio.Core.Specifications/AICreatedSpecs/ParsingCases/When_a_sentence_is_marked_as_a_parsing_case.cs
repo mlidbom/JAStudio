@@ -2,6 +2,7 @@ using System.Linq;
 using Compze.Contracts.Exceptions;
 using Compze.Must;
 using Compze.xUnitBDD;
+using JAStudio.Core.Configuration;
 using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
@@ -181,6 +182,28 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
       public whose_displayed_vocab_are_marked_broken_through_its_editable_verdict_field() => SentenceEditableFields.VerdictOnTheDisplayedVocab.Write(_sentence, Verdict.Broken);
 
       [XF] public void they_are_broken() => TheCase.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Broken);
+   }
+
+   /// <summary>Edit mode lists every match of the sentence, valid or not, where the breakdown otherwise displays the words a person reads it by.</summary>
+   public class and_then_the_breakdown_is_switched_to_edit_mode : When_a_sentence_is_marked_as_a_parsing_case
+   {
+      public and_then_the_breakdown_is_switched_to_edit_mode() => GetService<JapaneseConfig>().ShowSentenceBreakdownInEditMode.Value = true;
+
+      [XF] public void it_still_parses_as_expected() => Comparison.Differences.Must().BeEmpty();
+
+      public class and_another_sentence_with_the_same_words_is_marked_as_a_parsing_case : and_then_the_breakdown_is_switched_to_edit_mode
+      {
+         readonly SentenceNote _markedInEditMode;
+
+         public and_another_sentence_with_the_same_words_is_marked_as_a_parsing_case()
+         {
+            _markedInEditMode = CreateSentence("毎日走っている");
+            _markedInEditMode.MarkAsAParsingCase();
+         }
+
+         [XF] public void it_expects_the_same_breakdown_as_the_one_marked_outside_edit_mode() =>
+            _markedInEditMode.ParsingCase!.Expected.BreakdownWithEveryOptionOff.DisplayedWords.Must().SequenceEqual(TheCase.Expected.BreakdownWithEveryOptionOff.DisplayedWords);
+      }
    }
 
    public class and_then_stops_being_one : When_a_sentence_is_marked_as_a_parsing_case
