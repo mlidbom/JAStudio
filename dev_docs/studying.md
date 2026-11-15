@@ -32,7 +32,7 @@
 ## Today
 
 - **The studying status is student-data held in memory, not stored in the corpus.**
-  - At load, and whenever JAStudio reads the study-notes from Anki again (`JPCollection.ReadTheStudyNotesFromAnkiAgain`),
+  - At load, and whenever JAStudio reads the study-notes from Anki again (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`),
     such as after a sync, `AnkiDataLoader` reads every card from Anki's database: its
     Anki note id, its card type, whether it's suspended, and its note type (`CardStudyingStatus`).
   - Each note keeps that in memory (`JPNote.ReadItsStudyNoteFrom`, and `JPNote.SetStudyingStatus` for a single card).

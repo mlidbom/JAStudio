@@ -57,7 +57,7 @@ public class When_changing_a_vocabs_perfect_synonyms : SpecificationStartingWith
 
    public class deleting_ていい : When_changing_a_vocabs_perfect_synonyms
    {
-      public deleting_ていい() => GetService<JPCollection>().Delete(Teii, ItsAnkiNote.IsDeleted);
+      public deleting_ていい() => GetService<JPCollection>().Delete(Teii, ItsStudyNote.IsDeleted);
 
       [XF] public void てよろしい_has_only_んでいい_as_a_perfect_synonym() => PerfectSynonymsOf(Teyoroshii).Must().SequenceEqual(["んでいい"]);
       [XF] public void んでいい_has_only_てよろしい_as_a_perfect_synonym() => PerfectSynonymsOf(Ndeii).Must().SequenceEqual(["てよろしい"]);

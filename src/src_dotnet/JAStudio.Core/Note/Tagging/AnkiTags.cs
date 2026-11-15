@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Core.Note.Collection;
 
 namespace JAStudio.Core.Note.Tagging;
 
 /// <summary>
 /// A note's Anki tags: the tags its study-note has in Anki, each below <c>anki::</c> (<see cref="Tags.Anki"/>), such as <c>anki::marked</c>.<br/>
 /// They're the student's, stored only in Anki, so this holds them as last read from Anki: as the collection loads (<see cref="Collection.JPCollection.ReloadFromBackend"/>),<br/>
-/// and when it reads the study-notes from Anki again, as after an Anki operation that changed notes (<see cref="Collection.JPCollection.ReadTheStudyNotesFromAnkiAgain"/>);<br/>
+/// and when it reads the study-notes from Anki again, as after an Anki operation that changed notes (<see cref="JPCollection.ReadTheStudyNotesFromTheSRSAgain"/>);<br/>
 /// held in memory, never stored in the corpus. A person browses and searches them with the note's own tags (<see cref="JPNote.AllTags"/>), and changes<br/>
 /// them in Anki (<see cref="AnkiTagChanges"/>), after which they're read again.
 /// </summary>

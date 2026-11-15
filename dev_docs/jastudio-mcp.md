@@ -383,7 +383,7 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
          written into Anki (`corpus-data-model.md`), about two dozen branches, some with over a hundred paths below.
        - **Deleting a note, as decided with Magnus:** JAStudio is the master of the notes, and Anki only of a student's
          studying, so Anki never prevents a deletion, and JAStudio deletes notes outside Anki too. What happens to a
-         note's Anki note, which holds its cards and their review history, is a choice (`ItsAnkiNote`): kept as it is,
+         note's Anki note, which holds its cards and their review history, is a choice (`ItsStudyNote`): kept as it is,
          or deleted with the history, which can't be undone. The menu's delete dialog asks for the choice when the note
          has an Anki note, keeping it by default; `delete_a_note` takes it as `ankiNote`, and fails without it for such a
          note, as the dialog's question would stop a person. A kept Anki note is left alone, not suspended, which

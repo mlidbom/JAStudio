@@ -49,7 +49,7 @@ public class JPCollection
    /// <summary>
    /// Notifies every note whose study-note in Anki changed, on the thread that changed it: its studying status, when JAStudio suspended or unsuspended<br/>
    /// its cards or Anki reported a change to one of them (<see cref="UpdateCardStudyingStatus"/>), its <see cref="JPNote.AnkiTags"/>, or its study-note<br/>
-   /// itself, created or deleted, as reading the study-notes from Anki again finds (<see cref="ReadTheStudyNotesFromAnkiAgain"/>).
+   /// itself, created or deleted, as reading the study-notes from Anki again finds (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>).
    /// </summary>
    /// <remarks>
    /// Both are held in memory, not stored with the note, so changing them updates no note, and <see cref="NoteUpdated"/> doesn't notify them.<br/>
@@ -129,17 +129,18 @@ public class JPCollection
    }
 
    /// <summary>
-   /// Reads from Anki again what this collection holds of each note's study-note, as the load does, without loading the corpus again: its Anki note id,<br/>
-   /// the studying statuses of its cards and its tags (<see cref="ISRSDataLoader"/>). Each note whose study-note differs from before<br/>
-   /// is notified through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an Anki operation that changed<br/>
-   /// notes, undo and redo included. It shows no progress.
+   /// Reads from the SRS, the spaced repetition system, again what this collection holds of each note's study-note, as the load does, without<br/>
+   /// loading the corpus again: its id, the studying statuses of its cards and its tags (<see cref="ISRSDataLoader"/>). Each note whose study-note<br/>
+   /// differs from before is notified through <see cref="StudyNoteChanged"/>. For when Anki may have changed the study-notes, such as after an<br/>
+   /// Anki operation that changed notes, undo and redo included. It shows no progress.
    /// </summary>
+   /// <remarks>review-naming:studying: ReadTheStudyNotesFromTheSRSAgain was ReadTheStudyNotesFromAnkiAgain (Claude, 2026-11-15).</remarks>
    /// <remarks>
    /// It shows no progress since it runs in the background so often, after every Anki operation that changed notes: Anki's editor saves its note each<br/>
    /// time typing pauses, and each save is such an operation. A progress window would also take the focus from the editor's field, and the editor saves<br/>
    /// its note when the field loses the focus: each read would then start the next one.
    /// </remarks>
-   public void ReadTheStudyNotesFromAnkiAgain() => _oneLoadOrReadFromAnkiAtATime.Do(() =>
+   public void ReadTheStudyNotesFromTheSRSAgain() => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
       using var showingNoProgress = NoteServices.TaskRunner.Current("Reading the study-notes from Anki again", forceHide: true);
       var studyNoteIdsHeldWhenTheReadBegan = NoteServices.StudyNoteIds.Snapshot();
@@ -182,20 +183,23 @@ public class JPCollection
    readonly MediaStorageService _mediaStorage;
    readonly ISRSDataLoader _srsDataLoader;
 
-   /// <summary>Keeps a load of this collection and a read of the study-notes from Anki from running at the same time, which would mix what they read.</summary>
-   readonly OneAtATime _oneLoadOrReadFromAnkiAtATime = new();
+   /// <summary>
+   /// Keeps a load of this collection and a read of the study-notes from the spaced repetition system from running at the same time, which would<br/>
+   /// mix what they read.
+   /// </summary>
+   readonly OneAtATime _oneLoadOrReadFromTheSRSAtATime = new();
 
    /// <summary>
    /// Permanently deletes <paramref name="note"/> from JAStudio: its corpus data, the note in this collection, and its media files in the media layer<br/>
-   /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its Anki note, if it has one in this Anki profile,<br/>
-   /// is kept or deleted as <paramref name="itsAnkiNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as<br/>
-   /// a synonym (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note in Anki instead only forgets<br/>
-   /// its Anki note (<see cref="NoteCacheBase{TNote}.StudyNoteRemoved"/>).
+   /// that no other note uses. Their copies in Anki's media folder are left to Anki's "Check Media". Its study-note, if it has one, is kept or<br/>
+   /// deleted as <paramref name="itsStudyNote"/> says. A deleted vocab leaves its web of perfect synonyms, whose other vocab keep it as a synonym<br/>
+   /// (<see cref="Vocabulary.RelatedVocab.PerfectSynonyms.LeaveTheWebAsTheVocabIsDeleted"/>). Deleting a note's study-note in Anki instead only<br/>
+   /// forgets the study-note (<see cref="NoteCacheBase{TNote}.StudyNoteRemoved"/>).
    /// </summary>
-   public void Delete(JPNote note, ItsAnkiNote itsAnkiNote)
+   public void Delete(JPNote note, ItsStudyNote itsStudyNote)
    {
       TakeItOutOfItsWebOfPerfectSynonyms();
-      if(itsAnkiNote == ItsAnkiNote.IsDeleted) NoteServices.SRSCardOperations.DeleteTheStudyNoteOf(note.GetId());
+      if(itsStudyNote == ItsStudyNote.IsDeleted) NoteServices.SRSCardOperations.DeleteTheStudyNoteOf(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
       DeleteTheMediaNoOtherNoteUses();
@@ -243,7 +247,7 @@ public class JPCollection
    /// Clears this collection and loads it again: the notes from the corpus checkout, and the studying statuses and Anki note ids from Anki. It runs<br/>
    /// at startup, and when asked to, by the workspace's Local Actions > "Reload the collection from disk" or JAStudio's MCP server, to take in changes<br/>
    /// made to the corpus checkout outside JAStudio. After a sync, or as another Anki profile opens, only the study-notes are read again<br/>
-   /// (<see cref="ReadTheStudyNotesFromAnkiAgain"/>), since Anki holds only them.
+   /// (<see cref="ReadTheStudyNotesFromTheSRSAgain"/>), since Anki holds only them.
    /// </summary>
    /// <returns>The notes whose files changed on disk while this collection held them, as <see cref="ReloadFromBackendAfter"/> describes.</returns>
    public IReadOnlyList<JPNote> ReloadFromBackend() => ReloadFromBackendAfter(() => {});
@@ -258,7 +262,7 @@ public class JPCollection
    /// is passed on as updated (<see cref="NoteUpdated"/>), so that what follows note updates catches up, such as its Anki note. Notes this collection<br/>
    /// didn't hold before aren't among them: none at startup.
    /// </returns>
-   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromAnkiAtATime.Do(() =>
+   public IReadOnlyList<JPNote> ReloadFromBackendAfter(Action changeToTheCorpusCheckout) => _oneLoadOrReadFromTheSRSAtATime.Do(() =>
    {
       var notesHeldBefore = AllNotes().ToDictionary(it => it.GetId());
       ClearCaches();

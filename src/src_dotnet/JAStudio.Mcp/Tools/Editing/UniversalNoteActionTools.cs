@@ -67,11 +67,11 @@ public class UniversalNoteActionTools
    /// What <c>delete_a_note</c>'s <paramref name="ankiNote"/> says to do with the Anki note of <paramref name="note"/>, or, when the note has an Anki note<br/>
    /// and <paramref name="ankiNote"/> says nothing, a failure asking for the choice. A note without an Anki note needs none.
    /// </summary>
-   static ItsAnkiNote WhatToDoWithTheAnkiNoteOf(JPNote note, string? ankiNote) => ankiNote switch
+   static ItsStudyNote WhatToDoWithTheAnkiNoteOf(JPNote note, string? ankiNote) => ankiNote switch
    {
-      "keep"                         => ItsAnkiNote.IsKept,
-      "delete"                       => ItsAnkiNote.IsDeleted,
-      null when !note.HasAnAnkiNote() => ItsAnkiNote.IsKept,
+      "keep"                         => ItsStudyNote.IsKept,
+      "delete"                       => ItsStudyNote.IsDeleted,
+      null when !note.HasAStudyNote() => ItsStudyNote.IsKept,
       null => throw new ArgumentException($"""
                                             "{note.GetQuestion()}" has an Anki note, which holds its cards and their review history. Say what to do with it: ankiNote "keep" keeps it,
                                             with its history, and "delete" deletes it from Anki too, with its history, which can't be undone.

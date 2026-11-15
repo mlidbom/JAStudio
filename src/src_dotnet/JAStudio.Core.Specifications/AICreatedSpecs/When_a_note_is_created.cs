@@ -18,7 +18,7 @@ public class When_a_note_is_created : SpecificationStartingWithAnEmptyCollection
 
    public When_a_note_is_created() => _sentence = CreateSentence("家に帰る");
 
-   [XF] public void it_gets_no_study_note_in_Anki() => _sentence.HasAnAnkiNote().Must().BeFalse();
+   [XF] public void it_gets_no_study_note_in_Anki() => _sentence.HasAStudyNote().Must().BeFalse();
    [XF] public void it_is_in_the_collection() => GetService<JPCollection>().NoteFromNoteId(_sentence.GetId()).Must().Be(_sentence);
    [XF] public void it_is_saved_to_the_corpus() => GetService<INoteRepository>().LoadAll().Sentences.Must().Satisfy(it => it.Exists(saved => saved.GetId() == _sentence.GetId()));
 }

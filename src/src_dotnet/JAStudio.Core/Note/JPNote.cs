@@ -107,8 +107,12 @@ public abstract class JPNote
       return _cardStatus.TryGetValue(cardType, out var isActive) && isActive;
    }
 
-   /// <summary>Whether the note has an Anki note in this Anki profile, which holds its cards and their review history.</summary>
-   public bool HasAnAnkiNote() => Services.StudyNoteIds.StudyNoteIdOf(_id).HasValue;
+   /// <summary>
+   /// Whether the note has a study-note in the SRS, the spaced repetition system, which holds its cards and their review history: in Anki, an Anki<br/>
+   /// note in the Anki profile JAStudio works with.
+   /// </summary>
+   /// <remarks>review-naming:studying: HasAStudyNote was HasAnAnkiNote (Claude, 2026-11-15).</remarks>
+   public bool HasAStudyNote() => Services.StudyNoteIds.StudyNoteIdOf(_id).HasValue;
 
    public bool IsStudyingRead() => IsStudying(CardTypes.Reading);
    public bool IsStudyingListening() => IsStudying(CardTypes.Listening);
@@ -139,11 +143,12 @@ public abstract class JPNote
    }
 
    /// <summary>
-   /// Forgets the note's Anki note, after it was deleted in Anki: the studying status of every card, since with no cards in this Anki profile the note<br/>
-   /// isn't studied in it, and its <see cref="AnkiTags"/>. Notifies the change through <see cref="JPCollection.StudyNoteChanged"/>, since neither<br/>
-   /// is stored with the note and no flush reports it.
+   /// Forgets the note's study-note, after it was deleted in the spaced repetition system: the studying status of every card, since with no<br/>
+   /// cards there the note isn't studied in it, and its <see cref="AnkiTags"/>. Notifies the change through<br/>
+   /// <see cref="JPCollection.StudyNoteChanged"/>, since neither is stored with the note and no flush reports it.
    /// </summary>
-   public void ForgetItsDeletedAnkiNote()
+   /// <remarks>review-naming:studying: ForgetItsDeletedStudyNote was ForgetItsDeletedAnkiNote (Claude, 2026-11-15).</remarks>
+   public void ForgetItsDeletedStudyNote()
    {
       ReadItsStudyNoteFrom([], []);
       Services.Collection.NotifyThatTheStudyNoteChangedFor(this);

@@ -56,7 +56,8 @@ abstract class NoteCacheBase<TNote> : IStudyNoteUpdateHandler
       _noteServices.StudyNoteIds.StudyNoteIdOf(noteId) ?? 0;
 
    /// <summary>
-   /// Called when a note is deleted in Anki: the note's Anki note is forgotten, and with it its cards, so the note is no longer studied in this Anki profile.<br/>
+   /// Called when a note's study-note is deleted in Anki: the study-note is forgotten, and with it its cards, so the note is no longer studied in this<br/>
+   /// Anki profile.<br/>
    /// The note itself stays in the corpus and in JAStudio. Deleting it from the corpus is <see cref="JPCollection.Delete"/>.
    /// </summary>
    /// <remarks>
@@ -67,7 +68,7 @@ abstract class NoteCacheBase<TNote> : IStudyNoteUpdateHandler
       if(WithTheStudyNoteOrNone(studyNoteId) is not {} note) return;
 
       _noteServices.StudyNoteIds.Unregister(studyNoteId);
-      note.ForgetItsDeletedAnkiNote();
+      note.ForgetItsDeletedStudyNote();
    }
 
    /// <summary>Refiles <paramref name="note"/>, which JAStudio changed, by what it holds now, then notifies <see cref="NoteUpdated"/>.</summary>

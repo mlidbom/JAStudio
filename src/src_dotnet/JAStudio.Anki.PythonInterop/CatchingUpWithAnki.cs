@@ -9,7 +9,7 @@ namespace JAStudio.Anki.PythonInterop;
 
 /// <summary>
 /// Keeps JAStudio caught up with the collection Anki has open. Whenever Anki may have changed it, JAStudio reads the study-notes from it again<br/>
-/// (<see cref="JPCollection.ReadTheStudyNotesFromAnkiAgain"/>), or loads the collection the first time, then makes the <see cref="StudyNoteWrites"/><br/>
+/// (<see cref="JPCollection.ReadTheStudyNotesFromTheSRSAgain"/>), or loads the collection the first time, then makes the <see cref="StudyNoteWrites"/><br/>
 /// held meanwhile. It does so only while JAStudio may use Anki's collection: while an Anki profile is open, and no sync is under way.
 /// </summary>
 /// <remarks>
@@ -95,7 +95,7 @@ public sealed class CatchingUpWithAnki
 
       if(_theCollectionWasLoaded)
       {
-         _collection.ReadTheStudyNotesFromAnkiAgain();
+         _collection.ReadTheStudyNotesFromTheSRSAgain();
       } else
       {
          _collection.ReloadFromBackend();

@@ -40,7 +40,7 @@ public class When_following_links_in_a_workspace_tab : SpecificationUsingAWorksp
    /// <summary>Follows a link to <paramref name="note"/> on the tab's page, as clicking it does: the page reports it, and the tab shows the note.</summary>
    void FollowALinkTo(SentenceNote note) => Tab.ShowNote(note.GetId());
 
-   void Delete(SentenceNote note) => GetService<JPCollection>().Delete(note, ItsAnkiNote.IsDeleted);
+   void Delete(SentenceNote note) => GetService<JPCollection>().Delete(note, ItsStudyNote.IsDeleted);
 
    [XF] public void the_tab_shows_the_first_sentence_and_can_go_neither_back_nor_forward() => TheTab().Must().Be((FirstSentence, false, false));
 

@@ -10,7 +10,7 @@ namespace JAStudio.Core.Note.Tagging;
 /// The changes a person makes in JAStudio to the notes' Anki tags (<see cref="Tags.Anki"/>), the tags of their study-notes in Anki: adding one to<br/>
 /// notes, removing one from them, and renaming or deleting a branch of them. The tags are the student's, stored only in Anki, so each change is made<br/>
 /// in Anki, as one Anki operation, which Anki's Edit > Undo undoes (<see cref="ISRSTagOperations"/>). Then JAStudio reads the study-notes from Anki<br/>
-/// again (<see cref="JPCollection.ReadTheStudyNotesFromAnkiAgain"/>), so the notes show the change.
+/// again (<see cref="JPCollection.ReadTheStudyNotesFromTheSRSAgain"/>), so the notes show the change.
 /// </summary>
 /// <remarks>
 /// Renaming and deleting work as in Anki, on every Anki note with a tag in the branch, of whatever note type, not only on the study-notes<br/>
@@ -34,8 +34,8 @@ public sealed class AnkiTagChanges
    public void AddTo(IReadOnlyCollection<JPNote> notes, Tag tag)
    {
       AssertItIsAnAnkiTag(tag);
-      _anki.AddTheTagToTheStudyNotesOf([..notes.Where(it => it.HasAnAnkiNote() && !it.AnkiTags.Contains(tag)).Select(it => it.GetId())], Tags.Anki.NameInAnkiOf(tag.Name));
-      _collection.ReadTheStudyNotesFromAnkiAgain();
+      _anki.AddTheTagToTheStudyNotesOf([..notes.Where(it => it.HasAStudyNote() && !it.AnkiTags.Contains(tag)).Select(it => it.GetId())], Tags.Anki.NameInAnkiOf(tag.Name));
+      _collection.ReadTheStudyNotesFromTheSRSAgain();
    }
 
    /// <summary>
@@ -46,7 +46,7 @@ public sealed class AnkiTagChanges
    {
       AssertItIsAnAnkiTag(tag);
       _anki.RemoveTheTagFromTheStudyNotesOf([..notes.Where(it => it.AnkiTags.Contains(tag)).Select(it => it.GetId())], Tags.Anki.NameInAnkiOf(tag.Name));
-      _collection.ReadTheStudyNotesFromAnkiAgain();
+      _collection.ReadTheStudyNotesFromTheSRSAgain();
    }
 
    /// <summary>Makes <paramref name="rename"/>, of a branch below <c>anki::</c> and one that can be done, on every Anki note with a tag in the branch.</summary>
@@ -54,7 +54,7 @@ public sealed class AnkiTagChanges
    {
       Contract.Argument.Assert(rename.Branch.IsInTheAnkiBranch && rename.WhyItCannotBeDone is null, () => $"The rename of {rename.Branch.Path} to {rename.Renamed.Path} isn't one of Anki tags that can be done.");
       _anki.RenameTheBranchOnEveryNoteInTheSRS(Tags.Anki.NameInAnkiOf(rename.Branch.Path), Tags.Anki.NameInAnkiOf(rename.Renamed.Path));
-      _collection.ReadTheStudyNotesFromAnkiAgain();
+      _collection.ReadTheStudyNotesFromTheSRSAgain();
    }
 
    /// <summary>Deletes <paramref name="branch"/>, a branch below <c>anki::</c>, from every Anki note with a tag in it.</summary>
@@ -62,7 +62,7 @@ public sealed class AnkiTagChanges
    {
       AssertItIsBelowAnki(branch);
       _anki.DeleteTheBranchFromEveryNoteInTheSRS(Tags.Anki.NameInAnkiOf(branch.Path));
-      _collection.ReadTheStudyNotesFromAnkiAgain();
+      _collection.ReadTheStudyNotesFromTheSRSAgain();
    }
 
    /// <summary>How many Anki notes, of any note type, have a tag in <paramref name="branch"/>, a branch below <c>anki::</c>: those renaming or deleting it changes.</summary>

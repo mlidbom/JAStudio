@@ -127,7 +127,7 @@ public class When_editing_a_notes_tags_in_the_workspace : SpecificationUsingAWor
       public after_its_study_note_is_tagged_in_Anki_and_the_study_notes_are_read_again()
       {
          GetService<PretendAnki>().Tag(_sentence, "leech");
-         GetService<JPCollection>().ReadTheStudyNotesFromAnkiAgain();
+         GetService<JPCollection>().ReadTheStudyNotesFromTheSRSAgain();
       }
 
       [XF] public void the_editor_shows_the_tag_below_anki() => TagsShownInTheEditor().Must().Contain("anki::leech");

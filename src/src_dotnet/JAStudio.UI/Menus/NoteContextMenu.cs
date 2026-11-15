@@ -236,9 +236,9 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    {
       _ = Dispatcher.UIThread.InvokeAsync(async () =>
       {
-         if(await WhatToDoWithTheAnkiNoteOfTheDeleted(note) is {} itsAnkiNote)
+         if(await WhatToDoWithTheAnkiNoteOfTheDeleted(note) is {} itsStudyNote)
          {
-            _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note, itsAnkiNote));
+            _services.BackgroundTaskManager.Run(() => _services.CoreApp.Collection.Delete(note, itsStudyNote));
          }
       });
    }
@@ -247,17 +247,17 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    /// Asks whether to delete <paramref name="note"/>, and when it has an Anki note, whether to keep the Anki note, with its review history, or to delete<br/>
    /// it too. What to do with the Anki note, or null when the note isn't to be deleted.
    /// </summary>
-   static async Task<ItsAnkiNote?> WhatToDoWithTheAnkiNoteOfTheDeleted(JPNote note)
+   static async Task<ItsStudyNote?> WhatToDoWithTheAnkiNoteOfTheDeleted(JPNote note)
    {
-      if(!note.HasAnAnkiNote())
-         return await ConfirmDialog.ShowAsync("Delete Note", $"Permanently delete \"{note.GetQuestion()}\" from JAStudio?") ? ItsAnkiNote.IsKept : null;
+      if(!note.HasAStudyNote())
+         return await ConfirmDialog.ShowAsync("Delete Note", $"Permanently delete \"{note.GetQuestion()}\" from JAStudio?") ? ItsStudyNote.IsKept : null;
 
-      return await ChoiceDialog<ItsAnkiNote>.ShowAsync(
+      return await ChoiceDialog<ItsStudyNote>.ShowAsync(
                 "Delete Note",
                 $"Permanently delete \"{note.GetQuestion()}\" from JAStudio?\n\n"
                 + "It has an Anki note, which holds its cards and their review history. Keeping the Anki note keeps the history, and its cards will "
                 + "show that the note no longer exists in JAStudio. Deleting the Anki note too deletes the history, which can't be undone.",
-                [("Delete, keep the Anki note", ItsAnkiNote.IsKept), ("Delete with the Anki note and its history", ItsAnkiNote.IsDeleted)]);
+                [("Delete, keep the Anki note", ItsStudyNote.IsKept), ("Delete with the Anki note and its history", ItsStudyNote.IsDeleted)]);
    }
 
    void OnReparseMatchingSentences(string text)

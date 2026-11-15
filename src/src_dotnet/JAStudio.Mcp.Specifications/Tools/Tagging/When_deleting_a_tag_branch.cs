@@ -40,7 +40,7 @@ public class When_deleting_a_tag_branch : McpServerSpecification
       _anki = GetService<PretendAnki>();
       _anki.Tag(_sentenceTaggedWithBothEpisodes, "tmp::a", "marked");
       _anki.Tag(_sentenceTaggedWithEpisode08Only, "tmp::b");
-      GetService<JPCollection>().ReadTheStudyNotesFromAnkiAgain();
+      GetService<JPCollection>().ReadTheStudyNotesFromTheSRSAgain();
    }
 
    CallToolResult DeleteATagBranch(string branch) => CallTool("delete_a_tag_branch", new Dictionary<string, object?> { ["branch"] = branch });

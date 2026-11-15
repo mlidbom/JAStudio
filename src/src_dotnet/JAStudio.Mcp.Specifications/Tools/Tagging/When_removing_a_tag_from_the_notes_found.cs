@@ -92,7 +92,7 @@ public class When_removing_a_tag_from_the_notes_found : McpServerSpecification
       {
          GetService<PretendAnki>().Tag(_sentenceTaggedWithBothEpisodes, "marked");
          GetService<PretendAnki>().Tag(_sentenceTaggedWithEpisode08Only, "marked");
-         GetService<JPCollection>().ReadTheStudyNotesFromAnkiAgain();
+         GetService<JPCollection>().ReadTheStudyNotesFromTheSRSAgain();
          _result = ResultOf<NotesTheTagChangedOn>(RemoveATagFromTheNotesFound(new JsonObject { ["tagsInclude"] = Episode08 }, "anki::marked"));
       }
 

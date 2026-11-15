@@ -287,6 +287,10 @@ system, and an "external note" is the study-note it always was. The names first 
 - **The Anki integration's implementations follow:** `AnkiDataLoader`, which was `AnkiBackendDataLoader`, and
   `AnkiCardOperations`, which was `AnkiCardOperationsImpl`.
 - **The Anki add-on's Python uses four of the renamed members and two of the types,** and was changed with them.
+- **Core's own members that said Anki note for study-note follow.** `JPCollection.ReadTheStudyNotesFromTheSRSAgain` was
+  `ReadTheStudyNotesFromAnkiAgain`, `JPNote.HasAStudyNote` was `HasAnAnkiNote`, `JPNote.ForgetItsDeletedStudyNote` was
+  `ForgetItsDeletedAnkiNote`, and the enum `ItsStudyNote` was `ItsAnkiNote`. They aren't the seam, but "its Anki note"
+  and "its study-note" were two words for one thing.
 
 **What the seam still says of Anki,** each for the increment that changes the wiring:
 
@@ -303,9 +307,6 @@ system, and an "external note" is the study-note it always was. The names first 
 
 **Not renamed, since they aren't the seam:**
 
-- **Core's own members that say Anki:** `JPCollection.ReadTheStudyNotesFromAnkiAgain`, `JPNote.HasAnAnkiNote`, the
-  enum `ItsAnkiNote`, and the comments around them, where "its Anki note" and "its study-note" are two words for one
-  thing. Whether they're renamed too is put to Magnus.
 - **The tagging domain's Anki tags:** `AnkiTagChanges`, `AnkiTags` and `Tags.Anki`. They name the branch `anki::` that
   the student sees.
 - **The stand-ins for Anki, or for its absence:** `PretendAnki` and `InMemoryAnkiStudyNotes` in the specifications,

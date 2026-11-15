@@ -762,7 +762,7 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     re-read at a time, announcing through `JPCollection.StudyNoteChanged` only the notes whose study-note differs. It
     replaces the hook's scan of the notes changed since it last looked (`follow_the_tags_of_the_study_notes.py`), which
     misses an undo, since undo restores a note's modification time. *Done 2026-11-10 for Anki operations, undo and redo
-    included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromAnkiAgain`,
+    included, which run as operations: `follow_the_study_notes_in_anki.py` asks for `JPCollection.ReadTheStudyNotesFromTheSRSAgain`,
     in the background, one read at a time (`BackgroundRefresh`). It reads as the load does (`AnkiDataLoader`):
     through Anki's own connection since 2026-11-10, see the undo fix below.*
     - *Fixed 2026-11-10, after Magnus found it live: the re-read showed the load's progress window, and it looped.*

@@ -47,7 +47,7 @@ public class When_analyzing_今日は雨だ : SpecificationStartingWithAnEmptyCo
 
          public after_the_vocab_is_deleted()
          {
-            GetService<JPCollection>().Delete(Vocab, ItsAnkiNote.IsDeleted);
+            GetService<JPCollection>().Delete(Vocab, ItsStudyNote.IsDeleted);
             _candidateWordsAfterTheDeletion = SurfacesOfTheCandidateWords();
          }
 
