@@ -8,7 +8,7 @@ namespace JAStudio.UI.Menus;
 
 /// <summary>
 /// The workspace's main menu, its menu bar, with the keyboard shortcuts the workspace window binds: the way to everything in JAStudio<br/>
-/// besides the notes, such as the options, the import profiles and the batch updates.
+/// besides the notes, such as the options, the import profiles, the batch updates and the Studying window.
 /// </summary>
 /// <remarks>
 /// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, or opens it on its search, from its JA Studio menu<br/>
@@ -60,6 +60,13 @@ public class WorkspaceMainMenu
                               BatchCommand(ShortcutFinger.Up1("Force flush all cached notes"), _services.LocalNoteUpdater.ForceFlushAllNotes),
                               BatchCommand(ShortcutFinger.Up2("Reload the collection from disk"), () => _services.CoreApp.Collection.ReloadFromBackend()),
                               BatchCommand(ShortcutFinger.Up3("Write file system repository"), _services.LocalNoteUpdater.WriteFileSystemRepository)
+                           }
+      ),
+      SpecMenuItem.Submenu(ShortcutFinger.Home4("Studying"),
+                           new List<SpecMenuItem>
+                           {
+                              //review: the menu's place for the Studying window, and its shortcut, are Claude's choice (2026-11-15), for Magnus to change.
+                              SpecMenuItem.Command(ShortcutFinger.Home1(MainMenuWindows.Studying.Name), () => MainMenuWindows.Studying.Open(_services), shortcut: "Ctrl+Shift+y", enabled: _services.SRSAvailability.IsAvailable)
                            }
       )
    ];

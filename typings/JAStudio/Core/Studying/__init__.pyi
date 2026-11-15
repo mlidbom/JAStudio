@@ -1,6 +1,7 @@
 import typing, abc
 from System.Collections.Generic import IReadOnlyCollection_1, IReadOnlyList_1, IReadOnlyDictionary_2
 from JAStudio.Core.Note import NoteId, JPNote
+from System import IObservable_1, DateTime
 from JAStudio.Core.Studying.StudyNotes import StudyNoteInTheSRS
 
 class CardStudyingStatus:
@@ -59,11 +60,17 @@ class SRSAvailability(abc.ABC):
 
 class SRSSync:
     @property
+    def Completed(self) -> IObservable_1[SRSSyncReport]: ...
+    @property
+    def LastReport(self) -> SRSSyncReport: ...
+    @property
     def WhyItCannotRunNow(self) -> str: ...
     def Run(self) -> SRSSyncReport: ...
 
 
 class SRSSyncReport:
+    @property
+    def FinishedAt(self) -> DateTime: ...
     @property
     def NotesWhoseStudyNoteHadChanged(self) -> IReadOnlyList_1[JPNote]: ...
     @property

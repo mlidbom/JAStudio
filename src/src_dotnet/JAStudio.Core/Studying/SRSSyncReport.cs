@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JAStudio.Core.Note;
 using JAStudio.Core.Studying.StudyNotes;
@@ -11,8 +12,9 @@ namespace JAStudio.Core.Studying;
 /// </summary>
 public sealed class SRSSyncReport
 {
-   internal SRSSyncReport(StudyNotesReadFromTheSRS read, StudyNoteComparison comparison, IReadOnlyList<JPNote> notesWhoseStudyNoteWasWritten)
+   internal SRSSyncReport(DateTime finishedAt, StudyNotesReadFromTheSRS read, StudyNoteComparison comparison, IReadOnlyList<JPNote> notesWhoseStudyNoteWasWritten)
    {
+      FinishedAt = finishedAt;
       StudyNotesRead = read.StudyNotes.Count;
       NotesWhoseStudyNoteHadChanged = read.NotesWhoseStudyNoteChanged;
       NotesWhoseStudyNoteIsGone = read.NotesWhoseStudyNoteIsGone;
@@ -20,6 +22,9 @@ public sealed class SRSSyncReport
       StudyNotesThatHoldNoNotesId = comparison.StudyNotesThatHoldNoNotesId;
       StudyNotesWhoseNoteTheCollectionHasNot = comparison.StudyNotesWhoseNoteTheCollectionHasNot;
    }
+
+   /// <summary>When the sync finished, in this computer's local time.</summary>
+   public DateTime FinishedAt { get; }
 
    /// <summary>How many study-notes the sync read from the spaced repetition system: every one there.</summary>
    public int StudyNotesRead { get; }

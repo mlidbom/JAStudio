@@ -324,7 +324,7 @@ Of these, `ISRSDataLoader`, `SRSData` and `ISRSCardOperations` lasted a day: inc
 **Claude's proposal of 2026-11-15, from reading the code. Magnus hasn't seen it: he gave Claude the go-ahead to
 continue by its own judgment, and asked for what it could build on its own overnight.** What is decided about the
 Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside Anki, in parts that
-each leave JAStudio usable. Parts 1 and 2 are built.
+each leave JAStudio usable. Parts 1 to 3 are built. Part 4 waits for Magnus to have run a sync inside Anki.
 
 **What tells JAStudio of Anki's changes today,** all of it to go:
 
@@ -355,7 +355,8 @@ saying why.
    what it did: how many study-notes it read and wrote, the notes whose study-note is gone, and the Anki notes of
    JAStudio's note types that hold no corpus note's id. JAStudio's MCP server runs the same sync, with a tool of its
    own, `sync_with_anki`.
-3. **The Studying view:** a window, opened from the workspace's main menu and by a shortcut, with the Sync button, what
+3. **The Studying view** (built 2026-11-15, see [Part 3 as built](#part-3-as-built-the-studying-window))**:** a
+   window, opened from the workspace's main menu and by a shortcut, with the Sync button, what
    the last sync did, and the list of the Anki notes that hold no corpus note's id. Magnus suggested "an errors tab or
    window" for that list: here it is part of the Studying window.
 4. **The notifications go:** the six rows of the table above, with `CatchingUpWithAnki.AnkiChangedNotes`,
@@ -368,7 +369,7 @@ saying why.
 statuses themselves (`JPNote.SetTheStatusOfEveryKnownCard`), and a change to Anki tags reads the study-notes again
 itself (`AnkiTagChanges`). Neither waits for a Sync.
 
-**For Magnus to decide, or to leave to Claude:**
+**For Magnus to decide, or to leave to Claude.** Both are built as proposed, for him to change:
 
 - **Where the Studying view is.** Proposed: a window of its own. The alternative is a pane or a tab in the workspace.
 - **Whether the workspace shows that a Sync is due,** such as how many notes were updated since the last one. Proposed:
@@ -426,6 +427,25 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
   besides. With `sync_with_anki`, Claude can run a sync in the live JAStudio without the Studying window.
 - **Nothing starts a sync yet but that tool.** The notifications still do what a sync does, piece by piece, so a sync
   finds little to do until part 4.
+
+### Part 3 as built: the Studying window
+
+- **The Studying window** (`StudyingWindow`, `StudyingWindowViewModel`) has the Sync button, a line for each thing the
+  last sync did, and the list of the study-notes in Anki that belong to no note, each with why: it holds no corpus
+  note's id, or JAStudio has no note with the id it holds. A button opens Anki's browser on them.
+- **It opens from the workspace's main menu,** Studying > Studying window, and with Ctrl+Shift+Y. A JAStudio has one
+  at most: opening it again brings it to the front. The menu's place and the key are Claude's choice, marked
+  `//review:` in `WorkspaceMainMenu`. It's offered only while there is a spaced repetition system.
+- **It shows the last sync whoever started it,** such as JAStudio's MCP server, and when it opens: the sync keeps its
+  last report (`SRSSync.LastReport`) and notifies each sync (`SRSSync.Completed`). A report says when the sync
+  finished.
+- **A sync that can't run says why in the window,** such as "The sync can't run now: Anki is syncing."
+- **The sync runs in the background,** with the task runner's progress, as the load shows it.
+- **Not in the window:** which notes had changed, were written or lost their study-note. It gives the counts.
+  JAStudio's MCP server's `sync_with_anki` lists them.
+- **Specified by opening it,** on Avalonia's headless platform, pressing Sync, and rendering it before and after.
+- **Not tried inside Anki.** Claude can't restart Anki. Until part 4 the notifications still keep JAStudio and Anki
+  in step, so the first syncs there should find little to do: they're the check that a sync does no harm.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 

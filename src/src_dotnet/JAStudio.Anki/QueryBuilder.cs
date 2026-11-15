@@ -21,6 +21,9 @@ public class QueryBuilder
       return NotesByIds(notes.Select(n => n.GetId()));
    }
 
+   /// <summary>A query for the study-notes with the ids <paramref name="studyNoteIds"/>, which are the ids of their Anki notes. Empty when there are none.</summary>
+   public static string StudyNotesWithTheIds(IReadOnlyCollection<long> studyNoteIds) => studyNoteIds.Count > 0 ? $"{Builtin.NoteId}:{string.Join(",", studyNoteIds)}" : "";
+
    /// <summary>
    /// A query for the notes with the ids <paramref name="noteIds"/> in Anki, by their Anki ids.<br/>
    /// A note that isn't in Anki has no Anki id, so it's left out; if none of them is in Anki, the query is empty.
@@ -32,6 +35,6 @@ public class QueryBuilder
                        .Where(id => id.HasValue)
                        .Select(id => id!.Value)
                        .ToList();
-      return idsOfTheirStudyNotes.Count > 0 ? $"{Builtin.NoteId}:{string.Join(",", idsOfTheirStudyNotes)}" : "";
+      return StudyNotesWithTheIds(idsOfTheirStudyNotes);
    }
 }

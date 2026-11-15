@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Compze.Internals.SystemCE.ReactiveCE;
+using Compze.Threading;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
@@ -32,6 +34,9 @@ public sealed class SRSSync
    readonly AutomaticImportRuns _automaticImportRuns;
    readonly TaskRunner _taskRunner;
    readonly OneAtATime _oneSyncAtATime = new();
+   readonly IMonitor _monitor = IMonitor.New();
+   readonly SimpleObservable<SRSSyncReport> _completed = new();
+   SRSSyncReport? _lastReport;
 
    internal SRSSync(JPCollection collection, ISRSStudyNotes studyNotes, SRSAvailability srsAvailability, AutomaticImportRuns automaticImportRuns, TaskRunner taskRunner)
    {
@@ -47,6 +52,12 @@ public sealed class SRSSync
    /// be read or changed (<see cref="SRSAvailability.WhyItCannotBeUsedNow"/>), or before the collection has loaded.
    /// </summary>
    public string? WhyItCannotRunNow => _srsAvailability.WhyItCannotBeUsedNow ?? (_collection.IsInitialized ? null : "JAStudio hasn't loaded the collection yet.");
+
+   /// <summary>What the last sync did, or null when none has run since JAStudio started.</summary>
+   public SRSSyncReport? LastReport => _monitor.Locked(() => _lastReport);
+
+   /// <summary>Notifies what each sync did, once it's done, on the thread that ran it, whoever started it.</summary>
+   public IObservable<SRSSyncReport> Completed => _completed;
 
    /// <summary>
    /// Runs a sync, once the sync under way, if any, has finished, showing its progress. It blocks until the study-notes are read and written, so<br/>
@@ -64,6 +75,9 @@ public sealed class SRSSync
 
       _automaticImportRuns.AfterASyncWithTheSRS();
 
-      return new SRSSyncReport(read, comparison, notesWhoseStudyNoteDiffers);
+      var report = new SRSSyncReport(DateTime.Now, read, comparison, notesWhoseStudyNoteDiffers);
+      _monitor.Locked(() => _lastReport = report);
+      _completed.OnNext(report);
+      return report;
    });
 }
