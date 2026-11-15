@@ -245,7 +245,8 @@ and leaves JAStudio usable inside Anki as today, until the fifth.
    - *Left alone:* the rest of `studying.md`'s "To design", meaning the domain's words for reading, listening and
      suspending, and the states.
 2. **Sync in a Studying view,** replacing the notifications, while still inside Anki. Magnus finds out early whether
-   stale-until-sync really doesn't bother him.
+   stale-until-sync really doesn't bother him. How it's to be built is proposed under
+   [Increment 2, proposed](#increment-2-proposed-the-sync-in-a-studying-view).
 3. **Menus:** a shortcut that shows the reviewed note in the workspace, then the Qt menus go.
 4. **The HTTP path, built on main in pieces that Anki doesn't use until it's complete:** the add-on's HTTP server,
    `JAStudio.Anki`'s HTTP side, and the standalone JAStudio's wiring. Anki keeps working on pythonnet meanwhile, and
@@ -313,6 +314,58 @@ system, and an "external note" is the study-note it always was. The names first 
   and the hosts' `NoAnki…` and `HeadlessAnki…`.
 - **`JPCollection.ReloadFromBackend` and its relatives,** where "the backend" is the corpus checkout and Anki together.
 
+## Increment 2, proposed: the Sync in a Studying view
+
+**Claude's proposal of 2026-11-15, from reading the code. Nothing of it is built, and Magnus hasn't seen it.** What
+is decided about the Sync is under [Decided](#decided). This says how it gets built while JAStudio still runs inside
+Anki, in parts that each leave JAStudio usable.
+
+**What tells JAStudio of Anki's changes today,** all of it to go:
+
+| The Anki add-on's Python | Calls | Which does |
+|---|---|---|
+| `follow_the_study_notes_in_anki.py`, on `operation_did_execute` | `AnkiChangedNotes` | reads the study-notes again (`CatchingUpWithAnki`) |
+| `clear_studying_cache_on_card_suspend_unsuspend.py` | `JPCollection.UpdateCardStudyingStatus` | sets one card's studying status |
+| `anki_collection_sync_runner.py`, on `notes_will_be_deleted` | `IStudyNoteUpdateHandler.StudyNoteRemoved` | forgets a deleted study-note |
+| the same, on `note_will_be_added` | `ANoteWasAddedInAnki` | runs the automatic import profiles |
+| `announce_finished_imports.py`, on `operation_did_execute` | `AnkiImportedAFile` | runs the automatic import profiles |
+| `anki_single_collection_syncer.py` | `StudyNoteWrites.Register` | writes a note's study-note each time the note is updated |
+
+**What stays until JAStudio is a program of its own:** `app.py`'s four hooks, which tell JAStudio that a profile opened
+or is closing, and that Anki's own sync starts or has finished (`HandleAnkiLifecycleEvent`). Inside Anki, JAStudio
+loads when a profile has opened, and may not use Anki's collection during Anki's sync. A Sync asked for then is refused,
+saying why.
+
+**The parts, in order:**
+
+1. **One read of the study-notes, and one interface.** `ISRSDataLoader`, `ISRSStudyNotes` and `ISRSCardOperations`
+   become one interface for the study-notes in the SRS, whose read gives each study-note with its note's id, its cards'
+   studying statuses, its tags and its fields. The load and the comparison use the same read. No change to what
+   JAStudio does.
+2. **The sync, in Core,** with specifications against the pretended Anki. It reads the study-notes, gives each note
+   its study-note, writes the study-notes that differ (`StudyNoteComparison`), runs the import profiles that run
+   automatically, and answers with what it did: how many study-notes it read and wrote, the notes whose study-note is
+   gone, and the Anki notes of JAStudio's note types that hold no corpus note's id. JAStudio's MCP server's
+   `write_the_study_notes_that_differ` then runs the same sync.
+3. **The Studying view:** a window, opened from the workspace's main menu and by a shortcut, with the Sync button, what
+   the last sync did, and the list of the Anki notes that hold no corpus note's id. Magnus suggested "an errors tab or
+   window" for that list: here it is part of the Studying window.
+4. **The notifications go:** the six rows of the table above, with `CatchingUpWithAnki.AnkiChangedNotes`,
+   `StudyNoteWrites`, `IStudyNoteUpdateHandler` and `JPCollection.UpdateCardStudyingStatus`. From then on Anki's
+   changes show in JAStudio after a Sync, and JAStudio's edits reach the study-notes at a Sync. This is the part where
+   Magnus finds out whether stale-until-sync bothers him, so it comes last and in a commit of its own, which a revert
+   takes back.
+
+**What JAStudio's own changes do, unchanged:** suspending and unsuspending from JAStudio set the note's studying
+statuses themselves (`JPNote.SetTheStatusOfEveryKnownCard`), and a change to Anki tags reads the study-notes again
+itself (`AnkiTagChanges`). Neither waits for a Sync.
+
+**For Magnus to decide, or to leave to Claude:**
+
+- **Where the Studying view is.** Proposed: a window of its own. The alternative is a pane or a tab in the workspace.
+- **Whether the workspace shows that a Sync is due,** such as how many notes were updated since the last one. Proposed:
+  not in this increment.
+
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
 **The direction for the increment on starting JAStudio, installing it and publishing** (Magnus, 2026-11-15, on Claude's
@@ -366,11 +419,6 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 - **How long to show a question, and the settings the scheduling hooks read:** asked of JAStudio for each card, or sent
   to the add-on when they change.
 - **How a student relates to an Anki profile** (`studying.md`, "To design", 5).
-- **One read of the study-notes** (Claude's suggestion, 2026-11-15, for the Sync increment). Three of the seam's
-  interfaces are views of the same study-notes: `ISRSDataLoader` reads each one's note, card statuses and tags,
-  `ISRSStudyNotes` reads their fields and writes them, and `ISRSCardOperations` suspends their cards and deletes
-  them. A sync needs all that the first two read, so its read could be one, of one kind of study-note, and the three
-  interfaces one.
 - **Tessaging or interfaces inside JAStudio.**
 - **With several JAStudios connected:**
   - How the add-on learns that one stopped without saying so.
