@@ -1,4 +1,4 @@
-﻿# New ideas to discuss
+# New ideas to discuss
 
 Ideas Magnus or Claude want to discuss, written down when they occur, so that none is lost (Magnus, 2026-11-11). They're
 ideas that came up while working on something else, or that a code comment can't hold because they're about no one
@@ -70,21 +70,3 @@ piece of code, or that would otherwise be lost in a long response.
   (`ISRSWindows.Refresh`): it would be left for Anki's browser alone, whose columns only change at a Sync. It bears
   on the open question in `moving-jastudio-out-of-anki.md`, "how the menu commands refresh the spaced repetition
   system's windows".
-- **(Magnus and Claude, 2026-11-15) A batch TTS window for the selected search results.** Asked for by Magnus, since few
-  of the parsing cases have audio (`text-to-speech.md`, increment 3, "one voice for the selected search results"). One
-  window for vocab and sentences alike, since `IHasTextToSpeechAudio`, `UsingASpeech` and `TextToSpeechAudioFolders`
-  already serve both. Magnus's shape, as Claude restated it (awaiting his confirmation):
-  - **The voice for the batch on top, the grid of the notes beneath it,** and to the right of the grid the per-note part
-    of today's TTS dialog for the selected row's note: its text to edit, its TTS audio now, the voice buttons, its
-    attempts, Use.
-  - **Trying the voice:** on a few rows, generate with the batch's voice for that note alone, to hear it. Nothing is used.
-  - **Run batch:** every note gets a speech from the batch's voice, used at once as the note's TTS audio, and a ▶ turns up
-    on each row as its note is done. Listening comes after, which for the batch replaces "nothing changes until one
-    attempt is used".
-  - **Reviewing:** moving down the rows plays each note's audio as it now is, the batch's speech. The pane on the right
-    generates nothing by itself; it's where a bad one is fixed, with another voice or the text in kana, and Use.
-
-  Confirmed by Magnus (2026-11-15). Needs today's dialog split into a per-note part and the dialog around it, and
-  requests kept under the tts-provider's limit, with a retry when it refuses one for the rate: Azure's S0 allows 30 a
-  second, Google's Chirp 3 HD 200 a minute and Neural2 1,000 a minute. With it, the search condition "Has audio": any
-  audio, a recording or TTS (Magnus, 2026-11-15).

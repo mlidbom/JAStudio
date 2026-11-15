@@ -9,13 +9,14 @@ using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.TaskRunners;
 using JAStudio.UI.Menus.UIAgnosticMenuStructure;
 using JAStudio.UI.Utils;
+using JAStudio.UI.Views.TextToSpeech;
 using JAStudio.UI.ViewModels.Workspace.Tagging;
 
 namespace JAStudio.UI.ViewModels.Workspace.Navigation.SearchResults;
 
 /// <summary>
-/// What can be done to the notes of the search results selected in the grid, all at once: adding or removing a tag,<br/>
-/// and unsuspending or suspending all their cards. The selection's right-click menu offers them, and the grid's keys run some directly.
+/// What can be done to the notes of the search results selected in the grid, all at once: adding or removing a tag, giving them TTS audio<br/>
+/// in the batch TTS dialog, and unsuspending or suspending all their cards. The selection's right-click menu offers them, and the grid's keys run some directly.
 /// </summary>
 /// <remarks>
 /// Each runs in the background, with a progress dialog, a note at a time (<see cref="BulkNoteChanges"/>). The rows show each change as it's made,<br/>
@@ -32,9 +33,11 @@ class ActionsOnSelectedResults
    readonly JPCollection _collection;
    readonly BulkNoteChanges _bulkNoteChanges;
    readonly IFatalErrorHandler _fatalErrorHandler;
+   readonly TemporaryServiceCollection _services;
 
    public ActionsOnSelectedResults(TemporaryServiceCollection services)
    {
+      _services = services;
       _collection = services.CoreApp.Collection;
       _bulkNoteChanges = new BulkNoteChanges(services);
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
@@ -48,11 +51,15 @@ class ActionsOnSelectedResults
       var notes = NotesOf(selected);
       var withSuspendedCards = notes.Where(it => it.HasSuspendedCards()).ToList();
       var withActiveCards = notes.Where(it => it.HasActiveCards()).ToList();
+      List<IHasTextToSpeechAudio> withTextToSpeechAudio = [..notes.OfType<IHasTextToSpeechAudio>()];
       return
       [
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('a', $"Add a tag... ({AddATagKey})"), () => AddATagTo(selected, pickATagInADialog)),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('r', $"Remove a tag... ({RemoveATagKey})"), () => RemoveATagFrom(selected, pickATagInADialog),
                               enabled: notes.Any(it => it.Tags.NotMaintainedByJAStudio().Count > 0 || it.AnkiTags.Any())),
+         SpecMenuItem.Separator(),
+         SpecMenuItem.Command(ShortcutFinger.Mnemonic('p', "Text-to-speech audio..."), () => BatchTextToSpeechDialog.OpenFor(withTextToSpeechAudio, _services),
+                              enabled: withTextToSpeechAudio.Count > 0),
          SpecMenuItem.Separator(),
          SpecMenuItem.Command(ShortcutFinger.Mnemonic('u', "Unsuspend all cards"),
                               () => StartChangingEachOf(withSuspendedCards, "Unsuspending all cards", it => it.UnsuspendAllCards()),

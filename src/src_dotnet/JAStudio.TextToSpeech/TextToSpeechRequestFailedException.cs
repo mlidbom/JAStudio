@@ -16,7 +16,7 @@ public sealed class TextToSpeechRequestFailedException(string message) : Excepti
    /// Whether the service refused the request for the rate of requests, with HTTP 429 Too Many Requests: more requests in a while than the account<br/>
    /// allows, or, with Azure, a service still scaling up to them. Asking again after a wait may succeed (<see cref="TextToSpeechVoice.SpeakAsync"/>).
    /// </summary>
-   public bool IsARefusalForTheRateOfRequests { get; init; }
+   internal bool IsARefusalForTheRateOfRequests { get; private init; }
 
    /// <summary>Throws, naming <paramref name="providerName"/>, unless <paramref name="response"/> says the request succeeded.</summary>
    internal static async Task ThrowUnlessItSucceeded(HttpResponseMessage response, string providerName, CancellationToken cancellation)

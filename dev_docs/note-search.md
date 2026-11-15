@@ -104,6 +104,8 @@ A failing spec should print the search indented like the tree, so the difference
 | tags | tags | Notes with the tag or a tag in its branch. Also: a tag pattern, a regex, or no tags at all. | See [tags.md](tags.md). |
 | studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the spaced repetition system (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
 | note type | one of a fixed set | vocab, kanji or sentence | |
+| parsing case | true-or-false | Sentences marked as parsing cases | Built 2026-11-15 (`parsing-cases.md`). |
+| has audio | true-or-false | Notes with any audio: a recording or text-to-speech, the source's or the corpus's own | Built 2026-11-15, to find the notes to give TTS audio (`text-to-speech.md`, increment 3). It counts the note's references to audio, not whether the media layer has the files. A kanji has none. |
 | question, answer, reading, and other fields | text, or list of texts | Notes whose field matches | The fields per note type are to be decided. |
 | id | text | Notes with those JAStudio note ids | |
 | JAStudio-specific properties (later) | | For example the vocab a sentence contains, the kanji, the forms, the parts of speech | Each one when a workflow needs it. "Contains vocab" fits Magnus's habit of adding sentences that contain the vocab he's studying. |
