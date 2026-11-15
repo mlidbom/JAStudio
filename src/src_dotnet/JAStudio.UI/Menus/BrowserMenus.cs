@@ -35,6 +35,8 @@ class AnkiBrowserMenuBuilder
 
       if(selectedCardIds.Count == 1)
       {
+         //todo: (Magnus, 2026-11-15) "Prioritize selected cards" and "Spread selected cards" stay for now. When the other Qt menus go, they become
+         //   plain Python menu items in the Anki add-on (dev_docs/moving-jastudio-out-of-anki.md). Ask Magnus then whether he still uses them.
          items.Add(SpecMenuItem.UICommand("Prioritize selected cards", () => AnkiFacade.Browser.MenuActions.PrioritizeCards(selectedCardIds)));
 
          var note = GetNoteFromCardId(selectedCardIds[0]);

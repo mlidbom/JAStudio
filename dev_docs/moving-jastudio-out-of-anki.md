@@ -1,7 +1,7 @@
 # Moving JAStudio out of Anki
 
 > **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; nothing is built.** The order of work is
-> Claude's proposal, not yet agreed. Details are settled as each increment needs them.
+> preliminary. Details are settled as each increment needs them.
 
 ## The goal
 
@@ -118,14 +118,34 @@ of one of JAStudio's own note types, the study-notes' types, that holds no corpu
 2026-11-15: "This is some sort of data corruption, from the few fields in anki a sane jastudio note cannot be created I
 don't think." No sync makes a corpus note of one.
 
-*Today such a note is left out without a word when the study-notes are read
-(`AnkiBackendDataLoader.StudyNoteRow.HoldsACorpusNoteId`). Whether a sync should list them is put to Magnus under
-[Suggested, not yet answered](#suggested-not-yet-answered).*
+**A sync counts and lists them** (Magnus, 2026-11-15, on Claude's suggestion), so that the corruption shows. Today such
+a note is left out without a word when the study-notes are read
+(`AnkiBackendDataLoader.StudyNoteRow.HoldsACorpusNoteId`). It's the check `corpus-validity.md` has wanted since
+2026-11-08. Where they're listed is open. Magnus: "Maybe in an errors tab or window?" JAStudio has neither today.
+
+### A call names the collection it expects, and one click takes the collection Anki has open (Magnus, 2026-11-15)
+
+The notifications told JAStudio which Anki profile is open. Without them, a call made with one profile's note ids while
+another is open would reach the wrong notes: Magnus has two, `Magnus` and `Anki-Development`.
+
+- **Each call from JAStudio names the collection it expects, and the Anki add-on refuses a mismatch.** It refuses the
+  same way while Anki's own sync runs or no profile is open, which it knows from its own hooks.
+- **JAStudio then says so, and offers the collection Anki has open instead:** "you should be able to accept using this
+  one instead with a single click in jastudio to reload the anki state".
 
 ### Most of the Qt menus go (Magnus, 2026-11-14)
 
-"Most of them likely go away. With jastudio a keyboard shortcut away, what good are they?" What is suggested for the
-few that might stay is under [Suggested, not yet answered](#suggested-not-yet-answered).
+"Most of them likely go away. With jastudio a keyboard shortcut away, what good are they?"
+
+- **The reviewer's note menu goes once a shortcut in Anki's reviewer shows the reviewed note in the workspace**
+  (Magnus, 2026-11-15, on Claude's suggestion). The menu acts on the note being reviewed, and no shortcut shows that
+  note in the workspace today: Ctrl+Shift+O shows the workspace as it was, and a click on a note link opens the linked
+  note. Claude proposes the key when the work reaches it.
+- **"Prioritize selected cards" and "Spread selected cards" stay for now,** as plain Python menu items in the Anki
+  add-on (Magnus, 2026-11-15: "Keep them for now"). They act on the cards selected in Anki's browser, are Python
+  already, and need nothing from JAStudio. Whether they stay for good is to be checked with Magnus when the menus go:
+  a `todo:` comment in `AnkiBrowserMenuBuilder.BuildBrowserMenuSpec` says so.
+- **The rest of the browser's menu goes,** with the other Qt menus.
 
 ### Core speaks about studying, and Anki's names stay in `JAStudio.Anki` and on the wire (2026-11-14)
 
@@ -210,8 +230,8 @@ Each is taken up under [Deferred until the work reaches them](#deferred-until-th
 
 ## The order of work
 
-**Proposed by Claude on 2026-11-14, not yet agreed.** Each increment builds clean and leaves JAStudio usable inside Anki
-as today, until the fifth.
+**The preliminary order of work** (Magnus, 2026-11-15, on Claude's proposal of 2026-11-14). Each increment builds clean
+and leaves JAStudio usable inside Anki as today, until the fifth.
 
 1. **Names:** the seam in Core renamed in studying's words, while JAStudio still runs inside Anki on pythonnet. Names
    and homes first, wiring second (the code standard on re-homing concepts before restructuring). Every name Claude
@@ -231,32 +251,36 @@ as today, until the fifth.
      inside Anki and the standalone JAStudio can't both hold the main corpus checkout (`CorpusCheckoutLock`).
 6. **Once Magnus has studied with it for a while,** pythonnet, `runtime_binaries`, `typings/` and the stub generator
    are deleted.
-7. **Starting JAStudio, installing the Anki add-on, publishing.**
+7. **Starting JAStudio, installing it, publishing:** see [Distribution](#distribution-under-discussion).
 
-## Suggested, not yet answered
+## Distribution: under discussion
 
-Claude's suggestions that Magnus hasn't answered. They're also in Claude's list of what is unanswered.
+**Magnus's view (2026-11-15): the Anki add-on has to be in AnkiWeb's list of add-ons.** "I figure that no matter how
+silly it might seem, not going through the standard distribution channel would tank usage. Once one has installed the
+addon that looks so cool, the odds that one clicks the "Download and Install" button are very good. If one just hears
+about some program somewhere you should install that will integrate with anki.... Odds plummet I would say".
 
-- **The Anki add-on refuses a call meant for another collection than the one Anki has open.** The notifications told
-  JAStudio which Anki profile is open. Without them, a call made with one profile's note ids while another is open
-  would reach the wrong notes: Magnus has two, `Magnus` and `Anki-Development`. Each call from JAStudio names the
-  collection it expects, and the add-on refuses a mismatch. It refuses the same way while Anki's own sync runs or no
-  profile is open, which it knows from its own hooks, and the Studying view says so.
-- **A sync lists the Anki notes of JAStudio's own note types that hold no corpus note's id,** since they're data
-  corruption, which today nothing reports.
-- **A shortcut in Anki's reviewer that shows the reviewed note in the workspace,** before the reviewer's note menu
-  goes. That menu acts on the note being reviewed, and no shortcut shows that note in the workspace today: Ctrl+Shift+O
-  shows the workspace as it was, and a click on a note link opens the linked note.
-- **"Prioritize selected cards" and "Spread selected cards" stay in Anki's browser menu, as plain Python.** They act on
-  the cards selected in Anki's browser, are Python already, and need nothing from JAStudio. The rest of that menu goes.
-- **JAStudio installs its Anki add-on into Anki itself,** so that the two are always the same version.
+**Withdrawn:** Claude's suggestion that JAStudio installs its Anki add-on into Anki. It would keep JAStudio out of
+AnkiWeb's list. And with several JAStudios connected to one Anki, each would install its own add-on over the others'.
+
+**Claude's suggestion, not yet answered:**
+
+- **The Anki add-on is the way in.** A student installs it from AnkiWeb, as any add-on. When it finds no JAStudio, it
+  offers to download and install the release it goes with, and it starts it.
+- **A contract version keeps the two in step,** where the withdrawn suggestion had them be the same build. The HTTP
+  contract has a version, which changes when the contract does, and which the two compare when they first talk.
+  Several JAStudios built from different checkouts then all work with one add-on, as long as their contract version is
+  the add-on's.
+
+**Not known:** what AnkiWeb lets an add-on download and run, and whether it limits an add-on's size. Anki's page on
+sharing add-ons says nothing of either (read 2026-11-15).
 
 ## Claude's design calls for the HTTP increment
 
 For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 
-- **A version check when the two first talk:** an add-on and a JAStudio of different versions refuse each other, saying
-  so.
+- **A version check when the two first talk:** an add-on and a JAStudio whose contracts differ refuse each other,
+  saying so. What the version is of is under [Distribution](#distribution-under-discussion).
 - **A specification that compares the add-on's Python functions with the C# contract,** in place of the type stubs.
 - **The connection is open to the same user only,** such as by a token that only the user's files hold.
 - **The write of a study-note crosses as the fields to write,** not as a note.
@@ -281,7 +305,8 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
   - Which JAStudio's sync imports, for as long as importing from Anki exists. An import deletes its raw notes from
     Anki, so they'd end up in the corpus checkout of whichever JAStudio syncs first. Claude's suggestion: only the
     primary's sync imports.
-- **Who starts JAStudio,** and what the add-on does until it runs.
+- **Who starts JAStudio,** and what the add-on does until it runs: see
+  [Distribution](#distribution-under-discussion).
 
 ## Also turned down
 

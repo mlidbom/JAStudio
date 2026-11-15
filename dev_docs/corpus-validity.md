@@ -36,6 +36,10 @@ Anki, go unnoticed until something trips on them. Checking the whole corpus find
   to corpus notes by their `jas_note_id` field, and nothing takes in a note added in Anki since 2026-11-08. The check
   only reports them, and they're fixed by hand (Magnus, 2026-11-08): it should never happen, so JAStudio needs no
   support for it.
+  - *Since 2026-11-15 a sync with Anki is to count and list them* (`moving-jastudio-out-of-anki.md`). Magnus on where
+    they're shown: "Maybe in an errors tab or window?"
+  - With several JAStudios connected to one Anki, an Anki note whose corpus note one of them doesn't have is normal:
+    their corpus checkouts differ. The mistake is an Anki note that holds no corpus note's id at all.
 - **Audio that isn't MP3.** The corpus holds only MP3 (Magnus, 2026-11-08). Supporting other formats might happen, but
   not to rescue a few files.
   - Four imported sentences have Ogg Vorbis audio, which JAStudio can't play or compare: `0x0005a48b.wav.ogg`,
