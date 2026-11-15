@@ -39,6 +39,10 @@ def test_a_request_without_the_token_is_refused_as_unauthorized(jastudio: JAStud
     assert jastudio.get_without_the_token("/contract").status == 401
 
 
+def test_an_answer_says_that_the_server_closes_the_connection_after_it(jastudio: JAStudioCallingAnki) -> None:
+    assert jastudio.header_of_the_answer_to_get("/contract", "Connection") == "close"
+
+
 def test_the_contract_is_served_with_its_version(jastudio: JAStudioCallingAnki) -> None:
     assert jastudio.get("/contract") == Answered(200, {"result": {"version": 1}})
 

@@ -59,6 +59,17 @@ class JAStudioCallingAnki:
 
     def get_without_the_token(self, path: str) -> Answered: return self._answer_to("GET", path, {})
 
+    def header_of_the_answer_to_get(self, path: str, header: str) -> str | None:
+        """The value of the header in the server's answer to a GET of the path, or None when the answer has no such header."""
+        connection = http.client.HTTPConnection("127.0.0.1", self._server.port)
+        try:
+            connection.request("GET", path, headers=self._carrying_the_token())
+            response = connection.getresponse()
+            _ = response.read()
+            return response.getheader(header)
+        finally:
+            connection.close()
+
     def call(self, function: str, **arguments: object) -> Answered: return self.call_expecting(str(self.collection), function, **arguments)
 
     def call_expecting(self, collection: str | None, function: str, **arguments: object) -> Answered:

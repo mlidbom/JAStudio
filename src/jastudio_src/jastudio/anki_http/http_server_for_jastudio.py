@@ -11,6 +11,9 @@ A call names the collection JAStudio expects, by its path, and is refused when A
 A call, and /collection, are refused while JAStudio may not use Anki's collection (AnkiForJAStudio.why_the_collection_cannot_be_used_now).
 
 Answers are JSON objects: {"result": ...} with status 200; {"refused": why, ...} with 409, in words for a person; {"error": ...} otherwise.
+
+It answers one request a connection, and says so in every answer (Connection: close). A client that isn't told keeps the connection for its next
+request, and finds it closed: .NET's HttpClient then failed about one call in ten with "The response ended prematurely".
 """
 from __future__ import annotations
 
@@ -144,6 +147,7 @@ class HttpServerForJAStudio:
                 self.send_response(answer.status)
                 self.send_header("Content-Type", "application/json; charset=utf-8")
                 self.send_header("Content-Length", str(len(answer.body)))
+                self.send_header("Connection", "close")
                 self.end_headers()
                 self.wfile.write(answer.body)
 
