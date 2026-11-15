@@ -12,7 +12,6 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-from anki.cards import CardId
 from anki.collection import SearchNode
 from anki.notes import NoteId
 from jaspythonutils.sysutils.typed import non_optional, str_
@@ -49,7 +48,6 @@ class FunctionsOnTheCollection:
             "note_suspend_all_cards": self.note_suspend_all_cards,
             "note_unsuspend_all_cards": self.note_unsuspend_all_cards,
             "col_read_json": self.col_read_json,
-            "get_note_id_from_card_id": self.get_note_id_from_card_id,
             "media_add_file": self.media_add_file,
             "anki_media_dir": self.anki_media_dir,
         }
@@ -121,9 +119,6 @@ class FunctionsOnTheCollection:
         """The one value the SELECT returns, a JSON text, through Anki's own connection to its collection, so it sees Anki's latest changes.
         Only a SELECT may run through it: Anki discards its undo history whenever anything else does."""
         return JsonText(str_(non_optional(self._collection.db).scalar(select)))  # pyright: ignore[reportAny]  # Anki types every database value as Any: str_ checks that it's the text
-
-    def get_note_id_from_card_id(self, card_id: int) -> int:
-        return int(self._collection.get_card(CardId(card_id)).nid)
 
     # ── Media ──
 

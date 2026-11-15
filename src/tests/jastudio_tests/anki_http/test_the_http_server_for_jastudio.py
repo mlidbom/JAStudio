@@ -44,7 +44,7 @@ def test_an_answer_says_that_the_server_closes_the_connection_after_it(jastudio:
 
 
 def test_the_contract_is_served_with_its_version(jastudio: JAStudioCallingAnki) -> None:
-    assert jastudio.get("/contract") == Answered(200, {"result": {"version": 2}})
+    assert jastudio.get("/contract") == Answered(200, {"result": {"version": 3}})
 
 
 def test_the_collection_anki_has_open_is_served_by_its_path(jastudio: JAStudioCallingAnki) -> None:
@@ -153,11 +153,6 @@ def test_notes_remove_deletes_the_notes(jastudio: JAStudioCallingAnki) -> None:
     three_vocab = cast("list[int]", jastudio.result_of("notes_find", search="note:_Vocab"))[:3]
     jastudio.result_of("notes_remove", note_ids=three_vocab)
     assert len(cast("list[int]", jastudio.result_of("notes_find", search="note:_Vocab"))) == 250
-
-
-def test_get_note_id_from_card_id_answers_with_the_id_of_the_cards_note(anki: AnkiWithoutItsWindow, jastudio: JAStudioCallingAnki) -> None:
-    a_card_of_the_vocab = int(anki.collection().card_ids_of_note(NoteId(A_VOCABS_ANKI_NOTE_ID))[0])
-    assert jastudio.result_of("get_note_id_from_card_id", card_id=a_card_of_the_vocab) == A_VOCABS_ANKI_NOTE_ID
 
 
 def test_media_add_file_copies_the_file_into_ankis_media_folder_and_answers_with_its_name_there(tmp_path: Path, jastudio: JAStudioCallingAnki) -> None:

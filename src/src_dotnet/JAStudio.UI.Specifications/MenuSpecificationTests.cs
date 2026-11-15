@@ -47,7 +47,7 @@ public class MenuSpecificationTests
       var kanjiExplosionItem = kanjiSubmenu.Children.First();
 
       Assert.Equal("_u Kanji explosion", kanjiExplosionItem.Name); // ShortcutFinger.Home1("Kanji explosion")
-      // Note: Can't test execution since it calls AnkiFacade.OpenUrl
+      // Note: Can't test execution since it opens the URL in a web browser
       Assert.NotNull(kanjiExplosionItem.Action);
    }
 

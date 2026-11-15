@@ -29,7 +29,7 @@ sealed class AnkisHttpServer : IDisposable
    /// The version of the contract this JAStudio speaks: the functions it calls in Anki, their arguments and their answers. It changes whenever one<br/>
    /// of them does, together with the add-on's <c>CONTRACT_VERSION</c>.
    /// </summary>
-   const int ContractVersion = 2;
+   const int ContractVersion = 3;
 
    /// <summary>
    /// How long the server has to take a connection before JAStudio gives it up as gone. A server that listens, on this computer, takes it in under a<br/>

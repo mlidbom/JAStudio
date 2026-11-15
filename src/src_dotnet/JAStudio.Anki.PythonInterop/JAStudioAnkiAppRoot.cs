@@ -45,9 +45,6 @@ public class JAStudioAnkiAppRoot
    // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    public AnkiDialogs Dialogs { get; }
 
-   // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
-   public PythonAnkiMenus Menus { get; }
-
    /// <summary>The keyboard shortcuts for a note being viewed, which Python binds in Anki's reviewer and previewer.</summary>
    public NoteViewShortcuts NoteViewShortcuts { get; }
 
@@ -63,7 +60,6 @@ public class JAStudioAnkiAppRoot
       _liveMcpServer = liveMcpServer;
       _followingAnkisLifecycle = new FollowingAnkisLifecycle(coreApp.Collection, coreApp.Services.Resolve<AnkisAvailability>(), coreApp.Services.BackgroundTaskManager);
       Dialogs = new AnkiDialogs();
-      Menus = new PythonAnkiMenus(new AnkiMenus(coreApp.Services));
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
    }
 

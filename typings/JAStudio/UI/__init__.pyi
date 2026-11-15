@@ -1,8 +1,5 @@
 import typing
-from JAStudio.Core import TemporaryServiceCollection
-from JAStudio.UI.Menus.UIAgnosticMenuStructure import SpecMenuItem
-from System.Collections.Generic import IReadOnlyList_1, List_1
-from JAStudio.UI.Menus import NoteContextMenu
+from JAStudio.Core.Note import JPNote
 from Avalonia import Application, AvaloniaProperty
 from Avalonia.Styling import ThemeVariant, Styles
 from Avalonia.Controls.ApplicationLifetimes import IApplicationLifetime
@@ -10,22 +7,16 @@ from Avalonia.Controls.Templates import DataTemplates
 from Avalonia.Threading import Dispatcher
 from Avalonia.Platform import IPlatformSettings
 from Avalonia.Controls import IResourceDictionary
+from JAStudio.Core import TemporaryServiceCollection
 from JAStudio.Core.UI.Web import IWebPageImages
 from System import TimeSpan
 from Avalonia.Data import IndexerDescriptor, BindingBase
 
 class AnkiDialogs:
     def __init__(self) -> None: ...
+    def ShowTheNoteInTheWorkspace(self, note: JPNote) -> None: ...
     def ToggleNoteSearch(self) -> None: ...
     def ToggleWorkspaceWindow(self) -> None: ...
-
-
-class AnkiMenus:
-    def __init__(self, services: TemporaryServiceCollection) -> None: ...
-    def BuildBrowserMenuSpec(self, selectedCardIds: IReadOnlyList_1[int], selectedNoteIds: IReadOnlyList_1[int]) -> SpecMenuItem: ...
-    def BuildJAStudioMenuSpec(self) -> List_1[SpecMenuItem]: ...
-    def CreateNoteContextMenu(self) -> NoteContextMenu: ...
-    def ShowContextMenuPopup(self, clipboardContent: str, selectionContent: str, x: int, y: int) -> None: ...
 
 
 class UIApp(Application):

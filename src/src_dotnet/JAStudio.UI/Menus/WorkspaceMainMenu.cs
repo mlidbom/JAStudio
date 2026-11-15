@@ -12,7 +12,7 @@ namespace JAStudio.UI.Menus;
 /// </summary>
 /// <remarks>
 /// It was also Anki's "Japanese" menu until 2026-11-08. Anki now only toggles the workspace, or opens it on its search, from its JA Studio menu<br/>
-/// (<see cref="AnkiMenus.BuildJAStudioMenuSpec"/>) or with Ctrl+Shift+O and Ctrl+O.
+/// (the Anki add-on's <c>jastudio_menu.py</c>) or with Ctrl+Shift+O and Ctrl+O (<see cref="AnkiDialogs"/>).
 /// </remarks>
 public class WorkspaceMainMenu
 {

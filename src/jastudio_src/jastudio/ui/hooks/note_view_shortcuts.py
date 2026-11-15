@@ -1,3 +1,11 @@
+"""The keyboard shortcuts that act on the note shown in Anki's reviewer and in its previewer.
+
+Most are JAStudio's note view shortcuts, defined once in C# (NoteViewShortcuts) and shared with JAStudio's workspace: this only binds Anki's keys
+to them. A shortcut changes a setting or the note, and the card's page, which is JAStudio's own, reloads itself on either (CardLayout).
+
+One more is Anki's alone: it shows the note in JAStudio's workspace (AnkiDialogs.ShowTheNoteInTheWorkspace), where everything JAStudio does with a
+note is done. Anki's own windows had a menu of it until 2026-11-15.
+"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -13,32 +21,45 @@ from jastudio.ui import dotnet_ui_root
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from aqt.browser.previewer import Previewer
     from aqt.main import MainWindowState
+    from JAStudio.Core.Note import JPNote
     from JAStudio.UI.Shortcuts import NoteViewShortcut
     from PyQt6.QtWidgets import QWidget
 
-# The shortcuts themselves are defined once, in C# (NoteViewShortcuts), and shared with JAStudio's workspace. This only binds Anki's keys to them.
-# A shortcut changes a setting or the note, and the card's page, which is JAStudio's own, reloads itself on either (CardLayout).
+SHOW_THE_NOTE_IN_THE_WORKSPACE = "Ctrl+Alt+o"
+
+
 def init() -> None:
-    def run_on_reviewed_note(shortcut: NoteViewShortcut) -> Callable[[], None]:
-        def run() -> None:
-            reviewed_note = ui_utils.try_get_review_note()
-            if reviewed_note:
-                shortcut.Run(reviewed_note)
-            else:
-                shortcut.Run()
+    def the_shortcuts_on(the_shown_note: Callable[[], JPNote | None]) -> dict[str, Callable[[], None]]:
+        """Each shortcut by its key, acting on the note the_shown_note finds when the key is pressed."""
+        def run(shortcut: NoteViewShortcut) -> Callable[[], None]:
+            def run_it() -> None:
+                note = the_shown_note()
+                if note:
+                    shortcut.Run(note)
+                else:
+                    shortcut.Run()
 
-        return run
+            return run_it
 
-    shortcuts: dict[str, Callable[[], None]] = {shortcut.KeyGesture: run_on_reviewed_note(shortcut) for shortcut in dotnet_ui_root().NoteViewShortcuts.All}
+        def show_the_note_in_the_workspace() -> None:
+            note = the_shown_note()
+            if note:
+                dotnet_ui_root().Dialogs.ShowTheNoteInTheWorkspace(note)
+
+        return {**{shortcut.KeyGesture: run(shortcut) for shortcut in dotnet_ui_root().NoteViewShortcuts.All},
+                SHOW_THE_NOTE_IN_THE_WORKSPACE: show_the_note_in_the_workspace}
 
     # noinspection DuplicatedCode
     def set_shortcut(widget: QWidget, shortcut: str, callback: Callable[[], None]) -> None:
         typed.checked_cast(pyqtBoundSignal, QShortcut(QKeySequence(shortcut), widget).activated).connect(callback)  # pyright: ignore[reportUnknownMemberType]
 
-    def inject_shortcuts_in_widget(widget: QWidget) -> None:
-        for key, callback in shortcuts.items():
-            set_shortcut(widget, key, callback)
+    def inject_shortcuts_in_previewer(previewer: Previewer) -> None:
+        for key, callback in the_shortcuts_on(lambda: ui_utils.try_get_note_of(previewer.card())).items():
+            set_shortcut(previewer, key, callback)
+
+    shortcuts_in_the_reviewer = the_shortcuts_on(ui_utils.try_get_review_note)
 
     # noinspection Annotator
     def inject_shortcuts_in_reviewer(_state: MainWindowState, state_shortcuts: list[tuple[str, Callable[[], None]]]) -> None:  # pyright: ignore
@@ -51,8 +72,8 @@ def init() -> None:
         for char in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "o", "e", "u"]:
             remove_shortcut(char)
 
-        for key, callback in shortcuts.items():
+        for key, callback in shortcuts_in_the_reviewer.items():
             state_shortcuts.append((key, callback))
 
-    gui_hooks.previewer_did_init.append(inject_shortcuts_in_widget)  # pyright: ignore[reportUnknownMemberType]
+    gui_hooks.previewer_did_init.append(inject_shortcuts_in_previewer)  # pyright: ignore[reportUnknownMemberType]
     gui_hooks.state_shortcuts_will_change.append(inject_shortcuts_in_reviewer)  # pyright: ignore[reportUnknownMemberType]

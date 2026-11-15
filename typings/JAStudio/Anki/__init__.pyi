@@ -1,10 +1,10 @@
 import typing, abc
 from JAStudio.Core import IEnvironmentPaths
 from JAStudio.Anki.AnkisFunctions.ThroughPythonnet import AnkiThroughPythonnet
-from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Anki.CollectionDatabase import AnkiCollectionDatabase
 from JAStudio.Anki.AnkisFunctions import IAnkisNotes, IAnkisMedia, IAnkisWindows, IAnkisTags
+from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1
 from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Studying import SRSAvailability, ISRSMedia, ISRSWindows, StudyNoteIds, ISRSTagOperations
 from JAStudio.Anki.AnkisFunctions.OverHttp import AnkiOverHttp
@@ -27,21 +27,6 @@ class AnkiEnvironmentPaths(IEnvironmentPaths):
     def MediaDir(self) -> str: ...
     @property
     def UserFilesDir(self) -> str: ...
-
-
-class AnkiFacade(abc.ABC):
-    @staticmethod
-    def GetNoteIdFromCardId(cardId: int) -> int: ...
-
-    class Browser(abc.ABC):
-
-        class MenuActions(abc.ABC):
-            @staticmethod
-            def PrioritizeCards(cardIds: IReadOnlyList_1[int]) -> None: ...
-            @staticmethod
-            def SpreadCardsOverDays(cardIds: IReadOnlyList_1[int], startDay: int, daysApart: int) -> None: ...
-
-
 
 
 class AnkiLifecycleEvent(typing.SupportsInt):

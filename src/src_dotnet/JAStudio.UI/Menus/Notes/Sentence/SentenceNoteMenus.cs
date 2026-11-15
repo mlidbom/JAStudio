@@ -1,7 +1,6 @@
 using Avalonia.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Anki;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;

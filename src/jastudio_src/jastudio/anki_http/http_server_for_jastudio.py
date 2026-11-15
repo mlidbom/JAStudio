@@ -40,7 +40,7 @@ if TYPE_CHECKING:
     from jastudio.anki_http.anki_for_jastudio import AnkiForJAStudio
     from jastudio.anki_http.functions_on_the_collection import JsonValue
 
-CONTRACT_VERSION = 2
+CONTRACT_VERSION = 3
 """The version of what the server serves: the functions, their arguments and their answers. It changes whenever one of them does."""
 
 
