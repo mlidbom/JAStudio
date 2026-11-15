@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
@@ -67,6 +68,15 @@ public class JAStudioAnkiAppRoot
       NoteViewShortcuts = new NoteViewShortcuts(coreApp.Config);
    }
 
+   /// <summary>
+   /// The host's content root, which it has to be given: left to itself the host takes the current directory, or, when that is Windows' system<br/>
+   /// directory, <see cref="AppContext.BaseDirectory"/>, which is empty when Python hosts .NET, as inside Anki. The host then fails to build,<br/>
+   /// with "The path must be absolute". Windows' Start menu starts Anki in the system directory.
+   /// </summary>
+   /// <remarks>JAStudio reads nothing from the content root: any folder that exists will do.</remarks>
+   static string TheFolderJAStudiosAssembliesAreIn =>
+      Path.GetDirectoryName(typeof(JAStudioAnkiAppRoot).Assembly.Location) ?? throw new InvalidOperationException("JAStudio's assembly wasn't loaded from a file.");
+
    // ReSharper disable once UnusedMember.Global // ReSharper disable once UnusedAutoPropertyAccessor.Global used from python
    public static JAStudioAnkiAppRoot Initialize()
    {
@@ -78,6 +88,7 @@ public class JAStudioAnkiAppRoot
       var plan = AppBootstrapper.PrepareProduction(new AnkiAddonEnvironmentDependenciesRegistrar());
 
       var host = Host.CreateDefaultBuilder()
+                     .UseContentRoot(TheFolderJAStudiosAssembliesAreIn)
                      .UseServiceProviderFactory(new MicrosoftServiceProviderFactory(plan.Builder))
                      .Build();
 
