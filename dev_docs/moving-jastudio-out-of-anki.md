@@ -429,10 +429,12 @@ Studying view, and nothing in the workspace to show that a Sync is due.
   - *before the collection has loaded.*
 - **The import profiles that run automatically are started, not waited for** (`AutomaticImportRuns.AfterASyncWithTheSRS`).
   They import in the background, and report as they do today, so what they import isn't in the sync's report.
-- **The sync shows progress only while it writes more than 200 study-notes** (since the Sync button, 2026-11-15).
-  The read shows none, and neither does a short write: whoever started the sync shows that it's under way, as the
-  Sync button does, and no window opens over what the person does. Until then it showed its progress as the load
-  does, through the task runner.
+- **The sync opens no progress window** (since the Sync button, 2026-11-15): whoever started the sync shows that it's
+  under way, as the Sync button does, and no window opens over what the person does. Claude first had it open one for
+  a write of more than 200 study-notes. Magnus, the same day: "I probably still don't want it popping up
+  automatically. Just spinning is fine. If I lose patience I can right click it. And this will hardly ever happen.
+  Only sound and question is written and they hardly ever change.." Until the Sync button it showed its progress as
+  the load does, through the task runner.
 - **The sync says whether one is under way** (`SRSSync.IsRunning`, and `IsRunningChanged` to follow it), whoever
   started it.
 - **JAStudio's MCP server has a tool for it, `sync_with_anki`,** instead of `write_the_study_notes_that_differ`
@@ -480,7 +482,7 @@ sync button."
   until the next sync starts. A sync that fails leaves the button unmarked.
   - *The mark says that the last sync finished, not that nothing has changed since.* JAStudio isn't told of what
     changes in Anki, and its own edits reach the study-notes at the next sync.
-- **No progress window opens,** unless the sync writes more than 200 study-notes.
+- **No progress window opens,** however long the sync takes.
 - **A sync that can't run says why beside the button,** as in the Studying window.
 - **A right-click opens the Studying window,** as the keyboard's menu key does. The button's tooltip says so, with
   what a sync does, and when the last one finished and how many study-notes it read and wrote.
