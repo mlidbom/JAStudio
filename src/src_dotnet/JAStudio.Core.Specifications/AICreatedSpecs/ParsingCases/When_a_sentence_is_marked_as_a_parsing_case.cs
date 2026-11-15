@@ -7,6 +7,8 @@ using JAStudio.Core.LanguageServices.JanomeEx.WordExtraction;
 using JAStudio.Core.Note.Collection;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Sentences.ParsingCases;
+using JAStudio.Core.Note.Sentences.ParsingCases.Breakdowns;
+using JAStudio.Core.UI.Web.Sentence;
 using JAStudio.Core.Storage;
 using static Compze.Must.MustActions;
 
@@ -35,6 +37,21 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
    /// <summary>Each parsing case the collection lists, compared: its sentence, then its outcome.</summary>
    string[] TheParsingCasesComparedByTheCollection => [.. GetService<JPCollection>().Sentences.ParsingCasesCompared().Select(it => $"{it.Sentence.GetQuestion()}: {it.Comparison.Outcome}")];
 
+   /// <summary>
+   /// The breakdown the sentence displays under the options as they're set, beside the one its case expects under them: a line for each row, the word<br/>
+   /// displayed, then the word expected, <c>-</c> for none, and <c>(differs)</c> after a row whose two sides aren't the same word.
+   /// </summary>
+   string[] TheBreakdownBesideTheExpected
+   {
+      get
+      {
+         var settings = GetService<Settings>();
+         var displayed = new SentenceViewModel(_sentence, settings, GetService<JPCollection>().Vocab).Analysis.MatchesDisplayedOutsideEditMode;
+         var beside = BreakdownBesideTheExpected.Of(displayed, TheCase.Expected.BreakdownUnder(settings.BreakdownParsingOptions()));
+         return [.. beside.Rows.Select(it => $"{it.Displayed?.ParsedForm ?? "-"} | {it.Expected?.Form ?? "-"}{(it.IsTheSameWord ? "" : " (differs)")}")];
+      }
+   }
+
    string[] FormsExpectedDisplayedUnder(BreakdownParsingOptions options) => [.. TheCase.Expected.BreakdownUnder(options).DisplayedWords.Select(it => it.Form)];
 
    public class at_first : When_a_sentence_is_marked_as_a_parsing_case
@@ -45,6 +62,7 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
       [XF] public void its_displayed_vocab_are_unverified() => TheCase.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Unverified);
       [XF] public void it_expects_what_the_sentence_parses_to() => Comparison.Differences.Must().BeEmpty();
       [XF] public void its_outcome_is_that_it_parses_as_expected() => Comparison.Outcome.Must().Be(ParsingCaseOutcome.ParsesAsExpected);
+      [XF] public void its_breakdown_beside_the_expected_has_each_word_beside_itself() => TheBreakdownBesideTheExpected.Must().SequenceEqual(["毎日 | 毎日", "走る | 走る", "ている | ている"]);
       [XF] public void the_collection_compares_it_as_parsing_as_expected() => TheParsingCasesComparedByTheCollection.Must().SequenceEqual(["毎日走っている: ParsesAsExpected"]);
       [XF] public void it_is_the_one_sentence_the_collection_lists_as_a_parsing_case() => GetService<JPCollection>().Sentences.ThatAreParsingCases().Select(it => it.GetQuestion()).Must().SequenceEqual(["毎日走っている"]);
       [XF] public void it_expects_the_words_the_sentence_parses_to() => TheCase.Expected.ParsedWords.Must().NotBeEmpty();
@@ -130,6 +148,8 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
       [XF] public void it_does_not_fail_since_nobody_verified_the_displayed_vocab() => Comparison.Fails.Must().BeFalse();
       [XF] public void it_is_to_review() => Comparison.IsToReview.Must().BeTrue();
       [XF] public void its_outcome_is_that_it_is_to_review() => Comparison.Outcome.Must().Be(ParsingCaseOutcome.IsToReview);
+      [XF] public void its_breakdown_beside_the_expected_has_the_vocabs_word_beside_the_word_of_no_vocab_expected_at_its_place_as_differing() =>
+         TheBreakdownBesideTheExpected.Must().SequenceEqual(["毎日 | 毎日 (differs)", "走る | 走る", "ている | ている"]);
       [XF] public void the_collection_compares_it_as_being_to_review() => TheParsingCasesComparedByTheCollection.Must().SequenceEqual(["毎日走っている: IsToReview"]);
 
       public class and_what_it_parses_to_is_accepted : after_a_vocab_is_added_that_the_breakdown_displays
@@ -139,6 +159,14 @@ public class When_a_sentence_is_marked_as_a_parsing_case : SpecificationStarting
          [XF] public void it_parses_as_expected_again() => Comparison.Differences.Must().BeEmpty();
          [XF] public void its_displayed_vocab_are_still_unverified() => TheCase.VerdictOnTheDisplayedVocab.Must().Be(Verdict.Unverified);
       }
+   }
+
+   public class after_a_vocab_is_added_that_covers_two_of_the_words_the_breakdown_displayed : When_a_sentence_is_marked_as_a_parsing_case
+   {
+      public after_a_vocab_is_added_that_covers_two_of_the_words_the_breakdown_displayed() => CreateVocab("走っている", "is-running", "はしっている");
+
+      [XF] public void its_breakdown_beside_the_expected_has_the_vocabs_word_beside_the_first_word_it_covers_and_nothing_beside_the_second() =>
+         TheBreakdownBesideTheExpected.Must().SequenceEqual(["毎日 | 毎日", "走っている | 走る (differs)", "- | ている (differs)"]);
    }
 
    public class whose_displayed_vocab_a_person_has_verified : When_a_sentence_is_marked_as_a_parsing_case
