@@ -41,7 +41,7 @@ public static class AnkiFacade
    public static class UIUtils
    {
       /// <summary>Show a tooltip message in Anki. </summary>
-      public static void ShowTooltip(string message, int periodMs = 3000) => Backend.Use(it => it.ui_show_tooltip(message, periodMs));
+      public static void ShowTooltip(string message, int periodMs) => Backend.Use(it => it.ui_show_tooltip(message, periodMs));
 
       /// <summary>Refresh the currently displayed views in Anki. By it's nature it cannot be ported. </summary>
       public static void Refresh() => Backend.Use(it => it.ui_refresh());
@@ -60,7 +60,7 @@ public static class AnkiFacade
       public static void Delete(IReadOnlyList<long> noteIds) => Backend.Use(it => it.notes_remove(PythonDotNetShim.LongList.ToPython(noteIds)));
    }
 
-   public static class Media
+   internal static class Media
    {
       /// <summary>
       /// Copies the file at <paramref name="filePath"/> into Anki's media folder, so that Anki plays it and its media sync takes it to other devices,<br/>

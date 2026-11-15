@@ -8,6 +8,7 @@ using JAStudio.Core;
 using JAStudio.Core.Note.Media;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Storage.Media;
+using JAStudio.Core.TestUtils;
 using JAStudio.TextToSpeech;
 using VoiceGender = JAStudio.Core.Note.Media.VoiceGender;
 using JAStudio.UI.ViewModels.TextToSpeech;
@@ -132,6 +133,7 @@ public class When_generating_tts_audio_for_a_note : SpecificationUsingAWorkspace
          _sentence.Audio.All.Must().SequenceEqual([new AudioReference(_fileName) { IsOurs = true, IsTextToSpeech = true, TextToSpeechVoice = "Fake ja-JP-Steady", VoiceGender = VoiceGender.Female }]);
       [XF] public void it_is_in_the_media_layers_folder_for_the_tts_audio_of_sentences() => File.ReadAllBytes(UsedFile).Must().SequenceEqual(Attempt(1).Speech.Mp3);
       [XF] public void the_note_finds_it_in_the_media_layer() => (_sentence.PreferredAudio?.FilePath ?? "").Must().Be(UsedFile);
+      [XF] public void Anki_was_given_a_copy_of_it_under_the_same_name() => (GetService<PretendAnki>().MediaFileOrNoneNamed(_fileName) ?? []).Must().SequenceEqual(Attempt(1).Speech.Mp3);
 
       public class and_opening_the_dialog_again_and_generating_with_both_voices : after_using_attempt_1_when_attempt_2_was_selected
       {

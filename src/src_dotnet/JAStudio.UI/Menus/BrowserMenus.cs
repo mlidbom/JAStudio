@@ -103,8 +103,8 @@ class AnkiBrowserMenuBuilder
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseSentences(sentences);
-         AnkiFacade.UIUtils.Refresh();
-         AnkiFacade.UIUtils.ShowTooltip($"Reparsed {sentences.Count} sentence(s)");
+         _services.SRSWindows.Refresh();
+         _services.SRSWindows.ShowAPassingMessage($"Reparsed {sentences.Count} sentence(s)");
       });
    }
 

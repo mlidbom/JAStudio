@@ -27,6 +27,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<PretendAnki>().Instance(pretendAnki),
          Singleton.For<ISRSStudyNotes>().Instance(pretendAnki),
          Singleton.For<ISRSTagOperations>().Instance(pretendAnki),
+         Singleton.For<ISRSMedia>().Instance(pretendAnki),
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<SRSAvailability>().Instance(pretendAnki.Availability),

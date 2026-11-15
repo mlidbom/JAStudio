@@ -35,6 +35,7 @@ class HeadlessEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencie
          Singleton.For<IFatalErrorHandler>().Instance(new HeadlessFatalErrorHandler()),
          Singleton.For<SRSAvailability>().Instance(SRSAvailability.Unavailable),
          Singleton.For<ISRSWindows>().Instance(new NoSRSWindows()),
+         Singleton.For<ISRSMedia>().Instance(new NoSRSMedia()),
          Singleton.For<IUIThreadDispatcher>().Instance(_uiThreadDispatcher),
          Singleton.For<IConfigDictSource>().Instance(new HeadlessConfigDictSource()),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),

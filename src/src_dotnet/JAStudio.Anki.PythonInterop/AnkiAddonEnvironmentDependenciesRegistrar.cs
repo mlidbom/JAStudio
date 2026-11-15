@@ -26,6 +26,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
          Singleton.For<AnkisAvailability>().Instance(ankisAvailability),
          Singleton.For<SRSAvailability>().Instance(ankisAvailability),
          Singleton.For<ISRSWindows>().Instance(new AnkisOwnWindows()),
+         Singleton.For<ISRSMedia>().Instance(new AnkisMediaFolder()),
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),

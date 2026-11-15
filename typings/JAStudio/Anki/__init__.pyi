@@ -4,7 +4,9 @@ from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Anki.CollectionDatabase import AnkiCollectionDatabase
 from JAStudio.Core.Importing import ImportProfile
-from JAStudio.Core.Studying import SRSAvailability, ISRSWindows, StudyNoteIds, ISRSTagOperations
+from JAStudio.Core.Studying import SRSAvailability, ISRSMedia, ISRSWindows, StudyNoteIds, ISRSTagOperations
+from JAStudio.Core.Storage.Media import AudioAttachment
+from System import TimeSpan
 from JAStudio.Core.Studying.StudyNotes import ISRSStudyNotes, StudyNoteInTheSRS
 from JAStudio.Core.Note import NoteId, JPNote
 from JAStudio.Core.Note.Collection import JPCollection
@@ -46,16 +48,11 @@ class AnkiFacade(abc.ABC):
 
 
 
-    class Media(abc.ABC):
-        @staticmethod
-        def AddFile(filePath: str) -> str: ...
-
-
     class UIUtils(abc.ABC):
         @staticmethod
         def Refresh() -> None: ...
         @staticmethod
-        def ShowTooltip(message: str, periodMs: int = ...) -> None: ...
+        def ShowTooltip(message: str, periodMs: int) -> None: ...
 
 
 
@@ -92,12 +89,17 @@ class AnkisAvailability(SRSAvailability):
     def TakeIn(self, lifecycleEvent: AnkiLifecycleEvent) -> None: ...
 
 
+class AnkisMediaFolder(ISRSMedia):
+    def __init__(self) -> None: ...
+    def Add(self, audio: AudioAttachment) -> None: ...
+
+
 class AnkisOwnWindows(ISRSWindows):
     def __init__(self) -> None: ...
     def OpenTheBrowserOn(self, studyNoteIds: IReadOnlyCollection_1[int]) -> None: ...
     def OpenThePreviewerOn(self, studyNoteId: int) -> None: ...
     def Refresh(self) -> None: ...
-    def ShowAPassingMessage(self, message: str) -> None: ...
+    def ShowAPassingMessage(self, message: str, shownFor: TimeSpan) -> None: ...
 
 
 class AnkiStudyNotes(ISRSStudyNotes):

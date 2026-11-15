@@ -13,7 +13,7 @@ public sealed class NoSRSWindows : ISRSWindows
    public void Refresh() {}
 
    /// <summary>Shows nothing: there is no window to show it in.</summary>
-   public void ShowAPassingMessage(string message) {}
+   public void ShowAPassingMessage(string message, TimeSpan shownFor) {}
 
    public void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds) => throw NotOffered();
    public void OpenThePreviewerOn(long studyNoteId) => throw NotOffered();

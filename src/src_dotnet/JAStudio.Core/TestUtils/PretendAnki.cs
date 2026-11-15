@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Compze.Threading;
 using JAStudio.Core.Note;
 using JAStudio.Core.Note.Sentences;
 using JAStudio.Core.Note.Tagging;
 using JAStudio.Core.Note.Vocabulary;
+using JAStudio.Core.Storage.Media;
 using JAStudio.Core.Studying;
 using JAStudio.Core.Studying.StudyNotes;
 
@@ -16,16 +18,18 @@ namespace JAStudio.Core.TestUtils;
 /// (<see cref="GiveAStudyNoteTo"/>), and JAStudio reads the study-notes from it, and writes and deletes them in it, as in Anki<br/>
 /// (<see cref="ISRSStudyNotes"/>): each study-note's corpus note, its fields as they were last written or changed here, the tags specifications or<br/>
 /// JAStudio gave it, and the cards specifications suspended. It has no other cards, and no Anki notes but the study-notes. JAStudio changes its<br/>
-/// tags as it changes Anki's (<see cref="ISRSTagOperations"/>).
+/// tags as it changes Anki's (<see cref="ISRSTagOperations"/>), and gives it copies of the media files it makes, as it gives Anki's media folder<br/>
+/// (<see cref="ISRSMedia"/>).
 /// </summary>
 /// <remarks>
 /// Unlike JAStudio inside Anki, the test environment doesn't write a note's study-note when it updates the note: a study-note here has the fields<br/>
 /// its note had when it got the study-note, until it's written (<see cref="Write"/>) or a specification changes them.
 /// </remarks>
-public partial class PretendAnki : ISRSStudyNotes, ISRSTagOperations
+public partial class PretendAnki : ISRSStudyNotes, ISRSTagOperations, ISRSMedia
 {
    readonly IMonitor _monitor = IMonitor.New();
    readonly Dictionary<long, StudyNote> _studyNotesByAnkiNoteId = [];
+   readonly Dictionary<string, byte[]> _mediaFilesByName = [];
    readonly ItsAvailability _availability = new();
    long _lastAnkiNoteId;
 
@@ -122,6 +126,12 @@ public partial class PretendAnki : ISRSStudyNotes, ISRSTagOperations
       ChangeTheTagsOf(_studyNotesByAnkiNoteId.Values, tags => [..tags.Where(it => !new TagBranch(pathInAnki).Contains(it))]));
 
    public int NumberOfNotesInTheSRSWithATagIn(string pathInAnki) => _monitor.Locked(() => _studyNotesByAnkiNoteId.Values.Count(it => it.Tags.Any(new TagBranch(pathInAnki).Contains)));
+
+   public void Add(AudioAttachment audio) => _monitor.Locked(() =>
+      _mediaFilesByName.Add(audio.OriginalFileName ?? throw new ArgumentException("The audio has no file name.", nameof(audio)), File.ReadAllBytes(audio.FilePath)));
+
+   /// <summary>The media file named <paramref name="fileName"/> that JAStudio gave Anki a copy of (<see cref="Add"/>), or null when it gave it none by that name.</summary>
+   public byte[]? MediaFileOrNoneNamed(string fileName) => _monitor.Locked(() => _mediaFilesByName.GetValueOrDefault(fileName));
 
    static void ChangeTheTagsOf(IEnumerable<StudyNote> studyNotes, Func<IReadOnlyList<string>, IReadOnlyList<string>> change)
    {

@@ -11,7 +11,7 @@ public sealed class AnkisOwnWindows : ISRSWindows
    public void Refresh() => AnkiFacade.UIUtils.Refresh();
 
    /// <summary>Shows <paramref name="message"/> in Anki's tooltip.</summary>
-   public void ShowAPassingMessage(string message) => AnkiFacade.UIUtils.ShowTooltip(message);
+   public void ShowAPassingMessage(string message, TimeSpan shownFor) => AnkiFacade.UIUtils.ShowTooltip(message, periodMs: (int)shownFor.TotalMilliseconds);
 
    public void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds) => AnkiFacade.Browser.ExecuteLookup(TheSearchThatFindsTheAnkiNotesWith(studyNoteIds));
 

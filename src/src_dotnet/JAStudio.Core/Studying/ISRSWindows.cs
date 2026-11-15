@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace JAStudio.Core.Studying;
@@ -18,7 +19,10 @@ public interface ISRSWindows
    void Refresh();
 
    /// <summary>Shows <paramref name="message"/> for a few seconds, then hides it.</summary>
-   void ShowAPassingMessage(string message);
+   void ShowAPassingMessage(string message) => ShowAPassingMessage(message, shownFor: TimeSpan.FromSeconds(3));
+
+   /// <summary>Shows <paramref name="message"/> for <paramref name="shownFor"/>, then hides it: for a message that takes longer to read than a few seconds.</summary>
+   void ShowAPassingMessage(string message, TimeSpan shownFor);
 
    /// <summary>
    /// Opens the spaced repetition system's browser, in Anki its browser, on the study-notes with the ids <paramref name="studyNoteIds"/>, of which<br/>
