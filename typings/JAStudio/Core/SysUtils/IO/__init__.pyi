@@ -1,6 +1,7 @@
 import abc
 from System.Collections.Generic import IReadOnlyList_1
 from System.IO import FileInfo, DirectoryInfo
+from System import IDisposable
 
 class DirectoryInfoExtensions(abc.ABC):
     @staticmethod
@@ -17,4 +18,10 @@ class DirectoryInfoExtensions(abc.ABC):
             def <Extension>$(this: DirectoryInfo) -> None: ...
 
 
+
+
+class ExclusiveHoldOnAFile(IDisposable):
+    def Dispose(self) -> None: ...
+    @staticmethod
+    def TakeUnlessAnotherProcessHasIt(path: str) -> ExclusiveHoldOnAFile: ...
 
