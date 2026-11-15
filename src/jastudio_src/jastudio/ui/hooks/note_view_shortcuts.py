@@ -7,7 +7,7 @@ from jaspythonutils.sysutils import typed
 from PyQt6.QtCore import pyqtBoundSignal
 from PyQt6.QtGui import QKeySequence, QShortcut
 
-from jastudio.ankiutils import app, ui_utils
+from jastudio.ankiutils import ui_utils
 from jastudio.ui import dotnet_ui_root
 
 if TYPE_CHECKING:
@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from PyQt6.QtWidgets import QWidget
 
 # The shortcuts themselves are defined once, in C# (NoteViewShortcuts), and shared with JAStudio's workspace. This only binds Anki's keys to them.
+# A shortcut changes a setting or the note, and the card's page, which is JAStudio's own, reloads itself on either (CardLayout).
 def init() -> None:
     def run_on_reviewed_note(shortcut: NoteViewShortcut) -> Callable[[], None]:
         def run() -> None:
@@ -26,7 +27,6 @@ def init() -> None:
                 shortcut.Run(reviewed_note)
             else:
                 shortcut.Run()
-            app.get_ui_utils().refresh(refresh_browser=False)
 
         return run
 

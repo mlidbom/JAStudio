@@ -42,11 +42,6 @@ class AnkiFacade(abc.ABC):
 
 
 
-    class UIUtils(abc.ABC):
-        @staticmethod
-        def Refresh() -> None: ...
-
-
 
 class AnkiLifecycleEvent(typing.SupportsInt):
     @typing.overload

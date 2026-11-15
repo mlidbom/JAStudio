@@ -5,7 +5,7 @@ namespace JAStudio.Core.Studying;
 
 /// <summary>
 /// The windows of the SRS, the spaced repetition system, of a JAStudio running without one, such as the headless JAStudio and JAStudio started<br/>
-/// on its own: there are none. Nothing shows notes that would need refreshing, and the commands that would open a note in them aren't offered.
+/// on its own: there are none. Nothing shows cards that would need drawing again, and the commands that would open a note in them aren't offered.
 /// </summary>
 /// <remarks>review-naming:studying: NoSRSWindows was NoAnkiWindows (Claude, 2026-11-15).</remarks>
 public sealed class NoSRSWindows : ISRSWindows

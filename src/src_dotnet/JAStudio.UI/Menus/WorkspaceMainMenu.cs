@@ -72,13 +72,5 @@ public class WorkspaceMainMenu
    ];
 
    SpecMenuItem BatchCommand(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
-      => SpecMenuItem.Command(name,
-                              () => _services.BackgroundTaskManager.Run(() =>
-                              {
-                                 action();
-                                 _services.SRSWindows.Refresh();
-                              }),
-                              acceleratorKey,
-                              shortcut,
-                              enabled);
+      => SpecMenuItem.Command(name, () => _services.BackgroundTaskManager.Run(action), acceleratorKey, shortcut, enabled);
 }

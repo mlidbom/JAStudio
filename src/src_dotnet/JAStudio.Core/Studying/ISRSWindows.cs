@@ -5,7 +5,7 @@ namespace JAStudio.Core.Studying;
 
 /// <summary>
 /// The own windows of the SRS, the spaced repetition system, such as Anki's reviewer, browser and previewer, while JAStudio runs inside Anki:<br/>
-/// JAStudio refreshes them after it changes notes, shows its passing messages in them, and opens notes in them. JAStudio running without a<br/>
+/// JAStudio has them draw their cards again once its collection has loaded, shows its passing messages in them, and opens notes in them. JAStudio running without a<br/>
 /// spaced repetition system has none (<see cref="NoSRSWindows"/>), and offers the commands that open notes in them only while there is one<br/>
 /// (<see cref="SRSAvailability"/>).
 /// </summary>
@@ -15,7 +15,15 @@ namespace JAStudio.Core.Studying;
 /// </remarks>
 public interface ISRSWindows
 {
-   /// <summary>Refreshes what they show, so that the notes JAStudio changed show as they are now.</summary>
+   /// <summary>
+   /// Has them draw what they show again. JAStudio asks for it once its collection has loaded: a card drawn while it was loading says that<br/>
+   /// JAStudio is still loading, and only the spaced repetition system can replace that with the card.
+   /// </summary>
+   /// <remarks>
+   /// It isn't for showing a change to a note: a card's page is JAStudio's own, and reloads itself when its note changes<br/>
+   /// (<see cref="JAStudio.Core.UI.Web.ChangesThatOutdateNotePages"/>). What JAStudio changes in the spaced repetition system itself, the system's<br/>
+   /// windows follow as they follow any of its own operations.
+   /// </remarks>
    void Refresh();
 
    /// <summary>Shows <paramref name="message"/> for a few seconds, then hides it.</summary>

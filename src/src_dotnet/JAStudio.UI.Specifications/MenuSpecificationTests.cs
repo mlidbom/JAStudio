@@ -83,7 +83,7 @@ public class MenuSpecificationTests
       var executed = false;
 
       // Act
-      var command = SpecMenuItem.UICommand(
+      var command = SpecMenuItem.Command(
          "Test Command",
          () => executed = true,
          acceleratorKey: 'T',
@@ -108,9 +108,9 @@ public class MenuSpecificationTests
          "Test Menu",
          new List<SpecMenuItem>
          {
-            SpecMenuItem.UICommand("Item 1", () => {}),
+            SpecMenuItem.Command("Item 1", () => {}),
             SpecMenuItem.Separator(),
-            SpecMenuItem.UICommand("Item 2", () => {})
+            SpecMenuItem.Command("Item 2", () => {})
          },
          acceleratorKey: 'M'
       );
@@ -127,7 +127,7 @@ public class MenuSpecificationTests
    {
       // Arrange
       var showItem = false;
-      var conditionalItem = SpecMenuItem.UICommand("Conditionally Hidden", () => {});
+      var conditionalItem = SpecMenuItem.Command("Conditionally Hidden", () => {});
       conditionalItem.IsVisible = showItem;
 
       // Act
@@ -135,7 +135,7 @@ public class MenuSpecificationTests
          "Menu",
          new List<SpecMenuItem>
          {
-            SpecMenuItem.UICommand("Always Visible", () => {}),
+            SpecMenuItem.Command("Always Visible", () => {}),
             conditionalItem
          }
       );
@@ -171,9 +171,9 @@ public class MenuSpecificationTests
    public void MenuItem_SubmenuWithAllInvisibleChildren_IsAutoDisabled()
    {
       // Arrange
-      var child1 = SpecMenuItem.UICommand("Hidden 1", () => {});
+      var child1 = SpecMenuItem.Command("Hidden 1", () => {});
       child1.IsVisible = false;
-      var child2 = SpecMenuItem.UICommand("Hidden 2", () => {});
+      var child2 = SpecMenuItem.Command("Hidden 2", () => {});
       child2.IsVisible = false;
 
       // Act
@@ -207,7 +207,7 @@ public class MenuSpecificationTests
       var submenu = SpecMenuItem.Submenu("Menu",
                                          new List<SpecMenuItem>
                                          {
-                                            SpecMenuItem.UICommand("Item", () => {})
+                                            SpecMenuItem.Command("Item", () => {})
                                          });
 
       Assert.Equal(SpecMenuItemKind.Submenu, submenu.Kind);

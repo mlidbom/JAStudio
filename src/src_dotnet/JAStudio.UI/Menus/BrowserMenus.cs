@@ -37,7 +37,7 @@ class AnkiBrowserMenuBuilder
       {
          //todo: (Magnus, 2026-11-15) "Prioritize selected cards" and "Spread selected cards" stay for now. When the other Qt menus go, they become
          //   plain Python menu items in the Anki add-on (dev_docs/moving-jastudio-out-of-anki.md). Ask Magnus then whether he still uses them.
-         items.Add(SpecMenuItem.UICommand("Prioritize selected cards", () => AnkiFacade.Browser.MenuActions.PrioritizeCards(selectedCardIds)));
+         items.Add(SpecMenuItem.Command("Prioritize selected cards", () => AnkiFacade.Browser.MenuActions.PrioritizeCards(selectedCardIds)));
 
          var note = GetNoteFromCardId(selectedCardIds[0]);
          if(note != null)
@@ -89,7 +89,7 @@ class AnkiBrowserMenuBuilder
             var currentStartDay = startDay;
             var currentDaysApart = daysApart;
 
-            daysApartItems.Add(SpecMenuItem.UICommand($"{currentDaysApart} days apart", () => AnkiFacade.Browser.MenuActions.SpreadCardsOverDays(cardIds, currentStartDay, currentDaysApart)));
+            daysApartItems.Add(SpecMenuItem.Command($"{currentDaysApart} days apart", () => AnkiFacade.Browser.MenuActions.SpreadCardsOverDays(cardIds, currentStartDay, currentDaysApart)));
          }
 
          startDayMenus.Add(SpecMenuItem.Submenu($"First card in {startDay} days", daysApartItems));
@@ -103,7 +103,6 @@ class AnkiBrowserMenuBuilder
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseSentences(sentences);
-         _services.SRSWindows.Refresh();
          _services.SRSWindows.ShowAPassingMessage($"Reparsed {sentences.Count} sentence(s)");
       });
    }

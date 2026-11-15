@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JAStudio.Anki;
 using JAStudio.UI.Utils;
-using Python.Runtime;
 
 namespace JAStudio.UI.Menus.UIAgnosticMenuStructure;
 
@@ -107,23 +105,6 @@ public abstract class SpecMenuItem
    /// <summary>Create a leaf command menu item.</summary>
    public static SpecMenuItem Command(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
       => new CommandSpec(name, action, acceleratorKey, shortcut, enabled);
-
-   public static SpecMenuItem UICommand(string name, Action action, char? acceleratorKey = null, string? shortcut = null, bool enabled = true)
-   {
-      return Command(name,
-                     () =>
-                     {
-                        action();
-                        //refactor: Whether Python runs stands in for whether JAStudio runs inside Anki. The refresh should go through
-                        //   ISRSWindows.Refresh, which every host registers, but this static factory has no services to resolve it from.
-                        //   How the refresh should get there is put to Magnus (2026-11-15): dev_docs/moving-jastudio-out-of-anki.md,
-                        //   "Open: how the menu commands refresh the spaced repetition system's windows".
-                        if(PythonEngine.IsInitialized)
-                        {
-                           AnkiFacade.UIUtils.Refresh();
-                        }
-                     }, acceleratorKey, shortcut, enabled);
-   }
 
    /// <summary>Create a submenu container.</summary>
    public static SpecMenuItem Submenu(string name, IReadOnlyList<SpecMenuItem> children, char? acceleratorKey = null)

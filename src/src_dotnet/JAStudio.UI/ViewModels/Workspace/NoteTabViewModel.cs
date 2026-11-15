@@ -83,6 +83,8 @@ partial class NoteTabViewModel : ObservableObject, IDisposable, INotePageHost
       ShowTheNoteNowShown();
 
       var collection = services.CoreApp.Collection;
+      //refactor: ChangesThatOutdateNotePages, in Core, names these same changes for the card pages that Anki shows (CardLayout). The tab lists
+      //   them itself because it does more on each than reload its page, such as refreshing its editors: one place should say what outdates a page.
       _subscriptions =
       [
          collection.NoteUpdated.Subscribe(ShowTheChangeIfItsTheShownNote),

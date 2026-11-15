@@ -121,6 +121,7 @@ public class JAStudioAnkiAppRoot
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer, liveMcpServer) { _uiThread = uiThread };
 
+      // A card that Anki drew while the collection was loading says that JAStudio is still loading (AppendingPrerenderer), so Anki draws its cards again.
       root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => coreApp.Services.SRSWindows.Refresh());
 
       cardServer.Start();
