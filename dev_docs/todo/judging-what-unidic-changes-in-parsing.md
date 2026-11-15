@@ -268,6 +268,45 @@ What Claude measured for it (2026-11-15):
 - **The repository has no term with "gold" in it yet.** In language processing, a gold standard is a set of sentences
   whose analysis a person has verified.
 
+### Decided about it (Magnus, 2026-11-15)
+
+Claude proposed two changes that Magnus turned down, and why says what the basics are for:
+
+- **The real sentence is the case.** Claude wanted a sentence note of its own for every case, apart from the note
+  Magnus studies. Magnus: "Now you have the real sentence different from the case and almost certainly the real one is
+  correct and the case wrong, a moldy thing forgotten in the cellar." And: "I want the real sentences we work with,
+  chosen ones of them, to be the cases. Not hidden archived copies of them with different matching config."
+- **A case is marked while studying.** "I want to hit a sentence that I'm about to study, mark it as a WhatIsItCalled?
+  and mark it as incorrect, a bug, and then be able to come back to all such and fix them...."
+- **The cases aren't left out of the vocab's sentences.** Claude wanted that, so that the word forms among the cases
+  wouldn't show there. Magnus: "I'd skip this. I'm not sure we want it in the end. For one thing that would, once more,
+  make our test sentences separate from what is actually used in the corpus."
+- **A case has a state:** verified, broken, or unverified. Only the verified ones are a gold standard. Magnus thinks
+  of it as a tree, `test-case::[verified, broken, unverified]`, and: "It does not have to be tags, but it does need to
+  be navigatable easily [...] it absolutely can, and likely should, be another data type, maybe a nullable object graph
+  on the sentence that is filled in with all this and the parsing results for different settings when a sentence is
+  marked as a test-case".
+- **The work starts in the worktree's own corpus checkout.** Committing to the corpus's own line comes later, on
+  Magnus's word: "You'll get it when it's time."
+- **Every case must parse in the corpus exactly as its case file expects.** "All the tests should pass on main, if not
+  something is fubar. And getting the sentences correctly into the corpus means the same thing, all should parse
+  identically in the corpus."
+
+What follows from it, by Claude, to settle with Magnus:
+
+- **The word is the project's own: a parsing case** (`ParsingCase`, "the parsing cases"). A sentence is marked as a
+  parsing case.
+- **The 56 sentences already in the corpus:** the note that is there becomes the case. One has marked matches of its own
+  that its case file lacks, so it will parse otherwise than the case file expects. 6 of the texts are in several notes.
+- **The 164 others become new sentence notes,** shown like any other sentence.
+- **6 sentences are shared by 16 cases,** which mark different matches as hidden or as incorrect on the same text, such
+  as いらっしゃいません with いらっしゃいませ hidden, and again with it marked incorrect. One note holds one configuration, so
+  these need a note each, or fewer cases.
+- **What the stored result is:** the result as it was verified, which a reparse leaves alone and compares with; or
+  whatever the last reparse gave, where a change shows only in git's diff. Claude recommends the first.
+- **The import is a command that can be run again,** so that handing it over to the corpus's own line is running it
+  there (`045-committing-with-the-corpus-repository.md`: "A large migration is code").
+
 ## The tooling Claude proposed, parked until the basics exist
 
 1. **A "compare parsing" view in the workspace:** a sentence's displayed breakdown from this JAStudio and from another
