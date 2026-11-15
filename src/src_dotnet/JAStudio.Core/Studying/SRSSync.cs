@@ -21,16 +21,15 @@ namespace JAStudio.Core.Studying;
 /// It answers with what it did (<see cref="SRSSyncReport"/>).
 /// </summary>
 /// <remarks>
-/// It's to replace Anki telling JAStudio of each change as it's made (Magnus, 2026-11-14: "we don't need instant notifications on changes from<br/>
-/// anki. A sync button in a Studying view would be perfectly sufficient I think."): see dev_docs/moving-jastudio-out-of-anki.md.
+/// It's the only way what changed in the spaced repetition system reaches JAStudio, and the only time JAStudio writes the study-notes. Until<br/>
+/// 2026-11-15 Anki told JAStudio of each change as it was made, and JAStudio wrote a note's study-note each time it updated the note (Magnus,<br/>
+/// 2026-11-14: "we don't need instant notifications on changes from anki. A sync button in a Studying view would be perfectly sufficient I<br/>
+/// think."): see dev_docs/moving-jastudio-out-of-anki.md.
 /// </remarks>
 /// <remarks>It isn't Anki's own sync, which syncs Anki's collection with AnkiWeb, and during which this sync can't run.</remarks>
 /// <remarks>review-naming:studying: SRSSync and SRSSyncReport are new (Claude, 2026-11-15).</remarks>
 public sealed class SRSSync
 {
-   /// <summary>Writing more study-notes than this shows its progress: fewer are written before a person could read a progress window.</summary>
-   const int MostStudyNotesWrittenWithoutShowingProgress = 200;
-
    readonly JPCollection _collection;
    readonly ISRSStudyNotes _studyNotes;
    readonly SRSAvailability _srsAvailability;
@@ -78,8 +77,9 @@ public sealed class SRSSync
    /// background. It may only be asked for while a sync can run (<see cref="WhyItCannotRunNow"/>).
    /// </summary>
    /// <remarks>
-   /// It shows progress only while it writes many study-notes. The read is short, and whoever started the sync shows that it's under way, as the<br/>
-   /// Sync button does: a sync is one click, with no window opening over what the person does (Magnus, 2026-11-15: "Click it and it spins and done").
+   /// It opens no progress window, however many study-notes it writes: whoever started the sync shows that it's under way, as the Sync button<br/>
+   /// does (Magnus, 2026-11-15: "Click it and it spins and done", and of a progress window for a long write: "I probably still don't want it<br/>
+   /// popping up automatically. Just spinning is fine."). JAStudio writes only a study-note's question and audio, which seldom change.
    /// </remarks>
    public SRSSyncReport Run() => _oneSyncAtATime.Do(() =>
    {
@@ -88,10 +88,11 @@ public sealed class SRSSync
       SetWhetherItIsRunning(true);
       try
       {
-         var (read, comparison) = ReadTheStudyNotesAndCompareThem();
+         using var runner = _taskRunner.Current("Syncing with Anki", forceHide: true);
+         var (read, comparison) = runner.RunIndeterminate("Reading the study-notes from Anki", _collection.ReadTheStudyNotesFromTheSRSAgainAndCompareThem);
 
          List<JPNote> notesWhoseStudyNoteDiffers = [.. comparison.NotesWhoseStudyNoteDiffers.Select(it => it.Note)];
-         WriteTheStudyNotesOf(notesWhoseStudyNoteDiffers);
+         runner.RunBatch(notesWhoseStudyNoteDiffers, _studyNotes.Write, "Writing the study-notes that differ");
 
          _automaticImportRuns.AfterASyncWithTheSRS();
 
@@ -105,18 +106,6 @@ public sealed class SRSSync
          SetWhetherItIsRunning(false);
       }
    });
-
-   (StudyNotesReadFromTheSRS Read, StudyNoteComparison Comparison) ReadTheStudyNotesAndCompareThem()
-   {
-      using var runner = _taskRunner.Current("Syncing with Anki: reading the study-notes", forceHide: true);
-      return runner.RunIndeterminate("Reading the study-notes from Anki", _collection.ReadTheStudyNotesFromTheSRSAgainAndCompareThem);
-   }
-
-   void WriteTheStudyNotesOf(List<JPNote> notesWhoseStudyNoteDiffers)
-   {
-      using var runner = _taskRunner.Current("Syncing with Anki: writing the study-notes that differ", forceHide: notesWhoseStudyNoteDiffers.Count <= MostStudyNotesWrittenWithoutShowingProgress);
-      runner.RunBatch(notesWhoseStudyNoteDiffers, _studyNotes.Write, "Writing the study-notes that differ");
-   }
 
    void SetWhetherItIsRunning(bool isRunning)
    {

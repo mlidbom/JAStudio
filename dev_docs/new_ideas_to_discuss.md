@@ -43,10 +43,30 @@ piece of code, or that would otherwise be lost in a long response.
   the specifications and for the records that are serialized. *Magnus, 2026-11-15: "There will be a campaign, but not
   right now."*
 - **(Claude, 2026-11-15) A type for a study-note's id, in place of `long`,** as the code standard on primitives asks.
-  Best done once the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
+  Best done now that the notifications from Anki are gone (`moving-jastudio-out-of-anki.md`, increment 2, part 4): much of
   the code that passes the id about today goes with them.
 - **(Claude, 2026-11-15) View models dispatch to the UI thread with Avalonia's `Dispatcher`,** though the rule for the
   UI says that view models don't reference Avalonia types (`ImportRunWindowViewModel`, `StudyingWindowViewModel`).
   Core has `IUIThreadDispatcher` for it, but the specifications that open windows run with one that dispatches nowhere,
   while their windows live on the headless UI thread. A dispatcher for those specifications that posts to that thread
   would let the view models use Core's.
+- **(Claude, 2026-11-15) The Sync button's green mark could go when a sync is due again.** Today it stays until the next
+  sync starts, so it says only that the last sync finished. It could go when JAStudio has changed a note that has a
+  study-note, since that study-note is then out of date until the next sync, and when Anki's own sync has finished,
+  since that may have brought changes from AnkiWeb. JAStudio knows of both without Anki telling it of anything more.
+- **(Claude, 2026-11-15) The workspace window can't be opened in a specification,** so a change to it, such as its
+  Sync button, is seen first when Magnus restarts Anki. It's created once for the process (`WorkspaceWindow._instance`),
+  where the specifications that open windows need one for each of them, as the Studying window has
+  (`StudyingWindow.OpenWindowsByServices`). The headless JAStudio renders its workspace, but has no spaced repetition
+  system, so what is shown only with one can't be seen there either.
+- **(Claude, 2026-11-15) An automatic import's result shows in Anki's tooltip, though the Sync that started it was
+  clicked in the workspace.** `AutomaticImportRunReports` says "The import profile … imported N sentences" in a
+  passing message in Anki's window, from when an import in Anki started the run. Since increment 2 a Sync starts it,
+  from the Sync button. The workspace could say it instead, such as beside the Sync button, where the reason a sync
+  didn't run already shows.
+- **(Claude, 2026-11-15) The card pages could refresh themselves when their note changes.** JAStudio's card server
+  serves them as interactive Blazor pages, so a page could listen for changes to its note and draw itself again,
+  in Anki's reviewer and previewer as anywhere. JAStudio would then never ask Anki to refresh them
+  (`ISRSWindows.Refresh`): it would be left for Anki's browser alone, whose columns only change at a Sync. It bears
+  on the open question in `moving-jastudio-out-of-anki.md`, "how the menu commands refresh the spaced repetition
+  system's windows".

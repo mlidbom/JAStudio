@@ -1,6 +1,7 @@
 import typing, clr, abc
 from System.Collections.Generic import IEnumerable_1, IReadOnlyList_1, IReadOnlyDictionary_2
 from System.IO import FileInfo
+from JAStudio.Anki.AnkisFunctions import IAnkisDatabase
 from System import IEquatable_1
 from JAStudio.Core.Importing.RawNotes import AnkiNoteType
 
@@ -26,7 +27,7 @@ class AnkiCollectionFile(AnkiCollectionDatabase):
 
 
 class AnkisOwnConnection(AnkiCollectionDatabase):
-    def __init__(self) -> None: ...
+    def __init__(self, ankisDatabase: IAnkisDatabase) -> None: ...
 
 
 class NoteFieldsAsAnkiStoresThem:

@@ -66,10 +66,21 @@ public sealed class BackgroundTaskManager : IDisposable
       _fatalErrorHandler.Handle(ex);
    }
 
-   public void Dispose() => _monitor.Locked(() =>
+   /// <summary>
+   /// Waits until every background task has finished, those included that the tasks it waits for start meanwhile, and throws what any of them<br/>
+   /// threw that the fatal error handler passed on.
+   /// </summary>
+   /// <remarks>It holds no lock while it waits: a task that starts another task, or finishes, takes the lock that guards the pending tasks.</remarks>
+   public void Dispose()
    {
-      var tasks = _pendingTasks.Where(t => !t.IsCompleted).ToArray();
+      while(TakeThePendingTasks() is { Length: > 0 } pendingTasks)
+         Task.WaitAll(pendingTasks);
+   }
+
+   Task[] TakeThePendingTasks() => _monitor.Locked(() =>
+   {
+      var pendingTasks = _pendingTasks.Where(it => !it.IsCompleted).ToArray();
       _pendingTasks.Clear();
-      Task.WaitAll(tasks);
+      return pendingTasks;
    });
 }

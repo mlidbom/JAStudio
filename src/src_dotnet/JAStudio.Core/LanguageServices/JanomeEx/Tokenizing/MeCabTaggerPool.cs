@@ -25,9 +25,7 @@ sealed class MeCabTaggerPool
    /// The folder of MeCab's dictionary, which is copied next to this assembly. MeCab looks for it in <c>dic</c> under the current directory by<br/>
    /// default, which isn't JAStudio's folder when Anki hosts it.
    /// </summary>
-   static readonly string DictionaryFolder = Path.Combine(Path.GetDirectoryName(typeof(MeCabTaggerPool).Assembly.Location)
-                                                          ?? throw new InvalidOperationException("Cannot determine the assembly's folder"),
-                                                          "dic");
+   static readonly string DictionaryFolder = Path.Combine(JAStudiosAssemblies.Folder.FullName, "dic");
 
    readonly ConcurrentBag<MeCabTagger> _idleTaggers = [];
 

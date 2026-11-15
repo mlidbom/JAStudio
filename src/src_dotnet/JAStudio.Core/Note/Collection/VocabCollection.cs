@@ -15,8 +15,6 @@ namespace JAStudio.Core.Note.Collection;
 public class VocabCollection
 {
    internal readonly VocabCache Cache;
-   // ReSharper disable once UnusedMember.Global used from python
-   public IStudyNoteUpdateHandler StudyNoteUpdateHandler => Cache;
 
    public VocabCollection(NoteServices noteServices) => Cache = new VocabCache(noteServices);
 

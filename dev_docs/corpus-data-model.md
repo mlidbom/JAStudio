@@ -753,7 +753,10 @@ notes and Anki only of a student's studying. Found when `list_the_study_notes_th
     `add_a_tag_to_the_notes_found` and `remove_a_tag_from_the_notes_found`. The rules are in `tags.md`, "Rules". The
     priority tags' branch keeps its name, since JAStudio finds the priorities by it (`Tags.PriorityBranch`).
 - **Decided, not built (Magnus, 2026-11-10): JAStudio re-reads the Anki state, and only it, whenever Anki's may have
-  changed.** The Anki state is all JAStudio takes from Anki, through `ISRSStudyNotes.ReadAll`: which Anki note is each
+  changed.** *Since 2026-11-15 it re-reads at a sync a person starts, and Anki no longer tells it of what changed: of
+  what is described below, `follow_the_study_notes_in_anki.py`, `CatchingUpWithAnki`'s re-read after each operation
+  and `StudyNoteWrites` are gone, and JAStudio writes the study-notes at a sync only. See
+  `moving-jastudio-out-of-anki.md`, "Part 4 as built".* The Anki state is all JAStudio takes from Anki, through `ISRSStudyNotes.ReadAll`: which Anki note is each
   note's study-note (the id mappings), the studying statuses of the study-notes' cards, and the study-notes' tags.
   Nothing else depends on the Anki profile or on a sync: the corpus and its media layer live in the add-on folder, the
   configuration is the add-on's, and JAStudio only writes a study-note's fields, never reads them back but for its id.

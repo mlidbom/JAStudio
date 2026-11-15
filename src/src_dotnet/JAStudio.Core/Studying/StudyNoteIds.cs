@@ -42,7 +42,7 @@ public class StudyNoteIds
                                                           : throw new KeyNotFoundException($"The note {noteId} has no study-note.");
 
    /// <summary>Forgets the study-note with the id <paramref name="studyNoteId"/>, as when it's deleted in the spaced repetition system: its note then has none.</summary>
-   public void Unregister(long studyNoteId)
+   void Unregister(long studyNoteId)
    {
       if(_noteIdOfEachStudyNote.TryRemove(studyNoteId, out var noteId))
       {

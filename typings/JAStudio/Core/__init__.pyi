@@ -7,6 +7,7 @@ from Compze.DependencyInjection.Microsoft import MicrosoftContainerBuilder
 from JAStudio.Core.Note.Collection import JPCollection
 from JAStudio.Core.Configuration import JapaneseConfig, ConfigurationStore
 from Compze.DependencyInjection.Abstractions import IComponentRegistrar, IRootResolver
+from System.IO import DirectoryInfo
 from System.Collections.Generic import List_1
 from JAStudio.Core.TaskRunners import BackgroundTaskManager, TaskRunner
 from JAStudio.Core.Batches import LocalNoteUpdater
@@ -83,6 +84,12 @@ class IEnvironmentPaths(typing.Protocol):
 class IEnvironmentSpecificDependenciesRegistrar(typing.Protocol):
     @abc.abstractmethod
     def WireEnvironmentSpecificServices(self, registrar: IComponentRegistrar) -> None: ...
+
+
+class JAStudiosAssemblies(abc.ABC):
+    @classmethod
+    @property
+    def Folder(cls) -> DirectoryInfo: ...
 
 
 class StringExtensions(abc.ABC):

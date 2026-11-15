@@ -8,8 +8,6 @@ namespace JAStudio.Core.Note.Collection;
 public class KanjiCollection
 {
    internal readonly KanjiCache Cache;
-   // ReSharper disable once UnusedMember.Global used from python
-   public IStudyNoteUpdateHandler StudyNoteUpdateHandler => Cache;
 
    public KanjiCollection(NoteServices noteServices) => Cache = new KanjiCache(noteServices);
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Anki.AnkisFunctions;
 using JAStudio.Core.Note;
 using JAStudio.Core.Studying;
 
@@ -9,19 +10,25 @@ namespace JAStudio.Anki;
 public class AnkiTagOperations : ISRSTagOperations
 {
    readonly StudyNoteIds _ankiNoteIds;
+   readonly IAnkisTags _ankisTags;
 
    /// <param name="ankiNoteIds">Finds each note's study-note, its Anki note.</param>
-   public AnkiTagOperations(StudyNoteIds ankiNoteIds) => _ankiNoteIds = ankiNoteIds;
+   /// <param name="ankisTags">Anki's tags, which the changes are made in.</param>
+   public AnkiTagOperations(StudyNoteIds ankiNoteIds, IAnkisTags ankisTags)
+   {
+      _ankiNoteIds = ankiNoteIds;
+      _ankisTags = ankisTags;
+   }
 
-   public void AddTheTagToTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => AnkiFacade.Tags.AddToNotes(StudyNotesOf(notes), tagInAnki);
+   public void AddTheTagToTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => _ankisTags.AddToNotes(StudyNotesOf(notes), tagInAnki);
 
-   public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => AnkiFacade.Tags.RemoveFromNotes(StudyNotesOf(notes), tagInAnki);
+   public void RemoveTheTagFromTheStudyNotesOf(IReadOnlyCollection<NoteId> notes, string tagInAnki) => _ankisTags.RemoveFromNotes(StudyNotesOf(notes), tagInAnki);
 
-   public void RenameTheBranchOnEveryNoteInTheSRS(string pathInAnki, string renamedPathInAnki) => AnkiFacade.Tags.Rename(pathInAnki, renamedPathInAnki);
+   public void RenameTheBranchOnEveryNoteInTheSRS(string pathInAnki, string renamedPathInAnki) => _ankisTags.Rename(pathInAnki, renamedPathInAnki);
 
-   public void DeleteTheBranchFromEveryNoteInTheSRS(string pathInAnki) => AnkiFacade.Tags.Delete(pathInAnki);
+   public void DeleteTheBranchFromEveryNoteInTheSRS(string pathInAnki) => _ankisTags.Delete(pathInAnki);
 
-   public int NumberOfNotesInTheSRSWithATagIn(string pathInAnki) => AnkiFacade.Tags.NumberOfNotesWithATagIn(pathInAnki);
+   public int NumberOfNotesInTheSRSWithATagIn(string pathInAnki) => _ankisTags.NumberOfNotesWithATagIn(pathInAnki);
 
    List<long> StudyNotesOf(IEnumerable<NoteId> notes) => [..notes.Select(_ankiNoteIds.RequiredStudyNoteIdOf)];
 }

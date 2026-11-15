@@ -3,10 +3,11 @@
 > **Status: started 2026-11-07 at Magnus's request, to be designed.** It records the principle, what exists
 > today and the features wanted. The design comes when the work reaches it.
 >
-> **Since 2026-11-14:** JAStudio is to become a program of its own, which talks HTTP with Anki, and a Sync button in a
-> Studying view is to replace Anki's notifications of what changed: see `moving-jastudio-out-of-anki.md`. Its first
-> increment, built 2026-11-15, renamed Core's seam to the spaced repetition system in studying's words, and gave it the
-> namespace `JAStudio.Core.Studying`: see "Increment 1 as built" there.
+> **Since 2026-11-14:** JAStudio is to become a program of its own, which talks HTTP with Anki: see
+> `moving-jastudio-out-of-anki.md`. Its first increment, built 2026-11-15, renamed Core's seam to the spaced repetition
+> system in studying's words, and gave it the namespace `JAStudio.Core.Studying`: see "Increment 1 as built" there. Its
+> second, built the same day, replaced Anki's notifications of what changed with a Sync button: what changes in Anki
+> shows in JAStudio after a sync, and JAStudio writes the study-notes at a sync.
 
 ## The principle (Magnus, 2026-11-07)
 
@@ -33,7 +34,7 @@
 
 - **The studying status is student-data held in memory, not stored in the corpus.**
   - At load, and whenever JAStudio reads the study-notes from Anki again (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`),
-    such as after a sync, the study-notes are read from Anki's database (`ISRSStudyNotes.ReadAll`, in Anki
+    as its sync with Anki does, the study-notes are read from Anki's database (`ISRSStudyNotes.ReadAll`, in Anki
     `StudyNotesInAnkisDatabase`), each with its cards: for each card its Anki note id, its card type, whether it's
     suspended, and its note type (`CardStudyingStatus`).
   - Each note keeps that in memory (`JPNote.ReadItsStudyNoteFrom`, and `JPNote.SetStudyingStatus` for a single card).
@@ -46,8 +47,9 @@
   words.
 - **`SRSSync`** (2026-11-15) is JAStudio's sync with the spaced repetition system, which a person starts: it reads the
   study-notes, gives each note what the spaced repetition system holds of its study-note, writes the study-notes that
-  differ from what JAStudio would write now, and runs the import profiles that run automatically. It's to replace
-  Anki telling JAStudio of each change: see `moving-jastudio-out-of-anki.md`. The workspace's Sync button starts it
+  differ from what JAStudio would write now, and runs the import profiles that run automatically. Since 2026-11-15
+  it's the only way what changed in Anki reaches JAStudio, and the only time JAStudio writes the study-notes: until
+  then Anki told JAStudio of each change. See `moving-jastudio-out-of-anki.md`. The workspace's Sync button starts it
   with one click (`SyncButton`), and the Studying window shows all that the last sync did.
 - **`SRSAvailability`** says whether there is a spaced repetition system, and whether what it holds can be read and
   changed right now: Anki's can't while no Anki profile is open or Anki's own sync is under way (`AnkisAvailability`).

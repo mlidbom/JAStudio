@@ -146,10 +146,10 @@ many notes change.
   added, removed, renamed and deleted as any other, in Anki (see Rules). *Until 2026-11-10 JAStudio only read them: the
   editor showed them dimmed, without a remove button, and every change to the branch was refused.* A note's own tag
   can't be in the branch: adding one, and renaming a branch into it or out of it, are refused, with why. A level named
-  `anki` lower down, such as `tmp::anki`, is a tag like any other. A change made in Anki during a session shows at once: after every Anki operation
-  that changed notes, such as marking a note, editing tags in Anki's browser or a review that made a card a leech, undo and
-  redo included, JAStudio reads the study-notes from Anki again, in the background (`follow_the_study_notes_in_anki.py`,
-  `JPCollection.ReadTheStudyNotesFromTheSRSAgain`). A sync is such an operation too, and a profile opening has JAStudio read them again as well (`CatchingUpWithAnki`). The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
+  `anki` lower down, such as `tmp::anki`, is a tag like any other. A change made in Anki during a session, such as marking a note, editing tags in Anki's browser or a review that made a card a leech,
+  shows after JAStudio's next sync with Anki, which a person starts with the workspace's Sync button (`SRSSync`): it reads the study-notes from Anki again
+  (`JPCollection.ReadTheStudyNotesFromTheSRSAgain`). A profile opening has JAStudio read them again as well (`FollowingAnkisLifecycle`). Until 2026-11-15
+  it showed at once: Anki told JAStudio of every operation that changed notes (`moving-jastudio-out-of-anki.md`). The student-tags left the corpus, priority last; JAStudio reads priority from Anki.
 
 ## Later: branches with meaning, and tags with metadata
 

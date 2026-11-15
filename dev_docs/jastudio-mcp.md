@@ -441,7 +441,7 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
     (`NoteWhoseStudyNoteDiffers.OnlyTheMarkupOfItsAudioDiffers`), and leaves them out of the lists when asked. Added
     2026-11-10 for slice 9, when moving the audio to lists made 475 study-notes differ so, and none otherwise.
   - `write_the_study_notes_that_differ` writes them, or the study-notes of the notes given, through the same Python code
-    that writes a study-note on every update (`JPNoteDataShim.write_study_note`), then compares again. Only in the live
+    that a sync writes a study-note through (the add-on's `study_note_write`), then compares again. Only in the live
     JAStudio: the headless one compares, reading the collection file, but has no Anki to write in.
   - `sync_with_anki` (2026-11-15) runs JAStudio's sync with Anki (`SRSSync`), as the workspace's Sync button does: it
     reads every study-note, gives each note what Anki holds of its study-note, writes the study-notes that

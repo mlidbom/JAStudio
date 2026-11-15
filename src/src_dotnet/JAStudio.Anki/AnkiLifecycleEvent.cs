@@ -6,7 +6,7 @@ namespace JAStudio.Anki;
 /// </summary>
 public enum AnkiLifecycleEvent
 {
-   /// <summary>An Anki profile opened, and its collection with it: JAStudio may use it, and catches up with it.</summary>
+   /// <summary>An Anki profile opened, and its collection with it: JAStudio may use it, and reads it.</summary>
    ProfileOpened,
 
    /// <summary>The Anki profile is about to close, and its collection with it: JAStudio may no longer use it.</summary>

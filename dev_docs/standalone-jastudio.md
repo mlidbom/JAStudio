@@ -48,7 +48,8 @@ There's no Anki at all (`SRSAvailability.Unavailable`), not even read-only:
   `write_the_study_notes_that_differ`).
 
 The seams that make this so: `SRSAvailability`, `ISRSWindows` (Anki's windows,
-`NoSRSWindows` without Anki), and the standalone host's `NoAnki…` stand-ins for the rest.
+`NoSRSWindows` without Anki), `ISRSMedia` (Anki's media folder, `NoSRSMedia` without Anki), and the standalone
+host's `NoAnki…` stand-ins for the rest.
 
 ## One JAStudio per corpus checkout
 

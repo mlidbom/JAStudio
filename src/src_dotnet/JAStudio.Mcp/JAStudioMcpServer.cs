@@ -113,7 +113,8 @@ public sealed partial class JAStudioMcpServer
       var builder = WebApplication.CreateBuilder(new WebApplicationOptions
       {
          EnvironmentName = "Production",
-         ApplicationName = typeof(JAStudioMcpServer).Assembly.GetName().Name
+         ApplicationName = typeof(JAStudioMcpServer).Assembly.GetName().Name,
+         ContentRootPath = JAStudiosAssemblies.Folder.FullName
       });
       builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Loopback, port));
       builder.Logging.SetMinimumLevel(LogLevel.Warning);

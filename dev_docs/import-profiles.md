@@ -157,16 +157,20 @@ file's finding on hover.
 ## When a run starts
 
 - **By hand,** with Check in the import profiles window, then Run in the profile's import run window.
-- **Automatically,** for import profiles marked to run that way, on either of two signals from Anki:
+- **Automatically,** for import profiles marked to run that way, at each sync with Anki that a person starts with the
+  workspace's Sync button (`SRSSync`, since 2026-11-15: `moving-jastudio-out-of-anki.md`). A sync runs every automatic
+  profile whose note type the open Anki profile has. Until then they ran on either of two signals from Anki, which
+  are gone:
   - **an import finished.** Anki's .apkg importer runs in its Rust backend and doesn't fire `note_will_be_added`.
     It only announces the finished operation: `operation_did_execute`, with the `ImportDialog` as source. Verified
     on 2026-11-08 in Anki 26.9.3. This is the signal for Immersion Kit's .apkg sentence cards and for decks.
   - **a note was added** (`note_will_be_added`). AnkiConnect adds notes this way, and Immersion Kit can use it.
 
-  Both signals run the automatic import profiles over their selections: a finished import runs every automatic profile
-  whose note type the open Anki profile has, and an added note runs those of its note type. An automatic run that has
-  problems opens its import run window with the report instead of running. One that imports says so in a tooltip in
-  Anki, where the import happened.
+  Both signals ran the automatic import profiles over their selections: a finished import ran every automatic profile
+  whose note type the open Anki profile has, and an added note ran those of its note type.
+
+  An automatic run that has problems opens its import run window with the report instead of running. One that imports
+  says so in a tooltip in Anki.
 
 **One check or execution at a time.** Checks and executions, by hand or automatic, happen one at a time, so a check
 never sees an execution half done. A run is **out of date** when another run was executed after its check: that run may
@@ -263,7 +267,8 @@ doesn't matter to lookups.
     missing, and checking across note types matches short sentences.
 - **Editing and running are two windows:** the import profiles window, and an import run window per profile. One
   window holding the list, the editor and the report barely fit a 4K monitor; apart, each fits a laptop's screen.
-- **Automatic runs** (increment 3, decided while building it):
+- **Automatic runs** (increment 3, decided while building it; what is said of the two signals held until 2026-11-15,
+  when a sync took their place):
   - **Which profiles a signal runs.** An added note runs only the automatic profiles of its note type: no profile takes
     JAStudio's own note types, so the Anki notes an import run creates, or JAStudio creates, run none, and a profile
     with a problem doesn't open its window whenever any note is added. A finished import runs every automatic profile
@@ -297,12 +302,13 @@ doesn't matter to lookups.
   `IsOutOfDate`. `ImportRun.ExecuteUnlessOutOfDate` executes it unless it's out of date, and `Importer.RunExecuted`
   notifies every executed run.
 - **Automatic runs:** `ImportProfile.RunsAutomatically`, and `AutomaticImportRuns`, which runs the automatic profiles in
-  the background, one at a time, after `AfterAnkiImportedAFile` and `AfterANoteWasAddedInAnki`. It notifies a profile
-  whose run problems stopped (`StoppedByProblems`) and every run it executed (`Executed`); `AutomaticImportRunReports`
-  in the UI shows them.
-- **Anki's side:** `announce_finished_imports.py` calls `JAStudioAnkiAppRoot.AnkiImportedAFile` on
-  `operation_did_execute` from the import dialog, and `AnkiCollectionSynchronizer` calls
-  `JAStudioAnkiAppRoot.ANoteWasAddedInAnki` with the note type of every note added, once it's in Anki's database.
+  the background, one at a time, after each sync with Anki (`AfterASyncWithTheSRS`, which `SRSSync` calls). It
+  notifies a profile whose run problems stopped (`StoppedByProblems`) and every run it executed (`Executed`);
+  `AutomaticImportRunReports` in the UI shows them.
+- **Anki's side, until 2026-11-15:** `announce_finished_imports.py` called `JAStudioAnkiAppRoot.AnkiImportedAFile` on
+  `operation_did_execute` from the import dialog, and `AnkiCollectionSynchronizer` called
+  `JAStudioAnkiAppRoot.ANoteWasAddedInAnki` with the note type of every note added, once it was in Anki's database.
+  Both are gone, with `AfterAnkiImportedAFile` and `AfterANoteWasAddedInAnki`.
 - **Dependencies:** `JAStudio.Core` references `Mp3LoudnessNormalization` to normalize the audio.
 - **UI:**
   - `ImportProfilesWindow`, with `ImportProfilesWindowViewModel` and an `ImportProfileEditorViewModel` per profile;
