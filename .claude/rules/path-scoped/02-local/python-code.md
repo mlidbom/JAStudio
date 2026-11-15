@@ -24,8 +24,8 @@ moving logic to C#** (see [020-project-orientation.md](../../02-universal-local/
   relying on `typings/` for the new surface.
 
 ## Testing
-- Test dirs: `src/tests/{jastudio_tests,jaslib_tests,jaspythonutils_tests}/` — choose by what's under test.
-  Follow existing pytest patterns; type-hint test code too. Run: `pytest`.
+- Tests are in `src/tests/jaspythonutils_tests/`, the only test folder there is. Follow existing pytest patterns;
+  type-hint test code too. Run: `pytest`.
 
 ## Style
 - PEP 8, 4-space indentation, line length effectively unlimited (`line-length = 320`). f-strings;
