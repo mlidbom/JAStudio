@@ -234,6 +234,59 @@ listed, in the sentence's order. A vocab's id is given where both sides display 
 
 The rest of the migration follows in `switching-to-unidic.md`: how the dictionary ships, and the names and kana forms.
 
+## The basics first: the test sentences in the corpus (Magnus's proposal, 2026-11-15, under discussion)
+
+Magnus, on Claude's tooling proposal below: "Some of that is certainly interesting. But I want some vital basics in
+place first." His workplan:
+
+1. **A new branch from where `main` is now,** "so that we work on the pre-unidic corpus with the ton on UI changes that
+   have been happening".
+2. **In a headless JAStudio, each sentence of the parsing cases is added to the corpus,** with a tag that marks it as
+   one of the test sentences ("Something about gold something? [...] We can always rename it, it is temporary"), and
+   they're "checked into the corpus in a state where they all parse exactly as expected". "That is step 1 getting us to
+   the ability to sanely look at these in jastudio, and it requires zero code changes."
+3. **A small code change:** "For sentences with this tag, I want the full parsing results that we save in the test
+   suite to be saved in the corpus", when a sentence is reparsed or updated.
+4. **What Claude proposed is built on top of that:** "Seeing which differered, how, making judgments about if it is OK
+   or not."
+5. **"From here on in, the corpus is the master of the test suite. These sentences are what is extrected to the test
+   suite."**
+
+What Claude measured for it (2026-11-15):
+
+- **The 230 cases are 220 different sentences.** 15 cases have a sentence configuration (hidden or incorrect matches),
+  and 6 sentences are shared by 16 cases.
+- **56 of the sentences are already sentence notes of the corpus,** one of them with marked matches of its own. 164
+  aren't, and 90 of those are word forms of five characters or fewer, such as 泳げず, 泳げた, くる and のに.
+- **A sentence note already stores most of what a case file does:** its configuration, in the same shape, and every
+  parsed word with whether it's displayed. It lacks the breakdowns under each combination of the options that change
+  them (`BreakdownUnderOptions`, in the specifications project today). A case's `why` fits the note's `comments`.
+- **The MCP server can already create notes and tag them** (`create_a_note`, `add_a_tag_to_the_notes_found`).
+- **The full mode already parses every case against the whole corpus checkout,** and checks that the stripped-down
+  corpus parses each case exactly as it does (`FullModeRun`). So a case and the whole corpus agree whenever the full
+  mode has been run: the difference Claude feared between the two doesn't arise then.
+- **The repository has no term with "gold" in it yet.** In language processing, a gold standard is a set of sentences
+  whose analysis a person has verified.
+
+## The tooling Claude proposed, parked until the basics exist
+
+1. **A "compare parsing" view in the workspace:** a sentence's displayed breakdown from this JAStudio and from another
+   running JAStudio, side by side, with the differences marked. For any text, typed or sent there by Claude.
+2. **A review list in the same place:** each item a sentence with Claude's verdict and reasoning, and buttons for
+   Magnus's verdict and a comment, saved to files in the repository that Claude reads.
+3. **Corpus sentences in the same list,** later.
+4. **For Claude itself:** a gateway tool that compares a sentence across the connected JAStudios, and a tool that sorts
+   the failing cases by displayed vocab.
+
+The questions it put to Magnus, to take up when the tooling is designed:
+
+- **Where he looks:** one view with both breakdowns side by side, with a way to open the sentence in both JAStudios, or
+  two JAStudio windows next to each other.
+- **How he answers:** by clicking a verdict in the tool, saved to files Claude reads, or in chat.
+- **Who fixes a regression:** Claude with rules on his word, or he edits the vocab himself, and then in which JAStudio
+  and corpus checkout.
+- **How much he reviews:** every verdict, or only those Claude flags.
+
 ## What there is to build the tooling on
 
 - **Several JAStudios at once.** The gateway connects to every running JAStudio, each under its own name, such as
