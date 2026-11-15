@@ -847,8 +847,16 @@ below. JAStudio inside Anki is as before: it calls Anki through pythonnet.**
 - **Tried without Anki, 2026-11-15:** started on an add-on folder of its own while Anki was closed, it loaded its
   80,000 notes with no study-notes, and a sync, asked for through its MCP server, refused: "Anki isn't running,
   or has no profile open."
-- **Not tried with Anki running:** the load's read of the study-notes, a sync, the switch of collection, and the
-  Sync button's second button, which no one has seen drawn.
+- **Tried with Anki running, 2026-11-15,** beside JAStudio inside Anki, on Magnus's profile `Magnus`, through the
+  standalone JAStudio's MCP server, on a corpus checkout at the same commit as Magnus's:
+  - *The load read the study-notes over HTTP* in 0.8 seconds: the same numbers of studied notes as JAStudio inside
+    Anki, 24,532, and the same Anki tags.
+  - *Every one of the 79,719 study-notes compared the same* over HTTP and through pythonnet: none differ.
+  - *A sync ran,* in 0.86 seconds: it read them all, wrote none, and the automatic import profile, Immersion Kit,
+    found nothing to import. It was run only once it was clear that it would write nothing and import nothing: no
+    study-note differed, and Anki held no raw note of the profile's note type.
+- **Not tried:** the switch of collection, which needs Anki to open another profile, the Sync button's second
+  button, which no one has seen drawn, and a sync that writes.
 
 **Known, and left:**
 
