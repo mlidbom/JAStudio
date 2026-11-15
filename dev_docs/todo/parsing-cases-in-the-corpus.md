@@ -1,7 +1,7 @@
 # The parsing cases move into the corpus
 
 > **Status: agreed with Magnus 2026-11-15, on the branch `parsing-cases-in-the-corpus`.** The groundwork is done (below).
-> The data type is proposed, for Magnus to confirm before it's built. It changes [the parsing cases](../parsing-cases.md),
+> The data type is agreed, and being built. It changes [the parsing cases](../parsing-cases.md),
 > whose case files become generated from the corpus.
 
 ## What it's for (Magnus, 2026-11-15)
@@ -90,7 +90,7 @@ branch `unidic`: `dev_docs/todo/judging-what-unidic-changes-in-parsing.md`). Bef
   written out that the corpus has named as shared-conditions since increment 6 of the matching configuration. The
   harness couldn't read those names: it loads shared-conditions now (brought over from the branch `unidic`).
 
-## The data type (Claude's proposal after Magnus's additions, for him to confirm)
+## The data type (agreed with Magnus, 2026-11-15: "Let't code that and see what happens")
 
 The specifications already have the model, and its words are kept: a `ParsingCase` with a `Name`, a `Why` and an
 `Expected` result (`ParsingCaseResult`: the parsed words, and the breakdown under each combination of the options that
@@ -102,7 +102,7 @@ change it), which `Accept` replaces. It moves into Core, onto the sentence.
 - **A person's verdict is on one aspect of it.** There's one aspect for now, the displayed vocab: the words the
   breakdown displays with every option off, each with the vocab it's matched to. Its verdict is verified, broken or
   unverified. Further aspects, such as a compound's parts, get a verdict of their own when it's clear what verifying
-  them means. "Verdict" is Claude's word, for Magnus to accept or replace: he doubted "evaluation".
+  them means. The word is "verdict" (Magnus: ""Verdict" is good").
 
 **`SentenceNote.ParsingCase`,** null when the sentence isn't a parsing case:
 
@@ -120,6 +120,12 @@ change it), which `Accept` replaces. It moves into Core, onto the sentence.
 
 - **"Suspect" isn't stored.** It's a difference from `Expected` in what nobody has verified. What's stored is
   `Expected` and the verdict.
+- **The displayed vocab are compared by where a word starts and the vocab it's matched to,** and by its form for a word
+  with no vocab. Whether it's matched by its surface or its base form doesn't count. Magnus: "That sounds about right.
+  [...] it comes down to what I see in the breakdown with nothing expanded or hidden. Which should be pretty much
+  exactly what the tests tested before we started migrating to gold-standard sentences..." What works best is found by
+  using it: "As long as we get all the data into the corpus before starting to run the unidic code we can play around
+  with it".
 - **Judging a suspect change** has two outcomes for now. Accepting it makes what the sentence parses to its
   `Expected`, and claims nothing about its being right. Finding it wrong has no verdict to set yet outside the
   displayed vocab: the case's `Why` says what is wrong, and it stays unaccepted. The first such cases show which
@@ -135,11 +141,15 @@ change it), which `Accept` replaces. It moves into Core, onto the sentence.
 
 **The Parsing cases tab,** in the workspace's navigation pane, beside the search: every parsing case, with its
 sentence, its name, its verdict, and what differs (nothing, the displayed vocab, or something else), filtered and
-sorted by those and by the text. With it, no generated tags are needed to find the cases.
+sorted by those and by the text. With it, no generated tags are needed to find the cases. (Magnus: "OK for now. Later I'm apt to
+want more :)")
 
-**The sentence page of a case that differs** shows what was expected beside what it parses to: the displayed vocab
-first, with the words that differ marked, then the other differences as lines, as the cases' failure messages word
-them today. With the commands to accept, and to set the verdict and the why.
+**The sentence page of a case that differs** can show the expected result as a second sentence breakdown, to the right
+of the current one (Magnus: "I vas imagining the ability to toggle on seeing the old result, as another sentence
+breakdown, to the right of the current one. [...] Side by side comparison. We could bolt on coloring and/or messages
+and stuff to that to make it extra clear what happened..."). The toggle is offered for any parsing case whose result
+differs in any way. The differences as lines of text, as the cases' failure messages word them today, go where they
+fit: on hover, or below. With the commands to accept, and to set the verdict and the why.
 
 ## The steps
 
@@ -160,8 +170,9 @@ and they are the list to judge.
 
 ## Open
 
-- **Whether a suspect change fails the specifications,** as a specification of its own that says there are changes to
-  review, or only shows in the Parsing cases tab.
+- **Whether a suspect change should fail the specifications.** It does today: any change to how a case parses fails
+  it. Magnus, 2026-11-15: "whether that is good is questionable. I'd not change it right now though unless you have a
+  strong argument for it." Claude has none, so it stays.
 - **How Claude reads "we review only that":** that a review looks at what changed, not at the whole sentence again.
 - **A broken case in the specifications:** whether it's generated as a case that pins what it parses to, or left out
   until it's verified.
