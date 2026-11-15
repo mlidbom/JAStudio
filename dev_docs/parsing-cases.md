@@ -72,10 +72,15 @@ nothing anyone sees.
 
 ## Making a case
 
-Mark the sentence as a parsing case in JAStudio, name it and say why, with the sentence's commands (`SentenceCommands`,
-which the MCP server runs too). What it parses to then is what it expects. A result that changes is accepted there as
-well, on the sentence. Then run the full mode: the case's file is generated, and the vocab its parsing looks up join
-the stripped-down corpus in the same run.
+Mark the sentence as a parsing case in JAStudio: the button under its breakdown on its page in the workspace, or
+"Parsing case" in its menu (`SentenceCommands`, which the MCP server runs too). What it parses to then is what it
+expects. Name it and say why in its editor, and give your verdict on the vocab it displays on its page: its name, why
+and verdict are editable fields (`SentenceEditableFields`), which the MCP server's `edit_a_note` writes too. A result
+that changes is accepted on the sentence as well. The navigation pane's Parsing cases tab lists every case with how
+it parses now: see [the workspace's design](jastudio-workspace.md#the-parsing-cases-in-the-workspace-as-built).
+
+Then run the full mode: the case's file is generated, and the vocab its parsing looks up join the stripped-down corpus
+in the same run.
 
 ## Why the stripped-down corpus parses each case as the corpus does
 

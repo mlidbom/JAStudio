@@ -23,8 +23,8 @@ stops making sense. Search results, the note you're viewing and its editors belo
 - **The editor section,** collapsible, on the right, shows the editors of the shown tab's note. There's one per
   workspace, opened or closed for all tabs at once.
 - **The navigation pane,** on the left, holds ways to find notes, as tabs of their own, whose notes open in the
-  workspace's tabs: the search, and the list a note menu's "Open" item shows. Later perhaps more, such as the tag
-  tree.
+  workspace's tabs: the search, the list a note menu's "Open" item shows, the tag tree, and the corpus's parsing
+  cases.
 
 Defaults, unless something changes them:
 - Following a link navigates within the tab. Middle-clicking a link opens it in a new tab in the background.
@@ -143,6 +143,54 @@ Built 2026-11-13, as step 3 of [increment 10](#increments).
 - **Left out of the card's styles:** those for a breakdown entry's `secondary_match`, `shadowed`, `configured_hidden`
   and `configured_incorrect_match` classes. The card puts a match's hiding reasons among its classes, and those read like
   `forbids::configured_hidden`, so the styles never applied.
+
+## The parsing cases in the workspace, as built
+
+Built 2026-11-15. A parsing case is a sentence of the corpus marked as one, with the exact result it's expected to
+parse to and a person's verdict on the vocab its breakdown displays: see `parsing-cases.md`, and
+`todo/parsing-cases-in-the-corpus.md` for what Magnus decided about them.
+
+### The Parsing cases tab of the navigation pane
+
+`ParsingCasesViewModel`, shown by `ParsingCasesView`.
+
+- **A grid of the corpus's parsing cases,** each with how its sentence parses now compared with what the case expects
+  (fails, to review, as expected: `ParsingCaseOutcome`), the verdict, the case's name and its sentence. A column's
+  header sorts by it; at first by how the cases parse, those that fail first, then by name.
+- **Filters above the grid:** a toggle for each outcome and for each verdict, each saying how many of all the cases
+  it lets through, and a text that the name, the sentence or the why contains. While no toggle of a group is on, the
+  group lets every case through.
+- **Below the grid:** the selected case's why and its differences, a line each.
+- **Enter or a double-click** shows a case's sentence in the workspace; a middle-click opens it in a background tab.
+- **Every case is parsed and compared anew, in the background,** each time the tab is shown and on Refresh (F5):
+  each under every combination of the breakdown's options, in parallel, in well under a second for the 230 cases.
+  Between those, a case is compared again whenever its sentence is updated, so a verdict given or a result accepted
+  shows at once, and a sentence just marked as a parsing case gets a row.
+- **The cases listed stay listed** until the filters change or the list is refreshed, as the search's results do.
+
+### On a sentence's page
+
+- **A parsing case section** above the breakdown (`SentenceParsingCaseViewModel`), for a sentence that is a parsing
+  case: its name and why; the verdict as three buttons, the one given chosen, a click giving another; how it parses
+  compared with what it expects; and when it parses otherwise, its differences, a button accepting what it parses to
+  now, and a check box for showing what it expects beside the breakdown.
+- **The breakdown beside the one the case expects,** in two columns, "it parses to" and "its parsing case expects",
+  for a case that parses otherwise in any way, while the check box is on (the setting
+  `ShowWhatAParsingCaseExpectsBesideTheBreakdown`, on by default). The rows are `BreakdownBesideTheExpected`'s: a word
+  both sides have in one row, and a word only one has beside the other's word that starts at the same place, or beside
+  "not displayed" or "not expected". A row that differs is marked. The expected side shows each word with its vocab as
+  the vocab is now, since a parsing case holds vocab by id alone. Not in edit mode, which lists every match.
+- **A sentence that is no parsing case** has a quiet "Mark as a parsing case" button under its breakdown.
+- **The sentence's menu** has a "Parsing case" submenu with only what applies: marking it, or, for a case, giving
+  another verdict, accepting what it parses to, and making it an ordinary sentence again.
+- **The sentence's editor** has a "Parsing case" group with the case's name and why, shown while the sentence is a
+  parsing case.
+
+### What a parsing case's result doesn't depend on
+
+The breakdown a parsing case records and compares is the one a person reads the sentence by
+(`TextAnalysisViewModel.MatchesDisplayedOutsideEditMode`), whether or not the breakdown is shown in edit mode. Until
+2026-11-15 it followed that setting, and every case compared as parsing otherwise while edit mode was on.
 
 ## The right-click menu by what's right-clicked
 
