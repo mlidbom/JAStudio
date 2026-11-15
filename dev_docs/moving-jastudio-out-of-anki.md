@@ -275,6 +275,10 @@ AnkiWeb's list. And with several JAStudios connected to one Anki, each would ins
 **Not known:** what AnkiWeb lets an add-on download and run, and whether it limits an add-on's size. Anki's page on
 sharing add-ons says nothing of either (read 2026-11-15).
 
+**If handing over the keyboard takes uiAccess,** an install started by the add-on needs elevation, since JAStudio then
+has to be in a protected folder (Magnus, 2026-11-15; see
+[Deferred until the work reaches them](#deferred-until-the-work-reaches-them)).
+
 ## Claude's design calls for the HTTP increment
 
 For Magnus to see, and to change if he doesn't share them. Nothing is tried.
@@ -292,7 +296,9 @@ For Magnus to see, and to change if he doesn't share them. Nothing is tried.
 - **Handing the keyboard between the two programs.**
   - On Windows, the program that has the keyboard can let another take it (`AllowSetForegroundWindow`). Untried.
   - Magnus, 2026-11-15: "If we find nothing better, we can sign jastudio and run it with uiAccess, then it can forground
-    itself and anki."
+    itself and anki." Windows grants uiAccess only to a signed program installed in a protected folder, such as Program
+    Files, so installing JAStudio would then take elevation: "If not installed in program files uiAccess would not
+    work."
   - macOS and Linux: not looked into.
 - **What Anki's reviewer shows when JAStudio isn't running.** Most likely Anki's own card templates, which a phone
   needs anyway (`web-rendering-architecture.md`, "Card Templates Installed in Anki").
