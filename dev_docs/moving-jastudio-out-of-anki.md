@@ -4,7 +4,8 @@
 > increment 2, the Sync: since 2026-11-15 Anki no longer tells JAStudio of what changes, and the workspace has a Sync
 > button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and nothing uses it yet. On
 > JAStudio's side, the UI's direct calls to `AnkiFacade` are behind Core's seams, but for the menu commands and the
-> menu of Anki's browser.** The order
+> menu of Anki's browser, and the Anki integration calls Anki through interfaces, which pythonnet implements.** The
+> order
 > of work is preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
 > Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
@@ -50,8 +51,9 @@ closing and Anki's own sync starting or finishing are left. Today pythonnet load
 (`load_dotnet_runtime.py`), from `src/runtime_binaries`, 190 MB.
 
 - **The Python layer is about 2,700 lines.**
-- **From .NET into Anki: 23 functions** (`AnkiFacade`, backed by `anki_facade_backend.py`). They take and return ids,
-  strings and lists of them. The one exception takes a note, to write its study-note from.
+- **From .NET into Anki: 23 functions** (`AnkiThroughPythonnet` and what is left of `AnkiFacade`, backed by
+  `anki_facade_backend.py`). They take and return ids, strings and lists of them. The one exception took a note, to
+  write its study-note from, until 2026-11-15: it now takes the fields to write.
   - Reading Anki's database is one of them: each read is a SELECT that returns one JSON text (`AnkisOwnConnection`).
 - **From Anki into .NET:**
   - *Notifications of what happened in Anki:* a profile opened or is closing, Anki's own sync is starting or has
@@ -581,7 +583,8 @@ server yet: Anki works on pythonnet as before.** It's the Python package `jastud
   study-notes, the tags and the windows already have.
 
 **Claude's plan for JAStudio's side, from reading `AnkiFacade`'s callers on 2026-11-15. Its first step is built, but
-for the menu commands: see [below](#jastudios-side-step-1-as-built-the-uis-direct-calls).**
+for the menu commands, and so is its second: see [step 1](#jastudios-side-step-1-as-built-the-uis-direct-calls) and
+[step 2](#jastudios-side-step-2-as-built-ankis-functions-as-interfaces) below.**
 
 - **Most of `AnkiFacade`'s 24 functions are already called from behind Core's seams,** by the classes of
   `JAStudio.Anki` that implement them: `AnkiStudyNotes` (`ISRSStudyNotes`), `AnkiTagOperations`
@@ -640,6 +643,29 @@ after a change of their own.
    - *It fits the move out of Anki:* a refresh is then one call over HTTP from one place, not one from each command.
 2. **Every menu builder is given `ISRSWindows`, and passes it to `UICommand`.** About 90 call sites change, and the
    signatures of the static menu builders that lead to them, and nothing in what JAStudio does.
+
+### JAStudio's side, step 2 as built: Anki's functions as interfaces
+
+**Built 2026-11-15. Nothing changes in what JAStudio does. Not tried inside Anki.**
+
+- **Five interfaces in `JAStudio.Anki.AnkisFunctions`,** one for each group of the functions JAStudio calls in Anki:
+  `IAnkisNotes`, `IAnkisTags`, `IAnkisMedia`, `IAnkisDatabase` and `IAnkisWindows`. Each member is one function of
+  the Anki add-on, which its doc comment names, such as `notes_find`.
+- **`AnkiThroughPythonnet` implements all five,** each as one of its properties: it's what `AnkiFacade` was, as
+  objects. It also answers for the add-on's own folder, which isn't one of Anki's functions.
+- **The Anki integration's classes are given the group they call:** `AnkiStudyNotes`, `AnkiRawNotes`,
+  `AnkiTagOperations`, `AnkisOwnWindows`, `AnkisMediaFolder`, `AnkisOwnConnection` and `AnkiEnvironmentPaths`. The
+  add-on's registrar makes one `AnkiThroughPythonnet` and hands its groups out.
+- **A study-note is written as its fields,** as over HTTP: `IAnkisNotes.WriteTheFields` takes the fields JAStudio
+  writes (`JPNote.StudyNoteFields`), and Python's `study_note_write` writes them as its HTTP twin does. Python read
+  them from the .NET note before (`JPNoteDataShim`, deleted).
+- **`AnkiFacade` keeps three calls,** which `JAStudio.UI` still makes itself: the refresh after a menu command, and the
+  two of the menu of Anki's browser. See step 1's "Left in `JAStudio.UI`".
+- **Not in the interfaces:** the add-on's `get_note_id_from_card_id`, which only the menu of Anki's browser calls.
+
+**Next, step 3:** the implementation over HTTP, specified against the add-on's HTTP server on a copy of the test
+collection. The add-on's side still lacks the functions that drive Anki's windows, `AnkiForJAStudio` for the real
+Anki, and how JAStudio finds the server.
 
 ## Distribution: the Anki add-on on AnkiWeb is the way in
 
