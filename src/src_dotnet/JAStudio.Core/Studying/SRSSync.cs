@@ -28,6 +28,9 @@ namespace JAStudio.Core.Studying;
 /// <remarks>review-naming:studying: SRSSync and SRSSyncReport are new (Claude, 2026-11-15).</remarks>
 public sealed class SRSSync
 {
+   /// <summary>Writing more study-notes than this shows its progress: fewer are written before a person could read a progress window.</summary>
+   const int MostStudyNotesWrittenWithoutShowingProgress = 200;
+
    readonly JPCollection _collection;
    readonly ISRSStudyNotes _studyNotes;
    readonly SRSAvailability _srsAvailability;
@@ -36,7 +39,9 @@ public sealed class SRSSync
    readonly OneAtATime _oneSyncAtATime = new();
    readonly IMonitor _monitor = IMonitor.New();
    readonly SimpleObservable<SRSSyncReport> _completed = new();
+   readonly SimpleObservable<bool> _isRunningChanged = new();
    SRSSyncReport? _lastReport;
+   bool _isRunning;
 
    internal SRSSync(JPCollection collection, ISRSStudyNotes studyNotes, SRSAvailability srsAvailability, AutomaticImportRuns automaticImportRuns, TaskRunner taskRunner)
    {
@@ -59,25 +64,63 @@ public sealed class SRSSync
    /// <summary>Notifies what each sync did, once it's done, on the thread that ran it, whoever started it.</summary>
    public IObservable<SRSSyncReport> Completed => _completed;
 
+   /// <summary>Whether a sync is under way, whoever started it.</summary>
+   public bool IsRunning => _monitor.Locked(() => _isRunning);
+
    /// <summary>
-   /// Runs a sync, once the sync under way, if any, has finished, showing its progress. It blocks until the study-notes are read and written, so<br/>
-   /// it's for the background. It may only be asked for while a sync can run (<see cref="WhyItCannotRunNow"/>).
+   /// Notifies <see cref="IsRunning"/> each time it changes, on the thread that runs the sync: as a sync starts, and once it's over, whether it<br/>
+   /// finished, after <see cref="Completed"/> notified what it did, or failed.
    /// </summary>
+   public IObservable<bool> IsRunningChanged => _isRunningChanged;
+
+   /// <summary>
+   /// Runs a sync, once the sync under way, if any, has finished. It blocks until the study-notes are read and written, so it's for the<br/>
+   /// background. It may only be asked for while a sync can run (<see cref="WhyItCannotRunNow"/>).
+   /// </summary>
+   /// <remarks>
+   /// It shows progress only while it writes many study-notes. The read is short, and whoever started the sync shows that it's under way, as the<br/>
+   /// Sync button does: a sync is one click, with no window opening over what the person does (Magnus, 2026-11-15: "Click it and it spins and done").
+   /// </remarks>
    public SRSSyncReport Run() => _oneSyncAtATime.Do(() =>
    {
       if(WhyItCannotRunNow is {} why) throw new InvalidOperationException($"A sync with the spaced repetition system can't run now: {why}");
 
-      using var runner = _taskRunner.Current("Syncing with Anki");
-      var (read, comparison) = runner.RunIndeterminate("Reading the study-notes from Anki", _collection.ReadTheStudyNotesFromTheSRSAgainAndCompareThem);
+      SetWhetherItIsRunning(true);
+      try
+      {
+         var (read, comparison) = ReadTheStudyNotesAndCompareThem();
 
-      List<JPNote> notesWhoseStudyNoteDiffers = [.. comparison.NotesWhoseStudyNoteDiffers.Select(it => it.Note)];
-      runner.RunBatch(notesWhoseStudyNoteDiffers, _studyNotes.Write, "Writing the study-notes that differ");
+         List<JPNote> notesWhoseStudyNoteDiffers = [.. comparison.NotesWhoseStudyNoteDiffers.Select(it => it.Note)];
+         WriteTheStudyNotesOf(notesWhoseStudyNoteDiffers);
 
-      _automaticImportRuns.AfterASyncWithTheSRS();
+         _automaticImportRuns.AfterASyncWithTheSRS();
 
-      var report = new SRSSyncReport(DateTime.Now, read, comparison, notesWhoseStudyNoteDiffers);
-      _monitor.Locked(() => _lastReport = report);
-      _completed.OnNext(report);
-      return report;
+         var report = new SRSSyncReport(DateTime.Now, read, comparison, notesWhoseStudyNoteDiffers);
+         _monitor.Locked(() => _lastReport = report);
+         _completed.OnNext(report);
+         return report;
+      }
+      finally
+      {
+         SetWhetherItIsRunning(false);
+      }
    });
+
+   (StudyNotesReadFromTheSRS Read, StudyNoteComparison Comparison) ReadTheStudyNotesAndCompareThem()
+   {
+      using var runner = _taskRunner.Current("Syncing with Anki: reading the study-notes", forceHide: true);
+      return runner.RunIndeterminate("Reading the study-notes from Anki", _collection.ReadTheStudyNotesFromTheSRSAgainAndCompareThem);
+   }
+
+   void WriteTheStudyNotesOf(List<JPNote> notesWhoseStudyNoteDiffers)
+   {
+      using var runner = _taskRunner.Current("Syncing with Anki: writing the study-notes that differ", forceHide: notesWhoseStudyNoteDiffers.Count <= MostStudyNotesWrittenWithoutShowingProgress);
+      runner.RunBatch(notesWhoseStudyNoteDiffers, _studyNotes.Write, "Writing the study-notes that differ");
+   }
+
+   void SetWhetherItIsRunning(bool isRunning)
+   {
+      _monitor.Locked(() => _isRunning = isRunning);
+      _isRunningChanged.OnNext(isRunning);
+   }
 }

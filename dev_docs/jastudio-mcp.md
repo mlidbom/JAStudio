@@ -443,8 +443,8 @@ again. So it knows nothing of JAStudio's tools, and of JAStudio's assemblies it 
   - `write_the_study_notes_that_differ` writes them, or the study-notes of the notes given, through the same Python code
     that writes a study-note on every update (`JPNoteDataShim.write_study_note`), then compares again. Only in the live
     JAStudio: the headless one compares, reading the collection file, but has no Anki to write in.
-  - `sync_with_anki` (2026-11-15) runs JAStudio's sync with Anki (`SRSSync`), as the Sync button of the Studying window
-    is to: it reads every study-note, gives each note what Anki holds of its study-note, writes the study-notes that
+  - `sync_with_anki` (2026-11-15) runs JAStudio's sync with Anki (`SRSSync`), as the workspace's Sync button does: it
+    reads every study-note, gives each note what Anki holds of its study-note, writes the study-notes that
     differ, and starts the import profiles that run automatically. It reports what the sync did (`SRSSyncReport`): the
     notes whose study-note had changed in Anki, those whose study-note is gone, those written, and the study-notes of
     no note, both those that hold no corpus note's id and those whose note the collection hasn't. Only in the live

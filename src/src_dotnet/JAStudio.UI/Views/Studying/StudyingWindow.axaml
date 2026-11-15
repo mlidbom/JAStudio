@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:studying="clr-namespace:JAStudio.UI.ViewModels.Studying"
+        xmlns:views="clr-namespace:JAStudio.UI.Views.Studying"
         x:Class="JAStudio.UI.Views.Studying.StudyingWindow"
         x:DataType="studying:StudyingWindowViewModel"
         Title="Studying"
@@ -10,10 +11,8 @@
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Top" Spacing="8">
             <StackPanel Orientation="Horizontal" Spacing="10">
-                <Button x:Name="SyncButton" Content="Sync with Anki" Command="{Binding SyncCommand}"
-                        ToolTip.Tip="Reads the study-notes from Anki, so that the notes show what changed there: studying statuses, Anki tags and deleted study-notes. Writes the study-notes that differ from what JAStudio writes. Runs the import profiles that run automatically." />
-                <TextBlock VerticalAlignment="Center" Text="Syncing…" IsVisible="{Binding IsSyncing}" />
-                <TextBlock VerticalAlignment="Center" Text="{Binding WhyTheSyncDidNotRun}" TextWrapping="Wrap" />
+                <views:SyncButton DataContext="{Binding SyncButton}" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding SyncButton.WhyTheSyncDidNotRun}" TextWrapping="Wrap" />
             </StackPanel>
 
             <ItemsControl ItemsSource="{Binding WhatTheLastSyncDid}">

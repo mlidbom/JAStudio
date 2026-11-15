@@ -9,6 +9,7 @@ using JAStudio.Core.Note;
 using JAStudio.Core.Note.Search;
 using JAStudio.Core.Note.Vocabulary;
 using JAStudio.Core.TaskRunners;
+using JAStudio.UI.ViewModels.Studying;
 using JAStudio.UI.ViewModels.Workspace.Navigation;
 using JAStudio.UI.Views.Workspace;
 using JAStudio.UI.Views.Workspace.Navigation;
@@ -20,8 +21,8 @@ namespace JAStudio.UI.ViewModels.Workspace;
 /// its <see cref="Navigation"/> pane, and the window title. See <c>dev_docs/jastudio-workspace.md</c>.
 /// </summary>
 /// <remarks>
-/// The view is <see cref="WorkspaceWindow"/>: the <see cref="NavigationPane"/>, the tab strip, each tab's <see cref="NoteTabView"/>,<br/>
-/// and the editor section.
+/// The view is <see cref="WorkspaceWindow"/>: the main menu with the <see cref="SyncButton"/> beside it, the <see cref="NavigationPane"/>,<br/>
+/// the tab strip, each tab's <see cref="NoteTabView"/>, and the editor section.
 /// </remarks>
 partial class WorkspaceViewModel : ObservableObject
 {
@@ -43,11 +44,15 @@ partial class WorkspaceViewModel : ObservableObject
       _fatalErrorHandler = services.Resolve<IFatalErrorHandler>();
       _savedState = new SavedWorkspaceState(services.Resolve<IEnvironmentPaths>());
       Navigation = new NavigationPaneViewModel(this, services);
+      SyncButton = new SyncButtonViewModel(services);
       ShowTheSavedStateOnceTheNotesAreLoaded();
    }
 
    /// <summary>The navigation pane on the left: ways to find notes, such as the search, which open in this workspace's tabs.</summary>
    public NavigationPaneViewModel Navigation { get; }
+
+   /// <summary>The Sync button, beside the main menu: one click runs JAStudio's sync with Anki.</summary>
+   public SyncButtonViewModel SyncButton { get; }
 
    /// <summary>The open tabs, in the order the tab strip shows them.</summary>
    public ObservableCollection<NoteTabViewModel> Tabs { get; } = [];

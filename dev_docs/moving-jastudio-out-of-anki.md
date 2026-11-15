@@ -375,11 +375,11 @@ saying why.
 statuses themselves (`JPNote.SetTheStatusOfEveryKnownCard`), and a change to Anki tags reads the study-notes again
 itself (`AnkiTagChanges`). Neither waits for a Sync.
 
-**For Magnus to decide, or to leave to Claude.** Both are built as proposed, for him to change:
-
-- **Where the Studying view is.** Proposed: a window of its own. The alternative is a pane or a tab in the workspace.
-- **Whether the workspace shows that a Sync is due,** such as how many notes were updated since the last one. Proposed:
-  not in this increment.
+**Where the Sync is, decided by Magnus on 2026-11-15,** when he had seen the Studying window: "I don't want sync several
+clicks and a dialog away. Just a sync button. Click it and it spins and done, green marked sync button. Maybe right
+click or something if you want the complex UI, or a separate UI item..." So the workspace has a Sync button of its
+own: see [The Sync button as built](#the-sync-button-as-built). Claude had proposed a window of its own for the
+Studying view, and nothing in the workspace to show that a Sync is due.
 
 ### Part 1 as built: one interface for the study-notes, with one read of them
 
@@ -427,7 +427,12 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
   - *before the collection has loaded.*
 - **The import profiles that run automatically are started, not waited for** (`AutomaticImportRuns.AfterASyncWithTheSRS`).
   They import in the background, and report as they do today, so what they import isn't in the sync's report.
-- **The sync shows its progress** as the load does, through the task runner.
+- **The sync shows progress only while it writes more than 200 study-notes** (since the Sync button, 2026-11-15).
+  The read shows none, and neither does a short write: whoever started the sync shows that it's under way, as the
+  Sync button does, and no window opens over what the person does. Until then it showed its progress as the load
+  does, through the task runner.
+- **The sync says whether one is under way** (`SRSSync.IsRunning`, and `IsRunningChanged` to follow it), whoever
+  started it.
 - **JAStudio's MCP server has a tool for it, `sync_with_anki`,** instead of `write_the_study_notes_that_differ`
   running it, as first proposed: that tool writes the study-notes it's asked to, and would have started imports
   besides. With `sync_with_anki`, Claude can run a sync in the live JAStudio without the Studying window.
@@ -436,17 +441,18 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
 
 ### Part 3 as built: the Studying window
 
-- **The Studying window** (`StudyingWindow`, `StudyingWindowViewModel`) has the Sync button, a line for each thing the
+- **The Studying window** (`StudyingWindow`, `StudyingWindowViewModel`) has a Sync button, a line for each thing the
   last sync did, and the list of the study-notes in Anki that belong to no note, each with why: it holds no corpus
-  note's id, or JAStudio has no note with the id it holds. A button opens Anki's browser on them.
+  note's id, or JAStudio has no note with the id it holds. A button opens Anki's browser on them. It's the "complex
+  UI" of Magnus's words: the Sync itself is one click in the workspace.
 - **It opens from the workspace's main menu,** Studying > Studying window, and with Ctrl+Shift+Y. A JAStudio has one
   at most: opening it again brings it to the front. The menu's place and the key are Claude's choice, marked
   `//review:` in `WorkspaceMainMenu`. It's offered only while there is a spaced repetition system.
 - **It shows the last sync whoever started it,** such as JAStudio's MCP server, and when it opens: the sync keeps its
   last report (`SRSSync.LastReport`) and notifies each sync (`SRSSync.Completed`). A report says when the sync
   finished.
-- **A sync that can't run says why in the window,** such as "The sync can't run now: Anki is syncing."
-- **The sync runs in the background,** with the task runner's progress, as the load shows it.
+- **A sync that can't run says why beside the Sync button,** such as "The sync can't run now: Anki is syncing."
+- **The sync runs in the background.**
 - **Not in the window:** which notes had changed, were written or lost their study-note. It gives the counts.
   JAStudio's MCP server's `sync_with_anki` lists them.
 - **Specified by opening it,** on Avalonia's headless platform, pressing Sync, and rendering it before and after.
@@ -457,6 +463,28 @@ itself (`AnkiTagChanges`). Neither waits for a Sync.
   the comments for now."): those marked `review-naming:studying:` since increment 2, among them `SRSSync`,
   `SRSSyncReport`, `StudyNotesReadFromTheSRS` and `AnkisAvailability`, and the `//review:` in `WorkspaceMainMenu` on
   the menu's place for the Studying window and its key, Ctrl+Shift+Y.
+
+### The Sync button as built
+
+**Built 2026-11-15, the day Magnus asked for it:** "Just a sync button. Click it and it spins and done, green marked
+sync button."
+
+- **The workspace window has a Sync button,** at the right end of the main menu's row (`SyncButton`,
+  `SyncButtonViewModel`). One click runs a sync in the background. It shows only while there is a spaced repetition
+  system.
+- **Its icon is two arrows in a circle, which turn while a sync is under way,** whoever started it: this button, the
+  Studying window's, or JAStudio's MCP server. The button starts no other sync meanwhile.
+- **Once the sync has finished, the icon is a green check mark, and the button's border is green.** They stay so
+  until the next sync starts. A sync that fails leaves the button unmarked.
+  - *The mark says that the last sync finished, not that nothing has changed since.* JAStudio isn't told of what
+    changes in Anki, and its own edits reach the study-notes at the next sync.
+- **No progress window opens,** unless the sync writes more than 200 study-notes.
+- **A sync that can't run says why beside the button,** as in the Studying window.
+- **A right-click opens the Studying window,** as the keyboard's menu key does. The button's tooltip says so, with
+  what a sync does, and when the last one finished and how many study-notes it read and wrote.
+- **The Studying window's Sync button is the same button.**
+- **Seen only in the Studying window so far.** Claude can't open the workspace window in a specification, and the
+  headless JAStudio has no spaced repetition system, so its workspace shows no Sync button.
 
 ## Increment 4, its first piece as built: the Anki add-on's HTTP server
 

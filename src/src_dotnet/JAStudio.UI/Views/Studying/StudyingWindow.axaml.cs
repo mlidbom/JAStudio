@@ -9,9 +9,9 @@ using JAStudio.UI.WindowPlaces;
 namespace JAStudio.UI.Views.Studying;
 
 /// <summary>
-/// The Studying window: the Sync button, which starts JAStudio's sync with Anki (<see cref="SRSSync"/>), what the last sync did, and the<br/>
-/// study-notes in Anki that belong to no note: see <see cref="StudyingWindowViewModel"/>. A JAStudio has one at most, so opening it again<br/>
-/// brings it to the front.
+/// The Studying window: a <see cref="SyncButton"/>, which starts JAStudio's sync with Anki (<see cref="SRSSync"/>), all that the last sync did,<br/>
+/// and the study-notes in Anki that belong to no note: see <see cref="StudyingWindowViewModel"/>. A JAStudio has one at most, so opening it<br/>
+/// again brings it to the front.
 /// </summary>
 partial class StudyingWindow : Window
 {
@@ -26,7 +26,6 @@ partial class StudyingWindow : Window
       var viewModel = new StudyingWindowViewModel(services);
       DataContext = viewModel;
       InitializeComponent();
-      Opened += (_, _) => SyncButton.Focus();
       Closed += (_, _) =>
       {
          OpenWindowsByServices.Remove(services);

@@ -5,6 +5,7 @@ using Compze.Must;
 using Compze.xUnitBDD;
 using JAStudio.Core.Anki;
 using JAStudio.Core.Note.Collection;
+using JAStudio.Core.Studying;
 using JAStudio.Core.TestUtils;
 using JAStudio.UI.Menus;
 using JAStudio.UI.ViewModels.Studying;
@@ -38,17 +39,18 @@ public class When_opening_the_studying_window : SpecificationOpeningWindows, IAI
 
    StudyingWindowViewModel ViewModel => ViewModelOf<StudyingWindowViewModel>(_window);
 
-   void PressSync() => OnTheUIThread(() => ViewModel.SyncCommand.Execute(null));
+   void PressSync() => OnTheUIThread(() => ViewModel.SyncButton.SyncCommand.Execute(null));
 
    [XF] public void it_says_that_no_sync_has_been_made() => OnTheUIThread(() => ViewModel.WhatTheLastSyncDid).Must().SequenceEqual(["No sync has been made since JAStudio started."]);
    [XF] public void it_lists_no_study_notes_of_no_note() => OnTheUIThread(() => ViewModel.StudyNotesOfNoNote.Count).Must().Be(0);
+   [XF] public void its_Sync_button_is_not_marked_as_synced() => OnTheUIThread(() => ViewModel.SyncButton.IsMarkedAsSynced).Must().BeFalse();
 
    public class then_pressing_Sync : When_opening_the_studying_window
    {
       public then_pressing_Sync()
       {
          PressSync();
-         WaitUntil(() => ViewModel is { IsSyncing: false, WhatTheLastSyncDid.Count: > 1 });
+         WaitUntil(() => ViewModel is { SyncButton.IsSyncing: false, WhatTheLastSyncDid.Count: > 1 });
          Render(_window, "StudyingWindowAfterASync");
       }
 
@@ -70,6 +72,22 @@ public class When_opening_the_studying_window : SpecificationOpeningWindows, IAI
 
       [XF] public void the_question_of_the_sentence_about_home_is_in_Anki_as_JAStudio_writes_it() =>
          Anki.ReadAll().Select(it => it.Fields[AnkiFieldNames.Question]).Order().Must().SequenceEqual(new[] { "家に帰る", "駅に行く", "孤児" }.Order());
+
+      [XF] public void its_Sync_button_is_marked_as_synced() => OnTheUIThread(() => ViewModel.SyncButton.IsMarkedAsSynced).Must().BeTrue();
+      [XF] public void its_Sync_button_no_longer_shows_a_sync_under_way() => OnTheUIThread(() => ViewModel.SyncButton.IsSyncing).Must().BeFalse();
+   }
+
+   /// <summary>A sync the window didn't start, as the workspace's Sync button or JAStudio's MCP server starts one.</summary>
+   public class then_a_sync_started_elsewhere_finishes : When_opening_the_studying_window
+   {
+      public then_a_sync_started_elsewhere_finishes()
+      {
+         GetService<SRSSync>().Run();
+         WaitUntil(() => ViewModel is { SyncButton.IsSyncing: false, WhatTheLastSyncDid.Count: > 1 });
+      }
+
+      [XF] public void it_says_how_many_study_notes_the_sync_read() => OnTheUIThread(() => ViewModel.WhatTheLastSyncDid[1]).Must().Be("Study-notes read from Anki: 3");
+      [XF] public void its_Sync_button_is_marked_as_synced() => OnTheUIThread(() => ViewModel.SyncButton.IsMarkedAsSynced).Must().BeTrue();
    }
 
    public class then_pressing_Sync_while_Ankis_own_sync_is_under_way : When_opening_the_studying_window
@@ -80,7 +98,9 @@ public class When_opening_the_studying_window : SpecificationOpeningWindows, IAI
          PressSync();
       }
 
-      [XF] public void it_says_that_the_sync_cannot_run_since_Anki_is_syncing() => OnTheUIThread(() => ViewModel.WhyTheSyncDidNotRun).Must().Be("The sync can't run now: Anki is syncing.");
+      [XF] public void it_says_that_the_sync_cannot_run_since_Anki_is_syncing() => OnTheUIThread(() => ViewModel.SyncButton.WhyTheSyncDidNotRun).Must().Be("The sync can't run now: Anki is syncing.");
       [XF] public void it_still_says_that_no_sync_has_been_made() => OnTheUIThread(() => ViewModel.WhatTheLastSyncDid).Must().SequenceEqual(["No sync has been made since JAStudio started."]);
+      [XF] public void its_Sync_button_is_still_not_marked_as_synced() => OnTheUIThread(() => ViewModel.SyncButton.IsMarkedAsSynced).Must().BeFalse();
+      [XF] public void its_Sync_button_shows_no_sync_under_way() => OnTheUIThread(() => ViewModel.SyncButton.IsSyncing).Must().BeFalse();
    }
 }

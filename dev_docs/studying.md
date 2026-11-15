@@ -47,7 +47,8 @@
 - **`SRSSync`** (2026-11-15) is JAStudio's sync with the spaced repetition system, which a person starts: it reads the
   study-notes, gives each note what the spaced repetition system holds of its study-note, writes the study-notes that
   differ from what JAStudio would write now, and runs the import profiles that run automatically. It's to replace
-  Anki telling JAStudio of each change: see `moving-jastudio-out-of-anki.md`.
+  Anki telling JAStudio of each change: see `moving-jastudio-out-of-anki.md`. The workspace's Sync button starts it
+  with one click (`SyncButton`), and the Studying window shows all that the last sync did.
 - **`SRSAvailability`** says whether there is a spaced repetition system, and whether what it holds can be read and
   changed right now: Anki's can't while no Anki profile is open or Anki's own sync is under way (`AnkisAvailability`).
 - **The note context menu** has "Unsuspend all cards", "Suspend all cards", and "Delete note". "Delete note"
