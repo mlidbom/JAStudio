@@ -51,6 +51,9 @@ the project instructions say it too (`.claude/rules/02-universal-local/020-proje
 
 ## Not known yet
 
+*The first three go once JAStudio has moved out of Anki's process, as agreed on 2026-11-14: see
+`moving-jastudio-out-of-anki.md`. Handing the keyboard between JAStudio and Anki is then the new unknown.*
+
 - **Whether the add-on runs in Anki on macOS or Linux at all:** pythonnet loading .NET 11, and where the .NET
   runtime comes from.
 - **Avalonia's UI thread inside Anki on macOS.** JAStudio runs Avalonia on a thread of its own (`AvaloniaUIThread` in

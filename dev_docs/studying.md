@@ -2,6 +2,10 @@
 
 > **Status: started 2026-11-07 at Magnus's request, to be designed.** It records the principle, what exists
 > today and the features wanted. The design comes when the work reaches it.
+>
+> **Since 2026-11-14:** JAStudio is to become a program of its own, which talks HTTP with Anki, and a Sync button in a
+> Studying view is to replace Anki's notifications of what changed: see `moving-jastudio-out-of-anki.md`. Its first
+> proposed increment renames `ICardOperations`, and the rest of Core's seam to the studying-add-on, in studying's words.
 
 ## The principle (Magnus, 2026-11-07)
 
@@ -14,7 +18,8 @@
 ## Terms
 
 - **studying-add-on** — a spaced repetition system that JAStudio integrates with, which schedules a student's
-  reviews. Anki is the only one today.
+  reviews. Anki is the only one today. It's an add-on to JAStudio, as JAStudio's Python code in Anki is the Anki add-on
+  (Magnus, 2026-11-14: "Anki addon and JASTudio addon make perfect sense to me").
 - **reading** and **listening** — the two ways a note is studied today. Reading shows the text and asks for its
   meaning; listening plays the audio. In Anki they are card types (`CardTypes.Reading`, `CardTypes.Listening`,
   the card templates' names). What the domain calls them is to be designed.
