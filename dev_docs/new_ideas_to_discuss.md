@@ -64,12 +64,6 @@ piece of code, or that would otherwise be lost in a long response.
   passing message in Anki's window, from when an import in Anki started the run. Since increment 2 a Sync starts it,
   from the Sync button. The workspace could say it instead, such as beside the Sync button, where the reason a sync
   didn't run already shows.
-- **(Claude, 2026-11-15) The card pages could refresh themselves when their note changes.** JAStudio's card server
-  serves them as interactive Blazor pages, so a page could listen for changes to its note and draw itself again,
-  in Anki's reviewer and previewer as anywhere. JAStudio would then never ask Anki to refresh them
-  (`ISRSWindows.Refresh`): it would be left for Anki's browser alone, whose columns only change at a Sync. It bears
-  on the open question in `moving-jastudio-out-of-anki.md`, "how the menu commands refresh the spaced repetition
-  system's windows".
 - **(Claude, 2026-11-15) Each change JAStudio makes in Anki could be an Anki operation that Anki's windows are told
   of,** as its tag changes are (`aqt.operations.on_op_finished`). Anki's browser, reviewer and undo menu then follow
   it by themselves, which is the way Anki's developers recommend. Today the write of a study-note, suspending and

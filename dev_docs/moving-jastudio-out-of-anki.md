@@ -5,8 +5,9 @@
 > button. Of increment 4, the HTTP path, the Anki add-on's HTTP server is built, and so is JAStudio's implementation
 > of its calls over HTTP, which only its specifications use yet, and the access file, by which a JAStudio finds the
 > add-on's server. On JAStudio's side, the UI's direct calls to
-> `AnkiFacade` are behind Core's seams, but for the menu commands and the menu of Anki's browser, and the Anki
-> integration calls Anki through interfaces, which pythonnet implements inside Anki.** The order of work is
+> `AnkiFacade` are behind Core's seams, but for the menu of Anki's browser, the Anki integration calls Anki through
+> interfaces, which pythonnet implements inside Anki, and JAStudio no longer refreshes Anki's windows after it
+> changes a note: a card's page in Anki reloads itself.** The order of work is
 > preliminary. Details are settled as each increment needs them. The names are Claude's, and wait for
 > Magnus's pass: see [Increment 1 as built](#increment-1-as-built-the-names-2026-11-15).
 
@@ -586,8 +587,8 @@ server yet: Anki works on pythonnet as before.** It's the Python package `jastud
   preference."), one for each group of functions. Both are built since: see the three steps below. What JAStudio's
   side still lacks is under step 3.
 
-**Claude's plan for JAStudio's side, from reading `AnkiFacade`'s callers on 2026-11-15. Its first step is built, but
-for the menu commands, and so is its second: see [step 1](#jastudios-side-step-1-as-built-the-uis-direct-calls) and
+**Claude's plan for JAStudio's side, from reading `AnkiFacade`'s callers on 2026-11-15. Its first step is built, and
+so is its second: see [step 1](#jastudios-side-step-1-as-built-the-uis-direct-calls) and
 [step 2](#jastudios-side-step-2-as-built-ankis-functions-as-interfaces) below.**
 
 - **Most of `AnkiFacade`'s 24 functions are already called from behind Core's seams,** by the classes of
@@ -610,7 +611,7 @@ for the menu commands, and so is its second: see [step 1](#jastudios-side-step-1
 
 ### JAStudio's side, step 1 as built: the UI's direct calls
 
-**Built 2026-11-15, but for the menu commands. Nothing changes in what JAStudio does.**
+**Built 2026-11-15. Nothing changes in what JAStudio does, but for the refreshes of Anki's windows, below.**
 
 - **`ISRSMedia`, a new seam in Core,** is the spaced repetition system's own copies of the files its study-notes
   reference. JAStudio gives it a copy of an audio file it makes (`Add`).
@@ -626,49 +627,57 @@ for the menu commands, and so is its second: see [step 1](#jastudios-side-step-1
 
 - *`AnkiBrowserMenuBuilder`'s calls for cards:* a card's note, and prioritizing and spreading cards. They go with the
   Qt menus, in increment 3.
-- *`SpecMenuItem.UICommand`:* open, below.
 
-#### Open: how the menu commands refresh the spaced repetition system's windows
+#### The refreshes of Anki's windows are gone, and a card's page reloads itself
 
-**Put to Magnus on 2026-11-15, who turned both options below down:** "I thought we agreed on sync only... Why do we
-need any of this unless we clicked the sync button? And on the sync button. if we save notes via anki's normal API's
-so that undo etc works, as I think we do, then anki will refresh what it needs itself, I'm 80% sure. So sum total:
-virtually all of that is just removed. If just running the sync surfaces any problems we can consider refreshing
-Anki's ui at the end of sync, but the way we currently refresh Ankis UI is Not Recommended(TM) by the anki devs...."
+**Built 2026-11-15, on Magnus's word.** Claude had put to him how the menu commands should reach `ISRSWindows.Refresh`.
+Magnus: "I thought we agreed on sync only... Why do we need any of this unless we clicked the sync button? And on the
+sync button. if we save notes via anki's normal API's so that undo etc works, as I think we do, then anki will refresh
+what it needs itself, I'm 80% sure. So sum total: virtually all of that is just removed. If just running the sync
+surfaces any problems we can consider refreshing Anki's ui at the end of sync, but the way we currently refresh Ankis
+UI is Not Recommended(TM) by the anki devs...." And of the change below, after doubting it: "Commit as is. It's OK".
 
-**What reading the code found, the same day:**
+**What reading the code found:**
 
 - **The card in Anki's reviewer and previewer is JAStudio's own page,** in an iframe on the `CardServer`, drawn from
-  the corpus note, not from the study-note. It changes when the note does, with no sync, and nothing tells it to
-  draw again: the refresh after a menu command is what redraws the card under review today.
+  the corpus note, not from the study-note. It changes when the note does, with no sync, and nothing told it to draw
+  again: the refresh after a menu command was what redrew the card under review.
 - **The refresh pokes Anki's windows through private members** (`UIUtils.refresh` in the add-on): it sets the
   reviewer's `_refresh_needed`, the previewer's `_last_state`, and runs the browser's search again.
 - **Anki's windows follow an operation only when they're told of it** (`aqt.operations.on_op_finished`), as Anki's
   own windows are of theirs. `col.update_note` alone tells none. JAStudio's tag functions tell Anki; its write of a
   study-note, suspending, unsuspending and deleting don't.
 - **While the collection loads, a card says that JAStudio is still loading** (`AppendingPrerenderer`), which isn't
-  JAStudio's page: only Anki can replace it with the card, so the refresh after a load has a use of its own.
+  JAStudio's page: only Anki can replace it with the card.
 
-**Not settled:** a change that removes the refreshes, and has a card's page reload itself when its note changes,
-is in Claude's working tree, uncommitted, while Magnus has doubts about it (2026-11-15).
+**As built:**
 
-**The two options Magnus turned down:**
+- **JAStudio no longer refreshes Anki's windows after it changes a note.**
+  - `SpecMenuItem.UICommand`, which ran a menu command and then refreshed Anki's reviewer, previewer and browser, is
+    gone: its 57 uses, and the 35 through `NoteCommandMenuItem`, are `SpecMenuItem.Command`.
+  - So are the refreshes after a bulk change (`BulkNoteChanges`), after saving the readings mappings, after a batch
+    command of the workspace's main menu, after the two reparses, and, in the add-on, after a note view shortcut.
+- **A card's page in Anki reloads itself when a change outdates it** (`CardLayout`, in `JAStudio.Web`): its note was
+  updated or deleted, its study-note changed, the collection was loaded again, or a setting changed.
+  `ChangesThatOutdateNotePages`, in Core, names those changes.
+  - *Claude's addition, which Magnus hadn't asked for:* without it the card under review would no longer show what a
+    command just changed.
+  - *It also shows what the refreshes never did:* an edit in the workspace's editors, and a change made in the
+    background, such as a reparse or an import.
+  - *A note's own page isn't reloaded by it.* In the workspace its tab reloads it (`NoteTabViewModel.PageOutdated`),
+    and lists the same changes itself: a `//refactor:` comment there says that one place should name them.
+  - *Tried in Chrome,* against a headless JAStudio's `CardServer`: the page reloaded on an edit of its note, twice in
+    a row. Not tried inside Anki's reviewer when it was built.
+- **One refresh is left:** once the collection has loaded (`JAStudioAnkiAppRoot`), for the card that says JAStudio is
+  still loading. `ISRSWindows.Refresh` says that it's for that alone.
+- **Left in the add-on:** F5, which refreshes Anki's windows at a person's own request, and the refresh after
+  spreading cards' due dates in Anki's browser, which goes with that menu in increment 3.
+- **What may now show old data in Anki,** until its browser's search runs again: its browser's rows after JAStudio
+  suspends, unsuspends or deletes, and after a sync. Nothing is done about it until it shows as a problem (Magnus,
+  above). Telling Anki of each operation is an idea in `new_ideas_to_discuss.md`.
 
-57 places in the UI make a menu command with `SpecMenuItem.UICommand`, and 35 more through `NoteCommandMenuItem`,
-which uses it. It runs the command, and then refreshes Anki's reviewer, previewer and browser, by calling
-`AnkiFacade` when Python runs. It's a static factory, and most of its callers are static menu builders that have no
-services, so it can't ask for `ISRSWindows`. Five other places in the UI call `ISRSWindows.Refresh` themselves,
-after a change of their own.
-
-1. **Claude's recommendation: Anki's windows refresh when a note or the configuration changes,** as JAStudio's own
-   note pages do (`NoteTabViewModel`). The Anki integration listens to the collection, and refreshes once for a burst
-   of changes. `UICommand` becomes `Command`, and the five explicit refreshes go.
-   - *It changes what JAStudio does.* Anki's windows then also refresh after an edit in the workspace's editors,
-     which Claude finds no refresh for today, and after changes made in the background, such as a reparse or an
-     import. A card under review would be drawn again when its note changes, whoever changed it.
-   - *It fits the move out of Anki:* a refresh is then one call over HTTP from one place, not one from each command.
-2. **Every menu builder is given `ISRSWindows`, and passes it to `UICommand`.** About 90 call sites change, and the
-   signatures of the static menu builders that lead to them, and nothing in what JAStudio does.
+**Turned down:** refreshing Anki's windows on every change to a note or the configuration, which Claude recommended,
+and passing `ISRSWindows` to every menu builder.
 
 ### JAStudio's side, step 2 as built: Anki's functions as interfaces
 
@@ -689,8 +698,8 @@ there.
 - **A study-note is written as its fields,** as over HTTP: `IAnkisNotes.WriteTheFields` takes the fields JAStudio
   writes (`JPNote.StudyNoteFields`), and Python's `study_note_write` writes them as its HTTP twin does. Python read
   them from the .NET note before (`JPNoteDataShim`, deleted).
-- **`AnkiFacade` keeps three calls,** which `JAStudio.UI` still makes itself: the refresh after a menu command, and the
-  two of the menu of Anki's browser. See step 1's "Left in `JAStudio.UI`".
+- **`AnkiFacade` keeps the calls of the menu of Anki's browser,** which `JAStudio.UI` still makes itself: see step
+  1's "Left in `JAStudio.UI`". Its third, the refresh after a menu command, went with the refreshes.
 - **Not in the interfaces:** the add-on's `get_note_id_from_card_id`, which only the menu of Anki's browser calls.
 
 ### JAStudio's side, step 3 as built: Anki's functions over HTTP
