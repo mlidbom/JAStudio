@@ -34,7 +34,7 @@ class TestEnvironmentSpecificDependenciesRegistrar : IEnvironmentSpecificDepende
          Singleton.For<RethrowingFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<IFatalErrorHandler>().Instance(fatalErrorHandler),
          Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Available),
-         Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
+         Singleton.For<ISpacedRepetitionSystemWindows>().Instance(new NoSpacedRepetitionSystemWindows()),
          Singleton.For<IUIThreadDispatcher>().Instance(new NoUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths environmentPaths) => new ConfigurationFile(environmentPaths)),
          Singleton.For<IReadingsMappingsSource>().Instance(new TestReadingsMappingsSource()),

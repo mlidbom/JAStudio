@@ -69,7 +69,7 @@ public class WorkspaceMainMenu
                               () => _services.BackgroundTaskManager.Run(() =>
                               {
                                  action();
-                                 _services.AnkiWindows.Refresh();
+                                 _services.SpacedRepetitionSystemWindows.Refresh();
                               }),
                               acceleratorKey,
                               shortcut,

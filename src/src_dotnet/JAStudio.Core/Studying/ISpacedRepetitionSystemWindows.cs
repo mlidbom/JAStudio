@@ -1,14 +1,14 @@
-using JAStudio.Core.Studying;
-
-namespace JAStudio.Core.Anki;
+namespace JAStudio.Core.Studying;
 
 /// <summary>
-/// Anki's own windows, such as its reviewer, browser and previewer, while JAStudio runs inside Anki: JAStudio refreshes them after it changes notes,<br/>
-/// shows its passing messages in them, and opens notes in them. JAStudio running without Anki has none (<see cref="NoAnkiWindows"/>), and offers<br/>
-/// the commands that open notes in them only while there's an Anki (<see cref="SpacedRepetitionSystemAvailability"/>).
+/// The spaced repetition system's own windows, such as Anki's reviewer, browser and previewer, while JAStudio runs inside Anki: JAStudio refreshes<br/>
+/// them after it changes notes, shows its passing messages in them, and opens notes in them. JAStudio running without a spaced repetition system<br/>
+/// has none (<see cref="NoSpacedRepetitionSystemWindows"/>), and offers the commands that open notes in them only while there is one<br/>
+/// (<see cref="SpacedRepetitionSystemAvailability"/>).
 /// </summary>
-public interface IAnkiWindows
+public interface ISpacedRepetitionSystemWindows
 {
+   //review-naming:studying: ISpacedRepetitionSystemWindows was IAnkiWindows (Claude, 2026-11-15).
    /// <summary>Refreshes what they show, so that the notes JAStudio changed show as they are now.</summary>
    void Refresh();
 

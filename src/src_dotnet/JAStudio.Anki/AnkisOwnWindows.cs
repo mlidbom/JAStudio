@@ -1,9 +1,10 @@
 using JAStudio.Core.Anki;
+using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
 /// <summary>The Anki windows of JAStudio running inside Anki: Anki's own, which JAStudio drives through Python (<see cref="AnkiFacade"/>).</summary>
-public sealed class AnkisOwnWindows : IAnkiWindows
+public sealed class AnkisOwnWindows : ISpacedRepetitionSystemWindows
 {
    public void Refresh() => AnkiFacade.UIUtils.Refresh();
 

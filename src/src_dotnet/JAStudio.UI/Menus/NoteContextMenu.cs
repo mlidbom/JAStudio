@@ -230,7 +230,7 @@ public class NoteContextMenu(TemporaryServiceCollection services)
    // Action handlers
    void OnOpenInPreviewer(JPNote note)
    {
-      _services.AnkiWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
+      _services.SpacedRepetitionSystemWindows.OpenThePreviewerOn(_services.QueryBuilder().NotesLookup([note]));
    }
 
    void OnDeleteNote(JPNote note)
@@ -266,8 +266,8 @@ public class NoteContextMenu(TemporaryServiceCollection services)
       _services.BackgroundTaskManager.Run(() =>
       {
          _services.LocalNoteUpdater.ReparseMatchingSentences(text);
-         _services.AnkiWindows.Refresh();
-         _services.AnkiWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
+         _services.SpacedRepetitionSystemWindows.Refresh();
+         _services.SpacedRepetitionSystemWindows.ShowAPassingMessage($"Reparsed sentences matching: {text}");
       });
    }
 

@@ -1,12 +1,10 @@
-using JAStudio.Core.Anki;
-
 namespace JAStudio.Core.Studying;
 
 /// <summary>
 /// Whether there's a spaced repetition system for JAStudio to work with: the system where the student studies, which schedules the reviews.<br/>
 /// Anki is the only one today. There is one while JAStudio runs inside Anki, and none while it runs without, as the headless JAStudio and the<br/>
 /// standalone JAStudio do. What acts on what the spaced repetition system holds, such as importing Anki's notes or opening its windows<br/>
-/// (<see cref="IAnkiWindows"/>), is offered only while there is. Everything else, creating notes included, works the same either way.
+/// (<see cref="ISpacedRepetitionSystemWindows"/>), is offered only while there is. Everything else, creating notes included, works the same either way.
 /// </summary>
 public sealed class SpacedRepetitionSystemAvailability
 {

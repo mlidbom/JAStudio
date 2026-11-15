@@ -34,7 +34,7 @@ sealed class EnvironmentDependenciesRegistrar : IEnvironmentSpecificDependencies
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
          Singleton.For<SpacedRepetitionSystemAvailability>().Instance(SpacedRepetitionSystemAvailability.Unavailable),
-         Singleton.For<IAnkiWindows>().Instance(new NoAnkiWindows()),
+         Singleton.For<ISpacedRepetitionSystemWindows>().Instance(new NoSpacedRepetitionSystemWindows()),
          Singleton.For<IBackendDataLoader>().Instance(new NoAnkiData()),
          Singleton.For<ICardOperations>().Instance(new NoAnkiCardOperations()),
          Singleton.For<IAnkiTagOperations>().Instance(new NoAnkiTagOperations()),

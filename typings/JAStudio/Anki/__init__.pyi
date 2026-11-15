@@ -6,7 +6,7 @@ from JAStudio.Core.Note import ICardOperations, ExternalNoteIdMap, NoteId, JPNot
 from System.Collections.Generic import IReadOnlyList_1, IReadOnlyCollection_1, IEnumerable_1
 from JAStudio.Core.Importing.RawNotes import IAnkiRawNotes, RawNote, AnkiNoteType
 from JAStudio.Core.Importing import ImportProfile
-from JAStudio.Core.Anki import IAnkiWindows
+from JAStudio.Core.Studying import ISpacedRepetitionSystemWindows
 from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
 from JAStudio.Core.Note.Tagging import IAnkiTagOperations
 
@@ -93,7 +93,7 @@ class AnkiRawNotes(IAnkiRawNotes):
     def TagAsImported(self, rawNotes: IReadOnlyList_1[RawNote]) -> None: ...
 
 
-class AnkisOwnWindows(IAnkiWindows):
+class AnkisOwnWindows(ISpacedRepetitionSystemWindows):
     def __init__(self) -> None: ...
     def OpenTheBrowserOn(self, ankiSearch: str) -> None: ...
     def OpenThePreviewerOn(self, ankiSearch: str) -> None: ...

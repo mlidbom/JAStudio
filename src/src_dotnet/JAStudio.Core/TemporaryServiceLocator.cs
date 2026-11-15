@@ -27,7 +27,7 @@ public class TemporaryServiceCollection
    public TaskRunner TaskRunner => Services.Resolve<TaskRunner>();
    public BackgroundTaskManager BackgroundTaskManager => Services.Resolve<BackgroundTaskManager>();
    public ExternalNoteIdMap ExternalNoteIdMap => Services.Resolve<ExternalNoteIdMap>();
-   public IAnkiWindows AnkiWindows => Services.Resolve<IAnkiWindows>();
+   public ISpacedRepetitionSystemWindows SpacedRepetitionSystemWindows => Services.Resolve<ISpacedRepetitionSystemWindows>();
    public SpacedRepetitionSystemAvailability SpacedRepetitionSystemAvailability => Services.Resolve<SpacedRepetitionSystemAvailability>();
 
    // Note services
