@@ -1,7 +1,8 @@
 # Moving JAStudio out of Anki
 
 > **Status: direction agreed with Magnus on 2026-11-14 and 2026-11-15; nothing is built.** The order of work is
-> preliminary. Details are settled as each increment needs them.
+> preliminary. Details are settled as each increment needs them. Increment 1, the names, has Magnus's go-ahead since
+> 2026-11-15.
 
 ## The goal
 
