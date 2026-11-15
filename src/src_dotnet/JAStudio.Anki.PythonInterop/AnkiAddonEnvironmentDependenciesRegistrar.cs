@@ -31,7 +31,7 @@ class AnkiAddonEnvironmentDependenciesRegistrar : IEnvironmentSpecificDependenci
          Singleton.For<IUIThreadDispatcher>().Instance(new AvaloniaUIThreadDispatcher()),
          Singleton.For<IConfigDictSource>().CreatedBy((IEnvironmentPaths paths) => new ConfigurationFile(paths)),
          Singleton.For<IReadingsMappingsSource>().CreatedBy((IEnvironmentPaths paths) => new FileReadingsMappingsSource(paths)),
-         Singleton.For<ICardOperations>().CreatedBy(ICardOperations (StudyNoteIds idMap) => new AnkiCardOperationsImpl(idMap)),
+         Singleton.For<ISpacedRepetitionSystemCardOperations>().CreatedBy(ISpacedRepetitionSystemCardOperations (StudyNoteIds idMap) => new AnkiCardOperations(idMap)),
          Singleton.For<IAnkiTagOperations>().CreatedBy(IAnkiTagOperations (StudyNoteIds ankiNoteIds) => new AnkiTagOperations(ankiNoteIds)),
          Singleton.For<IAnkiStudyNotes>().CreatedBy(IAnkiStudyNotes (AnkiCollectionDatabase database, StudyNoteIds ankiNoteIds) => new AnkiStudyNotes(database, ankiNoteIds))
       );

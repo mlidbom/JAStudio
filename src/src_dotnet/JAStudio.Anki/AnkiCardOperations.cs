@@ -4,14 +4,14 @@ using JAStudio.Core.Studying;
 namespace JAStudio.Anki;
 
 /// <summary>
-/// Implementation of ICardOperations that uses AnkiFacade to call Python/Anki APIs.
-/// Maps domain NoteId to Anki long ID at the boundary.
+/// The changes JAStudio makes to a note's cards and study-note (<see cref="ISpacedRepetitionSystemCardOperations"/>), made in the collection<br/>
+/// Anki has open, through Python (<see cref="AnkiFacade"/>). A note's study-note is its Anki note, found by its id (<see cref="StudyNoteIds"/>).
 /// </summary>
-public class AnkiCardOperationsImpl : ICardOperations
+public class AnkiCardOperations : ISpacedRepetitionSystemCardOperations
 {
    readonly StudyNoteIds _studyNoteIds;
 
-   public AnkiCardOperationsImpl(StudyNoteIds studyNoteIds) => _studyNoteIds = studyNoteIds;
+   public AnkiCardOperations(StudyNoteIds studyNoteIds) => _studyNoteIds = studyNoteIds;
 
    public void SuspendAllCardsForNote(NoteId noteId)
    {
@@ -27,7 +27,7 @@ public class AnkiCardOperationsImpl : ICardOperations
    /// Removes the note's Anki note, if it has one, then resets the search of Anki's browser, which would otherwise fail when it refreshes the note<br/>
    /// that no longer exists.
    /// </summary>
-   public void DeleteNote(NoteId noteId)
+   public void DeleteTheStudyNoteOf(NoteId noteId)
    {
       var studyNoteId = _studyNoteIds.StudyNoteIdOf(noteId);
       if(!studyNoteId.HasValue) return;

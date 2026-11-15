@@ -1,7 +1,7 @@
 import typing, abc
+from JAStudio.Core.Note import NoteId
 from JAStudio.Core.TaskRunners import TaskRunner
 from System.Collections.Generic import Dictionary_2, List_1, IReadOnlyList_1, IEnumerable_1, IReadOnlyDictionary_2
-from JAStudio.Core.Note import NoteId
 
 class CardStudyingStatus:
     def __init__(self, studyNoteId: int, cardType: str, isSuspended: bool, noteTypeName: str) -> None: ...
@@ -13,6 +13,15 @@ class CardStudyingStatus:
     def NoteTypeName(self) -> str: ...
     @property
     def StudyNoteId(self) -> int: ...
+
+
+class ISpacedRepetitionSystemCardOperations(typing.Protocol):
+    @abc.abstractmethod
+    def DeleteTheStudyNoteOf(self, noteId: NoteId) -> None: ...
+    @abc.abstractmethod
+    def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
+    @abc.abstractmethod
+    def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
 
 
 class ISpacedRepetitionSystemDataLoader(typing.Protocol):

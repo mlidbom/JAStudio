@@ -1,6 +1,6 @@
 import typing, abc
-from JAStudio.Core.Note import ICardOperations, NoteId, JPNote
-from JAStudio.Core.Studying import StudyNoteIds, ISpacedRepetitionSystemDataLoader, SpacedRepetitionSystemData, ISpacedRepetitionSystemWindows
+from JAStudio.Core.Studying import ISpacedRepetitionSystemCardOperations, StudyNoteIds, ISpacedRepetitionSystemDataLoader, SpacedRepetitionSystemData, ISpacedRepetitionSystemWindows
+from JAStudio.Core.Note import NoteId, JPNote
 from JAStudio.Anki.CollectionDatabase import AnkiCollectionDatabase
 from JAStudio.Core.TaskRunners import TaskRunner
 from JAStudio.Core import IEnvironmentPaths
@@ -10,9 +10,9 @@ from JAStudio.Core.Importing import ImportProfile
 from JAStudio.Core.Anki.StudyNotes import IAnkiStudyNotes, StudyNoteInAnki
 from JAStudio.Core.Note.Tagging import IAnkiTagOperations
 
-class AnkiCardOperationsImpl(ICardOperations):
+class AnkiCardOperations(ISpacedRepetitionSystemCardOperations):
     def __init__(self, studyNoteIds: StudyNoteIds) -> None: ...
-    def DeleteNote(self, noteId: NoteId) -> None: ...
+    def DeleteTheStudyNoteOf(self, noteId: NoteId) -> None: ...
     def SuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
     def UnsuspendAllCardsForNote(self, noteId: NoteId) -> None: ...
 

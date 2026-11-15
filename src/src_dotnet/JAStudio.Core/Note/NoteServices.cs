@@ -25,7 +25,7 @@ public class NoteServices
    internal NoteServices(IRootResolver resolver) => _resolver = resolver;
 
    public JPCollection Collection => _resolver.Resolve<JPCollection>();
-   public ICardOperations CardOperations => _resolver.Resolve<ICardOperations>();
+   public ISpacedRepetitionSystemCardOperations SpacedRepetitionSystemCardOperations => _resolver.Resolve<ISpacedRepetitionSystemCardOperations>();
    public SpacedRepetitionSystemAvailability SpacedRepetitionSystemAvailability => _resolver.Resolve<SpacedRepetitionSystemAvailability>();
    public Settings Settings => _resolver.Resolve<Settings>();
    public DictLookup DictLookup => _resolver.Resolve<DictLookup>();

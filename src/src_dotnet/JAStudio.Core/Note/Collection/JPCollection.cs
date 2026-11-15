@@ -195,7 +195,7 @@ public class JPCollection
    public void Delete(JPNote note, ItsAnkiNote itsAnkiNote)
    {
       TakeItOutOfItsWebOfPerfectSynonyms();
-      if(itsAnkiNote == ItsAnkiNote.IsDeleted) NoteServices.CardOperations.DeleteNote(note.GetId());
+      if(itsAnkiNote == ItsAnkiNote.IsDeleted) NoteServices.SpacedRepetitionSystemCardOperations.DeleteTheStudyNoteOf(note.GetId());
       _repository.Delete(note.GetId());
       RemoveFromItsCache();
       DeleteTheMediaNoOtherNoteUses();
