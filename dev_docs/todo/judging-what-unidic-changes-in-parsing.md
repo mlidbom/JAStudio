@@ -292,20 +292,28 @@ Claude proposed two changes that Magnus turned down, and why says what the basic
   something is fubar. And getting the sentences correctly into the corpus means the same thing, all should parse
   identically in the corpus."
 
-What follows from it, by Claude, to settle with Magnus:
+Settled the same day, on what follows from it:
 
 - **The word is the project's own: a parsing case** (`ParsingCase`, "the parsing cases"). A sentence is marked as a
-  parsing case.
-- **The 56 sentences already in the corpus:** the note that is there becomes the case. One has marked matches of its own
-  that its case file lacks, so it will parse otherwise than the case file expects. 6 of the texts are in several notes.
-- **The 164 others become new sentence notes,** shown like any other sentence.
-- **6 sentences are shared by 16 cases,** which mark different matches as hidden or as incorrect on the same text, such
-  as いらっしゃいません with いらっしゃいませ hidden, and again with it marked incorrect. One note holds one configuration, so
-  these need a note each, or fewer cases.
-- **What the stored result is:** the result as it was verified, which a reparse leaves alone and compares with; or
-  whatever the last reparse gave, where a change shows only in git's diff. Claude recommends the first.
-- **The import is a command that can be run again,** so that handing it over to the corpus's own line is running it
-  there (`045-committing-with-the-corpus-repository.md`: "A large migration is code").
+  parsing case. Magnus: "Good ParsingCase it is."
+- **The import is exact, and done once.** A case is given to a sentence note that's already in the corpus only when
+  that note parses identically to the case: the same text and configuration, and the same parsed words. Otherwise a
+  new sentence note is made from the case. Magnus: "For now we want it reproducible and exact. If no exactly identical
+  sentence, in terms of parsing, exists, create a new on from the parsing case."
+  - 56 of the sentences are already in the corpus. One has marked matches of its own that its case file lacks, so its
+    case gets a new note. 6 of the texts are in several notes.
+  - The 164 others become new sentence notes, shown like any other sentence.
+- **The 16 cases that share 6 sentences get a sentence note each** (Magnus: "Agreed"). They mark different matches as
+  hidden or as incorrect on the same text, such as いらっしゃいません with いらっしゃいませ hidden, and again with it marked
+  incorrect, and one note holds one configuration.
+- **The stored result is the result as it was verified** (Magnus: "Agreed"). A reparse leaves it alone and compares
+  with it. A case that no longer parses that way is findable in JAStudio itself, and the sentence can show what it was
+  and what it is now. Accepting a new result is an action.
+- **It's done once, in the corpus as it is now, and committed there.** Magnus: "This is a one time thing that needs
+  manual massaging of data to get it in, then the files will be just generated from the corpus. [...] You will do it
+  once, with jas_database fully up to date. We will commit the results there and that will be the corpus going
+  forward. No changes are happening on the corpus elsewhere at the moment." His corpus checkout is clean, pushed, and
+  at `37f3f7fede7`, the commit `main` records and the worktree's corpus checkout is at (checked 2026-11-15).
 
 ## The tooling Claude proposed, parked until the basics exist
 
