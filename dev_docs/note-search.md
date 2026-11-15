@@ -102,7 +102,7 @@ A failing spec should print the search indented like the tree, so the difference
 |---|---|---|---|
 | searchable text | text | Notes with any searchable field that matches | The fields the old search box covered (open question 2). In Anki it's every field except tags. |
 | tags | tags | Notes with the tag or a tag in its branch. Also: a tag pattern, a regex, or no tags at all. | See [tags.md](tags.md). |
-| studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the studying-add-on (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
+| studying reading, studying listening | true-or-false | Notes whose reading, or listening, is being studied: the note is in the spaced repetition system (today Anki) and that card isn't suspended | Magnus's proposal. Replaces Anki's `is:suspended` and `card:`, which are about cards. See [studying.md](studying.md). |
 | note type | one of a fixed set | vocab, kanji or sentence | |
 | question, answer, reading, and other fields | text, or list of texts | Notes whose field matches | The fields per note type are to be decided. |
 | id | text | Notes with those JAStudio note ids | |
@@ -341,7 +341,7 @@ columns need, and the note's page stays visible beside the results.
    - **Measured (2026-11-07),** on the 49,162 sentence texts, outside the grid: sorting by question took about
      25 ms, sorting by external id about 60 ms, and stripping the markup from them about 5 ms. The grid's own
      overhead isn't measured.
-   - **Not yet:** showing and hiding columns, and the studying-add-on's other card states.
+   - **Not yet:** showing and hiding columns, and the spaced repetition system's other card states.
 4. **Tagging notes** ([tags.md](tags.md), increment 1). *(Adding and removing a tag on the selected results built
    2026-11-07.)*
 5. **Tag management:** browsing and editing the tag tree ([tags.md](tags.md), increments 2 and 3). *(Built
@@ -417,4 +417,4 @@ conditions come from factory methods where those read better, and from the prope
 
    The old box's `r:` (readings only) becomes a readings property later.
 3. **Which of Anki's left-out searches does Magnus use?** For example new cards, or cards answered recently. Each
-   would need its data loaded from the studying-add-on, as a property of the note.
+   would need its data loaded from the spaced repetition system, as a property of the note.

@@ -17,27 +17,23 @@ Anki restarting.
 
 ## Terms
 
-**Open since 2026-11-15.** This document is written with the two terms of 2026-11-14:
+Decided by Magnus on 2026-11-15, on Claude's suggestion. There are three things to name:
 
-- **studying-add-on** — as in `studying.md`: a spaced repetition system that JAStudio integrates with. Anki is the only
-  one today.
-- **the Anki add-on** — the Python code that Anki loads, in `src/jastudio_src`.
+- **spaced repetition system** — Anki as the domain sees it: the system where the student studies, which schedules the
+  reviews. Anki is the only one today. Until then `studying.md` said *studying-add-on*.
+- **the Anki integration** — JAStudio's code that works with Anki: `JAStudio.Anki`.
+- **the Anki add-on** — the Python code that Anki loads, in `src/jastudio_src`. Add-on is Anki's own word for such
+  code.
 
-On 2026-11-14 Magnus held that the two uses of add-on don't collide: "Anki addon and JASTudio addon make perfect sense
-to me." On 2026-11-15 he found that they do: "The problem here is that even qualified with Anki addon is ambiguous".
-"The Anki add-on" reads as the add-on in JAStudio that provides studying information from Anki, and as the add-on
-loaded in Anki that talks to JAStudio. "JAStudio Anki add-on" reads both ways too: each is an add-on to one of the two
-programs for the other, so every name built from the three words fits both.
+**Nothing in JAStudio is called an add-on.** On 2026-11-14 Magnus held that a studying-add-on and an Anki add-on don't
+collide: "Anki addon and JASTudio addon make perfect sense to me." On 2026-11-15 he found that they do: "The problem
+here is that even qualified with Anki addon is ambiguous".
 
-There are three things to name, and only the third is an add-on in its host's own word:
-
-1. Anki as the domain sees it: where the student studies. Today *studying-add-on*.
-2. JAStudio's code that works with it, `JAStudio.Anki`. `studying.md` already calls it *the Anki integration*.
-3. The Python code that Anki loads. Anki calls such code an add-on.
-
-Claude's suggestion, not yet answered: *spaced repetition system* for 1, which is what `studying.md` defines a
-studying-add-on as, *the Anki integration* for 2, and *the Anki add-on* for 3 alone. With nothing in JAStudio called an
-add-on, "the Anki add-on" reads one way.
+- "The Anki add-on" read as the add-on in JAStudio that provides studying information from Anki, and as the add-on
+  loaded in Anki that talks to JAStudio. "JAStudio Anki add-on" read both ways too.
+- Each was an add-on to one of the two programs for the other, so every name built from the three words fitted both.
+- A shared word is harmless while what qualifies the two names differs, as with a build server and a card server. Here
+  the qualified names coincided.
 
 ## What crosses between Anki and JAStudio today
 
@@ -139,7 +135,7 @@ Anki rather than something generic about studying." It's the principle `studying
 
 - **The line between studying's names and Anki's is inside JAStudio,** between Core and `JAStudio.Anki`. The Anki
   add-on and its HTTP contract are frankly Anki's: SELECTs on Anki's collection, Anki's searches. A second
-  studying-add-on brings an integration and a wire of its own.
+  spaced repetition system brings an integration and a wire of its own.
 - **Today's seam names it two wrong ways.** `IAnkiStudyNotes`, `IAnkiTagOperations`, `IAnkiWindows` and
   `AnkiAvailability` put Anki's name on what is generic about studying. `IBackendDataLoader`, `BackendData`,
   `ExternalNoteIdMap` and `ICardOperations` say neither Anki nor studying.
@@ -160,8 +156,8 @@ Anki is two things to JAStudio today: where the student studies, and where raw n
 
 ### Tessaging inside JAStudio is likely, and open (Magnus, 2026-11-14)
 
-The HTTP is hidden "behind an API that we like within jastudio. Likely tessaging." Which studying-add-on a tommand is
-for would be data on the tommand, and its handler talks to the right one. Magnus: "Assuming we do it in tessaging, it
+The HTTP is hidden "behind an API that we like within jastudio. Likely tessaging." Which spaced repetition system a tommand
+is for would be data on the tommand, and its handler talks to the right one. Magnus: "Assuming we do it in tessaging, it
 has distinct advantages, and dogfooding it is good practice and and testing and real world API form drivers, but is not
 set in stone in any way."
 

@@ -127,7 +127,7 @@ public abstract class JPNote
    }
 
    /// <summary>
-   /// Marks every card type the note has a status for as active, that is unsuspended, or as suspended, after the studying-add-on was told to do the same,<br/>
+   /// Marks every card type the note has a status for as active, that is unsuspended, or as suspended, after the spaced repetition system was told to do the same,<br/>
    /// and notifies the change through <see cref="JPCollection.StudyNoteChanged"/>, since the status isn't stored with the note and no flush reports it.
    /// </summary>
    void SetTheStatusOfEveryKnownCard(bool isActive)

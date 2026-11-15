@@ -5,22 +5,25 @@
 >
 > **Since 2026-11-14:** JAStudio is to become a program of its own, which talks HTTP with Anki, and a Sync button in a
 > Studying view is to replace Anki's notifications of what changed: see `moving-jastudio-out-of-anki.md`. Its first
-> proposed increment renames `ICardOperations`, and the rest of Core's seam to the studying-add-on, in studying's words.
+> proposed increment renames `ICardOperations`, and the rest of Core's seam to the spaced repetition system, in
+> studying's words.
 
 ## The principle (Magnus, 2026-11-07)
 
 - **Studying is not Anki-specific.** JAStudio's domain has its own concept of studying.
-- **Anki is one studying-add-on:** a spaced repetition system JAStudio integrates with. It's the only one for now,
-  but it isn't the truth of studying. Others may come, for students to use instead of Anki.
+- **Anki is one spaced repetition system** that JAStudio integrates with. It's the only one for now, but it isn't the
+  truth of studying. Others may come, for students to use instead of Anki.
 - **So the domain speaks about studying.** Only the Anki integration speaks about Anki's notes, cards, card
   templates and suspension.
 
 ## Terms
 
-- **studying-add-on** — a spaced repetition system that JAStudio integrates with, which schedules a student's
-  reviews. Anki is the only one today.
-  - *The word is open since 2026-11-15:* "add-on" also names the Python code that Anki loads, and "the Anki add-on"
-    reads both ways. See `moving-jastudio-out-of-anki.md`, "Terms".
+- **spaced repetition system** — a system that schedules a student's reviews, which JAStudio integrates with. Anki is
+  the only one today. Until 2026-11-15 this document said *studying-add-on*.
+- **the Anki integration** — JAStudio's code that works with Anki: `JAStudio.Anki`.
+- **the Anki add-on** — the Python code that Anki loads. Nothing in JAStudio is called an add-on (Magnus, 2026-11-15):
+  with a studying-add-on in JAStudio, "the Anki add-on" read both as the add-on in JAStudio for Anki and as the add-on
+  loaded in Anki. See `moving-jastudio-out-of-anki.md`, "Terms".
 - **reading** and **listening** — the two ways a note is studied today. Reading shows the text and asks for its
   meaning; listening plays the audio. In Anki they are card types (`CardTypes.Reading`, `CardTypes.Listening`,
   the card templates' names). What the domain calls them is to be designed.
@@ -34,7 +37,7 @@
   - Each note keeps that in memory (`JPNote.ReadItsStudyNoteFrom`, and `JPNote.SetStudyingStatus` for a single card).
 - **"Studying" means having a card that isn't suspended.** `JPNote.IsStudying(cardType)` answers it for one card
   type or for any card. `IsStudyingRead` and `IsStudyingListening` are shorthands.
-- **`ICardOperations`** is Core's interface to the studying-add-on, implemented by `AnkiCardOperationsImpl`. It
+- **`ICardOperations`** is Core's interface to the spaced repetition system, implemented by `AnkiCardOperationsImpl`. It
   can suspend all of a note's cards, unsuspend all of them, and delete the note's Anki note. Its names and docs
   speak of cards and Anki notes.
 - **The note context menu** has "Unsuspend all cards", "Suspend all cards", and "Delete note". "Delete note"
@@ -43,14 +46,14 @@
 - **Some study state is stored in the corpus anyway,** as generated kanji tags such as
   `-::kanji::studying-vocab`. They're student-data and are to move out (`corpus-data-model.md`).
 - **Every corpus note has an Anki note,** apart from one leftover sentence. Whether a note is in the
-  studying-add-on and whether it's studied are separate questions, and "studied" means "unsuspended"
+  spaced repetition system and whether it's studied are separate questions, and "studied" means "unsuspended"
   (`corpus-data-model.md`, "Settled so far").
 
 ## Wanted (Magnus, 2026-11-07)
 
 - **Suspending and unsuspending a note's reading and listening separately,** for one note or for a selection of
   notes.
-- **Adding notes to the studying-add-on, and removing them from it entirely.**
+- **Adding notes to the spaced repetition system, and removing them from it entirely.**
 - **Search keys** for the studying state, such as `studying-reading:true` and `studying-listening:false`
   ([note-search.md](note-search.md)).
 
@@ -59,12 +62,12 @@
 1. **The domain's words** for reading and listening (today Anki's "card types"), and for suspending (today
    Anki's word).
 2. **The states,** per note and per reading or listening:
-   - not in the studying-add-on;
+   - not in the spaced repetition system;
    - in it but suspended;
    - studied.
 
    Anki's other states (new, learning, due and so on) only if a workflow needs them.
-3. **The boundary:** what a studying-add-on implements.
+3. **The boundary:** what the integration with a spaced repetition system implements.
    - Reading the states of all notes.
    - Adding a note to it, and removing a note from it.
    - Suspending and unsuspending reading or listening.
@@ -73,6 +76,6 @@
 4. **Removing a note from Anki deletes its review history.** How that is confirmed, and how it differs from
    suspending everything.
 5. **Several students:** student-data is per student (`corpus-data-model.md`, target model principle 5). How a
-   student relates to a studying-add-on's collection or profile.
-6. **Student-data for notes that aren't in any studying-add-on,** such as priority. It overlaps the open points in
+   student relates to a spaced repetition system's collection or profile.
+6. **Student-data for notes that aren't in any spaced repetition system,** such as priority. It overlaps the open points in
    `corpus-data-model.md`.
