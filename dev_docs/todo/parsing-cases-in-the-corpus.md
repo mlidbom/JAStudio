@@ -1,8 +1,9 @@
 # The parsing cases move into the corpus
 
-> **Status: agreed with Magnus 2026-11-15, on the branch `parsing-cases-in-the-corpus`.** The groundwork is done (below).
-> The data type is agreed, and being built. It changes [the parsing cases](../parsing-cases.md),
-> whose case files become generated from the corpus.
+> **Status: agreed with Magnus 2026-11-15, on the branch `parsing-cases-in-the-corpus`.** Steps 1 and 2 are done: the data
+> type is built, and the 230 cases are imported into the worktree's corpus checkout, where they wait, uncommitted, for
+> Magnus to look at them. It changes [the parsing cases](../parsing-cases.md), whose case files become generated from
+> the corpus.
 
 ## What it's for (Magnus, 2026-11-15)
 
@@ -167,6 +168,47 @@ fit: on hover, or below. With the commands to accept, and to set the verdict and
 
 After it, on `unidic`: the rebuild with UniDic leaves the parsing cases that parse otherwise than expected findable,
 and they are the list to judge.
+
+## Where it stands (2026-11-15)
+
+**Step 1, the data type, is built** as agreed above (`cf1b655ad`), in `JAStudio.Core/Note/Sentences/ParsingCases`, with
+`SentenceNote.ParsingCase` in `SentenceNote.ParsingCase.cs`.
+
+- **The corpus stores it in the sentence's file,** as `parsingCase`, only for a sentence that is one. No other note's file
+  changes: a full rebuild on the new code changed nothing.
+- **JAStudio from before this can't read a sentence that has it:** a note file with a property the code doesn't know
+  fails to load. So the corpus's own line gets the parsing cases only together with this code.
+- **Nothing is compared at a reparse yet.** The comparison is made when asked for
+  (`SentenceNote.CompareWithWhatTheParsingCaseExpects`), which the tab of step 4 will do.
+- **The search finds the parsing cases** (`85b3b9c58`): the true-or-false condition "Parsing case", in the workspace's
+  search and the MCP server's `search_notes`. It's how they're found until the tab exists.
+- **The specifications' types moved into Core:** `ParsingCaseResult` and the breakdown types. The harness uses them as
+  before.
+
+**Step 2, the import, is done, in the worktree's corpus checkout, uncommitted.** A script in Claude's scratch folder
+ran it through the headless JAStudio's MCP server, with the commands a person has: create a note, edit its
+configuration, mark it as a parsing case, name it, say why, verify its displayed vocab.
+
+- **All 230 cases are parsing cases of the corpus, verified,** each on a note of its own.
+- **Every one expects exactly what its case file expects:** every parsed word, and every breakdown under every option.
+- **55 are on sentence notes that were already in the corpus,** 175 on new ones.
+  - **19 of the 55 highlight vocab that their case files don't,** such as これをください。 highlighting これ: the sentences
+    Magnus studies them in. They parse identically all the same, so they took their cases, as his rule says:
+    "identical, in terms of parsing". Claude first required the same configuration too, as it had said it would, and
+    these 19 then got copies. It changed that on its own judgment, for Magnus to confirm.
+  - **One sentence already in the corpus got a copy:** 勝つんだ, whose note highlights うんだ besides the case's んだ, and
+    parses otherwise for it.
+- **One new note's text differs from its case file's by a trailing space:** "noise characters are ignored - 私 among
+  noise". JAStudio trims a sentence's question. It parses identically.
+- **A case's name is its file's name without the sentence,** such as "ichidan imperative", or "hidden exclusions -
+  hidden matches (2)" for a file with a third part.
+- **What the import changed in the corpus,** after a full rebuild: 175 sentences added, 55 changed only in their
+  `parsingCase`, and 382 vocab changed only in their `sentenceCount`, by the new sentences. No parsed word changed in
+  any sentence.
+
+**Next:** Magnus looks at them in JAStudio (the standalone JAStudio on the worktree, with the search condition
+"Parsing case"). Then steps 4 and 5. Handing the corpus over to its own line needs this branch's code on `main` first,
+and Anki closed while Magnus's corpus checkout takes the commits.
 
 ## Open
 
