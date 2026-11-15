@@ -121,7 +121,7 @@ public class JAStudioAnkiAppRoot
 
       var root = new JAStudioAnkiAppRoot(host, coreApp, cardServer, liveMcpServer) { _uiThread = uiThread };
 
-      root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => AnkiFacade.UIUtils.Refresh());
+      root._coreApp.Collection.ReloadedFromBackend.Subscribe(_ => coreApp.Services.SRSWindows.Refresh());
 
       cardServer.Start();
 

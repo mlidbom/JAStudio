@@ -1,5 +1,6 @@
 """
-Backend for JAStudio.Anki.AnkiFacade: the Python side of each call .NET makes into Anki.
+The Python side of each call .NET makes into Anki through pythonnet: JAStudio.Anki.AnkisFunctions.ThroughPythonnet.AnkiThroughPythonnet calls
+these functions, and so does what is left of JAStudio.Anki.AnkiFacade.
 
 The functions that drive Anki's windows, such as its browser, run their work on the Qt main thread themselves, so they're safe to call from any .NET
 thread, the Avalonia UI thread included. The others call Anki's collection on the calling thread, which Anki's backend allows from any thread.
@@ -17,7 +18,6 @@ from typed_linq_collections.q_iterable import query
 
 if TYPE_CHECKING:
     from anki.collection import OpChangesWithCount
-    from JAStudio.Core.Note import JPNote
 
 
 # ── Browser ──
@@ -136,10 +136,15 @@ def _tell_anki_of_jastudios_own_operation(changes: OpChangesWithCount) -> None:
 
 # ── Study-notes ──
 # noinspection PyUnusedFunction
-def study_note_write(anki_note_id: int, jp_note: JPNote) -> None:
-    """Writes the note's study-note into the Anki note, as JAStudio's sync with Anki does for each study-note that differs."""
-    from jastudio.note.jpnotedata_shim import JPNoteDataShim
-    JPNoteDataShim.write_study_note(jp_note, NoteId(anki_note_id))
+def study_note_write(anki_note_id: int, fields: dict[str, str]) -> None:
+    """Writes the fields, by name, into the Anki note: those JAStudio writes into a note's study-note, as its sync with Anki does for each
+    study-note that differs. The note's other fields, and its tags, stay as they are."""
+    from jastudio.ankiutils import app
+    collection = app.anki_collection()
+    anki_note = collection.get_note(NoteId(anki_note_id))
+    for name, value in fields.items():
+        anki_note[name] = value
+    collection.update_note(anki_note)
 
 # ── NoteEx ──
 # noinspection PyUnusedFunction

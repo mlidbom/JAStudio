@@ -1,21 +1,27 @@
 using System;
 using System.Collections.Generic;
+using JAStudio.Anki.AnkisFunctions;
 using JAStudio.Core.Note;
 using JAStudio.Core.Studying;
 
 namespace JAStudio.Anki;
 
-/// <summary>The Anki windows of JAStudio running inside Anki: Anki's own, which JAStudio drives through Python (<see cref="AnkiFacade"/>).</summary>
-public sealed class AnkisOwnWindows : ISRSWindows
+/// <summary>
+/// The spaced repetition system's own windows (<see cref="ISRSWindows"/>) when it's Anki: Anki's reviewer, browser and previewer, which JAStudio<br/>
+/// drives by calling Anki (<see cref="IAnkisWindows"/>).
+/// </summary>
+public sealed class AnkisOwnWindows(IAnkisWindows ankisWindows) : ISRSWindows
 {
-   public void Refresh() => AnkiFacade.UIUtils.Refresh();
+   readonly IAnkisWindows _ankisWindows = ankisWindows;
+
+   public void Refresh() => _ankisWindows.Refresh();
 
    /// <summary>Shows <paramref name="message"/> in Anki's tooltip.</summary>
-   public void ShowAPassingMessage(string message, TimeSpan shownFor) => AnkiFacade.UIUtils.ShowTooltip(message, periodMs: (int)shownFor.TotalMilliseconds);
+   public void ShowAPassingMessage(string message, TimeSpan shownFor) => _ankisWindows.ShowATooltip(message, shownFor);
 
-   public void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds) => AnkiFacade.Browser.ExecuteLookup(TheSearchThatFindsTheAnkiNotesWith(studyNoteIds));
+   public void OpenTheBrowserOn(IReadOnlyCollection<long> studyNoteIds) => _ankisWindows.OpenTheBrowserOn(TheSearchThatFindsTheAnkiNotesWith(studyNoteIds));
 
-   public void OpenThePreviewerOn(long studyNoteId) => AnkiFacade.Browser.ExecuteLookupAndShowPreviewer(TheSearchThatFindsTheAnkiNotesWith([studyNoteId]));
+   public void OpenThePreviewerOn(long studyNoteId) => _ankisWindows.OpenTheBrowserAndThePreviewerOn(TheSearchThatFindsTheAnkiNotesWith([studyNoteId]));
 
    /// <summary>
    /// The search, in Anki's search syntax, that finds the Anki notes with <paramref name="ankiNoteIds"/>, such as <c>nid:1234,5678</c>: a study-note's<br/>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JAStudio.Anki.AnkisFunctions;
 using JAStudio.Anki.CollectionDatabase;
 using JAStudio.Core.Importing;
 using JAStudio.Core.Importing.RawNotes;
@@ -10,26 +11,31 @@ namespace JAStudio.Anki;
 /// <summary>
 /// The raw notes in the open Anki profile, for importing: note types and notes are read from the database of the collection Anki has open<br/>
 /// (<see cref="AnkiCollectionDatabase"/>), the notes an import profile selects are found with Anki's own search, and tagging and deleting go<br/>
-/// through Anki.
+/// through Anki (<see cref="IAnkisNotes"/>).
 /// </summary>
 public partial class AnkiRawNotes : IAnkiRawNotes
 {
    readonly AnkiCollectionDatabase _database;
+   readonly IAnkisNotes _ankisNotes;
 
-   public AnkiRawNotes(AnkiCollectionDatabase database) => _database = database;
+   public AnkiRawNotes(AnkiCollectionDatabase database, IAnkisNotes ankisNotes)
+   {
+      _database = database;
+      _ankisNotes = ankisNotes;
+   }
 
    public IReadOnlyList<AnkiNoteType> NoteTypesForRawNotes() => NoteTypesInAnki.ReadFrom(_database).ForRawNotes();
 
    public IReadOnlyList<RawNote> SelectedBy(ImportProfile profile)
    {
-      var ankiNoteIds = AnkiFacade.Notes.Find(SearchFor(profile));
+      var ankiNoteIds = _ankisNotes.Find(SearchFor(profile));
       var noteType = NoteTypesInAnki.ReadFrom(_database).Named(profile.AnkiNoteType);
       return [.. _database.Read<RawNoteRow>(RawNoteRow.SelectThoseWith(ankiNoteIds)).OrderBy(it => it.AnkiNoteId).Select(it => it.AsARawNoteOf(noteType))];
    }
 
-   public void TagAsImported(IReadOnlyList<RawNote> rawNotes) => AnkiFacade.Notes.AddTag(AnkiNoteIdsOf(rawNotes), RawNote.ImportedTag);
+   public void TagAsImported(IReadOnlyList<RawNote> rawNotes) => _ankisNotes.AddTag(AnkiNoteIdsOf(rawNotes), RawNote.ImportedTag);
 
-   public void Delete(IReadOnlyList<RawNote> rawNotes) => AnkiFacade.Notes.Delete(AnkiNoteIdsOf(rawNotes));
+   public void Delete(IReadOnlyList<RawNote> rawNotes) => _ankisNotes.Delete(AnkiNoteIdsOf(rawNotes));
 
    /// <summary>
    /// The Anki search for <paramref name="profile"/>'s raw notes: the notes of its note type that its own search finds.<br/>
