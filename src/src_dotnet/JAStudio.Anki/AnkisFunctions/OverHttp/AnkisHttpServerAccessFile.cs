@@ -36,12 +36,17 @@ public sealed class AnkisHttpServerAccessFile(FileInfo file)
                                        Token: access.RootElement.GetProperty("token").GetString() ?? throw new InvalidDataException($"{File.FullName} holds no token."));
    }
 
-   /// <summary>Reads the file without first asking whether it's there: the add-on may remove it at any time.</summary>
+   /// <summary>
+   /// Reads the file without first asking whether it's there: the add-on may remove it at any time. And it may replace or remove it while it's<br/>
+   /// read here: the read shares the file for that, which Windows otherwise refuses the add-on.
+   /// </summary>
    string? TheFilesTextOrNullWhenItIsNotThere()
    {
       try
       {
-         return System.IO.File.ReadAllText(File.FullName);
+         using var file = new FileStream(File.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+         using var reader = new StreamReader(file);
+         return reader.ReadToEnd();
       }
       catch(Exception notThere) when(notThere is FileNotFoundException or DirectoryNotFoundException)
       {

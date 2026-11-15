@@ -25,7 +25,7 @@ public class When_JAStudio_reads_the_access_file_of_the_Anki_add_ons_HTTP_server
    {
       readonly AnkiOverHttp _ankiReachedWithTheAccessTheFileGives;
 
-      public while_the_add_on_serves() => _ankiReachedWithTheAccessTheFileGives = new AnkiOverHttp(_anki.Access, _anki.Collection);
+      public while_the_add_on_serves() => _ankiReachedWithTheAccessTheFileGives = new AnkiOverHttp(_anki.AccessFile);
 
       public override void Dispose()
       {

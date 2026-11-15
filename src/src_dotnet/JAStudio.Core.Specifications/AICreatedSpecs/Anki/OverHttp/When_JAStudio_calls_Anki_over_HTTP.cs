@@ -43,7 +43,7 @@ public class When_JAStudio_calls_Anki_over_HTTP : IDisposable, IAIGeneratedSpec
    readonly AnkiServingACopyOfTheTestCollection _anki = AnkisHttpServersForSpecifications.StartOne();
    readonly AnkiOverHttp _ankiOverHttp;
 
-   public When_JAStudio_calls_Anki_over_HTTP() => _ankiOverHttp = new AnkiOverHttp(_anki.Access, _anki.Collection);
+   public When_JAStudio_calls_Anki_over_HTTP() => _ankiOverHttp = new AnkiOverHttp(_anki.AccessFile);
 
    public virtual void Dispose()
    {
@@ -248,32 +248,21 @@ public class When_JAStudio_calls_Anki_over_HTTP : IDisposable, IAIGeneratedSpec
       }
    }
 
-   public class when_JAStudio_works_with_another_collection_than_the_one_Anki_has_open : When_JAStudio_calls_Anki_over_HTTP
-   {
-      readonly AnkiOverHttp _workingWithAnotherCollection;
-
-      public when_JAStudio_works_with_another_collection_than_the_one_Anki_has_open() =>
-         _workingWithAnotherCollection = new AnkiOverHttp(_anki.Access, new FileInfo(Path.Combine(_anki.Folder.FullName, "another", "collection.anki2")));
-
-      public override void Dispose()
-      {
-         _workingWithAnotherCollection.Dispose();
-         base.Dispose();
-      }
-
-      [XF] public void a_call_is_refused_naming_the_collection_Anki_has_open() =>
-         Invoking(() => _workingWithAnotherCollection.Notes.Find(EveryVocab)).Must().Throw<AnkiRefusedTheCallException>().Which.CollectionAnkiHasOpen.Must().Be(_anki.Collection.FullName);
-   }
-
    public class with_another_token_than_the_servers : When_JAStudio_calls_Anki_over_HTTP
    {
+      readonly AnAccessFileASpecificationWrites _namingAnotherToken = new();
       readonly AnkiOverHttp _withAnotherToken;
 
-      public with_another_token_than_the_servers() => _withAnotherToken = new AnkiOverHttp(_anki.Access with { Token = "another token" }, _anki.Collection);
+      public with_another_token_than_the_servers()
+      {
+         _namingAnotherToken.Holds(_anki.Access with { Token = "another token" });
+         _withAnotherToken = new AnkiOverHttp(_namingAnotherToken.AccessFile);
+      }
 
       public override void Dispose()
       {
          _withAnotherToken.Dispose();
+         _namingAnotherToken.Dispose();
          base.Dispose();
       }
 
